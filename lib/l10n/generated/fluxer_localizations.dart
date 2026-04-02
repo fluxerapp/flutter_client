@@ -1377,6 +1377,96 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'System'**
   String get userTagSystem;
+
+  /// Placeholder text in the emoji picker search bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Find the emoji of your dreams'**
+  String get emojiSearchPlaceholder;
+
+  /// Empty state message in the emoji picker when search returns no results.
+  ///
+  /// In en, this message translates to:
+  /// **'No emojis match your search'**
+  String get emojiSearchEmpty;
+
+  /// Section header and tooltip for frequently used emojis.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently Used'**
+  String get emojiFrequentlyUsed;
+
+  /// Tab label for the GIFs tab in the expression picker.
+  ///
+  /// In en, this message translates to:
+  /// **'GIFs'**
+  String get emojiTabGifs;
+
+  /// Tab label for the Media/Memes tab in the expression picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Media'**
+  String get emojiTabMedia;
+
+  /// Tab label for the Stickers tab in the expression picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Stickers'**
+  String get emojiTabStickers;
+
+  /// Tab label for the Emojis tab in the expression picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Emojis'**
+  String get emojiTabEmojis;
+
+  /// Emoji category label for people & smileys.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get emojiCategoryPeople;
+
+  /// Emoji category label for animals & nature.
+  ///
+  /// In en, this message translates to:
+  /// **'Nature'**
+  String get emojiCategoryNature;
+
+  /// Emoji category label for food & drink.
+  ///
+  /// In en, this message translates to:
+  /// **'Food & Drink'**
+  String get emojiCategoryFood;
+
+  /// Emoji category label for activities & sports.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get emojiCategoryActivity;
+
+  /// Emoji category label for travel & places.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel & Places'**
+  String get emojiCategoryTravel;
+
+  /// Emoji category label for objects.
+  ///
+  /// In en, this message translates to:
+  /// **'Objects'**
+  String get emojiCategoryObjects;
+
+  /// Emoji category label for symbols.
+  ///
+  /// In en, this message translates to:
+  /// **'Symbols'**
+  String get emojiCategorySymbols;
+
+  /// Emoji category label for flags.
+  ///
+  /// In en, this message translates to:
+  /// **'Flags'**
+  String get emojiCategoryFlags;
 }
 
 class _FluxerLocalizationsDelegate

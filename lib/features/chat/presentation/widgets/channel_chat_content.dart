@@ -6,8 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel_header.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel_textarea.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/inline_expression_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_list.dart';
 import 'package:fluxer_app/features/chat/providers/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 
 /// Composite chat view that assembles the top bar, message list,
 /// and input field. Works for both server channels and DMs.
@@ -31,6 +34,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   @override
   void initState() {
     super.initState();
+    unawaited(Future(() => ref.read(expressionPanelProvider.notifier).close()));
     unawaited(Future(_switchChannel));
   }
 
@@ -39,6 +43,9 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.channelId != widget.channelId ||
         oldWidget.targetMessageId != widget.targetMessageId) {
+      unawaited(
+        Future(() => ref.read(expressionPanelProvider.notifier).close()),
+      );
       unawaited(Future(_switchChannel));
     }
   }
@@ -49,16 +56,40 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = isMobileLayout(context);
+    final isPanelOpen = ref.watch(expressionPanelProvider);
+
     return ColoredBox(
       color: context.colors.chatBackground,
       child: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            if (widget.showTopBar) const ChannelHeader(),
-            Expanded(
-              child: MessageList(targetMessageId: widget.targetMessageId),
+            Column(
+              children: [
+                if (widget.showTopBar) const ChannelHeader(),
+                Expanded(
+                  child: MessageList(targetMessageId: widget.targetMessageId),
+                ),
+                const ChannelTextarea(),
+                if (isMobile && isPanelOpen)
+                  const SizedBox(height: kCollapsedPanelHeight),
+              ],
             ),
-            const ChannelTextarea(),
+            if (isMobile && isPanelOpen)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: InlineExpressionPanel(
+                  onClose: () =>
+                      ref.read(expressionPanelProvider.notifier).close(),
+                  onEmojiSelect: (name, surrogates) {
+                    ref
+                        .read(pendingEmojiInsertProvider.notifier)
+                        .emit(name, surrogates);
+                  },
+                ),
+              ),
           ],
         ),
       ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +16,9 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embed_theme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_video.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/forward_indicator.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker_popout.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -86,6 +91,8 @@ class MessageItem extends ConsumerStatefulWidget {
 
 class _MessageItemState extends ConsumerState<MessageItem> {
   var _isHovered = false;
+  final _reactionPickerKey = GlobalKey<ExpressionPickerPopoutState>();
+  var _isReactionPickerOpen = false;
 
   void _handleAction(MessageAction? action) {
     switch (action) {
@@ -100,6 +107,12 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       case MessageAction.copyText:
       case MessageAction.copyMessageId:
       case MessageAction.addReaction:
+        unawaited(
+          ExpressionPickerSheet.show(
+            context,
+            visibleTabs: const [ExpressionPickerTab.emojis],
+          ),
+        );
       case MessageAction.pin:
       case MessageAction.bookmark:
       case MessageAction.markAsUnread:
@@ -175,7 +188,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           : null,
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
+        onExit: (_) {
+          if (!_isReactionPickerOpen) {
+            setState(() => _isHovered = false);
+          }
+        },
         child: Container(
           decoration: BoxDecoration(
             color: msg.isMentioned
@@ -215,7 +232,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     _buildMainRow(context, msg, authorRoleColor),
                 ],
               ),
-              if (_isHovered && !isMobile)
+              if ((_isHovered || _isReactionPickerOpen) && !isMobile)
                 Positioned(top: 0, right: 0, child: _buildActions(context)),
             ],
           ),
@@ -477,11 +494,25 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _actionButton(
-            context,
-            PhosphorIconsFill.smiley,
-            'Add Reaction',
-            () {},
+          ExpressionPickerPopout(
+            key: _reactionPickerKey,
+            visibleTabs: const [ExpressionPickerTab.emojis],
+            onClose: () => setState(() {
+              _isReactionPickerOpen = false;
+              _isHovered = false;
+            }),
+            child: _actionButton(
+              context,
+              PhosphorIconsFill.smiley,
+              'Add Reaction',
+              () {
+                _reactionPickerKey.currentState?.toggle();
+                setState(() {
+                  _isReactionPickerOpen =
+                      _reactionPickerKey.currentState?.isOpen ?? false;
+                });
+              },
+            ),
           ),
           _actionButton(
             context,

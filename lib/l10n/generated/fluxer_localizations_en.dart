@@ -709,4 +709,49 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get userTagSystem => 'System';
+
+  @override
+  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+
+  @override
+  String get emojiSearchEmpty => 'No emojis match your search';
+
+  @override
+  String get emojiFrequentlyUsed => 'Frequently Used';
+
+  @override
+  String get emojiTabGifs => 'GIFs';
+
+  @override
+  String get emojiTabMedia => 'Media';
+
+  @override
+  String get emojiTabStickers => 'Stickers';
+
+  @override
+  String get emojiTabEmojis => 'Emojis';
+
+  @override
+  String get emojiCategoryPeople => 'People';
+
+  @override
+  String get emojiCategoryNature => 'Nature';
+
+  @override
+  String get emojiCategoryFood => 'Food & Drink';
+
+  @override
+  String get emojiCategoryActivity => 'Activities';
+
+  @override
+  String get emojiCategoryTravel => 'Travel & Places';
+
+  @override
+  String get emojiCategoryObjects => 'Objects';
+
+  @override
+  String get emojiCategorySymbols => 'Symbols';
+
+  @override
+  String get emojiCategoryFlags => 'Flags';
 }

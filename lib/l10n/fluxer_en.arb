@@ -918,5 +918,65 @@
   "userTagSystem": "System",
   "@userTagSystem": {
     "description": "Tag label shown next to system user names."
+  },
+  "emojiSearchPlaceholder": "Find the emoji of your dreams",
+  "@emojiSearchPlaceholder": {
+    "description": "Emoji picker search bar placeholder."
+  },
+  "emojiSearchEmpty": "No emojis match your search",
+  "@emojiSearchEmpty": {
+    "description": "Emoji picker empty search state."
+  },
+  "emojiFrequentlyUsed": "Frequently Used",
+  "@emojiFrequentlyUsed": {
+    "description": "Frequently used emojis section."
+  },
+  "emojiTabGifs": "GIFs",
+  "@emojiTabGifs": {
+    "description": "GIFs tab."
+  },
+  "emojiTabMedia": "Media",
+  "@emojiTabMedia": {
+    "description": "Media tab."
+  },
+  "emojiTabStickers": "Stickers",
+  "@emojiTabStickers": {
+    "description": "Stickers tab."
+  },
+  "emojiTabEmojis": "Emojis",
+  "@emojiTabEmojis": {
+    "description": "Emojis tab."
+  },
+  "emojiCategoryPeople": "People",
+  "@emojiCategoryPeople": {
+    "description": "People & smileys category."
+  },
+  "emojiCategoryNature": "Nature",
+  "@emojiCategoryNature": {
+    "description": "Animals & nature category."
+  },
+  "emojiCategoryFood": "Food & Drink",
+  "@emojiCategoryFood": {
+    "description": "Food & drink category."
+  },
+  "emojiCategoryActivity": "Activities",
+  "@emojiCategoryActivity": {
+    "description": "Activities & sports category."
+  },
+  "emojiCategoryTravel": "Travel & Places",
+  "@emojiCategoryTravel": {
+    "description": "Travel & places category."
+  },
+  "emojiCategoryObjects": "Objects",
+  "@emojiCategoryObjects": {
+    "description": "Objects category."
+  },
+  "emojiCategorySymbols": "Symbols",
+  "@emojiCategorySymbols": {
+    "description": "Symbols category."
+  },
+  "emojiCategoryFlags": "Flags",
+  "@emojiCategoryFlags": {
+    "description": "Flags category."
   }
 }

@@ -7,8 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/emoji_search_bar.dart'
+    show kSkinToneSurrogates, skinToneToName;
+import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker_popout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/reply_preview.dart';
 import 'package:fluxer_app/features/chat/providers/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -26,6 +30,7 @@ class ChannelTextarea extends ConsumerStatefulWidget {
 class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
+  final _expressionPickerKey = GlobalKey<ExpressionPickerPopoutState>();
 
   bool get _isDesktop =>
       !kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows);
@@ -78,6 +83,18 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
           text: messageText,
           selection: TextSelection.collapsed(offset: messageText.length),
         );
+      },
+    );
+
+    ref.listen<({String name, String surrogates})?>(
+      pendingEmojiInsertProvider,
+      (_, pending) {
+        if (pending == null) {
+          return;
+        }
+        ref.read(pendingEmojiInsertProvider.notifier)
+          ..consume();
+        _insertEmoji(pending.name, pending.surrogates);
       },
     );
 
@@ -252,12 +269,16 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
           ),
-          IconButton(
-            icon: const PhosphorIcon(PhosphorIconsFill.smiley, size: 24),
-            color: context.colors.interactiveNormal,
-            onPressed: () {},
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+          ExpressionPickerPopout(
+            key: _expressionPickerKey,
+            onEmojiSelect: _insertEmoji,
+            child: IconButton(
+              icon: const PhosphorIcon(PhosphorIconsFill.smiley, size: 24),
+              color: context.colors.interactiveNormal,
+              onPressed: () => _expressionPickerKey.currentState?.toggle(),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+            ),
           ),
         ],
         SizedBox(
@@ -325,13 +346,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                   vertical: 4,
                   horizontal: 7,
                 ),
-                child: FluxerButton.circle(
-                  icon: PhosphorIconsFill.smiley,
-                  variant: FluxerButtonVariant.ghost,
-                  size: FluxerButtonSize.compact,
-                  iconSize: 22,
-                  onPressed: () {},
-                ),
+                child: _buildMobilePickerButton(context),
               ),
               suffixIconConstraints: const BoxConstraints(),
             ),
@@ -348,6 +363,48 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
           ),
         ),
       ],
+    );
+  }
+
+  void _insertEmoji(String name, String surrogates) {
+    String shortcode = ':$name:';
+    for (final tone in kSkinToneSurrogates) {
+      if (surrogates.contains(tone)) {
+        final toneName = skinToneToName(tone);
+        if (toneName != null) {
+          shortcode = ':$name::$toneName:';
+        }
+        break;
+      }
+    }
+    final text = _controller.text;
+    final sel = _controller.selection;
+    final pos = sel.isValid ? sel.baseOffset : text.length;
+    final newText = text.substring(0, pos) + shortcode + text.substring(pos);
+    _controller.value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: pos + shortcode.length),
+    );
+  }
+
+  Widget _buildMobilePickerButton(BuildContext context) {
+    final isPanelOpen = ref.watch(expressionPanelProvider);
+
+    return FluxerButton.ghost(
+      icon: isPanelOpen
+          ? PhosphorIconsFill.keyboard
+          : PhosphorIconsFill.smiley,
+      isSquare: true,
+      size: FluxerButtonSize.compact,
+      onPressed: () {
+        if (isPanelOpen) {
+          ref.read(expressionPanelProvider.notifier).close();
+          _focusNode.requestFocus();
+        } else {
+          FocusScope.of(context).unfocus();
+          ref.read(expressionPanelProvider.notifier).open();
+        }
+      },
     );
   }
 

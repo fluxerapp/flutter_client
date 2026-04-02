@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -149,7 +151,8 @@ final class _AlertSegment extends _Segment {
   final String body;
 }
 
-/// Parses alert blocks out of [text], returns interleaved markdown and alert segmentss
+/// Parses alert blocks out of [text], returns interleaved markdown and alert
+/// segments.
 List<_Segment> _parseSegments(String text) {
   final openRe = RegExp(
     r'^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*(.*)',
@@ -314,6 +317,7 @@ class MessageMarkdown extends StatelessWidget {
         _TimestampSyntax(),
         _SpoilerSyntax(),
         _UnicodeEmojiSyntax(),
+        _UnicodeEmojiPlainSyntax(),
         _CustomEmojiSyntax(),
       ],
       builders: {
@@ -778,9 +782,48 @@ class _PlainCodeBlock extends StatelessWidget {
 }
 
 class _UnicodeEmojiSyntax extends md.InlineSyntax {
-  _UnicodeEmojiSyntax() : super(r':([a-zA-Z0-9_+\-]+):');
+  _UnicodeEmojiSyntax()
+      : super(r':([a-zA-Z0-9_+\-]+)::skin-tone-([1-5]):');
 
   static const tag = 'emoji-unicode';
+  static const _kTones = [
+    '\u{1F3FB}',
+    '\u{1F3FC}',
+    '\u{1F3FD}',
+    '\u{1F3FE}',
+    '\u{1F3FF}',
+  ];
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final name = match[1];
+    final toneStr = match[2];
+    if (name == null || name.isEmpty) {
+      return false;
+    }
+
+    var surrogate = EmojiRegistry.resolveSync(name);
+    if (surrogate == null) {
+      parser.addNode(md.Text(match[0]!));
+      return true;
+    }
+
+    final idx = int.tryParse(toneStr ?? '');
+    if (idx != null && idx >= 1 && idx <= 5) {
+      surrogate = surrogate + _kTones[idx - 1];
+    }
+
+    final el = md.Element.text(tag, name)
+      ..attributes['surrogate'] = surrogate;
+    parser.addNode(el);
+    return true;
+  }
+}
+
+class _UnicodeEmojiPlainSyntax extends md.InlineSyntax {
+  _UnicodeEmojiPlainSyntax() : super(r':([a-zA-Z0-9_+\-]+):');
+
+  static const String tag = _UnicodeEmojiSyntax.tag;
 
   @override
   bool onMatch(md.InlineParser parser, Match match) {
@@ -793,7 +836,8 @@ class _UnicodeEmojiSyntax extends md.InlineSyntax {
       parser.addNode(md.Text(match[0]!));
       return true;
     }
-    final el = md.Element.text(tag, name)..attributes['surrogate'] = surrogate;
+    final el = md.Element.text(tag, name)
+      ..attributes['surrogate'] = surrogate;
     parser.addNode(el);
     return true;
   }
@@ -820,6 +864,22 @@ class _CustomEmojiSyntax extends md.InlineSyntax {
   }
 }
 
+/// in-memory SVG cache to avoid re-fetching on every rebuild.
+class SvgCache {
+  SvgCache._();
+
+  static final _cache = <String, Future<Uint8List>>{};
+
+  static Future<Uint8List> load(String url) =>
+      _cache.putIfAbsent(url, () async {
+        final uri = Uri.parse(url);
+        final response = await HttpClient().getUrl(uri).then((r) => r.close());
+        final builder = BytesBuilder();
+        await response.forEach(builder.add);
+        return builder.toBytes();
+      });
+}
+
 class _EmojiBuilder extends MarkdownElementBuilder {
   _EmojiBuilder({required this.baseStyle, this.jumbo = false});
 
@@ -841,11 +901,18 @@ class _EmojiBuilder extends MarkdownElementBuilder {
     if (url == null) {
       return Text(surrogate, style: TextStyle(fontSize: size));
     }
-    return SvgPicture.network(
-      url,
-      width: size,
-      height: size,
-      placeholderBuilder: (_) => SizedBox(width: size, height: size),
+    return FutureBuilder<Uint8List>(
+      future: SvgCache.load(url),
+      builder: (context, snap) {
+        if (!snap.hasData) {
+          return SizedBox(width: size, height: size);
+        }
+        return SvgPicture.memory(
+          snap.data!,
+          width: size,
+          height: size,
+        );
+      },
     );
   }
 
@@ -854,13 +921,17 @@ class _EmojiBuilder extends MarkdownElementBuilder {
     final name = element.textContent;
     final cdnSize = jumbo ? 240 : 96;
     final url = getCustomEmojiUrl(id: id, size: cdnSize);
+    final px = size.toInt();
     return SizedBox(
       width: size,
       height: size,
       child: CachedNetworkImage(
         imageUrl: url,
+        cacheKey: 'emoji_$id',
         width: size,
         height: size,
+        memCacheWidth: px,
+        memCacheHeight: px,
         errorBuilder: (_, _, _) => Text(':$name:'),
       ),
     );
