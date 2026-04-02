@@ -754,4 +754,37 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get emojiCategoryFlags => 'Flags';
+
+  @override
+  String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
+    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+  }
+
+  @override
+  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+
+  @override
+  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+
+  @override
+  String emojiPlutoniumUpsellCustomEmoji(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count custom emojis',
+      one: '1 custom emoji',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String emojiPlutoniumUpsellCommunity(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count communities',
+      one: '1 community',
+    );
+    return '$_temp0';
+  }
 }

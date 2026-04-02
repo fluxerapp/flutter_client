@@ -367,24 +367,33 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
   }
 
   void _insertEmoji(String name, String surrogates) {
-    String shortcode = ':$name:';
-    for (final tone in kSkinToneSurrogates) {
-      if (surrogates.contains(tone)) {
-        final toneName = skinToneToName(tone);
-        if (toneName != null) {
-          shortcode = ':$name::$toneName:';
-        }
-        break;
-      }
+    final String token;
+    if (surrogates.startsWith('<')) {
+      token = surrogates;
+    } else {
+      token = _buildUnicodeShortcode(name, surrogates);
     }
     final text = _controller.text;
     final sel = _controller.selection;
     final pos = sel.isValid ? sel.baseOffset : text.length;
-    final newText = text.substring(0, pos) + shortcode + text.substring(pos);
+    final newText = text.substring(0, pos) + token + text.substring(pos);
     _controller.value = TextEditingValue(
       text: newText,
-      selection: TextSelection.collapsed(offset: pos + shortcode.length),
+      selection: TextSelection.collapsed(offset: pos + token.length),
     );
+  }
+
+  String _buildUnicodeShortcode(String name, String surrogates) {
+    for (final tone in kSkinToneSurrogates) {
+      if (surrogates.contains(tone)) {
+        final toneName = skinToneToName(tone);
+        if (toneName != null) {
+          return ':$name::$toneName:';
+        }
+        break;
+      }
+    }
+    return ':$name:';
   }
 
   Widget _buildMobilePickerButton(BuildContext context) {

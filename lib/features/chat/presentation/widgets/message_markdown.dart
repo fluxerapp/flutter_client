@@ -919,15 +919,16 @@ class _EmojiBuilder extends MarkdownElementBuilder {
   Widget _buildCustom(md.Element element, double size) {
     final id = element.attributes['id'] ?? '';
     final name = element.textContent;
+    final animated = element.attributes['animated'] == 'true';
     final cdnSize = jumbo ? 240 : 96;
-    final url = getCustomEmojiUrl(id: id, size: cdnSize);
+    final url = getCustomEmojiUrl(id: id, animated: animated, size: cdnSize);
     final px = size.toInt();
     return SizedBox(
       width: size,
       height: size,
       child: CachedNetworkImage(
         imageUrl: url,
-        cacheKey: 'emoji_$id',
+        cacheKey: 'emoji_${id}_${animated ? 'a' : 's'}',
         width: size,
         height: size,
         memCacheWidth: px,

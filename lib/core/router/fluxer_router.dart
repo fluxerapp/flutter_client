@@ -91,6 +91,18 @@ class CurrentUserId extends _$CurrentUserId {
 }
 
 @Riverpod(keepAlive: true)
+class CurrentUserPremiumType extends _$CurrentUserPremiumType {
+  @override
+  int build() => 0;
+
+  void set(int type) {
+    state = type;
+  }
+
+  bool get isPremium => state > 0;
+}
+
+@Riverpod(keepAlive: true)
 class ServerReachable extends _$ServerReachable {
   @override
   bool build() => true;

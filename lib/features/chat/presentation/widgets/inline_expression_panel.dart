@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/emoji_search_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker.dart';
+import 'package:fluxer_app/features/chat/providers/emoji_picker_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 const kCollapsedPanelHeight = 350.0;
@@ -245,7 +247,7 @@ class _InlineExpressionPanelState extends State<InlineExpressionPanel>
   );
 }
 
-class _ExpressionPanelContent extends StatefulWidget {
+class _ExpressionPanelContent extends ConsumerStatefulWidget {
   const _ExpressionPanelContent({
     required this.onClose,
     this.onEmojiSelect,
@@ -255,16 +257,16 @@ class _ExpressionPanelContent extends StatefulWidget {
   final void Function(String name, String surrogates)? onEmojiSelect;
 
   @override
-  State<_ExpressionPanelContent> createState() =>
+  ConsumerState<_ExpressionPanelContent> createState() =>
       _ExpressionPanelContentState();
 }
 
-class _ExpressionPanelContentState extends State<_ExpressionPanelContent> {
+class _ExpressionPanelContentState
+    extends ConsumerState<_ExpressionPanelContent> {
   ExpressionPickerTab _selectedTab = ExpressionPickerTab.emojis;
   final _searchController = TextEditingController();
   String _searchQuery = '';
   String? _hoveredEmojiName;
-  String _skinTone = '';
 
   static const List<ExpressionPickerTab> _kVisibleTabs = [
     ExpressionPickerTab.gifs,
@@ -291,34 +293,39 @@ class _ExpressionPanelContentState extends State<_ExpressionPanelContent> {
       expressionTabLabel(tab, FluxerLocalizations.of(context));
 
   @override
-  Widget build(BuildContext context) => Column(
-    children: [
-      _buildSegmentedTabs(context),
-      if (_selectedTab == ExpressionPickerTab.emojis)
-        EmojiSearchBar(
-          controller: _searchController,
-          hoveredEmojiName: _hoveredEmojiName,
-          skinTone: _skinTone,
-          onSkinToneChanged: (t) => setState(() => _skinTone = t),
-          horizontalPadding: 16,
+  Widget build(BuildContext context) {
+    final skinTone = ref.watch(emojiSkinToneProvider).value ?? '';
+
+    return Column(
+      children: [
+        _buildSegmentedTabs(context),
+        if (_selectedTab == ExpressionPickerTab.emojis)
+          EmojiSearchBar(
+            controller: _searchController,
+            hoveredEmojiName: _hoveredEmojiName,
+            skinTone: skinTone,
+            onSkinToneChanged: (t) =>
+                unawaited(ref.read(emojiSkinToneProvider.notifier).set(t)),
+            horizontalPadding: 16,
+          ),
+        const SizedBox(height: 4),
+        Expanded(
+          child: ExpressionPicker(
+            onClose: widget.onClose,
+            onEmojiSelect: widget.onEmojiSelect,
+            initialTab: _selectedTab,
+            showTabs: false,
+            searchController: _searchController,
+            searchQuery: _searchQuery,
+            skinTone: skinTone,
+            hoveredEmojiName: _hoveredEmojiName,
+            onHoveredEmojiChanged: (name) =>
+                setState(() => _hoveredEmojiName = name),
+          ),
         ),
-      const SizedBox(height: 4),
-      Expanded(
-        child: ExpressionPicker(
-          onClose: widget.onClose,
-          onEmojiSelect: widget.onEmojiSelect,
-          initialTab: _selectedTab,
-          showTabs: false,
-          searchController: _searchController,
-          searchQuery: _searchQuery,
-          skinTone: _skinTone,
-          hoveredEmojiName: _hoveredEmojiName,
-          onHoveredEmojiChanged: (name) =>
-              setState(() => _hoveredEmojiName = name),
-        ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 
   Widget _buildSegmentedTabs(BuildContext context) {
     final colors = context.colors;

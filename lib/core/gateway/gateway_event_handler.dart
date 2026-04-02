@@ -429,6 +429,22 @@ class GatewayEventHandler {
           if (guildData.voiceStates.isNotEmpty) {
             onVoiceStatesBulk?.call(guildData.voiceStates);
           }
+
+          if (guildData.emojis.isNotEmpty) {
+            await database.guildEmojiDao.replaceForGuild(
+              guildId,
+              guildData.emojis
+                  .map(
+                    (e) => db.GuildEmojisCompanion.insert(
+                      id: e.id,
+                      guildId: guildId,
+                      name: e.name,
+                      animated: Value(e.animated),
+                    ),
+                  )
+                  .toList(),
+            );
+          }
         }
       }
 

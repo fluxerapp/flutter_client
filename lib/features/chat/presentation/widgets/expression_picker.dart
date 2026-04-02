@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/emoji_picker_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/emoji_search_bar.dart';
+import 'package:fluxer_app/features/chat/providers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
@@ -18,7 +22,7 @@ String expressionTabLabel(
   ExpressionPickerTab.emojis => l10n.emojiTabEmojis,
 };
 
-class ExpressionPicker extends StatefulWidget {
+class ExpressionPicker extends ConsumerStatefulWidget {
   const ExpressionPicker({
     required this.onClose,
     this.visibleTabs = const [
@@ -54,15 +58,14 @@ class ExpressionPicker extends StatefulWidget {
   final void Function(String name, String surrogates)? onEmojiSelect;
 
   @override
-  State<ExpressionPicker> createState() => _ExpressionPickerState();
+  ConsumerState<ExpressionPicker> createState() => _ExpressionPickerState();
 }
 
-class _ExpressionPickerState extends State<ExpressionPicker> {
+class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
   late ExpressionPickerTab _selectedTab;
   TextEditingController? _ownSearchController;
   String _ownSearchQuery = '';
   String? _ownHoveredEmoji;
-  String _skinTone = '';
 
   TextEditingController get _searchController =>
       widget.searchController ??
@@ -118,6 +121,7 @@ class _ExpressionPickerState extends State<ExpressionPicker> {
     final colors = context.colors;
     final shouldShowTabs = widget.showTabs ?? widget.visibleTabs.length > 1;
     final hasExternalSearch = widget.searchController != null;
+    final skinTone = ref.watch(emojiSkinToneProvider).value ?? '';
 
     return Column(
       children: [
@@ -126,10 +130,11 @@ class _ExpressionPickerState extends State<ExpressionPicker> {
           EmojiSearchBar(
             controller: _searchController,
             hoveredEmojiName: _hoveredEmoji,
-            skinTone: _skinTone,
-            onSkinToneChanged: (t) => setState(() => _skinTone = t),
+            skinTone: skinTone,
+            onSkinToneChanged: (t) =>
+                unawaited(ref.read(emojiSkinToneProvider.notifier).set(t)),
           ),
-        Expanded(child: _buildContent(context, colors)),
+        Expanded(child: _buildContent(context, colors, skinTone)),
       ],
     );
   }
@@ -175,12 +180,16 @@ class _ExpressionPickerState extends State<ExpressionPicker> {
     );
   }
 
-  Widget _buildContent(BuildContext context, FluxerColorTheme colors) {
+  Widget _buildContent(
+    BuildContext context,
+    FluxerColorTheme colors,
+    String skinTone,
+  ) {
     if (_selectedTab == ExpressionPickerTab.emojis) {
       return EmojiPickerContent(
         isMobile: isMobileLayout(context),
         searchQuery: _searchQuery,
-        skinTone: widget.skinTone ?? _skinTone,
+        skinTone: widget.skinTone ?? skinTone,
         onHoveredEmojiChanged: _onHoveredChanged,
         onSelect: widget.onEmojiSelect,
       );

@@ -1378,95 +1378,125 @@ abstract class FluxerLocalizations {
   /// **'System'**
   String get userTagSystem;
 
-  /// Placeholder text in the emoji picker search bar.
+  /// Emoji picker search bar placeholder.
   ///
   /// In en, this message translates to:
   /// **'Find the emoji of your dreams'**
   String get emojiSearchPlaceholder;
 
-  /// Empty state message in the emoji picker when search returns no results.
+  /// Emoji picker empty search state.
   ///
   /// In en, this message translates to:
   /// **'No emojis match your search'**
   String get emojiSearchEmpty;
 
-  /// Section header and tooltip for frequently used emojis.
+  /// Frequently used emojis section.
   ///
   /// In en, this message translates to:
   /// **'Frequently Used'**
   String get emojiFrequentlyUsed;
 
-  /// Tab label for the GIFs tab in the expression picker.
+  /// GIFs tab.
   ///
   /// In en, this message translates to:
   /// **'GIFs'**
   String get emojiTabGifs;
 
-  /// Tab label for the Media/Memes tab in the expression picker.
+  /// Media tab.
   ///
   /// In en, this message translates to:
   /// **'Media'**
   String get emojiTabMedia;
 
-  /// Tab label for the Stickers tab in the expression picker.
+  /// Stickers tab.
   ///
   /// In en, this message translates to:
   /// **'Stickers'**
   String get emojiTabStickers;
 
-  /// Tab label for the Emojis tab in the expression picker.
+  /// Emojis tab.
   ///
   /// In en, this message translates to:
   /// **'Emojis'**
   String get emojiTabEmojis;
 
-  /// Emoji category label for people & smileys.
+  /// People & smileys category.
   ///
   /// In en, this message translates to:
   /// **'People'**
   String get emojiCategoryPeople;
 
-  /// Emoji category label for animals & nature.
+  /// Animals & nature category.
   ///
   /// In en, this message translates to:
   /// **'Nature'**
   String get emojiCategoryNature;
 
-  /// Emoji category label for food & drink.
+  /// Food & drink category.
   ///
   /// In en, this message translates to:
   /// **'Food & Drink'**
   String get emojiCategoryFood;
 
-  /// Emoji category label for activities & sports.
+  /// Activities & sports category.
   ///
   /// In en, this message translates to:
   /// **'Activities'**
   String get emojiCategoryActivity;
 
-  /// Emoji category label for travel & places.
+  /// Travel & places category.
   ///
   /// In en, this message translates to:
   /// **'Travel & Places'**
   String get emojiCategoryTravel;
 
-  /// Emoji category label for objects.
+  /// Objects category.
   ///
   /// In en, this message translates to:
   /// **'Objects'**
   String get emojiCategoryObjects;
 
-  /// Emoji category label for symbols.
+  /// Symbols category.
   ///
   /// In en, this message translates to:
   /// **'Symbols'**
   String get emojiCategorySymbols;
 
-  /// Emoji category label for flags.
+  /// Flags category.
   ///
   /// In en, this message translates to:
   /// **'Flags'**
   String get emojiCategoryFlags;
+
+  /// Upsell banner text in emoji picker for non-premium users.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock {emojiCount} from {communityCount} with Plutonium.'**
+  String emojiPlutoniumUpsellText(String emojiCount, String communityCount);
+
+  /// Button label on the Plutonium upsell banner.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Plutonium'**
+  String get emojiPlutoniumUpsellButton;
+
+  /// Dismiss link on the Plutonium upsell banner.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t show this again'**
+  String get emojiPlutoniumUpsellDismiss;
+
+  /// Emoji count label in upsell banner.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 custom emoji} other{{count} custom emojis}}'**
+  String emojiPlutoniumUpsellCustomEmoji(int count);
+
+  /// Community count label in upsell banner.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 community} other{{count} communities}}'**
+  String emojiPlutoniumUpsellCommunity(int count);
 }
 
 class _FluxerLocalizationsDelegate

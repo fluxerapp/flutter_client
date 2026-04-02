@@ -978,5 +978,35 @@
   "emojiCategoryFlags": "Flags",
   "@emojiCategoryFlags": {
     "description": "Flags category."
+  },
+  "emojiPlutoniumUpsellText": "Unlock {emojiCount} from {communityCount} with Plutonium.",
+  "@emojiPlutoniumUpsellText": {
+    "description": "Upsell banner text in emoji picker for non-premium users.",
+    "placeholders": {
+      "emojiCount": { "type": "String" },
+      "communityCount": { "type": "String" }
+    }
+  },
+  "emojiPlutoniumUpsellButton": "Get Plutonium",
+  "@emojiPlutoniumUpsellButton": {
+    "description": "Button label on the Plutonium upsell banner."
+  },
+  "emojiPlutoniumUpsellDismiss": "Don't show this again",
+  "@emojiPlutoniumUpsellDismiss": {
+    "description": "Dismiss link on the Plutonium upsell banner."
+  },
+  "emojiPlutoniumUpsellCustomEmoji": "{count, plural, =1{1 custom emoji} other{{count} custom emojis}}",
+  "@emojiPlutoniumUpsellCustomEmoji": {
+    "description": "Emoji count label in upsell banner.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "emojiPlutoniumUpsellCommunity": "{count, plural, =1{1 community} other{{count} communities}}",
+  "@emojiPlutoniumUpsellCommunity": {
+    "description": "Community count label in upsell banner.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
   }
 }

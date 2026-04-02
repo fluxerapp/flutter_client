@@ -21,6 +21,25 @@ String? getTwemojiUrl(String unicode) {
 
 String getCustomEmojiUrl({
   required String id,
-  bool animated = true,
-  int size = 128,
-}) => '$fluxerMediaCdn/emojis/$id.webp?size=$size';
+  bool animated = false,
+  int? size,
+}) {
+  final base = '$fluxerMediaCdn/emojis/$id.webp';
+  final params = <String>[];
+  if (animated) {
+    params.add('animated=true');
+  }
+  if (size != null) {
+    params.add('size=$size');
+  }
+  if (params.isEmpty) {
+    return base;
+  }
+  return '$base?${params.join('&')}';
+}
+
+String getCustomEmojiMarkdown({
+  required String name,
+  required String id,
+  bool animated = false,
+}) => '<${animated ? 'a' : ''}:$name:$id>';

@@ -17,5 +17,33 @@ class UserPreferencesDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> savePreferences(UserPreferencesTableCompanion prefs) =>
       into(userPreferencesTable).insertOnConflictUpdate(prefs);
 
+  Future<bool> getPlutoniumUpsellDismissed(String userId) async {
+    final prefs = await getPreferences(userId);
+    return prefs?.plutoniumUpsellDismissed ?? false;
+  }
+
+  Future<void> setPlutoniumUpsellDismissed(
+    String userId, {
+    required bool dismissed,
+  }) => savePreferences(
+    UserPreferencesTableCompanion(
+      userId: Value(userId),
+      plutoniumUpsellDismissed: Value(dismissed),
+    ),
+  );
+
+  Future<String> getEmojiSkinTone(String userId) async {
+    final prefs = await getPreferences(userId);
+    return prefs?.emojiSkinTone ?? '';
+  }
+
+  Future<void> setEmojiSkinTone(String userId, String skinTone) =>
+      savePreferences(
+        UserPreferencesTableCompanion(
+          userId: Value(userId),
+          emojiSkinTone: Value(skinTone),
+        ),
+      );
+
   Future<void> clearAll() => delete(userPreferencesTable).go();
 }
