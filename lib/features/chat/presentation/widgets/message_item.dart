@@ -106,6 +106,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         widget.onDelete?.call();
       case MessageAction.copyText:
       case MessageAction.copyMessageId:
+        break;
       case MessageAction.addReaction:
         unawaited(
           ExpressionPickerSheet.show(
