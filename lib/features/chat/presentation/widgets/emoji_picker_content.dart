@@ -585,6 +585,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
           borderRadius: BorderRadius.circular(6),
         ),
         child: _RetryEmojiImage(
+          key: ValueKey(emoji.id),
           emojiId: emoji.id,
           url: emoji.url,
           size: _kEmojiSize,
@@ -861,6 +862,7 @@ class _GuildInitial extends StatelessWidget {
 
 class _RetryEmojiImage extends StatefulWidget {
   const _RetryEmojiImage({
+    super.key,
     required this.emojiId,
     required this.url,
     required this.size,
@@ -879,20 +881,26 @@ class _RetryEmojiImageState extends State<_RetryEmojiImage> {
   static const _kBaseDelay = Duration(milliseconds: 500);
 
   int _attempt = 0;
-  late int _cacheBuster;
+  int _cacheBuster = 0;
+  Timer? _retryTimer;
+  bool _retryScheduled = false;
 
   @override
-  void initState() {
-    super.initState();
-    _cacheBuster = 0;
+  void didUpdateWidget(covariant _RetryEmojiImage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.emojiId != widget.emojiId || oldWidget.url != widget.url) {
+      _resetRetryState();
+    }
   }
 
   void _onError() {
-    if (_attempt >= _kMaxRetries || !mounted) {
+    if (_attempt >= _kMaxRetries || !mounted || _retryScheduled) {
       return;
     }
+    _retryScheduled = true;
     final delay = _kBaseDelay * (1 << _attempt);
-    Future.delayed(delay, () {
+    _retryTimer = Timer(delay, () {
+      _retryScheduled = false;
       if (!mounted) {
         return;
       }
@@ -903,11 +911,34 @@ class _RetryEmojiImageState extends State<_RetryEmojiImage> {
     });
   }
 
+  void _resetRetryState() {
+    _retryTimer?.cancel();
+    _retryScheduled = false;
+    _attempt = 0;
+    _cacheBuster = 0;
+  }
+
+  String get _stableCacheKey => 'emoji_${widget.emojiId}';
+
+  String get _imageUrl {
+    if (_cacheBuster == 0) {
+      return widget.url;
+    }
+
+    final separator = widget.url.contains('?') ? '&' : '?';
+    return '${widget.url}${separator}retry=$_cacheBuster';
+  }
+
+  @override
+  void dispose() {
+    _retryTimer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => CachedNetworkImage(
-    imageUrl: widget.url,
-    cacheKey:
-        'emoji_${widget.emojiId}${_cacheBuster > 0 ? '_r$_cacheBuster' : ''}',
+    imageUrl: _imageUrl,
+    cacheKey: _stableCacheKey,
     width: widget.size,
     height: widget.size,
     memCacheWidth: widget.size.toInt(),
