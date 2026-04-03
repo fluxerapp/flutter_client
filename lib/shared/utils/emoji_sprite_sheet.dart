@@ -4,42 +4,72 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 
 const _kSpriteSize = 32;
-const _kSpritesPerRow = 42;
-const _kSpriteSheetUrl =
-    'https://fluxerstatic.com/emoji/spritesheet-emoji@2x.png?v=2';
+const _kNonDiversitySpritesPerRow = 42;
+const _kDiversitySpritesPerRow = 10;
+const _kSpriteBase = 'https://fluxerstatic.com/emoji';
+const _kSpriteVersion = '2';
 
-/// Singleton sprite sheet — one PNG for all unicode emojis.
+const Map<String, String> _kSpriteSheetNames = {
+  'default': 'spritesheet-emoji',
+  '1f3fb': 'spritesheet-1f3fb',
+  '1f3fc': 'spritesheet-1f3fc',
+  '1f3fd': 'spritesheet-1f3fd',
+  '1f3fe': 'spritesheet-1f3fe',
+  '1f3ff': 'spritesheet-1f3ff',
+};
+
+String _buildSpriteSheetUrl(String name) => '$_kSpriteBase/$name@2x.png?v=$_kSpriteVersion';
+
+String _spriteSheetKeyForSkinTone(String? skinTone) {
+  if (skinTone == null || skinTone.isEmpty) {
+    return 'default';
+  }
+  final codePoint = emojiToCodePoints(skinTone);
+  return _kSpriteSheetNames.containsKey(codePoint) ? codePoint : 'default';
+}
+
 class EmojiSpriteSheet {
   EmojiSpriteSheet._();
 
-  static ui.Image? _image;
-  static Future<ui.Image>? _loading;
+  static final Map<String, ui.Image> _images = <String, ui.Image>{};
+  static final Map<String, Future<ui.Image>> _loading =
+      <String, Future<ui.Image>>{};
 
-  static bool get isLoaded => _image != null;
+  static bool isLoaded({String? skinTone}) =>
+      _images.containsKey(_spriteSheetKeyForSkinTone(skinTone));
 
-  static Future<void> preload() async {
-    if (_image != null) {
+  static Future<void> preload({String? skinTone}) async {
+    final key = _spriteSheetKeyForSkinTone(skinTone);
+    if (_images.containsKey(key)) {
       return;
     }
-    _image = await _load();
+    _images[key] = await _load(key);
   }
 
-  static Future<ui.Image> ensureLoaded() {
-    if (_image != null) {
-      return Future.value(_image!);
+  static Future<ui.Image> ensureLoaded({String? skinTone}) {
+    final key = _spriteSheetKeyForSkinTone(skinTone);
+    final existing = _images[key];
+    if (existing != null) {
+      return Future.value(existing);
     }
-    return _loading ??= _load().then((img) {
-      _image = img;
-      _loading = null;
+    return _loading[key] ??= _load(key).then((img) {
+      _images[key] = img;
+      final _ = _loading.remove(key);
       return img;
     });
   }
 
-  static Future<ui.Image> _load() async {
+  static ui.Image? imageFor({String? skinTone}) =>
+      _images[_spriteSheetKeyForSkinTone(skinTone)];
+
+  static Future<ui.Image> _load(String key) async {
+    final name = _kSpriteSheetNames[key] ?? _kSpriteSheetNames['default']!;
+    final url = _buildSpriteSheetUrl(name);
     final client = HttpClient();
-    final request = await client.getUrl(Uri.parse(_kSpriteSheetUrl));
+    final request = await client.getUrl(Uri.parse(url));
     final response = await request.close();
     final bytes = await consolidateHttpClientResponseBytes(response);
     final codec = await ui.instantiateImageCodec(bytes);
@@ -48,9 +78,11 @@ class EmojiSpriteSheet {
   }
 
   /// Source rect for [index] in the @2x sheet (64px per sprite).
-  static Rect spriteRect(int index) {
-    final col = index % _kSpritesPerRow;
-    final row = index ~/ _kSpritesPerRow;
+  static Rect spriteRect(int index, {required bool diversity}) {
+    final spritesPerRow =
+        diversity ? _kDiversitySpritesPerRow : _kNonDiversitySpritesPerRow;
+    final col = index % spritesPerRow;
+    final row = index ~/ spritesPerRow;
     const size = _kSpriteSize * 2;
     return Rect.fromLTWH(
       col * size.toDouble(),
@@ -62,14 +94,22 @@ class EmojiSpriteSheet {
 }
 
 class EmojiSpritePainter extends CustomPainter {
-  EmojiSpritePainter({required this.image, required this.spriteIndex});
+  EmojiSpritePainter({
+    required this.image,
+    required this.spriteIndex,
+    required this.diversity,
+  });
 
   final ui.Image image;
   final int spriteIndex;
+  final bool diversity;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final src = EmojiSpriteSheet.spriteRect(spriteIndex);
+    final src = EmojiSpriteSheet.spriteRect(
+      spriteIndex,
+      diversity: diversity,
+    );
     final dst = Offset.zero & size;
     canvas.drawImageRect(
       image,
@@ -81,24 +121,80 @@ class EmojiSpritePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(EmojiSpritePainter oldDelegate) =>
-      oldDelegate.spriteIndex != spriteIndex;
+      oldDelegate.spriteIndex != spriteIndex ||
+      oldDelegate.diversity != diversity;
 }
 
 class SpriteEmoji extends StatelessWidget {
-  const SpriteEmoji({required this.index, required this.size, super.key});
+  const SpriteEmoji({
+    required this.index,
+    required this.size,
+    this.diversityIndex,
+    this.skinTone,
+    super.key,
+  });
 
   final int index;
   final double size;
+  final int? diversityIndex;
+  final String? skinTone;
 
   @override
   Widget build(BuildContext context) {
-    final image = EmojiSpriteSheet._image;
+    final useDiversitySheet =
+        skinTone != null &&
+        skinTone!.isNotEmpty &&
+        diversityIndex != null;
+    final targetSkinTone = useDiversitySheet ? skinTone : null;
+    final image = EmojiSpriteSheet.imageFor(skinTone: targetSkinTone);
+
     if (image == null) {
-      return SizedBox(width: size, height: size);
+      return FutureBuilder<ui.Image>(
+        future: EmojiSpriteSheet.ensureLoaded(skinTone: targetSkinTone),
+        builder: (context, snapshot) {
+          final resolvedImage = snapshot.data;
+          if (resolvedImage == null) {
+            return SizedBox(width: size, height: size);
+          }
+          return _SpriteEmojiPaint(
+            image: resolvedImage,
+            index: useDiversitySheet ? diversityIndex! : index,
+            size: size,
+            diversity: useDiversitySheet,
+          );
+        },
+      );
     }
-    return CustomPaint(
-      size: Size(size, size),
-      painter: EmojiSpritePainter(image: image, spriteIndex: index),
+
+    return _SpriteEmojiPaint(
+      image: image,
+      index: useDiversitySheet ? diversityIndex! : index,
+      size: size,
+      diversity: useDiversitySheet,
     );
   }
+}
+
+class _SpriteEmojiPaint extends StatelessWidget {
+  const _SpriteEmojiPaint({
+    required this.image,
+    required this.index,
+    required this.size,
+    required this.diversity,
+  });
+
+  final ui.Image image;
+  final int index;
+  final double size;
+  final bool diversity;
+
+  @override
+  Widget build(BuildContext context) => CustomPaint(
+    size: Size(size, size),
+    painter: EmojiSpritePainter(
+      image: image,
+      spriteIndex: index,
+      diversity: diversity,
+    ),
+  );
 }
