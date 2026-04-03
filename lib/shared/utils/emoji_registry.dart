@@ -8,6 +8,7 @@ class EmojiEntry {
     required this.surrogates,
     required this.category,
     required this.spriteIndex,
+    this.diversityIndex,
     this.hasDiversity = false,
   });
 
@@ -15,6 +16,7 @@ class EmojiEntry {
   final String surrogates;
   final String category;
   final int spriteIndex;
+  final int? diversityIndex;
 
   /// True if this emoji supports skin tone modifiers.
   final bool hasDiversity;
@@ -67,6 +69,7 @@ class EmojiRegistry {
     final cats = <String, List<EmojiEntry>>{};
     final all = <EmojiEntry>[];
     var spriteIndex = 0;
+    var diversityIndex = 0;
 
     for (final category in kEmojiCategoryOrder) {
       final entries = json[category] as List<dynamic>?;
@@ -83,13 +86,18 @@ class EmojiRegistry {
         }
 
         final names = (obj['names'] as List<dynamic>).cast<String>();
+        final hasDiversity = obj.containsKey('skins');
         final emoji = EmojiEntry(
           names: names,
           surrogates: surrogates,
           category: category,
           spriteIndex: spriteIndex,
-          hasDiversity: obj.containsKey('skins'),
+          diversityIndex: hasDiversity ? diversityIndex : null,
+          hasDiversity: hasDiversity,
         );
+        if (hasDiversity) {
+          diversityIndex++;
+        }
         spriteIndex++;
         list.add(emoji);
         all.add(emoji);

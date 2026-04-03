@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_banner.dart';
 import 'package:fluxer_app/features/chat/providers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -19,7 +16,6 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
-import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kGridColumns = 9;
@@ -87,6 +83,22 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   void initState() {
     super.initState();
     _upsellPreviewSeed = Random().nextInt(0x7fffffff);
+    _preloadSkinToneSpriteSheet();
+  }
+
+  @override
+  void didUpdateWidget(covariant EmojiPickerContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.skinTone != widget.skinTone) {
+      _preloadSkinToneSpriteSheet();
+    }
+  }
+
+  void _preloadSkinToneSpriteSheet() {
+    if (widget.skinTone.isEmpty) {
+      return;
+    }
+    unawaited(EmojiSpriteSheet.preload(skinTone: widget.skinTone));
   }
 
   @override
@@ -527,8 +539,6 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
   Widget _buildEmojiCell(EmojiEntry emoji, FluxerColorTheme colors) {
     final hasTone = widget.skinTone.isNotEmpty && emoji.hasDiversity;
-    final surrogates =
-        hasTone ? emoji.surrogates + widget.skinTone : emoji.surrogates;
 
     return GestureDetector(
       onTap: () => _onEmojiSelected(emoji),
@@ -545,7 +555,12 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
             borderRadius: BorderRadius.circular(6),
           ),
           child: hasTone
-              ? _TwemojiSvg(surrogates: surrogates, size: _kEmojiSize)
+              ? SpriteEmoji(
+                  index: emoji.spriteIndex,
+                  diversityIndex: emoji.diversityIndex,
+                  size: _kEmojiSize,
+                  skinTone: widget.skinTone,
+                )
               : SpriteEmoji(index: emoji.spriteIndex, size: _kEmojiSize),
         ),
       ),
@@ -730,9 +745,11 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         children: [
           if (emoji != null) ...[
             if (hasTone)
-              _TwemojiSvg(
-                surrogates: emoji.surrogates + widget.skinTone,
+              SpriteEmoji(
+                index: emoji.spriteIndex,
+                diversityIndex: emoji.diversityIndex,
                 size: 32,
+                skinTone: widget.skinTone,
               )
             else
               SpriteEmoji(index: emoji.spriteIndex, size: 32),
@@ -902,28 +919,4 @@ class _RetryEmojiImageState extends State<_RetryEmojiImage> {
       return SizedBox(width: widget.size, height: widget.size);
     },
   );
-}
-
-class _TwemojiSvg extends StatelessWidget {
-  const _TwemojiSvg({required this.surrogates, required this.size});
-
-  final String surrogates;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    final url = getTwemojiUrl(surrogates);
-    if (url == null) {
-      return Text(surrogates, style: TextStyle(fontSize: size * 0.8));
-    }
-    return FutureBuilder<Uint8List>(
-      future: SvgCache.load(url),
-      builder: (context, snap) {
-        if (!snap.hasData) {
-          return SizedBox(width: size, height: size);
-        }
-        return SvgPicture.memory(snap.data!, width: size, height: size);
-      },
-    );
-  }
 }
