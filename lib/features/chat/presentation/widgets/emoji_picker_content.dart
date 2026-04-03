@@ -16,12 +16,14 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
+import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kGridColumns = 9;
 const _kMobileGridColumns = 8;
 const _kEmojiSize = 40.0;
 const _kCellSize = 48.0;
+const _kCustomEmojiRequestSize = 48;
 
 const Map<String, IconData> _kCategoryIcons = {
   'people': PhosphorIconsFill.smiley,
@@ -72,6 +74,7 @@ class EmojiPickerContent extends ConsumerStatefulWidget {
 
 class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   final _scrollController = ScrollController();
+  final _prefetchedCustomEmojiKeys = <String>{};
   String? _hoveredEmojiName;
   final _collapsedCategories = <String>{};
 
@@ -332,6 +335,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     final query = widget.searchQuery.toLowerCase();
     final customResults =
         guildEmojis.where((e) => e.name.toLowerCase().contains(query)).toList();
+    _scheduleCustomEmojiPrefetch(context, customResults);
 
     if (unicodeResults.isEmpty && customResults.isEmpty) {
       return Center(
@@ -386,105 +390,136 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     final guildEmojisByGuild = _getGuildEmojisByGuild();
     final hasFrecent = frecent.isNotEmpty;
     final guildEntries = guildEmojisByGuild.entries.toList();
+    _scheduleCustomEmojiPrefetch(
+      context,
+      guildEntries.expand((entry) => entry.value).toList(),
+    );
     final upsell = _buildUpsellBanner(context);
     final hasUpsell = !_isPremium;
 
-    final sectionCount = kEmojiCategoryOrder.length +
-        (hasFrecent ? 1 : 0) +
-        guildEntries.length +
-        (hasUpsell ? 1 : 0);
-
-    return ListView.builder(
-      key: ValueKey('emoji-grid-$sectionCount'),
+    return CustomScrollView(
       controller: _scrollController,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      itemCount: sectionCount,
-      itemBuilder: (context, rawIndex) {
-        var idx = rawIndex;
-
-        if (hasUpsell && idx == 0) {
-          return upsell;
-        }
-        if (hasUpsell) {
-          idx--;
-        }
-
-        if (hasFrecent && idx == 0) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildCategoryHeader('frequently-used', colors),
-              if (!_collapsedCategories.contains('frequently-used'))
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _columns,
-                    mainAxisExtent: _kCellSize,
-                  ),
-                  itemCount: frecent.length,
-                  itemBuilder: (context, i) =>
-                      _buildEmojiCell(frecent[i], colors),
-                ),
-            ],
-          );
-        }
-        if (hasFrecent) {
-          idx--;
-        }
-
-        if (idx < guildEntries.length) {
-          final guild = guildEntries[idx].key;
-          final emojis = guildEntries[idx].value;
-          final guildKey = 'guild-${guild.id}';
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 12),
-              _buildCategoryHeader(guildKey, colors, labelOverride: guild.name),
-              if (!_collapsedCategories.contains(guildKey))
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _columns,
-                    mainAxisExtent: _kCellSize,
-                  ),
-                  itemCount: emojis.length,
-                  itemBuilder: (context, i) =>
-                      _buildCustomEmojiCell(emojis[i], colors),
-                ),
-            ],
-          );
-        }
-        idx -= guildEntries.length;
-
-        final category = kEmojiCategoryOrder[idx];
-        final emojis = categories[category];
-        if (emojis == null || emojis.isEmpty) {
-          return const SizedBox.shrink();
-        }
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 12),
-            _buildCategoryHeader(category, colors),
+      cacheExtent: _kCellSize * _columns * 6,
+      slivers: [
+        const SliverToBoxAdapter(child: SizedBox(height: 4)),
+        if (hasUpsell)
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            sliver: SliverToBoxAdapter(child: upsell),
+          ),
+        if (hasFrecent) ...[
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            sliver: SliverToBoxAdapter(
+              child: _buildCategoryHeader('frequently-used', colors),
+            ),
+          ),
+          if (!_collapsedCategories.contains('frequently-used'))
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              sliver: _buildUnicodeEmojiGridSliver(frecent, colors),
+            ),
+        ],
+        for (final entry in guildEntries) ...[
+          const SliverToBoxAdapter(child: SizedBox(height: 12)),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            sliver: SliverToBoxAdapter(
+              child: _buildCategoryHeader(
+                'guild-${entry.key.id}',
+                colors,
+                labelOverride: entry.key.name,
+              ),
+            ),
+          ),
+          if (!_collapsedCategories.contains('guild-${entry.key.id}'))
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              sliver: _buildCustomEmojiGridSliver(entry.value, colors),
+            ),
+        ],
+        for (final category in kEmojiCategoryOrder)
+          if (categories[category]?.isNotEmpty ?? false) ...[
+            const SliverToBoxAdapter(child: SizedBox(height: 12)),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              sliver: SliverToBoxAdapter(
+                child: _buildCategoryHeader(category, colors),
+              ),
+            ),
             if (!_collapsedCategories.contains(category))
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _columns,
-                  mainAxisExtent: _kCellSize,
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                sliver: _buildUnicodeEmojiGridSliver(
+                  categories[category]!,
+                  colors,
                 ),
-                itemCount: emojis.length,
-                itemBuilder: (context, i) =>
-                    _buildEmojiCell(emojis[i], colors),
               ),
           ],
+        const SliverToBoxAdapter(child: SizedBox(height: 4)),
+      ],
+    );
+  }
+
+  void _scheduleCustomEmojiPrefetch(
+    BuildContext context,
+    List<GuildEmojiEntry> emojis,
+  ) {
+    if (emojis.isEmpty) {
+      return;
+    }
+
+    final candidates = emojis.take(96).toList(growable: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+
+      for (final emoji in candidates) {
+        final cacheKey = emoji.cacheKeyForSize(_kCustomEmojiRequestSize);
+        if (!_prefetchedCustomEmojiKeys.add(cacheKey)) {
+          continue;
+        }
+        unawaited(
+          precacheImage(
+            CachedNetworkImageProvider(
+              emoji.urlForSize(_kCustomEmojiRequestSize),
+              cacheKey: cacheKey,
+            ),
+            context,
+          ),
         );
-      },
+      }
+    });
+  }
+
+  SliverGrid _buildUnicodeEmojiGridSliver(
+    List<EmojiEntry> emojis,
+    FluxerColorTheme colors,
+  ) {
+    return SliverGrid(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: _columns,
+        mainAxisExtent: _kCellSize,
+      ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return _buildEmojiCell(emojis[index], colors);
+      }, childCount: emojis.length),
+    );
+  }
+
+  SliverGrid _buildCustomEmojiGridSliver(
+    List<GuildEmojiEntry> emojis,
+    FluxerColorTheme colors,
+  ) {
+    return SliverGrid(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: _columns,
+        mainAxisExtent: _kCellSize,
+      ),
+      delegate: SliverChildBuilderDelegate((context, index) {
+        return _buildCustomEmojiCell(emojis[index], colors);
+      }, childCount: emojis.length),
     );
   }
 
@@ -587,7 +622,8 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         child: _RetryEmojiImage(
           key: ValueKey(emoji.id),
           emojiId: emoji.id,
-          url: emoji.url,
+          animated: emoji.animated,
+          baseRequestSize: _kCustomEmojiRequestSize,
           size: _kEmojiSize,
         ),
       ),
@@ -704,12 +740,15 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         child: Row(
           children: [
             CachedNetworkImage(
-              imageUrl: customEmoji.url,
-              cacheKey: 'emoji_${customEmoji.id}',
+              imageUrl: customEmoji.urlForSize(_kCustomEmojiRequestSize),
+              cacheKey: customEmoji.cacheKeyForSize(_kCustomEmojiRequestSize),
               width: 32,
               height: 32,
               memCacheWidth: 32,
               memCacheHeight: 32,
+              fadeInDuration: Duration.zero,
+              fadeOutDuration: Duration.zero,
+              filterQuality: FilterQuality.low,
               fit: BoxFit.contain,
               placeholder: (_, _) => const SizedBox(width: 32, height: 32),
             ),
@@ -862,14 +901,16 @@ class _GuildInitial extends StatelessWidget {
 
 class _RetryEmojiImage extends StatefulWidget {
   const _RetryEmojiImage({
-    super.key,
     required this.emojiId,
-    required this.url,
+    required this.animated,
+    required this.baseRequestSize,
     required this.size,
+    super.key,
   });
 
   final String emojiId;
-  final String url;
+  final bool animated;
+  final int baseRequestSize;
   final double size;
 
   @override
@@ -888,7 +929,9 @@ class _RetryEmojiImageState extends State<_RetryEmojiImage> {
   @override
   void didUpdateWidget(covariant _RetryEmojiImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.emojiId != widget.emojiId || oldWidget.url != widget.url) {
+    if (oldWidget.emojiId != widget.emojiId ||
+        oldWidget.animated != widget.animated ||
+        oldWidget.baseRequestSize != widget.baseRequestSize) {
       _resetRetryState();
     }
   }
@@ -898,6 +941,12 @@ class _RetryEmojiImageState extends State<_RetryEmojiImage> {
       return;
     }
     _retryScheduled = true;
+    unawaited(
+      CachedNetworkImage.evictFromCache(
+        _imageUrl,
+        cacheKey: _cacheKey,
+      ),
+    );
     final delay = _kBaseDelay * (1 << _attempt);
     _retryTimer = Timer(delay, () {
       _retryScheduled = false;
@@ -918,15 +967,27 @@ class _RetryEmojiImageState extends State<_RetryEmojiImage> {
     _cacheBuster = 0;
   }
 
-  String get _stableCacheKey => 'emoji_${widget.emojiId}';
+  int get _currentRequestSize => _attempt == 0 ? widget.baseRequestSize : 96;
+
+  String get _baseCacheKey =>
+      'emoji_${widget.emojiId}_${widget.animated ? 'a' : 's'}_'
+      '$_currentRequestSize';
+
+  String get _cacheKey =>
+      '$_baseCacheKey${_cacheBuster > 0 ? '_r$_cacheBuster' : ''}';
 
   String get _imageUrl {
+    final baseUrl = getCustomEmojiUrl(
+      id: widget.emojiId,
+      animated: widget.animated,
+      size: _currentRequestSize,
+    );
     if (_cacheBuster == 0) {
-      return widget.url;
+      return baseUrl;
     }
 
-    final separator = widget.url.contains('?') ? '&' : '?';
-    return '${widget.url}${separator}retry=$_cacheBuster';
+    final separator = baseUrl.contains('?') ? '&' : '?';
+    return '$baseUrl${separator}retry=$_cacheBuster';
   }
 
   @override
@@ -938,11 +999,14 @@ class _RetryEmojiImageState extends State<_RetryEmojiImage> {
   @override
   Widget build(BuildContext context) => CachedNetworkImage(
     imageUrl: _imageUrl,
-    cacheKey: _stableCacheKey,
+    cacheKey: _cacheKey,
     width: widget.size,
     height: widget.size,
     memCacheWidth: widget.size.toInt(),
     memCacheHeight: widget.size.toInt(),
+    fadeInDuration: Duration.zero,
+    fadeOutDuration: Duration.zero,
+    filterQuality: FilterQuality.low,
     fit: BoxFit.contain,
     placeholder: (_, _) => SizedBox(width: widget.size, height: widget.size),
     errorBuilder: (_, _, _) {

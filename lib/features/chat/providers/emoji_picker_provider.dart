@@ -35,7 +35,13 @@ class GuildEmojiEntry {
   final bool animated;
   final String guildId;
 
-  String get url => getCustomEmojiUrl(id: id, animated: animated);
+  String get url => urlForSize(48);
+
+  String urlForSize(int size) =>
+      getCustomEmojiUrl(id: id, animated: animated, size: size);
+
+  String cacheKeyForSize(int size) =>
+      'emoji_${id}_${animated ? 'a' : 's'}_$size';
 
   /// Markdown token inserted into the message text.
   String get markdown => getCustomEmojiMarkdown(
