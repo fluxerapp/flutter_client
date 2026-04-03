@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_item.dart'
     show MessageItem;
+import 'package:fluxer_app/features/chat/presentation/widgets/message_mention.dart';
 import 'package:fluxer_app/features/chat/providers/chat_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
@@ -68,16 +70,12 @@ class InlineReplyPreview extends ConsumerWidget {
             ),
             const SizedBox(width: 4),
             Expanded(
-              child: Text(
-                replyMsg.content.isNotEmpty
-                    ? replyMsg.content.replaceAll('\n', ' ')
-                    : 'Click to see attachment',
-                style: TextStyle(
-                  color: context.colors.textPrimaryMuted,
-                  fontSize: 14,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 1),
+                child: _ReplyPreviewContent(
+                  message: replyMsg,
+                  emptyLabel: 'Click to see attachment',
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
               ),
             ),
           ] else ...[
@@ -112,6 +110,146 @@ class InlineReplyPreview extends ConsumerWidget {
       }
     }
     return null;
+  }
+}
+
+class _ReplyPreviewContent extends StatelessWidget {
+  const _ReplyPreviewContent({
+    required this.message,
+    required this.emptyLabel,
+  });
+
+  final Message message;
+  final String emptyLabel;
+
+  static final RegExp _tokenRe = RegExp(
+    r'https?://fluxer\.app/channels/(?:@me|\d{15,21})/\d{15,21}(?:/\d{15,21})?' // .com (soo)
+    r'|<@!?\d+>'
+    r'|<#\d+>'
+    r'|<@&\d+>'
+    r'|@(everyone|here)\b',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    final style = TextStyle(
+      color: context.colors.textPrimaryMuted,
+      fontSize: 14,
+    );
+    final content = message.content.replaceAll('\n', ' ').trim();
+    if (content.isEmpty) {
+      return Text(
+        emptyLabel,
+        style: style,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      );
+    }
+
+    return SizedBox(
+      height: 20,
+      child: RichText(
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        text: TextSpan(
+          style: style,
+          children: _buildSpans(content, style),
+        ),
+        strutStyle: const StrutStyle(
+          fontSize: 14,
+          height: 1.2,
+          forceStrutHeight: true,
+        ),
+      ),
+    );
+  }
+
+  List<InlineSpan> _buildSpans(String content, TextStyle baseStyle) {
+    final spans = <InlineSpan>[];
+    var lastEnd = 0;
+
+    for (final match in _tokenRe.allMatches(content)) {
+      if (match.start > lastEnd) {
+        spans.add(TextSpan(text: content.substring(lastEnd, match.start)));
+      }
+
+      final token = match.group(0)!;
+      spans.add(_buildTokenSpan(token, baseStyle));
+      lastEnd = match.end;
+    }
+
+    if (lastEnd < content.length) {
+      spans.add(TextSpan(text: content.substring(lastEnd)));
+    }
+
+    return spans;
+  }
+
+  InlineSpan _buildTokenSpan(String token, TextStyle baseStyle) {
+    if (token.startsWith('<@&')) {
+      final roleId = token.substring(3, token.length - 1);
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: IgnorePointer(
+          child: RoleMention(roleId: roleId, baseStyle: baseStyle),
+        ),
+      );
+    }
+
+    if (token.startsWith('<#')) {
+      final channelId = token.substring(2, token.length - 1);
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: IgnorePointer(
+          child: ChannelMention(
+            channelId: channelId,
+            baseStyle: baseStyle,
+          ),
+        ),
+      );
+    }
+
+    if (token.startsWith('<@')) {
+      final userId = token
+          .replaceFirst('<@!', '')
+          .replaceFirst('<@', '')
+          .replaceFirst('>', '');
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: IgnorePointer(
+          child: UserMention(
+            userId: userId,
+            channelId: message.channelId,
+            baseStyle: baseStyle,
+          ),
+        ),
+      );
+    }
+
+    if (token == '@everyone' || token == '@here') {
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: IgnorePointer(
+          child: TextMention(label: token, baseStyle: baseStyle),
+        ),
+      );
+    }
+
+    final jump = parseChannelJumpLink(token);
+    if (jump != null) {
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: IgnorePointer(
+          child: ChannelJumpLinkMention(
+            link: jump,
+            url: token,
+            baseStyle: baseStyle,
+          ),
+        ),
+      );
+    }
+
+    return TextSpan(text: token);
   }
 }
 
