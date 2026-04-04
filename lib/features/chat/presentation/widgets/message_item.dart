@@ -14,11 +14,12 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embed_link.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_rich.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_theme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_video.dart';
-import 'package:fluxer_app/features/chat/presentation/'
-    'widgets/forward_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker_popout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/forward_indicator.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/forwarded_message_content.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -222,7 +223,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (!isGrouped && msg.isReply) _buildReplyRow(msg),
-                  if (!isGrouped && msg.isForwarded)
+                  if (!isGrouped && msg.isForwarded && !msg.hasForwardSnapshots && msg.forwardedFrom != null)
                     Padding(
                       padding: const EdgeInsets.only(left: _kAvatarColumnWidth),
                       child: ForwardIndicator(source: msg.forwardedFrom!),
@@ -287,6 +288,11 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         data: msg.content,
         selectable: true,
         channelId: msg.channelId,
+      ),
+    if (msg.hasForwardSnapshots)
+      ForwardedMessageContent(
+        message: msg,
+        snapshot: msg.messageSnapshots.first,
       ),
     ...msg.invites.map(
       (code) => Padding(

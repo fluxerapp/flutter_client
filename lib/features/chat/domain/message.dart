@@ -362,6 +362,122 @@ class Reaction {
   String get frecencyKey => isCustom ? 'custom:$emojiId' : 'unicode:$emoji';
 }
 
+class MessageReference {
+  final String channelId;
+  final String messageId;
+  final String? guildId;
+  final MessageReferenceType type;
+
+  const MessageReference({
+    required this.channelId,
+    required this.messageId,
+    required this.type,
+    this.guildId,
+  });
+
+  factory MessageReference.fromSdk(MessageReferenceResponse sdk) {
+    return MessageReference(
+      channelId: sdk.channelId,
+      messageId: sdk.messageId,
+      guildId: sdk.guildId?.toString(),
+      type: sdk.type,
+    );
+  }
+
+  factory MessageReference.fromJson(Map<String, dynamic> json) {
+    return MessageReference(
+      channelId: json['channel_id'] as String? ?? '',
+      messageId: json['message_id'] as String? ?? '',
+      guildId: json['guild_id'] as String?,
+      type: MessageReferenceType.fromJson(json['type'] as int? ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'channel_id': channelId,
+    'message_id': messageId,
+    'guild_id': guildId,
+    'type': type.toJson(),
+  };
+
+  bool get isForward => type == MessageReferenceType.forward;
+}
+
+class MessageSnapshot {
+  final String content;
+  final DateTime timestamp;
+  final DateTime? editedTimestamp;
+  final List<String> mentions;
+  final List<String> mentionRoles;
+  final List<Embed> embeds;
+  final List<Attachment> attachments;
+
+  const MessageSnapshot({
+    required this.timestamp,
+    this.content = '',
+    this.editedTimestamp,
+    this.mentions = const [],
+    this.mentionRoles = const [],
+    this.embeds = const [],
+    this.attachments = const [],
+  });
+
+  factory MessageSnapshot.fromSdk(MessageSnapshotResponse sdk) {
+    return MessageSnapshot(
+      content: sdk.content ?? '',
+      timestamp: sdk.timestamp,
+      editedTimestamp: sdk.editedTimestamp,
+      mentions: sdk.mentions ?? const [],
+      mentionRoles: sdk.mentionRoles ?? const [],
+      embeds: sdk.embeds?.map(Embed.fromSdk).toList() ?? const [],
+      attachments:
+          sdk.attachments?.map(Attachment.fromSdk).toList() ?? const [],
+    );
+  }
+
+  factory MessageSnapshot.fromJson(Map<String, dynamic> json) {
+    return MessageSnapshot(
+      content: json['content'] as String? ?? '',
+      timestamp:
+          DateTime.tryParse(json['timestamp'] as String? ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0),
+      editedTimestamp: DateTime.tryParse(
+        json['edited_timestamp'] as String? ?? '',
+      ),
+      mentions:
+          (json['mentions'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      mentionRoles:
+          (json['mention_roles'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      embeds:
+          (json['embeds'] as List<dynamic>?)
+              ?.map((e) => Embed.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      attachments:
+          (json['attachments'] as List<dynamic>?)
+              ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'content': content,
+    'timestamp': timestamp.toIso8601String(),
+    'edited_timestamp': editedTimestamp?.toIso8601String(),
+    'mentions': mentions,
+    'mention_roles': mentionRoles,
+    'embeds': embeds.map((e) => e.toJson()).toList(),
+    'attachments': attachments.map((a) => a.toJson()).toList(),
+  };
+}
+
 class Message {
   final String id;
   final String channelId;
@@ -377,6 +493,8 @@ class Message {
   final List<Reaction> reactions;
   final String? replyToId;
   final String? forwardedFrom;
+  final MessageReference? messageReference;
+  final List<MessageSnapshot> messageSnapshots;
   final bool isPinned;
   final bool isMentioned;
   final int type;
@@ -396,6 +514,8 @@ class Message {
     this.reactions = const [],
     this.replyToId,
     this.forwardedFrom,
+    this.messageReference,
+    this.messageSnapshots = const [],
     this.isPinned = false,
     this.isMentioned = false,
     this.type = 0,
@@ -424,6 +544,12 @@ class Message {
           sdk.attachments?.map(Attachment.fromSdk).toList() ?? const [],
       reactions: sdk.reactions?.map(Reaction.fromSdk).toList() ?? const [],
       replyToId: sdk.referencedMessage?.id,
+      messageReference: sdk.messageReference != null
+          ? MessageReference.fromSdk(sdk.messageReference!)
+          : null,
+      messageSnapshots:
+          sdk.messageSnapshots?.map(MessageSnapshot.fromSdk).toList() ??
+          const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
       type: sdk.type.json ?? 0,
@@ -446,6 +572,15 @@ class Message {
       reactions: _decodeList(row.reactionsJson, Reaction.fromJson),
       replyToId: row.replyToId,
       forwardedFrom: row.forwardedFrom,
+      messageReference: row.messageReferenceJson == null
+          ? null
+          : MessageReference.fromJson(
+              jsonDecode(row.messageReferenceJson!) as Map<String, dynamic>,
+            ),
+      messageSnapshots: _decodeList(
+        row.messageSnapshotsJson,
+        MessageSnapshot.fromJson,
+      ),
       isPinned: row.pinned,
       isMentioned: row.isMentioned,
       type: row.type,
@@ -469,6 +604,14 @@ class Message {
       reactionsJson: Value(
         jsonEncode(reactions.map((r) => r.toJson()).toList()),
       ),
+      replyToId: Value(replyToId),
+      forwardedFrom: Value(forwardedFrom),
+      messageReferenceJson: Value(messageReference == null
+          ? null
+          : jsonEncode(messageReference!.toJson())),
+      messageSnapshotsJson: Value(
+        jsonEncode(messageSnapshots.map((s) => s.toJson()).toList()),
+      ),
       isMentioned: Value(isMentioned),
       type: Value(type),
     );
@@ -484,6 +627,7 @@ class Message {
   bool get hasEmbeds => embeds.isNotEmpty;
   bool get hasAttachments => attachments.isNotEmpty;
   bool get isReply => replyToId != null;
+  bool get hasForwardSnapshots => messageSnapshots.isNotEmpty;
   bool get shouldHideContent {
     if (embeds.isEmpty) {
       return false;
@@ -534,7 +678,9 @@ class Message {
     return result;
   }
 
-  bool get isForwarded => forwardedFrom != null;
+  bool get isForwarded =>
+      (messageReference?.isForward ?? false) && messageSnapshots.isNotEmpty ||
+      forwardedFrom != null;
   bool get isEdited => editedTimestamp != null;
   bool get isSystemMessage => type != 0 && type != 1 && type != 19;
   bool get isMemberJoin => type == 7;

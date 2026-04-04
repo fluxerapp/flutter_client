@@ -113,7 +113,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 21;
+  int get schemaVersion => 22;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -273,6 +273,11 @@ class FluxerDatabase extends _$FluxerDatabase {
           userPreferencesTable,
           userPreferencesTable.emojiSkinTone,
         );
+      }
+      if (from < 22) {
+        // v22: Add message reference and snapshot JSON columns
+        await m.addColumn(messages, messages.messageReferenceJson);
+        await m.addColumn(messages, messages.messageSnapshotsJson);
       }
     },
   );

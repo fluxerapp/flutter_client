@@ -133,10 +133,30 @@ class MessageRepository {
                     ?.map((e) => Embed.fromJson(e as Map<String, dynamic>))
                     .toList() ??
                 const [],
+            attachments:
+                (map['attachments'] as List<dynamic>?)
+                    ?.map(
+                      (e) => Attachment.fromJson(e as Map<String, dynamic>),
+                    )
+                    .toList() ??
+                const [],
             replyToId:
                 (map['message_reference']
                         as Map<String, dynamic>?)?['message_id']
                     as String?,
+            messageReference: map['message_reference'] != null
+                ? MessageReference.fromJson(
+                    map['message_reference'] as Map<String, dynamic>,
+                  )
+                : null,
+            messageSnapshots:
+                (map['message_snapshots'] as List<dynamic>?)
+                    ?.map(
+                      (e) =>
+                          MessageSnapshot.fromJson(e as Map<String, dynamic>),
+                    )
+                    .toList() ??
+                const [],
             isPinned: (map['pinned'] as bool?) ?? false,
             isMentioned: _isMentionedFromJson(map),
             type: (map['type'] as int?) ?? 0,

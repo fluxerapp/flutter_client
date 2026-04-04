@@ -17,11 +17,13 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 class ChannelChatContent extends ConsumerStatefulWidget {
   final String channelId;
   final bool showTopBar;
+  final bool showInlineEmojiPicker;
   final String? targetMessageId;
 
   const ChannelChatContent({
     required this.channelId,
     this.showTopBar = true,
+    this.showInlineEmojiPicker = true,
     this.targetMessageId,
     super.key,
   });
@@ -75,7 +77,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
                   const SizedBox(height: kCollapsedPanelHeight),
               ],
             ),
-            if (isMobile && isPanelOpen)
+            if (isMobile && isPanelOpen && widget.showInlineEmojiPicker)
               Positioned(
                 left: 0,
                 right: 0,
