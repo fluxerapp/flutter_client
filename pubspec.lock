@@ -611,14 +611,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_markdown:
-    dependency: "direct main"
-    description:
-      name: flutter_markdown
-      sha256: "08fb8315236099ff8e90cb87bb2b935e0a724a3af1623000a9cec930468e0f27"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.7+1"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -675,6 +667,13 @@ packages:
       relative: true
     source: path
     version: "2.0.0"
+  fluxer_markdown:
+    dependency: "direct main"
+    description:
+      path: fluxer_markdown
+      relative: true
+    source: path
+    version: "1.0.0"
   freezed_annotation:
     dependency: transitive
     description:
@@ -908,7 +907,7 @@ packages:
     source: hosted
     version: "1.3.1"
   markdown:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: markdown
       sha256: ee85086ad7698b42522c6ad42fe195f1b9898e4d974a1af4576c1a3a176cada9

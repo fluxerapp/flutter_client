@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_markdown.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 /// A link preview card.
 class EmbedLink extends StatelessWidget {
@@ -54,6 +55,8 @@ class EmbedLink extends StatelessWidget {
                 child: MessageMarkdown(
                   data: embed.description!,
                   baseStyle: context.textStyles.embedDescription,
+                  markdownContext:
+                      FluxerMarkdownContext.restrictedEmbedDescription,
                 ),
               ),
             if (embed.thumbnail != null)

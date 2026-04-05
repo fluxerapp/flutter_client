@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_markdown.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -170,15 +172,16 @@ class ProfileContent extends ConsumerWidget {
                         const SizedBox(height: 8),
                         profileAsync.when(
                           data: (UserProfileFullResponse? response) {
-                            //TODO: Replace with link supporting text
                             final String? raw = response?.userProfile.bio
                                 ?.trim();
                             if (raw == null || raw.isEmpty) {
                               return const SizedBox.shrink();
                             }
-                            return Text(
-                              raw,
-                              style: TextStyle(
+                            return MessageMarkdown(
+                              data: raw,
+                              markdownContext:
+                                  FluxerMarkdownContext.restrictedUserBio,
+                              baseStyle: TextStyle(
                                 color: colors.textChat,
                                 fontSize: 14,
                                 height: 1.35,

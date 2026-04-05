@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_markdown.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 /// A rich embed card
 class EmbedRich extends StatelessWidget {
@@ -65,6 +66,8 @@ class EmbedRich extends StatelessWidget {
                       child: MessageMarkdown(
                         data: embed.description!,
                         baseStyle: context.textStyles.embedDescription,
+                        markdownContext:
+                            FluxerMarkdownContext.restrictedEmbedDescription,
                       ),
                     ),
                   if (embed.fields.isNotEmpty)
@@ -178,6 +181,8 @@ class _EmbedFieldTile extends StatelessWidget {
         MessageMarkdown(
           data: field.value,
           baseStyle: TextStyle(color: context.colors.textChat, fontSize: 13),
+          markdownContext:
+              FluxerMarkdownContext.restrictedEmbedDescription,
         ),
       ],
     ),
