@@ -93,23 +93,15 @@ class FluxerMarkdown extends StatelessWidget {
     required FluxerMarkdownFeatures features,
   }) {
     final document = md.Document(
+      encodeHtml: false,
       blockSyntaxes: [
         if (features.allowCodeBlocks) const md.FencedCodeBlockSyntax(),
         if (features.allowTables) const md.TableSyntax(),
       ],
       inlineSyntaxes: [
-        FluxerSpacedTripleAsteriskSyntax(),
-        FluxerSpacedTripleUnderscoreSyntax(),
-        FluxerSpacedStrongSyntax(),
-        FluxerSpacedEmphasisSyntax(),
-        FluxerSpacedUnderscoreEmphasisSyntax(),
-        FluxerSpacedUnderlineSyntax(),
-        FluxerSpacedStrikethroughSyntax(),
         if (config.linkWidgetBuilder != null &&
             config.internalLinkPattern != null)
           FluxerJumpLinkSyntax(config.internalLinkPattern!),
-        FluxerTripleAsteriskSyntax(),
-        FluxerTripleUnderscoreSyntax(),
         FluxerUnderlineSyntax(),
         md.StrikethroughSyntax(),
         if (features.allowUserMentions) FluxerUserMentionSyntax(),

@@ -26,6 +26,10 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     unicodeEmojiUrlBuilder: getTwemojiUrl,
     customEmojiUrlBuilder: getCustomEmojiUrl,
     linkColor: context?.colors.textLink,
+    blockquoteBorderColor: context?.colors.bgBlockquote,
+    blockquoteTextColor: context?.colors.textSecondary,
+    inlineCodeBackgroundColor: context?.colors.bgCodeBlock,
+    inlineCodeTextColor: context?.colors.textSecondary,
     internalLinkPattern: _internalLinkPattern,
     userMentionBuilder: (context, id, style) {
       return UserMention(userId: id, channelId: channelId, baseStyle: style);

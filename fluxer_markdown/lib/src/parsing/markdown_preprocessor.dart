@@ -27,7 +27,7 @@ String preprocessFluxerMarkdown(
   final output = <String>[];
 
   for (final line in lines) {
-    var next = line;
+    var next = _normalizeSpacedInlineMarkdown(line);
 
     if (!features.allowSubtext && next.startsWith('-# ')) {
       next = '\\$next';
@@ -55,6 +55,39 @@ String preprocessFluxerMarkdown(
   }
 
   return output.join('\n');
+}
+
+String _normalizeSpacedInlineMarkdown(String text) {
+  var current = text;
+
+  for (final marker in const ['***', '___', '**', '__', '~~', '*', '_']) {
+    current = _trimInlineMarkerSpacing(current, marker);
+  }
+
+  return current;
+}
+
+String _trimInlineMarkerSpacing(String text, String marker) {
+  final markerChar = RegExp.escape(marker[0]);
+  final escapedMarker = RegExp.escape(marker);
+  final pattern = RegExp(
+    '(^|\\s)'
+    '(?<!\\\\)(?<!$markerChar)$escapedMarker(?!$markerChar)'
+    r'(\s+)'
+    r'([^\n]+?)'
+    r'(\s+)'
+    '(?<!$markerChar)$escapedMarker(?!$markerChar)'
+    r'(?=\s|$|[`~!.,:;?)}\]])',
+  );
+
+  return text.replaceAllMapped(pattern, (match) {
+    final prefix = match.group(1) ?? '';
+    final content = match.group(3);
+    if (content == null || content.isEmpty) {
+      return match.group(0)!;
+    }
+    return '$prefix$marker$content$marker';
+  });
 }
 
 List<FluxerMarkdownSegment> parseFluxerMarkdownSegments(

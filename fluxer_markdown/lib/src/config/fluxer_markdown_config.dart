@@ -43,6 +43,10 @@ class FluxerMarkdownConfig {
     required this.unicodeEmojiUrlBuilder,
     required this.customEmojiUrlBuilder,
     this.linkColor,
+    this.blockquoteBorderColor,
+    this.blockquoteTextColor,
+    this.inlineCodeBackgroundColor,
+    this.inlineCodeTextColor,
     this.internalLinkPattern,
     this.userMentionBuilder,
     this.channelMentionBuilder,
@@ -57,6 +61,10 @@ class FluxerMarkdownConfig {
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
   final FluxerCustomEmojiUrlBuilder customEmojiUrlBuilder;
   final Color? linkColor;
+  final Color? blockquoteBorderColor;
+  final Color? blockquoteTextColor;
+  final Color? inlineCodeBackgroundColor;
+  final Color? inlineCodeTextColor;
   final RegExp? internalLinkPattern;
   final FluxerMentionBuilder? userMentionBuilder;
   final FluxerMentionBuilder? channelMentionBuilder;

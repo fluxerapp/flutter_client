@@ -200,18 +200,26 @@ class _MarkdownBlockRenderer {
   }
 
   Widget _buildBlockquote(md.Element node) {
+    final borderColor =
+        config.blockquoteBorderColor ??
+        Theme.of(context).colorScheme.outlineVariant;
+    final textColor = config.blockquoteTextColor;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(left: 10),
       decoration: BoxDecoration(
         border: Border(
           left: BorderSide(
-            color: Theme.of(context).colorScheme.outlineVariant,
+            color: borderColor,
             width: 4,
           ),
         ),
       ),
-      child: build(node.children ?? const []),
+      child: DefaultTextStyle.merge(
+        style: textColor == null ? const TextStyle() : TextStyle(color: textColor),
+        child: build(node.children ?? const []),
+      ),
     );
   }
 
@@ -411,36 +419,41 @@ class _MarkdownInlineRenderer {
 
     switch (node.tag) {
       case 'strong':
+        final strongStyle = effectiveStyle.copyWith(fontWeight: FontWeight.w700);
         return TextSpan(
-          style: effectiveStyle.copyWith(fontWeight: FontWeight.w700),
-          children: build(node.children ?? const [], style: effectiveStyle),
+          style: strongStyle,
+          children: build(node.children ?? const [], style: strongStyle),
         );
       case 'em':
+        final emphasisStyle = effectiveStyle.copyWith(fontStyle: FontStyle.italic);
         return TextSpan(
-          style: effectiveStyle.copyWith(fontStyle: FontStyle.italic),
-          children: build(node.children ?? const [], style: effectiveStyle),
+          style: emphasisStyle,
+          children: build(node.children ?? const [], style: emphasisStyle),
         );
       case 'del':
+        final deletedStyle = effectiveStyle.copyWith(
+          decoration: TextDecoration.lineThrough,
+        );
         return TextSpan(
-          style: effectiveStyle.copyWith(
-            decoration: TextDecoration.lineThrough,
-          ),
-          children: build(node.children ?? const [], style: effectiveStyle),
+          style: deletedStyle,
+          children: build(node.children ?? const [], style: deletedStyle),
         );
       case 'underline':
+        final underlineStyle = effectiveStyle.copyWith(
+          decoration: TextDecoration.underline,
+        );
         return TextSpan(
-          style: effectiveStyle.copyWith(decoration: TextDecoration.underline),
-          children: build(node.children ?? const [], style: effectiveStyle),
+          style: underlineStyle,
+          children: build(node.children ?? const [], style: underlineStyle),
         );
       case 'code':
-        return TextSpan(
-          text: node.textContent,
-          style: effectiveStyle.copyWith(
-            fontSize: (effectiveStyle.fontSize ?? 16) * 0.85,
-            fontFamily: 'monospace',
-            backgroundColor: Theme.of(
-              context,
-            ).colorScheme.surfaceContainerHighest,
+        return WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: FluxerInlineCodeWidget(
+            text: node.textContent,
+            baseStyle: effectiveStyle,
+            backgroundColor: config.inlineCodeBackgroundColor,
+            textColor: config.inlineCodeTextColor,
           ),
         );
       case 'br':
@@ -759,6 +772,42 @@ class FluxerCodeBlockWidget extends StatelessWidget {
         textStyle: baseStyle.copyWith(
           fontFamily: 'monospace',
           fontSize: (baseStyle.fontSize ?? 16) * 0.85,
+        ),
+      ),
+    );
+  }
+}
+
+class FluxerInlineCodeWidget extends StatelessWidget {
+  const FluxerInlineCodeWidget({
+    required this.text,
+    required this.baseStyle,
+    this.backgroundColor,
+    this.textColor,
+    super.key,
+  });
+
+  final String text;
+  final TextStyle baseStyle;
+  final Color? backgroundColor;
+  final Color? textColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color:
+            backgroundColor ??
+            Theme.of(context).colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+      child: Text(
+        text,
+        style: baseStyle.copyWith(
+          color: textColor,
+          fontSize: (baseStyle.fontSize ?? 16) * 0.85,
+          fontFamily: 'monospace',
         ),
       ),
     );
