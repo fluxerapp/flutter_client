@@ -8,6 +8,7 @@ class ExpressionPickerSheet {
 
   static Future<void> show(
     BuildContext context, {
+    void Function(String name, String surrogates)? onEmojiSelect,
     List<ExpressionPickerTab> visibleTabs = const [
       ExpressionPickerTab.gifs,
       ExpressionPickerTab.memes,
@@ -39,6 +40,7 @@ class ExpressionPickerSheet {
             visibleTabs: visibleTabs,
             initialTab: initialTab,
             onClose: close,
+            onEmojiSelect: onEmojiSelect,
           ),
         );
       },
@@ -51,11 +53,13 @@ class _SheetContent extends StatefulWidget {
     required this.visibleTabs,
     required this.initialTab,
     required this.onClose,
+    this.onEmojiSelect,
   });
 
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
   final VoidCallback onClose;
+  final void Function(String name, String surrogates)? onEmojiSelect;
 
   @override
   State<_SheetContent> createState() => _SheetContentState();
@@ -87,6 +91,10 @@ class _SheetContentState extends State<_SheetContent> {
       Expanded(
         child: ExpressionPicker(
           onClose: widget.onClose,
+          onEmojiSelect: (name, surrogates) {
+            widget.onEmojiSelect?.call(name, surrogates);
+            widget.onClose();
+          },
           visibleTabs: widget.visibleTabs,
           initialTab: _selectedTab,
           showTabs: false,

@@ -95,7 +95,24 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   final _reactionPickerKey = GlobalKey<ExpressionPickerPopoutState>();
   var _isReactionPickerOpen = false;
 
-  void _handleAction(MessageAction? action) {
+  void _addReactionFromPicker(String name, String surrogates) {
+    final customEmojiMatch = RegExp(
+      r'^<(a?):([^:>]+):(\d+)>$',
+    ).firstMatch(surrogates);
+
+    if (customEmojiMatch != null) {
+      widget.onReaction?.call(
+        name,
+        emojiId: customEmojiMatch.group(3),
+        animated: customEmojiMatch.group(1) == 'a',
+      );
+      return;
+    }
+
+    widget.onReaction?.call(surrogates);
+  }
+
+  void _handleAction(MessageAction? action, {required bool isMobile}) {
     switch (action) {
       case MessageAction.reply:
         widget.onReply?.call();
@@ -109,12 +126,28 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       case MessageAction.copyMessageId:
         break;
       case MessageAction.addReaction:
-        unawaited(
-          ExpressionPickerSheet.show(
-            context,
-            visibleTabs: const [ExpressionPickerTab.emojis],
-          ),
-        );
+        if (isMobile) {
+          unawaited(
+            ExpressionPickerSheet.show(
+              context,
+              onEmojiSelect: _addReactionFromPicker,
+              visibleTabs: const [ExpressionPickerTab.emojis],
+            ),
+          );
+        } else {
+          setState(() {
+            _isHovered = true;
+            _isReactionPickerOpen = true;
+          });
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) {
+              return;
+            }
+            if (!(_reactionPickerKey.currentState?.isOpen ?? false)) {
+              _reactionPickerKey.currentState?.toggle();
+            }
+          });
+        }
       case MessageAction.pin:
       case MessageAction.bookmark:
       case MessageAction.markAsUnread:
@@ -133,7 +166,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     if (!context.mounted) {
       return;
     }
-    _handleAction(action);
+    _handleAction(action, isMobile: true);
   }
 
   Future<void> _showContextMenu(BuildContext context, Offset position) async {
@@ -167,7 +200,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     if (!context.mounted) {
       return;
     }
-    _handleAction(action);
+    _handleAction(action, isMobile: false);
   }
 
   @override
@@ -503,11 +536,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         children: [
           ExpressionPickerPopout(
             key: _reactionPickerKey,
+            closeOnEmojiSelect: true,
             visibleTabs: const [ExpressionPickerTab.emojis],
             onClose: () => setState(() {
               _isReactionPickerOpen = false;
               _isHovered = false;
             }),
+            onEmojiSelect: _addReactionFromPicker,
             child: _actionButton(
               context,
               PhosphorIconsFill.smiley,

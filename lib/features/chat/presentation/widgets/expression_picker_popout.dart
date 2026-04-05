@@ -9,6 +9,7 @@ class ExpressionPickerPopout extends StatefulWidget {
     required this.child,
     this.onClose,
     this.onEmojiSelect,
+    this.closeOnEmojiSelect = false,
     this.visibleTabs = const [
       ExpressionPickerTab.gifs,
       ExpressionPickerTab.memes,
@@ -22,6 +23,7 @@ class ExpressionPickerPopout extends StatefulWidget {
   final Widget child;
   final VoidCallback? onClose;
   final void Function(String name, String surrogates)? onEmojiSelect;
+  final bool closeOnEmojiSelect;
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
 
@@ -96,6 +98,13 @@ class ExpressionPickerPopoutState extends State<ExpressionPickerPopout>
     );
   }
 
+  void _handleEmojiSelect(String name, String surrogates) {
+    widget.onEmojiSelect?.call(name, surrogates);
+    if (widget.closeOnEmojiSelect) {
+      close();
+    }
+  }
+
   Widget _buildOverlay(BuildContext context) {
     final colors = context.colors;
     final layout = context.layout;
@@ -146,7 +155,7 @@ class ExpressionPickerPopoutState extends State<ExpressionPickerPopout>
                     borderRadius: layout.radiusXl,
                     child: ExpressionPicker(
                       onClose: close,
-                      onEmojiSelect: widget.onEmojiSelect,
+                      onEmojiSelect: _handleEmojiSelect,
                       visibleTabs: widget.visibleTabs,
                       initialTab: widget.initialTab,
                     ),
