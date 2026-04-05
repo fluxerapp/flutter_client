@@ -17,6 +17,9 @@ export 'package:fluxer_app/features/ui/character_counter/fluxer_character_counte
 export 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 export 'package:fluxer_app/features/ui/color_picker/fluxer_color_picker_field.dart';
 export 'package:fluxer_app/features/ui/focus_ring/fluxer_focus_ring.dart';
+export 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.dart';
+export 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
+export 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 export 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 export 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 export 'package:fluxer_app/features/ui/popout/fluxer_popout.dart';

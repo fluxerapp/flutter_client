@@ -15,8 +15,6 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embed_rich.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_theme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker_popout.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/forward_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/forwarded_message_content.dart';
@@ -92,24 +90,20 @@ class MessageItem extends ConsumerStatefulWidget {
 
 class _MessageItemState extends ConsumerState<MessageItem> {
   var _isHovered = false;
-  final _reactionPickerKey = GlobalKey<ExpressionPickerPopoutState>();
+  final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   var _isReactionPickerOpen = false;
 
-  void _addReactionFromPicker(String name, String surrogates) {
-    final customEmojiMatch = RegExp(
-      r'^<(a?):([^:>]+):(\d+)>$',
-    ).firstMatch(surrogates);
-
-    if (customEmojiMatch != null) {
+  void _addReactionFromPicker(FluxerSelectedEmoji emoji) {
+    if (emoji.isCustom) {
       widget.onReaction?.call(
-        name,
-        emojiId: customEmojiMatch.group(3),
-        animated: customEmojiMatch.group(1) == 'a',
+        emoji.name,
+        emojiId: emoji.emojiId,
+        animated: emoji.animated,
       );
       return;
     }
 
-    widget.onReaction?.call(surrogates);
+    widget.onReaction?.call(emoji.surrogates);
   }
 
   void _handleAction(MessageAction? action, {required bool isMobile}) {
@@ -128,9 +122,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       case MessageAction.addReaction:
         if (isMobile) {
           unawaited(
-            ExpressionPickerSheet.show(
+            FluxerEmojiPickerSheet.show(
               context,
-              onEmojiSelect: _addReactionFromPicker,
+              maxHeight: 0.88,
+              onEmojiSelected: _addReactionFromPicker,
               visibleTabs: const [ExpressionPickerTab.emojis],
             ),
           );
@@ -534,7 +529,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ExpressionPickerPopout(
+          FluxerEmojiPickerPopout(
             key: _reactionPickerKey,
             closeOnEmojiSelect: true,
             visibleTabs: const [ExpressionPickerTab.emojis],
@@ -542,7 +537,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               _isReactionPickerOpen = false;
               _isHovered = false;
             }),
-            onEmojiSelect: _addReactionFromPicker,
+            onEmojiSelected: _addReactionFromPicker,
             child: _actionButton(
               context,
               PhosphorIconsFill.smiley,

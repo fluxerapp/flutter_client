@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 
-class ExpressionPickerSheet {
-  ExpressionPickerSheet._();
+class FluxerEmojiPickerSheet {
+  FluxerEmojiPickerSheet._();
 
   static Future<void> show(
     BuildContext context, {
-    void Function(String name, String surrogates)? onEmojiSelect,
+    ValueChanged<FluxerSelectedEmoji>? onEmojiSelected,
+    String? title,
+    double? maxHeight,
     List<ExpressionPickerTab> visibleTabs = const [
       ExpressionPickerTab.gifs,
       ExpressionPickerTab.memes,
@@ -17,31 +20,16 @@ class ExpressionPickerSheet {
     ],
     ExpressionPickerTab initialTab = ExpressionPickerTab.emojis,
   }) {
-    final colors = context.colors;
-    final layout = context.layout;
-
-    return showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: colors.backgroundSecondary,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: layout.radiusXxl.topLeft),
-      ),
-      builder: (sheetContext) {
-        void close() => Navigator.of(sheetContext).pop();
-
-        return DraggableScrollableSheet(
-          initialChildSize: 0.7,
-          minChildSize: 0.4,
-          maxChildSize: 0.95,
-          expand: false,
-          builder: (context, scrollController) => _SheetContent(
-            visibleTabs: visibleTabs,
-            initialTab: initialTab,
-            onClose: close,
-            onEmojiSelect: onEmojiSelect,
-          ),
+    return FluxerBottomSheet.show<void>(
+      context,
+      title: title,
+      maxHeight: maxHeight,
+      builder: (context, close) {
+        return _SheetContent(
+          visibleTabs: visibleTabs,
+          initialTab: initialTab,
+          onClose: close,
+          onEmojiSelected: onEmojiSelected,
         );
       },
     );
@@ -53,13 +41,13 @@ class _SheetContent extends StatefulWidget {
     required this.visibleTabs,
     required this.initialTab,
     required this.onClose,
-    this.onEmojiSelect,
+    this.onEmojiSelected,
   });
 
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
   final VoidCallback onClose;
-  final void Function(String name, String surrogates)? onEmojiSelect;
+  final ValueChanged<FluxerSelectedEmoji>? onEmojiSelected;
 
   @override
   State<_SheetContent> createState() => _SheetContentState();
@@ -84,15 +72,15 @@ class _SheetContentState extends State<_SheetContent> {
   @override
   Widget build(BuildContext context) => Column(
     children: [
-      const SizedBox(height: 8),
-      const FluxerBottomSheetDragHandle(),
       if (widget.visibleTabs.length > 1) _buildSegmentedTabs(context),
       const SizedBox(height: 8),
       Expanded(
         child: ExpressionPicker(
           onClose: widget.onClose,
           onEmojiSelect: (name, surrogates) {
-            widget.onEmojiSelect?.call(name, surrogates);
+            widget.onEmojiSelected?.call(
+              FluxerSelectedEmoji.fromSelection(name, surrogates),
+            );
             widget.onClose();
           },
           visibleTabs: widget.visibleTabs,

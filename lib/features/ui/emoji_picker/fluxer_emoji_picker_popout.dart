@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker.dart';
+import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 
-class ExpressionPickerPopout extends StatefulWidget {
-  const ExpressionPickerPopout({
+class FluxerEmojiPickerPopout extends StatefulWidget {
+  const FluxerEmojiPickerPopout({
     required this.child,
     this.onClose,
-    this.onEmojiSelect,
+    this.onEmojiSelected,
     this.closeOnEmojiSelect = false,
     this.visibleTabs = const [
       ExpressionPickerTab.gifs,
@@ -22,16 +23,17 @@ class ExpressionPickerPopout extends StatefulWidget {
 
   final Widget child;
   final VoidCallback? onClose;
-  final void Function(String name, String surrogates)? onEmojiSelect;
+  final ValueChanged<FluxerSelectedEmoji>? onEmojiSelected;
   final bool closeOnEmojiSelect;
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
 
   @override
-  State<ExpressionPickerPopout> createState() => ExpressionPickerPopoutState();
+  State<FluxerEmojiPickerPopout> createState() =>
+      FluxerEmojiPickerPopoutState();
 }
 
-class ExpressionPickerPopoutState extends State<ExpressionPickerPopout>
+class FluxerEmojiPickerPopoutState extends State<FluxerEmojiPickerPopout>
     with SingleTickerProviderStateMixin {
   static const _kWidth = 498.0;
   static const _kHeight = 498.0;
@@ -99,7 +101,9 @@ class ExpressionPickerPopoutState extends State<ExpressionPickerPopout>
   }
 
   void _handleEmojiSelect(String name, String surrogates) {
-    widget.onEmojiSelect?.call(name, surrogates);
+    widget.onEmojiSelected?.call(
+      FluxerSelectedEmoji.fromSelection(name, surrogates),
+    );
     if (widget.closeOnEmojiSelect) {
       close();
     }

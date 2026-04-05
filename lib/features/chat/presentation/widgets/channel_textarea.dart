@@ -9,7 +9,6 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/emoji_search_bar.dart'
     show kSkinToneSurrogates, skinToneToName;
-import 'package:fluxer_app/features/chat/presentation/widgets/expression_picker_popout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/reply_preview.dart';
 import 'package:fluxer_app/features/chat/providers/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/expression_panel_provider.dart';
@@ -30,7 +29,7 @@ class ChannelTextarea extends ConsumerStatefulWidget {
 class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
-  final _expressionPickerKey = GlobalKey<ExpressionPickerPopoutState>();
+  final _expressionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
 
   bool get _isDesktop =>
       !kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows);
@@ -269,9 +268,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
           ),
-          ExpressionPickerPopout(
+          FluxerEmojiPickerPopout(
             key: _expressionPickerKey,
-            onEmojiSelect: _insertEmoji,
+            onEmojiSelected: (emoji) =>
+                _insertEmoji(emoji.name, emoji.surrogates),
             child: IconButton(
               icon: const PhosphorIcon(PhosphorIconsFill.smiley, size: 24),
               color: context.colors.interactiveNormal,

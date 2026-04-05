@@ -44,6 +44,7 @@ class FluxerBottomSheet {
     FluxerBottomSheetVariant variant = FluxerBottomSheetVariant.content,
     ValueNotifier<bool>? canDismissNotifier,
     bool enableDrag = true,
+    double? maxHeight,
   }) {
     final colors = context.colors;
     final layout = context.layout;
@@ -79,7 +80,11 @@ class FluxerBottomSheet {
           padding: EdgeInsets.only(bottom: bottomInset),
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: mediaQuery.size.height - topPadding - layout.s4,
+              maxHeight:
+                  maxHeight != null
+                      ? (mediaQuery.size.height - topPadding - layout.s4) *
+                            maxHeight
+                      : mediaQuery.size.height - topPadding - layout.s4,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -143,6 +148,7 @@ class FluxerBottomSheet {
     double minChildSize = 0.4,
     double maxChildSize = 0.95,
     ValueNotifier<bool>? canDismissNotifier,
+    double? maxHeight,
   }) {
     final colors = context.colors;
     final layout = context.layout;
@@ -202,13 +208,25 @@ class FluxerBottomSheet {
           );
         }
 
-        final sheet = DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: initialChildSize,
-          minChildSize: minChildSize,
-          maxChildSize: maxChildSize,
-          builder: (_, scrollController) =>
-              buildContent(scrollController),
+        final sheet = ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight:
+                maxHeight != null
+                    ? (mediaQuery.size.height -
+                            mediaQuery.viewPadding.top -
+                            layout.s4) *
+                        maxHeight
+                    : mediaQuery.size.height -
+                        mediaQuery.viewPadding.top -
+                        layout.s4,
+          ),
+          child: DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: initialChildSize,
+            minChildSize: minChildSize,
+            maxChildSize: maxChildSize,
+            builder: (_, scrollController) => buildContent(scrollController),
+          ),
         );
 
         if (canDismissNotifier == null) {
