@@ -19,12 +19,18 @@ class EmbedTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final baseStyle = context.textStyles.embedTitle;
+
     if (url == null) {
-      return Text(title, style: context.textStyles.embedTitle);
+      return Text(
+        title,
+        style: baseStyle.copyWith(color: context.colors.textPrimary),
+      );
     }
+
     return GestureDetector(
       onTap: () => _launch(context),
-      child: Text(title, style: context.textStyles.embedTitle),
+      child: Text(title, style: baseStyle),
     );
   }
 }
