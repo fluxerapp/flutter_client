@@ -1,16 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_alert.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_mention.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 final _internalLinkPattern = RegExp(
   r'https?://fluxer\.app/channels/'
@@ -72,11 +70,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
         return;
       }
 
-      final uri = Uri.tryParse(href);
-      if (uri == null) {
-        return;
-      }
-      unawaited(launchUrl(uri, mode: LaunchMode.externalApplication));
+      await handleExternalLinkTap(context, href);
     },
     alertBuilder: (context, type, body, baseStyle) {
       return MessageAlert(

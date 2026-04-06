@@ -1497,6 +1497,120 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 community} other{{count} communities}}'**
   String emojiPlutoniumUpsellCommunity(int count);
+
+  /// Title of the external link warning modal.
+  ///
+  /// In en, this message translates to:
+  /// **'External Link Warning'**
+  String get externalLinkWarningTitle;
+
+  /// Primary warning text shown in the external link warning modal.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to leave Fluxer'**
+  String get externalLinkWarningLeaving;
+
+  /// Supporting text shown in the external link warning modal.
+  ///
+  /// In en, this message translates to:
+  /// **'External links can be dangerous. Please be careful.'**
+  String get externalLinkWarningDescription;
+
+  /// Label above the destination URL in the external link warning modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination URL:'**
+  String get externalLinkWarningDestinationUrl;
+
+  /// Heading for the external links settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'External Links'**
+  String get externalLinksSectionTitle;
+
+  /// Description for the external links settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure how external link warnings are handled.'**
+  String get externalLinksSectionDescription;
+
+  /// Prefix before the hostname in the trust-domain checkbox label.
+  ///
+  /// In en, this message translates to:
+  /// **'Always trust '**
+  String get externalLinkWarningTrustPrefix;
+
+  /// Suffix after the hostname in the trust-domain checkbox label.
+  ///
+  /// In en, this message translates to:
+  /// **' — skip this warning next time'**
+  String get externalLinkWarningTrustSuffix;
+
+  /// Primary action to continue to an external site.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit Site'**
+  String get externalLinkVisitSite;
+
+  /// Label for the setting that trusts all external links.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust all external links'**
+  String get externalLinkTrustAllLabel;
+
+  /// Title of the confirmation modal for trusting all external links.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust all external links?'**
+  String get externalLinkTrustAllConfirmTitle;
+
+  /// Description of the confirmation modal for trusting all external links.
+  ///
+  /// In en, this message translates to:
+  /// **'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.'**
+  String get externalLinkTrustAllConfirmDescription;
+
+  /// Confirm action for trusting all external links.
+  ///
+  /// In en, this message translates to:
+  /// **'Trust All'**
+  String get externalLinkTrustAllConfirmAction;
+
+  /// Title of the confirmation modal for disabling trust-all external links.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop trusting all links?'**
+  String get externalLinkStopTrustingAllTitle;
+
+  /// Description of the confirmation modal for disabling trust-all external links.
+  ///
+  /// In en, this message translates to:
+  /// **'External link warnings will be shown again. You will need to add trusted domains individually.'**
+  String get externalLinkStopTrustingAllDescription;
+
+  /// Confirm action for disabling trust-all external links.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Trust All'**
+  String get externalLinkStopTrustingAllAction;
+
+  /// Description shown when trust-all external links is enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'All external links are trusted. Warnings will not be shown.'**
+  String get externalLinkTrustedAllDescription;
+
+  /// Description shown when one or more trusted domains have been added.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} trusted domain(s). Add more by checking the box when visiting external links.'**
+  String externalLinkTrustedDomainsDescription(int count);
+
+  /// Description shown when trust-all external links is disabled and no trusted domains exist.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, no external link warnings will be shown. This is less secure.'**
+  String get externalLinkTrustAllDisabledDescription;
 }
 
 class _FluxerLocalizationsDelegate

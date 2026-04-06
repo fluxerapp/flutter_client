@@ -787,4 +787,69 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get externalLinkWarningTitle => 'External Link Warning';
+
+  @override
+  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+
+  @override
+  String get externalLinkWarningDescription =>
+      'External links can be dangerous. Please be careful.';
+
+  @override
+  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+
+  @override
+  String get externalLinksSectionTitle => 'External Links';
+
+  @override
+  String get externalLinksSectionDescription =>
+      'Configure how external link warnings are handled.';
+
+  @override
+  String get externalLinkWarningTrustPrefix => 'Always trust ';
+
+  @override
+  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+
+  @override
+  String get externalLinkVisitSite => 'Visit Site';
+
+  @override
+  String get externalLinkTrustAllLabel => 'Trust all external links';
+
+  @override
+  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+
+  @override
+  String get externalLinkTrustAllConfirmDescription =>
+      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+
+  @override
+  String get externalLinkTrustAllConfirmAction => 'Trust All';
+
+  @override
+  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+
+  @override
+  String get externalLinkStopTrustingAllDescription =>
+      'External link warnings will be shown again. You will need to add trusted domains individually.';
+
+  @override
+  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+
+  @override
+  String get externalLinkTrustedAllDescription =>
+      'All external links are trusted. Warnings will not be shown.';
+
+  @override
+  String externalLinkTrustedDomainsDescription(int count) {
+    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+  }
+
+  @override
+  String get externalLinkTrustAllDisabledDescription =>
+      'When enabled, no external link warnings will be shown. This is less secure.';
 }

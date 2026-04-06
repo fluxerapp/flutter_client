@@ -6,9 +6,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embed_shared.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
-import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 /// A video embed
@@ -170,14 +170,10 @@ class _VideoPlayerState extends State<_VideoPlayer> {
 
   Future<void> _openInBrowser() async {
     final url = widget.embed.url ?? widget.embed.video?.url;
-    if (url == null) {
+    if (url == null || !mounted) {
       return;
     }
-    final uri = Uri.tryParse(url);
-    if (uri == null) {
-      return;
-    }
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
+    await handleExternalLinkTap(context, url);
   }
 
   @override

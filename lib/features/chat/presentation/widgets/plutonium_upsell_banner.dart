@@ -9,9 +9,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'plutonium_upsell_banner.g.dart';
 
@@ -161,10 +161,7 @@ class _GetPlutoniumButton extends StatelessWidget {
   Widget build(BuildContext context) => GestureDetector(
     onTap: () async {
       // TODO: open window in app (stripe)
-      final uri = Uri.parse(_kPlutoniumUrl);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      }
+      await handleExternalLinkTap(context, _kPlutoniumUrl);
     },
     child: DecoratedBox(
       decoration: BoxDecoration(

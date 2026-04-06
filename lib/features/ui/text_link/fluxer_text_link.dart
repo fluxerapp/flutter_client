@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 
 class FluxerTextLink extends StatelessWidget {
   const FluxerTextLink({
@@ -24,13 +24,13 @@ class FluxerTextLink extends StatelessWidget {
   final Color? color;
   final bool selectable;
 
-  void _handleTap() {
+  void _handleTap(BuildContext context) {
     if (onTap != null) {
       onTap!();
       return;
     }
     if (url != null) {
-      unawaited(launchUrlString(url!, mode: LaunchMode.externalApplication));
+      unawaited(handleExternalLinkTap(context, url!));
     }
   }
 
@@ -45,7 +45,7 @@ class FluxerTextLink extends StatelessWidget {
       link: true,
       linkUrl: url != null ? Uri.tryParse(url!) : null,
       child: FluxerTappable(
-        onTap: _handleTap,
+        onTap: () => _handleTap(context),
         builder: (context, states) {
           final isHovered = states.contains(WidgetState.hovered);
           final linkStyle = baseStyle.copyWith(

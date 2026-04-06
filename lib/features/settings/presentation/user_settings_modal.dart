@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provid
 import 'package:fluxer_app/features/members/providers/member_list_view_model.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_appearance.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_messages_media.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -62,6 +63,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
     await FluxerBottomSheet.showScrollable<void>(
       context,
       title: 'Settings',
+      leading: const SizedBox.shrink(),
       useRootNavigator: true,
       builder: (sheetContext, scrollController, close) =>
           _MobileSettingsNavBody(
@@ -248,6 +250,8 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
           onToggleCompact: () =>
               ref.read(userSettingsViewModelProvider.notifier).toggleCompact(),
         );
+      case 'Messages & Media':
+        return const UserMessagesMedia();
       default:
         return Center(
           child: Text(
@@ -576,6 +580,8 @@ class _MobileSettingsContentBody extends ConsumerWidget {
           onToggleCompact: () =>
               ref.read(userSettingsViewModelProvider.notifier).toggleCompact(),
         );
+      case 'Messages & Media':
+        return const UserMessagesMedia();
       default:
         return Center(
           child: Text(

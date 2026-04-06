@@ -7,6 +7,8 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart'
     show fluxerMediaCdn;
+import 'package:fluxer_app/shared/external_links/external_link_utils.dart'
+    as external_link_utils;
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,6 +33,7 @@ class UserSettingsViewState {
   final String status;
   final bool messageDisplayCompact;
   final bool developerMode;
+  final List<String> trustedDomains;
 
   final String? bio;
   final String? pronouns;
@@ -79,6 +82,7 @@ class UserSettingsViewState {
     required this.status,
     required this.messageDisplayCompact,
     required this.developerMode,
+    required this.trustedDomains,
     this.bio,
     this.pronouns,
     this.accentColor,
@@ -168,6 +172,12 @@ class UserSettingsViewState {
       premiumType == UserPremiumTypes.lifetime.json;
 
   bool get hasVerifiedEmail => email != null;
+
+  bool get trustAllDomains =>
+      external_link_utils.trustAllDomains(trustedDomains);
+
+  int get trustedDomainsCount =>
+      trustAllDomains ? 0 : trustedDomains.length;
 
   bool get isOutOfBandTrialActive =>
       premiumOutOfBandTrialEndsAt != null &&
@@ -259,6 +269,7 @@ class UserSettingsViewState {
     String? status,
     bool? messageDisplayCompact,
     bool? developerMode,
+    List<String>? trustedDomains,
     Object? bio = _unset,
     Object? pronouns = _unset,
     Object? accentColor = _unset,
@@ -307,6 +318,7 @@ class UserSettingsViewState {
       messageDisplayCompact:
           messageDisplayCompact ?? this.messageDisplayCompact,
       developerMode: developerMode ?? this.developerMode,
+      trustedDomains: trustedDomains ?? this.trustedDomains,
       bio: bio == _unset ? this.bio : bio as String?,
       pronouns: pronouns == _unset ? this.pronouns : pronouns as String?,
       accentColor: accentColor == _unset
@@ -417,6 +429,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       status: 'offline',
       messageDisplayCompact: false,
       developerMode: false,
+      trustedDomains: const [],
     );
   }
 
@@ -445,7 +458,13 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       }
       final data = jsonDecode(row.data) as Map<String, dynamic>;
       final developerMode = data['developer_mode'] as bool? ?? false;
-      state = state.copyWith(developerMode: developerMode);
+      final trustedDomains = (data['trusted_domains'] as List<dynamic>? ?? const [])
+          .whereType<String>()
+          .toList(growable: false);
+      state = state.copyWith(
+        developerMode: developerMode,
+        trustedDomains: trustedDomains,
+      );
     });
     ref.onDispose(subscription.cancel);
   }
@@ -638,5 +657,38 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   void toggleCompact() {
     state = state.copyWith(messageDisplayCompact: !state.messageDisplayCompact);
+  }
+
+  bool isTrustedDomain(String hostname) {
+    return external_link_utils.isTrustedDomain(
+      hostname,
+      trustedDomains: state.trustedDomains,
+      currentHostname: Uri.base.host,
+    );
+  }
+
+  Future<void> addTrustedDomain(String domain) async {
+    if (state.trustAllDomains || domain.isEmpty) {
+      return;
+    }
+
+    final current = [...state.trustedDomains];
+    if (current.contains(domain)) {
+      return;
+    }
+
+    await _updateTrustedDomains([...current, domain]);
+  }
+
+  Future<void> setTrustAllDomains(bool trustAll) async {
+    await _updateTrustedDomains(trustAll ? const ['*'] : const []);
+  }
+
+  Future<void> _updateTrustedDomains(List<String> trustedDomains) async {
+    final client = ref.read(fluxerClientProvider);
+    await client.users.updateCurrentUserSettings(
+      body: UserSettingsUpdateRequest(trustedDomains: trustedDomains),
+    );
+    state = state.copyWith(trustedDomains: trustedDomains);
   }
 }

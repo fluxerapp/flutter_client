@@ -1008,5 +1008,86 @@
     "placeholders": {
       "count": { "type": "int" }
     }
+  },
+  "externalLinkWarningTitle": "External Link Warning",
+  "@externalLinkWarningTitle": {
+    "description": "Title of the external link warning modal."
+  },
+  "externalLinkWarningLeaving": "You are about to leave Fluxer",
+  "@externalLinkWarningLeaving": {
+    "description": "Primary warning text shown in the external link warning modal."
+  },
+  "externalLinkWarningDescription": "External links can be dangerous. Please be careful.",
+  "@externalLinkWarningDescription": {
+    "description": "Supporting text shown in the external link warning modal."
+  },
+  "externalLinkWarningDestinationUrl": "Destination URL:",
+  "@externalLinkWarningDestinationUrl": {
+    "description": "Label above the destination URL in the external link warning modal."
+  },
+  "externalLinksSectionTitle": "External Links",
+  "@externalLinksSectionTitle": {
+    "description": "Heading for the external links settings section."
+  },
+  "externalLinksSectionDescription": "Configure how external link warnings are handled.",
+  "@externalLinksSectionDescription": {
+    "description": "Description for the external links settings section."
+  },
+  "externalLinkWarningTrustPrefix": "Always trust ",
+  "@externalLinkWarningTrustPrefix": {
+    "description": "Prefix before the hostname in the trust-domain checkbox label."
+  },
+  "externalLinkWarningTrustSuffix": " — skip this warning next time",
+  "@externalLinkWarningTrustSuffix": {
+    "description": "Suffix after the hostname in the trust-domain checkbox label."
+  },
+  "externalLinkVisitSite": "Visit Site",
+  "@externalLinkVisitSite": {
+    "description": "Primary action to continue to an external site."
+  },
+  "externalLinkTrustAllLabel": "Trust all external links",
+  "@externalLinkTrustAllLabel": {
+    "description": "Label for the setting that trusts all external links."
+  },
+  "externalLinkTrustAllConfirmTitle": "Trust all external links?",
+  "@externalLinkTrustAllConfirmTitle": {
+    "description": "Title of the confirmation modal for trusting all external links."
+  },
+  "externalLinkTrustAllConfirmDescription": "This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.",
+  "@externalLinkTrustAllConfirmDescription": {
+    "description": "Description of the confirmation modal for trusting all external links."
+  },
+  "externalLinkTrustAllConfirmAction": "Trust All",
+  "@externalLinkTrustAllConfirmAction": {
+    "description": "Confirm action for trusting all external links."
+  },
+  "externalLinkStopTrustingAllTitle": "Stop trusting all links?",
+  "@externalLinkStopTrustingAllTitle": {
+    "description": "Title of the confirmation modal for disabling trust-all external links."
+  },
+  "externalLinkStopTrustingAllDescription": "External link warnings will be shown again. You will need to add trusted domains individually.",
+  "@externalLinkStopTrustingAllDescription": {
+    "description": "Description of the confirmation modal for disabling trust-all external links."
+  },
+  "externalLinkStopTrustingAllAction": "Disable Trust All",
+  "@externalLinkStopTrustingAllAction": {
+    "description": "Confirm action for disabling trust-all external links."
+  },
+  "externalLinkTrustedAllDescription": "All external links are trusted. Warnings will not be shown.",
+  "@externalLinkTrustedAllDescription": {
+    "description": "Description shown when trust-all external links is enabled."
+  },
+  "externalLinkTrustedDomainsDescription": "You have {count} trusted domain(s). Add more by checking the box when visiting external links.",
+  "@externalLinkTrustedDomainsDescription": {
+    "description": "Description shown when one or more trusted domains have been added.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "externalLinkTrustAllDisabledDescription": "When enabled, no external link warnings will be shown. This is less secure.",
+  "@externalLinkTrustAllDisabledDescription": {
+    "description": "Description shown when trust-all external links is disabled and no trusted domains exist."
   }
 }
