@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/picker_search_input.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const List<String> kSkinToneSurrogates = [
   '\u{1F3FB}', // light
@@ -40,73 +41,19 @@ class EmojiSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.colors;
+    final hintText = hoveredEmojiName != null
+        ? ':$hoveredEmojiName:'
+        : FluxerLocalizations.of(context).emojiSearchPlaceholder;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        horizontalPadding,
-        12,
-        horizontalPadding,
-        12,
-      ),
+      padding: EdgeInsets.only(right: horizontalPadding),
       child: Row(
         children: [
           Expanded(
-            child: ValueListenableBuilder<TextEditingValue>(
-              valueListenable: controller,
-              builder: (context, value, _) => TextField(
-                controller: controller,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: colors.textTertiary,
-                ),
-                decoration: InputDecoration(
-                  hintText: hoveredEmojiName != null
-                      ? ':$hoveredEmojiName:'
-                      : FluxerLocalizations.of(context).emojiSearchPlaceholder,
-                  hintStyle: TextStyle(
-                    color: colors.textPrimaryMuted,
-                    fontSize: 16,
-                  ),
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 9),
-                    child: Icon(
-                      PhosphorIconsRegular.magnifyingGlass,
-                      size: 18,
-                      color: colors.textTertiaryMuted,
-                    ),
-                  ),
-                  prefixIconConstraints: const BoxConstraints(
-                    minWidth: 36,
-                    minHeight: 36,
-                  ),
-                  suffixIcon: value.text.isNotEmpty
-                      ? GestureDetector(
-                          onTap: controller.clear,
-                          child: Icon(
-                            PhosphorIconsBold.x,
-                            size: 18,
-                            color: colors.textPrimaryMuted,
-                          ),
-                        )
-                      : null,
-                  suffixIconConstraints: const BoxConstraints(
-                    minWidth: 32,
-                    minHeight: 32,
-                  ),
-                  filled: true,
-                  fillColor: colors.backgroundPrimary,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 8,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6),
-                    borderSide: BorderSide.none,
-                  ),
-                  isDense: false,
-                ),
-              ),
+            child: PickerSearchInput(
+              controller: controller,
+              hintText: hintText,
+              horizontalPadding: horizontalPadding,
             ),
           ),
           const SizedBox(width: 8),
