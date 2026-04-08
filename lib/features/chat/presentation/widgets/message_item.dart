@@ -421,6 +421,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     maxLines: 1,
                   ),
                 ),
+                if (msg.authorIsBot) ...[
+                  const SizedBox(width: 6),
+                  const FluxerBotBadge(),
+                ],
 
                 const SizedBox(width: 8),
                 Text(

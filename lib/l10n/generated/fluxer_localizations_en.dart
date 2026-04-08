@@ -705,7 +705,7 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
 
   @override
-  String get userTagBot => 'Bot';
+  String get userTagBot => 'BOT';
 
   @override
   String get userTagSystem => 'System';

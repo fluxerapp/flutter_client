@@ -7,6 +7,7 @@ export 'package:fluxer_app/features/ui/alt_text_tooltip/fluxer_alt_text_tooltip.
 export 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 export 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
 export 'package:fluxer_app/features/ui/badge/fluxer_badge.dart';
+export 'package:fluxer_app/features/ui/badge/fluxer_bot_badge.dart';
 export 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 // Buttons
 export 'package:fluxer_app/features/ui/button/fluxer_button.dart';

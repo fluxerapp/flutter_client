@@ -123,6 +123,7 @@ class MessageRepository {
                 '',
             authorAvatar: author['avatar'] as String?,
             authorAvatarColor: author['avatar_color'] as int?,
+            authorIsBot: (author['bot'] as bool?) ?? false,
             content: (map['content'] as String?) ?? '',
             timestamp: DateTime.parse(map['timestamp'] as String),
             editedTimestamp: map['edited_timestamp'] != null

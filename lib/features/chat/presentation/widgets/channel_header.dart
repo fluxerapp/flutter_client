@@ -100,6 +100,10 @@ class ChannelHeader extends ConsumerWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              if (dm != null && !dm.isGroup && dm.isBot) ...[
+                const SizedBox(width: 6),
+                const FluxerBotBadge(),
+              ],
               const SizedBox(width: 4),
               PhosphorIcon(
                 PhosphorIconsBold.caretRight,
@@ -167,6 +171,10 @@ class ChannelHeader extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
+          if (dm != null && !dm.isGroup && dm.isBot) ...[
+            const SizedBox(width: 6),
+            const FluxerBotBadge(),
+          ],
           const SizedBox(width: 8),
           const Spacer(),
           _topBarIcon(context, PhosphorIconsFill.bell, 'Notification Settings'),

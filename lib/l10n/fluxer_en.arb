@@ -911,7 +911,7 @@
   "@dmIgnoreFriendRequestFailed": {
     "description": "Toast message when ignoring a friend request fails."
   },
-  "userTagBot": "Bot",
+  "userTagBot": "BOT",
   "@userTagBot": {
     "description": "Tag label shown next to bot user names."
   },

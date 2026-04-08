@@ -485,6 +485,7 @@ class Message {
   final String authorName;
   final String? authorAvatar;
   final int? authorAvatarColor;
+  final bool authorIsBot;
   final String content;
   final DateTime timestamp;
   final DateTime? editedTimestamp;
@@ -508,6 +509,7 @@ class Message {
     required this.timestamp,
     this.authorAvatar,
     this.authorAvatarColor,
+    this.authorIsBot = false,
     this.editedTimestamp,
     this.embeds = const [],
     this.attachments = const [],
@@ -536,6 +538,7 @@ class Message {
       authorName: sdk.author.globalName ?? sdk.author.username,
       authorAvatar: sdk.author.avatar,
       authorAvatarColor: sdk.author.avatarColor,
+      authorIsBot: sdk.author.bot ?? false,
       content: sdk.content,
       timestamp: sdk.timestamp,
       editedTimestamp: sdk.editedTimestamp,
@@ -564,6 +567,7 @@ class Message {
       authorName: row.authorName.isNotEmpty ? row.authorName : row.authorId,
       authorAvatar: row.authorAvatar,
       authorAvatarColor: row.authorAvatarColor,
+      authorIsBot: false,
       content: row.content,
       timestamp: row.timestamp,
       editedTimestamp: row.editedTimestamp,

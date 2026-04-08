@@ -1369,7 +1369,7 @@ abstract class FluxerLocalizations {
   /// Tag label shown next to bot user names.
   ///
   /// In en, this message translates to:
-  /// **'Bot'**
+  /// **'BOT'**
   String get userTagBot;
 
   /// Tag label shown next to system user names.

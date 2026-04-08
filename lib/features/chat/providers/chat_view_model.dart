@@ -291,6 +291,7 @@ class ChatViewModel extends _$ChatViewModel {
       authorName: msg.authorName,
       authorAvatar: msg.authorAvatar,
       authorAvatarColor: msg.authorAvatarColor,
+      authorIsBot: msg.authorIsBot,
       content: msg.content,
       timestamp: msg.timestamp,
       editedTimestamp: msg.editedTimestamp,

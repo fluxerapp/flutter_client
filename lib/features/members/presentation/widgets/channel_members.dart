@@ -149,7 +149,7 @@ class _MemberListItemState extends State<_MemberListItem> {
                             ),
                             if (member.isBot) ...[
                               SizedBox(width: layout.s1),
-                              _buildBotBadge(context),
+                              const FluxerBotBadge(),
                             ],
                           ],
                         ),
@@ -174,20 +174,4 @@ class _MemberListItemState extends State<_MemberListItem> {
       ),
     );
   }
-
-  Widget _buildBotBadge(BuildContext context) => Container(
-    padding: EdgeInsets.symmetric(horizontal: context.layout.s1, vertical: 1),
-    decoration: BoxDecoration(
-      color: context.colors.brandPrimary,
-      borderRadius: BorderRadius.circular(3),
-    ),
-    child: Text(
-      'BOT',
-      style: TextStyle(
-        color: context.colors.textPrimary,
-        fontSize: 9,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
-  );
 }
