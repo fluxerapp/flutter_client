@@ -213,9 +213,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             maxLines: 5,
             decoration: InputDecoration(
               hintText: _resolveHintText(),
+              hintMaxLines: 1,
               hintStyle: TextStyle(
                 color: context.colors.textTertiaryMuted,
                 fontSize: 16,
+                overflow: TextOverflow.ellipsis,
               ),
               filled: true,
               fillColor: context.colors.backgroundTertiary,
@@ -318,9 +320,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             maxLines: 6,
             decoration: InputDecoration(
               hintText: _resolveHintText(),
+              hintMaxLines: 1,
               hintStyle: TextStyle(
                 color: context.colors.textTertiaryMuted,
                 fontSize: 16,
+                overflow: TextOverflow.ellipsis,
               ),
               filled: true,
               fillColor: context.colors.backgroundTertiary,

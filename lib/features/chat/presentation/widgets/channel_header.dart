@@ -160,10 +160,14 @@ class ChannelHeader extends ConsumerWidget {
         children: [
           _buildLeadingIcon(context, channel: channel, dm: dm),
           const SizedBox(width: 8),
-          Text(
-            _resolveTitle(channel: channel, dm: dm),
-            style: context.textStyles.channelName,
+          Flexible(
+            child: Text(
+              _resolveTitle(channel: channel, dm: dm),
+              style: context.textStyles.channelName,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
+          const SizedBox(width: 8),
           const Spacer(),
           _topBarIcon(context, PhosphorIconsFill.bell, 'Notification Settings'),
           _topBarIcon(context, PhosphorIconsFill.pushPin, 'Pinned Messages'),
