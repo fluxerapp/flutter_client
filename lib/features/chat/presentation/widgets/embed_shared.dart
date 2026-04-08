@@ -2,7 +2,29 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_markdown.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
+
+class EmbedInlineText extends StatelessWidget {
+  const EmbedInlineText({
+    required this.text,
+    required this.style,
+    super.key,
+  });
+
+  final String text;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    return MessageMarkdown(
+      data: text,
+      baseStyle: style,
+      markdownContext: FluxerMarkdownContext.restrictedInlineReply,
+    );
+  }
+}
 
 class EmbedTitle extends StatelessWidget {
   final String title;
@@ -22,15 +44,15 @@ class EmbedTitle extends StatelessWidget {
     final baseStyle = context.textStyles.embedTitle;
 
     if (url == null) {
-      return Text(
-        title,
+      return EmbedInlineText(
+        text: title,
         style: baseStyle.copyWith(color: context.colors.textPrimary),
       );
     }
 
     return GestureDetector(
       onTap: () => _launch(context),
-      child: Text(title, style: baseStyle),
+      child: EmbedInlineText(text: title, style: baseStyle),
     );
   }
 }
@@ -57,14 +79,13 @@ class EmbedAuthorRow extends StatelessWidget {
         const SizedBox(width: 6),
       ],
       Flexible(
-        child: Text(
-          author.name,
+        child: EmbedInlineText(
+          text: author.name,
           style: TextStyle(
             color: context.colors.textPrimary,
             fontSize: 13,
             fontWeight: FontWeight.w600,
           ),
-          overflow: TextOverflow.ellipsis,
         ),
       ),
     ],
@@ -112,10 +133,9 @@ class EmbedFooterRow extends StatelessWidget {
           const SizedBox(width: 6),
         ],
         Flexible(
-          child: Text(
-            ts != null ? '${footer.text} • $ts' : footer.text,
+          child: EmbedInlineText(
+            text: ts != null ? '${footer.text} • $ts' : footer.text,
             style: context.textStyles.embedFooter,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

@@ -44,8 +44,8 @@ class EmbedVideo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (embed.providerName != null)
-                    Text(
-                      embed.providerName!,
+                    EmbedInlineText(
+                      text: embed.providerName!,
                       style: context.textStyles.embedFooter.copyWith(
                         fontSize: 12,
                       ),

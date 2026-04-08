@@ -23,6 +23,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     resolveEmojiShortcode: EmojiRegistry.resolveSync,
     unicodeEmojiUrlBuilder: getTwemojiUrl,
     customEmojiUrlBuilder: getCustomEmojiUrl,
+    unicodeEmojiPattern: EmojiRegistry.unicodeEmojiRegexSync,
     linkColor: context?.colors.textLink,
     blockquoteBorderColor: context?.colors.bgBlockquote,
     blockquoteTextColor: context?.colors.textSecondary,

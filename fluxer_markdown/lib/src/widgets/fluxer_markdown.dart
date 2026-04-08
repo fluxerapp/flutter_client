@@ -113,6 +113,8 @@ class FluxerMarkdown extends StatelessWidget {
         FluxerUnicodeEmojiToneSyntax(config.resolveEmojiShortcode),
         FluxerUnicodeEmojiSyntax(config.resolveEmojiShortcode),
         FluxerCustomEmojiSyntax(),
+        if (config.unicodeEmojiPattern != null)
+          FluxerRawUnicodeEmojiSyntax(config.unicodeEmojiPattern!),
         if (features.allowAutolinks) md.AutolinkExtensionSyntax(),
       ],
     );

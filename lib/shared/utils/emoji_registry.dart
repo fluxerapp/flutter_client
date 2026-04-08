@@ -43,6 +43,7 @@ class EmojiRegistry {
   static Map<String, String>? _nameToSurrogate;
   static Map<String, List<EmojiEntry>>? _categories;
   static List<EmojiEntry>? _allEmojis;
+  static RegExp? _unicodeEmojiRegex;
 
   static Future<String?> resolve(String name) async {
     _nameToSurrogate ??= await _loadNameMap();
@@ -50,13 +51,14 @@ class EmojiRegistry {
   }
 
   static String? resolveSync(String name) => _nameToSurrogate?[name];
+  static RegExp? get unicodeEmojiRegexSync => _unicodeEmojiRegex;
 
   static Map<String, List<EmojiEntry>> get categories => _categories ?? {};
 
   static List<EmojiEntry> get allEmojis => _allEmojis ?? [];
 
   static Future<void> preload() async {
-    if (_categories != null) {
+    if (_categories != null && _unicodeEmojiRegex != null) {
       return;
     }
     final raw = await rootBundle.loadString(_kAssetPath);
@@ -68,6 +70,7 @@ class EmojiRegistry {
     final nameMap = <String, String>{};
     final cats = <String, List<EmojiEntry>>{};
     final all = <EmojiEntry>[];
+    final unicodeSurrogates = <String>{};
     var spriteIndex = 0;
     var diversityIndex = 0;
 
@@ -84,6 +87,7 @@ class EmojiRegistry {
         if (surrogates.isEmpty) {
           continue;
         }
+        unicodeSurrogates.add(surrogates);
 
         final names = (obj['names'] as List<dynamic>).cast<String>();
         final hasDiversity = obj.containsKey('skins');
@@ -104,6 +108,18 @@ class EmojiRegistry {
         for (final name in names) {
           nameMap[name] = surrogates;
         }
+
+        final skins = obj['skins'] as List<dynamic>?;
+        if (skins != null) {
+          for (final skin in skins) {
+            final skinObj = skin as Map<String, dynamic>;
+            final skinSurrogates = skinObj['surrogates'] as String? ?? '';
+            if (skinSurrogates.isEmpty) {
+              continue;
+            }
+            unicodeSurrogates.add(skinSurrogates);
+          }
+        }
       }
       cats[category] = list;
     }
@@ -111,11 +127,26 @@ class EmojiRegistry {
     _nameToSurrogate = nameMap;
     _categories = cats;
     _allEmojis = all;
+    _unicodeEmojiRegex = _buildUnicodeEmojiRegex(unicodeSurrogates);
   }
 
   static Future<Map<String, String>> _loadNameMap() async {
     await preload();
     return _nameToSurrogate!;
+  }
+
+  static RegExp? _buildUnicodeEmojiRegex(Set<String> surrogates) {
+    if (surrogates.isEmpty) {
+      return null;
+    }
+
+    final ordered = surrogates.toList()
+      ..sort((a, b) => b.length.compareTo(a.length));
+    final pattern = ordered.map(RegExp.escape).join('|');
+    if (pattern.isEmpty) {
+      return null;
+    }
+    return RegExp(pattern);
   }
 
   static List<EmojiEntry> search(String query) {

@@ -34,8 +34,8 @@ class EmbedLink extends StatelessWidget {
             if (embed.providerName != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 4),
-                child: Text(
-                  embed.providerName!,
+                child: EmbedInlineText(
+                  text: embed.providerName!,
                   style: context.textStyles.embedFooter.copyWith(fontSize: 12),
                 ),
               ),

@@ -42,6 +42,7 @@ class FluxerMarkdownConfig {
     required this.resolveEmojiShortcode,
     required this.unicodeEmojiUrlBuilder,
     required this.customEmojiUrlBuilder,
+    this.unicodeEmojiPattern,
     this.linkColor,
     this.blockquoteBorderColor,
     this.blockquoteTextColor,
@@ -60,6 +61,7 @@ class FluxerMarkdownConfig {
   final FluxerShortcodeResolver resolveEmojiShortcode;
   final FluxerUnicodeEmojiUrlBuilder unicodeEmojiUrlBuilder;
   final FluxerCustomEmojiUrlBuilder customEmojiUrlBuilder;
+  final RegExp? unicodeEmojiPattern;
   final Color? linkColor;
   final Color? blockquoteBorderColor;
   final Color? blockquoteTextColor;

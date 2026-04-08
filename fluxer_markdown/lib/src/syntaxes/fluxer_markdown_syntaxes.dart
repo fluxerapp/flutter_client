@@ -120,6 +120,25 @@ class FluxerCustomEmojiSyntax extends md.InlineSyntax {
   }
 }
 
+class FluxerRawUnicodeEmojiSyntax extends md.InlineSyntax {
+  FluxerRawUnicodeEmojiSyntax(RegExp emojiPattern) : super(emojiPattern.pattern);
+
+  static const String tag = FluxerUnicodeEmojiToneSyntax.tag;
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final surrogate = match[0];
+    if (surrogate == null || surrogate.isEmpty) {
+      return false;
+    }
+
+    final el = md.Element.text(tag, surrogate)
+      ..attributes['surrogate'] = surrogate;
+    parser.addNode(el);
+    return true;
+  }
+}
+
 class FluxerJumpLinkSyntax extends md.InlineSyntax {
   FluxerJumpLinkSyntax(RegExp pattern) : super(pattern.pattern);
 

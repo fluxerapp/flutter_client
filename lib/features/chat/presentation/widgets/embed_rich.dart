@@ -43,8 +43,8 @@ class EmbedRich extends StatelessWidget {
                   if (embed.providerName != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 4),
-                      child: Text(
-                        embed.providerName!,
+                      child: EmbedInlineText(
+                        text: embed.providerName!,
                         style: context.textStyles.embedFooter.copyWith(
                           fontSize: 12,
                         ),
@@ -169,8 +169,8 @@ class _EmbedFieldTile extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          field.name,
+        EmbedInlineText(
+          text: field.name,
           style: TextStyle(
             color: context.colors.textPrimary,
             fontSize: 12,
