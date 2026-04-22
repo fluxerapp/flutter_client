@@ -11,6 +11,8 @@ class Channels extends Table {
   TextColumn get parentId => text().nullable()();
   IntColumn get position => integer().withDefault(const Constant(0))();
   TextColumn get lastMessageId => text().nullable()();
+  IntColumn get rateLimitPerUser =>
+      integer().withDefault(const Constant(0))();
 
   @override
   Set<Column> get primaryKey => {id};

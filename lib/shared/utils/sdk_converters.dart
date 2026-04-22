@@ -35,6 +35,7 @@ db.ChannelsCompanion channelFromSdk(ChannelResponse sdk, String guildId) {
     parentId: Value(sdk.parentId),
     position: Value(sdk.position ?? 0),
     lastMessageId: Value(sdk.lastMessageId),
+    rateLimitPerUser: Value(sdk.rateLimitPerUser ?? 0),
   );
 }
 

@@ -3711,6 +3711,24 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Unknown Platform'**
   String get linkedDevicesUnknownPlatform;
+
+  /// Label shown in the slowmode indicator pill when slowmode is enabled for the channel but no cooldown is actively counting down.
+  ///
+  /// In en, this message translates to:
+  /// **'{duration} slowmode'**
+  String slowmodeLabel(String duration);
+
+  /// Tooltip shown on the slowmode indicator while the current user is still serving their slowmode cooldown.
+  ///
+  /// In en, this message translates to:
+  /// **'You are in slowmode. Please wait before sending another message.'**
+  String get slowmodeTooltipActive;
+
+  /// Tooltip shown on the slowmode indicator when slowmode is on but the current user bypasses it.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode is enabled, but you are immune.'**
+  String get slowmodeTooltipImmune;
 }
 
 class _FluxerLocalizationsDelegate

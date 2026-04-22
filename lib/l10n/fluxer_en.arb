@@ -2654,5 +2654,23 @@
   "linkedDevicesUnknownPlatform": "Unknown Platform",
   "@linkedDevicesUnknownPlatform": {
     "description": "Fallback shown when the session's platform field is missing."
+  },
+  "slowmodeLabel": "{duration} slowmode",
+  "@slowmodeLabel": {
+    "description": "Label shown in the slowmode indicator pill when slowmode is enabled for the channel but no cooldown is actively counting down.",
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "30s"
+      }
+    }
+  },
+  "slowmodeTooltipActive": "You are in slowmode. Please wait before sending another message.",
+  "@slowmodeTooltipActive": {
+    "description": "Tooltip shown on the slowmode indicator while the current user is still serving their slowmode cooldown."
+  },
+  "slowmodeTooltipImmune": "Slowmode is enabled, but you are immune.",
+  "@slowmodeTooltipImmune": {
+    "description": "Tooltip shown on the slowmode indicator when slowmode is on but the current user bypasses it."
   }
 }

@@ -49,6 +49,7 @@ class Channel {
   final String? topic;
   final String? parentId;
   final int position;
+  final int rateLimitPerUser;
 
   const Channel({
     required this.id,
@@ -59,6 +60,7 @@ class Channel {
     this.topic,
     this.parentId,
     this.position = 0,
+    this.rateLimitPerUser = 0,
   });
 
   factory Channel.fromRow(db.Channel row) {
@@ -71,6 +73,7 @@ class Channel {
       topic: row.topic,
       parentId: row.parentId,
       position: row.position,
+      rateLimitPerUser: row.rateLimitPerUser,
     );
   }
 
@@ -84,6 +87,7 @@ class Channel {
       topic: Value(topic),
       parentId: Value(parentId),
       position: Value(position),
+      rateLimitPerUser: Value(rateLimitPerUser),
     );
   }
 

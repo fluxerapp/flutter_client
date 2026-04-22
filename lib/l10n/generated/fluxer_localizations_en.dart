@@ -2170,4 +2170,17 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+
+  @override
+  String slowmodeLabel(String duration) {
+    return '$duration slowmode';
+  }
+
+  @override
+  String get slowmodeTooltipActive =>
+      'You are in slowmode. Please wait before sending another message.';
+
+  @override
+  String get slowmodeTooltipImmune =>
+      'Slowmode is enabled, but you are immune.';
 }

@@ -14,8 +14,9 @@ ChannelRepository channelRepository(Ref ref) {
 }
 
 @riverpod
-Future<Channel?> channelById(Ref ref, String id) async {
+Stream<Channel?> channelById(Ref ref, String id) {
   final db = ref.watch(fluxerDatabaseProvider);
-  final row = await db.channelDao.getChannelById(id);
-  return row == null ? null : Channel.fromRow(row);
+  return db.channelDao
+      .watchChannelById(id)
+      .map((row) => row == null ? null : Channel.fromRow(row));
 }

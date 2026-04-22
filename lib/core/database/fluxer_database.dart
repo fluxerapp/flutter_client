@@ -113,7 +113,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 25;
+  int get schemaVersion => 26;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -294,6 +294,9 @@ class FluxerDatabase extends _$FluxerDatabase {
       }
       if (from < 25) {
         await m.addColumn(channels, channels.url);
+      }
+      if (from < 26) {
+        await m.addColumn(channels, channels.rateLimitPerUser);
       }
     },
   );

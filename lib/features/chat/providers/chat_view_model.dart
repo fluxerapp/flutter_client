@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/message_realtime_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/typing_sender.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -274,6 +275,7 @@ class ChatViewModel extends _$ChatViewModel {
       );
       // TODO: Handle sending message states (pending/sent/failed) so the
       // UI can show an optimistic echo before the server/realtime round-trip.
+      ref.read(slowmodeTrackerProvider.notifier).recordSend(state.channelId);
       final alreadyPresent = state.messages.any((m) => m.id == sent.id);
       final nextMessages = alreadyPresent
           ? _replaceById(state.messages, sent) ?? state.messages
