@@ -46,6 +46,8 @@ class VoiceSession extends _$VoiceSession {
     required String channelId,
     bool startOutgoingCall = false,
     bool ringSilently = false,
+    bool initialSelfMute = false,
+    bool initialSelfDeaf = false,
   }) async {
     if (state.isConnected && state.channelId == channelId) {
       return;
@@ -69,14 +71,16 @@ class VoiceSession extends _$VoiceSession {
       guildId: guildId,
       channelId: channelId,
     );
+    final bool selfMute = initialSelfDeaf || initialSelfMute;
+    final bool selfDeaf = initialSelfDeaf;
     ref
         .read(gatewayConnectionProvider)
         .updateVoiceState(
           GatewayVoiceStateUpdate(
             guildId: guildId,
             channelId: channelId,
-            selfMute: false,
-            selfDeaf: false,
+            selfMute: selfMute,
+            selfDeaf: selfDeaf,
             selfVideo: false,
             selfStream: false,
             viewerStreamKeys: const <String>[],

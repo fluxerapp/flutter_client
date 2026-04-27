@@ -18,7 +18,10 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/overlapping_panels.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_join_bottom_sheet.dart'
+    show VoiceChannelJoinOutcome, showVoiceChannelJoinBottomSheet;
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:go_router/go_router.dart';
@@ -295,7 +298,7 @@ class GuildSidebar extends ConsumerWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           if (channel.type == ChannelType.link) {
             final channelUrl = channel.url;
             if (channelUrl != null && channelUrl.isNotEmpty) {
@@ -306,8 +309,31 @@ class GuildSidebar extends ConsumerWidget {
 
           final String? guildId = ref.read(activeGuildIdProvider);
           if (guildId != null) {
-
-            //TODO: Ask with a popup if you want to join the voice call instead of instant join
+            if (channel.type == ChannelType.voice && isMobileLayout(context)) {
+              final VoiceChannelJoinOutcome? joinOutcome =
+                  await showVoiceChannelJoinBottomSheet(
+                context,
+                channelName: channel.name,
+              );
+              if (!context.mounted || joinOutcome == null) {
+                return;
+              }
+              navigateToContent(
+                context,
+                RoutePaths.guildChannel(guildId, channel.id),
+              );
+              unawaited(
+                joinVoiceChannelWithConfirmation(
+                  ref: ref,
+                  context: context,
+                  guildId: guildId,
+                  channelId: channel.id,
+                  initialSelfMute: joinOutcome.initialSelfMute,
+                  initialSelfDeaf: joinOutcome.initialSelfDeaf,
+                ),
+              );
+              return;
+            }
             navigateToContent(
               context,
               RoutePaths.guildChannel(guildId, channel.id),

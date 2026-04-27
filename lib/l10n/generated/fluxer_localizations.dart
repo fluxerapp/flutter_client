@@ -4833,6 +4833,12 @@ abstract class FluxerLocalizations {
   /// **'Join Voice Channel'**
   String get voiceChannelJoin;
 
+  /// Primary action in the mobile bottom sheet before joining a voice channel from the channel list.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to Voice'**
+  String get voiceChannelJoinConnect;
+
   /// Status in the in-page voice view while LiveKit is connecting.
   ///
   /// In en, this message translates to:

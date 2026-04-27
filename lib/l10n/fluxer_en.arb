@@ -3422,6 +3422,10 @@
   "@voiceChannelJoin": {
     "description": "Primary action to connect to a voice channel from the empty state."
   },
+  "voiceChannelJoinConnect": "Connect to Voice",
+  "@voiceChannelJoinConnect": {
+    "description": "Primary action in the mobile bottom sheet before joining a voice channel from the channel list."
+  },
   "voiceChannelStatusConnecting": "Connecting…",
   "@voiceChannelStatusConnecting": {
     "description": "Status in the in-page voice view while LiveKit is connecting."
