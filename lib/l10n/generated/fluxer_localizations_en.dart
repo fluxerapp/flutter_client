@@ -2800,4 +2800,110 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
       'Preserve edit draft on cancel';
+  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+
+  @override
+  String voiceConnectionConfirmDescription(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+      one:
+          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+
+  @override
+  String get voiceConnectionConfirmJustJoin =>
+      'Just Join (Keep Other Connections)';
+
+  @override
+  String get voiceConnectionConfirmDoNothing =>
+      'Do nothing, I don\'t want to join';
+
+  @override
+  String get voiceChannelEmptyDescription =>
+      'This is a voice channel. Connect to start talking!';
+
+  @override
+  String get voiceChannelJoin => 'Join Voice Channel';
+
+  @override
+  String get voiceChannelStatusConnecting => 'Connecting…';
+
+  @override
+  String get voiceChannelStatusConnected => 'Connected';
+
+  @override
+  String get voiceChannelStatusError => 'Error';
+
+  @override
+  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+
+  @override
+  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+
+  @override
+  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+
+  @override
+  String get voiceParticipantTooltipMuted => 'Muted';
+
+  @override
+  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+
+  @override
+  String get voiceParticipantTooltipDeafened => 'Deafened';
+
+  @override
+  String voiceParticipantTooltipConnection(String connectionId) {
+    return 'Connection: $connectionId';
+  }
+
+  @override
+  String voiceChannelParticipantCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count participants',
+      one: '1 participant',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get voiceChannelLeave => 'Leave';
+
+  @override
+  String get voiceControlMute => 'Mute';
+
+  @override
+  String get voiceControlUnmute => 'Unmute';
+
+  @override
+  String get voiceControlDeafen => 'Deafen';
+
+  @override
+  String get voiceControlUndeafen => 'Undeafen';
+
+  @override
+  String get voiceControlVideo => 'Video';
+
+  @override
+  String get voiceControlScreenShare => 'Screen share';
+
+  @override
+  String get voiceControlMore => 'More';
+
+  @override
+  String get voiceControlDisconnect => 'Disconnect';
+
+  @override
+  String get voiceCameraPermissionRequired =>
+      'Camera permission is required for video.';
 }

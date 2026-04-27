@@ -30,6 +30,9 @@ typedef ConnectionsUpdateCallback =
     void Function(List<ConnectionResponse> connections);
 typedef UserSettingsHydrateCallback =
     void Function(UserSettingsResponse settings);
+typedef VoiceServerUpdateCallback = void Function(
+  VoiceServerUpdateEvent event,
+);
 
 class GatewayEventHandler {
   GatewayEventHandler({
@@ -40,6 +43,7 @@ class GatewayEventHandler {
     this.onTypingClear,
     this.onVoiceStateUpdate,
     this.onVoiceStatesBulk,
+    this.onVoiceServerUpdate,
     this.onCallCreate,
     this.onCallUpdate,
     this.onCallDelete,
@@ -65,6 +69,7 @@ class GatewayEventHandler {
   final TypingCallback? onTypingClear;
   final VoiceStateCallback? onVoiceStateUpdate;
   final VoiceBulkCallback? onVoiceStatesBulk;
+  final VoiceServerUpdateCallback? onVoiceServerUpdate;
   final CallCreateCallback? onCallCreate;
   final CallUpdateCallback? onCallUpdate;
   final ChannelCallback? onCallDelete;
@@ -261,8 +266,9 @@ class GatewayEventHandler {
           ' → ${event.state.channelId}',
         );
         onVoiceStateUpdate?.call(event.state);
-      case VoiceServerUpdateEvent():
+      case final VoiceServerUpdateEvent e:
         talker.debug('[Gateway] VOICE_SERVER_UPDATE');
+        onVoiceServerUpdate?.call(e);
       case CallCreateEvent():
         talker.debug('[Gateway] CALL_CREATE: ${event.channelId}');
         onCallCreate?.call(event);

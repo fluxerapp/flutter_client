@@ -3389,5 +3389,131 @@
   "messagesMediaEditingPreserveDraftLabel": "Preserve edit draft on cancel",
   "@messagesMediaEditingPreserveDraftLabel": {
     "description": "Toggle label for preserving edit drafts on cancel."
+  "voiceConnectionConfirmTitle": "Voice Connection Confirmation",
+  "@voiceConnectionConfirmTitle": {
+    "description": "Title of the multi-device voice join confirmation dialog."
+  },
+  "voiceConnectionConfirmDescription": "{count, plural, =1{You're already connected to this voice channel from 1 other device. What would you like to do?} other{You're already connected to this voice channel from {count} other devices. What would you like to do?}}",
+  "@voiceConnectionConfirmDescription": {
+    "description": "Body of the multi-device voice join confirmation; count is the number of other device connections.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceConnectionConfirmSwitch": "Switch to This Device",
+  "@voiceConnectionConfirmSwitch": {
+    "description": "Primary action: disconnect other devices and use this one."
+  },
+  "voiceConnectionConfirmJustJoin": "Just Join (Keep Other Connections)",
+  "@voiceConnectionConfirmJustJoin": {
+    "description": "Secondary action: add this device without ending other sessions."
+  },
+  "voiceConnectionConfirmDoNothing": "Do nothing, I don't want to join",
+  "@voiceConnectionConfirmDoNothing": {
+    "description": "Dismiss the dialog without joining voice."
+  },
+  "voiceChannelEmptyDescription": "This is a voice channel. Connect to start talking!",
+  "@voiceChannelEmptyDescription": {
+    "description": "Empty state body when viewing a guild voice channel while not in the call."
+  },
+  "voiceChannelJoin": "Join Voice Channel",
+  "@voiceChannelJoin": {
+    "description": "Primary action to connect to a voice channel from the empty state."
+  },
+  "voiceChannelStatusConnecting": "Connecting…",
+  "@voiceChannelStatusConnecting": {
+    "description": "Status in the in-page voice view while LiveKit is connecting."
+  },
+  "voiceChannelStatusConnected": "Connected",
+  "@voiceChannelStatusConnected": {
+    "description": "Status in the in-page voice view when the voice session is active."
+  },
+  "voiceChannelStatusError": "Error",
+  "@voiceChannelStatusError": {
+    "description": "Short label in the channel header when the voice session reports an error."
+  },
+  "voiceParticipantTooltipMobileDevice": "Mobile device",
+  "@voiceParticipantTooltipMobileDevice": {
+    "description": "Tooltip on the device icon in the voice participant nameplate when the connection is mobile."
+  },
+  "voiceParticipantTooltipDesktopDevice": "Desktop device",
+  "@voiceParticipantTooltipDesktopDevice": {
+    "description": "Tooltip on the device icon in the voice participant nameplate when the connection is desktop."
+  },
+  "voiceParticipantTooltipCommunityMuted": "Community muted",
+  "@voiceParticipantTooltipCommunityMuted": {
+    "description": "Tooltip when the participant is muted by the community (server-side)."
+  },
+  "voiceParticipantTooltipMuted": "Muted",
+  "@voiceParticipantTooltipMuted": {
+    "description": "Tooltip when the participant is self-muted."
+  },
+  "voiceParticipantTooltipCommunityDeafened": "Community deafened",
+  "@voiceParticipantTooltipCommunityDeafened": {
+    "description": "Tooltip when the participant is deafened by the community (server-side)."
+  },
+  "voiceParticipantTooltipDeafened": "Deafened",
+  "@voiceParticipantTooltipDeafened": {
+    "description": "Tooltip when the participant is self-deafened."
+  },
+  "voiceParticipantTooltipConnection": "Connection: {connectionId}",
+  "@voiceParticipantTooltipConnection": {
+    "description": "Tooltip for the short connection id shown in the participant nameplate.",
+    "placeholders": {
+      "connectionId": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceChannelParticipantCount": "{count, plural, =1{1 participant} other{{count} participants}}",
+  "@voiceChannelParticipantCount": {
+    "description": "Participant count label in the guild voice channel in-call view.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceChannelLeave": "Leave",
+  "@voiceChannelLeave": {
+    "description": "Button to leave the voice call from the in-page voice view."
+  },
+  "voiceControlMute": "Mute",
+  "@voiceControlMute": {
+    "description": "Tooltip: mute the microphone in the voice call control bar."
+  },
+  "voiceControlUnmute": "Unmute",
+  "@voiceControlUnmute": {
+    "description": "Tooltip: unmute the microphone in the voice call control bar."
+  },
+  "voiceControlDeafen": "Deafen",
+  "@voiceControlDeafen": {
+    "description": "Tooltip: deafen (mute + disable incoming audio) in the voice call control bar."
+  },
+  "voiceControlUndeafen": "Undeafen",
+  "@voiceControlUndeafen": {
+    "description": "Tooltip: undeafen in the voice call control bar."
+  },
+  "voiceControlVideo": "Video",
+  "@voiceControlVideo": {
+    "description": "Tooltip: camera in the voice call control bar (when supported)."
+  },
+  "voiceControlScreenShare": "Screen share",
+  "@voiceControlScreenShare": {
+    "description": "Tooltip: share screen in the voice call control bar (when supported)."
+  },
+  "voiceControlMore": "More",
+  "@voiceControlMore": {
+    "description": "Tooltip: more voice actions in the voice call control bar."
+  },
+  "voiceControlDisconnect": "Disconnect",
+  "@voiceControlDisconnect": {
+    "description": "Tooltip: leave the voice call in the voice call control bar."
+  },
+  "voiceCameraPermissionRequired": "Camera permission is required for video.",
+  "@voiceCameraPermissionRequired": {
+    "description": "Error when the user enables video but camera access is denied."
   }
 }

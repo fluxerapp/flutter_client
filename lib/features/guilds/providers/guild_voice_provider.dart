@@ -1,9 +1,24 @@
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_voice_provider.g.dart';
+
+Map<String, List<VoiceState>> _groupVoiceByUserInGuild(
+  Map<String, VoiceState> voiceStates,
+  String guildId,
+) {
+  final Map<String, List<VoiceState>> byUser = <String, List<VoiceState>>{};
+  for (final VoiceState vs in voiceStates.values) {
+    if (vs.guildId != guildId || vs.channelId == null) {
+      continue;
+    }
+    byUser.putIfAbsent(vs.userId, () => <VoiceState>[]).add(vs);
+  }
+  return byUser;
+}
 
 enum VoiceActivityType { none, voice, screenshare, video }
 
@@ -19,17 +34,17 @@ class VoiceParticipantRow {
 
 @riverpod
 VoiceActivityType guildVoiceActivity(Ref ref, String guildId) {
-  final voiceStates = ref.watch(voiceStatesMapProvider);
-
+  final Map<String, VoiceState> voiceStates = ref.watch(voiceStatesMapProvider);
+  final Map<String, List<VoiceState>> byUser = _groupVoiceByUserInGuild(
+    voiceStates,
+    guildId,
+  );
   var activity = VoiceActivityType.none;
-  for (final vs in voiceStates.values) {
-    if (vs.guildId != guildId || vs.channelId == null) {
-      continue;
-    }
-    if (vs.selfVideo) {
+  for (final List<VoiceState> sessions in byUser.values) {
+    if (sessions.any((VoiceState s) => s.selfVideo)) {
       return VoiceActivityType.video;
     }
-    if (vs.selfStream) {
+    if (sessions.any((VoiceState s) => s.selfStream)) {
       activity = VoiceActivityType.screenshare;
     } else if (activity == VoiceActivityType.none) {
       activity = VoiceActivityType.voice;
@@ -43,20 +58,21 @@ Future<List<VoiceParticipantRow>> guildVoiceParticipants(
   Ref ref,
   String guildId,
 ) async {
-  final voiceStates = ref.watch(voiceStatesMapProvider);
+  final Map<String, VoiceState> voiceStates = ref.watch(voiceStatesMapProvider);
   final db = ref.watch(fluxerDatabaseProvider);
 
-  final voiceUserIds = <String>[];
-  final screenshareUserIds = <String>[];
-
-  for (final vs in voiceStates.values) {
-    if (vs.guildId != guildId || vs.channelId == null) {
-      continue;
-    }
-    if (vs.selfStream) {
-      screenshareUserIds.add(vs.userId);
+  final List<String> voiceUserIds = <String>[];
+  final List<String> screenshareUserIds = <String>[];
+  for (final MapEntry<String, List<VoiceState>> e in _groupVoiceByUserInGuild(
+    voiceStates,
+    guildId,
+  ).entries) {
+    final String userId = e.key;
+    final List<VoiceState> sessions = e.value;
+    if (sessions.any((VoiceState s) => s.selfStream)) {
+      screenshareUserIds.add(userId);
     } else {
-      voiceUserIds.add(vs.userId);
+      voiceUserIds.add(userId);
     }
   }
 

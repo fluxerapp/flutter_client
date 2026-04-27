@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/overlapping_panels.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -303,12 +304,24 @@ class GuildSidebar extends ConsumerWidget {
             return;
           }
 
-          final guildId = ref.read(activeGuildIdProvider);
+          final String? guildId = ref.read(activeGuildIdProvider);
           if (guildId != null) {
+
+            //TODO: Ask with a popup if you want to join the voice call instead of instant join
             navigateToContent(
               context,
               RoutePaths.guildChannel(guildId, channel.id),
             );
+            if (channel.type == ChannelType.voice) {
+              unawaited(
+                joinVoiceChannelWithConfirmation(
+                  ref: ref,
+                  context: context,
+                  guildId: guildId,
+                  channelId: channel.id,
+                ),
+              );
+            }
           }
           unawaited(
             OverlappingPanels.of(context)?.moveToState(RevealSide.main) ??

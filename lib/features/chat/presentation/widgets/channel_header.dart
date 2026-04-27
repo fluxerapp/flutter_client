@@ -11,6 +11,9 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/shell/presentation/overlapping_panels.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -23,10 +26,13 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 /// falls back to DM conversations so both contexts
 /// display correctly.
 class ChannelHeader extends ConsumerWidget {
-  const ChannelHeader({super.key});
+  const ChannelHeader({this.showMessageActions = true, super.key});
+
+  final bool showMessageActions;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final channelId = ref.watch(
       chatViewModelProvider.select((s) => s.channelId),
     );
@@ -53,15 +59,19 @@ class ChannelHeader extends ConsumerWidget {
           LayoutMode.mobile => _buildMobileBar(
             context,
             ref,
+            l10n: l10n,
             channel: channel,
             dm: dm,
+            showMessageActions: showMessageActions,
           ),
           _ => _buildDesktopBar(
             context,
             ref,
+            l10n: l10n,
             channel: channel,
             dm: dm,
             isMemberListVisible: isMemberListVisible,
+            showMessageActions: showMessageActions,
           ),
         },
       ),
@@ -71,8 +81,10 @@ class ChannelHeader extends ConsumerWidget {
   Widget _buildMobileBar(
     BuildContext context,
     WidgetRef ref, {
+    required FluxerLocalizations l10n,
     required Channel? channel,
     required DmConversation? dm,
+    required bool showMessageActions,
   }) => Container(
     height: 64,
     color: context.colors.chatInputBackground,
@@ -112,6 +124,16 @@ class ChannelHeader extends ConsumerWidget {
                 const SizedBox(width: 6),
                 const FluxerBotBadge(),
               ],
+              if (channel != null) ...<Widget>[
+                const SizedBox(width: 4),
+                _buildVoiceConnectionStatus(
+                  context,
+                  ref,
+                  l10n,
+                  channel,
+                  compact: true,
+                ),
+              ],
               const SizedBox(width: 4),
               PhosphorIcon(
                 PhosphorIconsBold.caretRight,
@@ -121,14 +143,16 @@ class ChannelHeader extends ConsumerWidget {
             ],
           ),
         ),
-        FluxerButton.circle(
-          icon: PhosphorIconsBold.star,
-          variant: FluxerButtonVariant.secondary,
-          size: FluxerButtonSize.small,
-          iconSize: 20,
-          onPressed: () {},
-        ),
-        const SizedBox(width: 8),
+        if (showMessageActions) ...[
+          FluxerButton.circle(
+            icon: PhosphorIconsBold.star,
+            variant: FluxerButtonVariant.secondary,
+            size: FluxerButtonSize.small,
+            iconSize: 20,
+            onPressed: () {},
+          ),
+          const SizedBox(width: 8),
+        ],
         if (dm != null) ...[
           FluxerButton.circle(
             icon: PhosphorIconsFill.phone,
@@ -146,7 +170,7 @@ class ChannelHeader extends ConsumerWidget {
             onPressed: () {},
           ),
         ],
-        if (dm == null)
+        if (showMessageActions && dm == null)
           FluxerButton.circle(
             icon: PhosphorIconsBold.magnifyingGlass,
             variant: FluxerButtonVariant.secondary,
@@ -161,9 +185,11 @@ class ChannelHeader extends ConsumerWidget {
   Widget _buildDesktopBar(
     BuildContext context,
     WidgetRef ref, {
+    required FluxerLocalizations l10n,
     required Channel? channel,
     required DmConversation? dm,
     required bool isMemberListVisible,
+    required bool showMessageActions,
   }) => SizedBox(
     height: 56,
     child: Padding(
@@ -183,51 +209,67 @@ class ChannelHeader extends ConsumerWidget {
             const SizedBox(width: 6),
             const FluxerBotBadge(),
           ],
+          if (channel != null) ...<Widget>[
+            const SizedBox(width: 8),
+            _buildVoiceConnectionStatus(
+              context,
+              ref,
+              l10n,
+              channel,
+              compact: false,
+            ),
+          ],
           const SizedBox(width: 8),
           const Spacer(),
-          _topBarIcon(context, PhosphorIconsFill.bell, 'Notification Settings'),
-          _topBarIcon(context, PhosphorIconsFill.pushPin, 'Pinned Messages'),
-          if (dm == null)
+          if (showMessageActions) ...[
             _topBarIcon(
               context,
-              PhosphorIconsFill.users,
-              'Member List',
-              isActive: isMemberListVisible,
-              onTap: () => ref
-                  .read(channelListViewModelProvider.notifier)
-                  .toggleMemberList(),
+              PhosphorIconsFill.bell,
+              'Notification Settings',
             ),
-          SizedBox(
-            width: 160,
-            height: 28,
-            child: Container(
-              decoration: BoxDecoration(
-                color: context.colors.backgroundTertiary,
-                borderRadius: BorderRadius.circular(4),
+            _topBarIcon(context, PhosphorIconsFill.pushPin, 'Pinned Messages'),
+            if (dm == null)
+              _topBarIcon(
+                context,
+                PhosphorIconsFill.users,
+                'Member List',
+                isActive: isMemberListVisible,
+                onTap: () => ref
+                    .read(channelListViewModelProvider.notifier)
+                    .toggleMemberList(),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Search',
-                      style: TextStyle(
-                        color: context.colors.textPrimaryMuted,
-                        fontSize: 14,
+            SizedBox(
+              width: 160,
+              height: 28,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.colors.backgroundTertiary,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Search',
+                        style: TextStyle(
+                          color: context.colors.textPrimaryMuted,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                  ),
-                  PhosphorIcon(
-                    PhosphorIconsFill.magnifyingGlass,
-                    size: 16,
-                    color: context.colors.textPrimaryMuted,
-                  ),
-                ],
+                    PhosphorIcon(
+                      PhosphorIconsFill.magnifyingGlass,
+                      size: 16,
+                      color: context.colors.textPrimaryMuted,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          _topBarIcon(context, PhosphorIconsFill.tray, 'Inbox'),
-          _topBarIcon(context, PhosphorIconsFill.question, 'Help'),
+            _topBarIcon(context, PhosphorIconsFill.tray, 'Inbox'),
+            _topBarIcon(context, PhosphorIconsFill.question, 'Help'),
+          ],
         ],
       ),
     ),
@@ -264,6 +306,89 @@ class ChannelHeader extends ConsumerWidget {
     }
     return '$fluxerMediaCdn/avatars/'
         '${dm.recipientId}/$avatar.png';
+  }
+
+  /// TODO: Replace with a more final design
+  Widget _buildVoiceConnectionStatus(
+    BuildContext context,
+    WidgetRef ref,
+    FluxerLocalizations l10n,
+    Channel channel, {
+    required bool compact,
+  }) {
+    if (channel.type != ChannelType.voice) {
+      return const SizedBox.shrink();
+    }
+    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
+    if (!_channelHeaderVoiceSessionMatches(
+      voice: voice,
+      channelId: channel.id,
+      guildId: channel.guildId,
+    )) {
+      return const SizedBox.shrink();
+    }
+    final bool hasError = voice.errorMessage != null;
+    final IconData icon;
+    final Color color;
+    final String label;
+    if (hasError) {
+      icon = PhosphorIconsFill.cellSignalSlash;
+      color = context.colors.statusDanger;
+      label = l10n.voiceChannelStatusError;
+    } else if (voice.isConnected) {
+      icon = PhosphorIconsFill.cellSignalFull;
+      color = context.colors.statusOnline;
+      label = l10n.voiceChannelStatusConnected;
+    } else {
+      icon = PhosphorIconsFill.cellSignalMedium;
+      color = context.colors.statusIdle;
+      label = l10n.voiceChannelStatusConnecting;
+    }
+    final String tip = hasError
+        ? voice.errorMessage!
+        : label;
+    return Tooltip(
+      message: tip,
+      child: Semantics(
+        label: tip,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            PhosphorIcon(
+              icon,
+              size: compact ? 15 : 17,
+              color: color,
+            ),
+            if (!compact) ...<Widget>[
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: context.textStyles.bodySmall.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  static bool _channelHeaderVoiceSessionMatches({
+    required VoiceSessionState voice,
+    required String channelId,
+    required String guildId,
+  }) {
+    if (!voice.isInVoice) {
+      return false;
+    }
+    if (voice.channelId != channelId) {
+      return false;
+    }
+    return voice.guildId == guildId;
   }
 
   String _resolveTitle({

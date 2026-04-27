@@ -184,10 +184,46 @@ class ChatViewModel extends _$ChatViewModel {
   Future<void> switchChannel(
     String channelId, {
     String? targetMessageId,
+    bool loadMessages = true,
   }) async {
-    if (state.channelId == channelId &&
-        state.isLoading &&
-        targetMessageId == null) {
+    if (targetMessageId != null) {
+      if (state.channelId == channelId && state.isLoading) {
+        return;
+      }
+      state = ChatViewState(
+        channelId: channelId,
+        messages: const [],
+        replyingTo: null,
+        forwardingFrom: null,
+        messageText: '',
+        scrollToBottomSignal: state.scrollToBottomSignal,
+        isLoading: true,
+        isLoadingMore: false,
+        hasMoreMessages: true,
+        errorMessage: null,
+      );
+      await _loadMessages(channelId, targetMessageId: targetMessageId);
+      return;
+    }
+    if (!loadMessages) {
+      if (state.channelId == channelId) {
+        return;
+      }
+      state = ChatViewState(
+        channelId: channelId,
+        messages: const [],
+        replyingTo: null,
+        forwardingFrom: null,
+        messageText: '',
+        scrollToBottomSignal: state.scrollToBottomSignal,
+        isLoading: false,
+        isLoadingMore: false,
+        hasMoreMessages: true,
+        errorMessage: null,
+      );
+      return;
+    }
+    if (state.channelId == channelId && state.isLoading) {
       return;
     }
     state = ChatViewState(

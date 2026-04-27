@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area.dart';
 import 'package:fluxer_app/features/shell/utils/mobile_scaffold_resize_policy.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -480,6 +481,8 @@ class _AppLayoutState extends ConsumerState<AppLayout>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        /// TODO: Replace with a more final design
+        const VoiceCallBar(),
         Divider(height: 1, color: context.colors.borderColor),
         Theme(
           data: Theme.of(context).copyWith(

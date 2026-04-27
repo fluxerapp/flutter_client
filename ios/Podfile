@@ -55,6 +55,12 @@ post_install do |installer|
       unless definitions.include?('PERMISSION_NOTIFICATIONS=1')
         definitions << 'PERMISSION_NOTIFICATIONS=1'
       end
+      unless definitions.include?('PERMISSION_MICROPHONE=1')
+        definitions << 'PERMISSION_MICROPHONE=1'
+      end
+      unless definitions.include?('PERMISSION_CAMERA=1')
+        definitions << 'PERMISSION_CAMERA=1'
+      end
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = definitions
     end
   end

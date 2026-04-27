@@ -13,6 +13,11 @@ export 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 export 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 // Buttons
 export 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+export 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
+export 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
+export 'package:fluxer_app/features/ui/voice/voice_channel_leave_button.dart';
+export 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
+export 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
 export 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 export 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 // Inputs

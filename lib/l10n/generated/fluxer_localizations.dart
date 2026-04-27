@@ -4791,6 +4791,173 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Preserve edit draft on cancel'**
   String get messagesMediaEditingPreserveDraftLabel;
+  /// Title of the multi-device voice join confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice Connection Confirmation'**
+  String get voiceConnectionConfirmTitle;
+
+  /// Body of the multi-device voice join confirmation; count is the number of other device connections.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{You\'re already connected to this voice channel from 1 other device. What would you like to do?} other{You\'re already connected to this voice channel from {count} other devices. What would you like to do?}}'**
+  String voiceConnectionConfirmDescription(int count);
+
+  /// Primary action: disconnect other devices and use this one.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to This Device'**
+  String get voiceConnectionConfirmSwitch;
+
+  /// Secondary action: add this device without ending other sessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Just Join (Keep Other Connections)'**
+  String get voiceConnectionConfirmJustJoin;
+
+  /// Dismiss the dialog without joining voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Do nothing, I don\'t want to join'**
+  String get voiceConnectionConfirmDoNothing;
+
+  /// Empty state body when viewing a guild voice channel while not in the call.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a voice channel. Connect to start talking!'**
+  String get voiceChannelEmptyDescription;
+
+  /// Primary action to connect to a voice channel from the empty state.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Voice Channel'**
+  String get voiceChannelJoin;
+
+  /// Status in the in-page voice view while LiveKit is connecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get voiceChannelStatusConnecting;
+
+  /// Status in the in-page voice view when the voice session is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get voiceChannelStatusConnected;
+
+  /// Short label in the channel header when the voice session reports an error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get voiceChannelStatusError;
+
+  /// Tooltip on the device icon in the voice participant nameplate when the connection is mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile device'**
+  String get voiceParticipantTooltipMobileDevice;
+
+  /// Tooltip on the device icon in the voice participant nameplate when the connection is desktop.
+  ///
+  /// In en, this message translates to:
+  /// **'Desktop device'**
+  String get voiceParticipantTooltipDesktopDevice;
+
+  /// Tooltip when the participant is muted by the community (server-side).
+  ///
+  /// In en, this message translates to:
+  /// **'Community muted'**
+  String get voiceParticipantTooltipCommunityMuted;
+
+  /// Tooltip when the participant is self-muted.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted'**
+  String get voiceParticipantTooltipMuted;
+
+  /// Tooltip when the participant is deafened by the community (server-side).
+  ///
+  /// In en, this message translates to:
+  /// **'Community deafened'**
+  String get voiceParticipantTooltipCommunityDeafened;
+
+  /// Tooltip when the participant is self-deafened.
+  ///
+  /// In en, this message translates to:
+  /// **'Deafened'**
+  String get voiceParticipantTooltipDeafened;
+
+  /// Tooltip for the short connection id shown in the participant nameplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection: {connectionId}'**
+  String voiceParticipantTooltipConnection(String connectionId);
+
+  /// Participant count label in the guild voice channel in-call view.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 participant} other{{count} participants}}'**
+  String voiceChannelParticipantCount(int count);
+
+  /// Button to leave the voice call from the in-page voice view.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get voiceChannelLeave;
+
+  /// Tooltip: mute the microphone in the voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get voiceControlMute;
+
+  /// Tooltip: unmute the microphone in the voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute'**
+  String get voiceControlUnmute;
+
+  /// Tooltip: deafen (mute + disable incoming audio) in the voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Deafen'**
+  String get voiceControlDeafen;
+
+  /// Tooltip: undeafen in the voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Undeafen'**
+  String get voiceControlUndeafen;
+
+  /// Tooltip: camera in the voice call control bar (when supported).
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get voiceControlVideo;
+
+  /// Tooltip: share screen in the voice call control bar (when supported).
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share'**
+  String get voiceControlScreenShare;
+
+  /// Tooltip: more voice actions in the voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get voiceControlMore;
+
+  /// Tooltip: leave the voice call in the voice call control bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get voiceControlDisconnect;
+
+  /// Error when the user enables video but camera access is denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera permission is required for video.'**
+  String get voiceCameraPermissionRequired;
 }
 
 class _FluxerLocalizationsDelegate

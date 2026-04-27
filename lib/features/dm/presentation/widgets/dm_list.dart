@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
@@ -1011,8 +1012,22 @@ class _DMListState extends ConsumerState<DMList> {
         // TODO(fluxer_app): navigate to user profile sheet
         break;
       case _DmAction.voiceCall:
-        // TODO(fluxer_app): initiate voice call
-        break;
+        unawaited(() async {
+          final StartDirectVoiceCallResult r = await startDirectVoiceCall(
+            ref,
+            context,
+            convo.id,
+          );
+          if (!context.mounted) {
+            return;
+          }
+          if (!r.ok && !r.microphoneDenied) {
+            final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(l10n.genericError)),
+            );
+          }
+        }());
       case _DmAction.addNote:
         // TODO(fluxer_app): open add note sheet
         break;
