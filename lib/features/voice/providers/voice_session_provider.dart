@@ -208,13 +208,14 @@ class VoiceSession extends _$VoiceSession {
   Future<void> leaveVoice({bool endCall = true}) async {
     final String? channelId = state.channelId;
     final String? guildId = state.guildId;
+    final String? connectionId = state.activeConnectionId;
     _connectGeneration++;
     _expectedGuildId = null;
     _expectedChannelId = null;
     _pendingRingAfterConnect = false;
     _pendingRingSilently = false;
     state = const VoiceSessionState();
-    await _disconnectRoomOnly();
+    await _disconnectRoomOnly(guildId: guildId, connectionId: connectionId);
     if (endCall && channelId != null) {
       try {
         final FluxerClient client = ref.read(fluxerClientProvider);
@@ -223,25 +224,17 @@ class VoiceSession extends _$VoiceSession {
         talker.warning('[Voice] endCall: $e');
       }
     }
-    if (channelId != null) {
-      ref
-          .read(gatewayConnectionProvider)
-          .updateVoiceState(
-            GatewayVoiceStateUpdate(
-              guildId: guildId,
-              channelId: null,
-              selfMute: false,
-              selfDeaf: false,
-              selfVideo: false,
-              selfStream: false,
-              viewerStreamKeys: const <String>[],
-              connectionId: null,
-            ),
-          );
-    }
   }
 
-  Future<void> _disconnectRoomOnly() async {
+  Future<void> _disconnectRoomOnly({
+    String? guildId,
+    String? connectionId,
+  }) async {
+    final VoiceSessionState sessionState = state;
+    _sendVoiceDisconnectState(
+      guildId: guildId ?? sessionState.guildId,
+      connectionId: connectionId ?? sessionState.activeConnectionId,
+    );
     final Room? r = state.liveKitRoom;
     if (r != null) {
       state = state.copyWith(clearRoom: true);
@@ -251,6 +244,31 @@ class VoiceSession extends _$VoiceSession {
         talker.warning('[Voice] failed to disconnect: $e');
       }
     }
+  }
+
+  void _sendVoiceDisconnectState({
+    required String? guildId,
+    required String? connectionId,
+  }) {
+    if (guildId == null || connectionId == null) {
+      return;
+    }
+    ref
+        .read(gatewayConnectionProvider)
+        .updateVoiceState(
+          GatewayVoiceStateUpdate(
+            guildId: guildId,
+            channelId: null,
+            selfMute: true,
+            selfDeaf: true,
+            selfVideo: false,
+            selfStream: false,
+            viewerStreamKeys: const <String>[],
+            connectionId: connectionId,
+            isMobile:
+                !Platform.isLinux && !Platform.isMacOS && !Platform.isWindows,
+          ),
+        );
   }
 
   void reportMicrophonePermissionDenied() {
