@@ -186,6 +186,7 @@ class _AppLayoutState extends ConsumerState<AppLayout>
       left: _buildMobileSidebar(location),
       main: widget.navigationShell,
       defaultSide: defaultSide,
+      restWidth: 0,
     );
 
     if (!showBottomNav) {

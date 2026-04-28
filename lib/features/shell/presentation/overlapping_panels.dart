@@ -81,7 +81,7 @@ class OverlappingPanelsState extends State<OverlappingPanels>
   bool _ignoreGestures = false;
   late HorizontalDragGestureRecognizer _panelDragRecognizer;
 
-  final ValueNotifier<double> _positionNotifier = ValueNotifier(0.0);
+  final ValueNotifier<double> _positionNotifier = ValueNotifier(0);
 
   /// The current position of the panel
   ValueNotifier<double> get position => _positionNotifier;
@@ -132,8 +132,10 @@ class OverlappingPanelsState extends State<OverlappingPanels>
     });
   }
 
-  void moveToState(RevealSide side) {
-    if (!widget.isMainSwipeable && side != RevealSide.main) return;
+  Future<void> moveToState(RevealSide side) async {
+    if (!widget.isMainSwipeable && side != RevealSide.main) {
+      return;
+    }
 
     final mediaWidth = MediaQuery.sizeOf(context).width;
     double goal;
@@ -141,30 +143,31 @@ class OverlappingPanelsState extends State<OverlappingPanels>
     switch (side) {
       case RevealSide.left:
         goal = _calculateGoal(mediaWidth, 1);
-        break;
       case RevealSide.right:
         goal = _calculateGoal(mediaWidth, -1);
-        break;
       case RevealSide.main:
         goal = 0;
-        break;
     }
 
-    _animateToPosition(goal, widget.revealDuration, widget.revealCurve);
+    await _animateToPosition(goal, widget.revealDuration, widget.revealCurve);
   }
 
   double _calculateGoal(double width, int multiplier) {
     return (multiplier * width) + (-multiplier * widget.restWidth);
   }
 
-  void _onApplyTranslation() {
+  Future<void> _onApplyTranslation() async {
     if (!widget.isMainSwipeable) {
-      _animateToPosition(0, widget.snapBackDuration, widget.snapBackCurve);
+      await _animateToPosition(
+        0,
+        widget.snapBackDuration,
+        widget.snapBackCurve,
+      );
       return;
     }
 
     final mediaWidth = MediaQuery.sizeOf(context).width;
-    double averagedDelta = (_lastDelta + _lastLastDelta) / 2;
+    final double averagedDelta = (_lastDelta + _lastLastDelta) / 2;
 
     var goal = 0.0;
     if (averagedDelta > 0 && widget.left != null) {
@@ -183,18 +186,27 @@ class OverlappingPanelsState extends State<OverlappingPanels>
       goal = 0;
     }
 
-    _animateToPosition(goal, widget.snapBackDuration, widget.snapBackCurve);
+    await _animateToPosition(
+      goal,
+      widget.snapBackDuration,
+      widget.snapBackCurve,
+    );
   }
 
-  void _animateToPosition(double goal, Duration duration, Curve curve) {
-    _animationController.stop();
-    _animationController.duration = duration;
+  Future<void> _animateToPosition(
+    double goal,
+    Duration duration,
+    Curve curve,
+  ) async {
+    _animationController
+      ..stop()
+      ..duration = duration;
     _animation = Tween<double>(
       begin: _translate,
       end: goal,
     ).animate(CurvedAnimation(parent: _animationController, curve: curve));
     _animation.addStatusListener(_onAnimationComplete);
-    _animationController.forward(from: 0);
+    await _animationController.forward(from: 0);
   }
 
   void _onAnimationComplete(AnimationStatus status) {
@@ -208,17 +220,21 @@ class OverlappingPanelsState extends State<OverlappingPanels>
     }
   }
 
-  void reveal(RevealSide direction) {
-    if (!widget.isMainSwipeable && direction != RevealSide.main) return;
+  Future<void> reveal(RevealSide direction) async {
+    if (!widget.isMainSwipeable && direction != RevealSide.main) {
+      return;
+    }
 
     final mediaWidth = MediaQuery.sizeOf(context).width;
     final multiplier = (direction == RevealSide.left ? 1 : -1);
     final goal = _calculateGoal(mediaWidth, multiplier);
-    _animateToPosition(goal, widget.revealDuration, widget.revealCurve);
+    await _animateToPosition(goal, widget.revealDuration, widget.revealCurve);
   }
 
   void onTranslate(double delta) {
-    if (!widget.isMainSwipeable) return;
+    if (!widget.isMainSwipeable) {
+      return;
+    }
 
     setState(() {
       final newTranslate = _translate + delta;
@@ -230,7 +246,7 @@ class OverlappingPanelsState extends State<OverlappingPanels>
     });
   }
 
-  void setIgnoreGestures(bool ignore) {
+  void setIgnoreGestures({required bool ignore}) {
     setState(() {
       _ignoreGestures = ignore;
     });
@@ -250,9 +266,9 @@ class OverlappingPanelsState extends State<OverlappingPanels>
     }
   }
 
-  void _handleDragEnd(DragEndDetails details) {
+  Future<void> _handleDragEnd(DragEndDetails details) async {
     if (!_ignoreGestures && widget.isMainSwipeable) {
-      _onApplyTranslation();
+      await _onApplyTranslation();
     }
   }
 
@@ -268,9 +284,9 @@ class OverlappingPanelsState extends State<OverlappingPanels>
       child: Stack(
         children: [
           if (widget.left != null)
-            Offstage(offstage: _translate < 0, child: widget.left!),
+            Offstage(offstage: _translate < 0, child: widget.left),
           if (widget.right != null)
-            Offstage(offstage: _translate > 0, child: widget.right!),
+            Offstage(offstage: _translate > 0, child: widget.right),
           Transform.translate(
             offset: Offset(_translate, 0),
             child: widget.main ?? const SizedBox(),
