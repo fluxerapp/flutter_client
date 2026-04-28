@@ -13,7 +13,6 @@ import 'package:fluxer_app/features/profile/presentation/profile_page.dart';
 import 'package:fluxer_app/features/settings/presentation/guild_settings_modal.dart';
 import 'package:fluxer_app/features/shell/presentation/app_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/stub_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -330,11 +329,6 @@ GoRouter fluxerRouter(Ref ref) {
                   // Already on a child route -/don't redirect.
                   final fullPath = state.uri.path;
                   if (RegExp('^/channels/[^/]+/.+').hasMatch(fullPath)) {
-                    return null;
-                  }
-                  // On mobile, show the channel sidebar instead of
-                  // auto-selecting a channel.
-                  if (isMobileLayout(context)) {
                     return null;
                   }
                   final db = ref.read(fluxerDatabaseProvider);

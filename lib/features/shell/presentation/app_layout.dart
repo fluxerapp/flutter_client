@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/members/providers/member_list_view_model.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/presentation/overlapping_panels.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -47,6 +48,7 @@ class _AppLayoutState extends ConsumerState<AppLayout>
   static final _chatRoutePattern = RegExp('^/channels/[^/]+/.+');
   late final GoRouter _router;
   late final AnimationController _swipeController;
+  final _mobilePanelsKey = GlobalKey<OverlappingPanelsState>();
 
   @override
   void initState() {
@@ -70,6 +72,11 @@ class _AppLayoutState extends ConsumerState<AppLayout>
     if (mounted) {
       _swipeController.value = 0;
       setState(() {});
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _syncMobilePanelWithRoute(_currentLocation);
+        }
+      });
     }
   }
 
@@ -143,6 +150,11 @@ class _AppLayoutState extends ConsumerState<AppLayout>
 
   Widget _buildMobileBody() {
     final location = _currentLocation;
+
+    if (_isChannelsRoute(location)) {
+      return _buildMobileChannelBody(location);
+    }
+
     final showSidebar = _isRootRoute(location);
 
     if (showSidebar) {
@@ -161,6 +173,49 @@ class _AppLayoutState extends ConsumerState<AppLayout>
     return Scaffold(
       backgroundColor: context.colors.backgroundPrimary,
       body: _buildSwipeableContent(location, showBottomNav: !isChatRoute),
+    );
+  }
+
+  Widget _buildMobileChannelBody(String location) {
+    final showBottomNav = !_isChatRoute(location);
+    final defaultSide = _isRootRoute(location)
+        ? RevealSide.left
+        : RevealSide.main;
+    final mainContent = OverlappingPanels(
+      key: _mobilePanelsKey,
+      left: _buildMobileSidebar(location),
+      main: widget.navigationShell,
+      defaultSide: defaultSide,
+    );
+
+    if (!showBottomNav) {
+      return Scaffold(
+        backgroundColor: context.colors.backgroundPrimary,
+        body: mainContent,
+      );
+    }
+
+    return Scaffold(
+      backgroundColor: context.colors.backgroundPrimary,
+      body: Column(
+        children: [
+          Expanded(child: mainContent),
+          _buildBottomNav(context),
+        ],
+      ),
+    );
+  }
+
+  void _syncMobilePanelWithRoute(String location) {
+    if (!_isChannelsRoute(location) || !isMobileLayout(context)) {
+      return;
+    }
+    final panelState = _mobilePanelsKey.currentState;
+    if (panelState == null) {
+      return;
+    }
+    panelState.moveToState(
+      _isRootRoute(location) ? RevealSide.left : RevealSide.main,
     );
   }
 
@@ -363,6 +418,8 @@ class _AppLayoutState extends ConsumerState<AppLayout>
 
   /// Matches /channels/@me, /channels/@favorites, /channels/:guildId (no sub-path).
   bool _isRootRoute(String location) => _rootRoutePattern.hasMatch(location);
+
+  bool _isChannelsRoute(String location) => location.startsWith('/channels/');
 
   /// Matches any /channels/:x/:y path (DM channel, guild channel, message).
   bool _isChatRoute(String location) => _chatRoutePattern.hasMatch(location);

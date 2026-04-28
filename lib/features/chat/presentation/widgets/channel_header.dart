@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/providers/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/shell/presentation/overlapping_panels.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -81,7 +82,16 @@ class ChannelHeader extends ConsumerWidget {
         IconButton(
           icon: const PhosphorIcon(PhosphorIconsBold.arrowLeft, size: 24),
           color: context.colors.textPrimaryMuted,
-          onPressed: () => context.pop(),
+          onPressed: () {
+            final panels = OverlappingPanels.of(context);
+            if (panels != null) {
+              panels.moveToState(RevealSide.left);
+              return;
+            }
+            if (context.canPop()) {
+              context.pop();
+            }
+          },
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
           style: IconButton.styleFrom(shape: const CircleBorder()),
