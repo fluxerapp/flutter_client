@@ -63,6 +63,17 @@ class VoiceParticipantMediaTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isScreenShareTile =
+        tileSource == VoiceParticipantTileSource.screenShare;
+    final bool isOwnScreenShareTile =
+        isScreenShareTile &&
+        currentUserId != null &&
+        userId == currentUserId &&
+        localConnectionId != null &&
+        voice.connectionId == localConnectionId;
+    if (isOwnScreenShareTile) {
+      return _buildOwnScreenShareBroadcastingTile(backgroundColor);
+    }
     final Participant? participant = _resolveParticipant();
     if (participant == null) {
       return _avatarStack(
@@ -76,8 +87,6 @@ class VoiceParticipantMediaTile extends StatelessWidget {
         return ListenableBuilder(
           listenable: participant,
           builder: (BuildContext context, Widget? _) {
-            final bool isScreenShareTile =
-                tileSource == VoiceParticipantTileSource.screenShare;
             final TrackPublication? publication = isScreenShareTile
                 ? _screenShareVideoPublication(participant, false)
                 : _cameraPublication(participant);
@@ -296,6 +305,55 @@ class VoiceParticipantMediaTile extends StatelessWidget {
             }
             return fallbackVideo;
           },
+    );
+  }
+
+  Widget _buildOwnScreenShareBroadcastingTile(Color backgroundColor) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: AspectRatio(
+        aspectRatio: _kAreaAspect,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: backgroundColor.withValues(alpha: 0.88),
+          ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              child: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Icon(
+                    Icons.screen_share_rounded,
+                    color: Color(0xFFFFFFFF),
+                    size: 30,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'You are broadcasting',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xFFFFFFFF),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Your stream is live for participants.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Color(0xCCFFFFFF),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

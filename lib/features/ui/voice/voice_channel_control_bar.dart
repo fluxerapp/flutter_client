@@ -32,6 +32,7 @@ class VoiceChannelControlBar extends ConsumerWidget {
     final bool isMuted = selfVs?.selfMute ?? false;
     final bool isDeafened = selfVs?.selfDeaf ?? false;
     final bool isVideoOn = selfVs?.selfVideo ?? false;
+    final bool isScreenSharing = selfVs?.selfStream ?? false;
     return Material(
       color: const Color(0xFF000000),
       child: SafeArea(
@@ -106,12 +107,20 @@ class VoiceChannelControlBar extends ConsumerWidget {
                   ),
                   _VoiceControlCircle(
                     size: _kControlSize,
-                    color: context.colors.backgroundTertiary.withValues(
-                      alpha: 0.4,
-                    ),
+                    color: isScreenSharing
+                        ? context.colors.brandPrimary
+                        : context.colors.backgroundTertiary,
                     tooltip: l10n.voiceControlScreenShare,
                     icon: PhosphorIconsFill.monitor,
-                    onPressed: null,
+                    onPressed: session.isConnected
+                        ? () {
+                            unawaited(
+                              ref
+                                  .read(voiceSessionProvider.notifier)
+                                  .toggleSelfStream(),
+                            );
+                          }
+                        : null,
                   ),
                   _VoiceControlCircle(
                     size: _kControlSize,

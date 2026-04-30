@@ -2800,6 +2800,8 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
       'Preserve edit draft on cancel';
+
+  @override
   String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
 
   @override

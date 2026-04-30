@@ -25,6 +25,7 @@ class VoiceSession extends _$VoiceSession {
   bool _pendingRingAfterConnect = false;
   bool _pendingRingSilently = false;
   bool _togglingVideo = false;
+  bool _togglingScreenShare = false;
   DateTime? _lastCameraOrientationRefresh;
 
   @override
@@ -140,6 +141,11 @@ class VoiceSession extends _$VoiceSession {
         dynacast: true,
         defaultCameraCaptureOptions: CameraCaptureOptions(
           params: VideoParametersPresets.h1080_169,
+        ),
+        defaultScreenShareCaptureOptions: ScreenShareCaptureOptions(
+          useiOSBroadcastExtension: true,
+          captureScreenAudio: true,
+          params: VideoParametersPresets.screenShareH1080FPS30,
         ),
       ),
     );
@@ -379,6 +385,37 @@ class VoiceSession extends _$VoiceSession {
     }
   }
 
+  Future<void> toggleSelfStream() async {
+    final VoiceSessionState s = state;
+    if (!s.isInVoice || s.channelId == null || !s.isConnected) {
+      return;
+    }
+    if (_togglingScreenShare) {
+      return;
+    }
+    final VoiceState? vs = _selfConnectionVoiceState();
+    final bool nextSelfStream = !(vs?.selfStream ?? false);
+    final LocalParticipant? lp = s.liveKitRoom?.localParticipant;
+    if (lp == null) {
+      return;
+    }
+    _togglingScreenShare = true;
+    try {
+      try {
+        await lp.setScreenShareEnabled(nextSelfStream);
+      } on Object catch (e) {
+        talker.error('[Voice] setScreenShareEnabled: $e');
+        state = state.copyWith(
+          errorMessage: kVoiceSessionErrorScreenShareToggle,
+        );
+        return;
+      }
+      await _applySelfStreamState(selfStream: nextSelfStream);
+    } finally {
+      _togglingScreenShare = false;
+    }
+  }
+
   void reportCameraPermissionDenied() {
     state = state.copyWith(errorMessage: kVoiceSessionErrorCameraPermission);
   }
@@ -416,6 +453,29 @@ class VoiceSession extends _$VoiceSession {
       final bool micOn = !selfMute && !selfDeaf;
       unawaited(lp.setMicrophoneEnabled(micOn));
     }
+  }
+
+  Future<void> _applySelfStreamState({required bool selfStream}) async {
+    final VoiceSessionState s = state;
+    if (!s.isInVoice || s.channelId == null) {
+      return;
+    }
+    final VoiceState? current = _selfConnectionVoiceState();
+    ref
+        .read(gatewayConnectionProvider)
+        .updateVoiceState(
+          GatewayVoiceStateUpdate(
+            guildId: s.guildId,
+            channelId: s.channelId,
+            selfMute: current?.selfMute ?? false,
+            selfDeaf: current?.selfDeaf ?? false,
+            selfVideo: current?.selfVideo ?? false,
+            selfStream: selfStream,
+            connectionId: s.activeConnectionId,
+            isMobile:
+                !Platform.isLinux && !Platform.isMacOS && !Platform.isWindows,
+          ),
+        );
   }
 
   void updateViewerStreamKeys(List<String> viewerStreamKeys) {

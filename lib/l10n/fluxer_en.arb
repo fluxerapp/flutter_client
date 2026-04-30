@@ -3389,6 +3389,7 @@
   "messagesMediaEditingPreserveDraftLabel": "Preserve edit draft on cancel",
   "@messagesMediaEditingPreserveDraftLabel": {
     "description": "Toggle label for preserving edit drafts on cancel."
+  },
   "voiceConnectionConfirmTitle": "Voice Connection Confirmation",
   "@voiceConnectionConfirmTitle": {
     "description": "Title of the multi-device voice join confirmation dialog."

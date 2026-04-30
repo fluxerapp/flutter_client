@@ -503,6 +503,10 @@ class _VoiceParticipantCard extends StatelessWidget {
       currentUserId: currentUserId,
       localConnectionId: localConnectionId,
     );
+    final bool isOwnScreenShareTile =
+        tileSource == VoiceParticipantTileSource.screenShare &&
+        localConnectionId != null &&
+        v.connectionId == localConnectionId;
     return Material(
       color: cardColor,
       borderRadius: BorderRadius.circular(12),
@@ -529,11 +533,13 @@ class _VoiceParticipantCard extends StatelessWidget {
                 authToken: authToken,
               ),
               if (tileSource == VoiceParticipantTileSource.screenShare &&
+                  !isOwnScreenShareTile &&
                   !isActiveScreenShare)
                 Positioned.fill(
                   child: _WatchStreamOverlay(onWatch: onStartWatching),
                 ),
               if (tileSource == VoiceParticipantTileSource.screenShare &&
+                  !isOwnScreenShareTile &&
                   isActiveScreenShare &&
                   showOverlay)
                 Positioned(

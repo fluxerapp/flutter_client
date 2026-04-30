@@ -45,6 +45,8 @@
 	<string>Leave voice messages, audio, and video calls.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share photos from your library in a chat.</string>
+	<key>RTCScreenSharingExtension</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER).BroadcastExtension</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

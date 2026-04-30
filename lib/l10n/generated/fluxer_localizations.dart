@@ -4791,6 +4791,7 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Preserve edit draft on cancel'**
   String get messagesMediaEditingPreserveDraftLabel;
+
   /// Title of the multi-device voice join confirmation dialog.
   ///
   /// In en, this message translates to:
