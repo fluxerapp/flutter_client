@@ -6,7 +6,7 @@ on:
 jobs:
   check-actor:
     name: Check allowed user
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       allowed: ${{ steps.check.outputs.allowed }}
     steps:
@@ -37,7 +37,7 @@ jobs:
   build-and-upload:
     name: Build and upload to TestFlight
     needs: check-actor
-    runs-on: macos-26
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
