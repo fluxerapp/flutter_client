@@ -22,6 +22,7 @@ Future<VoiceConnectionConfirmResult?> showVoiceConnectionConfirmModal(
         onPressed: () {
           Navigator.of(
             context,
+            rootNavigator: true,
           ).pop(VoiceConnectionConfirmResult.switchToThisDevice);
         },
         label: l10n.voiceConnectionConfirmSwitch,
@@ -29,14 +30,20 @@ Future<VoiceConnectionConfirmResult?> showVoiceConnectionConfirmModal(
       const SizedBox(height: 8),
       FluxerButton.secondary(
         onPressed: () {
-          Navigator.of(context).pop(VoiceConnectionConfirmResult.justJoin);
+          Navigator.of(
+            context,
+            rootNavigator: true,
+          ).pop(VoiceConnectionConfirmResult.justJoin);
         },
         label: l10n.voiceConnectionConfirmJustJoin,
       ),
       const SizedBox(height: 8),
       FluxerButton.secondary(
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.of(
+            context,
+            rootNavigator: true,
+          ).pop();
         },
         label: l10n.voiceConnectionConfirmDoNothing,
       ),

@@ -22,6 +22,8 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_join_bottom_sheet.dart'
     show VoiceChannelJoinOutcome, showVoiceChannelJoinBottomSheet;
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:go_router/go_router.dart';
@@ -309,7 +311,20 @@ class GuildSidebar extends ConsumerWidget {
 
           final String? guildId = ref.read(activeGuildIdProvider);
           if (guildId != null) {
+            final VoiceSessionState voiceSession = ref.read(voiceSessionProvider);
+            final bool isInCurrentVoiceChannel =
+                channel.type == ChannelType.voice &&
+                voiceSession.isInVoice &&
+                voiceSession.guildId == guildId &&
+                voiceSession.channelId == channel.id;
             if (channel.type == ChannelType.voice && isMobileLayout(context)) {
+              if (isInCurrentVoiceChannel) {
+                navigateToContent(
+                  context,
+                  RoutePaths.guildChannel(guildId, channel.id),
+                );
+                return;
+              }
               final VoiceChannelJoinOutcome? joinOutcome =
                   await showVoiceChannelJoinBottomSheet(
                 context,
@@ -338,7 +353,7 @@ class GuildSidebar extends ConsumerWidget {
               context,
               RoutePaths.guildChannel(guildId, channel.id),
             );
-            if (channel.type == ChannelType.voice) {
+            if (channel.type == ChannelType.voice && !isInCurrentVoiceChannel) {
               unawaited(
                 joinVoiceChannelWithConfirmation(
                   ref: ref,
