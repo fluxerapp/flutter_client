@@ -31,6 +31,7 @@ class VoiceParticipantMediaTile extends StatelessWidget {
     required this.room,
     required this.userId,
     required this.currentUserId,
+    required this.localConnectionId,
     required this.voice,
     required this.display,
     required this.backgroundColor,
@@ -41,6 +42,7 @@ class VoiceParticipantMediaTile extends StatelessWidget {
   final Room? room;
   final String userId;
   final String? currentUserId;
+  final String? localConnectionId;
   final VoiceState voice;
   final String display;
   final Color backgroundColor;
@@ -101,10 +103,37 @@ class VoiceParticipantMediaTile extends StatelessWidget {
       return null;
     }
     final String? me = currentUserId;
-    if (me != null && userId == me) {
+    final String? connectionId = voice.connectionId;
+    final String? sessionId = voice.sessionId;
+    final String? localCid = localConnectionId;
+    if (me != null &&
+        userId == me &&
+        localCid != null &&
+        connectionId != null &&
+        connectionId == localCid) {
       return r.localParticipant;
     }
-    return r.remoteParticipants[userId];
+    final Map<String, RemoteParticipant> remoteParticipants =
+        r.remoteParticipants;
+    if (connectionId != null && connectionId.isNotEmpty) {
+      final RemoteParticipant? byConnectionId = remoteParticipants[connectionId];
+      if (byConnectionId != null) {
+        return byConnectionId;
+      }
+    }
+    if (sessionId != null && sessionId.isNotEmpty) {
+      final RemoteParticipant? bySessionId = remoteParticipants[sessionId];
+      if (bySessionId != null) {
+        return bySessionId;
+      }
+    }
+    if (userId.isNotEmpty) {
+      final RemoteParticipant? byUserId = remoteParticipants[userId];
+      if (byUserId != null) {
+        return byUserId;
+      }
+    }
+    return null;
   }
 
   static TrackPublication<VideoTrack>? _cameraPublication(

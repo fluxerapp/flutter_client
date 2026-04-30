@@ -90,6 +90,9 @@ class VoiceChannelParticipantGrid extends ConsumerWidget {
       voiceSessionProvider.select((VoiceSessionState s) => s.liveKitRoom),
     );
     final String? me = ref.watch(currentUserIdProvider);
+    final String? localConnectionId = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState s) => s.activeConnectionId),
+    );
     final AsyncValue<List<VoiceChannelParticipantData>> async = ref.watch(
       voiceChannelParticipantsProvider(key),
     );
@@ -154,6 +157,7 @@ class VoiceChannelParticipantGrid extends ConsumerWidget {
                                     data: e,
                                     room: liveKit,
                                     currentUserId: me,
+                                    localConnectionId: localConnectionId,
                                   ),
                                 ),
                               )
@@ -192,11 +196,13 @@ class _VoiceParticipantCard extends StatelessWidget {
     required this.data,
     required this.room,
     required this.currentUserId,
+    required this.localConnectionId,
   });
 
   final VoiceChannelParticipantData data;
   final Room? room;
   final String? currentUserId;
+  final String? localConnectionId;
 
   @override
   Widget build(BuildContext context) {
@@ -222,6 +228,7 @@ class _VoiceParticipantCard extends StatelessWidget {
               room: room,
               userId: data.userId,
               currentUserId: currentUserId,
+              localConnectionId: localConnectionId,
               voice: v,
               display: display,
               backgroundColor: cardColor,
