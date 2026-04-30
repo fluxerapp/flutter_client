@@ -4964,6 +4964,30 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Camera permission is required for video.'**
   String get voiceCameraPermissionRequired;
+
+  /// Primary button on a screen-share tile to subscribe to the remote stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch Stream'**
+  String get voiceWatchStream;
+
+  /// Control-bar action to unsubscribe from the focused screen-share stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Watching'**
+  String get voiceStopWatching;
+
+  /// Tooltip for the Stop Watching control in the voice bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop watching the current stream'**
+  String get voiceStopWatchingCurrentStreamTooltip;
+
+  /// Compact LIVE indicator on a screen-share tile (shown uppercase).
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get voiceLiveBadge;
 }
 
 class _FluxerLocalizationsDelegate

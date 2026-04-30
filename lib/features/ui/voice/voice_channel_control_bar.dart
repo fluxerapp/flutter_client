@@ -124,10 +124,9 @@ class VoiceChannelControlBar extends ConsumerWidget {
                           context.pop();
                         }
                       }
-                       unawaited(ref
-                          .read(voiceSessionProvider.notifier)
-                          .leaveVoice());
-                      
+                      unawaited(
+                        ref.read(voiceSessionProvider.notifier).leaveVoice(),
+                      );
                     },
                   ),
                 ],

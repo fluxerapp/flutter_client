@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/camera_permission.dart';
 import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
@@ -206,6 +207,7 @@ class VoiceSession extends _$VoiceSession {
   }
 
   Future<void> leaveVoice({bool endCall = true}) async {
+    ref.read(voiceScreenShareWatchTileProvider.notifier).setActiveTileId(null);
     final String? channelId = state.channelId;
     final String? guildId = state.guildId;
     final String? connectionId = state.activeConnectionId;
@@ -414,6 +416,30 @@ class VoiceSession extends _$VoiceSession {
       final bool micOn = !selfMute && !selfDeaf;
       unawaited(lp.setMicrophoneEnabled(micOn));
     }
+  }
+
+  void updateViewerStreamKeys(List<String> viewerStreamKeys) {
+    final VoiceSessionState s = state;
+    if (!s.isInVoice || s.channelId == null) {
+      return;
+    }
+    final VoiceState? current = _selfConnectionVoiceState();
+    ref
+        .read(gatewayConnectionProvider)
+        .updateVoiceState(
+          GatewayVoiceStateUpdate(
+            guildId: s.guildId,
+            channelId: s.channelId,
+            selfMute: current?.selfMute ?? false,
+            selfDeaf: current?.selfDeaf ?? false,
+            selfVideo: current?.selfVideo ?? false,
+            selfStream: current?.selfStream ?? false,
+            viewerStreamKeys: viewerStreamKeys,
+            connectionId: s.activeConnectionId,
+            isMobile:
+                !Platform.isLinux && !Platform.isMacOS && !Platform.isWindows,
+          ),
+        );
   }
 
   Future<void> refreshLocalCameraAfterOrientationChange() async {

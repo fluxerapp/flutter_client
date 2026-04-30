@@ -2909,4 +2909,17 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   @override
   String get voiceCameraPermissionRequired =>
       'Camera permission is required for video.';
+
+  @override
+  String get voiceWatchStream => 'Watch Stream';
+
+  @override
+  String get voiceStopWatching => 'Stop Watching';
+
+  @override
+  String get voiceStopWatchingCurrentStreamTooltip =>
+      'Stop watching the current stream';
+
+  @override
+  String get voiceLiveBadge => 'Live';
 }

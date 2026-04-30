@@ -3519,5 +3519,21 @@
   "voiceCameraPermissionRequired": "Camera permission is required for video.",
   "@voiceCameraPermissionRequired": {
     "description": "Error when the user enables video but camera access is denied."
+  },
+  "voiceWatchStream": "Watch Stream",
+  "@voiceWatchStream": {
+    "description": "Primary button on a screen-share tile to subscribe to the remote stream."
+  },
+  "voiceStopWatching": "Stop Watching",
+  "@voiceStopWatching": {
+    "description": "Control-bar action to unsubscribe from the focused screen-share stream."
+  },
+  "voiceStopWatchingCurrentStreamTooltip": "Stop watching the current stream",
+  "@voiceStopWatchingCurrentStreamTooltip": {
+    "description": "Tooltip for the Stop Watching control in the voice bar."
+  },
+  "voiceLiveBadge": "Live",
+  "@voiceLiveBadge": {
+    "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
   }
 }
