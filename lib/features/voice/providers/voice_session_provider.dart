@@ -17,23 +17,82 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_session_provider.g.dart';
 
+/// Cleared when a [VoiceServerUpdateEvent] is accepted and [_connectLiveKit]
+/// is scheduled (voice server responded). Covers slow gateway only, not
+/// LiveKit [Room.connect] duration.
+const Duration _kVoiceJoinWatchdogDuration = Duration(seconds: 15);
+
+String? _normalizeVoiceGuildId(String? value) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+  return value;
+}
+
 @Riverpod(keepAlive: true)
 class VoiceSession extends _$VoiceSession {
   int _connectGeneration = 0;
   String? _expectedGuildId;
   String? _expectedChannelId;
+  Timer? _connectWatchdogTimer;
+  int _connectWatchdogArmedGeneration = 0;
+  DateTime? _lastConnectRequestAt;
   bool _pendingRingAfterConnect = false;
   bool _pendingRingSilently = false;
   bool _togglingVideo = false;
   bool _togglingScreenShare = false;
+  bool _reconcilingSelfStream = false;
   DateTime? _lastCameraOrientationRefresh;
+  LocalParticipant? _observedLocalParticipant;
 
   @override
   VoiceSessionState build() {
     ref.onDispose(() {
+      _cancelConnectWatchdog();
+      _detachLocalParticipantListener();
       unawaited(_disconnectRoomOnly());
     });
     return const VoiceSessionState();
+  }
+
+  void _cancelConnectWatchdog() {
+    _connectWatchdogTimer?.cancel();
+    _connectWatchdogTimer = null;
+  }
+
+  void _armConnectWatchdog(int generation) {
+    _cancelConnectWatchdog();
+    _connectWatchdogArmedGeneration = generation;
+    _connectWatchdogTimer = Timer(_kVoiceJoinWatchdogDuration, () {
+      if (_connectWatchdogArmedGeneration != generation) {
+        return;
+      }
+      if (_connectGeneration != generation) {
+        return;
+      }
+      if (!state.isConnecting || state.isConnected) {
+        return;
+      }
+      talker.warning(
+        '[Voice] Join timed out after '
+        '${_kVoiceJoinWatchdogDuration.inSeconds}s '
+        '(generation=$generation, channelId=$_expectedChannelId, '
+        'guildId=$_expectedGuildId).',
+      );
+      _connectGeneration++;
+      _expectedGuildId = null;
+      _expectedChannelId = null;
+      _pendingRingAfterConnect = false;
+      _pendingRingSilently = false;
+      _detachLocalParticipantListener();
+      unawaited(_disconnectRoomOnly());
+      state = state.copyWith(
+        isConnecting: false,
+        isConnected: false,
+        errorMessage: 'Voice connection timed out.',
+        clearRoom: true,
+      );
+    });
   }
 
   Room? get _room => state.liveKitRoom;
@@ -61,8 +120,32 @@ class VoiceSession extends _$VoiceSession {
       );
       return;
     }
+    final DateTime now = DateTime.now();
+    if (_lastConnectRequestAt != null &&
+        now.difference(_lastConnectRequestAt!) < const Duration(seconds: 1)) {
+      talker.warning(
+        '[Voice] Connect request throttled (< 1s since last attempt).',
+      );
+      return;
+    }
+    final GatewayConnection gateway = ref.read(gatewayConnectionProvider);
+    if (gateway.state != GatewayState.connected) {
+      talker.warning(
+        '[Voice] Cannot join voice: gateway state is '
+        '${gateway.state.name} (${GatewayState.connected.name} '
+        'required). Voice join opcode was not sent — no '
+        '`VOICE_SERVER_UPDATE` will follow.',
+      );
+      state = state.copyWith(
+        errorMessage:
+            'Chat is reconnecting. Please wait until you are online, then try '
+            'again.',
+      );
+      return;
+    }
+    _lastConnectRequestAt = now;
     _connectGeneration++;
-    _expectedGuildId = guildId;
+    _expectedGuildId = _normalizeVoiceGuildId(guildId);
     _expectedChannelId = channelId;
     _pendingRingAfterConnect = startOutgoingCall;
     _pendingRingSilently = startOutgoingCall && ringSilently;
@@ -70,52 +153,125 @@ class VoiceSession extends _$VoiceSession {
       isConnecting: true,
       isConnected: false,
       clearError: true,
-      guildId: guildId,
+      guildId: _expectedGuildId,
       channelId: channelId,
     );
     final bool selfMute = initialSelfDeaf || initialSelfMute;
     final bool selfDeaf = initialSelfDeaf;
-    ref
-        .read(gatewayConnectionProvider)
-        .updateVoiceState(
-          GatewayVoiceStateUpdate(
-            guildId: guildId,
-            channelId: channelId,
-            selfMute: selfMute,
-            selfDeaf: selfDeaf,
-            selfVideo: false,
-            selfStream: false,
-            viewerStreamKeys: const <String>[],
-            connectionId: null,
-            isMobile:
-                !Platform.isLinux && !Platform.isMacOS && !Platform.isWindows,
-          ),
-        );
+    final bool joinSent = gateway.updateVoiceState(
+      GatewayVoiceStateUpdate(
+        guildId: _expectedGuildId,
+        channelId: channelId,
+        selfMute: selfMute,
+        selfDeaf: selfDeaf,
+        selfVideo: false,
+        selfStream: false,
+        viewerStreamKeys: const <String>[],
+        connectionId: null,
+        isMobile:
+            !Platform.isLinux && !Platform.isMacOS && !Platform.isWindows,
+      ),
+    );
+    if (!joinSent) {
+      talker.warning(
+        '[Voice] Voice join opcode dropped (gateway disconnected between '
+        'check and send, state=${gateway.state}).',
+      );
+      _connectGeneration--;
+      _expectedGuildId = null;
+      _expectedChannelId = null;
+      _pendingRingAfterConnect = false;
+      _pendingRingSilently = false;
+      state = state.copyWith(
+        isConnecting: false,
+        isConnected: false,
+        errorMessage:
+            'Lost connection before joining voice. Please try again in a '
+            'moment.',
+      );
+      return;
+    }
+    _armConnectWatchdog(_connectGeneration);
   }
 
   void handleVoiceServerUpdate(VoiceServerUpdateEvent event) {
     if (_expectedChannelId == null) {
-      return;
-    }
-    if (event.guildId != _expectedGuildId) {
-      return;
-    }
-    if (event.e2eeEnabled ?? false) {
       talker.warning(
-        '[Voice] Server requested E2EE; Flutter client does not support voice E2EE yet.',
+        '[Voice] Ignoring VOICE_SERVER_UPDATE: no expected channel '
+        '(event guildId=${event.guildId} channelId=${event.channelId}).',
       );
+      return;
     }
     final String resolvedChannelId = event.channelId ?? _expectedChannelId!;
     if (resolvedChannelId != _expectedChannelId) {
+      talker.warning(
+        '[Voice] Ignoring VOICE_SERVER_UPDATE: channelId mismatch '
+        '(expected=$_expectedChannelId, '
+        'resolved=$resolvedChannelId, '
+        'event.channelId=${event.channelId}).',
+      );
       return;
     }
+    final String? expectedGuildNorm = _normalizeVoiceGuildId(_expectedGuildId);
+    final String? incomingGuildNorm = _normalizeVoiceGuildId(event.guildId);
+    final bool guildMatches = expectedGuildNorm == incomingGuildNorm ||
+        expectedGuildNorm == null ||
+        incomingGuildNorm == null;
+    if (!guildMatches) {
+      talker.warning(
+        '[Voice] Ignoring VOICE_SERVER_UPDATE: guildId mismatch '
+        '(expected=$_expectedGuildId, event=${event.guildId}, '
+        'channel expected=$_expectedChannelId, '
+        'event channel=${event.channelId}).',
+      );
+      return;
+    }
+    if (expectedGuildNorm == null && incomingGuildNorm != null) {
+      talker.info(
+        '[Voice] Accepting VOICE_SERVER_UPDATE guild from server for '
+        'null-guild join (channelId=$resolvedChannelId, '
+        'guildId=$incomingGuildNorm).',
+      );
+    } else if (expectedGuildNorm != null && incomingGuildNorm == null) {
+      talker.debug(
+        '[Voice] Accepting VOICE_SERVER_UPDATE with omitted guild_id; '
+        'using expected guildId=$expectedGuildNorm '
+        '(channelId=$resolvedChannelId).',
+      );
+    }
+    if (event.e2eeEnabled ?? false) {
+      talker.warning(
+        '[Voice] Server requested E2EE; Flutter client does not support '
+        'voice E2EE yet.',
+      );
+    }
     if (event.token.isEmpty || event.endpoint.isEmpty) {
+      talker.warning(
+        '[Voice] VOICE_SERVER_UPDATE missing token or endpoint '
+        '(guildId=${event.guildId}, channelId=$resolvedChannelId).',
+      );
+      _cancelConnectWatchdog();
       state = state.copyWith(
         isConnecting: false,
         errorMessage: 'Voice server did not return connection details.',
       );
       return;
     }
+    if (!state.isConnected &&
+        state.isConnecting &&
+        event.connectionId.isNotEmpty &&
+        state.activeConnectionId != null &&
+        event.connectionId == state.activeConnectionId &&
+        state.voiceServerEndpoint != null &&
+        state.voiceServerEndpoint == event.endpoint) {
+      talker.debug('[Voice] Ignoring duplicate VOICE_SERVER_UPDATE in-flight.');
+      return;
+    }
+    talker.info(
+      '[Voice] VOICE_SERVER_UPDATE accepted; starting LiveKit '
+      '(channelId=$resolvedChannelId, connectionId=${event.connectionId}).',
+    );
+    _cancelConnectWatchdog();
     final int attempt = _connectGeneration;
     unawaited(
       _connectLiveKit(
@@ -162,19 +318,38 @@ class VoiceSession extends _$VoiceSession {
         connectOptions: const ConnectOptions(autoSubscribe: true),
       );
       if (attempt != _connectGeneration) {
+        talker.warning(
+          '[Voice] LiveKit connect superseded after room.connect '
+          '(attempt=$attempt, generation=$_connectGeneration).',
+        );
+        _detachLocalParticipantListener();
         unawaited(room.disconnect());
-        state = state.copyWith(clearRoom: true);
+        if (identical(state.liveKitRoom, room)) {
+          state = state.copyWith(clearRoom: true);
+        }
         return;
       }
       await room.localParticipant?.setMicrophoneEnabled(true);
+      _attachLocalParticipantListener(room.localParticipant);
       if (attempt != _connectGeneration) {
+        talker.warning(
+          '[Voice] LiveKit connect superseded after mic/listener setup '
+          '(attempt=$attempt, generation=$_connectGeneration).',
+        );
+        _detachLocalParticipantListener();
+        unawaited(room.disconnect());
+        if (identical(state.liveKitRoom, room)) {
+          state = state.copyWith(clearRoom: true);
+        }
         return;
       }
+      final String? resolvedGuildId =
+          _normalizeVoiceGuildId(event.guildId) ?? _expectedGuildId;
       state = state.copyWith(
         isConnecting: false,
         isConnected: true,
         channelId: resolvedChannelId,
-        guildId: _expectedGuildId,
+        guildId: resolvedGuildId,
         activeConnectionId: event.connectionId,
       );
       if (_pendingRingAfterConnect) {
@@ -186,7 +361,9 @@ class VoiceSession extends _$VoiceSession {
       }
     } on Object catch (e) {
       talker.error('[Voice] LiveKit connect failed: $e');
+      _detachLocalParticipantListener();
       if (attempt == _connectGeneration) {
+        _cancelConnectWatchdog();
         state = state.copyWith(
           isConnecting: false,
           isConnected: false,
@@ -213,6 +390,7 @@ class VoiceSession extends _$VoiceSession {
   }
 
   Future<void> leaveVoice({bool endCall = true}) async {
+    _cancelConnectWatchdog();
     ref.read(voiceScreenShareWatchTileProvider.notifier).setActiveTileId(null);
     final String? channelId = state.channelId;
     final String? guildId = state.guildId;
@@ -222,8 +400,8 @@ class VoiceSession extends _$VoiceSession {
     _expectedChannelId = null;
     _pendingRingAfterConnect = false;
     _pendingRingSilently = false;
-    state = const VoiceSessionState();
     await _disconnectRoomOnly(guildId: guildId, connectionId: connectionId);
+    state = const VoiceSessionState();
     if (endCall && channelId != null) {
       try {
         final FluxerClient client = ref.read(fluxerClientProvider);
@@ -238,16 +416,17 @@ class VoiceSession extends _$VoiceSession {
     String? guildId,
     String? connectionId,
   }) async {
+    _detachLocalParticipantListener();
     final VoiceSessionState sessionState = state;
-    _sendVoiceDisconnectState(
-      guildId: guildId ?? sessionState.guildId,
-      connectionId: connectionId ?? sessionState.activeConnectionId,
-    );
-    final Room? r = state.liveKitRoom;
-    if (r != null) {
+    final Room? roomToDisconnect = sessionState.liveKitRoom;
+    if (roomToDisconnect != null) {
+      _sendVoiceDisconnectState(
+        guildId: guildId ?? sessionState.guildId,
+        connectionId: connectionId ?? sessionState.activeConnectionId,
+      );
       state = state.copyWith(clearRoom: true);
       try {
-        await r.disconnect();
+        await roomToDisconnect.disconnect();
       } on Object catch (e) {
         talker.warning('[Voice] failed to disconnect: $e');
       }
@@ -295,6 +474,7 @@ class VoiceSession extends _$VoiceSession {
       _expectedChannelId = null;
       _pendingRingAfterConnect = false;
       _pendingRingSilently = false;
+      _cancelConnectWatchdog();
     }
     state = state.copyWith(clearError: true, isConnecting: false);
   }
@@ -393,12 +573,14 @@ class VoiceSession extends _$VoiceSession {
     if (_togglingScreenShare) {
       return;
     }
-    final VoiceState? vs = _selfConnectionVoiceState();
-    final bool nextSelfStream = !(vs?.selfStream ?? false);
+    final bool nextSelfStream = !_hasPublishedLocalScreenShareVideo(
+      requireTrack: false,
+    );
     final LocalParticipant? lp = s.liveKitRoom?.localParticipant;
     if (lp == null) {
       return;
     }
+    talker.debug('[Voice] toggleSelfStream requested: enable=$nextSelfStream');
     _togglingScreenShare = true;
     try {
       try {
@@ -410,7 +592,15 @@ class VoiceSession extends _$VoiceSession {
         );
         return;
       }
-      await _applySelfStreamState(selfStream: nextSelfStream);
+      talker.debug('[Voice] setScreenShareEnabled completed: enable=$nextSelfStream');
+      await _reconcileSelfStreamState(
+        reason: nextSelfStream ? 'toggle_enable' : 'toggle_disable',
+        waitForPublication: nextSelfStream,
+      );
+      if (nextSelfStream &&
+          !_hasPublishedLocalScreenShareVideo(requireTrack: true)) {
+        state = state.copyWith(errorMessage: kVoiceSessionErrorScreenShareToggle);
+      }
     } finally {
       _togglingScreenShare = false;
     }
@@ -461,6 +651,9 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     final VoiceState? current = _selfConnectionVoiceState();
+    if (current?.selfStream == selfStream) {
+      return;
+    }
     ref
         .read(gatewayConnectionProvider)
         .updateVoiceState(
@@ -476,6 +669,85 @@ class VoiceSession extends _$VoiceSession {
                 !Platform.isLinux && !Platform.isMacOS && !Platform.isWindows,
           ),
         );
+  }
+
+  bool _hasPublishedLocalScreenShareVideo({required bool requireTrack}) {
+    final LocalParticipant? lp = state.liveKitRoom?.localParticipant;
+    if (lp == null) {
+      return false;
+    }
+    for (final LocalTrackPublication<LocalVideoTrack> publication
+        in lp.videoTrackPublications) {
+      if (!publication.isScreenShare || publication.muted) {
+        continue;
+      }
+      if (requireTrack && publication.track == null) {
+        continue;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> _reconcileSelfStreamState({
+    required String reason,
+    bool waitForPublication = false,
+  }) async {
+    if (_reconcilingSelfStream) {
+      return;
+    }
+    _reconcilingSelfStream = true;
+    try {
+      if (waitForPublication) {
+        for (int i = 0; i < 15; i++) {
+          if (_hasPublishedLocalScreenShareVideo(requireTrack: true)) {
+            break;
+          }
+          await Future<void>.delayed(const Duration(milliseconds: 200));
+        }
+      }
+      final bool actualSelfStream = _hasPublishedLocalScreenShareVideo(
+        requireTrack: false,
+      );
+      final bool currentSelfStream = _selfConnectionVoiceState()?.selfStream ?? false;
+      if (actualSelfStream == currentSelfStream) {
+        return;
+      }
+      talker.debug(
+        '[Voice] selfStream reconcile ($reason): '
+        '$currentSelfStream -> $actualSelfStream',
+      );
+      await _applySelfStreamState(selfStream: actualSelfStream);
+    } finally {
+      _reconcilingSelfStream = false;
+    }
+  }
+
+  void _handleLocalParticipantChanged() {
+    unawaited(
+      _reconcileSelfStreamState(reason: 'local_participant_changed'),
+    );
+  }
+
+  void _attachLocalParticipantListener(LocalParticipant? participant) {
+    if (participant == _observedLocalParticipant) {
+      return;
+    }
+    _detachLocalParticipantListener();
+    if (participant == null) {
+      return;
+    }
+    _observedLocalParticipant = participant;
+    participant.addListener(_handleLocalParticipantChanged);
+  }
+
+  void _detachLocalParticipantListener() {
+    final LocalParticipant? participant = _observedLocalParticipant;
+    if (participant == null) {
+      return;
+    }
+    participant.removeListener(_handleLocalParticipantChanged);
+    _observedLocalParticipant = null;
   }
 
   void updateViewerStreamKeys(List<String> viewerStreamKeys) {

@@ -97,8 +97,8 @@ class AppStartup extends _$AppStartup {
     await ref.read(appearancePreferencesProvider.notifier).load(session.userId);
     await ref.read(chatPreferencesProvider.notifier).load(session.userId);
 
-    unawaited(ref.read(gatewayConnectionProvider).connect());
     ref
+      ..read(gatewayConnectBindingProvider)
       ..read(gatewayEventListenerProvider)
       ..read(gatewayStateListenerProvider)
       ..read(connectivityListenerProvider);

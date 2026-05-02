@@ -47,6 +47,8 @@
 	<string>Share photos from your library in a chat.</string>
 	<key>RTCScreenSharingExtension</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER).BroadcastExtension</string>
+	<key>RTCAppGroupIdentifier</key>
+	<string>group.com.fluxer</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

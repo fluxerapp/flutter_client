@@ -113,10 +113,12 @@ List<_VoiceGridTileItem> _buildTileItems({
       currentUserId: currentUserId,
       localConnectionId: localConnectionId,
     );
+    final bool hasLiveKitScreenSharePublication =
+        liveKitParticipant != null &&
+        hasUnmutedScreenSharePublication(liveKitParticipant);
     final bool shouldShowScreenShareTile =
-        participant.voice.selfStream ||
-        (liveKitParticipant != null &&
-            hasUnmutedScreenSharePublication(liveKitParticipant));
+        hasLiveKitScreenSharePublication ||
+        (participant.voice.selfStream && room == null);
     if (!shouldShowScreenShareTile) {
       continue;
     }
@@ -308,12 +310,35 @@ class _VoiceChannelParticipantGridState
         (VoiceSessionState s) => s.activeConnectionId,
       ),
     );
+    final VoiceSessionState voiceForGrid = ref.watch(voiceSessionProvider);
+    final bool onThisChannel = voiceForGrid.isInVoice &&
+        voiceForGrid.channelId == widget.channelId &&
+        voiceForGrid.guildId == widget.guildId;
     final AsyncValue<List<VoiceChannelParticipantData>> async = ref.watch(
       voiceChannelParticipantsProvider(key),
     );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return async.when(
       data: (List<VoiceChannelParticipantData> list) {
         if (list.isEmpty) {
+          if (onThisChannel && voiceForGrid.isConnecting) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const FluxerLoadingSpinner(),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.voiceChannelStatusConnecting,
+                    textAlign: TextAlign.center,
+                    style: context.textStyles.bodyMedium.copyWith(
+                      color: context.colors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
           return const Center(child: FluxerLoadingSpinner());
         }
         final List<_VoiceGridTileItem> tileItems = _buildTileItems(

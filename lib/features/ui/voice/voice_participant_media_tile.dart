@@ -63,6 +63,14 @@ class VoiceParticipantMediaTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Participant? participant = _resolveParticipant();
+    if (participant == null) {
+      return _avatarStack(
+        context,
+        showVideoPending: false,
+        backgroundColor: backgroundColor,
+      );
+    }
     final bool isScreenShareTile =
         tileSource == VoiceParticipantTileSource.screenShare;
     final bool isOwnScreenShareTile =
@@ -71,16 +79,11 @@ class VoiceParticipantMediaTile extends StatelessWidget {
         userId == currentUserId &&
         localConnectionId != null &&
         voice.connectionId == localConnectionId;
-    if (isOwnScreenShareTile) {
+    final bool hasOwnScreenSharePublication =
+        isScreenShareTile &&
+        _screenShareVideoPublication(participant, false) != null;
+    if (isOwnScreenShareTile && hasOwnScreenSharePublication) {
       return _buildOwnScreenShareBroadcastingTile(backgroundColor);
-    }
-    final Participant? participant = _resolveParticipant();
-    if (participant == null) {
-      return _avatarStack(
-        context,
-        showVideoPending: false,
-        backgroundColor: backgroundColor,
-      );
     }
     return OrientationBuilder(
       builder: (BuildContext context, Orientation deviceOrientation) {

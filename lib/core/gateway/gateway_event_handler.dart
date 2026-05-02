@@ -267,7 +267,10 @@ class GatewayEventHandler {
         );
         onVoiceStateUpdate?.call(event.state);
       case final VoiceServerUpdateEvent e:
-        talker.debug('[Gateway] VOICE_SERVER_UPDATE');
+        talker.info(
+          '[Gateway] VOICE_SERVER_UPDATE guildId=${e.guildId} '
+          'channelId=${e.channelId}',
+        );
         onVoiceServerUpdate?.call(e);
       case CallCreateEvent():
         talker.debug('[Gateway] CALL_CREATE: ${event.channelId}');

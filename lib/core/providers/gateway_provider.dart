@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
@@ -21,6 +21,27 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 export 'gateway_connection_provider.dart';
 
 part 'gateway_provider.g.dart';
+
+/// Connects whenever [gatewayConnectionProvider] builds a new
+/// [GatewayConnection] (e.g. token or Dio churn). Startup alone is not enough
+/// because only that first instance received [GatewayConnection.connect].
+///
+/// Rotating sockets must clear [gatewayReadyProvider] until the next READY so
+/// navigation and voice do not assume an active session on a disconnected
+/// socket.
+@Riverpod(keepAlive: true)
+void gatewayConnectBinding(Ref ref) {
+  ref.listen<GatewayConnection>(
+    gatewayConnectionProvider,
+    (GatewayConnection? previous, GatewayConnection next) {
+      if (previous != null) {
+        ref.read(gatewayReadyProvider.notifier).reset();
+      }
+      unawaited(next.connect());
+    },
+    fireImmediately: true,
+  );
+}
 
 @Riverpod(keepAlive: true)
 Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
