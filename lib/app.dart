@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/native_titlebar.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_layer.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -72,15 +73,16 @@ class FluxerApp extends ConsumerWidget {
       themeMode: themeMode,
       routerConfig: router,
       builder: (context, child) {
+        final Widget layered = IncomingVoiceCallLayer(child: child!);
         if (!_isDesktopPlatform) {
-          return FluxerToastOverlay(child: child!);
+          return FluxerToastOverlay(child: layered);
         }
         return FluxerToastOverlay(
           child: DragToResizeArea(
             child: Column(
               children: [
                 const NativeTitlebar(),
-                Expanded(child: child!),
+                Expanded(child: layered),
               ],
             ),
           ),

@@ -29,6 +29,10 @@ class DmConversation {
   final String? groupStatus;
   final List<GroupMemberInfo> groupMembers;
 
+  /// Recipients persisted for this DM/channel (excluding the current account at
+  /// call time — filter with [currentUserId] before ringing).
+  final List<String> remoteRecipientIds;
+
   const DmConversation({
     required this.id,
     required this.type,
@@ -49,6 +53,7 @@ class DmConversation {
     this.isSystem = false,
     this.groupStatus,
     this.groupMembers = const [],
+    this.remoteRecipientIds = const [],
   });
 
   bool get isGroup => type == 3;
@@ -64,6 +69,7 @@ class DmConversation {
     db.User? lastMessageAuthor,
     String? groupStatus,
     List<GroupMemberInfo> groupMembers = const [],
+    List<String> remoteRecipientIds = const [],
   }) {
     return DmConversation(
       id: row.id,
@@ -86,6 +92,7 @@ class DmConversation {
       unreadCount: row.unreadCount,
       groupStatus: groupStatus,
       groupMembers: groupMembers,
+      remoteRecipientIds: remoteRecipientIds,
     );
   }
 }

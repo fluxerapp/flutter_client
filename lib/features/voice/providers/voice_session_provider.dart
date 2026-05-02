@@ -39,9 +39,11 @@ class VoiceSession extends _$VoiceSession {
   DateTime? _lastConnectRequestAt;
   bool _pendingRingAfterConnect = false;
   bool _pendingRingSilently = false;
+  List<String>? _outboundRingRecipients;
   bool _togglingVideo = false;
   bool _togglingScreenShare = false;
   bool _reconcilingSelfStream = false;
+  bool _startWithVideoAfterConnect = false;
   DateTime? _lastCameraOrientationRefresh;
   LocalParticipant? _observedLocalParticipant;
 
@@ -84,6 +86,8 @@ class VoiceSession extends _$VoiceSession {
       _expectedChannelId = null;
       _pendingRingAfterConnect = false;
       _pendingRingSilently = false;
+      _outboundRingRecipients = null;
+      _clearOutgoingCallInitiator(_expectedChannelId);
       _detachLocalParticipantListener();
       unawaited(_disconnectRoomOnly());
       state = state.copyWith(
@@ -107,9 +111,12 @@ class VoiceSession extends _$VoiceSession {
     required String channelId,
     bool startOutgoingCall = false,
     bool ringSilently = false,
+    List<String>? outboundRingRecipients,
     bool initialSelfMute = false,
     bool initialSelfDeaf = false,
+    bool initialSelfVideo = false,
   }) async {
+    _startWithVideoAfterConnect = false;
     if (state.isConnected && state.channelId == channelId) {
       return;
     }
@@ -144,11 +151,28 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     _lastConnectRequestAt = now;
+    _startWithVideoAfterConnect = initialSelfVideo;
     _connectGeneration++;
     _expectedGuildId = _normalizeVoiceGuildId(guildId);
     _expectedChannelId = channelId;
     _pendingRingAfterConnect = startOutgoingCall;
     _pendingRingSilently = startOutgoingCall && ringSilently;
+    if (startOutgoingCall && !ringSilently) {
+      _outboundRingRecipients =
+          outboundRingRecipients == null || outboundRingRecipients.isEmpty
+          ? null
+          : List<String>.from(outboundRingRecipients);
+    } else {
+      _outboundRingRecipients = null;
+    }
+    if (startOutgoingCall) {
+      ref
+          .read(outgoingVoiceCallInitiatorProvider.notifier)
+          .markInitiated(
+            channelId: channelId,
+            outboundRingRecipients: outboundRingRecipients ?? const [],
+          );
+    }
     state = state.copyWith(
       isConnecting: true,
       isConnected: false,
@@ -182,6 +206,9 @@ class VoiceSession extends _$VoiceSession {
       _expectedChannelId = null;
       _pendingRingAfterConnect = false;
       _pendingRingSilently = false;
+      _outboundRingRecipients = null;
+      _startWithVideoAfterConnect = false;
+      _clearOutgoingCallInitiator(channelId);
       state = state.copyWith(
         isConnecting: false,
         isConnected: false,
@@ -359,11 +386,30 @@ class VoiceSession extends _$VoiceSession {
         _pendingRingAfterConnect = false;
         _pendingRingSilently = false;
       }
+      if (_startWithVideoAfterConnect && attempt == _connectGeneration) {
+        _startWithVideoAfterConnect = false;
+        await _enableCameraAfterLiveKitConnect(room: room, attempt: attempt);
+      }
+      if (attempt != _connectGeneration) {
+        talker.warning(
+          '[Voice] LiveKit connect superseded after joining session '
+          '(attempt=$attempt, generation=$_connectGeneration).',
+        );
+        _detachLocalParticipantListener();
+        unawaited(room.disconnect());
+        if (identical(state.liveKitRoom, room)) {
+          state = state.copyWith(clearRoom: true);
+        }
+        return;
+      }
     } on Object catch (e) {
       talker.error('[Voice] LiveKit connect failed: $e');
       _detachLocalParticipantListener();
       if (attempt == _connectGeneration) {
+        _startWithVideoAfterConnect = false;
         _cancelConnectWatchdog();
+        _outboundRingRecipients = null;
+        _clearOutgoingCallInitiator(resolvedChannelId);
         state = state.copyWith(
           isConnecting: false,
           isConnected: false,
@@ -378,19 +424,76 @@ class VoiceSession extends _$VoiceSession {
     String channelId, {
     required bool silently,
   }) async {
+    final List<String>? explicitRecipients = silently
+        ? null
+        : _outboundRingRecipients;
+    _outboundRingRecipients = null;
     try {
       final FluxerClient client = ref.read(fluxerClientProvider);
+      final List<String>? bodyRecipients = silently
+          ? <String>[]
+          : (explicitRecipients != null && explicitRecipients.isNotEmpty
+                ? explicitRecipients
+                : null);
       await client.channels.ringCallRecipients(
         channelId: channelId,
-        body: CallRingBodySchema(recipients: silently ? <String>[] : null),
+        body: CallRingBodySchema(recipients: bodyRecipients),
       );
     } on Object catch (e) {
       talker.warning('[Voice] ringCallRecipients: $e');
     }
   }
 
+  void _clearOutgoingCallInitiator(String? channelId) {
+    if (channelId == null) {
+      return;
+    }
+    ref.read(outgoingVoiceCallInitiatorProvider.notifier).clearChannel(channelId);
+  }
+
+  Future<void> _enableCameraAfterLiveKitConnect({
+    required Room room,
+    required int attempt,
+  }) async {
+    if (_togglingVideo) {
+      return;
+    }
+    final LocalParticipant? lp = room.localParticipant;
+    if (lp == null) {
+      return;
+    }
+    final bool camOk = await requestCameraPermissionForVoice();
+    if (!camOk || attempt != _connectGeneration) {
+      if (attempt == _connectGeneration) {
+        state = state.copyWith(errorMessage: kVoiceSessionErrorCameraPermission);
+      }
+      return;
+    }
+    _togglingVideo = true;
+    try {
+      try {
+        await lp.setCameraEnabled(true);
+      } on Object catch (e) {
+        talker.error('[Voice] setCameraEnabled on connect: $e');
+        return;
+      }
+      if (attempt != _connectGeneration) {
+        return;
+      }
+      final VoiceState? vs = _selfConnectionVoiceState();
+      await _applySelfVoiceState(
+        selfMute: vs?.selfMute ?? false,
+        selfDeaf: vs?.selfDeaf ?? false,
+        selfVideo: true,
+      );
+    } finally {
+      _togglingVideo = false;
+    }
+  }
+
   Future<void> leaveVoice({bool endCall = true}) async {
     _cancelConnectWatchdog();
+    _startWithVideoAfterConnect = false;
     ref.read(voiceScreenShareWatchTileProvider.notifier).setActiveTileId(null);
     final String? channelId = state.channelId;
     final String? guildId = state.guildId;
@@ -400,6 +503,10 @@ class VoiceSession extends _$VoiceSession {
     _expectedChannelId = null;
     _pendingRingAfterConnect = false;
     _pendingRingSilently = false;
+    _outboundRingRecipients = null;
+    if (channelId != null) {
+      _clearOutgoingCallInitiator(channelId);
+    }
     await _disconnectRoomOnly(guildId: guildId, connectionId: connectionId);
     state = const VoiceSessionState();
     if (endCall && channelId != null) {
@@ -474,6 +581,11 @@ class VoiceSession extends _$VoiceSession {
       _expectedChannelId = null;
       _pendingRingAfterConnect = false;
       _pendingRingSilently = false;
+      _outboundRingRecipients = null;
+      final String? ch = state.channelId;
+      if (ch != null) {
+        _clearOutgoingCallInitiator(ch);
+      }
       _cancelConnectWatchdog();
     }
     state = state.copyWith(clearError: true, isConnecting: false);

@@ -143,12 +143,13 @@ List<_VoiceGridTileItem> _buildTileItems({
 
 class VoiceChannelParticipantGrid extends ConsumerStatefulWidget {
   const VoiceChannelParticipantGrid({
-    required this.guildId,
     required this.channelId,
+    this.guildId,
     super.key,
   });
 
-  final String guildId;
+  /// Null for DM / private voice.
+  final String? guildId;
   final String channelId;
 
   @override
@@ -297,10 +298,9 @@ class _VoiceChannelParticipantGridState
 
   @override
   Widget build(BuildContext context) {
-    final String key = voiceChannelParticipantsFamilyKey(
-      widget.guildId,
-      widget.channelId,
-    );
+    final String participantKey = widget.guildId == null
+        ? voiceDmChannelParticipantsFamilyKey(widget.channelId)
+        : voiceChannelParticipantsFamilyKey(widget.guildId!, widget.channelId);
     final Room? liveKit = ref.watch(
       voiceSessionProvider.select((VoiceSessionState s) => s.liveKitRoom),
     );
@@ -311,11 +311,14 @@ class _VoiceChannelParticipantGridState
       ),
     );
     final VoiceSessionState voiceForGrid = ref.watch(voiceSessionProvider);
+    final bool guildMatches = widget.guildId == null
+        ? voiceForGrid.guildId == null || voiceForGrid.guildId!.isEmpty
+        : voiceForGrid.guildId == widget.guildId;
     final bool onThisChannel = voiceForGrid.isInVoice &&
         voiceForGrid.channelId == widget.channelId &&
-        voiceForGrid.guildId == widget.guildId;
+        guildMatches;
     final AsyncValue<List<VoiceChannelParticipantData>> async = ref.watch(
-      voiceChannelParticipantsProvider(key),
+      voiceChannelParticipantsProvider(participantKey),
     );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return async.when(

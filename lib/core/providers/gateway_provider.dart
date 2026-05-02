@@ -98,6 +98,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     },
     onCallDelete: (channelId) {
       ref.read(activeCallsProvider.notifier).deleteCall(channelId);
+      ref
+          .read(outgoingVoiceCallInitiatorProvider.notifier)
+          .clearChannel(channelId);
     },
     onInviteCreate: (data) {
       ref.read(inviteCacheProvider.notifier).addInvite(data);

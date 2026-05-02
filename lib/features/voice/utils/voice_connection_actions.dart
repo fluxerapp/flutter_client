@@ -34,8 +34,10 @@ Future<void> joinVoiceChannelWithConfirmation({
   required String channelId,
   bool startOutgoingCall = false,
   bool ringSilently = false,
+  List<String>? outboundRingRecipients,
   bool initialSelfMute = false,
   bool initialSelfDeaf = false,
+  bool initialSelfVideo = false,
 }) async {
   final String? currentUserId = ref.read(currentUserIdProvider);
   if (currentUserId == null) {
@@ -46,8 +48,10 @@ Future<void> joinVoiceChannelWithConfirmation({
           channelId: channelId,
           startOutgoingCall: startOutgoingCall,
           ringSilently: ringSilently,
+          outboundRingRecipients: outboundRingRecipients,
           initialSelfMute: initialSelfMute,
           initialSelfDeaf: initialSelfDeaf,
+          initialSelfVideo: initialSelfVideo,
         );
     return;
   }
@@ -70,8 +74,10 @@ Future<void> joinVoiceChannelWithConfirmation({
           channelId: channelId,
           startOutgoingCall: startOutgoingCall,
           ringSilently: ringSilently,
+          outboundRingRecipients: outboundRingRecipients,
           initialSelfMute: initialSelfMute,
           initialSelfDeaf: initialSelfDeaf,
+          initialSelfVideo: initialSelfVideo,
         );
     return;
   }
@@ -104,7 +110,9 @@ Future<void> joinVoiceChannelWithConfirmation({
         channelId: channelId,
         startOutgoingCall: startOutgoingCall,
         ringSilently: ringSilently,
+        outboundRingRecipients: outboundRingRecipients,
         initialSelfMute: initialSelfMute,
         initialSelfDeaf: initialSelfDeaf,
+        initialSelfVideo: initialSelfVideo,
       );
 }

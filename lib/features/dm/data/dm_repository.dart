@@ -36,6 +36,10 @@ class DmRepository {
         final lastMsg = lastMessages[row.id];
         final recipientIds = _parseRecipientIds(row.recipientIds);
         final isGroup = row.type == 3;
+        final remoteRecipientIds = _buildRemoteRecipientIds(
+          recipientIds,
+          row.recipientId,
+        );
         return DmConversation.fromRow(
           row,
           userMap[row.recipientId],
@@ -47,6 +51,7 @@ class DmRepository {
           groupMembers: isGroup
               ? _buildGroupMembers(recipientIds, userMap)
               : const [],
+          remoteRecipientIds: remoteRecipientIds,
         );
       }).toList();
     });
@@ -54,10 +59,21 @@ class DmRepository {
 
   static List<String> _parseRecipientIds(String json) {
     try {
-      return (jsonDecode(json) as List<dynamic>).cast<String>();
+      final List<dynamic> raw = jsonDecode(json) as List<dynamic>;
+      return raw.map((e) => e.toString()).where((s) => s.isNotEmpty).toList();
     } on Object {
       return [];
     }
+  }
+
+  static List<String> _buildRemoteRecipientIds(
+    List<String> parsedRecipientIds,
+    String primaryRecipientId,
+  ) {
+    final Set<String> combined = {...parsedRecipientIds, primaryRecipientId};
+    final List<String> out = combined.toList();
+    out.sort();
+    return out;
   }
 
   static String? _computeGroupStatus(
@@ -152,6 +168,10 @@ class DmRepository {
         final lastMsg = lastMessages[row.id];
         final recipientIds = _parseRecipientIds(row.recipientIds);
         final isGroup = row.type == 3;
+        final remoteRecipientIds = _buildRemoteRecipientIds(
+          recipientIds,
+          row.recipientId,
+        );
         return DmConversation.fromRow(
           row,
           userMap[row.recipientId],
@@ -163,6 +183,7 @@ class DmRepository {
           groupMembers: isGroup
               ? _buildGroupMembers(recipientIds, userMap)
               : const [],
+          remoteRecipientIds: remoteRecipientIds,
         );
       }).toList();
     } on DioException catch (e) {

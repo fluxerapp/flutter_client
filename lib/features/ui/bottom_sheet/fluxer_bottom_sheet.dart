@@ -45,6 +45,7 @@ class FluxerBottomSheet {
     ValueNotifier<bool>? canDismissNotifier,
     bool enableDrag = true,
     double? maxHeight,
+    bool isDismissible = true,
   }) {
     final layout = context.layout;
 
@@ -53,6 +54,7 @@ class FluxerBottomSheet {
       useRootNavigator: useRootNavigator,
       isScrollControlled: true,
       enableDrag: enableDrag,
+      isDismissible: isDismissible,
       elevation: 0,
       builder: (sheetContext) {
         void close() =>
@@ -144,6 +146,7 @@ class FluxerBottomSheet {
     ValueNotifier<bool>? canDismissNotifier,
     double? maxHeight,
     bool disableTopPadding = false,
+    bool isDismissible = true,
   }) {
     final layout = context.layout;
 
@@ -152,6 +155,7 @@ class FluxerBottomSheet {
       useRootNavigator: useRootNavigator,
       isScrollControlled: true,
       enableDrag: false,
+      isDismissible: isDismissible,
       elevation: 0,
       builder: (sheetContext) {
         void close() =>

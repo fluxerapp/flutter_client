@@ -170,20 +170,45 @@ class CallState {
     this.messageId,
     this.region,
     this.ringing = const [],
+    this.pendingRingUserIds = const {},
     this.voiceStates = const [],
   });
 
   final String channelId;
   final String? messageId;
   final String? region;
+  /// Last gateway snapshot of user IDs receiving a ring tone.
   final List<String> ringing;
+  /// Subset tracked for incoming-call UI (reset from gateway `ringing` when
+  /// present; mutated locally after accept/reject/ignore until next update).
+  final Set<String> pendingRingUserIds;
   final List<VoiceState> voiceStates;
+
+  CallState copyWith({
+    String? messageId,
+    String? region,
+    List<String>? ringing,
+    Set<String>? pendingRingUserIds,
+    List<VoiceState>? voiceStates,
+  }) {
+    return CallState(
+      channelId: channelId,
+      messageId: messageId ?? this.messageId,
+      region: region ?? this.region,
+      ringing: ringing ?? this.ringing,
+      pendingRingUserIds: pendingRingUserIds ?? this.pendingRingUserIds,
+      voiceStates: voiceStates ?? this.voiceStates,
+    );
+  }
 }
 
 @Riverpod(keepAlive: true)
 class ActiveCalls extends _$ActiveCalls {
   @override
   Map<String, CallState> build() => {};
+
+  static Set<String> _normalizeRingIds(List<String>? ringing) =>
+      ringing == null ? <String>{} : Set<String>.from(ringing);
 
   void createCall(
     String channelId, {
@@ -192,13 +217,15 @@ class ActiveCalls extends _$ActiveCalls {
     List<String>? ringing,
     List<VoiceState>? voiceStates,
   }) {
+    final List<String> ringList = List<String>.from(ringing ?? const []);
     state = {
       ...state,
       channelId: CallState(
         channelId: channelId,
         messageId: messageId,
         region: region,
-        ringing: ringing ?? const [],
+        ringing: ringList,
+        pendingRingUserIds: _normalizeRingIds(ringing),
         voiceStates: voiceStates ?? const [],
       ),
     };
@@ -211,19 +238,69 @@ class ActiveCalls extends _$ActiveCalls {
     List<String>? ringing,
     List<VoiceState>? voiceStates,
   }) {
-    final existing = state[channelId];
+    final CallState? existing = state[channelId];
     if (existing == null) {
+      createCall(
+        channelId,
+        messageId: messageId,
+        region: region,
+        ringing: ringing,
+        voiceStates: voiceStates,
+      );
       return;
     }
+    final bool hasRingPayload = ringing != null;
+    final List<String> nextRing =
+        ringing != null ? List<String>.from(ringing) : existing.ringing;
+    final Set<String> nextPending = hasRingPayload
+        ? _normalizeRingIds(ringing)
+        : existing.pendingRingUserIds;
     state = {
       ...state,
       channelId: CallState(
         channelId: channelId,
         messageId: messageId ?? existing.messageId,
         region: region ?? existing.region,
-        ringing: ringing ?? existing.ringing,
+        ringing: nextRing,
+        pendingRingUserIds: nextPending,
         voiceStates: voiceStates ?? existing.voiceStates,
       ),
+    };
+  }
+
+  bool isChannelPendingRingForUser({
+    required String channelId,
+    required String userId,
+  }) {
+    return state[channelId]?.pendingRingUserIds.contains(userId) ?? false;
+  }
+
+  void removeUserFromPendingRing({
+    required String channelId,
+    required String userId,
+  }) {
+    final CallState? existing = state[channelId];
+    if (existing == null) {
+      return;
+    }
+    final Set<String> next = {...existing.pendingRingUserIds}..remove(userId);
+    if (next.length == existing.pendingRingUserIds.length) {
+      return;
+    }
+    state = {
+      ...state,
+      channelId: existing.copyWith(pendingRingUserIds: next),
+    };
+  }
+
+  void clearPendingRingForChannel(String channelId) {
+    final CallState? existing = state[channelId];
+    if (existing == null) {
+      return;
+    }
+    state = {
+      ...state,
+      channelId: existing.copyWith(pendingRingUserIds: {}),
     };
   }
 
@@ -232,6 +309,40 @@ class ActiveCalls extends _$ActiveCalls {
   }
 
   void clear() => state = {};
+}
+
+/// Tracks channels where this client initiated an outbound ring (suppresses
+/// incoming overlay for caller), matching fluxer-web [CallInitiator].
+@Riverpod(keepAlive: true)
+class OutgoingVoiceCallInitiator extends _$OutgoingVoiceCallInitiator {
+  @override
+  Set<String> build() => {};
+
+  void markInitiated({
+    required String channelId,
+    required List<String> outboundRingRecipients,
+  }) {
+    final List<String> filtered = outboundRingRecipients
+        .map((String s) => s.trim())
+        .where((String s) => s.isNotEmpty)
+        .toList();
+    if (filtered.isEmpty) {
+      state = {...state}..remove(channelId);
+      return;
+    }
+    state = {...state, channelId};
+  }
+
+  bool hasInitiated(String channelId) => state.contains(channelId);
+
+  void clearChannel(String channelId) {
+    if (!state.contains(channelId)) {
+      return;
+    }
+    state = {...state}..remove(channelId);
+  }
+
+  void clearAll() => state = {};
 }
 
 /// In-memory invite cache.

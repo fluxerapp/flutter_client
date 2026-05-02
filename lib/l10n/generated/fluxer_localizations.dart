@@ -1090,6 +1090,60 @@ abstract class FluxerLocalizations {
   /// **'Start Voice Call'**
   String get dmVoiceCall;
 
+  /// Title shown on the overlay when receiving a ringing voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming voice call'**
+  String get incomingVoiceCallTitle;
+
+  /// Button to answer an incoming ringing voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get incomingVoiceCallAccept;
+
+  /// Primary reject action on an incoming call (parity with web “Reject”).
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get incomingVoiceCallDecline;
+
+  /// Short label above the avatar in the incoming call bottom sheet (web mobile parity).
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming call'**
+  String get incomingVoiceCallLabel;
+
+  /// Button to ignore ringing for the current account without rejecting for others.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore'**
+  String get incomingVoiceCallIgnore;
+
+  /// Shown when the server reports outbound DM voice call isn't allowed (not ringable).
+  ///
+  /// In en, this message translates to:
+  /// **'This call can\'t be started right now. Try again in a moment.'**
+  String get directVoiceCallNotEligible;
+
+  /// Snack when joining voice fails unexpectedly during outbound call start.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t connect to this call. Check your connection and try again.'**
+  String get voiceJoinCallFailed;
+
+  /// Snack when accepting an incoming ringing voice call fails to connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t join this call. Check your connection and try again.'**
+  String get voiceJoinIncomingCallFailed;
+
+  /// Snack when decline or ignore fails to notify the server about ringing.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update this call on the server. Check your connection and try again.'**
+  String get incomingVoiceRingingUpdateFailed;
+
   /// DM context menu action to add a note about the user.
   ///
   /// In en, this message translates to:
@@ -4989,6 +5043,78 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Live'**
   String get voiceLiveBadge;
+
+  /// Primary action on the DM voice banner to open the full-screen DM call UI.
+  ///
+  /// In en, this message translates to:
+  /// **'View call'**
+  String get dmVoiceViewCall;
+
+  /// Button label to expand the DM call from the embedded desktop panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get dmVoiceCallFullScreen;
+
+  /// Tooltip for expanding the DM voice call.
+  ///
+  /// In en, this message translates to:
+  /// **'Open call in full screen'**
+  String get dmVoiceCallFullScreenTooltip;
+
+  /// Banner status while the DM voice session is establishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get dmVoiceStripStatusConnecting;
+
+  /// Banner status when connected to DM voice.
+  ///
+  /// In en, this message translates to:
+  /// **'In call'**
+  String get dmVoiceStripStatusInCall;
+
+  /// Title on the DM embedded voice panel when conversation name is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice call'**
+  String get dmVoiceEmbeddedFallbackTitle;
+
+  /// Primary bar line during private-call connection.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get dmVoiceCallBarConnecting;
+
+  /// Primary bar title for connected 1:1 DM voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct call'**
+  String get dmVoiceCallBarDirectPrimary;
+
+  /// Primary bar title for connected group DM voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Group call'**
+  String get dmVoiceCallBarGroupPrimary;
+
+  /// Fallback bar title when a voice error has no guild name.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice issue'**
+  String get dmVoiceCallBarIssueFallback;
+
+  /// Fallback AppBar title for the fullscreen DM voice page.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get dmVoiceFullscreenTitle;
+
+  /// Primary line on the compact voice bar when in a guild call but guild name is not loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice connected'**
+  String get voiceCallBarGuildConnectedFallback;
 }
 
 class _FluxerLocalizationsDelegate

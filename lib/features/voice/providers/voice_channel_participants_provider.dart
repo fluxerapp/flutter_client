@@ -6,6 +6,13 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_channel_participants_provider.g.dart';
 
+/// Prefix for [voiceChannelParticipants] keys when listing DM / private voice
+/// (`VoiceState.guildId` is null).
+const String kVoiceDmParticipantsKeyPrefix = 'private|';
+
+String voiceDmChannelParticipantsFamilyKey(String channelId) =>
+    '$kVoiceDmParticipantsKeyPrefix$channelId';
+
 String voiceChannelParticipantsFamilyKey(
   String guildId,
   String channelId,
@@ -52,7 +59,7 @@ int _compareVoiceStateForSort(
   return keyA.compareTo(keyB);
 }
 
-List<VoiceState> _voiceStatesInChannel(
+List<VoiceState> _voiceStatesInGuildChannel(
   Map<String, VoiceState> map,
   String guildId,
   String channelId,
@@ -67,23 +74,44 @@ List<VoiceState> _voiceStatesInChannel(
   return out;
 }
 
+List<VoiceState> _voiceStatesInPrivateDmChannel(
+  Map<String, VoiceState> map,
+  String channelId,
+) {
+  final List<VoiceState> out = <VoiceState>[];
+  for (final VoiceState vs in map.values) {
+    if (vs.channelId != channelId) {
+      continue;
+    }
+    if (vs.guildId != null && vs.guildId!.isNotEmpty) {
+      continue;
+    }
+    out.add(vs);
+  }
+  return out;
+}
+
 @riverpod
 Future<List<VoiceChannelParticipantData>> voiceChannelParticipants(
   Ref ref,
   String guildChannelKey,
 ) async {
-  final int sep = guildChannelKey.indexOf('|');
-  if (sep < 0 || sep == guildChannelKey.length - 1) {
-    return const <VoiceChannelParticipantData>[];
-  }
-  final String guildId = guildChannelKey.substring(0, sep);
-  final String channelId = guildChannelKey.substring(sep + 1);
   final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
-  final List<VoiceState> inChannel = _voiceStatesInChannel(
-    map,
-    guildId,
-    channelId,
-  );
+  late final List<VoiceState> inChannel;
+  if (guildChannelKey.startsWith(kVoiceDmParticipantsKeyPrefix)) {
+    final String channelId = guildChannelKey.substring(
+      kVoiceDmParticipantsKeyPrefix.length,
+    );
+    inChannel = _voiceStatesInPrivateDmChannel(map, channelId);
+  } else {
+    final int sep = guildChannelKey.indexOf('|');
+    if (sep < 0 || sep == guildChannelKey.length - 1) {
+      return const <VoiceChannelParticipantData>[];
+    }
+    final String guildId = guildChannelKey.substring(0, sep);
+    final String channelId = guildChannelKey.substring(sep + 1);
+    inChannel = _voiceStatesInGuildChannel(map, guildId, channelId);
+  }
   if (inChannel.isEmpty) {
     return const <VoiceChannelParticipantData>[];
   }

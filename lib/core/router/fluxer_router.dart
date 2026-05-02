@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/shell/presentation/app_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/stub_screen.dart';
+import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -277,6 +278,17 @@ GoRouter fluxerRouter(Ref ref) {
                       ),
                     ),
                     routes: [
+                      GoRoute(
+                        path: 'call',
+                        name: RouteNames.dmChannelCall,
+                        parentNavigatorKey: rootNavigatorKey,
+                        pageBuilder: (context, state) => _slideTransitionPage(
+                          key: state.pageKey,
+                          child: DmVoiceCallFullscreenPage(
+                            channelId: state.pathParameters['channelId'] ?? '',
+                          ),
+                        ),
+                      ),
                       GoRoute(
                         path: ':messageId',
                         name: RouteNames.dmMessage,

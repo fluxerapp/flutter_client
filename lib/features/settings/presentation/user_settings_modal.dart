@@ -251,6 +251,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
       ..invalidate(typingIndicatorsProvider)
       ..invalidate(voiceStatesMapProvider)
       ..invalidate(activeCallsProvider)
+      ..invalidate(outgoingVoiceCallInitiatorProvider)
       ..invalidate(inviteCacheProvider)
       // Session
       ..invalidate(currentUserIdProvider)
@@ -577,6 +578,7 @@ class _MobileSettingsNavBodyState
       ..invalidate(typingIndicatorsProvider)
       ..invalidate(voiceStatesMapProvider)
       ..invalidate(activeCallsProvider)
+      ..invalidate(outgoingVoiceCallInitiatorProvider)
       ..invalidate(inviteCacheProvider)
       // Session
       ..invalidate(currentUserIdProvider)

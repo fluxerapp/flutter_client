@@ -1013,19 +1013,31 @@ class _DMListState extends ConsumerState<DMList> {
         break;
       case _DmAction.voiceCall:
         unawaited(() async {
+          final String? selfId = ref.read(currentUserIdProvider);
+          final List<String> ringTargets = convo.remoteRecipientIds
+              .where((String id) => selfId == null || id != selfId)
+              .toList();
           final StartDirectVoiceCallResult r = await startDirectVoiceCall(
             ref,
             context,
             convo.id,
+            outboundRingRecipients: ringTargets.isEmpty ? null : ringTargets,
           );
           if (!context.mounted) {
             return;
           }
-          if (!r.ok && !r.microphoneDenied) {
+          if (!r.ok && !r.microphoneDenied && !r.cameraDenied) {
             final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.genericError)),
-            );
+            final String? snackMessage = r.notEligible
+                ? l10n.directVoiceCallNotEligible
+                : r.joinAttemptFailed
+                ? l10n.voiceJoinCallFailed
+                : null;
+            if (snackMessage != null) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(snackMessage)));
+            }
           }
         }());
       case _DmAction.addNote:

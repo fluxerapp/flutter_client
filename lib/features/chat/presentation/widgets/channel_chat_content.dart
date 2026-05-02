@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel_header.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel_textarea.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/direct_voice_session_strip.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/dm_embedded_voice_call_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/inline_expression_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/slowmode_indicator.dart';
@@ -75,6 +77,10 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
             Column(
               children: [
                 if (widget.showTopBar) const ChannelHeader(),
+                DirectVoiceSessionStrip(channelId: widget.channelId),
+                if (layoutModeOf(MediaQuery.sizeOf(context).width) ==
+                    LayoutMode.desktop)
+                  DmEmbeddedVoiceCallPanel(channelId: widget.channelId),
                 Expanded(
                   child: Stack(
                     children: [

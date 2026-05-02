@@ -561,6 +561,37 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get dmVoiceCall => 'Start Voice Call';
 
   @override
+  String get incomingVoiceCallTitle => 'Incoming voice call';
+
+  @override
+  String get incomingVoiceCallAccept => 'Accept';
+
+  @override
+  String get incomingVoiceCallDecline => 'Reject';
+
+  @override
+  String get incomingVoiceCallLabel => 'Incoming call';
+
+  @override
+  String get incomingVoiceCallIgnore => 'Ignore';
+
+  @override
+  String get directVoiceCallNotEligible =>
+      'This call can\'t be started right now. Try again in a moment.';
+
+  @override
+  String get voiceJoinCallFailed =>
+      'Couldn\'t connect to this call. Check your connection and try again.';
+
+  @override
+  String get voiceJoinIncomingCallFailed =>
+      'Couldn\'t join this call. Check your connection and try again.';
+
+  @override
+  String get incomingVoiceRingingUpdateFailed =>
+      'Couldn\'t update this call on the server. Check your connection and try again.';
+
+  @override
   String get dmAddNote => 'Add Note';
 
   @override
@@ -2924,4 +2955,40 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get voiceLiveBadge => 'Live';
+
+  @override
+  String get dmVoiceViewCall => 'View call';
+
+  @override
+  String get dmVoiceCallFullScreen => 'Full screen';
+
+  @override
+  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+
+  @override
+  String get dmVoiceStripStatusConnecting => 'Connecting…';
+
+  @override
+  String get dmVoiceStripStatusInCall => 'In call';
+
+  @override
+  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+
+  @override
+  String get dmVoiceCallBarConnecting => 'Connecting…';
+
+  @override
+  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+
+  @override
+  String get dmVoiceCallBarGroupPrimary => 'Group call';
+
+  @override
+  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+
+  @override
+  String get dmVoiceFullscreenTitle => 'Voice';
+
+  @override
+  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
 }

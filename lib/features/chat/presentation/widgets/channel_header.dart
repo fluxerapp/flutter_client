@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
@@ -13,6 +16,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:go_router/go_router.dart';
@@ -159,7 +163,8 @@ class ChannelHeader extends ConsumerWidget {
             variant: FluxerButtonVariant.secondary,
             size: FluxerButtonSize.small,
             iconSize: 20,
-            onPressed: () {},
+            onPressed: () =>
+                _executeOutboundDmCall(ref: ref, context: context, dm: dm),
           ),
           const SizedBox(width: 8),
           FluxerButton.circle(
@@ -167,7 +172,12 @@ class ChannelHeader extends ConsumerWidget {
             variant: FluxerButtonVariant.secondary,
             size: FluxerButtonSize.small,
             iconSize: 20,
-            onPressed: () {},
+            onPressed: () => _executeOutboundDmCall(
+              ref: ref,
+              context: context,
+              dm: dm,
+              startWithVideo: true,
+            ),
           ),
         ],
         if (showMessageActions && dm == null)
@@ -220,6 +230,30 @@ class ChannelHeader extends ConsumerWidget {
             ),
           ],
           const SizedBox(width: 8),
+          if (dm != null) ...[
+            FluxerButton.circle(
+              icon: PhosphorIconsFill.phone,
+              variant: FluxerButtonVariant.secondary,
+              size: FluxerButtonSize.small,
+              iconSize: 20,
+              onPressed: () =>
+                  _executeOutboundDmCall(ref: ref, context: context, dm: dm),
+            ),
+            const SizedBox(width: 8),
+            FluxerButton.circle(
+              icon: PhosphorIconsFill.videoCamera,
+              variant: FluxerButtonVariant.secondary,
+              size: FluxerButtonSize.small,
+              iconSize: 20,
+              onPressed: () => _executeOutboundDmCall(
+                ref: ref,
+                context: context,
+                dm: dm,
+                startWithVideo: true,
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
           const Spacer(),
           if (showMessageActions) ...[
             _topBarIcon(
@@ -344,9 +378,7 @@ class ChannelHeader extends ConsumerWidget {
       color = context.colors.statusIdle;
       label = l10n.voiceChannelStatusConnecting;
     }
-    final String tip = hasError
-        ? voice.errorMessage!
-        : label;
+    final String tip = hasError ? voice.errorMessage! : label;
     return Tooltip(
       message: tip,
       child: Semantics(
@@ -354,11 +386,7 @@ class ChannelHeader extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            PhosphorIcon(
-              icon,
-              size: compact ? 15 : 17,
-              color: color,
-            ),
+            PhosphorIcon(icon, size: compact ? 15 : 17, color: color),
             if (!compact) ...<Widget>[
               const SizedBox(width: 4),
               Text(
@@ -427,4 +455,41 @@ class ChannelHeader extends ConsumerWidget {
       ),
     ),
   );
+}
+
+void _executeOutboundDmCall({
+  required WidgetRef ref,
+  required BuildContext context,
+  required DmConversation dm,
+  bool startWithVideo = false,
+}) {
+  unawaited(() async {
+    final String? selfId = ref.read(currentUserIdProvider);
+    final List<String> ringTargets = dm.remoteRecipientIds
+        .where((String id) => selfId == null || id != selfId)
+        .toList();
+    final StartDirectVoiceCallResult r = await startDirectVoiceCall(
+      ref,
+      context,
+      dm.id,
+      outboundRingRecipients: ringTargets.isEmpty ? null : ringTargets,
+      startWithVideo: startWithVideo,
+    );
+    if (!context.mounted) {
+      return;
+    }
+    if (!r.ok && !r.microphoneDenied && !r.cameraDenied) {
+      final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+      final String? snackMessage = r.notEligible
+          ? l10n.directVoiceCallNotEligible
+          : r.joinAttemptFailed
+          ? l10n.voiceJoinCallFailed
+          : null;
+      if (snackMessage != null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(snackMessage)));
+      }
+    }
+  }());
 }

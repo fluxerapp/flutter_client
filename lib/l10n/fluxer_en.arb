@@ -712,6 +712,42 @@
   "@dmVoiceCall": {
     "description": "DM context menu action to start a voice call."
   },
+  "incomingVoiceCallTitle": "Incoming voice call",
+  "@incomingVoiceCallTitle": {
+    "description": "Title shown on the overlay when receiving a ringing voice call."
+  },
+  "incomingVoiceCallAccept": "Accept",
+  "@incomingVoiceCallAccept": {
+    "description": "Button to answer an incoming ringing voice call."
+  },
+  "incomingVoiceCallDecline": "Reject",
+  "@incomingVoiceCallDecline": {
+    "description": "Primary reject action on an incoming call (parity with web “Reject”)."
+  },
+  "incomingVoiceCallLabel": "Incoming call",
+  "@incomingVoiceCallLabel": {
+    "description": "Short label above the avatar in the incoming call bottom sheet (web mobile parity)."
+  },
+  "incomingVoiceCallIgnore": "Ignore",
+  "@incomingVoiceCallIgnore": {
+    "description": "Button to ignore ringing for the current account without rejecting for others."
+  },
+  "directVoiceCallNotEligible": "This call can't be started right now. Try again in a moment.",
+  "@directVoiceCallNotEligible": {
+    "description": "Shown when the server reports outbound DM voice call isn't allowed (not ringable)."
+  },
+  "voiceJoinCallFailed": "Couldn't connect to this call. Check your connection and try again.",
+  "@voiceJoinCallFailed": {
+    "description": "Snack when joining voice fails unexpectedly during outbound call start."
+  },
+  "voiceJoinIncomingCallFailed": "Couldn't join this call. Check your connection and try again.",
+  "@voiceJoinIncomingCallFailed": {
+    "description": "Snack when accepting an incoming ringing voice call fails to connect."
+  },
+  "incomingVoiceRingingUpdateFailed": "Couldn't update this call on the server. Check your connection and try again.",
+  "@incomingVoiceRingingUpdateFailed": {
+    "description": "Snack when decline or ignore fails to notify the server about ringing."
+  },
   "dmAddNote": "Add Note",
   "@dmAddNote": {
     "description": "DM context menu action to add a note about the user."
@@ -3536,5 +3572,53 @@
   "voiceLiveBadge": "Live",
   "@voiceLiveBadge": {
     "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
+  },
+  "dmVoiceViewCall": "View call",
+  "@dmVoiceViewCall": {
+    "description": "Primary action on the DM voice banner to open the full-screen DM call UI."
+  },
+  "dmVoiceCallFullScreen": "Full screen",
+  "@dmVoiceCallFullScreen": {
+    "description": "Button label to expand the DM call from the embedded desktop panel."
+  },
+  "dmVoiceCallFullScreenTooltip": "Open call in full screen",
+  "@dmVoiceCallFullScreenTooltip": {
+    "description": "Tooltip for expanding the DM voice call."
+  },
+  "dmVoiceStripStatusConnecting": "Connecting…",
+  "@dmVoiceStripStatusConnecting": {
+    "description": "Banner status while the DM voice session is establishing."
+  },
+  "dmVoiceStripStatusInCall": "In call",
+  "@dmVoiceStripStatusInCall": {
+    "description": "Banner status when connected to DM voice."
+  },
+  "dmVoiceEmbeddedFallbackTitle": "Voice call",
+  "@dmVoiceEmbeddedFallbackTitle": {
+    "description": "Title on the DM embedded voice panel when conversation name is unknown."
+  },
+  "dmVoiceCallBarConnecting": "Connecting…",
+  "@dmVoiceCallBarConnecting": {
+    "description": "Primary bar line during private-call connection."
+  },
+  "dmVoiceCallBarDirectPrimary": "Direct call",
+  "@dmVoiceCallBarDirectPrimary": {
+    "description": "Primary bar title for connected 1:1 DM voice."
+  },
+  "dmVoiceCallBarGroupPrimary": "Group call",
+  "@dmVoiceCallBarGroupPrimary": {
+    "description": "Primary bar title for connected group DM voice."
+  },
+  "dmVoiceCallBarIssueFallback": "Voice issue",
+  "@dmVoiceCallBarIssueFallback": {
+    "description": "Fallback bar title when a voice error has no guild name."
+  },
+  "dmVoiceFullscreenTitle": "Voice",
+  "@dmVoiceFullscreenTitle": {
+    "description": "Fallback AppBar title for the fullscreen DM voice page."
+  },
+  "voiceCallBarGuildConnectedFallback": "Voice connected",
+  "@voiceCallBarGuildConnectedFallback": {
+    "description": "Primary line on the compact voice bar when in a guild call but guild name is not loaded."
   }
 }
