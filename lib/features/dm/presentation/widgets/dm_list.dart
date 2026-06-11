@@ -23,10 +23,10 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
-import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/quick_switcher/presentation/sheets/quick_switcher_bottom_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -45,26 +45,6 @@ class DMList extends ConsumerStatefulWidget {
 }
 
 class _DMListState extends ConsumerState<DMList> {
-  bool _isSearching = false;
-  final _searchController = TextEditingController();
-  String _searchQuery = '';
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _toggleSearch() {
-    setState(() {
-      _isSearching = !_isSearching;
-      if (!_isSearching) {
-        _searchController.clear();
-        _searchQuery = '';
-      }
-    });
-  }
-
   void personalNote() {
     final userId = ref.read(currentUserIdProvider);
     if (userId != null) {
@@ -189,11 +169,6 @@ class _DMListState extends ConsumerState<DMList> {
           ),
         )
         .toList();
-    final searchResults = vm.mobileSearchResults(
-      _searchQuery,
-      conversations: visibleConvos,
-    );
-
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       color: context.colors.channelSidebarBackground,
@@ -202,10 +177,7 @@ class _DMListState extends ConsumerState<DMList> {
           Column(
             children: [
               if (isMobile) ...[
-                if (_isSearching)
-                  _buildSearchHeader(context)
-                else
-                  _buildMobileHeader(context),
+                _buildMobileHeader(context),
                 Divider(color: context.colors.borderColor, height: 1),
               ] else ...[
                 _buildQuickSwitcher(context),
@@ -264,27 +236,18 @@ class _DMListState extends ConsumerState<DMList> {
                 _buildDmHeader(context),
               ],
               Expanded(
-                child: isMobile && _isSearching
-                    ? _buildMobileSearchResults(
-                        context,
-                        visibleConvos,
-                        searchResults,
-                        selectedId,
-                        pinnedIds: pinnedIds,
-                        mutedIds: mutedIds,
-                      )
-              : _buildConvoList(
+                child: _buildConvoList(
                   context,
                   visibleConvos,
                   selectedId,
-                        isMobile: isMobile,
-                        pinnedIds: pinnedIds,
-                        mutedIds: mutedIds,
-                      ),
+                  isMobile: isMobile,
+                  pinnedIds: pinnedIds,
+                  mutedIds: mutedIds,
+                ),
               ),
             ],
           ),
-          if (isMobile && !_isSearching)
+          if (isMobile)
             Positioned(right: 16, bottom: 16, child: _buildComposeFab(context)),
         ],
       ),
@@ -308,42 +271,6 @@ class _DMListState extends ConsumerState<DMList> {
         size: 24,
         color: context.colors.textPrimary,
       ),
-    ),
-  );
-
-  Widget _buildSearchHeader(BuildContext context) => Container(
-    height: 56,
-    padding: const EdgeInsets.symmetric(horizontal: 12),
-    child: Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _searchController,
-            autofocus: true,
-            style: TextStyle(color: context.colors.textPrimary, fontSize: 16),
-            decoration: InputDecoration(
-              hintText: 'Search conversations and friends...',
-              hintStyle: TextStyle(
-                color: context.colors.textPrimaryMuted,
-                fontSize: 16,
-              ),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 5,
-                horizontal: 5,
-              ),
-              isDense: true,
-            ),
-            onChanged: (value) => setState(() => _searchQuery = value),
-          ),
-        ),
-        const SizedBox(width: 8),
-        _buildCircleButton(
-          context,
-          icon: PhosphorIconsBold.x,
-          onTap: _toggleSearch,
-        ),
-      ],
     ),
   );
 
@@ -458,17 +385,18 @@ class _DMListState extends ConsumerState<DMList> {
     BuildContext context, {
     required IconData icon,
     required VoidCallback onTap,
+    double iconSize = 18,
   }) => GestureDetector(
     onTap: onTap,
     child: Container(
       width: 32,
       height: 32,
       decoration: BoxDecoration(
-        color: context.colors.backgroundModifierAccent,
+        color: context.colors.guildListForeground,
         shape: BoxShape.circle,
       ),
       alignment: Alignment.center,
-      child: PhosphorIcon(icon, size: 18, color: context.colors.textPrimary),
+      child: PhosphorIcon(icon, size: iconSize, color: context.colors.textPrimary),
     ),
   );
 
@@ -479,7 +407,7 @@ class _DMListState extends ConsumerState<DMList> {
 
     return Container(
       height: 56,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
       child: Row(
         children: [
           Expanded(
@@ -489,29 +417,31 @@ class _DMListState extends ConsumerState<DMList> {
                 color: context.colors.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
+                height: 28 / 18,
               ),
             ),
           ),
           _buildCircleButton(
             context,
             icon: PhosphorIconsBold.magnifyingGlass,
-            onTap: _toggleSearch,
+            iconSize: 20,
+            onTap: () => unawaited(QuickSwitcherBottomSheet.show(context, ref)),
           ),
           const SizedBox(width: 8),
           InkWell(
             onTap: () => AddFriendSheet.show(context),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(999),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
+                    horizontal: 16,
+                    vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: context.colors.backgroundModifierAccent,
-                    borderRadius: BorderRadius.circular(16),
+                    color: context.colors.guildListForeground,
+                    borderRadius: BorderRadius.circular(999),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -521,13 +451,14 @@ class _DMListState extends ConsumerState<DMList> {
                         size: 16,
                         color: context.colors.textPrimary,
                       ),
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 8),
                       Text(
                         l10n.dmAddFriends,
                         style: TextStyle(
                           color: context.colors.textPrimary,
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
+                          height: 20 / 14,
                         ),
                       ),
                     ],
@@ -535,12 +466,12 @@ class _DMListState extends ConsumerState<DMList> {
                 ),
                 if (pendingCount > 0)
                   Positioned(
-                    top: -6,
-                    right: -6,
+                    top: -4,
+                    right: -4,
                     child: Container(
                       constraints: const BoxConstraints(
-                        minWidth: 18,
-                        minHeight: 18,
+                        minWidth: 20,
+                        minHeight: 20,
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
@@ -552,9 +483,9 @@ class _DMListState extends ConsumerState<DMList> {
                         '$pendingCount',
                         style: TextStyle(
                           color: context.colors.textPrimary,
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: FontWeight.w700,
-                          height: 1,
+                          height: 16 / 12,
                         ),
                       ),
                     ),
@@ -567,206 +498,6 @@ class _DMListState extends ConsumerState<DMList> {
     );
   }
 
-  Widget _buildMobileSearchResults(
-    BuildContext context,
-    List<DmConversation> sortedConvos,
-    DmMobileSearchResults results,
-    String? selectedId, {
-    required Set<String> pinnedIds,
-    required Set<String> mutedIds,
-  }) {
-    if (!results.hasQuery) {
-      return _buildConvoList(
-        context,
-        sortedConvos,
-        selectedId,
-        isMobile: true,
-        pinnedIds: pinnedIds,
-        mutedIds: mutedIds,
-      );
-    }
-
-    if (!results.hasResults) {
-      return _buildSearchEmptyState(context);
-    }
-
-    return ListView(
-      padding: EdgeInsets.only(
-        top: context.layout.s2,
-        bottom: context.layout.s6,
-      ),
-      children: [
-        if (results.conversations.isNotEmpty) ...[
-          _buildSearchSectionHeader(context, 'Conversations'),
-          ...results.conversations.map(
-            (convo) => _buildConvoTile(
-              context,
-              convo: convo,
-              isSelected: convo.id == selectedId,
-              isMobile: true,
-              isPinned: pinnedIds.contains(convo.id),
-              isMuted: mutedIds.contains(convo.id),
-            ),
-          ),
-        ],
-        if (results.friends.isNotEmpty) ...[
-          _buildSearchSectionHeader(context, 'Friends'),
-          ...results.friends.map(
-            (friend) => _buildFriendSearchTile(context, friend),
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildSearchSectionHeader(BuildContext context, String title) =>
-      Padding(
-        padding: EdgeInsets.fromLTRB(
-          context.layout.s2,
-          context.layout.s2,
-          context.layout.s2,
-          context.layout.s1,
-        ),
-        child: Text(
-          title,
-          style: TextStyle(
-            color: context.colors.textPrimaryMuted,
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      );
-
-  Widget _buildSearchEmptyState(BuildContext context) => Center(
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.layout.s8),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          PhosphorIcon(
-            PhosphorIconsRegular.magnifyingGlass,
-            size: 56,
-            color: context.colors.textTertiary,
-          ),
-          SizedBox(height: context.layout.s4),
-          Text(
-            'No results found',
-            style: TextStyle(
-              color: context.colors.textPrimary,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: context.layout.s2),
-          Text(
-            'Try another name or check your spelling.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: context.colors.textTertiary,
-              fontSize: 14,
-              height: 1.4,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-
-  Widget _buildFriendSearchTile(BuildContext context, Friend friend) {
-    final subtitle = switch (friend.friendStatus) {
-      FriendStatus.accepted => friend.username,
-      FriendStatus.pendingIncoming => 'Incoming friend request',
-      FriendStatus.pendingOutgoing => 'Outgoing friend request',
-      FriendStatus.blocked => friend.username,
-    };
-
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () => unawaited(_openFriendConversation(friend)),
-        child: Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: context.layout.s2,
-            vertical: 2,
-          ),
-          padding: EdgeInsets.symmetric(
-            horizontal: context.layout.s2,
-            vertical: 8,
-          ),
-          child: Row(
-            children: [
-              FluxerAvatar.user(
-                fallbackText: friend.displayName,
-                userId: friend.id,
-                imageUrl: FluxerMediaUrl.userAvatar(
-                  userId: friend.id,
-                  hash: friend.avatar,
-                ),
-                avatarColor: friend.avatarColor,
-                status: friend.status,
-              ),
-              SizedBox(width: context.layout.s3),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      friend.displayName,
-                      style: context.textStyles.username.copyWith(
-                        color: context.colors.textPrimary,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        color: context.colors.textPrimaryMuted,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              PhosphorIcon(
-                PhosphorIconsRegular.chatCircle,
-                size: 18,
-                color: context.colors.textPrimaryMuted,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _openFriendConversation(Friend friend) async {
-    try {
-      final channelId = await ref
-          .read(dmRepositoryProvider)
-          .ensureDmChannel(friend.id);
-      if (!mounted) {
-        return;
-      }
-      await _navigateToDmChannel(channelId);
-    } on Exception {
-      if (!mounted) {
-        return;
-      }
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            const FluxerToast(
-              message: 'Failed to open conversation',
-              variant: FluxerToastVariant.danger,
-            ),
-          );
-    }
-  }
-
   Widget _buildConvoList(
     BuildContext context,
     List<DmConversation> convos,
@@ -776,15 +507,15 @@ class _DMListState extends ConsumerState<DMList> {
     required Set<String> mutedIds,
   }) {
     final userId = ref.watch(currentUserIdProvider);
-    final listPadding = isMobile && !_isSearching
+    final listPadding = isMobile
         ? EdgeInsets.only(top: context.layout.s1, bottom: 96)
         : EdgeInsets.zero;
 
     return ListView.builder(
       padding: listPadding,
-      itemCount: convos.length + (isMobile && !_isSearching ? 1 : 0),
+      itemCount: convos.length + (isMobile ? 1 : 0),
       itemBuilder: (context, index) {
-        if (isMobile && !_isSearching && index == 0) {
+        if (isMobile && index == 0) {
           return _buildMobilePersonalNotes(
             context,
             userId,
@@ -792,7 +523,7 @@ class _DMListState extends ConsumerState<DMList> {
           );
         }
 
-        final convoIndex = isMobile && !_isSearching ? index - 1 : index;
+        final convoIndex = isMobile ? index - 1 : index;
         final convo = convos[convoIndex];
         final isSelected = convo.id == selectedId;
 

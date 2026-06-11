@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -80,6 +81,9 @@ Future<void> navigateToDmChannelContent({
   final String path = messageId == null || messageId.isEmpty
       ? RoutePaths.dmChannel(channelId)
       : RoutePaths.dmChannelMessage(channelId, messageId);
+  ref
+      .read(recentChannelVisitsProvider.notifier)
+      .recordVisit(channelId: channelId);
   navigateToContent(context, path);
 }
 
@@ -164,9 +168,16 @@ Future<void> openGuildChannelContent({
       voiceSession.guildId == guildId &&
       voiceSession.channelId == channel.id;
 
+  void recordAndNavigate() {
+    ref
+        .read(recentChannelVisitsProvider.notifier)
+        .recordVisit(channelId: channel.id, guildId: guildId);
+    navigateToContent(context, chatPath);
+  }
+
   if (channel.type == ChannelType.voice && isMobileLayout(context)) {
     if (isInCurrentVoiceChannel) {
-      navigateToContent(context, chatPath);
+      recordAndNavigate();
       return;
     }
     final VoiceChannelJoinSheetResult? joinResult =
@@ -181,6 +192,9 @@ Future<void> openGuildChannelContent({
     }
     switch (joinResult) {
       case VoiceChannelJoinOpenChat():
+        ref
+            .read(recentChannelVisitsProvider.notifier)
+            .recordVisit(channelId: channel.id, guildId: guildId);
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (context.mounted) {
             unawaited(
@@ -196,7 +210,7 @@ Future<void> openGuildChannelContent({
         :final initialSelfMute,
         :final initialSelfDeaf,
       ):
-        navigateToContent(context, chatPath);
+        recordAndNavigate();
         unawaited(
           joinVoiceChannelWithConfirmation(
             ref: ref,
@@ -211,7 +225,7 @@ Future<void> openGuildChannelContent({
     return;
   }
 
-  navigateToContent(context, chatPath);
+  recordAndNavigate();
   if (channel.type == ChannelType.voice && !isInCurrentVoiceChannel) {
     final bool canJoinVoice = canJoinGuildVoiceChannelFromBits(
       guildId: guildId,

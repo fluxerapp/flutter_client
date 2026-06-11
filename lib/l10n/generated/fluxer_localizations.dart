@@ -8177,6 +8177,198 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Got it'**
   String get betaWarningGotIt;
+
+  /// Quick switcher bottom sheet tab for search results.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get quickSwitcherTabSearch;
+
+  /// Quick switcher bottom sheet tab for the friends list.
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get quickSwitcherTabFriends;
+
+  /// Placeholder in the mobile quick switcher search input.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for channels, people, or communities'**
+  String get quickSwitcherSearchPlaceholder;
+
+  /// Placeholder in the friends tab search input.
+  ///
+  /// In en, this message translates to:
+  /// **'Search friends'**
+  String get quickSwitcherSearchFriends;
+
+  /// Empty state title when quick switcher search has no results.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches found'**
+  String get quickSwitcherNoMatchesFound;
+
+  /// Empty state hint describing quick switcher prefix filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different name or use @ / # / ! / * prefixes to filter results.'**
+  String get quickSwitcherEmptyHint;
+
+  /// Quick switcher section header for user results.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get quickSwitcherSectionPeople;
+
+  /// Quick switcher section header for group DM results.
+  ///
+  /// In en, this message translates to:
+  /// **'Group messages'**
+  String get quickSwitcherSectionGroupMessages;
+
+  /// Quick switcher section header for text channel results.
+  ///
+  /// In en, this message translates to:
+  /// **'Text channels'**
+  String get quickSwitcherSectionTextChannels;
+
+  /// Quick switcher section header for voice channel results.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice channels'**
+  String get quickSwitcherSectionVoiceChannels;
+
+  /// Quick switcher section header for guild results.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities'**
+  String get quickSwitcherSectionCommunities;
+
+  /// Quick switcher section header for settings results.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get quickSwitcherSectionSettings;
+
+  /// Quick switcher label for navigating to the home DM list.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get quickSwitcherHomeLabel;
+
+  /// Quick switcher subtitle for the home virtual guild entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Messages'**
+  String get quickSwitcherDirectMessagesLabel;
+
+  /// Quick switcher label for the favorites virtual guild entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get quickSwitcherFavoritesLabel;
+
+  /// Quick switcher settings entry for user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'User Settings'**
+  String get quickSwitcherUserSettingsLabel;
+
+  /// Quick switcher settings entry for notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get quickSwitcherNotificationsLabel;
+
+  /// Quick switcher settings entry for bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get quickSwitcherBookmarksLabel;
+
+  /// Quick switcher settings entry for mentions.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions'**
+  String get quickSwitcherMentionsLabel;
+
+  /// Empty state in quick switcher friends tab when the user has no friends.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends yet'**
+  String get quickSwitcherFriendsEmptyTitle;
+
+  /// Empty state hint in quick switcher friends tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a friend to get started.'**
+  String get quickSwitcherFriendsEmptyHint;
+
+  /// Empty state when friends tab search has no matches.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends match that search'**
+  String get quickSwitcherFriendsNoMatchTitle;
+
+  /// Empty state hint when friends tab search has no matches.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different name.'**
+  String get quickSwitcherFriendsNoMatchHint;
+
+  /// Quick switcher search alias for user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get quickSwitcherSearchAliasUser;
+
+  /// Quick switcher search alias for user settings.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get quickSwitcherSearchAliasYou;
+
+  /// Quick switcher search alias for the home DM list.
+  ///
+  /// In en, this message translates to:
+  /// **'DM'**
+  String get quickSwitcherSearchAliasDm;
+
+  /// Quick switcher search alias for the home DM list.
+  ///
+  /// In en, this message translates to:
+  /// **'DMs'**
+  String get quickSwitcherSearchAliasDms;
+
+  /// Quick switcher search alias for the home DM list.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get quickSwitcherSearchAliasMessages;
+
+  /// Quick switcher search alias for favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Fav'**
+  String get quickSwitcherSearchAliasFav;
+
+  /// Quick switcher search alias for favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Starred'**
+  String get quickSwitcherSearchAliasStarred;
+
+  /// Quick switcher search alias for notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get quickSwitcherSearchAliasInbox;
+
+  /// Quick switcher search alias for bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get quickSwitcherSearchAliasSaved;
 }
 
 class _FluxerLocalizationsDelegate

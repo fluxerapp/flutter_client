@@ -4749,4 +4749,102 @@ class FluxerLocalizationsSv extends FluxerLocalizations {
 
   @override
   String get betaWarningGotIt => 'Got it';
+
+  @override
+  String get quickSwitcherTabSearch => 'Search';
+
+  @override
+  String get quickSwitcherTabFriends => 'Friends';
+
+  @override
+  String get quickSwitcherSearchPlaceholder =>
+      'Search for channels, people, or communities';
+
+  @override
+  String get quickSwitcherSearchFriends => 'Search friends';
+
+  @override
+  String get quickSwitcherNoMatchesFound => 'No matches found';
+
+  @override
+  String get quickSwitcherEmptyHint =>
+      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+
+  @override
+  String get quickSwitcherSectionPeople => 'People';
+
+  @override
+  String get quickSwitcherSectionGroupMessages => 'Group messages';
+
+  @override
+  String get quickSwitcherSectionTextChannels => 'Text channels';
+
+  @override
+  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+
+  @override
+  String get quickSwitcherSectionCommunities => 'Communities';
+
+  @override
+  String get quickSwitcherSectionSettings => 'Settings';
+
+  @override
+  String get quickSwitcherHomeLabel => 'Home';
+
+  @override
+  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+
+  @override
+  String get quickSwitcherFavoritesLabel => 'Favorites';
+
+  @override
+  String get quickSwitcherUserSettingsLabel => 'User Settings';
+
+  @override
+  String get quickSwitcherNotificationsLabel => 'Notifications';
+
+  @override
+  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+
+  @override
+  String get quickSwitcherMentionsLabel => 'Mentions';
+
+  @override
+  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+
+  @override
+  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+
+  @override
+  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+
+  @override
+  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+
+  @override
+  String get quickSwitcherSearchAliasUser => 'User';
+
+  @override
+  String get quickSwitcherSearchAliasYou => 'You';
+
+  @override
+  String get quickSwitcherSearchAliasDm => 'DM';
+
+  @override
+  String get quickSwitcherSearchAliasDms => 'DMs';
+
+  @override
+  String get quickSwitcherSearchAliasMessages => 'Messages';
+
+  @override
+  String get quickSwitcherSearchAliasFav => 'Fav';
+
+  @override
+  String get quickSwitcherSearchAliasStarred => 'Starred';
+
+  @override
+  String get quickSwitcherSearchAliasInbox => 'Inbox';
+
+  @override
+  String get quickSwitcherSearchAliasSaved => 'Saved';
 }

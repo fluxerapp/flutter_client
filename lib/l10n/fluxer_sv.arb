@@ -5819,5 +5819,133 @@
     "betaWarningGotIt": "Got it",
     "@betaWarningGotIt": {
         "description": "Primary button on the beta warning sheet to acknowledge the message."
+    },
+    "quickSwitcherTabSearch": "Search",
+    "@quickSwitcherTabSearch": {
+        "description": "Quick switcher bottom sheet tab for search results."
+    },
+    "quickSwitcherTabFriends": "Friends",
+    "@quickSwitcherTabFriends": {
+        "description": "Quick switcher bottom sheet tab for the friends list."
+    },
+    "quickSwitcherSearchPlaceholder": "Search for channels, people, or communities",
+    "@quickSwitcherSearchPlaceholder": {
+        "description": "Placeholder in the mobile quick switcher search input."
+    },
+    "quickSwitcherSearchFriends": "Search friends",
+    "@quickSwitcherSearchFriends": {
+        "description": "Placeholder in the friends tab search input."
+    },
+    "quickSwitcherNoMatchesFound": "No matches found",
+    "@quickSwitcherNoMatchesFound": {
+        "description": "Empty state title when quick switcher search has no results."
+    },
+    "quickSwitcherEmptyHint": "Try a different name or use @ / # / ! / * prefixes to filter results.",
+    "@quickSwitcherEmptyHint": {
+        "description": "Empty state hint describing quick switcher prefix filters."
+    },
+    "quickSwitcherSectionPeople": "People",
+    "@quickSwitcherSectionPeople": {
+        "description": "Quick switcher section header for user results."
+    },
+    "quickSwitcherSectionGroupMessages": "Group messages",
+    "@quickSwitcherSectionGroupMessages": {
+        "description": "Quick switcher section header for group DM results."
+    },
+    "quickSwitcherSectionTextChannels": "Text channels",
+    "@quickSwitcherSectionTextChannels": {
+        "description": "Quick switcher section header for text channel results."
+    },
+    "quickSwitcherSectionVoiceChannels": "Voice channels",
+    "@quickSwitcherSectionVoiceChannels": {
+        "description": "Quick switcher section header for voice channel results."
+    },
+    "quickSwitcherSectionCommunities": "Communities",
+    "@quickSwitcherSectionCommunities": {
+        "description": "Quick switcher section header for guild results."
+    },
+    "quickSwitcherSectionSettings": "Settings",
+    "@quickSwitcherSectionSettings": {
+        "description": "Quick switcher section header for settings results."
+    },
+    "quickSwitcherHomeLabel": "Home",
+    "@quickSwitcherHomeLabel": {
+        "description": "Quick switcher label for navigating to the home DM list."
+    },
+    "quickSwitcherDirectMessagesLabel": "Direct Messages",
+    "@quickSwitcherDirectMessagesLabel": {
+        "description": "Quick switcher subtitle for the home virtual guild entry."
+    },
+    "quickSwitcherFavoritesLabel": "Favorites",
+    "@quickSwitcherFavoritesLabel": {
+        "description": "Quick switcher label for the favorites virtual guild entry."
+    },
+    "quickSwitcherUserSettingsLabel": "User Settings",
+    "@quickSwitcherUserSettingsLabel": {
+        "description": "Quick switcher settings entry for user settings."
+    },
+    "quickSwitcherNotificationsLabel": "Notifications",
+    "@quickSwitcherNotificationsLabel": {
+        "description": "Quick switcher settings entry for notifications."
+    },
+    "quickSwitcherBookmarksLabel": "Bookmarks",
+    "@quickSwitcherBookmarksLabel": {
+        "description": "Quick switcher settings entry for bookmarks."
+    },
+    "quickSwitcherMentionsLabel": "Mentions",
+    "@quickSwitcherMentionsLabel": {
+        "description": "Quick switcher settings entry for mentions."
+    },
+    "quickSwitcherFriendsEmptyTitle": "No friends yet",
+    "@quickSwitcherFriendsEmptyTitle": {
+        "description": "Empty state in quick switcher friends tab when the user has no friends."
+    },
+    "quickSwitcherFriendsEmptyHint": "Add a friend to get started.",
+    "@quickSwitcherFriendsEmptyHint": {
+        "description": "Empty state hint in quick switcher friends tab."
+    },
+    "quickSwitcherFriendsNoMatchTitle": "No friends match that search",
+    "@quickSwitcherFriendsNoMatchTitle": {
+        "description": "Empty state when friends tab search has no matches."
+    },
+    "quickSwitcherFriendsNoMatchHint": "Try a different name.",
+    "@quickSwitcherFriendsNoMatchHint": {
+        "description": "Empty state hint when friends tab search has no matches."
+    },
+    "quickSwitcherSearchAliasUser": "User",
+    "@quickSwitcherSearchAliasUser": {
+        "description": "Quick switcher search alias for user settings."
+    },
+    "quickSwitcherSearchAliasYou": "You",
+    "@quickSwitcherSearchAliasYou": {
+        "description": "Quick switcher search alias for user settings."
+    },
+    "quickSwitcherSearchAliasDm": "DM",
+    "@quickSwitcherSearchAliasDm": {
+        "description": "Quick switcher search alias for the home DM list."
+    },
+    "quickSwitcherSearchAliasDms": "DMs",
+    "@quickSwitcherSearchAliasDms": {
+        "description": "Quick switcher search alias for the home DM list."
+    },
+    "quickSwitcherSearchAliasMessages": "Messages",
+    "@quickSwitcherSearchAliasMessages": {
+        "description": "Quick switcher search alias for the home DM list."
+    },
+    "quickSwitcherSearchAliasFav": "Fav",
+    "@quickSwitcherSearchAliasFav": {
+        "description": "Quick switcher search alias for favorites."
+    },
+    "quickSwitcherSearchAliasStarred": "Starred",
+    "@quickSwitcherSearchAliasStarred": {
+        "description": "Quick switcher search alias for favorites."
+    },
+    "quickSwitcherSearchAliasInbox": "Inbox",
+    "@quickSwitcherSearchAliasInbox": {
+        "description": "Quick switcher search alias for notifications."
+    },
+    "quickSwitcherSearchAliasSaved": "Saved",
+    "@quickSwitcherSearchAliasSaved": {
+        "description": "Quick switcher search alias for bookmarks."
     }
 }

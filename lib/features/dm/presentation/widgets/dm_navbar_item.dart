@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/dm/domain/dm_unread_state.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
@@ -116,10 +117,15 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
               onEnter: (_) => setState(() => _isHovered = true),
               onExit: (_) => setState(() => _isHovered = false),
               child: GestureDetector(
-                onTap: () => navigateToContent(
-                  context,
-                  RoutePaths.dmChannel(widget.channelId),
-                ),
+                onTap: () {
+                  ref
+                      .read(recentChannelVisitsProvider.notifier)
+                      .recordVisit(channelId: widget.channelId);
+                  navigateToContent(
+                    context,
+                    RoutePaths.dmChannel(widget.channelId),
+                  );
+                },
                 onSecondaryTapDown: (details) =>
                     widget.onContextMenu?.call(details.globalPosition),
                 onLongPress: () => widget.onContextMenu?.call(Offset.zero),

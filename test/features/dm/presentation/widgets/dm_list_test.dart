@@ -8,13 +8,18 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -125,7 +130,7 @@ void main() {
       }
     });
 
-    testWidgets('shows discoverable friend matches while searching on mobile', (
+    testWidgets('opens the quick switcher sheet from the mobile search button', (
       tester,
     ) async {
       _setMobileSurface(tester);
@@ -159,55 +164,14 @@ void main() {
 
       await tester.tap(_mobileSearchButton());
       await tester.pump();
-      await tester.enterText(find.byType(TextField), 'bob');
-      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
 
-      expect(find.text('Friends'), findsOneWidget);
-      expect(find.text('Bob Builder'), findsOneWidget);
-    });
-
-    testWidgets('shows a no-results state for unmatched mobile searches', (
-      tester,
-    ) async {
-      _setMobileSurface(tester);
-
-      await tester.pumpWidget(
-        _buildTestApp(
-          overrides: _buildOverrides(
-            conversations: [
-              DmConversation(
-                id: '100',
-                type: 1,
-                recipientId: '200',
-                recipientName: 'Monty',
-                lastMessage: 'Hi there',
-                lastMessageTime: _recentTime(),
-              ),
-            ],
-            friendsList: const [
-              Friend(
-                id: '300',
-                username: 'bob',
-                globalName: 'Bob Builder',
-                friendStatus: FriendStatus.accepted,
-                status: 'online',
-              ),
-            ],
-          ),
-        ),
-      );
-      await tester.pump();
-
-      await tester.tap(_mobileSearchButton());
-      await tester.pump();
-      await tester.enterText(find.byType(TextField), 'zzz');
-      await tester.pump();
-
-      expect(find.text('No results found'), findsOneWidget);
       expect(
-        find.text('Try another name or check your spelling.'),
+        find.text('Search for channels, people, or communities'),
         findsOneWidget,
       );
+      expect(find.text('Search'), findsWidgets);
+      expect(find.text('Friends'), findsWidgets);
     });
   });
 }
@@ -252,10 +216,20 @@ List<Override> _buildOverrides({
     ),
     pendingFriendRequestCountProvider.overrideWith((ref) => Stream.value(0)),
     friendsListProvider.overrideWith((ref) => Stream.value(friendsList)),
+    allChannelsProvider.overrideWith(
+      (ref) => Stream<List<Channel>>.value(const <Channel>[]),
+    ),
+    guildListViewModelProvider.overrideWith(_EmptyGuildListViewModel.new),
+    favoriteChannelsProvider.overrideWith((ref) => Stream.value(const [])),
     userSettingsViewModelProvider.overrideWith(
       _VerifiedUserSettingsViewModel.new,
     ),
   ];
+}
+
+class _EmptyGuildListViewModel extends GuildListViewModel {
+  @override
+  GuildListViewState build() => const GuildListViewState(guilds: <Guild>[]);
 }
 
 class _VerifiedUserSettingsViewModel extends UserSettingsViewModel {

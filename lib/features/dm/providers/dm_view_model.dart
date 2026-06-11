@@ -11,21 +11,6 @@ part 'dm_view_model.g.dart';
 
 enum FriendsTab { online, all, pending, blocked }
 
-class DmMobileSearchResults {
-  final String query;
-  final List<DmConversation> conversations;
-  final List<Friend> friends;
-
-  const DmMobileSearchResults({
-    required this.query,
-    required this.conversations,
-    required this.friends,
-  });
-
-  bool get hasQuery => query.isNotEmpty;
-  bool get hasResults => conversations.isNotEmpty || friends.isNotEmpty;
-}
-
 class DmViewState {
   final List<DmConversation> conversations;
   final List<Friend> friendsList;
@@ -84,46 +69,6 @@ class DmViewState {
     return filtered;
   }
 
-  DmMobileSearchResults mobileSearchResults(
-    String rawQuery, {
-    List<DmConversation>? conversations,
-  }) {
-    final query = rawQuery.trim().toLowerCase();
-    if (query.isEmpty) {
-      return const DmMobileSearchResults(
-        query: '',
-        conversations: [],
-        friends: [],
-      );
-    }
-
-    final availableConversations = conversations ?? this.conversations;
-    final directMessageRecipientIds = availableConversations
-        .where((convo) => !convo.isGroup)
-        .map((convo) => convo.recipientId)
-        .toSet();
-
-    final matchingConversations = availableConversations
-        .where((convo) => _matchesConversation(convo, query))
-        .toList();
-    final matchingFriends =
-        friendsList
-            .where(
-              (friend) =>
-                  friend.friendStatus != FriendStatus.blocked &&
-                  !directMessageRecipientIds.contains(friend.id) &&
-                  _matchesFriend(friend, query),
-            )
-            .toList()
-          ..sort(_sortDiscoverableFriends);
-
-    return DmMobileSearchResults(
-      query: rawQuery.trim(),
-      conversations: matchingConversations,
-      friends: matchingFriends,
-    );
-  }
-
   DmViewState copyWith({
     List<DmConversation>? conversations,
     List<Friend>? friendsList,
@@ -138,46 +83,6 @@ class DmViewState {
     );
   }
 }
-
-bool _matchesConversation(DmConversation convo, String query) {
-  final haystacks = <String>[
-    convo.displayName,
-    convo.recipientName,
-    convo.lastMessage,
-    ...[convo.recipientUsername, convo.lastMessageAuthorName].nonNulls,
-    ...convo.groupMembers.map((member) => member.name),
-  ];
-
-  return haystacks.any((value) => value.toLowerCase().contains(query));
-}
-
-bool _matchesFriend(Friend friend, String query) {
-  final haystacks = <String>[
-    friend.displayName,
-    friend.username,
-    ...[friend.nickname].nonNulls,
-  ];
-
-  return haystacks.any((value) => value.toLowerCase().contains(query));
-}
-
-int _sortDiscoverableFriends(Friend a, Friend b) {
-  final rankCompare = _friendSearchRank(
-    a.friendStatus,
-  ).compareTo(_friendSearchRank(b.friendStatus));
-  if (rankCompare != 0) {
-    return rankCompare;
-  }
-
-  return a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase());
-}
-
-int _friendSearchRank(FriendStatus status) => switch (status) {
-  FriendStatus.accepted => 0,
-  FriendStatus.pendingIncoming => 1,
-  FriendStatus.pendingOutgoing => 2,
-  FriendStatus.blocked => 3,
-};
 
 @Riverpod(keepAlive: true)
 class DmViewModel extends _$DmViewModel {
