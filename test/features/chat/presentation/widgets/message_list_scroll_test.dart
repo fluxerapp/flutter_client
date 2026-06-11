@@ -144,10 +144,7 @@ class CenterSliverScrollHarnessState extends State<CenterSliverScrollHarness> {
       return;
     }
     setState(() {
-      final List<int> items = <int>[
-        ..._preCenterItems,
-        ..._postCenterItems,
-      ];
+      final List<int> items = <int>[..._preCenterItems, ..._postCenterItems];
       if (items.isEmpty) {
         return;
       }
@@ -167,17 +164,17 @@ class CenterSliverScrollHarnessState extends State<CenterSliverScrollHarness> {
       center: centerKey,
       slivers: [
         SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              final int item = _postCenterItems[index];
-              return SizedBox(
-                key: ValueKey<int>(item),
-                height: 48,
-                child: Text('post $item'),
-              );
-            },
-            childCount: _postCenterItems.length,
-          ),
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            final int item = _postCenterItems[index];
+            return SizedBox(
+              key: ValueKey<int>(item),
+              height: 48,
+              child: Text('post $item'),
+            );
+          }, childCount: _postCenterItems.length),
         ),
         SliverPadding(
           key: centerKey,
@@ -185,17 +182,18 @@ class CenterSliverScrollHarnessState extends State<CenterSliverScrollHarness> {
           sliver: const SliverToBoxAdapter(child: SizedBox.shrink()),
         ),
         SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              final int item = _preCenterItems[_preCenterItems.length - 1 - index];
-              return SizedBox(
-                key: ValueKey<int>(item),
-                height: 48,
-                child: Text('pre $item'),
-              );
-            },
-            childCount: _preCenterItems.length,
-          ),
+          delegate: SliverChildBuilderDelegate((
+            BuildContext context,
+            int index,
+          ) {
+            final int item =
+                _preCenterItems[_preCenterItems.length - 1 - index];
+            return SizedBox(
+              key: ValueKey<int>(item),
+              height: 48,
+              child: Text('pre $item'),
+            );
+          }, childCount: _preCenterItems.length),
         ),
       ],
     );
@@ -209,10 +207,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: CenterSliverScrollHarness(
-            key: harnessKey,
-            initialCount: 20,
-          ),
+          body: CenterSliverScrollHarness(key: harnessKey, initialCount: 20),
         ),
       ),
     );
@@ -234,10 +229,7 @@ void main() {
         home: Scaffold(
           body: SizedBox(
             height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-            ),
+            child: CenterSliverScrollHarness(key: harnessKey, initialCount: 50),
           ),
         ),
       ),
@@ -280,43 +272,42 @@ void main() {
     expect(offsetAfter, closeTo(offsetBefore, 1));
   });
 
-  testWidgets(
-    'pinned pivot bottom is near minScrollExtent not absolute zero',
-    (tester) async {
-      final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-          GlobalKey<CenterSliverScrollHarnessState>();
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SizedBox(
-              height: 400,
-              child: CenterSliverScrollHarness(
-                key: harnessKey,
-                initialCount: 50,
-                pivotIndex: 10,
-              ),
+  testWidgets('pinned pivot bottom is near minScrollExtent not absolute zero', (
+    tester,
+  ) async {
+    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
+        GlobalKey<CenterSliverScrollHarnessState>();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SizedBox(
+            height: 400,
+            child: CenterSliverScrollHarness(
+              key: harnessKey,
+              initialCount: 50,
+              pivotIndex: 10,
             ),
           ),
         ),
-      );
-      await tester.pumpAndSettle();
-      harnessKey.currentState!.scrollToBottom();
-      await tester.pumpAndSettle();
-      final double? offset = harnessKey.currentState!.scrollOffset;
-      final double? minExtent = harnessKey.currentState!.minScrollExtent;
-      expect(offset, isNotNull);
-      expect(minExtent, isNotNull);
-      expect(offset, closeTo(minExtent!, 1));
-      expect(
-        isLiveNearBottom(pixels: offset!, minScrollExtent: minExtent),
-        isTrue,
-      );
-      expect(
-        isNearScrollExtentEnd(pixels: offset, minScrollExtent: minExtent),
-        isTrue,
-      );
-    },
-  );
+      ),
+    );
+    await tester.pumpAndSettle();
+    harnessKey.currentState!.scrollToBottom();
+    await tester.pumpAndSettle();
+    final double? offset = harnessKey.currentState!.scrollOffset;
+    final double? minExtent = harnessKey.currentState!.minScrollExtent;
+    expect(offset, isNotNull);
+    expect(minExtent, isNotNull);
+    expect(offset, closeTo(minExtent!, 1));
+    expect(
+      isLiveNearBottom(pixels: offset!, minScrollExtent: minExtent),
+      isTrue,
+    );
+    expect(
+      isNearScrollExtentEnd(pixels: offset, minScrollExtent: minExtent),
+      isTrue,
+    );
+  });
 
   testWidgets('pre-center prepend with pinned unread pivot keeps offset', (
     tester,
@@ -382,34 +373,35 @@ void main() {
     }
   });
 
-  testWidgets('post-center append with fixed unread pivot keeps offset stable', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 10,
+  testWidgets(
+    'post-center append with fixed unread pivot keeps offset stable',
+    (tester) async {
+      final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
+          GlobalKey<CenterSliverScrollHarnessState>();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              height: 400,
+              child: CenterSliverScrollHarness(
+                key: harnessKey,
+                initialCount: 50,
+                pivotIndex: 10,
+              ),
             ),
           ),
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToMiddle();
-    await tester.pumpAndSettle();
-    final double offsetBefore = harnessKey.currentState!.scrollOffset!;
-    harnessKey.currentState!.appendPostCenterItems(15);
-    await tester.pumpAndSettle();
-    final double offsetAfter = harnessKey.currentState!.scrollOffset!;
-    expect(offsetAfter, closeTo(offsetBefore, 1));
-  });
+      );
+      await tester.pumpAndSettle();
+      harnessKey.currentState!.scrollToMiddle();
+      await tester.pumpAndSettle();
+      final double offsetBefore = harnessKey.currentState!.scrollOffset!;
+      harnessKey.currentState!.appendPostCenterItems(15);
+      await tester.pumpAndSettle();
+      final double offsetAfter = harnessKey.currentState!.scrollOffset!;
+      expect(offsetAfter, closeTo(offsetBefore, 1));
+    },
+  );
 
   testWidgets('incremental scroll down from unread pivot stays smooth', (
     tester,

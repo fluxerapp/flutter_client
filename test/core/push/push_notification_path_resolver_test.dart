@@ -34,7 +34,10 @@ void main() {
         'channel_id': 'chan-1',
         'message_id': 'msg-1',
       });
-      expect(path, RoutePaths.guildChannelMessage('guild-1', 'chan-1', 'msg-1'));
+      expect(
+        path,
+        RoutePaths.guildChannelMessage('guild-1', 'chan-1', 'msg-1'),
+      );
     });
 
     test('returns null when channel_id is missing', () {

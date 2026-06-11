@@ -176,9 +176,7 @@ bool _isHeadingStart(String trimmedLeft, FluxerMarkdownFeatures features) {
     return false;
   }
   var level = 0;
-  while (level < trimmedLeft.length &&
-      level < 4 &&
-      trimmedLeft[level] == '#') {
+  while (level < trimmedLeft.length && level < 4 && trimmedLeft[level] == '#') {
     level++;
   }
   return level >= 1 &&
@@ -373,8 +371,8 @@ List<String> parseMessageTextFlowParts(
   String text,
   FluxerMarkdownFeatures features,
 ) {
-  return parseMessageContentStructure(text, features)
-      .whereType<MessageTextFlowSegment>()
-      .map((segment) => segment.text)
-      .toList();
+  return parseMessageContentStructure(
+    text,
+    features,
+  ).whereType<MessageTextFlowSegment>().map((segment) => segment.text).toList();
 }

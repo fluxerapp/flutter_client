@@ -22,9 +22,7 @@ void main() {
       db = FluxerDatabase.forTesting(NativeDatabase.memory());
       tokenStorage = MapAuthTokenStorage();
       repository = AuthRepository(
-        FluxerClient(
-          Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1')),
-        ),
+        FluxerClient(Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))),
         db,
         tokenStorage,
       );
@@ -77,45 +75,52 @@ void main() {
       );
     });
 
-    test('verifyMfaTotp exposes session timeout as a code field error', () async {
-      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
-        ..httpClientAdapter = const _JsonResponseAdapter(
-          expectedPath: '/v1/auth/login/mfa/totp',
-          statusCode: 400,
-          statusMessage: 'Bad Request',
-          responseJson: <String, Object?>{
-            'code': 'INVALID_FORM_BODY',
-            'message': 'Invalid form body.',
-            'errors': <Map<String, Object?>>[
-              <String, Object?>{
-                'field': 'code',
-                'message':
-                    'Session timed out. Refresh the page and log in again.',
-                'code': 'SESSION_TIMEOUT',
-              },
-            ],
-          },
+    test(
+      'verifyMfaTotp exposes session timeout as a code field error',
+      () async {
+        final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+          ..httpClientAdapter = const _JsonResponseAdapter(
+            expectedPath: '/v1/auth/login/mfa/totp',
+            statusCode: 400,
+            statusMessage: 'Bad Request',
+            responseJson: <String, Object?>{
+              'code': 'INVALID_FORM_BODY',
+              'message': 'Invalid form body.',
+              'errors': <Map<String, Object?>>[
+                <String, Object?>{
+                  'field': 'code',
+                  'message':
+                      'Session timed out. Refresh the page and log in again.',
+                  'code': 'SESSION_TIMEOUT',
+                },
+              ],
+            },
+          );
+
+        final mfaRepository = AuthRepository(
+          FluxerClient(dio),
+          db,
+          tokenStorage,
         );
 
-      final mfaRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
-
-      await expectLater(
-        mfaRepository.verifyMfaTotp(ticket: 'mfa-ticket', code: '366117'),
-        throwsA(
-          isA<AuthFailure>()
-              .having(
-                (AuthFailure error) => error.message,
-                'message',
-                'Invalid form body.',
-              )
-              .having(
-                (AuthFailure error) => error.fieldErrors['code'],
-                'code field error',
-                'Session timed out. Refresh the page and log in again.',
-              ),
-        ),
-      );
-    });
+        await expectLater(
+          mfaRepository.verifyMfaTotp(ticket: 'mfa-ticket', code: '366117'),
+          throwsA(
+            isA<AuthFailure>()
+                .having(
+                  (AuthFailure error) => error.message,
+                  'message',
+                  'Invalid form body.',
+                )
+                .having(
+                  (AuthFailure error) => error.fieldErrors['code'],
+                  'code field error',
+                  'Session timed out. Refresh the page and log in again.',
+                ),
+          ),
+        );
+      },
+    );
 
     test('stores tokens in secure storage instead of SQLite', () async {
       await repository.migrateLegacyTokens();
@@ -132,23 +137,23 @@ void main() {
       expect(tokenStorage.tokens['user-1'], 'secret-token');
     });
 
-    test('migrateLegacyTokens moves plaintext tokens into secure storage', () async {
-      await db.customStatement(
-        'ALTER TABLE auth_sessions ADD COLUMN token TEXT NOT NULL DEFAULT \'\'',
-      );
-      await db.customStatement('''
+    test(
+      'migrateLegacyTokens moves plaintext tokens into secure storage',
+      () async {
+        await db.customStatement(
+          "ALTER TABLE auth_sessions ADD COLUMN token TEXT NOT NULL DEFAULT ''",
+        );
+        await db.customStatement('''
         INSERT INTO auth_sessions (user_id, token, username)
         VALUES ('legacy-user', 'legacy-token', 'legacy')
         ''');
 
-      await repository.migrateLegacyTokens();
+        await repository.migrateLegacyTokens();
 
-      expect(
-        await tokenStorage.readToken('legacy-user'),
-        'legacy-token',
-      );
-      expect(await db.authSessionDao.getLegacyTokens(), isEmpty);
-    });
+        expect(await tokenStorage.readToken('legacy-user'), 'legacy-token');
+        expect(await db.authSessionDao.getLegacyTokens(), isEmpty);
+      },
+    );
 
     test('removeStoredAccount deletes the secure-storage token', () async {
       await repository.migrateLegacyTokens();

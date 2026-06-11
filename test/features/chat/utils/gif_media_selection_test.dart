@@ -123,4 +123,32 @@ void main() {
     expect(preview.width, 320);
     expect(preview.height, 228);
   });
+
+  test('drops video-only formats and falls back to the source url', () {
+    const media = {
+      'mp4': sdk.GifMediaFormat(
+        src: 'https://media.tenor.com/excited-ah.mp4',
+        proxySrc: 'https://cdn.example/excited-ah.mp4',
+        width: 498,
+        height: 498,
+      ),
+      'webm': sdk.GifMediaFormat(
+        src: 'https://media.tenor.com/excited-ah.webm',
+        proxySrc: 'https://cdn.example/excited-ah.webm',
+        width: 498,
+        height: 498,
+      ),
+    };
+
+    final preview = gifPreviewMediaForPicker(
+      src: 'https://media.tenor.com/excited-ah.gif',
+      proxySrc: 'https://cdn.example/excited-ah.gif',
+      width: 320,
+      height: 228,
+      media: media,
+    );
+
+    expect(preview.src, 'https://media.tenor.com/excited-ah.gif');
+    expect(preview.proxySrc, 'https://cdn.example/excited-ah.gif');
+  });
 }

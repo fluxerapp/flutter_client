@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod/src/framework.dart' show Override;
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -11,6 +10,7 @@ import 'package:fluxer_app/features/mature_content/domain/mature_content_types.d
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_content_channel_gate.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:riverpod/src/framework.dart' show Override;
 
 void main() {
   const ResolvedMatureGateContext matureContext = ResolvedMatureGateContext(
@@ -48,9 +48,9 @@ void main() {
           matureContentGateReasonProvider('channel-1').overrideWith(
             (ref) async => MatureContentGateReason.consentRequired,
           ),
-          matureGateContextProvider('channel-1').overrideWith(
-            (ref) async => matureContext,
-          ),
+          matureGateContextProvider(
+            'channel-1',
+          ).overrideWith((ref) async => matureContext),
         ],
         child: const MatureContentChannelGate(channelId: 'channel-1'),
       ),
@@ -69,9 +69,9 @@ void main() {
           matureContentGateReasonProvider('channel-2').overrideWith(
             (ref) async => MatureContentGateReason.consentRequired,
           ),
-          matureGateContextProvider('channel-2').overrideWith(
-            (ref) async => warningContext,
-          ),
+          matureGateContextProvider(
+            'channel-2',
+          ).overrideWith((ref) async => warningContext),
         ],
         child: const MatureContentChannelGate(
           channelId: 'channel-2',

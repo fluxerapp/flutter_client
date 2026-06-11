@@ -525,10 +525,7 @@ Widget _buildUserSettingsPlaceholder(
   return Center(
     child: Text(
       userSettingsSectionLabel(FluxerLocalizations.of(context), section),
-      style: TextStyle(
-        color: context.colors.textPrimaryMuted,
-        fontSize: 24,
-      ),
+      style: TextStyle(color: context.colors.textPrimaryMuted, fontSize: 24),
     ),
   );
 }

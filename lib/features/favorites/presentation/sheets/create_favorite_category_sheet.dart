@@ -30,7 +30,9 @@ Future<void> showCreateFavoriteCategorySheet(BuildContext context) async {
                   if (name.isEmpty) {
                     return;
                   }
-                  await ref.read(favoriteChannelsRepositoryProvider).addCategory(
+                  await ref
+                      .read(favoriteChannelsRepositoryProvider)
+                      .addCategory(
                         id: generateFavoriteCategoryId(),
                         name: name,
                       );

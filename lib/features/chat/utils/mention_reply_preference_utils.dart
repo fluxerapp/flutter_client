@@ -1,10 +1,7 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_dart/export.dart';
 
-enum ReplyMentionPreferenceConflict {
-  prefersMention,
-  prefersNoMention,
-}
+enum ReplyMentionPreferenceConflict { prefersMention, prefersNoMention }
 
 MentionReplyPreferences resolveMentionReplyPreference({
   required MentionReplyPreferences? memberMentionFlags,

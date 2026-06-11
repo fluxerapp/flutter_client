@@ -50,7 +50,8 @@ bool hasMatureContentAgreement({
           agreements.agreedCategoryIds.contains(categoryId);
     case MatureContentAgreementScope.channel:
       final String? channelId = context.scopeId ?? context.channelId;
-      return channelId != null && agreements.agreedChannelIds.contains(channelId);
+      return channelId != null &&
+          agreements.agreedChannelIds.contains(channelId);
   }
 }
 

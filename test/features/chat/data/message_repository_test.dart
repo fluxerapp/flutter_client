@@ -31,7 +31,6 @@ void main() {
     final bodyEnabled = buildMessageCreateBody(
       content: 'hello',
       replyToId: '123',
-      replyMention: true,
     );
     final bodyDisabled = buildMessageCreateBody(
       content: 'hello',

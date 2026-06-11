@@ -77,14 +77,10 @@ class FluxerApp extends ConsumerWidget {
       routerConfig: router,
       builder: (context, child) {
         final Widget layered = AppUiLifecycleObserver(
-          child: BetaWarningLayer(
-            child: IncomingVoiceCallLayer(child: child!),
-          ),
+          child: BetaWarningLayer(child: IncomingVoiceCallLayer(child: child!)),
         );
         if (!_isDesktopPlatform) {
-          return BetaBanner(
-            child: FluxerToastOverlay(child: layered),
-          );
+          return BetaBanner(child: FluxerToastOverlay(child: layered));
         }
         return FluxerToastOverlay(
           child: DragToResizeArea(

@@ -22,24 +22,24 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_link.
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_theme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
-import 'package:fluxer_app/features/chat/presentation/'
-    'widgets/messages/forward_indicator.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_context_menu.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_reply.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/messages/forward_indicator.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
-import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
@@ -521,8 +521,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       RenderSpoilers.onClick || RenderSpoilers.$unknown => false,
     };
     final chatPreferences = ref.watch(chatPreferencesProvider);
-    final bool prefersPersistedAuthor =
-        messagePrefersPersistedAuthorDisplay(msg);
+    final bool prefersPersistedAuthor = messagePrefersPersistedAuthorDisplay(
+      msg,
+    );
     final bool isCurrentUserAuthor =
         widget.currentUserId != null && msg.authorId == widget.currentUserId;
     Color? authorRoleColor;
@@ -570,9 +571,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             ),
           )
         : showMentionHighlight
-        ? const Border(
-            left: BorderSide(color: _kMentionColor, width: 2),
-          )
+        ? const Border(left: BorderSide(color: _kMentionColor, width: 2))
         : null;
     final bool isFailed = msg.hasFailed;
     final bool isSending = msg.isSending;
@@ -1217,14 +1216,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     ),
   );
 
-  Color _reactionChipBackground(BuildContext context, {required bool hasReacted}) {
+  Color _reactionChipBackground(
+    BuildContext context, {
+    required bool hasReacted,
+  }) {
     final colors = context.colors;
     if (hasReacted) {
-      return Color.lerp(
-        colors.backgroundSecondary,
-        colors.brandPrimary,
-        0.36,
-      )!;
+      return Color.lerp(colors.backgroundSecondary, colors.brandPrimary, 0.36)!;
     }
     final isLight = Theme.of(context).brightness == Brightness.light;
     if (isLight) {
@@ -1274,10 +1272,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           decoration: BoxDecoration(
             color: _reactionChipBackground(context, hasReacted: hasReacted),
             border: Border.all(
-              color: _reactionChipBorderColor(
-                context,
-                hasReacted: hasReacted,
-              ),
+              color: _reactionChipBorderColor(context, hasReacted: hasReacted),
             ),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -1308,9 +1303,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               Text(
                 '${reaction.count}',
                 style: TextStyle(
-                  color: hasReacted
-                      ? colors.brandPrimary
-                      : colors.textTertiary,
+                  color: hasReacted ? colors.brandPrimary : colors.textTertiary,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                 ),
@@ -1330,7 +1323,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     if (isMobile) {
       return _buildInlineAddReactionButton(
         context,
-        onTap: () => _openReactionPickerSheet(context, channelId: msg.channelId),
+        onTap: () =>
+            _openReactionPickerSheet(context, channelId: msg.channelId),
       );
     }
     return FluxerEmojiPickerPopout(

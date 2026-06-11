@@ -29,10 +29,7 @@ enum _VoiceComposerStage { recording, reviewing, permissionError }
 class VoiceMessageComposerSheet {
   VoiceMessageComposerSheet._();
 
-  static Future<void> show(
-    BuildContext context, {
-    required String channelId,
-  }) {
+  static Future<void> show(BuildContext context, {required String channelId}) {
     return FluxerBottomSheet.show<void>(
       context,
       title: FluxerLocalizations.of(context).voiceMessageTitle,
@@ -144,7 +141,9 @@ class _VoiceMessageComposerSheetBodyState
       _elapsedMs = 0;
     });
     await _maxDurationSubscription?.cancel();
-    _maxDurationSubscription = _recordingService.onMaxDurationReached.listen((_) {
+    _maxDurationSubscription = _recordingService.onMaxDurationReached.listen((
+      _,
+    ) {
       if (mounted && _stage == _VoiceComposerStage.recording) {
         unawaited(_stopRecording());
       }
@@ -186,12 +185,14 @@ class _VoiceMessageComposerSheetBodyState
     final VoiceMessagePreparedRecording? prepared = await _recordingService
         .stop();
     if (prepared == null) {
-      ref.read(toastProvider.notifier).show(
-        FluxerToast(
-          message: l10n.voiceMessageRecordingFailed,
-          variant: FluxerToastVariant.danger,
-        ),
-      );
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: l10n.voiceMessageRecordingFailed,
+              variant: FluxerToastVariant.danger,
+            ),
+          );
       widget.onClose();
       return;
     }
@@ -250,16 +251,17 @@ class _VoiceMessageComposerSheetBodyState
     }
     final double selectionDuration = _endSeconds - _startSeconds;
     if (selectionDuration < kVoiceMessageMinSendDurationMs / 1000) {
-      ref.read(toastProvider.notifier).show(
-        FluxerToast(
-          message: FluxerLocalizations.of(
-            context,
-          ).voiceMessageSelectionTooShort(
-            kVoiceMessageMinSendDurationMs / 1000,
-          ),
-          variant: FluxerToastVariant.warning,
-        ),
-      );
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: FluxerLocalizations.of(context)
+                  .voiceMessageSelectionTooShort(
+                    kVoiceMessageMinSendDurationMs / 1000,
+                  ),
+              variant: FluxerToastVariant.warning,
+            ),
+          );
       return;
     }
     setState(() => _isSending = true);
@@ -273,12 +275,14 @@ class _VoiceMessageComposerSheetBodyState
       );
       widget.onClose();
     } on Object {
-      ref.read(toastProvider.notifier).show(
-        FluxerToast(
-          message: FluxerLocalizations.of(context).voiceMessageSendFailed,
-          variant: FluxerToastVariant.danger,
-        ),
-      );
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: FluxerLocalizations.of(context).voiceMessageSendFailed,
+              variant: FluxerToastVariant.danger,
+            ),
+          );
       if (mounted) {
         setState(() => _isSending = false);
       }
@@ -296,10 +300,7 @@ class _VoiceMessageComposerSheetBodyState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (_errorMessage != null) ...[
-            Text(
-              _errorMessage!,
-              style: TextStyle(color: colors.accentDanger),
-            ),
+            Text(_errorMessage!, style: TextStyle(color: colors.accentDanger)),
             const SizedBox(height: 12),
             FluxerButton.secondary(
               label: l10n.voiceMessageStartRecording,

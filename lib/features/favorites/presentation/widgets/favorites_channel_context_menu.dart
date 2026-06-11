@@ -65,7 +65,9 @@ Future<void> showFavoritesChannelMenu(
               .removeChannel(entry.channelId);
           close();
           if (context.mounted) {
-            ref.read(toastProvider.notifier).show(
+            ref
+                .read(toastProvider.notifier)
+                .show(
                   FluxerToast(
                     message: l10n.favoritesRemovedToast,
                     variant: FluxerToastVariant.success,
@@ -95,11 +97,9 @@ Future<void> showFavoriteMoveToCategoryMenu(
         label: l10n.favoritesUncategorized,
         icon: PhosphorIconsBold.star,
         onPressed: () async {
-          await ref.read(favoriteChannelsRepositoryProvider).moveChannel(
-                channelId: entry.channelId,
-                position: 0,
-                parentId: null,
-              );
+          await ref
+              .read(favoriteChannelsRepositoryProvider)
+              .moveChannel(channelId: entry.channelId, position: 0);
           close();
         },
       ),
@@ -108,7 +108,9 @@ Future<void> showFavoriteMoveToCategoryMenu(
           label: category.name,
           icon: PhosphorIconsBold.folder,
           onPressed: () async {
-            await ref.read(favoriteChannelsRepositoryProvider).moveChannel(
+            await ref
+                .read(favoriteChannelsRepositoryProvider)
+                .moveChannel(
                   channelId: entry.channelId,
                   position: 0,
                   parentId: category.id,

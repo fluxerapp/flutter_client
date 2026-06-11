@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 
 class VoiceMessageMobileWaveform extends StatelessWidget {
-  const VoiceMessageMobileWaveform({
-    required this.bars,
-    super.key,
-  });
+  const VoiceMessageMobileWaveform({required this.bars, super.key});
 
   final List<double> bars;
 
@@ -38,10 +35,7 @@ class VoiceMessageMobileWaveform extends StatelessWidget {
 }
 
 class VoiceMessageDesktopLiveWaveform extends StatelessWidget {
-  const VoiceMessageDesktopLiveWaveform({
-    required this.amplitudes,
-    super.key,
-  });
+  const VoiceMessageDesktopLiveWaveform({required this.amplitudes, super.key});
 
   final List<double> amplitudes;
 
@@ -59,7 +53,7 @@ class VoiceMessageDesktopLiveWaveform extends StatelessWidget {
                 0,
               )
             : 0;
-        final double maxBarHeight =
+        const double maxBarHeight =
             kVoiceMessageLiveWaveformViewportHeightPx *
             kVoiceMessageLiveWaveformMaxBarHeightRatio;
         return ClipRect(

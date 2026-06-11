@@ -221,7 +221,6 @@ void main() {
     final GuildUserDisplay humanGuildDisplay = GuildUserDisplay(
       displayName: 'Guild Nick',
       accountDisplayName: 'Global Name',
-      isBot: false,
       avatarUrl: FluxerMediaUrl.userAvatar(
         userId: botUserId,
         hash: 'bot_avatar',
@@ -255,7 +254,6 @@ void main() {
       final GuildUserDisplay actual = resolveMessageAuthorDisplay(
         message: message,
         guildId: guildId,
-        guildDisplay: null,
       );
       expect(actual.displayName, 'Proxy One');
     });

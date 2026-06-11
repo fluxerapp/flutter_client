@@ -83,15 +83,13 @@ class FavoritesChannelList extends ConsumerWidget {
     return GestureDetector(
       onSecondaryTapUp: (details) {
         unawaited(
-          showFavoritesListMenu(
-            context,
-            ref,
-            position: details.globalPosition,
-          ),
+          showFavoritesListMenu(context, ref, position: details.globalPosition),
         );
       },
       onLongPress: isMobileLayout(context)
-          ? () => unawaited(showFavoritesListMenu(context, ref, position: Offset.zero))
+          ? () => unawaited(
+              showFavoritesListMenu(context, ref, position: Offset.zero),
+            )
           : null,
       child: ListView(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
@@ -104,7 +102,8 @@ class FavoritesChannelList extends ConsumerWidget {
                 _ => group.title,
               },
               categoryId: group.categoryId,
-              isCollapsed: group.categoryId != null &&
+              isCollapsed:
+                  group.categoryId != null &&
                   collapsedIds.contains(group.categoryId),
               onToggle: group.categoryId == null
                   ? null
@@ -377,9 +376,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
             left: 1,
             top: 0,
             bottom: 0,
-            child: Center(
-              child: ChannelUnreadIndicator(faded: isMuted),
-            ),
+            child: Center(child: ChannelUnreadIndicator(faded: isMuted)),
           ),
         Material(
           color: isSelected
@@ -389,7 +386,8 @@ class _FavoriteChannelTile extends ConsumerWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(4),
             onTap: onTap,
-            onSecondaryTapUp: (details) => onContextMenu(details.globalPosition),
+            onSecondaryTapUp: (details) =>
+                onContextMenu(details.globalPosition),
             onLongPress: isMobileLayout(context)
                 ? () => onContextMenu(Offset.zero)
                 : null,
@@ -397,10 +395,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Row(
                 children: [
-                  _FavoriteLeadingIcon(
-                    entry: entry,
-                    isSelected: isSelected,
-                  ),
+                  _FavoriteLeadingIcon(entry: entry, isSelected: isSelected),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Column(
@@ -424,8 +419,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  if (mentionCount > 0)
-                    FluxerBadge.count(count: mentionCount),
+                  if (mentionCount > 0) FluxerBadge.count(count: mentionCount),
                 ],
               ),
             ),
@@ -437,10 +431,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
 }
 
 class _FavoriteLeadingIcon extends ConsumerWidget {
-  const _FavoriteLeadingIcon({
-    required this.entry,
-    required this.isSelected,
-  });
+  const _FavoriteLeadingIcon({required this.entry, required this.isSelected});
 
   final ResolvedFavoriteEntry entry;
   final bool isSelected;
@@ -549,7 +540,7 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
       );
     }
 
-    return _DmPlaceholderAvatar();
+    return const _DmPlaceholderAvatar();
   }
 }
 
@@ -562,7 +553,7 @@ class _DmPlaceholderAvatar extends StatelessWidget {
       width: 24,
       height: 24,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,
       ),

@@ -36,10 +36,7 @@ void main() {
   test('inherits mature flag from guild when channel override is null', () {
     final Channel channel = buildChannel();
     final EffectiveMatureContentResult result =
-        resolveEffectiveChannelMatureContent(
-          channel: channel,
-          guild: guild,
-        );
+        resolveEffectiveChannelMatureContent(channel: channel, guild: guild);
     expect(result.value, isTrue);
     expect(result.source, EffectiveMatureSource.guild);
   });
@@ -47,10 +44,7 @@ void main() {
   test('channel nsfw override takes precedence over guild', () {
     final Channel channel = buildChannel(nsfwOverride: false);
     final EffectiveMatureContentResult result =
-        resolveEffectiveChannelMatureContent(
-          channel: channel,
-          guild: guild,
-        );
+        resolveEffectiveChannelMatureContent(channel: channel, guild: guild);
     expect(result.value, isFalse);
     expect(result.source, EffectiveMatureSource.channel);
   });
@@ -96,14 +90,17 @@ void main() {
     expect(warning.source, EffectiveMatureSource.channel);
   });
 
-  test('resolveMatureGateContext scopes consent to guild for guild-level mature', () {
-    final Channel channel = buildChannel();
-    final ResolvedMatureGateContext context = resolveMatureGateContext(
-      channel: channel,
-      guild: guild,
-    );
-    expect(context.effectiveMatureContent, isTrue);
-    expect(context.scope, MatureContentAgreementScope.guild);
-    expect(context.scopeId, guild.id);
-  });
+  test(
+    'resolveMatureGateContext scopes consent to guild for guild-level mature',
+    () {
+      final Channel channel = buildChannel();
+      final ResolvedMatureGateContext context = resolveMatureGateContext(
+        channel: channel,
+        guild: guild,
+      );
+      expect(context.effectiveMatureContent, isTrue);
+      expect(context.scope, MatureContentAgreementScope.guild);
+      expect(context.scopeId, guild.id);
+    },
+  );
 }

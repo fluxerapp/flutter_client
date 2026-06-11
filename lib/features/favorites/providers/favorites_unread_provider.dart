@@ -3,16 +3,13 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channel_groups_provider.dart';
 
 class FavoritesUnreadSummary {
-  const FavoritesUnreadSummary({
-    this.mentionCount = 0,
-    this.hasUnread = false,
-  });
+  const FavoritesUnreadSummary({this.mentionCount = 0, this.hasUnread = false});
 
   final int mentionCount;
   final bool hasUnread;
 }
 
-final favoritesUnreadSummaryProvider =
+final Provider<FavoritesUnreadSummary> favoritesUnreadSummaryProvider =
     Provider.autoDispose<FavoritesUnreadSummary>((ref) {
       final entries = ref.watch(favoriteResolvedEntriesProvider);
       var mentionCount = 0;

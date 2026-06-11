@@ -92,19 +92,36 @@ class EmbedFooter {
   };
 }
 
+const int kEmbedMediaAnimatedFlag = 1 << 5;
+
 class EmbedMedia {
   final String url;
   final String? proxyUrl;
   final int? width;
   final int? height;
+  final String? contentType;
+  final int flags;
 
-  const EmbedMedia({required this.url, this.proxyUrl, this.width, this.height});
+  const EmbedMedia({
+    required this.url,
+    this.proxyUrl,
+    this.width,
+    this.height,
+    this.contentType,
+    this.flags = 0,
+  });
+
+  bool get isAnimated =>
+      (flags & kEmbedMediaAnimatedFlag) != 0 ||
+      contentType?.toLowerCase() == 'image/gif';
 
   factory EmbedMedia.fromSdk(EmbedMediaResponse sdk) => EmbedMedia(
     url: sdk.url,
     proxyUrl: sdk.proxyUrl,
     width: sdk.width,
     height: sdk.height,
+    contentType: sdk.contentType,
+    flags: sdk.flags,
   );
 
   factory EmbedMedia.fromJson(Map<String, dynamic> json) => EmbedMedia(
@@ -112,6 +129,8 @@ class EmbedMedia {
     proxyUrl: (json['proxyUrl'] ?? json['proxy_url']) as String?,
     width: json['width'] as int?,
     height: json['height'] as int?,
+    contentType: (json['contentType'] ?? json['content_type']) as String?,
+    flags: json['flags'] as int? ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
@@ -119,6 +138,8 @@ class EmbedMedia {
     'proxyUrl': proxyUrl,
     'width': width,
     'height': height,
+    'contentType': contentType,
+    'flags': flags,
   };
 }
 
@@ -182,7 +203,7 @@ class Embed {
     this.nsfw,
   });
 
-  bool get isMatureMedia => nsfw == true;
+  bool get isMatureMedia => nsfw ?? false;
 
   factory Embed.fromSdk(MessageEmbedResponse sdk) => Embed(
     type: _parseEmbedType(sdk.type),
@@ -390,7 +411,7 @@ class Attachment {
   bool get isPreviewMedia => isImage || isVideo;
   bool get isSpoiler => (flags & attachmentFlagIsSpoiler) != 0;
   bool get isMatureMedia =>
-      nsfw == true || (flags & attachmentFlagContainsExplicitMedia) != 0;
+      (nsfw ?? false) || (flags & attachmentFlagContainsExplicitMedia) != 0;
 }
 
 class MessageSticker {
@@ -1094,11 +1115,9 @@ class Message {
   bool get isSending => deliveryState == MessageDeliveryState.sending;
   bool get hasFailed => deliveryState == MessageDeliveryState.failed;
 
-  bool get shouldCacheAuthorUser =>
-      webhookId == null || webhookId!.isEmpty;
+  bool get shouldCacheAuthorUser => webhookId == null || webhookId!.isEmpty;
 
-  bool get isWebhookMessage =>
-      webhookId != null && webhookId!.isNotEmpty;
+  bool get isWebhookMessage => webhookId != null && webhookId!.isNotEmpty;
 
   /// Wire-shaped snapshot of this message suitable for the developer
   /// debug viewer. Mirrors the field set the web client surfaces via

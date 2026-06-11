@@ -30,9 +30,9 @@ void main() {
       _buildTestApp(
         overrides: [
           matureContentAgreementsProvider.overrideWith(_LoadedAgreements.new),
-          matureGateContextProvider('channel-1').overrideWith(
-            (ref) async => matureContext,
-          ),
+          matureGateContextProvider(
+            'channel-1',
+          ).overrideWith((ref) async => matureContext),
         ],
         child: const MatureContentChannelGate(channelId: 'channel-1'),
       ),

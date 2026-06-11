@@ -85,7 +85,9 @@ class FavoritesSyncService {
     try {
       final dao = _ref.read(fluxerDatabaseProvider).favoriteChannelsDao;
       final localState = await FavoritesStateCodec.readFromDatabase(dao);
-      final serverState = FavoritesStateCodec.decodeFavoritesFromWire(_wireBlob);
+      final serverState = FavoritesStateCodec.decodeFavoritesFromWire(
+        _wireBlob,
+      );
       if (FavoritesStateCodec.statesEqual(localState, serverState)) {
         return;
       }

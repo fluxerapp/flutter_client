@@ -92,7 +92,7 @@ class VoiceSession extends _$VoiceSession {
     });
     ref.listen<Map<String, int>>(channelPermissionCacheProvider, (
       Map<String, int>? _,
-      Map<String, int> __,
+      Map<String, int> _,
     ) {
       unawaited(_onChannelPermissionsChanged());
     });
@@ -660,7 +660,11 @@ class VoiceSession extends _$VoiceSession {
       timeouts: useE2ee ? _kE2eeConnectTimeouts : Timeouts.defaultTimeouts,
     );
     try {
-      await room.connect(event.endpoint, event.token, connectOptions: connectOptions);
+      await room.connect(
+        event.endpoint,
+        event.token,
+        connectOptions: connectOptions,
+      );
       if (keyProvider != null) {
         await room.setE2EEEnabled(true);
         _logVoiceE2eeSnapshot(
@@ -1319,22 +1323,25 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     _pendingServerDisconnectConnectionId = connectionId;
-    _deferredServerDisconnectTimer = Timer(_kDeferredServerDisconnectDuration, () {
-      if (_pendingServerDisconnectConnectionId != connectionId) {
-        return;
-      }
-      if (state.activeConnectionId != connectionId) {
-        return;
-      }
-      if (!state.isConnected) {
-        return;
-      }
-      talker.info(
-        '[Voice] Deferred server disconnect executing '
-        '(connectionId=$connectionId).',
-      );
-      unawaited(leaveVoice(endCall: false));
-    });
+    _deferredServerDisconnectTimer = Timer(
+      _kDeferredServerDisconnectDuration,
+      () {
+        if (_pendingServerDisconnectConnectionId != connectionId) {
+          return;
+        }
+        if (state.activeConnectionId != connectionId) {
+          return;
+        }
+        if (!state.isConnected) {
+          return;
+        }
+        talker.info(
+          '[Voice] Deferred server disconnect executing '
+          '(connectionId=$connectionId).',
+        );
+        unawaited(leaveVoice(endCall: false));
+      },
+    );
   }
 
   Future<void> _onLiveKitRoomConnected({
@@ -1348,7 +1355,9 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (state.isConnected && state.channelId == resolvedChannelId) {
-      unawaited(_reconcileLocalAudioPublish(reason: 'room_connected_duplicate'));
+      unawaited(
+        _reconcileLocalAudioPublish(reason: 'room_connected_duplicate'),
+      );
       return;
     }
     _attachLocalParticipantListener(room.localParticipant);
@@ -1370,7 +1379,9 @@ class VoiceSession extends _$VoiceSession {
       _pendingRingSilently = false;
     }
     await _subscribeExistingRemoteAudio(room);
-    unawaited(_ensureLocalMicrophone(reason: 'room_connected', attempt: attempt));
+    unawaited(
+      _ensureLocalMicrophone(reason: 'room_connected', attempt: attempt),
+    );
   }
 
   Future<void> _subscribeExistingRemoteAudio(Room room) async {
@@ -1383,7 +1394,8 @@ class VoiceSession extends _$VoiceSession {
     if (audio.effectiveDeaf) {
       return;
     }
-    for (final RemoteParticipant participant in room.remoteParticipants.values) {
+    for (final RemoteParticipant participant
+        in room.remoteParticipants.values) {
       for (final RemoteTrackPublication publication
           in participant.audioTrackPublications) {
         if (publication.source == TrackSource.microphone) {
@@ -1572,9 +1584,7 @@ class VoiceSession extends _$VoiceSession {
         if (!_isLatestRoomAttempt(attempt) || _intentionalLiveKitTeardown) {
           return;
         }
-        talker.warning(
-          '[Voice] LiveKit room disconnected: ${evt.reason}',
-        );
+        talker.warning('[Voice] LiveKit room disconnected: ${evt.reason}');
         unawaited(leaveVoice(endCall: false));
       })
       ..on<RoomReconnectingEvent>((RoomReconnectingEvent _) {

@@ -43,11 +43,13 @@ Future<void> sendTrimmedVoiceMessage({
       '${dir.path}/fluxer_voice_send_${DateTime.now().microsecondsSinceEpoch}.wav';
   final File file = File(path);
   await file.writeAsBytes(wavBytes, flush: true);
-  await ref.read(chatViewModelProvider.notifier).sendVoiceMessage(
-    filePath: path,
-    duration: waveform.duration,
-    waveform: waveform.waveform,
-  );
+  await ref
+      .read(chatViewModelProvider.notifier)
+      .sendVoiceMessage(
+        filePath: path,
+        duration: waveform.duration,
+        waveform: waveform.waveform,
+      );
 }
 
 Future<VoiceMessagePreparedRecording?> prepareRecordingFromPath(

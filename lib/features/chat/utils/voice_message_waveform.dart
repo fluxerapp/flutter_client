@@ -6,10 +6,7 @@ import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_wav_encoder.dart';
 
 class VoiceWaveformResult {
-  const VoiceWaveformResult({
-    required this.duration,
-    required this.waveform,
-  });
+  const VoiceWaveformResult({required this.duration, required this.waveform});
 
   final int duration;
   final String waveform;
@@ -23,10 +20,7 @@ Uint8List buildWaveformBytes(Float32List channelData, double durationSeconds) {
       (durationSeconds / kVoiceMessageWaveformSampleIntervalSeconds).ceil(),
     ),
   );
-  final int samplesPerPoint = math.max(
-    1,
-    channelData.length ~/ pointCount,
-  );
+  final int samplesPerPoint = math.max(1, channelData.length ~/ pointCount);
   final List<double> magnitudes = List<double>.filled(pointCount, 0);
   double maxMagnitude = 0;
   for (int i = 0; i < pointCount; i++) {
@@ -57,14 +51,8 @@ Uint8List buildWaveformBytes(Float32List channelData, double durationSeconds) {
 }
 
 VoiceWaveformResult computeVoiceWaveformFromPcm(VoiceMessagePcmSlice pcm) {
-  final Uint8List data = buildWaveformBytes(
-    pcm.samples,
-    pcm.durationSeconds,
-  );
-  final int durationSeconds = math.max(
-    1,
-    pcm.durationSeconds.round(),
-  );
+  final Uint8List data = buildWaveformBytes(pcm.samples, pcm.durationSeconds);
+  final int durationSeconds = math.max(1, pcm.durationSeconds.round());
   return VoiceWaveformResult(
     duration: durationSeconds,
     waveform: base64Encode(data),

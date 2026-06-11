@@ -32,9 +32,9 @@ import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
+import 'package:fluxer_app/features/favorites/providers/favorites_unread_provider.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
-import 'package:fluxer_app/features/favorites/providers/favorites_unread_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_modal.dart';
@@ -1237,9 +1237,9 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
                     .read(fluxerClientProvider)
                     .guilds
                     .leaveGuild(
-                    guildId: guild.id,
-                    body: const SudoVerificationSchema(),
-                  ),
+                      guildId: guild.id,
+                      body: const SudoVerificationSchema(),
+                    ),
               );
             },
             onGuildSettingsAction: (action) {

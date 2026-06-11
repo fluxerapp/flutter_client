@@ -4,8 +4,8 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_expiry_footnote.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
-import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
+import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -196,41 +196,42 @@ class AttachmentImageGrid extends StatelessWidget {
           isMatureMedia: attachment.isMatureMedia,
           borderRadius: BorderRadius.circular(8),
           child: GestureDetector(
-          onTap: canOpenViewer
-              ? () => showAttachmentMediaViewer(
-                  context,
-                  items: attachments
-                      .map(
-                        (Attachment item) => AttachmentMediaViewerItem(
-                          url: item.url,
-                          filename: item.filename,
-                          width: item.width,
-                          height: item.height,
-                          isMatureMedia: item.isMatureMedia,
-                        ),
-                      )
-                      .toList(),
-                  initialIndex: index,
-                  channelId: channelId,
-                  onForward: (channelId != null && messageId != null)
-                      ? (int i) => showForwardMediaSheet(
-                          context,
-                          sourceChannelId: channelId!,
-                          sourceMessageId: messageId!,
-                          attachmentIds: <String>[attachments[i].id],
+            onTap: canOpenViewer
+                ? () => showAttachmentMediaViewer(
+                    context,
+                    items: attachments
+                        .map(
+                          (Attachment item) => AttachmentMediaViewerItem(
+                            url: item.url,
+                            filename: item.filename,
+                            width: item.width,
+                            height: item.height,
+                            isMatureMedia: item.isMatureMedia,
+                          ),
                         )
-                      : null,
-                )
-              : null,
-          child: DecoratedBox(
-            decoration: const BoxDecoration(color: Colors.black),
-            child: CachedNetworkImage(
-              imageUrl: attachment.url,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => const ColoredBox(color: Colors.black),
+                        .toList(),
+                    initialIndex: index,
+                    channelId: channelId,
+                    onForward: (channelId != null && messageId != null)
+                        ? (int i) => showForwardMediaSheet(
+                            context,
+                            sourceChannelId: channelId!,
+                            sourceMessageId: messageId!,
+                            attachmentIds: <String>[attachments[i].id],
+                          )
+                        : null,
+                  )
+                : null,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(color: Colors.black),
+              child: CachedNetworkImage(
+                imageUrl: attachment.url,
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) =>
+                    const ColoredBox(color: Colors.black),
+              ),
             ),
           ),
-        ),
         ),
       ),
     );

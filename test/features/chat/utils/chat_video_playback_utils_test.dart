@@ -24,10 +24,7 @@ void main() {
 
   group('isYouTubeUrl', () {
     test('detects youtube.com hosts', () {
-      expect(
-        isYouTubeUrl('https://www.youtube.com/watch?v=abc'),
-        isTrue,
-      );
+      expect(isYouTubeUrl('https://www.youtube.com/watch?v=abc'), isTrue);
     });
 
     test('detects youtu.be hosts', () {

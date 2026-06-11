@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/pickers/inline_expression_panel.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/inline_expression_panel.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_sheet_identity_header.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 
 void listenChatViewModelErrors(WidgetRef ref) {

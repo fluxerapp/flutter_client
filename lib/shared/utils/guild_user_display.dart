@@ -93,7 +93,8 @@ GuildUserDisplay resolveGuildUserDisplayFromRows({
       ? nick
       : fallbackDisplayName ?? user.globalName ?? user.username;
   final String? memberAvatar = member?.serverAvatar;
-  final String? resolvedAvatarHash = memberAvatar ?? fallbackAvatarHash ?? user.avatar;
+  final String? resolvedAvatarHash =
+      memberAvatar ?? fallbackAvatarHash ?? user.avatar;
   final String? avatarUrl =
       guildId != null && memberAvatar != null && memberAvatar.isNotEmpty
       ? FluxerMediaUrl.guildMemberMedia(

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,14 +7,15 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/data/favorite_media_repository.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/gif_provider.dart';
 import 'package:fluxer_app/features/chat/utils/gif_category_grid_layout.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_media_policy.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_playback_policy.dart';
-import 'package:fluxer_app/features/chat/utils/gif_preview_player_config.dart';
 import 'package:fluxer_app/features/chat/utils/klipy_utils.dart';
+import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -23,8 +23,6 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart' as mkv;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kSearchDebounce = Duration(milliseconds: 400);
@@ -33,11 +31,7 @@ const _kMasonryMinColumnWidth = 227.0;
 const _kMasonryHorizontalPadding = 10.0;
 const _kMasonryCacheExtent = 700.0;
 const double _kCategoryTileAspectRatio = 200 / 96;
-const _kGifVideoResumeDelay = Duration(milliseconds: 220);
 const _kSkeletonTileCount = 12;
-const _kGifVideoHttpHeaders = <String, String>{
-  'Accept': 'video/webm,video/mp4,video/*,*/*',
-};
 
 enum _GifPickerView { landing, trending }
 
@@ -597,31 +591,22 @@ class _GifGrid extends StatelessWidget {
       final gif = item as GifPickerGif;
       return '${gif.provider.name}:${gif.id}:${gif.url}';
     },
-    itemBuilder:
-        (
-          context,
-          item, {
-          required isVisible,
-          required isVideoPlaybackAllowed,
-          required isAnimatedImagePlaybackAllowed,
-        }) {
-          final gif = item as GifPickerGif;
-          final favorite = favoriteForGif(gif);
-          final title = gif.title.trim().isEmpty
-              ? parseKlipyTitleFromUrl(gif.url)
-              : gif.title;
-          return _GifTile(
-            title: title,
-            previewUrl: gif.proxySrc.isNotEmpty ? gif.proxySrc : gif.src,
-            sourceUrl: gif.src,
-            isVisible: isVisible,
-            allowVideoPlayback: isVideoPlaybackAllowed,
-            allowAnimatedImagePlayback: isAnimatedImagePlaybackAllowed,
-            isFavorite: favorite != null,
-            onTap: () => onGifTap(gif),
-            onLongPress: () => onGifLongPress(gif, favorite),
-          );
-        },
+    itemBuilder: (context, item, {required isAnimatedImagePlaybackAllowed}) {
+      final gif = item as GifPickerGif;
+      final favorite = favoriteForGif(gif);
+      final title = gif.title.trim().isEmpty
+          ? parseKlipyTitleFromUrl(gif.url)
+          : gif.title;
+      return _GifTile(
+        title: title,
+        previewUrl: gif.proxySrc.isNotEmpty ? gif.proxySrc : gif.src,
+        sourceUrl: gif.src,
+        allowAnimatedImagePlayback: isAnimatedImagePlaybackAllowed,
+        isFavorite: favorite != null,
+        onTap: () => onGifTap(gif),
+        onLongPress: () => onGifLongPress(gif, favorite),
+      );
+    },
   );
 }
 
@@ -764,11 +749,9 @@ class _CategoryGridState extends State<_CategoryGrid> {
           title: category.title,
           previewUrl: category.previewUrl,
           sourceUrl: category.sourceUrl,
-          isVisible: true,
           icon: category.icon,
           isCategory: true,
           categoryOverlayColor: category.overlayColor,
-          enableVideoPlayback: false,
           allowAnimatedImagePlayback: allowAnimatedImagePlayback,
           onTap: category.onTap,
         ),
@@ -843,8 +826,6 @@ class _VirtualMasonryGrid extends StatefulWidget {
   final Widget Function(
     BuildContext context,
     Object item, {
-    required bool isVisible,
-    required bool isVideoPlaybackAllowed,
     required bool isAnimatedImagePlaybackAllowed,
   })
   itemBuilder;
@@ -863,13 +844,11 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
   List<_MasonryPosition> _layoutPositions = const <_MasonryPosition>[];
   var _layoutContentHeight = 0.0;
   var _scrollUpdateScheduled = false;
-  var _isScrollActive = false;
-  Timer? _videoResumeTimer;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    _scrollController.addListener(_scheduleScrollUpdate);
   }
 
   @override
@@ -888,27 +867,10 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
 
   @override
   void dispose() {
-    _videoResumeTimer?.cancel();
     _scrollController
-      ..removeListener(_onScroll)
+      ..removeListener(_scheduleScrollUpdate)
       ..dispose();
     super.dispose();
-  }
-
-  void _onScroll() {
-    _markScrollActive();
-    _scheduleScrollUpdate();
-  }
-
-  void _markScrollActive() {
-    _videoResumeTimer?.cancel();
-    _isScrollActive = true;
-    _videoResumeTimer = Timer(_kGifVideoResumeDelay, () {
-      if (!mounted || !_isScrollActive) {
-        return;
-      }
-      setState(() => _isScrollActive = false);
-    });
   }
 
   void _scheduleScrollUpdate() {
@@ -990,11 +952,6 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
             )
             .toList(growable: false);
         final viewportBottom = scrollOffset + viewportHeight;
-        final videoPlaybackIndexes = _allowedVideoIndexes(
-          positions: positions,
-          viewportTop: scrollOffset,
-          viewportBottom: viewportBottom,
-        );
         final animatedImagePlaybackIndexes = _allowedAnimatedImageIndexes(
           positions: positions,
           viewportTop: scrollOffset,
@@ -1019,12 +976,6 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
                     child: widget.itemBuilder(
                       context,
                       widget.items[position.index],
-                      isVisible:
-                          position.bottom >= scrollOffset &&
-                          position.top <= viewportBottom,
-                      isVideoPlaybackAllowed: videoPlaybackIndexes.contains(
-                        position.index,
-                      ),
                       isAnimatedImagePlaybackAllowed:
                           animatedImagePlaybackIndexes.contains(position.index),
                     ),
@@ -1037,17 +988,6 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
     );
   }
 
-  Set<int> _allowedVideoIndexes({
-    required List<_MasonryPosition> positions,
-    required double viewportTop,
-    required double viewportBottom,
-  }) => gifVideoPreviewPlaybackPolicy.allowedVideoIndexes(
-    candidates: _playbackCandidatesForPositions(positions),
-    viewportTop: viewportTop,
-    viewportBottom: viewportBottom,
-    isScrollActive: _isScrollActive,
-  );
-
   Set<int> _allowedAnimatedImageIndexes({
     required List<_MasonryPosition> positions,
     required double viewportTop,
@@ -1059,7 +999,7 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
     }),
     viewportTop: viewportTop,
     viewportBottom: viewportBottom,
-    isScrollActive: _isScrollActive,
+    isScrollActive: false,
   );
 
   Iterable<GifPreviewPlaybackCandidate> _playbackCandidatesForPositions(
@@ -1073,14 +1013,7 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
     ),
   );
 
-  bool _isAnimatedImagePlaybackCandidate(Object item) {
-    if (item is! GifPickerGif) {
-      return false;
-    }
-    final previewUrl = item.proxySrc.isNotEmpty ? item.proxySrc : item.src;
-    return isAnimatedImagePreviewUrl(previewUrl) ||
-        isAnimatedImagePreviewUrl(item.src);
-  }
+  bool _isAnimatedImagePlaybackCandidate(Object item) => item is GifPickerGif;
 
   List<_MasonryPosition> _positionsForLayout({
     required double columnWidth,
@@ -1193,156 +1126,30 @@ class _GifCategoryData {
   final Color? overlayColor;
 }
 
-class _GifTile extends StatefulWidget {
+class _GifTile extends StatelessWidget {
   const _GifTile({
     required this.title,
     required this.previewUrl,
     required this.sourceUrl,
-    required this.isVisible,
     required this.onTap,
     this.onLongPress,
     this.icon,
     this.isCategory = false,
     this.categoryOverlayColor,
     this.isFavorite = false,
-    this.enableVideoPlayback = true,
-    this.allowVideoPlayback = true,
     this.allowAnimatedImagePlayback = true,
   });
 
   final String title;
   final String previewUrl;
   final String sourceUrl;
-  final bool isVisible;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
   final IconData? icon;
   final bool isCategory;
   final Color? categoryOverlayColor;
   final bool isFavorite;
-  final bool enableVideoPlayback;
-  final bool allowVideoPlayback;
   final bool allowAnimatedImagePlayback;
-
-  @override
-  State<_GifTile> createState() => _GifTileState();
-}
-
-class _GifTileState extends State<_GifTile> {
-  Player? _player;
-  mkv.VideoController? _controller;
-  String? _openedVideoUrl;
-
-  @override
-  void initState() {
-    super.initState();
-    _syncVideoPlayback();
-  }
-
-  @override
-  void didUpdateWidget(_GifTile oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.isVisible != widget.isVisible ||
-        oldWidget.allowVideoPlayback != widget.allowVideoPlayback ||
-        _videoPlaybackUrlFor(oldWidget) != _videoPlaybackUrl) {
-      _syncVideoPlayback();
-    }
-  }
-
-  @override
-  void dispose() {
-    _disposePlayer();
-    super.dispose();
-  }
-
-  void _syncVideoPlayback() {
-    final url = _videoPlaybackUrl;
-    if (url == null) {
-      _disposePlayer();
-      return;
-    }
-
-    if (_openedVideoUrl != null && _openedVideoUrl != url) {
-      _disposePlayer();
-    }
-
-    if (!widget.isVisible || !widget.allowVideoPlayback) {
-      final player = _player;
-      if (player != null) {
-        unawaited(player.pause());
-      }
-      return;
-    }
-
-    final player = _player;
-    if (player != null && _openedVideoUrl == url) {
-      unawaited(player.play());
-      return;
-    }
-
-    _openVideoPlayer(url);
-  }
-
-  void _openVideoPlayer(String url) {
-    final player = Player(configuration: gifPreviewPlayerConfiguration);
-    _player = player;
-    _controller = mkv.VideoController(
-      player,
-      configuration: gifPreviewVideoControllerConfiguration(),
-    );
-    _openedVideoUrl = url;
-    unawaited(player.setPlaylistMode(PlaylistMode.loop));
-    unawaited(_openPlayer(player, url));
-  }
-
-  Future<void> _openPlayer(Player player, String url) async {
-    try {
-      await player.open(
-        Media(url, httpHeaders: _kGifVideoHttpHeaders),
-        play: widget.isVisible && widget.allowVideoPlayback,
-      );
-      if (!mounted || _player != player) {
-        return;
-      }
-      if (widget.isVisible && widget.allowVideoPlayback) {
-        await player.play();
-      } else {
-        await player.pause();
-      }
-    } on Object {
-      if (_player == player) {
-        _disposePlayer();
-      }
-    }
-  }
-
-  void _disposePlayer() {
-    final player = _player;
-    _player = null;
-    _controller = null;
-    _openedVideoUrl = null;
-    if (player != null) {
-      unawaited(player.dispose());
-    }
-  }
-
-  String? get _videoPlaybackUrl => _videoPlaybackUrlFor(widget);
-
-  static String? _videoPlaybackUrlFor(_GifTile widget) {
-    if (!widget.enableVideoPlayback) {
-      return null;
-    }
-
-    if (widget.sourceUrl.isNotEmpty && isVideoSourceUrl(widget.sourceUrl)) {
-      return widget.previewUrl.isNotEmpty
-          ? widget.previewUrl
-          : widget.sourceUrl;
-    }
-    if (widget.previewUrl.isNotEmpty && isVideoSourceUrl(widget.previewUrl)) {
-      return widget.previewUrl;
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -1352,23 +1159,23 @@ class _GifTileState extends State<_GifTile> {
     final borderRadius = layout.radiusSm;
 
     return FluxerTappable(
-      onTap: widget.onTap,
-      onLongPress: widget.onLongPress,
-      semanticLabel: widget.title,
+      onTap: onTap,
+      onLongPress: onLongPress,
+      semanticLabel: title,
       builder: (context, states) {
         final isHovered = states.contains(WidgetState.hovered);
         final overlayColor =
-            widget.categoryOverlayColor ??
-            (widget.isCategory
+            categoryOverlayColor ??
+            (isCategory
                 ? (isLight
                       ? const Color.fromRGBO(255, 255, 255, 0.56)
                       : const Color.fromRGBO(0, 0, 0, 0.68))
                 : (isLight
                       ? const Color.fromRGBO(255, 255, 255, 0.16)
                       : const Color.fromRGBO(0, 0, 0, 0.18)));
-        final textColor = widget.categoryOverlayColor != null
+        final textColor = categoryOverlayColor != null
             ? Colors.white
-            : widget.isCategory && isLight
+            : isCategory && isLight
             ? colors.textPrimary
             : Colors.white;
 
@@ -1388,13 +1195,12 @@ class _GifTileState extends State<_GifTile> {
               fit: StackFit.expand,
               children: [
                 _GifMediaPreview(
-                  url: widget.previewUrl,
-                  sourceUrl: widget.sourceUrl,
-                  allowAnimatedImagePlayback: widget.allowAnimatedImagePlayback,
-                  videoController: _controller,
+                  url: previewUrl,
+                  sourceUrl: sourceUrl,
+                  allowAnimatedImagePlayback: allowAnimatedImagePlayback,
                 ),
                 ColoredBox(color: overlayColor),
-                if (widget.isCategory)
+                if (isCategory)
                   Center(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: layout.s2),
@@ -1402,17 +1208,13 @@ class _GifTileState extends State<_GifTile> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (widget.icon != null) ...[
-                            PhosphorIcon(
-                              widget.icon!,
-                              size: 20,
-                              color: textColor,
-                            ),
+                          if (icon != null) ...[
+                            PhosphorIcon(icon!, size: 20, color: textColor),
                             SizedBox(width: layout.s1),
                           ],
                           Flexible(
                             child: Text(
-                              widget.title,
+                              title,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
@@ -1436,7 +1238,7 @@ class _GifTileState extends State<_GifTile> {
                       ),
                     ),
                   ),
-                if (!widget.isCategory && widget.isFavorite)
+                if (!isCategory && isFavorite)
                   Positioned(
                     top: layout.s2,
                     right: layout.s2,
@@ -1469,70 +1271,24 @@ class _GifMediaPreview extends StatelessWidget {
     required this.url,
     required this.sourceUrl,
     required this.allowAnimatedImagePlayback,
-    this.videoController,
   });
 
   final String url;
   final String sourceUrl;
   final bool allowAnimatedImagePlayback;
-  final mkv.VideoController? videoController;
 
   @override
   Widget build(BuildContext context) {
-    final controller = videoController;
-    if (controller != null) {
-      return mkv.Video(
-        controller: controller,
-        fit: BoxFit.cover,
-        fill: Colors.transparent,
-        controls: null,
-        wakelock: false,
-      );
-    }
-    final imageUrl = url.isNotEmpty ? url : sourceUrl;
-    if (imageUrl.isEmpty ||
-        isVideoSourceUrl(sourceUrl) ||
-        isVideoSourceUrl(imageUrl) ||
-        !gifPreviewShouldLoadImage(
-          previewUrl: url,
-          sourceUrl: sourceUrl,
-          isAnimatedImagePlaybackAllowed: allowAnimatedImagePlayback,
-        )) {
+    final base = url.isNotEmpty ? url : sourceUrl;
+    if (base.isEmpty) {
       return const _GifMediaPlaceholder();
     }
-    return _CachedGifPreview(url: imageUrl);
+    return FluxerAnimatedImage(
+      animatedUrl: buildMediaProxyUrl(base, format: 'webp', animated: true),
+      playing: allowAnimatedImagePlayback,
+      placeholder: const _GifMediaPlaceholder(),
+    );
   }
-}
-
-class _CachedGifPreview extends StatelessWidget {
-  const _CachedGifPreview({required this.url});
-
-  final String url;
-
-  @override
-  Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, constraints) {
-      final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-      final cacheWidth = constraints.maxWidth.isFinite
-          ? (constraints.maxWidth * devicePixelRatio).round()
-          : null;
-      final cacheHeight = constraints.maxHeight.isFinite
-          ? (constraints.maxHeight * devicePixelRatio).round()
-          : null;
-      return CachedNetworkImage(
-        imageUrl: url,
-        fit: BoxFit.cover,
-        memCacheWidth: cacheWidth,
-        memCacheHeight: cacheHeight,
-        maxWidthDiskCache: cacheWidth,
-        maxHeightDiskCache: cacheHeight,
-        fadeInDuration: Duration.zero,
-        fadeOutDuration: Duration.zero,
-        placeholder: (_, _) => const _GifMediaPlaceholder(),
-        errorBuilder: (_, _, _) => const _GifMediaPlaceholder(),
-      );
-    },
-  );
 }
 
 double _aspectRatioFromDimensions(int width, int height) {
@@ -1623,16 +1379,9 @@ class _GifSkeletonGrid extends StatelessWidget {
     items: List<Object>.generate(_kSkeletonTileCount, _GifSkeletonItem.new),
     aspectRatioFor: (_) => 1,
     itemKeyFor: (item) => 'gif-skeleton-${(item as _GifSkeletonItem).index}',
-    itemBuilder:
-        (
-          context,
-          item, {
-          required isVisible,
-          required isVideoPlaybackAllowed,
-          required isAnimatedImagePlaybackAllowed,
-        }) {
-          return _GifSkeletonTile(index: (item as _GifSkeletonItem).index);
-        },
+    itemBuilder: (context, item, {required isAnimatedImagePlaybackAllowed}) {
+      return _GifSkeletonTile(index: (item as _GifSkeletonItem).index);
+    },
   );
 }
 

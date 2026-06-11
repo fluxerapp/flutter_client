@@ -300,9 +300,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       _pinnedLiveNearBottom = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && _scrollController.hasClients) {
-          _scrollController.jumpTo(
-            _scrollController.position.minScrollExtent,
-          );
+          _scrollController.jumpTo(_scrollController.position.minScrollExtent);
           _pinnedLiveNearBottom = false;
         }
       });
@@ -422,11 +420,13 @@ class _MessageListState extends ConsumerState<MessageList> {
   Future<void> _scrollToTarget(String messageId, {double alignment = 0.5}) {
     final Completer<void> completer = Completer<void>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(_runScrollToTarget(
-        messageId: messageId,
-        alignment: alignment,
-        completer: completer,
-      ));
+      unawaited(
+        _runScrollToTarget(
+          messageId: messageId,
+          alignment: alignment,
+          completer: completer,
+        ),
+      );
     });
     return completer.future;
   }
@@ -508,9 +508,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         }
         _awaitingInitialUnreadScroll = false;
         if (_scrollController.hasClients) {
-          _paginationGuard.seedScrollPixels(
-            _scrollController.position.pixels,
-          );
+          _paginationGuard.seedScrollPixels(_scrollController.position.pixels);
         }
         if (isInitialUnreadLanding) {
           _explicitPivotMessageId = null;
@@ -738,47 +736,47 @@ class _MessageListState extends ConsumerState<MessageList> {
             reverse: true,
             center: _centerKey,
             slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 33),
-              sliver: _buildPostCenterSliver(
-                context: context,
-                messages: split.postCenter,
-                preCenterLastMessage: preCenterLastMessage,
-                visualUnreadId: visualUnreadId,
-                highlightedMessageId: highlightedMessageId,
-                currentUserId: currentUserId,
-                isDmChannel: isDmChannel,
-                guildId: guildId,
-                channelPermissionBits: channelPermissionBits,
-                channelCanSendMessages: channelCanSendMessages,
-                channelCanAddReactions: channelCanAddReactions,
-                channelCanPinMessage: channelCanPinMessage,
-                channelCanManageMessages: channelCanManageMessages,
+              SliverPadding(
+                padding: const EdgeInsets.only(bottom: 33),
+                sliver: _buildPostCenterSliver(
+                  context: context,
+                  messages: split.postCenter,
+                  preCenterLastMessage: preCenterLastMessage,
+                  visualUnreadId: visualUnreadId,
+                  highlightedMessageId: highlightedMessageId,
+                  currentUserId: currentUserId,
+                  isDmChannel: isDmChannel,
+                  guildId: guildId,
+                  channelPermissionBits: channelPermissionBits,
+                  channelCanSendMessages: channelCanSendMessages,
+                  channelCanAddReactions: channelCanAddReactions,
+                  channelCanPinMessage: channelCanPinMessage,
+                  channelCanManageMessages: channelCanManageMessages,
+                ),
               ),
-            ),
-            SliverPadding(
-              key: _centerKey,
-              padding: EdgeInsets.zero,
-              sliver: const SliverToBoxAdapter(child: SizedBox.shrink()),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.only(top: 8),
-              sliver: _buildPreCenterSliver(
-                context: context,
-                messages: split.preCenter,
-                visualUnreadId: visualUnreadId,
-                highlightedMessageId: highlightedMessageId,
-                currentUserId: currentUserId,
-                isDmChannel: isDmChannel,
-                guildId: guildId,
-                channelPermissionBits: channelPermissionBits,
-                channelCanSendMessages: channelCanSendMessages,
-                channelCanAddReactions: channelCanAddReactions,
-                channelCanPinMessage: channelCanPinMessage,
-                channelCanManageMessages: channelCanManageMessages,
+              SliverPadding(
+                key: _centerKey,
+                padding: EdgeInsets.zero,
+                sliver: const SliverToBoxAdapter(child: SizedBox.shrink()),
               ),
-            ),
-          ],
+              SliverPadding(
+                padding: const EdgeInsets.only(top: 8),
+                sliver: _buildPreCenterSliver(
+                  context: context,
+                  messages: split.preCenter,
+                  visualUnreadId: visualUnreadId,
+                  highlightedMessageId: highlightedMessageId,
+                  currentUserId: currentUserId,
+                  isDmChannel: isDmChannel,
+                  guildId: guildId,
+                  channelPermissionBits: channelPermissionBits,
+                  channelCanSendMessages: channelCanSendMessages,
+                  channelCanAddReactions: channelCanAddReactions,
+                  channelCanPinMessage: channelCanPinMessage,
+                  channelCanManageMessages: channelCanManageMessages,
+                ),
+              ),
+            ],
           ),
         ),
         if (isLoadingMore)
@@ -871,12 +869,10 @@ class _MessageListState extends ConsumerState<MessageList> {
           currentUserId: currentUserId,
         ) ||
         ref.watch(
-          dmViewModelProvider.select(
-            (DmViewState dmState) {
-              final dm = findDmById(dmState.conversations, channelId);
-              return dm?.isPersonalNotes ?? false;
-            },
-          ),
+          dmViewModelProvider.select((DmViewState dmState) {
+            final dm = findDmById(dmState.conversations, channelId);
+            return dm?.isPersonalNotes ?? false;
+          }),
         );
     final String? guildId = isDmChannel || channelId.isEmpty
         ? null
@@ -923,10 +919,13 @@ class _MessageListState extends ConsumerState<MessageList> {
       inUnreadReview: _isInUnreadReview(state),
       stickyUnreadMessageId: stickyUnreadId,
     );
-    final String? effectiveVisualUnreadId =
-        showUnreadIndicators ? visualUnreadId : null;
-    final DateTime? unreadSince =
-        _messageTimestamp(messages, effectiveVisualUnreadId);
+    final String? effectiveVisualUnreadId = showUnreadIndicators
+        ? visualUnreadId
+        : null;
+    final DateTime? unreadSince = _messageTimestamp(
+      messages,
+      effectiveVisualUnreadId,
+    );
     final int chatFontSize = ref.watch(
       themePreferenceProvider.select(
         (ThemePreferenceState s) => s.chatFontSize,

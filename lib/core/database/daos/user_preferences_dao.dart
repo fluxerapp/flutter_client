@@ -118,9 +118,7 @@ class UserPreferencesDao extends DatabaseAccessor<FluxerDatabase>
       agreedCategoryIds: _decodeStringList(
         prefs?.matureContentAgreedCategoryIdsJson,
       ),
-      agreedGuildIds: _decodeStringList(
-        prefs?.matureContentAgreedGuildIdsJson,
-      ),
+      agreedGuildIds: _decodeStringList(prefs?.matureContentAgreedGuildIdsJson),
     );
   }
 

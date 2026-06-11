@@ -17,8 +17,8 @@ import 'package:fluxer_app/features/notifications/presentation/notifications_pag
 import 'package:fluxer_app/features/profile/presentation/profile_page.dart';
 import 'package:fluxer_app/features/settings/presentation/guild_settings_modal.dart';
 import 'package:fluxer_app/features/shell/presentation/app_layout.dart';
-import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/stub_screen.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
@@ -180,10 +180,7 @@ GoRouter fluxerRouter(Ref ref) {
       if (isAuthenticated && isConnectionFailed && !isOnReconnecting) {
         ref
             .read(preReconnectingLocationProvider.notifier)
-            .remember(
-              path: state.uri.path,
-              query: state.uri.query,
-            );
+            .remember(path: state.uri.path, query: state.uri.query);
         return '/reconnecting';
       }
 

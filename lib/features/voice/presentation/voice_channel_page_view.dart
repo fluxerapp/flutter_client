@@ -137,8 +137,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     final AsyncValue<VoiceJoinEligibility> joinEligibilityAsync = ref.watch(
       voiceJoinEligibilityProvider(widget.channelId),
     );
-    final bool canJoinVoice =
-        joinEligibilityAsync.value?.canJoin ?? true;
+    final bool canJoinVoice = joinEligibilityAsync.value?.canJoin ?? true;
     return ColoredBox(
       color: context.colors.backgroundSecondaryLighter,
       child: SafeArea(

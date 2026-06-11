@@ -84,9 +84,7 @@ class MatureContentAgreements extends _$MatureContentAgreements {
     if (state.agreedGuildIds.contains(guildId)) {
       return;
     }
-    state = state.copyWith(
-      agreedGuildIds: {...state.agreedGuildIds, guildId},
-    );
+    state = state.copyWith(agreedGuildIds: {...state.agreedGuildIds, guildId});
     await _persist();
   }
 

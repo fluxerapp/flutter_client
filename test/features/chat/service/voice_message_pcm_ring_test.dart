@@ -36,12 +36,8 @@ void main() {
   });
 
   test('capturedDurationMs scales with pcm bytes', () {
-    expect(
-      kVoiceMessageRecordingSampleRate,
-      greaterThan(0),
-    );
-    final int bytesForOneSecond =
-        kVoiceMessageRecordingSampleRate * 2;
+    expect(kVoiceMessageRecordingSampleRate, greaterThan(0));
+    const int bytesForOneSecond = kVoiceMessageRecordingSampleRate * 2;
     expect(
       bytesForOneSecond * 1000 ~/ kVoiceMessageRecordingSampleRate ~/ 2,
       1000,

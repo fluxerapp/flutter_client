@@ -62,7 +62,6 @@ void main() {
       final GuildComposerAccess access = evaluateGuildComposerAccess(
         _input(
           currentUserId: 'owner-1',
-          guildOwnerId: 'owner-1',
           verificationLevel: GuildVerificationLevel.veryHigh,
           hasVerifiedPhone: false,
         ),
@@ -107,11 +106,7 @@ void main() {
 
     test('discoverable guilds enforce at least low verification', () {
       final GuildComposerAccess access = evaluateGuildComposerAccess(
-        _input(
-          verificationLevel: GuildVerificationLevel.none,
-          isDiscoverable: true,
-          isEmailVerified: false,
-        ),
+        _input(isDiscoverable: true, isEmailVerified: false),
       );
       expect(access.canAccess, isFalse);
       expect(access.reason, GuildComposerBlockReason.unverifiedEmail);

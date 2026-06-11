@@ -518,8 +518,7 @@ class FluxerDatabase extends _$FluxerDatabase {
       if (from < 50) {
         await m.addColumn(messages, messages.authorIsBot);
         await m.addColumn(messages, messages.webhookId);
-        await customStatement(
-          '''
+        await customStatement('''
           UPDATE messages
           SET author_is_bot = (
             SELECT COALESCE(users.bot, 0)
@@ -529,8 +528,7 @@ class FluxerDatabase extends _$FluxerDatabase {
           WHERE EXISTS (
             SELECT 1 FROM users WHERE users.id = messages.author_id
           )
-          ''',
-        );
+          ''');
       }
       if (from < 51) {
         // v51: legacy tokens remain in SQLite until app startup migration.

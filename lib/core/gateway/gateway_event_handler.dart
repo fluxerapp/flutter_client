@@ -1501,9 +1501,7 @@ class GatewayEventHandler {
           (r['emojiId'] as String?) == emoji.id,
     );
     final isCurrentUser =
-        userId != null &&
-        currentUserId != null &&
-        userId == currentUserId;
+        userId != null && currentUserId != null && userId == currentUserId;
 
     if (isAdd) {
       if (idx != -1) {

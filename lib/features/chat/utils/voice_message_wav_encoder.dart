@@ -53,11 +53,7 @@ Uint8List encodePcmSliceToWav({
   offset += 2;
   view.setUint32(offset, sampleRate, Endian.little);
   offset += 4;
-  view.setUint32(
-    offset,
-    sampleRate * channels * bytesPerSample,
-    Endian.little,
-  );
+  view.setUint32(offset, sampleRate * channels * bytesPerSample, Endian.little);
   offset += 4;
   view.setUint16(offset, channels * bytesPerSample, Endian.little);
   offset += 2;
@@ -94,7 +90,7 @@ VoiceMessagePcmSlice? decodeWavMonoPcm(Uint8List bytes) {
   if (bitsPerSample != 16) {
     return null;
   }
-  final int dataOffset = riffHeaderBytes;
+  const int dataOffset = riffHeaderBytes;
   final int dataBytes = bytes.length - dataOffset;
   if (dataBytes <= 0) {
     return null;
@@ -137,7 +133,10 @@ VoiceMessagePcmSlice slicePcm({
   );
   final int startFrame = (clampedStart * source.sampleRate).floor();
   final int endFrame = (clampedEnd * source.sampleRate).ceil();
-  final int frameCount = (endFrame - startFrame).clamp(0, source.samples.length);
+  final int frameCount = (endFrame - startFrame).clamp(
+    0,
+    source.samples.length,
+  );
   final Float32List slice = Float32List(frameCount);
   for (int i = 0; i < frameCount; i++) {
     final int sourceIndex = startFrame + i;
@@ -148,6 +147,9 @@ VoiceMessagePcmSlice slicePcm({
   return VoiceMessagePcmSlice(
     samples: slice,
     sampleRate: source.sampleRate,
-    durationSeconds: (clampedEnd - clampedStart).clamp(0, source.durationSeconds),
+    durationSeconds: (clampedEnd - clampedStart).clamp(
+      0,
+      source.durationSeconds,
+    ),
   );
 }

@@ -61,10 +61,7 @@ class FavoritesLayout extends ConsumerWidget {
           );
         }
 
-        return DMLayout(
-          channelId: channelId,
-          targetMessageId: messageId,
-        );
+        return DMLayout(channelId: channelId, targetMessageId: messageId);
       },
     );
   }

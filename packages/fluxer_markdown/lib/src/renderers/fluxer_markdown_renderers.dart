@@ -934,10 +934,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
     if (knownLang == null) {
       codeBody = Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: _kRadius,
-        ),
+        decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
         padding: _kPadding,
         child: Text(
           code,
@@ -979,7 +976,6 @@ class _FluxerCodeBlockWithCopy extends StatelessWidget {
     return ClipRRect(
       borderRadius: _kRadius,
       child: Stack(
-        clipBehavior: Clip.hardEdge,
         children: [
           SizedBox(width: double.infinity, child: child),
           Positioned(

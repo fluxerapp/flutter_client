@@ -23,9 +23,9 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -470,8 +470,11 @@ class GuildSidebar extends ConsumerWidget {
     final showFavorites = ref.read(
       appearancePreferencesProvider.select((s) => s.showFavorites),
     );
-    final isFavorite = showFavorites &&
-        await ref.read(favoriteChannelsRepositoryProvider).isFavorite(channel.id);
+    final isFavorite =
+        showFavorites &&
+        await ref
+            .read(favoriteChannelsRepositoryProvider)
+            .isFavorite(channel.id);
     if (!context.mounted) {
       return;
     }
@@ -481,13 +484,13 @@ class GuildSidebar extends ConsumerWidget {
       builder: (context, close) => [
         if (showFavorites)
           FluxerMenuItem(
-            label: isFavorite
-                ? 'Remove from Favorites'
-                : 'Add to Favorites',
+            label: isFavorite ? 'Remove from Favorites' : 'Add to Favorites',
             icon: isFavorite ? PhosphorIconsFill.star : PhosphorIconsBold.star,
             onPressed: () {
               close();
-              unawaited(_toggleFavorite(ref, channel: channel, isFavorite: isFavorite));
+              unawaited(
+                _toggleFavorite(ref, channel: channel, isFavorite: isFavorite),
+              );
             },
           ),
         FluxerMenuItem(

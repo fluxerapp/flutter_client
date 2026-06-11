@@ -1,4 +1,5 @@
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/embed_animated_image_url.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 
 String embedMediaEffectiveUrl(EmbedMedia media) {
@@ -12,8 +13,11 @@ bool canOpenEmbedMediaViewer(EmbedMedia media) {
 AttachmentMediaViewerItem buildEmbedMediaViewerItem({
   required EmbedMedia media,
   String? title,
+  bool animated = false,
 }) {
-  final String url = embedMediaEffectiveUrl(media);
+  final String url = animated
+      ? animatedEmbedImageUrl(embedMediaEffectiveUrl(media))
+      : embedMediaEffectiveUrl(media);
   return AttachmentMediaViewerItem(
     url: url,
     filename: resolveEmbedMediaViewerFilename(url: url, title: title),

@@ -1,7 +1,7 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:markdown/markdown.dart' as md;
 
 void main() {
@@ -12,8 +12,10 @@ void main() {
   group('parseMessageContentStructure', () {
     test('preserves two blank lines between plain text lines', () {
       const String input = 'test line one\n\n\ntest line two';
-      final List<MessageContentSegment> segments =
-          parseMessageContentStructure(input, features);
+      final List<MessageContentSegment> segments = parseMessageContentStructure(
+        input,
+        features,
+      );
       expect(segments, hasLength(1));
       expect(segments.first, isA<MessageTextFlowSegment>());
       expect(
@@ -30,8 +32,10 @@ void main() {
 
     test('preserves single soft line break within a paragraph', () {
       const String input = 'line one\nline two';
-      final List<MessageContentSegment> segments =
-          parseMessageContentStructure(input, features);
+      final List<MessageContentSegment> segments = parseMessageContentStructure(
+        input,
+        features,
+      );
       expect(segments, hasLength(1));
       expect(
         (segments.first as MessageTextFlowSegment).text,
@@ -41,8 +45,10 @@ void main() {
 
     test('splits block markdown from surrounding text', () {
       const String input = 'before\n\n# heading\n\nafter';
-      final List<MessageContentSegment> segments =
-          parseMessageContentStructure(input, features);
+      final List<MessageContentSegment> segments = parseMessageContentStructure(
+        input,
+        features,
+      );
       expect(segments, hasLength(3));
       expect(segments[0], isA<MessageTextFlowSegment>());
       expect((segments[0] as MessageTextFlowSegment).text, 'before\n\n');
@@ -65,8 +71,10 @@ void main() {
 
     test('splits blockquote bar from preceding text', () {
       const String input = 'before\n>>> quote';
-      final List<MessageContentSegment> segments =
-          parseMessageContentStructure(input, features);
+      final List<MessageContentSegment> segments = parseMessageContentStructure(
+        input,
+        features,
+      );
       expect(segments, hasLength(2));
       expect(segments[0], isA<MessageTextFlowSegment>());
       expect((segments[0] as MessageTextFlowSegment).text, 'before');
@@ -82,10 +90,7 @@ void main() {
 
     test('normalizes only the first line of a multi-line bar', () {
       const String input = '>>> line one\nline two';
-      expect(
-        normalizeBlockquoteBarMarkdown(input),
-        '> line one\nline two',
-      );
+      expect(normalizeBlockquoteBarMarkdown(input), '> line one\nline two');
     });
 
     test('preserves leading indentation on the opener line', () {

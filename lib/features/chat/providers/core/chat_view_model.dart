@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
@@ -10,9 +9,6 @@ import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/core/router/navigate_to_content.dart';
-import 'package:fluxer_app/core/router/route_names.dart';
-import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -25,29 +21,30 @@ import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
-import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
-import 'package:fluxer_app/features/chat/utils/guild_composer_barrier_l10n.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_auto_ack_allowed_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_ack_gate.dart';
-import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
+import 'package:fluxer_app/features/chat/providers/messages/typing_sender.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
-import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
-import 'package:fluxer_app/features/chat/providers/messages/typing_sender.dart';
+import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/client_nonce.dart';
-import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
-import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
-import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
+import 'package:fluxer_app/features/chat/utils/guild_composer_barrier_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/mention_reply_preference_utils.dart';
+import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
+import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/url_sanitization_utils.dart';
-import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
+import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
+import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
@@ -247,7 +244,7 @@ class ChatViewModel extends _$ChatViewModel {
             ? ''
             : state.messageText,
         replyingTo: clearComposerForDelete ? null : state.replyingTo,
-        replyMentioning: clearComposerForDelete ? false : state.replyMentioning,
+        replyMentioning: !clearComposerForDelete && state.replyMentioning,
       );
       if (clearComposerForDelete) {
         unawaited(_flushComposerDraftSave());
@@ -263,7 +260,7 @@ class ChatViewModel extends _$ChatViewModel {
         editingMessage: null,
         messageText: '',
         replyingTo: clearComposerForDelete ? null : state.replyingTo,
-        replyMentioning: clearComposerForDelete ? false : state.replyMentioning,
+        replyMentioning: !clearComposerForDelete && state.replyMentioning,
       );
       if (clearComposerForDelete) {
         unawaited(_flushComposerDraftSave());
@@ -523,12 +520,12 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     final draft = await _loadComposerDraft(channelId);
-    final bool replyMentioning = draft.reply == null
-        ? false
-        : await _defaultReplyMentionFor(
-            message: draft.reply!,
-            channelId: channelId,
-          );
+    final bool replyMentioning =
+        !(draft.reply == null) &&
+        await _defaultReplyMentionFor(
+          message: draft.reply!,
+          channelId: channelId,
+        );
     state = state.copyWith(
       messageText: draft.text,
       replyingTo: draft.reply,
@@ -567,7 +564,6 @@ class ChatViewModel extends _$ChatViewModel {
       hasMoreMessages: hasMoreMessages,
       hasMoreNewerMessages: hasMoreNewerMessages,
       errorMessage: errorMessage,
-      highlightedMessageId: null,
       jumpHighlightSequence: state.jumpHighlightSequence,
     );
   }
@@ -650,12 +646,12 @@ class ChatViewModel extends _$ChatViewModel {
       );
     }
     final draft = await _loadComposerDraft(channelId);
-    final bool replyMentioning = draft.reply == null
-        ? false
-        : await _defaultReplyMentionFor(
-            message: draft.reply!,
-            channelId: channelId,
-          );
+    final bool replyMentioning =
+        !(draft.reply == null) &&
+        await _defaultReplyMentionFor(
+          message: draft.reply!,
+          channelId: channelId,
+        );
     if (!loadMessages) {
       state = _switchedChannelState(
         channelId: channelId,
@@ -1436,10 +1432,7 @@ class ChatViewModel extends _$ChatViewModel {
       channelId,
     );
     if (guildBlock != null) {
-      _notifySendBlocked(
-        _SendBlockReason.guildAccess,
-        guildBlock: guildBlock,
-      );
+      _notifySendBlocked(_SendBlockReason.guildAccess, guildBlock: guildBlock);
       return;
     }
     final String? currentUserId = ref.read(currentUserIdProvider);
@@ -1547,10 +1540,7 @@ class ChatViewModel extends _$ChatViewModel {
       talker.debug(
         '[ChatViewModel] send blocked: guild_access channelId=$channelId',
       );
-      _notifySendBlocked(
-        _SendBlockReason.guildAccess,
-        guildBlock: guildBlock,
-      );
+      _notifySendBlocked(_SendBlockReason.guildAccess, guildBlock: guildBlock);
       return;
     }
     final String? currentUserId = ref.read(currentUserIdProvider);
@@ -2324,7 +2314,6 @@ class ChatViewModel extends _$ChatViewModel {
           emojiId: emojiId,
           animated: animated,
           count: old.count - 1,
-          hasReacted: false,
         );
       }
     } else if (existingIdx != -1) {
@@ -2352,10 +2341,13 @@ class ChatViewModel extends _$ChatViewModel {
     updatedMessages[msgIndex] = msg.copyWith(reactions: updatedReactions);
     state = state.copyWith(messages: updatedMessages);
     unawaited(
-      ref.read(fluxerDatabaseProvider).messageDao.updateReactions(
-        messageId,
-        jsonEncode(updatedReactions.map((r) => r.toJson()).toList()),
-      ),
+      ref
+          .read(fluxerDatabaseProvider)
+          .messageDao
+          .updateReactions(
+            messageId,
+            jsonEncode(updatedReactions.map((r) => r.toJson()).toList()),
+          ),
     );
 
     if (!hasReacted) {

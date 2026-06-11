@@ -638,10 +638,7 @@ class _MediaViewerThumbnailStrip extends StatelessWidget {
                         color: context.colors.spoilerBackground,
                         child: const SizedBox.expand(),
                       )
-                    : CachedNetworkImage(
-                        imageUrl: item.url,
-                        fit: BoxFit.cover,
-                      ),
+                    : CachedNetworkImage(imageUrl: item.url, fit: BoxFit.cover),
               ),
             ),
           );

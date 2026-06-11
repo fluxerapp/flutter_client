@@ -220,9 +220,13 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
 
   @override
   Widget build(BuildContext context) {
-    final bool blocksHorizontalGestures =
-        ref.watch(shellBlocksHorizontalGesturesProvider);
-    ref.listen<RevealSide>(currentRevealSideProvider, (RevealSide? prev, RevealSide next) {
+    final bool blocksHorizontalGestures = ref.watch(
+      shellBlocksHorizontalGesturesProvider,
+    );
+    ref.listen<RevealSide>(currentRevealSideProvider, (
+      RevealSide? prev,
+      RevealSide next,
+    ) {
       if (next != _currentSide) {
         unawaited(_moveToState(next, writeBack: false));
       }
@@ -235,7 +239,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         _animationController.stop();
         return;
       }
-      if (prev == true) {
+      if (prev ?? false) {
         unawaited(_syncTranslateToRevealSide(writeBack: false));
       }
     });

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod/src/framework.dart' show Override;
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -12,6 +11,7 @@ import 'package:fluxer_app/features/mature_content/domain/mature_content_types.d
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:riverpod/src/framework.dart' show Override;
 
 void main() {
   testWidgets('shows reveal button for blurred mature media', (tester) async {
@@ -47,7 +47,8 @@ void main() {
   });
 
   testWidgets('does not build child while policy is loading', (tester) async {
-    final Completer<MatureMediaPolicy> pendingPolicy = Completer<MatureMediaPolicy>();
+    final Completer<MatureMediaPolicy> pendingPolicy =
+        Completer<MatureMediaPolicy>();
     await tester.pumpWidget(
       _buildTestApp(
         overrides: [

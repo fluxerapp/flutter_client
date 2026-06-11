@@ -48,9 +48,9 @@ dependencies:
   riverpod_annotation: ^4.0.2
   web_socket_channel: ^3.0.2
   window_manager: ^0.5.1
-  talker: 5.1.16
+  talker: ^5.1.17
   talker_flutter: 5.1.16
-  talker_dio_logger: 5.1.16
+  talker_dio_logger: ^5.1.17
   app_links: ^7.1.1
   media_kit: ^1.2.6
   media_kit_libs_video: ^1.0.7
@@ -78,10 +78,14 @@ dependencies:
   flutter_secure_storage: ^10.3.1
   protobuf: ^6.0.0
   fixnum: ^1.1.1
+  visibility_detector: ^0.4.0+2
 
 dependency_overrides:
   device_info_plus: ^12.4.0
   analyzer: ^10.0.0
+  # pinned: mockito >=5.6.5 needs analyzer ^13, incompatible with the analyzer 10 override above;
+  # it is an unused transitive dep of riverpod_generator, but build_runner still compiles its builder.
+  mockito: 5.6.4
   dart_style: 3.1.7
 
 dev_dependencies:

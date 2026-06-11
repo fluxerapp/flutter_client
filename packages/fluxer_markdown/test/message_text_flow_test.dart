@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
 import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:markdown/markdown.dart' as md;
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
@@ -21,8 +21,7 @@ String _noopCustomEmojiUrl({
   required String id,
   required bool animated,
   required int size,
-}) =>
-    '';
+}) => '';
 
 void main() {
   final FluxerMarkdownFeatures features = FluxerMarkdownFeatures.forContext(
@@ -145,9 +144,9 @@ void main() {
     ) async {
       const String input = 'test line one\n\n\ntest line two';
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: MediaQuery(
-            data: const MediaQueryData(textScaler: TextScaler.linear(1)),
+            data: MediaQueryData(textScaler: TextScaler.linear(1)),
             child: Scaffold(
               body: Center(
                 child: SizedBox(
@@ -156,7 +155,6 @@ void main() {
                     data: input,
                     config: _testMarkdownConfig,
                     baseStyle: baseStyle,
-                    context: FluxerMarkdownContext.standardWithJumbo,
                   ),
                 ),
               ),

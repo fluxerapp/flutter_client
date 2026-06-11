@@ -52,6 +52,16 @@ void main() {
       expect(item.width, 800);
       expect(item.height, 600);
     });
+
+    test('uses the proxy animated webp for an animated embed', () {
+      const EmbedMedia media = EmbedMedia(url: directUrl, proxyUrl: proxyUrl);
+      final AttachmentMediaViewerItem item = buildEmbedMediaViewerItem(
+        media: media,
+        animated: true,
+      );
+      expect(item.url, contains('format=webp'));
+      expect(item.url, contains('animated=true'));
+    });
   });
 
   group('resolveEmbedMediaViewerFilename', () {

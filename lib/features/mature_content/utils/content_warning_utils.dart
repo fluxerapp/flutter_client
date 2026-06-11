@@ -82,7 +82,8 @@ EffectiveContentWarning getEffectiveChannelContentWarning({
       source: EffectiveMatureSource.parent,
     );
   }
-  if (guild != null && guild.contentWarningLevel != contentWarningLevelInherit) {
+  if (guild != null &&
+      guild.contentWarningLevel != contentWarningLevelInherit) {
     return EffectiveContentWarning(
       level: guild.contentWarningLevel,
       text: guild.contentWarningText,

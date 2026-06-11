@@ -17,24 +17,21 @@ void main() {
       addTearDown(db.close);
 
       final errors = <Object>[];
-      await runZonedGuarded(
-        () async {
-          final container = ProviderContainer(
-            overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
-          );
-          // Kick off the build; it suspends on the async DB reads.
-          final initial = container.read(
-            guildUserDisplayProvider(('user-1', 'guild-1')),
-          );
-          expect(initial.isLoading, isTrue);
-          // Dispose while those reads are still pending so the build resumes
-          // on a disposed ref.
-          container.dispose();
-          // Let the pending build resume and reach the fetch trigger.
-          await Future<void>.delayed(const Duration(milliseconds: 100));
-        },
-        (error, _) => errors.add(error),
-      );
+      await runZonedGuarded(() async {
+        final container = ProviderContainer(
+          overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+        );
+        // Kick off the build; it suspends on the async DB reads.
+        final initial = container.read(
+          guildUserDisplayProvider(('user-1', 'guild-1')),
+        );
+        expect(initial.isLoading, isTrue);
+        // Dispose while those reads are still pending so the build resumes
+        // on a disposed ref.
+        container.dispose();
+        // Let the pending build resume and reach the fetch trigger.
+        await Future<void>.delayed(const Duration(milliseconds: 100));
+      }, (error, _) => errors.add(error));
 
       expect(errors, isEmpty);
     },

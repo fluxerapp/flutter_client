@@ -106,6 +106,52 @@ void main() {
     expect(meme.mediaType, FavoriteMemeMediaType.gif);
     expect(meme.isVideoLike, isFalse);
   });
+
+  test('FavoriteMeme round-trips the provider media map from JSON', () {
+    final meme = FavoriteMeme.fromJson({
+      ..._memeJson(),
+      'media': {
+        'webp': {
+          'src': 'https://media.example/wave-cat.webp',
+          'proxy_src': 'https://cdn.example/wave-cat.webp',
+          'width': 320,
+          'height': 180,
+        },
+      },
+    });
+
+    expect(meme.media?['webp']?.proxySrc, 'https://cdn.example/wave-cat.webp');
+
+    final restored = FavoriteMeme.fromJson(meme.toJson());
+    expect(restored.media?['webp']?.src, 'https://media.example/wave-cat.webp');
+  });
+
+  test('FavoriteMeme.fromSdk carries the provider media map', () {
+    final favorite = FavoriteMeme.fromSdk(
+      const sdk.FavoriteMemeResponse(
+        id: 'm1',
+        userId: 'u1',
+        name: 'cat',
+        tags: [],
+        attachmentId: 'a1',
+        filename: 'cat.webp',
+        contentType: 'image/webp',
+        size: 10,
+        url: 'https://cdn.example/cat.webp',
+        isGifv: true,
+        media: {
+          'webp': sdk.GifMediaFormat(
+            src: 'https://media.example/cat.webp',
+            proxySrc: 'https://cdn.example/cat.webp',
+            width: 1,
+            height: 1,
+          ),
+        },
+      ),
+    );
+
+    expect(favorite.media?['webp']?.proxySrc, 'https://cdn.example/cat.webp');
+  });
 }
 
 Map<String, Object?> _memeJson() => {

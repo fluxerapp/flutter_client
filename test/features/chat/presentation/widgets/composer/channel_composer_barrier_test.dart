@@ -34,7 +34,9 @@ Widget _barrierTestApp() {
 }
 
 void main() {
-  testWidgets('shows guild send disabled barrier copy', (WidgetTester tester) async {
+  testWidgets('shows guild send disabled barrier copy', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(_barrierTestApp());
     expect(
       find.text('Messaging is temporarily paused in this community.'),

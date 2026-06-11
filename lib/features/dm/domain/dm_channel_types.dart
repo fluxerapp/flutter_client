@@ -12,8 +12,7 @@ bool isDmPersonalNotesType(int type) => type == dmPersonalNotesChannelType;
 bool isPersonalNotesChannelRoute({
   required String channelId,
   required String? currentUserId,
-}) =>
-    currentUserId != null && channelId == currentUserId;
+}) => currentUserId != null && channelId == currentUserId;
 
 bool isPersonalNotesChannel({
   required int? type,

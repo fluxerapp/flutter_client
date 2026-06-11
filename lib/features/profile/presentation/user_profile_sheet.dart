@@ -20,7 +20,6 @@ class FluxerUserProfileSheet {
       useRootNavigator: true,
       initialChildSize: 0.95,
       minChildSize: 0.5,
-      showDragHandle: true,
       disableTopPadding: true,
       builder: (sheetContext, scrollController, close) => _SheetBody(
         userId: userId,

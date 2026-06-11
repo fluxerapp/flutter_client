@@ -10,7 +10,6 @@ void main() {
           db.FavoriteChannel(
             channelId: 'channel-1',
             guildId: 'guild-1',
-            parentId: null,
             position: 0,
             nickname: 'General',
           ),
@@ -42,16 +41,12 @@ void main() {
           db.FavoriteChannel(
             channelId: 'channel-1',
             guildId: 'guild-1',
-            parentId: null,
             position: 0,
-            nickname: null,
           ),
           db.FavoriteChannel(
             channelId: 'channel-2',
             guildId: 'guild-1',
-            parentId: null,
             position: 1,
-            nickname: null,
           ),
         ],
         categories: [
@@ -66,16 +61,13 @@ void main() {
           db.FavoriteChannel(
             channelId: 'channel-1',
             guildId: 'guild-1',
-            parentId: null,
             position: 0,
             nickname: 'Server name',
           ),
           db.FavoriteChannel(
             channelId: 'channel-3',
             guildId: 'guild-2',
-            parentId: null,
             position: 0,
-            nickname: null,
           ),
         ],
         categories: [
@@ -108,7 +100,6 @@ void main() {
           db.FavoriteChannel(
             channelId: 'channel-1',
             guildId: 'guild-1',
-            parentId: null,
             position: 0,
             nickname: 'General',
           ),
@@ -125,7 +116,6 @@ void main() {
           db.FavoriteChannel(
             channelId: 'channel-1',
             guildId: 'guild-1',
-            parentId: null,
             position: 0,
             nickname: 'General',
           ),
@@ -142,9 +132,7 @@ void main() {
           db.FavoriteChannel(
             channelId: 'channel-2',
             guildId: 'guild-1',
-            parentId: null,
             position: 0,
-            nickname: null,
           ),
         ],
         categories: [],
@@ -163,9 +151,7 @@ void main() {
           db.FavoriteChannel(
             channelId: 'initial',
             guildId: 'guild',
-            parentId: null,
             position: 0,
-            nickname: null,
           ),
         ],
         categories: [],
@@ -185,9 +171,7 @@ void main() {
             db.FavoriteChannel(
               channelId: 'updated',
               guildId: 'guild',
-              parentId: null,
               position: 0,
-              nickname: null,
             ),
           ],
           categories: [],

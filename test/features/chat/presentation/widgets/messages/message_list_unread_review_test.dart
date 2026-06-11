@@ -26,18 +26,12 @@ void main() {
 
   group('isNearScrollExtentEnd', () {
     test('is true at minScrollExtent with large absolute pixels', () {
-      expect(
-        isNearScrollExtentEnd(pixels: 80, minScrollExtent: 80),
-        isTrue,
-      );
+      expect(isNearScrollExtentEnd(pixels: 80, minScrollExtent: 80), isTrue);
       expect(80 <= 24, isFalse);
     });
 
     test('is false when far from minScrollExtent', () {
-      expect(
-        isNearScrollExtentEnd(pixels: 140, minScrollExtent: 80),
-        isFalse,
-      );
+      expect(isNearScrollExtentEnd(pixels: 140, minScrollExtent: 80), isFalse);
     });
   });
 
@@ -100,17 +94,11 @@ void main() {
 
   group('isLiveNearBottom', () {
     test('is true at minScrollExtent with large absolute pixels', () {
-      expect(
-        isLiveNearBottom(pixels: 80, minScrollExtent: 80),
-        isTrue,
-      );
+      expect(isLiveNearBottom(pixels: 80, minScrollExtent: 80), isTrue);
     });
 
     test('is false when far from minScrollExtent', () {
-      expect(
-        isLiveNearBottom(pixels: 140, minScrollExtent: 80),
-        isFalse,
-      );
+      expect(isLiveNearBottom(pixels: 140, minScrollExtent: 80), isFalse);
     });
   });
 

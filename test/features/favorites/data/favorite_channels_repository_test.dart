@@ -15,9 +15,7 @@ void main() {
   setUp(() {
     database = FluxerDatabase.forTesting(NativeDatabase.memory());
     container = ProviderContainer(
-      overrides: [
-        fluxerDatabaseProvider.overrideWithValue(database),
-      ],
+      overrides: [fluxerDatabaseProvider.overrideWithValue(database)],
     );
     repository = FavoriteChannelsRepository(
       database,

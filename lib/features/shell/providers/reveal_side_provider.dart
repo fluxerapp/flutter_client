@@ -24,7 +24,10 @@ class CurrentRevealSide extends _$CurrentRevealSide {
         _resyncAfterReconnect = false;
       }
     });
-    ref.listen<bool>(gatewayConnectionFailedProvider, (bool? previous, bool next) {
+    ref.listen<bool>(gatewayConnectionFailedProvider, (
+      bool? previous,
+      bool next,
+    ) {
       if (next) {
         _resyncAfterReconnect = true;
       }

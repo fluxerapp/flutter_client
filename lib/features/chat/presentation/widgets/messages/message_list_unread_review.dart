@@ -1,6 +1,7 @@
 /// Read-viewport and pagination decisions during sticky-unread review mode.
+library;
 
-const double kMessageListReadBottomThreshold = 48.0;
+const double kMessageListReadBottomThreshold = 48;
 
 bool isInUnreadReview({
   required String? stickyUnreadMessageId,

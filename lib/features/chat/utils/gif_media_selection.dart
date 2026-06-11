@@ -5,10 +5,6 @@ const _kPreferredGifPreviewFormats = <String>[
   'gif',
   'tinygif',
   'nanogif',
-  'mp4',
-  'webm',
-  'tinymp4',
-  'tinywebm',
 ];
 
 sdk.GifMediaFormat gifPreviewMediaForPicker({

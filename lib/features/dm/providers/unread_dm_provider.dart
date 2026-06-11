@@ -95,7 +95,9 @@ class UnreadDmChannels extends _$UnreadDmChannels {
       );
     }).toList();
     final unreadChannels = allChannels
-        .where((entry) => entry.hasUnread && !_shouldExcludeChannel(entry.channel))
+        .where(
+          (entry) => entry.hasUnread && !_shouldExcludeChannel(entry.channel),
+        )
         .map((entry) => entry.channel)
         .toList();
     final unreadIds = unreadChannels.map((c) => c.id).toSet();
@@ -133,10 +135,9 @@ class UnreadDmChannels extends _$UnreadDmChannels {
       merged[c.id] = c;
     }
 
-    final newChannels = merged.values
-        .where((c) => !_shouldExcludeChannel(c))
-        .toList()
-      ..sort((a, b) => b.lastMessageTime.compareTo(a.lastMessageTime));
+    final newChannels =
+        merged.values.where((c) => !_shouldExcludeChannel(c)).toList()
+          ..sort((a, b) => b.lastMessageTime.compareTo(a.lastMessageTime));
 
     state = UnreadDmState(channels: newChannels, unreadChannelIds: unreadIds);
   }

@@ -69,17 +69,11 @@ void main() {
 
   test('resolveMediaGateReason blocks minors in mature channels', () {
     expect(
-      resolveMediaGateReason(
-        nsfwAllowed: false,
-        effectiveMatureContent: true,
-      ),
+      resolveMediaGateReason(nsfwAllowed: false, effectiveMatureContent: true),
       MatureContentGateReason.minorBlocked,
     );
     expect(
-      resolveMediaGateReason(
-        nsfwAllowed: true,
-        effectiveMatureContent: false,
-      ),
+      resolveMediaGateReason(nsfwAllowed: true, effectiveMatureContent: false),
       MatureContentGateReason.none,
     );
   });

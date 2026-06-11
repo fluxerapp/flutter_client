@@ -40,9 +40,7 @@ void main() {
       overrides: [
         sensitiveContentProvider.overrideWith(_FakeSensitive.new),
         matureContentAgreementsProvider.overrideWith(_FakeAgreements.new),
-        matureGateContextProvider(
-          'channel-1',
-        ).overrideWith((ref) => gate),
+        matureGateContextProvider('channel-1').overrideWith((ref) => gate),
       ],
     );
   }

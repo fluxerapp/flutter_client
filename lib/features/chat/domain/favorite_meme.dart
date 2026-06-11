@@ -32,6 +32,7 @@ class FavoriteMeme {
     required this.url,
     required this.klipySlug,
     required this.tenorSlugId,
+    this.media,
   });
 
   factory FavoriteMeme.fromSdk(sdk.FavoriteMemeResponse meme) {
@@ -57,6 +58,7 @@ class FavoriteMeme {
       url: meme.url,
       klipySlug: gifSource.klipySlug,
       tenorSlugId: gifSource.tenorSlugId,
+      media: meme.media,
     );
   }
 
@@ -92,6 +94,7 @@ class FavoriteMeme {
       url: _requiredString(json, 'url'),
       klipySlug: json['klipy_slug'] as String? ?? gifSource.klipySlug,
       tenorSlugId: json['tenor_slug_id'] as String? ?? gifSource.tenorSlugId,
+      media: _parseFavoriteMedia(json['media']),
     );
   }
 
@@ -112,6 +115,7 @@ class FavoriteMeme {
   final String url;
   final String? klipySlug;
   final String? tenorSlugId;
+  final Map<String, sdk.GifMediaFormat>? media;
 
   FavoriteMemeMediaType get mediaType {
     final normalized = contentType.toLowerCase();
@@ -173,6 +177,7 @@ class FavoriteMeme {
     'url': url,
     'klipy_slug': klipySlug,
     'tenor_slug_id': tenorSlugId,
+    'media': media?.map((key, value) => MapEntry(key, value.toJson())),
   };
 }
 
@@ -197,6 +202,21 @@ String _requiredString(Map<String, Object?> json, String key) =>
 
 num _requiredNum(Map<String, Object?> json, String key) =>
     json[key] as num? ?? (throw FormatException('Missing $key'));
+
+Map<String, sdk.GifMediaFormat>? _parseFavoriteMedia(Object? value) {
+  if (value is! Map) {
+    return null;
+  }
+  final media = <String, sdk.GifMediaFormat>{};
+  for (final entry in value.entries) {
+    final key = entry.key;
+    final raw = entry.value;
+    if (key is String && raw is Map) {
+      media[key] = sdk.GifMediaFormat.fromJson(Map<String, Object?>.from(raw));
+    }
+  }
+  return media.isEmpty ? null : media;
+}
 
 String buildTenorShareUrl(String tenorSlugId) {
   final normalized = _normalizeTenorSlugId(tenorSlugId) ?? tenorSlugId.trim();

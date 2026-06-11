@@ -110,15 +110,18 @@ void main() {
       expect(actual, idB);
     });
 
-    test('returns null when viewing latest at bottom without explicit pivot', () {
-      final String? actual = resolvePivotMessageId(
-        hasMoreNewerMessages: false,
-        explicitPivotMessageId: null,
-        scrollAnchoredPivotMessageId: null,
-        messages: [_message(idA), _message(idB)],
-      );
-      expect(actual, isNull);
-    });
+    test(
+      'returns null when viewing latest at bottom without explicit pivot',
+      () {
+        final String? actual = resolvePivotMessageId(
+          hasMoreNewerMessages: false,
+          explicitPivotMessageId: null,
+          scrollAnchoredPivotMessageId: null,
+          messages: [_message(idA), _message(idB)],
+        );
+        expect(actual, isNull);
+      },
+    );
 
     test('uses scroll anchor when viewing latest but scrolled up', () {
       final String? actual = resolvePivotMessageId(
@@ -150,21 +153,24 @@ void main() {
       expect(actual, idB);
     });
 
-    test('uses scroll anchor in history mode before second-newest fallback', () {
-      final List<Message> messages = [
-        _message(idA),
-        _message(idB),
-        _message(idC),
-        _message(idD),
-      ];
-      final String? actual = resolvePivotMessageId(
-        hasMoreNewerMessages: true,
-        explicitPivotMessageId: null,
-        scrollAnchoredPivotMessageId: idB,
-        messages: messages,
-      );
-      expect(actual, idB);
-    });
+    test(
+      'uses scroll anchor in history mode before second-newest fallback',
+      () {
+        final List<Message> messages = [
+          _message(idA),
+          _message(idB),
+          _message(idC),
+          _message(idD),
+        ];
+        final String? actual = resolvePivotMessageId(
+          hasMoreNewerMessages: true,
+          explicitPivotMessageId: null,
+          scrollAnchoredPivotMessageId: idB,
+          messages: messages,
+        );
+        expect(actual, idB);
+      },
+    );
 
     test('keeps explicit pivot after newer page append', () {
       final List<Message> messages = [

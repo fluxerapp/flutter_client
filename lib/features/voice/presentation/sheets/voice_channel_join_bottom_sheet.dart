@@ -124,7 +124,6 @@ class _VoiceChannelJoinSheetContentState
                   message: l10n.voiceChannelNoConnectPermission,
                   child: FluxerButton.primary(
                     label: l10n.voiceChannelJoinConnect,
-                    onPressed: null,
                   ),
                 ),
         ),
@@ -216,9 +215,9 @@ class _VoiceChannelJoinSheetContentState
                       semanticsLabel: chatSemanticsLabel,
                       onPressed: () {
                         if (context.mounted) {
-                          Navigator.of(context).pop(
-                            const VoiceChannelJoinOpenChat(),
-                          );
+                          Navigator.of(
+                            context,
+                          ).pop(const VoiceChannelJoinOpenChat());
                         }
                       },
                     ),

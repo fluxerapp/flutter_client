@@ -78,10 +78,7 @@ class FavoritesStateCodec {
     return base64Encode(synced.writeToBuffer());
   }
 
-  static bool statesEqual(
-    FavoritesLocalState a,
-    FavoritesLocalState b,
-  ) {
+  static bool statesEqual(FavoritesLocalState a, FavoritesLocalState b) {
     if (a.hideMutedChannels != b.hideMutedChannels || a.muted != b.muted) {
       return false;
     }

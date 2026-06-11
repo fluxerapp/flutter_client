@@ -48,19 +48,14 @@ ChromeSafariBrowserSettings _buildBrowserSettings(
   );
 }
 
-Future<bool> openExternalUrl(
-  Uri uri, {
-  ExternalUrlBrowserStyle? style,
-}) async {
+Future<bool> openExternalUrl(Uri uri, {ExternalUrlBrowserStyle? style}) async {
   if (!kIsWeb && (Platform.isIOS || Platform.isAndroid)) {
     try {
       await _chromeSafariBrowser.open(
         url: WebUri(uri.toString()),
         settings: style != null
             ? _buildBrowserSettings(style)
-            : ChromeSafariBrowserSettings(
-                barCollapsingEnabled: true,
-              ),
+            : ChromeSafariBrowserSettings(barCollapsingEnabled: true),
       );
       return true;
     } on Object {

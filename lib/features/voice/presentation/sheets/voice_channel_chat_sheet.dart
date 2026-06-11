@@ -128,11 +128,7 @@ class _VoiceChannelChatSheetBodyState
     listenChatViewModelErrors(ref);
     return UploadDropOverlay(
       channelId: widget.channelId,
-      child: ChannelChatPanel(
-        loadMessages: true,
-        showInlineEmojiPicker: true,
-        onClose: _handleClose,
-      ),
+      child: ChannelChatPanel(onClose: _handleClose),
     );
   }
 }

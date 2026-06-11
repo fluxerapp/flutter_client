@@ -1,6 +1,1 @@
-enum UserSettingsNavGroup {
-  yourAccount,
-  application,
-  developer,
-  staffOnly,
-}
+enum UserSettingsNavGroup { yourAccount, application, developer, staffOnly }

@@ -110,10 +110,7 @@ class _VoiceMessageTrimWaveformState extends State<VoiceMessageTrimWaveform> {
 }
 
 class _TrimHandle extends StatelessWidget {
-  const _TrimHandle({
-    required this.color,
-    required this.onDrag,
-  });
+  const _TrimHandle({required this.color, required this.onDrag});
 
   final Color color;
   final ValueChanged<double> onDrag;
@@ -136,10 +133,7 @@ class _TrimHandle extends StatelessWidget {
 }
 
 class _WaveformPeaksPainter extends CustomPainter {
-  const _WaveformPeaksPainter({
-    required this.peaks,
-    required this.color,
-  });
+  const _WaveformPeaksPainter({required this.peaks, required this.color});
 
   final List<double> peaks;
   final Color color;

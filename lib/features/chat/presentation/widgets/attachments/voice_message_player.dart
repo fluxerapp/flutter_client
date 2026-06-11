@@ -17,10 +17,7 @@ import 'package:fluxer_app/shared/widgets/volume_popout_control.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceMessagePlayer extends StatefulWidget {
-  const VoiceMessagePlayer({
-    required this.attachment,
-    super.key,
-  });
+  const VoiceMessagePlayer({required this.attachment, super.key});
 
   final Attachment attachment;
 
@@ -56,7 +53,9 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
   void didUpdateWidget(VoiceMessagePlayer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.attachment.waveform != widget.attachment.waveform) {
-      _waveformBars = voiceMessagePlayerWaveformBars(widget.attachment.waveform);
+      _waveformBars = voiceMessagePlayerWaveformBars(
+        widget.attachment.waveform,
+      );
     }
   }
 
@@ -191,7 +190,8 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     if (durationSeconds <= 0) {
       return;
     }
-    final int targetMs = (durationSeconds * 1000 * fraction.clamp(0, 1)).round();
+    final int targetMs = (durationSeconds * 1000 * fraction.clamp(0, 1))
+        .round();
     final Duration target = Duration(milliseconds: targetMs);
     if (_playbackFinished) {
       await _prepareFromStart(player);
@@ -336,7 +336,10 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     }
   }
 
-  void _handleWaveformTapDown(TapDownDetails details, BoxConstraints constraints) {
+  void _handleWaveformTapDown(
+    TapDownDetails details,
+    BoxConstraints constraints,
+  ) {
     if (_isLoading) {
       return;
     }
@@ -350,15 +353,11 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     }
     const double step = 0.05;
     if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-      unawaited(
-        _seekToFraction((_displayProgressPercent / 100) - step),
-      );
+      unawaited(_seekToFraction((_displayProgressPercent / 100) - step));
       return KeyEventResult.handled;
     }
     if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      unawaited(
-        _seekToFraction((_displayProgressPercent / 100) + step),
-      );
+      unawaited(_seekToFraction((_displayProgressPercent / 100) + step));
       return KeyEventResult.handled;
     }
     return KeyEventResult.ignored;
@@ -429,7 +428,6 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                         child: SizedBox(
                           height: kVoiceMessagePlayerWaveformHeightPx,
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: List<Widget>.generate(
                               _waveformBars.length,
                               (int index) {
@@ -441,7 +439,8 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                                 final double barProgress =
                                     ((index + 0.5) / _waveformBars.length) *
                                     100;
-                                final bool isPast = barProgress <= progressPercent;
+                                final bool isPast =
+                                    barProgress <= progressPercent;
                                 final double barHeight =
                                     kVoiceMessagePlayerWaveformHeightPx *
                                     heightRatio;
@@ -454,7 +453,6 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                                           : 0.5,
                                     ),
                                     child: Align(
-                                      alignment: Alignment.center,
                                       child: SizedBox(
                                         height: barHeight,
                                         width: double.infinity,
@@ -463,8 +461,9 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                                             color: isPast
                                                 ? pastBarColor
                                                 : defaultBarColor,
-                                            borderRadius:
-                                                BorderRadius.circular(2),
+                                            borderRadius: BorderRadius.circular(
+                                              2,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -487,9 +486,7 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
               style: context.textStyles.smallText.copyWith(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
-                fontFeatures: const <FontFeature>[
-                  FontFeature.tabularFigures(),
-                ],
+                fontFeatures: const <FontFeature>[FontFeature.tabularFigures()],
                 color: timestampColor,
               ),
             ),
@@ -517,8 +514,6 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
                 onVolumeChanged: _setVolume,
                 onToggleMute: _toggleMute,
                 iconSize: 16,
-                buttonSize: 28,
-                popoutHeight: 80,
               ),
             ],
           ],
@@ -559,10 +554,7 @@ class _VoicePlayButton extends StatelessWidget {
       child: AnimatedContainer(
         duration: animDuration,
         curve: Curves.easeOut,
-        decoration: BoxDecoration(
-          color: fillColor,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: fillColor, shape: BoxShape.circle),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
@@ -582,9 +574,7 @@ class _VoicePlayButton extends StatelessWidget {
                     ),
                   ),
                 Icon(
-                  isPlaying
-                      ? PhosphorIconsFill.pause
-                      : PhosphorIconsFill.play,
+                  isPlaying ? PhosphorIconsFill.pause : PhosphorIconsFill.play,
                   size: 16,
                   color: iconColor,
                 ),

@@ -12,12 +12,12 @@ import 'package:fluxer_app/features/chat/service/voice_message_recording_service
 import 'package:fluxer_app/features/chat/service/voice_message_send.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -87,12 +87,10 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
       parent: controller,
       curve: Curves.easeOut,
     );
-    _barSlideAnimation = Tween<double>(begin: 16, end: 0).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: Curves.easeOut,
-      ),
-    );
+    _barSlideAnimation = Tween<double>(
+      begin: 16,
+      end: 0,
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
   }
 
   void _disposeBarAnimations() {
@@ -155,13 +153,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
     if (_recordingOverlayEntry != null) {
       return;
     }
-    final OverlayState? overlay = Overlay.of(context, rootOverlay: true);
-    if (overlay == null) {
-      talker.warning(
-        '[VoiceMessageRecorder] No root overlay to show recording UI',
-      );
-      return;
-    }
+    final OverlayState overlay = Overlay.of(context, rootOverlay: true);
     _setShellGesturesBlocked(true);
     _recordingOverlayEntry = OverlayEntry(
       builder: (BuildContext overlayContext) {
@@ -228,7 +220,9 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
 
   void _listenForMaxDuration() {
     unawaited(_maxDurationSubscription?.cancel());
-    _maxDurationSubscription = _recordingService.onMaxDurationReached.listen((_) {
+    _maxDurationSubscription = _recordingService.onMaxDurationReached.listen((
+      _,
+    ) {
       if (mounted && _isRecording && !_isSending) {
         unawaited(_stopRecording(send: true));
       }
@@ -248,12 +242,14 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
       );
     } on VoiceMessageMicrophoneInUseException {
       if (mounted) {
-        ref.read(toastProvider.notifier).show(
-          FluxerToast(
-            message: l10n.voiceMessageMicInUse,
-            variant: FluxerToastVariant.danger,
-          ),
-        );
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.voiceMessageMicInUse,
+                variant: FluxerToastVariant.danger,
+              ),
+            );
       }
       await _cancelGesture();
       return;
@@ -263,12 +259,14 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
         error,
       );
       if (mounted) {
-        ref.read(toastProvider.notifier).show(
-          FluxerToast(
-            message: l10n.voiceMessageMicPermissionDenied,
-            variant: FluxerToastVariant.danger,
-          ),
-        );
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.voiceMessageMicPermissionDenied,
+                variant: FluxerToastVariant.danger,
+              ),
+            );
       }
       await _cancelGesture();
       return;
@@ -279,12 +277,14 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
         stackTrace,
       );
       if (mounted) {
-        ref.read(toastProvider.notifier).show(
-          FluxerToast(
-            message: l10n.voiceMessageRecordingFailed,
-            variant: FluxerToastVariant.danger,
-          ),
-        );
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.voiceMessageRecordingFailed,
+                variant: FluxerToastVariant.danger,
+              ),
+            );
       }
       await _cancelGesture();
       return;
@@ -332,9 +332,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
         }
         _recordingService.tickLiveWaveform();
         setState(() {
-          _waveformBars = List<double>.from(
-            _recordingService.liveWaveformBars,
-          );
+          _waveformBars = List<double>.from(_recordingService.liveWaveformBars);
         });
         _updateRecordingOverlay();
       },
@@ -387,21 +385,20 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
         '[VoiceMessageRecorder] stop() returned no recording (channel=${widget.channelId}, durationMs=$_recordingDurationMs)',
       );
       if (mounted) {
-        ref.read(toastProvider.notifier).show(
-          FluxerToast(
-            message: l10n.voiceMessageRecordingFailed,
-            variant: FluxerToastVariant.danger,
-          ),
-        );
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.voiceMessageRecordingFailed,
+                variant: FluxerToastVariant.danger,
+              ),
+            );
       }
       await _resetState();
       return;
     }
     try {
-      await sendPreparedVoiceMessage(
-        ref: ref,
-        prepared: prepared,
-      );
+      await sendPreparedVoiceMessage(ref: ref, prepared: prepared);
     } on Object catch (error, stackTrace) {
       talker.error(
         '[VoiceMessageRecorder] Failed to send voice message (channel=${widget.channelId})',
@@ -409,12 +406,14 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
         stackTrace,
       );
       if (mounted) {
-        ref.read(toastProvider.notifier).show(
-          FluxerToast(
-            message: l10n.voiceMessageSendFailed,
-            variant: FluxerToastVariant.danger,
-          ),
-        );
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.voiceMessageSendFailed,
+                variant: FluxerToastVariant.danger,
+              ),
+            );
       }
     }
     await _resetState();
@@ -452,12 +451,12 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
     final RenderBox? lockBox =
         _lockIndicatorKey.currentContext?.findRenderObject() as RenderBox?;
     if (lockBox != null && lockBox.hasSize) {
-      final Rect lockRect =
-          lockBox.localToGlobal(Offset.zero) & lockBox.size;
+      final Rect lockRect = lockBox.localToGlobal(Offset.zero) & lockBox.size;
       insideLockIndicator = lockRect.contains(globalPosition);
     }
     final Offset? start = _pointerStart;
-    final bool passesThreshold = start != null &&
+    final bool passesThreshold =
+        start != null &&
         voiceMessageLockGesturePassesThreshold(
           pointerStart: start,
           globalPosition: globalPosition,
@@ -619,25 +618,22 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: AnimatedBuilder(
-              animation: controller,
-              builder: (BuildContext context, Widget? child) {
-                return Transform.translate(
-                  offset: Offset(0, slide.value),
-                  child: Opacity(
-                    opacity: fade.value,
-                    child: child,
-                  ),
-                );
-              },
-              child: _buildRecordingBar(context),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: AnimatedBuilder(
+                animation: controller,
+                builder: (BuildContext context, Widget? child) {
+                  return Transform.translate(
+                    offset: Offset(0, slide.value),
+                    child: Opacity(opacity: fade.value, child: child),
+                  );
+                },
+                child: _buildRecordingBar(context),
+              ),
             ),
-          ),
-          if (floatingLock != null && !_isSending) floatingLock,
+            if (floatingLock != null && !_isSending) floatingLock,
           ],
         ),
       ),
@@ -693,9 +689,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: colors.accentDanger.withValues(
-                              alpha: 0.4,
-                            ),
+                            color: colors.accentDanger.withValues(alpha: 0.4),
                             spreadRadius: 2,
                           ),
                         ],
@@ -712,9 +706,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: VoiceMessageMobileWaveform(
-                        bars: _waveformBars,
-                      ),
+                      child: VoiceMessageMobileWaveform(bars: _waveformBars),
                     ),
                   ],
                 ),

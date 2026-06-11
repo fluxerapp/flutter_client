@@ -8,11 +8,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/fluxer_animated_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
-import 'package:fluxer_app/features/chat/utils/gif_preview_media_policy.dart';
+import 'package:fluxer_app/features/chat/utils/gif_media_selection.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_playback_policy.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_player_config.dart';
+import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:media_kit/media_kit.dart';
@@ -754,13 +756,10 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
   }
 
   bool _isVideoPlaybackCandidate(FavoriteMeme meme) =>
-      meme.mediaType == FavoriteMemeMediaType.video ||
-      (meme.mediaType == FavoriteMemeMediaType.gif && meme.isVideoLike);
+      meme.mediaType == FavoriteMemeMediaType.video;
 
   bool _isAnimatedImagePlaybackCandidate(FavoriteMeme meme) =>
-      !meme.isVideoLike &&
-      (meme.mediaType == FavoriteMemeMediaType.gif ||
-          isAnimatedImagePreviewUrl(meme.url));
+      meme.mediaType == FavoriteMemeMediaType.gif;
 
   List<_FavoriteMediaPosition> _positionsForLayout({
     required double columnWidth,
@@ -949,53 +948,69 @@ class _FavoriteMediaPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!meme.isVideoLike &&
-        (meme.mediaType == FavoriteMemeMediaType.image ||
-            meme.mediaType == FavoriteMemeMediaType.gif)) {
-      if (!gifPreviewShouldLoadImage(
-        previewUrl: meme.url,
-        sourceUrl: meme.url,
-        isAnimatedImagePlaybackAllowed: allowAnimatedImagePlayback,
-      )) {
-        return const _PreviewPlaceholder();
-      }
-      return LayoutBuilder(
-        builder: (context, constraints) {
-          final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-          final cacheWidth = constraints.maxWidth.isFinite
-              ? (constraints.maxWidth * devicePixelRatio).round()
-              : null;
-          final cacheHeight = constraints.maxHeight.isFinite
-              ? (constraints.maxHeight * devicePixelRatio).round()
-              : null;
-          return CachedNetworkImage(
-            imageUrl: meme.url,
-            fit: BoxFit.cover,
-            memCacheWidth: cacheWidth,
-            memCacheHeight: cacheHeight,
-            maxWidthDiskCache: cacheWidth,
-            maxHeightDiskCache: cacheHeight,
-            fadeInDuration: Duration.zero,
-            fadeOutDuration: Duration.zero,
-            placeholder: (_, _) => const _PreviewPlaceholder(),
-            errorBuilder: (_, _, _) => const _PreviewPlaceholder(),
+    switch (meme.mediaType) {
+      case FavoriteMemeMediaType.gif:
+        return _buildAnimatedGif();
+      case FavoriteMemeMediaType.video:
+        return _FavoriteMediaVideoPreview(
+          url: meme.url,
+          isVisible: isVisible,
+          allowPlayback: allowVideoPlayback,
+        );
+      case FavoriteMemeMediaType.audio:
+        return _AudioPreview(meme: meme);
+      case FavoriteMemeMediaType.image:
+        if (meme.isVideoLike) {
+          return _IconPreview(
+            icon: PhosphorIconsFill.file,
+            label: meme.filename,
           );
-        },
-      );
+        }
+        return _buildStaticImage();
+      case FavoriteMemeMediaType.unknown:
+        return _IconPreview(icon: PhosphorIconsFill.file, label: meme.filename);
     }
-
-    return switch (meme.mediaType) {
-      FavoriteMemeMediaType.audio => _AudioPreview(meme: meme),
-      FavoriteMemeMediaType.video ||
-      FavoriteMemeMediaType.gif => _FavoriteMediaVideoPreview(
-        url: meme.url,
-        isVisible: isVisible,
-        allowPlayback: allowVideoPlayback,
-      ),
-      FavoriteMemeMediaType.image || FavoriteMemeMediaType.unknown =>
-        _IconPreview(icon: PhosphorIconsFill.file, label: meme.filename),
-    };
   }
+
+  Widget _buildAnimatedGif() {
+    final chosen = gifPreviewMediaForPicker(
+      src: meme.url,
+      proxySrc: meme.url,
+      width: meme.width ?? 0,
+      height: meme.height ?? 0,
+      media: meme.media,
+    );
+    final base = chosen.proxySrc.isNotEmpty ? chosen.proxySrc : chosen.src;
+    return FluxerAnimatedImage(
+      animatedUrl: buildMediaProxyUrl(base, format: 'webp', animated: true),
+      playing: allowAnimatedImagePlayback,
+      placeholder: const _PreviewPlaceholder(),
+    );
+  }
+
+  Widget _buildStaticImage() => LayoutBuilder(
+    builder: (context, constraints) {
+      final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+      final cacheWidth = constraints.maxWidth.isFinite
+          ? (constraints.maxWidth * devicePixelRatio).round()
+          : null;
+      final cacheHeight = constraints.maxHeight.isFinite
+          ? (constraints.maxHeight * devicePixelRatio).round()
+          : null;
+      return CachedNetworkImage(
+        imageUrl: meme.url,
+        fit: BoxFit.cover,
+        memCacheWidth: cacheWidth,
+        memCacheHeight: cacheHeight,
+        maxWidthDiskCache: cacheWidth,
+        maxHeightDiskCache: cacheHeight,
+        fadeInDuration: Duration.zero,
+        fadeOutDuration: Duration.zero,
+        placeholder: (_, _) => const _PreviewPlaceholder(),
+        errorBuilder: (_, _, _) => const _PreviewPlaceholder(),
+      );
+    },
+  );
 }
 
 class _FavoriteMediaVideoPreview extends StatefulWidget {

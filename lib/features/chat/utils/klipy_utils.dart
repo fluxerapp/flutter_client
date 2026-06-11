@@ -10,11 +10,6 @@ final RegExp _klipyPathRegex = RegExp(
   caseSensitive: false,
 );
 
-final RegExp _videoFileExtensionRegex = RegExp(
-  r'\.(mp4|webm|mov|m4v)(?:$|\?)',
-  caseSensitive: false,
-);
-
 KlipyPath? parseKlipyPath(String url) {
   if (url.isEmpty) {
     return null;
@@ -100,11 +95,6 @@ String parseKlipyTitleFromUrl(String url) {
   }
 
   return _titleFromSlug(filename);
-}
-
-bool isVideoSourceUrl(String value) {
-  final path = Uri.tryParse(value)?.path ?? value;
-  return _videoFileExtensionRegex.hasMatch(path);
 }
 
 String _titleFromSlug(String slug) {

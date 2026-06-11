@@ -208,20 +208,18 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
     if (trimmed.isEmpty) {
       return false;
     }
-    final updated = await (update(favoriteCategories)
-          ..where((t) => t.id.equals(id)))
-        .write(FavoriteCategoriesCompanion(name: Value(trimmed)));
+    final updated =
+        await (update(favoriteCategories)..where((t) => t.id.equals(id))).write(
+          FavoriteCategoriesCompanion(name: Value(trimmed)),
+        );
     return updated > 0;
   }
 
-  Future<void> moveCategory({
-    required String id,
-    required int position,
-  }) async {
+  Future<void> moveCategory({required String id, required int position}) async {
     await transaction(() async {
-      final existing = await (select(favoriteCategories)
-            ..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+      final existing = await (select(
+        favoriteCategories,
+      )..where((t) => t.id.equals(id))).getSingleOrNull();
       if (existing == null) {
         return;
       }
@@ -230,7 +228,8 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
       final nextIndex = position.clamp(0, reordered.length);
       reordered.insert(nextIndex, existing);
       for (var i = 0; i < reordered.length; i++) {
-        await (update(favoriteCategories)..where((t) => t.id.equals(reordered[i].id)))
+        await (update(favoriteCategories)
+              ..where((t) => t.id.equals(reordered[i].id)))
             .write(FavoriteCategoriesCompanion(position: Value(i)));
       }
     });
@@ -242,9 +241,10 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
   }) async {
     final trimmed = nickname?.trim();
     final normalized = trimmed == null || trimmed.isEmpty ? null : trimmed;
-    final updated = await (update(favoriteChannels)
-          ..where((t) => t.channelId.equals(channelId)))
-        .write(FavoriteChannelsCompanion(nickname: Value(normalized)));
+    final updated =
+        await (update(favoriteChannels)
+              ..where((t) => t.channelId.equals(channelId)))
+            .write(FavoriteChannelsCompanion(nickname: Value(normalized)));
     return updated > 0;
   }
 

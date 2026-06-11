@@ -5,7 +5,5 @@ bool shouldShowComposerVoiceButton({
   required bool hasSendable,
   required bool isEditing,
 }) {
-  return permissions.canAttachFiles &&
-      !isEditing &&
-      !hasSendable;
+  return permissions.canAttachFiles && !isEditing && !hasSendable;
 }

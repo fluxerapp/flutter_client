@@ -23,7 +23,8 @@ class ChannelComposerBarrier extends ConsumerStatefulWidget {
       _ChannelComposerBarrierState();
 }
 
-class _ChannelComposerBarrierState extends ConsumerState<ChannelComposerBarrier> {
+class _ChannelComposerBarrierState
+    extends ConsumerState<ChannelComposerBarrier> {
   Timer? _countdownTimer;
   Duration? _remaining;
 
@@ -81,8 +82,7 @@ class _ChannelComposerBarrierState extends ConsumerState<ChannelComposerBarrier>
     final String message = guildComposerBarrierMessage(l10n, reason);
     final Widget? action = _buildAction(context, l10n, reason);
     final Duration? remaining = _remaining;
-    final Widget? countdown =
-        remaining != null && remaining > Duration.zero
+    final Widget? countdown = remaining != null && remaining > Duration.zero
         ? Text(
             formatComposerBarrierCountdown(remaining),
             style: context.textStyles.bodySmall.copyWith(
@@ -103,7 +103,6 @@ class _ChannelComposerBarrierState extends ConsumerState<ChannelComposerBarrier>
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(right: 8),
@@ -126,10 +125,7 @@ class _ChannelComposerBarrierState extends ConsumerState<ChannelComposerBarrier>
                 const SizedBox(width: 8),
                 countdown,
               ],
-              if (action != null) ...<Widget>[
-                const SizedBox(width: 8),
-                action,
-              ],
+              if (action != null) ...<Widget>[const SizedBox(width: 8), action],
             ],
           ),
         ),
@@ -148,7 +144,8 @@ class _ChannelComposerBarrierState extends ConsumerState<ChannelComposerBarrier>
       GuildComposerBlockReason.timedOut => PhosphorIconsFill.timer,
       GuildComposerBlockReason.unclaimedAccount =>
         PhosphorIconsFill.shieldWarning,
-      GuildComposerBlockReason.unverifiedEmail => PhosphorIconsFill.envelopeSimple,
+      GuildComposerBlockReason.unverifiedEmail =>
+        PhosphorIconsFill.envelopeSimple,
       GuildComposerBlockReason.accountTooNew ||
       GuildComposerBlockReason.notMemberLongEnough => PhosphorIconsFill.clock,
       GuildComposerBlockReason.noPhoneNumber => PhosphorIconsFill.phone,
@@ -169,10 +166,8 @@ class _ChannelComposerBarrierState extends ConsumerState<ChannelComposerBarrier>
       GuildComposerBlockReason.unverifiedEmail => FluxerButton.secondary(
         label: l10n.channelComposerBarrierVerifyEmail,
         size: FluxerButtonSize.compact,
-        onPressed: () => UserSettingsModal.show(
-          context,
-          openSecuritySection: true,
-        ),
+        onPressed: () =>
+            UserSettingsModal.show(context, openSecuritySection: true),
       ),
       GuildComposerBlockReason.noPhoneNumber => FluxerButton.secondary(
         label: l10n.channelComposerBarrierVerifyPhone,

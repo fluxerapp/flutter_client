@@ -41,7 +41,9 @@ class FavoriteChannelsRepository {
   }
 
   Future<bool> removeChannel(String channelId) async {
-    final removed = await _database.favoriteChannelsDao.removeChannel(channelId);
+    final removed = await _database.favoriteChannelsDao.removeChannel(
+      channelId,
+    );
     if (removed) {
       await _syncService.applyAfterLocalMutation();
     }
@@ -94,10 +96,7 @@ class FavoriteChannelsRepository {
     return renamed;
   }
 
-  Future<void> moveCategory({
-    required String id,
-    required int position,
-  }) async {
+  Future<void> moveCategory({required String id, required int position}) async {
     await _database.favoriteChannelsDao.moveCategory(
       id: id,
       position: position,

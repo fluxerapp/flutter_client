@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
@@ -8,6 +7,7 @@ import 'package:fluxer_app/features/mature_content/presentation/mature_content_g
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class MatureContentChannelGate extends ConsumerWidget {
   const MatureContentChannelGate({
@@ -107,13 +107,9 @@ class _MatureContentChannelGateBody extends ConsumerWidget {
                 SizedBox(
                   width: double.infinity,
                   child: FluxerButton.primary(
-                    label: copy.primaryButtonLabel!,
+                    label: copy.primaryButtonLabel,
                     onPressed: () async {
-                      final String? scopeId =
-                          gateContext.scopeId ?? channelId;
-                      if (scopeId == null) {
-                        return;
-                      }
+                      final String scopeId = gateContext.scopeId ?? channelId;
                       await ref
                           .read(matureContentAgreementsProvider.notifier)
                           .agreeForScope(

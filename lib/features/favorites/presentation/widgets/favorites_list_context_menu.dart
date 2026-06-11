@@ -14,7 +14,8 @@ Future<void> showFavoritesListMenu(
   required Offset position,
 }) {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-  final bool hideMuted = ref.read(favoriteSettingsProvider).value?.hideMuted ?? false;
+  final bool hideMuted =
+      ref.read(favoriteSettingsProvider).value?.hideMuted ?? false;
 
   return FluxerActionMenu.show(
     context,

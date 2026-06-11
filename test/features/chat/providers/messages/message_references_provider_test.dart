@@ -101,7 +101,7 @@ void main() {
             'type': 0,
             'flags': 0,
             'content': 'forwarded text',
-            'timestamp': DateTime.utc(2026, 1, 1).toIso8601String(),
+            'timestamp': DateTime.utc(2026).toIso8601String(),
           },
         ],
       });

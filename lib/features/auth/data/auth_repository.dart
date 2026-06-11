@@ -204,8 +204,9 @@ class AuthRepository {
   }
 
   Future<void> migrateLegacyTokens() async {
-    final List<({String userId, String token})> legacyTokens =
-        await _db.authSessionDao.getLegacyTokens();
+    final List<({String userId, String token})> legacyTokens = await _db
+        .authSessionDao
+        .getLegacyTokens();
     if (legacyTokens.isEmpty) {
       await _db.authSessionDao.dropLegacyTokenColumnIfPresent();
       return;

@@ -191,8 +191,9 @@ class VoiceChannelControlBar extends ConsumerWidget {
                     onPressed: () {
                       final String? guildId = session.guildId;
                       if (context.mounted && isMobileLayout(context)) {
-                        final String location =
-                            ref.read(currentLocationProvider);
+                        final String location = ref.read(
+                          currentLocationProvider,
+                        );
                         if (isFavoritesChannelRoute(location)) {
                           returnToFavoritesList(ref);
                         } else if (guildId != null && guildId.isNotEmpty) {

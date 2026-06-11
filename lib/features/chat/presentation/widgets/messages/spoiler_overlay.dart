@@ -121,10 +121,7 @@ class _SpoilerOverlayState extends State<SpoilerOverlay>
             children: [
               FadeTransition(
                 opacity: _controller,
-                child: IgnorePointer(
-                  ignoring: !_revealed,
-                  child: widget.child,
-                ),
+                child: IgnorePointer(ignoring: !_revealed, child: widget.child),
               ),
               Positioned.fill(
                 child: IgnorePointer(
@@ -139,9 +136,8 @@ class _SpoilerOverlayState extends State<SpoilerOverlay>
                       child: Center(
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            color: context.colors.backgroundSecondary.withValues(
-                              alpha: 0.3,
-                            ),
+                            color: context.colors.backgroundSecondary
+                                .withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Padding(

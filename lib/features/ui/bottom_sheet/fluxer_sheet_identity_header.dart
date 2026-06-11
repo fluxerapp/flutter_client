@@ -109,7 +109,7 @@ class FluxerSheetIdentityHeader extends StatelessWidget {
 
 /// Standard close affordance for sheet headers.
 class FluxerSheetCloseButton extends StatelessWidget {
-  const FluxerSheetCloseButton({required this.onTap, super.key,});
+  const FluxerSheetCloseButton({required this.onTap, super.key});
 
   final VoidCallback onTap;
 

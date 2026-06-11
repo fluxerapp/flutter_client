@@ -14,24 +14,11 @@ enum ClientSensitiveMediaFilterLevel {
   };
 }
 
-enum MatureContentGateReason {
-  none,
-  consentRequired,
-  minorBlocked,
-}
+enum MatureContentGateReason { none, consentRequired, minorBlocked }
 
-enum MatureContentAgreementScope {
-  channel,
-  category,
-  guild,
-}
+enum MatureContentAgreementScope { channel, category, guild }
 
-enum EffectiveMatureSource {
-  none,
-  guild,
-  parent,
-  channel,
-}
+enum EffectiveMatureSource { none, guild, parent, channel }
 
 const int contentWarningLevelInherit = 0;
 const int contentWarningLevelContentWarning = 1;

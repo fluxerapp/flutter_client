@@ -16,8 +16,8 @@ import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar.
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list.dart';
-import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/favorites/presentation/favorites_sidebar.dart';
+import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/providers/member_list_view_model.dart';
@@ -240,8 +240,9 @@ class _AppLayoutState extends ConsumerState<AppLayout>
         _swipeController.value = 0;
       }
     });
-    final bool blocksHorizontalGestures =
-        ref.watch(shellBlocksHorizontalGesturesProvider);
+    final bool blocksHorizontalGestures = ref.watch(
+      shellBlocksHorizontalGesturesProvider,
+    );
     final canSwipePop = _canSwipePop(location) && !blocksHorizontalGestures;
     final mainContent = AnimatedBuilder(
       animation: _swipeController,

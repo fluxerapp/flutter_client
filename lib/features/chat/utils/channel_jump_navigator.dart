@@ -6,16 +6,15 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
-import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
-import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_access_denied_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
+import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
+import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 
 /// Builds the in-app route for a resolved channel jump target.
 String buildChannelJumpRoutePath({
@@ -63,10 +62,7 @@ final class ChannelJumpAccessDenied extends ChannelJumpResolution {
 }
 
 final class ChannelJumpInPlace extends ChannelJumpResolution {
-  const ChannelJumpInPlace({
-    required this.channelId,
-    required this.messageId,
-  });
+  const ChannelJumpInPlace({required this.channelId, required this.messageId});
 
   final String channelId;
   final String messageId;

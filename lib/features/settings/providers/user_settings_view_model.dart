@@ -21,7 +21,7 @@ part 'user_settings_view_model.g.dart';
 
 bool _hasVerifiedPhoneFromProfile(UserPrivateResponse profile) {
   try {
-    final Object? json = profile.toJson();
+    final Object json = profile.toJson();
     if (json is Map<String, dynamic>) {
       final Object? value = json['has_verified_phone'];
       if (value is bool) {

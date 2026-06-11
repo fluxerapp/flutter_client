@@ -5,9 +5,9 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
-import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
@@ -77,7 +77,11 @@ class SensitiveContent extends _$SensitiveContent {
         ),
       );
     } on Object catch (error, stackTrace) {
-      talker.error('Failed to load sensitive content settings', error, stackTrace);
+      talker.error(
+        'Failed to load sensitive content settings',
+        error,
+        stackTrace,
+      );
       state = state.copyWith(isLoading: false);
     }
   }

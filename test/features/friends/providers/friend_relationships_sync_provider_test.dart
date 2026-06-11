@@ -23,9 +23,7 @@ void main() {
   test('syncs relationships when gateway becomes ready', () async {
     final repo = _RecordingFriendRepository();
     final container = ProviderContainer(
-      overrides: [
-        friendRepositoryProvider.overrideWithValue(repo),
-      ],
+      overrides: [friendRepositoryProvider.overrideWithValue(repo)],
     );
     addTearDown(container.dispose);
 
@@ -41,9 +39,7 @@ void main() {
   test('syncs immediately when gateway is already ready', () async {
     final repo = _RecordingFriendRepository();
     final container = ProviderContainer(
-      overrides: [
-        friendRepositoryProvider.overrideWithValue(repo),
-      ],
+      overrides: [friendRepositoryProvider.overrideWithValue(repo)],
     );
     addTearDown(container.dispose);
 

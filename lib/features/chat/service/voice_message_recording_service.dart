@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -113,7 +112,9 @@ class VoiceMessageRecordingService {
     }
     final bool granted = await requestPermission();
     if (!granted) {
-      talker.warning('[VoiceMessageRecording] Microphone permission not granted');
+      talker.warning(
+        '[VoiceMessageRecording] Microphone permission not granted',
+      );
       throw const VoiceMessageRecordingPermissionException();
     }
     final Directory dir = await getTemporaryDirectory();
@@ -146,11 +147,7 @@ class VoiceMessageRecordingService {
     }
     _pcmSink = pcmFile.openWrite();
     final Stream<Uint8List> stream = await _recorder.startStream(
-      const RecordConfig(
-        encoder: AudioEncoder.pcm16bits,
-        numChannels: 1,
-        sampleRate: kVoiceMessageRecordingSampleRate,
-      ),
+      const RecordConfig(encoder: AudioEncoder.pcm16bits, numChannels: 1),
     );
     _pcmSubscription = stream.listen(
       _onPcmChunk,
@@ -168,11 +165,7 @@ class VoiceMessageRecordingService {
     _captureMode = VoiceMessageCaptureMode.fileWithAmplitude;
     _pcmTempPath = null;
     await _recorder.start(
-      const RecordConfig(
-        encoder: AudioEncoder.wav,
-        numChannels: 1,
-        sampleRate: kVoiceMessageRecordingSampleRate,
-      ),
+      const RecordConfig(encoder: AudioEncoder.wav, numChannels: 1),
       path: _wavOutputPath!,
     );
     _amplitudeSubscription = _recorder
@@ -293,7 +286,9 @@ class VoiceMessageRecordingService {
     );
   }
 
-  Future<VoiceMessagePcmSlice?> _resolvePcmAfterStop({required String wavPath}) async {
+  Future<VoiceMessagePcmSlice?> _resolvePcmAfterStop({
+    required String wavPath,
+  }) async {
     if (_captureMode == VoiceMessageCaptureMode.fileWithAmplitude) {
       final File file = File(wavPath);
       if (!file.existsSync()) {

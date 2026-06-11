@@ -25,10 +25,7 @@ class UserSettingsDesktopNavEntry {
   }) : this._(section: section, icon: icon);
 
   const UserSettingsDesktopNavEntry.logout()
-    : this._(
-        icon: PhosphorIconsFill.signOut,
-        isLogout: true,
-      );
+    : this._(icon: PhosphorIconsFill.signOut, isLogout: true);
 
   final UserSettingsNavGroup? group;
   final UserSettingsSection? section;
@@ -173,10 +170,7 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required VoidCallback onOpenAppLogs,
   required VoidCallback onLogout,
 }) {
-  FluxerSettingsNavItem link(
-    UserSettingsSection section,
-    IconData icon,
-  ) {
+  FluxerSettingsNavItem link(UserSettingsSection section, IconData icon) {
     return FluxerSettingsNavItem(
       label: userSettingsSectionLabel(l10n, section),
       icon: icon,

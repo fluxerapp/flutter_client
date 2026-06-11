@@ -95,14 +95,11 @@ class AuthSessionDao extends DatabaseAccessor<FluxerDatabase>
     if (!await _hasLegacyTokenColumn()) {
       return <({String userId, String token})>[];
     }
-    final List<QueryRow> rows = await customSelect(
-      '''
+    final List<QueryRow> rows = await customSelect('''
       SELECT user_id, token
       FROM auth_sessions
       WHERE token IS NOT NULL AND token != ''
-      ''',
-      readsFrom: <TableInfo<Table, Object?>>{},
-    ).get();
+      ''', readsFrom: <TableInfo<Table, Object?>>{}).get();
     return rows
         .map(
           (QueryRow row) => (
@@ -118,13 +115,11 @@ class AuthSessionDao extends DatabaseAccessor<FluxerDatabase>
     if (!await _hasLegacyTokenColumn()) {
       return;
     }
-    await customStatement(
-      '''
+    await customStatement('''
       UPDATE auth_sessions
       SET token = ''
       WHERE token IS NOT NULL AND token != ''
-      ''',
-    );
+      ''');
   }
 
   /// Drops the legacy token column once tokens live in secure storage.

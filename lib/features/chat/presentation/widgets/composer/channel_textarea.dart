@@ -13,23 +13,22 @@ import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart'
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_composer_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_recorder.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_composer_barrier.dart';
-import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
-import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
-import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_shake_provider.dart';
-import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
+import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/utils/clipboard_attachment_reader.dart';
 import 'package:fluxer_app/features/chat/utils/composer_message_length_paste_formatter.dart';
@@ -39,6 +38,7 @@ import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/paste_text_attachment.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -338,10 +338,13 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     );
     ref.listen<AsyncValue<GuildComposerAccess>>(
       guildComposerAccessProvider(channelId),
-      (AsyncValue<GuildComposerAccess>? previous, AsyncValue<GuildComposerAccess> next) {
+      (
+        AsyncValue<GuildComposerAccess>? previous,
+        AsyncValue<GuildComposerAccess> next,
+      ) {
         final bool? wasAllowed = previous?.value?.canAccess;
         final bool isAllowed = next.value?.canAccess ?? true;
-        if (wasAllowed != false && !isAllowed) {
+        if ((wasAllowed ?? true) && !isAllowed) {
           _clearComposerForBlockedAccess();
         }
       },
@@ -366,8 +369,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
           ref.watch(channelMessagePermissionsProvider(channelId)),
         );
     final String guildId =
-        findChannelById(ref.watch(channelListViewModelProvider), channelId)
-            ?.guildId ??
+        findChannelById(
+          ref.watch(channelListViewModelProvider),
+          channelId,
+        )?.guildId ??
         '';
 
     return Column(

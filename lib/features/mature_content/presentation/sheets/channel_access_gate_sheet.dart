@@ -61,7 +61,7 @@ Future<bool> showChannelAccessGateSheet({
             SizedBox(height: layout.s4),
             if (copy.canProceed && copy.primaryButtonLabel != null)
               FluxerButton.primary(
-                label: copy.primaryButtonLabel!,
+                label: copy.primaryButtonLabel,
                 onPressed: () => Navigator.of(sheetContext).pop(true),
               ),
             if (copy.canProceed && copy.primaryButtonLabel != null)
@@ -78,13 +78,9 @@ Future<bool> showChannelAccessGateSheet({
   if (confirmed != true) {
     return false;
   }
-  final String? scopeId = gateContext.scopeId ?? channelId;
-  if (scopeId == null) {
-    return false;
-  }
-  await container.read(matureContentAgreementsProvider.notifier).agreeForScope(
-    scope: gateContext.scope,
-    scopeId: scopeId,
-  );
+  final String scopeId = gateContext.scopeId ?? channelId;
+  await container
+      .read(matureContentAgreementsProvider.notifier)
+      .agreeForScope(scope: gateContext.scope, scopeId: scopeId);
   return true;
 }

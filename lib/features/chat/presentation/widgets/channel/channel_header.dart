@@ -647,8 +647,10 @@ class ChannelHeader extends ConsumerWidget {
     required DmConversation? dm,
     required bool isPersonalNotes,
   }) {
-    final String? nickname =
-        ref.watch(favoriteChannelProvider(channelId)).value?.nickname;
+    final String? nickname = ref
+        .watch(favoriteChannelProvider(channelId))
+        .value
+        ?.nickname;
     if (nickname != null && nickname.isNotEmpty) {
       return nickname;
     }
@@ -727,7 +729,9 @@ class ChannelHeader extends ConsumerWidget {
       return;
     }
     final l10n = FluxerLocalizations.of(context);
-    ref.read(toastProvider.notifier).show(
+    ref
+        .read(toastProvider.notifier)
+        .show(
           FluxerToast(
             message: isFavorite
                 ? l10n.favoritesRemovedToast
@@ -815,7 +819,9 @@ class ChannelHeader extends ConsumerWidget {
                     .read(appearancePreferencesProvider.notifier)
                     .setShowFavorites(value: false),
               );
-              ref.read(toastProvider.notifier).show(
+              ref
+                  .read(toastProvider.notifier)
+                  .show(
                     FluxerToast(
                       message: l10n.favoritesHiddenToast,
                       variant: FluxerToastVariant.success,

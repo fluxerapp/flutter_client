@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/channels/domain/hide_muted_channels_filter.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -5,9 +6,8 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/resolved_favorite_entry.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final favoriteResolvedEntriesProvider =
+final Provider<List<ResolvedFavoriteEntry>> favoriteResolvedEntriesProvider =
     Provider.autoDispose<List<ResolvedFavoriteEntry>>((ref) {
       final favorites = ref.watch(favoriteChannelsProvider).value ?? const [];
       final channels = ref.watch(allChannelsProvider).value ?? const [];
@@ -35,15 +35,14 @@ final favoriteResolvedEntriesProvider =
       ];
     });
 
-final favoriteChannelGroupsProvider =
+final Provider<List<FavoriteChannelGroup>> favoriteChannelGroupsProvider =
     Provider.autoDispose<List<FavoriteChannelGroup>>((ref) {
       final resolved = ref.watch(favoriteResolvedEntriesProvider);
-      final categories = ref.watch(favoriteCategoriesProvider).value ?? const [];
+      final categories =
+          ref.watch(favoriteCategoriesProvider).value ?? const [];
       final byParent = <String?, List<ResolvedFavoriteEntry>>{};
       for (final entry in resolved) {
-        byParent
-            .putIfAbsent(entry.favorite.parentId, () => [])
-            .add(entry);
+        byParent.putIfAbsent(entry.favorite.parentId, () => []).add(entry);
       }
       for (final entries in byParent.values) {
         entries.sort(
@@ -83,7 +82,7 @@ final favoriteChannelGroupsProvider =
       return groups.where((group) => group.entries.isNotEmpty).toList();
     });
 
-final firstAccessibleFavoriteChannelIdProvider =
+final Provider<String?> firstAccessibleFavoriteChannelIdProvider =
     Provider.autoDispose<String?>((ref) {
       final settings = ref.watch(favoriteSettingsProvider).value;
       final hideMuted = settings?.hideMuted ?? false;

@@ -192,7 +192,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             .applyServerSettings(settings),
       );
       unawaited(
-        ref.read(favoritesSyncServiceProvider).hydrateFromUserSettings(settings),
+        ref
+            .read(favoritesSyncServiceProvider)
+            .hydrateFromUserSettings(settings),
       );
     },
     onUnavailableGuildsReady: (rawGuilds) {

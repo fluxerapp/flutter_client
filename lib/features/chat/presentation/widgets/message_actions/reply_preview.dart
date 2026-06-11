@@ -277,8 +277,7 @@ class ReplyInputBar extends ConsumerWidget {
         currentUserId != null && replyTo.authorId == currentUserId;
     final bool isWebhook =
         replyTo.webhookId != null && replyTo.webhookId!.isNotEmpty;
-    final bool canMention =
-        guildId.isNotEmpty && !isOwnMessage && !isWebhook;
+    final bool canMention = guildId.isNotEmpty && !isOwnMessage && !isWebhook;
     final bool shouldMention = shouldReplyMention && canMention;
     final Color activeMentionColor = context.colors.markupMentionText;
     return Container(
