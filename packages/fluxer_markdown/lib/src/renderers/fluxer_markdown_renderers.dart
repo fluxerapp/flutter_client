@@ -561,7 +561,8 @@ class _MarkdownInlineRenderer {
         return _buildEveryoneMention(node, effectiveStyle);
       case FluxerTimestampSyntax.tag:
         return WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
           child: FluxerTimestampWidget(
             element: node,
             baseStyle: effectiveStyle,
@@ -1168,34 +1169,14 @@ class FluxerTimestampWidget extends StatelessWidget {
       'R' => _relative(dt),
       _ => DateFormat.yMMMMd().add_Hm().format(dt),
     };
-    final iconColor = Theme.of(context).colorScheme.onSurfaceVariant;
-    final fontSize = (baseStyle.fontSize ?? 16) * 0.85;
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(3),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            PhosphorIconsFill.clock,
-            size: fontSize,
-            color: iconColor.withValues(alpha: 0.7),
-          ),
-          const SizedBox(width: 3),
-          Text(
-            text,
-            style: baseStyle.copyWith(
-              fontSize: fontSize,
-              color: iconColor,
-              fontFamily: 'monospace',
-            ),
-          ),
-        ],
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Text(text, style: baseStyle),
     );
   }
 }
