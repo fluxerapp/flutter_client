@@ -106,7 +106,7 @@ void main() {
     });
   });
 
-  group('FluxerTimestampWidget rendering', () {
+  group('FluxerTimestamp rendering', () {
     final features = FluxerMarkdownFeatures.forContext(
       FluxerMarkdownContext.standardWithJumbo,
     );
@@ -138,15 +138,19 @@ void main() {
     ) async {
       await pumpMarkdown(tester, '<t:15778476000000000:f>');
       expect(tester.takeException(), isNull);
-      expect(find.byType(FluxerTimestampWidget), findsNothing);
     });
 
-    testWidgets('renders a valid timestamp as a FluxerTimestampWidget', (
+    testWidgets('renders a valid timestamp as inline formatted text', (
       tester,
     ) async {
       await pumpMarkdown(tester, '<t:1618936830:f>');
       expect(tester.takeException(), isNull);
-      expect(find.byType(FluxerTimestampWidget), findsOneWidget);
+      final List<String> renderedTexts = tester
+          .widgetList<RichText>(find.byType(RichText))
+          .map((RichText richText) => richText.text.toPlainText())
+          .toList();
+      expect(renderedTexts.any((String t) => t.contains('2021')), isTrue);
+      expect(renderedTexts.any((String t) => t.contains('<t:')), isFalse);
     });
   });
 }
