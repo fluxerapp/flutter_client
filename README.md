@@ -22,7 +22,7 @@
 
 This is the repo for the official Fluxer mobile app powered by Flutter (desktop is in the works also but mobile is the main focus currently).
 
-You can follow more about the V1 development in and what features are planned/implemented in this [Roadmap issue](https://github.com/fluxerapp/flutter_client/issues/184).
+You can follow more about the V1 development and what features are planned/implemented in this [Roadmap issue](https://github.com/fluxerapp/flutter_client/issues/184).
 
 # Community
 
