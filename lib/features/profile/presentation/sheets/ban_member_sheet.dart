@@ -168,6 +168,7 @@ class _BanMemberBodyState extends State<_BanMemberBody> {
                 SizedBox(height: layout.s3),
                 FluxerInput.multiline(
                   controller: _reasonController,
+                  textCapitalization: TextCapitalization.sentences,
                   label: l10n.userProfileBanReasonLabel,
                   hint: l10n.userProfileBanReasonHint,
                   maxLength: 512,

@@ -213,6 +213,7 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
                   Expanded(
                     child: FluxerInput(
                       controller: _textController,
+                      textCapitalization: TextCapitalization.sentences,
                       hint: l10n.customStatusPlaceholder,
                       maxLength: kCustomStatusTextLimit,
                       onChanged: (_) => setState(() {}),

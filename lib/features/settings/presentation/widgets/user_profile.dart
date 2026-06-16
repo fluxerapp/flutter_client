@@ -814,6 +814,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           );
           return FluxerInput.multiline(
             controller: controller,
+            textCapitalization: TextCapitalization.sentences,
             focusNode: _bioFocusNode,
             label: l10n.aboutMeLabel,
             maxLength: bioDisplayMaxLength,

@@ -121,6 +121,7 @@ class _NoteEditorState extends ConsumerState<_NoteEditor> {
         children: [
           FluxerInput.multiline(
             controller: _controller,
+            textCapitalization: TextCapitalization.sentences,
             maxLength: 256,
             minLines: 4,
             maxLines: 8,

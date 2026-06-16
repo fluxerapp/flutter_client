@@ -264,6 +264,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             maxLines: maxLines,
             decoration: effectiveDecoration,
             textAlignVertical: textAlignVertical,
+            textCapitalization: TextCapitalization.sentences,
             inputFormatters: _messageLengthInputFormatters(
               maxMessageLength: maxMessageLength,
               perms: perms,

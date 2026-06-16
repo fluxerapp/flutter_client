@@ -36,6 +36,7 @@ class FluxerInput extends StatelessWidget {
     this.style,
     this.maxLines = 1,
     this.minLines,
+    this.textCapitalization,
     super.key,
   });
 
@@ -69,6 +70,7 @@ class FluxerInput extends StatelessWidget {
     this.style,
     this.maxLines,
     this.minLines = 3,
+    this.textCapitalization,
     super.key,
   });
 
@@ -112,6 +114,7 @@ class FluxerInput extends StatelessWidget {
   final TextStyle? style;
   final int? maxLines;
   final int? minLines;
+  final TextCapitalization? textCapitalization;
 
   bool get _isMultiline => minLines != null && minLines! > 1;
 
@@ -174,6 +177,7 @@ class FluxerInput extends StatelessWidget {
           onFieldSubmitted: onSubmitted,
           validator: validator,
           keyboardType: keyboardType,
+          textCapitalization: textCapitalization ?? TextCapitalization.none,
           inputFormatters: inputFormatters,
           maxLines: maxLines,
           minLines: minLines,
@@ -251,6 +255,7 @@ class FluxerInput extends StatelessWidget {
                       onFieldSubmitted: onSubmitted,
                       validator: validator,
                       keyboardType: keyboardType,
+                      textCapitalization: textCapitalization ?? TextCapitalization.none,
                       inputFormatters: inputFormatters,
                       maxLines: maxLines,
                       minLines: minLines,
@@ -320,6 +325,7 @@ class FluxerInput extends StatelessWidget {
               onFieldSubmitted: onSubmitted,
               validator: validator,
               keyboardType: keyboardType,
+              textCapitalization: textCapitalization ?? TextCapitalization.none,
               inputFormatters: inputFormatters,
               maxLines: maxLines,
               minLines: minLines,

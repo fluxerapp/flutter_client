@@ -114,6 +114,7 @@ class _AttachmentEditSheetBodyState
             const SizedBox(height: 12),
             FluxerInput.multiline(
               controller: _descriptionController,
+              textCapitalization: TextCapitalization.sentences,
               label: FluxerLocalizations.of(
                 context,
               ).chatAttachmentDescriptionLabel,

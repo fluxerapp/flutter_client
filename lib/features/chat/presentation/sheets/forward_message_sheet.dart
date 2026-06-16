@@ -534,6 +534,7 @@ class _ForwardMessageSheetBodyState
           style: context.textStyles.inputText,
           minLines: 1,
           maxLines: 4,
+          textCapitalization: TextCapitalization.sentences,
           inputFormatters: <TextInputFormatter>[
             LengthLimitingTextInputFormatter(maxMessageLength),
           ],
