@@ -113,4 +113,38 @@ class FluxerMarkdownFeatures {
   final bool allowSubtext;
   final bool allowTables;
   final bool allowUserMentions;
+
+  @override
+  bool operator ==(Object other) =>
+      other is FluxerMarkdownFeatures &&
+      other.allowAutolinks == allowAutolinks &&
+      other.allowAlerts == allowAlerts &&
+      other.allowBlockquotes == allowBlockquotes &&
+      other.allowChannelMentions == allowChannelMentions &&
+      other.allowCodeBlocks == allowCodeBlocks &&
+      other.allowEveryoneMentions == allowEveryoneMentions &&
+      other.allowHeadings == allowHeadings &&
+      other.allowJumboEmoji == allowJumboEmoji &&
+      other.allowLists == allowLists &&
+      other.allowRoleMentions == allowRoleMentions &&
+      other.allowSubtext == allowSubtext &&
+      other.allowTables == allowTables &&
+      other.allowUserMentions == allowUserMentions;
+
+  @override
+  int get hashCode => Object.hash(
+    allowAutolinks,
+    allowAlerts,
+    allowBlockquotes,
+    allowChannelMentions,
+    allowCodeBlocks,
+    allowEveryoneMentions,
+    allowHeadings,
+    allowJumboEmoji,
+    allowLists,
+    allowRoleMentions,
+    allowSubtext,
+    allowTables,
+    allowUserMentions,
+  );
 }

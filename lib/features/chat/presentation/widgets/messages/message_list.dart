@@ -100,6 +100,8 @@ class _MessageListState extends ConsumerState<MessageList> {
   bool _needsInitialBottomPin = false;
   bool _initialBottomPinDeferScheduled = false;
   int _bottomPinGeneration = 0;
+  ChatUnreadSummary? _cachedUnreadSummary;
+  Object? _unreadSummaryKey;
 
   @override
   void initState() {
@@ -368,11 +370,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (messages.isEmpty) {
       return false;
     }
-    final ChatUnreadSummary unreadSummary = computeChatUnreadSummary(
-      messages: messages.map(
-        (Message message) =>
-            ChatUnreadMessageRef(id: message.id, authorId: message.authorId),
-      ),
+    final ChatUnreadSummary unreadSummary = _unreadSummaryFor(
+      messages: messages,
       ackLastMessageId: readState?.lastMessageId,
       mentionCount: readState?.mentionCount ?? 0,
       currentUserId: currentUserId,
@@ -381,6 +380,36 @@ class _MessageListState extends ConsumerState<MessageList> {
       return false;
     }
     return true;
+  }
+
+  ChatUnreadSummary _unreadSummaryFor({
+    required List<Message> messages,
+    required String? ackLastMessageId,
+    required int mentionCount,
+    required String? currentUserId,
+  }) {
+    final Object key = (
+      messages,
+      ackLastMessageId,
+      mentionCount,
+      currentUserId,
+    );
+    final ChatUnreadSummary? cached = _cachedUnreadSummary;
+    if (cached != null && _unreadSummaryKey == key) {
+      return cached;
+    }
+    final ChatUnreadSummary summary = computeChatUnreadSummary(
+      messages: messages.map(
+        (Message message) =>
+            ChatUnreadMessageRef(id: message.id, authorId: message.authorId),
+      ),
+      ackLastMessageId: ackLastMessageId,
+      mentionCount: mentionCount,
+      currentUserId: currentUserId,
+    );
+    _unreadSummaryKey = key;
+    _cachedUnreadSummary = summary;
+    return summary;
   }
 
   void _requestInitialBottomPin() {
@@ -810,28 +839,33 @@ class _MessageListState extends ConsumerState<MessageList> {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
     return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        final int messageIndex = messages.length - 1 - index;
-        final Message message = messages[messageIndex];
-        final Message? previousMessage = messageIndex > 0
-            ? messages[messageIndex - 1]
-            : null;
-        return _buildMessageTile(
-          context: context,
-          message: message,
-          previousMessage: previousMessage,
-          visualUnreadId: visualUnreadId,
-          highlightedMessageId: highlightedMessageId,
-          currentUserId: currentUserId,
-          isDmChannel: isDmChannel,
-          guildId: guildId,
-          channelPermissionBits: channelPermissionBits,
-          channelCanSendMessages: channelCanSendMessages,
-          channelCanAddReactions: channelCanAddReactions,
-          channelCanPinMessage: channelCanPinMessage,
-          channelCanManageMessages: channelCanManageMessages,
-        );
-      }, childCount: messages.length),
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          final int messageIndex = messages.length - 1 - index;
+          final Message message = messages[messageIndex];
+          final Message? previousMessage = messageIndex > 0
+              ? messages[messageIndex - 1]
+              : null;
+          return _buildMessageTile(
+            context: context,
+            message: message,
+            previousMessage: previousMessage,
+            visualUnreadId: visualUnreadId,
+            highlightedMessageId: highlightedMessageId,
+            currentUserId: currentUserId,
+            isDmChannel: isDmChannel,
+            guildId: guildId,
+            channelPermissionBits: channelPermissionBits,
+            channelCanSendMessages: channelCanSendMessages,
+            channelCanAddReactions: channelCanAddReactions,
+            channelCanPinMessage: channelCanPinMessage,
+            channelCanManageMessages: channelCanManageMessages,
+          );
+        },
+        childCount: messages.length,
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: false,
+      ),
     );
   }
 
@@ -854,27 +888,32 @@ class _MessageListState extends ConsumerState<MessageList> {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
     return SliverList(
-      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        final Message message = messages[index];
-        final Message? previousMessage = index > 0
-            ? messages[index - 1]
-            : preCenterLastMessage;
-        return _buildMessageTile(
-          context: context,
-          message: message,
-          previousMessage: previousMessage,
-          visualUnreadId: visualUnreadId,
-          highlightedMessageId: highlightedMessageId,
-          currentUserId: currentUserId,
-          isDmChannel: isDmChannel,
-          guildId: guildId,
-          channelPermissionBits: channelPermissionBits,
-          channelCanSendMessages: channelCanSendMessages,
-          channelCanAddReactions: channelCanAddReactions,
-          channelCanPinMessage: channelCanPinMessage,
-          channelCanManageMessages: channelCanManageMessages,
-        );
-      }, childCount: messages.length),
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          final Message message = messages[index];
+          final Message? previousMessage = index > 0
+              ? messages[index - 1]
+              : preCenterLastMessage;
+          return _buildMessageTile(
+            context: context,
+            message: message,
+            previousMessage: previousMessage,
+            visualUnreadId: visualUnreadId,
+            highlightedMessageId: highlightedMessageId,
+            currentUserId: currentUserId,
+            isDmChannel: isDmChannel,
+            guildId: guildId,
+            channelPermissionBits: channelPermissionBits,
+            channelCanSendMessages: channelCanSendMessages,
+            channelCanAddReactions: channelCanAddReactions,
+            channelCanPinMessage: channelCanPinMessage,
+            channelCanManageMessages: channelCanManageMessages,
+          );
+        },
+        childCount: messages.length,
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: false,
+      ),
     );
   }
 
@@ -1101,11 +1140,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     final drift_db.ReadState? readState = channelId.isEmpty
         ? null
         : ref.watch(_messageListReadStateProvider(channelId)).asData?.value;
-    final ChatUnreadSummary unreadSummary = computeChatUnreadSummary(
-      messages: messages.map(
-        (Message message) =>
-            ChatUnreadMessageRef(id: message.id, authorId: message.authorId),
-      ),
+    final ChatUnreadSummary unreadSummary = _unreadSummaryFor(
+      messages: messages,
       ackLastMessageId: readState?.lastMessageId,
       mentionCount: readState?.mentionCount ?? 0,
       currentUserId: currentUserId,

@@ -127,12 +127,20 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
   late int _selectedIndex;
   bool _topicExpanded = false;
   bool _searchOpened = false;
+  MemberListViewport? _memberListViewport;
+  MemberListDesiredRanges? _memberListDesiredRanges;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialTab == ChannelDetailsInitialTab.pins ? 1 : 0;
     widget.scrollController.addListener(_onScroll);
+    if (_targetGuildId != null && _targetChannelId != null) {
+      _memberListViewport = ref.read(memberListViewportProvider.notifier);
+      _memberListDesiredRanges = ref.read(
+        memberListDesiredRangesProvider.notifier,
+      );
+    }
     if (_selectedIndex == 1) {
       _ackPins();
     }
@@ -148,15 +156,19 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
   @override
   void dispose() {
     widget.scrollController.removeListener(_onScroll);
+    final MemberListViewport? viewport = _memberListViewport;
+    final MemberListDesiredRanges? desiredRanges = _memberListDesiredRanges;
     final String? guildId = _targetGuildId;
     final String? channelId = _targetChannelId;
-    if (guildId != null && channelId != null) {
-      ref
-          .read(memberListViewportProvider.notifier)
-          .clearChannel(guildId: guildId, channelId: channelId);
-      ref
-          .read(memberListDesiredRangesProvider.notifier)
-          .clearChannel(guildId: guildId, channelId: channelId);
+    if (viewport != null &&
+        desiredRanges != null &&
+        guildId != null &&
+        channelId != null) {
+      // Provider mutations are illegal in dispose; defer to a microtask.
+      scheduleMicrotask(() {
+        viewport.clearChannel(guildId: guildId, channelId: channelId);
+        desiredRanges.clearChannel(guildId: guildId, channelId: channelId);
+      });
     }
     super.dispose();
   }

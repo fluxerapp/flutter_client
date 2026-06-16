@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:markdown/markdown.dart' as md;
+
+final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
+_blockNodeCache =
+    MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>();
 
 class FluxerMarkdown extends StatelessWidget {
   const FluxerMarkdown({
@@ -182,7 +187,10 @@ class FluxerMarkdown extends StatelessWidget {
   }) {
     final document = _createBlockDocument(features);
     final normalizedText = normalizeBlockquoteBarMarkdown(text);
-    final nodes = document.parse(normalizedText);
+    final nodes = _blockNodeCache.resolve((
+      normalizedText,
+      features,
+    ), () => document.parse(normalizedText));
     return buildFluxerMarkdownAst(
       context: context,
       nodes: nodes,

@@ -51,7 +51,8 @@ void main() {
       );
       expect(segments, hasLength(3));
       expect(segments[0], isA<MessageTextFlowSegment>());
-      expect((segments[0] as MessageTextFlowSegment).text, 'before\n\n');
+      // Web strips the blank line adjacent to a heading (it owns its margin).
+      expect((segments[0] as MessageTextFlowSegment).text, 'before\n');
       expect(segments[1], isA<MessageBlockMarkdownSegment>());
       expect((segments[1] as MessageBlockMarkdownSegment).text, '# heading');
       expect(segments[2], isA<MessageTextFlowSegment>());

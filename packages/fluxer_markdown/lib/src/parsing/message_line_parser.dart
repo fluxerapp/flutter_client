@@ -1,5 +1,6 @@
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 
 sealed class MessageContentSegment {}
 
@@ -39,7 +40,27 @@ String normalizeBlockquoteBarMarkdown(String text) {
   return lines.join('\n');
 }
 
+final MarkdownParseCache<
+  (String, FluxerMarkdownFeatures),
+  List<MessageContentSegment>
+>
+_contentStructureCache =
+    MarkdownParseCache<
+      (String, FluxerMarkdownFeatures),
+      List<MessageContentSegment>
+    >();
+
 List<MessageContentSegment> parseMessageContentStructure(
+  String text,
+  FluxerMarkdownFeatures features,
+) {
+  return _contentStructureCache.resolve((
+    text,
+    features,
+  ), () => _parseMessageContentStructureUncached(text, features));
+}
+
+List<MessageContentSegment> _parseMessageContentStructureUncached(
   String text,
   FluxerMarkdownFeatures features,
 ) {

@@ -13,6 +13,7 @@ import 'package:flutter_highlight/themes/vs2015.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
@@ -87,6 +88,10 @@ Widget buildFluxerMarkdownAst({
   return SelectionArea(child: body);
 }
 
+final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
+_inlineNodeCache =
+    MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>();
+
 Widget buildFluxerMarkdownTextFlow({
   required BuildContext context,
   required String text,
@@ -108,7 +113,10 @@ Widget buildFluxerMarkdownTextFlow({
     if (i > 0) {
       spans.add(TextSpan(text: '\n', style: baseStyle));
     }
-    final lineNodes = inlineDocument.parseInline(lines[i]);
+    final lineNodes = _inlineNodeCache.resolve((
+      lines[i],
+      features,
+    ), () => inlineDocument.parseInline(lines[i]));
     if (lineNodes.isEmpty) {
       continue;
     }
@@ -316,7 +324,9 @@ class _MarkdownBlockRenderer {
             padding: EdgeInsets.only(bottom: i == items.length - 1 ? 0 : 4),
             child: _buildListItem(
               items[i],
-            marker: ordered ? '${i + (int.tryParse(node.attributes['start'] ?? '1') ?? 1)}.' : '\u2022',
+              marker: ordered
+                  ? '${i + (int.tryParse(node.attributes['start'] ?? '1') ?? 1)}.'
+                  : '\u2022',
             ),
           ),
       ],

@@ -130,10 +130,12 @@ void main() {
         ),
       );
       final Size messageSize = tester.getSize(find.byType(RichText));
-      final double lineHeight = blankLineSize.height;
+      // Rendering '\n' spans both blank lines between the two text lines, so the
+      // block should be at least line one + both blank lines + line two tall.
+      final double twoBlankLinesHeight = blankLineSize.height;
       final double expectedMinHeight =
-          singleLineSize.height + (lineHeight * 2) + singleLineSize.height;
-      expect(lineHeight, greaterThan(8));
+          singleLineSize.height + twoBlankLinesHeight + singleLineSize.height;
+      expect(twoBlankLinesHeight, greaterThan(8));
       expect(messageSize.height, greaterThanOrEqualTo(expectedMinHeight - 1));
     });
   });
@@ -162,8 +164,14 @@ void main() {
           ),
         ),
       );
-      expect(find.textContaining('test line one'), findsOneWidget);
-      expect(find.textContaining('test line two'), findsOneWidget);
+      expect(
+        find.textContaining('test line one', findRichText: true),
+        findsOneWidget,
+      );
+      expect(
+        find.textContaining('test line two', findRichText: true),
+        findsOneWidget,
+      );
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
       final String renderedText = richText.text.toPlainText();
       expect(renderedText, 'test line one\n\n\ntest line two');

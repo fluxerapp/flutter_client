@@ -22,6 +22,7 @@ class _BetaWarningLayerState extends ConsumerState<BetaWarningLayer> {
   bool _isPresenting = false;
   bool _tryShowScheduled = false;
   VoidCallback? _routeListener;
+  GoRouter? _listenerRouter;
 
   @override
   void initState() {
@@ -32,8 +33,9 @@ class _BetaWarningLayerState extends ConsumerState<BetaWarningLayer> {
   @override
   void dispose() {
     final VoidCallback? listener = _routeListener;
-    if (listener != null) {
-      ref.read(fluxerRouterProvider).routerDelegate.removeListener(listener);
+    final GoRouter? router = _listenerRouter;
+    if (listener != null && router != null) {
+      router.routerDelegate.removeListener(listener);
     }
     super.dispose();
   }
@@ -79,6 +81,7 @@ class _BetaWarningLayerState extends ConsumerState<BetaWarningLayer> {
     }
     _routeListener = _scheduleTryShow;
     router.routerDelegate.addListener(_routeListener!);
+    _listenerRouter = router;
   }
 
   void _scheduleTryShow() {

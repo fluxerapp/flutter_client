@@ -126,7 +126,10 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
   @override
   void dispose() {
     _detachPointerRoute();
-    _removeRecordingOverlay();
+    _recordingOverlayEntry?.remove();
+    _recordingOverlayEntry = null;
+    // Provider mutation is illegal in dispose; defer the unblock.
+    scheduleMicrotask(() => _shellGestureBlock.setBlocked(value: false));
     _durationTimer?.cancel();
     _waveformTimer?.cancel();
     unawaited(_maxDurationSubscription?.cancel());

@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart
 import 'package:fluxer_app/features/channels/providers/read_state_repository_provider.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_auto_ack_allowed_provider.dart';
@@ -189,7 +190,8 @@ class ChatViewModel extends _$ChatViewModel {
   bool _readViewportNearBottom = true;
   final Map<String, Future<void>> _pendingDeleteFutures =
       <String, Future<void>>{};
-  final Map<String, DateTime> _lastNetworkRefreshByChannel = <String, DateTime>{};
+  final Map<String, DateTime> _lastNetworkRefreshByChannel =
+      <String, DateTime>{};
 
   @override
   ChatViewState build() {
@@ -241,8 +243,15 @@ class ChatViewModel extends _$ChatViewModel {
             (state.editingMessage != null &&
                 deletedIds.contains(state.editingMessage!.id)));
     if (next != null) {
+      var nextMessages = next;
+      var droppedOlder = false;
+      if (ev is MessageCreated && !state.hasMoreNewerMessages) {
+        final trim = trimMessageWindow(next, keepNewest: true);
+        nextMessages = trim.messages;
+        droppedOlder = trim.droppedOlder;
+      }
       state = state.copyWith(
-        messages: next,
+        messages: nextMessages,
         editingMessage: clearEditing || clearComposerForDelete
             ? null
             : state.editingMessage,
@@ -251,6 +260,7 @@ class ChatViewModel extends _$ChatViewModel {
             : state.messageText,
         replyingTo: clearComposerForDelete ? null : state.replyingTo,
         replyMentioning: !clearComposerForDelete && state.replyMentioning,
+        hasMoreMessages: droppedOlder || state.hasMoreMessages,
       );
       if (clearComposerForDelete) {
         unawaited(_flushComposerDraftSave());
@@ -358,6 +368,12 @@ class ChatViewModel extends _$ChatViewModel {
           matchedIndex = _findOptimisticMatchForDelivered(msg);
         }
         if (matchedIndex != -1) {
+          final existing = state.messages[matchedIndex];
+          if (existing.id == msg.id &&
+              existing.deliveryState == MessageDeliveryState.sent) {
+            // REST echo already applied this exact message; skip rebuild.
+            return null;
+          }
           final updated = List<Message>.from(state.messages);
           updated[matchedIndex] = msg.copyWith(
             deliveryState: MessageDeliveryState.sent,
@@ -615,78 +631,129 @@ class ChatViewModel extends _$ChatViewModel {
   }) async {
     final Stopwatch switchStopwatch = Stopwatch()..start();
     try {
-    if (state.channelId != channelId) {
-      _readViewportNearBottom = false;
-    }
-    final String previousChannelId = state.channelId;
-    final bool isChannelChange =
-        previousChannelId.isNotEmpty && previousChannelId != channelId;
-    if (isChannelChange) {
-      final String previousText = state.messageText;
-      final Message? previousReply = state.replyingTo;
-      _draftSaveTimer?.cancel();
-      _draftSaveTimer = null;
-      _readAckRetryTimer?.cancel();
-      _clearManualUnread(previousChannelId);
-      _clearLoadedUnreadBoundaryKeys(previousChannelId);
-      ref
-          .read(messageReferencesProvider.notifier)
-          .clearChannel(previousChannelId);
-      state = _switchedChannelState(
-        channelId: channelId,
-        messages: const [],
-        draft: (text: '', reply: null),
-        replyMentioning: false,
-        scrollToBottomSignal: state.scrollToBottomSignal,
-        isLoading: loadMessages,
-        isSyncingMessages: false,
-        isLoadingMore: false,
-        isLoadingNewer: false,
-        hasMoreMessages: true,
-        hasMoreNewerMessages: false,
-      );
-      unawaited(
-        _persistComposerDraftForChannel(
-          channelId: previousChannelId,
-          content: previousText,
-          reply: previousReply,
-        ),
-      );
-    }
-    final draft = await _loadComposerDraft(channelId);
-    final bool replyMentioning =
-        !(draft.reply == null) &&
-        await _defaultReplyMentionFor(
-          message: draft.reply!,
+      if (state.channelId != channelId) {
+        _readViewportNearBottom = false;
+      }
+      final String previousChannelId = state.channelId;
+      final bool isChannelChange =
+          previousChannelId.isNotEmpty && previousChannelId != channelId;
+      if (isChannelChange) {
+        final String previousText = state.messageText;
+        final Message? previousReply = state.replyingTo;
+        _draftSaveTimer?.cancel();
+        _draftSaveTimer = null;
+        _readAckRetryTimer?.cancel();
+        _clearManualUnread(previousChannelId);
+        _clearLoadedUnreadBoundaryKeys(previousChannelId);
+        ref
+            .read(messageReferencesProvider.notifier)
+            .clearChannel(previousChannelId);
+        state = _switchedChannelState(
           channelId: channelId,
+          messages: const [],
+          draft: (text: '', reply: null),
+          replyMentioning: false,
+          scrollToBottomSignal: state.scrollToBottomSignal,
+          isLoading: loadMessages,
+          isSyncingMessages: false,
+          isLoadingMore: false,
+          isLoadingNewer: false,
+          hasMoreMessages: true,
+          hasMoreNewerMessages: false,
         );
-    if (!loadMessages) {
-      state = _switchedChannelState(
-        channelId: channelId,
-        messages: state.messages,
-        draft: draft,
-        replyMentioning: replyMentioning,
-        scrollToBottomSignal: state.scrollToBottomSignal,
-        isLoading: false,
-        isSyncingMessages: false,
-        isLoadingMore: false,
-        isLoadingNewer: false,
-        hasMoreMessages: state.hasMoreMessages,
-        hasMoreNewerMessages: state.hasMoreNewerMessages,
-      );
-      return;
-    }
-    if (targetMessageId != null) {
-      if (state.channelId == channelId && state.isLoading && !isChannelChange) {
+        unawaited(
+          _persistComposerDraftForChannel(
+            channelId: previousChannelId,
+            content: previousText,
+            reply: previousReply,
+          ),
+        );
+      }
+      final draft = await _loadComposerDraft(channelId);
+      final bool replyMentioning =
+          !(draft.reply == null) &&
+          await _defaultReplyMentionFor(
+            message: draft.reply!,
+            channelId: channelId,
+          );
+      if (!loadMessages) {
+        state = _switchedChannelState(
+          channelId: channelId,
+          messages: state.messages,
+          draft: draft,
+          replyMentioning: replyMentioning,
+          scrollToBottomSignal: state.scrollToBottomSignal,
+          isLoading: false,
+          isSyncingMessages: false,
+          isLoadingMore: false,
+          isLoadingNewer: false,
+          hasMoreMessages: state.hasMoreMessages,
+          hasMoreNewerMessages: state.hasMoreNewerMessages,
+        );
+        return;
+      }
+      if (targetMessageId != null) {
+        if (state.channelId == channelId &&
+            state.isLoading &&
+            !isChannelChange) {
+          return;
+        }
+        if (state.channelId == channelId &&
+            !isChannelChange &&
+            !state.isLoading &&
+            !state.isSyncingMessages &&
+            state.messages.any((Message m) => m.id == targetMessageId)) {
+          highlightJumpMessage(targetMessageId);
+          scrollToMessage(targetMessageId);
+          return;
+        }
+        state = _switchedChannelState(
+          channelId: channelId,
+          messages: const [],
+          draft: draft,
+          replyMentioning: replyMentioning,
+          scrollToBottomSignal: state.scrollToBottomSignal,
+          isLoading: true,
+          isSyncingMessages: false,
+          isLoadingMore: false,
+          isLoadingNewer: false,
+          hasMoreMessages: true,
+          hasMoreNewerMessages: false,
+        );
+        highlightJumpMessage(targetMessageId);
+        await _loadMessages(channelId, targetMessageId: targetMessageId);
+        if (state.channelId == channelId) {
+          scrollToMessage(targetMessageId);
+        }
         return;
       }
       if (state.channelId == channelId &&
-          !isChannelChange &&
-          !state.isLoading &&
-          !state.isSyncingMessages &&
-          state.messages.any((Message m) => m.id == targetMessageId)) {
-        highlightJumpMessage(targetMessageId);
-        scrollToMessage(targetMessageId);
+          (state.isLoading || state.isSyncingMessages) &&
+          !isChannelChange) {
+        return;
+      }
+      final repo = ref.read(messageRepositoryProvider);
+      final cached = await repo.getCachedMessages(channelId);
+      final hasUnread = await _channelHasNewUnreadMessages(channelId);
+      if (cached.isNotEmpty && !hasUnread) {
+        state = _switchedChannelState(
+          channelId: channelId,
+          messages: cached,
+          draft: draft,
+          replyMentioning: replyMentioning,
+          scrollToBottomSignal: state.scrollToBottomSignal,
+          isLoading: false,
+          isSyncingMessages: true,
+          isLoadingMore: false,
+          isLoadingNewer: false,
+          hasMoreMessages: cached.length >= _kPageSize,
+          hasMoreNewerMessages: false,
+        );
+        _notifyMessageReferencesLoaded(channelId: channelId, messages: cached);
+        if (_shouldRefreshChannelFromNetwork(channelId)) {
+          _markChannelNetworkRefresh(channelId);
+          unawaited(_refreshMessagesFromNetwork(channelId));
+        }
         return;
       }
       state = _switchedChannelState(
@@ -702,66 +769,19 @@ class ChatViewModel extends _$ChatViewModel {
         hasMoreMessages: true,
         hasMoreNewerMessages: false,
       );
-      highlightJumpMessage(targetMessageId);
-      await _loadMessages(channelId, targetMessageId: targetMessageId);
-      if (state.channelId == channelId) {
-        scrollToMessage(targetMessageId);
+      if (hasUnread) {
+        final String? aroundMessageId = await _unreadChannelLoadAnchor(
+          channelId,
+        );
+        await _refreshMessagesFromNetwork(
+          channelId,
+          aroundMessageId: aroundMessageId,
+          showLoadingSpinner: true,
+          runOnMessagesLoaded: true,
+        );
+        return;
       }
-      return;
-    }
-    if (state.channelId == channelId &&
-        (state.isLoading || state.isSyncingMessages) &&
-        !isChannelChange) {
-      return;
-    }
-    final repo = ref.read(messageRepositoryProvider);
-    final cached = await repo.getCachedMessages(channelId);
-    final hasUnread = await _channelHasNewUnreadMessages(channelId);
-    if (cached.isNotEmpty && !hasUnread) {
-      state = _switchedChannelState(
-        channelId: channelId,
-        messages: cached,
-        draft: draft,
-        replyMentioning: replyMentioning,
-        scrollToBottomSignal: state.scrollToBottomSignal,
-        isLoading: false,
-        isSyncingMessages: true,
-        isLoadingMore: false,
-        isLoadingNewer: false,
-        hasMoreMessages: cached.length >= _kPageSize,
-        hasMoreNewerMessages: false,
-      );
-      _notifyMessageReferencesLoaded(channelId: channelId, messages: cached);
-      if (_shouldRefreshChannelFromNetwork(channelId)) {
-        _markChannelNetworkRefresh(channelId);
-        unawaited(_refreshMessagesFromNetwork(channelId));
-      }
-      return;
-    }
-    state = _switchedChannelState(
-      channelId: channelId,
-      messages: const [],
-      draft: draft,
-      replyMentioning: replyMentioning,
-      scrollToBottomSignal: state.scrollToBottomSignal,
-      isLoading: true,
-      isSyncingMessages: false,
-      isLoadingMore: false,
-      isLoadingNewer: false,
-      hasMoreMessages: true,
-      hasMoreNewerMessages: false,
-    );
-    if (hasUnread) {
-      final String? aroundMessageId = await _unreadChannelLoadAnchor(channelId);
-      await _refreshMessagesFromNetwork(
-        channelId,
-        aroundMessageId: aroundMessageId,
-        showLoadingSpinner: true,
-        runOnMessagesLoaded: true,
-      );
-      return;
-    }
-    await _refreshMessagesFromNetwork(channelId, showLoadingSpinner: true);
+      await _refreshMessagesFromNetwork(channelId, showLoadingSpinner: true);
     } finally {
       debugPrint(
         '[ChatViewModel] switchChannel($channelId) completed in '
@@ -976,14 +996,16 @@ class ChatViewModel extends _$ChatViewModel {
         before: oldestId,
       );
       final merged = [...page.messages, ...state.messages];
+      final trim = trimMessageWindow(merged, keepNewest: false);
       state = state.copyWith(
-        messages: merged,
+        messages: trim.messages,
         isLoadingMore: false,
         hasMoreMessages: page.messages.length >= _kPageSize,
+        hasMoreNewerMessages: trim.droppedNewer || state.hasMoreNewerMessages,
       );
       _notifyMessageReferencesLoaded(
         channelId: state.channelId,
-        messages: merged,
+        messages: trim.messages,
         embeddedReplyParents: page.embeddedReplyParents,
       );
     } on Exception catch (e) {
@@ -1011,17 +1033,19 @@ class ChatViewModel extends _$ChatViewModel {
         state.messages,
         page.messages,
       );
+      final trim = trimMessageWindow(merged, keepNewest: true);
       final bool hasMoreNewer =
           page.messages.length >= _kPageSize &&
           await _hasNewerMessagesThanChannel(merged.last.id);
       state = state.copyWith(
-        messages: merged,
+        messages: trim.messages,
         isLoadingNewer: false,
         hasMoreNewerMessages: hasMoreNewer,
+        hasMoreMessages: trim.droppedOlder || state.hasMoreMessages,
       );
       _notifyMessageReferencesLoaded(
         channelId: state.channelId,
-        messages: merged,
+        messages: trim.messages,
         embeddedReplyParents: page.embeddedReplyParents,
       );
     } on Exception catch (e) {
@@ -1526,6 +1550,7 @@ class ChatViewModel extends _$ChatViewModel {
       replyMentioning: false,
       messages: [...state.messages, optimisticMessage],
       errorMessage: null,
+      scrollToBottomSignal: state.scrollToBottomSignal + 1,
     );
     clearStickyUnread();
     unawaited(ref.read(readStateRepositoryProvider).clearSticky(channelId));
@@ -1692,6 +1717,7 @@ class ChatViewModel extends _$ChatViewModel {
       messageText: clearMessageText ? '' : state.messageText,
       messages: [...state.messages, optimisticMessage],
       errorMessage: null,
+      scrollToBottomSignal: state.scrollToBottomSignal + 1,
     );
     if (clearMessageText) {
       unawaited(
@@ -1772,10 +1798,7 @@ class ChatViewModel extends _$ChatViewModel {
           sendError: null,
         ),
       );
-      state = state.copyWith(
-        messages: nextMessages,
-        scrollToBottomSignal: state.scrollToBottomSignal + 1,
-      );
+      state = state.copyWith(messages: nextMessages);
     } on Object catch (error, st) {
       talker.error(
         '[ChatViewModel] send api_error channelId=$channelId',
@@ -1832,10 +1855,7 @@ class ChatViewModel extends _$ChatViewModel {
           sendError: null,
         ),
       );
-      state = state.copyWith(
-        messages: nextMessages,
-        scrollToBottomSignal: state.scrollToBottomSignal + 1,
-      );
+      state = state.copyWith(messages: nextMessages);
     } on Object catch (error, st) {
       talker.error(
         '[ChatViewModel] send api_error channelId=$channelId',

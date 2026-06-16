@@ -1,5 +1,6 @@
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 
 sealed class FluxerMarkdownSegment {}
 
@@ -19,7 +20,21 @@ final class FluxerSubtextSegment extends FluxerMarkdownSegment {
   final String text;
 }
 
+final MarkdownParseCache<(String, FluxerMarkdownFeatures), String>
+_preprocessCache =
+    MarkdownParseCache<(String, FluxerMarkdownFeatures), String>();
+
 String preprocessFluxerMarkdown(String text, FluxerMarkdownFeatures features) {
+  return _preprocessCache.resolve((
+    text,
+    features,
+  ), () => _preprocessFluxerMarkdownUncached(text, features));
+}
+
+String _preprocessFluxerMarkdownUncached(
+  String text,
+  FluxerMarkdownFeatures features,
+) {
   final lines = text.split('\n');
   final output = <String>[];
 
@@ -93,7 +108,27 @@ String _trimInlineMarkerSpacing(String text, String marker) {
   });
 }
 
+final MarkdownParseCache<
+  (String, FluxerMarkdownFeatures),
+  List<FluxerMarkdownSegment>
+>
+_segmentCache =
+    MarkdownParseCache<
+      (String, FluxerMarkdownFeatures),
+      List<FluxerMarkdownSegment>
+    >();
+
 List<FluxerMarkdownSegment> parseFluxerMarkdownSegments(
+  String text,
+  FluxerMarkdownFeatures features,
+) {
+  return _segmentCache.resolve((
+    text,
+    features,
+  ), () => _parseFluxerMarkdownSegmentsUncached(text, features));
+}
+
+List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
   String text,
   FluxerMarkdownFeatures features,
 ) {
