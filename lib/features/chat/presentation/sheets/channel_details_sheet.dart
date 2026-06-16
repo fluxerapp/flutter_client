@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_i
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -1947,6 +1948,7 @@ class _PickerUser {
     required this.id,
     required this.username,
     required this.displayName,
+    required this.discriminator,
     this.avatar,
     this.avatarColor,
     this.status = 'offline',
@@ -1961,17 +1963,22 @@ class _PickerUser {
       id: user.id,
       username: user.username,
       displayName: display,
+      discriminator: user.discriminator,
       avatar: user.avatar,
       avatarColor: user.avatarColor,
       status: user.status,
     );
   }
 
-  factory _PickerUser.fromMember(Member member) {
+  factory _PickerUser.fromMember(
+    Member member, {
+    required String discriminator,
+  }) {
     return _PickerUser(
       id: member.id,
       username: member.username,
       displayName: member.displayName,
+      discriminator: discriminator,
       avatar: member.avatar,
       avatarColor: member.avatarColor,
       status: member.status,
@@ -1981,11 +1988,29 @@ class _PickerUser {
   final String id;
   final String username;
   final String displayName;
+  final String discriminator;
   final String? avatar;
   final int? avatarColor;
   final String status;
 
-  String get tag => username.isNotEmpty ? '@$username' : '@$id';
+  String get tag {
+    if (username.isEmpty) {
+      return '@$id';
+    }
+    final String? visibleDiscriminator = _visibleDiscriminator(discriminator);
+    if (visibleDiscriminator == null) {
+      return '@$username';
+    }
+    return '@$username#$visibleDiscriminator';
+  }
+}
+
+String? _visibleDiscriminator(String discriminator) {
+  final String trimmed = discriminator.trim();
+  if (trimmed.isEmpty || trimmed == '0') {
+    return null;
+  }
+  return trimmed;
 }
 
 const int _kUserFilterSearchLimit = 100;
@@ -2108,7 +2133,12 @@ class _GuildUserSearchFilterSheetState
     _searchController = TextEditingController();
     _selectedById = <String, _PickerUser>{
       for (final String id in widget.initialSelectedIds)
-        id: _PickerUser(id: id, username: '', displayName: id),
+        id: _PickerUser(
+          id: id,
+          username: '',
+          displayName: id,
+          discriminator: '',
+        ),
     };
     _searchController.addListener(_onSearchChanged);
   }
@@ -2145,11 +2175,19 @@ class _GuildUserSearchFilterSheetState
     }
     List<_PickerUser> pickers = <_PickerUser>[];
     try {
+      final ParsedMentionQuery parsed = parseMentionQuery(query);
+      final String searchQuery = parsed.usernameQuery.trim();
+      final ParsedMentionQuery rankingQuery =
+          parsed.hasTagSeparator &&
+              searchQuery.isNotEmpty &&
+              (parsed.tagQuery ?? '').trim().isEmpty
+          ? parseMentionQuery(searchQuery)
+          : parsed;
       ref
           .read(gatewayConnectionProvider)
           .requestGuildMembers(
             guildId: widget.guildId,
-            query: query,
+            query: searchQuery.isEmpty ? null : searchQuery,
             limit: _kUserFilterSearchLimit,
           );
       await ref
@@ -2162,15 +2200,38 @@ class _GuildUserSearchFilterSheetState
           .read(memberRepositoryProvider)
           .searchMembersForAutocomplete(
             guildId: widget.guildId,
-            query: query,
+            query: searchQuery,
             scopeUserIds: scopeUserIds,
           );
-      pickers = members.map(_PickerUser.fromMember).toList()
-        ..sort(
-          (a, b) => a.displayName.toLowerCase().compareTo(
-            b.displayName.toLowerCase(),
-          ),
-        );
+      final List<db.User> users = await ref
+          .read(fluxerDatabaseProvider)
+          .userDao
+          .getUsersByIds(members.map((Member member) => member.id).toList());
+      final Map<String, String> rawDiscriminatorByUserId = <String, String>{
+        for (final db.User user in users) user.id: user.discriminator,
+      };
+      final Map<String, String> discriminatorByUserId = <String, String>{
+        for (final Member member in members)
+          member.id:
+              _visibleDiscriminator(
+                rawDiscriminatorByUserId[member.id] ?? '',
+              ) ??
+              '',
+      };
+      final List<Member> ranked = rankMembersForMentionQuery(
+        members,
+        rankingQuery,
+        limit: _kUserFilterSearchLimit,
+        discriminatorByUserId: discriminatorByUserId,
+      );
+      pickers = ranked
+          .map(
+            (Member member) => _PickerUser.fromMember(
+              member,
+              discriminator: discriminatorByUserId[member.id] ?? '',
+            ),
+          )
+          .toList();
     } on Object {
       pickers = <_PickerUser>[];
     }
@@ -2331,7 +2392,8 @@ class _UserFilterSheetState extends State<_UserFilterSheet> {
     return [
       for (final user in widget.availableUsers)
         if (user.displayName.toLowerCase().contains(q) ||
-            user.username.toLowerCase().contains(q))
+            user.username.toLowerCase().contains(q) ||
+            user.tag.toLowerCase().contains(q))
           user,
     ];
   }
@@ -2343,7 +2405,7 @@ class _UserFilterSheetState extends State<_UserFilterSheet> {
         if (byId[id] != null)
           byId[id]!
         else
-          _PickerUser(id: id, username: '', displayName: id),
+          _PickerUser(id: id, username: '', displayName: id, discriminator: ''),
     ];
   }
 
