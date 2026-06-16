@@ -213,7 +213,7 @@ class FluxerRoleMentionSyntax extends md.InlineSyntax {
 }
 
 class FluxerTimestampSyntax extends md.InlineSyntax {
-  FluxerTimestampSyntax() : super(r'<t:(\d+)(?::([tTdDfFR]))?>');
+  FluxerTimestampSyntax() : super(r'<t:(\d+)(?::([sStTdDfFR]))?>');
 
   static const tag = 'timestamp';
 

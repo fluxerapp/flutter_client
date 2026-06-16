@@ -1158,6 +1158,8 @@ class FluxerTimestampWidget extends StatelessWidget {
     final dt = DateTime.fromMillisecondsSinceEpoch(unix * 1000);
     final flag = element.attributes['flag'] ?? 'f';
     final text = switch (flag) {
+      's' => DateFormat.yMd().add_Hm().format(dt),
+      'S' => DateFormat.yMd().add_Hms().format(dt),
       't' => DateFormat.Hm().format(dt),
       'T' => DateFormat.Hms().format(dt),
       'd' => DateFormat.yMd().format(dt),

@@ -48,6 +48,16 @@ void main() {
       expect(timestamps.single.attributes['flag'], 'R');
     });
 
+    test('accepts s and S timestamp styles', () {
+      final nodes = _inlineDocument().parseInline(
+        '<t:1618936830:s> <t:1618936830:S>',
+      );
+      final timestamps = _timestampNodes(nodes);
+      expect(timestamps, hasLength(2));
+      expect(timestamps[0].attributes['flag'], 's');
+      expect(timestamps[1].attributes['flag'], 'S');
+    });
+
     test('defaults the flag to f when the style is omitted', () {
       final nodes = _inlineDocument().parseInline('<t:1618936830>');
       final timestamps = _timestampNodes(nodes);
