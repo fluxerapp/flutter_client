@@ -20,7 +20,7 @@
 
 # Fluxer Flutter Client
 
-This is the repo for the offical Fluxer mobile app powered by Flutter (desktop is in the works also but mobile is the main focus currently).
+This is the repo for the official Fluxer mobile app powered by Flutter (desktop is in the works also but mobile is the main focus currently).
 
 You can follow more about the V1 development in and what features are planned/implemented in this [Roadmap issue](https://github.com/fluxerapp/flutter_client/issues/184).
 
@@ -109,7 +109,7 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 
 During the current beta, we are only accepting contributions for bug fixes. To submit a PR, it must be for a linked reported issue.
 
-After the beta period, we will be updating these guidlines.
+After the beta period, we will be updating these guidelines.
 
 Pull requests should target the `canary` branch. For local testing, use the `canary` build flavor so your build matches that branch (see Mobile builds below).
 
