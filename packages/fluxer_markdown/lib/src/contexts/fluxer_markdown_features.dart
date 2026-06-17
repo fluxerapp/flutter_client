@@ -67,7 +67,7 @@ class FluxerMarkdownFeatures {
       ),
       FluxerMarkdownContext.restrictedEmbedDescription =>
         const FluxerMarkdownFeatures(
-          allowAutolinks: false,
+          allowAutolinks: true,
           allowAlerts: false,
           allowBlockquotes: true,
           allowChannelMentions: true,

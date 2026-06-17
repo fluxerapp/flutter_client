@@ -141,6 +141,37 @@ void main() {
   });
 
   group('FluxerMarkdown widget', () {
+    testWidgets('restricted embed descriptions automatically link URLs', (
+      tester,
+    ) async {
+      const String url = 'https://example.com/image.png';
+      String? tappedHref;
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        onTapLink: (_, href) async {
+          tappedHref = href;
+        },
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              data: 'Mobile: $url',
+              config: config,
+              context: FluxerMarkdownContext.restrictedEmbedDescription,
+            ),
+          ),
+        ),
+      );
+
+      await tester.tapOnText(find.textRange.ofSubstring(url));
+
+      expect(tappedHref, url);
+    });
+
     testWidgets('uses configured blockquote divider and text colors', (
       tester,
     ) async {
