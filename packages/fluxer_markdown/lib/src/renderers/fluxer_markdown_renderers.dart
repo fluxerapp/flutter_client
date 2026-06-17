@@ -282,18 +282,41 @@ class _MarkdownBlockRenderer {
         config.blockquoteBorderColor ??
         Theme.of(context).colorScheme.outlineVariant;
     final textColor = config.blockquoteTextColor;
+    final quoteStyle = textColor == null
+        ? baseStyle
+        : baseStyle.copyWith(color: textColor);
+    final quoteBody = _MarkdownBlockRenderer(
+      context: context,
+      baseStyle: quoteStyle,
+      config: config,
+      features: features,
+      isDark: isDark,
+      maxLines: maxLines,
+      overflow: overflow,
+    ).build(node.children ?? const []);
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.only(left: 10),
-      decoration: BoxDecoration(
-        border: Border(left: BorderSide(color: borderColor, width: 4)),
-      ),
-      child: DefaultTextStyle.merge(
-        style: textColor == null
-            ? const TextStyle()
-            : TextStyle(color: textColor),
-        child: build(node.children ?? const []),
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: Stack(
+        children: [
+          PositionedDirectional(
+            start: 0,
+            top: 0,
+            bottom: 0,
+            width: 4,
+            child: Container(
+              decoration: BoxDecoration(
+                color: borderColor,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 0, 4),
+            child: quoteBody,
+          ),
+        ],
       ),
     );
   }

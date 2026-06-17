@@ -122,7 +122,6 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
     // Content Background
     required this.bgCode,
     required this.bgCodeBlock,
-    required this.bgBlockquote,
     required this.bgTableHeader,
     required this.bgTableRowOdd,
     required this.bgTableRowEven,
@@ -291,7 +290,6 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
   // Content Background
   final Color bgCode;
   final Color bgCodeBlock;
-  final Color bgBlockquote;
   final Color bgTableHeader;
   final Color bgTableRowOdd;
   final Color bgTableRowEven;
@@ -452,7 +450,6 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
     // Content Background
     Color? bgCode,
     Color? bgCodeBlock,
-    Color? bgBlockquote,
     Color? bgTableHeader,
     Color? bgTableRowOdd,
     Color? bgTableRowEven,
@@ -640,7 +637,6 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
       // Content Background
       bgCode: bgCode ?? this.bgCode,
       bgCodeBlock: bgCodeBlock ?? this.bgCodeBlock,
-      bgBlockquote: bgBlockquote ?? this.bgBlockquote,
       bgTableHeader: bgTableHeader ?? this.bgTableHeader,
       bgTableRowOdd: bgTableRowOdd ?? this.bgTableRowOdd,
       bgTableRowEven: bgTableRowEven ?? this.bgTableRowEven,
@@ -1083,7 +1079,6 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
       // Content Background
       bgCode: Color.lerp(bgCode, other.bgCode, t)!,
       bgCodeBlock: Color.lerp(bgCodeBlock, other.bgCodeBlock, t)!,
-      bgBlockquote: Color.lerp(bgBlockquote, other.bgBlockquote, t)!,
       bgTableHeader: Color.lerp(bgTableHeader, other.bgTableHeader, t)!,
       bgTableRowOdd: Color.lerp(bgTableRowOdd, other.bgTableRowOdd, t)!,
       bgTableRowEven: Color.lerp(bgTableRowEven, other.bgTableRowEven, t)!,

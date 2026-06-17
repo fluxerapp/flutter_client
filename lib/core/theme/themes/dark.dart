@@ -397,7 +397,6 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     // Content Background
     bgCode: tone(FluxerColorFamilies.neutralDark, 15, alpha: 0.8),
     bgCodeBlock: backgroundSecondaryAlt,
-    bgBlockquote: backgroundSecondaryAlt,
     bgTableHeader: backgroundTertiary,
     bgTableRowOdd: backgroundPrimary,
     bgTableRowEven: backgroundSecondary,

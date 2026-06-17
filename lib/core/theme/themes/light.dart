@@ -403,7 +403,6 @@ FluxerColorTheme buildLightColorTheme({double saturationFactor = 1.0}) {
     // Content Background
     bgCode: toneDirect(hue: 220, saturation: 22, lightness: 90, alpha: 0.9),
     bgCodeBlock: backgroundPrimary,
-    bgBlockquote: backgroundSecondaryAlt,
     bgTableHeader: backgroundTertiary,
     bgTableRowOdd: backgroundPrimary,
     bgTableRowEven: backgroundSecondary,
