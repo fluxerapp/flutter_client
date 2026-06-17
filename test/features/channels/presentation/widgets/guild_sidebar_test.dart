@@ -106,6 +106,42 @@ void main() {
     });
   });
 
+  group('GuildSidebar channels without a category', () {
+    testWidgets('renders channels without a category with no header', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: const ChannelListState(
+              guild: Guild(id: _guildId, name: 'Test Guild'),
+              categories: [
+                ChannelCategory(
+                  id: kUncategorizedCategoryId,
+                  name: 'Channels',
+                  channels: [
+                    Channel(
+                      id: 'uncategorized',
+                      guildId: _guildId,
+                      name: 'uncategorized',
+                    ),
+                  ],
+                ),
+              ],
+              selectedChannelId: null,
+            ),
+            unread: const {'uncategorized': UnreadState()},
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('uncategorized'), findsOneWidget);
+      expect(find.text('Channels'), findsNothing);
+    });
+  });
+
   group('GuildSidebar long-press menus', () {
     testWidgets('channel menu shows copy and notification actions', (
       tester,

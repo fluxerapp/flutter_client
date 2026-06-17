@@ -332,6 +332,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
   }) {
     final List<_GuildSidebarEntry> entries = <_GuildSidebarEntry>[];
     for (final ChannelCategory category in categories) {
+      final bool isSynthetic = category.id == kUncategorizedCategoryId;
       final bool isCollapsed = collapsed.contains(category.id);
       final bool isCategoryMuted = mutedSet.contains(category.id);
 
@@ -357,15 +358,17 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         continue;
       }
 
-      entries.add(
-        _GuildSidebarEntry(
-          kind: _GuildSidebarEntryKind.categoryHeader,
-          category: category,
-          isCategoryCollapsed: isCollapsed,
-        ),
-      );
+      if (!isSynthetic) {
+        entries.add(
+          _GuildSidebarEntry(
+            kind: _GuildSidebarEntryKind.categoryHeader,
+            category: category,
+            isCategoryCollapsed: isCollapsed,
+          ),
+        );
+      }
 
-      if (isCollapsed) {
+      if (!isSynthetic && isCollapsed) {
         for (final Channel channel in base) {
           if (shouldShowChannelInCollapsedCategory(
             isCategoryMuted: isCategoryMuted,
