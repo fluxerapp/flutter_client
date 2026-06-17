@@ -332,7 +332,6 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
   }) {
     final List<_GuildSidebarEntry> entries = <_GuildSidebarEntry>[];
     for (final ChannelCategory category in categories) {
-      final bool isSynthetic = category.id == kUncategorizedCategoryId;
       final bool isCollapsed = collapsed.contains(category.id);
       final bool isCategoryMuted = mutedSet.contains(category.id);
 
@@ -358,7 +357,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         continue;
       }
 
-      if (!isSynthetic) {
+      if (!category.isUncategorized) {
         entries.add(
           _GuildSidebarEntry(
             kind: _GuildSidebarEntryKind.categoryHeader,
@@ -368,7 +367,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         );
       }
 
-      if (!isSynthetic && isCollapsed) {
+      if (!category.isUncategorized && isCollapsed) {
         for (final Channel channel in base) {
           if (shouldShowChannelInCollapsedCategory(
             isCategoryMuted: isCategoryMuted,
@@ -989,16 +988,11 @@ class _CategoryHeader extends ConsumerWidget {
         .where(_canMarkChannelRead)
         .map((channel) => channel.id)
         .toList();
-    final bool isSynthetic = category.id == kUncategorizedCategoryId;
     final Set<String> mutedIds =
         ref.read(mutedChannelIdsProvider(guildId)).value ?? const <String>{};
     final bool isMuted = mutedIds.contains(category.id);
-    final muteConfig = isSynthetic
-        ? null
-        : await _loadChannelMuteConfig(ref, guildId, category.id);
-    final String? mutedHint = (!isSynthetic && isMuted)
-        ? formatMutedHintText(muteConfig)
-        : null;
+    final muteConfig = await _loadChannelMuteConfig(ref, guildId, category.id);
+    final String? mutedHint = isMuted ? formatMutedHintText(muteConfig) : null;
     if (!context.mounted) {
       return;
     }
@@ -1015,34 +1009,32 @@ class _CategoryHeader extends ConsumerWidget {
             unawaited(_readStateRepository(ref).ackLatestBulk(channelIds));
           },
         ),
-        if (!isSynthetic)
-          FluxerMenuItem(
-            label: isMuted ? 'Unmute Category' : 'Mute Category',
-            icon: isMuted
-                ? PhosphorIconsRegular.bell
-                : PhosphorIconsRegular.bellSlash,
-            hint: mutedHint,
-            onPressed: () {
-              unawaited(
-                _openCategoryMuteSheet(
-                  menuContext,
-                  ref,
-                  close: close,
-                  isMuted: isMuted,
-                  muteConfig: muteConfig,
-                ),
-              );
-            },
-          ),
-        if (!isSynthetic)
-          FluxerMenuItem(
-            label: 'Copy Category ID',
-            icon: PhosphorIconsRegular.copy,
-            onPressed: () {
-              close();
-              unawaited(_copyToClipboard(ref, category.id));
-            },
-          ),
+        FluxerMenuItem(
+          label: isMuted ? 'Unmute Category' : 'Mute Category',
+          icon: isMuted
+              ? PhosphorIconsRegular.bell
+              : PhosphorIconsRegular.bellSlash,
+          hint: mutedHint,
+          onPressed: () {
+            unawaited(
+              _openCategoryMuteSheet(
+                menuContext,
+                ref,
+                close: close,
+                isMuted: isMuted,
+                muteConfig: muteConfig,
+              ),
+            );
+          },
+        ),
+        FluxerMenuItem(
+          label: 'Copy Category ID',
+          icon: PhosphorIconsRegular.copy,
+          onPressed: () {
+            close();
+            unawaited(_copyToClipboard(ref, category.id));
+          },
+        ),
       ],
     );
   }

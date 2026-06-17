@@ -133,16 +133,18 @@ class ChannelCategory {
     required this.name,
     required this.channels,
   });
+
+  bool get isUncategorized => id == kUncategorizedCategoryId;
 }
 
-/// Synthetic category id for channels that have no parent category.
+/// Internal group id for channels that have no parent category.
 const String kUncategorizedCategoryId = '_uncategorized';
 
 /// Groups a flat list of channels into channel categories.
 ///
 /// Channels with type 4 (category) become group headers. Child channels
 /// reference their category via parentId. Channels without a parent
-/// are placed in a synthetic "Channels" category.
+/// are placed in an internal uncategorized group.
 List<ChannelCategory> groupChannelsIntoCategories(List<Channel> channels) {
   final categories = <Channel>[];
   final uncategorized = <Channel>[];

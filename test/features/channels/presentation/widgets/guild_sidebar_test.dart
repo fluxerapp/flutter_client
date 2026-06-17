@@ -131,6 +131,7 @@ void main() {
               ],
               selectedChannelId: null,
             ),
+            collapsed: const {kUncategorizedCategoryId},
             unread: const {'uncategorized': UnreadState()},
           ),
         ),
