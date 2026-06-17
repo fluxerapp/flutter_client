@@ -16,7 +16,7 @@ import 'package:fluxer_dart/export.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-const int _kMinUsernameLength = 2;
+const int _kMinUsernameLength = 1;
 const int _kMaxUsernameLength = 32;
 final RegExp _kUsernamePattern = RegExp(r'^[a-zA-Z0-9_]+$');
 
