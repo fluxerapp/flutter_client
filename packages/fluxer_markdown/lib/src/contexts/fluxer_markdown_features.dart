@@ -2,7 +2,6 @@ import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 
 class FluxerMarkdownFeatures {
   const FluxerMarkdownFeatures({
-    required this.allowAutolinks,
     required this.allowAlerts,
     required this.allowBlockquotes,
     required this.allowChannelMentions,
@@ -20,7 +19,6 @@ class FluxerMarkdownFeatures {
   factory FluxerMarkdownFeatures.forContext(FluxerMarkdownContext context) {
     return switch (context) {
       FluxerMarkdownContext.standardWithJumbo => const FluxerMarkdownFeatures(
-        allowAutolinks: true,
         allowAlerts: true,
         allowBlockquotes: true,
         allowChannelMentions: true,
@@ -36,7 +34,6 @@ class FluxerMarkdownFeatures {
       ),
       FluxerMarkdownContext.restrictedInlineReply =>
         const FluxerMarkdownFeatures(
-          allowAutolinks: true,
           allowAlerts: false,
           allowBlockquotes: false,
           allowChannelMentions: true,
@@ -51,7 +48,6 @@ class FluxerMarkdownFeatures {
           allowUserMentions: true,
         ),
       FluxerMarkdownContext.restrictedUserBio => const FluxerMarkdownFeatures(
-        allowAutolinks: true,
         allowAlerts: false,
         allowBlockquotes: true,
         allowChannelMentions: true,
@@ -67,7 +63,6 @@ class FluxerMarkdownFeatures {
       ),
       FluxerMarkdownContext.restrictedEmbedDescription =>
         const FluxerMarkdownFeatures(
-          allowAutolinks: true,
           allowAlerts: false,
           allowBlockquotes: true,
           allowChannelMentions: true,
@@ -83,7 +78,6 @@ class FluxerMarkdownFeatures {
         ),
       FluxerMarkdownContext.standardWithoutJumbo =>
         const FluxerMarkdownFeatures(
-          allowAutolinks: true,
           allowAlerts: true,
           allowBlockquotes: true,
           allowChannelMentions: true,
@@ -100,7 +94,6 @@ class FluxerMarkdownFeatures {
     };
   }
 
-  final bool allowAutolinks;
   final bool allowAlerts;
   final bool allowBlockquotes;
   final bool allowChannelMentions;
@@ -117,7 +110,6 @@ class FluxerMarkdownFeatures {
   @override
   bool operator ==(Object other) =>
       other is FluxerMarkdownFeatures &&
-      other.allowAutolinks == allowAutolinks &&
       other.allowAlerts == allowAlerts &&
       other.allowBlockquotes == allowBlockquotes &&
       other.allowChannelMentions == allowChannelMentions &&
@@ -133,7 +125,6 @@ class FluxerMarkdownFeatures {
 
   @override
   int get hashCode => Object.hash(
-    allowAutolinks,
     allowAlerts,
     allowBlockquotes,
     allowChannelMentions,

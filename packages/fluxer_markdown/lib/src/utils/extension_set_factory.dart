@@ -12,7 +12,7 @@ md.ExtensionSet buildFluxerMarkdownExtensionSet(
   final inlineSyntaxes = <md.InlineSyntax>[
     md.InlineHtmlSyntax(),
     md.StrikethroughSyntax(),
-    if (features.allowAutolinks) md.AutolinkExtensionSyntax(),
+    md.AutolinkExtensionSyntax(),
   ];
 
   return md.ExtensionSet(
