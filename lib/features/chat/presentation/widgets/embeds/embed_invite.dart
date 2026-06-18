@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -315,7 +316,8 @@ class _GuildIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fallbackColor = context.colors.backgroundTertiary;
-    final initial = name.isNotEmpty ? name[0].toUpperCase() : '?';
+    final initials = abbreviateGuildName(name);
+    final initialsLength = guildNameInitialsLength(name);
 
     return Container(
       width: 44,
@@ -328,29 +330,41 @@ class _GuildIcon extends StatelessWidget {
               width: 44,
               height: 44,
               fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => _Fallback(initial: initial),
+              errorBuilder: (_, _, _) =>
+                  _Fallback(initials: initials, initialsLength: initialsLength),
             )
-          : _Fallback(initial: initial),
+          : _Fallback(initials: initials, initialsLength: initialsLength),
     );
   }
 }
 
 class _Fallback extends StatelessWidget {
-  const _Fallback({required this.initial});
+  const _Fallback({required this.initials, required this.initialsLength});
 
-  final String initial;
+  final String initials;
+  final int initialsLength;
 
   @override
   Widget build(BuildContext context) => Center(
     child: Text(
-      initial,
+      initials,
       style: TextStyle(
         color: context.colors.textPrimary,
-        fontSize: 18,
+        fontSize: _guildInviteInitialsFontSize(initialsLength),
         fontWeight: FontWeight.w600,
       ),
     ),
   );
+}
+
+double _guildInviteInitialsFontSize(int initialsLength) {
+  if (initialsLength <= 2) {
+    return 18;
+  }
+  if (initialsLength <= kGuildIconInitialsMaxLength) {
+    return 15;
+  }
+  return 12;
 }
 
 class _StatDot extends StatelessWidget {

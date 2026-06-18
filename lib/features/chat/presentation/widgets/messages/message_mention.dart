@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show FutureProviderFamily;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
@@ -17,8 +18,8 @@ import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:riverpod/src/providers/future_provider.dart';
 
 class ChannelMention extends ConsumerWidget {
   const ChannelMention({required this.channelId, this.baseStyle, super.key});
@@ -418,7 +419,8 @@ class _GuildInitials extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial = guild.name.isNotEmpty ? guild.name[0].toUpperCase() : '?';
+    final initials = abbreviateGuildName(guild.name);
+    final initialsLength = guildNameInitialsLength(guild.name);
     final colors = context.colors;
     return Container(
       width: size,
@@ -429,9 +431,9 @@ class _GuildInitials extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: Text(
-        initial,
+        initials,
         style: TextStyle(
-          fontSize: size * 0.6,
+          fontSize: _guildMentionInitialsFontSize(initialsLength, size),
           fontWeight: FontWeight.w700,
           color: colors.markupMentionText,
           height: 1,
@@ -439,4 +441,14 @@ class _GuildInitials extends StatelessWidget {
       ),
     );
   }
+}
+
+double _guildMentionInitialsFontSize(int initialsLength, double size) {
+  if (initialsLength <= 2) {
+    return size * 0.6;
+  }
+  if (initialsLength <= kGuildIconInitialsMaxLength) {
+    return size * 0.45;
+  }
+  return size * 0.35;
 }

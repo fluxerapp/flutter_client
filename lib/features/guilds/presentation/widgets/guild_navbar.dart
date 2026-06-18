@@ -1262,9 +1262,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
                         color: context.colors.serverIconBackground,
                         child: Center(
                           child: Text(
-                            guild.name.isNotEmpty
-                                ? guild.name[0].toUpperCase()
-                                : '?',
+                            abbreviateGuildName(guild.name, maxLength: 2),
                             style: const TextStyle(
                               fontSize: 8,
                               fontWeight: FontWeight.w600,
@@ -2046,6 +2044,16 @@ class _InviteRecipient {
   final String? channelId;
 }
 
+double _guildNavbarInitialsFontSize(int initialsLength) {
+  if (initialsLength <= 2) {
+    return 20;
+  }
+  if (initialsLength <= kGuildIconInitialsMaxLength) {
+    return 16;
+  }
+  return 12;
+}
+
 class _GuildListItem extends StatefulWidget {
   final String label;
   final Guild? guild;
@@ -2217,6 +2225,8 @@ class _GuildListItemState extends State<_GuildListItem>
     final iconColor = isActive
         ? context.colors.textOnBrandPrimary
         : context.colors.textPrimary;
+    final initials = abbreviateGuildName(widget.label);
+    final initialsLength = guildNameInitialsLength(widget.label);
     return Center(
       child: widget.svgAsset != null
           ? SvgPicture.asset(
@@ -2228,11 +2238,12 @@ class _GuildListItemState extends State<_GuildListItem>
           : widget.icon != null
           ? PhosphorIcon(widget.icon!, color: iconColor, size: 32)
           : Text(
-              abbreviateGuildName(widget.label),
+              initials,
               style: TextStyle(
                 color: iconColor,
-                fontSize: 20,
+                fontSize: _guildNavbarInitialsFontSize(initialsLength),
                 fontWeight: FontWeight.w600,
+                height: 1,
               ),
             ),
     );

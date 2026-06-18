@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -529,6 +530,8 @@ class _GuildSourceIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (guild.iconUrl == null) {
+      final initials = abbreviateGuildName(guild.name);
+      final initialsLength = guildNameInitialsLength(guild.name);
       return Container(
         width: 16,
         height: 16,
@@ -538,9 +541,9 @@ class _GuildSourceIcon extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          guild.name.isNotEmpty ? guild.name[0].toUpperCase() : '?',
+          initials,
           style: TextStyle(
-            fontSize: 10,
+            fontSize: _forwardedGuildInitialsFontSize(initialsLength),
             fontWeight: FontWeight.w700,
             color: context.colors.textPrimary,
           ),
@@ -559,6 +562,16 @@ class _GuildSourceIcon extends StatelessWidget {
       ),
     );
   }
+}
+
+double _forwardedGuildInitialsFontSize(int initialsLength) {
+  if (initialsLength <= 2) {
+    return 10;
+  }
+  if (initialsLength <= kGuildIconInitialsMaxLength) {
+    return 8;
+  }
+  return 6.5;
 }
 
 enum _ForwardedSourceKind { guildChannel, dm, groupDm }

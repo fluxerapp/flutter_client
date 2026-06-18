@@ -34,23 +34,6 @@ class UserProfileBioCard extends StatelessWidget {
   final String? guildName;
   final String? guildIconUrl;
 
-  String _buildGuildAbbreviation() {
-    final String source = (guildName ?? '').trim();
-    if (source.isEmpty) {
-      return '?';
-    }
-    final List<String> parts = source
-        .split(RegExp(r'\s+'))
-        .where((String token) => token.isNotEmpty)
-        .toList(growable: false);
-    if (parts.length == 1) {
-      return parts.first.characters.first.toUpperCase();
-    }
-    final String first = parts.first.characters.first.toUpperCase();
-    final String second = parts[1].characters.first.toUpperCase();
-    return '$first$second';
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -147,7 +130,7 @@ class UserProfileBioCard extends StatelessWidget {
                       spacing: 4,
                       children: <Widget>[
                         FluxerGuildIconAvatar(
-                          abbreviation: _buildGuildAbbreviation(),
+                          name: guildName ?? '',
                           imageUrl: guildIconUrl,
                           isCircle: true,
                           size: 16,

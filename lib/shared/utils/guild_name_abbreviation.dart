@@ -1,19 +1,33 @@
-/// Compact 1-2 character label for a guild/channel/user name.
-///
-/// Two-or-more-word names use the first letter of the first two words.
-/// Single-word names take up to the first two characters. Empty input
-/// resolves to `'?'`.
-String abbreviateGuildName(String raw) {
+const int kGuildIconInitialsMaxLength = 4;
+
+String guildNameInitials(String raw) {
   final String value = raw.trim();
   if (value.isEmpty) {
-    return '?';
+    return '';
   }
   final List<String> words = value
       .split(RegExp(r'\s+'))
       .where((String word) => word.isNotEmpty)
       .toList();
-  if (words.length >= 2) {
-    return '${words[0][0]}${words[1][0]}'.toUpperCase();
+  return words
+      .map((String word) => String.fromCharCode(word.runes.first))
+      .join();
+}
+
+/// Number of untruncated initials for a name.
+int guildNameInitialsLength(String raw) => guildNameInitials(raw).runes.length;
+
+/// Truncated variant. Empty input resolves to `'?'`.
+String abbreviateGuildName(
+  String raw, {
+  int maxLength = kGuildIconInitialsMaxLength,
+}) {
+  if (maxLength <= 0) {
+    return '';
   }
-  return value.substring(0, value.length.clamp(0, 2)).toUpperCase();
+  final String initials = guildNameInitials(raw);
+  if (initials.isEmpty) {
+    return '?';
+  }
+  return String.fromCharCodes(initials.runes.take(maxLength));
 }

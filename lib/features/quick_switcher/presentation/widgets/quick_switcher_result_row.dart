@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_result_unread_state.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 // Web bottom sheet: 2rem slot, 24px avatars, ~1.75rem channel glyphs.
@@ -45,7 +44,9 @@ class QuickSwitcherResultRow extends StatelessWidget {
             children: <Widget>[
               _buildLeading(context, isHighlighted: isHighlighted),
               const SizedBox(width: 8),
-              Expanded(child: _buildText(context, isHighlighted: isHighlighted)),
+              Expanded(
+                child: _buildText(context, isHighlighted: isHighlighted),
+              ),
               if (unreadState.mentionCount > 0)
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
@@ -120,7 +121,7 @@ class QuickSwitcherResultRow extends StatelessWidget {
             color: iconColor,
           ),
           QuickSwitcherGuildResult(:final guild) => FluxerGuildIconAvatar(
-            abbreviation: abbreviateGuildName(guild.name),
+            name: guild.name,
             imageUrl: guild.iconUrl,
             isCircle: true,
             size: _kAvatarRenderSize,
@@ -170,7 +171,9 @@ class QuickSwitcherResultRow extends StatelessWidget {
       QuickSwitcherLinkResult(:final subtitle) => subtitle,
       QuickSwitcherHeaderResult() => null,
     };
-    final Color titleColor = isHighlighted ? colors.textSecondary : colors.textPrimary;
+    final Color titleColor = isHighlighted
+        ? colors.textSecondary
+        : colors.textPrimary;
     final Color subtitleColor = isHighlighted
         ? colors.textSecondary.withValues(alpha: 0.8)
         : colors.textPrimaryMuted.withValues(alpha: 0.8);

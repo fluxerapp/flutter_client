@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/profile/providers/user_profile_guild_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -118,7 +117,7 @@ class _MutualCommunityList extends ConsumerWidget {
             final String? nick = community.nick?.trim();
             return FluxerListRow(
               leading: FluxerGuildIconAvatar(
-                abbreviation: abbreviateGuildName(title),
+                name: title,
                 imageUrl: server == null ? null : Guild.fromRow(server).iconUrl,
                 size: 40,
               ),

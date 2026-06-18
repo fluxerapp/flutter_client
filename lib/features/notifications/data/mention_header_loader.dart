@@ -3,10 +3,8 @@ import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 
 const String _kFallbackDmTitle = 'DM';
-const String _kFallbackDmAbbrev = 'DM';
 
 /// Whether [msg] points at a still-reachable channel: an existing DM, an
 /// existing guild channel without a guild row, or a guild channel whose guild
@@ -81,10 +79,7 @@ Future<MentionHeaderResult> _loadHeaderForChannelId(
   );
   if (dm == null) {
     return MentionHeaderResult(
-      header: MentionHeader.dm(
-        title: _kFallbackDmTitle,
-        abbrev: _kFallbackDmAbbrev,
-      ),
+      header: MentionHeader.dm(title: _kFallbackDmTitle),
       guildIdForPreview: '',
     );
   }
@@ -100,11 +95,11 @@ Future<MentionHeaderResult> _buildGuildHeader(
     mapped.guildId,
   );
   final bool isUnavailable = guild?.unavailable ?? false;
-  String abbrev = '?';
+  String iconName = '';
   String? iconUrl;
   if (guild != null) {
     final Guild mappedGuild = Guild.fromRow(guild);
-    abbrev = abbreviateGuildName(mappedGuild.name);
+    iconName = mappedGuild.name;
     if (!isUnavailable) {
       iconUrl =
           mappedGuild.hasAnimatedIcon && mappedGuild.animatedIconUrl != null
@@ -118,7 +113,7 @@ Future<MentionHeaderResult> _buildGuildHeader(
       primary: mapped.name,
       visual: mapped.type,
       secondaryLine: guildLine,
-      abbrev: abbrev,
+      iconName: iconName,
       isUnavailable: isUnavailable,
       iconUrl: iconUrl,
     ),
@@ -139,7 +134,7 @@ Future<MentionHeaderResult> _buildDmHeader(
     title = _kFallbackDmTitle;
   }
   return MentionHeaderResult(
-    header: MentionHeader.dm(title: title, abbrev: abbreviateGuildName(title)),
+    header: MentionHeader.dm(title: title),
     guildIdForPreview: '',
   );
 }

@@ -2,10 +2,8 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
-import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 
 const String _kFallbackDmTitle = 'DM';
-const String _kFallbackAbbrev = '?';
 
 /// Snapshot of the metadata rendered in an unread-inbox card header: channel
 /// title, optional guild line, channel-type icon hint, and the rounded
@@ -17,7 +15,7 @@ class UnreadInboxCardMeta {
     required this.guildChannelVisualType,
     required this.guildIconDisplayUrl,
     required this.guildUnavailableForIcon,
-    required this.guildIconAbbrev,
+    required this.guildIconName,
   });
 
   factory UnreadInboxCardMeta.empty() => const UnreadInboxCardMeta(
@@ -26,7 +24,7 @@ class UnreadInboxCardMeta {
     guildChannelVisualType: domain.ChannelType.text,
     guildIconDisplayUrl: null,
     guildUnavailableForIcon: false,
-    guildIconAbbrev: _kFallbackAbbrev,
+    guildIconName: '',
   );
 
   final String channelTitle;
@@ -34,10 +32,10 @@ class UnreadInboxCardMeta {
   final domain.ChannelType guildChannelVisualType;
   final String? guildIconDisplayUrl;
   final bool guildUnavailableForIcon;
-  final String guildIconAbbrev;
+  final String guildIconName;
 }
 
-/// Resolves the display metadata (title, guild line, icon, abbreviation) for
+/// Resolves the display metadata (title, guild line, and icon inputs) for
 /// an [UnreadInboxEntry]. Always returns a usable snapshot — falls back to
 /// `'DM'` for unknown DM channels.
 Future<UnreadInboxCardMeta> loadUnreadInboxCardMeta(
@@ -71,7 +69,7 @@ Future<UnreadInboxCardMeta> _loadDmMeta(
     guildChannelVisualType: domain.ChannelType.text,
     guildIconDisplayUrl: null,
     guildUnavailableForIcon: false,
-    guildIconAbbrev: _kFallbackAbbrev,
+    guildIconName: '',
   );
 }
 
@@ -96,17 +94,17 @@ Future<UnreadInboxCardMeta> _loadGuildChannelMeta(
   final bool guildUnavailable = guild?.unavailable ?? false;
 
   String? iconUrl;
-  String abbrev = _kFallbackAbbrev;
+  String iconName = '';
   if (guild != null && !guildUnavailable) {
     final Guild mappedGuild = Guild.fromRow(guild);
-    abbrev = abbreviateGuildName(mappedGuild.name);
+    iconName = mappedGuild.name;
     iconUrl = mappedGuild.hasAnimatedIcon && mappedGuild.animatedIconUrl != null
         ? mappedGuild.animatedIconUrl
         : mappedGuild.iconUrl;
   } else if (guild != null) {
-    abbrev = abbreviateGuildName(guild.name);
+    iconName = guild.name;
   } else {
-    abbrev = abbreviateGuildName(channelName);
+    iconName = channelName;
   }
 
   return UnreadInboxCardMeta(
@@ -115,6 +113,6 @@ Future<UnreadInboxCardMeta> _loadGuildChannelMeta(
     guildChannelVisualType: visualType,
     guildIconDisplayUrl: guildUnavailable ? null : iconUrl,
     guildUnavailableForIcon: guildUnavailable,
-    guildIconAbbrev: abbrev,
+    guildIconName: iconName,
   );
 }

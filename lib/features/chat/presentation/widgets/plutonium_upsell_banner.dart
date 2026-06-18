@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'plutonium_upsell_banner.g.dart';
@@ -166,19 +167,33 @@ class _GuildInitial extends StatelessWidget {
   final Guild guild;
 
   @override
-  Widget build(BuildContext context) => ColoredBox(
-    color: const Color.fromRGBO(255, 255, 255, 0.1),
-    child: Center(
-      child: Text(
-        guild.name.isNotEmpty ? guild.name[0].toUpperCase() : '?',
-        style: const TextStyle(
-          fontSize: 9,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
+  Widget build(BuildContext context) {
+    final initials = abbreviateGuildName(guild.name);
+    final initialsLength = guildNameInitialsLength(guild.name);
+    return ColoredBox(
+      color: const Color.fromRGBO(255, 255, 255, 0.1),
+      child: Center(
+        child: Text(
+          initials,
+          style: TextStyle(
+            fontSize: _plutoniumGuildInitialsFontSize(initialsLength),
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
+}
+
+double _plutoniumGuildInitialsFontSize(int initialsLength) {
+  if (initialsLength <= 2) {
+    return 9;
+  }
+  if (initialsLength <= kGuildIconInitialsMaxLength) {
+    return 7.5;
+  }
+  return 6.5;
 }
 
 class _PreviewEmojiRow extends StatelessWidget {

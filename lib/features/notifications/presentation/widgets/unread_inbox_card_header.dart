@@ -90,7 +90,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
         children: <Widget>[
           if (!entry.isDm) ...<Widget>[
             FluxerGuildIconAvatar(
-              abbreviation: meta.guildIconAbbrev,
+              name: meta.guildIconName,
               imageUrl: meta.guildIconDisplayUrl,
               isUnavailable: meta.guildUnavailableForIcon,
             ),

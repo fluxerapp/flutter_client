@@ -81,7 +81,7 @@ class MentionInboxCard extends ConsumerWidget {
           )
         else
           FluxerGuildIconAvatar(
-            abbreviation: mentionHeader?.guildAbbrev ?? '?',
+            name: mentionHeader?.guildIconName ?? '',
             imageUrl: mentionHeader?.guildIconUrl,
             isUnavailable: mentionHeader?.isGuildUnavailable ?? false,
           ),
