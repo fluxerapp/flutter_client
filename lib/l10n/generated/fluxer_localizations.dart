@@ -4623,6 +4623,108 @@ abstract class FluxerLocalizations {
   /// **'Whoa, it\'s a typing apocalypse'**
   String get typingIndicatorApocalypse;
 
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Glad you\'re here, {username}!'**
+  String systemJoinGladYoureHere(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {username}! Make yourself at home.'**
+  String systemJoinWelcomeMakeYourselfAtHome(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {username}! Nice to have you here.'**
+  String systemJoinHelloNiceToHaveYouHere(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {username}! Jump in whenever you\'re ready.'**
+  String systemJoinHelloJumpInWheneverYoureReady(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Hey {username}, great to see you here!'**
+  String systemJoinHeyGreatToSeeYouHere(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Hey there, {username}! Hope you enjoy your stay.'**
+  String systemJoinHeyThereHopeYouEnjoyYourStay(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Hey, {username}, welcome aboard!'**
+  String systemJoinHeyWelcomeAboard(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Glad you made it, {username}!'**
+  String systemJoinGladYouMadeIt(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome in, {username}!'**
+  String systemJoinWelcomeIn(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {username}!'**
+  String systemJoinWelcome(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {username}! We\'re glad you\'re here.'**
+  String systemJoinWelcomeWereGladYoureHere(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {username}! Hope you enjoy your time here.'**
+  String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {username}! Your next conversation starts here.'**
+  String systemJoinWelcomeYourNextConversationStartsHere(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {username}. We\'re happy to have you here.'**
+  String systemJoinWelcomeWereHappyToHaveYouHere(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'Great to see you, {username}! Welcome in.'**
+  String systemJoinGreatToSeeYouWelcomeIn(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re here, {username}! Good to have you with us.'**
+  String systemJoinYoureHereGoodToHaveYouWithUs(String username);
+
+  /// Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve arrived, {username}! Let\'s get started.'**
+  String systemJoinYouveArrivedLetsGetStarted(String username);
+
   /// Short-form relative time for events less than a minute ago.
   ///
   /// In en, this message translates to:

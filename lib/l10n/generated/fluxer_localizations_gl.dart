@@ -2568,6 +2568,91 @@ class FluxerLocalizationsGl extends FluxerLocalizations {
   String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
 
   @override
+  String systemJoinGladYoureHere(String username) {
+    return 'Glad you\'re here, $username!';
+  }
+
+  @override
+  String systemJoinWelcomeMakeYourselfAtHome(String username) {
+    return 'Welcome, $username! Make yourself at home.';
+  }
+
+  @override
+  String systemJoinHelloNiceToHaveYouHere(String username) {
+    return 'Hello, $username! Nice to have you here.';
+  }
+
+  @override
+  String systemJoinHelloJumpInWheneverYoureReady(String username) {
+    return 'Hello, $username! Jump in whenever you\'re ready.';
+  }
+
+  @override
+  String systemJoinHeyGreatToSeeYouHere(String username) {
+    return 'Hey $username, great to see you here!';
+  }
+
+  @override
+  String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
+    return 'Hey there, $username! Hope you enjoy your stay.';
+  }
+
+  @override
+  String systemJoinHeyWelcomeAboard(String username) {
+    return 'Hey, $username, welcome aboard!';
+  }
+
+  @override
+  String systemJoinGladYouMadeIt(String username) {
+    return 'Glad you made it, $username!';
+  }
+
+  @override
+  String systemJoinWelcomeIn(String username) {
+    return 'Welcome in, $username!';
+  }
+
+  @override
+  String systemJoinWelcome(String username) {
+    return 'Welcome, $username!';
+  }
+
+  @override
+  String systemJoinWelcomeWereGladYoureHere(String username) {
+    return 'Welcome, $username! We\'re glad you\'re here.';
+  }
+
+  @override
+  String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
+    return 'Welcome, $username! Hope you enjoy your time here.';
+  }
+
+  @override
+  String systemJoinWelcomeYourNextConversationStartsHere(String username) {
+    return 'Welcome, $username! Your next conversation starts here.';
+  }
+
+  @override
+  String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
+    return 'Welcome, $username. We\'re happy to have you here.';
+  }
+
+  @override
+  String systemJoinGreatToSeeYouWelcomeIn(String username) {
+    return 'Great to see you, $username! Welcome in.';
+  }
+
+  @override
+  String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
+    return 'You\'re here, $username! Good to have you with us.';
+  }
+
+  @override
+  String systemJoinYouveArrivedLetsGetStarted(String username) {
+    return 'You\'ve arrived, $username! Let\'s get started.';
+  }
+
+  @override
   String get relativeTimeShortNow => 'now';
 
   @override
