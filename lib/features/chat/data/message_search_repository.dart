@@ -36,7 +36,6 @@ class MessageSearchQuery {
     this.scope = MessageSearchScopeFilter.current,
     this.sort = MessageSearchSortFilter.newest,
     this.contentTypes = const <MessageSearchContentFilter>{},
-    this.cursor,
     this.page = 1,
   });
 
@@ -47,7 +46,6 @@ class MessageSearchQuery {
   final MessageSearchScopeFilter scope;
   final MessageSearchSortFilter sort;
   final Set<MessageSearchContentFilter> contentTypes;
-  final List<String>? cursor;
   final int page;
 
   MessageSearchQuery copyWith({
@@ -58,7 +56,6 @@ class MessageSearchQuery {
     MessageSearchScopeFilter? scope,
     MessageSearchSortFilter? sort,
     Set<MessageSearchContentFilter>? contentTypes,
-    Object? cursor = _unset,
     int? page,
   }) {
     return MessageSearchQuery(
@@ -69,7 +66,6 @@ class MessageSearchQuery {
       scope: scope ?? this.scope,
       sort: sort ?? this.sort,
       contentTypes: contentTypes ?? this.contentTypes,
-      cursor: cursor == _unset ? this.cursor : cursor as List<String>?,
       page: page ?? this.page,
     );
   }
@@ -99,7 +95,6 @@ class MessageSearchPage {
     required this.page,
     required this.hitsPerPage,
     required this.indexing,
-    this.cursor,
   });
 
   const MessageSearchPage.indexing()
@@ -107,22 +102,17 @@ class MessageSearchPage {
       total = 0,
       page = 1,
       hitsPerPage = kMessageSearchPageSize,
-      cursor = null,
       indexing = true;
 
   final List<MessageSearchResultEntry> results;
   final int total;
   final int page;
   final int hitsPerPage;
-  final List<String>? cursor;
   final bool indexing;
 
   bool get hasMore {
     if (indexing) {
       return false;
-    }
-    if (cursor != null && cursor!.isNotEmpty) {
-      return true;
     }
     return page * hitsPerPage < total;
   }
@@ -196,7 +186,6 @@ class MessageSearchRepository {
       total: results.total,
       page: results.page,
       hitsPerPage: results.hitsPerPage,
-      cursor: results.cursor,
       indexing: false,
     );
   }
@@ -228,8 +217,7 @@ GlobalSearchMessagesRequest buildGlobalSearchMessagesRequest(
 
   return GlobalSearchMessagesRequest(
     hitsPerPage: kMessageSearchPageSize,
-    page: query.cursor == null ? query.page : null,
-    cursor: query.cursor,
+    page: query.page,
     content: _blankToNull(query.text),
     authorId: authorIds,
     has: contentTypes.isEmpty ? null : contentTypes,

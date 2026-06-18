@@ -259,7 +259,6 @@ class ChannelSearch extends _$ChannelSearch {
       scope: scope,
       sort: sort,
       contentTypes: contentTypes,
-      cursor: null,
       page: 1,
     );
     if (!nextQuery.hasSearchTerms) {
@@ -280,7 +279,7 @@ class ChannelSearch extends _$ChannelSearch {
           .read(messageSearchRepositoryProvider)
           .searchMessages(nextQuery);
       state = state.copyWith(
-        query: nextQuery.copyWith(cursor: page.cursor, page: page.page),
+        query: nextQuery,
         results: page.results,
         total: page.total,
         hasMore: page.hasMore,
@@ -301,18 +300,14 @@ class ChannelSearch extends _$ChannelSearch {
       return;
     }
     final currentQuery = state.query;
-    final nextQuery = currentQuery.copyWith(
-      page: currentQuery.cursor == null
-          ? currentQuery.page + 1
-          : currentQuery.page,
-    );
+    final nextQuery = currentQuery.copyWith(page: currentQuery.page + 1);
     state = state.copyWith(isLoadingMore: true);
     try {
       final page = await ref
           .read(messageSearchRepositoryProvider)
           .searchMessages(nextQuery);
       state = state.copyWith(
-        query: nextQuery.copyWith(cursor: page.cursor, page: page.page),
+        query: nextQuery,
         results: [...state.results, ...page.results],
         total: page.total,
         hasMore: page.hasMore,

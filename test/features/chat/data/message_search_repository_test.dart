@@ -16,7 +16,6 @@ void main() {
 
       expect(request.hitsPerPage, kMessageSearchPageSize);
       expect(request.page, 1);
-      expect(request.cursor, isNull);
       expect(request.content, 'hello');
       expect(request.scope, MessageSearchScope.current);
       expect(request.contextChannelId, 'channel-1');
@@ -27,7 +26,7 @@ void main() {
       expect(request.has, isNull);
     });
 
-    test('maps cursor, author, content types, scope, and sort filters', () {
+    test('maps author, content types, scope, sort, and page filters', () {
       final request = buildGlobalSearchMessagesRequest(
         const MessageSearchQuery(
           channelId: 'channel-1',
@@ -39,13 +38,11 @@ void main() {
             MessageSearchContentFilter.image,
             MessageSearchContentFilter.audio,
           },
-          cursor: ['cursor-1'],
           page: 7,
         ),
       );
 
-      expect(request.page, isNull);
-      expect(request.cursor, ['cursor-1']);
+      expect(request.page, 7);
       expect(request.authorId, ['user-1', 'user-2']);
       expect(request.has, [MessageContentType.image, MessageContentType.sound]);
       expect(request.scope, MessageSearchScope.allGuilds);
