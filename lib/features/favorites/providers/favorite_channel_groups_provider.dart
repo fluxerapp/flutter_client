@@ -80,7 +80,11 @@ final Provider<List<FavoriteChannelGroup>> favoriteChannelGroupsProvider =
           ),
         );
       }
-      return groups.where((group) => group.entries.isNotEmpty).toList();
+      return groups
+          .where(
+            (group) => group.categoryId != null || group.entries.isNotEmpty,
+          )
+          .toList();
     });
 
 final Provider<String?> firstAccessibleFavoriteChannelIdProvider =
