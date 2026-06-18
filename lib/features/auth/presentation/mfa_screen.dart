@@ -237,7 +237,7 @@ class _CodeEntry extends StatelessWidget {
           FluxerInput(
             label: l10n.mfaCodeLabel,
             onChanged: notifier.updateCode,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.text,
             textInputAction: TextInputAction.go,
             autofillHints: const [AutofillHints.oneTimeCode],
             onSubmitted: (_) {
