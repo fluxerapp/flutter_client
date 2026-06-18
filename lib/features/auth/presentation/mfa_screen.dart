@@ -238,6 +238,8 @@ class _CodeEntry extends StatelessWidget {
             label: l10n.mfaCodeLabel,
             onChanged: notifier.updateCode,
             keyboardType: TextInputType.text,
+            autocorrect: false,
+            enableSuggestions: false,
             textInputAction: TextInputAction.go,
             autofillHints: const [AutofillHints.oneTimeCode],
             onSubmitted: (_) {
