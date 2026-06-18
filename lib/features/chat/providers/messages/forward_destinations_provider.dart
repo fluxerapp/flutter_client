@@ -241,9 +241,7 @@ ForwardDestinationDisable _resolveDisable({
   required bool hasEmbeds,
   required bool hasAttachments,
 }) {
-  final bool canSend =
-      hasPermission(bits, Permission.sendMessages) ||
-      (isVoice && hasPermission(bits, Permission.useTextInVoice));
+  final bool canSend = hasPermission(bits, Permission.sendMessages);
   if (!canSend) {
     return ForwardDestinationDisable.noSendPermission;
   }
