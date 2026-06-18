@@ -5,6 +5,8 @@ import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+const Color _kGuildJoinIconColor = Color(0xFF22C55E);
+
 /// Renders a system message as a single row with an icon,
 /// bold author name, descriptive text, and timestamp.
 class SystemMessage extends StatelessWidget {
@@ -38,7 +40,9 @@ class SystemMessage extends StatelessWidget {
             child: PhosphorIcon(
               icon,
               size: 18,
-              color: context.colors.textTertiaryMuted,
+              color: message.type == messageTypeUserJoin
+                  ? _kGuildJoinIconColor
+                  : context.colors.textTertiaryMuted,
             ),
           ),
           const SizedBox(width: 8),
@@ -68,7 +72,7 @@ class SystemMessage extends StatelessWidget {
   }) {
     if (message.type == messageTypeUserJoin) {
       return (
-        PhosphorIconsFill.arrowRight,
+        PhosphorIconsBold.arrowRight,
         _guildJoinTextSpans(
           FluxerLocalizations.of(context),
           textStyle: textStyle,
