@@ -160,8 +160,8 @@ List<ChannelCategory> groupChannelsIntoCategories(List<Channel> channels) {
     }
   }
 
-  uncategorized.sort((a, b) => a.position.compareTo(b.position));
-  categories.sort((a, b) => a.position.compareTo(b.position));
+  uncategorized.sort(_compareChannelForDisplay);
+  categories.sort(_compareChannelOrdering);
 
   final result = <ChannelCategory>[];
 
@@ -177,9 +177,36 @@ List<ChannelCategory> groupChannelsIntoCategories(List<Channel> channels) {
 
   for (final cat in categories) {
     final children = (parentMap[cat.id] ?? <Channel>[])
-      ..sort((a, b) => a.position.compareTo(b.position));
+      ..sort(_compareChannelForDisplay);
     result.add(ChannelCategory(id: cat.id, name: cat.name, channels: children));
   }
 
   return result;
+}
+
+int _compareChannelOrdering(Channel a, Channel b) {
+  final positionComparison = a.position.compareTo(b.position);
+  return positionComparison != 0 ? positionComparison : a.id.compareTo(b.id);
+}
+
+int _compareChannelForDisplay(Channel a, Channel b) {
+  final aBucket = _channelDisplayBucket(a);
+  final bBucket = _channelDisplayBucket(b);
+  final bucketComparison = aBucket.compareTo(bBucket);
+  return bucketComparison != 0
+      ? bucketComparison
+      : _compareChannelOrdering(a, b);
+}
+
+int _channelDisplayBucket(Channel channel) {
+  switch (channel.type) {
+    case ChannelType.voice:
+    case ChannelType.stage:
+      return 1;
+    case ChannelType.text:
+    case ChannelType.announcement:
+    case ChannelType.link:
+    case ChannelType.category:
+      return 0;
+  }
 }
