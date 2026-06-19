@@ -58,7 +58,6 @@ import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.d
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_voice_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
-import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -802,7 +801,15 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
             );
           },
           onLeaveGuild: () {
-            unawaited(leaveGuildAndCleanup(ref, guild.id));
+            unawaited(
+              ref
+                  .read(fluxerClientProvider)
+                  .guilds
+                  .leaveGuild(
+                    guildId: guild.id,
+                    body: const SudoVerificationSchema(),
+                  ),
+            );
           },
           onGuildSettingsAction: (action) {
             unawaited(
@@ -1330,7 +1337,15 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
               );
             },
             onLeaveGuild: () {
-              unawaited(leaveGuildAndCleanup(ref, guild.id));
+              unawaited(
+                ref
+                    .read(fluxerClientProvider)
+                    .guilds
+                    .leaveGuild(
+                      guildId: guild.id,
+                      body: const SudoVerificationSchema(),
+                    ),
+              );
             },
             onGuildSettingsAction: (action) {
               unawaited(

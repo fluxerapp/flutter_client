@@ -229,6 +229,7 @@ class FluxerAvatar extends StatelessWidget {
                   width: size,
                   height: size,
                   memCacheWidth: (size * dpr).round(),
+                  memCacheHeight: (size * dpr).round(),
                   fit: BoxFit.cover,
                   errorBuilder: (_, _, _) => _buildFallback(context),
                 )

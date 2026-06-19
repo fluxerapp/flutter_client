@@ -30,3 +30,12 @@ jobs:
           config-name: release-drafter-stable.yml
           token: ${{ secrets.FLUXER_AUTOMATION_PAT }}
           commitish: stable
+
+      - name: Append contributor avatars
+        env:
+          RELEASE_ID: ${{ steps.release_drafter.outputs.id }}
+          BODY: ${{ steps.release_drafter.outputs.body }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          printf '%s\n' "$BODY" > /tmp/release-body.md
+          python3 .github/scripts/append_release_contributor_avatars.py /tmp/release-body.md

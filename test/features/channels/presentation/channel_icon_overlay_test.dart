@@ -136,15 +136,18 @@ void main() {
       },
     );
 
-    test('voice noConnect triggers with denied connect bits', () {
-      final channel = makeVoiceChannel();
-      final int deniedBits = Permission.viewChannel.value;
+    test(
+      'voice noConnect only triggers on voice/stage with denied connect bits',
+      () {
+        final channel = makeVoiceChannel();
+        final int deniedBits = Permission.viewChannel.value;
 
-      final overlay = resolveChannelIconAccessOverlay(
-        channel: channel,
-        canConnectPermissionBits: deniedBits,
-      );
-      expect(overlay, equals(ChannelIconAccessOverlay.noConnect));
-    });
+        final overlay = resolveChannelIconAccessOverlay(
+          channel: channel,
+          canConnectPermissionBits: deniedBits,
+        );
+        expect(overlay, equals(ChannelIconAccessOverlay.noConnect));
+      },
+    );
   });
 }

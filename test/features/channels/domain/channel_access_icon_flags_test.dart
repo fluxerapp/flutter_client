@@ -130,6 +130,24 @@ void main() {
       );
     });
 
+    test('stage channel: everyone fully denies CONNECT', () {
+      expect(
+        isChannelEveryonePrivateForIcon(
+          type: ChannelType.stage,
+          guildId: guildId,
+          permissionOverwritesJson: jsonEncode(<Map<String, Object>>[
+            <String, Object>{
+              'id': guildId,
+              'type': 0,
+              'allow': '0',
+              'deny': '1048576',
+            },
+          ]),
+        ),
+        isTrue,
+      );
+    });
+
     test('category ignores overwrites', () {
       expect(
         isChannelEveryonePrivateForIcon(

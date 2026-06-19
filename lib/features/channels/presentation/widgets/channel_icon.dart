@@ -34,7 +34,8 @@ ChannelIconAccessOverlay resolveChannelIconAccessOverlay({
   if (channel.nsfw) {
     return ChannelIconAccessOverlay.nsfw;
   }
-  final bool isVoiceLike = channel.type == ChannelType.voice;
+  final bool isVoiceLike =
+      channel.type == ChannelType.voice || channel.type == ChannelType.stage;
   final int? connectBits = canConnectPermissionBits ?? effectivePermissionBits;
   if (isVoiceLike &&
       connectBits != null &&
@@ -43,7 +44,8 @@ ChannelIconAccessOverlay resolveChannelIconAccessOverlay({
   }
   final bool skipEveryonePrivateLockForVoiceIcon =
       isVoiceLike &&
-      (connectBits == null || hasPermission(connectBits, Permission.connect));
+      (connectBits == null ||
+          hasPermission(connectBits, Permission.connect));
   if (!skipEveryonePrivateLockForVoiceIcon &&
       isChannelEveryonePrivateForIcon(
         type: channel.type,
@@ -63,7 +65,11 @@ String? _svgAssetForChannelVisual({
   if (type == ChannelType.category) {
     return null;
   }
-  if (type == ChannelType.text) {
+  final bool isTextLike =
+      type == ChannelType.text || type == ChannelType.announcement;
+  final bool isVoiceLike =
+      type == ChannelType.voice || type == ChannelType.stage;
+  if (isTextLike) {
     return switch (overlay) {
       ChannelIconAccessOverlay.nsfw => _kAssetTextNsfw,
       ChannelIconAccessOverlay.lock => _kAssetTextLocked,
@@ -71,7 +77,7 @@ String? _svgAssetForChannelVisual({
       ChannelIconAccessOverlay.none => _kAssetText,
     };
   }
-  if (type == ChannelType.voice) {
+  if (isVoiceLike) {
     if (e2eeEncrypted) {
       return _kAssetVoiceE2ee;
     }
@@ -151,6 +157,10 @@ class ChannelIcon extends StatelessWidget {
         return PhosphorIconsRegular.hash;
       case ChannelType.voice:
         return PhosphorIconsFill.speakerHigh;
+      case ChannelType.announcement:
+        return PhosphorIconsFill.megaphone;
+      case ChannelType.stage:
+        return PhosphorIconsFill.broadcast;
       case ChannelType.category:
         return PhosphorIconsFill.folder;
       case ChannelType.link:

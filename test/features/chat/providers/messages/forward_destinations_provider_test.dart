@@ -92,6 +92,7 @@ Future<FluxerDatabase> _seedDb() async {
   await channel('c_text', _ownedGuild, 0);
   await channel('c_voice', _ownedGuild, 2);
   await channel('c_category', _ownedGuild, 4);
+  await channel('c_announcement', _ownedGuild, 5);
   await channel('c_link', _ownedGuild, 998);
 
   // Other guild: the user has no membership, so sending is blocked.
@@ -193,6 +194,7 @@ void main() {
 
       expect(byId.containsKey('c_source'), isFalse, reason: 'source excluded');
       expect(byId.containsKey('c_category'), isFalse);
+      expect(byId.containsKey('c_announcement'), isFalse);
       expect(byId.containsKey('c_link'), isFalse);
       expect(byId.containsKey('c_text'), isTrue);
       expect(byId.containsKey('c_voice'), isTrue);

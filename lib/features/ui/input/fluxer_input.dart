@@ -37,8 +37,6 @@ class FluxerInput extends StatelessWidget {
     this.maxLines = 1,
     this.minLines,
     this.textCapitalization,
-    this.autocorrect = true,
-    this.enableSuggestions = true,
     super.key,
   });
 
@@ -73,8 +71,6 @@ class FluxerInput extends StatelessWidget {
     this.maxLines,
     this.minLines = 3,
     this.textCapitalization,
-    this.autocorrect = true,
-    this.enableSuggestions = true,
     super.key,
   });
 
@@ -119,8 +115,6 @@ class FluxerInput extends StatelessWidget {
   final int? maxLines;
   final int? minLines;
   final TextCapitalization? textCapitalization;
-  final bool autocorrect;
-  final bool enableSuggestions;
 
   bool get _isMultiline => minLines != null && minLines! > 1;
 
@@ -184,8 +178,6 @@ class FluxerInput extends StatelessWidget {
           validator: validator,
           keyboardType: keyboardType,
           textCapitalization: textCapitalization ?? TextCapitalization.none,
-          autocorrect: autocorrect,
-          enableSuggestions: enableSuggestions,
           inputFormatters: inputFormatters,
           maxLines: maxLines,
           minLines: minLines,
@@ -264,8 +256,6 @@ class FluxerInput extends StatelessWidget {
                       validator: validator,
                       keyboardType: keyboardType,
                       textCapitalization: textCapitalization ?? TextCapitalization.none,
-                      autocorrect: autocorrect,
-                      enableSuggestions: enableSuggestions,
                       inputFormatters: inputFormatters,
                       maxLines: maxLines,
                       minLines: minLines,
@@ -336,8 +326,6 @@ class FluxerInput extends StatelessWidget {
               validator: validator,
               keyboardType: keyboardType,
               textCapitalization: textCapitalization ?? TextCapitalization.none,
-              autocorrect: autocorrect,
-              enableSuggestions: enableSuggestions,
               inputFormatters: inputFormatters,
               maxLines: maxLines,
               minLines: minLines,

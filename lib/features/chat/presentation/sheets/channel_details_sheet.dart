@@ -3354,6 +3354,8 @@ String? _detailsSubtitle({
     return switch (channel.type) {
       ChannelType.text => 'Text channel',
       ChannelType.voice => 'Voice channel',
+      ChannelType.announcement => 'Announcement channel',
+      ChannelType.stage => 'Stage channel',
       ChannelType.category => 'Category',
       ChannelType.link => 'Linked channel',
     };

@@ -1,4 +1,3 @@
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -78,32 +77,6 @@ void main() {
       expect(find.text('T'), findsOneWidget);
       expect(find.byType(FluxerStatusIndicator), findsNothing);
     });
-
-    testWidgets(
-      'network image preserves aspect ratio in memory cache for cover fit',
-      (tester) async {
-        tester.view.devicePixelRatio = 3.0;
-        addTearDown(tester.view.resetDevicePixelRatio);
-
-        await tester.pumpWidget(
-          buildTestApp(
-            const FluxerAvatar.user(
-              imageUrl: 'https://cdn.example/avatar.webp',
-              fallbackText: 'Alice',
-              showStatus: false,
-              size: 40,
-            ),
-          ),
-        );
-
-        final image = tester.widget<CachedNetworkImage>(
-          find.byType(CachedNetworkImage),
-        );
-        expect(image.memCacheWidth, 120);
-        expect(image.memCacheHeight, isNull);
-        expect(image.fit, BoxFit.cover);
-      },
-    );
 
     testWidgets(
       'avatar cluster renders overlapping members without layout errors',

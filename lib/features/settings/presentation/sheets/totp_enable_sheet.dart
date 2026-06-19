@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -157,9 +156,8 @@ class _TotpEnableSheetState extends ConsumerState<TotpEnableSheet> {
             label: l10n.totpEnableCodeLabel,
             hint: l10n.totpEnableCodeHint,
             autofocus: true,
-            maxLength: 6,
+            maxLength: 10,
             keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             autofillHints: const [AutofillHints.oneTimeCode],
             textInputAction: TextInputAction.done,
             onSubmitted: (_) => _handleSubmit(),
