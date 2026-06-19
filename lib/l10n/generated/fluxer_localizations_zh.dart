@@ -4717,16 +4717,6 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get chatMessageEdited => '(edited)';
 
   @override
-  String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
-  }
-
-  @override
-  String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
-  }
-
-  @override
   String get mediaViewerImagePreview => 'Image preview';
 
   @override

@@ -19,7 +19,7 @@ const _kGifsFeaturedPath = '/gifs/featured';
 const _kGifsRegisterSharePath = '/gifs/register-share';
 const _kGifsSearchPath = '/gifs/search';
 const _kGifsSuggestPath = '/gifs/suggest';
-const _kGifsTrendingPath = '/gifs/trending';
+const _kGifsTrendingPath = '/gifs/trending-gifs';
 
 class GifRepository {
   GifRepository({

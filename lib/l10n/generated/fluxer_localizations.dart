@@ -8137,18 +8137,6 @@ abstract class FluxerLocalizations {
   /// **'(edited)'**
   String get chatMessageEdited;
 
-  /// Inline chat message timestamp when the message was sent today. {time} is locale-formatted.
-  ///
-  /// In en, this message translates to:
-  /// **'Today at {time}'**
-  String chatMessageTimestampToday(String time);
-
-  /// Inline chat message timestamp when the message was sent yesterday. {time} is locale-formatted.
-  ///
-  /// In en, this message translates to:
-  /// **'Yesterday at {time}'**
-  String chatMessageTimestampYesterday(String time);
-
   /// Accessible barrier label for the attachment media viewer dialog.
   ///
   /// In en, this message translates to:

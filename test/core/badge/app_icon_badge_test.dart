@@ -9,17 +9,50 @@ void main() {
         guildMentionCount: 3,
         dmMentionCount: 2,
         pendingFriendRequestCount: 1,
+        guildHasPlainUnread: false,
       );
       expect(badge.count, 6);
     });
 
-    test('clears when there are no counted notifications', () {
+    test('shows 1 for guild plain unread when no mentions', () {
       final badge = computeAppIconBadge(
         guildMentionCount: 0,
         dmMentionCount: 0,
         pendingFriendRequestCount: 0,
+        guildHasPlainUnread: true,
+      );
+      expect(badge.count, 1);
+    });
+
+    test('dm plain unread does not show dot badge', () {
+      final badge = computeAppIconBadge(
+        guildMentionCount: 0,
+        dmMentionCount: 0,
+        pendingFriendRequestCount: 0,
+        guildHasPlainUnread: false,
       );
       expect(badge.count, 0);
+    });
+
+    test('clears when no unread and unread badge disabled', () {
+      final badge = computeAppIconBadge(
+        guildMentionCount: 0,
+        dmMentionCount: 0,
+        pendingFriendRequestCount: 0,
+        guildHasPlainUnread: true,
+        unreadMessageBadgeEnabled: false,
+      );
+      expect(badge.count, 0);
+    });
+
+    test('mentions win over plain unread dot', () {
+      final badge = computeAppIconBadge(
+        guildMentionCount: 1,
+        dmMentionCount: 0,
+        pendingFriendRequestCount: 0,
+        guildHasPlainUnread: true,
+      );
+      expect(badge.count, 1);
     });
   });
 

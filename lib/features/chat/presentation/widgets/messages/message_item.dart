@@ -12,7 +12,6 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_avatar.dart';
-import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -46,7 +45,6 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
-import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -1099,24 +1097,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                       ),
                     ),
                   ),
-                  if (messageAuthorShowsUserTag(
-                    authorIsBot: msg.authorIsBot,
-                    authorId: msg.authorId,
-                  )) ...[
+                  if (msg.authorIsBot) ...[
                     const SizedBox(width: 6),
-                    FluxerUserTag(
-                      isSystem: messageAuthorUserTagIsSystem(
-                        authorId: msg.authorId,
-                      ),
-                    ),
+                    const FluxerBotBadge(),
                   ],
                   const SizedBox(width: 8),
                   Text(
-                    formatMessageTimestamp(
-                      msg.timestamp.toLocal(),
-                      FluxerLocalizations.of(context),
-                      Localizations.localeOf(context).toString(),
-                    ),
+                    _formatTimestamp(msg.timestamp.toLocal()),
                     style: context.textStyles.timestamp,
                   ),
                 ],
@@ -1501,4 +1488,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
     ),
   );
+
+  String _formatTimestamp(DateTime dt) {
+    final now = DateTime.now();
+    final isToday =
+        dt.year == now.year && dt.month == now.month && dt.day == now.day;
+    final h = dt.hour.toString().padLeft(2, '0');
+    final m = dt.minute.toString().padLeft(2, '0');
+    if (isToday) {
+      return 'Today at $h:$m';
+    }
+    return '${dt.month}/${dt.day}/${dt.year}'
+        ' $h:$m';
+  }
 }

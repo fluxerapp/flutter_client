@@ -46,6 +46,14 @@ jobs:
           printf '%s\n' "$BODY" > /tmp/release-body.md
           python3 .github/scripts/append_release_direct_commits.py /tmp/release-body.md
 
+      - name: Append contributor avatars
+        env:
+          RELEASE_ID: ${{ steps.release_drafter.outputs.id }}
+          RELEASE_TAG: ${{ steps.release_drafter.outputs.tag_name }}
+          COMMITISH: beta
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/append_release_contributor_avatars.py /tmp/release-body.md
+
       - name: Ensure beta release tag and title
         env:
           RELEASE_ID: ${{ steps.release_drafter.outputs.id }}

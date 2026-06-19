@@ -20,7 +20,7 @@ bool canJoinGuildVoiceChannelFromBits({
   if (guildId.isEmpty) {
     return true;
   }
-  if (channelType != ChannelType.voice) {
+  if (channelType != ChannelType.voice && channelType != ChannelType.stage) {
     return true;
   }
   if (permissionBits == null) {
@@ -48,9 +48,8 @@ Future<VoiceJoinEligibility> voiceJoinEligibility(
   if (channelRow.guildId.isEmpty) {
     return const VoiceJoinEligibility(canJoin: true);
   }
-  final int? permissionBits = ref.watch(
-    channelPermissionCacheProvider,
-  )[channelId];
+  final int? permissionBits =
+      ref.watch(channelPermissionCacheProvider)[channelId];
   final bool canJoin = canJoinGuildVoiceChannelFromBits(
     guildId: channelRow.guildId,
     channelType: channelType,

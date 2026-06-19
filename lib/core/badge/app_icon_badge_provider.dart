@@ -89,13 +89,18 @@ class AppIconBadge extends _$AppIconBadge {
     required int pendingFriendRequestCount,
   }) {
     var guildMentionCount = 0;
+    var guildHasPlainUnread = false;
     for (final entry in guildStates.values) {
       guildMentionCount += entry.mentionCount;
+      if (entry.hasPlainUnread) {
+        guildHasPlainUnread = true;
+      }
     }
     return computeAppIconBadge(
       guildMentionCount: guildMentionCount,
       dmMentionCount: _dmMentionCount,
       pendingFriendRequestCount: pendingFriendRequestCount,
+      guildHasPlainUnread: guildHasPlainUnread,
     );
   }
 }

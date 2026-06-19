@@ -10,14 +10,6 @@ const int dmPersonalNotesChannelType = 999;
 
 const String fluxerBotUserId = '0';
 
-bool messageAuthorShowsUserTag({
-  required bool authorIsBot,
-  required String authorId,
-}) => authorIsBot || authorId == fluxerBotUserId;
-
-bool messageAuthorUserTagIsSystem({required String authorId}) =>
-    authorId == fluxerBotUserId;
-
 bool isSystemDmConversation(DmConversation dm) =>
     !dm.isGroup && dm.recipientId == fluxerBotUserId;
 

@@ -5,7 +5,6 @@ import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
@@ -461,8 +460,6 @@ class GatewayEventHandler {
       (guild) => guild['unavailable'] as bool? ?? false,
     );
 
-    final List<String> prunedGuildIds = <String>[];
-
     await database.transaction(() async {
       if (shouldFullWipe) {
         await database.userDao.clearAll();
@@ -617,16 +614,6 @@ class GatewayEventHandler {
                   .toList(),
             );
           }
-        }
-
-        if (isSameUserReconnect) {
-          final readyGuildIds = <String>{
-            for (final rawGuild in event.rawGuilds)
-              if (rawGuild['id'] is String) rawGuild['id'] as String,
-          };
-          prunedGuildIds.addAll(
-            await removeGuildsNotInLocalDb(database, readyGuildIds),
-          );
         }
       }
 
@@ -783,10 +770,6 @@ class GatewayEventHandler {
         }
       }
     });
-
-    for (final guildId in prunedGuildIds) {
-      onGuildPermissionsEvict?.call(guildId);
-    }
 
     talker.info(
       '[Gateway] READY transaction committed successfully in '
@@ -1313,10 +1296,6 @@ class GatewayEventHandler {
   }
 
   void _handleMemberRemove(GuildMemberRemoveEvent event) {
-    if (event.userId == currentUserId) {
-      unawaited(_removeGuildLocally(event.guildId));
-      return;
-    }
     unawaited(database.memberDao.deleteMember(event.userId, event.guildId));
   }
 
@@ -1541,12 +1520,15 @@ class GatewayEventHandler {
       await database.guildDao.markUnavailable(event.guildId);
       return;
     }
-    await _removeGuildLocally(event.guildId);
-  }
-
-  Future<void> _removeGuildLocally(String guildId) async {
-    await removeGuildFromLocalDb(database, guildId);
-    onGuildPermissionsEvict?.call(guildId);
+    // Actually removed from guild — delete all associated data.
+    final channels = await database.channelDao.getChannels(event.guildId);
+    final channelIds = channels.map((c) => c.id).toList();
+    await database.readStateDao.deleteReadStatesForChannels(channelIds);
+    await database.channelDao.deleteChannelsForGuild(event.guildId);
+    await database.memberDao.deleteMembersForGuild(event.guildId);
+    await database.roleDao.deleteRolesForGuild(event.guildId);
+    await database.guildDao.deleteServer(event.guildId);
+    onGuildPermissionsEvict?.call(event.guildId);
   }
 
   void _handleRelationshipUpsert(RelationshipResponse relationship) {

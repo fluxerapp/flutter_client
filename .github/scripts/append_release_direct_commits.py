@@ -26,9 +26,6 @@ SECTION_HEADINGS = {
     "fix": "## Fixes",
     "other": "## Other",
 }
-SECTION_ORDER = ("## Features", "## Fixes", "## Other")
-CATEGORY_ORDER = ("feature", "fix", "other")
-DETAILED_CHANGES_HEADING = "## Detailed changes"
 SKIP_CHANGELOG_TYPES = frozenset({"chore", "ci", "build", "style", "refactor", "test"})
 DEFAULT_EXCLUDED_AUTHORS = frozenset(
     {
@@ -209,27 +206,6 @@ def collect_direct_commits(previous_tag: str | None, commitish: str) -> list[Dir
     return direct_commits
 
 
-def find_section_insert_at(body: str, section_heading: str) -> int:
-    try:
-        target_index = SECTION_ORDER.index(section_heading)
-    except ValueError:
-        return len(body.rstrip())
-    for later_heading in SECTION_ORDER[target_index + 1 :]:
-        match = re.search(rf"\n{re.escape(later_heading)}\n", body)
-        if match is not None:
-            return match.start()
-    other_match = re.search(r"\n## Other\n", body)
-    if other_match is not None:
-        return other_match.start()
-    detailed_match = re.search(rf"{re.escape(DETAILED_CHANGES_HEADING)}\n", body)
-    if detailed_match is not None:
-        return len(body.rstrip())
-    changes_match = re.search(r"## Changes\n", body)
-    if changes_match is not None:
-        return len(body.rstrip())
-    return len(body.rstrip())
-
-
 def append_line_to_section(body: str, section_heading: str, line: str) -> str:
     if line in body:
         return body
@@ -242,48 +218,26 @@ def append_line_to_section(body: str, section_heading: str, line: str) -> str:
         section_content = match.group(2).rstrip()
         replacement = f"{match.group(1)}{section_content}\n{line}\n"
         return body[: match.start()] + replacement + body[match.end() :]
-    insert_at = find_section_insert_at(body, section_heading)
-    block = f"\n{section_heading}\n{line}\n"
-    return body[:insert_at] + block + body[insert_at:]
-
-
-def reorder_change_sections(body: str) -> str:
-    extracted_sections: list[tuple[str, str]] = []
-    for heading in SECTION_ORDER:
-        section_pattern = re.compile(
-            rf"\n{re.escape(heading)}\n(.*?)(?=\n## |\Z)",
-            re.DOTALL,
-        )
-        match = section_pattern.search(body)
-        if match is None:
-            continue
-        extracted_sections.append((heading, match.group(1).rstrip()))
-        body = body[: match.start()] + body[match.end() :]
-    if len(extracted_sections) == 0:
-        return body
-    rebuilt_sections = "".join(f"\n{heading}\n{content}\n" for heading, content in extracted_sections)
-    detailed_match = re.search(rf"{re.escape(DETAILED_CHANGES_HEADING)}\n", body)
-    if detailed_match is not None:
-        insert_at = len(body.rstrip())
-        return body[:insert_at] + rebuilt_sections + body[insert_at:]
+    other_match = re.search(r"\n## Other\n", body)
+    if other_match is not None:
+        block = f"\n{section_heading}\n{line}\n"
+        insert_at = other_match.start()
+        return body[:insert_at] + block + body[insert_at:]
     changes_match = re.search(r"## Changes\n", body)
     if changes_match is not None:
-        insert_at = len(body.rstrip())
-        return body[:insert_at] + rebuilt_sections + body[insert_at:]
-    return body.rstrip() + rebuilt_sections
+        insert_at = changes_match.end()
+        block = f"\n\n{section_heading}\n{line}\n"
+        return body[:insert_at] + block + body[insert_at:]
+    return body.rstrip() + f"\n\n{section_heading}\n{line}\n"
 
 
 def insert_direct_commits(body: str, direct_commits: list[DirectCommit]) -> str:
-    grouped_commits: dict[str, list[DirectCommit]] = {category: [] for category in CATEGORY_ORDER}
-    for commit in direct_commits:
-        grouped_commits[commit.category].append(commit)
     updated_body = body
-    for category in CATEGORY_ORDER:
-        for commit in grouped_commits[category]:
-            line = format_commit_line(commit.sha, commit.title, commit.author)
-            section_heading = SECTION_HEADINGS[commit.category]
-            updated_body = append_line_to_section(updated_body, section_heading, line)
-    return reorder_change_sections(updated_body)
+    for commit in direct_commits:
+        line = format_commit_line(commit.sha, commit.title, commit.author)
+        section_heading = SECTION_HEADINGS[commit.category]
+        updated_body = append_line_to_section(updated_body, section_heading, line)
+    return updated_body
 
 
 def patch_release_body(release_id: str, body: str) -> None:

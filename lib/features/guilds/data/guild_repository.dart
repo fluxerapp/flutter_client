@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
@@ -18,15 +17,12 @@ class GuildRepository {
   }
 
   Future<List<Guild>> getServers() async {
-    await syncServers();
-    final rows = await _db.guildDao.getServers();
-    return rows.map(Guild.fromRow).toList();
-  }
-
-  Future<void> syncServers() async {
     try {
       final guilds = await _client.guilds.listGuilds();
+
+      // Fetch user settings to get guild folder ordering.
       final guildOrder = await _fetchGuildOrder();
+
       final companions = guilds.map((guild) {
         final position = guildOrder.indexOf(guild.id);
         return guildFromSdk(
@@ -35,15 +31,12 @@ class GuildRepository {
         );
       }).toList();
       await _db.guildDao.upsertServers(companions);
-      final apiIds = guilds.map((guild) => guild.id).toSet();
-      await removeGuildsNotInLocalDb(_db, apiIds);
+
+      final rows = await _db.guildDao.getServers();
+      return rows.map(Guild.fromRow).toList();
     } on DioException catch (e) {
       throw Exception(e.response?.statusMessage ?? 'Failed to fetch servers');
     }
-  }
-
-  Future<void> removeGuildLocally(String guildId) async {
-    await removeGuildFromLocalDb(_db, guildId);
   }
 
   /// Fetches ordered guild IDs from user settings guild folders.

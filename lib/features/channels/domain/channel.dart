@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 
-enum ChannelType { text, voice, category, link }
+enum ChannelType { text, voice, announcement, stage, category, link }
 
 /// Guild channels that support text based unread tracking (text + voice).
 bool isGuildTextBasedChannel(int type) => type == 0 || type == 2;
@@ -17,6 +17,10 @@ ChannelType channelTypeFromInt(int type) {
       return ChannelType.voice;
     case 4:
       return ChannelType.category;
+    case 5:
+      return ChannelType.announcement;
+    case 13:
+      return ChannelType.stage;
     case 998:
       return ChannelType.link;
     default:
@@ -32,6 +36,10 @@ int channelTypeToInt(ChannelType type) {
       return 2;
     case ChannelType.category:
       return 4;
+    case ChannelType.announcement:
+      return 5;
+    case ChannelType.stage:
+      return 13;
     case ChannelType.link:
       return 998;
   }
@@ -152,8 +160,8 @@ List<ChannelCategory> groupChannelsIntoCategories(List<Channel> channels) {
     }
   }
 
-  uncategorized.sort(_compareChannelForDisplay);
-  categories.sort(_compareChannelOrdering);
+  uncategorized.sort((a, b) => a.position.compareTo(b.position));
+  categories.sort((a, b) => a.position.compareTo(b.position));
 
   final result = <ChannelCategory>[];
 
@@ -169,34 +177,9 @@ List<ChannelCategory> groupChannelsIntoCategories(List<Channel> channels) {
 
   for (final cat in categories) {
     final children = (parentMap[cat.id] ?? <Channel>[])
-      ..sort(_compareChannelForDisplay);
+      ..sort((a, b) => a.position.compareTo(b.position));
     result.add(ChannelCategory(id: cat.id, name: cat.name, channels: children));
   }
 
   return result;
-}
-
-int _compareChannelOrdering(Channel a, Channel b) {
-  final positionComparison = a.position.compareTo(b.position);
-  return positionComparison != 0 ? positionComparison : a.id.compareTo(b.id);
-}
-
-int _compareChannelForDisplay(Channel a, Channel b) {
-  final aBucket = _channelDisplayBucket(a);
-  final bBucket = _channelDisplayBucket(b);
-  final bucketComparison = aBucket.compareTo(bBucket);
-  return bucketComparison != 0
-      ? bucketComparison
-      : _compareChannelOrdering(a, b);
-}
-
-int _channelDisplayBucket(Channel channel) {
-  switch (channel.type) {
-    case ChannelType.voice:
-      return 1;
-    case ChannelType.text:
-    case ChannelType.link:
-    case ChannelType.category:
-      return 0;
-  }
 }

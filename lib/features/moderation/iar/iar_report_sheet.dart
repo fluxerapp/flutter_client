@@ -21,7 +21,6 @@ import 'package:fluxer_app/features/chat/presentation/sheets/'
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
-import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_action_card.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_copy.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
@@ -315,7 +314,6 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
           .read(fluxerClientProvider)
           .guilds
           .leaveGuild(guildId: guildId, body: const SudoVerificationSchema());
-      await removeGuildLocallyAndEvict(ref, guildId);
     } on Object catch (error, stack) {
       talker.error('[IAR] Failed to leave guild', error, stack);
       if (mounted) {
