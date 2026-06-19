@@ -82,13 +82,9 @@ ChannelMessagePermissions channelMessagePermissionsFromBits({
   required int bits,
   required ChannelType channelType,
 }) {
-  final bool canSendMessages =
-      hasPermission(bits, Permission.sendMessages) ||
-      (channelType == ChannelType.voice &&
-          hasPermission(bits, Permission.useTextInVoice));
   return ChannelMessagePermissions(
     isResolved: true,
-    canSendMessages: canSendMessages,
+    canSendMessages: hasPermission(bits, Permission.sendMessages),
     canAttachFiles: hasPermission(bits, Permission.attachFiles),
     canEmbedLinks: hasPermission(bits, Permission.embedLinks),
     canUseExternalEmojis: hasPermission(bits, Permission.useExternalEmojis),

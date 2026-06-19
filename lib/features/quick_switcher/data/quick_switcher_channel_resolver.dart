@@ -68,16 +68,12 @@ class QuickSwitcherChannelResolver {
     Channel channel,
     String? viewContext,
   ) {
-    if (channel.type != ChannelType.text &&
-        channel.type != ChannelType.voice &&
-        channel.type != ChannelType.announcement &&
-        channel.type != ChannelType.stage) {
+    if (channel.type != ChannelType.text && channel.type != ChannelType.voice) {
       return null;
     }
     final Guild? guild = guildsById[channel.guildId];
     final String guildName = guild?.name ?? '';
-    final bool isVoice =
-        channel.type == ChannelType.voice || channel.type == ChannelType.stage;
+    final bool isVoice = channel.type == ChannelType.voice;
     return candidateToQuickSwitcherResult(
       QuickSwitcherChannelCandidate(
         id: channel.id,
@@ -89,8 +85,9 @@ class QuickSwitcherChannelResolver {
         guildIcon: guild?.icon,
         isVoice: isVoice,
         searchValues: <String>[channel.name, guildName, channel.id],
-        sortWeight:
-            dateTimeFromSnowflakeAsLocalOrNow(channel.id).millisecondsSinceEpoch,
+        sortWeight: dateTimeFromSnowflakeAsLocalOrNow(
+          channel.id,
+        ).millisecondsSinceEpoch,
       ),
       l10n,
       viewContext: viewContext,

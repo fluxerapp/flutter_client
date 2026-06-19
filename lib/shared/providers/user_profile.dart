@@ -54,26 +54,31 @@ Future<UserProfileFullResponse?> userProfile(
 
   final FluxerDatabase database = ref.read(fluxerDatabaseProvider);
   final User? cachedUser = await database.userDao.getUserById(resolvedId);
-  unawaited(
-    _refreshUserProfileFromNetwork(
-      ref,
-      userId: resolvedId,
-      guildId: guildId,
-    ),
-  );
-  if (cachedUser != null) {
+  if (guildId == null && cachedUser != null) {
+    unawaited(
+      _refreshUserProfileFromNetwork(
+        ref,
+        userId: resolvedId,
+        guildId: guildId,
+      ),
+    );
     return _userProfileFromCachedUser(cachedUser);
   }
 
   final FluxerClient client = ref.read(fluxerClientProvider);
   try {
-    return await client.users.getUserProfile(
+    final UserProfileFullResponse profile = await client.users.getUserProfile(
       targetId: resolvedId,
       guildId: guildId,
       withMutualFriends: 'true',
       withMutualGuilds: 'true',
     );
+    await _cacheUserProfile(database, profile);
+    return profile;
   } on Object {
+    if (cachedUser != null) {
+      return _userProfileFromCachedUser(cachedUser);
+    }
     return null;
   }
 }
@@ -99,6 +104,26 @@ UserProfileFullResponse _userProfileFromCachedUser(User user) {
   );
 }
 
+Future<void> _cacheUserProfile(
+  FluxerDatabase database,
+  UserProfileFullResponse profile,
+) async {
+  await database.userDao.upsertUser(
+    UsersCompanion(
+      id: Value(profile.user.id),
+      username: Value(profile.user.username),
+      discriminator: Value(profile.user.discriminator),
+      globalName: Value(profile.user.globalName),
+      avatar: Value(profile.user.avatar),
+      avatarColor: Value(profile.user.avatarColor),
+      bio: Value(profile.userProfile.bio),
+      pronouns: Value(profile.userProfile.pronouns),
+      accentColor: Value(profile.userProfile.accentColor),
+      banner: Value(profile.userProfile.banner),
+    ),
+  );
+}
+
 Future<void> _refreshUserProfileFromNetwork(
   Ref ref, {
   required String userId,
@@ -113,20 +138,7 @@ Future<void> _refreshUserProfileFromNetwork(
       withMutualFriends: 'true',
       withMutualGuilds: 'true',
     );
-    await database.userDao.upsertUser(
-      UsersCompanion(
-        id: Value(profile.user.id),
-        username: Value(profile.user.username),
-        discriminator: Value(profile.user.discriminator),
-        globalName: Value(profile.user.globalName),
-        avatar: Value(profile.user.avatar),
-        avatarColor: Value(profile.user.avatarColor),
-        bio: Value(profile.userProfile.bio),
-        pronouns: Value(profile.userProfile.pronouns),
-        accentColor: Value(profile.userProfile.accentColor),
-        banner: Value(profile.userProfile.banner),
-      ),
-    );
+    await _cacheUserProfile(database, profile);
     ref.invalidate(
       userProfileProvider(userId: userId, guildId: guildId),
     );

@@ -85,7 +85,7 @@ class ForwardDestination {
 /// DMs are returned first (in recency order), then guild channels grouped by
 /// guild name then channel name, so the sheet can build sections by walking
 /// consecutive runs. The source channel is excluded; non-text-based channel
-/// types (category/link/announcement/stage) are filtered out.
+/// types (category/link) are filtered out.
 @riverpod
 Future<List<ForwardDestination>> forwardDestinations(
   Ref ref, {
@@ -241,9 +241,7 @@ ForwardDestinationDisable _resolveDisable({
   required bool hasEmbeds,
   required bool hasAttachments,
 }) {
-  final bool canSend =
-      hasPermission(bits, Permission.sendMessages) ||
-      (isVoice && hasPermission(bits, Permission.useTextInVoice));
+  final bool canSend = hasPermission(bits, Permission.sendMessages);
   if (!canSend) {
     return ForwardDestinationDisable.noSendPermission;
   }

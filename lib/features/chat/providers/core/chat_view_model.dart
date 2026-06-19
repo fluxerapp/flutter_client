@@ -1679,14 +1679,10 @@ class ChatViewModel extends _$ChatViewModel {
             channelId: channelId,
           );
       if (permissionOutcome.shouldCache) {
-        final bool canSendMessages =
-            hasPermission(permissionOutcome.value, Permission.sendMessages) ||
-            (channelRow != null &&
-                channelTypeFromInt(channelRow.type) == ChannelType.voice &&
-                hasPermission(
-                  permissionOutcome.value,
-                  Permission.useTextInVoice,
-                ));
+        final bool canSendMessages = hasPermission(
+          permissionOutcome.value,
+          Permission.sendMessages,
+        );
         if (!canSendMessages) {
           talker.debug(
             '[ChatViewModel] send blocked: no_permission channelId=$channelId',
