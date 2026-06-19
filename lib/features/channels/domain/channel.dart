@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 
-enum ChannelType { text, voice, announcement, stage, category, link }
+enum ChannelType { text, voice, category, link }
 
 /// Guild channels that support text based unread tracking (text + voice).
 bool isGuildTextBasedChannel(int type) => type == 0 || type == 2;
@@ -17,10 +17,6 @@ ChannelType channelTypeFromInt(int type) {
       return ChannelType.voice;
     case 4:
       return ChannelType.category;
-    case 5:
-      return ChannelType.announcement;
-    case 13:
-      return ChannelType.stage;
     case 998:
       return ChannelType.link;
     default:
@@ -36,10 +32,6 @@ int channelTypeToInt(ChannelType type) {
       return 2;
     case ChannelType.category:
       return 4;
-    case ChannelType.announcement:
-      return 5;
-    case ChannelType.stage:
-      return 13;
     case ChannelType.link:
       return 998;
   }
@@ -201,10 +193,8 @@ int _compareChannelForDisplay(Channel a, Channel b) {
 int _channelDisplayBucket(Channel channel) {
   switch (channel.type) {
     case ChannelType.voice:
-    case ChannelType.stage:
       return 1;
     case ChannelType.text:
-    case ChannelType.announcement:
     case ChannelType.link:
     case ChannelType.category:
       return 0;
