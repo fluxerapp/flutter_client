@@ -120,7 +120,7 @@ String _matureBody(
     return l10n.matureCategoryBody;
   }
   return switch (channelType) {
-    ChannelType.voice || ChannelType.stage => l10n.matureVoiceChannelBody,
+    ChannelType.voice => l10n.matureVoiceChannelBody,
     ChannelType.link => l10n.matureLinkChannelBody,
     _ => l10n.matureChannelBody,
   };

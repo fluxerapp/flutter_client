@@ -56,7 +56,7 @@ class MfaViewState {
   }
 
   bool get canSubmitCode =>
-      !isSubmitting && code.replaceAll(' ', '').length == 6;
+      !isSubmitting && code.replaceAll(' ', '').isNotEmpty;
 }
 
 @riverpod

@@ -25,6 +25,7 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
@@ -137,6 +138,7 @@ class AppStartup extends _$AppStartup {
       ..read(fluxerSfxIncomingRingBindingProvider)
       ..read(fluxerMessageSfxBindingProvider)
       ..read(friendRelationshipsSyncProvider)
+      ..read(guildListSyncProvider)
       ..read(statusExpiryBindingProvider);
 
     ref.read(deepLinkHandlerProvider.notifier).processPendingDeepLink();

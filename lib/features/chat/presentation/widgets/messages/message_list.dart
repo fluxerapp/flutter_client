@@ -765,7 +765,11 @@ class _MessageListState extends ConsumerState<MessageList> {
         message: message,
         isNewDay: isNewDay,
         visualUnreadId: visualUnreadId,
-        child: SystemMessage(key: ValueKey(message.id), message: message),
+        child: SystemMessage(
+          key: ValueKey(message.id),
+          message: message,
+          guildId: guildId,
+        ),
       );
     }
     final bool isGrouped = !isNewDay && _shouldGroup(message, previousMessage);

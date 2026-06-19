@@ -5769,6 +5769,24 @@
   "@chatMessageEdited": {
     "description": "Message metadata label displayed after edited messages."
   },
+  "chatMessageTimestampToday": "Today at {time}",
+  "@chatMessageTimestampToday": {
+    "description": "Inline chat message timestamp when the message was sent today. {time} is locale-formatted.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "chatMessageTimestampYesterday": "Yesterday at {time}",
+  "@chatMessageTimestampYesterday": {
+    "description": "Inline chat message timestamp when the message was sent yesterday. {time} is locale-formatted.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "mediaViewerImagePreview": "Image preview",
   "@mediaViewerImagePreview": {
     "description": "Accessible barrier label for the attachment media viewer dialog."

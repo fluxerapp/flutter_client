@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Color _kGuildJoinIconColor = Color(0xFF22C55E);
 
 /// Renders a system message as a single row with an icon,
 /// bold author name, descriptive text, and timestamp.
-class SystemMessage extends StatelessWidget {
+class SystemMessage extends ConsumerWidget {
   final Message message;
+  final String? guildId;
 
-  const SystemMessage({required this.message, super.key});
+  const SystemMessage({required this.message, this.guildId, super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? resolvedGuildId = guildId;
+    final Color? authorRoleColor = resolvedGuildId == null
+        ? null
+        : ref
+              .watch(
+                memberRoleColorProvider((message.authorId, resolvedGuildId)),
+              )
+              .value;
     final textStyle = TextStyle(
       color: context.colors.textTertiaryMuted,
       fontSize: 14,
     );
     final usernameStyle = TextStyle(
-      color: context.colors.textChat,
+      color: authorRoleColor ?? context.colors.textChat,
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
@@ -54,7 +66,11 @@ class SystemMessage extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            _formatTimestamp(message.timestamp),
+            formatMessageTimestamp(
+              message.timestamp.toLocal(),
+              FluxerLocalizations.of(context),
+              Localizations.localeOf(context).toString(),
+            ),
             style: TextStyle(
               color: context.colors.textTertiaryMuted,
               fontSize: 10,
@@ -128,20 +144,5 @@ class SystemMessage extends StatelessWidget {
       default:
         return (PhosphorIconsFill.info, message.content);
     }
-  }
-
-  String _formatTimestamp(DateTime dt) {
-    final local = dt.toLocal();
-    final now = DateTime.now();
-    final isToday =
-        local.year == now.year &&
-        local.month == now.month &&
-        local.day == now.day;
-    final h = local.hour.toString().padLeft(2, '0');
-    final m = local.minute.toString().padLeft(2, '0');
-    if (isToday) {
-      return 'Today at $h:$m';
-    }
-    return '${local.month}/${local.day}/${local.year} $h:$m';
   }
 }

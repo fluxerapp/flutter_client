@@ -161,8 +161,7 @@ Future<void> openGuildChannelContent({
   final int? permissionBits =
       effectivePermissionBits ??
       ref.read(effectiveGuildChannelPermissionBitsProvider(channel.id)).value;
-  final int? localConnectBits =
-      channel.type == ChannelType.voice || channel.type == ChannelType.stage
+  final int? localConnectBits = channel.type == ChannelType.voice
       ? ref
             .read(channelLocalGuildChannelPermissionBitsProvider(channel.id))
             .value

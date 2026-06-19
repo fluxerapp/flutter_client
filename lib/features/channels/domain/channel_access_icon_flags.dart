@@ -30,8 +30,7 @@ bool isChannelEveryonePrivateForIcon({
   final BigInt deny = everyoneOverwrite.deny;
   switch (type) {
     case ChannelType.voice:
-    case ChannelType.stage:
-      // For voice/stage channels, only show a lock overlay when the @everyone
+      // For voice channels, only show a lock overlay when the @everyone
       // entry denies CONNECT AND has no base permissions at all (allow == '0')
       // this indicates a truly private server where the channel is not
       // visible to most users. A role-restricted guild will have an @everyone
@@ -40,7 +39,6 @@ bool isChannelEveryonePrivateForIcon({
       final BigInt connectMask = BigInt.from(Permission.connect.value);
       return (allow == BigInt.zero) && (deny & connectMask) == connectMask;
     case ChannelType.text:
-    case ChannelType.announcement:
     case ChannelType.link:
       final BigInt mask = BigInt.from(Permission.viewChannel.value);
       return (deny & mask) == mask;

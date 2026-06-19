@@ -26,5 +26,9 @@ class UserGuildSettingsDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> upsert(UserGuildSettingsTableCompanion entry) =>
       into(userGuildSettingsTable).insertOnConflictUpdate(entry);
 
+  Future<void> deleteForGuild(String guildId) => (delete(
+    userGuildSettingsTable,
+  )..where((table) => table.guildId.equals(guildId))).go();
+
   Future<void> clearAll() => delete(userGuildSettingsTable).go();
 }
