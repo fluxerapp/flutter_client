@@ -34,7 +34,62 @@ ProviderContainer _containerFor(AuthFailure failure) {
   return container;
 }
 
+ProviderContainer _container() {
+  final container = ProviderContainer();
+  addTearDown(container.dispose);
+  return container;
+}
+
 void main() {
+  test('ensure login screen transitions are mutually exclusive', () {
+    final container = _container();
+    final notifier = container.read(loginViewModelProvider.notifier);
+    final transitions =
+        <
+          ({
+            String name,
+            void Function() enter,
+            bool forgot,
+            bool register,
+            bool reset,
+          })
+        >[
+          (
+            name: 'forgot password',
+            enter: notifier.showForgotPasswordScreen,
+            forgot: true,
+            register: false,
+            reset: false,
+          ),
+          (
+            name: 'register',
+            enter: notifier.showRegisterScreen,
+            forgot: false,
+            register: true,
+            reset: false,
+          ),
+          (
+            name: 'reset password',
+            enter: () => notifier.setResetToken('reset-token'),
+            forgot: false,
+            register: false,
+            reset: true,
+          ),
+        ];
+
+    for (final seed in transitions) {
+      for (final target in transitions) {
+        seed.enter();
+        target.enter();
+
+        final state = container.read(loginViewModelProvider);
+        expect(state.showForgotPassword, target.forgot, reason: target.name);
+        expect(state.showRegister, target.register, reason: target.name);
+        expect(state.resetToken != null, target.reset, reason: target.name);
+      }
+    }
+  });
+
   test('an invalid-credentials failure shows a single general error', () async {
     final container = _containerFor(
       const AuthFailure(
