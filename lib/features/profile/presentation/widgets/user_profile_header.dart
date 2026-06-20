@@ -17,7 +17,8 @@ class UserProfileHeader extends StatelessWidget {
     this.pronouns,
     this.premiumLifetimeSequence,
     this.showUsername = true,
-    this.showBotTag = false,
+    this.isBot = false,
+    this.isSystem = false,
     super.key,
   });
 
@@ -32,7 +33,8 @@ class UserProfileHeader extends StatelessWidget {
   final String? pronouns;
   final int? premiumLifetimeSequence;
   final bool showUsername;
-  final bool showBotTag;
+  final bool isBot;
+  final bool isSystem;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class UserProfileHeader extends StatelessWidget {
     final String? pronounsTrimmed = pronouns?.trim();
     final bool showPronouns =
         pronounsTrimmed != null && pronounsTrimmed.isNotEmpty;
+    final bool showUserTag = isBot || isSystem;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +64,7 @@ class UserProfileHeader extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            if (showBotTag) const FluxerBotBadge(),
+            if (showUserTag) FluxerUserTag(isSystem: isSystem),
             if (showUsername && isUsernameAsDisplay)
               Text(
                 '#$discriminator',

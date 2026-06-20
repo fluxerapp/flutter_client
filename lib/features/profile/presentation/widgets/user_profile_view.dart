@@ -324,6 +324,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     String? guildMemberNick,
     DateTime? guildMemberTimeoutUntil,
     bool isWebhook = false,
+    bool isBot = false,
+    bool isSystem = false,
     bool canCall = true,
   }) {
     final layout = context.layout;
@@ -521,7 +523,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   customStatus: customStatus,
                   pronouns: pronouns,
                   showUsername: !isWebhook,
-                  showBotTag: isWebhook,
+                  isBot: isBot || isWebhook,
+                  isSystem: isSystem,
                 ),
                 if (!isWebhook) ...[
                   SizedBox(height: layout.s4),
@@ -889,6 +892,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                 ),
           memberRoles: memberRoles,
           flags: response.user.flags,
+          isBot: response.user.bot ?? false,
+          isSystem: response.user.system ?? false,
           hasPlutonium:
               response.premiumType != null &&
               response.premiumType != UserPremiumTypes.none,
