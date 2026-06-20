@@ -400,6 +400,7 @@ class MessageRepository {
                 const [],
             isPinned: (map['pinned'] as bool?) ?? false,
             isMentioned: _isMentionedFromJson(map),
+            mentionedUserIds: _mentionedUserIdsFromJson(map),
             type: (map['type'] as int?) ?? 0,
             flags: (map['flags'] as int?) ?? 0,
           ),
@@ -485,6 +486,18 @@ class MessageRepository {
       }
     }
     return false;
+  }
+
+  List<String> _mentionedUserIdsFromJson(Map<String, dynamic> map) {
+    final mentions = map['mentions'] as List<dynamic>?;
+    if (mentions == null) {
+      return const [];
+    }
+    return [
+      for (final mention in mentions)
+        if (mention is Map<String, dynamic> && mention['id'] != null)
+          mention['id'].toString(),
+    ];
   }
 
   Future<void> addReaction({
