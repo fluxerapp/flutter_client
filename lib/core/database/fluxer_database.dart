@@ -139,7 +139,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 57;
+  int get schemaVersion => 58;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -578,6 +578,20 @@ class FluxerDatabase extends _$FluxerDatabase {
       }
       if (from < 57) {
         await m.addColumn(channels, channels.userLimit);
+      }
+      if (from < 58) {
+        await m.addColumn(messages, messages.authorIsSystem);
+        await customStatement('''
+          UPDATE messages
+          SET author_is_system = (
+            SELECT COALESCE(users.system, 0)
+            FROM users
+            WHERE users.id = messages.author_id
+          )
+          WHERE EXISTS (
+            SELECT 1 FROM users WHERE users.id = messages.author_id
+          )
+          ''');
       }
     },
   );

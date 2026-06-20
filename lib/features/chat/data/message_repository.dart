@@ -307,6 +307,7 @@ class MessageRepository {
             authorAvatar: author['avatar'] as String?,
             authorAvatarColor: author['avatar_color'] as int?,
             authorIsBot: (author['bot'] as bool?) ?? false,
+            authorIsSystem: (author['system'] as bool?) ?? false,
             webhookId: map['webhook_id'] as String?,
             content: (map['content'] as String?) ?? '',
             timestamp: DateTime.parse(map['timestamp'] as String),

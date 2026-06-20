@@ -404,7 +404,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             replyTo: replyTo,
             guildId: guildId,
             shouldReplyMention: replyMentioning,
-            onToggleMention: chatNotifier.setReplyMentioning,
+            onToggleMention: (bool mentioning) =>
+                chatNotifier.setReplyMentioning(mentioning: mentioning),
             onCancel: chatNotifier.cancelReply,
           ),
         if (editingMessage != null)

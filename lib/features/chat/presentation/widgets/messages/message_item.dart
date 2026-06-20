@@ -12,7 +12,6 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_avatar.dart';
-import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -44,6 +43,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
+import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -1101,12 +1101,12 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   ),
                   if (messageAuthorShowsUserTag(
                     authorIsBot: msg.authorIsBot,
-                    authorId: msg.authorId,
+                    authorIsSystem: msg.authorIsSystem,
                   )) ...[
                     const SizedBox(width: 6),
                     FluxerUserTag(
                       isSystem: messageAuthorUserTagIsSystem(
-                        authorId: msg.authorId,
+                        authorIsSystem: msg.authorIsSystem,
                       ),
                     ),
                   ],
