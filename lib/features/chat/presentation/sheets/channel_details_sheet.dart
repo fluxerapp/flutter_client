@@ -1669,8 +1669,7 @@ class _SimpleMemberRow extends StatelessWidget {
             color: Color(0xFFFAA61A),
           ),
         if (isCurrentUser) const _MemberTag(label: 'You'),
-        if (isBot) const FluxerBotBadge(),
-        if (isSystem) const _MemberTag(label: 'System'),
+        if (isBot || isSystem) FluxerUserTag(isSystem: isSystem),
       ],
     );
   }
