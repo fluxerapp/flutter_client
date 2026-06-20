@@ -27,6 +27,8 @@ class Messages extends Table {
       text().withDefault(const Constant('[]'))();
   BoolColumn get pinned => boolean().withDefault(const Constant(false))();
   BoolColumn get isMentioned => boolean().withDefault(const Constant(false))();
+  TextColumn get mentionedUserIdsJson =>
+      text().withDefault(const Constant('[]'))();
   IntColumn get type => integer().withDefault(const Constant(0))();
   IntColumn get flags => integer().withDefault(const Constant(0))();
   IntColumn get deliveryState => integer().withDefault(const Constant(1))();

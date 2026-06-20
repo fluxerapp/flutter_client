@@ -604,6 +604,9 @@ class FluxerDatabase extends _$FluxerDatabase {
           authSessions.instanceSnapshotJson,
         );
       }
+      if (from < 60) {
+        await m.addColumn(messages, messages.mentionedUserIdsJson);
+      }
     },
   );
 
