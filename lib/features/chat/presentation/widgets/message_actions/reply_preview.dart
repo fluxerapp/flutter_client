@@ -65,10 +65,12 @@ class InlineReplyPreview extends ConsumerWidget {
           channelMessages: channelMessages,
         );
     final replyMsg = resolution.message;
-    final String? resolvedGuildId =
-        guildId ?? ref.watch(activeGuildIdProvider);
+    final String? resolvedGuildId = guildId ?? ref.watch(activeGuildIdProvider);
     final String? resolvedCurrentUserId =
         currentUserId ?? ref.watch(currentUserIdProvider);
+    final bool mentionsReplyAuthor =
+        replyMsg != null &&
+        message.mentionedUserIds.contains(replyMsg.authorId);
     final GuildUserDisplay? replyAuthorDisplay = replyMsg == null
         ? null
         : watchMessageAuthorDisplay(
@@ -123,7 +125,8 @@ class InlineReplyPreview extends ConsumerWidget {
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: maxAuthorWidth),
                   child: Text(
-                    replyAuthorDisplay.displayName,
+                    '${mentionsReplyAuthor ? '@' : ''}'
+                    '${replyAuthorDisplay.displayName}',
                     style: TextStyle(
                       color: nameColor,
                       fontSize: 13,

@@ -661,6 +661,7 @@ class Message {
   final List<MessageSnapshot> messageSnapshots;
   final bool isPinned;
   final bool isMentioned;
+  final List<String> mentionedUserIds;
   final int type;
   final int flags;
   final MessageDeliveryState deliveryState;
@@ -690,6 +691,7 @@ class Message {
     this.messageSnapshots = const [],
     this.isPinned = false,
     this.isMentioned = false,
+    this.mentionedUserIds = const [],
     this.type = 0,
     this.flags = 0,
     this.deliveryState = MessageDeliveryState.sent,
@@ -730,6 +732,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
+      mentionedUserIds: sdk.mentions
+          .map((user) => user.id)
+          .toList(growable: false),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
       clientNonce: sdk.nonce,
@@ -765,6 +770,9 @@ class Message {
       reactions: sdk.reactions?.map(Reaction.fromSdk).toList() ?? const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
+      mentionedUserIds: sdk.mentions
+          .map((user) => user.id)
+          .toList(growable: false),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
     );
@@ -805,6 +813,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
+      mentionedUserIds: sdk.mentions
+          .map((user) => user.id)
+          .toList(growable: false),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
       clientNonce: sdk.nonce,
@@ -847,6 +858,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
+      mentionedUserIds: sdk.mentions
+          .map((user) => user.id)
+          .toList(growable: false),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
       clientNonce: sdk.nonce,
@@ -884,6 +898,7 @@ class Message {
       ),
       isPinned: row.pinned,
       isMentioned: row.isMentioned,
+      mentionedUserIds: _decodeStringList(row.mentionedUserIdsJson),
       type: row.type,
       flags: row.flags,
       deliveryState: MessageDeliveryState.values[row.deliveryState],
@@ -926,6 +941,7 @@ class Message {
       ),
       pinned: Value(isPinned),
       isMentioned: Value(isMentioned),
+      mentionedUserIdsJson: Value(jsonEncode(mentionedUserIds)),
       type: Value(type),
       flags: Value(flags),
       deliveryState: Value(deliveryState.index),
@@ -957,6 +973,7 @@ class Message {
     List<MessageSnapshot>? messageSnapshots,
     bool? isPinned,
     bool? isMentioned,
+    List<String>? mentionedUserIds,
     int? type,
     int? flags,
     MessageDeliveryState? deliveryState,
@@ -986,6 +1003,7 @@ class Message {
       messageSnapshots: messageSnapshots ?? this.messageSnapshots,
       isPinned: isPinned ?? this.isPinned,
       isMentioned: isMentioned ?? this.isMentioned,
+      mentionedUserIds: mentionedUserIds ?? this.mentionedUserIds,
       type: type ?? this.type,
       flags: flags ?? this.flags,
       deliveryState: deliveryState ?? this.deliveryState,
@@ -1025,6 +1043,7 @@ class Message {
           : messageSnapshots,
       isPinned: incoming.isPinned,
       isMentioned: incoming.isMentioned,
+      mentionedUserIds: incoming.mentionedUserIds,
       type: incoming.type,
       flags: incoming.flags,
     );
@@ -1161,6 +1180,7 @@ class Message {
     'flags': flags,
     'pinned': isPinned,
     'mentioned': isMentioned,
+    'mentions': mentionedUserIds,
     'reply_to_id': replyToId,
     'forwarded_from': forwardedFrom,
     'message_reference': messageReference?.toJson(),
@@ -1181,6 +1201,15 @@ class Message {
     try {
       final list = jsonDecode(json) as List<dynamic>;
       return list.map((e) => fromJson(e as Map<String, dynamic>)).toList();
+    } on Object {
+      return [];
+    }
+  }
+
+  static List<String> _decodeStringList(String json) {
+    try {
+      final list = jsonDecode(json) as List<dynamic>;
+      return list.map((e) => e.toString()).toList();
     } on Object {
       return [];
     }
