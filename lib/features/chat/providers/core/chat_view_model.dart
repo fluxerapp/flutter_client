@@ -1702,6 +1702,9 @@ class ChatViewModel extends _$ChatViewModel {
       authorIsSystem: currentUser?.system ?? false,
       clientNonce: clientNonce,
       attachments: optimisticAttachments,
+      mentionedUserIds: replyMention && state.replyingTo != null
+          ? <String>[state.replyingTo!.authorId]
+          : const <String>[],
       flags: kMessageFlagVoiceMessage,
     );
     state = state.copyWith(
@@ -1867,6 +1870,9 @@ class ChatViewModel extends _$ChatViewModel {
       authorIsSystem: currentUser?.system ?? false,
       clientNonce: clientNonce,
       attachments: optimisticAttachments,
+      mentionedUserIds: replyMention && state.replyingTo != null
+          ? <String>[state.replyingTo!.authorId]
+          : const <String>[],
       flags: messageFlags,
     );
 
@@ -2736,6 +2742,7 @@ class ChatViewModel extends _$ChatViewModel {
     bool authorIsBot = false,
     bool authorIsSystem = false,
     List<Attachment> attachments = const <Attachment>[],
+    List<String> mentionedUserIds = const <String>[],
     int flags = 0,
   }) {
     final DateTime now = DateTime.now();
@@ -2751,6 +2758,7 @@ class ChatViewModel extends _$ChatViewModel {
       content: content,
       timestamp: now,
       replyToId: replyToId,
+      mentionedUserIds: mentionedUserIds,
       attachments: attachments,
       stickers: stickerIds
           .map(
