@@ -3341,13 +3341,7 @@ String? _detailsSubtitle({
     if (dm.isGroup) {
       return 'Group DM · ${dm.memberCount} members';
     }
-    final username = dm.recipientUsername;
-    if (username != null &&
-        username.isNotEmpty &&
-        username != dm.recipientName) {
-      return '@$username';
-    }
-    return dm.isSystem ? 'System message' : null;
+    return dm.recipientTag ?? (dm.isSystem ? 'System message' : null);
   }
   if (channel != null) {
     return switch (channel.type) {

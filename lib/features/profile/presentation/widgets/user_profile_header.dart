@@ -41,7 +41,6 @@ class UserProfileHeader extends StatelessWidget {
     final colors = context.colors;
     final textStyles = context.textStyles;
     final layout = context.layout;
-    final isUsernameAsDisplay = displayName == username;
     final String? pronounsTrimmed = pronouns?.trim();
     final bool showPronouns =
         pronounsTrimmed != null && pronounsTrimmed.isNotEmpty;
@@ -65,15 +64,6 @@ class UserProfileHeader extends StatelessWidget {
               ),
             ),
             if (showUserTag) FluxerUserTag(isSystem: isSystem),
-            if (showUsername && isUsernameAsDisplay)
-              Text(
-                '#$discriminator',
-                style: textStyles.heading.copyWith(
-                  color: colors.textTertiary,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
           ],
         ),
         if (showUsername) ...[
@@ -83,14 +73,13 @@ class UserProfileHeader extends StatelessWidget {
             spacing: 6,
             runSpacing: 4,
             children: [
-              if (!isUsernameAsDisplay)
-                Text(
-                  '$username#$discriminator',
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textTertiary,
-                    fontWeight: FontWeight.w500,
-                  ),
+              Text(
+                '$username#$discriminator',
+                style: textStyles.bodySmall.copyWith(
+                  color: colors.textTertiary,
+                  fontWeight: FontWeight.w500,
                 ),
+              ),
               UserProfileBadges(
                 flags: flags,
                 hasPlutonium: hasPlutonium,
