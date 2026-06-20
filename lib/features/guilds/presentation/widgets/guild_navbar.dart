@@ -1234,39 +1234,46 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
 
     // 2x2 mini guild icon grid.
     final gridGuilds = folder.guilds.take(4).toList();
-    return Padding(
-      padding: const EdgeInsets.all(6),
-      child: Wrap(
-        spacing: 2,
-        runSpacing: 2,
-        children: [
-          for (final guild in gridGuilds)
-            SizedBox(
-              width: 16,
-              height: 16,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16 * 0.3),
-                child: guild.iconUrl != null
-                    ? CachedNetworkImage(
-                        imageUrl: guild.iconUrl!,
-                        fit: BoxFit.cover,
-                      )
-                    : ColoredBox(
-                        color: context.colors.serverIconBackground,
-                        child: Center(
-                          child: Text(
-                            abbreviateGuildName(guild.name, maxLength: 2),
-                            style: const TextStyle(
-                              fontSize: 8,
-                              fontWeight: FontWeight.w600,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const double gridPadding = 4;
+        const double gridGap = 2;
+        final double cellSize =
+            (constraints.maxWidth - gridPadding * 2 - gridGap) / 2;
+        return Padding(
+          padding: const EdgeInsets.all(gridPadding),
+          child: Wrap(
+            spacing: gridGap,
+            runSpacing: gridGap,
+            children: [
+              for (final guild in gridGuilds)
+                SizedBox.square(
+                  dimension: cellSize,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(cellSize * 0.3),
+                    child: guild.iconUrl != null
+                        ? CachedNetworkImage(
+                            imageUrl: guild.iconUrl!,
+                            fit: BoxFit.cover,
+                          )
+                        : ColoredBox(
+                            color: context.colors.serverIconBackground,
+                            child: Center(
+                              child: Text(
+                                abbreviateGuildName(guild.name, maxLength: 2),
+                                style: const TextStyle(
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-              ),
-            ),
-        ],
-      ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 
