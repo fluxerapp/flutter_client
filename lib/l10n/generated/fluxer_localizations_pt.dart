@@ -2235,6 +2235,19 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
 
   @override
+  String userProfilePlutoniumSubscriberSinceTooltip(String date) {
+    return 'Fluxer Plutonium subscriber since $date';
+  }
+
+  @override
+  String get userProfileVisionaryBadgeTooltip => 'Fluxer Visionary';
+
+  @override
+  String userProfileVisionaryBadgeSinceTooltip(String date) {
+    return 'Fluxer Visionary since $date';
+  }
+
+  @override
   String userProfileVisionaryIdTooltip(int sequence) {
     return 'Visionary ID #$sequence';
   }

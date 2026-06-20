@@ -31,8 +31,6 @@ import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart';
 
 // TODO: Re-enable if needed for WhatsApp replacement eligibility rules.
-// const int _kFlagStaff = 1 << 0;
-// const int _kFlagPartner = 1 << 2;
 const int _kMaxPasskeys = 10;
 
 class UserSecurityLogin extends ConsumerStatefulWidget {

@@ -1139,7 +1139,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     if (state.premiumSince != null) {
       final date = DateTime.tryParse(state.premiumSince!);
       if (date != null) {
-        final formatted = DateFormat.yMMMd().format(date);
+        final formatted = DateFormat.yMMMd().format(date.toLocal());
         timestampLabel = l10n.hidePlutoniumPurchaseDateWithDate(formatted);
       }
     }

@@ -4023,37 +4023,55 @@ abstract class FluxerLocalizations {
   /// **'Edit Profile'**
   String get userProfileEditProfile;
 
-  /// Tooltip and semantic label for the staff badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Staff'**
   String get userProfileStaffBadgeTooltip;
 
-  /// Tooltip and semantic label for the community team badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Community Team'**
   String get userProfileCtpBadgeTooltip;
 
-  /// Tooltip and semantic label for the partner badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Partner'**
   String get userProfilePartnerBadgeTooltip;
 
-  /// Tooltip and semantic label for the bug hunter badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Bug Hunter'**
   String get userProfileBugHunterBadgeTooltip;
 
-  /// Tooltip and semantic label for the Plutonium badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Plutonium'**
   String get userProfilePlutoniumBadgeTooltip;
 
-  /// Tooltip for the Visionary ID number shown next to the premium badge on a user profile.
+  /// Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep "subscriber since" lowercase. Other locales should use natural local capitalization.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer Plutonium subscriber since {date}'**
+  String userProfilePlutoniumSubscriberSinceTooltip(String date);
+
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer Visionary'**
+  String get userProfileVisionaryBadgeTooltip;
+
+  /// Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer Visionary since {date}'**
+  String userProfileVisionaryBadgeSinceTooltip(String date);
+
+  /// Short label in the user profile badges popout. Keep it concise. Preserve {sequence}; it is inserted by code.
   ///
   /// In en, this message translates to:
   /// **'Visionary ID #{sequence}'**

@@ -12,6 +12,8 @@ class UserProfileHeader extends StatelessWidget {
     required this.flags,
     required this.hasPlutonium,
     required this.customStatus,
+    this.isLifetimePlutonium = false,
+    this.premiumSince,
     this.pronouns,
     this.premiumLifetimeSequence,
     this.showUsername = true,
@@ -25,6 +27,8 @@ class UserProfileHeader extends StatelessWidget {
   final int flags;
   final bool hasPlutonium;
   final String? customStatus;
+  final bool isLifetimePlutonium;
+  final String? premiumSince;
   final String? pronouns;
   final int? premiumLifetimeSequence;
   final bool showUsername;
@@ -87,6 +91,8 @@ class UserProfileHeader extends StatelessWidget {
               UserProfileBadges(
                 flags: flags,
                 hasPlutonium: hasPlutonium,
+                isLifetimePlutonium: isLifetimePlutonium,
+                premiumSince: premiumSince,
                 premiumLifetimeSequence: premiumLifetimeSequence,
               ),
             ],

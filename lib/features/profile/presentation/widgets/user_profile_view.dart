@@ -305,6 +305,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     required List<MemberRole> memberRoles,
     required int flags,
     required bool hasPlutonium,
+    required bool isLifetimePlutonium,
+    required String? premiumSince,
     required int? premiumLifetimeSequence,
     required List<UserPartialResponse> mutualFriends,
     required List<MutualGuildResponse> mutualCommunities,
@@ -513,6 +515,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                   displayName: displayName,
                   flags: flags,
                   hasPlutonium: hasPlutonium,
+                  isLifetimePlutonium: isLifetimePlutonium,
+                  premiumSince: premiumSince,
                   premiumLifetimeSequence: premiumLifetimeSequence,
                   customStatus: customStatus,
                   pronouns: pronouns,
@@ -621,6 +625,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       memberRoles: const <MemberRole>[],
       flags: 0,
       hasPlutonium: false,
+      isLifetimePlutonium: false,
+      premiumSince: null,
       premiumLifetimeSequence: null,
       mutualFriends: const <UserPartialResponse>[],
       mutualCommunities: const <MutualGuildResponse>[],
@@ -710,6 +716,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             hasPlutonium:
                 settingsState.isPremium &&
                 !settingsState.effectivePremiumBadgeHidden,
+            isLifetimePlutonium: settingsState.hasLifetimePremium,
+            premiumSince: settingsState.premiumSince,
             premiumLifetimeSequence:
                 settingsState.hasLifetimePremium &&
                     !settingsState.effectivePremiumBadgeMasked &&
@@ -884,6 +892,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           hasPlutonium:
               response.premiumType != null &&
               response.premiumType != UserPremiumTypes.none,
+          isLifetimePlutonium:
+              response.premiumType == UserPremiumTypes.lifetime,
+          premiumSince: response.premiumSince,
           premiumLifetimeSequence:
               response.premiumType == UserPremiumTypes.lifetime
               ? response.premiumLifetimeSequence

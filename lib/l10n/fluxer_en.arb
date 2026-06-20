@@ -2792,27 +2792,71 @@
   },
   "userProfileStaffBadgeTooltip": "Fluxer Staff",
   "@userProfileStaffBadgeTooltip": {
-    "description": "Tooltip and semantic label for the staff badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
   },
   "userProfileCtpBadgeTooltip": "Fluxer Community Team",
   "@userProfileCtpBadgeTooltip": {
-    "description": "Tooltip and semantic label for the community team badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
   },
   "userProfilePartnerBadgeTooltip": "Fluxer Partner",
   "@userProfilePartnerBadgeTooltip": {
-    "description": "Tooltip and semantic label for the partner badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
   },
   "userProfileBugHunterBadgeTooltip": "Fluxer Bug Hunter",
   "@userProfileBugHunterBadgeTooltip": {
-    "description": "Tooltip and semantic label for the bug hunter badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
   },
   "userProfilePlutoniumBadgeTooltip": "Fluxer Plutonium",
   "@userProfilePlutoniumBadgeTooltip": {
-    "description": "Tooltip and semantic label for the Plutonium badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+  },
+  "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium subscriber since {date}",
+  "@userProfilePlutoniumSubscriberSinceTooltip": {
+    "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "userProfileVisionaryBadgeTooltip": "Fluxer Visionary",
+  "@userProfileVisionaryBadgeTooltip": {
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+  },
+  "userProfileVisionaryBadgeSinceTooltip": "Fluxer Visionary since {date}",
+  "@userProfileVisionaryBadgeSinceTooltip": {
+    "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium subscriber since {date}",
+  "@userProfilePlutoniumSubscriberSinceTooltip": {
+    "description": "Tooltip and semantic label for the Plutonium badge on a user profile, including the date the user began subscribing.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "userProfileVisionaryBadgeTooltip": "Fluxer Visionary",
+  "@userProfileVisionaryBadgeTooltip": {
+    "description": "Tooltip and semantic label for the lifetime Plutonium (Visionary) badge on a user profile."
+  },
+  "userProfileVisionaryBadgeSinceTooltip": "Fluxer Visionary since {date}",
+  "@userProfileVisionaryBadgeSinceTooltip": {
+    "description": "Tooltip and semantic label for the lifetime Plutonium (Visionary) badge on a user profile, including the date the user became a Visionary.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "userProfileVisionaryIdTooltip": "Visionary ID #{sequence}",
   "@userProfileVisionaryIdTooltip": {
-    "description": "Tooltip for the Visionary ID number shown next to the premium badge on a user profile.",
+    "description": "Short label in the user profile badges popout. Keep it concise. Preserve {sequence}; it is inserted by code.",
     "placeholders": {
       "sequence": {
         "type": "int"
