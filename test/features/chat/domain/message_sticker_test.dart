@@ -69,6 +69,7 @@ void main() {
         authorId: 'user-1',
         authorName: 'monty',
         authorIsBot: false,
+        authorIsSystem: false,
         content: '',
         timestamp: DateTime.utc(2026),
         embedsJson: '[]',
