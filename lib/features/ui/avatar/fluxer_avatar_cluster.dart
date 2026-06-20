@@ -211,23 +211,25 @@ class FluxerAvatarCluster extends StatelessWidget {
     final fallbackColor =
         _kAccentColors[text.hashCode.abs() % _kAccentColors.length];
 
-    return Container(
-      width: avatarSize,
-      height: avatarSize,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: fallbackColor),
-      clipBehavior: Clip.antiAlias,
-      child: CachedNetworkImage(
-        imageUrl: member.resolvedImageUrl,
+    return ClipOval(
+      child: SizedBox(
         width: avatarSize,
         height: avatarSize,
-        fit: BoxFit.cover,
-        errorBuilder: (_, _, _) => Center(
-          child: Text(
-            initial,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: avatarSize * 0.4,
-              fontWeight: FontWeight.w600,
+        child: CachedNetworkImage(
+          imageUrl: member.resolvedImageUrl,
+          width: avatarSize,
+          height: avatarSize,
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) => Container(
+            color: fallbackColor,
+            alignment: Alignment.center,
+            child: Text(
+              initial,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: avatarSize * 0.4,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),

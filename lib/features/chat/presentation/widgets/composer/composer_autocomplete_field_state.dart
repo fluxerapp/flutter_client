@@ -825,11 +825,10 @@ class ComposerAutocompleteFieldState
                       ? memberDisplayLabel(m)
                       : null,
                   userAvatarColor: m?.avatarColor,
-                  userAvatarRoleColor: m?.roleColor,
                   userAvatarStatus: m == null
                       ? null
                       : ref.watch(userPresenceProvider(m.id)).value?.status ??
-                          m.status,
+                            m.status,
                   emojiSurrogates: row.emojiSurrogates,
                   emojiImageUrl: row.emojiImageUrl,
                 );

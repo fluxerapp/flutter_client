@@ -99,7 +99,6 @@ class _MemberListSidebarMemberRowState
                         hash: avatar,
                       ),
                       avatarColor: member.user.avatarColor,
-                      roleColor: roleColor,
                       status: status,
                       size: 32,
                     ),
@@ -209,7 +208,6 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
                   hash: avatar,
                 ),
                 avatarColor: member.user.avatarColor,
-                roleColor: roleColor,
                 status: status,
                 size: 32,
               ),
@@ -246,7 +244,8 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
                         ],
                       ],
                     ),
-                    if (customStatus != null && customStatus.isNotEmpty) ...<Widget>[
+                    if (customStatus != null &&
+                        customStatus.isNotEmpty) ...<Widget>[
                       const SizedBox(height: 2),
                       Text(
                         customStatus,
