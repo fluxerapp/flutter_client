@@ -644,11 +644,6 @@ class _MarkdownInlineRenderer {
     final href = element.attributes['href'] ?? element.textContent;
     final text = element.textContent;
     final linkColor = config.linkColor ?? Theme.of(context).colorScheme.primary;
-    final widget = config.linkWidgetBuilder?.call(context, href, style);
-
-    if (widget != null) {
-      return WidgetSpan(alignment: PlaceholderAlignment.middle, child: widget);
-    }
 
     return TextSpan(
       text: text,
