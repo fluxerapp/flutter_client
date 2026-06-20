@@ -80,6 +80,7 @@ void main() {
         messageSnapshotsJson: '[]',
         pinned: false,
         isMentioned: false,
+        mentionedUserIdsJson: '[]',
         type: 0,
         flags: 0,
         deliveryState: MessageDeliveryState.sent.index,
