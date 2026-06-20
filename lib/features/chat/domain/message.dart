@@ -1052,6 +1052,9 @@ class Message {
       return false;
     }
     final trimmed = content.trim();
+    if (trimmed.contains(RegExp(r'\s'))) {
+      return false;
+    }
     return Uri.tryParse(trimmed)?.hasAbsolutePath ?? false;
   }
 
