@@ -2832,28 +2832,6 @@
       }
     }
   },
-  "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium subscriber since {date}",
-  "@userProfilePlutoniumSubscriberSinceTooltip": {
-    "description": "Tooltip and semantic label for the Plutonium badge on a user profile, including the date the user began subscribing.",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "userProfileVisionaryBadgeTooltip": "Fluxer Visionary",
-  "@userProfileVisionaryBadgeTooltip": {
-    "description": "Tooltip and semantic label for the lifetime Plutonium (Visionary) badge on a user profile."
-  },
-  "userProfileVisionaryBadgeSinceTooltip": "Fluxer Visionary since {date}",
-  "@userProfileVisionaryBadgeSinceTooltip": {
-    "description": "Tooltip and semantic label for the lifetime Plutonium (Visionary) badge on a user profile, including the date the user became a Visionary.",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
   "userProfileVisionaryIdTooltip": "Visionary ID #{sequence}",
   "@userProfileVisionaryIdTooltip": {
     "description": "Short label in the user profile badges popout. Keep it concise. Preserve {sequence}; it is inserted by code.",
