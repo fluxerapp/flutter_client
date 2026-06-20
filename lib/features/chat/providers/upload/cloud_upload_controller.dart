@@ -459,18 +459,14 @@ class CloudUploadController extends _$CloudUploadController {
     if (oldIndex < 0 ||
         oldIndex >= state.items.length ||
         newIndex < 0 ||
-        newIndex > state.items.length) {
+        newIndex >= state.items.length) {
       return;
-    }
-    var adjustedNewIndex = newIndex;
-    if (oldIndex < adjustedNewIndex) {
-      adjustedNewIndex -= 1;
     }
     final List<PendingAttachment> next = List<PendingAttachment>.from(
       state.items,
     );
     final PendingAttachment item = next.removeAt(oldIndex);
-    next.insert(adjustedNewIndex, item);
+    next.insert(newIndex, item);
     state = CloudComposerAttachments(next);
   }
 

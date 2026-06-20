@@ -1,3 +1,5 @@
+import 'dart:ui' show CheckedState, Tristate;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -213,11 +215,7 @@ void main() {
     testWidgets('checkbox exposes checked state', (tester) async {
       await tester.pumpWidget(
         buildTestApp(
-          FluxerCheckbox(
-            value: true,
-            onChanged: (_) {},
-            label: 'Accept terms',
-          ),
+          FluxerCheckbox(value: true, onChanged: (_) {}, label: 'Accept terms'),
         ),
       );
 
@@ -225,7 +223,7 @@ void main() {
       final SemanticsNode node = tester.getSemantics(
         find.bySemanticsLabel('Accept terms'),
       );
-      expect(node.hasFlag(SemanticsFlag.isChecked), isTrue);
+      expect(node.flagsCollection.isChecked, CheckedState.isTrue);
     });
 
     testWidgets('radio group exposes selected option', (tester) async {
@@ -243,7 +241,7 @@ void main() {
       );
 
       final SemanticsNode beta = tester.getSemantics(find.text('Beta'));
-      expect(beta.hasFlag(SemanticsFlag.isChecked), isTrue);
+      expect(beta.flagsCollection.isChecked, CheckedState.isTrue);
     });
 
     testWidgets('toggle switch exposes toggled state', (tester) async {
@@ -261,8 +259,8 @@ void main() {
       final SemanticsNode node = tester.getSemantics(
         find.bySemanticsLabel('Enable notifications'),
       );
-      expect(node.hasFlag(SemanticsFlag.hasToggledState), isTrue);
-      expect(node.hasFlag(SemanticsFlag.isToggled), isTrue);
+      expect(node.flagsCollection.isToggled, isNot(Tristate.none));
+      expect(node.flagsCollection.isToggled, Tristate.isTrue);
     });
   });
 }

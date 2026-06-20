@@ -263,7 +263,7 @@ class _ConnectionList extends ConsumerWidget {
       },
       proxyDecorator: (child, index, animation) =>
           Material(color: Colors.transparent, elevation: 4, child: child),
-      onReorder: (oldIndex, newIndex) async {
+      onReorderItem: (oldIndex, newIndex) async {
         try {
           await ref
               .read(connectionsViewModelProvider.notifier)

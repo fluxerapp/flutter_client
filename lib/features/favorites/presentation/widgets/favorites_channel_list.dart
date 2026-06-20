@@ -164,13 +164,9 @@ class FavoritesChannelList extends ConsumerWidget {
     required int oldIndex,
     required int newIndex,
   }) async {
-    var targetIndex = newIndex;
-    if (targetIndex > oldIndex) {
-      targetIndex -= 1;
-    }
     final reordered = List<ResolvedFavoriteEntry>.from(visibleEntries);
     final moved = reordered.removeAt(oldIndex);
-    reordered.insert(targetIndex, moved);
+    reordered.insert(newIndex, moved);
     final repository = ref.read(favoriteChannelsRepositoryProvider);
     for (var i = 0; i < reordered.length; i++) {
       await repository.moveChannel(
@@ -255,7 +251,7 @@ class _FavoriteGroupEntries extends ConsumerWidget {
       physics: const NeverScrollableScrollPhysics(),
       buildDefaultDragHandles: false,
       itemCount: entries.length,
-      onReorder: (oldIndex, newIndex) {
+      onReorderItem: (oldIndex, newIndex) {
         unawaited(
           FavoritesChannelList._reorderEntriesStatic(
             ref,
