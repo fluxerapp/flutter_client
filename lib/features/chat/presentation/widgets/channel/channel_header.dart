@@ -529,20 +529,43 @@ class ChannelHeader extends ConsumerWidget {
       return Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
-          FluxerAvatar.user(
-            fallbackText: dm.recipientName,
-            userId: dm.recipientId,
-            imageUrl: FluxerMediaUrl.userAvatar(
+          if (dm.isGroup)
+            FluxerAvatarCluster(
+              channelId: dm.id,
+              iconUrl: FluxerMediaUrl.guildIcon(
+                guildId: dm.id,
+                hash: dm.icon,
+                animated: true,
+              ),
+              status: dm.groupStatus,
+              members: [
+                for (final member in dm.groupMembers.take(3))
+                  AvatarClusterMember(
+                    userId: member.id,
+                    imageUrl: FluxerMediaUrl.userAvatar(
+                      userId: member.id,
+                      hash: member.avatar,
+                    ),
+                    fallbackText: member.name,
+                  ),
+              ],
+              size: 32,
+            )
+          else
+            FluxerAvatar.user(
+              fallbackText: dm.recipientName,
               userId: dm.recipientId,
-              hash: dm.recipientAvatar,
-              animated: true,
+              imageUrl: FluxerMediaUrl.userAvatar(
+                userId: dm.recipientId,
+                hash: dm.recipientAvatar,
+                animated: true,
+              ),
+              status: shouldShowDmRecipientPresence(dm)
+                  ? dm.recipientStatus
+                  : null,
+              showStatus: shouldShowDmRecipientPresence(dm),
+              size: 32,
             ),
-            status: shouldShowDmRecipientPresence(dm)
-                ? dm.recipientStatus
-                : null,
-            showStatus: shouldShowDmRecipientPresence(dm),
-            size: 32,
-          ),
           if (showE2eeBadge)
             Positioned(
               right: -2,
