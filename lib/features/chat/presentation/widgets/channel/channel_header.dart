@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_she
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
@@ -529,20 +530,23 @@ class ChannelHeader extends ConsumerWidget {
       return Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
-          FluxerAvatar.user(
-            fallbackText: dm.recipientName,
-            userId: dm.recipientId,
-            imageUrl: FluxerMediaUrl.userAvatar(
+          if (dm.isGroup)
+            groupDmAvatarCluster(dm: dm, size: 32, status: dm.groupStatus)
+          else
+            FluxerAvatar.user(
+              fallbackText: dm.recipientName,
               userId: dm.recipientId,
-              hash: dm.recipientAvatar,
-              animated: true,
+              imageUrl: FluxerMediaUrl.userAvatar(
+                userId: dm.recipientId,
+                hash: dm.recipientAvatar,
+                animated: true,
+              ),
+              status: shouldShowDmRecipientPresence(dm)
+                  ? dm.recipientStatus
+                  : null,
+              showStatus: shouldShowDmRecipientPresence(dm),
+              size: 32,
             ),
-            status: shouldShowDmRecipientPresence(dm)
-                ? dm.recipientStatus
-                : null,
-            showStatus: shouldShowDmRecipientPresence(dm),
-            size: 32,
-          ),
           if (showE2eeBadge)
             Positioned(
               right: -2,

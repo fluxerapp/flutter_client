@@ -7,9 +7,11 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kActiveNowMinWidth = 1100.0;
@@ -142,10 +144,7 @@ class FriendsList extends ConsumerWidget {
                 'assets/images/inbox-icon.svg',
                 width: 24,
                 height: 24,
-                colorFilter: ColorFilter.mode(
-                  context.colors.interactiveNormal,
-                  BlendMode.srcIn,
-                ),
+                theme: SvgTheme(currentColor: context.colors.interactiveNormal),
               ),
             ),
           ),
@@ -443,19 +442,27 @@ class FriendsList extends ConsumerWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 1),
-                    Text(
-                      _statusText(friend),
-                      style: TextStyle(
-                        color: friend.status == 'offline'
-                            ? context.colors.textTertiary
-                            : context.colors.textPrimaryMuted.withValues(
-                                alpha: 0.85,
-                              ),
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
+                    if (friend.friendStatus == FriendStatus.accepted &&
+                        hasVisibleCustomStatus(friend.customStatus))
+                      CustomStatusDisplay(
+                        stored: friend.customStatus,
+                        maxLines: 1,
+                        emojiSize: 14,
+                      )
+                    else
+                      Text(
+                        _statusText(friend),
+                        style: TextStyle(
+                          color: friend.status == 'offline'
+                              ? context.colors.textTertiary
+                              : context.colors.textPrimaryMuted.withValues(
+                                  alpha: 0.85,
+                                ),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
                   ],
                 ),
               ),
@@ -568,8 +575,7 @@ class FriendsList extends ConsumerWidget {
   String _statusText(Friend friend) {
     switch (friend.friendStatus) {
       case FriendStatus.accepted:
-        return friend.customStatus ??
-            friend.status[0].toUpperCase() + friend.status.substring(1);
+        return friend.status[0].toUpperCase() + friend.status.substring(1);
       case FriendStatus.pendingIncoming:
         return 'Incoming Friend Request';
       case FriendStatus.pendingOutgoing:

@@ -6,7 +6,6 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -75,9 +74,6 @@ Future<void> prefetchGuildMembersForMessages({
     }
   }
   for (final String userId in fetchedUserIds) {
-    ref
-      ..invalidate(guildUserDisplayProvider((userId, guildId)))
-      ..invalidate(guildUserDisplayFromDbProvider((userId, guildId)))
-      ..invalidate(memberRoleColorProvider((userId, guildId)));
+    ref.invalidate(memberRoleColorProvider((userId, guildId)));
   }
 }

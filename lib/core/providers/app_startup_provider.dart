@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
@@ -20,8 +22,11 @@ import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dar
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
+import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
+import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_provider.dart';
@@ -32,6 +37,7 @@ import 'package:fluxer_app/features/mature_content/providers/sensitive_content_p
 import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -76,6 +82,14 @@ class AppStartup extends _$AppStartup {
       return;
     }
 
+    final InstanceConfigSnapshot? activeSnapshot =
+        await authRepository.resolveActiveInstanceSnapshot();
+    if (activeSnapshot != null) {
+      ref
+          .read(activeInstanceProvider.notifier)
+          .applySnapshot(activeSnapshot);
+    }
+
     // Validate the session and try fallback sessions on 401.
     while (session != null) {
       ref.read(fluxerAuthTokenProvider.notifier).setToken(session.token);
@@ -92,8 +106,12 @@ class AppStartup extends _$AppStartup {
           avatar: user.avatar,
         );
         ref
+            .read(currentUserEntitlementsProvider.notifier)
+            .applyUserProfile(user);
+        ref
             .read(currentUserPremiumTypeProvider.notifier)
             .set(user.premiumType?.json ?? 0);
+        unawaited(refreshPremiumState(ref));
         break; // Session is valid.
       } on DioException catch (e) {
         if (e.response?.statusCode == 401) {
@@ -118,6 +136,7 @@ class AppStartup extends _$AppStartup {
 
     ref.read(authStateProvider.notifier).setAuthenticated(value: true);
     ref.read(currentUserIdProvider.notifier).set(session.userId);
+    unawaited(ref.read(accountManagerProvider.notifier).loadAccounts());
     await Future.wait<void>([
       ref.read(themePreferenceProvider.notifier).load(session.userId),
       ref.read(appearancePreferencesProvider.notifier).load(session.userId),
@@ -137,9 +156,11 @@ class AppStartup extends _$AppStartup {
       ..read(ackBatcherGatewayListenerProvider)
       ..read(fluxerSfxIncomingRingBindingProvider)
       ..read(fluxerMessageSfxBindingProvider)
+      ..read(voiceCallKitCoordinatorProvider)
       ..read(friendRelationshipsSyncProvider)
       ..read(guildListSyncProvider)
-      ..read(statusExpiryBindingProvider);
+      ..read(statusExpiryBindingProvider)
+      ..read(premiumStateSyncBindingProvider);
 
     ref.read(deepLinkHandlerProvider.notifier).processPendingDeepLink();
     ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();

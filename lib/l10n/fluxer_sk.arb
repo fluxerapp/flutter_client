@@ -4329,7 +4329,7 @@
     "@sensitiveContentSaveButton": {
         "description": "Save button for sensitive content settings."
     },
-    "chatUploadingAttachmentsSummary": "Uploading {count, plural, one {# file} other {# files}}",
+    "chatUploadingAttachmentsSummary": "Uploading {count, plural, =1{1 file} other{{count} files}}",
     "@chatUploadingAttachmentsSummary": {
         "description": "Filename-like progress label for a temporary message attachment while multiple selected files are uploading.",
         "placeholders": {

@@ -1,14 +1,7 @@
-/// Read-viewport and pagination decisions during sticky-unread review mode.
+/// Read-viewport and unread-indicator decisions for the message list.
 library;
 
 const double kMessageListReadBottomThreshold = 48;
-
-bool isInUnreadReview({
-  required String? stickyUnreadMessageId,
-  required bool initialUnreadPivotReleased,
-}) {
-  return stickyUnreadMessageId != null && !initialUnreadPivotReleased;
-}
 
 bool isNearScrollExtentEnd({
   required double pixels,
@@ -16,44 +9,6 @@ bool isNearScrollExtentEnd({
   double threshold = kMessageListReadBottomThreshold,
 }) {
   return (pixels - minScrollExtent) <= threshold;
-}
-
-bool shouldReleaseUnreadReviewOnScrollEnd({
-  required bool inUnreadReview,
-  required double pixels,
-  required double minScrollExtent,
-  double threshold = kMessageListReadBottomThreshold,
-}) {
-  return inUnreadReview &&
-      isNearScrollExtentEnd(
-        pixels: pixels,
-        minScrollExtent: minScrollExtent,
-        threshold: threshold,
-      );
-}
-
-bool shouldClearPivotOnUnreadReviewRelease({
-  required bool hasMoreNewerMessages,
-}) {
-  return !hasMoreNewerMessages;
-}
-
-bool shouldMigratePivotDuringUnreadReview({required bool inUnreadReview}) {
-  return false;
-}
-
-bool canTriggerLoadNewerDuringUnreadReview({required bool inUnreadReview}) {
-  return !inUnreadReview;
-}
-
-bool reportIsNearBottomForReadViewport({
-  required bool inUnreadReview,
-  required bool liveNearBottom,
-}) {
-  if (inUnreadReview) {
-    return false;
-  }
-  return liveNearBottom;
 }
 
 bool isLiveNearBottom({
@@ -68,19 +23,19 @@ bool isLiveNearBottom({
   );
 }
 
-bool shouldShowUnreadIndicators({
+/// Visibility of the top "new messages" bar: driven by the unread count and
+/// suppressed at the bottom of the latest page.
+bool shouldShowUnreadBar({
   required bool hasUnread,
   required bool liveNearBottom,
   required bool hasMoreNewerMessages,
   required bool isManualReadState,
-  required bool inUnreadReview,
   required String? stickyUnreadMessageId,
 }) {
   if (!hasUnread) {
     return false;
   }
   if (isManualReadState ||
-      inUnreadReview ||
       (stickyUnreadMessageId != null && stickyUnreadMessageId.isNotEmpty)) {
     return true;
   }

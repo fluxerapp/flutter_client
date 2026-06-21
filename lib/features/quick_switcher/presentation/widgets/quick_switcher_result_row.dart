@@ -3,7 +3,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
-import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_result_unread_state.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -96,19 +96,7 @@ class QuickSwitcherResultRow extends StatelessWidget {
                   ? FluxerMediaUrl.guildIcon(guildId: channelId, hash: icon)
                   : null,
               status: groupStatus,
-              members: groupMembers
-                  .take(3)
-                  .map(
-                    (GroupMemberInfo member) => AvatarClusterMember(
-                      userId: member.id,
-                      imageUrl: FluxerMediaUrl.userAvatar(
-                        userId: member.id,
-                        hash: member.avatar,
-                      ),
-                      fallbackText: member.name,
-                    ),
-                  )
-                  .toList(),
+              members: groupDmClusterMembers(groupMembers),
             ),
           QuickSwitcherTextChannelResult() => ChannelIcon(
             type: ChannelType.text,

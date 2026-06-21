@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
@@ -26,6 +27,7 @@ void main() {
         FluxerClient(Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))),
         db,
         tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
       );
     });
 
@@ -46,7 +48,12 @@ void main() {
           },
         );
 
-      final mfaRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final mfaRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       await expectLater(
         mfaRepository.login(email: ' user@example.com ', password: 'password'),
@@ -102,6 +109,7 @@ void main() {
           FluxerClient(dio),
           db,
           tokenStorage,
+          readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
         );
 
         await expectLater(
@@ -197,7 +205,12 @@ void main() {
           },
         );
 
-      final ipRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final ipRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       await expectLater(
         ipRepository.login(email: 'user@example.com', password: 'password'),
@@ -236,7 +249,12 @@ void main() {
           },
         );
 
-      final ipRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final ipRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       final result = await ipRepository.login(
         email: 'user@example.com',
@@ -260,7 +278,12 @@ void main() {
           },
         );
 
-      final ipRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final ipRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       final result = await ipRepository.login(
         email: 'user@example.com',
@@ -281,7 +304,12 @@ void main() {
           },
         );
 
-      final ipRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final ipRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       final result = await ipRepository.pollIpAuthorization('ip-ticket');
 
@@ -297,7 +325,12 @@ void main() {
           responseJson: <String, Object?>{'completed': false},
         );
 
-      final ipRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final ipRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       expect(
         await ipRepository.pollIpAuthorization('ip-ticket'),
@@ -314,7 +347,12 @@ void main() {
           responseJson: <String, Object?>{'code': 'INVALID_FORM_BODY'},
         );
 
-      final ipRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final ipRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       expect(
         await ipRepository.pollIpAuthorization('ip-ticket'),
@@ -331,7 +369,12 @@ void main() {
           responseJson: <String, Object?>{'code': 'INTERNAL'},
         );
 
-      final ipRepository = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final ipRepository = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       await expectLater(
         ipRepository.pollIpAuthorization('ip-ticket'),
@@ -363,7 +406,12 @@ void main() {
           },
         );
 
-      final repo = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final repo = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       await expectLater(
         repo.login(email: 'user@example.com', password: 'wrong'),
@@ -398,7 +446,97 @@ void main() {
           },
         );
 
-      final repo = AuthRepository(FluxerClient(dio), db, tokenStorage);
+      final repo = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
+
+      await expectLater(
+        repo.login(email: 'bad', password: 'pw'),
+        throwsA(
+          isA<AuthFailure>()
+              .having((AuthFailure e) => e.kind, 'kind', isNull)
+              .having(
+                (AuthFailure e) => e.fieldErrors['email'],
+                'email field error',
+                'Enter a valid email.',
+              ),
+        ),
+      );
+    });
+
+    test('login parses the live `path` credential error shape', () async {
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = const _JsonResponseAdapter(
+          expectedPath: '/v1/auth/login',
+          statusCode: 400,
+          statusMessage: 'Bad Request',
+          responseJson: <String, Object?>{
+            'code': 'INVALID_FORM_BODY',
+            'message': 'Invalid form body.',
+            'errors': <Map<String, Object?>>[
+              <String, Object?>{
+                'path': 'email',
+                'message': 'Invalid email or password.',
+                'code': 'INVALID_EMAIL_OR_PASSWORD',
+              },
+              <String, Object?>{
+                'path': 'password',
+                'message': 'Invalid email or password.',
+                'code': 'INVALID_EMAIL_OR_PASSWORD',
+              },
+            ],
+          },
+        );
+
+      final repo = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
+
+      await expectLater(
+        repo.login(email: 'user@example.com', password: 'wrong'),
+        throwsA(
+          isA<AuthFailure>()
+              .having(
+                (AuthFailure e) => e.kind,
+                'kind',
+                AuthFailureKind.invalidCredentials,
+              )
+              .having((AuthFailure e) => e.fieldErrors, 'fieldErrors', isEmpty),
+        ),
+      );
+    });
+
+    test('login parses live `path` field validation errors', () async {
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = const _JsonResponseAdapter(
+          expectedPath: '/v1/auth/login',
+          statusCode: 400,
+          statusMessage: 'Bad Request',
+          responseJson: <String, Object?>{
+            'code': 'INVALID_FORM_BODY',
+            'message': 'Invalid form body.',
+            'errors': <Map<String, Object?>>[
+              <String, Object?>{
+                'path': 'email',
+                'message': 'Enter a valid email.',
+                'code': 'EMAIL_INVALID',
+              },
+            ],
+          },
+        );
+
+      final repo = AuthRepository(
+        FluxerClient(dio),
+        db,
+        tokenStorage,
+        readInstanceSnapshot: InstanceConfigSnapshot.officialDefault,
+      );
 
       await expectLater(
         repo.login(email: 'bad', password: 'pw'),

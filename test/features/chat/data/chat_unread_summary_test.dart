@@ -119,4 +119,84 @@ void main() {
       expect(summary.isEstimated, isTrue);
     },
   );
+
+  group('resolveVisualUnreadId', () {
+    const messages = [
+      ChatUnreadMessageRef(id: '100', authorId: 'me'),
+      ChatUnreadMessageRef(id: '110', authorId: 'other'),
+      ChatUnreadMessageRef(id: '120', authorId: 'other'),
+    ];
+
+    test('falls back to oldest unread when no sticky is set', () {
+      expect(
+        resolveVisualUnreadId(
+          messages: messages,
+          stickyUnreadId: null,
+          oldestUnreadId: '110',
+          currentUserId: 'me',
+        ),
+        '110',
+      );
+    });
+
+    test('returns the sticky id when present as a non-own message', () {
+      expect(
+        resolveVisualUnreadId(
+          messages: messages,
+          stickyUnreadId: '110',
+          oldestUnreadId: '120',
+          currentUserId: 'me',
+        ),
+        '110',
+      );
+    });
+
+    test('falls back to oldest when the sticky id is not loaded', () {
+      expect(
+        resolveVisualUnreadId(
+          messages: messages,
+          stickyUnreadId: '999',
+          oldestUnreadId: '120',
+          currentUserId: 'me',
+        ),
+        '120',
+      );
+    });
+
+    test('ignores a sticky pointing at an own message', () {
+      expect(
+        resolveVisualUnreadId(
+          messages: messages,
+          stickyUnreadId: '100',
+          oldestUnreadId: '120',
+          currentUserId: 'me',
+        ),
+        '120',
+      );
+    });
+
+    test('keeps the sticky divider after ack when count is zero', () {
+      expect(
+        resolveVisualUnreadId(
+          messages: messages,
+          stickyUnreadId: '110',
+          oldestUnreadId: null,
+          currentUserId: 'me',
+        ),
+        '110',
+      );
+    });
+
+    test('returns null when neither anchor is available', () {
+      expect(
+        resolveVisualUnreadId(
+          messages: messages,
+          stickyUnreadId: null,
+          oldestUnreadId: null,
+          currentUserId: 'me',
+        ),
+        isNull,
+      );
+    });
+  });
 }

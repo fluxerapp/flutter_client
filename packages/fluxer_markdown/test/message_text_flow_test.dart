@@ -12,6 +12,9 @@ const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
   unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
   customEmojiUrlBuilder: _noopCustomEmojiUrl,
 );
+final RegExp _internalFluxerLinkPattern = RegExp(
+  r'https://web\.fluxer\.app/channels/\d+/\d+/\d+',
+);
 
 String? _noopEmojiShortcode(String name) => null;
 
@@ -172,6 +175,190 @@ void main() {
       expect(tappedHref, url);
     });
 
+    testWidgets('blank markdown link labels render as plain text', (
+      tester,
+    ) async {
+      const String url = 'https://fluxer.app';
+      const String input = '[]($url)';
+      String? tappedHref;
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        onTapLink: (_, href) async {
+          tappedHref = href;
+        },
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(data: input, config: config),
+          ),
+        ),
+      );
+
+      expect(find.text(input, findRichText: true), findsOneWidget);
+
+      await tester.tapOnText(find.textRange.ofSubstring(input));
+
+      expect(tappedHref, isNull);
+    });
+
+    testWidgets('whitespace-only markdown link labels render as plain text', (
+      tester,
+    ) async {
+      const String url = 'https://fluxer.app';
+      const String input = '[     ]($url)';
+      String? tappedHref;
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        onTapLink: (_, href) async {
+          tappedHref = href;
+        },
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(data: input, config: config),
+          ),
+        ),
+      );
+
+      expect(find.text(input, findRichText: true), findsOneWidget);
+
+      await tester.tapOnText(find.textRange.ofSubstring(input));
+
+      expect(tappedHref, isNull);
+    });
+
+    testWidgets('non-blank markdown link labels still hyperlink', (
+      tester,
+    ) async {
+      const String url = 'https://fluxer.app';
+      String? tappedHref;
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        onTapLink: (_, href) async {
+          tappedHref = href;
+        },
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(data: '[hello]($url)', config: config),
+          ),
+        ),
+      );
+
+      expect(find.text('hello', findRichText: true), findsOneWidget);
+
+      await tester.tapOnText(find.textRange.ofSubstring('hello'));
+
+      expect(tappedHref, url);
+    });
+
+    testWidgets('labeled message links keep their markdown label', (
+      tester,
+    ) async {
+      const String url =
+          'https://web.fluxer.app/channels/123456789012345678/'
+          '987654321098765432/111111111111111111';
+      String? tappedHref;
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        internalLinkPattern: _internalFluxerLinkPattern,
+        linkWidgetBuilder: (_, _, _) => const Text('jump pill'),
+        onTapLink: (_, href) async {
+          tappedHref = href;
+        },
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(data: '[#510]($url)', config: config),
+          ),
+        ),
+      );
+
+      expect(find.text('#510', findRichText: true), findsOneWidget);
+      expect(find.text('jump pill'), findsNothing);
+
+      await tester.tapOnText(find.textRange.ofSubstring('#510'));
+
+      expect(tappedHref, url);
+    });
+
+    testWidgets('labeled channel links keep their label without a pill', (
+      tester,
+    ) async {
+      const String url =
+          'https://web.canary.fluxer.app/channels/1500175496099627169/'
+          '1500176315272364202';
+      String? tappedHref;
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        internalLinkPattern: RegExp(
+          r'https://web\.canary\.fluxer\.app/channels/\d+/\d+',
+        ),
+        linkWidgetBuilder: (_, _, _) => const Text('jump pill'),
+        onTapLink: (_, href) async {
+          tappedHref = href;
+        },
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(data: '[hi]($url)', config: config),
+          ),
+        ),
+      );
+
+      expect(find.text('hi', findRichText: true), findsOneWidget);
+      expect(find.text('jump pill'), findsNothing);
+
+      await tester.tapOnText(find.textRange.ofSubstring('hi'));
+
+      expect(tappedHref, url);
+    });
+
+    testWidgets('bare message links can render custom jump widgets', (
+      tester,
+    ) async {
+      const String url =
+          'https://web.fluxer.app/channels/123456789012345678/'
+          '987654321098765432/111111111111111111';
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        internalLinkPattern: _internalFluxerLinkPattern,
+        linkWidgetBuilder: (_, _, _) => const Text('jump pill'),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(data: url, config: config),
+          ),
+        ),
+      );
+
+      expect(find.text('jump pill'), findsOneWidget);
+    });
+
     testWidgets('uses configured blockquote divider and text colors', (
       tester,
     ) async {
@@ -251,5 +438,46 @@ void main() {
       final String renderedText = richText.text.toPlainText();
       expect(renderedText, 'test line one\n\n\ntest line two');
     });
+
+    testWidgets('renders multi-line strikethrough across soft line breaks', (
+      tester,
+    ) async {
+      const String input = '~~line one\nline two~~';
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: baseStyle,
+            ),
+          ),
+        ),
+      );
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      final String renderedText = richText.text.toPlainText();
+      expect(renderedText, 'line one\nline two');
+      expect(renderedText, isNot(contains('~')));
+      expect(_hasMultiLineStrikethrough(richText.text), isTrue);
+    });
   });
+}
+
+bool _hasMultiLineStrikethrough(InlineSpan span) {
+  if (span is! TextSpan) {
+    return false;
+  }
+  final TextDecoration? decoration = span.style?.decoration;
+  if (decoration?.contains(TextDecoration.lineThrough) ?? false) {
+    final String text = span.toPlainText();
+    if (text.contains('line one') && text.contains('line two')) {
+      return true;
+    }
+  }
+  for (final InlineSpan child in span.children ?? const <InlineSpan>[]) {
+    if (_hasMultiLineStrikethrough(child)) {
+      return true;
+    }
+  }
+  return false;
 }

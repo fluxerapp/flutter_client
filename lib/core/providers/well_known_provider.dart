@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,6 +10,12 @@ part 'well_known_provider.g.dart';
 class WellKnown extends _$WellKnown {
   @override
   Future<WellKnownFluxerResponse> build() async {
+    final InstanceConfigSnapshot snapshot = ref.watch(activeInstanceProvider);
+    final WellKnownFluxerResponse? cached = snapshot.wellKnown;
+    if (cached != null) {
+      InstanceEndpoints.apply(cached);
+      return cached;
+    }
     final FluxerClient client = ref.watch(fluxerClientProvider);
     final WellKnownFluxerResponse response = await client.instance
         .getWellKnownFluxer();

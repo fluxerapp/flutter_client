@@ -8,6 +8,9 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
@@ -143,6 +146,9 @@ class _FluxerTagChangeContentState
     final username = _usernameController.text.trim();
     final discriminator = _discriminatorController.text.trim().padLeft(4, '0');
     final state = ref.read(userSettingsViewModelProvider);
+    final bool hasCustomDiscriminator = ref.read(
+      instanceFeatureEnabledProvider(LimitKeys.featureCustomDiscriminator),
+    );
 
     setState(() {
       _isSubmitting = true;
@@ -150,7 +156,7 @@ class _FluxerTagChangeContentState
     });
 
     try {
-      if (!state.isPremium && !_confirmedReroll) {
+      if (!hasCustomDiscriminator && !_confirmedReroll) {
         final checkResponse = await ref
             .read(fluxerClientProvider)
             .users
@@ -183,7 +189,8 @@ class _FluxerTagChangeContentState
         }
       }
 
-      if (state.isPremium &&
+      if (ref.read(shouldShowPremiumCommerceProvider) &&
+          state.isPremium &&
           !state.hasLifetimePremium &&
           _hasPendingDiscriminatorChange &&
           !_confirmedTemporary) {
@@ -333,9 +340,12 @@ class _FluxerTagChangeContentState
 
   String? _buildPremiumWarningText(
     UserSettingsViewState state,
-    FluxerLocalizations l10n,
-  ) {
-    if (!state.isPremium || state.hasLifetimePremium) {
+    FluxerLocalizations l10n, {
+    required bool shouldShowPremiumCommerce,
+  }) {
+    if (!shouldShowPremiumCommerce ||
+        !state.isPremium ||
+        state.hasLifetimePremium) {
       return null;
     }
 
@@ -397,12 +407,22 @@ class _FluxerTagChangeContentState
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(userSettingsViewModelProvider);
+    final bool hasCustomDiscriminator = ref.watch(
+      instanceFeatureEnabledProvider(LimitKeys.featureCustomDiscriminator),
+    );
+    final bool shouldShowPremiumCommerce = ref.watch(
+      shouldShowPremiumCommerceProvider,
+    );
     final colors = context.colors;
     final layout = context.layout;
     final textStyles = context.textStyles;
 
     final l10n = FluxerLocalizations.of(context);
-    final premiumWarning = _buildPremiumWarningText(state, l10n);
+    final premiumWarning = _buildPremiumWarningText(
+      state,
+      l10n,
+      shouldShowPremiumCommerce: shouldShowPremiumCommerce,
+    );
 
     return SingleChildScrollView(
       child: Padding(
@@ -456,7 +476,7 @@ class _FluxerTagChangeContentState
                     controller: _discriminatorController,
                     hint: '0000',
                     maxLength: 4,
-                    enabled: state.isPremium,
+                    enabled: hasCustomDiscriminator,
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
@@ -475,7 +495,8 @@ class _FluxerTagChangeContentState
                 child: _buildValidationRules(l10n),
               ),
             ),
-            if (!state.isPremium) _buildPremiumUpsell(state, layout, l10n),
+            if (!hasCustomDiscriminator && shouldShowPremiumCommerce)
+              _buildPremiumUpsell(state, layout, l10n),
             if (premiumWarning != null) ...[
               SizedBox(height: layout.s3),
               FluxerWarningAlert(message: premiumWarning),

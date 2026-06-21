@@ -1,99 +1,136 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_pagination.dart';
 
 void main() {
-  group('MessageListPaginationGuard', () {
-    test('blocks pagination while cooldown is active', () {
-      final ScrollController controller = ScrollController();
-      final MessageListPaginationGuard guard = MessageListPaginationGuard(
-        scrollController: controller,
-      );
-      addTearDown(guard.dispose);
-      addTearDown(controller.dispose);
-      guard.beginCooldown();
+  group('shouldLoadOlderAtEdge', () {
+    test('loads when within the margin of the top edge', () {
       expect(
-        guard.shouldLoadMore(
+        shouldLoadOlderAtEdge(
+          pixels: 5000 - kMessageListLoadMargin + 1,
+          maxScrollExtent: 5000,
           hasMoreMessages: true,
           isLoadingMore: false,
-          isLoadingNewer: false,
         ),
-        isFalse,
+        isTrue,
       );
+    });
+
+    test('does not load when outside the margin', () {
       expect(
-        guard.shouldLoadNewer(
-          hasMoreNewerMessages: true,
+        shouldLoadOlderAtEdge(
+          pixels: 5000 - kMessageListLoadMargin - 1,
+          maxScrollExtent: 5000,
+          hasMoreMessages: true,
           isLoadingMore: false,
-          isLoadingNewer: false,
         ),
         isFalse,
       );
     });
 
-    testWidgets('seedScrollPixels enables scroll intent on next pixel change', (
-      WidgetTester tester,
-    ) async {
-      final ScrollController controller = ScrollController();
-      final MessageListPaginationGuard guard = MessageListPaginationGuard(
-        scrollController: controller,
-      );
-      addTearDown(guard.dispose);
-      addTearDown(controller.dispose);
-      await tester.pumpWidget(
-        MaterialApp(
-          home: SizedBox(
-            height: 200,
-            child: ListView.builder(
-              controller: controller,
-              itemCount: 100,
-              itemExtent: 48,
-              itemBuilder: (BuildContext context, int index) {
-                return Text('item $index');
-              },
-            ),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-      final double startPixels = controller.position.pixels;
-      guard.seedScrollPixels(startPixels);
-      controller.jumpTo(startPixels + 10);
-      await tester.pump();
-      expect(guard.hasUserScrollIntent(controller.position), isTrue);
-    });
-
-    test('resetScrollIntent clears cooldown', () {
-      final ScrollController controller = ScrollController();
-      final MessageListPaginationGuard guard = MessageListPaginationGuard(
-        scrollController: controller,
-      );
-      addTearDown(guard.dispose);
-      addTearDown(controller.dispose);
-      guard.beginCooldown();
-      expect(guard.isOnCooldown, isTrue);
-      guard.resetScrollIntent();
-      expect(guard.isOnCooldown, isFalse);
-    });
-
-    test('blocks pagination while loading flags are set', () {
-      final ScrollController controller = ScrollController();
-      final MessageListPaginationGuard guard = MessageListPaginationGuard(
-        scrollController: controller,
-      );
-      addTearDown(guard.dispose);
-      addTearDown(controller.dispose);
+    test('loads exactly at the margin boundary', () {
       expect(
-        guard.shouldLoadMore(
+        shouldLoadOlderAtEdge(
+          pixels: 5000 - kMessageListLoadMargin,
+          maxScrollExtent: 5000,
+          hasMoreMessages: true,
+          isLoadingMore: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('short-circuits when there are no more older messages', () {
+      expect(
+        shouldLoadOlderAtEdge(
+          pixels: 5000,
+          maxScrollExtent: 5000,
+          hasMoreMessages: false,
+          isLoadingMore: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('short-circuits while a load is already in flight', () {
+      expect(
+        shouldLoadOlderAtEdge(
+          pixels: 5000,
+          maxScrollExtent: 5000,
           hasMoreMessages: true,
           isLoadingMore: true,
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('shouldLoadNewerAtEdge', () {
+    test('loads when within the margin of the bottom edge', () {
+      expect(
+        shouldLoadNewerAtEdge(
+          pixels: kMessageListLoadMargin - 1,
+          minScrollExtent: 0,
+          hasMoreNewerMessages: true,
+          isLoadingNewer: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('does not load when outside the margin', () {
+      expect(
+        shouldLoadNewerAtEdge(
+          pixels: kMessageListLoadMargin + 1,
+          minScrollExtent: 0,
+          hasMoreNewerMessages: true,
           isLoadingNewer: false,
         ),
         isFalse,
       );
+    });
+
+    test('loads exactly at the margin boundary', () {
       expect(
-        guard.shouldLoadNewer(
+        shouldLoadNewerAtEdge(
+          pixels: kMessageListLoadMargin,
+          minScrollExtent: 0,
           hasMoreNewerMessages: true,
-          isLoadingMore: false,
+          isLoadingNewer: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('respects a negative minScrollExtent offset', () {
+      expect(
+        shouldLoadNewerAtEdge(
+          pixels: -300 + kMessageListLoadMargin,
+          minScrollExtent: -300,
+          hasMoreNewerMessages: true,
+          isLoadingNewer: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('short-circuits when there are no more newer messages', () {
+      expect(
+        shouldLoadNewerAtEdge(
+          pixels: 0,
+          minScrollExtent: 0,
+          hasMoreNewerMessages: false,
+          isLoadingNewer: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('short-circuits while a load is already in flight', () {
+      expect(
+        shouldLoadNewerAtEdge(
+          pixels: 0,
+          minScrollExtent: 0,
+          hasMoreNewerMessages: true,
           isLoadingNewer: true,
         ),
         isFalse,

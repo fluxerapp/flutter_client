@@ -10,6 +10,7 @@ const int guildProfileDefaultAccentColor = 0x4641D9;
 const int guildProfileAvatarUnsetFlag = 1 << 0;
 const int guildProfileBannerUnsetFlag = 1 << 1;
 
+@immutable
 class GuildUserDisplay {
   const GuildUserDisplay({
     required this.displayName,
@@ -38,6 +39,39 @@ class GuildUserDisplay {
   final String? pronouns;
   final bool hasGuildProfile;
   final bool isShowingGlobalProfile;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GuildUserDisplay &&
+          other.displayName == displayName &&
+          other.accountDisplayName == accountDisplayName &&
+          other.isBot == isBot &&
+          other.avatarUrl == avatarUrl &&
+          other.avatarHash == avatarHash &&
+          other.avatarColor == avatarColor &&
+          other.bannerUrl == bannerUrl &&
+          other.bannerColor == bannerColor &&
+          other.bio == bio &&
+          other.pronouns == pronouns &&
+          other.hasGuildProfile == hasGuildProfile &&
+          other.isShowingGlobalProfile == isShowingGlobalProfile;
+
+  @override
+  int get hashCode => Object.hash(
+    displayName,
+    accountDisplayName,
+    isBot,
+    avatarUrl,
+    avatarHash,
+    avatarColor,
+    bannerUrl,
+    bannerColor,
+    bio,
+    pronouns,
+    hasGuildProfile,
+    isShowingGlobalProfile,
+  );
 }
 
 Color resolveGuildProfileBannerColor({
@@ -93,10 +127,15 @@ GuildUserDisplay resolveGuildUserDisplayFromRows({
       ? nick
       : fallbackDisplayName ?? user.globalName ?? user.username;
   final String? memberAvatar = member?.serverAvatar;
+  final bool isAvatarUnset =
+      guildId != null &&
+      member != null &&
+      hasMemberProfileFlag(member.profileFlags, guildProfileAvatarUnsetFlag);
   final String? resolvedAvatarHash =
       memberAvatar ?? fallbackAvatarHash ?? user.avatar;
-  final String? avatarUrl =
-      guildId != null && memberAvatar != null && memberAvatar.isNotEmpty
+  final String? avatarUrl = isAvatarUnset
+      ? null
+      : guildId != null && memberAvatar != null && memberAvatar.isNotEmpty
       ? FluxerMediaUrl.guildMemberMedia(
           guildId: guildId,
           userId: user.id,
@@ -135,9 +174,14 @@ GuildUserDisplay resolveGuildUserDisplayFromMessage({
       ? nick
       : fallbackDisplayName;
   final String? memberAvatar = member?.serverAvatar;
+  final bool isAvatarUnset =
+      guildId != null &&
+      member != null &&
+      hasMemberProfileFlag(member.profileFlags, guildProfileAvatarUnsetFlag);
   final String? resolvedAvatarHash = memberAvatar ?? fallbackAvatarHash;
-  final String? avatarUrl =
-      guildId != null && memberAvatar != null && memberAvatar.isNotEmpty
+  final String? avatarUrl = isAvatarUnset
+      ? null
+      : guildId != null && memberAvatar != null && memberAvatar.isNotEmpty
       ? FluxerMediaUrl.guildMemberMedia(
           guildId: guildId,
           userId: userId,
@@ -208,7 +252,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
   if (webhookId != null && webhookId.isNotEmpty) {
     return messageDisplay;
   }
-  if (guildId == null || guildDisplay == null) {
+  if (guildDisplay == null) {
     return messageDisplay;
   }
   final bool treatsAsBot = message.authorIsBot || guildDisplay.isBot;
@@ -311,7 +355,10 @@ GuildUserDisplay resolveGuildUserDisplayFromProfile({
 }
 
 bool hasGuildProfileFlag(GuildMemberResponse? member, int flag) {
-  final int? profileFlags = member?.profileFlags;
+  return hasMemberProfileFlag(member?.profileFlags, flag);
+}
+
+bool hasMemberProfileFlag(int? profileFlags, int flag) {
   return profileFlags != null && (profileFlags & flag) != 0;
 }
 

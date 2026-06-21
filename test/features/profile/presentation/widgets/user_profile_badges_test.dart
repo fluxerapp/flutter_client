@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -6,19 +7,24 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_badges.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 Widget _buildApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
-  return MaterialApp(
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-    supportedLocales: FluxerLocalizations.supportedLocales,
-    theme: buildFluxerTheme(
-      colorTheme: colorTheme,
-      textTheme: FluxerTextTheme.fromColors(colorTheme),
-      layoutTheme: FluxerLayoutTheme.scaled(),
+  return ProviderScope(
+    child: MaterialApp(
+      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      supportedLocales: FluxerLocalizations.supportedLocales,
+      theme: buildFluxerTheme(
+        colorTheme: colorTheme,
+        textTheme: FluxerTextTheme.fromColors(colorTheme),
+        layoutTheme: FluxerLayoutTheme.scaled(),
+      ),
+      home: FluxerToastOverlay(
+        child: Scaffold(body: Center(child: child)),
+      ),
     ),
-    home: child,
   );
 }
 
@@ -60,6 +66,76 @@ void main() {
       );
       expect(find.byType(SvgPicture), findsOneWidget);
       expect(find.byTooltip('Fluxer Plutonium'), findsOneWidget);
+    });
+
+    testWidgets('tapping a badge reveals its name as a toast', (tester) async {
+      await tester.pumpWidget(_buildApp(const UserProfileBadges(flags: 1)));
+
+      await tester.tap(find.byType(SvgPicture));
+      await tester.pump();
+
+      expect(find.text('Fluxer Staff'), findsOneWidget);
+    });
+
+    testWidgets('tapping a lifetime Plutonium badge toasts Visionary since', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _buildApp(
+          const UserProfileBadges(
+            flags: 0,
+            hasPlutonium: true,
+            isLifetimePlutonium: true,
+            premiumSince: '2026-03-14',
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(SvgPicture));
+      await tester.pump();
+
+      expect(find.text('Fluxer Visionary since Mar 14, 2026'), findsOneWidget);
+    });
+
+    testWidgets('tapping a dateless lifetime badge toasts Visionary', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _buildApp(
+          const UserProfileBadges(
+            flags: 0,
+            hasPlutonium: true,
+            isLifetimePlutonium: true,
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(SvgPicture));
+      await tester.pump();
+
+      expect(find.text('Fluxer Visionary'), findsOneWidget);
+    });
+
+    testWidgets('tapping a subscriber Plutonium badge toasts subscriber since', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _buildApp(
+          const UserProfileBadges(
+            flags: 0,
+            hasPlutonium: true,
+            premiumSince: '2026-03-14',
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(SvgPicture));
+      await tester.pump();
+
+      expect(
+        find.text('Fluxer Plutonium subscriber since Mar 14, 2026'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders Visionary ID when sequence is provided', (

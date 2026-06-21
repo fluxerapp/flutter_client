@@ -5,9 +5,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
-import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -16,19 +16,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 const String kIncomingVoiceResultAccept = 'accept';
 const String kIncomingVoiceResultReject = 'reject';
 const String kIncomingVoiceResultIgnore = 'ignore';
-
-List<AvatarClusterMember> _clusterMembers(DmConversation convo) {
-  return convo.groupMembers
-      .take(3)
-      .map(
-        (GroupMemberInfo m) => AvatarClusterMember(
-          userId: m.id,
-          imageUrl: FluxerMediaUrl.userAvatar(userId: m.id, hash: m.avatar),
-          fallbackText: m.name,
-        ),
-      )
-      .toList();
-}
 
 String _resolveSheetHeaderTitle({
   required DmConversation? dm,
@@ -203,13 +190,7 @@ class _IncomingVoiceCallSheetBody extends ConsumerWidget {
   Widget _buildAvatar(BuildContext context, {required DmConversation? dm}) {
     const double size = 80;
     if (dm != null && dm.isGroup) {
-      return FluxerAvatarCluster(
-        channelId: dm.id,
-        iconUrl: FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon),
-        status: dm.groupStatus,
-        members: _clusterMembers(dm),
-        size: size,
-      );
+      return groupDmAvatarCluster(dm: dm, size: size, status: dm.groupStatus);
     }
     if (dm != null) {
       return FluxerAvatar.user(

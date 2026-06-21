@@ -95,3 +95,30 @@ List<Message> reconcileMessagesWithNetworkPage({
       .toList();
   return mergeMessagesSorted(preserved, networkPage);
 }
+
+/// True when the window's oldest message is strictly newer than the oldest
+/// id of the channel's known-contiguous interval, i.e. every message between
+/// them was fetched contiguously and can be re-served from the local cache
+/// without a network round-trip.
+bool canServeOlderFromCache({
+  required String? windowOldestId,
+  required String? contigOldestId,
+}) {
+  if (windowOldestId == null || contigOldestId == null) {
+    return false;
+  }
+  return compareSnowflakeIds(windowOldestId, contigOldestId) > 0;
+}
+
+/// True when the newest id of the channel's known-contiguous interval is
+/// strictly newer than the window's newest message, so the gap can be served
+/// from the local cache without a network round-trip.
+bool canServeNewerFromCache({
+  required String? windowNewestId,
+  required String? contigNewestId,
+}) {
+  if (windowNewestId == null || contigNewestId == null) {
+    return false;
+  }
+  return compareSnowflakeIds(contigNewestId, windowNewestId) > 0;
+}

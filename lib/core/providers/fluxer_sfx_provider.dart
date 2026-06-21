@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
@@ -12,6 +14,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_pro
 import 'package:fluxer_app/features/chat/service/message_notification_sfx_gate.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
+import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'fluxer_sfx_provider.g.dart';
@@ -74,19 +77,40 @@ void fluxerMessageSfxBinding(Ref ref) {
 
 @Riverpod(keepAlive: true)
 void fluxerSfxIncomingRingBinding(Ref ref) {
-  final FluxerSFX sfx = ref.watch(fluxerSfxProvider);
-  ref.listen<List<String>>(pendingIncomingVoiceChannelIdsProvider, (
-    List<String>? previous,
-    List<String> next,
-  ) {
-    final bool prevEmpty = previous == null || previous.isEmpty;
-    final bool nextEmpty = next.isEmpty;
-    if (prevEmpty && !nextEmpty) {
+  final FluxerSFX sfx = ref.read(fluxerSfxProvider);
+  bool isIncomingRingPlaying = false;
+  final bool isMobileCallKitPlatform =
+      !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+  void syncIncomingRingLoop() {
+    final List<String> pending = ref.read(
+      pendingIncomingVoiceChannelIdsProvider,
+    );
+    final bool isForeground = ref.read(appUiForegroundProvider);
+    final bool shouldPlay = shouldPlayIncomingVoiceRingSfx(
+      isMobileCallKitPlatform: isMobileCallKitPlatform,
+      isForeground: isForeground,
+      hasPendingIncoming: pending.isNotEmpty,
+    );
+    if (shouldPlay) {
+      if (isIncomingRingPlaying) {
+        return;
+      }
+      isIncomingRingPlaying = true;
       unawaited(sfx.startLoop(FluxerSfxClip.incomingRing));
       return;
     }
-    if (!prevEmpty && nextEmpty) {
-      unawaited(sfx.stopLoop());
+    if (!isIncomingRingPlaying) {
+      return;
     }
-  }, fireImmediately: true);
+    isIncomingRingPlaying = false;
+    unawaited(sfx.stopLoop());
+  }
+
+  ref
+    ..listen<List<String>>(pendingIncomingVoiceChannelIdsProvider, (_, _) {
+      syncIncomingRingLoop();
+    }, fireImmediately: true)
+    ..listen<bool>(appUiForegroundProvider, (_, _) {
+      syncIncomingRingLoop();
+    });
 }

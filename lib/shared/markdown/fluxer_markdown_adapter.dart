@@ -1,10 +1,14 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_alert.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_mention.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
@@ -89,5 +93,17 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
         baseStyle: baseStyle,
       );
     },
+    onCopyCode: context == null
+        ? null
+        : (BuildContext ctx, String code) {
+            ProviderScope.containerOf(ctx, listen: false)
+                .read(toastProvider.notifier)
+                .show(
+                  FluxerToast(
+                    message: FluxerLocalizations.of(ctx).copiedToClipboard,
+                    variant: FluxerToastVariant.success,
+                  ),
+                );
+          },
   );
 }

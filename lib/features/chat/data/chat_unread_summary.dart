@@ -93,3 +93,25 @@ ChatUnreadSummary computeChatUnreadSummary({
         hasEstimatedFromMissingBoundary,
   );
 }
+
+/// Anchor for the inline "new messages" divider: the sticky message if it is
+/// still loaded and not the user's own, else the oldest unread, else null.
+/// Independent of the unread count, so the divider survives auto-ack.
+String? resolveVisualUnreadId({
+  required Iterable<ChatUnreadMessageRef> messages,
+  required String? stickyUnreadId,
+  required String? oldestUnreadId,
+  required String? currentUserId,
+}) {
+  if (stickyUnreadId == null || stickyUnreadId.isEmpty) {
+    return oldestUnreadId;
+  }
+  final bool hasVisibleSticky = messages.any(
+    (ChatUnreadMessageRef message) =>
+        message.id == stickyUnreadId &&
+        !(currentUserId != null &&
+            currentUserId.isNotEmpty &&
+            message.authorId == currentUserId),
+  );
+  return hasVisibleSticky ? stickyUnreadId : oldestUnreadId;
+}

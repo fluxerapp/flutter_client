@@ -91,12 +91,11 @@ class ConnectionsViewModel extends _$ConnectionsViewModel {
     if (oldIndex < 0 ||
         oldIndex >= current.length ||
         newIndex < 0 ||
-        newIndex > current.length) {
+        newIndex >= current.length) {
       return;
     }
-    final adjusted = newIndex > oldIndex ? newIndex - 1 : newIndex;
     final item = current.removeAt(oldIndex);
-    current.insert(adjusted, item);
+    current.insert(newIndex, item);
     final previous = state.connections;
     state = state.copyWith(connections: current);
 

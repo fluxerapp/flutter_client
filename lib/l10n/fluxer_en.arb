@@ -119,7 +119,7 @@
   },
   "cancel": "Cancel",
   "@cancel": {
-    "description": "Generic cancel action label."
+    "description": "Generic cancel button label."
   },
   "ipAuthCheckEmail": "Check your email",
   "@ipAuthCheckEmail": {
@@ -169,7 +169,7 @@
   },
   "back": "Back",
   "@back": {
-    "description": "Generic back navigation label."
+    "description": "Generic back button label."
   },
   "mfaTitle": "Two-factor authentication",
   "@mfaTitle": {
@@ -1651,7 +1651,7 @@
   },
   "continueAction": "Continue",
   "@continueAction": {
-    "description": "Generic continue action button label."
+    "description": "Generic continue button label."
   },
 
   "profileCustomizationTitle": "Profile Customization",
@@ -2170,10 +2170,6 @@
   "@verify": {
     "description": "Generic verify button label."
   },
-  "cancel": "Cancel",
-  "@cancel": {
-    "description": "Generic cancel button label."
-  },
   "enable": "Enable",
   "@enable": {
     "description": "Generic enable button label."
@@ -2584,15 +2580,6 @@
   "@claimAccountSuccess": {
     "description": "Toast after account claimed."
   },
-
-  "continueAction": "Continue",
-  "@continueAction": {
-    "description": "Generic continue button label."
-  },
-  "back": "Back",
-  "@back": {
-    "description": "Generic back button label."
-  },
   "importantInformation": "Important information:",
   "@importantInformation": {
     "description": "Header for important information section."
@@ -2792,27 +2779,49 @@
   },
   "userProfileStaffBadgeTooltip": "Fluxer Staff",
   "@userProfileStaffBadgeTooltip": {
-    "description": "Tooltip and semantic label for the staff badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
   },
   "userProfileCtpBadgeTooltip": "Fluxer Community Team",
   "@userProfileCtpBadgeTooltip": {
-    "description": "Tooltip and semantic label for the community team badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
   },
   "userProfilePartnerBadgeTooltip": "Fluxer Partner",
   "@userProfilePartnerBadgeTooltip": {
-    "description": "Tooltip and semantic label for the partner badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
   },
   "userProfileBugHunterBadgeTooltip": "Fluxer Bug Hunter",
   "@userProfileBugHunterBadgeTooltip": {
-    "description": "Tooltip and semantic label for the bug hunter badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
   },
   "userProfilePlutoniumBadgeTooltip": "Fluxer Plutonium",
   "@userProfilePlutoniumBadgeTooltip": {
-    "description": "Tooltip and semantic label for the Plutonium badge on a user profile."
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+  },
+  "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium subscriber since {date}",
+  "@userProfilePlutoniumSubscriberSinceTooltip": {
+    "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "userProfileVisionaryBadgeTooltip": "Fluxer Visionary",
+  "@userProfileVisionaryBadgeTooltip": {
+    "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+  },
+  "userProfileVisionaryBadgeSinceTooltip": "Fluxer Visionary since {date}",
+  "@userProfileVisionaryBadgeSinceTooltip": {
+    "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "userProfileVisionaryIdTooltip": "Visionary ID #{sequence}",
   "@userProfileVisionaryIdTooltip": {
-    "description": "Tooltip for the Visionary ID number shown next to the premium badge on a user profile.",
+    "description": "Short label in the user profile badges popout. Keep it concise. Preserve {sequence}; it is inserted by code.",
     "placeholders": {
       "sequence": {
         "type": "int"
@@ -3851,7 +3860,7 @@
   "@sensitiveContentSaveButton": {
     "description": "Save button for sensitive content settings."
   },
-  "chatUploadingAttachmentsSummary": "Uploading {count, plural, one {# file} other {# files}}",
+  "chatUploadingAttachmentsSummary": "Uploading {count, plural, =1{1 file} other{{count} files}}",
   "@chatUploadingAttachmentsSummary": {
     "description": "Filename-like progress label for a temporary message attachment while multiple selected files are uploading.",
     "placeholders": {
@@ -5931,6 +5940,20 @@
   "@personalNotesSubtitle": {
     "description": "Subtitle on the personal notes welcome empty state."
   },
+  "channelWelcomeHeading": "Welcome to {channelName}",
+  "@channelWelcomeHeading": {
+    "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
+    "placeholders": {
+      "channelName": { "type": "String" }
+    }
+  },
+  "channelWelcomeDescription": "In the beginning, there was nothing. Then, there was {channelName}. And it was good.",
+  "@channelWelcomeDescription": {
+    "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+    "placeholders": {
+      "channelName": { "type": "String" }
+    }
+  },
   "personalNotesComposerHint": "Message yourself",
   "@personalNotesComposerHint": {
     "description": "Placeholder in the message composer when viewing personal notes."
@@ -6297,5 +6320,52 @@
   "composerEmojiUnavailable": "You can't use that emoji here.",
   "@composerEmojiUnavailable": {
     "description": "Toast shown when a message contains a custom emoji the user cannot use in this channel."
+  },
+  "instanceUrlLabel": "Instance URL",
+  "@instanceUrlLabel": {
+    "description": "Label for the self-hosted instance URL input on the login screen."
+  },
+  "instanceUrlPlaceholder": "Enter instance URL (e.g. fluxer.app)",
+  "@instanceUrlPlaceholder": {
+    "description": "Placeholder for the self-hosted instance URL input."
+  },
+  "instanceConnect": "Connect",
+  "@instanceConnect": {
+    "description": "Button label to connect to a custom Fluxer instance."
+  },
+  "instanceConnecting": "Connecting…",
+  "@instanceConnecting": {
+    "description": "Status text while discovering a custom Fluxer instance."
+  },
+  "instanceConnectFailed": "Failed to connect to instance",
+  "@instanceConnectFailed": {
+    "description": "Fallback error when instance discovery fails."
+  },
+  "recentInstances": "Recent instances",
+  "@recentInstances": {
+    "description": "Label for the recent self-hosted instances list."
+  },
+  "removeRecentInstance": "Remove {domain} from recent instances",
+  "@removeRecentInstance": {
+    "description": "Accessibility label for removing a recent instance.",
+    "placeholders": {
+      "domain": { "type": "String" }
+    }
+  },
+  "instanceSheetTitle": "Connect to instance",
+  "@instanceSheetTitle": {
+    "description": "Title for the self-hosted instance connection bottom sheet."
+  },
+  "connectToDifferentInstance": "Connect to a different instance",
+  "@connectToDifferentInstance": {
+    "description": "Subtle link on the login screen to open the instance connection sheet."
+  },
+  "changeInstance": "Change",
+  "@changeInstance": {
+    "description": "Link to change the connected Fluxer instance."
+  },
+  "instanceConnectionRequired": "Connect to the instance to sign in",
+  "@instanceConnectionRequired": {
+    "description": "Hint shown when login is blocked until instance discovery succeeds."
   }
 }

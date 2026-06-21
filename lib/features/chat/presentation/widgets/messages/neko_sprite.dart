@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 const Duration _kNekoIdleFrameDuration = Duration(seconds: 1);
 const Duration _kNekoShockDuration = Duration(milliseconds: 900);
@@ -41,57 +42,95 @@ class NekoSprite extends ConsumerStatefulWidget {
   ConsumerState<NekoSprite> createState() => _NekoSpriteState();
 }
 
-class _NekoSpriteState extends ConsumerState<NekoSprite>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _idleController;
+class _NekoSpriteState extends ConsumerState<NekoSprite> {
   final Random _random = Random();
   ui.Image? _spriteImage;
   _NekoAnimationMode _mode = _NekoAnimationMode.idle;
   int _scratchFrameIndex = 0;
   int _scratchTick = 0;
+  int _idleFrameIndex = 0;
+  Timer? _idleTimer;
   Timer? _scratchFrameTimer;
   Timer? _scratchScheduleTimer;
   Timer? _shockTimer;
   StreamSubscription<MessageRealtimeEvent>? _messageSubscription;
   bool _isListeningForMessages = false;
+  bool _animationsActive = false;
+  bool _tickerEnabled = false;
+  bool _isVisible = false;
+  final Key _visibilityKey = UniqueKey();
 
   @override
   void initState() {
     super.initState();
-    _idleController = AnimationController(
-      vsync: this,
-      duration: _kNekoIdleFrameDuration,
-    )..repeat();
     unawaited(_loadSpriteImage());
-    _scheduleRandomScratch();
+    // Animations are started from didChangeDependencies once TickerMode is
+    // known, so an offscreen sprite never animates before it becomes visible.
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_isListeningForMessages) {
-      return;
+    if (!_isListeningForMessages) {
+      _isListeningForMessages = true;
+      _messageSubscription = ref
+          .read(messageRealtimeBusProvider)
+          .stream
+          .listen(_onMessageRealtimeEvent);
     }
-    _isListeningForMessages = true;
-    _messageSubscription = ref
-        .read(messageRealtimeBusProvider)
-        .stream
-        .listen(_onMessageRealtimeEvent);
+    // TickerMode flips (inactive shell branch / offstage route) drive
+    // didChangeDependencies; combined with the VisibilityDetector in build (which
+    // also catches in-layout hiding: another channel open, PageView page swiped
+    // away, scrolled offscreen) a non-visible Neko fires no timers and no frames.
+    _tickerEnabled = TickerMode.valuesOf(context).enabled;
+    _updateAnimationsActive();
   }
 
   @override
   void dispose() {
     unawaited(_messageSubscription?.cancel());
+    _idleTimer?.cancel();
     _scratchFrameTimer?.cancel();
     _scratchScheduleTimer?.cancel();
     _shockTimer?.cancel();
-    _idleController.dispose();
     _spriteImage?.dispose();
     super.dispose();
   }
 
+  void _setAnimationsActive(bool active) {
+    if (active == _animationsActive) {
+      return;
+    }
+    _animationsActive = active;
+    if (active) {
+      _returnToIdle();
+      _scheduleRandomScratch();
+    } else {
+      _idleTimer?.cancel();
+      _scratchFrameTimer?.cancel();
+      _scratchScheduleTimer?.cancel();
+      _shockTimer?.cancel();
+    }
+  }
+
+  void _updateAnimationsActive() {
+    _setAnimationsActive(_tickerEnabled && _isVisible);
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) {
+      return;
+    }
+    final bool visible = info.visibleFraction > 0;
+    if (visible == _isVisible) {
+      return;
+    }
+    _isVisible = visible;
+    _updateAnimationsActive();
+  }
+
   void _onMessageRealtimeEvent(MessageRealtimeEvent event) {
-    if (event is! MessageCreated) {
+    if (!_animationsActive || event is! MessageCreated) {
       return;
     }
     final MessageResponseSchema message = event.event.message;
@@ -135,7 +174,7 @@ class _NekoSpriteState extends ConsumerState<NekoSprite>
   void _playShock() {
     _scratchFrameTimer?.cancel();
     _shockTimer?.cancel();
-    _idleController.stop();
+    _idleTimer?.cancel();
     setState(() => _mode = _NekoAnimationMode.shock);
     _shockTimer = Timer(_kNekoShockDuration, () {
       if (!mounted) {
@@ -148,7 +187,7 @@ class _NekoSpriteState extends ConsumerState<NekoSprite>
   void _playScratch() {
     _shockTimer?.cancel();
     _scratchFrameTimer?.cancel();
-    _idleController.stop();
+    _idleTimer?.cancel();
     setState(() {
       _mode = _NekoAnimationMode.scratch;
       _scratchFrameIndex = 0;
@@ -177,13 +216,23 @@ class _NekoSpriteState extends ConsumerState<NekoSprite>
   void _returnToIdle() {
     _scratchFrameTimer?.cancel();
     _shockTimer?.cancel();
-    if (_mode == _NekoAnimationMode.idle && _idleController.isAnimating) {
-      return;
+    if (_mode != _NekoAnimationMode.idle) {
+      setState(() => _mode = _NekoAnimationMode.idle);
     }
-    setState(() => _mode = _NekoAnimationMode.idle);
-    if (!_idleController.isAnimating) {
-      _idleController.repeat();
-    }
+    _startIdleBounce();
+  }
+
+  void _startIdleBounce() {
+    // Two idle frames per [_kNekoIdleFrameDuration] cycle. A plain timer only
+    // schedules a frame when the sprite actually changes (~2 fps) instead of a
+    // repeating AnimationController that forces a frame every vsync.
+    _idleTimer?.cancel();
+    _idleTimer = Timer.periodic(_kNekoIdleFrameDuration ~/ 2, (_) {
+      if (!mounted || _mode != _NekoAnimationMode.idle) {
+        return;
+      }
+      setState(() => _idleFrameIndex = _idleFrameIndex == 0 ? 1 : 0);
+    });
   }
 
   Future<void> _loadSpriteImage() async {
@@ -200,7 +249,7 @@ class _NekoSpriteState extends ConsumerState<NekoSprite>
     });
   }
 
-  Future<ui.Image> _decodeImage(Uint8List bytes) async {
+  Future<ui.Image> _decodeImage(Uint8List bytes) {
     final Completer<ui.Image> completer = Completer<ui.Image>();
     ui.decodeImageFromList(bytes, completer.complete);
     return completer.future;
@@ -209,10 +258,9 @@ class _NekoSpriteState extends ConsumerState<NekoSprite>
   Rect _frameForMode() {
     switch (_mode) {
       case _NekoAnimationMode.idle:
-        if (_idleController.value <= 0.5) {
-          return _kNekoIdleFrameTop;
-        }
-        return _kNekoIdleFrameBottom;
+        return _idleFrameIndex == 0
+            ? _kNekoIdleFrameTop
+            : _kNekoIdleFrameBottom;
       case _NekoAnimationMode.shock:
         return _kNekoShockFrame;
       case _NekoAnimationMode.scratch:
@@ -223,20 +271,19 @@ class _NekoSpriteState extends ConsumerState<NekoSprite>
   @override
   Widget build(BuildContext context) {
     final ui.Image? spriteImage = _spriteImage;
-    if (spriteImage == null) {
-      return const SizedBox(width: _kNekoSize, height: _kNekoSize);
-    }
-    return AnimatedBuilder(
-      animation: _idleController,
-      builder: (BuildContext context, Widget? child) {
-        return CustomPaint(
-          size: const Size(_kNekoSize, _kNekoSize),
-          painter: _NekoSpritePainter(
-            image: spriteImage,
-            sourceRect: _frameForMode(),
-          ),
-        );
-      },
+    final Widget sprite = spriteImage == null
+        ? const SizedBox(width: _kNekoSize, height: _kNekoSize)
+        : CustomPaint(
+            size: const Size(_kNekoSize, _kNekoSize),
+            painter: _NekoSpritePainter(
+              image: spriteImage,
+              sourceRect: _frameForMode(),
+            ),
+          );
+    return VisibilityDetector(
+      key: _visibilityKey,
+      onVisibilityChanged: _onVisibilityChanged,
+      child: sprite,
     );
   }
 }

@@ -4023,37 +4023,55 @@ abstract class FluxerLocalizations {
   /// **'Edit Profile'**
   String get userProfileEditProfile;
 
-  /// Tooltip and semantic label for the staff badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Staff'**
   String get userProfileStaffBadgeTooltip;
 
-  /// Tooltip and semantic label for the community team badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Community Team'**
   String get userProfileCtpBadgeTooltip;
 
-  /// Tooltip and semantic label for the partner badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Partner'**
   String get userProfilePartnerBadgeTooltip;
 
-  /// Tooltip and semantic label for the bug hunter badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Bug Hunter'**
   String get userProfileBugHunterBadgeTooltip;
 
-  /// Tooltip and semantic label for the Plutonium badge on a user profile.
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
   ///
   /// In en, this message translates to:
   /// **'Fluxer Plutonium'**
   String get userProfilePlutoniumBadgeTooltip;
 
-  /// Tooltip for the Visionary ID number shown next to the premium badge on a user profile.
+  /// Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep "subscriber since" lowercase. Other locales should use natural local capitalization.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer Plutonium subscriber since {date}'**
+  String userProfilePlutoniumSubscriberSinceTooltip(String date);
+
+  /// Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer Visionary'**
+  String get userProfileVisionaryBadgeTooltip;
+
+  /// Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer Visionary since {date}'**
+  String userProfileVisionaryBadgeSinceTooltip(String date);
+
+  /// Short label in the user profile badges popout. Keep it concise. Preserve {sequence}; it is inserted by code.
   ///
   /// In en, this message translates to:
   /// **'Visionary ID #{sequence}'**
@@ -5418,7 +5436,7 @@ abstract class FluxerLocalizations {
   /// Filename-like progress label for a temporary message attachment while multiple selected files are uploading.
   ///
   /// In en, this message translates to:
-  /// **'Uploading {count, plural, one {# file} other {# files}}'**
+  /// **'Uploading {count, plural, =1{1 file} other{{count} files}}'**
   String chatUploadingAttachmentsSummary(int count);
 
   /// Button or menu action label for canceling an in-flight message attachment upload.
@@ -8353,6 +8371,18 @@ abstract class FluxerLocalizations {
   /// **'Your private space for thoughts and reminders'**
   String get personalNotesSubtitle;
 
+  /// Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to {channelName}'**
+  String channelWelcomeHeading(String channelName);
+
+  /// Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).
+  ///
+  /// In en, this message translates to:
+  /// **'In the beginning, there was nothing. Then, there was {channelName}. And it was good.'**
+  String channelWelcomeDescription(String channelName);
+
   /// Placeholder in the message composer when viewing personal notes.
   ///
   /// In en, this message translates to:
@@ -8886,6 +8916,72 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'You can\'t use that emoji here.'**
   String get composerEmojiUnavailable;
+
+  /// Label for the self-hosted instance URL input on the login screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Instance URL'**
+  String get instanceUrlLabel;
+
+  /// Placeholder for the self-hosted instance URL input.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter instance URL (e.g. fluxer.app)'**
+  String get instanceUrlPlaceholder;
+
+  /// Button label to connect to a custom Fluxer instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get instanceConnect;
+
+  /// Status text while discovering a custom Fluxer instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting…'**
+  String get instanceConnecting;
+
+  /// Fallback error when instance discovery fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to connect to instance'**
+  String get instanceConnectFailed;
+
+  /// Label for the recent self-hosted instances list.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent instances'**
+  String get recentInstances;
+
+  /// Accessibility label for removing a recent instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {domain} from recent instances'**
+  String removeRecentInstance(String domain);
+
+  /// Title for the self-hosted instance connection bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to instance'**
+  String get instanceSheetTitle;
+
+  /// Subtle link on the login screen to open the instance connection sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to a different instance'**
+  String get connectToDifferentInstance;
+
+  /// Link to change the connected Fluxer instance.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get changeInstance;
+
+  /// Hint shown when login is blocked until instance discovery succeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to the instance to sign in'**
+  String get instanceConnectionRequired;
 }
 
 class _FluxerLocalizationsDelegate

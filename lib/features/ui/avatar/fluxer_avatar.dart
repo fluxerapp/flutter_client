@@ -30,7 +30,6 @@ class FluxerAvatar extends StatelessWidget {
        status = null,
        showStatus = false,
        avatarColor = null,
-       roleColor = null,
        _userId = null,
        icon = null,
        iconColor = null,
@@ -43,7 +42,6 @@ class FluxerAvatar extends StatelessWidget {
     this.size = 40,
     this.showStatus = true,
     this.avatarColor,
-    this.roleColor,
     this.cacheKey,
     String? userId,
     super.key,
@@ -63,7 +61,6 @@ class FluxerAvatar extends StatelessWidget {
        status = null,
        showStatus = false,
        avatarColor = null,
-       roleColor = null,
        _userId = null,
        icon = null,
        iconColor = null,
@@ -83,7 +80,6 @@ class FluxerAvatar extends StatelessWidget {
        status = null,
        showStatus = false,
        avatarColor = null,
-       roleColor = null,
        _userId = null;
 
   factory FluxerAvatar.fromUserRow(
@@ -113,7 +109,6 @@ class FluxerAvatar extends StatelessWidget {
   final String? status;
   final bool showStatus;
   final int? avatarColor;
-  final int? roleColor;
   final _AvatarShape _shape;
   final String? _userId;
   final IconData? icon;
@@ -133,9 +128,6 @@ class FluxerAvatar extends StatelessWidget {
   }
 
   Color get _backgroundColor {
-    if (roleColor != null) {
-      return Color(roleColor!);
-    }
     if (avatarColor != null) {
       return Color(avatarColor!);
     }
@@ -212,29 +204,21 @@ class FluxerAvatar extends StatelessWidget {
           ),
         ),
       );
-    } else {
-      avatarContent = Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: _backgroundColor,
-          borderRadius: _borderRadius,
-        ),
-        child: ClipRRect(
-          borderRadius: _borderRadius,
-          child: resolvedUrl != null
-              ? CachedNetworkImage(
-                  imageUrl: resolvedUrl,
-                  cacheKey: cacheKey,
-                  width: size,
-                  height: size,
-                  memCacheWidth: (size * dpr).round(),
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, _, _) => _buildFallback(context),
-                )
-              : _buildFallback(context),
+    } else if (resolvedUrl != null) {
+      avatarContent = ClipRRect(
+        borderRadius: _borderRadius,
+        child: CachedNetworkImage(
+          imageUrl: resolvedUrl,
+          cacheKey: cacheKey,
+          width: size,
+          height: size,
+          memCacheWidth: (size * dpr).round(),
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) => _buildFallbackAvatar(context),
         ),
       );
+    } else {
+      avatarContent = _buildFallbackAvatar(context);
     }
 
     if (hasStatus) {
@@ -265,6 +249,18 @@ class FluxerAvatar extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFallbackAvatar(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: _backgroundColor,
+        borderRadius: _borderRadius,
+      ),
+      child: _buildFallback(context),
     );
   }
 

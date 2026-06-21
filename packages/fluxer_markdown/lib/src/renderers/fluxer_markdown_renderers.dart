@@ -13,11 +13,13 @@ import 'package:flutter_highlight/themes/vs2015.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/inline_parse_chunks.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:intl/intl.dart';
+import 'package:latext/latext.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,6 +33,8 @@ final RegExp _spoilerSyncUrlPattern = RegExp(
   r'''https?:\/\/[^\s<>"']+''',
   caseSensitive: false,
 );
+
+final RegExp _blankMarkdownLinkLabelPattern = RegExp(r'^\s*$');
 
 Widget defaultFluxerAlertBuilder(
   BuildContext context,
@@ -107,28 +111,28 @@ Widget buildFluxerMarkdownTextFlow({
   if (text.isEmpty) {
     return const SizedBox.shrink();
   }
-  final lines = text.split('\n');
+  final chunks = splitIntoInlineParseChunks(text);
   final spans = <InlineSpan>[];
-  for (var i = 0; i < lines.length; i++) {
+  for (var i = 0; i < chunks.length; i++) {
     if (i > 0) {
       spans.add(TextSpan(text: '\n', style: baseStyle));
     }
-    final lineNodes = _inlineNodeCache.resolve((
-      lines[i],
+    final chunkNodes = _inlineNodeCache.resolve((
+      chunks[i],
       features,
-    ), () => inlineDocument.parseInline(lines[i]));
-    if (lineNodes.isEmpty) {
+    ), () => inlineDocument.parseInline(chunks[i]));
+    if (chunkNodes.isEmpty) {
       continue;
     }
-    final lineSpans = _MarkdownInlineRenderer(
+    final chunkSpans = _MarkdownInlineRenderer(
       context: context,
       baseStyle: baseStyle,
       config: config,
       features: features,
       isDark: isDark,
-      jumbo: features.allowJumboEmoji && _allNodesAreEmoji(lineNodes),
-    ).build(lineNodes);
-    spans.addAll(lineSpans);
+      jumbo: features.allowJumboEmoji && _allNodesAreEmoji(chunkNodes),
+    ).build(chunkNodes);
+    spans.addAll(chunkSpans);
   }
   if (spans.isEmpty) {
     return const SizedBox.shrink();
@@ -334,6 +338,7 @@ class _MarkdownBlockRenderer {
       element: codeElement,
       isDark: isDark,
       baseStyle: baseStyle,
+      onCopyCode: config.onCopyCode,
     );
   }
 
@@ -643,12 +648,10 @@ class _MarkdownInlineRenderer {
   InlineSpan _buildLink(md.Element element, TextStyle style) {
     final href = element.attributes['href'] ?? element.textContent;
     final text = element.textContent;
-    final linkColor = config.linkColor ?? Theme.of(context).colorScheme.primary;
-    final widget = config.linkWidgetBuilder?.call(context, href, style);
-
-    if (widget != null) {
-      return WidgetSpan(alignment: PlaceholderAlignment.middle, child: widget);
+    if (_blankMarkdownLinkLabelPattern.hasMatch(text)) {
+      return TextSpan(text: '[$text]($href)', style: style);
     }
+    final linkColor = config.linkColor ?? Theme.of(context).colorScheme.primary;
 
     return TextSpan(
       text: text,
@@ -931,17 +934,23 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
   }
 }
 
+bool _isLatexLanguage(String language) {
+  return language == 'latex' || language == 'tex';
+}
+
 class FluxerCodeBlockWidget extends StatelessWidget {
   const FluxerCodeBlockWidget({
     required this.element,
     required this.isDark,
     required this.baseStyle,
+    this.onCopyCode,
     super.key,
   });
 
   final md.Element element;
   final bool isDark;
   final TextStyle baseStyle;
+  final FluxerCodeCopyHandler? onCopyCode;
 
   static const _kPadding = EdgeInsets.all(12);
   static const _kRadius = BorderRadius.all(Radius.circular(4));
@@ -957,18 +966,30 @@ class FluxerCodeBlockWidget extends StatelessWidget {
       code = code.substring(0, code.length - 1);
     }
 
+    final bgColor = isDark
+        ? (vs2015Theme['root']?.backgroundColor ??
+              Theme.of(context).colorScheme.surfaceContainerHighest)
+        : (githubTheme['root']?.backgroundColor ??
+              Theme.of(context).colorScheme.surfaceContainerHighest);
+
+    if (_isLatexLanguage(rawLang)) {
+      return _FluxerCodeBlockWithCopy(
+        code: code,
+        onCopyCode: onCopyCode,
+        child: _FluxerLatexCodeBlockBody(
+          code: code,
+          baseStyle: baseStyle,
+          bgColor: bgColor,
+        ),
+      );
+    }
+
     final knownLang = kFluxerMarkdownLanguages.containsKey(rawLang)
         ? rawLang
         : null;
     if (knownLang == null && rawLang.isNotEmpty) {
       code = '$rawLang\n$code';
     }
-
-    final bgColor = isDark
-        ? (vs2015Theme['root']?.backgroundColor ??
-              Theme.of(context).colorScheme.surfaceContainerHighest)
-        : (githubTheme['root']?.backgroundColor ??
-              Theme.of(context).colorScheme.surfaceContainerHighest);
 
     final Widget codeBody;
     if (knownLang == null) {
@@ -997,15 +1018,69 @@ class FluxerCodeBlockWidget extends StatelessWidget {
       );
     }
 
-    return _FluxerCodeBlockWithCopy(code: code, child: codeBody);
+    return _FluxerCodeBlockWithCopy(
+      code: code,
+      onCopyCode: onCopyCode,
+      child: codeBody,
+    );
+  }
+}
+
+class _FluxerLatexCodeBlockBody extends StatelessWidget {
+  const _FluxerLatexCodeBlockBody({
+    required this.code,
+    required this.baseStyle,
+    required this.bgColor,
+  });
+
+  final String code;
+  final TextStyle baseStyle;
+  final Color bgColor;
+
+  static const _kPadding = EdgeInsets.all(12);
+  static const _kRadius = BorderRadius.all(Radius.circular(4));
+
+  @override
+  Widget build(BuildContext context) {
+    final Color textColor =
+        baseStyle.color ?? Theme.of(context).colorScheme.onSurface;
+    final TextStyle monoStyle = baseStyle.copyWith(
+      fontFamily: 'monospace',
+      fontSize: (baseStyle.fontSize ?? 16) * 0.85,
+      color: textColor,
+    );
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
+      padding: _kPadding,
+      child: Center(
+        child: LaTexT(
+          laTeXCode: Text(
+            '${r'$$'}$code${r'$$'}',
+            textAlign: TextAlign.center,
+            style: baseStyle.copyWith(color: textColor),
+          ),
+          equationStyle: baseStyle.copyWith(
+            color: textColor,
+            fontSize: (baseStyle.fontSize ?? 16) * 1.1,
+          ),
+          onErrorFallback: (String text) => Text(text, style: monoStyle),
+        ),
+      ),
+    );
   }
 }
 
 class _FluxerCodeBlockWithCopy extends StatelessWidget {
-  const _FluxerCodeBlockWithCopy({required this.code, required this.child});
+  const _FluxerCodeBlockWithCopy({
+    required this.code,
+    required this.child,
+    this.onCopyCode,
+  });
 
   final String code;
   final Widget child;
+  final FluxerCodeCopyHandler? onCopyCode;
 
   static const _kRadius = BorderRadius.all(Radius.circular(4));
 
@@ -1024,8 +1099,9 @@ class _FluxerCodeBlockWithCopy extends StatelessWidget {
             child: Tooltip(
               message: copyLabel,
               child: GestureDetector(
-                onTap: () {
-                  unawaited(Clipboard.setData(ClipboardData(text: code)));
+                onTap: () async {
+                  await Clipboard.setData(ClipboardData(text: code));
+                  onCopyCode?.call(context, code);
                 },
                 child: PhosphorIcon(
                   PhosphorIconsFill.clipboard,

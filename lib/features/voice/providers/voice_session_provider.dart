@@ -951,17 +951,31 @@ class VoiceSession extends _$VoiceSession {
     }
     final VoiceState? vs = _selfConnectionVoiceState();
     final bool nextMute = !(vs?.selfMute ?? false);
+    await setSelfMute(nextMute, playSound: true);
+  }
+
+  Future<void> setSelfMute(bool isMuted, {bool playSound = false}) async {
+    final VoiceSessionState s = state;
+    if (!s.isInVoice || s.channelId == null) {
+      return;
+    }
+    final VoiceState? vs = _selfConnectionVoiceState();
+    if ((vs?.selfMute ?? false) == isMuted) {
+      return;
+    }
     final bool nextDeaf = vs?.selfDeaf ?? false;
     await _applySelfVoiceState(
-      selfMute: nextMute,
+      selfMute: isMuted,
       selfDeaf: nextDeaf,
       selfVideo: vs?.selfVideo ?? false,
     );
-    unawaited(
-      ref
-          .read(fluxerSfxProvider)
-          .playOneShot(nextMute ? FluxerSfxClip.mute : FluxerSfxClip.unmute),
-    );
+    if (playSound) {
+      unawaited(
+        ref
+            .read(fluxerSfxProvider)
+            .playOneShot(isMuted ? FluxerSfxClip.mute : FluxerSfxClip.unmute),
+      );
+    }
   }
 
   Future<void> toggleSelfDeafen() async {

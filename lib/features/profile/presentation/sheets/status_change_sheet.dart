@@ -6,6 +6,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/domain/presence_status_labels.dart';
 import 'package:fluxer_app/features/profile/domain/time_window_presets.dart';
+import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
+import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/custom_status_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_status_service.dart';
@@ -169,14 +172,17 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
         ],
       );
     }
+    final String? text = customStatus.text?.trim();
     final String displayText =
-        customStatus.text ?? customStatus.emojiName ?? '';
+        text != null && text.isNotEmpty ? text : '';
+    final Widget? emojiLeading = _customStatusMenuLeading(customStatus);
     return FluxerMenuGroup(
       children: [
         FluxerBottomSheetMenuItem(
           label: displayText.isEmpty ? l10n.customStatusSetTitle : displayText,
           hint: l10n.customStatusCurrentHint,
-          icon: PhosphorIconsRegular.smiley,
+          leading: emojiLeading,
+          icon: emojiLeading == null ? PhosphorIconsRegular.smiley : null,
           onTap: () => unawaited(_openCustomStatusEditor(customStatus)),
         ),
         FluxerBottomSheetMenuItem(
@@ -186,6 +192,23 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
         ),
       ],
     );
+  }
+
+  Widget? _customStatusMenuLeading(CustomStatusResponse status) {
+    final SnowflakeType? emojiId = status.emojiId;
+    if (emojiId != null) {
+      return CachedEmojiImage(
+        emojiId: emojiId.toString(),
+        animated: status.emojiAnimated,
+        requestSize: kCustomStatusEmojiRequestSize,
+        size: 20,
+      );
+    }
+    final String? emojiName = status.emojiName;
+    if (emojiName != null && emojiName.isNotEmpty) {
+      return UnicodeEmojiWidget(emoji: emojiName, size: 20);
+    }
+    return null;
   }
 }
 

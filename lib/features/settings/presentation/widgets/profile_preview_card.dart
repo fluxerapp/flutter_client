@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -28,11 +27,6 @@ const int _kDefaultAccentColor = 0x4641D9;
 const double _kBannerAspectRatio = 17 / 6;
 const double _kContentPaddingH = 16;
 const double _kAvatarLeft = 10;
-const double _kBadgeSize = 20;
-
-const int _kFlagStaff = 1 << 0;
-const int _kFlagPartner = 1 << 2;
-const int _kFlagBugHunter = 1 << 3;
 
 class ProfilePreviewCard extends StatefulWidget {
   const ProfilePreviewCard({required this.state, super.key});
@@ -173,7 +167,6 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
                   textStyles,
                   layout,
                   l10n,
-                  Theme.of(context).brightness,
                 ),
               ),
             ),
@@ -190,10 +183,20 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
     FluxerTextTheme textStyles,
     FluxerLayoutTheme layout,
     FluxerLocalizations l10n,
-    Brightness brightness,
   ) {
     final effectiveBio = _effectiveBio();
-    final badges = _collectBadges(s, colors, brightness);
+    final showPremiumBadge = s.isPremium && !s.effectivePremiumBadgeHidden;
+    final hasBadges = UserProfileBadges.hasBadges(
+      flags: s.publicFlags,
+      hasPlutonium: showPremiumBadge,
+    );
+    final premiumLifetimeSequence =
+        showPremiumBadge &&
+            s.hasLifetimePremium &&
+            !s.effectivePremiumBadgeMasked &&
+            !s.effectivePremiumBadgeSequenceHidden
+        ? s.premiumLifetimeSequence
+        : null;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -253,7 +256,7 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
                 ),
               ],
             ),
-            if (badges.isNotEmpty)
+            if (hasBadges)
               Positioned(
                 top: bannerH + 10,
                 right: 10,
@@ -264,7 +267,13 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(4),
-                    child: Wrap(spacing: 4, runSpacing: 4, children: badges),
+                    child: UserProfileBadges(
+                      flags: s.publicFlags,
+                      hasPlutonium: showPremiumBadge,
+                      isLifetimePlutonium: s.hasLifetimePremium,
+                      premiumSince: s.premiumSince,
+                      premiumLifetimeSequence: premiumLifetimeSequence,
+                    ),
                   ),
                 ),
               ),
@@ -358,69 +367,6 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
         ],
       ),
     );
-  }
-
-  List<Widget> _collectBadges(
-    UserSettingsViewState s,
-    FluxerColorTheme colors,
-    Brightness brightness,
-  ) {
-    final badges = <Widget>[];
-    final flags = s.publicFlags;
-
-    if (flags & _kFlagStaff != 0) {
-      badges.add(
-        SvgPicture.asset(
-          'assets/images/badges/staff.svg',
-          width: _kBadgeSize,
-          height: _kBadgeSize,
-        ),
-      );
-    }
-    if (flags & _kFlagPartner != 0) {
-      badges.add(
-        SvgPicture.asset(
-          'assets/images/badges/partner.svg',
-          width: _kBadgeSize,
-          height: _kBadgeSize,
-        ),
-      );
-    }
-    if (flags & _kFlagBugHunter != 0) {
-      badges.add(
-        SvgPicture.asset(
-          'assets/images/badges/bug-hunter.svg',
-          width: _kBadgeSize,
-          height: _kBadgeSize,
-        ),
-      );
-    }
-
-    final showPremiumBadge = s.isPremium && !s.effectivePremiumBadgeHidden;
-    if (showPremiumBadge) {
-      badges.add(
-        SvgPicture.asset(
-          'assets/images/badges/plutonium.svg',
-          width: _kBadgeSize,
-          height: _kBadgeSize,
-        ),
-      );
-    }
-
-    if (showPremiumBadge &&
-        s.hasLifetimePremium &&
-        !s.effectivePremiumBadgeMasked &&
-        !s.effectivePremiumBadgeSequenceHidden &&
-        s.premiumLifetimeSequence != null) {
-      badges.add(
-        Text(
-          '#${s.premiumLifetimeSequence}',
-          style: visionaryIdBadgeTextStyle(colors, brightness),
-        ),
-      );
-    }
-
-    return badges;
   }
 
   Widget _buildUserInfo(

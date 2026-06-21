@@ -4,7 +4,9 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -165,7 +167,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
   _StickerPickerData _watchPickerData() {
     final guilds = ref.watch(guildListViewModelProvider).guilds;
     final activeGuildId = ref.watch(activeGuildIdProvider);
-    final isPremium = ref.watch(currentUserPremiumTypeProvider) > 0;
+    final hasGlobalExpressions = ref.watch(
+      instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
+    );
     final canUseExternalStickers = _watchCanUseExternalStickers();
     final allStickers =
         ref.watch(allGuildStickersForPickerProvider).value ?? const [];
@@ -178,7 +182,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
     final stickersByGuild = _groupedStickersFor(
       guilds: guilds,
       activeGuildId: activeGuildId,
-      isPremium: isPremium,
+      isPremium: hasGlobalExpressions,
       canUseExternalStickers: canUseExternalStickers,
       allStickers: allStickers,
     );
@@ -200,7 +204,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
       collapsedCategories: collapsedCategories,
       guilds: guilds,
       activeGuildId: activeGuildId,
-      isPremium: isPremium,
+      isPremium: hasGlobalExpressions,
       canUseExternalStickers: canUseExternalStickers,
       stickersByGuild: stickersByGuild,
     );
@@ -219,13 +223,15 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
   Map<Guild, List<StickerEntry>> _readStickersByGuild() {
     final guilds = ref.read(guildListViewModelProvider).guilds;
     final activeGuildId = ref.read(activeGuildIdProvider);
-    final isPremium = ref.read(currentUserPremiumTypeProvider) > 0;
+    final hasGlobalExpressions = ref.read(
+      instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
+    );
     final canUseExternalStickers = _readCanUseExternalStickers();
     final stickers = ref.read(allGuildStickersForPickerProvider).value ?? [];
     return _groupedStickersFor(
       guilds: guilds,
       activeGuildId: activeGuildId,
-      isPremium: isPremium,
+      isPremium: hasGlobalExpressions,
       canUseExternalStickers: canUseExternalStickers,
       allStickers: stickers,
     );
@@ -558,6 +564,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
   }
 
   Widget _buildUpsellBanner(BuildContext context, _StickerPickerData data) {
+    if (!ref.watch(shouldShowPremiumCommerceProvider)) {
+      return const SizedBox.shrink();
+    }
     if (data.isPremium || !data.canUseExternalStickers) {
       return const SizedBox.shrink();
     }

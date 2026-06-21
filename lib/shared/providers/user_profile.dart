@@ -11,6 +11,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_profile.g.dart';
 
+const Duration _userProfileCacheTtl = Duration(minutes: 1);
+
 class CurrentUserCachedProfile {
   const CurrentUserCachedProfile({
     required this.id,
@@ -54,16 +56,6 @@ Future<UserProfileFullResponse?> userProfile(
 
   final FluxerDatabase database = ref.read(fluxerDatabaseProvider);
   final User? cachedUser = await database.userDao.getUserById(resolvedId);
-  if (guildId == null && cachedUser != null) {
-    unawaited(
-      _refreshUserProfileFromNetwork(
-        ref,
-        userId: resolvedId,
-        guildId: guildId,
-      ),
-    );
-    return _userProfileFromCachedUser(cachedUser);
-  }
 
   final FluxerClient client = ref.read(fluxerClientProvider);
   try {
@@ -74,6 +66,7 @@ Future<UserProfileFullResponse?> userProfile(
       withMutualGuilds: 'true',
     );
     await _cacheUserProfile(database, profile);
+    _keepUserProfileAlive(ref);
     return profile;
   } on Object {
     if (cachedUser != null) {
@@ -81,6 +74,12 @@ Future<UserProfileFullResponse?> userProfile(
     }
     return null;
   }
+}
+
+void _keepUserProfileAlive(Ref ref) {
+  final keepAlive = ref.keepAlive();
+  final Timer timer = Timer(_userProfileCacheTtl, keepAlive.close);
+  ref.onDispose(timer.cancel);
 }
 
 UserProfileFullResponse _userProfileFromCachedUser(User user) {
@@ -122,29 +121,6 @@ Future<void> _cacheUserProfile(
       banner: Value(profile.userProfile.banner),
     ),
   );
-}
-
-Future<void> _refreshUserProfileFromNetwork(
-  Ref ref, {
-  required String userId,
-  String? guildId,
-}) async {
-  final FluxerClient client = ref.read(fluxerClientProvider);
-  final FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-  try {
-    final UserProfileFullResponse profile = await client.users.getUserProfile(
-      targetId: userId,
-      guildId: guildId,
-      withMutualFriends: 'true',
-      withMutualGuilds: 'true',
-    );
-    await _cacheUserProfile(database, profile);
-    ref.invalidate(
-      userProfileProvider(userId: userId, guildId: guildId),
-    );
-  } on Object {
-    return;
-  }
 }
 
 // `AutoDisposeFutureProvider` is not exposed by the public API; the explicit

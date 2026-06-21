@@ -10,6 +10,7 @@ class FluxerListRow extends StatelessWidget {
     required this.leading,
     required this.title,
     this.subtitle,
+    this.subtitleWidget,
     this.trailing,
     this.titleAdornments,
     this.tagsBelowTitle,
@@ -22,6 +23,7 @@ class FluxerListRow extends StatelessWidget {
   final Widget leading;
   final String title;
   final String? subtitle;
+  final Widget? subtitleWidget;
   final Widget? trailing;
   final List<Widget>? titleAdornments;
 
@@ -32,7 +34,10 @@ class FluxerListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasSubtitle = subtitle != null && subtitle!.trim().isNotEmpty;
+    final hasSubtitleWidget = subtitleWidget != null;
+    final hasSubtitle =
+        hasSubtitleWidget ||
+        (subtitle != null && subtitle!.trim().isNotEmpty);
     final adornments = titleAdornments ?? const <Widget>[];
     final belowTags = tagsBelowTitle ?? const <Widget>[];
 
@@ -80,7 +85,10 @@ class FluxerListRow extends StatelessWidget {
                         ],
                       ),
                     ],
-                    if (hasSubtitle) ...[
+                    if (hasSubtitleWidget) ...[
+                      const SizedBox(height: 2),
+                      subtitleWidget!,
+                    ] else if (hasSubtitle) ...[
                       const SizedBox(height: 2),
                       Text(
                         subtitle!,

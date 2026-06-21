@@ -142,9 +142,8 @@ class LoginScreen extends ConsumerWidget {
                             SvgPicture.asset(
                               Assets.fluxerLogoText,
                               height: 36,
-                              colorFilter: ColorFilter.mode(
-                                context.colors.textPrimary,
-                                BlendMode.srcIn,
+                              theme: SvgTheme(
+                                currentColor: context.colors.textPrimary,
                               ),
                             ),
                           ],
@@ -195,10 +194,7 @@ class LoginScreen extends ConsumerWidget {
                   SvgPicture.asset(
                     Assets.fluxerWordmarkMonochrome,
                     height: 32,
-                    colorFilter: ColorFilter.mode(
-                      context.colors.textPrimary,
-                      BlendMode.srcIn,
-                    ),
+                    theme: SvgTheme(currentColor: context.colors.textPrimary),
                   ),
                   SizedBox(height: layout.s8),
                   _buildAuthContent(context, ref, showBrowserLogin: false),

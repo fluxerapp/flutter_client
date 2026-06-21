@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/data/attachment_upload_client.dart';
 import 'package:fluxer_app/features/chat/data/prepared_attachments.dart';
 import 'package:fluxer_app/features/chat/domain/api_attachment_metadata.dart';
 import 'package:fluxer_app/features/chat/domain/cloud_composer_attachments.dart';
+import 'package:fluxer_app/features/chat/domain/message_upload_send_cancelled_exception.dart';
 import 'package:fluxer_app/features/chat/domain/message_upload_session.dart';
 import 'package:fluxer_app/features/chat/domain/pending_attachment.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessions_provider.dart';
@@ -198,7 +199,10 @@ class CloudUploadController extends _$CloudUploadController {
     final MessageUploadSession? session = ref.read(
       messageUploadSessionsProvider,
     )[nonce];
-    if (session == null || session.attachments.isEmpty) {
+    if (session == null) {
+      throw const MessageUploadSendCancelledException();
+    }
+    if (session.attachments.isEmpty) {
       return PreparedAttachments.empty;
     }
     if (favoriteMemePayload) {
@@ -219,36 +223,49 @@ class CloudUploadController extends _$CloudUploadController {
               _ensureSessionAttachmentUploaded(nonce, a.id),
         ),
       );
-      final List<PendingAttachment> latest =
-          ref.read(messageUploadSessionsProvider)[nonce]?.attachments ??
-          session.attachments;
+      final List<PendingAttachment> latest = _requireSessionAttachments(nonce);
       final bool anyFailed = latest.any(
         (PendingAttachment e) => e.status == PendingAttachmentStatus.failed,
       );
       if (anyFailed) {
         _fallbackResetSessionUploadsForMultipartSend(nonce);
-        final List<PendingAttachment> reset =
-            ref.read(messageUploadSessionsProvider)[nonce]?.attachments ??
-            latest;
+        final List<PendingAttachment> reset = _requireSessionAttachments(nonce);
         return PreparedAttachments(
           attachmentMetadata: _mapApi(reset),
           attachmentFiles: reset.map((PendingAttachment e) => e.file).toList(),
         );
       }
-      final List<PendingAttachment> ready =
-          ref.read(messageUploadSessionsProvider)[nonce]?.attachments ?? latest;
+      final List<PendingAttachment> ready = _requireSessionAttachments(nonce);
       return PreparedAttachments(attachmentMetadata: _mapApi(ready));
+    } on MessageUploadSendCancelledException {
+      rethrow;
     } on Object catch (e, st) {
       talker.warning('[CloudUpload] prepareSessionForSend error: $e\n$st');
       _fallbackResetSessionUploadsForMultipartSend(nonce);
-      final List<PendingAttachment> reset =
-          ref.read(messageUploadSessionsProvider)[nonce]?.attachments ??
-          session.attachments;
+      final List<PendingAttachment>? reset =
+          ref.read(messageUploadSessionsProvider)[nonce]?.attachments;
+      if (reset == null) {
+        throw const MessageUploadSendCancelledException();
+      }
       return PreparedAttachments(
         attachmentMetadata: _mapApi(reset),
         attachmentFiles: reset.map((PendingAttachment e) => e.file).toList(),
       );
     }
+  }
+
+  MessageUploadSession _requireSession(String nonce) {
+    final MessageUploadSession? session = ref.read(
+      messageUploadSessionsProvider,
+    )[nonce];
+    if (session == null) {
+      throw const MessageUploadSendCancelledException();
+    }
+    return session;
+  }
+
+  List<PendingAttachment> _requireSessionAttachments(String nonce) {
+    return _requireSession(nonce).attachments;
   }
 
   Future<void> _ensureSessionAttachmentUploaded(
@@ -298,6 +315,9 @@ class CloudUploadController extends _$CloudUploadController {
             contentType: attachment.contentType,
             cancelToken: token,
           );
+      if (ref.read(messageUploadSessionsProvider)[nonce] == null) {
+        return;
+      }
       await client.uploadAttachmentPlan(
         UploadAttachmentPlanParams(
           channelId: _channelId,
@@ -340,6 +360,9 @@ class CloudUploadController extends _$CloudUploadController {
           },
         ),
       );
+      if (ref.read(messageUploadSessionsProvider)[nonce] == null) {
+        return;
+      }
       _patchSessionAttachment(
         nonce,
         attachmentId,
@@ -350,6 +373,9 @@ class CloudUploadController extends _$CloudUploadController {
         ),
       );
     } on Object catch (e, st) {
+      if (ref.read(messageUploadSessionsProvider)[nonce] == null) {
+        return;
+      }
       talker.warning('[CloudUpload] session upload failed: $e\n$st');
       _patchSessionAttachment(
         nonce,
@@ -459,18 +485,14 @@ class CloudUploadController extends _$CloudUploadController {
     if (oldIndex < 0 ||
         oldIndex >= state.items.length ||
         newIndex < 0 ||
-        newIndex > state.items.length) {
+        newIndex >= state.items.length) {
       return;
-    }
-    var adjustedNewIndex = newIndex;
-    if (oldIndex < adjustedNewIndex) {
-      adjustedNewIndex -= 1;
     }
     final List<PendingAttachment> next = List<PendingAttachment>.from(
       state.items,
     );
     final PendingAttachment item = next.removeAt(oldIndex);
-    next.insert(adjustedNewIndex, item);
+    next.insert(newIndex, item);
     state = CloudComposerAttachments(next);
   }
 

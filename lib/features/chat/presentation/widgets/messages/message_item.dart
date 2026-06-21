@@ -6,13 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_avatar.dart';
-import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/message_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -44,6 +44,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
+import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -99,6 +100,34 @@ const _kReactionEmojiSize = 19.0;
 const _kAddReactionIconSize = 19.0;
 const double _kMessageSendingOpacity = 0.5;
 
+/// Immutable bundle of per-list render settings hoisted out of [MessageItem].
+///
+/// The chat message list watches the underlying settings providers once and
+/// threads this bundle to every row, so rows neither subscribe to those
+/// providers individually nor rebuild when an unrelated row hovers. Inbox and
+/// preview sites that build a [MessageItem] without a bundle fall back to
+/// per-row `ref.watch` reads.
+@immutable
+class MessageRenderSettings {
+  const MessageRenderSettings({
+    required this.activeGuildId,
+    required this.renderEmbeds,
+    required this.renderReactions,
+    required this.inlineAttachmentMedia,
+    required this.renderSpoilers,
+    required this.revealSpoilers,
+    required this.chatPreferences,
+  });
+
+  final String? activeGuildId;
+  final bool renderEmbeds;
+  final bool renderReactions;
+  final bool inlineAttachmentMedia;
+  final RenderSpoilers renderSpoilers;
+  final bool revealSpoilers;
+  final ChatPreferencesState chatPreferences;
+}
+
 /// A single message row -- avatar, username, timestamp,
 /// content, embeds, reactions, and action buttons on hover.
 ///
@@ -136,6 +165,11 @@ class MessageItem extends ConsumerStatefulWidget {
   /// (active guild sheet may differ from the channel's guild).
   final String? previewRoleGuildId;
 
+  /// Per-list render settings hoisted by the chat message list. When null
+  /// (inbox and preview sites), the row reads each setting via its own
+  /// `ref.watch`.
+  final MessageRenderSettings? renderSettings;
+
   const MessageItem({
     required this.message,
     this.isGrouped = false,
@@ -161,6 +195,7 @@ class MessageItem extends ConsumerStatefulWidget {
     this.hideMentionHighlight = false,
     this.isJumpHighlighted = false,
     this.previewRoleGuildId,
+    this.renderSettings,
     super.key,
   });
 
@@ -169,16 +204,23 @@ class MessageItem extends ConsumerStatefulWidget {
 }
 
 class _MessageItemState extends ConsumerState<MessageItem> {
-  var _isHovered = false;
+  final _hovered = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _inlineReactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _spoilerSyncController = FluxerSpoilerSyncController();
-  var _isReactionPickerOpen = false;
+  final _reactionPickerOpen = ValueNotifier<bool>(false);
   var _isInlineReactionPickerOpen = false;
   var _isInlineAddReactionHovered = false;
 
+  late final Listenable _actionBarVisibility = Listenable.merge([
+    _hovered,
+    _reactionPickerOpen,
+  ]);
+
   @override
   void dispose() {
+    _hovered.dispose();
+    _reactionPickerOpen.dispose();
     _spoilerSyncController.dispose();
     super.dispose();
   }
@@ -303,10 +345,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             channelId: widget.message.channelId,
           );
         } else {
-          setState(() {
-            _isHovered = true;
-            _isReactionPickerOpen = true;
-          });
+          _hovered.value = true;
+          _reactionPickerOpen.value = true;
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (!mounted) {
               return;
@@ -366,7 +406,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       // from this guild, or the user has global access (premium + external
       // emojis), the only path in DMs, where there's no guild to match.
       final hasGlobalEmojiAccess =
-          ref.read(currentUserPremiumTypeProvider) > 0 &&
+          ref.read(
+            instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
+          ) &&
           channelMessagePermissionsForComposer(
             ref.read(
               channelMessagePermissionsProvider(widget.message.channelId),
@@ -504,27 +546,40 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final isTouch =
         layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) !=
         LayoutMode.desktop;
+    final MessageRenderSettings? settings = widget.renderSettings;
     final guildId =
-        widget.previewRoleGuildId ?? ref.watch(activeGuildIdProvider);
-    final renderEmbeds = ref.watch(
-      userSettingsViewModelProvider.select((s) => s.renderEmbeds),
-    );
-    final renderReactions = ref.watch(
-      userSettingsViewModelProvider.select((s) => s.renderReactions),
-    );
-    final inlineAttachmentMedia = ref.watch(
-      userSettingsViewModelProvider.select((s) => s.inlineAttachmentMedia),
-    );
-    final renderSpoilers = ref.watch(
-      userSettingsViewModelProvider.select((s) => s.renderSpoilers),
-    );
-    final revealSpoilers = switch (renderSpoilers) {
-      RenderSpoilers.always => true,
-      RenderSpoilers.ifModerator =>
-        ref.watch(spoilerAutoRevealProvider(msg.channelId)).value ?? false,
-      RenderSpoilers.onClick || RenderSpoilers.$unknown => false,
-    };
-    final chatPreferences = ref.watch(chatPreferencesProvider);
+        widget.previewRoleGuildId ??
+        (settings != null
+            ? settings.activeGuildId
+            : ref.watch(activeGuildIdProvider));
+    final bool renderEmbeds =
+        settings?.renderEmbeds ??
+        ref.watch(userSettingsViewModelProvider.select((s) => s.renderEmbeds));
+    final bool renderReactions =
+        settings?.renderReactions ??
+        ref.watch(
+          userSettingsViewModelProvider.select((s) => s.renderReactions),
+        );
+    final bool inlineAttachmentMedia =
+        settings?.inlineAttachmentMedia ??
+        ref.watch(
+          userSettingsViewModelProvider.select((s) => s.inlineAttachmentMedia),
+        );
+    final RenderSpoilers renderSpoilers =
+        settings?.renderSpoilers ??
+        ref.watch(
+          userSettingsViewModelProvider.select((s) => s.renderSpoilers),
+        );
+    final bool revealSpoilers =
+        settings?.revealSpoilers ??
+        switch (renderSpoilers) {
+          RenderSpoilers.always => true,
+          RenderSpoilers.ifModerator =>
+            ref.watch(spoilerAutoRevealProvider(msg.channelId)).value ?? false,
+          RenderSpoilers.onClick || RenderSpoilers.$unknown => false,
+        };
+    final ChatPreferencesState chatPreferences =
+        settings?.chatPreferences ?? ref.watch(chatPreferencesProvider);
     final bool prefersPersistedAuthor = messagePrefersPersistedAuthorDisplay(
       msg,
     );
@@ -550,9 +605,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final Color rowBackgroundColor = showJumpHighlight
         ? _kJumpHighlightBg
         : showMentionHighlight
-        ? _kMentionColor.withValues(alpha: _isHovered ? 0.14 : 0.1)
-        : _isHovered
-        ? context.colors.backgroundModifierHover
+        ? _kMentionColor.withValues(alpha: 0.1)
         : Colors.transparent;
     final Border? rowBorder = showJumpHighlight
         ? Border(
@@ -564,6 +617,15 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         : showMentionHighlight
         ? const Border(left: BorderSide(color: _kMentionColor, width: 2))
         : null;
+    // Hover tint is painted as a sibling overlay in the Stack below so that
+    // hovering a row never rebuilds its body. Jump-highlighted rows keep their
+    // fixed background (no hover tint); mention rows get an incremental tint
+    // that bumps the base 0.1 mention alpha toward web's hovered 0.14.
+    final Color? hoverTintColor = showJumpHighlight
+        ? null
+        : showMentionHighlight
+        ? _kMentionColor.withValues(alpha: 0.04)
+        : context.colors.backgroundModifierHover;
     final bool isFailed = msg.hasFailed;
     final bool isSending = msg.isSending;
     final bool hasUploadingPlaceholderAttachments =
@@ -581,10 +643,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           ? (details) => _showContextMenu(context, details.globalPosition)
           : null,
       child: MouseRegion(
-        onEnter: (_) => setState(() => _isHovered = true),
+        onEnter: (_) => _hovered.value = true,
         onExit: (_) {
-          if (!_isReactionPickerOpen) {
-            setState(() => _isHovered = false);
+          if (!_reactionPickerOpen.value) {
+            _hovered.value = false;
           }
         },
         child: AnimatedContainer(
@@ -609,6 +671,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 ),
           child: Stack(
             children: [
+              ValueListenableBuilder<bool>(
+                valueListenable: _hovered,
+                builder: (context, hovered, _) =>
+                    hovered && hoverTintColor != null
+                    ? Positioned.fill(child: ColoredBox(color: hoverTintColor))
+                    : const SizedBox.shrink(),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -660,11 +729,18 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     ),
                 ],
               ),
-              if ((_isHovered || _isReactionPickerOpen) &&
-                  !isMobile &&
-                  !isFailed &&
-                  !widget.inboxPreviewMode)
-                Positioned(top: 0, right: 0, child: _buildActions(context)),
+              if (!isMobile && !isFailed && !widget.inboxPreviewMode)
+                ListenableBuilder(
+                  listenable: _actionBarVisibility,
+                  builder: (context, _) =>
+                      _hovered.value || _reactionPickerOpen.value
+                      ? Positioned(
+                          top: 0,
+                          right: 0,
+                          child: _buildActions(context),
+                        )
+                      : const SizedBox.shrink(),
+                ),
             ],
           ),
         ),
@@ -982,9 +1058,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             width: _kAvatarColumnWidth,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: AnimatedOpacity(
-                opacity: _isHovered ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 100),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: _hovered,
+                builder: (context, hovered, child) => AnimatedOpacity(
+                  opacity: hovered ? 1.0 : 0.0,
+                  duration: const Duration(milliseconds: 100),
+                  child: child,
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -1101,12 +1181,12 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                   ),
                   if (messageAuthorShowsUserTag(
                     authorIsBot: msg.authorIsBot,
-                    authorId: msg.authorId,
+                    authorIsSystem: msg.authorIsSystem,
                   )) ...[
                     const SizedBox(width: 6),
                     FluxerUserTag(
                       isSystem: messageAuthorUserTagIsSystem(
-                        authorId: msg.authorId,
+                        authorIsSystem: msg.authorIsSystem,
                       ),
                     ),
                   ],
@@ -1249,11 +1329,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       );
     }
-    return Semantics(
-      label: sticker.name,
-      image: true,
-      child: stickerImage,
-    );
+    return Semantics(label: sticker.name, image: true, child: stickerImage);
   }
 
   Color _reactionChipBackground(
@@ -1441,10 +1517,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             closeOnEmojiSelect: true,
             visibleTabs: const [ExpressionPickerTab.emojis],
             trackEmojiUsageOnSelect: false,
-            onClose: () => setState(() {
-              _isReactionPickerOpen = false;
-              _isHovered = false;
-            }),
+            onClose: () {
+              _reactionPickerOpen.value = false;
+              _hovered.value = false;
+            },
             onEmojiSelected: _addReactionFromPicker,
             child: _actionButton(
               context,
@@ -1452,10 +1528,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               FluxerLocalizations.of(context).chatMessageAddReaction,
               () {
                 _reactionPickerKey.currentState?.toggle();
-                setState(() {
-                  _isReactionPickerOpen =
-                      _reactionPickerKey.currentState?.isOpen ?? false;
-                });
+                _reactionPickerOpen.value =
+                    _reactionPickerKey.currentState?.isOpen ?? false;
               },
             ),
           ),

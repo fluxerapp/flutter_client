@@ -1,0 +1,37 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "firebase: OSS (UnifiedPush / APNs)",
+            "detail": "Strip Firebase deps + swap in push stubs, then pub get. Auto-runs before UnifiedPush/APNs launches.",
+            "dependsOrder": "sequence",
+            "dependsOn": ["firebase: strip deps", "flutter: pub get"],
+            "problemMatcher": []
+        },
+        {
+            "label": "firebase: FCM",
+            "detail": "Merge Firebase deps + FCM sources, then pub get. Auto-runs before FCM launches (also needs firebase_options.dart).",
+            "dependsOrder": "sequence",
+            "dependsOn": ["firebase: merge deps", "flutter: pub get"],
+            "problemMatcher": []
+        },
+        {
+            "label": "firebase: strip deps",
+            "type": "shell",
+            "command": "dart run tool/strip_firebase_deps.dart",
+            "problemMatcher": []
+        },
+        {
+            "label": "firebase: merge deps",
+            "type": "shell",
+            "command": "dart run tool/merge_firebase_deps.dart",
+            "problemMatcher": []
+        },
+        {
+            "label": "flutter: pub get",
+            "type": "shell",
+            "command": "flutter pub get",
+            "problemMatcher": []
+        }
+    ]
+}

@@ -12,7 +12,12 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.TURN_SCREEN_ON" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
@@ -36,7 +41,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -64,10 +69,38 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="web.fluxer.app" />
-                <data android:scheme="https" android:host="web.canary.fluxer.app" />
-                <data android:scheme="https" android:host="web.fluxer.com" />
-                <data android:scheme="https" android:host="web.canary.fluxer.com" />
+                <data android:scheme="https" android:host="web.fluxer.app" android:pathPrefix="/channels" />
+                <data android:scheme="https" android:host="web.fluxer.app" android:pathPrefix="/invite" />
+                <data android:scheme="https" android:host="web.fluxer.app" android:pathPrefix="/gift" />
+                <data android:scheme="https" android:host="web.fluxer.app" android:pathPrefix="/users" />
+                <data android:scheme="https" android:host="web.fluxer.app" android:pathPrefix="/settings/user" />
+                <data android:scheme="https" android:host="web.fluxer.app" android:pathPrefix="/reset" />
+                <data android:scheme="https" android:host="web.fluxer.app" android:pathPrefix="/notifications" />
+                <data android:scheme="https" android:host="web.fluxer.app" android:pathPrefix="/you" />
+                <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/channels" />
+                <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/invite" />
+                <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/gift" />
+                <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/users" />
+                <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/settings/user" />
+                <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/reset" />
+                <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/notifications" />
+                <data android:scheme="https" android:host="web.canary.fluxer.app" android:pathPrefix="/you" />
+                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/channels" />
+                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/invite" />
+                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/gift" />
+                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/users" />
+                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/settings/user" />
+                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/reset" />
+                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/notifications" />
+                <data android:scheme="https" android:host="web.fluxer.com" android:pathPrefix="/you" />
+                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/channels" />
+                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/invite" />
+                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/gift" />
+                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/users" />
+                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/settings/user" />
+                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/reset" />
+                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/notifications" />
+                <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/you" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
@@ -75,9 +108,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data
-            android:name="firebase_messaging_notification_delegation_enabled"
-            android:value="false" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/fluxer_logo_monochrome" />

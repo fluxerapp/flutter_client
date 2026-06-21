@@ -8,27 +8,16 @@ import 'package:fluxer_app/core/api/session_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/skip_auth_interceptor.dart';
 import 'package:fluxer_app/core/api/sudo_dialog.dart';
 import 'package:fluxer_app/core/api/sudo_interceptor.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
+export 'package:fluxer_app/core/providers/active_instance_provider.dart';
+
 part 'fluxer_client_provider.g.dart';
-
-// ignore: do_not_use_environment -- compile-time override for the API base URL
-const _kFluxerBaseUrl = String.fromEnvironment('FLUXER_BASE_URL');
-const _kDefaultBaseUrl = 'https://api.fluxer.app/v1';
-
-@Riverpod(keepAlive: true)
-String fluxerBaseUrl(Ref ref) {
-  final configuredBaseUrl = _kFluxerBaseUrl.trim();
-  if (configuredBaseUrl.isNotEmpty) {
-    return configuredBaseUrl;
-  }
-
-  return _kDefaultBaseUrl;
-}
 
 @Riverpod(keepAlive: true)
 FluxerClientProperties fluxerClientProperties(Ref ref) {

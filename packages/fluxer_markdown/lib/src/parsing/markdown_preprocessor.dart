@@ -143,10 +143,22 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
   final segments = <FluxerMarkdownSegment>[];
   final mdBuffer = StringBuffer();
 
+  final _FencedCodeBlockTracker codeBlockTracker = _FencedCodeBlockTracker();
   int i = 0;
   while (i < lines.length) {
+    final line = lines[i];
+    final wasInsideCodeBlock = codeBlockTracker.inside;
+    if (features.allowCodeBlocks) {
+      codeBlockTracker.onLine(line);
+    }
+    if (wasInsideCodeBlock || codeBlockTracker.inside) {
+      mdBuffer.writeln(line);
+      i++;
+      continue;
+    }
+
     if (features.allowSubtext) {
-      final subtextMatch = subtextRe.firstMatch(lines[i]);
+      final subtextMatch = subtextRe.firstMatch(line);
       if (subtextMatch != null) {
         final pending = mdBuffer.toString().trim();
         if (pending.isNotEmpty) {
@@ -171,7 +183,7 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
     }
 
     if (features.allowAlerts) {
-      final match = openRe.firstMatch(lines[i]);
+      final match = openRe.firstMatch(line);
       if (match != null) {
         final pending = mdBuffer.toString().trim();
         if (pending.isNotEmpty) {
@@ -182,7 +194,7 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
         final rawType = match.group(1)!;
         final type = tryParseFluxerAlertType(rawType);
         if (type == null) {
-          mdBuffer.writeln(lines[i]);
+          mdBuffer.writeln(line);
           i++;
           continue;
         }
@@ -210,7 +222,7 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
       }
     }
 
-    mdBuffer.writeln(lines[i]);
+    mdBuffer.writeln(line);
     i++;
   }
 
@@ -220,4 +232,32 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
   }
 
   return segments;
+}
+
+class _FencedCodeBlockTracker {
+  bool inside = false;
+  int? _fenceLength;
+
+  void onLine(String line) {
+    final String trimmedLeft = line.trimLeft();
+    if (!trimmedLeft.startsWith('`')) {
+      return;
+    }
+    var fenceLength = 0;
+    while (fenceLength < trimmedLeft.length && trimmedLeft[fenceLength] == '`') {
+      fenceLength++;
+    }
+    if (fenceLength < 3) {
+      return;
+    }
+    if (!inside) {
+      inside = true;
+      _fenceLength = fenceLength;
+      return;
+    }
+    if (fenceLength >= _fenceLength!) {
+      inside = false;
+      _fenceLength = null;
+    }
+  }
 }

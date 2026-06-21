@@ -164,6 +164,15 @@ const userSettingsDesktopNav = [
   UserSettingsDesktopNavEntry.logout(),
 ];
 
+int? indexForUserSettingsSection(UserSettingsSection section) {
+  for (var i = 0; i < userSettingsDesktopNav.length; i++) {
+    if (userSettingsDesktopNav[i].section == section) {
+      return i;
+    }
+  }
+  return null;
+}
+
 List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
   required FluxerLocalizations l10n,
   required void Function(UserSettingsSection section) onOpenSection,

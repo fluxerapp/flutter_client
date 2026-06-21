@@ -8,6 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -282,7 +285,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
           child: MessageCharacterCounter(
             currentLength: contentLength,
             maxLength: maxMessageLength,
-            canUpgrade: maxMessageLength < premiumMaxLength,
+            canUpgrade:
+                maxMessageLength < premiumMaxLength &&
+                ref.watch(shouldShowPremiumCommerceProvider),
             premiumMaxLength: premiumMaxLength,
             onUpgradePressed: () => _showPlutoniumSheet(context),
           ),
@@ -404,7 +409,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             replyTo: replyTo,
             guildId: guildId,
             shouldReplyMention: replyMentioning,
-            onToggleMention: chatNotifier.setReplyMentioning,
+            onToggleMention: (bool mentioning) =>
+                chatNotifier.setReplyMentioning(mentioning: mentioning),
             onCancel: chatNotifier.cancelReply,
           ),
         if (editingMessage != null)
@@ -1065,7 +1071,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     }
     final String? activeGuildId = ref.read(activeGuildIdProvider);
     final bool hasGlobalEmojiAccess =
-        ref.read(currentUserPremiumTypeProvider) > 0 &&
+        ref.read(
+          instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
+        ) &&
         channelMessagePermissionsForComposer(
           ref.read(channelMessagePermissionsProvider(channelId)),
         ).canUseExternalEmojis;
@@ -1089,7 +1097,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     }
     final String? activeGuildId = ref.read(activeGuildIdProvider);
     final bool hasGlobalEmojiAccess =
-        ref.read(currentUserPremiumTypeProvider) > 0 &&
+        ref.read(
+          instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
+        ) &&
         channelMessagePermissionsForComposer(
           ref.read(channelMessagePermissionsProvider(channelId)),
         ).canUseExternalEmojis;

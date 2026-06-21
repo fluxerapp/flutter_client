@@ -140,7 +140,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
       .watchReadState(channelId)
       .listen((_) => unawaited(recompute()));
   final messageSub = db.messageDao
-      .watchMessages(channelId)
+      .watchLastMessage(channelId)
       .listen((_) => unawaited(recompute()));
 
   unawaited(recompute());

@@ -22,6 +22,7 @@ import 'package:fluxer_app/core/database/daos/mobile_push_registration_dao.dart'
 import 'package:fluxer_app/core/database/daos/notification_dao.dart';
 import 'package:fluxer_app/core/database/daos/pinned_dms_dao.dart';
 import 'package:fluxer_app/core/database/daos/read_state_dao.dart';
+import 'package:fluxer_app/core/database/daos/recent_instances_dao.dart';
 import 'package:fluxer_app/core/database/daos/relationship_dao.dart';
 import 'package:fluxer_app/core/database/daos/role_dao.dart';
 import 'package:fluxer_app/core/database/daos/rtc_regions_dao.dart';
@@ -53,6 +54,7 @@ import 'package:fluxer_app/core/database/tables/notification_mention_prefs.dart'
 import 'package:fluxer_app/core/database/tables/notification_unread_collapsed.dart';
 import 'package:fluxer_app/core/database/tables/pinned_dms.dart';
 import 'package:fluxer_app/core/database/tables/read_states.dart';
+import 'package:fluxer_app/core/database/tables/recent_instances.dart';
 import 'package:fluxer_app/core/database/tables/relationships.dart';
 import 'package:fluxer_app/core/database/tables/roles.dart';
 import 'package:fluxer_app/core/database/tables/rtc_regions.dart';
@@ -102,6 +104,7 @@ part 'fluxer_database.g.dart';
     FavoriteSettings,
     MobilePushRegistrations,
     ComposerDrafts,
+    RecentInstances,
   ],
   daos: [
     AuthSessionDao,
@@ -131,6 +134,7 @@ part 'fluxer_database.g.dart';
     DmFolderSettingsDao,
     NotificationDao,
     FavoriteChannelsDao,
+    RecentInstancesDao,
   ],
 )
 class FluxerDatabase extends _$FluxerDatabase {
@@ -139,7 +143,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 57;
+  int get schemaVersion => 61;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -578,6 +582,33 @@ class FluxerDatabase extends _$FluxerDatabase {
       }
       if (from < 57) {
         await m.addColumn(channels, channels.userLimit);
+      }
+      if (from < 58) {
+        await m.addColumn(messages, messages.authorIsSystem);
+        await customStatement('''
+          UPDATE messages
+          SET author_is_system = (
+            SELECT COALESCE(users.system, 0)
+            FROM users
+            WHERE users.id = messages.author_id
+          )
+          WHERE EXISTS (
+            SELECT 1 FROM users WHERE users.id = messages.author_id
+          )
+          ''');
+      }
+      if (from < 59) {
+        await m.createTable(recentInstances);
+        await m.addColumn(
+          authSessions,
+          authSessions.instanceSnapshotJson,
+        );
+      }
+      if (from < 60) {
+        await m.addColumn(messages, messages.mentionedUserIdsJson);
+      }
+      if (from < 61) {
+        await m.addColumn(members, members.profileFlags);
       }
     },
   );

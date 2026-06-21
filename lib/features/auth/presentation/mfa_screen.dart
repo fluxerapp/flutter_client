@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
+import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/mfa_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
@@ -31,6 +32,9 @@ class MfaScreen extends ConsumerWidget {
     final layout = context.layout;
     final textStyles = context.textStyles;
     final colors = context.colors;
+    final errorText = vm.errorType != null
+        ? vm.errorType!.resolve(l10n)
+        : vm.error;
 
     // Listen for completion.
     ref.listen(
@@ -65,10 +69,10 @@ class MfaScreen extends ConsumerWidget {
             notifier: notifier,
             l10n: l10n,
           ),
-        if (vm.error != null) ...[
+        if (errorText != null) ...[
           SizedBox(height: layout.s3),
           Text(
-            vm.error!,
+            errorText,
             style: textStyles.bodySmall.copyWith(color: colors.textDanger),
           ),
         ],

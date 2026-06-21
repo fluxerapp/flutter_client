@@ -3,6 +3,7 @@
     "configurations": [
         {
             "name": "Android Canary FCM",
+            "preLaunchTask": "firebase: FCM",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
@@ -15,6 +16,7 @@
         },
         {
             "name": "Android Canary FCM (Profile)",
+            "preLaunchTask": "firebase: FCM",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
@@ -27,6 +29,7 @@
         },
         {
             "name": "Android Beta FCM",
+            "preLaunchTask": "firebase: FCM",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
@@ -39,6 +42,7 @@
         },
         {
             "name": "Android Stable FCM",
+            "preLaunchTask": "firebase: FCM",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
@@ -51,6 +55,7 @@
         },
         {
             "name": "Android Canary UnifiedPush",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
@@ -61,8 +66,9 @@
                 "--dart-define=PUSH_PROVIDER=unifiedpush"
             ]
         },
-                {
+        {
             "name": "Android Canary UnifiedPush (Profile)",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
@@ -75,6 +81,7 @@
         },
         {
             "name": "Android Beta UnifiedPush",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
@@ -87,6 +94,7 @@
         },
         {
             "name": "Android Stable UnifiedPush",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
@@ -99,6 +107,7 @@
         },
         {
             "name": "iOS Canary APNs",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
@@ -111,6 +120,7 @@
         },
         {
             "name": "iOS Beta APNs",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
@@ -123,6 +133,7 @@
         },
         {
             "name": "iOS Stable APNs",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",

@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide AuthSession;
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/features/auth/data/auth_token_storage.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
@@ -15,8 +19,14 @@ class AuthRepository {
   final FluxerClient _client;
   final FluxerDatabase _db;
   final AuthTokenStorage _tokenStorage;
+  final InstanceConfigSnapshot Function() _readInstanceSnapshot;
 
-  const AuthRepository(this._client, this._db, this._tokenStorage);
+  const AuthRepository(
+    this._client,
+    this._db,
+    this._tokenStorage, {
+    required InstanceConfigSnapshot Function() readInstanceSnapshot,
+  }) : _readInstanceSnapshot = readInstanceSnapshot;
 
   Future<LoginResult> login({
     required String email,
@@ -270,7 +280,55 @@ class AuthRepository {
       username: username,
       discriminator: discriminator,
       avatar: avatar,
+      instanceSnapshotJson: _readInstanceSnapshot().toJson(),
     );
+  }
+
+  Future<InstanceConfigSnapshot> resolveInstanceSnapshotForUser(
+    String userId,
+  ) async {
+    final String? json = await _db.authSessionDao.getInstanceSnapshotJson(
+      userId,
+    );
+    if (json == null || json.isEmpty) {
+      return InstanceConfigSnapshot.officialDefault();
+    }
+    return InstanceConfigSnapshot.fromJson(json);
+  }
+
+  Future<InstanceConfigSnapshot?> resolveActiveInstanceSnapshot() async {
+    final row = await _db.authSessionDao.getActiveSession();
+    if (row == null) {
+      return null;
+    }
+    return resolveInstanceSnapshotForUser(row.userId);
+  }
+
+  String _resolveDisplayDomain(String? instanceSnapshotJson) {
+    const InstanceEndpointNormalizer normalizer = InstanceEndpointNormalizer();
+    final String? parsed = _parseDisplayDomain(instanceSnapshotJson);
+    final String raw =
+        parsed ?? InstanceConfigSnapshot.officialDefault().displayDomain;
+    return normalizer.formatDisplayDomain(raw);
+  }
+
+  String? _parseDisplayDomain(String? instanceSnapshotJson) {
+    if (instanceSnapshotJson == null || instanceSnapshotJson.isEmpty) {
+      return null;
+    }
+    try {
+      final Object? decoded = jsonDecode(instanceSnapshotJson);
+      if (decoded is! Map<String, dynamic>) {
+        return null;
+      }
+      final Object? displayDomain = decoded['display_domain'];
+      if (displayDomain is String && displayDomain.isNotEmpty) {
+        return displayDomain;
+      }
+      return null;
+    } on Object {
+      return null;
+    }
   }
 
   Future<AuthSession> verifyMfaTotp({
@@ -426,6 +484,7 @@ class AuthRepository {
             username: s.username,
             discriminator: s.discriminator,
             avatar: s.avatar,
+            displayDomain: _resolveDisplayDomain(s.instanceSnapshotJson),
           ),
         )
         .toList();
@@ -483,36 +542,50 @@ class AuthRepository {
     final responseData = error.response?.data;
 
     if (responseData is Map<String, dynamic>) {
-      try {
-        final apiError = Error.fromJson(responseData);
-        final validationErrors = apiError.errors;
-
-        if (validationErrors != null && validationErrors.isNotEmpty) {
-          for (final e in validationErrors) {
-            if (e.code == 'INVALID_EMAIL_OR_PASSWORD') {
-              return AuthFailure(
-                e.message,
-                kind: AuthFailureKind.invalidCredentials,
-              );
-            }
+      final rawErrors = responseData['errors'];
+      if (rawErrors is List<dynamic>) {
+        var sawInvalidCredentials = false;
+        final fieldErrors = <String, String>{};
+        for (final item in rawErrors) {
+          if (item is! Map<String, dynamic>) {
+            continue;
           }
-
-          final fieldErrors = <String, String>{};
-          for (final e in validationErrors) {
-            fieldErrors.putIfAbsent(e.field, () => e.message);
+          if (item['code'] == 'INVALID_EMAIL_OR_PASSWORD') {
+            sawInvalidCredentials = true;
           }
-          return AuthFailure(apiError.message, fieldErrors: fieldErrors);
+          // The live API names the failing field `path`; the OpenAPI spec
+          // (and the generated SDK model) calls it `field`. Accept either so
+          // the helpful per-field message survives spec drift.
+          final Object? field = item['path'] ?? item['field'];
+          final Object? message = item['message'];
+          if (field is String &&
+              field.isNotEmpty &&
+              message is String &&
+              message.isNotEmpty) {
+            fieldErrors.putIfAbsent(field, () => message);
+          }
         }
 
-        if (apiError.message.isNotEmpty) {
-          return AuthFailure(apiError.message);
+        if (sawInvalidCredentials) {
+          return const AuthFailure(
+            'Invalid email or password.',
+            kind: AuthFailureKind.invalidCredentials,
+          );
         }
-      } on Object {
-        // Fallback to raw extraction if the SDK model can't parse it.
-        final message = responseData['message'];
-        if (message is String && message.isNotEmpty) {
-          return AuthFailure(message);
+        if (fieldErrors.isNotEmpty) {
+          final topMessage = responseData['message'];
+          return AuthFailure(
+            topMessage is String && topMessage.isNotEmpty
+                ? topMessage
+                : 'Invalid form body.',
+            fieldErrors: fieldErrors,
+          );
         }
+      }
+
+      final message = responseData['message'];
+      if (message is String && message.isNotEmpty) {
+        return AuthFailure(message);
       }
     }
 
@@ -522,7 +595,10 @@ class AuthRepository {
 
     switch (error.response?.statusCode) {
       case 401:
-        return const AuthFailure('Invalid email or password.');
+        return const AuthFailure(
+          'Invalid email or password.',
+          kind: AuthFailureKind.invalidCredentials,
+        );
       case 429:
         return const AuthFailure(
           'Too many attempts. Please wait and try again.',

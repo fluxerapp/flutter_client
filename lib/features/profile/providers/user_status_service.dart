@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -39,8 +40,9 @@ class UserStatusService {
       userId: userId,
       request: request,
       optimisticStatus: status.json ?? 'online',
-      optimisticCustomStatusText:
-          _ref.read(userSettingsStatusProvider)?.customStatus?.text,
+      optimisticCustomStatusText: serializeCustomStatus(
+        _ref.read(userSettingsStatusProvider)?.customStatus,
+      ),
     );
   }
 
@@ -58,8 +60,9 @@ class UserStatusService {
       userId: userId,
       request: request,
       optimisticStatus: fallbackStatus.json ?? 'online',
-      optimisticCustomStatusText:
-          _ref.read(userSettingsStatusProvider)?.customStatus?.text,
+      optimisticCustomStatusText: serializeCustomStatus(
+        _ref.read(userSettingsStatusProvider)?.customStatus,
+      ),
     );
   }
 
@@ -76,7 +79,9 @@ class UserStatusService {
       request: request,
       optimisticStatus:
           _ref.read(userSettingsStatusProvider)?.status ?? 'online',
-      optimisticCustomStatusText: payload.text,
+      optimisticCustomStatusText: serializeCustomStatus(
+        customStatusResponseFromPayload(payload),
+      ),
     );
   }
 
@@ -133,7 +138,9 @@ class UserStatusService {
         await database.userDao.updateUserPresence(
           userId,
           status: previousSettings.status,
-          customStatus: previousSettings.customStatus?.text,
+          customStatus: serializeCustomStatus(
+            previousSettings.customStatus,
+          ),
         );
       }
       rethrow;
@@ -176,7 +183,9 @@ class UserStatusService {
         await database.userDao.updateUserPresence(
           userId,
           status: previousSettings.status,
-          customStatus: previousSettings.customStatus?.text,
+          customStatus: serializeCustomStatus(
+            previousSettings.customStatus,
+          ),
         );
       }
       rethrow;

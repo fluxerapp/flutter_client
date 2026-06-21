@@ -11,6 +11,8 @@ import 'package:fluxer_app/features/members/domain/member_list_group_names.dart'
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
+import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
+import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -58,6 +60,8 @@ class _MemberListSidebarMemberRowState
       roleIds: member.roles,
       rolesById: widget.rolesById,
     );
+    final bool showUserTag =
+        (member.user.bot ?? false) || (member.user.system ?? false);
     final FluxerLayoutTheme layout = context.layout;
     return SizedBox(
       height: kMemberListRowHeight,
@@ -99,7 +103,6 @@ class _MemberListSidebarMemberRowState
                         hash: avatar,
                       ),
                       avatarColor: member.user.avatarColor,
-                      roleColor: roleColor,
                       status: status,
                       size: 32,
                     ),
@@ -122,21 +125,19 @@ class _MemberListSidebarMemberRowState
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              if (member.user.bot ?? false) ...<Widget>[
+                              if (showUserTag) ...<Widget>[
                                 SizedBox(width: layout.s1),
-                                const FluxerBotBadge(),
+                                FluxerUserTag(
+                                  isSystem: member.user.system ?? false,
+                                ),
                               ],
                             ],
                           ),
-                          if (customStatus != null)
-                            Text(
-                              customStatus,
-                              style: TextStyle(
-                                color: context.colors.textPrimaryMuted,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                          if (hasVisibleCustomStatus(customStatus))
+                            CustomStatusDisplay(
+                              stored: customStatus,
+                              maxLines: 1,
+                              emojiSize: 14,
                             ),
                         ],
                       ),
@@ -187,6 +188,8 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
       roleIds: member.roles,
       rolesById: rolesById,
     );
+    final bool showUserTag =
+        (member.user.bot ?? false) || (member.user.system ?? false);
     final Widget row = Material(
       color: Colors.transparent,
       child: InkWell(
@@ -209,7 +212,6 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
                   hash: avatar,
                 ),
                 avatarColor: member.user.avatarColor,
-                roleColor: roleColor,
                 status: status,
                 size: 32,
               ),
@@ -240,20 +242,16 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
                             color: Color(0xFFFAA61A),
                           ),
                         ],
-                        if (member.user.bot ?? false) ...<Widget>[
+                        if (showUserTag) ...<Widget>[
                           const SizedBox(width: 6),
-                          const FluxerBotBadge(),
+                          FluxerUserTag(isSystem: member.user.system ?? false),
                         ],
                       ],
                     ),
-                    if (customStatus != null && customStatus.isNotEmpty) ...<Widget>[
+                    if (hasVisibleCustomStatus(customStatus)) ...<Widget>[
                       const SizedBox(height: 2),
-                      Text(
-                        customStatus,
-                        style: context.textStyles.bodySmall.copyWith(
-                          color: context.colors.textSecondary,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                      CustomStatusDisplay(
+                        stored: customStatus,
                         maxLines: 1,
                       ),
                     ],

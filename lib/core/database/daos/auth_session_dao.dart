@@ -34,16 +34,23 @@ class AuthSessionDao extends DatabaseAccessor<FluxerDatabase>
     String? username,
     String? discriminator,
     String? avatar,
+    String? instanceSnapshotJson,
   }) => into(authSessions).insertOnConflictUpdate(
     AuthSessionsCompanion.insert(
       userId: userId,
       username: Value(username),
       discriminator: Value(discriminator),
       avatar: Value(avatar),
+      instanceSnapshotJson: Value(instanceSnapshotJson),
       isValid: const Value(true),
       lastActive: Value(DateTime.now()),
     ),
   );
+
+  Future<String?> getInstanceSnapshotJson(String userId) async {
+    final AuthSession? session = await getSession(userId);
+    return session?.instanceSnapshotJson;
+  }
 
   /// Marks a session as the active account without rewriting metadata.
   Future<void> touchSession(String userId) =>

@@ -31,6 +31,12 @@ You can follow more about the V1 development and what features are planned/imple
 
 For updates, support, and discussion, [join the Fluxer Mobile community on Fluxer](https://fluxer.gg/fluxer-mobile).
 
+# Self hosted instances
+
+The mobile app supports self hosted instances now! Push notifications are currently only supported for users using the Android OSS build.
+
+For iOS and Android FCM build we will need to setup a relay service for self hosted instances to use. This is something that will be worked on in the future.
+
 ## Download
 
 > [!NOTE]

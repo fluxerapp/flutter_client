@@ -1,19 +1,19 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
-import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
+import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
+
+bool _isVoiceCallKitMobilePlatform() {
+  return !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+}
 
 /// Presents ringing calls in a Fluxer draggable bottom sheet like fluxer-web
 /// IncomingCallUI on mobile.
@@ -22,103 +22,7 @@ class IncomingVoiceCallLayer extends ConsumerStatefulWidget {
 
   final Widget child;
 
-  static Future<void> _executeAccept(
-    WidgetRef ref,
-    BuildContext ctx,
-    String channelId,
-  ) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
-    final String? uid = ref.read(currentUserIdProvider);
-    if (uid != null) {
-      ref
-          .read(activeCallsProvider.notifier)
-          .removeUserFromPendingRing(channelId: channelId, userId: uid);
-    }
-    if (!ctx.mounted) {
-      return;
-    }
-    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-    final db.Channel? guildRow = await database.channelDao.getChannelById(
-      channelId,
-    );
-    final String? guildIdForJoin = guildRow?.guildId;
-    if (!ctx.mounted) {
-      return;
-    }
-    try {
-      await joinVoiceChannelWithConfirmation(
-        ref: ref,
-        context: ctx,
-        guildId: guildIdForJoin,
-        channelId: channelId,
-      );
-    } on Object {
-      if (!ctx.mounted) {
-        return;
-      }
-      ScaffoldMessenger.of(
-        ctx,
-      ).showSnackBar(SnackBar(content: Text(l10n.voiceJoinIncomingCallFailed)));
-    }
-  }
-
-  static Future<void> _executeDecline(
-    WidgetRef ref,
-    BuildContext ctx,
-    String channelId,
-  ) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
-    final VoiceSessionState voice = ref.read(voiceSessionProvider);
-    ref
-        .read(activeCallsProvider.notifier)
-        .clearPendingRingForChannel(channelId);
-    if (voice.channelId == channelId && voice.isConnected) {
-      await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
-    }
-    try {
-      final FluxerClient client = ref.read(fluxerClientProvider);
-      await client.channels.stopRingingCallRecipients(
-        channelId: channelId,
-        body: const CallRingBodySchema(),
-      );
-    } on Object {
-      if (!ctx.mounted) {
-        return;
-      }
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(content: Text(l10n.incomingVoiceRingingUpdateFailed)),
-      );
-    }
-  }
-
-  static Future<void> _executeIgnore(
-    WidgetRef ref,
-    BuildContext ctx,
-    String channelId,
-  ) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
-    final String? uid = ref.read(currentUserIdProvider);
-    if (uid == null) {
-      return;
-    }
-    ref
-        .read(activeCallsProvider.notifier)
-        .removeUserFromPendingRing(channelId: channelId, userId: uid);
-    try {
-      final FluxerClient client = ref.read(fluxerClientProvider);
-      await client.channels.stopRingingCallRecipients(
-        channelId: channelId,
-        body: CallRingBodySchema(recipients: [uid]),
-      );
-    } on Object {
-      if (!ctx.mounted) {
-        return;
-      }
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(content: Text(l10n.incomingVoiceRingingUpdateFailed)),
-      );
-    }
-  }
+  bool get _isMobileCallKitPlatform => _isVoiceCallKitMobilePlatform();
 
   @override
   ConsumerState<IncomingVoiceCallLayer> createState() =>
@@ -137,6 +41,12 @@ class _IncomingVoiceCallLayerState
 
   void _enqueuePresentSheet() {
     if (!mounted || _sheetOpen) {
+      return;
+    }
+    if (!shouldPresentIncomingVoiceSheet(
+      isMobileCallKitPlatform: widget._isMobileCallKitPlatform,
+      isForeground: ref.read(appUiForegroundProvider),
+    )) {
       return;
     }
     final List<String> pending = ref.read(
@@ -176,19 +86,19 @@ class _IncomingVoiceCallLayerState
         return;
       }
       if (result == kIncomingVoiceResultAccept) {
-        await IncomingVoiceCallLayer._executeAccept(
+        await executeAcceptIncomingVoiceCall(
           ref,
           actionContext,
           channelId,
         );
       } else if (result == kIncomingVoiceResultReject) {
-        await IncomingVoiceCallLayer._executeDecline(
+        await executeDeclineIncomingVoiceCall(
           ref,
           actionContext,
           channelId,
         );
       } else {
-        await IncomingVoiceCallLayer._executeIgnore(
+        await executeIgnoreIncomingVoiceCall(
           ref,
           actionContext,
           channelId,

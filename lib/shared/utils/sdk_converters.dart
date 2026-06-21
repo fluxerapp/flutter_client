@@ -67,6 +67,9 @@ db.MembersCompanion memberCompanionFromSdk(
     mentionFlags: sdk.mentionFlags == null
         ? const Value.absent()
         : Value(sdk.mentionFlags!.json),
+    profileFlags: sdk.profileFlags == null
+        ? const Value.absent()
+        : Value(sdk.profileFlags),
   );
 }
 

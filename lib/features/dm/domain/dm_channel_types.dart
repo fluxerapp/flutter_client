@@ -12,11 +12,11 @@ const String fluxerBotUserId = '0';
 
 bool messageAuthorShowsUserTag({
   required bool authorIsBot,
-  required String authorId,
-}) => authorIsBot || authorId == fluxerBotUserId;
+  required bool authorIsSystem,
+}) => authorIsBot || authorIsSystem;
 
-bool messageAuthorUserTagIsSystem({required String authorId}) =>
-    authorId == fluxerBotUserId;
+bool messageAuthorUserTagIsSystem({required bool authorIsSystem}) =>
+    authorIsSystem;
 
 bool isSystemDmConversation(DmConversation dm) =>
     !dm.isGroup && dm.recipientId == fluxerBotUserId;

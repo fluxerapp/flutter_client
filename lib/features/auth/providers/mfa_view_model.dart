@@ -2,8 +2,11 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
+import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/mfa_challenge.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
+import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
+import 'package:passkeys/exceptions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'mfa_view_model.g.dart';
@@ -17,6 +20,7 @@ class MfaViewState {
   final String code;
   final bool isSubmitting;
   final String? error;
+  final LoginError? errorType;
   final bool smsSent;
   final bool webauthnLoading;
   final AuthSession? completedSession;
@@ -26,6 +30,7 @@ class MfaViewState {
     required this.code,
     required this.isSubmitting,
     required this.error,
+    required this.errorType,
     required this.smsSent,
     required this.webauthnLoading,
     required this.completedSession,
@@ -36,6 +41,7 @@ class MfaViewState {
     String? code,
     bool? isSubmitting,
     Object? error = _unset,
+    Object? errorType = _unset,
     bool? smsSent,
     bool? webauthnLoading,
     Object? completedSession = _unset,
@@ -47,6 +53,9 @@ class MfaViewState {
       code: code ?? this.code,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       error: error == _unset ? this.error : error as String?,
+      errorType: errorType == _unset
+          ? this.errorType
+          : errorType as LoginError?,
       smsSent: smsSent ?? this.smsSent,
       webauthnLoading: webauthnLoading ?? this.webauthnLoading,
       completedSession: completedSession == _unset
@@ -83,6 +92,7 @@ class MfaViewModel extends _$MfaViewModel {
       code: '',
       isSubmitting: false,
       error: null,
+      errorType: null,
       smsSent: false,
       webauthnLoading: false,
       completedSession: null,
@@ -94,16 +104,22 @@ class MfaViewModel extends _$MfaViewModel {
       selectedMethod: method,
       code: '',
       error: null,
+      errorType: null,
       smsSent: false,
     );
   }
 
   void clearMethod() {
-    state = state.copyWith(selectedMethod: null, code: '', error: null);
+    state = state.copyWith(
+      selectedMethod: null,
+      code: '',
+      error: null,
+      errorType: null,
+    );
   }
 
   void updateCode(String value) {
-    state = state.copyWith(code: value, error: null);
+    state = state.copyWith(code: value, error: null, errorType: null);
   }
 
   Future<void> submitCode() async {
@@ -112,7 +128,7 @@ class MfaViewModel extends _$MfaViewModel {
     }
 
     final code = state.code.replaceAll(' ', '');
-    state = state.copyWith(isSubmitting: true, error: null);
+    state = state.copyWith(isSubmitting: true, error: null, errorType: null);
 
     try {
       final repo = ref.read(authRepositoryProvider);
@@ -139,12 +155,14 @@ class MfaViewModel extends _$MfaViewModel {
       state = state.copyWith(
         isSubmitting: false,
         error: _failureMessage(e, preferredField: 'code'),
+        errorType: null,
       );
     } on Exception catch (e) {
       talker.error('[MfaViewModel] Unexpected error: $e');
       state = state.copyWith(
         isSubmitting: false,
         error: 'Verification failed. Please try again.',
+        errorType: null,
       );
     }
   }
@@ -171,7 +189,7 @@ class MfaViewModel extends _$MfaViewModel {
   }
 
   Future<void> sendSms() async {
-    state = state.copyWith(isSubmitting: true, error: null);
+    state = state.copyWith(isSubmitting: true, error: null, errorType: null);
 
     try {
       await ref
@@ -179,18 +197,23 @@ class MfaViewModel extends _$MfaViewModel {
           .sendMfaSms(ticket: _challenge.ticket);
       state = state.copyWith(isSubmitting: false, smsSent: true);
     } on AuthFailure catch (e) {
-      state = state.copyWith(isSubmitting: false, error: _failureMessage(e));
+      state = state.copyWith(
+        isSubmitting: false,
+        error: _failureMessage(e),
+        errorType: null,
+      );
     } on Exception catch (e) {
       talker.error('[MfaViewModel] SMS send error: $e');
       state = state.copyWith(
         isSubmitting: false,
         error: 'Failed to send code. Please try again.',
+        errorType: null,
       );
     }
   }
 
   Future<void> startWebauthn() async {
-    state = state.copyWith(webauthnLoading: true, error: null);
+    state = state.copyWith(webauthnLoading: true, error: null, errorType: null);
 
     try {
       final repo = ref.read(authRepositoryProvider);
@@ -216,10 +239,28 @@ class MfaViewModel extends _$MfaViewModel {
 
       state = state.copyWith(webauthnLoading: false, completedSession: session);
     } on AuthFailure catch (e) {
-      state = state.copyWith(webauthnLoading: false, error: _failureMessage(e));
+      state = state.copyWith(
+        webauthnLoading: false,
+        error: _failureMessage(e),
+        errorType: null,
+      );
+    } on PasskeyAuthCancelledException {
+      state = state.copyWith(webauthnLoading: false);
+    } on AuthenticatorException catch (e) {
+      talker.error('[MfaViewModel] Passkey error: $e');
+      final (errorType, errorMessage) = mapPasskeyAuthError(e);
+      state = state.copyWith(
+        webauthnLoading: false,
+        errorType: errorType,
+        error: errorMessage,
+      );
     } on Exception catch (e) {
       talker.error('[MfaViewModel] WebAuthn error: $e');
-      state = state.copyWith(webauthnLoading: false);
+      state = state.copyWith(
+        webauthnLoading: false,
+        errorType: LoginError.passkeyFailed,
+        error: null,
+      );
     }
   }
 }

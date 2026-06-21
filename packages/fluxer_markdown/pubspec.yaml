@@ -20,6 +20,7 @@ dependencies:
     sdk: flutter
   flutter_highlight: ^0.7.0
   flutter_svg: ^2.2.4
+  latext: ^0.5.1
   highlight: ^0.7.0
   intl: ^0.20.2
   markdown: ^7.3.1

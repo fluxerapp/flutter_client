@@ -2235,6 +2235,19 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
 
   @override
+  String userProfilePlutoniumSubscriberSinceTooltip(String date) {
+    return 'Fluxer Plutonium subscriber since $date';
+  }
+
+  @override
+  String get userProfileVisionaryBadgeTooltip => 'Fluxer Visionary';
+
+  @override
+  String userProfileVisionaryBadgeSinceTooltip(String date) {
+    return 'Fluxer Visionary since $date';
+  }
+
+  @override
   String userProfileVisionaryIdTooltip(int sequence) {
     return 'Visionary ID #$sequence';
   }
@@ -3124,8 +3137,8 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# files',
-      one: '# file',
+      other: '$count files',
+      one: '1 file',
     );
     return 'Uploading $_temp0';
   }
@@ -4839,6 +4852,16 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       'Your private space for thoughts and reminders';
 
   @override
+  String channelWelcomeHeading(String channelName) {
+    return 'Welcome to $channelName';
+  }
+
+  @override
+  String channelWelcomeDescription(String channelName) {
+    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+  }
+
+  @override
   String get personalNotesComposerHint => 'Message yourself';
 
   @override
@@ -5116,4 +5139,39 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+
+  @override
+  String get instanceUrlLabel => 'Instance URL';
+
+  @override
+  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+
+  @override
+  String get instanceConnect => 'Connect';
+
+  @override
+  String get instanceConnecting => 'Connecting…';
+
+  @override
+  String get instanceConnectFailed => 'Failed to connect to instance';
+
+  @override
+  String get recentInstances => 'Recent instances';
+
+  @override
+  String removeRecentInstance(String domain) {
+    return 'Remove $domain from recent instances';
+  }
+
+  @override
+  String get instanceSheetTitle => 'Connect to instance';
+
+  @override
+  String get connectToDifferentInstance => 'Connect to a different instance';
+
+  @override
+  String get changeInstance => 'Change';
+
+  @override
+  String get instanceConnectionRequired => 'Connect to the instance to sign in';
 }

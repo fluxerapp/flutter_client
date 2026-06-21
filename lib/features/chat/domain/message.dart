@@ -646,6 +646,7 @@ class Message {
   final String? authorAvatar;
   final int? authorAvatarColor;
   final bool authorIsBot;
+  final bool authorIsSystem;
   final String? webhookId;
   final String content;
   final DateTime timestamp;
@@ -660,6 +661,7 @@ class Message {
   final List<MessageSnapshot> messageSnapshots;
   final bool isPinned;
   final bool isMentioned;
+  final List<String> mentionedUserIds;
   final int type;
   final int flags;
   final MessageDeliveryState deliveryState;
@@ -676,6 +678,7 @@ class Message {
     this.authorAvatar,
     this.authorAvatarColor,
     this.authorIsBot = false,
+    this.authorIsSystem = false,
     this.webhookId,
     this.editedTimestamp,
     this.embeds = const [],
@@ -688,6 +691,7 @@ class Message {
     this.messageSnapshots = const [],
     this.isPinned = false,
     this.isMentioned = false,
+    this.mentionedUserIds = const [],
     this.type = 0,
     this.flags = 0,
     this.deliveryState = MessageDeliveryState.sent,
@@ -709,6 +713,7 @@ class Message {
       authorAvatar: sdk.author.avatar,
       authorAvatarColor: sdk.author.avatarColor,
       authorIsBot: sdk.author.bot ?? false,
+      authorIsSystem: sdk.author.system ?? false,
       webhookId: sdk.webhookId,
       content: sdk.content,
       timestamp: sdk.timestamp,
@@ -727,6 +732,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
+      mentionedUserIds: sdk.mentions
+          .map((user) => user.id)
+          .toList(growable: false),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
       clientNonce: sdk.nonce,
@@ -750,6 +758,7 @@ class Message {
       authorAvatar: sdk.author.avatar,
       authorAvatarColor: sdk.author.avatarColor,
       authorIsBot: sdk.author.bot ?? false,
+      authorIsSystem: sdk.author.system ?? false,
       webhookId: sdk.webhookId,
       content: sdk.content,
       timestamp: sdk.timestamp,
@@ -761,6 +770,9 @@ class Message {
       reactions: sdk.reactions?.map(Reaction.fromSdk).toList() ?? const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
+      mentionedUserIds: sdk.mentions
+          .map((user) => user.id)
+          .toList(growable: false),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
     );
@@ -783,6 +795,7 @@ class Message {
       authorAvatar: sdk.author.avatar,
       authorAvatarColor: sdk.author.avatarColor,
       authorIsBot: sdk.author.bot ?? false,
+      authorIsSystem: sdk.author.system ?? false,
       webhookId: sdk.webhookId,
       content: sdk.content,
       timestamp: sdk.timestamp,
@@ -800,6 +813,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
+      mentionedUserIds: sdk.mentions
+          .map((user) => user.id)
+          .toList(growable: false),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
       clientNonce: sdk.nonce,
@@ -823,6 +839,7 @@ class Message {
       authorAvatar: sdk.author.avatar,
       authorAvatarColor: sdk.author.avatarColor,
       authorIsBot: sdk.author.bot ?? false,
+      authorIsSystem: sdk.author.system ?? false,
       webhookId: sdk.webhookId,
       content: sdk.content,
       timestamp: sdk.timestamp,
@@ -841,6 +858,9 @@ class Message {
           const [],
       isPinned: sdk.pinned,
       isMentioned: isMentioned,
+      mentionedUserIds: sdk.mentions
+          .map((user) => user.id)
+          .toList(growable: false),
       type: sdk.type.json ?? 0,
       flags: sdk.flags,
       clientNonce: sdk.nonce,
@@ -856,6 +876,7 @@ class Message {
       authorAvatar: row.authorAvatar,
       authorAvatarColor: row.authorAvatarColor,
       authorIsBot: row.authorIsBot,
+      authorIsSystem: row.authorIsSystem,
       webhookId: row.webhookId,
       content: row.content,
       timestamp: row.timestamp,
@@ -877,6 +898,7 @@ class Message {
       ),
       isPinned: row.pinned,
       isMentioned: row.isMentioned,
+      mentionedUserIds: _decodeStringList(row.mentionedUserIdsJson),
       type: row.type,
       flags: row.flags,
       deliveryState: MessageDeliveryState.values[row.deliveryState],
@@ -894,6 +916,7 @@ class Message {
       authorAvatar: Value(authorAvatar),
       authorAvatarColor: Value(authorAvatarColor),
       authorIsBot: Value(authorIsBot),
+      authorIsSystem: Value(authorIsSystem),
       webhookId: Value(webhookId),
       content: content,
       timestamp: timestamp,
@@ -918,6 +941,7 @@ class Message {
       ),
       pinned: Value(isPinned),
       isMentioned: Value(isMentioned),
+      mentionedUserIdsJson: Value(jsonEncode(mentionedUserIds)),
       type: Value(type),
       flags: Value(flags),
       deliveryState: Value(deliveryState.index),
@@ -934,6 +958,7 @@ class Message {
     String? authorAvatar,
     int? authorAvatarColor,
     bool? authorIsBot,
+    bool? authorIsSystem,
     Object? webhookId = _unset,
     String? content,
     DateTime? timestamp,
@@ -948,6 +973,7 @@ class Message {
     List<MessageSnapshot>? messageSnapshots,
     bool? isPinned,
     bool? isMentioned,
+    List<String>? mentionedUserIds,
     int? type,
     int? flags,
     MessageDeliveryState? deliveryState,
@@ -962,6 +988,7 @@ class Message {
       authorAvatar: authorAvatar ?? this.authorAvatar,
       authorAvatarColor: authorAvatarColor ?? this.authorAvatarColor,
       authorIsBot: authorIsBot ?? this.authorIsBot,
+      authorIsSystem: authorIsSystem ?? this.authorIsSystem,
       webhookId: webhookId == _unset ? this.webhookId : webhookId as String?,
       content: content ?? this.content,
       timestamp: timestamp ?? this.timestamp,
@@ -976,6 +1003,7 @@ class Message {
       messageSnapshots: messageSnapshots ?? this.messageSnapshots,
       isPinned: isPinned ?? this.isPinned,
       isMentioned: isMentioned ?? this.isMentioned,
+      mentionedUserIds: mentionedUserIds ?? this.mentionedUserIds,
       type: type ?? this.type,
       flags: flags ?? this.flags,
       deliveryState: deliveryState ?? this.deliveryState,
@@ -986,7 +1014,7 @@ class Message {
     );
   }
 
-  /// Merges a gateway [MESSAGE_UPDATE] payload into this message.
+  /// Merges a gateway `MESSAGE_UPDATE` payload into this message.
   Message applyGatewayUpdate(
     MessageResponseSchema sdk, {
     String? currentUserId,
@@ -998,6 +1026,7 @@ class Message {
       authorAvatar: incoming.authorAvatar,
       authorAvatarColor: incoming.authorAvatarColor,
       authorIsBot: incoming.authorIsBot,
+      authorIsSystem: incoming.authorIsSystem,
       webhookId: incoming.webhookId,
       content: incoming.content,
       editedTimestamp: incoming.editedTimestamp ?? editedTimestamp,
@@ -1014,6 +1043,7 @@ class Message {
           : messageSnapshots,
       isPinned: incoming.isPinned,
       isMentioned: incoming.isMentioned,
+      mentionedUserIds: incoming.mentionedUserIds,
       type: incoming.type,
       flags: incoming.flags,
     );
@@ -1052,16 +1082,20 @@ class Message {
       return false;
     }
     final trimmed = content.trim();
+    if (trimmed.contains(RegExp(r'\s'))) {
+      return false;
+    }
     return Uri.tryParse(trimmed)?.hasAbsolutePath ?? false;
   }
 
+  static final RegExp _invitesRegExp = RegExp(
+    r'(?:https?://)?(?:fluxer\.gg/(?!invite/)([a-zA-Z0-9\-]{2,32})|(?:web\.)?fluxer\.app/invite/([a-zA-Z0-9\-]{2,32}))(?![a-zA-Z0-9\-])', // .com (soon)
+  );
+
   List<String> get invites {
-    final re = RegExp(
-      r'(?:https?://)?(?:fluxer\.gg/(?!invite/)([a-zA-Z0-9\-]{2,32})|(?:web\.)?fluxer\.app/invite/([a-zA-Z0-9\-]{2,32}))(?![a-zA-Z0-9\-])', // .com (soon)
-    );
     final seen = <String>{};
     final result = <String>[];
-    for (final m in re.allMatches(content)) {
+    for (final m in _invitesRegExp.allMatches(content)) {
       final code = m.group(1) ?? m.group(2);
       if (code != null && seen.add(code)) {
         result.add(code);
@@ -1073,13 +1107,14 @@ class Message {
     return result;
   }
 
+  static final RegExp _themesRegExp = RegExp(
+    r'https?://web\.fluxer\.app/theme/([a-zA-Z0-9\-]{2,32})(?![a-zA-Z0-9\-])',
+  );
+
   List<String> get themes {
-    final re = RegExp(
-      r'https?://web\.fluxer\.app/theme/([a-zA-Z0-9\-]{2,32})(?![a-zA-Z0-9\-])',
-    );
     final seen = <String>{};
     final result = <String>[];
-    for (final m in re.allMatches(content)) {
+    for (final m in _themesRegExp.allMatches(content)) {
       final id = m.group(1);
       if (id != null && seen.add(id)) {
         result.add(id);
@@ -1135,6 +1170,7 @@ class Message {
       'avatar': authorAvatar,
       'avatar_color': authorAvatarColor,
       'bot': authorIsBot,
+      'system': authorIsSystem,
     },
     'webhook_id': webhookId,
     'content': content,
@@ -1144,6 +1180,7 @@ class Message {
     'flags': flags,
     'pinned': isPinned,
     'mentioned': isMentioned,
+    'mentions': mentionedUserIds,
     'reply_to_id': replyToId,
     'forwarded_from': forwardedFrom,
     'message_reference': messageReference?.toJson(),
@@ -1164,6 +1201,15 @@ class Message {
     try {
       final list = jsonDecode(json) as List<dynamic>;
       return list.map((e) => fromJson(e as Map<String, dynamic>)).toList();
+    } on Object {
+      return [];
+    }
+  }
+
+  static List<String> _decodeStringList(String json) {
+    try {
+      final list = jsonDecode(json) as List<dynamic>;
+      return list.map((e) => e.toString()).toList();
     } on Object {
       return [];
     }

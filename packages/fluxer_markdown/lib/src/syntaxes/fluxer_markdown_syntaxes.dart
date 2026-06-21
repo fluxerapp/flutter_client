@@ -28,7 +28,8 @@ class FluxerSpoilerSyntax extends md.InlineSyntax {
     if (content == null || content.isEmpty) {
       return false;
     }
-    parser.addNode(md.Element.text(tag, content));
+    final children = parser.document.parseInline(content);
+    parser.addNode(md.Element(tag, children));
     return true;
   }
 }

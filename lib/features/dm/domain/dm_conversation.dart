@@ -15,6 +15,7 @@ class DmConversation {
   final String recipientId;
   final String recipientName;
   final String? recipientUsername;
+  final String? recipientDiscriminator;
   final String? recipientAvatar;
   final String recipientStatus;
   final String? name;
@@ -42,6 +43,7 @@ class DmConversation {
     required this.lastMessage,
     required this.lastMessageTime,
     this.recipientUsername,
+    this.recipientDiscriminator,
     this.lastMessageAuthorId,
     this.lastMessageAuthorName,
     this.name,
@@ -71,6 +73,16 @@ class DmConversation {
     return recipientName;
   }
 
+  String? get recipientTag {
+    if (recipientUsername == null || recipientUsername!.isEmpty) {
+      return null;
+    }
+    if (recipientDiscriminator == null || recipientDiscriminator!.isEmpty) {
+      return recipientUsername;
+    }
+    return '$recipientUsername#$recipientDiscriminator';
+  }
+
   int get memberCount => recipientCount;
 
   factory DmConversation.fromRow(
@@ -89,6 +101,7 @@ class DmConversation {
       recipientId: row.recipientId,
       recipientName: recipient?.globalName ?? recipient?.username ?? 'Unknown',
       recipientUsername: recipient?.username,
+      recipientDiscriminator: recipient?.discriminator,
       recipientAvatar: recipient?.avatar,
       recipientStatus: recipient?.status ?? 'offline',
       name: row.name,

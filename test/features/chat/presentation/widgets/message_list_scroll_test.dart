@@ -1,48 +1,40 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_pagination.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
+import 'package:scrollview_observer/scrollview_observer.dart';
 
-/// Minimal reproduction of the chat center-sliver scroll layout.
-class CenterSliverScrollHarness extends StatefulWidget {
-  const CenterSliverScrollHarness({
-    required this.initialCount,
-    this.pivotIndex,
-    super.key,
-  });
+/// Reverse chat-list harness mirroring the production wiring in
+/// `message_list.dart`: a `reverse: true` `ListView.builder` wrapped in a
+/// `ListViewObserver`, with a `ChatScrollObserver` driving position-keeping.
+///
+/// Items are chronological ascending (index 0 oldest, `last` newest); render
+/// index 0 is the newest at the bottom. Fixed-height rows keep offsets
+/// deterministic.
+class ReverseChatHarness extends StatefulWidget {
+  const ReverseChatHarness({required this.initialCount, super.key});
 
   final int initialCount;
-  final int? pivotIndex;
 
   @override
-  CenterSliverScrollHarnessState createState() =>
-      CenterSliverScrollHarnessState();
+  ReverseChatHarnessState createState() => ReverseChatHarnessState();
 }
 
-class CenterSliverScrollHarnessState extends State<CenterSliverScrollHarness> {
+class ReverseChatHarnessState extends State<ReverseChatHarness> {
+  static const double itemHeight = 60;
   final ScrollController scrollController = ScrollController();
-  final GlobalKey centerKey = GlobalKey();
-  late List<int> _preCenterItems;
-  late List<int> _postCenterItems;
+  late final ListObserverController observerController;
+  late final ChatScrollObserver chatObserver;
+  late List<int> items;
 
   @override
   void initState() {
     super.initState();
-    _resetItems(widget.initialCount);
-  }
-
-  void _resetItems(int count) {
-    final List<int> items = List<int>.generate(count, (int i) => i);
-    if (widget.pivotIndex == null) {
-      _preCenterItems = items;
-      _postCenterItems = const [];
-      return;
-    }
-    final int pivot = widget.pivotIndex!.clamp(0, items.length - 1);
-    _preCenterItems = items.sublist(0, pivot + 1);
-    _postCenterItems = pivot + 1 < items.length
-        ? items.sublist(pivot + 1)
-        : const [];
+    items = List<int>.generate(widget.initialCount, (int i) => i);
+    observerController = ListObserverController(controller: scrollController);
+    chatObserver = ChatScrollObserver(observerController)
+      ..fixedPositionOffset = kMessageListReadBottomThreshold;
   }
 
   @override
@@ -51,531 +43,167 @@ class CenterSliverScrollHarnessState extends State<CenterSliverScrollHarness> {
     super.dispose();
   }
 
-  void prependItems(int count) {
-    setState(() {
-      _preCenterItems = <int>[
-        ...List<int>.generate(count, (int i) => -count + i),
-        ..._preCenterItems,
-      ];
-    });
-  }
-
-  void appendPreCenterNewestItem() {
-    setState(() {
-      final int next = _preCenterItems.isEmpty ? 0 : _preCenterItems.last + 1;
-      _preCenterItems = <int>[..._preCenterItems, next];
-    });
-  }
-
-  void appendPostCenterItems(int count) {
-    setState(() {
-      final int start = _postCenterItems.isEmpty
-          ? (_preCenterItems.isEmpty ? 0 : _preCenterItems.last + 1)
-          : _postCenterItems.last + 1;
-      _postCenterItems = <int>[
-        ..._postCenterItems,
-        ...List<int>.generate(count, (int i) => start + i),
-      ];
-    });
-  }
-
-  double? get scrollOffset =>
-      scrollController.hasClients ? scrollController.position.pixels : null;
-
-  void scrollToMiddle() {
-    if (!scrollController.hasClients) {
-      return;
-    }
-    scrollController.jumpTo(scrollController.position.maxScrollExtent / 2);
-  }
-
-  void scrollToTop() {
-    if (!scrollController.hasClients) {
-      return;
-    }
-    scrollController.jumpTo(scrollController.position.maxScrollExtent);
-  }
-
-  bool isNearTopForLoadMore() {
-    if (!scrollController.hasClients) {
-      return false;
-    }
-    final ScrollPosition position = scrollController.position;
-    return position.pixels >=
-        position.maxScrollExtent - kMessageListLoadMoreThreshold;
-  }
-
-  void scrollToBottom() {
-    if (!scrollController.hasClients) {
-      return;
-    }
-    scrollController.jumpTo(scrollController.position.minScrollExtent);
-  }
-
-  double? get minScrollExtent => scrollController.hasClients
-      ? scrollController.position.minScrollExtent
-      : null;
-
-  void scrollDownBy(double delta) {
-    if (!scrollController.hasClients) {
-      return;
-    }
-    final ScrollPosition position = scrollController.position;
-    final double target = (position.pixels - delta).clamp(
-      position.minScrollExtent,
-      position.maxScrollExtent,
+  /// Appends [count] newest items, mirroring `_applyChatAnchor`'s insert path:
+  /// `standby` is called before the data mutation so the observer pins the
+  /// viewport (or follows when at the bottom).
+  void appendNewest(int count) {
+    unawaited(
+      chatObserver.standby(
+        changeCount: count,
+        isNeedObserveSwitchShrinkWrap: false,
+      ),
     );
-    position.jumpTo(target);
-  }
-
-  int? estimateViewportPivotIndex() {
-    if (!scrollController.hasClients) {
-      return null;
-    }
-    final int total = _preCenterItems.length + _postCenterItems.length;
-    if (total == 0) {
-      return null;
-    }
-    final double extent = scrollController.position.maxScrollExtent;
-    if (extent <= 0) {
-      return _preCenterItems.isEmpty ? 0 : _preCenterItems.length - 1;
-    }
-    final double pixels = scrollController.position.pixels;
-    final int reversedIdx = ((pixels / extent) * total).round().clamp(
-      0,
-      total - 1,
-    );
-    return total - 1 - reversedIdx;
-  }
-
-  void syncPivotToViewport() {
-    final int? pivotIndex = estimateViewportPivotIndex();
-    if (pivotIndex == null) {
-      return;
-    }
     setState(() {
-      final List<int> items = <int>[..._preCenterItems, ..._postCenterItems];
-      if (items.isEmpty) {
-        return;
+      for (int i = 0; i < count; i++) {
+        items.add(items.length);
       }
-      final int pivot = pivotIndex.clamp(0, items.length - 1);
-      _preCenterItems = items.sublist(0, pivot + 1);
-      _postCenterItems = pivot + 1 < items.length
-          ? items.sublist(pivot + 1)
-          : const [];
+    });
+  }
+
+  /// Trims [count] newest items, mirroring `_applyChatAnchor`'s removal path:
+  /// specified mode with the synchronous default ref-index type holds the first
+  /// reference item fixed.
+  void trimNewest(int count) {
+    unawaited(
+      chatObserver.standby(
+        mode: ChatScrollObserverHandleMode.specified,
+        refIndexType:
+            ChatScrollObserverRefIndexType.relativeIndexStartFromDisplaying,
+        refItemIndexAfterUpdate: -count,
+        isNeedObserveSwitchShrinkWrap: false,
+      ),
+    );
+    setState(() {
+      items.removeRange(items.length - count, items.length);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: scrollController,
-      reverse: true,
-      center: centerKey,
-      slivers: [
-        SliverList(
-          delegate: SliverChildBuilderDelegate((
-            BuildContext context,
-            int index,
-          ) {
-            final int item = _postCenterItems[index];
-            return SizedBox(
-              key: ValueKey<int>(item),
-              height: 48,
-              child: Text('post $item'),
-            );
-          }, childCount: _postCenterItems.length),
+    final ScrollPhysics chatPhysics = ScrollConfiguration.of(context)
+        .getScrollPhysics(context)
+        .applyTo(ChatObserverClampingScrollPhysics(observer: chatObserver));
+    return Center(
+      child: SizedBox(
+        height: 600,
+        width: 400,
+        child: ListViewObserver(
+          controller: observerController,
+          child: ListView.builder(
+            controller: scrollController,
+            reverse: true,
+            physics: chatPhysics,
+            itemCount: items.length,
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
+            itemBuilder: (BuildContext context, int renderIndex) {
+              final int dataIndex = items.length - 1 - renderIndex;
+              final int value = items[dataIndex];
+              return SizedBox(
+                key: ValueKey<int>(value),
+                height: itemHeight,
+                child: Center(child: Text('item $value')),
+              );
+            },
+          ),
         ),
-        SliverPadding(
-          key: centerKey,
-          padding: EdgeInsets.zero,
-          sliver: const SliverToBoxAdapter(child: SizedBox.shrink()),
-        ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate((
-            BuildContext context,
-            int index,
-          ) {
-            final int item =
-                _preCenterItems[_preCenterItems.length - 1 - index];
-            return SizedBox(
-              key: ValueKey<int>(item),
-              height: 48,
-              child: Text('pre $item'),
-            );
-          }, childCount: _preCenterItems.length),
-        ),
-      ],
+      ),
     );
   }
 }
 
+ReverseChatHarnessState _stateOf(WidgetTester tester) =>
+    tester.state<ReverseChatHarnessState>(find.byType(ReverseChatHarness));
+
 void main() {
-  testWidgets('pre-center prepend keeps scroll offset stable', (tester) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: CenterSliverScrollHarness(key: harnessKey, initialCount: 20),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToTop();
-    await tester.pumpAndSettle();
-    final double offsetBefore = harnessKey.currentState!.scrollOffset!;
-    harnessKey.currentState!.prependItems(10);
-    await tester.pumpAndSettle();
-    final double offsetAfter = harnessKey.currentState!.scrollOffset!;
-    expect(offsetAfter, closeTo(offsetBefore, 1));
-  });
-
-  testWidgets('scroll offset increases when scrolled up', (tester) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(key: harnessKey, initialCount: 50),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    final double bottomOffset = harnessKey.currentState!.scrollOffset!;
-    harnessKey.currentState!.scrollToTop();
-    await tester.pumpAndSettle();
-    final double topOffset = harnessKey.currentState!.scrollOffset!;
-    expect(topOffset, greaterThan(bottomOffset));
-    expect(bottomOffset, lessThan(24));
-  });
-
-  testWidgets('pinned pivot keeps offset when appending post-center page', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 10,
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToMiddle();
-    await tester.pumpAndSettle();
-    final double offsetBefore = harnessKey.currentState!.scrollOffset!;
-    harnessKey.currentState!.appendPostCenterItems(30);
-    await tester.pumpAndSettle();
-    final double offsetAfter = harnessKey.currentState!.scrollOffset!;
-    expect(offsetAfter, closeTo(offsetBefore, 1));
-  });
-
-  testWidgets('pinned pivot bottom is near minScrollExtent not absolute zero', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 10,
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToBottom();
-    await tester.pumpAndSettle();
-    final double? offset = harnessKey.currentState!.scrollOffset;
-    final double? minExtent = harnessKey.currentState!.minScrollExtent;
-    expect(offset, isNotNull);
-    expect(minExtent, isNotNull);
-    expect(offset, closeTo(minExtent!, 1));
-    expect(
-      isLiveNearBottom(pixels: offset!, minScrollExtent: minExtent),
-      isTrue,
-    );
-    expect(
-      isNearScrollExtentEnd(pixels: offset, minScrollExtent: minExtent),
-      isTrue,
-    );
-  });
-
-  testWidgets('pinned unread pivot can reach loadMore threshold at top', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 10,
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    final MessageListPaginationGuard activeGuard = MessageListPaginationGuard(
-      scrollController: harnessKey.currentState!.scrollController,
-    );
-    addTearDown(activeGuard.dispose);
-    harnessKey.currentState!.scrollToTop();
-    await tester.pumpAndSettle();
-    expect(harnessKey.currentState!.isNearTopForLoadMore(), isTrue);
-    activeGuard.seedScrollPixels(
-      harnessKey.currentState!.scrollController.position.pixels - 10,
-    );
-    expect(
-      activeGuard.shouldLoadMore(
-        hasMoreMessages: true,
-        isLoadingMore: false,
-        isLoadingNewer: false,
-      ),
-      isTrue,
-    );
-  });
-
-  testWidgets('pre-center prepend with pinned unread pivot keeps offset', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 10,
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToTop();
-    await tester.pumpAndSettle();
-    final double offsetBefore = harnessKey.currentState!.scrollOffset!;
-    harnessKey.currentState!.prependItems(10);
-    await tester.pumpAndSettle();
-    final double offsetAfter = harnessKey.currentState!.scrollOffset!;
-    expect(offsetAfter, closeTo(offsetBefore, 1));
-  });
-
-  testWidgets('fixed unread pivot scroll-down does not snap to bottom', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 10,
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToMiddle();
-    await tester.pumpAndSettle();
-    double previousOffset = harnessKey.currentState!.scrollOffset!;
-    const double step = 40;
-    for (int i = 0; i < 10; i++) {
-      harnessKey.currentState!.scrollDownBy(step);
-      await tester.pumpAndSettle();
-      final double nextOffset = harnessKey.currentState!.scrollOffset!;
-      final double delta = previousOffset - nextOffset;
-      expect(delta, lessThan(80));
-      expect(delta, greaterThanOrEqualTo(0));
-      previousOffset = nextOffset;
-    }
-  });
-
-  testWidgets(
-    'post-center append with fixed unread pivot keeps offset stable',
-    (tester) async {
-      final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-          GlobalKey<CenterSliverScrollHarnessState>();
+  group('reverse chat list position-keeping', () {
+    testWidgets('append while scrolled up keeps the visible item fixed', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: SizedBox(
-              height: 400,
-              child: CenterSliverScrollHarness(
-                key: harnessKey,
-                initialCount: 50,
-                pivotIndex: 10,
-              ),
-            ),
-          ),
-        ),
+        const MaterialApp(home: ReverseChatHarness(initialCount: 50)),
       );
       await tester.pumpAndSettle();
-      harnessKey.currentState!.scrollToMiddle();
+      final ReverseChatHarnessState state = _stateOf(tester);
+
+      // Reverse list: larger pixels == scrolled up toward older messages.
+      state.scrollController.jumpTo(1000);
       await tester.pumpAndSettle();
-      final double offsetBefore = harnessKey.currentState!.scrollOffset!;
-      harnessKey.currentState!.appendPostCenterItems(15);
+      final double pixelsBefore = state.scrollController.position.pixels;
+
+      // Item 28 sits mid-viewport at this offset.
+      final Finder anchor = find.byKey(const ValueKey<int>(28));
+      expect(anchor, findsOneWidget);
+      final double yBefore = tester.getTopLeft(anchor).dy;
+
+      state.appendNewest(3);
       await tester.pumpAndSettle();
-      final double offsetAfter = harnessKey.currentState!.scrollOffset!;
-      expect(offsetAfter, closeTo(offsetBefore, 1));
-    },
-  );
 
-  testWidgets('incremental scroll down from unread pivot stays smooth', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 10,
-            ),
-          ),
+      // The visible message stays put; the appended newest pages live below it,
+      // so the distance from the bottom grows by exactly their extent.
+      expect(
+        tester.getTopLeft(anchor).dy,
+        moreOrLessEquals(yBefore, epsilon: 1),
+      );
+      expect(
+        state.scrollController.position.pixels,
+        moreOrLessEquals(
+          pixelsBefore + 3 * ReverseChatHarnessState.itemHeight,
+          epsilon: 1,
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToMiddle();
-    await tester.pumpAndSettle();
-    double previousOffset = harnessKey.currentState!.scrollOffset!;
-    const double step = 40;
-    for (int i = 0; i < 6; i++) {
-      harnessKey.currentState!.scrollDownBy(step);
-      harnessKey.currentState!.syncPivotToViewport();
+      );
+    });
+
+    testWidgets('append while at the bottom follows to the newest', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: ReverseChatHarness(initialCount: 50)),
+      );
       await tester.pumpAndSettle();
-      final double nextOffset = harnessKey.currentState!.scrollOffset!;
-      expect(previousOffset - nextOffset, lessThan(80));
-      expect(nextOffset, lessThanOrEqualTo(previousOffset));
-      previousOffset = nextOffset;
-    }
-  });
+      final ReverseChatHarnessState state = _stateOf(tester);
 
-  testWidgets('post-center append during unread review keeps offset stable', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 10,
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToMiddle();
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.syncPivotToViewport();
-    await tester.pumpAndSettle();
-    final double offsetBefore = harnessKey.currentState!.scrollOffset!;
-    harnessKey.currentState!.appendPostCenterItems(15);
-    await tester.pumpAndSettle();
-    final double offsetAfter = harnessKey.currentState!.scrollOffset!;
-    expect(offsetAfter, closeTo(offsetBefore, 1));
-  });
+      // A fresh reverse list starts pinned to the bottom (newest).
+      expect(
+        state.scrollController.position.pixels,
+        moreOrLessEquals(0, epsilon: 1),
+      );
 
-  testWidgets('first post-center item keeps offset at middle scroll', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-              pivotIndex: 49,
-            ),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToMiddle();
-    await tester.pumpAndSettle();
-    final double offsetBefore = harnessKey.currentState!.scrollOffset!;
-    harnessKey.currentState!.appendPostCenterItems(1);
-    await tester.pumpAndSettle();
-    final double offsetAfter = harnessKey.currentState!.scrollOffset!;
-    expect(offsetAfter, closeTo(offsetBefore, 1));
-  });
+      state.appendNewest(1);
+      await tester.pumpAndSettle();
 
-  testWidgets('pre-center append at bottom keeps minScrollExtent', (
-    tester,
-  ) async {
-    final GlobalKey<CenterSliverScrollHarnessState> harnessKey =
-        GlobalKey<CenterSliverScrollHarnessState>();
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SizedBox(
-            height: 400,
-            child: CenterSliverScrollHarness(
-              key: harnessKey,
-              initialCount: 50,
-            ),
-          ),
-        ),
-      ),
+      // Stays pinned to the bottom and shows the new newest message.
+      expect(
+        state.scrollController.position.pixels,
+        lessThanOrEqualTo(kMessageListReadBottomThreshold),
+      );
+      expect(find.byKey(const ValueKey<int>(50)), findsOneWidget);
+    });
+
+    testWidgets(
+      'trimming newest while scrolled up keeps the visible item fixed',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          const MaterialApp(home: ReverseChatHarness(initialCount: 50)),
+        );
+        await tester.pumpAndSettle();
+        final ReverseChatHarnessState state = _stateOf(tester);
+
+        state.scrollController.jumpTo(1000);
+        await tester.pumpAndSettle();
+
+        final Finder anchor = find.byKey(const ValueKey<int>(28));
+        expect(anchor, findsOneWidget);
+        final double yBefore = tester.getTopLeft(anchor).dy;
+
+        state.trimNewest(3);
+        await tester.pumpAndSettle();
+
+        expect(
+          tester.getTopLeft(anchor).dy,
+          moreOrLessEquals(yBefore, epsilon: 1),
+        );
+      },
     );
-    await tester.pumpAndSettle();
-    harnessKey.currentState!.scrollToBottom();
-    await tester.pumpAndSettle();
-    final double offsetBefore = harnessKey.currentState!.scrollOffset!;
-    final double minExtentBefore = harnessKey.currentState!.minScrollExtent!;
-    expect(offsetBefore, closeTo(minExtentBefore, 1));
-    harnessKey.currentState!.appendPreCenterNewestItem();
-    await tester.pumpAndSettle();
-    final double offsetAfter = harnessKey.currentState!.scrollOffset!;
-    final double minExtentAfter = harnessKey.currentState!.minScrollExtent!;
-    expect(offsetAfter, closeTo(minExtentAfter, 1));
   });
 }

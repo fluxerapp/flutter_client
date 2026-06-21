@@ -4,3 +4,4 @@
 -keepattributes Signature
 -keepattributes *Annotation*
 -keep class kotlin.Metadata { *; }
+-keep class com.hiennv.flutter_callkit_incoming.** { *; }

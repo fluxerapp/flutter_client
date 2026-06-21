@@ -7,6 +7,9 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
+import 'package:fluxer_app/core/premium/user_entitlements.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
@@ -87,6 +90,8 @@ class UserSettingsViewState {
   final bool premiumWillCancel;
 
   final int? premiumType;
+  final List<String> traits;
+  final bool premiumPerksDisabled;
   final String? premiumSince;
   final int? premiumLifetimeSequence;
   final bool premiumBadgeHidden;
@@ -173,6 +178,8 @@ class UserSettingsViewState {
     this.authenticatorTypes = const [],
     this.premiumWillCancel = false,
     this.premiumType,
+    this.traits = const <String>[],
+    this.premiumPerksDisabled = false,
     this.premiumSince,
     this.premiumLifetimeSequence,
     this.premiumBadgeHidden = false,
@@ -271,8 +278,11 @@ class UserSettingsViewState {
   bool get isEditedPremiumBadgeSequenceHiddenSet =>
       _editedPremiumBadgeSequenceHidden != _unset;
 
-  bool get isPremium =>
-      premiumType != null && premiumType != UserPremiumTypes.none.json;
+  bool get isPremium => computeIsEffectivelyPremium(
+    premiumType: premiumType,
+    traits: traits,
+    premiumPerksDisabled: premiumPerksDisabled,
+  );
 
   bool get hasLifetimePremium => premiumType == UserPremiumTypes.lifetime.json;
 
@@ -327,8 +337,6 @@ class UserSettingsViewState {
 
   bool get canChangeNickname =>
       hasPermission(guildPermissions, Permission.changeNickname);
-
-  bool get hasPerGuildProfiles => isPremium;
 
   String? get avatarUrl {
     return FluxerMediaUrl.userAvatar(userId: userId, hash: avatar);
@@ -451,6 +459,8 @@ class UserSettingsViewState {
     List<int>? authenticatorTypes,
     bool? premiumWillCancel,
     Object? premiumType = _unset,
+    List<String>? traits,
+    bool? premiumPerksDisabled,
     Object? premiumSince = _unset,
     Object? premiumLifetimeSequence = _unset,
     bool? premiumBadgeHidden,
@@ -546,6 +556,8 @@ class UserSettingsViewState {
       premiumType: premiumType == _unset
           ? this.premiumType
           : premiumType as int?,
+      traits: traits ?? this.traits,
+      premiumPerksDisabled: premiumPerksDisabled ?? this.premiumPerksDisabled,
       premiumSince: premiumSince == _unset
           ? this.premiumSince
           : premiumSince as String?,
@@ -717,26 +729,54 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
 
   void _watchUser(String userId) {
     final db = ref.read(fluxerDatabaseProvider);
-    final subscription = db.userDao.watchUserById(userId).listen((user) {
-      if (user == null) {
-        return;
-      }
-      state = state.copyWith(
-        username: user.username,
-        displayName: user.globalName ?? user.username,
-        discriminator: user.discriminator,
-        avatar: user.avatar,
-        avatarColor: user.avatarColor,
-        bio: user.bio,
-        pronouns: user.pronouns,
-        accentColor: user.accentColor,
-        banner: user.banner,
-        premiumBadgeHidden: user.premiumBadgeHidden ?? false,
-        premiumBadgeMasked: user.premiumBadgeMasked ?? false,
-        premiumBadgeTimestampHidden: user.premiumBadgeTimestampHidden ?? false,
-        premiumBadgeSequenceHidden: user.premiumBadgeSequenceHidden ?? false,
-      );
-    });
+    // Project to only the fields this view state consumes, then dedupe: a
+    // presence-only write (status/customStatus) re-emits the user row but
+    // yields an equal record, so `.distinct()` filters it out and avoids a
+    // needless `state=` notification storm on every PRESENCE_UPDATE.
+    final subscription = db.userDao
+        .watchUserById(userId)
+        .map(
+          (user) => user == null
+              ? null
+              : (
+                  username: user.username,
+                  displayName: user.globalName ?? user.username,
+                  discriminator: user.discriminator,
+                  avatar: user.avatar,
+                  avatarColor: user.avatarColor,
+                  bio: user.bio,
+                  pronouns: user.pronouns,
+                  accentColor: user.accentColor,
+                  banner: user.banner,
+                  premiumBadgeHidden: user.premiumBadgeHidden ?? false,
+                  premiumBadgeMasked: user.premiumBadgeMasked ?? false,
+                  premiumBadgeTimestampHidden:
+                      user.premiumBadgeTimestampHidden ?? false,
+                  premiumBadgeSequenceHidden:
+                      user.premiumBadgeSequenceHidden ?? false,
+                ),
+        )
+        .distinct()
+        .listen((fields) {
+          if (fields == null) {
+            return;
+          }
+          state = state.copyWith(
+            username: fields.username,
+            displayName: fields.displayName,
+            discriminator: fields.discriminator,
+            avatar: fields.avatar,
+            avatarColor: fields.avatarColor,
+            bio: fields.bio,
+            pronouns: fields.pronouns,
+            accentColor: fields.accentColor,
+            banner: fields.banner,
+            premiumBadgeHidden: fields.premiumBadgeHidden,
+            premiumBadgeMasked: fields.premiumBadgeMasked,
+            premiumBadgeTimestampHidden: fields.premiumBadgeTimestampHidden,
+            premiumBadgeSequenceHidden: fields.premiumBadgeSequenceHidden,
+          );
+        });
     ref.onDispose(subscription.cancel);
   }
 
@@ -814,6 +854,8 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
             const [],
         premiumWillCancel: profile.premiumWillCancel,
         premiumType: profile.premiumType?.json,
+        traits: List<String>.from(profile.traits),
+        premiumPerksDisabled: profile.premiumPerksDisabled,
         premiumSince: profile.premiumSince,
         premiumLifetimeSequence: profile.premiumLifetimeSequence,
         premiumBadgeHidden: profile.premiumBadgeHidden,
@@ -827,8 +869,12 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         isProfileLoaded: true,
       );
       ref
+          .read(currentUserEntitlementsProvider.notifier)
+          .applyUserProfile(profile);
+      ref
           .read(currentUserPremiumTypeProvider.notifier)
           .set(profile.premiumType?.json ?? 0);
+      unawaited(refreshPremiumState(ref));
     } on Exception catch (e) {
       talker.error('Failed to load profile', e);
       state = state.copyWith(error: 'Failed to load profile');
@@ -1122,6 +1168,16 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       }
 
       await selectGuild(guildId);
+      await ref.read(fluxerDatabaseProvider).memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: state.userId,
+          guildId: guildId,
+          serverAvatar: state.guildAvatarMode == GuildAssetMode.custom
+              ? Value(state.guildAvatar)
+              : const Value(null),
+          profileFlags: Value(state.guildProfileFlags),
+        ),
+      );
     } on Exception catch (e) {
       talker.error('Failed to save guild profile', e);
       state = state.copyWith(

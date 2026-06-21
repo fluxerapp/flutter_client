@@ -490,8 +490,10 @@ class ComposerAutocompleteFieldState
     final String activeGuildId = ref.read(activeGuildIdProvider) ?? '';
     // No channel context (e.g. bio) offers every accessible custom emoji; a
     // channel applies the same premium/external gating as the message composer.
-    final bool isPremium =
-        !hasChannel || ref.read(currentUserPremiumTypeProvider) > 0;
+    final bool hasGlobalExpressions = ref.read(
+      instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
+    );
+    final bool isPremium = !hasChannel || hasGlobalExpressions;
     final bool canUseExternal =
         !hasChannel ||
         channelMessagePermissionsForComposer(
@@ -825,11 +827,10 @@ class ComposerAutocompleteFieldState
                       ? memberDisplayLabel(m)
                       : null,
                   userAvatarColor: m?.avatarColor,
-                  userAvatarRoleColor: m?.roleColor,
                   userAvatarStatus: m == null
                       ? null
                       : ref.watch(userPresenceProvider(m.id)).value?.status ??
-                          m.status,
+                            m.status,
                   emojiSurrogates: row.emojiSurrogates,
                   emojiImageUrl: row.emojiImageUrl,
                 );

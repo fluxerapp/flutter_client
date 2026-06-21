@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 

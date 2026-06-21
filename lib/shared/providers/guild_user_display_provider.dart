@@ -17,26 +17,6 @@ import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
 final Set<String> _pendingGuildMemberFetches = <String>{};
 
-Future<GuildUserDisplay?> _loadGuildUserDisplayFromDatabase({
-  required db.FluxerDatabase database,
-  required String userId,
-  required String? guildId,
-}) async {
-  final db.User? user = await database.userDao.getUserById(userId);
-  if (user == null) {
-    return null;
-  }
-  db.Member? member;
-  if (guildId != null && guildId.isNotEmpty) {
-    member = await database.memberDao.getMemberByUserId(userId, guildId);
-  }
-  return resolveGuildUserDisplayFromRows(
-    user: user,
-    member: member,
-    guildId: guildId,
-  );
-}
-
 Future<void> _fetchAndCacheGuildMember({
   required Ref ref,
   required db.FluxerDatabase database,
@@ -70,10 +50,7 @@ Future<void> _fetchAndCacheGuildMember({
     if (!ref.mounted) {
       return;
     }
-    ref
-      ..invalidate(guildUserDisplayProvider((userId, guildId)))
-      ..invalidate(guildUserDisplayFromDbProvider((userId, guildId)))
-      ..invalidate(memberRoleColorProvider((userId, guildId)));
+    ref.invalidate(memberRoleColorProvider((userId, guildId)));
   } on Object {
     // Keep the cached row when the member fetch fails.
   }
@@ -114,7 +91,7 @@ GuildUserDisplay watchMessageAuthorDisplay({
     message,
   );
   GuildUserDisplay? guildDisplay;
-  if (guildId != null && !prefersPersistedAuthor) {
+  if (!prefersPersistedAuthor) {
     final bool isCurrentUserAuthor =
         currentUserId != null && message.authorId == currentUserId;
     final String authorId = message.authorId;
@@ -135,49 +112,72 @@ GuildUserDisplay watchMessageAuthorDisplay({
   );
 }
 
-final FutureProviderFamily<GuildUserDisplay?, (String, String?)>
-guildUserDisplayFromDbProvider = FutureProvider.autoDispose
-    .family<GuildUserDisplay?, (String, String?)>((ref, args) {
-      final (String userId, String? guildId) = args;
-      final db.FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
-      return _loadGuildUserDisplayFromDatabase(
-        database: database,
-        userId: userId,
-        guildId: guildId,
-      );
-    });
+final StreamProviderFamily<db.User?, String> _userRowProvider = StreamProvider
+    .autoDispose
+    .family<db.User?, String>(
+      (ref, userId) =>
+          ref.watch(fluxerDatabaseProvider).userDao.watchUserById(userId),
+    );
 
-final FutureProviderFamily<GuildUserDisplay?, (String, String?)>
-guildUserDisplayProvider = FutureProvider.autoDispose
-    .family<GuildUserDisplay?, (String, String?)>((ref, args) async {
-      final (String userId, String? guildId) = args;
-      final db.FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
-      final GuildUserDisplay? display = await _loadGuildUserDisplayFromDatabase(
-        database: database,
-        userId: userId,
-        guildId: guildId,
+final StreamProviderFamily<db.Member?, (String, String)> _memberRowProvider =
+    StreamProvider.autoDispose.family<db.Member?, (String, String)>(
+      (ref, key) => ref
+          .watch(fluxerDatabaseProvider)
+          .memberDao
+          .watchMemberByUserId(key.$1, key.$2),
+    );
+
+AsyncValue<GuildUserDisplay?> _combine(
+  Ref ref,
+  (String, String?) args, {
+  required bool fetchOnMiss,
+}) {
+  final (String userId, String? guildId) = args;
+  final AsyncValue<db.User?> userAsync = ref.watch(_userRowProvider(userId));
+  final AsyncValue<db.Member?> memberAsync =
+      guildId != null && guildId.isNotEmpty
+      ? ref.watch(_memberRowProvider((userId, guildId)))
+      : const AsyncValue<db.Member?>.data(null);
+  if (fetchOnMiss &&
+      guildId != null &&
+      guildId.isNotEmpty &&
+      (userAsync.value == null || memberAsync.value == null)) {
+    final String key = '$guildId:$userId';
+    if (!_pendingGuildMemberFetches.contains(key)) {
+      _pendingGuildMemberFetches.add(key);
+      unawaited(
+        _fetchAndCacheGuildMember(
+          ref: ref,
+          database: ref.watch(fluxerDatabaseProvider),
+          userId: userId,
+          guildId: guildId,
+        ).whenComplete(() => _pendingGuildMemberFetches.remove(key)),
       );
-      if (guildId == null || guildId.isEmpty) {
-        return display;
-      }
-      final db.User? user = await database.userDao.getUserById(userId);
-      final db.Member? member = await database.memberDao.getMemberByUserId(
-        userId,
-        guildId,
-      );
-      if (user == null || member == null) {
-        final String fetchKey = '$guildId:$userId';
-        if (!_pendingGuildMemberFetches.contains(fetchKey)) {
-          _pendingGuildMemberFetches.add(fetchKey);
-          unawaited(
-            _fetchAndCacheGuildMember(
-              ref: ref,
-              database: database,
-              userId: userId,
-              guildId: guildId,
-            ).whenComplete(() => _pendingGuildMemberFetches.remove(fetchKey)),
-          );
-        }
-      }
-      return display;
-    });
+    }
+  }
+  if (userAsync.isLoading && !userAsync.hasValue) {
+    return const AsyncValue<GuildUserDisplay?>.loading();
+  }
+  final db.User? user = userAsync.value;
+  return AsyncValue<GuildUserDisplay?>.data(
+    user == null
+        ? null
+        : resolveGuildUserDisplayFromRows(
+            user: user,
+            member: memberAsync.value,
+            guildId: guildId,
+          ),
+  );
+}
+
+final ProviderFamily<AsyncValue<GuildUserDisplay?>, (String, String?)>
+guildUserDisplayFromDbProvider = Provider.autoDispose
+    .family<AsyncValue<GuildUserDisplay?>, (String, String?)>(
+      (ref, args) => _combine(ref, args, fetchOnMiss: false),
+    );
+
+final ProviderFamily<AsyncValue<GuildUserDisplay?>, (String, String?)>
+guildUserDisplayProvider = Provider.autoDispose
+    .family<AsyncValue<GuildUserDisplay?>, (String, String?)>(
+      (ref, args) => _combine(ref, args, fetchOnMiss: true),
+    );

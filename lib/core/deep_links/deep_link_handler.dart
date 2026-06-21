@@ -1,16 +1,21 @@
 import 'dart:async';
 
 import 'package:app_links/app_links.dart';
+import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
+import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -54,6 +59,11 @@ class DeepLinkHandler extends _$DeepLinkHandler {
 
     // Password reset links work without authentication.
     if (_tryHandleResetLink(uri)) {
+      return;
+    }
+
+    if (!isAllowedDeepLinkPath(uri)) {
+      talker.info('[DeepLink] Ignored non-routable path: ${uri.path}');
       return;
     }
 
@@ -147,11 +157,36 @@ class DeepLinkHandler extends _$DeepLinkHandler {
         router.go(RoutePaths.giftLink(segments[1]));
       case 'users' when segments.length >= 2:
         talker.info('[DeepLink] User profile: ${segments[1]}');
+      case 'settings' when segments.length >= 2 && segments[1] == 'user':
+        _handleUserSettingsDeepLink(uri);
+      case 'notifications' when segments.length == 1:
+        router.go(RoutePaths.notificationsPath);
+      case 'you' when segments.length == 1:
+        router.go(RoutePaths.youPath);
       case 'channels':
         _handleChannelDeepLink(router, segments);
       default:
         talker.warning('[DeepLink] Unknown deep link path: ${uri.path}');
     }
+  }
+
+  void _handleUserSettingsDeepLink(Uri uri) {
+    final UserSettingsDeepLinkTarget? target = parseUserSettingsDeepLink(uri);
+    if (target == null) {
+      return;
+    }
+    final BuildContext? context = rootNavigatorKey.currentContext;
+    if (context == null || !context.mounted) {
+      talker.warning('[DeepLink] Cannot open user settings: no navigator context');
+      return;
+    }
+    talker.info(
+      '[DeepLink] Opening user settings'
+      '${target.section == null ? '' : ' (${target.section!.name})'}',
+    );
+    unawaited(
+      UserSettingsModal.show(context, initialSection: target.section),
+    );
   }
 
   void _handleChannelDeepLink(GoRouter router, List<String> segments) {

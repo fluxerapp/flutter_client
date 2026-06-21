@@ -59,7 +59,7 @@ class _FluxerLoadingSpinnerState extends State<FluxerLoadingSpinner>
                 ),
                 child: AnimatedBuilder(
                   animation: _controller,
-                  builder: (context, child) {
+                  builder: (context, _) {
                     final phase = (_controller.value - _kDelays[index]) % 1.0;
                     final wave = (math.cos(phase * 2 * math.pi) + 1) / 2;
                     final opacity = 0.3 + 0.7 * wave;
@@ -67,17 +67,18 @@ class _FluxerLoadingSpinnerState extends State<FluxerLoadingSpinner>
 
                     return Transform.scale(
                       scale: scale,
-                      child: Opacity(opacity: opacity, child: child),
+                      child: Container(
+                        width: _kDotSize,
+                        height: _kDotSize,
+                        decoration: BoxDecoration(
+                          color: dotColor.withValues(
+                            alpha: opacity * dotColor.a,
+                          ),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
                     );
                   },
-                  child: Container(
-                    width: _kDotSize,
-                    height: _kDotSize,
-                    decoration: BoxDecoration(
-                      color: dotColor,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
                 ),
               );
             }),

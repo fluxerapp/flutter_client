@@ -50,10 +50,7 @@ class NativeTitlebar extends ConsumerWidget {
                   child: SvgPicture.asset(
                     Assets.fluxerLogoText,
                     height: 14,
-                    colorFilter: ColorFilter.mode(
-                      context.colors.textPrimary,
-                      BlendMode.srcIn,
-                    ),
+                    theme: SvgTheme(currentColor: context.colors.textPrimary),
                   ),
                 ),
               ),

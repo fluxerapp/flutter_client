@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/providers/push_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_registration_logic.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
+import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,7 +32,17 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
     if (!PushProviderGuard.isFirebaseMessaging) {
       return 0;
     }
+    final StreamSubscription<String> tokenRefreshSubscription =
+        FirebaseMessagingPushService.tokenRefreshStream.listen((String token) {
+          if (token.isEmpty) {
+            return;
+          }
+          unawaited(sync());
+        });
     ref
+      ..onDispose(() {
+        unawaited(tokenRefreshSubscription.cancel());
+      })
       ..listen<String?>(fluxerAuthTokenProvider, (_, _) {
         unawaited(sync());
       })

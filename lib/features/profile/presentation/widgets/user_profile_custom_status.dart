@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 
 class UserProfileCustomStatus extends StatelessWidget {
   const UserProfileCustomStatus({required this.text, super.key});
@@ -8,17 +8,6 @@ class UserProfileCustomStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final value = text;
-    if (value == null || value.isEmpty) {
-      return const SizedBox.shrink();
-    }
-    return Text(
-      value,
-      style: context.textStyles.bodySmall.copyWith(
-        color: context.colors.textSecondary,
-      ),
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-    );
+    return CustomStatusDisplay(stored: text, maxLines: 2);
   }
 }

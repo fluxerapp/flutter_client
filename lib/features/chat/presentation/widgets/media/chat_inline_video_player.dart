@@ -390,11 +390,22 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
       children: <Widget>[
         base,
         Positioned.fill(
-          child: CachedNetworkImage(
-            imageUrl: posterUrl,
-            fit: widget.posterFit,
-            placeholder: (_, _) => const SizedBox.shrink(),
-            errorBuilder: (_, _, _) => const SizedBox.shrink(),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final double dpr = MediaQuery.devicePixelRatioOf(context);
+              return CachedNetworkImage(
+                imageUrl: posterUrl,
+                fit: widget.posterFit,
+                memCacheWidth: constraints.maxWidth.isFinite
+                    ? (constraints.maxWidth * dpr).round()
+                    : null,
+                memCacheHeight: constraints.maxHeight.isFinite
+                    ? (constraints.maxHeight * dpr).round()
+                    : null,
+                placeholder: (_, _) => const SizedBox.shrink(),
+                errorBuilder: (_, _, _) => const SizedBox.shrink(),
+              );
+            },
           ),
         ),
       ],

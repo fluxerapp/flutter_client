@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/limits/limit_context.dart';
 import 'package:fluxer_app/core/limits/limit_defaults.dart';
+import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -23,7 +24,10 @@ void main() {
         final ProviderContainer container = ProviderContainer(
           overrides: [
             wellKnownProvider.overrideWith(_PendingWellKnown.new),
-            currentUserPremiumTypeProvider.overrideWithValue(0),
+            currentUserLimitContextProvider.overrideWith(
+              (Ref ref) => buildUserLimitContext(traits: const <String>[]),
+            ),
+            isEffectivelyPremiumProvider.overrideWith((Ref ref) => false),
           ],
         );
         addTearDown(container.dispose);
@@ -39,7 +43,10 @@ void main() {
       final ProviderContainer container = ProviderContainer(
         overrides: [
           wellKnownProvider.overrideWith(_PendingWellKnown.new),
-          currentUserPremiumTypeProvider.overrideWithValue(1),
+          currentUserLimitContextProvider.overrideWith(
+            (Ref ref) => buildUserLimitContext(traits: const <String>['premium']),
+          ),
+          isEffectivelyPremiumProvider.overrideWith((Ref ref) => true),
         ],
       );
       addTearDown(container.dispose);

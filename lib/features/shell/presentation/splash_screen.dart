@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
 import 'package:fluxer_app/features/shell/utils/splash_quotes.dart';
@@ -291,6 +292,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                         ),
                         child: Text(strings.retry),
                       ),
+                      const SizedBox(height: 12),
+                      const OfflineAccountSwitcherLink(),
                     ],
                   ],
                 ),
@@ -356,6 +359,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             ),
                           ],
                         ),
+                        const SizedBox(height: 12),
+                        const OfflineAccountSwitcherLink(),
                       ],
                     ),
                   ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -73,14 +74,31 @@ class AccountRow extends StatelessWidget {
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
+                    Row(
+                      children: [
+                        InstanceDomainIcon(
+                          isOfficial: account.isOfficialInstance,
+                        ),
+                        SizedBox(width: layout.s1),
+                        Expanded(
+                          child: Text(
+                            account.instanceDomain,
+                            style: textStyles.bodySmall.copyWith(
+                              color: colors.textTertiary,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                     if (!account.isValid)
                       Text(
                         l10n.accountExpired,
                         style: textStyles.bodySmall.copyWith(
                           color: colors.textDanger,
                         ),
-                      )
-                    else if (isCurrent)
+                      ),
+                    if (account.isValid && isCurrent)
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

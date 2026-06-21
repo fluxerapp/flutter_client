@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
-import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
 class MemberRepository {
@@ -113,30 +110,8 @@ class MemberRepository {
     final List<db.UsersCompanion> userCompanions = <db.UsersCompanion>[];
     final List<db.MembersCompanion> memberCompanions = <db.MembersCompanion>[];
     for (final GuildMemberResponse sdk in members) {
-      final String userId = sdk.user.id;
-      userCompanions.add(
-        db.UsersCompanion.insert(
-          id: userId,
-          username: sdk.user.username,
-          discriminator: Value(sdk.user.discriminator),
-          globalName: Value(sdk.user.globalName),
-          avatar: Value(sdk.user.avatar),
-          avatarColor: Value(sdk.user.avatarColor),
-          bot: Value(sdk.user.bot ?? false),
-          memberSince: Value(dateTimeFromUserSnowflakeOrNull(userId)),
-        ),
-      );
-      memberCompanions.add(
-        db.MembersCompanion.insert(
-          userId: userId,
-          guildId: guildId,
-          nick: Value(sdk.nick),
-          serverAvatar: Value(sdk.avatar),
-          roleIdsJson: Value(jsonEncode(sdk.roles)),
-          joinedAt: Value(sdk.joinedAt),
-          communicationDisabledUntil: Value(sdk.communicationDisabledUntil),
-        ),
-      );
+      userCompanions.add(userFromPartialSdk(sdk.user));
+      memberCompanions.add(memberCompanionFromSdk(sdk, guildId: guildId));
     }
     await _db.userDao.upsertUsers(userCompanions);
     await _db.memberDao.upsertMembers(memberCompanions);

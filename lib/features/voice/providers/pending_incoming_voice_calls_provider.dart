@@ -22,7 +22,7 @@ final Provider<List<String>> pendingIncomingVoiceChannelIdsProvider =
         if (!e.value.pendingRingUserIds.contains(uid)) {
           continue;
         }
-        if (voice.isConnected && voice.channelId == channelId) {
+        if (voice.isInVoice && voice.channelId == channelId) {
           continue;
         }
         if (initiatorChannels.contains(channelId)) {

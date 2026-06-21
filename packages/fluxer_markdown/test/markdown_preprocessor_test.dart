@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
@@ -61,6 +62,54 @@ void main() {
       final md.Document document = md.Document(encodeHtml: false);
       final List<md.Node> nodes = document.parse(processed);
       expect(_collectMarkdownText(nodes), input);
+    });
+  });
+
+  group('parseFluxerMarkdownSegments fenced code blocks', () {
+    test('does not extract alerts from inside a code block', () {
+      const String input = '''```
+> [!NOTE]
+Alert syntax stays literal
+```''';
+      final List<FluxerMarkdownSegment> segments = parseFluxerMarkdownSegments(
+        input,
+        features,
+      );
+      expect(segments.length, 1);
+      expect(segments.first, isA<FluxerTextSegment>());
+      expect((segments.first as FluxerTextSegment).text, input);
+    });
+
+    test('does not extract subtext from inside a code block', () {
+      const String input = '''```
+-# not subtext
+```''';
+      final List<FluxerMarkdownSegment> segments = parseFluxerMarkdownSegments(
+        input,
+        features,
+      );
+      expect(segments.length, 1);
+      expect(segments.first, isA<FluxerTextSegment>());
+      expect((segments.first as FluxerTextSegment).text, input);
+    });
+
+    test('still extracts alerts outside code blocks', () {
+      const String input = '''```
+code
+```
+
+> [!NOTE]
+> Outside alert''';
+      final List<FluxerMarkdownSegment> segments = parseFluxerMarkdownSegments(
+        input,
+        features,
+      );
+      expect(segments.length, 2);
+      expect(segments.first, isA<FluxerTextSegment>());
+      expect(segments.last, isA<FluxerAlertSegment>());
+      final FluxerAlertSegment alert = segments.last as FluxerAlertSegment;
+      expect(alert.type, FluxerAlertType.note);
+      expect(alert.body, 'Outside alert');
     });
   });
 }

@@ -1,6 +1,13 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_dart/export.dart';
 
 void main() {
   test('buildMessageCreateBody sends favorite meme ids compactly', () {
@@ -81,4 +88,62 @@ void main() {
 
     expect(body['tts'], true);
   });
+
+  test('loadMessagePage coalesces concurrent identical requests and refetches '
+      'distinct ones', () async {
+    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+    addTearDown(db.close);
+    final adapter = _CountingAdapter();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final repo = MessageRepository(client, dio, db, 'me');
+
+    // Two concurrent identical loads share one network round-trip.
+    await Future.wait([
+      repo.loadMessagePage(channelId: 'channel-1'),
+      repo.loadMessagePage(channelId: 'channel-1'),
+    ]);
+    expect(adapter.getMessagesCount, 1);
+
+    // A later (non-overlapping) identical load is not stale-deduped.
+    await repo.loadMessagePage(channelId: 'channel-1');
+    expect(adapter.getMessagesCount, 2);
+
+    // Concurrent loads with different cursors are not coalesced.
+    await Future.wait([
+      repo.loadMessagePage(channelId: 'channel-1', before: '123'),
+      repo.loadMessagePage(channelId: 'channel-1', after: '456'),
+    ]);
+    expect(adapter.getMessagesCount, 4);
+  });
+}
+
+class _CountingAdapter implements HttpClientAdapter {
+  int getMessagesCount = 0;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    final String path = options.uri.path;
+    if (options.method == 'GET' && path.endsWith('/messages')) {
+      getMessagesCount++;
+      // Small delay so concurrent calls genuinely overlap in flight.
+      await Future<void>.delayed(const Duration(milliseconds: 10));
+      return ResponseBody.fromString(
+        jsonEncode(const <Map<String, Object?>>[]),
+        200,
+        headers: {
+          Headers.contentTypeHeader: ['application/json'],
+        },
+      );
+    }
+    return ResponseBody.fromString('nf', 404);
+  }
+
+  @override
+  void close({bool force = false}) {}
 }

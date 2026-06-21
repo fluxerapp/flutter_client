@@ -130,11 +130,16 @@ class ChannelIcon extends StatelessWidget {
       e2eeEncrypted: e2eeEncrypted,
     );
     if (asset != null) {
+      // Channel SVGs all use fill="currentColor"; tint via SvgTheme so the
+      // color is baked into the decoded picture at parse time. A runtime
+      // colorFilter would instead force vector_graphics to saveLayer on every
+      // icon paint (RenderPictureVectorGraphic.paint), which dominated raster
+      // time while scrolling the channel list.
       return SvgPicture.asset(
         asset,
         width: size,
         height: size,
-        colorFilter: ColorFilter.mode(resolvedColor, BlendMode.srcIn),
+        theme: SvgTheme(currentColor: resolvedColor),
       );
     }
     // Backup Icon

@@ -12,6 +12,8 @@ class FirebaseMessagingPushService implements PushService {
 
   static Future<void> bootstrapAfterAuth() async {}
 
+  static Stream<String> get tokenRefreshStream => const Stream<String>.empty();
+
   @override
   Future<void> requestPermissions() async {}
 

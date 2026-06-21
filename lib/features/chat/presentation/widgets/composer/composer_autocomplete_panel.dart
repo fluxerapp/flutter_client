@@ -40,7 +40,6 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
     this.userAvatarImageUrl,
     this.userAvatarFallbackText,
     this.userAvatarColor,
-    this.userAvatarRoleColor,
     this.userAvatarStatus,
     this.emojiSurrogates,
     this.emojiImageUrl,
@@ -57,7 +56,6 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
   final String? userAvatarImageUrl;
   final String? userAvatarFallbackText;
   final int? userAvatarColor;
-  final int? userAvatarRoleColor;
   final String? userAvatarStatus;
   final String? emojiSurrogates;
   final String? emojiImageUrl;
@@ -110,7 +108,6 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
                             userAvatarUserId,
                           ),
                           avatarColor: userAvatarColor,
-                          roleColor: userAvatarRoleColor,
                           status: userAvatarStatus,
                           size: _kAutocompleteAvatarSize,
                         ),

@@ -10,6 +10,7 @@ class Members extends Table {
   DateTimeColumn get joinedAt => dateTime().nullable()();
   DateTimeColumn get communicationDisabledUntil => dateTime().nullable()();
   IntColumn get mentionFlags => integer().nullable()();
+  IntColumn get profileFlags => integer().nullable()();
 
   @override
   Set<Column> get primaryKey => {userId, guildId};

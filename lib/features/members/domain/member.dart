@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
 class MemberRole {
   final String id;
@@ -83,11 +84,19 @@ class Member {
         if (roleMap.containsKey(id)) MemberRole.fromRow(roleMap[id]!),
     ];
 
+    final bool isAvatarUnset = hasMemberProfileFlag(
+      row.profileFlags,
+      guildProfileAvatarUnsetFlag,
+    );
+    final String? avatar = isAvatarUnset
+        ? null
+        : row.serverAvatar ?? user?.avatar;
+
     return Member(
       id: row.userId,
       username: user?.username ?? '',
       globalName: row.nick ?? user?.globalName,
-      avatar: row.serverAvatar ?? user?.avatar,
+      avatar: avatar,
       avatarColor: user?.avatarColor,
       nickname: row.nick,
       roles: memberRoles,

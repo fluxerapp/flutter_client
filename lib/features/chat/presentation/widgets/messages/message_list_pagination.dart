@@ -1,121 +1,40 @@
-import 'dart:async';
+/// Pure edge predicates that drive bidirectional message-list pagination.
+///
+/// In the reverse chat list the newest message is at `minScrollExtent` (the
+/// bottom) and the oldest is at `maxScrollExtent` (the top). Loading is gated
+/// purely on proximity to an edge plus the in-flight flags; there is no
+/// cooldown or user-intent heuristic. Each load self-terminates because the
+/// `ChatScrollObserver` keeps the viewport fixed, which pushes the scroll
+/// position back out of the band after a page is inserted.
+library;
 
-import 'package:flutter/material.dart';
+/// Distance from an edge (in pixels) within which the next page is requested.
+///
+/// Kept below a typical page's rendered height so at most one page loads per
+/// approach to an edge.
+const double kMessageListLoadMargin = 1200;
 
-const double kMessageListLoadMoreThreshold = 200;
-const double kMessageListLoadNewerThreshold = 200;
-const Duration kMessageListPaginationCooldown = Duration(milliseconds: 300);
+/// Whether older messages should load: the viewport is within
+/// [kMessageListLoadMargin] of the top ([maxScrollExtent] in the reverse list).
+bool shouldLoadOlderAtEdge({
+  required double pixels,
+  required double maxScrollExtent,
+  required bool hasMoreMessages,
+  required bool isLoadingMore,
+}) =>
+    hasMoreMessages &&
+    !isLoadingMore &&
+    (maxScrollExtent - pixels) <= kMessageListLoadMargin;
 
-/// Guards bidirectional message list pagination triggers.
-class MessageListPaginationGuard {
-  MessageListPaginationGuard({
-    ScrollController? scrollController,
-    bool Function()? isProgrammaticScroll,
-  }) : _scrollController = scrollController,
-       _isProgrammaticScroll = isProgrammaticScroll;
-
-  final ScrollController? _scrollController;
-  final bool Function()? _isProgrammaticScroll;
-  bool _paginationCooldown = false;
-  Timer? _cooldownTimer;
-  double? _lastScrollPixels;
-
-  bool get isOnCooldown => _paginationCooldown;
-
-  void dispose() {
-    _cooldownTimer?.cancel();
-  }
-
-  void beginCooldown() {
-    _paginationCooldown = true;
-    _cooldownTimer?.cancel();
-    _cooldownTimer = Timer(kMessageListPaginationCooldown, () {
-      _paginationCooldown = false;
-    });
-  }
-
-  void resetScrollIntent() {
-    _lastScrollPixels = null;
-    _paginationCooldown = false;
-    _cooldownTimer?.cancel();
-    _cooldownTimer = null;
-  }
-
-  void seedScrollPixels(double pixels) {
-    _lastScrollPixels = pixels;
-  }
-
-  bool shouldHandleScroll({
-    required bool isLoadingMore,
-    required bool isLoadingNewer,
-  }) {
-    if (_paginationCooldown || isLoadingMore || isLoadingNewer) {
-      return false;
-    }
-    final ScrollController? controller = _scrollController;
-    return controller != null && controller.hasClients;
-  }
-
-  bool shouldLoadMore({
-    required bool hasMoreMessages,
-    required bool isLoadingMore,
-    required bool isLoadingNewer,
-  }) {
-    if (!shouldHandleScroll(
-      isLoadingMore: isLoadingMore,
-      isLoadingNewer: isLoadingNewer,
-    )) {
-      return false;
-    }
-    if (!hasMoreMessages) {
-      return false;
-    }
-    final ScrollPosition position = _scrollController!.position;
-    if (!hasUserScrollIntent(position)) {
-      return false;
-    }
-    return position.pixels >=
-        position.maxScrollExtent - kMessageListLoadMoreThreshold;
-  }
-
-  bool shouldLoadNewer({
-    required bool hasMoreNewerMessages,
-    required bool isLoadingMore,
-    required bool isLoadingNewer,
-  }) {
-    if (!shouldHandleScroll(
-      isLoadingMore: isLoadingMore,
-      isLoadingNewer: isLoadingNewer,
-    )) {
-      return false;
-    }
-    if (!hasMoreNewerMessages) {
-      return false;
-    }
-    final ScrollPosition position = _scrollController!.position;
-    if (!hasUserScrollIntent(position)) {
-      return false;
-    }
-    return position.pixels <= kMessageListLoadNewerThreshold;
-  }
-
-  bool hasUserScrollIntent(ScrollPosition position) {
-    return _hasUserScrollIntent(position);
-  }
-
-  bool _hasUserScrollIntent(ScrollPosition position) {
-    if (_isProgrammaticScroll?.call() ?? false) {
-      return false;
-    }
-    if (position.isScrollingNotifier.value) {
-      _lastScrollPixels = position.pixels;
-      return true;
-    }
-    final double? previousPixels = _lastScrollPixels;
-    _lastScrollPixels = position.pixels;
-    if (previousPixels == null) {
-      return false;
-    }
-    return (position.pixels - previousPixels).abs() >= 1;
-  }
-}
+/// Whether newer messages should load: the viewport is within
+/// [kMessageListLoadMargin] of the bottom ([minScrollExtent] in the reverse
+/// list).
+bool shouldLoadNewerAtEdge({
+  required double pixels,
+  required double minScrollExtent,
+  required bool hasMoreNewerMessages,
+  required bool isLoadingNewer,
+}) =>
+    hasMoreNewerMessages &&
+    !isLoadingNewer &&
+    (pixels - minScrollExtent) <= kMessageListLoadMargin;

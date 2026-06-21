@@ -37,7 +37,7 @@ class ChannelAttachmentArea extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8),
             buildDefaultDragHandles: false,
             itemCount: attachments.length,
-            onReorder: (int oldIndex, int newIndex) {
+            onReorderItem: (int oldIndex, int newIndex) {
               ref
                   .read(cloudUploadControllerProvider(channelId).notifier)
                   .reorderAttachments(oldIndex, newIndex);

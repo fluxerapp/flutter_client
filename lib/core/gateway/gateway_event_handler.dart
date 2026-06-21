@@ -5,12 +5,13 @@ import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
 import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
+import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
@@ -62,10 +63,10 @@ typedef GuildMemberListUpdateCallback =
 typedef VoiceServerUpdateCallback = void Function(VoiceServerUpdateEvent event);
 typedef GatewayErrorCallback = void Function(GatewayErrorEvent event);
 
-String? _presenceCustomStatusTextFromMap(Map<String, dynamic> presence) {
+String? _presenceCustomStatusFromMap(Map<String, dynamic> presence) {
   final Map<String, dynamic>? customStatusMap =
       presence['custom_status'] as Map<String, dynamic>?;
-  return customStatusMap?['text'] as String?;
+  return serializeCustomStatusMap(customStatusMap);
 }
 
 class GatewayEventHandler {
@@ -509,7 +510,9 @@ class GatewayEventHandler {
           premiumBadgeSequenceHidden: Value(
             event.user.premiumBadgeSequenceHidden,
           ),
-          customStatus: Value(event.userSettings?.customStatus?.text),
+          customStatus: Value(
+            serializeCustomStatus(event.userSettings?.customStatus),
+          ),
         ),
       );
 
@@ -682,7 +685,7 @@ class GatewayEventHandler {
           await database.userDao.updateUserPresence(
             userId,
             status: status,
-            customStatus: _presenceCustomStatusTextFromMap(p),
+            customStatus: _presenceCustomStatusFromMap(p),
           );
         }
       }
@@ -819,7 +822,7 @@ class GatewayEventHandler {
     await database.userDao.updateUserPresence(
       userId,
       status: event.settings.status,
-      customStatus: event.settings.customStatus?.text,
+      customStatus: serializeCustomStatus(event.settings.customStatus),
     );
     onUserSettingsHydrate?.call(event.settings);
   }
@@ -1419,7 +1422,7 @@ class GatewayEventHandler {
         updates.add((
           userId: userId,
           status: status,
-          customStatus: _presenceCustomStatusTextFromMap(presence),
+          customStatus: _presenceCustomStatusFromMap(presence),
         ));
       }
       if (updates.isNotEmpty) {
@@ -1443,19 +1446,19 @@ class GatewayEventHandler {
   }
 
   void _handlePresenceUpdateBulk(PresenceUpdateBulkEvent event) {
+    final updates = <({String userId, String status, String? customStatus})>[];
     for (final p in event.presences) {
       final userId = (p['user'] as Map<String, dynamic>?)?['id'] as String?;
       final status = p['status'] as String?;
       if (userId != null && status != null) {
-        unawaited(
-          database.userDao.updateUserPresence(
-            userId,
-            status: status,
-            customStatus: _presenceCustomStatusTextFromMap(p),
-          ),
-        );
+        updates.add((
+          userId: userId,
+          status: status,
+          customStatus: _presenceCustomStatusFromMap(p),
+        ));
       }
     }
+    unawaited(database.userDao.updateUserPresencesBatch(updates));
   }
 
   void _handleGuildCreate(GuildCreateEvent event) {
@@ -1621,19 +1624,44 @@ class GatewayEventHandler {
     }
 
     final reactions = _decodeReactions(msg.reactionsJson);
+    final isCurrentUser =
+        userId != null && currentUserId != null && userId == currentUserId;
+
+    if (!_applyReactionDelta(
+      reactions,
+      emoji,
+      isAdd: isAdd,
+      isCurrentUser: isCurrentUser,
+    )) {
+      return;
+    }
+
+    await database.messageDao.updateReactions(messageId, jsonEncode(reactions));
+  }
+
+  /// Applies a single reaction add/remove for [emoji] to the decoded
+  /// [reactions] list in place.
+  ///
+  /// Returns `false` when a redundant self add/remove is skipped (the list is
+  /// left unchanged so the caller can avoid an unnecessary write); otherwise
+  /// returns `true`.
+  bool _applyReactionDelta(
+    List<Map<String, dynamic>> reactions,
+    ReactionEmoji emoji, {
+    required bool isAdd,
+    required bool isCurrentUser,
+  }) {
     final idx = reactions.indexWhere(
       (r) =>
           (r['emoji'] as String?) == emoji.name &&
           (r['emojiId'] as String?) == emoji.id,
     );
-    final isCurrentUser =
-        userId != null && currentUserId != null && userId == currentUserId;
 
     if (isAdd) {
       if (idx != -1) {
         final existing = reactions[idx];
         if (isCurrentUser && (existing['hasReacted'] as bool? ?? false)) {
-          return;
+          return false;
         }
         reactions[idx]['count'] = ((existing['count'] as int?) ?? 0) + 1;
         if (isCurrentUser) {
@@ -1651,7 +1679,7 @@ class GatewayEventHandler {
     } else if (idx != -1) {
       final existing = reactions[idx];
       if (isCurrentUser && !(existing['hasReacted'] as bool? ?? false)) {
-        return;
+        return false;
       }
       final count = ((existing['count'] as int?) ?? 1) - 1;
       if (count <= 0) {
@@ -1664,7 +1692,7 @@ class GatewayEventHandler {
       }
     }
 
-    await database.messageDao.updateReactions(messageId, jsonEncode(reactions));
+    return true;
   }
 
   Future<void> _removeEmojiReaction(
@@ -1730,28 +1758,33 @@ class GatewayEventHandler {
   }
 
   void _handleReactionAddMany(MessageReactionAddManyEvent event) {
-    final futures = <Future<void>>[];
-    for (final r in event.reactions) {
-      final emoji = r['emoji'] as Map<String, dynamic>?;
-      if (emoji == null) {
-        continue;
+    unawaited(() async {
+      final msg = await database.messageDao.getMessage(event.messageId);
+      if (msg == null) {
+        return;
       }
-      futures.add(
-        _modifyReaction(
-          event.messageId,
+      final reactions = _decodeReactions(msg.reactionsJson);
+      for (final r in event.reactions) {
+        final emoji = r['emoji'] as Map<String, dynamic>?;
+        if (emoji == null) {
+          continue;
+        }
+        _applyReactionDelta(
+          reactions,
           ReactionEmoji(
             name: emoji['name'] as String? ?? '',
             id: emoji['id'] as String?,
           ),
           isAdd: true,
-        ),
+          isCurrentUser: false,
+        );
+      }
+      await database.messageDao.updateReactions(
+        event.messageId,
+        jsonEncode(reactions),
       );
-    }
-    unawaited(
-      Future.wait(futures).then((_) {
-        onMessageReactionChange?.call(event.channelId, event.messageId);
-      }),
-    );
+      onMessageReactionChange?.call(event.channelId, event.messageId);
+    }());
   }
 
   void _handlePassiveUpdates(PassiveUpdatesEvent event) {

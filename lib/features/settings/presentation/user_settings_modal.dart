@@ -64,22 +64,26 @@ class UserSettingsModal extends ConsumerStatefulWidget {
   const UserSettingsModal({
     this.openProfileSection = false,
     this.openSecuritySection = false,
+    this.initialSection,
     super.key,
   });
 
   final bool openProfileSection;
   final bool openSecuritySection;
+  final UserSettingsSection? initialSection;
 
   static Future<void> show(
     BuildContext context, {
     bool openProfileSection = false,
     bool openSecuritySection = false,
+    UserSettingsSection? initialSection,
   }) {
     if (isMobileLayout(context)) {
       return _showMobileSettings(
         context,
         openProfileSection: openProfileSection,
         openSecuritySection: openSecuritySection,
+        initialSection: initialSection,
       );
     }
 
@@ -93,6 +97,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
       builder: (_) => UserSettingsModal(
         openProfileSection: openProfileSection,
         openSecuritySection: openSecuritySection,
+        initialSection: initialSection,
       ),
     );
   }
@@ -101,6 +106,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
     BuildContext context, {
     bool openProfileSection = false,
     bool openSecuritySection = false,
+    UserSettingsSection? initialSection,
   }) async {
     await FluxerBottomSheet.showScrollable<void>(
       context,
@@ -112,6 +118,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
             scrollController: scrollController,
             openProfileSection: openProfileSection,
             openSecuritySection: openSecuritySection,
+            initialSection: initialSection,
           ),
     );
   }
@@ -126,7 +133,12 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
   @override
   void initState() {
     super.initState();
-    if (widget.openSecuritySection) {
+    final int? sectionIndex = widget.initialSection == null
+        ? null
+        : indexForUserSettingsSection(widget.initialSection!);
+    if (sectionIndex != null) {
+      _selectedIndex = sectionIndex;
+    } else if (widget.openSecuritySection) {
       _selectedIndex = 2;
     } else if (widget.openProfileSection) {
       _selectedIndex = 1;
@@ -299,12 +311,14 @@ class _MobileSettingsNavBody extends ConsumerStatefulWidget {
     required this.scrollController,
     this.openProfileSection = false,
     this.openSecuritySection = false,
+    this.initialSection,
   });
 
   final VoidCallback onClose;
   final ScrollController scrollController;
   final bool openProfileSection;
   final bool openSecuritySection;
+  final UserSettingsSection? initialSection;
 
   @override
   ConsumerState<_MobileSettingsNavBody> createState() =>
@@ -318,15 +332,18 @@ class _MobileSettingsNavBodyState
   @override
   void initState() {
     super.initState();
-    if (widget.openProfileSection || widget.openSecuritySection) {
+    final UserSettingsSection? initialSection =
+        widget.initialSection ??
+        (widget.openSecuritySection
+            ? UserSettingsSection.securityLogin
+            : widget.openProfileSection
+            ? UserSettingsSection.profile
+            : null);
+    if (initialSection != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && !_didOpenInitialSection) {
           _didOpenInitialSection = true;
-          _openSettingsPage(
-            widget.openSecuritySection
-                ? UserSettingsSection.securityLogin
-                : UserSettingsSection.profile,
-          );
+          _openSettingsPage(initialSection);
         }
       });
     }
@@ -516,19 +533,32 @@ Widget _buildUserSettingsSectionContent({
     case UserSettingsSection.limitsConfig:
     case UserSettingsSection.featureFlags:
     case UserSettingsSection.whatsNew:
-      return _buildUserSettingsPlaceholder(context, section);
+      return _buildUserSettingsPlaceholder(
+        context,
+        section,
+        scrollController: scrollController,
+      );
   }
 }
 
 Widget _buildUserSettingsPlaceholder(
   BuildContext context,
-  UserSettingsSection section,
-) {
-  return Center(
+  UserSettingsSection section, {
+  ScrollController? scrollController,
+}) {
+  final child = Center(
     child: Text(
       userSettingsSectionLabel(FluxerLocalizations.of(context), section),
       style: TextStyle(color: context.colors.textPrimaryMuted, fontSize: 24),
     ),
+  );
+  if (scrollController == null) {
+    return child;
+  }
+  return CustomScrollView(
+    controller: scrollController,
+    physics: const AlwaysScrollableScrollPhysics(),
+    slivers: [SliverFillRemaining(hasScrollBody: false, child: child)],
   );
 }
 

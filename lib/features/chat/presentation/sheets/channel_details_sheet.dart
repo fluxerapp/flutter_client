@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
@@ -47,7 +48,9 @@ import 'package:fluxer_app/features/members/providers/member_list_desired_ranges
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
+import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
+import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -714,22 +717,10 @@ class _DetailsAvatar extends ConsumerWidget {
         );
       }
       if (dm.isGroup) {
-        return FluxerAvatarCluster(
-          channelId: dm.id,
-          iconUrl: FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon),
-          status: dm.groupStatus,
+        return groupDmAvatarCluster(
+          dm: dm,
           size: _size,
-          members: [
-            for (final member in dm.groupMembers.take(3))
-              AvatarClusterMember(
-                userId: member.id,
-                fallbackText: member.name,
-                imageUrl: FluxerMediaUrl.userAvatar(
-                  userId: member.id,
-                  hash: member.avatar,
-                ),
-              ),
-          ],
+          status: dm.groupStatus,
         );
       }
       return FluxerAvatar.user(
@@ -1579,6 +1570,10 @@ class _DmMemberGroups extends ConsumerWidget {
                         ),
                   avatarColor: participant.avatarColor,
                   status: resolveStatus(participant.id),
+                  customStatus: ref
+                      .watch(userPresenceProvider(participant.id))
+                      .value
+                      ?.customStatus,
                   isBot: participant.isBot,
                   isSystem: participant.isSystem,
                   isCurrentUser: participant.isCurrentUser,
@@ -1657,7 +1652,10 @@ class _SimpleMemberRow extends StatelessWidget {
         size: 36,
       ),
       title: name,
-      subtitle: customStatus,
+      subtitle: hasVisibleCustomStatus(customStatus) ? null : customStatus,
+      subtitleWidget: hasVisibleCustomStatus(customStatus)
+          ? CustomStatusDisplay(stored: customStatus, maxLines: 1)
+          : null,
       dimmed: dimmed,
       onTap: onTap,
       onLongPress: onLongPress,
@@ -1669,8 +1667,7 @@ class _SimpleMemberRow extends StatelessWidget {
             color: Color(0xFFFAA61A),
           ),
         if (isCurrentUser) const _MemberTag(label: 'You'),
-        if (isBot) const FluxerBotBadge(),
-        if (isSystem) const _MemberTag(label: 'System'),
+        if (isBot || isSystem) FluxerUserTag(isSystem: isSystem),
       ],
     );
   }
@@ -3342,13 +3339,7 @@ String? _detailsSubtitle({
     if (dm.isGroup) {
       return 'Group DM · ${dm.memberCount} members';
     }
-    final username = dm.recipientUsername;
-    if (username != null &&
-        username.isNotEmpty &&
-        username != dm.recipientName) {
-      return '@$username';
-    }
-    return dm.isSystem ? 'System message' : null;
+    return dm.recipientTag ?? (dm.isSystem ? 'System message' : null);
   }
   if (channel != null) {
     return switch (channel.type) {

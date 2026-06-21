@@ -66,6 +66,31 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
             ..limit(1))
           .getSingleOrNull();
 
+  Stream<Message?> watchLastMessage(String channelId) =>
+      (select(messages)
+            ..where((m) => m.channelId.equals(channelId))
+            ..orderBy([(m) => OrderingTerm.desc(m.timestamp)])
+            ..limit(1))
+          .watchSingleOrNull();
+
+  Future<List<Message>> getMessagesAfter(
+    String channelId,
+    String afterId, {
+    int limit = 30,
+  }) async {
+    final afterMsg = await (select(
+      messages,
+    )..where((m) => m.id.equals(afterId))).getSingleOrNull();
+    final query = select(messages)
+      ..where((m) => m.channelId.equals(channelId))
+      ..orderBy([(m) => OrderingTerm.asc(m.timestamp)])
+      ..limit(limit);
+    if (afterMsg != null) {
+      query.where((m) => m.timestamp.isBiggerThanValue(afterMsg.timestamp));
+    }
+    return query.get();
+  }
+
   Future<List<Message>> getMessagesInTimestampRange(
     String channelId,
     DateTime oldest,

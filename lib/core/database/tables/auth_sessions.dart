@@ -6,6 +6,7 @@ class AuthSessions extends Table {
   TextColumn get discriminator => text().nullable()();
   TextColumn get avatar => text().nullable()();
   BoolColumn get isValid => boolean().withDefault(const Constant(true))();
+  TextColumn get instanceSnapshotJson => text().nullable()();
   DateTimeColumn get lastActive => dateTime().withDefault(currentDateAndTime)();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 

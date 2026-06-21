@@ -14,6 +14,9 @@ import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.da
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
+import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -65,6 +68,7 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
   late final TextEditingController _textController;
   String? _emojiId;
   String? _emojiName;
+  bool _emojiAnimated = false;
   late TimeWindowKey _selectedExpiry;
   bool _isSaving = false;
 
@@ -75,6 +79,7 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
     _textController = TextEditingController(text: existing?.text ?? '');
     _emojiId = existing?.emojiId?.toString();
     _emojiName = existing?.emojiName;
+    _emojiAnimated = existing?.emojiAnimated ?? false;
     final bool includeDeveloperOptions = ref
         .read(userSettingsViewModelProvider)
         .developerMode;
@@ -102,9 +107,11 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
           if (emoji.isCustom) {
             _emojiId = emoji.emojiId;
             _emojiName = null;
+            _emojiAnimated = emoji.animated;
           } else {
             _emojiId = null;
             _emojiName = emoji.surrogates;
+            _emojiAnimated = false;
           }
         });
       },
@@ -203,12 +210,7 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FluxerButton.secondary(
-                    onPressed: _pickEmoji,
-                    label: _emojiName ?? _emojiId ?? l10n.customStatusChooseEmoji,
-                    icon: PhosphorIconsRegular.smiley,
-                    fitContent: true,
-                  ),
+                  _buildEmojiPickerButton(l10n),
                   SizedBox(width: layout.s3),
                   Expanded(
                     child: FluxerInput(
@@ -236,5 +238,44 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
         ),
       ),
     );
+  }
+
+  Widget _buildEmojiPickerButton(FluxerLocalizations l10n) {
+    final Widget? emojiPreview = _buildEmojiPreview();
+    if (emojiPreview != null) {
+      return FluxerButton.secondary(
+        onPressed: _pickEmoji,
+        fitContent: true,
+        semanticLabel: l10n.customStatusChooseEmoji,
+        child: SizedBox(
+          width: 24,
+          height: 24,
+          child: Center(child: emojiPreview),
+        ),
+      );
+    }
+    return FluxerButton.secondary(
+      onPressed: _pickEmoji,
+      label: l10n.customStatusChooseEmoji,
+      icon: PhosphorIconsRegular.smiley,
+      fitContent: true,
+    );
+  }
+
+  Widget? _buildEmojiPreview() {
+    final String? emojiId = _emojiId;
+    if (emojiId != null) {
+      return CachedEmojiImage(
+        emojiId: emojiId,
+        animated: _emojiAnimated,
+        requestSize: kCustomStatusEmojiRequestSize,
+        size: 24,
+      );
+    }
+    final String? emojiName = _emojiName;
+    if (emojiName != null && emojiName.isNotEmpty) {
+      return UnicodeEmojiWidget(emoji: emojiName, size: 24);
+    }
+    return null;
   }
 }

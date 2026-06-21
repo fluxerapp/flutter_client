@@ -117,4 +117,54 @@ void main() {
     );
     expect(stale, isEmpty);
   });
+
+  group('cache-serve contiguity guards', () {
+    test('canServeOlderFromCache only when window is strictly inside '
+        'the interval', () {
+      expect(
+        canServeOlderFromCache(windowOldestId: idC, contigOldestId: idA),
+        isTrue,
+      );
+      expect(
+        canServeOlderFromCache(windowOldestId: idA, contigOldestId: idA),
+        isFalse,
+      );
+      expect(
+        canServeOlderFromCache(windowOldestId: idA, contigOldestId: idC),
+        isFalse,
+      );
+      expect(
+        canServeOlderFromCache(windowOldestId: null, contigOldestId: idA),
+        isFalse,
+      );
+      expect(
+        canServeOlderFromCache(windowOldestId: idC, contigOldestId: null),
+        isFalse,
+      );
+    });
+
+    test('canServeNewerFromCache only when the interval extends past '
+        'the window', () {
+      expect(
+        canServeNewerFromCache(windowNewestId: idA, contigNewestId: idC),
+        isTrue,
+      );
+      expect(
+        canServeNewerFromCache(windowNewestId: idC, contigNewestId: idC),
+        isFalse,
+      );
+      expect(
+        canServeNewerFromCache(windowNewestId: idC, contigNewestId: idA),
+        isFalse,
+      );
+      expect(
+        canServeNewerFromCache(windowNewestId: null, contigNewestId: idC),
+        isFalse,
+      );
+      expect(
+        canServeNewerFromCache(windowNewestId: idA, contigNewestId: null),
+        isFalse,
+      );
+    });
+  });
 }

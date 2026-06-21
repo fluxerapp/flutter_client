@@ -37,6 +37,8 @@ typedef FluxerAlertBuilder =
       TextStyle baseStyle,
     );
 typedef FluxerSpoilerSyncKeyNormalizer = String? Function(String raw);
+typedef FluxerCodeCopyHandler =
+    void Function(BuildContext context, String code);
 
 class FluxerSpoilerSyncController extends ChangeNotifier {
   final Set<String> _revealedKeys = <String>{};
@@ -87,6 +89,7 @@ class FluxerMarkdownConfig {
     this.spoilersInitiallyRevealed = false,
     this.spoilerSyncController,
     this.spoilerSyncKeyNormalizer,
+    this.onCopyCode,
   });
 
   final FluxerShortcodeResolver resolveEmojiShortcode;
@@ -110,4 +113,5 @@ class FluxerMarkdownConfig {
   final bool spoilersInitiallyRevealed;
   final FluxerSpoilerSyncController? spoilerSyncController;
   final FluxerSpoilerSyncKeyNormalizer? spoilerSyncKeyNormalizer;
+  final FluxerCodeCopyHandler? onCopyCode;
 }

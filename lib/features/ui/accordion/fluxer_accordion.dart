@@ -104,7 +104,7 @@ class _FluxerAccordionState extends State<FluxerAccordion>
         ),
         SizeTransition(
           sizeFactor: _sizeFactor,
-          axisAlignment: -1,
+          alignment: AlignmentDirectional.topStart,
           child: widget.child,
         ),
       ],
