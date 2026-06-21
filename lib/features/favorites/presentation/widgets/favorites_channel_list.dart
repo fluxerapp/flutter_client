@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.d
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/favorites/domain/resolved_favorite_entry.dart';
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_channel_context_menu.dart';
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_list_context_menu.dart';
@@ -439,24 +440,7 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dm = entry.dm;
     if (dm != null && dm.isGroup) {
-      return FluxerAvatarCluster(
-        channelId: dm.id,
-        iconUrl: dm.icon == null
-            ? null
-            : FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon),
-        members: [
-          for (final member in dm.groupMembers.take(3))
-            AvatarClusterMember(
-              userId: member.id,
-              imageUrl: FluxerMediaUrl.userAvatar(
-                userId: member.id,
-                hash: member.avatar,
-              ),
-              fallbackText: member.name,
-            ),
-        ],
-        size: _avatarSize,
-      );
+      return groupDmAvatarCluster(dm: dm, size: _avatarSize, status: null);
     }
     if (dm != null) {
       return FluxerAvatar.user(

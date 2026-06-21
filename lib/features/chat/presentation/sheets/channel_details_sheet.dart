@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
@@ -714,22 +715,10 @@ class _DetailsAvatar extends ConsumerWidget {
         );
       }
       if (dm.isGroup) {
-        return FluxerAvatarCluster(
-          channelId: dm.id,
-          iconUrl: FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon),
-          status: dm.groupStatus,
+        return groupDmAvatarCluster(
+          dm: dm,
           size: _size,
-          members: [
-            for (final member in dm.groupMembers.take(3))
-              AvatarClusterMember(
-                userId: member.id,
-                fallbackText: member.name,
-                imageUrl: FluxerMediaUrl.userAvatar(
-                  userId: member.id,
-                  hash: member.avatar,
-                ),
-              ),
-          ],
+          status: dm.groupStatus,
         );
       }
       return FluxerAvatar.user(

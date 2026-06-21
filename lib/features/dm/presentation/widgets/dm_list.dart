@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
@@ -745,19 +746,14 @@ class _DMListState extends ConsumerState<DMList> {
                     ),
                   ),
                 if (c.isGroup)
-                  FluxerAvatarCluster(
-                    channelId: c.id,
-                    iconUrl: FluxerMediaUrl.guildIcon(
-                      guildId: c.id,
-                      hash: c.icon,
-                    ),
+                  groupDmAvatarCluster(
+                    dm: c,
+                    size: avatarSize,
                     status: groupDmAggregateStatus(
                       participantIds: c.remoteRecipientIds,
                       resolveStatus: (String id) =>
                           presenceByUserId[id] ?? 'offline',
                     ),
-                    members: _clusterMembers(c),
-                    size: avatarSize,
                   )
                 else
                   FluxerAvatar.user(
@@ -1359,19 +1355,6 @@ class _DMListState extends ConsumerState<DMList> {
       ),
     ),
   );
-}
-
-List<AvatarClusterMember> _clusterMembers(DmConversation convo) {
-  return convo.groupMembers
-      .take(3)
-      .map(
-        (m) => AvatarClusterMember(
-          userId: m.id,
-          imageUrl: FluxerMediaUrl.userAvatar(userId: m.id, hash: m.avatar),
-          fallbackText: m.name,
-        ),
-      )
-      .toList();
 }
 
 enum _DmAction {

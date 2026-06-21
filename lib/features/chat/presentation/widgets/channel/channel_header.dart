@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_she
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
@@ -530,27 +531,7 @@ class ChannelHeader extends ConsumerWidget {
         clipBehavior: Clip.none,
         children: <Widget>[
           if (dm.isGroup)
-            FluxerAvatarCluster(
-              channelId: dm.id,
-              iconUrl: FluxerMediaUrl.guildIcon(
-                guildId: dm.id,
-                hash: dm.icon,
-                animated: true,
-              ),
-              status: dm.groupStatus,
-              members: [
-                for (final member in dm.groupMembers.take(3))
-                  AvatarClusterMember(
-                    userId: member.id,
-                    imageUrl: FluxerMediaUrl.userAvatar(
-                      userId: member.id,
-                      hash: member.avatar,
-                    ),
-                    fallbackText: member.name,
-                  ),
-              ],
-              size: 32,
-            )
+            groupDmAvatarCluster(dm: dm, size: 32, status: dm.groupStatus)
           else
             FluxerAvatar.user(
               fallbackText: dm.recipientName,
