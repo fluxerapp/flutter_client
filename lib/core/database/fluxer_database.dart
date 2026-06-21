@@ -143,7 +143,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 59;
+  int get schemaVersion => 60;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
