@@ -516,19 +516,32 @@ Widget _buildUserSettingsSectionContent({
     case UserSettingsSection.limitsConfig:
     case UserSettingsSection.featureFlags:
     case UserSettingsSection.whatsNew:
-      return _buildUserSettingsPlaceholder(context, section);
+      return _buildUserSettingsPlaceholder(
+        context,
+        section,
+        scrollController: scrollController,
+      );
   }
 }
 
 Widget _buildUserSettingsPlaceholder(
   BuildContext context,
-  UserSettingsSection section,
-) {
-  return Center(
+  UserSettingsSection section, {
+  ScrollController? scrollController,
+}) {
+  final child = Center(
     child: Text(
       userSettingsSectionLabel(FluxerLocalizations.of(context), section),
       style: TextStyle(color: context.colors.textPrimaryMuted, fontSize: 24),
     ),
+  );
+  if (scrollController == null) {
+    return child;
+  }
+  return CustomScrollView(
+    controller: scrollController,
+    physics: const AlwaysScrollableScrollPhysics(),
+    slivers: [SliverFillRemaining(hasScrollBody: false, child: child)],
   );
 }
 
