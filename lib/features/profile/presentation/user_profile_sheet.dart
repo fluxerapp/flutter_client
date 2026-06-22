@@ -21,6 +21,7 @@ class FluxerUserProfileSheet {
       initialChildSize: 0.95,
       minChildSize: 0.5,
       disableTopPadding: true,
+      showDragHandle: false,
       builder: (sheetContext, scrollController, close) => _SheetBody(
         userId: userId,
         autoFocusNote: autoFocusNote,
