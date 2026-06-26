@@ -100,7 +100,6 @@ class UserSettingsViewState {
   final bool premiumBadgeSequenceHidden;
   final bool premiumDiscriminator;
   final String? premiumUntil;
-  final DateTime? premiumOutOfBandTrialEndsAt;
   final String? premiumBillingCycle;
 
   final Object? _editedPremiumBadgeHidden;
@@ -188,7 +187,6 @@ class UserSettingsViewState {
     this.premiumBadgeSequenceHidden = false,
     this.premiumDiscriminator = false,
     this.premiumUntil,
-    this.premiumOutOfBandTrialEndsAt,
     this.premiumBillingCycle,
     Object? editedPremiumBadgeHidden = _unset,
     Object? editedPremiumBadgeMasked = _unset,
@@ -299,10 +297,6 @@ class UserSettingsViewState {
       external_link_utils.trustAllDomains(trustedDomains);
 
   int get trustedDomainsCount => trustAllDomains ? 0 : trustedDomains.length;
-
-  bool get isOutOfBandTrialActive =>
-      premiumOutOfBandTrialEndsAt != null &&
-      premiumOutOfBandTrialEndsAt!.isAfter(DateTime.now());
 
   bool get effectivePremiumBadgeHidden =>
       editedPremiumBadgeHidden ?? premiumBadgeHidden;
@@ -469,7 +463,6 @@ class UserSettingsViewState {
     bool? premiumBadgeSequenceHidden,
     bool? premiumDiscriminator,
     Object? premiumUntil = _unset,
-    Object? premiumOutOfBandTrialEndsAt = _unset,
     Object? premiumBillingCycle = _unset,
     Object? editedPremiumBadgeHidden = _unset,
     Object? editedPremiumBadgeMasked = _unset,
@@ -574,9 +567,6 @@ class UserSettingsViewState {
       premiumUntil: premiumUntil == _unset
           ? this.premiumUntil
           : premiumUntil as String?,
-      premiumOutOfBandTrialEndsAt: premiumOutOfBandTrialEndsAt == _unset
-          ? this.premiumOutOfBandTrialEndsAt
-          : premiumOutOfBandTrialEndsAt as DateTime?,
       premiumBillingCycle: premiumBillingCycle == _unset
           ? this.premiumBillingCycle
           : premiumBillingCycle as String?,
@@ -864,7 +854,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         premiumBadgeSequenceHidden: profile.premiumBadgeSequenceHidden,
         premiumDiscriminator: profile.premiumDiscriminator,
         premiumUntil: profile.premiumUntil,
-        premiumOutOfBandTrialEndsAt: profile.premiumOutOfBandTrialEndsAt,
         premiumBillingCycle: profile.premiumBillingCycle,
         isProfileLoaded: true,
       );

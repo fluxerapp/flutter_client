@@ -381,26 +381,12 @@ class _FluxerTagChangeContentState
   }
 
   Widget _buildPremiumUpsell(
-    UserSettingsViewState state,
     FluxerLayoutTheme layout,
     FluxerLocalizations l10n,
   ) {
-    final String text;
-    if (state.isOutOfBandTrialActive) {
-      final expiryDate = state.premiumOutOfBandTrialEndsAt;
-      if (expiryDate != null) {
-        final formatted = DateFormat.yMMMd().format(expiryDate);
-        text = l10n.premiumTrialExpiresOn(formatted);
-      } else {
-        text = l10n.premiumTrialActive;
-      }
-    } else {
-      text = l10n.premiumUpsellCustomizeTag;
-    }
-
     return Padding(
       padding: EdgeInsets.only(top: layout.s3),
-      child: FluxerPlutoniumUpsell(text: text),
+      child: FluxerPlutoniumUpsell(text: l10n.premiumUpsellCustomizeTag),
     );
   }
 
@@ -496,7 +482,7 @@ class _FluxerTagChangeContentState
               ),
             ),
             if (!hasCustomDiscriminator && shouldShowPremiumCommerce)
-              _buildPremiumUpsell(state, layout, l10n),
+              _buildPremiumUpsell(layout, l10n),
             if (premiumWarning != null) ...[
               SizedBox(height: layout.s3),
               FluxerWarningAlert(message: premiumWarning),
