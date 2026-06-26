@@ -78,8 +78,9 @@ AuthSessionResponse _session({
 }) {
   return AuthSessionResponse(
     idHash: id,
+    maskedIp: null,
     current: current,
-    clientInfo: AuthSessionClientInfo(os: os, platform: platform),
+    clientInfo: AuthSessionResponseClientInfo(os: os, platform: platform),
     approxLastUsedAt: DateTime.now().subtract(const Duration(hours: 2)),
   );
 }

@@ -4,7 +4,17 @@
 // the wire-format enum: the user picks a `IarPrimaryPath` (platform/community/
 // preference), then for the `platform` path a high-level `IarRuleCategory`,
 // then a specific `IarRuleReason`. At submit time the reason is mapped onto
-// the backend `MessageReportCategoryEnum` via [iarReasonToMessageCategory].
+// the backend wire-format category via [iarReasonToMessageCategory].
+//
+// NOTE (SDK migration): the in-app report categories now live on the simple
+// report request types. `ReportMessageRequestCategoryCategory` is now
+// `ReportMessageRequestCategoryCategory` and `ReportUserRequestCategoryCategory` is now
+// `ReportUserRequestCategoryCategory` (the `category` field of the
+// `ReportMessageRequest` / `ReportUserRequest` bodies submitted by the report
+// sheets). These are distinct from the new `DsaReportRequest` discriminated
+// union, which backs the separate formal EU DSA reporting flow
+// (`createDsaReport`, requiring an email-verification ticket, legal name, and
+// country of residence) and is NOT what the IAR in-app report flow uses.
 //
 // Mobile exposes the `message` and `user` IAR contexts. The `guild` context
 // on the web is intentionally deferred until that entry point exists on
@@ -119,27 +129,27 @@ const List<IarRuleReason> messageReportReasons = [
 ];
 
 /// Maps a chosen reason onto the backend wire-format
-/// [MessageReportCategoryEnum]. Mirrors `REPORT_CATEGORY_BY_REASON.message`
+/// [ReportMessageRequestCategoryCategory]. Mirrors `REPORT_CATEGORY_BY_REASON.message`
 /// from the web.
-MessageReportCategoryEnum iarReasonToMessageCategory(IarRuleReason reason) {
+ReportMessageRequestCategoryCategory iarReasonToMessageCategory(IarRuleReason reason) {
   return switch (reason) {
-    IarRuleReason.harassment => MessageReportCategoryEnum.harassment,
-    IarRuleReason.hate => MessageReportCategoryEnum.hateSpeech,
-    IarRuleReason.violence => MessageReportCategoryEnum.violentContent,
+    IarRuleReason.harassment => ReportMessageRequestCategoryCategory.harassment,
+    IarRuleReason.hate => ReportMessageRequestCategoryCategory.hateSpeech,
+    IarRuleReason.violence => ReportMessageRequestCategoryCategory.violentContent,
     IarRuleReason.terrorismExtremism =>
-      MessageReportCategoryEnum.violentContent,
-    IarRuleReason.matureContent => MessageReportCategoryEnum.nsfwViolation,
-    IarRuleReason.childSafety => MessageReportCategoryEnum.childSafety,
-    IarRuleReason.harmfulMisinformation => MessageReportCategoryEnum.other,
-    IarRuleReason.illegalActivity => MessageReportCategoryEnum.illegalActivity,
-    IarRuleReason.spamScams => MessageReportCategoryEnum.spam,
-    IarRuleReason.malware => MessageReportCategoryEnum.maliciousLinks,
-    IarRuleReason.privacy => MessageReportCategoryEnum.doxxing,
-    IarRuleReason.impersonation => MessageReportCategoryEnum.impersonation,
-    IarRuleReason.inappropriateProfile => MessageReportCategoryEnum.other,
-    IarRuleReason.raidCoordination => MessageReportCategoryEnum.harassment,
-    IarRuleReason.selfHarm => MessageReportCategoryEnum.selfHarm,
-    IarRuleReason.other => MessageReportCategoryEnum.other,
+      ReportMessageRequestCategoryCategory.violentContent,
+    IarRuleReason.matureContent => ReportMessageRequestCategoryCategory.nsfwViolation,
+    IarRuleReason.childSafety => ReportMessageRequestCategoryCategory.childSafety,
+    IarRuleReason.harmfulMisinformation => ReportMessageRequestCategoryCategory.other,
+    IarRuleReason.illegalActivity => ReportMessageRequestCategoryCategory.illegalActivity,
+    IarRuleReason.spamScams => ReportMessageRequestCategoryCategory.spam,
+    IarRuleReason.malware => ReportMessageRequestCategoryCategory.maliciousLinks,
+    IarRuleReason.privacy => ReportMessageRequestCategoryCategory.doxxing,
+    IarRuleReason.impersonation => ReportMessageRequestCategoryCategory.impersonation,
+    IarRuleReason.inappropriateProfile => ReportMessageRequestCategoryCategory.other,
+    IarRuleReason.raidCoordination => ReportMessageRequestCategoryCategory.harassment,
+    IarRuleReason.selfHarm => ReportMessageRequestCategoryCategory.selfHarm,
+    IarRuleReason.other => ReportMessageRequestCategoryCategory.other,
   };
 }
 
@@ -231,26 +241,26 @@ const List<IarRuleReason> userReportReasons = [
   IarRuleReason.other,
 ];
 
-/// Maps a chosen reason onto the backend wire-format [UserReportCategoryEnum].
+/// Maps a chosen reason onto the backend wire-format [ReportUserRequestCategoryCategory].
 /// Mirrors `REPORT_CATEGORY_BY_REASON.user` from the web.
-UserReportCategoryEnum iarReasonToUserCategory(IarRuleReason reason) {
+ReportUserRequestCategoryCategory iarReasonToUserCategory(IarRuleReason reason) {
   return switch (reason) {
-    IarRuleReason.harassment => UserReportCategoryEnum.harassment,
-    IarRuleReason.hate => UserReportCategoryEnum.hateSpeech,
-    IarRuleReason.violence => UserReportCategoryEnum.harassment,
-    IarRuleReason.terrorismExtremism => UserReportCategoryEnum.other,
-    IarRuleReason.matureContent => UserReportCategoryEnum.harassment,
-    IarRuleReason.childSafety => UserReportCategoryEnum.underageUser,
-    IarRuleReason.harmfulMisinformation => UserReportCategoryEnum.other,
-    IarRuleReason.illegalActivity => UserReportCategoryEnum.other,
-    IarRuleReason.spamScams => UserReportCategoryEnum.spamAccount,
-    IarRuleReason.malware => UserReportCategoryEnum.spamAccount,
-    IarRuleReason.privacy => UserReportCategoryEnum.harassment,
-    IarRuleReason.impersonation => UserReportCategoryEnum.impersonation,
+    IarRuleReason.harassment => ReportUserRequestCategoryCategory.harassment,
+    IarRuleReason.hate => ReportUserRequestCategoryCategory.hateSpeech,
+    IarRuleReason.violence => ReportUserRequestCategoryCategory.harassment,
+    IarRuleReason.terrorismExtremism => ReportUserRequestCategoryCategory.other,
+    IarRuleReason.matureContent => ReportUserRequestCategoryCategory.harassment,
+    IarRuleReason.childSafety => ReportUserRequestCategoryCategory.underageUser,
+    IarRuleReason.harmfulMisinformation => ReportUserRequestCategoryCategory.other,
+    IarRuleReason.illegalActivity => ReportUserRequestCategoryCategory.other,
+    IarRuleReason.spamScams => ReportUserRequestCategoryCategory.spamAccount,
+    IarRuleReason.malware => ReportUserRequestCategoryCategory.spamAccount,
+    IarRuleReason.privacy => ReportUserRequestCategoryCategory.harassment,
+    IarRuleReason.impersonation => ReportUserRequestCategoryCategory.impersonation,
     IarRuleReason.inappropriateProfile =>
-      UserReportCategoryEnum.inappropriateProfile,
-    IarRuleReason.raidCoordination => UserReportCategoryEnum.other,
-    IarRuleReason.selfHarm => UserReportCategoryEnum.other,
-    IarRuleReason.other => UserReportCategoryEnum.other,
+      ReportUserRequestCategoryCategory.inappropriateProfile,
+    IarRuleReason.raidCoordination => ReportUserRequestCategoryCategory.other,
+    IarRuleReason.selfHarm => ReportUserRequestCategoryCategory.other,
+    IarRuleReason.other => ReportUserRequestCategoryCategory.other,
   };
 }

@@ -26,7 +26,7 @@ class _NoopUserSettingsSyncService extends UserSettingsSyncService {
   _NoopUserSettingsSyncService(super.ref);
 
   @override
-  Future<void> pushTheme(UserThemeType theme) async {}
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) async {}
 
   @override
   Future<UserSettingsResponse> fetchCurrentSettings() async =>
@@ -43,7 +43,7 @@ class _BlockingUserSettingsSyncService extends UserSettingsSyncService {
   void release() => _gate?.complete();
 
   @override
-  Future<void> pushTheme(UserThemeType theme) async {
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) async {
     final gate = _gate;
     if (gate != null) {
       await gate.future;
@@ -59,7 +59,7 @@ class _FailingUserSettingsSyncService extends UserSettingsSyncService {
   _FailingUserSettingsSyncService(super.ref);
 
   @override
-  Future<void> pushTheme(UserThemeType theme) =>
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) =>
       Future<void>.error(StateError('PATCH refused'));
 
   @override
@@ -71,7 +71,7 @@ class _LightThemeUserSettingsSyncService extends UserSettingsSyncService {
   _LightThemeUserSettingsSyncService(super.ref);
 
   @override
-  Future<void> pushTheme(UserThemeType theme) async {}
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) async {}
 
   @override
   Future<UserSettingsResponse> fetchCurrentSettings() async =>

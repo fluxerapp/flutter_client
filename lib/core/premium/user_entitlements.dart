@@ -65,7 +65,7 @@ class UserEntitlements {
   }
 
   UserEntitlements applyPremiumState(PremiumStateResponse state) {
-    final PremiumEffectiveState effective = state.effective;
+    final PremiumStateResponseEffective effective = state.effective;
     final int type = effective.premiumType?.json ?? premiumType;
     final bool perksDisabled = effective.premiumPerksDisabled;
     final List<String> mergedTraits = mergeTraitsWithEffectivePremium(

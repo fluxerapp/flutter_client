@@ -68,10 +68,22 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
     return 0;
   }
 
-  static MobilePushProviderEnvironmentSchema get _providerEnvironment {
+  static RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  get _registerProviderEnvironment {
     return kDebugMode
-        ? MobilePushProviderEnvironmentSchema.development
-        : MobilePushProviderEnvironmentSchema.production;
+        ? RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .development
+        : RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .production;
+  }
+
+  static UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  get _unregisterProviderEnvironment {
+    return kDebugMode
+        ? UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .development
+        : UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .production;
   }
 
   bool get _shouldRun {
@@ -156,7 +168,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
               token: token,
               userAgent: ref.read(fluxerClientPropertiesProvider).userAgent,
               appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _providerEnvironment,
+              providerEnvironment: _registerProviderEnvironment,
             ),
           );
       _lastRegisteredUserId = userId;
@@ -198,7 +210,7 @@ class FcmMobileDeviceRegistration extends _$FcmMobileDeviceRegistration {
                   UnregisterMobileDeviceRequestPlatformPlatform.androidFcm,
               token: token,
               appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _providerEnvironment,
+              providerEnvironment: _unregisterProviderEnvironment,
             ),
           );
       _lastRegisteredUserId = null;

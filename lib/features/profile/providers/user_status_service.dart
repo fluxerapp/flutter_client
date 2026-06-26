@@ -13,13 +13,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_status_service.g.dart';
 
+/// User-selectable presence status sent as `UserSettingsUpdateRequest.status`.
+///
+/// Replaces the `UserStatusType` enum the previous SDK exposed; the regenerated
+/// SDK inlines the enum per request field. Values: online, dnd, idle, invisible
+/// (the backend's settable status set).
+typedef PresenceStatus = UserSettingsUpdateRequestStatusStatus;
+
+/// Presence status the account reverts to after a timed status expires
+/// (`UserSettingsUpdateRequest.statusResetsTo`). Same value set as
+/// [PresenceStatus]; the SDK models it as a separate inlined enum.
+typedef PresenceResetStatus =
+    UserSettingsUpdateRequestStatusResetsToStatusResetsTo;
+
 class UserStatusService {
   UserStatusService(this._ref);
 
   final Ref _ref;
 
   Future<void> setPresenceStatus({
-    required UserStatusType status,
+    required PresenceStatus status,
     Duration? duration,
   }) async {
     final String? userId = _ref.read(currentUserIdProvider);
@@ -29,8 +42,8 @@ class UserStatusService {
     final DateTime? resetsAt = duration == null
         ? null
         : DateTime.now().toUtc().add(duration);
-    final UserStatusType? resetsTo =
-        duration == null ? null : UserStatusType.online;
+    final PresenceResetStatus? resetsTo =
+        duration == null ? null : PresenceResetStatus.online;
     final UserSettingsUpdateRequest request = UserSettingsUpdateRequest(
       status: status,
       statusResetsAt: resetsAt?.toIso8601String(),
@@ -47,7 +60,7 @@ class UserStatusService {
   }
 
   Future<void> applyScheduledStatusReset({
-    required UserStatusType fallbackStatus,
+    required PresenceStatus fallbackStatus,
   }) async {
     final String? userId = _ref.read(currentUserIdProvider);
     if (userId == null) {

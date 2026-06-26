@@ -145,7 +145,7 @@ class ThemePreference extends _$ThemePreference {
     try {
       await ref
           .read(userSettingsSyncProvider)
-          .pushTheme(_toUserThemeType(mode));
+          .pushTheme(_toSettingsTheme(mode));
       state = state.copyWith(mode: mode, inflightTheme: null);
       await _persist();
     } on Object {
@@ -188,7 +188,7 @@ class ThemePreference extends _$ThemePreference {
     try {
       await ref
           .read(userSettingsSyncProvider)
-          .pushTheme(_toUserThemeType(state.mode));
+          .pushTheme(_toSettingsTheme(state.mode));
       state = state.copyWith(inflightTheme: null);
       await _persist();
     } on Object {
@@ -245,12 +245,13 @@ class ThemePreference extends _$ThemePreference {
     }
   }
 
-  UserThemeType _toUserThemeType(FluxerThemeMode mode) => switch (mode) {
-    FluxerThemeMode.dark => UserThemeType.dark,
-    FluxerThemeMode.coal => UserThemeType.coal,
-    FluxerThemeMode.light => UserThemeType.light,
-    FluxerThemeMode.system => UserThemeType.system,
-  };
+  UserSettingsUpdateRequestThemeTheme _toSettingsTheme(FluxerThemeMode mode) =>
+      switch (mode) {
+        FluxerThemeMode.dark => UserSettingsUpdateRequestThemeTheme.dark,
+        FluxerThemeMode.coal => UserSettingsUpdateRequestThemeTheme.coal,
+        FluxerThemeMode.light => UserSettingsUpdateRequestThemeTheme.light,
+        FluxerThemeMode.system => UserSettingsUpdateRequestThemeTheme.system,
+      };
 
   FluxerThemeMode? _modeFromJson(String raw) => switch (raw) {
     'dark' => FluxerThemeMode.dark,

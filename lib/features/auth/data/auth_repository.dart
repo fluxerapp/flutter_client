@@ -57,7 +57,7 @@ class AuthRepository {
       }
 
       try {
-        final mfaResponse = response.toAuthMfaRequiredResponse();
+        final mfaResponse = response.toVariant2();
         return LoginMfaRequired(
           MfaChallenge(
             ticket: mfaResponse.ticket,
@@ -130,7 +130,7 @@ class AuthRepository {
         // Not a token response — try MFA
       }
 
-      final mfaResponse = response.toAuthMfaRequiredResponse();
+      final mfaResponse = response.toVariant2();
       return LoginMfaRequired(
         MfaChallenge(
           ticket: mfaResponse.ticket,

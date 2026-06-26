@@ -67,10 +67,22 @@ class UnifiedPushMobileDeviceRegistration
     return 0;
   }
 
-  static MobilePushProviderEnvironmentSchema get _providerEnvironment {
+  static RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  get _registerProviderEnvironment {
     return kDebugMode
-        ? MobilePushProviderEnvironmentSchema.development
-        : MobilePushProviderEnvironmentSchema.production;
+        ? RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .development
+        : RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .production;
+  }
+
+  static UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  get _unregisterProviderEnvironment {
+    return kDebugMode
+        ? UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .development
+        : UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .production;
   }
 
   bool get _shouldRun {
@@ -229,7 +241,7 @@ class UnifiedPushMobileDeviceRegistration
               token: url,
               userAgent: ref.read(fluxerClientPropertiesProvider).userAgent,
               appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _providerEnvironment,
+              providerEnvironment: _registerProviderEnvironment,
               encryptionKey: pubKey,
               authSecret: auth,
             ),
@@ -315,7 +327,7 @@ class UnifiedPushMobileDeviceRegistration
                     .androidUnifiedPush,
                 token: endpointUrl,
                 appId: AppBuildConfig.mobilePushAppId,
-                providerEnvironment: _providerEnvironment,
+                providerEnvironment: _unregisterProviderEnvironment,
               ),
             );
       } on DioException catch (e2, st) {
@@ -369,7 +381,7 @@ class UnifiedPushMobileDeviceRegistration
                   .androidUnifiedPush,
               token: url,
               appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _providerEnvironment,
+              providerEnvironment: _unregisterProviderEnvironment,
             ),
           );
     } on DioException catch (e, st) {

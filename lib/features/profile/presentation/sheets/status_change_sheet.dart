@@ -19,11 +19,11 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-const List<UserStatusType> kSelectablePresenceStatuses = <UserStatusType>[
-  UserStatusType.online,
-  UserStatusType.idle,
-  UserStatusType.dnd,
-  UserStatusType.invisible,
+const List<PresenceStatus> kSelectablePresenceStatuses = <PresenceStatus>[
+  PresenceStatus.online,
+  PresenceStatus.idle,
+  PresenceStatus.dnd,
+  PresenceStatus.invisible,
 ];
 
 class StatusChangeSheet {
@@ -55,11 +55,11 @@ class StatusChangeSheetBody extends ConsumerStatefulWidget {
 }
 
 class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
-  UserStatusType? _expandedStatus;
+  PresenceStatus? _expandedStatus;
   bool _isSaving = false;
 
   Future<void> _selectPresence(
-    UserStatusType status, {
+    PresenceStatus status, {
     Duration? duration,
   }) async {
     if (_isSaving) {
@@ -105,7 +105,7 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
     );
   }
 
-  void _toggleExpandedStatus(UserStatusType status) {
+  void _toggleExpandedStatus(PresenceStatus status) {
     setState(() {
       _expandedStatus = _expandedStatus == status ? null : status;
     });
@@ -139,7 +139,7 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
               padding: EdgeInsets.zero,
               child: FluxerMenuGroup(
                 children: [
-                  for (final UserStatusType status in kSelectablePresenceStatuses)
+                  for (final PresenceStatus status in kSelectablePresenceStatuses)
                     _ExpandableStatusMenuItem(
                       status: status,
                       currentStatus: currentStatus,
@@ -222,12 +222,12 @@ class _ExpandableStatusMenuItem extends StatelessWidget {
     required this.onSelectPresence,
   });
 
-  final UserStatusType status;
+  final PresenceStatus status;
   final String currentStatus;
   final List<TimeWindowPreset> expiryPresets;
   final bool isExpanded;
   final VoidCallback onToggleExpanded;
-  final Future<void> Function(UserStatusType status, {Duration? duration})
+  final Future<void> Function(PresenceStatus status, {Duration? duration})
   onSelectPresence;
 
   @override
@@ -236,7 +236,7 @@ class _ExpandableStatusMenuItem extends StatelessWidget {
     final String statusValue = status.json ?? 'online';
     final bool isSelected = currentStatus == statusValue;
     final String? description = presenceStatusDescription(statusValue, l10n);
-    final bool hasExpiryOptions = status != UserStatusType.online;
+    final bool hasExpiryOptions = status != PresenceStatus.online;
 
     return Column(
       mainAxisSize: MainAxisSize.min,

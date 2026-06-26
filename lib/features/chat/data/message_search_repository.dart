@@ -256,43 +256,52 @@ List<String>? _authorIdsFilter(String value) {
   return ids.isEmpty ? null : ids.toList();
 }
 
-MessageSearchScope _messageSearchScope(MessageSearchScopeFilter scope) =>
-    switch (scope) {
-      MessageSearchScopeFilter.current => MessageSearchScope.current,
-      MessageSearchScopeFilter.openDms => MessageSearchScope.openDms,
-      MessageSearchScopeFilter.allDms => MessageSearchScope.allDms,
-      MessageSearchScopeFilter.allGuilds => MessageSearchScope.allGuilds,
-      MessageSearchScopeFilter.all => MessageSearchScope.all,
-      MessageSearchScopeFilter.openDmsAndAllGuilds =>
-        MessageSearchScope.openDmsAndAllGuilds,
-    };
+GlobalSearchMessagesRequestScopeScope _messageSearchScope(
+  MessageSearchScopeFilter scope,
+) => switch (scope) {
+  MessageSearchScopeFilter.current =>
+    GlobalSearchMessagesRequestScopeScope.current,
+  MessageSearchScopeFilter.openDms =>
+    GlobalSearchMessagesRequestScopeScope.openDms,
+  MessageSearchScopeFilter.allDms =>
+    GlobalSearchMessagesRequestScopeScope.allDms,
+  MessageSearchScopeFilter.allGuilds =>
+    GlobalSearchMessagesRequestScopeScope.allGuilds,
+  MessageSearchScopeFilter.all => GlobalSearchMessagesRequestScopeScope.all,
+  MessageSearchScopeFilter.openDmsAndAllGuilds =>
+    GlobalSearchMessagesRequestScopeScope.openDmsAndAllGuilds,
+};
 
-(MessageSortField, MessageSortOrder) _messageSort(
-  MessageSearchSortFilter sort,
-) => switch (sort) {
+(
+  GlobalSearchMessagesRequestSortBySortBy,
+  GlobalSearchMessagesRequestSortOrderSortOrder,
+)
+_messageSort(MessageSearchSortFilter sort) => switch (sort) {
   MessageSearchSortFilter.newest => (
-    MessageSortField.timestamp,
-    MessageSortOrder.desc,
+    GlobalSearchMessagesRequestSortBySortBy.timestamp,
+    GlobalSearchMessagesRequestSortOrderSortOrder.desc,
   ),
   MessageSearchSortFilter.oldest => (
-    MessageSortField.timestamp,
-    MessageSortOrder.asc,
+    GlobalSearchMessagesRequestSortBySortBy.timestamp,
+    GlobalSearchMessagesRequestSortOrderSortOrder.asc,
   ),
   MessageSearchSortFilter.relevance => (
-    MessageSortField.relevance,
-    MessageSortOrder.desc,
+    GlobalSearchMessagesRequestSortBySortBy.relevance,
+    GlobalSearchMessagesRequestSortOrderSortOrder.desc,
   ),
 };
 
-MessageContentType _messageContentType(MessageSearchContentFilter type) =>
-    switch (type) {
-      MessageSearchContentFilter.image => MessageContentType.image,
-      MessageSearchContentFilter.video => MessageContentType.video,
-      MessageSearchContentFilter.audio => MessageContentType.sound,
-      MessageSearchContentFilter.file => MessageContentType.file,
-      MessageSearchContentFilter.link => MessageContentType.link,
-      MessageSearchContentFilter.embed => MessageContentType.embed,
-      MessageSearchContentFilter.sticker => MessageContentType.sticker,
-    };
+GlobalSearchMessagesRequestHasHas _messageContentType(
+  MessageSearchContentFilter type,
+) => switch (type) {
+  MessageSearchContentFilter.image => GlobalSearchMessagesRequestHasHas.image,
+  MessageSearchContentFilter.video => GlobalSearchMessagesRequestHasHas.video,
+  MessageSearchContentFilter.audio => GlobalSearchMessagesRequestHasHas.sound,
+  MessageSearchContentFilter.file => GlobalSearchMessagesRequestHasHas.file,
+  MessageSearchContentFilter.link => GlobalSearchMessagesRequestHasHas.link,
+  MessageSearchContentFilter.embed => GlobalSearchMessagesRequestHasHas.embed,
+  MessageSearchContentFilter.sticker =>
+    GlobalSearchMessagesRequestHasHas.sticker,
+};
 
 const Object _unset = Object();

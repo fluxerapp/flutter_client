@@ -45,7 +45,7 @@ void main() {
         final wire = iarReasonToMessageCategory(reason);
         expect(
           wire,
-          isNot(equals(MessageReportCategoryEnum.$unknown)),
+          isNot(equals(ReportMessageRequestCategoryCategory.$unknown)),
           reason: '$reason maps to \$unknown',
         );
       }
@@ -57,31 +57,31 @@ void main() {
       // on the web).
       expect(
         iarReasonToMessageCategory(IarRuleReason.harassment),
-        equals(MessageReportCategoryEnum.harassment),
+        equals(ReportMessageRequestCategoryCategory.harassment),
       );
       expect(
         iarReasonToMessageCategory(IarRuleReason.raidCoordination),
-        equals(MessageReportCategoryEnum.harassment),
+        equals(ReportMessageRequestCategoryCategory.harassment),
       );
       // terrorismExtremism shares violentContent with violence.
       expect(
         iarReasonToMessageCategory(IarRuleReason.terrorismExtremism),
-        equals(MessageReportCategoryEnum.violentContent),
+        equals(ReportMessageRequestCategoryCategory.violentContent),
       );
       expect(
         iarReasonToMessageCategory(IarRuleReason.violence),
-        equals(MessageReportCategoryEnum.violentContent),
+        equals(ReportMessageRequestCategoryCategory.violentContent),
       );
       // Reasons that exist only for non-message contexts on the web
       // (`inappropriateProfile`, `harmfulMisinformation`) fall through to
       // the catch-all `other` wire value for messages.
       expect(
         iarReasonToMessageCategory(IarRuleReason.inappropriateProfile),
-        equals(MessageReportCategoryEnum.other),
+        equals(ReportMessageRequestCategoryCategory.other),
       );
       expect(
         iarReasonToMessageCategory(IarRuleReason.harmfulMisinformation),
-        equals(MessageReportCategoryEnum.other),
+        equals(ReportMessageRequestCategoryCategory.other),
       );
     });
   });
@@ -134,7 +134,7 @@ void main() {
       for (final reason in messageReportReasons) {
         expect(
           iarReasonToMessageCategory(reason),
-          isNot(equals(MessageReportCategoryEnum.$unknown)),
+          isNot(equals(ReportMessageRequestCategoryCategory.$unknown)),
           reason: '$reason maps to \$unknown',
         );
       }
@@ -195,24 +195,24 @@ void main() {
   });
 
   group('iarReasonToUserCategory', () {
-    const expected = <IarRuleReason, UserReportCategoryEnum>{
-      IarRuleReason.harassment: UserReportCategoryEnum.harassment,
-      IarRuleReason.hate: UserReportCategoryEnum.hateSpeech,
-      IarRuleReason.violence: UserReportCategoryEnum.harassment,
-      IarRuleReason.terrorismExtremism: UserReportCategoryEnum.other,
-      IarRuleReason.matureContent: UserReportCategoryEnum.harassment,
-      IarRuleReason.childSafety: UserReportCategoryEnum.underageUser,
-      IarRuleReason.harmfulMisinformation: UserReportCategoryEnum.other,
-      IarRuleReason.illegalActivity: UserReportCategoryEnum.other,
-      IarRuleReason.spamScams: UserReportCategoryEnum.spamAccount,
-      IarRuleReason.malware: UserReportCategoryEnum.spamAccount,
-      IarRuleReason.privacy: UserReportCategoryEnum.harassment,
-      IarRuleReason.impersonation: UserReportCategoryEnum.impersonation,
+    const expected = <IarRuleReason, ReportUserRequestCategoryCategory>{
+      IarRuleReason.harassment: ReportUserRequestCategoryCategory.harassment,
+      IarRuleReason.hate: ReportUserRequestCategoryCategory.hateSpeech,
+      IarRuleReason.violence: ReportUserRequestCategoryCategory.harassment,
+      IarRuleReason.terrorismExtremism: ReportUserRequestCategoryCategory.other,
+      IarRuleReason.matureContent: ReportUserRequestCategoryCategory.harassment,
+      IarRuleReason.childSafety: ReportUserRequestCategoryCategory.underageUser,
+      IarRuleReason.harmfulMisinformation: ReportUserRequestCategoryCategory.other,
+      IarRuleReason.illegalActivity: ReportUserRequestCategoryCategory.other,
+      IarRuleReason.spamScams: ReportUserRequestCategoryCategory.spamAccount,
+      IarRuleReason.malware: ReportUserRequestCategoryCategory.spamAccount,
+      IarRuleReason.privacy: ReportUserRequestCategoryCategory.harassment,
+      IarRuleReason.impersonation: ReportUserRequestCategoryCategory.impersonation,
       IarRuleReason.inappropriateProfile:
-          UserReportCategoryEnum.inappropriateProfile,
-      IarRuleReason.raidCoordination: UserReportCategoryEnum.other,
-      IarRuleReason.selfHarm: UserReportCategoryEnum.other,
-      IarRuleReason.other: UserReportCategoryEnum.other,
+          ReportUserRequestCategoryCategory.inappropriateProfile,
+      IarRuleReason.raidCoordination: ReportUserRequestCategoryCategory.other,
+      IarRuleReason.selfHarm: ReportUserRequestCategoryCategory.other,
+      IarRuleReason.other: ReportUserRequestCategoryCategory.other,
     };
 
     test('maps every reason to the web user category', () {
@@ -229,7 +229,7 @@ void main() {
       for (final reason in IarRuleReason.values) {
         expect(
           iarReasonToUserCategory(reason),
-          isNot(equals(UserReportCategoryEnum.$unknown)),
+          isNot(equals(ReportUserRequestCategoryCategory.$unknown)),
           reason: '$reason maps to \$unknown',
         );
       }

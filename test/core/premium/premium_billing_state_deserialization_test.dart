@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_dart/models/premium_billing_state.dart';
+import 'package:fluxer_dart/models/premium_state_response_billing.dart';
 
 /// Regression test: the live API returns `null` for `current_subscription_price`
 /// and `pending_subscription_change` when the user has no active subscription /
@@ -8,7 +8,7 @@ import 'package:fluxer_dart/models/premium_billing_state.dart';
 /// (`Null is not a subtype of Map<String, dynamic>`) while deserializing the premium
 /// state, leaving entitlements unrefreshed. The fields are now nullable.
 void main() {
-  group('PremiumBillingState.fromJson', () {
+  group('PremiumStateResponseBilling.fromJson', () {
     Map<String, Object?> billingJson({
       Object? currentSubscriptionPrice,
       Object? pendingSubscriptionChange,
@@ -28,7 +28,7 @@ void main() {
 
     test('tolerates null current_subscription_price and '
         'pending_subscription_change', () {
-      final PremiumBillingState state = PremiumBillingState.fromJson(
+      final PremiumStateResponseBilling state = PremiumStateResponseBilling.fromJson(
         billingJson(),
       );
 

@@ -18,12 +18,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 class BackupCodesSheet extends ConsumerStatefulWidget {
   const BackupCodesSheet({required this.codes, super.key});
 
-  final List<MfaBackupCodeResponse> codes;
+  final List<MfaBackupCodesResponseBackupCodes> codes;
 
   static Future<void> showWithCodes(
     BuildContext context,
     WidgetRef ref, {
-    required List<MfaBackupCodeResponse> codes,
+    required List<MfaBackupCodesResponseBackupCodes> codes,
   }) {
     return FluxerBottomSheet.show<void>(
       context,

@@ -823,7 +823,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
                     guildId: guild.id,
                     body: ChannelCreateRequest4(
                       name: name,
-                      type: ChannelCreateCategoryRequestTypeType.guildCategory,
+                      type: GuildCategoryChannelCreateRequestTypeType.guildCategory,
                       topic: null,
                       url: null,
                       parentId: null,
@@ -1359,7 +1359,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
                       body: ChannelCreateRequest4(
                         name: name,
                         type:
-                            ChannelCreateCategoryRequestTypeType.guildCategory,
+                            GuildCategoryChannelCreateRequestTypeType.guildCategory,
                         topic: null,
                         url: null,
                         parentId: null,
@@ -2568,7 +2568,7 @@ class _GuildListItemState extends State<_GuildListItem>
                     final ChannelCreateRequest body = switch (selectedType) {
                       2 => ChannelCreateRequest2(
                         name: name,
-                        type: ChannelCreateVoiceRequestTypeType.guildVoice,
+                        type: GuildVoiceChannelCreateRequestTypeType.guildVoice,
                         topic: null,
                         url: null,
                         parentId: null,
@@ -2583,7 +2583,7 @@ class _GuildListItemState extends State<_GuildListItem>
                       ),
                       998 => ChannelCreateRequest998(
                         name: name,
-                        type: ChannelCreateLinkRequestTypeType.guildLink,
+                        type: GuildLinkChannelCreateRequestTypeType.guildLink,
                         topic: null,
                         url: currentUrl.trim(),
                         parentId: null,
@@ -2598,7 +2598,7 @@ class _GuildListItemState extends State<_GuildListItem>
                       ),
                       _ => ChannelCreateRequest0(
                         name: name,
-                        type: ChannelCreateTextRequestTypeType.guildText,
+                        type: GuildTextChannelCreateRequestTypeType.guildText,
                         topic: null,
                         url: null,
                         parentId: null,

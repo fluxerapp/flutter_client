@@ -309,7 +309,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     required String? premiumSince,
     required int? premiumLifetimeSequence,
     required List<UserPartialResponse> mutualFriends,
-    required List<MutualGuildResponse> mutualCommunities,
+    required List<UserProfileFullResponseMutualGuilds> mutualCommunities,
     required UserProfileFullResponseUser? actionUser,
     required List<ConnectionResponse> connections,
     required Friend? relationship,
@@ -571,7 +571,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                       communities: mutualCommunities,
                       onFriendTap: (UserPartialResponse friend) =>
                           _showMutualFriendProfile(friend.id),
-                      onCommunityTap: (MutualGuildResponse community) =>
+                      onCommunityTap: (UserProfileFullResponseMutualGuilds community) =>
                           _openMutualCommunity(community.id),
                     ),
                     SizedBox(height: layout.s4),
@@ -632,7 +632,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       premiumSince: null,
       premiumLifetimeSequence: null,
       mutualFriends: const <UserPartialResponse>[],
-      mutualCommunities: const <MutualGuildResponse>[],
+      mutualCommunities: const <UserProfileFullResponseMutualGuilds>[],
       actionUser: null,
       connections: const <ConnectionResponse>[],
       relationship: null,
@@ -728,7 +728,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                 ? settingsState.premiumLifetimeSequence
                 : null,
             mutualFriends: const <UserPartialResponse>[],
-            mutualCommunities: const <MutualGuildResponse>[],
+            mutualCommunities: const <UserProfileFullResponseMutualGuilds>[],
             actionUser: null,
             connections: connectionsAsync.value ?? const <ConnectionResponse>[],
             relationship: relationshipAsync.value,
@@ -908,8 +908,8 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               ? const <UserPartialResponse>[]
               : response.mutualFriends ?? const <UserPartialResponse>[],
           mutualCommunities: isCurrentProfile
-              ? const <MutualGuildResponse>[]
-              : response.mutualGuilds ?? const <MutualGuildResponse>[],
+              ? const <UserProfileFullResponseMutualGuilds>[]
+              : response.mutualGuilds ?? const <UserProfileFullResponseMutualGuilds>[],
           actionUser: response.user,
           connections:
               response.connectedAccounts ?? const <ConnectionResponse>[],

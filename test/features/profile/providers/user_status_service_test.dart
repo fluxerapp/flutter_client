@@ -123,27 +123,27 @@ void main() {
     test('setPresenceStatus sends permanent status without reset fields', () async {
       await container
           .read(userStatusServiceProvider)
-          .setPresenceStatus(status: UserStatusType.dnd);
-      expect(usersApi.lastPushBody?.status, UserStatusType.dnd);
+          .setPresenceStatus(status: PresenceStatus.dnd);
+      expect(usersApi.lastPushBody?.status, PresenceStatus.dnd);
       expect(usersApi.lastPushBody?.statusResetsAt, isNull);
       expect(usersApi.lastPushBody?.statusResetsTo, isNull);
     });
 
     test('setPresenceStatus sends timed status with reset fields', () async {
       await container.read(userStatusServiceProvider).setPresenceStatus(
-        status: UserStatusType.idle,
+        status: PresenceStatus.idle,
         duration: const Duration(hours: 1),
       );
-      expect(usersApi.lastPushBody?.status, UserStatusType.idle);
+      expect(usersApi.lastPushBody?.status, PresenceStatus.idle);
       expect(usersApi.lastPushBody?.statusResetsAt, isNotNull);
-      expect(usersApi.lastPushBody?.statusResetsTo, UserStatusType.online);
+      expect(usersApi.lastPushBody?.statusResetsTo, PresenceResetStatus.online);
     });
 
     test('applyScheduledStatusReset clears reset fields', () async {
       await container.read(userStatusServiceProvider).applyScheduledStatusReset(
-        fallbackStatus: UserStatusType.online,
+        fallbackStatus: PresenceStatus.online,
       );
-      expect(usersApi.lastPushBody?.status, UserStatusType.online);
+      expect(usersApi.lastPushBody?.status, PresenceStatus.online);
       expect(usersApi.lastPushBody?.statusResetsAt, isNull);
       expect(usersApi.lastPushBody?.statusResetsTo, isNull);
     });
