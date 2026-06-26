@@ -166,7 +166,6 @@ abstract class FluxerLocalizations {
     Locale('tr'),
     Locale('uk'),
     Locale('zh'),
-    Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
     Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   ];
 
@@ -9108,8 +9107,6 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
     case 'zh':
       {
         switch (locale.scriptCode) {
-          case 'Hans':
-            return FluxerLocalizationsZhHans();
           case 'Hant':
             return FluxerLocalizationsZhHant();
         }
