@@ -10189,6 +10189,21 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get userSettingsNavAdvanced => 'Advanced';
 
   @override
+  String get advancedPerformanceReportingTitle => 'Performance reporting';
+
+  @override
+  String get advancedPerformanceReportingSectionDescription =>
+      'Help improve Fluxer by sharing anonymous crash and performance data.';
+
+  @override
+  String get advancedPerformanceReportingLabel =>
+      'Send crash and performance reports';
+
+  @override
+  String get advancedPerformanceReportingDescription =>
+      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+
+  @override
   String get userSettingsNavApplications => 'Applications';
 
   @override
@@ -15385,6 +15400,21 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get userSettingsNavAdvanced => 'Advanced';
+
+  @override
+  String get advancedPerformanceReportingTitle => 'Performance reporting';
+
+  @override
+  String get advancedPerformanceReportingSectionDescription =>
+      'Help improve Fluxer by sharing anonymous crash and performance data.';
+
+  @override
+  String get advancedPerformanceReportingLabel =>
+      'Send crash and performance reports';
+
+  @override
+  String get advancedPerformanceReportingDescription =>
+      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
 
   @override
   String get userSettingsNavApplications => 'Applications';

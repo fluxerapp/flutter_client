@@ -154,7 +154,6 @@ abstract class FluxerLocalizations {
     Locale('lt'),
     Locale('lv'),
     Locale('nb'),
-    Locale('nb', 'NO'),
     Locale('pl'),
     Locale('pt'),
     Locale('pt', 'BR'),
@@ -9151,14 +9150,6 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
         switch (locale.countryCode) {
           case 'CA':
             return FluxerLocalizationsFrCa();
-        }
-        break;
-      }
-    case 'nb':
-      {
-        switch (locale.countryCode) {
-          case 'NO':
-            return FluxerLocalizationsNbNo();
         }
         break;
       }
