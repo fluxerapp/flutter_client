@@ -24,6 +24,7 @@ abstract final class RouteNames {
   static const message = 'message';
   static const bookmarks = 'bookmarks';
   static const mentions = 'mentions';
+  static const guildCalendar = 'guild-calendar';
 
   // Deep links (outside shell)
   static const invite = 'invite';
@@ -57,6 +58,7 @@ abstract final class RoutePaths {
     String channelId,
     String messageId,
   ) => '/channels/$guildId/$channelId/$messageId';
+  static String guildCalendarPath(String guildId) => '/channels/$guildId/calendar';
   static String inviteLink(String code) => '/invite/$code';
   static String giftLink(String code) => '/gift/$code';
   static String themeLink(String themeId) => '/theme/$themeId';
