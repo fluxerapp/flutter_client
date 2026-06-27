@@ -8,54 +8,26 @@ permissions:
   pull-requests: read
 
 jobs:
-  check-actor:
-    name: Check allowed user
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check actor against allowlist
-        id: check
-        run: |
-          ALLOWED="${{ vars.ALLOWED_TESTFLIGHT_ACTORS }}"
-          if [ -z "$ALLOWED" ]; then
-            echo "::error::Repository variable ALLOWED_TESTFLIGHT_ACTORS is not set. Add a comma-separated list of GitHub usernames in Settings -> Secrets and variables -> Actions -> Variables."
-            exit 1
-          fi
-          ACTOR="${{ github.actor }}"
-          ALLOWED_ARR="${ALLOWED//,/ }"
-          FOUND=false
-          for user_name in $ALLOWED_ARR; do
-            user_name_trimmed=$(echo "$user_name" | xargs)
-            if [ "$user_name_trimmed" = "$ACTOR" ]; then
-              FOUND=true
-              break
-            fi
-          done
-          if [ "$FOUND" != "true" ]; then
-            echo "::error::User $ACTOR is not allowed to run this workflow. Allowed users are listed in ALLOWED_TESTFLIGHT_ACTORS."
-            exit 1
-          fi
-
   draft-release:
     name: Draft beta release
-    needs: check-actor
     uses: ./.github/workflows/_draft-beta-release.yml
     secrets: inherit
 
   android-fcm:
     name: Android FCM build
-    needs: [check-actor, draft-release]
+    needs: draft-release
     uses: ./.github/workflows/android-beta-fcm.yml
     secrets: inherit
 
   android-oss:
     name: Android OSS build
-    needs: [check-actor, draft-release]
+    needs: draft-release
     uses: ./.github/workflows/android-beta-oss.yml
     secrets: inherit
 
   ios-testflight:
     name: iOS TestFlight build
-    needs: [check-actor, draft-release]
+    needs: draft-release
     uses: ./.github/workflows/ios-beta-testflight.yml
     secrets: inherit
 

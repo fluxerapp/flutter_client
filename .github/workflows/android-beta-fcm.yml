@@ -8,43 +8,8 @@ permissions:
   contents: read
 
 jobs:
-  check-actor:
-    name: Check allowed user
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    outputs:
-      allowed: ${{ steps.check.outputs.allowed }}
-    steps:
-      - name: Check actor against allowlist
-        id: check
-        run: |
-          ALLOWED="${{ vars.ALLOWED_TESTFLIGHT_ACTORS }}"
-          if [ -z "$ALLOWED" ]; then
-            echo "::error::Repository variable ALLOWED_TESTFLIGHT_ACTORS is not set. Add a comma-separated list of GitHub usernames in Settings -> Secrets and variables -> Actions -> Variables."
-            exit 1
-          fi
-          ACTOR="${{ github.actor }}"
-          ALLOWED_ARR="${ALLOWED//,/ }"
-          FOUND=false
-          for user_name in $ALLOWED_ARR; do
-            user_name_trimmed=$(echo "$user_name" | xargs)
-            if [ "$user_name_trimmed" = "$ACTOR" ]; then
-              FOUND=true
-              break
-            fi
-          done
-          if [ "$FOUND" != "true" ]; then
-            echo "::error::User $ACTOR is not allowed to run this workflow. Allowed users are listed in ALLOWED_TESTFLIGHT_ACTORS."
-            exit 1
-          fi
-          echo "allowed=true" >> "$GITHUB_OUTPUT"
-
   build-beta:
     name: Build beta APK
-    needs: check-actor
-    if: |
-      always() &&
-      (github.event_name == 'workflow_call' || needs.check-actor.result == 'success')
     runs-on: macos-26
     steps:
       - name: Checkout repository
