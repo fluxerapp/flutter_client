@@ -242,8 +242,9 @@ class CloudUploadController extends _$CloudUploadController {
     } on Object catch (e, st) {
       talker.warning('[CloudUpload] prepareSessionForSend error: $e\n$st');
       _fallbackResetSessionUploadsForMultipartSend(nonce);
-      final List<PendingAttachment>? reset =
-          ref.read(messageUploadSessionsProvider)[nonce]?.attachments;
+      final List<PendingAttachment>? reset = ref
+          .read(messageUploadSessionsProvider)[nonce]
+          ?.attachments;
       if (reset == null) {
         throw const MessageUploadSendCancelledException();
       }

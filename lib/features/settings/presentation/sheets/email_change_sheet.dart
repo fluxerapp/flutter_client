@@ -121,11 +121,17 @@ class _EmailChangeSheetState extends ConsumerState<EmailChangeSheet>
 
       _originalProof = response.originalProof;
 
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _stage = _Stage.newEmail;
         _loading = false;
       });
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       final l10n = FluxerLocalizations.of(context);
       setState(() {
         _loading = false;
@@ -176,6 +182,9 @@ class _EmailChangeSheetState extends ConsumerState<EmailChangeSheet>
       _ticket = response.ticket;
       startResendTimer(response.resendAvailableAt);
 
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _stage = _Stage.verifyNew;
         _loading = false;
@@ -215,6 +224,9 @@ class _EmailChangeSheetState extends ConsumerState<EmailChangeSheet>
         ),
       );
 
+      if (!mounted) {
+        return;
+      }
       final l10n = FluxerLocalizations.of(context);
       ref
           .read(toastProvider.notifier)
@@ -231,6 +243,9 @@ class _EmailChangeSheetState extends ConsumerState<EmailChangeSheet>
         Navigator.of(context).pop();
       }
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       final l10n = FluxerLocalizations.of(context);
       setState(() {
         _loading = false;

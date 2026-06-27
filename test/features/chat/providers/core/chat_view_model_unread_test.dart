@@ -1246,8 +1246,9 @@ void main() {
         container.dispose();
         unawaited(db.close());
       });
-      final notifier = container.read(chatViewModelProvider.notifier);
-      notifier.highlightJumpMessage('message-1');
+      container
+          .read(chatViewModelProvider.notifier)
+          .highlightJumpMessage('message-1');
       expect(
         container.read(chatViewModelProvider).highlightedMessageId,
         'message-1',
@@ -1259,8 +1260,9 @@ void main() {
         final db = FluxerDatabase.forTesting(NativeDatabase.memory());
         final adapter = _ChatAdapter();
         final container = _container(db, adapter);
-        final notifier = container.read(chatViewModelProvider.notifier);
-        notifier.highlightJumpMessage('message-1');
+        container
+            .read(chatViewModelProvider.notifier)
+            .highlightJumpMessage('message-1');
         async.elapse(const Duration(seconds: 10));
         expect(
           container.read(chatViewModelProvider).highlightedMessageId,
@@ -1276,8 +1278,8 @@ void main() {
         final db = FluxerDatabase.forTesting(NativeDatabase.memory());
         final adapter = _ChatAdapter();
         final container = _container(db, adapter);
-        final notifier = container.read(chatViewModelProvider.notifier);
-        notifier.highlightJumpMessage('message-1');
+        final notifier = container.read(chatViewModelProvider.notifier)
+          ..highlightJumpMessage('message-1');
         async.elapse(const Duration(seconds: 5));
         notifier.extendJumpHighlight('message-1');
         async.elapse(const Duration(milliseconds: 1999));
@@ -1300,11 +1302,11 @@ void main() {
         final db = FluxerDatabase.forTesting(NativeDatabase.memory());
         final adapter = _ChatAdapter();
         final container = _container(db, adapter);
-        final notifier = container.read(chatViewModelProvider.notifier);
-        notifier.highlightJumpMessage('message-1');
-        notifier.extendJumpHighlight('message-1');
-        notifier.highlightJumpMessage('message-2');
-        notifier.extendJumpHighlight('message-2');
+        container.read(chatViewModelProvider.notifier)
+          ..highlightJumpMessage('message-1')
+          ..extendJumpHighlight('message-1')
+          ..highlightJumpMessage('message-2')
+          ..extendJumpHighlight('message-2');
         expect(
           container.read(chatViewModelProvider).highlightedMessageId,
           'message-2',
@@ -1426,9 +1428,12 @@ void main() {
       final adapter = _ChatAdapter();
       final container = _container(db, adapter);
       addTearDown(container.dispose);
-      final notifier = container.read(chatViewModelProvider.notifier);
-      notifier.highlightJumpMessage('message-1');
-      await notifier.switchChannel('channel-2');
+      container
+          .read(chatViewModelProvider.notifier)
+          .highlightJumpMessage('message-1');
+      await container
+          .read(chatViewModelProvider.notifier)
+          .switchChannel('channel-2');
       expect(container.read(chatViewModelProvider).highlightedMessageId, null);
     });
   });
@@ -1724,7 +1729,7 @@ class _ChatAdapter implements HttpClientAdapter {
     }
 
     if (options.method == 'POST' &&
-        options.uri.path.endsWith('/read-states/ack-bulk')) {
+        options.uri.path.endsWith('/read-states/ack')) {
       ackAttempts++;
       if (holdAck) {
         _ackCompleter ??= Completer<int>();
@@ -1746,7 +1751,14 @@ class _ChatAdapter implements HttpClientAdapter {
           ackedMessageIds.add(entry['message_id'] as String);
         }
       }
-      return ResponseBody.fromString('', 204, statusMessage: 'No Content');
+      return ResponseBody.fromString(
+        '{"read_states":[],"read_state_proto":""}',
+        200,
+        statusMessage: 'OK',
+        headers: {
+          Headers.contentTypeHeader: [Headers.jsonContentType],
+        },
+      );
     }
 
     if (options.method == 'POST' && options.uri.path.endsWith('/ack')) {

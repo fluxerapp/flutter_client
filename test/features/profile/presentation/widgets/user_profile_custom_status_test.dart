@@ -48,10 +48,7 @@ void main() {
       tester,
     ) async {
       final String stored = serializeCustomStatus(
-        CustomStatusResponse(
-          emojiId: '123456789',
-          emojiAnimated: true,
-        ),
+        const CustomStatusResponse(emojiId: '123456789', emojiAnimated: true),
       )!;
       await tester.pumpWidget(
         buildTestApp(UserProfileCustomStatus(text: stored)),

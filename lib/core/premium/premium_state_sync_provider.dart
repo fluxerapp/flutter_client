@@ -24,7 +24,10 @@ Future<void> refreshPremiumState(Ref ref) async {
 
 Future<void> _refreshPremiumState(Ref ref) async {
   try {
-    final state = await ref.read(fluxerClientProvider).premium.getPremiumState();
+    final state = await ref
+        .read(fluxerClientProvider)
+        .premium
+        .getPremiumState();
     ref.read(currentUserEntitlementsProvider.notifier).applyPremiumState(state);
   } on Object catch (error, stackTrace) {
     talker.error('Premium state fetch failed', error, stackTrace);

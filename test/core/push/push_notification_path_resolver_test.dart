@@ -46,14 +46,13 @@ void main() {
     });
 
     test('resolves guild channel from navigate field after normalization', () {
-      final Map<String, String> payload = normalizePushTapPayload(
-        <String, String>{
-          'navigate': '/channels/guild-1/chan-1/msg-1',
-          'channel_id': 'chan-1',
-          'message_id': 'msg-1',
-          'guild_id': 'guild-1',
-        },
-      );
+      final Map<String, String> payload =
+          normalizePushTapPayload(<String, String>{
+            'navigate': '/channels/guild-1/chan-1/msg-1',
+            'channel_id': 'chan-1',
+            'message_id': 'msg-1',
+            'guild_id': 'guild-1',
+          });
       final String? path = resolvePushNotificationPath(payload);
       expect(
         path,

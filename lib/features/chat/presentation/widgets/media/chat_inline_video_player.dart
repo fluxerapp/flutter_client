@@ -393,15 +393,26 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
           child: LayoutBuilder(
             builder: (context, constraints) {
               final double dpr = MediaQuery.devicePixelRatioOf(context);
+              final cache = widget.posterFit == BoxFit.cover
+                  ? coverDecodeCacheSize(
+                      cellWidth: constraints.maxWidth,
+                      cellHeight: constraints.maxHeight,
+                      devicePixelRatio: dpr,
+                      sourceWidth: widget.source.width,
+                      sourceHeight: widget.source.height,
+                    )
+                  : containDecodeCacheSize(
+                      cellWidth: constraints.maxWidth,
+                      cellHeight: constraints.maxHeight,
+                      devicePixelRatio: dpr,
+                      sourceWidth: widget.source.width,
+                      sourceHeight: widget.source.height,
+                    );
               return CachedNetworkImage(
                 imageUrl: posterUrl,
                 fit: widget.posterFit,
-                memCacheWidth: constraints.maxWidth.isFinite
-                    ? (constraints.maxWidth * dpr).round()
-                    : null,
-                memCacheHeight: constraints.maxHeight.isFinite
-                    ? (constraints.maxHeight * dpr).round()
-                    : null,
+                memCacheWidth: cache.width,
+                memCacheHeight: cache.height,
                 placeholder: (_, _) => const SizedBox.shrink(),
                 errorBuilder: (_, _, _) => const SizedBox.shrink(),
               );

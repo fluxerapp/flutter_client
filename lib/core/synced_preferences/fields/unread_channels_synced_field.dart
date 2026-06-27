@@ -56,10 +56,7 @@ class UnreadChannelsSyncedField
       remoteIds.remove(row.channelId);
     }
     for (final channelId in remoteIds) {
-      await dao.upsertUnreadCollapsed(
-        channelId: channelId,
-        isCollapsed: true,
-      );
+      await dao.upsertUnreadCollapsed(channelId: channelId, isCollapsed: true);
     }
   }
 
@@ -100,8 +97,7 @@ class UnreadChannelsSyncedField
     final merged = {
       ...local.collapsedChannelIds,
       ...remote.collapsedChannelIds,
-    }.toList()
-      ..sort();
+    }.toList()..sort();
     return UnreadChannelsLocalState(collapsedChannelIds: merged);
   }
 

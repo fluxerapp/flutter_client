@@ -38,8 +38,9 @@ class _OfflineAccountSwitcherLinkState
     if (!ref.watch(authStateProvider)) {
       return const SizedBox.shrink();
     }
-    final List<StoredAccount> accounts =
-        ref.watch(accountManagerProvider).accounts;
+    final List<StoredAccount> accounts = ref
+        .watch(accountManagerProvider)
+        .accounts;
     final String? currentUserId = ref.watch(currentUserIdProvider);
     final bool hasAlternateAccount = accounts.any(
       (StoredAccount account) => account.userId != currentUserId,

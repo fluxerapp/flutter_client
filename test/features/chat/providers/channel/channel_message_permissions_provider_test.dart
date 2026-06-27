@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart' show StateProvider;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
@@ -127,13 +130,39 @@ void main() {
       expect(perms.isVoiceEnabled, isFalse);
     });
 
-    test('reload keeps previous data instead of loading deny', () {
+    test('reload keeps previous data instead of loading deny', () async {
       const ChannelMessagePermissions allowed = ChannelMessagePermissions.all;
+      final triggerProvider = StateProvider<int>((_) => 0);
+      final pendingReload = Completer<ChannelMessagePermissions>();
+      final permissionsProvider = FutureProvider<ChannelMessagePermissions>((
+        ref,
+      ) {
+        final int generation = ref.watch(triggerProvider);
+        if (generation == 0) {
+          return allowed;
+        }
+        return pendingReload.future;
+      });
+      final container = ProviderContainer();
+      addTearDown(() {
+        if (!pendingReload.isCompleted) {
+          pendingReload.complete(allowed);
+        }
+        container.dispose();
+      });
+
+      await container.read(permissionsProvider.future);
+      container.read(triggerProvider.notifier).state = 1;
+      final AsyncValue<ChannelMessagePermissions> reloading = container.read(
+        permissionsProvider,
+      );
+
+      expect(reloading.isLoading, isTrue);
+      expect(reloading.hasValue, isTrue);
+
       final ChannelMessagePermissions perms =
-          channelMessagePermissionsForComposer(
-            const AsyncValue<ChannelMessagePermissions>.loading()
-                .copyWithPrevious(const AsyncValue.data(allowed)),
-          );
+          channelMessagePermissionsForComposer(reloading);
+
       expect(perms, allowed);
     });
   });
@@ -168,42 +197,47 @@ void main() {
       },
     );
 
-    test('denies all permissions for system DM with Fluxerbot recipient', () async {
-      const String channelId = '1000000000000000100';
-      final FluxerDatabase db = FluxerDatabase.forTesting(
-        NativeDatabase.memory(),
-      );
-      addTearDown(db.close);
+    test(
+      'denies all permissions for system DM with Fluxerbot recipient',
+      () async {
+        const String channelId = '1000000000000000100';
+        final FluxerDatabase db = FluxerDatabase.forTesting(
+          NativeDatabase.memory(),
+        );
+        addTearDown(db.close);
 
-      final ProviderContainer container = ProviderContainer(
-        overrides: [
-          fluxerDatabaseProvider.overrideWithValue(db),
-          dmViewModelProvider.overrideWith(
-            () => _FixedDmViewModel(<DmConversation>[
-              DmConversation(
-                id: channelId,
-                type: 1,
-                recipientId: fluxerBotUserId,
-                recipientName: 'Fluxer',
-                lastMessage: '',
-                lastMessageTime: DateTime.utc(2026),
-                isBot: true,
-                isSystem: true,
-              ),
-            ]),
-          ),
-          currentUserIdProvider.overrideWithValue('1000000000000000001'),
-          guildListViewModelProvider.overrideWith(_EmptyGuildListViewModel.new),
-        ],
-      );
-      addTearDown(container.dispose);
+        final ProviderContainer container = ProviderContainer(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            dmViewModelProvider.overrideWith(
+              () => _FixedDmViewModel(<DmConversation>[
+                DmConversation(
+                  id: channelId,
+                  type: 1,
+                  recipientId: fluxerBotUserId,
+                  recipientName: 'Fluxer',
+                  lastMessage: '',
+                  lastMessageTime: DateTime.utc(2026),
+                  isBot: true,
+                  isSystem: true,
+                ),
+              ]),
+            ),
+            currentUserIdProvider.overrideWithValue('1000000000000000001'),
+            guildListViewModelProvider.overrideWith(
+              _EmptyGuildListViewModel.new,
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
 
-      final ChannelMessagePermissions perms = await container.read(
-        channelMessagePermissionsProvider(channelId).future,
-      );
+        final ChannelMessagePermissions perms = await container.read(
+          channelMessagePermissionsProvider(channelId).future,
+        );
 
-      expect(perms, ChannelMessagePermissions.none);
-    });
+        expect(perms, ChannelMessagePermissions.none);
+      },
+    );
 
     test('grants all permissions for regular DM', () async {
       const String channelId = '1000000000000000200';

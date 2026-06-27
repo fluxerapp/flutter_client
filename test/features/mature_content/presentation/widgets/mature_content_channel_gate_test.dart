@@ -45,12 +45,12 @@ void main() {
     await tester.pumpWidget(
       _buildTestApp(
         overrides: [
-          matureContentGateReasonProvider('channel-1').overrideWith(
-            (ref) async => MatureContentGateReason.consentRequired,
-          ),
+          matureContentGateReasonProvider(
+            'channel-1',
+          ).overrideWith((ref) => MatureContentGateReason.consentRequired),
           matureGateContextProvider(
             'channel-1',
-          ).overrideWith((ref) async => matureContext),
+          ).overrideWith((ref) => matureContext),
         ],
         child: const MatureContentChannelGate(channelId: 'channel-1'),
       ),
@@ -66,12 +66,12 @@ void main() {
     await tester.pumpWidget(
       _buildTestApp(
         overrides: [
-          matureContentGateReasonProvider('channel-2').overrideWith(
-            (ref) async => MatureContentGateReason.consentRequired,
-          ),
+          matureContentGateReasonProvider(
+            'channel-2',
+          ).overrideWith((ref) => MatureContentGateReason.consentRequired),
           matureGateContextProvider(
             'channel-2',
-          ).overrideWith((ref) async => warningContext),
+          ).overrideWith((ref) => warningContext),
         ],
         child: const MatureContentChannelGate(
           channelId: 'channel-2',

@@ -1,2 +1,5 @@
 #include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"
 #include "Generated.xcconfig"
+
+// Match the Podfile simulator architecture exclusions.
+EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386 x86_64

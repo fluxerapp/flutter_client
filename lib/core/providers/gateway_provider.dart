@@ -16,6 +16,8 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_write_coalescer_provider.dart';
+import 'package:fluxer_app/features/chat/providers/core/active_read_channel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
@@ -74,12 +76,16 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.watch(fluxerClientProvider),
       db,
     ),
+    readStateWriteCoalescer: ref.read(readStateWriteCoalescerProvider),
     currentUserId: currentUserId,
+    isAutoAckActive: (channelId) =>
+        ref.read(activeReadChannelProvider.notifier).isAutoAckActive(channelId),
     onReady: () {
       talker.info('[Gateway] Setting gatewayReady = true');
       unawaited(ref.read(channelPermissionCacheProvider.notifier).rebuildAll());
-      ref.invalidate(effectiveGuildChannelPermissionBitsProvider);
-      ref.invalidate(channelLocalGuildChannelPermissionBitsProvider);
+      ref
+        ..invalidate(effectiveGuildChannelPermissionBitsProvider)
+        ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
       ref.read(gatewayReadyProvider.notifier).setReady();
       ref.read(guildSyncProvider.notifier).clearAll();
       ref.read(memberListViewportProvider.notifier).clearSession();
@@ -107,7 +113,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     },
     onVoiceStateUpdate: (voiceState) {
       ref.read(voiceStatesMapProvider.notifier).update(voiceState);
-      ref.read(voiceSessionProvider.notifier).handleSelfVoiceStateUpdate(voiceState);
+      ref
+          .read(voiceSessionProvider.notifier)
+          .handleSelfVoiceStateUpdate(voiceState);
       // Only sync E2EE if this update is for the current voice channel
       final VoiceSessionState session = ref.read(voiceSessionProvider);
       if (session.isConnected &&
@@ -134,7 +142,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       if (session.isConnected && session.channelId != null) {
         final bool hasRelevantUpdate = states.any(
           (VoiceState vs) =>
-              vs.channelId == session.channelId && vs.guildId == session.guildId,
+              vs.channelId == session.channelId &&
+              vs.guildId == session.guildId,
         );
         if (hasRelevantUpdate) {
           ref.read(voiceSessionProvider.notifier).syncE2eeFromVoiceStates();
@@ -188,8 +197,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       unawaited(
         ref.read(channelPermissionCacheProvider.notifier).rebuildGuild(guildId),
       );
-      ref.invalidate(effectiveGuildChannelPermissionBitsProvider);
-      ref.invalidate(channelLocalGuildChannelPermissionBitsProvider);
+      ref
+        ..invalidate(effectiveGuildChannelPermissionBitsProvider)
+        ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
     },
     onGuildPermissionsEvict: (guildId) {
       ref.read(guildPermissionsProvider.notifier).evict(guildId);
@@ -203,14 +213,16 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             .read(channelPermissionCacheProvider.notifier)
             .rebuildChannel(channelId),
       );
-      ref.invalidate(effectiveGuildChannelPermissionBitsProvider(channelId));
-      ref.invalidate(channelLocalGuildChannelPermissionBitsProvider(channelId));
+      ref
+        ..invalidate(effectiveGuildChannelPermissionBitsProvider(channelId))
+        ..invalidate(channelLocalGuildChannelPermissionBitsProvider(channelId));
     },
     onPermissionsClearAll: () {
       ref.read(guildPermissionsProvider.notifier).clearAll();
       ref.read(channelPermissionCacheProvider.notifier).clearAll();
-      ref.invalidate(effectiveGuildChannelPermissionBitsProvider);
-      ref.invalidate(channelLocalGuildChannelPermissionBitsProvider);
+      ref
+        ..invalidate(effectiveGuildChannelPermissionBitsProvider)
+        ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
     },
     onMessageCreate: (event) => messageBus.emit(MessageCreated(event)),
     onMessageUpdate: (event) => messageBus.emit(MessageUpdated(event)),
@@ -311,6 +323,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     },
   );
 
-  ref.onDispose(subscription.cancel);
+  ref.onDispose(() {
+    unawaited(subscription.cancel());
+    handler.dispose();
+  });
   return subscription;
 }

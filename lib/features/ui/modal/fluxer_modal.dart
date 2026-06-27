@@ -231,10 +231,7 @@ class FluxerConfirmModal {
             label: resolvedConfirmLabel,
           ),
         const SizedBox(height: 8),
-        FluxerButton.secondary(
-          onPressed: () => pop(false),
-          label: l10n.cancel,
-        ),
+        FluxerButton.secondary(onPressed: () => pop(false), label: l10n.cancel),
       ],
     );
   }

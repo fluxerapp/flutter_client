@@ -37,61 +37,61 @@ class FluxerSwitchControl extends StatelessWidget {
           width: trackWidth,
           height: trackHeight,
           child: AnimatedContainer(
-          duration: motion.fast,
-          curve: motion.curve,
-          decoration: BoxDecoration(
-            color: trackColor,
-            borderRadius: layout.radiusFull,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: value ? 0.10 : 0.15),
-                blurRadius: 4,
-                offset: const Offset(0, 1),
-                spreadRadius: -1,
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              AnimatedPositioned(
-                duration: motion.fast,
-                curve: motion.curve,
-                left: thumbOffset,
-                top: thumbInset,
-                child: Container(
-                  width: thumbSize,
-                  height: thumbSize,
-                  decoration: BoxDecoration(
-                    color: colors.switchThumb,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.20),
-                        blurRadius: 4,
-                        offset: const Offset(0, 1),
+            duration: motion.fast,
+            curve: motion.curve,
+            decoration: BoxDecoration(
+              color: trackColor,
+              borderRadius: layout.radiusFull,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: value ? 0.10 : 0.15),
+                  blurRadius: 4,
+                  offset: const Offset(0, 1),
+                  spreadRadius: -1,
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: motion.fast,
+                  curve: motion.curve,
+                  left: thumbOffset,
+                  top: thumbInset,
+                  child: Container(
+                    width: thumbSize,
+                    height: thumbSize,
+                    decoration: BoxDecoration(
+                      color: colors.switchThumb,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.20),
+                          blurRadius: 4,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: AnimatedSwitcher(
+                      duration: motion.fast,
+                      switchInCurve: motion.curve,
+                      switchOutCurve: motion.curve,
+                      child: Icon(
+                        value ? Icons.check_rounded : Icons.close_rounded,
+                        key: ValueKey(value),
+                        size: value ? iconSize : iconSize - 2,
+                        color: value
+                            ? colors.switchThumbCheckedIcon
+                            : colors.switchThumbUncheckedIcon,
                       ),
-                    ],
-                  ),
-                  child: AnimatedSwitcher(
-                    duration: motion.fast,
-                    switchInCurve: motion.curve,
-                    switchOutCurve: motion.curve,
-                    child: Icon(
-                      value ? Icons.check_rounded : Icons.close_rounded,
-                      key: ValueKey(value),
-                      size: value ? iconSize : iconSize - 2,
-                      color: value
-                          ? colors.switchThumbCheckedIcon
-                          : colors.switchThumbUncheckedIcon,
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    ),
     );
   }
 }

@@ -1,6 +1,7 @@
 name: fluxer_markdown
 description: Fluxer markdown renderer with context-based feature flags.
 version: 1.0.0
+publish_to: none
 
 platforms:
   android:
@@ -20,9 +21,9 @@ dependencies:
     sdk: flutter
   flutter_highlight: ^0.7.0
   flutter_svg: ^2.2.4
-  latext: ^0.5.1
   highlight: ^0.7.0
   intl: ^0.20.2
+  latext: ^0.5.1
   markdown: ^7.3.1
   phosphor_flutter:
     git:
@@ -32,3 +33,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  lint_hard: ^7.1.2

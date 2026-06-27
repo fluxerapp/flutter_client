@@ -134,7 +134,9 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
     );
     final DateTime? expiresAt = selectedPreset.minutes == null
         ? null
-        : DateTime.now().toUtc().add(minutesToDuration(selectedPreset.minutes)!);
+        : DateTime.now().toUtc().add(
+            minutesToDuration(selectedPreset.minutes)!,
+          );
     final CustomStatusPayload payload = buildCustomStatusPayload(
       text: _textController.text,
       emojiId: _emojiId,
@@ -207,33 +209,33 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildEmojiPickerButton(l10n),
-                  SizedBox(width: layout.s3),
-                  Expanded(
-                    child: FluxerInput(
-                      controller: _textController,
-                      textCapitalization: TextCapitalization.sentences,
-                      hint: l10n.customStatusPlaceholder,
-                      maxLength: kCustomStatusTextLimit,
-                      onChanged: (_) => setState(() {}),
-                    ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildEmojiPickerButton(l10n),
+                SizedBox(width: layout.s3),
+                Expanded(
+                  child: FluxerInput(
+                    controller: _textController,
+                    textCapitalization: TextCapitalization.sentences,
+                    hint: l10n.customStatusPlaceholder,
+                    maxLength: kCustomStatusTextLimit,
+                    onChanged: (_) => setState(() {}),
                   ),
-                ],
-              ),
-              SizedBox(height: layout.s3),
-              FluxerBottomSheetSubmenuItem(
-                label: l10n.customStatusClearAfter,
-                hint: customStatusExpiryLabel(_selectedExpiry, l10n),
-                onTap: _showExpiryPicker,
-              ),
-              SizedBox(height: layout.s4),
-              FluxerButton.primary(
-                onPressed: _save,
-                label: l10n.customStatusSave,
-              ),
+                ),
+              ],
+            ),
+            SizedBox(height: layout.s3),
+            FluxerBottomSheetSubmenuItem(
+              label: l10n.customStatusClearAfter,
+              hint: customStatusExpiryLabel(_selectedExpiry, l10n),
+              onTap: _showExpiryPicker,
+            ),
+            SizedBox(height: layout.s4),
+            FluxerButton.primary(
+              onPressed: _save,
+              label: l10n.customStatusSave,
+            ),
           ],
         ),
       ),

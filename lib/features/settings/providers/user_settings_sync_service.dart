@@ -12,7 +12,7 @@ class UserSettingsSyncService {
 
   final Ref _ref;
 
-  Future<void> pushTheme(UserThemeType theme) async {
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) async {
     final client = _ref.read(fluxerClientProvider);
     try {
       await client.users.updateCurrentUserSettings(

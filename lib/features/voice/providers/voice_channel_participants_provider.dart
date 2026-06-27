@@ -18,6 +18,29 @@ String voiceChannelParticipantsFamilyKey(String guildId, String channelId) {
   return '$guildId|$channelId';
 }
 
+final Map<String, database.User> _voiceParticipantUsersCache =
+    <String, database.User>{};
+
+Future<Map<String, database.User>> _resolveVoiceParticipantUsers(
+  Ref ref,
+  Set<String> userIds,
+) async {
+  if (userIds.isEmpty) {
+    return const <String, database.User>{};
+  }
+  final List<String> missing = userIds
+      .where((String id) => !_voiceParticipantUsersCache.containsKey(id))
+      .toList();
+  if (missing.isNotEmpty) {
+    final database.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
+    final List<database.User> rows = await db.userDao.getUsersByIds(missing);
+    for (final database.User user in rows) {
+      _voiceParticipantUsersCache[user.id] = user;
+    }
+  }
+  return _voiceParticipantUsersCache;
+}
+
 class VoiceChannelParticipantData {
   const VoiceChannelParticipantData({
     required this.userId,
@@ -80,50 +103,17 @@ int _compareVoiceStateForSort(
   return keyA.compareTo(keyB);
 }
 
-List<VoiceState> _voiceStatesInGuildChannel(
-  Map<String, VoiceState> map,
-  String guildId,
-  String channelId,
-) {
-  final List<VoiceState> out = <VoiceState>[];
-  for (final VoiceState vs in map.values) {
-    if (vs.channelId != channelId || vs.guildId != guildId) {
-      continue;
-    }
-    out.add(vs);
-  }
-  return out;
-}
-
-List<VoiceState> _voiceStatesInPrivateDmChannel(
-  Map<String, VoiceState> map,
-  String channelId,
-) {
-  final List<VoiceState> out = <VoiceState>[];
-  for (final VoiceState vs in map.values) {
-    if (vs.channelId != channelId) {
-      continue;
-    }
-    if (vs.guildId != null && vs.guildId!.isNotEmpty) {
-      continue;
-    }
-    out.add(vs);
-  }
-  return out;
-}
-
 @riverpod
 Future<List<VoiceChannelParticipantData>> voiceChannelParticipants(
   Ref ref,
   String guildChannelKey,
 ) async {
-  final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
   late final List<VoiceState> inChannel;
   if (guildChannelKey.startsWith(kVoiceDmParticipantsKeyPrefix)) {
     final String channelId = guildChannelKey.substring(
       kVoiceDmParticipantsKeyPrefix.length,
     );
-    inChannel = _voiceStatesInPrivateDmChannel(map, channelId);
+    inChannel = ref.watch(voiceStatesInPrivateChannelProvider(channelId));
   } else {
     final int sep = guildChannelKey.indexOf('|');
     if (sep < 0 || sep == guildChannelKey.length - 1) {
@@ -131,23 +121,21 @@ Future<List<VoiceChannelParticipantData>> voiceChannelParticipants(
     }
     final String guildId = guildChannelKey.substring(0, sep);
     final String channelId = guildChannelKey.substring(sep + 1);
-    inChannel = _voiceStatesInGuildChannel(map, guildId, channelId);
+    inChannel = ref.watch(voiceStatesInChannelProvider(guildId, channelId));
   }
   if (inChannel.isEmpty) {
     return const <VoiceChannelParticipantData>[];
   }
   final Set<String> userIds = inChannel.map((VoiceState v) => v.userId).toSet();
-  final database.FluxerDatabase db = ref.watch(fluxerDatabaseProvider);
-  final List<database.User> userRows = await db.userDao.getUsersByIds(
-    userIds.toList(),
+  final Map<String, database.User> byId = await _resolveVoiceParticipantUsers(
+    ref,
+    userIds,
   );
-  final Map<String, database.User> byId = <String, database.User>{
-    for (final database.User u in userRows) u.id: u,
-  };
-  inChannel.sort(
-    (VoiceState a, VoiceState b) => _compareVoiceStateForSort(a, b, byId),
-  );
-  return inChannel
+  final List<VoiceState> sortedInChannel = List<VoiceState>.of(inChannel)
+    ..sort(
+      (VoiceState a, VoiceState b) => _compareVoiceStateForSort(a, b, byId),
+    );
+  return sortedInChannel
       .map(
         (VoiceState vs) => VoiceChannelParticipantData(
           userId: vs.userId,
@@ -192,11 +180,8 @@ Future<List<VoiceSidebarParticipant>> voiceChannelSidebarParticipants(
   }
   final String guildId = guildChannelKey.substring(0, sep);
   final String channelId = guildChannelKey.substring(sep + 1);
-  final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
-  final List<VoiceState> inChannel = _voiceStatesInGuildChannel(
-    map,
-    guildId,
-    channelId,
+  final List<VoiceState> inChannel = ref.watch(
+    voiceStatesInChannelProvider(guildId, channelId),
   );
   if (inChannel.isEmpty) {
     return const <VoiceSidebarParticipant>[];
@@ -205,13 +190,11 @@ Future<List<VoiceSidebarParticipant>> voiceChannelSidebarParticipants(
     inChannel,
   );
   final List<String> userIds = byUser.keys.toList();
-  final database.FluxerDatabase db = ref.watch(fluxerDatabaseProvider);
-  final List<database.User> userRows = await db.userDao.getUsersByIds(userIds);
+  final database.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
+  final Map<String, database.User> usersById =
+      await _resolveVoiceParticipantUsers(ref, userIds.toSet());
   final List<database.Member> memberRows = await db.memberDao
       .getMembersByUserIds(guildId, userIds);
-  final Map<String, database.User> usersById = <String, database.User>{
-    for (final database.User u in userRows) u.id: u,
-  };
   final Map<String, database.Member> membersByUserId =
       <String, database.Member>{
         for (final database.Member m in memberRows) m.userId: m,

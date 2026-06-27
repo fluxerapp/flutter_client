@@ -53,7 +53,10 @@ List<TimeWindowPreset> getTimeWindowPresets({
   bool includeNever = true,
 }) {
   final List<TimeWindowPreset> presets = includeDeveloperOptions
-      ? <TimeWindowPreset>[kDeveloperTimeWindowPreset, ...kBaseTimeWindowPresets]
+      ? <TimeWindowPreset>[
+          kDeveloperTimeWindowPreset,
+          ...kBaseTimeWindowPresets,
+        ]
       : List<TimeWindowPreset>.from(kBaseTimeWindowPresets);
   if (!includeNever) {
     return presets
@@ -126,8 +129,7 @@ TimeWindowKey getTimeWindowKeyForExpiresAt(
   );
   for (final TimeWindowPreset preset in finitePresets) {
     final Duration? duration = minutesToDuration(preset.minutes);
-    if (duration != null &&
-        remaining <= duration + kExpiryMatchTolerance) {
+    if (duration != null && remaining <= duration + kExpiryMatchTolerance) {
       return preset.key;
     }
   }

@@ -13,8 +13,8 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_audio.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_file.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_image.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_image_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_media_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_renderer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/voice_message_player.dart';
@@ -226,7 +226,7 @@ void main() {
         ),
       ),
     );
-    expect(find.byType(AttachmentImageGrid), findsOneWidget);
+    expect(find.byType(AttachmentMediaGrid), findsOneWidget);
     expect(find.byType(AttachmentImage), findsNothing);
   });
 
@@ -262,11 +262,43 @@ void main() {
           ),
         ),
       );
-      expect(find.byType(AttachmentImageGrid), findsOneWidget);
+      expect(find.byType(AttachmentMediaGrid), findsOneWidget);
       expect(find.byType(AttachmentAudio), findsOneWidget);
       expect(find.byType(AttachmentRenderer), findsOneWidget);
     },
   );
+
+  testWidgets('grids images and videos together as media tiles', (
+    tester,
+  ) async {
+    final List<Attachment> attachments = <Attachment>[
+      _buildAttachment(
+        filename: 'image-1.png',
+        url: 'https://cdn.example/image-1.png',
+        width: 640,
+        height: 360,
+      ),
+      _buildAttachment(
+        filename: 'clip.mp4',
+        contentType: 'video/mp4',
+        url: 'https://cdn.example/clip.mp4',
+        width: 640,
+        height: 360,
+      ),
+    ];
+    await tester.pumpWidget(
+      _buildTestApp(
+        child: AttachmentListRenderer(
+          attachments: attachments,
+          inlineAttachmentMedia: true,
+          dimensionSize: MediaDimensionSize.small,
+          revealSpoilers: false,
+        ),
+      ),
+    );
+    expect(find.byType(AttachmentMediaGrid), findsOneWidget);
+    expect(find.byType(AttachmentVideo), findsNothing);
+  });
 
   testWidgets('renders expiry footnote text for attachment with expiration', (
     tester,

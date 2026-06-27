@@ -12,17 +12,15 @@ import 'package:go_router/go_router.dart';
 String settingsTargetPath(QuickSwitcherSettingsTarget target) =>
     switch (target) {
       QuickSwitcherSettingsTarget.userSettings => RoutePaths.youPath,
-      QuickSwitcherSettingsTarget.notifications =>
-        RoutePaths.notificationsPath,
+      QuickSwitcherSettingsTarget.notifications => RoutePaths.notificationsPath,
       QuickSwitcherSettingsTarget.bookmarks => RoutePaths.bookmarksPath,
       QuickSwitcherSettingsTarget.mentions => RoutePaths.mentionsPath,
     };
 
-String virtualGuildPath(QuickSwitcherVirtualGuildType type) =>
-    switch (type) {
-      QuickSwitcherVirtualGuildType.home => RoutePaths.me,
-      QuickSwitcherVirtualGuildType.favorites => RoutePaths.favoritesBase,
-    };
+String virtualGuildPath(QuickSwitcherVirtualGuildType type) => switch (type) {
+  QuickSwitcherVirtualGuildType.home => RoutePaths.me,
+  QuickSwitcherVirtualGuildType.favorites => RoutePaths.favoritesBase,
+};
 
 Future<void> navigateToDmChannelFromQuickSwitcher({
   required BuildContext context,

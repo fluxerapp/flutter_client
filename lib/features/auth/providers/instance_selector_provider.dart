@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/instance/instance_constants.dart';
 import 'package:fluxer_app/core/instance/instance_discovery_service.dart';
 import 'package:fluxer_app/core/instance/instance_endpoint_normalizer.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
@@ -10,12 +11,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'instance_selector_provider.g.dart';
 
-enum InstanceDiscoveryStatus {
-  idle,
-  discovering,
-  success,
-  error,
-}
+enum InstanceDiscoveryStatus { idle, discovering, success, error }
 
 class InstanceSelectorState {
   const InstanceSelectorState({
@@ -70,7 +66,7 @@ class InstanceSelectorState {
   }
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class InstanceSelector extends _$InstanceSelector {
   int _connectSeq = 0;
   static const InstanceEndpointNormalizer _normalizer =
@@ -131,11 +127,34 @@ class InstanceSelector extends _$InstanceSelector {
     if (!_isolatesActiveInstance) {
       return;
     }
-    final InstanceConfigSnapshot? pending =
-        state.asData?.value.pendingSnapshot;
+    final InstanceConfigSnapshot? pending = state.asData?.value.pendingSnapshot;
     if (pending != null) {
       ref.read(activeInstanceProvider.notifier).applySnapshot(pending);
     }
+  }
+
+  Future<void> resetToOfficialDefault() async {
+    final InstanceSelectorState? current = state.asData?.value;
+    if (current == null) {
+      return;
+    }
+    ++_connectSeq;
+    if (!_isolatesActiveInstance) {
+      ref.read(activeInstanceProvider.notifier).resetToOfficialDefault();
+    }
+    const String describedUrl = InstanceConstants.defaultInstanceInputUrl;
+    state = AsyncData(
+      current.copyWith(
+        instanceUrl: describedUrl,
+        status: InstanceDiscoveryStatus.success,
+        requiresDiscovery: false,
+        clearError: true,
+        clearPendingSnapshot: !_isolatesActiveInstance,
+        pendingSnapshot: _isolatesActiveInstance
+            ? InstanceConfigSnapshot.officialDefault()
+            : null,
+      ),
+    );
   }
 
   Future<void> connectToCurrentUrl() async {
@@ -150,10 +169,37 @@ class InstanceSelector extends _$InstanceSelector {
       }
       state = AsyncData(
         current.copyWith(
-          status: InstanceDiscoveryStatus.idle,
+          instanceUrl: InstanceConstants.defaultInstanceInputUrl,
+          status: InstanceDiscoveryStatus.success,
           requiresDiscovery: false,
           clearError: true,
-          clearPendingSnapshot: true,
+          clearPendingSnapshot: !_isolatesActiveInstance,
+          pendingSnapshot: _isolatesActiveInstance
+              ? InstanceConfigSnapshot.officialDefault()
+              : null,
+        ),
+      );
+      return;
+    }
+    if (_normalizer.isOfficialInstanceInput(url)) {
+      final int connectId = ++_connectSeq;
+      if (!_isolatesActiveInstance) {
+        ref.read(activeInstanceProvider.notifier).resetToOfficialDefault();
+      }
+      if (connectId != _connectSeq) {
+        return;
+      }
+      final String describedUrl = _describeUserInstanceInput(url);
+      state = AsyncData(
+        current.copyWith(
+          instanceUrl: describedUrl,
+          status: InstanceDiscoveryStatus.success,
+          requiresDiscovery: false,
+          clearError: true,
+          clearPendingSnapshot: !_isolatesActiveInstance,
+          pendingSnapshot: _isolatesActiveInstance
+              ? InstanceConfigSnapshot.officialDefault()
+              : null,
         ),
       );
       return;
@@ -180,8 +226,9 @@ class InstanceSelector extends _$InstanceSelector {
               domain: snapshot.displayDomain,
               name: snapshot.instanceDisplayName,
             );
-        final String describedUrl =
-            _normalizer.describeApiEndpoint(snapshot.apiBaseUrl);
+        final String describedUrl = _normalizer.describeApiEndpoint(
+          snapshot.apiBaseUrl,
+        );
         state = AsyncData(
           current.copyWith(
             instanceUrl: describedUrl,
@@ -267,6 +314,18 @@ class InstanceSelector extends _$InstanceSelector {
         .recentInstancesDao
         .getRecentInstances();
     state = AsyncData(current.copyWith(recentInstances: recentInstances));
+  }
+
+  String _describeUserInstanceInput(String url) {
+    try {
+      return _normalizer.describeApiEndpoint(
+        _normalizer.normalizeEndpoint(url),
+      );
+    } on FormatException {
+      return _normalizer.describeApiEndpoint(
+        InstanceConstants.defaultApiBaseUrl,
+      );
+    }
   }
 }
 

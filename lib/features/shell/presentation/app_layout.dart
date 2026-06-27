@@ -49,47 +49,34 @@ class AppLayout extends ConsumerStatefulWidget {
 
 class _AppLayoutState extends ConsumerState<AppLayout>
     with SingleTickerProviderStateMixin {
-  late final GoRouter _router;
   late final AnimationController _swipeController;
-  String _cachedLocation = '/';
 
   @override
   void initState() {
     super.initState();
-    _router = ref.read(fluxerRouterProvider);
-    _router.routerDelegate.addListener(_onRouteChange);
     _swipeController = AnimationController(
       vsync: this,
       duration: kHorizontalSwipeRevealDuration,
     );
-    _cachedLocation = _readLocation();
   }
 
   @override
   void dispose() {
     _swipeController.dispose();
-    _router.routerDelegate.removeListener(_onRouteChange);
     super.dispose();
-  }
-
-  void _onRouteChange() {
-    if (!mounted) {
-      return;
-    }
-    _cachedLocation = _readLocation();
-    _swipeController.value = 0;
-    setState(() {});
-    ref.read(currentRevealSideProvider.notifier).syncForRoute(_cachedLocation);
-  }
-
-  String _readLocation() {
-    final config = _router.routerDelegate.currentConfiguration;
-    return config.isNotEmpty ? config.last.matchedLocation : '/';
   }
 
   @override
   Widget build(BuildContext context) {
+    final String location = ref.watch(currentLocationProvider);
     ref
+      ..listen<String>(currentLocationProvider, (
+        String? previous,
+        String next,
+      ) {
+        _swipeController.value = 0;
+        ref.read(currentRevealSideProvider.notifier).syncForRoute(next);
+      })
       ..watch(pushNotificationsCoordinatorProvider)
       ..watch(appIconBadgeCoordinatorProvider);
     if (PushProviderGuard.isUnifiedPush) {
@@ -146,11 +133,11 @@ class _AppLayoutState extends ConsumerState<AppLayout>
     if (!isMobile) {
       return Scaffold(
         backgroundColor: context.colors.backgroundPrimary,
-        body: _buildDesktopBody(),
+        body: _buildDesktopBody(location),
       );
     }
 
-    return _buildMobileBody();
+    return _buildMobileBody(location);
   }
 
   Widget _sidebarForLocation(String location) {
@@ -163,9 +150,7 @@ class _AppLayoutState extends ConsumerState<AppLayout>
     return const GuildSidebar();
   }
 
-  Widget _buildDesktopBody() {
-    final location = _cachedLocation;
-
+  Widget _buildDesktopBody(String location) {
     final layout = context.layout;
     final leftSidebarsWidth = layout.guildListWidth + layout.sidebarWidth;
 
@@ -197,9 +182,7 @@ class _AppLayoutState extends ConsumerState<AppLayout>
     );
   }
 
-  Widget _buildMobileBody() {
-    final location = _cachedLocation;
-
+  Widget _buildMobileBody(String location) {
     if (_isChannelsRoute(location)) {
       return _buildMobileChannelBody(location);
     }
@@ -470,7 +453,7 @@ class _AppLayoutState extends ConsumerState<AppLayout>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // TODO(montys): Replace with a more final design.
+        // TODO(M0n7y5): Replace with a more final design.
         const VoiceCallBar(),
         Divider(height: 1, color: context.colors.borderColor),
         AppBottomNavBar(

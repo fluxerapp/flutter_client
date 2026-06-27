@@ -90,28 +90,25 @@ void main() {
     },
   );
 
-  testWidgets(
-    'TOTP-only MFA shows a code input and no passkey button',
-    (tester) async {
-      final navigatorKey = GlobalKey<NavigatorState>();
-      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
-        ..httpClientAdapter = const _MfaMethodsAdapter(
-          totp: true,
-          webauthn: false,
-          hasMfa: true,
-        );
-
-      await tester.pumpWidget(_app(navigatorKey));
-      await tester.pumpAndSettle();
-
-      unawaited(
-        showSudoVerificationSheet(navigatorKey: navigatorKey, dio: dio),
+  testWidgets('TOTP-only MFA shows a code input and no passkey button', (
+    tester,
+  ) async {
+    final navigatorKey = GlobalKey<NavigatorState>();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = const _MfaMethodsAdapter(
+        totp: true,
+        webauthn: false,
+        hasMfa: true,
       );
-      await tester.pumpAndSettle();
 
-      final l10n = FluxerLocalizations.of(navigatorKey.currentContext!);
-      expect(find.byType(FluxerInput), findsOneWidget);
-      expect(find.text(l10n.mfaMethodWebauthn), findsNothing);
-    },
-  );
+    await tester.pumpWidget(_app(navigatorKey));
+    await tester.pumpAndSettle();
+
+    unawaited(showSudoVerificationSheet(navigatorKey: navigatorKey, dio: dio));
+    await tester.pumpAndSettle();
+
+    final l10n = FluxerLocalizations.of(navigatorKey.currentContext!);
+    expect(find.byType(FluxerInput), findsOneWidget);
+    expect(find.text(l10n.mfaMethodWebauthn), findsNothing);
+  });
 }

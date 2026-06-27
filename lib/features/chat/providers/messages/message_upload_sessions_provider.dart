@@ -66,8 +66,7 @@ class MessageUploadSessions extends _$MessageUploadSessions {
       return;
     }
     final Map<String, MessageUploadSession> next =
-        Map<String, MessageUploadSession>.from(state);
-    next.remove(nonce);
+        Map<String, MessageUploadSession>.from(state)..remove(nonce);
     state = next;
   }
 }

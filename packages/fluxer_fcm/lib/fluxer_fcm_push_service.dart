@@ -5,7 +5,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_fcm/fcm_message_mapper.dart';
 import 'package:fluxer_fcm/fcm_push_message.dart';
-import 'package:fluxer_fcm/firebase_options.dart';
 
 class FluxerFcmPushService {
   factory FluxerFcmPushService() => instance;
@@ -30,7 +29,8 @@ class FluxerFcmPushService {
   Future<Map<String, String>> Function(
     RemoteMessage message,
     Map<String, String> mappedPayload,
-  )? tapPayloadEnricher;
+  )?
+  tapPayloadEnricher;
 
   Stream<String> get tokenRefreshStream => _tokenRefresh.stream;
 
@@ -59,14 +59,12 @@ class FluxerFcmPushService {
     }
   }
 
-  Future<void> initialize() async {
+  Future<void> initialize({FirebaseOptions? firebaseOptions}) async {
     if (_initialized) {
       return;
     }
     if (Firebase.apps.isEmpty) {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
+      await Firebase.initializeApp(options: firebaseOptions);
     }
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
@@ -74,12 +72,13 @@ class FluxerFcmPushService {
           badge: true,
           sound: true,
         );
-    _onMessageSubscription =
-        FirebaseMessaging.onMessage.listen(_onForegroundMessage);
-    _onMessageOpenedAppSubscription =
-        FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedApp);
-    _onTokenRefreshSubscription =
-        FirebaseMessaging.instance.onTokenRefresh.listen((String token) {
+    _onMessageSubscription = FirebaseMessaging.onMessage.listen(
+      _onForegroundMessage,
+    );
+    _onMessageOpenedAppSubscription = FirebaseMessaging.onMessageOpenedApp
+        .listen(_onMessageOpenedApp);
+    _onTokenRefreshSubscription = FirebaseMessaging.instance.onTokenRefresh
+        .listen((String token) {
           if (token.isNotEmpty) {
             _tokenRefresh.add(token);
           }
@@ -131,7 +130,8 @@ class FluxerFcmPushService {
     final Future<Map<String, String>> Function(
       RemoteMessage message,
       Map<String, String> mappedPayload,
-    )? enricher = tapPayloadEnricher;
+    )?
+    enricher = tapPayloadEnricher;
     if (enricher != null) {
       payload = await enricher(message, payload);
     }

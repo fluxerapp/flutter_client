@@ -34,7 +34,7 @@ class ShellPopupRouteObserver extends NavigatorObserver {
 
   void _reconcileNow() {
     final bool hasOverlay =
-        navigatorShowsPopupOverlay(navigator) ||
+        navigatorHasPopupOverlay(navigator) ||
         shellNavigatorsHavePopupOverlay();
     _onOverlayChanged(hasOverlay: hasOverlay);
   }

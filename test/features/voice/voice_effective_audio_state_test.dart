@@ -64,9 +64,7 @@ void main() {
     test('detects TrackPublishException message', () {
       expect(
         isTrackPublishFailure(
-          Exception(
-            'LiveKit: [TrackPublishException] Failed to publish track',
-          ),
+          Exception('LiveKit: [TrackPublishException] Failed to publish track'),
         ),
         isTrue,
       );

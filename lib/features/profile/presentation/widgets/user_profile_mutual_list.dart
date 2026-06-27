@@ -24,9 +24,9 @@ class UserProfileMutualList extends ConsumerWidget {
 
   final UserProfileMutualListType type;
   final List<UserPartialResponse> friends;
-  final List<MutualGuildResponse> communities;
+  final List<UserProfileFullResponseMutualGuilds> communities;
   final ValueChanged<UserPartialResponse> onFriendTap;
-  final ValueChanged<MutualGuildResponse> onCommunityTap;
+  final ValueChanged<UserProfileFullResponseMutualGuilds> onCommunityTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -89,8 +89,8 @@ class _MutualCommunityList extends ConsumerWidget {
     required this.onCommunityTap,
   });
 
-  final List<MutualGuildResponse> communities;
-  final ValueChanged<MutualGuildResponse> onCommunityTap;
+  final List<UserProfileFullResponseMutualGuilds> communities;
+  final ValueChanged<UserProfileFullResponseMutualGuilds> onCommunityTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -102,7 +102,7 @@ class _MutualCommunityList extends ConsumerWidget {
       );
     }
     final List<String> guildIds = communities
-        .map((MutualGuildResponse community) => community.id)
+        .map((UserProfileFullResponseMutualGuilds community) => community.id)
         .toList(growable: false);
     final String guildIdsKey = guildIds.join(',');
     final Map<String, db.Server> serversById =
@@ -111,7 +111,7 @@ class _MutualCommunityList extends ConsumerWidget {
     return FluxerListSection(
       dividers: false,
       children: communities
-          .map((MutualGuildResponse community) {
+          .map((UserProfileFullResponseMutualGuilds community) {
             final db.Server? server = serversById[community.id];
             final String title = server?.name ?? community.nick ?? community.id;
             final String? nick = community.nick?.trim();

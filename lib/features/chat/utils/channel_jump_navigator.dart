@@ -175,6 +175,9 @@ Future<void> _applyChannelJumpResolution({
             .read(fluxerDatabaseProvider)
             .channelDao
             .getChannelById(channelId);
+        if (!gateContext.mounted) {
+          return;
+        }
         final bool canProceed = await promptForChannelGateIfNeeded(
           context: gateContext,
           container: container,
@@ -246,6 +249,9 @@ Future<void> navigateToChannelMessage({
   final db.Channel? guildChannel = await database.channelDao.getChannelById(
     channelId,
   );
+  if (context != null && !context.mounted) {
+    return;
+  }
   final ChannelJumpLink link = MessageJumpLink(
     scope: guildChannel?.guildId ?? '@me',
     channelId: channelId,
@@ -264,6 +270,9 @@ Future<void> navigateToChannelJumpLinkVia({
     container: container,
     link: link,
   );
+  if (context != null && !context.mounted) {
+    return;
+  }
   await _applyChannelJumpResolution(
     container: container,
     resolution: resolution,

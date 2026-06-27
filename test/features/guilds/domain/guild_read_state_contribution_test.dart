@@ -52,19 +52,20 @@ void main() {
       expect(allMessages.unreadAllowed, isTrue);
     });
 
-    test('keeps legacy muted channels mention-only and unmuted channels fully contributing', () {
-      final GuildReadStateContribution muted = _contribution(
-        isMutedForUnread: true,
-      );
-      expect(muted.mentionAllowed, isTrue);
-      expect(muted.unreadAllowed, isFalse);
+    test(
+      'keeps legacy muted channels mention-only and unmuted channels fully contributing',
+      () {
+        final GuildReadStateContribution muted = _contribution(
+          isMutedForUnread: true,
+        );
+        expect(muted.mentionAllowed, isTrue);
+        expect(muted.unreadAllowed, isFalse);
 
-      final GuildReadStateContribution unmuted = _contribution(
-        
-      );
-      expect(unmuted.mentionAllowed, isTrue);
-      expect(unmuted.unreadAllowed, isTrue);
-    });
+        final GuildReadStateContribution unmuted = _contribution();
+        expect(unmuted.mentionAllowed, isTrue);
+        expect(unmuted.unreadAllowed, isTrue);
+      },
+    );
 
     test('always allows private unread contribution when unread exists', () {
       final GuildReadStateContribution result = _contribution(
@@ -77,14 +78,17 @@ void main() {
       expect(result.unreadAllowed, isTrue);
     });
 
-    test('does not allow empty mentions or empty unread counts to contribute', () {
-      final GuildReadStateContribution result = _contribution(
-        mentionCount: 0,
-        hasUnread: false,
-      );
-      expect(result.mentionAllowed, isFalse);
-      expect(result.unreadAllowed, isFalse);
-      expect(result.mentionCount, 0);
-    });
+    test(
+      'does not allow empty mentions or empty unread counts to contribute',
+      () {
+        final GuildReadStateContribution result = _contribution(
+          mentionCount: 0,
+          hasUnread: false,
+        );
+        expect(result.mentionAllowed, isFalse);
+        expect(result.unreadAllowed, isFalse);
+        expect(result.mentionCount, 0);
+      },
+    );
   });
 }

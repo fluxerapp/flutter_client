@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
-import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
-import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -41,7 +41,6 @@ import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controlle
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
-import 'package:fluxer_dart/gateway.dart';
 
 part 'composer_autocomplete_field_state.dart';
 part 'composer_autocomplete_panel.dart';

@@ -67,7 +67,10 @@ void main() {
   group('WebauthnCredentialsViewModel', () {
     test('build hydrates credentials from REST', () async {
       final api = _FakeUsersApi(
-        credentials: [_cred(id: 'a'), _cred(id: 'b')],
+        credentials: [
+          _cred(id: 'a'),
+          _cred(id: 'b'),
+        ],
       );
       final container = _container(api);
       addTearDown(container.dispose);

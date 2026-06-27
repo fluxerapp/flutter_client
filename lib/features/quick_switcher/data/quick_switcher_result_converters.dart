@@ -141,9 +141,10 @@ String quickSwitcherHeaderTitle(
   QuickSwitcherResultType.user => l10n.quickSwitcherSectionPeople,
   QuickSwitcherResultType.groupDm => l10n.quickSwitcherSectionGroupMessages,
   QuickSwitcherResultType.textChannel => l10n.quickSwitcherSectionTextChannels,
-  QuickSwitcherResultType.voiceChannel => l10n.quickSwitcherSectionVoiceChannels,
-  QuickSwitcherResultType.guild || QuickSwitcherResultType.virtualGuild =>
-    l10n.quickSwitcherSectionCommunities,
+  QuickSwitcherResultType.voiceChannel =>
+    l10n.quickSwitcherSectionVoiceChannels,
+  QuickSwitcherResultType.guild ||
+  QuickSwitcherResultType.virtualGuild => l10n.quickSwitcherSectionCommunities,
   QuickSwitcherResultType.settings => l10n.quickSwitcherSectionSettings,
   _ => '',
 };

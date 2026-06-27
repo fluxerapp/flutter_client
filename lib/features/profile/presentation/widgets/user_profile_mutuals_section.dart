@@ -19,9 +19,9 @@ class UserProfileMutualsSection extends StatelessWidget {
   });
 
   final List<UserPartialResponse> friends;
-  final List<MutualGuildResponse> communities;
+  final List<UserProfileFullResponseMutualGuilds> communities;
   final ValueChanged<UserPartialResponse> onFriendTap;
-  final ValueChanged<MutualGuildResponse> onCommunityTap;
+  final ValueChanged<UserProfileFullResponseMutualGuilds> onCommunityTap;
 
   void _showSheet(BuildContext context, UserProfileMutualListType type) {
     unawaited(

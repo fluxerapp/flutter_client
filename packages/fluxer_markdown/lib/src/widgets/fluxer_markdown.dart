@@ -21,6 +21,7 @@ class FluxerMarkdown extends StatelessWidget {
     this.baseStyle,
     this.selectable = false,
     this.context = FluxerMarkdownContext.standardWithJumbo,
+    this.parseCacheKey,
     this.maxLines,
     this.overflow,
     super.key,
@@ -31,6 +32,7 @@ class FluxerMarkdown extends StatelessWidget {
   final TextStyle? baseStyle;
   final bool selectable;
   final FluxerMarkdownContext context;
+  final String? parseCacheKey;
   final int? maxLines;
   final TextOverflow? overflow;
 
@@ -142,6 +144,7 @@ class FluxerMarkdown extends StatelessWidget {
         inlineDocument: _createInlineDocument(features),
         selectable: selectable,
         isDark: isDark,
+        parseCacheKey: parseCacheKey,
         maxLines: maxLines,
         overflow: overflow,
       );
@@ -157,6 +160,7 @@ class FluxerMarkdown extends StatelessWidget {
           inlineDocument: _createInlineDocument(features),
           selectable: selectable,
           isDark: isDark,
+          parseCacheKey: parseCacheKey,
           maxLines: maxLines,
           overflow: overflow,
         ),
@@ -188,7 +192,7 @@ class FluxerMarkdown extends StatelessWidget {
     final document = _createBlockDocument(features);
     final normalizedText = normalizeBlockquoteBarMarkdown(text);
     final nodes = _blockNodeCache.resolve((
-      normalizedText,
+      markdownParseCacheKey(normalizedText, parseCacheKey),
       features,
     ), () => document.parse(normalizedText));
     return buildFluxerMarkdownAst(
@@ -227,8 +231,10 @@ class FluxerMarkdown extends StatelessWidget {
   List<md.InlineSyntax> _inlineSyntaxes(FluxerMarkdownFeatures features) {
     return [
       if (config.linkWidgetBuilder != null &&
-          config.internalLinkPattern != null)
+          config.internalLinkPattern != null) ...[
         FluxerJumpLinkSyntax(config.internalLinkPattern!),
+        FluxerBracketedJumpLinkSyntax(config.internalLinkPattern!),
+      ],
       FluxerUnderlineSyntax(),
       md.StrikethroughSyntax(),
       if (features.allowUserMentions) FluxerUserMentionSyntax(),

@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -151,13 +152,31 @@ class MessageSearchRepository {
           .toList(),
     );
 
+    final mentionContexts = <String, MessageMentionContext>{};
+    for (final channelId
+        in results.messages.map((message) => message.channelId).toSet()) {
+      mentionContexts[channelId] = await buildMessageMentionContext(
+        _database,
+        currentUserId: _currentUserId,
+        channelId: channelId,
+      );
+    }
     final entries = <MessageSearchResultEntry>[
       for (final result in results.messages)
         MessageSearchResultEntry(
-          message: Message.fromSearchResult(
-            result,
-            currentUserId: _currentUserId,
-          ),
+          message:
+              Message.fromSearchResult(
+                result,
+                currentUserId: _currentUserId,
+              ).copyWith(
+                isMentioned: messageMentionsUser(
+                  mentionContexts[result.channelId]!,
+                  authorId: result.author.id,
+                  mentionedUserIds: result.mentions.map((u) => u.id).toList(),
+                  mentionEveryone: result.mentionEveryone,
+                  mentionRoleIds: result.mentionRoles,
+                ),
+              ),
           guildId: channelById[result.channelId]?.guildId,
           channelName: channelById[result.channelId]?.name,
         ),
@@ -256,43 +275,52 @@ List<String>? _authorIdsFilter(String value) {
   return ids.isEmpty ? null : ids.toList();
 }
 
-MessageSearchScope _messageSearchScope(MessageSearchScopeFilter scope) =>
-    switch (scope) {
-      MessageSearchScopeFilter.current => MessageSearchScope.current,
-      MessageSearchScopeFilter.openDms => MessageSearchScope.openDms,
-      MessageSearchScopeFilter.allDms => MessageSearchScope.allDms,
-      MessageSearchScopeFilter.allGuilds => MessageSearchScope.allGuilds,
-      MessageSearchScopeFilter.all => MessageSearchScope.all,
-      MessageSearchScopeFilter.openDmsAndAllGuilds =>
-        MessageSearchScope.openDmsAndAllGuilds,
-    };
+GlobalSearchMessagesRequestScopeScope _messageSearchScope(
+  MessageSearchScopeFilter scope,
+) => switch (scope) {
+  MessageSearchScopeFilter.current =>
+    GlobalSearchMessagesRequestScopeScope.current,
+  MessageSearchScopeFilter.openDms =>
+    GlobalSearchMessagesRequestScopeScope.openDms,
+  MessageSearchScopeFilter.allDms =>
+    GlobalSearchMessagesRequestScopeScope.allDms,
+  MessageSearchScopeFilter.allGuilds =>
+    GlobalSearchMessagesRequestScopeScope.allGuilds,
+  MessageSearchScopeFilter.all => GlobalSearchMessagesRequestScopeScope.all,
+  MessageSearchScopeFilter.openDmsAndAllGuilds =>
+    GlobalSearchMessagesRequestScopeScope.openDmsAndAllGuilds,
+};
 
-(MessageSortField, MessageSortOrder) _messageSort(
-  MessageSearchSortFilter sort,
-) => switch (sort) {
+(
+  GlobalSearchMessagesRequestSortBySortBy,
+  GlobalSearchMessagesRequestSortOrderSortOrder,
+)
+_messageSort(MessageSearchSortFilter sort) => switch (sort) {
   MessageSearchSortFilter.newest => (
-    MessageSortField.timestamp,
-    MessageSortOrder.desc,
+    GlobalSearchMessagesRequestSortBySortBy.timestamp,
+    GlobalSearchMessagesRequestSortOrderSortOrder.desc,
   ),
   MessageSearchSortFilter.oldest => (
-    MessageSortField.timestamp,
-    MessageSortOrder.asc,
+    GlobalSearchMessagesRequestSortBySortBy.timestamp,
+    GlobalSearchMessagesRequestSortOrderSortOrder.asc,
   ),
   MessageSearchSortFilter.relevance => (
-    MessageSortField.relevance,
-    MessageSortOrder.desc,
+    GlobalSearchMessagesRequestSortBySortBy.relevance,
+    GlobalSearchMessagesRequestSortOrderSortOrder.desc,
   ),
 };
 
-MessageContentType _messageContentType(MessageSearchContentFilter type) =>
-    switch (type) {
-      MessageSearchContentFilter.image => MessageContentType.image,
-      MessageSearchContentFilter.video => MessageContentType.video,
-      MessageSearchContentFilter.audio => MessageContentType.sound,
-      MessageSearchContentFilter.file => MessageContentType.file,
-      MessageSearchContentFilter.link => MessageContentType.link,
-      MessageSearchContentFilter.embed => MessageContentType.embed,
-      MessageSearchContentFilter.sticker => MessageContentType.sticker,
-    };
+GlobalSearchMessagesRequestHasHas _messageContentType(
+  MessageSearchContentFilter type,
+) => switch (type) {
+  MessageSearchContentFilter.image => GlobalSearchMessagesRequestHasHas.image,
+  MessageSearchContentFilter.video => GlobalSearchMessagesRequestHasHas.video,
+  MessageSearchContentFilter.audio => GlobalSearchMessagesRequestHasHas.sound,
+  MessageSearchContentFilter.file => GlobalSearchMessagesRequestHasHas.file,
+  MessageSearchContentFilter.link => GlobalSearchMessagesRequestHasHas.link,
+  MessageSearchContentFilter.embed => GlobalSearchMessagesRequestHasHas.embed,
+  MessageSearchContentFilter.sticker =>
+    GlobalSearchMessagesRequestHasHas.sticker,
+};
 
 const Object _unset = Object();

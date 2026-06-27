@@ -30,10 +30,7 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
   List<String>? outboundRingRecipients,
   bool startWithVideo = false,
 }) async {
-  final dm = findDmById(
-    ref.read(dmViewModelProvider).conversations,
-    channelId,
-  );
+  final dm = findDmById(ref.read(dmViewModelProvider).conversations, channelId);
   if (dm != null && !canStartDmCall(dm)) {
     return (
       ok: false,

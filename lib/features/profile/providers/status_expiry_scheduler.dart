@@ -46,7 +46,7 @@ class StatusExpiryScheduler {
   }
 
   Future<void> _handleExpiry(String? resetsTo) async {
-    final UserStatusType fallbackStatus = _parseStatusType(resetsTo);
+    final PresenceStatus fallbackStatus = _parseStatusType(resetsTo);
     try {
       await _ref
           .read(userStatusServiceProvider)
@@ -56,12 +56,12 @@ class StatusExpiryScheduler {
     }
   }
 
-  UserStatusType _parseStatusType(String? value) {
+  PresenceStatus _parseStatusType(String? value) {
     if (value == null) {
-      return UserStatusType.online;
+      return PresenceStatus.online;
     }
-    final UserStatusType parsed = UserStatusType.fromJson(value);
-    return parsed == UserStatusType.$unknown ? UserStatusType.online : parsed;
+    final PresenceStatus parsed = PresenceStatus.fromJson(value);
+    return parsed == PresenceStatus.$unknown ? PresenceStatus.online : parsed;
   }
 
   void _cancelTimer() {

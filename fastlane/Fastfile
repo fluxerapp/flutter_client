@@ -8,6 +8,10 @@ def fetchOptionalEnvironmentValue(key, defaultValue)
   return ENV[key] || defaultValue
 end
 
+def project_root_path
+  File.expand_path("..", __dir__)
+end
+
 platform :ios do
   desc "Build beta archive and upload to TestFlight"
   lane :testflight_beta do
@@ -71,7 +75,7 @@ platform :ios do
       "--no-codesign",
       "--build-number",
       flutter_build_number.to_s,
-      "--dart-define-from-file=tool/dart_defines/beta.json",
+      "--dart-define-from-file=#{File.join(project_root_path, "tool/dart_defines/beta.json")}",
       "--dart-define=PUSH_PROVIDER=apns",
       "--dart-define=BUILD_TIMESTAMP=#{Time.now.utc.iso8601}",
       "--dart-define=BETA_NUMBER=#{ENV["BETA_NUMBER"]}"
@@ -186,7 +190,7 @@ platform :ios do
       "--no-codesign",
       "--build-number",
       flutter_build_number.to_s,
-      "--dart-define-from-file=tool/dart_defines/canary.json",
+      "--dart-define-from-file=#{File.join(project_root_path, "tool/dart_defines/canary.json")}",
       "--dart-define=PUSH_PROVIDER=apns",
       "--dart-define=BUILD_TIMESTAMP=#{Time.now.utc.iso8601}"
     )
@@ -300,7 +304,7 @@ platform :ios do
       "--no-codesign",
       "--build-number",
       flutter_build_number.to_s,
-      "--dart-define-from-file=tool/dart_defines/stable.json",
+      "--dart-define-from-file=#{File.join(project_root_path, "tool/dart_defines/stable.json")}",
       "--dart-define=PUSH_PROVIDER=apns",
       "--dart-define=BUILD_TIMESTAMP=#{Time.now.utc.iso8601}"
     )

@@ -67,7 +67,8 @@ void main() {
 
   group('parseFluxerMarkdownSegments fenced code blocks', () {
     test('does not extract alerts from inside a code block', () {
-      const String input = '''```
+      const String input = '''
+```
 > [!NOTE]
 Alert syntax stays literal
 ```''';
@@ -81,7 +82,8 @@ Alert syntax stays literal
     });
 
     test('does not extract subtext from inside a code block', () {
-      const String input = '''```
+      const String input = '''
+```
 -# not subtext
 ```''';
       final List<FluxerMarkdownSegment> segments = parseFluxerMarkdownSegments(
@@ -94,7 +96,8 @@ Alert syntax stays literal
     });
 
     test('still extracts alerts outside code blocks', () {
-      const String input = '''```
+      const String input = '''
+```
 code
 ```
 

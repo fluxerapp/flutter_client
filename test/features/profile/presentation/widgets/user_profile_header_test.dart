@@ -5,10 +5,13 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_header.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 Widget _buildApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(
       colorTheme: colorTheme,
       textTheme: FluxerTextTheme.fromColors(colorTheme),
@@ -20,7 +23,7 @@ Widget _buildApp(Widget child) {
 
 Widget _buildHeader(String displayName) {
   return UserProfileHeader(
-    username: 'Jiralite',
+    username: 'sampleuser',
     discriminator: '0000',
     displayName: displayName,
     flags: 0,
@@ -34,7 +37,7 @@ void main() {
     testWidgets(
       'uses resolved display name as title and username tag subtitle',
       (tester) async {
-        for (final titleText in ['Jiralite Display', 'Jiralite']) {
+        for (final titleText in ['Sample User', 'sampleuser']) {
           await tester.pumpWidget(_buildApp(_buildHeader(titleText)));
 
           final header = find.byType(UserProfileHeader);
@@ -44,7 +47,7 @@ void main() {
           );
           final tagFinder = find.descendant(
             of: header,
-            matching: find.text('Jiralite#0000'),
+            matching: find.text('sampleuser#0000'),
           );
           final title = tester.widget<Text>(titleFinder);
           final tag = tester.widget<Text>(tagFinder);

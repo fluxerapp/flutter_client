@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/daos/user_preferences_dao.dart'
     as preferences_dao;
@@ -184,6 +185,7 @@ Future<bool> shouldShowMatureContentGate(Ref ref, String channelId) async {
   return reason != MatureContentGateReason.none;
 }
 
+@immutable
 class MatureMediaPolicyRequest {
   const MatureMediaPolicyRequest({
     required this.channelId,

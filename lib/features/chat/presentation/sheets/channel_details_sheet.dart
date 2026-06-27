@@ -47,14 +47,14 @@ import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
-import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
+import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
-import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -1513,35 +1513,19 @@ class _DmMemberGroups extends ConsumerWidget {
     if (userId == null) {
       return const SizedBox.shrink();
     }
-    String resolveStatus(String id) =>
-        ref.watch(userPresenceProvider(id)).value?.status ?? 'offline';
     final db.User? currentUser = ref.watch(userPresenceProvider(userId)).value;
-    final List<_DmParticipant> participants = <_DmParticipant>[
-      _DmParticipant(
-        id: userId,
-        name: currentUser?.globalName ?? currentUser?.username ?? 'You',
-        avatar: currentUser?.avatar,
-        avatarColor: currentUser?.avatarColor,
-        isBot: currentUser?.bot ?? false,
-        isCurrentUser: true,
-      ),
-      if (dm.isGroup)
-        for (final GroupMemberInfo member in dm.groupMembers)
-          if (member.id != userId)
-            _DmParticipant(
-              id: member.id,
-              name: member.name,
-              avatar: member.avatar,
-            )
-          else if (!dm.isPersonalNotes)
-            _DmParticipant(
-              id: dm.recipientId,
-              name: dm.recipientName,
-              avatar: dm.recipientAvatar,
-              isBot: dm.isBot,
-              isSystem: dm.isSystem,
-            ),
-    ];
+    final List<_DmParticipant> participants = _buildDmParticipants(
+      dm: dm,
+      currentUserId: userId,
+      currentUser: currentUser,
+    );
+    final Map<String, db.User?> presenceById = <String, db.User?>{
+      for (final _DmParticipant participant in participants)
+        participant.id: participant.id == userId
+            ? currentUser
+            : ref.watch(userPresenceProvider(participant.id)).value,
+    };
+    String resolveStatus(String id) => presenceById[id]?.status ?? 'offline';
     final List<GroupDmMemberGroup<_DmParticipant>> groups =
         groupDmMembersByPresence<_DmParticipant>(
           members: participants,
@@ -1570,10 +1554,7 @@ class _DmMemberGroups extends ConsumerWidget {
                         ),
                   avatarColor: participant.avatarColor,
                   status: resolveStatus(participant.id),
-                  customStatus: ref
-                      .watch(userPresenceProvider(participant.id))
-                      .value
-                      ?.customStatus,
+                  customStatus: presenceById[participant.id]?.customStatus,
                   isBot: participant.isBot,
                   isSystem: participant.isSystem,
                   isCurrentUser: participant.isCurrentUser,
@@ -1587,6 +1568,63 @@ class _DmMemberGroups extends ConsumerWidget {
       ],
     );
   }
+}
+
+List<_DmParticipant> _buildDmParticipants({
+  required DmConversation dm,
+  required String currentUserId,
+  required db.User? currentUser,
+}) {
+  final List<_DmParticipant> participants = <_DmParticipant>[];
+  final Set<String> addedIds = <String>{};
+
+  void add(_DmParticipant participant) {
+    if (participant.id.isEmpty || !addedIds.add(participant.id)) {
+      return;
+    }
+    participants.add(participant);
+  }
+
+  add(
+    _DmParticipant(
+      id: currentUserId,
+      name: currentUser?.globalName ?? currentUser?.username ?? 'You',
+      avatar: currentUser?.avatar,
+      avatarColor: currentUser?.avatarColor,
+      isBot: currentUser?.bot ?? false,
+      isSystem: currentUser?.system ?? false,
+      isCurrentUser: true,
+    ),
+  );
+
+  if (dm.isPersonalNotes) {
+    return participants;
+  }
+
+  if (dm.isGroup) {
+    for (final GroupMemberInfo member in dm.groupMembers) {
+      final String name = member.name.trim();
+      add(
+        _DmParticipant(
+          id: member.id,
+          name: name.isEmpty ? member.id : member.name,
+          avatar: member.avatar,
+        ),
+      );
+    }
+    return participants;
+  }
+
+  add(
+    _DmParticipant(
+      id: dm.recipientId,
+      name: dm.recipientName.trim().isEmpty ? dm.recipientId : dm.recipientName,
+      avatar: dm.recipientAvatar,
+      isBot: dm.isBot,
+      isSystem: dm.isSystem,
+    ),
+  );
+  return participants;
 }
 
 class _DmParticipant {
@@ -1620,10 +1658,7 @@ class _SimpleMemberRow extends StatelessWidget {
     this.isSystem = false,
     this.isCurrentUser = false,
     this.onTap,
-    this.isOwner = false,
     this.customStatus,
-    this.dimmed = false,
-    this.onLongPress,
   });
 
   final String userId;
@@ -1634,11 +1669,8 @@ class _SimpleMemberRow extends StatelessWidget {
   final bool isBot;
   final bool isSystem;
   final bool isCurrentUser;
-  final bool isOwner;
   final String? customStatus;
-  final bool dimmed;
   final VoidCallback? onTap;
-  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -1656,16 +1688,8 @@ class _SimpleMemberRow extends StatelessWidget {
       subtitleWidget: hasVisibleCustomStatus(customStatus)
           ? CustomStatusDisplay(stored: customStatus, maxLines: 1)
           : null,
-      dimmed: dimmed,
       onTap: onTap,
-      onLongPress: onLongPress,
       titleAdornments: [
-        if (isOwner)
-          const PhosphorIcon(
-            PhosphorIconsFill.crown,
-            size: 14,
-            color: Color(0xFFFAA61A),
-          ),
         if (isCurrentUser) const _MemberTag(label: 'You'),
         if (isBot || isSystem) FluxerUserTag(isSystem: isSystem),
       ],
@@ -2084,7 +2108,7 @@ class _DmUserFilterSheetLoaderState
       future: _usersFuture,
       builder: (BuildContext context, AsyncSnapshot<List<_PickerUser>> snap) {
         if (!snap.hasData) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: FluxerLoadingSpinner());
         }
         return _UserFilterSheet(
           availableUsers: snap.data!,
@@ -2287,7 +2311,7 @@ class _GuildUserSearchFilterSheetState
                     ),
                   )
                 : _isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(child: FluxerLoadingSpinner())
                 : _results.isEmpty
                 ? Center(
                     child: Text(
@@ -2754,88 +2778,6 @@ void _stubComingSoon(BuildContext context, WidgetRef ref) {
   ref
       .read(toastProvider.notifier)
       .show(const FluxerToast(message: 'Coming soon'));
-}
-
-Future<void> _showGuildMemberActionsSheet(
-  BuildContext context, {
-  required WidgetRef ref,
-  required Member member,
-  required String? guildId,
-  required bool isCurrentUser,
-  required bool isOwner,
-}) {
-  return FluxerBottomSheet.show<void>(
-    context,
-    title: member.displayName,
-    variant: FluxerBottomSheetVariant.menu,
-    builder: (sheetContext, close) {
-      void run(VoidCallback action) {
-        close();
-        action();
-      }
-
-      final canKick = !isCurrentUser && !isOwner;
-      final canBan = !isCurrentUser && !isOwner;
-
-      return FluxerBottomSheetContent(
-        child: FluxerBottomSheetGroupColumn(
-          children: <Widget>[
-            FluxerMenuGroup(
-              children: [
-                FluxerBottomSheetMenuItem(
-                  label: 'Open Profile',
-                  icon: PhosphorIconsBold.user,
-                  onTap: () => run(
-                    () => FluxerUserProfileSheet.show(
-                      context,
-                      userId: member.id,
-                      guildId: guildId,
-                    ),
-                  ),
-                ),
-                FluxerBottomSheetMenuItem(
-                  label: 'Copy User ID',
-                  icon: PhosphorIconsRegular.snowflake,
-                  onTap: () => run(() {
-                    unawaited(
-                      Clipboard.setData(ClipboardData(text: member.id)),
-                    );
-                    ref
-                        .read(toastProvider.notifier)
-                        .show(
-                          const FluxerToast(
-                            message: 'Copied user ID',
-                            variant: FluxerToastVariant.success,
-                          ),
-                        );
-                  }),
-                ),
-              ],
-            ),
-            if (canKick || canBan)
-              FluxerMenuGroup(
-                children: [
-                  if (canKick)
-                    FluxerBottomSheetMenuItem(
-                      label: 'Kick Member',
-                      icon: PhosphorIconsBold.userMinus,
-                      isDanger: true,
-                      onTap: () => run(() => _stubComingSoon(context, ref)),
-                    ),
-                  if (canBan)
-                    FluxerBottomSheetMenuItem(
-                      label: 'Ban Member',
-                      icon: PhosphorIconsBold.prohibit,
-                      isDanger: true,
-                      onTap: () => run(() => _stubComingSoon(context, ref)),
-                    ),
-                ],
-              ),
-          ],
-        ),
-      );
-    },
-  );
 }
 
 Future<void> _showDetailsMoreSheet(

@@ -167,11 +167,7 @@ void main() {
             currentUserId: userId,
             everyonePermissions: Permission.viewChannel.value,
             memberRoles: [
-              const MemberRole(
-                id: roleAId,
-                name: 'Moderator',
-                color: 0,
-              ),
+              const MemberRole(id: roleAId, name: 'Moderator', color: 0),
             ],
             memberRecordPresent: true,
             overwriteJsonLayersRootToLeaf: [
@@ -186,7 +182,7 @@ void main() {
             isTrue,
             reason: 'role grant should override @everyone deny',
           );
-          expect(hasPermission(result, Permission.viewChannel), isFalse);
+          expect(hasPermission(result, Permission.viewChannel), isTrue);
         },
       );
 
@@ -217,11 +213,7 @@ void main() {
             currentUserId: userId,
             everyonePermissions: Permission.viewChannel.value,
             memberRoles: [
-              const MemberRole(
-                id: roleAId,
-                name: 'Moderator',
-                color: 0,
-              ),
+              const MemberRole(id: roleAId, name: 'Moderator', color: 0),
             ],
             memberRecordPresent: true,
             overwriteJsonLayersRootToLeaf: [

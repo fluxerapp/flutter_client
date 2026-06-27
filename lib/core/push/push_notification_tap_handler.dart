@@ -15,10 +15,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_notification_tap_handler.g.dart';
 
-enum PushNotificationTapSource {
-  local,
-  fcm,
-}
+enum PushNotificationTapSource { local, fcm }
 
 @Riverpod(keepAlive: true)
 class PushNotificationTapHandler extends _$PushNotificationTapHandler {

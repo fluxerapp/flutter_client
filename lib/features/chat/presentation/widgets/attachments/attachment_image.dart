@@ -97,8 +97,7 @@ class AttachmentImage extends StatelessWidget {
                 ? EmbedAnimatedImage(
                     animatedUrl: animatedEmbedImageUrl(effectiveUrl),
                     staticUrl: staticEmbedImageUrl(effectiveUrl),
-                    visibilityKey:
-                        '${channelId}_${messageId}_${attachment.id}',
+                    visibilityKey: '${channelId}_${messageId}_${attachment.id}',
                     fit: BoxFit.contain,
                     placeholder: _buildImagePlaceholder(context),
                   )
@@ -132,10 +131,7 @@ class AttachmentImage extends StatelessWidget {
       );
     }
     return const Skeletonizer(
-      child: SizedBox(
-        height: double.maxFinite,
-        width: double.maxFinite,
-      ),
+      child: SizedBox(height: double.maxFinite, width: double.maxFinite),
     );
   }
 

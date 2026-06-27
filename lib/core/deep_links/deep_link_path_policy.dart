@@ -1,5 +1,7 @@
 import 'package:fluxer_app/core/router/route_names.dart';
 
+const String appProtocolScheme = 'fluxer';
+
 final RegExp _routePathBlocklist = RegExp(r'''["'<>\\|\t\r\n]''');
 
 const String userSettingsDeepLinkPath = '/settings/user';
@@ -35,12 +37,34 @@ String normalizeDeepLinkPath(String path) {
   return trimmed.isEmpty ? '/' : trimmed;
 }
 
+/// Converts `fluxer://` URIs into path only form matching https deep links.
+///
+/// Examples:
+/// - `fluxer://channels/@me/123` → `/channels/@me/123`
+/// - `fluxer://invite/abc` → `/invite/abc`
+/// - `fluxer:/channels/@me` → `/channels/@me`
+Uri normalizeAppProtocolDeepLinkUri(Uri uri) {
+  if (uri.scheme != appProtocolScheme) {
+    return uri;
+  }
+  final String host = uri.host;
+  final String rawPath = uri.path;
+  final String path = host.isNotEmpty
+      ? (rawPath.isEmpty || rawPath == '/' ? '/$host' : '/$host$rawPath')
+      : (rawPath.isEmpty ? '/' : rawPath);
+  return Uri(
+    path: normalizeDeepLinkPath(path),
+    queryParameters: uri.queryParameters.isEmpty ? null : uri.queryParameters,
+    fragment: uri.fragment.isEmpty ? null : uri.fragment,
+  );
+}
+
 bool hasBlocklistedDeepLinkPathCharacters(String path) {
   return _routePathBlocklist.hasMatch(path);
 }
 
 bool isAllowedDeepLinkPath(Uri uri) {
-  final String path = uri.path;
+  final String path = normalizeAppProtocolDeepLinkUri(uri).path;
   if (_routePathBlocklist.hasMatch(path)) {
     return false;
   }

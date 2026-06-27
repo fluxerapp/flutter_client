@@ -52,7 +52,7 @@ int _countUnescapedStrikethroughDelimiters(String text) {
 bool _isEscaped(String text, int delimiterIndex) {
   var backslashCount = 0;
   var index = delimiterIndex - 1;
-  while (index >= 0 && text[index] == '\\') {
+  while (index >= 0 && text[index] == r'\') {
     backslashCount++;
     index--;
   }

@@ -141,15 +141,6 @@ class _MethodSelector extends StatelessWidget {
               icon: PhosphorIconsFill.shieldCheck,
             ),
           ),
-        if (challenge.sms)
-          Padding(
-            padding: EdgeInsets.only(bottom: layout.s2),
-            child: FluxerButton.secondary(
-              onPressed: () => onSelect(MfaMethod.sms),
-              label: l10n.mfaMethodSms,
-              icon: PhosphorIconsFill.chatText,
-            ),
-          ),
         if (challenge.webauthn)
           FluxerButton.secondary(
             onPressed: webauthnLoading ? null : onWebauthn,
@@ -211,17 +202,13 @@ class _CodeEntry extends StatelessWidget {
     final textStyles = context.textStyles;
     final colors = context.colors;
 
-    final description = vm.selectedMethod == MfaMethod.sms
-        ? l10n.mfaSmsDescription
-        : l10n.mfaTotpDescription;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Center(
           child: Text(
-            description,
+            l10n.mfaTotpDescription,
             style: textStyles.bodySmall.copyWith(
               color: colors.textPrimaryMuted,
             ),
@@ -229,36 +216,26 @@ class _CodeEntry extends StatelessWidget {
           ),
         ),
         SizedBox(height: layout.s4),
-        if (vm.selectedMethod == MfaMethod.sms && !vm.smsSent) ...[
-          FluxerButton.primary(
-            onPressed: vm.isSubmitting ? null : notifier.sendSms,
-            label: l10n.mfaSendSmsCode,
-            isLoading: vm.isSubmitting,
-          ),
-          SizedBox(height: layout.s4),
-        ],
-        if (vm.selectedMethod != MfaMethod.sms || vm.smsSent) ...[
-          FluxerInput(
-            label: l10n.mfaCodeLabel,
-            onChanged: notifier.updateCode,
-            keyboardType: TextInputType.text,
-            autocorrect: false,
-            enableSuggestions: false,
-            textInputAction: TextInputAction.go,
-            autofillHints: const [AutofillHints.oneTimeCode],
-            onSubmitted: (_) {
-              if (vm.canSubmitCode) {
-                unawaited(notifier.submitCode());
-              }
-            },
-          ),
-          SizedBox(height: layout.s4),
-          FluxerButton.primary(
-            onPressed: vm.canSubmitCode ? notifier.submitCode : null,
-            label: l10n.logIn,
-            isLoading: vm.isSubmitting,
-          ),
-        ],
+        FluxerInput(
+          label: l10n.mfaCodeLabel,
+          onChanged: notifier.updateCode,
+          keyboardType: TextInputType.text,
+          autocorrect: false,
+          enableSuggestions: false,
+          textInputAction: TextInputAction.go,
+          autofillHints: const [AutofillHints.oneTimeCode],
+          onSubmitted: (_) {
+            if (vm.canSubmitCode) {
+              unawaited(notifier.submitCode());
+            }
+          },
+        ),
+        SizedBox(height: layout.s4),
+        FluxerButton.primary(
+          onPressed: vm.canSubmitCode ? notifier.submitCode : null,
+          label: l10n.logIn,
+          isLoading: vm.isSubmitting,
+        ),
       ],
     );
   }

@@ -32,11 +32,7 @@ class FluxerRenderErrorPlaceholder extends StatelessWidget {
                   color: colors.textPrimaryMuted,
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  message,
-                  style: textStyle,
-                  textAlign: TextAlign.center,
-                ),
+                Text(message, style: textStyle, textAlign: TextAlign.center),
               ],
             ),
           ),
@@ -62,22 +58,17 @@ class FluxerRenderErrorPlaceholder extends StatelessWidget {
     return l10n?.genericError ?? _kFallbackErrorMessage;
   }
 
-  TextStyle _resolveTextStyle(
-    BuildContext context,
-    FluxerColorTheme colors,
-  ) {
+  TextStyle _resolveTextStyle(BuildContext context, FluxerColorTheme colors) {
     try {
-      final FluxerTextTheme? textTheme =
-          Theme.of(context).extension<FluxerTextTheme>();
+      final FluxerTextTheme? textTheme = Theme.of(
+        context,
+      ).extension<FluxerTextTheme>();
       if (textTheme != null) {
         return textTheme.bodySmall.copyWith(color: colors.textPrimaryMuted);
       }
     } on Object {
       // Fall through to default text style.
     }
-    return TextStyle(
-      fontSize: 14,
-      color: colors.textPrimaryMuted,
-    );
+    return TextStyle(fontSize: 14, color: colors.textPrimaryMuted);
   }
 }

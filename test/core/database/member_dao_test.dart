@@ -39,23 +39,26 @@ void main() {
       expect(rows.single.userId, 'u2');
     });
 
-    test('evictStaleMembers removes oldest rows outside protected set', () async {
-      for (int i = 0; i < 5; i++) {
-        await database.memberDao.upsertMember(
-          MembersCompanion.insert(userId: 'u$i', guildId: 'g1'),
+    test(
+      'evictStaleMembers removes oldest rows outside protected set',
+      () async {
+        for (int i = 0; i < 5; i++) {
+          await database.memberDao.upsertMember(
+            MembersCompanion.insert(userId: 'u$i', guildId: 'g1'),
+          );
+        }
+        await database.memberDao.evictStaleMembers(
+          guildId: 'g1',
+          protectedUserIds: <String>{'u4'},
+          maxMembers: 3,
         );
-      }
-      await database.memberDao.evictStaleMembers(
-        guildId: 'g1',
-        protectedUserIds: <String>{'u4'},
-        maxMembers: 3,
-      );
-      expect(await database.memberDao.countMembers('g1'), 3);
-      final Member? kept = await database.memberDao.getMemberByUserId(
-        'u4',
-        'g1',
-      );
-      expect(kept, isNotNull);
-    });
+        expect(await database.memberDao.countMembers('g1'), 3);
+        final Member? kept = await database.memberDao.getMemberByUserId(
+          'u4',
+          'g1',
+        );
+        expect(kept, isNotNull);
+      },
+    );
   });
 }

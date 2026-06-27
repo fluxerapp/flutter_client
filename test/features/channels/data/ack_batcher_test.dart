@@ -18,7 +18,7 @@ class _BulkAckAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     expect(options.method, 'POST');
-    expect(options.uri.path, '/v1/read-states/ack-bulk');
+    expect(options.uri.path, '/v1/read-states/ack');
     final builder = BytesBuilder();
     if (requestStream != null) {
       await for (final chunk in requestStream) {
@@ -39,7 +39,14 @@ class _BulkAckAdapter implements HttpClientAdapter {
         statusMessage: 'Service Unavailable',
       );
     }
-    return ResponseBody.fromString('', 204, statusMessage: 'No Content');
+    return ResponseBody.fromString(
+      '{"read_states":[],"read_state_proto":""}',
+      200,
+      statusMessage: 'OK',
+      headers: {
+        Headers.contentTypeHeader: [Headers.jsonContentType],
+      },
+    );
   }
 
   @override
@@ -63,18 +70,19 @@ void main() {
       );
       addTearDown(batcher.dispose);
 
-      batcher.queue(
-        channelId: 'c-1',
-        messageId: 'm-1',
-        immediate: false,
-        hadMentions: false,
-      );
-      batcher.queue(
-        channelId: 'c-2',
-        messageId: 'm-2',
-        immediate: false,
-        hadMentions: false,
-      );
+      batcher
+        ..queue(
+          channelId: 'c-1',
+          messageId: 'm-1',
+          immediate: false,
+          hadMentions: false,
+        )
+        ..queue(
+          channelId: 'c-2',
+          messageId: 'm-2',
+          immediate: false,
+          hadMentions: false,
+        );
 
       expect(adapter.recordedBatches, isEmpty);
 
@@ -164,18 +172,19 @@ void main() {
       );
       addTearDown(batcher.dispose);
 
-      batcher.queue(
-        channelId: 'c-1',
-        messageId: '100',
-        immediate: false,
-        hadMentions: false,
-      );
-      batcher.queue(
-        channelId: 'c-1',
-        messageId: '200',
-        immediate: false,
-        hadMentions: false,
-      );
+      batcher
+        ..queue(
+          channelId: 'c-1',
+          messageId: '100',
+          immediate: false,
+          hadMentions: false,
+        )
+        ..queue(
+          channelId: 'c-1',
+          messageId: '200',
+          immediate: false,
+          hadMentions: false,
+        );
 
       await Future<void>.delayed(const Duration(milliseconds: 150));
 

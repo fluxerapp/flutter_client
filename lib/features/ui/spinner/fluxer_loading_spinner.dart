@@ -40,7 +40,7 @@ class _FluxerLoadingSpinnerState extends State<FluxerLoadingSpinner>
 
   @override
   Widget build(BuildContext context) {
-    final dotColor =
+    final Color dotColor =
         widget.color ?? (widget.inverted ? Colors.black : Colors.white);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
@@ -49,43 +49,66 @@ class _FluxerLoadingSpinnerState extends State<FluxerLoadingSpinner>
       child: ExcludeSemantics(
         child: SizedBox(
           width: 28,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(_kDotCount, (index) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  right: index < _kDotCount - 1 ? _kDotSpacing : 0,
-                ),
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, _) {
-                    final phase = (_controller.value - _kDelays[index]) % 1.0;
-                    final wave = (math.cos(phase * 2 * math.pi) + 1) / 2;
-                    final opacity = 0.3 + 0.7 * wave;
-                    final scale = 0.8 + 0.2 * wave;
-
-                    return Transform.scale(
-                      scale: scale,
-                      child: Container(
-                        width: _kDotSize,
-                        height: _kDotSize,
-                        decoration: BoxDecoration(
-                          color: dotColor.withValues(
-                            alpha: opacity * dotColor.a,
-                          ),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                      ),
-                    );
-                  },
+          height: _kDotSize,
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (BuildContext context, Widget? child) {
+              return CustomPaint(
+                painter: _FluxerLoadingDotsPainter(
+                  progress: _controller.value,
+                  color: dotColor,
+                  dotCount: _kDotCount,
+                  dotSize: _kDotSize,
+                  dotSpacing: _kDotSpacing,
+                  delays: _kDelays,
                 ),
               );
-            }),
+            },
           ),
         ),
       ),
     );
+  }
+}
+
+class _FluxerLoadingDotsPainter extends CustomPainter {
+  const _FluxerLoadingDotsPainter({
+    required this.progress,
+    required this.color,
+    required this.dotCount,
+    required this.dotSize,
+    required this.dotSpacing,
+    required this.delays,
+  });
+
+  final double progress;
+  final Color color;
+  final int dotCount;
+  final double dotSize;
+  final double dotSpacing;
+  final List<double> delays;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double totalWidth = dotCount * dotSize + (dotCount - 1) * dotSpacing;
+    double x = (size.width - totalWidth) / 2;
+    final double y = size.height / 2;
+    for (int index = 0; index < dotCount; index++) {
+      final double phase = (progress - delays[index]) % 1.0;
+      final double wave = (math.cos(phase * 2 * math.pi) + 1) / 2;
+      final double opacity = 0.3 + 0.7 * wave;
+      final double scale = 0.8 + 0.2 * wave;
+      final double radius = dotSize * scale / 2;
+      final Paint paint = Paint()
+        ..color = color.withValues(alpha: opacity * color.a);
+      canvas.drawCircle(Offset(x + dotSize / 2, y), radius, paint);
+      x += dotSize + dotSpacing;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _FluxerLoadingDotsPainter oldDelegate) {
+    return oldDelegate.progress != progress || oldDelegate.color != color;
   }
 }
 

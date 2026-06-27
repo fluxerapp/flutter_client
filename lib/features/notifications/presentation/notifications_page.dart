@@ -110,7 +110,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                       setState(() => _segment = next);
                     },
                   ),
-                  // TODO: Add bookmark feature
+                  // TODO(Elias): Add bookmark feature.
                   // Tooltip(
                   //   message: l10n.notificationsBookmarksTooltip,
                   //   child: IconButton(

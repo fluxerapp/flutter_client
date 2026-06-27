@@ -38,15 +38,15 @@ void voiceCallKitCoordinator(Ref ref) {
   if (kIsWeb || !(Platform.isIOS || Platform.isAndroid)) {
     return;
   }
-  final VoiceCallKitCoordinatorLogic logic = VoiceCallKitCoordinatorLogic(ref);
-  logic.init();
+  final VoiceCallKitCoordinatorLogic logic = VoiceCallKitCoordinatorLogic(ref)
+    ..init();
   ref.onDispose(logic.dispose);
 }
 
 class VoiceCallKitCoordinatorLogic {
   VoiceCallKitCoordinatorLogic(this._ref)
-      : _isMobileCallKitPlatform =
-            !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+    : _isMobileCallKitPlatform =
+          !kIsWeb && (Platform.isIOS || Platform.isAndroid);
 
   final Ref _ref;
   final bool _isMobileCallKitPlatform;
@@ -62,63 +62,63 @@ class VoiceCallKitCoordinatorLogic {
   Locale? _cachedLocale;
 
   void init() {
-    _eventSubscription = FlutterCallkitIncoming.onEvent.listen(_handleCallEvent);
-    _ref.listen<List<String>>(pendingIncomingVoiceChannelIdsProvider, (
-      List<String>? _,
-      List<String> next,
-    ) {
-      _scheduleSync(
-        () => _syncIncomingPresentation(
-          next,
-          activeVoice: _voiceCallKitVoiceSnapshot(
-            _ref.read(voiceSessionProvider),
+    _eventSubscription = FlutterCallkitIncoming.onEvent.listen(
+      _handleCallEvent,
+    );
+    _ref
+      ..listen<List<String>>(pendingIncomingVoiceChannelIdsProvider, (
+        List<String>? _,
+        List<String> next,
+      ) {
+        _scheduleSync(
+          () => _syncIncomingPresentation(
+            next,
+            activeVoice: _voiceCallKitVoiceSnapshot(
+              _ref.read(voiceSessionProvider),
+            ),
           ),
-        ),
-      );
-    });
-    _ref.listen<Map<String, CallState>>(activeCallsProvider, (
-      Map<String, CallState>? _,
-      Map<String, CallState> next,
-    ) {
-      if (_sessions.isEmpty) {
-        return;
-      }
-      _scheduleSync(() => _syncStaleCallKitSessions(next));
-    });
-    _ref.listen<VoiceSessionState>(voiceSessionProvider, (
-      VoiceSessionState? previous,
-      VoiceSessionState next,
-    ) {
-      final VoiceCallKitVoiceSnapshot? previousSnapshot = previous == null
-          ? null
-          : _voiceCallKitVoiceSnapshot(previous);
-      final VoiceCallKitVoiceSnapshot nextSnapshot =
-          _voiceCallKitVoiceSnapshot(next);
-      if (previousSnapshot == nextSnapshot) {
-        return;
-      }
-      _scheduleSync(() => _syncVoiceSession(previousSnapshot, nextSnapshot));
-    });
-    _ref.listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
-      if (previous == next) {
-        return;
-      }
-      _scheduleSync(() => _syncForegroundChange(isForeground: next));
-    });
-    _ref.listen<Map<String, VoiceState>>(voiceStatesMapProvider, (
-      Map<String, VoiceState>? previous,
-      Map<String, VoiceState> next,
-    ) {
-      if (_sessions.isEmpty) {
-        return;
-      }
-      _scheduleSync(
-        () => _syncCallKitMuteFromVoiceStates(
-          previous: previous,
-          next: next,
-        ),
-      );
-    });
+        );
+      })
+      ..listen<Map<String, CallState>>(activeCallsProvider, (
+        Map<String, CallState>? _,
+        Map<String, CallState> next,
+      ) {
+        if (_sessions.isEmpty) {
+          return;
+        }
+        _scheduleSync(() => _syncStaleCallKitSessions(next));
+      })
+      ..listen<VoiceSessionState>(voiceSessionProvider, (
+        VoiceSessionState? previous,
+        VoiceSessionState next,
+      ) {
+        final VoiceCallKitVoiceSnapshot? previousSnapshot = previous == null
+            ? null
+            : _voiceCallKitVoiceSnapshot(previous);
+        final VoiceCallKitVoiceSnapshot nextSnapshot =
+            _voiceCallKitVoiceSnapshot(next);
+        if (previousSnapshot == nextSnapshot) {
+          return;
+        }
+        _scheduleSync(() => _syncVoiceSession(previousSnapshot, nextSnapshot));
+      })
+      ..listen<bool>(appUiForegroundProvider, (bool? previous, bool next) {
+        if (previous == next) {
+          return;
+        }
+        _scheduleSync(() => _syncForegroundChange(isForeground: next));
+      })
+      ..listen<Map<String, VoiceState>>(voiceStatesMapProvider, (
+        Map<String, VoiceState>? previous,
+        Map<String, VoiceState> next,
+      ) {
+        if (_sessions.isEmpty) {
+          return;
+        }
+        _scheduleSync(
+          () => _syncCallKitMuteFromVoiceStates(previous: previous, next: next),
+        );
+      });
   }
 
   void dispose() {
@@ -127,11 +127,12 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   void _scheduleSync(Future<void> Function() work) {
-    _syncQueue = _syncQueue
-        .then((_) => work())
-        .catchError((Object error, StackTrace stackTrace) {
-          talker.warning('[VoiceCallKit] sync failed: $error\n$stackTrace');
-        });
+    _syncQueue = _syncQueue.then((_) => work()).catchError((
+      Object error,
+      StackTrace stackTrace,
+    ) {
+      talker.warning('[VoiceCallKit] sync failed: $error\n$stackTrace');
+    });
   }
 
   Future<void> _ensureAndroidPermissions() async {
@@ -140,20 +141,24 @@ class VoiceCallKitCoordinatorLogic {
     }
     _permissionsRequested = true;
     try {
-      await FlutterCallkitIncoming.requestNotificationPermission(<String, dynamic>{
-        'title': 'Notification permission',
-        'rationaleMessagePermission':
-            'Notification permission is required to show incoming calls.',
-        'postNotificationMessageRequired':
-            'Notification permission is required. Allow it in Settings.',
-      });
+      await FlutterCallkitIncoming.requestNotificationPermission(
+        <String, dynamic>{
+          'title': 'Notification permission',
+          'rationaleMessagePermission':
+              'Notification permission is required to show incoming calls.',
+          'postNotificationMessageRequired':
+              'Notification permission is required. Allow it in Settings.',
+        },
+      );
       final bool canUseFullScreen =
           await FlutterCallkitIncoming.canUseFullScreenIntent();
       if (!canUseFullScreen) {
         await FlutterCallkitIncoming.requestFullIntentPermission();
       }
     } on Object catch (error) {
-      talker.warning('[VoiceCallKit] Android permission request failed: $error');
+      talker.warning(
+        '[VoiceCallKit] Android permission request failed: $error',
+      );
     }
   }
 
@@ -169,7 +174,8 @@ class VoiceCallKitCoordinatorLogic {
     )) {
       return;
     }
-    final VoiceCallKitVoiceSnapshot voiceSnapshot = activeVoice ??
+    final VoiceCallKitVoiceSnapshot voiceSnapshot =
+        activeVoice ??
         _voiceCallKitVoiceSnapshot(_ref.read(voiceSessionProvider));
     for (final String channelId in pendingChannelIds) {
       if (shouldSuppressIncomingVoiceCallKitForChannel(
@@ -187,11 +193,14 @@ class VoiceCallKitCoordinatorLogic {
     }
   }
 
-  Future<void> _syncStaleCallKitSessions(Map<String, CallState> activeCalls) async {
+  Future<void> _syncStaleCallKitSessions(
+    Map<String, CallState> activeCalls,
+  ) async {
     final List<String> staleChannelIds = <String>[];
     for (final MapEntry<String, String> entry in _sessions.channelEntries) {
-      final VoiceCallKitSession? session =
-          _sessions.sessionForCallKitId(entry.value);
+      final VoiceCallKitSession? session = _sessions.sessionForCallKitId(
+        entry.value,
+      );
       if (session == null) {
         continue;
       }
@@ -260,8 +269,9 @@ class VoiceCallKitCoordinatorLogic {
       await _ensureCallKitSessionForVoice(voice, allowBackgroundStart: true);
       await _syncCallKitConnectedState(voice);
     }
-    final List<String> pending =
-        _ref.read(pendingIncomingVoiceChannelIdsProvider);
+    final List<String> pending = _ref.read(
+      pendingIncomingVoiceChannelIdsProvider,
+    );
     await _syncIncomingPresentation(pending, activeVoice: voice);
   }
 
@@ -278,7 +288,6 @@ class VoiceCallKitCoordinatorLogic {
       channelId: channelId,
       l10n: _resolveLocalizations(),
       messageId: callState?.messageId,
-      forActiveVoice: false,
     );
     try {
       await FlutterCallkitIncoming.showCallkitIncoming(params);
@@ -297,7 +306,10 @@ class VoiceCallKitCoordinatorLogic {
     if (channelId == null || _sessions.containsChannel(channelId)) {
       return;
     }
-    await _startCallKitOnVoiceJoin(voice, allowBackgroundStart: allowBackgroundStart);
+    await _startCallKitOnVoiceJoin(
+      voice,
+      allowBackgroundStart: allowBackgroundStart,
+    );
   }
 
   Future<void> _startCallKitOnVoiceJoin(
@@ -481,7 +493,10 @@ class VoiceCallKitCoordinatorLogic {
     return lookupFluxerLocalizations(const Locale('en'));
   }
 
-  String? _resolveChannelId({required String callKitId, CallKitParams? params}) {
+  String? _resolveChannelId({
+    required String callKitId,
+    CallKitParams? params,
+  }) {
     final String? fromExtra = resolveChannelIdFromCallKitExtra(params?.extra);
     if (fromExtra != null) {
       return fromExtra;
@@ -528,7 +543,9 @@ class VoiceCallKitCoordinatorLogic {
       callKitId: params.id,
       params: params,
     );
-    if (channelId == null || voice.channelId != channelId || !voice.isConnected) {
+    if (channelId == null ||
+        voice.channelId != channelId ||
+        !voice.isConnected) {
       return;
     }
     await _markCallConnected(params.id);
@@ -539,7 +556,9 @@ class VoiceCallKitCoordinatorLogic {
       _ref.read(voiceSessionProvider),
     );
     final String? channelId = _resolveChannelId(callKitId: callKitId);
-    if (channelId == null || voice.channelId != channelId || !voice.isConnected) {
+    if (channelId == null ||
+        voice.channelId != channelId ||
+        !voice.isConnected) {
       return;
     }
     await _markCallConnected(callKitId);
@@ -560,7 +579,8 @@ class VoiceCallKitCoordinatorLogic {
     if (!voice.isConnected || voice.channelId != channelId) {
       return;
     }
-    final String callKitId = _sessions.callKitIdForChannel(channelId) ?? params.id;
+    final String callKitId =
+        _sessions.callKitIdForChannel(channelId) ?? params.id;
     if (_sessions.sessionForCallKitId(callKitId) == null) {
       _sessions.registerExistingSession(
         VoiceCallKitSession(
@@ -618,7 +638,10 @@ class VoiceCallKitCoordinatorLogic {
     await executeIgnoreIncomingVoiceCallFromCallKit(_ref, channelId);
   }
 
-  Future<void> _handleToggleMute(String callKitId, {required bool isMuted}) async {
+  Future<void> _handleToggleMute(
+    String callKitId, {
+    required bool isMuted,
+  }) async {
     if (_isSyncingMuteToCallKit) {
       return;
     }
@@ -635,7 +658,9 @@ class VoiceCallKitCoordinatorLogic {
     }
     _isApplyingCallKitMuteToVoice = true;
     try {
-      await _ref.read(voiceSessionProvider.notifier).setSelfMute(isMuted);
+      await _ref
+          .read(voiceSessionProvider.notifier)
+          .setSelfMute(isMuted: isMuted);
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] setSelfMute from CallKit failed: $error');
     } finally {

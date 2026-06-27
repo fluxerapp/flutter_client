@@ -1,5 +1,5 @@
-import 'package:test/test.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('isAllowedDeepLinkPath', () {
@@ -36,7 +36,65 @@ void main() {
 
     test('rejects paths with blocklisted characters', () {
       expect(hasBlocklistedDeepLinkPathCharacters('/channels/"evil'), isTrue);
-      expect(hasBlocklistedDeepLinkPathCharacters('/channels/foo\nbar'), isTrue);
+      expect(
+        hasBlocklistedDeepLinkPathCharacters('/channels/foo\nbar'),
+        isTrue,
+      );
+    });
+
+    test('allows fluxer:// app protocol URLs', () {
+      const allowedFluxerUrls = [
+        'fluxer://channels/@me',
+        'fluxer://channels/123456789012345678/987654321098765432',
+        'fluxer://invite/abc',
+        'fluxer://gift/xyz',
+        'fluxer://users/123456789012345678',
+        'fluxer://settings/user',
+        'fluxer://settings/user?tab=appearance',
+        'fluxer://notifications',
+        'fluxer://you',
+        'fluxer:/channels/@me',
+      ];
+      for (final String url in allowedFluxerUrls) {
+        expect(isAllowedDeepLinkPath(Uri.parse(url)), isTrue, reason: url);
+      }
+    });
+
+    test('ignores fluxer:// auth and infra paths', () {
+      const ignoredFluxerUrls = [
+        'fluxer://auth/sso/callback?code=1&state=2',
+        'fluxer://login',
+        'fluxer://',
+      ];
+      for (final String url in ignoredFluxerUrls) {
+        expect(isAllowedDeepLinkPath(Uri.parse(url)), isFalse, reason: url);
+      }
+    });
+  });
+
+  group('normalizeAppProtocolDeepLinkUri', () {
+    test('maps host-style fluxer URLs to path form', () {
+      expect(
+        normalizeAppProtocolDeepLinkUri(
+          Uri.parse('fluxer://channels/@me/123'),
+        ).path,
+        '/channels/@me/123',
+      );
+      expect(
+        normalizeAppProtocolDeepLinkUri(Uri.parse('fluxer://invite/abc')).path,
+        '/invite/abc',
+      );
+      expect(
+        normalizeAppProtocolDeepLinkUri(
+          Uri.parse('fluxer://settings/user?tab=appearance'),
+        ),
+        Uri(path: '/settings/user', queryParameters: {'tab': 'appearance'}),
+      );
+    });
+
+    test('leaves https URLs unchanged', () {
+      final Uri uri = Uri.parse('https://web.fluxer.app/channels/@me');
+      expect(normalizeAppProtocolDeepLinkUri(uri), uri);
     });
   });
 

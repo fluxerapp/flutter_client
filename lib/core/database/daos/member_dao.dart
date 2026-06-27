@@ -30,10 +30,9 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
     if (userIds.isEmpty) {
       return Future<List<Member>>.value(const <Member>[]);
     }
-    return (select(members)..where(
-          (m) => m.guildId.equals(guildId) & m.userId.isIn(userIds),
-        ))
-        .get();
+    return (select(
+      members,
+    )..where((m) => m.guildId.equals(guildId) & m.userId.isIn(userIds))).get();
   }
 
   Future<int> countMembers(String guildId) async {
@@ -47,10 +46,10 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
 
   Stream<int> watchMemberCount(String guildId) {
     return customSelect(
-      'SELECT COUNT(*) AS member_count FROM members WHERE guild_id = ?',
-      variables: <Variable<Object>>[Variable<String>(guildId)],
-      readsFrom: <TableInfo<Table, Object?>>{members},
-    )
+          'SELECT COUNT(*) AS member_count FROM members WHERE guild_id = ?',
+          variables: <Variable<Object>>[Variable<String>(guildId)],
+          readsFrom: <TableInfo<Table, Object?>>{members},
+        )
         .watchSingle()
         .map((QueryRow row) => row.read<int>('member_count'))
         .distinct();
@@ -61,7 +60,9 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
 
   Future<void> upsertMember(MembersCompanion member) async {
     await into(members).insertOnConflictUpdate(member);
-    final String? guildId = member.guildId.present ? member.guildId.value : null;
+    final String? guildId = member.guildId.present
+        ? member.guildId.value
+        : null;
     final String? userId = member.userId.present ? member.userId.value : null;
     if (guildId != null && userId != null) {
       await touchMemberAccess(guildId, <String>[userId]);
@@ -119,10 +120,14 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
     );
     final List<Variable> variables = <Variable>[Variable<String>(guildId)];
     if (protected.isNotEmpty) {
-      sql.write('AND m.user_id NOT IN (${List.filled(protected.length, '?').join(', ')}) ');
+      sql.write(
+        'AND m.user_id NOT IN (${List.filled(protected.length, '?').join(', ')}) ',
+      );
       variables.addAll(protected.map(Variable<String>.new));
     }
-    sql.write('ORDER BY a.last_accessed_at IS NULL, a.last_accessed_at ASC LIMIT ?');
+    sql.write(
+      'ORDER BY a.last_accessed_at IS NULL, a.last_accessed_at ASC LIMIT ?',
+    );
     variables.add(Variable<int>(excess));
     final List<QueryRow> rows = await customSelect(
       sql.toString(),
@@ -137,15 +142,17 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
     }
     await batch((Batch batch) {
       for (final String userId in userIdsToDelete) {
-        batch.deleteWhere(
-          members,
-          (Members tbl) => tbl.userId.equals(userId) & tbl.guildId.equals(guildId),
-        );
-        batch.deleteWhere(
-          memberCacheAccess,
-          (MemberCacheAccess tbl) =>
-              tbl.userId.equals(userId) & tbl.guildId.equals(guildId),
-        );
+        batch
+          ..deleteWhere(
+            members,
+            (Members tbl) =>
+                tbl.userId.equals(userId) & tbl.guildId.equals(guildId),
+          )
+          ..deleteWhere(
+            memberCacheAccess,
+            (MemberCacheAccess tbl) =>
+                tbl.userId.equals(userId) & tbl.guildId.equals(guildId),
+          );
       }
     });
   }
@@ -155,11 +162,12 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
   )..where((m) => m.userId.equals(userId) & m.guildId.equals(guildId))).go();
 
   Future<void> deleteMembersForGuild(String guildId) async {
-    await (delete(memberCacheAccess)
-          ..where((MemberCacheAccess tbl) => tbl.guildId.equals(guildId)))
-        .go();
-    await (delete(members)..where((Members tbl) => tbl.guildId.equals(guildId)))
-        .go();
+    await (delete(
+      memberCacheAccess,
+    )..where((MemberCacheAccess tbl) => tbl.guildId.equals(guildId))).go();
+    await (delete(
+      members,
+    )..where((Members tbl) => tbl.guildId.equals(guildId))).go();
   }
 
   Future<void> clearAll() async {

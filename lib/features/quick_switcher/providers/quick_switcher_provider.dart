@@ -362,12 +362,13 @@ class QuickSwitcher extends _$QuickSwitcher {
     }
     List<Member> results = const <Member>[];
     try {
-      final connection = ref.read(gatewayConnectionProvider);
-      connection.requestGuildMembers(
-        guildId: guildId,
-        query: rawSearch,
-        limit: kQuickSwitcherMemberSearchLimit,
-      );
+      ref
+          .read(gatewayConnectionProvider)
+          .requestGuildMembers(
+            guildId: guildId,
+            query: rawSearch,
+            limit: kQuickSwitcherMemberSearchLimit,
+          );
       await ref.read(guildMemberChunkWaiterProvider).waitForChunk(guildId);
       final List<String> scopeUserIds = ref
           .read(guildMemberChunkWaiterProvider)

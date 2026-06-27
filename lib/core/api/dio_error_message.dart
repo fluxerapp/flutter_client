@@ -12,7 +12,7 @@ String? apiMessageFromDioException(DioException error) {
   return null;
 }
 
-/// Returns [apiMessageFromDioException], then [error.message], then [fallback].
+/// Returns [apiMessageFromDioException], then the transport message, then [fallback].
 String dioExceptionMessage(DioException error, String fallback) {
   final String? apiMessage = apiMessageFromDioException(error);
   if (apiMessage != null) {

@@ -11,7 +11,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'mfa_view_model.g.dart';
 
-enum MfaMethod { totp, sms, webauthn }
+enum MfaMethod { totp, webauthn }
 
 class MfaViewState {
   static const _unset = Object();
@@ -21,7 +21,6 @@ class MfaViewState {
   final bool isSubmitting;
   final String? error;
   final LoginError? errorType;
-  final bool smsSent;
   final bool webauthnLoading;
   final AuthSession? completedSession;
 
@@ -31,7 +30,6 @@ class MfaViewState {
     required this.isSubmitting,
     required this.error,
     required this.errorType,
-    required this.smsSent,
     required this.webauthnLoading,
     required this.completedSession,
   });
@@ -42,7 +40,6 @@ class MfaViewState {
     bool? isSubmitting,
     Object? error = _unset,
     Object? errorType = _unset,
-    bool? smsSent,
     bool? webauthnLoading,
     Object? completedSession = _unset,
   }) {
@@ -56,7 +53,6 @@ class MfaViewState {
       errorType: errorType == _unset
           ? this.errorType
           : errorType as LoginError?,
-      smsSent: smsSent ?? this.smsSent,
       webauthnLoading: webauthnLoading ?? this.webauthnLoading,
       completedSession: completedSession == _unset
           ? this.completedSession
@@ -76,14 +72,12 @@ class MfaViewModel extends _$MfaViewModel {
   MfaViewState build(MfaChallenge challenge) {
     _challenge = challenge;
 
-    // Auto-select code-based method if only one available.
+    // Auto-select code-based method if only one supported method is available.
     // WebAuthn requires user interaction so it stays on the selector.
     MfaMethod? initialMethod;
     if (!challenge.hasMultipleMethods) {
       if (challenge.totp) {
         initialMethod = MfaMethod.totp;
-      } else if (challenge.sms) {
-        initialMethod = MfaMethod.sms;
       }
     }
 
@@ -91,9 +85,10 @@ class MfaViewModel extends _$MfaViewModel {
       selectedMethod: initialMethod,
       code: '',
       isSubmitting: false,
-      error: null,
+      error: challenge.methodCount == 0
+          ? 'This sign-in challenge requires an unsupported MFA method.'
+          : null,
       errorType: null,
-      smsSent: false,
       webauthnLoading: false,
       completedSession: null,
     );
@@ -105,7 +100,6 @@ class MfaViewModel extends _$MfaViewModel {
       code: '',
       error: null,
       errorType: null,
-      smsSent: false,
     );
   }
 
@@ -137,11 +131,6 @@ class MfaViewModel extends _$MfaViewModel {
       switch (state.selectedMethod!) {
         case MfaMethod.totp:
           session = await repo.verifyMfaTotp(
-            ticket: _challenge.ticket,
-            code: code,
-          );
-        case MfaMethod.sms:
-          session = await repo.verifyMfaSms(
             ticket: _challenge.ticket,
             code: code,
           );
@@ -186,30 +175,6 @@ class MfaViewModel extends _$MfaViewModel {
         'Session timed out. Go back and log in again.',
       _ => message,
     };
-  }
-
-  Future<void> sendSms() async {
-    state = state.copyWith(isSubmitting: true, error: null, errorType: null);
-
-    try {
-      await ref
-          .read(authRepositoryProvider)
-          .sendMfaSms(ticket: _challenge.ticket);
-      state = state.copyWith(isSubmitting: false, smsSent: true);
-    } on AuthFailure catch (e) {
-      state = state.copyWith(
-        isSubmitting: false,
-        error: _failureMessage(e),
-        errorType: null,
-      );
-    } on Exception catch (e) {
-      talker.error('[MfaViewModel] SMS send error: $e');
-      state = state.copyWith(
-        isSubmitting: false,
-        error: 'Failed to send code. Please try again.',
-        errorType: null,
-      );
-    }
   }
 
   Future<void> startWebauthn() async {

@@ -39,6 +39,33 @@ class ReadStateRepository {
   Future<void> clearSticky(String channelId) =>
       _db.readStateDao.clearStickyUnread(channelId);
 
+  /// Applies the authoritative read states returned by `/read-states/ack`.
+  /// Version-gated: skips a channel whose stored version is newer than the
+  /// response's, keeping local ack / mention / version aligned with the server
+  /// (mirrors the web's `ReadStates.applyAckResponse`).
+  Future<void> applyAckResponse(ReadStateAckResponse response) async {
+    for (final rs in response.readStates) {
+      final current = await _db.readStateDao.getReadState(rs.id);
+      if (current?.version != null &&
+          rs.version != null &&
+          compareReadStateVersions(rs.version, current!.version) < 0) {
+        continue;
+      }
+      await _db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: Value(rs.id),
+          lastMessageId: Value(rs.lastMessageId),
+          mentionCount: Value(rs.mentionCount),
+          version: Value(rs.version),
+        ),
+      );
+      final dm = await _db.dmChannelDao.getDmChannelById(rs.id);
+      if (dm != null) {
+        await _db.dmChannelDao.updateUnreadCount(rs.id, rs.mentionCount);
+      }
+    }
+  }
+
   Future<String?> applyLocalAckLatest(String channelId) async {
     final messageId = await latestAckableMessageId(channelId);
     if (messageId == null || messageId.isEmpty) {
@@ -269,6 +296,7 @@ class ReadStateRepository {
   Future<void> recomputeMentionsAfterBackfill({
     required String channelId,
     required String? currentUserId,
+    bool allowDecrease = false,
   }) async {
     final current = await _db.readStateDao.getReadState(channelId);
     if (current == null) {
@@ -278,24 +306,73 @@ class ReadStateRepository {
     if (ackMessageId == null || ackMessageId.isEmpty) {
       return;
     }
-    final mentionCount = await _computeMentionCountAfterAck(
+    final recomputed = await _computeMentionCountAfterAck(
       channelId: channelId,
       ackMessageId: ackMessageId,
       currentUserId: currentUserId,
     );
-    if (mentionCount == current.mentionCount) {
+    // A backfill loads a partial window and can undercount, so keep the larger
+    // of stored and recomputed unless the caller is authoritative (a
+    // relationship change that must also drop counts).
+    final next = allowDecrease
+        ? recomputed
+        : (recomputed > current.mentionCount
+              ? recomputed
+              : current.mentionCount);
+    if (next == current.mentionCount) {
       return;
     }
     await _db.readStateDao.upsertReadState(
       ReadStatesCompanion(
         channelId: Value(channelId),
         lastMessageId: Value(current.lastMessageId),
-        mentionCount: Value(mentionCount),
+        mentionCount: Value(next),
         lastPinTimestamp: Value(current.lastPinTimestamp),
         manual: Value(current.manual),
         stickyUnreadMessageId: Value(current.stickyUnreadMessageId),
       ),
     );
+  }
+
+  /// Recomputes mention counts for every unread or mentioned channel after a
+  /// relationship change, so blocking a user drops their mentions and
+  /// unblocking restores them (mirrors the web's
+  /// `ReadStates.handleRelationshipUpdate`). Authoritative (`allowDecrease:
+  /// true`) so counts can fall as well as rise.
+  Future<void> recomputeMentionsForUnreadOrMentionedChannels({
+    required String? currentUserId,
+  }) async {
+    final readStates = await _db.readStateDao.getReadStates();
+    for (final readState in readStates) {
+      final bool unreadOrMentioned;
+      if (readState.mentionCount > 0) {
+        unreadOrMentioned = true;
+      } else {
+        final dm = await _db.dmChannelDao.getDmChannelById(readState.channelId);
+        if (dm != null) {
+          unreadOrMentioned = dm.unreadCount > 0;
+        } else {
+          final channel = await _db.channelDao.getChannelById(
+            readState.channelId,
+          );
+          unreadOrMentioned =
+              channel != null &&
+              compareSnowflakeIds(
+                    readState.lastMessageId,
+                    channel.lastMessageId,
+                  ) <
+                  0;
+        }
+      }
+      if (!unreadOrMentioned) {
+        continue;
+      }
+      await recomputeMentionsAfterBackfill(
+        channelId: readState.channelId,
+        currentUserId: currentUserId,
+        allowDecrease: true,
+      );
+    }
   }
 
   Future<int> _computeMentionCountAfterAck({

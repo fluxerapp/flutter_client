@@ -8,9 +8,7 @@ final AudioContext _kOneShotSfxContext = AudioContext(
     usageType: AndroidUsageType.notificationRingtone,
     audioFocus: AndroidAudioFocus.none,
   ),
-  iOS: AudioContextIOS(
-    category: AVAudioSessionCategory.ambient,
-  ),
+  iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
 );
 final AudioContext _kInterruptingIncomingRingContext = AudioContext(
   android: const AudioContextAndroid(
@@ -18,9 +16,7 @@ final AudioContext _kInterruptingIncomingRingContext = AudioContext(
     usageType: AndroidUsageType.notificationRingtone,
     audioFocus: AndroidAudioFocus.gainTransient,
   ),
-  iOS: AudioContextIOS(
-    category: AVAudioSessionCategory.ambient,
-  ),
+  iOS: AudioContextIOS(category: AVAudioSessionCategory.ambient),
 );
 
 class FluxerSFX {

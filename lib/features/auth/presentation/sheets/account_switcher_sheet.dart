@@ -89,9 +89,9 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
     }
     onClose();
     try {
-      await ref.read(accountManagerProvider.notifier).switchToAccount(
-        account.userId,
-      );
+      await ref
+          .read(accountManagerProvider.notifier)
+          .switchToAccount(account.userId);
     } on SessionExpiredFailure {
       ref.read(loginViewModelProvider.notifier)
         ..updateEmail(account.identifier)
@@ -107,12 +107,14 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
         ),
       );
     } on Object catch (_) {
-      ref.read(toastProvider.notifier).show(
-        FluxerToast(
-          message: l10n.accountSwitchFailed,
-          variant: FluxerToastVariant.danger,
-        ),
-      );
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: l10n.accountSwitchFailed,
+              variant: FluxerToastVariant.danger,
+            ),
+          );
     }
   }
 
@@ -128,8 +130,9 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<StoredAccount> accounts =
-        ref.watch(accountManagerProvider).accounts;
+    final List<StoredAccount> accounts = ref
+        .watch(accountManagerProvider)
+        .accounts;
     final String? currentUserId = ref.watch(currentUserIdProvider);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final layout = context.layout;
@@ -148,9 +151,7 @@ class AccountSwitcherSheetBody extends ConsumerWidget {
             child: AccountRow(
               account: account,
               isCurrent: account.userId == currentUserId,
-              onTap: () => unawaited(
-                _handleSelectAccount(ref, account, l10n),
-              ),
+              onTap: () => unawaited(_handleSelectAccount(ref, account, l10n)),
               onSignOut: () => unawaited(
                 _confirmSignOut(
                   context,

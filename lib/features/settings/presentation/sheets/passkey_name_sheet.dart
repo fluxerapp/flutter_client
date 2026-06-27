@@ -128,6 +128,9 @@ class _PasskeyNameSheetState extends ConsumerState<PasskeyNameSheet> {
         setState(() => _loading = false);
       }
     } on AuthenticatorException catch (e) {
+      if (!mounted) {
+        return;
+      }
       final l10n = FluxerLocalizations.of(context);
       final message = e is UnhandledAuthenticatorException && e.message != null
           ? e.message!
@@ -137,6 +140,9 @@ class _PasskeyNameSheetState extends ConsumerState<PasskeyNameSheet> {
         _error = message;
       });
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       final l10n = FluxerLocalizations.of(context);
       final data = e.response?.data;
       final message = data is Map<String, dynamic>

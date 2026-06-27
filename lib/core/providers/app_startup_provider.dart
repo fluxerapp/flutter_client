@@ -7,7 +7,8 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_handler.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
+import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
+import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
@@ -22,16 +23,14 @@ import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dar
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
-import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
-import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_gateway_listener_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_relationships_sync_provider.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_sync_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.dart';
@@ -82,12 +81,10 @@ class AppStartup extends _$AppStartup {
       return;
     }
 
-    final InstanceConfigSnapshot? activeSnapshot =
-        await authRepository.resolveActiveInstanceSnapshot();
+    final InstanceConfigSnapshot? activeSnapshot = await authRepository
+        .resolveActiveInstanceSnapshot();
     if (activeSnapshot != null) {
-      ref
-          .read(activeInstanceProvider.notifier)
-          .applySnapshot(activeSnapshot);
+      ref.read(activeInstanceProvider.notifier).applySnapshot(activeSnapshot);
     }
 
     // Validate the session and try fallback sessions on 401.

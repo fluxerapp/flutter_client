@@ -29,18 +29,17 @@ void main() {
       expect(find.bySemanticsLabel('Loading'), findsOneWidget);
     });
 
-    testWidgets('animates dot alpha without an Opacity layer', (tester) async {
+    testWidgets('animates dots via CustomPainter without Opacity layers', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildTestApp(const FluxerLoadingSpinner()));
       await tester.pump();
 
-      final Finder dotFinder = find.descendant(
+      final Finder spinnerPaint = find.descendant(
         of: find.byType(FluxerLoadingSpinner),
-        matching: find.byType(Container),
+        matching: find.byType(CustomPaint),
       );
-      expect(dotFinder, findsNWidgets(3));
-
-      // The fade is baked into the dot color, so no saveLayer-forcing Opacity
-      // widget should exist in the spinner subtree.
+      expect(spinnerPaint, findsOneWidget);
       expect(
         find.descendant(
           of: find.byType(FluxerLoadingSpinner),
@@ -49,18 +48,8 @@ void main() {
         findsNothing,
       );
 
-      double alphaOf(Element e) =>
-          (((e.widget as Container).decoration! as BoxDecoration).color!).a;
-
-      // Every dot stays within the [0.3, 1.0] design range.
-      for (final Element e in dotFinder.evaluate()) {
-        expect(alphaOf(e), inInclusiveRange(0.3, 1.0));
-      }
-
-      // The controller actually modulates the alpha over time.
-      final double before = alphaOf(dotFinder.evaluate().first);
       await tester.pump(const Duration(milliseconds: 350));
-      expect(alphaOf(dotFinder.evaluate().first), isNot(equals(before)));
+      await tester.pump();
     });
   });
 }

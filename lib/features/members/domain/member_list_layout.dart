@@ -95,10 +95,7 @@ MemberListGroup? groupForRow(
   return null;
 }
 
-bool isGroupHeaderRow(
-  List<MemberListGroupLayout> layouts,
-  int rowIndex,
-) {
+bool isGroupHeaderRow(List<MemberListGroupLayout> layouts, int rowIndex) {
   for (final MemberListGroupLayout layout in layouts) {
     if (layout.headerRowIndex == rowIndex) {
       return true;

@@ -43,8 +43,7 @@ class InstanceConfigSnapshot {
   }
 
   factory InstanceConfigSnapshot.fromJson(String json) {
-    final Map<String, dynamic> map =
-        jsonDecode(json) as Map<String, dynamic>;
+    final Map<String, dynamic> map = jsonDecode(json) as Map<String, dynamic>;
     final Object? wellKnownJson = map['well_known'];
     return InstanceConfigSnapshot(
       apiBaseUrl: map['api_base_url'] as String,
@@ -72,6 +71,20 @@ class InstanceConfigSnapshot {
       return;
     }
     InstanceEndpoints.resetToDefaults();
+  }
+
+  WellKnownFluxerResponseSso? get ssoConfig => wellKnown?.sso;
+
+  bool get isSsoEnabled => ssoConfig?.enabled ?? false;
+
+  bool get isSsoEnforced {
+    final WellKnownFluxerResponseSso? config = ssoConfig;
+    return config != null && config.enabled && config.enforced;
+  }
+
+  bool get isSsoOptional {
+    final WellKnownFluxerResponseSso? config = ssoConfig;
+    return config != null && config.enabled && !config.enforced;
   }
 
   String? get instanceDisplayName {

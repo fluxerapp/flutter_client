@@ -59,8 +59,7 @@ void main() {
         locale,
         now: now,
       );
-      final String expected =
-          DateFormat.yMd(locale).add_jm().format(timestamp);
+      final String expected = DateFormat.yMd(locale).add_jm().format(timestamp);
       expect(result, expected);
     });
 
@@ -90,8 +89,9 @@ void main() {
         germanLocale,
         now: now,
       );
-      final String expected =
-          DateFormat.yMd(germanLocale).add_jm().format(timestamp);
+      final String expected = DateFormat.yMd(
+        germanLocale,
+      ).add_jm().format(timestamp);
       expect(result, expected);
       expect(result, contains('.'));
     });

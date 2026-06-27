@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/mature_content/domain/mature_content_types.d
 import 'package:fluxer_app/features/mature_content/presentation/mature_content_gate_copy.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,11 +47,11 @@ class MatureContentChannelGate extends ConsumerWidget {
               channelType: channelType,
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const Center(child: FluxerLoadingSpinner()),
           error: (_, _) => const SizedBox.shrink(),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: FluxerLoadingSpinner()),
       error: (_, _) => const SizedBox.shrink(),
     );
   }

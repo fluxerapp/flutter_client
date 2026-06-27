@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/push_account_lifecycle.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
 import 'package:fluxer_app/features/auth/data/webauthn_service.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/auth_session.dart';
@@ -21,6 +22,7 @@ import 'package:fluxer_app/features/auth/providers/instance_selector_provider.da
 import 'package:fluxer_app/features/auth/providers/passkey_error.dart';
 import 'package:fluxer_app/features/auth/providers/pending_invite_code_provider.dart';
 import 'package:fluxer_app/features/auth/providers/registration_draft_provider.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/exceptions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,6 +50,8 @@ class LoginViewState {
   final String? resetToken;
   final bool showRegister;
   final List<String> usernameSuggestions;
+  final bool isStartingSso;
+  final String? ssoError;
 
   const LoginViewState({
     required this.email,
@@ -65,11 +69,16 @@ class LoginViewState {
     required this.forgotPasswordEmailSent,
     required this.resetToken,
     required this.showRegister,
+    required this.isStartingSso,
+    required this.ssoError,
     this.usernameSuggestions = const [],
   });
 
   bool get canLogin =>
-      !isLoggingIn && email.trim().isNotEmpty && password.isNotEmpty;
+      !isLoggingIn &&
+      !isStartingSso &&
+      email.trim().isNotEmpty &&
+      password.isNotEmpty;
 
   bool get hasError =>
       errorMessage != null && errorMessage!.isNotEmpty || errorType != null;
@@ -91,6 +100,8 @@ class LoginViewState {
     Object? resetToken = _unset,
     bool? showRegister,
     List<String>? usernameSuggestions,
+    bool? isStartingSso,
+    Object? ssoError = _unset,
   }) {
     return LoginViewState(
       email: email ?? this.email,
@@ -122,6 +133,8 @@ class LoginViewState {
           : resetToken as String?,
       showRegister: showRegister ?? this.showRegister,
       usernameSuggestions: usernameSuggestions ?? this.usernameSuggestions,
+      isStartingSso: isStartingSso ?? this.isStartingSso,
+      ssoError: ssoError == _unset ? this.ssoError : ssoError as String?,
     );
   }
 }
@@ -149,7 +162,85 @@ class LoginViewModel extends _$LoginViewModel {
       forgotPasswordEmailSent: false,
       resetToken: null,
       showRegister: false,
+      isStartingSso: false,
+      ssoError: null,
     );
+  }
+
+  void clearSsoError() {
+    state = state.copyWith(ssoError: null, errorType: null);
+  }
+
+  Future<void> startSsoLogin() async {
+    if (state.isStartingSso || state.isLoggingIn) {
+      return;
+    }
+    state = state.copyWith(
+      isStartingSso: true,
+      ssoError: null,
+      errorMessage: null,
+      errorType: null,
+      fieldErrors: const {},
+    );
+    final bool isAddingAccount =
+        ref.read(addAccountInstanceGuardProvider) != null;
+    if (isAddingAccount) {
+      await ref
+          .read(instanceSelectorProvider.notifier)
+          .commitPendingInstanceForAuth();
+    }
+    try {
+      final SsoStartResponse startResponse = await ref
+          .read(authRepositoryProvider)
+          .startSso(redirectUri: 'fluxer://auth/sso/callback');
+      final Uri callbackUri = await SsoAuthService().authenticate(
+        authorizationUrl: startResponse.authorizationUrl,
+      );
+      final String? code = callbackUri.queryParameters['code'];
+      final String? callbackState = callbackUri.queryParameters['state'];
+      if (code == null ||
+          code.isEmpty ||
+          callbackState == null ||
+          callbackState.isEmpty) {
+        state = state.copyWith(
+          errorType: LoginError.ssoFailed,
+          isStartingSso: false,
+        );
+        return;
+      }
+      final AuthSession session = await ref
+          .read(authRepositoryProvider)
+          .completeSso(code: code, state: callbackState);
+      final bool restored = await _completeLoginSuccess(session);
+      state = state.copyWith(
+        email: restored ? '' : state.email,
+        password: restored ? '' : state.password,
+        isStartingSso: false,
+      );
+    } on SsoAuthCancelledException {
+      state = state.copyWith(
+        errorType: LoginError.ssoCancelled,
+        isStartingSso: false,
+      );
+    } on AuthFailure catch (error) {
+      if (isAddingAccount) {
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
+      }
+      state = state.copyWith(ssoError: error.message, isStartingSso: false);
+    } on Exception catch (e) {
+      if (isAddingAccount) {
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
+      }
+      talker.error('[LoginViewModel] SSO error: $e');
+      state = state.copyWith(
+        errorType: LoginError.ssoFailed,
+        isStartingSso: false,
+      );
+    }
   }
 
   void updateEmail(String value) {
@@ -519,7 +610,9 @@ class LoginViewModel extends _$LoginViewModel {
       }
     } on AuthFailure catch (error) {
       if (isAddingAccount) {
-        ref.read(addAccountInstanceGuardProvider.notifier).restoreActiveInstance();
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
       }
       if (error.kind == AuthFailureKind.invalidCredentials) {
         state = state.copyWith(
@@ -537,7 +630,9 @@ class LoginViewModel extends _$LoginViewModel {
       return false;
     } on Exception catch (e) {
       if (isAddingAccount) {
-        ref.read(addAccountInstanceGuardProvider.notifier).restoreActiveInstance();
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
       }
       talker.error('[LoginViewModel] Unexpected error: $e');
       state = state.copyWith(
@@ -631,14 +726,18 @@ class LoginViewModel extends _$LoginViewModel {
       }
     } on AuthFailure catch (error) {
       if (isAddingAccount) {
-        ref.read(addAccountInstanceGuardProvider.notifier).restoreActiveInstance();
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
       }
       state = state.copyWith(errorMessage: error.message, isLoggingIn: false);
     } on PasskeyAuthCancelledException {
       state = state.copyWith(isLoggingIn: false);
     } on AuthenticatorException catch (e) {
       if (isAddingAccount) {
-        ref.read(addAccountInstanceGuardProvider.notifier).restoreActiveInstance();
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
       }
       talker.error('[LoginViewModel] Passkey error: $e');
       final (errorType, errorMessage) = mapPasskeyAuthError(e);
@@ -649,7 +748,9 @@ class LoginViewModel extends _$LoginViewModel {
       );
     } on Exception catch (e) {
       if (isAddingAccount) {
-        ref.read(addAccountInstanceGuardProvider.notifier).restoreActiveInstance();
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
       }
       talker.error('[LoginViewModel] Passkey error: $e');
       state = state.copyWith(isLoggingIn: false);

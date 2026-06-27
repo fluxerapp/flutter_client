@@ -58,10 +58,7 @@ class ChannelHeader extends ConsumerWidget {
     final channelId = ref.watch(
       chatViewModelProvider.select((s) => s.channelId),
     );
-    final channelState = ref.watch(channelListViewModelProvider);
-    final channel =
-        findChannelById(channelState, channelId) ??
-        ref.watch(channelByIdProvider(channelId)).value;
+    final channel = ref.watch(channelByIdProvider(channelId)).value;
     final String? currentUserId = ref.watch(currentUserIdProvider);
     final dm = channel == null
         ? findDmById(

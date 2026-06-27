@@ -16,6 +16,8 @@ extension LoginErrorL10n on LoginError {
       LoginError.passkeyDomainNotAssociated => l10n.passkeyDomainNotAssociated,
       LoginError.passkeyTimeout => l10n.passkeyTimeout,
       LoginError.passkeyFailed => l10n.passkeyFailed,
+      LoginError.ssoCancelled => l10n.ssoCancelled,
+      LoginError.ssoFailed => l10n.failedToStartSso,
     };
   }
 }
@@ -25,6 +27,10 @@ extension LoginErrorL10n on LoginError {
 String? resolveLoginError(LoginViewState state, FluxerLocalizations l10n) {
   if (state.errorType != null) {
     return state.errorType!.resolve(l10n);
+  }
+  final String? ssoError = state.ssoError;
+  if (ssoError != null && ssoError.isNotEmpty) {
+    return ssoError;
   }
   final msg = state.errorMessage;
   if (msg != null && msg.isNotEmpty) {

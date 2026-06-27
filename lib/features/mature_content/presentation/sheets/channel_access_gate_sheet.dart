@@ -29,6 +29,9 @@ Future<bool> showChannelAccessGateSheet({
   if (gateContext == null) {
     return true;
   }
+  if (!context.mounted) {
+    return false;
+  }
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final MatureContentGateCopy copy = resolveMatureContentGateCopy(
     l10n: l10n,
@@ -36,9 +39,6 @@ Future<bool> showChannelAccessGateSheet({
     context: gateContext,
     channelType: channelType,
   );
-  if (!context.mounted) {
-    return false;
-  }
   final bool? confirmed = await FluxerBottomSheet.show<bool>(
     context,
     title: copy.title,

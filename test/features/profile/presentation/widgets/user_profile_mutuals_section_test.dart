@@ -52,8 +52,8 @@ void main() {
               _buildUser(id: '1', username: 'alice'),
               _buildUser(id: '2', username: 'bob'),
             ],
-            communities: const <MutualGuildResponse>[
-              MutualGuildResponse(id: '10', nick: null),
+            communities: const <UserProfileFullResponseMutualGuilds>[
+              UserProfileFullResponseMutualGuilds(id: '10', nick: null),
             ],
             onFriendTap: (_) {},
             onCommunityTap: (_) {},
@@ -72,7 +72,7 @@ void main() {
             friends: <UserPartialResponse>[
               _buildUser(id: '1', username: 'alice', globalName: 'Alice'),
             ],
-            communities: const <MutualGuildResponse>[],
+            communities: const <UserProfileFullResponseMutualGuilds>[],
             onFriendTap: (_) {},
             onCommunityTap: (_) {},
           ),
@@ -95,7 +95,7 @@ void main() {
           UserProfileMutualList(
             type: UserProfileMutualListType.friends,
             friends: const <UserPartialResponse>[],
-            communities: const <MutualGuildResponse>[],
+            communities: const <UserProfileFullResponseMutualGuilds>[],
             onFriendTap: (_) {},
             onCommunityTap: (_) {},
           ),
@@ -111,7 +111,7 @@ void main() {
           UserProfileMutualList(
             type: UserProfileMutualListType.communities,
             friends: const <UserPartialResponse>[],
-            communities: const <MutualGuildResponse>[],
+            communities: const <UserProfileFullResponseMutualGuilds>[],
             onFriendTap: (_) {},
             onCommunityTap: (_) {},
           ),

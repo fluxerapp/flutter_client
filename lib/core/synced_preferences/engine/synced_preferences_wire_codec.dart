@@ -54,8 +54,9 @@ class SyncedPreferencesWireCodec {
     required Map<int, Uint8List> fieldMessages,
   }) {
     var wire = currentWire ?? '';
-    for (final entry in fieldMessages.entries.toList()
-      ..sort((a, b) => a.key.compareTo(b.key))) {
+    for (final entry
+        in fieldMessages.entries.toList()
+          ..sort((a, b) => a.key.compareTo(b.key))) {
       wire = encodeFieldIntoWire(
         currentWire: wire.isEmpty ? null : wire,
         fieldNumber: entry.key,
@@ -142,11 +143,9 @@ class SyncedPreferencesWireCodec {
   }
 
   static List<int> parseFieldNumbers(Uint8List bytes) {
-    return parseTopLevelFieldChunks(bytes)
-        .map((chunk) => chunk.fieldNumber)
-        .toSet()
-        .toList()
-      ..sort();
+    return parseTopLevelFieldChunks(
+      bytes,
+    ).map((chunk) => chunk.fieldNumber).toSet().toList()..sort();
   }
 
   static List<SyncedPreferenceWireChunk> parseTopLevelFieldChunks(
@@ -166,9 +165,9 @@ class SyncedPreferencesWireCodec {
     Uint8List bytes, {
     int? exceptFieldNumber,
   }) {
-    return _parseTopLevelFieldChunks(bytes)
-        .where((chunk) => chunk.field != exceptFieldNumber)
-        .toList();
+    return _parseTopLevelFieldChunks(
+      bytes,
+    ).where((chunk) => chunk.field != exceptFieldNumber).toList();
   }
 
   static Uint8List _wrapFieldMessage(int fieldNumber, Uint8List messageBytes) {
@@ -188,10 +187,7 @@ class SyncedPreferencesWireCodec {
     return Uint8List.fromList(bytes);
   }
 
-  static List<Uint8List> _extractFieldChunks(
-    Uint8List bytes,
-    int fieldNumber,
-  ) {
+  static List<Uint8List> _extractFieldChunks(Uint8List bytes, int fieldNumber) {
     return _parseTopLevelFieldChunks(bytes)
         .where((chunk) => chunk.field == fieldNumber)
         .map((chunk) => chunk.bytes)

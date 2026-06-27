@@ -14,4 +14,6 @@ enum LoginError {
   passkeyDomainNotAssociated,
   passkeyTimeout,
   passkeyFailed,
+  ssoCancelled,
+  ssoFailed,
 }

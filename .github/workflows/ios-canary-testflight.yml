@@ -4,40 +4,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-actor:
-    name: Check allowed user
-    runs-on: ubuntu-latest
-    outputs:
-      allowed: ${{ steps.check.outputs.allowed }}
-    steps:
-      - name: Check actor against allowlist
-        id: check
-        run: |
-          ALLOWED="${{ vars.ALLOWED_TESTFLIGHT_ACTORS }}"
-          if [ -z "$ALLOWED" ]; then
-            echo "::error::Repository variable ALLOWED_TESTFLIGHT_ACTORS is not set. Add a comma-separated list of GitHub usernames in Settings → Secrets and variables → Actions → Variables."
-            exit 1
-          fi
-          ACTOR="${{ github.actor }}"
-          ALLOWED_ARR="${ALLOWED//,/ }"
-          FOUND=false
-          for u in $ALLOWED_ARR; do
-            u_trimmed=$(echo "$u" | xargs)
-            if [ "$u_trimmed" = "$ACTOR" ]; then
-              FOUND=true
-              break
-            fi
-          done
-          if [ "$FOUND" != "true" ]; then
-            echo "::error::User $ACTOR is not allowed to run this workflow. Allowed users are listed in ALLOWED_TESTFLIGHT_ACTORS."
-            exit 1
-          fi
-          echo "allowed=true" >> "$GITHUB_OUTPUT"
-
   build-and-upload:
     name: Build and upload to TestFlight
-    needs: check-actor
     runs-on: macos-26
+    environment: release-builds
     env:
       LANG: en_US.UTF-8
       LC_ALL: en_US.UTF-8
@@ -166,11 +136,13 @@ jobs:
           NOTIFICATION_SERVICE_PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract UUID raw -)
           NOTIFICATION_SERVICE_PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract Name raw -)
           IS_NOTIFICATION_SERVICE_DEVELOPMENT_PROFILE=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract Entitlements.get-task-allow raw - 2>/dev/null || echo "false")
-          echo "PROFILE_UUID=$PROFILE_UUID" >> $GITHUB_ENV
-          echo "PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
-          echo "PROFILE_TEAM_ID=$PROFILE_TEAM_ID" >> $GITHUB_ENV
-          echo "BROADCAST_EXTENSION_PROFILE_UUID=$BROADCAST_EXTENSION_PROFILE_UUID" >> $GITHUB_ENV
-          echo "NOTIFICATION_SERVICE_PROFILE_UUID=$NOTIFICATION_SERVICE_PROFILE_UUID" >> $GITHUB_ENV
+          {
+            echo "PROFILE_UUID=$PROFILE_UUID"
+            echo "PROFILE_NAME=$PROFILE_NAME"
+            echo "PROFILE_TEAM_ID=$PROFILE_TEAM_ID"
+            echo "BROADCAST_EXTENSION_PROFILE_UUID=$BROADCAST_EXTENSION_PROFILE_UUID"
+            echo "NOTIFICATION_SERVICE_PROFILE_UUID=$NOTIFICATION_SERVICE_PROFILE_UUID"
+          } >> "$GITHUB_ENV"
           echo "::notice::Provisioning profile metadata - name: $PROFILE_NAME, uuid: $PROFILE_UUID, team: $PROFILE_TEAM_ID, development: $IS_DEVELOPMENT_PROFILE"
           echo "::notice::Broadcast extension profile metadata - name: $BROADCAST_EXTENSION_PROFILE_NAME, uuid: $BROADCAST_EXTENSION_PROFILE_UUID, development: $IS_BROADCAST_EXTENSION_DEVELOPMENT_PROFILE"
           echo "::notice::Notification Service extension profile metadata - name: $NOTIFICATION_SERVICE_PROFILE_NAME, uuid: $NOTIFICATION_SERVICE_PROFILE_UUID, development: $IS_NOTIFICATION_SERVICE_DEVELOPMENT_PROFILE"

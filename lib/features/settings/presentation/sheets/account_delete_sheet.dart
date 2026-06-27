@@ -30,6 +30,8 @@ class _AccountDeleteSheetState extends ConsumerState<AccountDeleteSheet> {
   String? _error;
 
   Future<void> _handleDelete() async {
+    final l10n = FluxerLocalizations.of(context);
+
     setState(() {
       _loading = true;
       _error = null;
@@ -45,7 +47,9 @@ class _AccountDeleteSheetState extends ConsumerState<AccountDeleteSheet> {
         Navigator.of(context, rootNavigator: true).pop();
       }
     } on DioException catch (e) {
-      final l10n = FluxerLocalizations.of(context);
+      if (!mounted) {
+        return;
+      }
       final data = e.response?.data;
       final message = data is Map<String, dynamic>
           ? (data['message'] as String?) ?? l10n.genericError

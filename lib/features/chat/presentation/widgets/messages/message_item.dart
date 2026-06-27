@@ -4,10 +4,10 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
+import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -583,18 +583,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final bool prefersPersistedAuthor = messagePrefersPersistedAuthorDisplay(
       msg,
     );
-    Color? authorRoleColor;
-    if (guildId != null && !prefersPersistedAuthor) {
-      authorRoleColor = ref
-          .watch(memberRoleColorProvider((msg.authorId, guildId)))
-          .value;
-    }
-    final GuildUserDisplay authorDisplay = watchMessageAuthorDisplay(
-      ref: ref,
-      message: msg,
-      guildId: guildId,
-      currentUserId: widget.currentUserId,
-    );
     final bool shouldHighlightMention =
         msg.isMentioned && !widget.hideMentionHighlight;
     final bool showJumpHighlight =
@@ -713,19 +701,29 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                       chatPreferences: chatPreferences,
                     )
                   else
-                    _buildMainRow(
-                      context,
-                      msg,
-                      authorDisplay,
-                      authorRoleColor,
-                      isMobile,
-                      dimMessagePartsExceptAttachments:
-                          dimMessagePartsExceptAttachments,
-                      renderEmbeds: renderEmbeds,
-                      renderReactions: renderReactions,
-                      inlineAttachmentMedia: inlineAttachmentMedia,
-                      revealSpoilers: revealSpoilers,
-                      chatPreferences: chatPreferences,
+                    _MessageAuthorScope(
+                      message: msg,
+                      guildId: guildId,
+                      currentUserId: widget.currentUserId,
+                      prefersPersistedAuthor: prefersPersistedAuthor,
+                      builder:
+                          (
+                            GuildUserDisplay authorDisplay,
+                            Color? authorRoleColor,
+                          ) => _buildMainRow(
+                            context,
+                            msg,
+                            authorDisplay,
+                            authorRoleColor,
+                            isMobile,
+                            dimMessagePartsExceptAttachments:
+                                dimMessagePartsExceptAttachments,
+                            renderEmbeds: renderEmbeds,
+                            renderReactions: renderReactions,
+                            inlineAttachmentMedia: inlineAttachmentMedia,
+                            revealSpoilers: revealSpoilers,
+                            chatPreferences: chatPreferences,
+                          ),
                     ),
                 ],
               ),
@@ -976,6 +974,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }) {
     final Widget markdown = MessageMarkdown(
       data: msg.content,
+      messageId: msg.id,
       selectable: !isMobile,
       channelId: msg.channelId,
       revealSpoilers: revealSpoilers,
@@ -1308,7 +1307,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         width: _kMessageStickerSize,
         height: _kMessageStickerSize,
         memCacheWidth: _kMessageStickerSize.toInt(),
-        memCacheHeight: _kMessageStickerSize.toInt(),
         fadeInDuration: Duration.zero,
         fadeOutDuration: Duration.zero,
         fit: BoxFit.contain,
@@ -1575,4 +1573,39 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
     ),
   );
+}
+
+/// Resolves author display and role color in an isolated consumer so presence
+/// and member updates rebuild only the author header, not the full row body.
+class _MessageAuthorScope extends ConsumerWidget {
+  const _MessageAuthorScope({
+    required this.message,
+    required this.guildId,
+    required this.currentUserId,
+    required this.prefersPersistedAuthor,
+    required this.builder,
+  });
+
+  final Message message;
+  final String? guildId;
+  final String? currentUserId;
+  final bool prefersPersistedAuthor;
+  final Widget Function(GuildUserDisplay display, Color? roleColor) builder;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    Color? authorRoleColor;
+    if (guildId != null && !prefersPersistedAuthor) {
+      authorRoleColor = ref
+          .watch(memberRoleColorProvider((message.authorId, guildId!)))
+          .value;
+    }
+    final GuildUserDisplay authorDisplay = watchMessageAuthorDisplay(
+      ref: ref,
+      message: message,
+      guildId: guildId,
+      currentUserId: currentUserId,
+    );
+    return builder(authorDisplay, authorRoleColor);
+  }
 }

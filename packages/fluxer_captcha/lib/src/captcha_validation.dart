@@ -12,16 +12,24 @@ abstract final class CaptchaValidation {
     if (provider != CaptchaProvider.turnstile) return;
 
     if (action != null) {
+      final hasValidActionCharacters = RegExp(
+        r'^[a-zA-Z0-9_-]*$',
+      ).hasMatch(action);
       assert(
-        action.length <= 32 && RegExp(r'^[a-zA-Z0-9_-]*$').hasMatch(action),
-        'action must contain up to 32 alphanumeric characters including _ and -.',
+        action.length <= 32 && hasValidActionCharacters,
+        'action must contain up to 32 alphanumeric characters '
+        'including _ and -.',
       );
     }
 
     if (cData != null) {
+      final hasValidCDataCharacters = RegExp(
+        r'^[a-zA-Z0-9_-]*$',
+      ).hasMatch(cData);
       assert(
-        cData.length <= 255 && RegExp(r'^[a-zA-Z0-9_-]*$').hasMatch(cData),
-        'cData must contain up to 255 alphanumeric characters including _ and -.',
+        cData.length <= 255 && hasValidCDataCharacters,
+        'cData must contain up to 255 alphanumeric characters '
+        'including _ and -.',
       );
     }
 

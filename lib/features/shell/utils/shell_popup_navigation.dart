@@ -30,7 +30,7 @@ bool popTopShellPopupRoute([BuildContext? context]) {
 
 /// Pops only when the navigator's top route is a [PopupRoute].
 bool popPopupRouteIfPresent(NavigatorState? navigator) {
-  if (!navigatorShowsPopupOverlay(navigator)) {
+  if (!navigatorHasPopupOverlay(navigator)) {
     return false;
   }
   navigator!.pop();

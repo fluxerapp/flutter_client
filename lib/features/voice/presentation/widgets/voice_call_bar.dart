@@ -122,10 +122,36 @@ class VoiceCallBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final VoiceSessionState voice = ref.watch(voiceSessionProvider);
-    if (!voice.isInVoice && voice.errorMessage == null) {
+    final (
+      bool isInVoice,
+      bool isConnected,
+      String? errorMessage,
+      String? guildId,
+      String? channelId,
+      String? activeConnectionId,
+    ) = ref.watch(
+      voiceSessionProvider.select(
+        (VoiceSessionState s) => (
+          s.isInVoice,
+          s.isConnected,
+          s.errorMessage,
+          s.guildId,
+          s.channelId,
+          s.activeConnectionId,
+        ),
+      ),
+    );
+    if (!isInVoice && errorMessage == null) {
       return const SizedBox.shrink();
     }
+    final VoiceSessionState voice = VoiceSessionState(
+      isConnecting: isInVoice && !isConnected,
+      isConnected: isConnected,
+      errorMessage: errorMessage,
+      guildId: guildId,
+      channelId: channelId,
+      activeConnectionId: activeConnectionId,
+    );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isGuildVoice =
         voice.guildId != null && voice.guildId!.isNotEmpty;
@@ -174,131 +200,134 @@ class VoiceCallBar extends ConsumerWidget {
         : ref.watch(voiceStateForConnectionProvider(connectionId));
     final bool isMuted = selfVoiceState?.selfMute ?? false;
     final bool isDeafened = selfVoiceState?.selfDeaf ?? false;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Divider(height: 1, color: context.colors.borderColor),
-        Material(
-          color: context.colors.backgroundSecondary,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                _onBarNavigate(context, voice: voice, isGuild: isGuildVoice);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+    return RepaintBoundary(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Divider(height: 1, color: context.colors.borderColor),
+          Material(
+            color: context.colors.backgroundSecondary,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  _onBarNavigate(context, voice: voice, isGuild: isGuildVoice);
+                },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2),
-                  child: Row(
-                    children: <Widget>[
-                      _buildStatusIcon(context),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              primaryLine,
-                              style: context.textStyles.channelName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            if (subtitle.isNotEmpty) ...<Widget>[
-                              const SizedBox(height: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: Row(
+                      children: <Widget>[
+                        _buildStatusIcon(context),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
                               Text(
-                                subtitle,
-                                style: context.textStyles.categoryName,
+                                primaryLine,
+                                style: context.textStyles.channelName,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                            ],
-                            if (voice.errorMessage != null) ...[
-                              const SizedBox(height: 2),
-                              Text(
-                                resolveVoiceSessionErrorMessage(
-                                  voice.errorMessage!,
-                                  l10n,
+                              if (subtitle.isNotEmpty) ...<Widget>[
+                                const SizedBox(height: 2),
+                                Text(
+                                  subtitle,
+                                  style: context.textStyles.categoryName,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                style: context.textStyles.categoryName.copyWith(
-                                  color: context.colors.statusDanger,
+                              ],
+                              if (voice.errorMessage != null) ...[
+                                const SizedBox(height: 2),
+                                Text(
+                                  resolveVoiceSessionErrorMessage(
+                                    voice.errorMessage!,
+                                    l10n,
+                                  ),
+                                  style: context.textStyles.categoryName
+                                      .copyWith(
+                                        color: context.colors.statusDanger,
+                                      ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                              ],
                             ],
-                          ],
+                          ),
                         ),
-                      ),
-                      if (voice.errorMessage == null &&
-                          voice.isInVoice) ...<Widget>[
-                        const SizedBox(width: 8),
-                        _ControlIconButton(
-                          icon: isMuted
-                              ? PhosphorIconsFill.microphoneSlash
-                              : PhosphorIconsFill.microphone,
-                          color: isMuted
-                              ? context.colors.statusDanger
-                              : context.colors.backgroundTertiary,
-                          onPressed: () {
-                            unawaited(
+                        if (voice.errorMessage == null &&
+                            voice.isInVoice) ...<Widget>[
+                          const SizedBox(width: 8),
+                          _ControlIconButton(
+                            icon: isMuted
+                                ? PhosphorIconsFill.microphoneSlash
+                                : PhosphorIconsFill.microphone,
+                            color: isMuted
+                                ? context.colors.statusDanger
+                                : context.colors.backgroundTertiary,
+                            onPressed: () {
+                              unawaited(
+                                ref
+                                    .read(voiceSessionProvider.notifier)
+                                    .toggleSelfMute(),
+                              );
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          _ControlIconButton(
+                            icon: isDeafened
+                                ? PhosphorIconsFill.speakerSlash
+                                : PhosphorIconsFill.speakerHigh,
+                            color: isDeafened
+                                ? context.colors.statusDanger
+                                : context.colors.backgroundTertiary,
+                            onPressed: () {
+                              unawaited(
+                                ref
+                                    .read(voiceSessionProvider.notifier)
+                                    .toggleSelfDeafen(),
+                              );
+                            },
+                          ),
+                        ],
+                        const SizedBox(width: 6),
+                        if (voice.errorMessage != null)
+                          TextButton(
+                            onPressed: () {
                               ref
                                   .read(voiceSessionProvider.notifier)
-                                  .toggleSelfMute(),
-                            );
-                          },
-                        ),
-                        const SizedBox(width: 8),
-                        _ControlIconButton(
-                          icon: isDeafened
-                              ? PhosphorIconsFill.speakerSlash
-                              : PhosphorIconsFill.speakerHigh,
-                          color: isDeafened
-                              ? context.colors.statusDanger
-                              : context.colors.backgroundTertiary,
-                          onPressed: () {
-                            unawaited(
-                              ref
-                                  .read(voiceSessionProvider.notifier)
-                                  .toggleSelfDeafen(),
-                            );
-                          },
-                        ),
+                                  .clearError();
+                            },
+                            child: const Text('Dismiss'),
+                          )
+                        else if (voice.isConnected)
+                          FilledButton.tonal(
+                            onPressed: () {
+                              unawaited(
+                                ref
+                                    .read(voiceSessionProvider.notifier)
+                                    .leaveVoice(),
+                              );
+                            },
+                            child: Text(l10n.voiceChannelLeave),
+                          ),
                       ],
-                      const SizedBox(width: 6),
-                      if (voice.errorMessage != null)
-                        TextButton(
-                          onPressed: () {
-                            ref
-                                .read(voiceSessionProvider.notifier)
-                                .clearError();
-                          },
-                          child: const Text('Dismiss'),
-                        )
-                      else if (voice.isConnected)
-                        FilledButton.tonal(
-                          onPressed: () {
-                            unawaited(
-                              ref
-                                  .read(voiceSessionProvider.notifier)
-                                  .leaveVoice(),
-                            );
-                          },
-                          child: Text(l10n.voiceChannelLeave),
-                        ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

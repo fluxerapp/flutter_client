@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_ui_lifecycle_provider.g.dart';
@@ -13,17 +14,22 @@ class AppUiForeground extends _$AppUiForeground {
     return s == null || s == AppLifecycleState.resumed;
   }
 
+  // Keep the notifier API stable for tests and lifecycle call sites.
+  // ignore: use_setters_to_change_properties, avoid_positional_boolean_parameters
   void setResumed(bool value) {
     state = value;
   }
 }
 
-/// When the app last entered [AppLifecycleState.paused] or [hidden].
+/// When the app last entered [AppLifecycleState.paused] or
+/// [AppLifecycleState.hidden].
 @Riverpod(keepAlive: true)
 class AppLastBackgroundedAt extends _$AppLastBackgroundedAt {
   @override
   DateTime? build() => null;
 
+  // Keep the notifier API stable for tests and lifecycle call sites.
+  // ignore: use_setters_to_change_properties
   void set(DateTime? value) {
     state = value;
   }
@@ -74,6 +80,7 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
         state == AppLifecycleState.paused ||
         state == AppLifecycleState.hidden) {
       ref.read(appLastBackgroundedAtProvider.notifier).set(DateTime.now());
+      clearFluxerImageCache();
     }
     ref
         .read(appUiForegroundProvider.notifier)

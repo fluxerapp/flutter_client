@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/chat/presentation/'
     'sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/remove_all_reactions_confirm_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/channel_welcome_section.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -35,6 +36,7 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
+import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
 import 'package:fluxer_app/features/chat/utils/message_grouping_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -46,7 +48,6 @@ import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart'
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/export.dart';
@@ -55,6 +56,8 @@ import 'package:scrollview_observer/scrollview_observer.dart';
 
 const _kUnreadDividerHeight = 16.0;
 const _kUnreadDateDividerHeight = 20.0;
+const _kMessageListScrollCacheExtent = 800.0;
+const _kMessageListCompactScrollCacheExtent = 200.0;
 
 // Riverpod does not export the concrete auto-dispose family type.
 // ignore: specify_nonobvious_property_types
@@ -93,7 +96,10 @@ const _kMonthNames = [
 /// [ListView] anchored by a [ChatScrollObserver] (older messages prepend
 /// above the viewport; newer ones hold position unless at the live tail).
 class MessageList extends ConsumerStatefulWidget {
-  const MessageList({this.targetMessageId, super.key});
+  const MessageList({this.expectedChannelId, this.targetMessageId, super.key});
+
+  /// When set, shows a loading shell until [ChatViewState.channelId] matches.
+  final String? expectedChannelId;
 
   final String? targetMessageId;
 
@@ -112,6 +118,8 @@ class _MessageListState extends ConsumerState<MessageList> {
   List<Message>? _lastAnchorMessages;
   ChatUnreadSummary? _cachedUnreadSummary;
   Object? _unreadSummaryKey;
+  bool _useCompactScrollCache = true;
+  int _lastMessageCount = 0;
 
   @override
   void initState() {
@@ -232,6 +240,24 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     _lastChannelId = channelId;
     _lastAnchorMessages = null;
+    _useCompactScrollCache = true;
+    _lastMessageCount = 0;
+  }
+
+  void _scheduleScrollCacheExpansion(int messageCount) {
+    if (!_useCompactScrollCache || messageCount == 0) {
+      return;
+    }
+    if (_lastMessageCount == messageCount && messageCount > 0) {
+      return;
+    }
+    _lastMessageCount = messageCount;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_useCompactScrollCache) {
+        return;
+      }
+      setState(() => _useCompactScrollCache = false);
+    });
   }
 
   bool _onScrollNotification(ScrollNotification notification) {
@@ -317,7 +343,15 @@ class _MessageListState extends ConsumerState<MessageList> {
         (!ignoreJumpTarget && _hasActiveJumpTarget())) {
       return;
     }
-    _chatViewModel.updateReadViewport(isNearBottom: _isLiveNearBottom());
+    final ScrollPosition position = _scrollController.position;
+    _chatViewModel.updateReadViewport(
+      isNearBottom: _isLiveNearBottom(),
+      distanceFromBottom: distanceFromScrollExtentEnd(
+        pixels: position.pixels,
+        minScrollExtent: position.minScrollExtent,
+      ),
+      viewportHeight: position.viewportDimension,
+    );
   }
 
   void _onScrollToBottom() {
@@ -539,7 +573,11 @@ class _MessageListState extends ConsumerState<MessageList> {
             child: ListView.builder(
               controller: _scrollController,
               reverse: true,
-              scrollCacheExtent: const ScrollCacheExtent.pixels(800),
+              scrollCacheExtent: ScrollCacheExtent.pixels(
+                _useCompactScrollCache
+                    ? _kMessageListCompactScrollCacheExtent
+                    : _kMessageListScrollCacheExtent,
+              ),
               padding: const EdgeInsets.only(top: 8, bottom: 33),
               physics: chatPhysics,
               itemCount:
@@ -582,7 +620,10 @@ class _MessageListState extends ConsumerState<MessageList> {
             left: 0,
             right: 0,
             child: Center(
-              child: FluxerLoadingSpinner(color: context.colors.brandPrimary),
+              child: ChatLoadingSpinner(
+                reason: ChatSpinnerReason.loadingMore,
+                color: context.colors.brandPrimary,
+              ),
             ),
           ),
         if (isLoadingNewer)
@@ -591,7 +632,10 @@ class _MessageListState extends ConsumerState<MessageList> {
             left: 0,
             right: 0,
             child: Center(
-              child: FluxerLoadingSpinner(color: context.colors.brandPrimary),
+              child: ChatLoadingSpinner(
+                reason: ChatSpinnerReason.loadingNewer,
+                color: context.colors.brandPrimary,
+              ),
             ),
           ),
       ],
@@ -635,6 +679,17 @@ class _MessageListState extends ConsumerState<MessageList> {
     final String channelId = ref.watch(
       chatViewModelProvider.select((ChatViewState s) => s.channelId),
     );
+    final String? expectedChannelId = widget.expectedChannelId;
+    if (expectedChannelId != null &&
+        expectedChannelId.isNotEmpty &&
+        channelId != expectedChannelId) {
+      return Center(
+        child: ChatLoadingSpinner(
+          reason: ChatSpinnerReason.panelNotReady,
+          color: context.colors.brandPrimary,
+        ),
+      );
+    }
     final String? stickyUnreadId = ref.watch(
       chatViewModelProvider.select(
         (ChatViewState s) => s.stickyUnreadMessageId,
@@ -662,6 +717,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       chatViewModelProvider.select((ChatViewState s) => s.hasMoreMessages),
     );
     _resetOnChannelSwitch(channelId);
+    _scheduleScrollCacheExpansion(messages.length);
     final bool isDmChannel =
         channelId.isNotEmpty &&
         ref.watch(
@@ -725,58 +781,6 @@ class _MessageListState extends ConsumerState<MessageList> {
         (ThemePreferenceState s) => s.chatFontSize,
       ),
     );
-    final ChannelMessagePermissions channelMessagePerms = channelId.isEmpty
-        ? ChannelMessagePermissions.unresolved
-        : channelMessagePermissionsForComposer(
-            ref.watch(channelMessagePermissionsProvider(channelId)),
-          );
-    final DmConversation? dmConversation = ref.watch(
-      dmViewModelProvider.select((DmViewState dmState) {
-        return findDmById(dmState.conversations, channelId);
-      }),
-    );
-    final bool interactionsBlocked =
-        dmConversation != null && isSystemDmConversation(dmConversation);
-    final bool channelCanSendMessages = channelMessagePerms.canSendMessages;
-    final bool channelCanAddReactions = canAddReactionsInChannel(
-      isDmChannel: isDmChannel,
-      channelPermissionBits: channelPermissionBits,
-      interactionsBlocked: interactionsBlocked,
-    );
-    final bool channelCanPinMessage = canPinMessageInChannel(
-      isDmChannel: isDmChannel,
-      channelPermissionBits: channelPermissionBits,
-      interactionsBlocked: interactionsBlocked,
-    );
-    final bool channelCanManageMessages = canManageMessagesInChannel(
-      isDmChannel: isDmChannel,
-      channelPermissionBits: channelPermissionBits,
-    );
-
-    final RenderSpoilers renderSpoilers = ref.watch(
-      userSettingsViewModelProvider.select((s) => s.renderSpoilers),
-    );
-    final MessageRenderSettings messageRenderSettings = MessageRenderSettings(
-      activeGuildId: ref.watch(activeGuildIdProvider),
-      renderEmbeds: ref.watch(
-        userSettingsViewModelProvider.select((s) => s.renderEmbeds),
-      ),
-      renderReactions: ref.watch(
-        userSettingsViewModelProvider.select((s) => s.renderReactions),
-      ),
-      inlineAttachmentMedia: ref.watch(
-        userSettingsViewModelProvider.select((s) => s.inlineAttachmentMedia),
-      ),
-      renderSpoilers: renderSpoilers,
-      revealSpoilers: switch (renderSpoilers) {
-        RenderSpoilers.always => true,
-        RenderSpoilers.ifModerator =>
-          channelId.isNotEmpty &&
-              (ref.watch(spoilerAutoRevealProvider(channelId)).value ?? false),
-        RenderSpoilers.onClick || RenderSpoilers.$unknown => false,
-      },
-      chatPreferences: ref.watch(chatPreferencesProvider),
-    );
 
     if (messages.isEmpty) {
       _itemKeys.clear();
@@ -797,131 +801,154 @@ class _MessageListState extends ConsumerState<MessageList> {
             effectivePermissionBits: channelPermissionBits,
           )
         : null;
-    final Widget body;
-    if (isLoading && messages.isEmpty) {
-      body = Center(
-        child: FluxerLoadingSpinner(color: context.colors.brandPrimary),
-      );
-    } else if (messageLoadFailed && messages.isEmpty) {
-      final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-      body = Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              PhosphorIcon(
-                PhosphorIconsFill.warningCircle,
-                size: 48,
-                color: context.colors.textPrimaryMuted,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                l10n.chatMessagesLoadError,
-                style: context.textStyles.bodySmall.copyWith(
-                  color: context.colors.textPrimaryMuted,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              FluxerButton.primary(
-                label: l10n.retry,
-                onPressed: () => unawaited(
-                  ref.read(chatViewModelProvider.notifier).retryLoadMessages(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else if (messages.isEmpty) {
-      if (isPersonalNotesChannel) {
-        body = const PersonalNotesWelcomeSection();
-      } else if (channelRow != null) {
-        body = Align(
-          alignment: Alignment.bottomLeft,
-          child: ChannelWelcomeSection(
-            channel: channelRow,
-            effectivePermissionBits: channelPermissionBits,
-          ),
-        );
-      } else {
-        body = Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              PhosphorIcon(
-                PhosphorIconsFill.chatCircleDots,
-                size: 48,
-                color: context.colors.textPrimaryMuted,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'No messages yet',
-                style: TextStyle(
-                  color: context.colors.textPrimaryMuted,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Be the first to send a message!',
-                style: TextStyle(
-                  color: context.colors.textTertiaryMuted,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        );
-      }
-    } else {
-      body = _buildMessageListView(
-        context: context,
-        messages: messages,
-        visualUnreadId: visualUnreadId,
-        highlightedMessageId: highlightedMessageId,
-        currentUserId: currentUserId,
-        isDmChannel: isDmChannel,
-        guildId: guildId,
-        channelPermissionBits: channelPermissionBits,
-        channelCanSendMessages: channelCanSendMessages,
-        channelCanAddReactions: channelCanAddReactions,
-        channelCanPinMessage: channelCanPinMessage,
-        channelCanManageMessages: channelCanManageMessages,
-        renderSettings: messageRenderSettings,
-        isLoadingMore: isLoadingMore,
-        isLoadingNewer: isLoadingNewer,
-        startOfChannelHeader: startOfChannelHeader,
-      );
-    }
 
-    final double scaleRatio = chatFontSize / 16.0;
+    return _MessageListSettingsLayer(
+      channelId: channelId,
+      isDmChannel: isDmChannel,
+      channelPermissionBits: channelPermissionBits,
+      builder:
+          (
+            BuildContext context,
+            MessageRenderSettings messageRenderSettings,
+            ({
+              bool canSendMessages,
+              bool canAddReactions,
+              bool canPinMessage,
+              bool canManageMessages,
+            })
+            channelActions,
+          ) {
+            final Widget body;
+            if (isLoading && messages.isEmpty) {
+              body = Center(
+                child: ChatLoadingSpinner(
+                  reason: ChatSpinnerReason.listLoading,
+                  color: context.colors.brandPrimary,
+                ),
+              );
+            } else if (messageLoadFailed && messages.isEmpty) {
+              final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+              body = Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      PhosphorIcon(
+                        PhosphorIconsFill.warningCircle,
+                        size: 48,
+                        color: context.colors.textPrimaryMuted,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        l10n.chatMessagesLoadError,
+                        style: context.textStyles.bodySmall.copyWith(
+                          color: context.colors.textPrimaryMuted,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      FluxerButton.primary(
+                        label: l10n.retry,
+                        onPressed: () => unawaited(
+                          ref
+                              .read(chatViewModelProvider.notifier)
+                              .retryLoadMessages(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else if (messages.isEmpty) {
+              if (isPersonalNotesChannel) {
+                body = const PersonalNotesWelcomeSection();
+              } else if (channelRow != null) {
+                body = Align(
+                  alignment: Alignment.bottomLeft,
+                  child: ChannelWelcomeSection(
+                    channel: channelRow,
+                    effectivePermissionBits: channelPermissionBits,
+                  ),
+                );
+              } else {
+                body = Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      PhosphorIcon(
+                        PhosphorIconsFill.chatCircleDots,
+                        size: 48,
+                        color: context.colors.textPrimaryMuted,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'No messages yet',
+                        style: TextStyle(
+                          color: context.colors.textPrimaryMuted,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Be the first to send a message!',
+                        style: TextStyle(
+                          color: context.colors.textTertiaryMuted,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            } else {
+              body = _buildMessageListView(
+                context: context,
+                messages: messages,
+                visualUnreadId: visualUnreadId,
+                highlightedMessageId: highlightedMessageId,
+                currentUserId: currentUserId,
+                isDmChannel: isDmChannel,
+                guildId: guildId,
+                channelPermissionBits: channelPermissionBits,
+                channelCanSendMessages: channelActions.canSendMessages,
+                channelCanAddReactions: channelActions.canAddReactions,
+                channelCanPinMessage: channelActions.canPinMessage,
+                channelCanManageMessages: channelActions.canManageMessages,
+                renderSettings: messageRenderSettings,
+                isLoadingMore: isLoadingMore,
+                isLoadingNewer: isLoadingNewer,
+                startOfChannelHeader: startOfChannelHeader,
+              );
+            }
 
-    final bool showUnreadBar =
-        !isLoading && messages.isNotEmpty && showUnreadBarEligible;
-    final Widget scaledBody = Stack(
-      fit: StackFit.expand,
-      children: [
-        body,
-        if (showUnreadBar)
-          Positioned(
-            top: 8,
-            left: 12,
-            right: 12,
-            child: _buildNewMessagesBar(
-              context,
-              count: unreadCount,
-              isEstimated: unreadSummary.isEstimated,
-              since: unreadSince,
-              onTap: _onUnreadBarTap,
-            ),
-          ),
-      ],
+            final double scaleRatio = chatFontSize / 16.0;
+            final bool showUnreadBar =
+                !isLoading && messages.isNotEmpty && showUnreadBarEligible;
+            final Widget scaledBody = Stack(
+              fit: StackFit.expand,
+              children: [
+                body,
+                if (showUnreadBar)
+                  Positioned(
+                    top: 8,
+                    left: 12,
+                    right: 12,
+                    child: _buildNewMessagesBar(
+                      context,
+                      count: unreadCount,
+                      isEstimated: unreadSummary.isEstimated,
+                      since: unreadSince,
+                      onTap: _onUnreadBarTap,
+                    ),
+                  ),
+              ],
+            );
+
+            return _ChatTextScale(scaleRatio: scaleRatio, child: scaledBody);
+          },
     );
-
-    return _ChatTextScale(scaleRatio: scaleRatio, child: scaledBody);
   }
 
   DateTime? _messageTimestamp(List<Message> messages, String? messageId) {
@@ -1158,6 +1185,90 @@ class _MessageListState extends ConsumerState<MessageList> {
         ],
       ),
     );
+  }
+}
+
+/// User settings and channel permission watches isolated from the message list
+/// body so read-state and message updates do not rebuild settings providers.
+class _MessageListSettingsLayer extends ConsumerWidget {
+  const _MessageListSettingsLayer({
+    required this.channelId,
+    required this.isDmChannel,
+    required this.channelPermissionBits,
+    required this.builder,
+  });
+
+  final String channelId;
+  final bool isDmChannel;
+  final int? channelPermissionBits;
+  final Widget Function(
+    BuildContext context,
+    MessageRenderSettings settings,
+    ({
+      bool canSendMessages,
+      bool canAddReactions,
+      bool canPinMessage,
+      bool canManageMessages,
+    })
+    channelActions,
+  )
+  builder;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ChannelMessagePermissions channelMessagePerms = channelId.isEmpty
+        ? ChannelMessagePermissions.unresolved
+        : channelMessagePermissionsForComposer(
+            ref.watch(channelMessagePermissionsProvider(channelId)),
+          );
+    final DmConversation? dmConversation = ref.watch(
+      dmViewModelProvider.select((DmViewState dmState) {
+        return findDmById(dmState.conversations, channelId);
+      }),
+    );
+    final bool interactionsBlocked =
+        dmConversation != null && isSystemDmConversation(dmConversation);
+    final RenderSpoilers renderSpoilers = ref.watch(
+      userSettingsViewModelProvider.select((s) => s.renderSpoilers),
+    );
+    final MessageRenderSettings settings = MessageRenderSettings(
+      activeGuildId: ref.watch(activeGuildIdProvider),
+      renderEmbeds: ref.watch(
+        userSettingsViewModelProvider.select((s) => s.renderEmbeds),
+      ),
+      renderReactions: ref.watch(
+        userSettingsViewModelProvider.select((s) => s.renderReactions),
+      ),
+      inlineAttachmentMedia: ref.watch(
+        userSettingsViewModelProvider.select((s) => s.inlineAttachmentMedia),
+      ),
+      renderSpoilers: renderSpoilers,
+      revealSpoilers: switch (renderSpoilers) {
+        RenderSpoilers.always => true,
+        RenderSpoilers.ifModerator =>
+          channelId.isNotEmpty &&
+              (ref.watch(spoilerAutoRevealProvider(channelId)).value ?? false),
+        RenderSpoilers.onClick || RenderSpoilers.$unknown => false,
+      },
+      chatPreferences: ref.watch(chatPreferencesProvider),
+    );
+    return builder(context, settings, (
+      canSendMessages: channelMessagePerms.canSendMessages,
+      canAddReactions: canAddReactionsInChannel(
+        isDmChannel: isDmChannel,
+        channelPermissionBits: channelPermissionBits,
+        interactionsBlocked: interactionsBlocked,
+      ),
+      canPinMessage: canPinMessageInChannel(
+        isDmChannel: isDmChannel,
+        channelPermissionBits: channelPermissionBits,
+        interactionsBlocked: interactionsBlocked,
+      ),
+      canManageMessages: canManageMessagesInChannel(
+        isDmChannel: isDmChannel,
+        channelPermissionBits: channelPermissionBits,
+      ),
+    ));
   }
 }
 

@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -26,11 +28,23 @@ class _NoopUserSettingsSyncService extends UserSettingsSyncService {
   _NoopUserSettingsSyncService(super.ref);
 
   @override
-  Future<void> pushTheme(UserThemeType theme) async {}
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) async {}
 
   @override
   Future<UserSettingsResponse> fetchCurrentSettings() async =>
       _settingsResponseWithTheme('dark');
+}
+
+class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
+  // The superclass forwarding parameter is private outside its library.
+  // ignore: use_super_parameters
+  _InertSyncedPreferencesStore(Ref ref) : super(ref);
+
+  @override
+  void markDirty(SyncedPreferenceField field) {}
+
+  @override
+  void scheduleFlush() {}
 }
 
 class _BlockingUserSettingsSyncService extends UserSettingsSyncService {
@@ -43,7 +57,7 @@ class _BlockingUserSettingsSyncService extends UserSettingsSyncService {
   void release() => _gate?.complete();
 
   @override
-  Future<void> pushTheme(UserThemeType theme) async {
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) async {
     final gate = _gate;
     if (gate != null) {
       await gate.future;
@@ -59,7 +73,7 @@ class _FailingUserSettingsSyncService extends UserSettingsSyncService {
   _FailingUserSettingsSyncService(super.ref);
 
   @override
-  Future<void> pushTheme(UserThemeType theme) =>
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) =>
       Future<void>.error(StateError('PATCH refused'));
 
   @override
@@ -71,7 +85,7 @@ class _LightThemeUserSettingsSyncService extends UserSettingsSyncService {
   _LightThemeUserSettingsSyncService(super.ref);
 
   @override
-  Future<void> pushTheme(UserThemeType theme) async {}
+  Future<void> pushTheme(UserSettingsUpdateRequestThemeTheme theme) async {}
 
   @override
   Future<UserSettingsResponse> fetchCurrentSettings() async =>
@@ -199,6 +213,9 @@ void main() {
       overrides: [
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
+        syncedPreferencesStoreProvider.overrideWith(
+          _InertSyncedPreferencesStore.new,
+        ),
       ],
     );
     addTearDown(container.dispose);
@@ -241,6 +258,9 @@ void main() {
       overrides: [
         fluxerDatabaseProvider.overrideWithValue(db),
         userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
+        syncedPreferencesStoreProvider.overrideWith(
+          _InertSyncedPreferencesStore.new,
+        ),
       ],
     );
     addTearDown(container.dispose);
@@ -283,6 +303,9 @@ void main() {
       container.read(appearancePreferencesProvider).showFavorites,
       isFalse,
     );
+
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pump();
   });
 
   test('setTheme blocks subsequent taps while a PATCH is in flight', () async {
@@ -440,38 +463,44 @@ void main() {
     },
   );
 
-  test('load resets to defaults when the user has no local preferences', () async {
-    await db.userPreferencesDao.savePreferences(
-      const UserPreferencesTableCompanion(
-        userId: Value('user-a'),
-        theme: Value('light'),
-        syncAcrossDevices: Value(false),
-      ),
-    );
+  test(
+    'load resets to defaults when the user has no local preferences',
+    () async {
+      await db.userPreferencesDao.savePreferences(
+        const UserPreferencesTableCompanion(
+          userId: Value('user-a'),
+          theme: Value('light'),
+          syncAcrossDevices: Value(false),
+        ),
+      );
 
-    final container = ProviderContainer(
-      overrides: [
-        fluxerDatabaseProvider.overrideWithValue(db),
-        userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
-      ],
-    );
-    addTearDown(container.dispose);
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          userSettingsSyncProvider.overrideWith(
+            _NoopUserSettingsSyncService.new,
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
 
-    final ThemePreference notifier =
-        container.read(themePreferenceProvider.notifier);
-    await notifier.load('user-a');
-    expect(
-      container.read(themePreferenceProvider).mode,
-      FluxerThemeMode.light,
-    );
+      final ThemePreference notifier = container.read(
+        themePreferenceProvider.notifier,
+      );
+      await notifier.load('user-a');
+      expect(
+        container.read(themePreferenceProvider).mode,
+        FluxerThemeMode.light,
+      );
 
-    await notifier.load('user-b');
+      await notifier.load('user-b');
 
-    expect(
-      container.read(themePreferenceProvider).mode,
-      FluxerThemeMode.dark,
-    );
-  });
+      expect(
+        container.read(themePreferenceProvider).mode,
+        FluxerThemeMode.dark,
+      );
+    },
+  );
 
   test('load applies stored preferences for the target user', () async {
     await db.userPreferencesDao.savePreferences(
@@ -497,15 +526,13 @@ void main() {
     );
     addTearDown(container.dispose);
 
-    final ThemePreference notifier =
-        container.read(themePreferenceProvider.notifier);
+    final ThemePreference notifier = container.read(
+      themePreferenceProvider.notifier,
+    );
     await notifier.load('user-a');
     await notifier.load('user-b');
 
-    expect(
-      container.read(themePreferenceProvider).mode,
-      FluxerThemeMode.coal,
-    );
+    expect(container.read(themePreferenceProvider).mode, FluxerThemeMode.coal);
   });
 
   test('load clears inflightTheme from the previous user', () async {
@@ -522,8 +549,9 @@ void main() {
     await db.userPreferencesDao.savePreferences(
       const UserPreferencesTableCompanion(userId: Value('user-a')),
     );
-    final ThemePreference notifier =
-        container.read(themePreferenceProvider.notifier);
+    final ThemePreference notifier = container.read(
+      themePreferenceProvider.notifier,
+    );
     await notifier.load('user-a');
     unawaited(notifier.setTheme(FluxerThemeMode.coal));
     expect(
@@ -534,59 +562,64 @@ void main() {
     await notifier.load('user-b');
 
     expect(container.read(themePreferenceProvider).inflightTheme, isNull);
-    expect(
-      container.read(themePreferenceProvider).mode,
-      FluxerThemeMode.dark,
-    );
+    expect(container.read(themePreferenceProvider).mode, FluxerThemeMode.dark);
   });
 
-  test('load fetches the server theme when sync across devices is enabled', () async {
-    final container = ProviderContainer(
-      overrides: [
-        fluxerDatabaseProvider.overrideWithValue(db),
-        userSettingsSyncProvider.overrideWith(
-          _LightThemeUserSettingsSyncService.new,
+  test(
+    'load fetches the server theme when sync across devices is enabled',
+    () async {
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          userSettingsSyncProvider.overrideWith(
+            _LightThemeUserSettingsSyncService.new,
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final ThemePreference notifier = container.read(
+        themePreferenceProvider.notifier,
+      );
+      await notifier.load('user-a');
+
+      expect(
+        container.read(themePreferenceProvider).mode,
+        FluxerThemeMode.light,
+      );
+    },
+  );
+
+  test(
+    'load skips server theme fetch when sync across devices is disabled',
+    () async {
+      await db.userPreferencesDao.savePreferences(
+        const UserPreferencesTableCompanion(
+          userId: Value('user-a'),
+          theme: Value('coal'),
+          syncAcrossDevices: Value(false),
         ),
-      ],
-    );
-    addTearDown(container.dispose);
+      );
 
-    final ThemePreference notifier =
-        container.read(themePreferenceProvider.notifier);
-    await notifier.load('user-a');
+      final container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          userSettingsSyncProvider.overrideWith(
+            _LightThemeUserSettingsSyncService.new,
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
 
-    expect(
-      container.read(themePreferenceProvider).mode,
-      FluxerThemeMode.light,
-    );
-  });
+      final ThemePreference notifier = container.read(
+        themePreferenceProvider.notifier,
+      );
+      await notifier.load('user-a');
 
-  test('load skips server theme fetch when sync across devices is disabled', () async {
-    await db.userPreferencesDao.savePreferences(
-      const UserPreferencesTableCompanion(
-        userId: Value('user-a'),
-        theme: Value('coal'),
-        syncAcrossDevices: Value(false),
-      ),
-    );
-
-    final container = ProviderContainer(
-      overrides: [
-        fluxerDatabaseProvider.overrideWithValue(db),
-        userSettingsSyncProvider.overrideWith(
-          _LightThemeUserSettingsSyncService.new,
-        ),
-      ],
-    );
-    addTearDown(container.dispose);
-
-    final ThemePreference notifier =
-        container.read(themePreferenceProvider.notifier);
-    await notifier.load('user-a');
-
-    expect(
-      container.read(themePreferenceProvider).mode,
-      FluxerThemeMode.coal,
-    );
-  });
+      expect(
+        container.read(themePreferenceProvider).mode,
+        FluxerThemeMode.coal,
+      );
+    },
+  );
 }

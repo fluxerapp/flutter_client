@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,7 +24,9 @@ void main() {
         ),
       );
 
-      homeBranchNavigatorKey.currentState!.push(_FakePopupRoute<void>());
+      unawaited(
+        homeBranchNavigatorKey.currentState!.push(_FakePopupRoute<void>()),
+      );
       await tester.pumpAndSettle();
       expect(states, contains(true));
 
@@ -97,7 +101,7 @@ void main() {
       );
 
       final Route<void> popupRoute = _FakePopupRoute<void>();
-      homeBranchNavigatorKey.currentState!.push(popupRoute);
+      unawaited(homeBranchNavigatorKey.currentState!.push(popupRoute));
       await tester.pumpAndSettle();
       expect(states, contains(true));
 
@@ -122,11 +126,15 @@ void main() {
       );
 
       final NavigatorState navigator = homeBranchNavigatorKey.currentState!;
-      navigator.push(_FakePopupRoute<void>());
+      final Future<void> firstPush = navigator.push(_FakePopupRoute<void>());
+      unawaited(firstPush);
       await tester.pumpAndSettle();
       expect(states, contains(true));
 
-      navigator.pushReplacement(_FakePopupRoute<void>());
+      final Future<void> replacementPush = navigator.pushReplacement(
+        _FakePopupRoute<void>(),
+      );
+      unawaited(replacementPush);
       await tester.pumpAndSettle();
       expect(states.last, isTrue);
     });

@@ -438,8 +438,9 @@ class VoiceMessageRecordingService {
       return;
     }
     final int tailLength = capacity - writeHeadBytes;
-    into.setRange(0, tailLength, ring, writeHeadBytes);
-    into.setRange(tailLength, capacity, ring, 0);
+    into
+      ..setRange(0, tailLength, ring, writeHeadBytes)
+      ..setRange(tailLength, capacity, ring, 0);
   }
 }
 

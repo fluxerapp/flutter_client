@@ -25,7 +25,7 @@ void main() {
     });
 
     test('returns active status with emoji id only', () {
-      final CustomStatusResponse active = CustomStatusResponse(
+      const CustomStatusResponse active = CustomStatusResponse(
         emojiId: '123456789',
         emojiAnimated: true,
       );
@@ -43,10 +43,7 @@ void main() {
 
     test('stores json for custom emoji status', () {
       final String? stored = serializeCustomStatus(
-        const CustomStatusResponse(
-          emojiId: '123456789',
-          emojiAnimated: true,
-        ),
+        const CustomStatusResponse(emojiId: '123456789', emojiAnimated: true),
       );
       expect(stored, isNotNull);
       expect(stored!.startsWith('{'), isTrue);
@@ -93,10 +90,7 @@ void main() {
       expect(
         hasVisibleCustomStatus(
           serializeCustomStatus(
-            const CustomStatusResponse(
-              emojiId: '42',
-              emojiAnimated: false,
-            ),
+            const CustomStatusResponse(emojiId: '42', emojiAnimated: false),
           ),
         ),
         isTrue,

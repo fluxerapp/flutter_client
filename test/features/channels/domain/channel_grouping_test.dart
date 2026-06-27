@@ -58,10 +58,7 @@ void main() {
       _channel('a', position: 5),
     ]);
 
-    expect(categories.single.channels.map((channel) => channel.id), [
-      'a',
-      'b',
-    ]);
+    expect(categories.single.channels.map((channel) => channel.id), ['a', 'b']);
   });
 
   test('orders category headers by position', () {

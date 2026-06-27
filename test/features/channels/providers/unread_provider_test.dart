@@ -97,11 +97,7 @@ Future<void> _seedUnreadChannel({
     ),
   ]);
   await db.channelDao.upsertChannel(
-    ChannelsCompanion.insert(
-      id: channelId,
-      guildId: guildId,
-      name: 'general',
-    ),
+    ChannelsCompanion.insert(id: channelId, guildId: guildId, name: 'general'),
   );
   await db.channelDao.setLastMessageId(channelId, lastMessageId);
   await db.readStateDao.upsertReadState(
@@ -136,11 +132,7 @@ ProviderContainer _container({
       ),
       guildListViewModelProvider.overrideWith(
         () => _FixedGuildListViewModel([
-          Guild(
-            id: guildId,
-            name: 'Guild',
-            ownerId: 'owner',
-          ),
+          Guild(id: guildId, name: 'Guild', ownerId: 'owner'),
         ]),
       ),
     ],
@@ -171,11 +163,7 @@ void main() {
         includeMember: false,
       );
 
-      final container = _container(
-        db: db,
-        userId: userId,
-        guildId: guildId,
-      );
+      final container = _container(db: db, userId: userId, guildId: guildId);
       addTearDown(container.dispose);
       container.read(gatewayReadyProvider.notifier).setReady();
 
@@ -220,11 +208,7 @@ void main() {
         includeMember: false,
       );
 
-      final container = _container(
-        db: db,
-        userId: userId,
-        guildId: guildId,
-      );
+      final container = _container(db: db, userId: userId, guildId: guildId);
       addTearDown(container.dispose);
       container.read(gatewayReadyProvider.notifier).setReady();
 
@@ -282,11 +266,7 @@ void main() {
         ackId: ackId,
       );
 
-      final container = _container(
-        db: db,
-        userId: userId,
-        guildId: guildId,
-      );
+      final container = _container(db: db, userId: userId, guildId: guildId);
       addTearDown(container.dispose);
       container.read(gatewayReadyProvider.notifier).setReady();
 

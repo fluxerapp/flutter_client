@@ -36,7 +36,7 @@ class VoiceChannelControlBar extends ConsumerWidget {
       bool isConnected,
       String? connectionId,
       String? channelId,
-      String? guildId
+      String? guildId,
     ) = ref.watch(
       voiceSessionProvider.select(
         (VoiceSessionState s) => (
@@ -73,9 +73,7 @@ class VoiceChannelControlBar extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: context.colors.backgroundFloating,
                 borderRadius: BorderRadius.circular(36),
-                border: Border.all(
-                  color: const Color(0x14FFFFFF),
-                ),
+                border: Border.all(color: const Color(0x14FFFFFF)),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.22),
@@ -85,7 +83,10 @@ class VoiceChannelControlBar extends ConsumerWidget {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
@@ -139,15 +140,15 @@ class VoiceChannelControlBar extends ConsumerWidget {
                       tooltip: l10n.voiceControlVideo,
                       icon: PhosphorIconsFill.videoCamera,
                       toggled: isVideoOn,
-                    onPressed: isConnected
-                        ? () {
-                            unawaited(
-                              ref
-                                  .read(voiceSessionProvider.notifier)
-                                  .toggleSelfVideo(),
-                            );
-                          }
-                        : null,
+                      onPressed: isConnected
+                          ? () {
+                              unawaited(
+                                ref
+                                    .read(voiceSessionProvider.notifier)
+                                    .toggleSelfVideo(),
+                              );
+                            }
+                          : null,
                     ),
                     if (canScreenShare)
                       _VoiceControlCircle(
@@ -158,18 +159,18 @@ class VoiceChannelControlBar extends ConsumerWidget {
                         tooltip: l10n.voiceControlScreenShare,
                         icon: PhosphorIconsFill.monitor,
                         toggled: isScreenSharing,
-                      onPressed: isConnected
-                          ? () {
-                              unawaited(
-                                ref
-                                    .read(voiceSessionProvider.notifier)
-                                    .toggleSelfStream(
-                                      screenShareNotificationText: l10n
-                                          .voiceScreenShareNotificationText,
-                                    ),
-                              );
-                            }
-                          : null,
+                        onPressed: isConnected
+                            ? () {
+                                unawaited(
+                                  ref
+                                      .read(voiceSessionProvider.notifier)
+                                      .toggleSelfStream(
+                                        screenShareNotificationText: l10n
+                                            .voiceScreenShareNotificationText,
+                                      ),
+                                );
+                              }
+                            : null,
                       ),
                     _VoiceControlCircle(
                       size: _kControlSize,
@@ -249,10 +250,7 @@ class _VoiceControlCircleState extends State<_VoiceControlCircle> {
         curve: Curves.easeOut,
         width: widget.size,
         height: widget.size,
-        decoration: BoxDecoration(
-          color: widget.color,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: widget.color, shape: BoxShape.circle),
         child: Center(
           child: ExcludeSemantics(
             child: PhosphorIcon(
@@ -287,7 +285,11 @@ class _VoiceControlCircleState extends State<_VoiceControlCircle> {
 }
 
 class ChatButton extends ConsumerWidget {
-  const ChatButton({required this.channelId, required this.channelName, super.key});
+  const ChatButton({
+    required this.channelId,
+    required this.channelName,
+    super.key,
+  });
 
   final String channelId;
   final String? channelName;

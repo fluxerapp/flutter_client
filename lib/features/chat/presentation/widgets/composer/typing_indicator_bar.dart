@@ -3,13 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/typing_indicator_text.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_stack.dart';
-import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
@@ -129,8 +130,9 @@ class _TypingPill extends ConsumerWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          RepaintBoundary(
-            child: FluxerLoadingSpinner(color: colors.textSecondary),
+          ChatLoadingSpinner(
+            reason: ChatSpinnerReason.typing,
+            color: colors.textSecondary,
           ),
           const SizedBox(width: 8),
           FluxerAvatarStack(

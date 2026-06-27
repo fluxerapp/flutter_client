@@ -126,7 +126,7 @@ void main() {
       expect(url, 'https://cdn.example.com/video.mp4');
     });
 
-    test('throws when no URL is available', () async {
+    test('throws when no URL is available', () {
       const ChatVideoSource source = ChatVideoSource(fallbackUrl: '');
       expect(resolvePlaybackUrl(source), throwsA(isA<StateError>()));
     });

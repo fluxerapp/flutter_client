@@ -46,7 +46,9 @@ Object? _tryJsonDecode(String raw) {
 
 PushMessage _mapJsonPayload(Map<String, Object?> json, String fallbackId) {
   final Map<String, Object?> data = _readObjectMap(json['data']);
-  final Map<String, Object?> notification = _readObjectMap(json['notification']);
+  final Map<String, Object?> notification = _readObjectMap(
+    json['notification'],
+  );
   final Map<String, Object?> notificationData = _readObjectMap(
     notification['data'],
   );

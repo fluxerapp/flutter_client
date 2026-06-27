@@ -450,11 +450,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                           SizedBox(height: layout.s6),
                           const Center(child: FluxerLoadingSpinner()),
                         ],
-                        if (!state.isPerGuildProfile &&
-                            state.isOutOfBandTrialActive) ...[
-                          SizedBox(height: layout.s6),
-                          _buildPremiumTrialBanner(state, layout),
-                        ],
                         if (!state.isPerGuildProfile) ...[
                           SizedBox(height: layout.s6),
                           _buildUsernameSection(state, layout, l10n),
@@ -936,79 +931,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           ),
         ],
       ],
-    );
-  }
-
-  Widget _buildPremiumTrialBanner(
-    UserSettingsViewState state,
-    FluxerLayoutTheme layout,
-  ) {
-    final colors = context.colors;
-    final textStyles = context.textStyles;
-    final l10n = FluxerLocalizations.of(context);
-
-    final expiryDate = state.premiumOutOfBandTrialEndsAt;
-    final expiryLabel = expiryDate != null
-        ? DateFormat.yMMMd().format(expiryDate)
-        : null;
-    final hasActiveSubscription = state.premiumBillingCycle != null;
-
-    final String title;
-    final String? description;
-
-    if (hasActiveSubscription && expiryLabel != null) {
-      title = l10n.premiumTrialSubscriptionStarts(expiryLabel);
-      description = l10n.premiumTrialSubscriptionStartsDescription;
-    } else {
-      title = expiryLabel != null
-          ? l10n.premiumTrialExpiresOnProfile(expiryLabel)
-          : l10n.premiumTrialActiveProfile;
-      description = null;
-    }
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.brandPrimary,
-        borderRadius: layout.radiusMd,
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(layout.s3),
-        child: Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: layout.s3),
-              child: PhosphorIcon(
-                PhosphorIconsFill.crown,
-                size: 32,
-                color: colors.textOnBrandPrimary,
-              ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: textStyles.bodySmall.copyWith(
-                      color: colors.textOnBrandPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  if (description != null) ...[
-                    SizedBox(height: layout.s1),
-                    Text(
-                      description,
-                      style: textStyles.bodySmall.copyWith(
-                        color: colors.textOnBrandPrimary.withValues(alpha: 0.9),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

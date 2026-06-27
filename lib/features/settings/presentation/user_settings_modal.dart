@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_nav.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_accessibility.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_advanced_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_appearance.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_authorized_apps.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_blocked_users.dart';
@@ -520,6 +521,10 @@ Widget _buildUserSettingsSectionContent({
       return scrollController == null
           ? const UserConnections()
           : UserConnections(scrollController: scrollController);
+    case UserSettingsSection.advanced:
+      return scrollController == null
+          ? const UserAdvancedSettings()
+          : UserAdvancedSettings(scrollController: scrollController);
     // case UserSettingsSection.fluxerPlutonium:
     // case UserSettingsSection.giftsAndCodes:
     case UserSettingsSection.expressionPacks:
@@ -527,7 +532,6 @@ Widget _buildUserSettingsSectionContent({
     case UserSettingsSection.keybinds:
     case UserSettingsSection.soundsAndAlerts:
     case UserSettingsSection.languageAndTime:
-    case UserSettingsSection.advanced:
     case UserSettingsSection.applications:
     case UserSettingsSection.developerTools:
     case UserSettingsSection.limitsConfig:

@@ -19,15 +19,18 @@ class FluxerRadioGroup<T> extends StatelessWidget {
   const FluxerRadioGroup({
     required this.value,
     required this.items,
-    required this.onChanged,
+    required ValueChanged<T> onChanged,
     this.label,
     this.direction = Axis.vertical,
     super.key,
-  });
+  }) : _onChanged = onChanged;
+
+  // The generic callback keeps radio values strongly typed for callers.
+  // ignore: unsafe_variance
+  final ValueChanged<T> _onChanged;
 
   final T? value;
   final List<FluxerRadioItem<T>> items;
-  final ValueChanged<T> onChanged;
   final String? label;
   final Axis direction;
 
@@ -53,11 +56,7 @@ class FluxerRadioGroup<T> extends StatelessWidget {
       children: [
         FluxerFieldLabel(label!),
         SizedBox(height: layout.s2),
-        Semantics(
-          container: true,
-          label: label,
-          child: group,
-        ),
+        Semantics(container: true, label: label, child: group),
       ],
     );
   }
@@ -69,11 +68,11 @@ class FluxerRadioGroup<T> extends StatelessWidget {
       checked: isSelected,
       inMutuallyExclusiveGroup: true,
       label: item.label,
-      onTap: () => onChanged(item.value),
+      onTap: () => _onChanged(item.value),
       child: ExcludeSemantics(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: () => onChanged(item.value),
+          onTap: () => _onChanged(item.value),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

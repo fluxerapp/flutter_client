@@ -22,11 +22,11 @@ Raw<void> ackBatcherGatewayListener(Ref ref) {
     }
   });
 
-  ref.listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
-    if (next > 0 && previous != next) {
-      unawaited(batcher.flushPending(force: true));
-    }
-  });
-
-  ref.onDispose(subscription.cancel);
+  ref
+    ..listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
+      if (next > 0 && previous != next) {
+        unawaited(batcher.flushPending(force: true));
+      }
+    })
+    ..onDispose(subscription.cancel);
 }

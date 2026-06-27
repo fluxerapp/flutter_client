@@ -36,8 +36,7 @@ class FluxerListRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasSubtitleWidget = subtitleWidget != null;
     final hasSubtitle =
-        hasSubtitleWidget ||
-        (subtitle != null && subtitle!.trim().isNotEmpty);
+        hasSubtitleWidget || (subtitle != null && subtitle!.trim().isNotEmpty);
     final adornments = titleAdornments ?? const <Widget>[];
     final belowTags = tagsBelowTitle ?? const <Widget>[];
 

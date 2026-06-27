@@ -49,7 +49,7 @@ class _PhoneAddSheetState extends ConsumerState<PhoneAddSheet> {
   }
 
   Future<void> _handleSendCode() async {
-    // TODO: Switch phone verification flow to WhatsApp verification flow.
+    // TODO(Elias): Restore phone verification flow when backend support is ready.
     final phone = _e164Phone;
     if (phone.length < 4) {
       return;
@@ -58,12 +58,14 @@ class _PhoneAddSheetState extends ConsumerState<PhoneAddSheet> {
     ref
         .read(toastProvider.notifier)
         .show(
-          const FluxerToast(message: 'WhatsApp verification is coming soon.'),
+          const FluxerToast(
+            message: 'Phone verification is not available yet.',
+          ),
         );
   }
 
   Future<void> _handleVerify() async {
-    // TODO: Switch phone verification flow to WhatsApp verification flow.
+    // TODO(Elias): Restore phone verification flow when backend support is ready.
     final code = _codeController.text.trim();
     if (code.isEmpty) {
       return;
@@ -71,7 +73,9 @@ class _PhoneAddSheetState extends ConsumerState<PhoneAddSheet> {
     ref
         .read(toastProvider.notifier)
         .show(
-          const FluxerToast(message: 'WhatsApp verification is coming soon.'),
+          const FluxerToast(
+            message: 'Phone verification is not available yet.',
+          ),
         );
   }
 

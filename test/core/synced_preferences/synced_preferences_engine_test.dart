@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_engine.dart';

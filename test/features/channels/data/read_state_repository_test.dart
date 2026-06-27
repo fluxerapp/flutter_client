@@ -447,6 +447,135 @@ void main() {
     expect(readState?.stickyUnreadMessageId, null);
     expect(readState?.manual, isFalse);
   });
+
+  test('recomputeMentionsForUnreadOrMentionedChannels drops blocked author '
+      'mentions', () async {
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+    addTearDown(db.close);
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+    await db.messageDao.upsertMessages([
+      _message(id: ackId, channelId: 'channel-1', authorId: 'me'),
+      _message(
+        id: mentionId,
+        channelId: 'channel-1',
+        authorId: 'spammer',
+        isMentioned: true,
+      ),
+    ]);
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(1),
+      ),
+    );
+    await db.relationshipDao.upsertRelationships([
+      RelationshipsCompanion.insert(userId: 'spammer', type: 2),
+    ]);
+
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
+    await ReadStateRepository(
+      FluxerClient(dio),
+      db,
+    ).recomputeMentionsForUnreadOrMentionedChannels(currentUserId: 'me');
+
+    final readState = await db.readStateDao.getReadState('channel-1');
+    expect(readState?.mentionCount, 0);
+  });
+
+  test('recomputeMentionsAfterBackfill keeps the larger stored count on an '
+      'incomplete cache', () async {
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+    final m1 = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final m2 = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
+    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+    addTearDown(db.close);
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(5),
+      ),
+    );
+    await db.messageDao.upsertMessages([
+      _message(
+        id: m1,
+        channelId: 'channel-1',
+        authorId: 'other',
+        isMentioned: true,
+      ),
+      _message(
+        id: m2,
+        channelId: 'channel-1',
+        authorId: 'other',
+        isMentioned: true,
+      ),
+    ]);
+
+    await ReadStateRepository(
+      FluxerClient(dio),
+      db,
+    ).recomputeMentionsAfterBackfill(
+      channelId: 'channel-1',
+      currentUserId: 'me',
+    );
+
+    final readState = await db.readStateDao.getReadState('channel-1');
+    expect(readState?.mentionCount, 5);
+  });
+
+  test(
+    'unblock restores mentions in an unread channel with no current count',
+    () async {
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
+      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(mentionId),
+        ),
+      );
+      await db.messageDao.upsertMessages([
+        _message(id: ackId, channelId: 'channel-1', authorId: 'me'),
+        _message(
+          id: mentionId,
+          channelId: 'channel-1',
+          authorId: 'friend',
+          isMentioned: true,
+        ),
+      ]);
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(0),
+        ),
+      );
+
+      // Author just unblocked: the channel is unread with a zero mention count.
+      await ReadStateRepository(
+        FluxerClient(dio),
+        db,
+      ).recomputeMentionsForUnreadOrMentionedChannels(currentUserId: 'me');
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(readState?.mentionCount, 1);
+    },
+  );
 }
 
 class _RecordingAdapter implements HttpClientAdapter {

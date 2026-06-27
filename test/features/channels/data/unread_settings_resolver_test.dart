@@ -9,10 +9,7 @@ const String _guildId = 'guild';
 const String _channelId = 'channel';
 const String _categoryId = 'category';
 
-Future<Channel> _channel({
-  String id = _channelId,
-  String? parentId,
-}) async {
+Future<Channel> _channel({String id = _channelId, String? parentId}) async {
   final FluxerDatabase db = FluxerDatabase.forTesting(NativeDatabase.memory());
   await db.channelDao.upsertChannel(
     ChannelsCompanion.insert(
@@ -70,9 +67,7 @@ void main() {
       final Channel channel = await _channel();
       final UserNotificationSettings? level = resolveGuildUnreadBadgesLevel(
         channel: channel,
-        guildSettings: _settings(
-          muted: true,
-        ),
+        guildSettings: _settings(muted: true),
         unreadBadgeCustomizationEnabled: true,
       );
       expect(level, UserNotificationSettings.noMessages);
@@ -82,9 +77,7 @@ void main() {
       final Channel channel = await _channel();
       final UserNotificationSettings? level = resolveGuildUnreadBadgesLevel(
         channel: channel,
-        guildSettings: _settings(
-          
-        ),
+        guildSettings: _settings(),
         unreadBadgeCustomizationEnabled: true,
       );
       expect(level, UserNotificationSettings.allMessages);
@@ -117,22 +110,25 @@ void main() {
   });
 
   group('resolveUnreadBadgesLevel', () {
-    test('ignores explicit unread badges when customization is disabled', () async {
-      final Channel channel = await _channel();
-      final UserNotificationSettings? level = resolveUnreadBadgesLevel(
-        channel: channel,
-        guildSettings: _settings(
-          messageNotifications: UserNotificationSettings.onlyMentions,
-          unreadBadges: UserNotificationSettings.allMessages,
-          channelOverrides: <String, ChannelOverrides>{
-            _channelId: _override(
-              unreadBadges: UserNotificationSettings.noMessages,
-            ),
-          },
-        ),
-      );
-      expect(level, isNull);
-    });
+    test(
+      'ignores explicit unread badges when customization is disabled',
+      () async {
+        final Channel channel = await _channel();
+        final UserNotificationSettings? level = resolveUnreadBadgesLevel(
+          channel: channel,
+          guildSettings: _settings(
+            messageNotifications: UserNotificationSettings.onlyMentions,
+            unreadBadges: UserNotificationSettings.allMessages,
+            channelOverrides: <String, ChannelOverrides>{
+              _channelId: _override(
+                unreadBadges: UserNotificationSettings.noMessages,
+              ),
+            },
+          ),
+        );
+        expect(level, isNull);
+      },
+    );
 
     test('honors explicit channel unread badge overrides', () async {
       final Channel channel = await _channel();
@@ -231,32 +227,35 @@ void main() {
       );
     });
 
-    test('falls back to resolved notification levels without explicit badges', () async {
-      final Channel channel = await _channel();
-      expect(
-        shouldShowChannelInUnreadInbox(
-          channel: channel,
-          guildSettings: _settings(
-            messageNotifications: UserNotificationSettings.onlyMentions,
+    test(
+      'falls back to resolved notification levels without explicit badges',
+      () async {
+        final Channel channel = await _channel();
+        expect(
+          shouldShowChannelInUnreadInbox(
+            channel: channel,
+            guildSettings: _settings(
+              messageNotifications: UserNotificationSettings.onlyMentions,
+            ),
+            hasUnread: true,
+            hasMentions: false,
+            now: DateTime.utc(2026, 6, 13),
           ),
-          hasUnread: true,
-          hasMentions: false,
-          now: DateTime.utc(2026, 6, 13),
-        ),
-        isFalse,
-      );
-      expect(
-        shouldShowChannelInUnreadInbox(
-          channel: channel,
-          guildSettings: _settings(
-            messageNotifications: UserNotificationSettings.onlyMentions,
+          isFalse,
+        );
+        expect(
+          shouldShowChannelInUnreadInbox(
+            channel: channel,
+            guildSettings: _settings(
+              messageNotifications: UserNotificationSettings.onlyMentions,
+            ),
+            hasUnread: true,
+            hasMentions: true,
+            now: DateTime.utc(2026, 6, 13),
           ),
-          hasUnread: true,
-          hasMentions: true,
-          now: DateTime.utc(2026, 6, 13),
-        ),
-        isTrue,
-      );
-    });
+          isTrue,
+        );
+      },
+    );
   });
 }

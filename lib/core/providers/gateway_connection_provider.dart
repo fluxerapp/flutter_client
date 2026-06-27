@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

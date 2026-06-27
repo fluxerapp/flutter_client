@@ -146,7 +146,9 @@ class _SheetSectionPill extends StatelessWidget {
             curve: motion.curve,
             style: textStyles.bodySmall.copyWith(
               fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-              color: isActive ? colors.textOnBrandPrimary : colors.textSecondary,
+              color: isActive
+                  ? colors.textOnBrandPrimary
+                  : colors.textSecondary,
             ),
             child: Text(section.label),
           ),

@@ -77,4 +77,37 @@ void main() {
 
     expect(count(container, 'g1', 'A'), 1);
   });
+
+  test('unrelated channel update does not change count for channel A', () {
+    final container = makeContainer();
+    container.read(voiceStatesMapProvider.notifier).updateBulk([
+      voiceState(userId: 'u1', channelId: 'A', guildId: 'g1'),
+      voiceState(userId: 'u2', channelId: 'A', guildId: 'g1'),
+    ]);
+    expect(count(container, 'g1', 'A'), 2);
+
+    container
+        .read(voiceStatesMapProvider.notifier)
+        .update(voiceState(userId: 'u3', channelId: 'B', guildId: 'g1'));
+    expect(count(container, 'g1', 'A'), 2);
+  });
+
+  test('removing a user from a channel decrements count', () {
+    final container = makeContainer();
+    final VoiceState joined = voiceState(
+      userId: 'u1',
+      channelId: 'A',
+      guildId: 'g1',
+      connectionId: 'conn-1',
+    );
+    container.read(voiceStatesMapProvider.notifier).update(joined);
+    expect(count(container, 'g1', 'A'), 1);
+
+    container
+        .read(voiceStatesMapProvider.notifier)
+        .update(
+          VoiceState(userId: 'u1', guildId: 'g1', connectionId: 'conn-1'),
+        );
+    expect(count(container, 'g1', 'A'), 0);
+  });
 }

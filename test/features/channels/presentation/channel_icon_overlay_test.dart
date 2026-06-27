@@ -146,5 +146,25 @@ void main() {
       );
       expect(overlay, equals(ChannelIconAccessOverlay.noConnect));
     });
+
+    test(
+      'returns none for everyone-private voice when connect bits are unknown',
+      () {
+        final String everyoneDenyConnect =
+            '''
+[{"id":"guild-1","type":0,"allow":"0","deny":"${Permission.connect.value}"}]
+''';
+        final overlay = resolveChannelIconAccessOverlay(
+          channel: Channel(
+            id: 'voice-private',
+            guildId: 'guild-1',
+            name: 'Private Voice',
+            type: ChannelType.voice,
+            permissionOverwritesJson: everyoneDenyConnect,
+          ),
+        );
+        expect(overlay, equals(ChannelIconAccessOverlay.none));
+      },
+    );
   });
 }

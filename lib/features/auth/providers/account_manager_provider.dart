@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
-import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/push_account_lifecycle.dart';
@@ -72,11 +71,9 @@ class AccountManager extends _$AccountManager {
         throw const AuthFailure('Session is no longer valid.');
       }
 
-      final InstanceConfigSnapshot instanceSnapshot =
-          await authRepository.resolveInstanceSnapshotForUser(userId);
-      ref
-          .read(activeInstanceProvider.notifier)
-          .applySnapshot(instanceSnapshot);
+      final InstanceConfigSnapshot instanceSnapshot = await authRepository
+          .resolveInstanceSnapshotForUser(userId);
+      ref.read(activeInstanceProvider.notifier).applySnapshot(instanceSnapshot);
 
       // Validate the stored token against the server before switching.
       final isValid = await _validateToken(session.token);
@@ -121,9 +118,7 @@ class AccountManager extends _$AccountManager {
       await Dio(
         BaseOptions(
           baseUrl: baseUrl,
-          headers: {
-            'Authorization': formatSessionAuthorizationHeader(token),
-          },
+          headers: {'Authorization': formatSessionAuthorizationHeader(token)},
           connectTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5),
         ),

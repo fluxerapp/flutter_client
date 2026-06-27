@@ -44,7 +44,8 @@ void main() {
         overrides: [
           wellKnownProvider.overrideWith(_PendingWellKnown.new),
           currentUserLimitContextProvider.overrideWith(
-            (Ref ref) => buildUserLimitContext(traits: const <String>['premium']),
+            (Ref ref) =>
+                buildUserLimitContext(traits: const <String>['premium']),
           ),
           isEffectivelyPremiumProvider.overrideWith((Ref ref) => true),
         ],

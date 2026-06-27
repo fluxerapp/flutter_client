@@ -9,10 +9,7 @@ import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 
-enum LeavePushAccountMode {
-  switchAccount,
-  signOut,
-}
+enum LeavePushAccountMode { switchAccount, signOut }
 
 final class PushAccountLifecycle {
   const PushAccountLifecycle._();

@@ -9,9 +9,10 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/upload_drop_overlay.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
@@ -25,22 +26,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
-import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-bool _isVoiceSessionOnThisChannel(
-  VoiceSessionState s,
-  String guildId,
-  String channelId,
-) {
-  if (!s.isInVoice) {
-    return false;
-  }
-  if (s.channelId != channelId) {
-    return false;
-  }
-  return s.guildId == guildId;
-}
 
 class VoiceChannelPageView extends ConsumerStatefulWidget {
   const VoiceChannelPageView({
@@ -66,7 +52,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
+      if (!mounted || !chatRouteShouldSync(context)) {
         return;
       }
       unawaited(
@@ -82,7 +68,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.channelId != widget.channelId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) {
+        if (!mounted || !chatRouteShouldSync(context)) {
           return;
         }
         unawaited(
@@ -103,27 +89,22 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
         findChannelById(listState, widget.channelId) ??
         ref.watch(channelByIdProvider(widget.channelId)).value;
     final String name = channel?.name ?? '';
-    final bool inThisChannel = ref.watch(
+    final (bool inThisChannel, bool _, bool isConnected) = ref.watch(
       voiceSessionProvider.select(
-        (VoiceSessionState s) =>
-            s.isInVoice &&
-            s.channelId == widget.channelId &&
-            s.guildId == widget.guildId,
+        (VoiceSessionState s) => (
+          s.isInVoice &&
+              s.channelId == widget.channelId &&
+              s.guildId == widget.guildId,
+          s.isConnecting,
+          s.isConnected,
+        ),
       ),
     );
     final bool isMobile = isMobileLayout(context);
     final Widget content = inThisChannel
-        ? _buildConnected(
-            context,
-            channelName: name,
-            participantCount: ref.watch(
-              guildChannelVoiceParticipantCountProvider(
-                widget.guildId,
-                widget.channelId,
-              ),
-            ),
-            isMobile: isMobile,
-          )
+        ? isConnected
+              ? _buildConnected(context, channelName: name, isMobile: isMobile)
+              : _buildConnecting(context, channelName: name, isMobile: isMobile)
         : _buildEmpty(context, channelName: name, isMobile: isMobile);
     if (isMobile) {
       return content;
@@ -274,10 +255,63 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     );
   }
 
+  Widget _buildConnecting(
+    BuildContext context, {
+    required String channelName,
+    required bool isMobile,
+  }) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    return ColoredBox(
+      color: context.colors.chatBackground,
+      child: SafeArea(
+        top: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (channelName.isNotEmpty) ...<Widget>[
+                        Text(
+                          channelName,
+                          textAlign: TextAlign.center,
+                          style: context.textStyles.channelName.copyWith(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                            color: context.colors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                      const FluxerLoadingSpinner(),
+                      const SizedBox(height: 12),
+                      Text(
+                        l10n.voiceChannelStatusConnecting,
+                        textAlign: TextAlign.center,
+                        style: context.textStyles.bodyMedium.copyWith(
+                          color: context.colors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            VoiceChannelControlBar(channelId: widget.channelId),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildConnected(
     BuildContext context, {
     required String channelName,
-    required int participantCount,
     required bool isMobile,
   }) {
     final bool showChatButton =
@@ -295,12 +329,17 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
-                  child: VoiceChannelParticipantGrid(
-                    guildId: widget.guildId,
-                    channelId: widget.channelId,
+                  child: RepaintBoundary(
+                    child: VoiceChannelParticipantGrid(
+                      key: const ValueKey<String>('voice-participant-grid'),
+                      guildId: widget.guildId,
+                      channelId: widget.channelId,
+                    ),
                   ),
                 ),
-                VoiceChannelControlBar(channelId: widget.channelId),
+                RepaintBoundary(
+                  child: VoiceChannelControlBar(channelId: widget.channelId),
+                ),
               ],
             ),
           ),
@@ -428,11 +467,31 @@ class _DesktopVoiceChatDockState extends ConsumerState<_DesktopVoiceChatDock> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) {
+      if (!mounted || !chatRouteShouldSync(context)) {
         return;
       }
       unawaited(
-        ref.read(chatViewModelProvider.notifier).switchChannel(widget.channelId),
+        ref
+            .read(chatViewModelProvider.notifier)
+            .switchChannel(widget.channelId),
+      );
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant _DesktopVoiceChatDock oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.channelId == widget.channelId) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !chatRouteShouldSync(context)) {
+        return;
+      }
+      unawaited(
+        ref
+            .read(chatViewModelProvider.notifier)
+            .switchChannel(widget.channelId),
       );
     });
   }
@@ -444,9 +503,7 @@ class _DesktopVoiceChatDockState extends ConsumerState<_DesktopVoiceChatDock> {
       width: _kDesktopChatPanelWidth,
       decoration: BoxDecoration(
         color: context.colors.chatBackground,
-        border: Border(
-          left: BorderSide(color: context.colors.borderColor),
-        ),
+        border: Border(left: BorderSide(color: context.colors.borderColor)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -483,9 +540,7 @@ class _DesktopVoiceChatDockState extends ConsumerState<_DesktopVoiceChatDock> {
           Expanded(
             child: UploadDropOverlay(
               channelId: widget.channelId,
-              child: ChannelChatPanel(
-                displayChannelId: widget.channelId,
-              ),
+              child: ChannelChatPanel(displayChannelId: widget.channelId),
             ),
           ),
         ],

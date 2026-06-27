@@ -6,11 +6,8 @@ export 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_wir
 
 const int kSyncedPreferencesFavoritesFieldNumber = 40;
 
-/// TODO
-/// 
-/// In the future once the backend is published it would be good to setup a 
-/// sync script to grab the proto files from the fluxer repo.
-/// 
+// TODO(Elias): Sync proto files from the Fluxer repo once the backend is
+// published.
 class SyncedPreferencesWireCodec {
   const SyncedPreferencesWireCodec._();
 

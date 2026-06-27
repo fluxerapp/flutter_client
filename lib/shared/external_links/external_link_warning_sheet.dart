@@ -6,6 +6,9 @@ import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+typedef ExternalLinkContinueCallback =
+    Future<void> Function({required bool trustDomain});
+
 /// Bottom sheet warning the user before navigating to an external URL.
 ///
 /// Replaces the previous `ExternalLinkWarningModal`. The "Cancel" button has
@@ -22,13 +25,13 @@ class ExternalLinkWarningSheet extends StatefulWidget {
 
   final String url;
   final String hostname;
-  final Future<void> Function(bool trustDomain) onContinue;
+  final ExternalLinkContinueCallback onContinue;
 
   static Future<void> show(
     BuildContext context, {
     required String url,
     required String hostname,
-    required Future<void> Function(bool trustDomain) onContinue,
+    required ExternalLinkContinueCallback onContinue,
   }) {
     final l10n = FluxerLocalizations.of(context);
 
@@ -38,8 +41,8 @@ class ExternalLinkWarningSheet extends StatefulWidget {
       builder: (sheetContext, close) => ExternalLinkWarningSheet(
         url: url,
         hostname: hostname,
-        onContinue: (trustDomain) async {
-          await onContinue(trustDomain);
+        onContinue: ({required bool trustDomain}) async {
+          await onContinue(trustDomain: trustDomain);
           if (sheetContext.mounted) {
             close();
           }
@@ -64,7 +67,7 @@ class _ExternalLinkWarningSheetState extends State<ExternalLinkWarningSheet> {
 
     setState(() => isSubmitting = true);
     try {
-      await widget.onContinue(trustDomain);
+      await widget.onContinue(trustDomain: trustDomain);
     } finally {
       if (mounted) {
         setState(() => isSubmitting = false);

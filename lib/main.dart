@@ -1,12 +1,17 @@
+import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/app.dart';
 import 'package:fluxer_app/core/bootstrap/flutter_error_ui.dart';
+import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/observability/fluxer_observability.dart';
+import 'package:fluxer_app/core/observability/observability_reporting_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
@@ -25,48 +30,121 @@ void _configureImagePicker() {
   }
 }
 
-Future<void> main(List<String> args) async {
+void _runFluxerApp(ProviderContainer container) {
+  runApp(
+    ProviderScope(
+      child: UncontrolledProviderScope(
+        container: container,
+        child: const FluxerApp(),
+      ),
+    ),
+  );
+}
+
+void _configureFluxerErrorReporting() {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    FluxerObservability.instance.recordFlutterError(details);
+  };
+  PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
+    FluxerObservability.instance.recordError(
+      error,
+      stackTrace: stack,
+      source: 'platform_dispatcher',
+    );
+    FluxerObservability.instance.forceFlush();
+    return false;
+  };
+}
+
+Future<void> _bootstrapFluxer(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  PaintingBinding.instance.imageCache.maximumSizeBytes = 100 << 20; // 100 MiB
+  configureFluxerImageCache();
   configureFluxerErrorUi();
-  assertPushProviderBuildConfig();
-  await bootstrapFcmIfNeeded();
-  _configureImagePicker();
+  _configureFluxerErrorReporting();
+
+  final ProviderContainer container = ProviderContainer();
+  await container.read(observabilityReportingProvider.notifier).load();
+  FluxerObservability.instance.traceSync(
+    'app.bootstrap.push_provider_assert',
+    assertPushProviderBuildConfig,
+  );
+  await FluxerObservability.instance.traceAsync(
+    'app.bootstrap.fcm',
+    bootstrapFcmIfNeeded,
+  );
+  FluxerObservability.instance.traceSync(
+    'app.bootstrap.image_picker',
+    _configureImagePicker,
+  );
   final bool isUnifiedPushBackground =
       args.contains('--unifiedpush-bg') &&
       Platform.isAndroid &&
       PushProviderGuard.isUnifiedPush;
   if (isUnifiedPushBackground) {
-    await UnifiedPushService.ensureBackgroundInitialized();
+    await FluxerObservability.instance.traceAsync(
+      'app.bootstrap.unifiedpush_background',
+      UnifiedPushService.ensureBackgroundInitialized,
+    );
     return;
   }
 
   if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
-    await windowManager.ensureInitialized();
+    await FluxerObservability.instance.traceAsync(
+      'app.bootstrap.window',
+      () async {
+        await windowManager.ensureInitialized();
 
-    const windowOptions = WindowOptions(
-      size: Size(1280, 720),
-      minimumSize: Size(200, 200),
-      center: true,
-      titleBarStyle: TitleBarStyle.hidden,
-      title: 'Fluxer',
+        const windowOptions = WindowOptions(
+          size: Size(1280, 720),
+          minimumSize: Size(200, 200),
+          center: true,
+          titleBarStyle: TitleBarStyle.hidden,
+          title: 'Fluxer',
+        );
+
+        await windowManager.waitUntilReadyToShow(windowOptions, () async {
+          await windowManager.show();
+          await windowManager.focus();
+        });
+      },
     );
-
-    await windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
   }
 
-  final container = ProviderContainer();
   if (PushProviderGuard.isUnifiedPush) {
-    UnifiedPushService.instance.attachDatabase(
-      container.read(fluxerDatabaseProvider),
+    FluxerObservability.instance.traceSync(
+      'app.bootstrap.unifiedpush_database',
+      () {
+        UnifiedPushService.instance.attachDatabase(
+          container.read(fluxerDatabaseProvider),
+        );
+      },
     );
   }
-  container.read(appStartupProvider);
 
-  runApp(
-    UncontrolledProviderScope(container: container, child: const FluxerApp()),
+  FluxerObservability.instance.traceSync(
+    'app.startup.provider',
+    () => container.read(appStartupProvider),
+  );
+  FluxerObservability.instance.traceSync(
+    'app.run',
+    () => _runFluxerApp(container),
+  );
+}
+
+Future<void> main(List<String> args) async {
+  await runZonedGuarded<Future<void>>(
+    () async {
+      await _bootstrapFluxer(args);
+    },
+    (Object error, StackTrace stack) {
+      FluxerObservability.instance.recordError(
+        error,
+        stackTrace: stack,
+        source: 'zone',
+      );
+      FluxerObservability.instance.forceFlush();
+      Error.throwWithStackTrace(error, stack);
+    },
   );
 }

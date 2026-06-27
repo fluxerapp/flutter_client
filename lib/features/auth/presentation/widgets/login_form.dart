@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/sheets/instance_selector_sheet.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/instance_selector.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/sso_button.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_error_l10n.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
@@ -13,14 +15,11 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
-  const LoginForm({
-    required this.showBrowserLogin,
-    this.heading,
-    super.key,
-  });
+  const LoginForm({required this.showBrowserLogin, this.heading, super.key});
 
   final bool showBrowserLogin;
   final String? heading;
@@ -40,7 +39,9 @@ class _LoginFormState extends ConsumerState<LoginForm> {
 
   void _submitLogin() {
     final notifier = ref.read(loginViewModelProvider.notifier);
-    final bool canAuthenticate = ref.read(instanceSelectorCanAuthenticateProvider);
+    final bool canAuthenticate = ref.read(
+      instanceSelectorCanAuthenticateProvider,
+    );
     if (ref.read(loginViewModelProvider).canLogin && canAuthenticate) {
       unawaited(notifier.login());
       TextInput.finishAutofillContext();
@@ -54,13 +55,20 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     final notifier = ref.read(loginViewModelProvider.notifier);
     final layout = context.layout;
     final errorText = resolveLoginError(vm, strings);
-    final bool canAuthenticate = ref.watch(instanceSelectorCanAuthenticateProvider);
+    final bool canAuthenticate = ref.watch(
+      instanceSelectorCanAuthenticateProvider,
+    );
     final bool canSubmit = vm.canLogin && canAuthenticate;
+    final bool isSsoEnabled = ref.watch(isAuthInstanceSsoEnabledProvider);
+    final WellKnownFluxerResponseSso? ssoConfig = ref
+        .watch(authInstanceSnapshotProvider)
+        .ssoConfig;
+    final String ssoProviderName = ssoConfig?.displayName ?? 'Single Sign-On';
 
     return AbsorbPointer(
-      absorbing: vm.isLoggingIn,
+      absorbing: vm.isLoggingIn || vm.isStartingSso,
       child: AnimatedOpacity(
-        opacity: vm.isLoggingIn ? 0.6 : 1.0,
+        opacity: vm.isLoggingIn || vm.isStartingSso ? 0.6 : 1.0,
         duration: context.motion.fast,
         child: AutofillGroup(
           child: Column(
@@ -142,6 +150,15 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                 icon: PhosphorIconsFill.key,
                 label: strings.logInWithPasskey,
               ),
+              if (isSsoEnabled) ...[
+                SizedBox(height: context.layout.s6),
+                _buildOrDivider(context, strings),
+                SizedBox(height: context.layout.s6),
+                SsoButton(
+                  enabled: !vm.isLoggingIn,
+                  subtitle: strings.preferSso(ssoProviderName),
+                ),
+              ],
               if (widget.showBrowserLogin) ...[
                 SizedBox(height: layout.s2),
                 FluxerButton.secondary(
@@ -169,7 +186,8 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               SizedBox(height: layout.s4),
               InstanceSelectorLoginEntry(
                 enabled: !vm.isLoggingIn,
-                onOpenSheet: () => unawaited(showInstanceSelectorSheet(context)),
+                onOpenSheet: () =>
+                    unawaited(showInstanceSelectorSheet(context)),
               ),
             ],
           ),

@@ -32,7 +32,7 @@ void main() {
           matureContentAgreementsProvider.overrideWith(_LoadedAgreements.new),
           matureGateContextProvider(
             'channel-1',
-          ).overrideWith((ref) async => matureContext),
+          ).overrideWith((ref) => matureContext),
         ],
         child: const MatureContentChannelGate(channelId: 'channel-1'),
       ),

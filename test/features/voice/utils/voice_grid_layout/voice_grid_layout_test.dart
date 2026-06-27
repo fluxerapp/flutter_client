@@ -253,7 +253,10 @@ void main() {
             containerHeight: 1080,
           );
       expect(wide.visibleTileCount, 24);
-      expect(wide.metrics.columns, greaterThan(voiceGridColumnRules.first.columns));
+      expect(
+        wide.metrics.columns,
+        greaterThan(voiceGridColumnRules.first.columns),
+      );
 
       expect(
         voiceGridVisibleTileCapacity(

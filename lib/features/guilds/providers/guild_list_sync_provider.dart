@@ -35,7 +35,7 @@ class GuildListSync extends _$GuildListSync {
   Future<void> _sync() async {
     try {
       await ref.read(guildRepositoryProvider).syncServers();
-    } catch (e, st) {
+    } on Exception catch (e, st) {
       talker.warning('[GuildListSync] Failed to sync: $e', st);
     }
   }

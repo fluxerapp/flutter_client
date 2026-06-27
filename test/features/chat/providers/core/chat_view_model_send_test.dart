@@ -224,20 +224,21 @@ void main() {
     'starting a reply while editing drops the edited message text',
     () async {
       final (container, _, _) = await setUpChannel();
-      final notifier = container.read(chatViewModelProvider.notifier);
 
-      notifier.startEdit(
-        _msg(id: 'm-edit', authorId: 'me', content: 'edited body'),
-      );
+      container
+          .read(chatViewModelProvider.notifier)
+          .startEdit(
+            _msg(id: 'm-edit', authorId: 'me', content: 'edited body'),
+          );
       expect(
         container.read(chatViewModelProvider).editingMessage?.id,
         'm-edit',
       );
       expect(container.read(chatViewModelProvider).messageText, 'edited body');
 
-      notifier.startReply(
-        _msg(id: 'm-reply', authorId: 'other', content: 'hi'),
-      );
+      container
+          .read(chatViewModelProvider.notifier)
+          .startReply(_msg(id: 'm-reply', authorId: 'other', content: 'hi'));
       await _flushAsync();
 
       final ChatViewState state = container.read(chatViewModelProvider);

@@ -36,7 +36,9 @@ void main() {
               .CHANNEL_TYPING_INDICATOR_MODE_INDICATOR_ONLY,
         ),
       );
-      final restored = AccessibilitySyncedField.fromProto(message.accessibility);
+      final restored = AccessibilitySyncedField.fromProto(
+        message.accessibility,
+      );
       expect(
         restored.channelTypingIndicatorMode,
         ChannelTypingIndicatorMode.indicatorOnly,

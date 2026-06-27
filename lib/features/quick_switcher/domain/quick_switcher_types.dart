@@ -22,12 +22,7 @@ enum QuickSwitcherSettingsTarget {
   mentions,
 }
 
-enum QuickSwitcherQueryMode {
-  user,
-  textChannel,
-  voiceChannel,
-  guild,
-}
+enum QuickSwitcherQueryMode { user, textChannel, voiceChannel, guild }
 
 const int kQuickSwitcherMaxGeneralResults = 5;
 const int kQuickSwitcherMaxQueryModeResults = 20;
@@ -53,7 +48,8 @@ class QuickSwitcherUserResult extends QuickSwitcherResult {
   const QuickSwitcherUserResult({
     required this.id,
     required this.title,
-    required this.userId, this.subtitle,
+    required this.userId,
+    this.subtitle,
     this.dmChannelId,
     this.avatar,
     this.avatarColor,
@@ -76,7 +72,8 @@ class QuickSwitcherGroupDmResult extends QuickSwitcherResult {
   const QuickSwitcherGroupDmResult({
     required this.id,
     required this.title,
-    required this.channelId, this.subtitle,
+    required this.channelId,
+    this.subtitle,
     this.icon,
     this.groupStatus,
     this.groupMembers = const <GroupMemberInfo>[],
@@ -97,7 +94,9 @@ class QuickSwitcherTextChannelResult extends QuickSwitcherResult {
   const QuickSwitcherTextChannelResult({
     required this.id,
     required this.title,
-    required this.channelId, required this.guildId, this.subtitle,
+    required this.channelId,
+    required this.guildId,
+    this.subtitle,
     this.guildName,
     this.guildIcon,
   });
@@ -117,7 +116,9 @@ class QuickSwitcherVoiceChannelResult extends QuickSwitcherResult {
   const QuickSwitcherVoiceChannelResult({
     required this.id,
     required this.title,
-    required this.channelId, required this.guildId, this.subtitle,
+    required this.channelId,
+    required this.guildId,
+    this.subtitle,
     this.guildName,
     this.guildIcon,
   });
@@ -137,7 +138,8 @@ class QuickSwitcherGuildResult extends QuickSwitcherResult {
   const QuickSwitcherGuildResult({
     required this.id,
     required this.title,
-    required this.guild, this.subtitle,
+    required this.guild,
+    this.subtitle,
   });
 
   final String id;
@@ -152,7 +154,8 @@ class QuickSwitcherVirtualGuildResult extends QuickSwitcherResult {
   const QuickSwitcherVirtualGuildResult({
     required this.id,
     required this.title,
-    required this.virtualGuildType, this.subtitle,
+    required this.virtualGuildType,
+    this.subtitle,
   });
 
   final String id;
@@ -167,7 +170,8 @@ class QuickSwitcherSettingsResult extends QuickSwitcherResult {
   const QuickSwitcherSettingsResult({
     required this.id,
     required this.title,
-    required this.target, this.subtitle,
+    required this.target,
+    this.subtitle,
   });
 
   final String id;
@@ -182,7 +186,8 @@ class QuickSwitcherLinkResult extends QuickSwitcherResult {
   const QuickSwitcherLinkResult({
     required this.id,
     required this.title,
-    required this.path, this.subtitle,
+    required this.path,
+    this.subtitle,
   });
 
   final String id;

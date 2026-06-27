@@ -34,12 +34,11 @@ class _FakeUsersApi implements UsersApi {
     pushCount++;
     lastPushBody = body;
     if (pushError != null) {
+      // The fake accepts arbitrary configured failures to exercise error paths.
       // ignore: only_throw_errors
       throw pushError!;
     }
-    return _testUserSettings(
-      syncedPreferences: body.syncedPreferences ?? '',
-    );
+    return _testUserSettings(syncedPreferences: body.syncedPreferences ?? '');
   }
 
   @override
@@ -148,13 +147,7 @@ void main() {
       expect(usersApi.pushCount, 0);
 
       await syncStore.hydrateFromUserSettings(
-        _settingsFor(const FavoritesLocalState(
-          channels: [],
-          categories: [],
-          collapsedCategoryIds: [],
-          hideMutedChannels: false,
-          muted: false,
-        )),
+        _settingsFor(FavoritesLocalState.empty),
       );
       await _waitForDebounce();
 
@@ -255,45 +248,44 @@ void main() {
       expect(channel, isNotNull);
     });
 
-    test('hydrate ignores remote shrink while dirty and recently acked', () async {
-      const initial = FavoritesLocalState(
-        channels: [
-          db.FavoriteChannel(
-            channelId: 'local-1',
-            guildId: 'guild-1',
-            position: 0,
-          ),
-        ],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
-      const remoteShrink = FavoritesLocalState(
-        channels: [],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
+    test(
+      'hydrate ignores remote shrink while dirty and recently acked',
+      () async {
+        const initial = FavoritesLocalState(
+          channels: [
+            db.FavoriteChannel(
+              channelId: 'local-1',
+              guildId: 'guild-1',
+              position: 0,
+            ),
+          ],
+          categories: [],
+          collapsedCategoryIds: [],
+          hideMutedChannels: false,
+          muted: false,
+        );
+        const remoteShrink = FavoritesLocalState.empty;
 
-      await syncStore.hydrateFromUserSettings(_settingsFor(initial));
-      await database.favoriteChannelsDao.addChannel(
-        channelId: 'local-2',
-        guildId: 'guild-1',
-      );
-      syncStore.markDirty(SyncedPreferenceField.favorites);
-      await _waitForDebounce();
-      expect(usersApi.pushCount, 1);
+        await syncStore.hydrateFromUserSettings(_settingsFor(initial));
+        await database.favoriteChannelsDao.addChannel(
+          channelId: 'local-2',
+          guildId: 'guild-1',
+        );
+        syncStore.markDirty(SyncedPreferenceField.favorites);
+        await _waitForDebounce();
+        expect(usersApi.pushCount, 1);
 
-      await syncStore.hydrateFromUserSettings(_settingsFor(remoteShrink));
+        await syncStore.hydrateFromUserSettings(_settingsFor(remoteShrink));
 
-      final channels = await database.favoriteChannelsDao.watchChannels().first;
-      expect(
-        channels.map((channel) => channel.channelId),
-        containsAll(['local-1', 'local-2']),
-      );
-    });
+        final channels = await database.favoriteChannelsDao
+            .watchChannels()
+            .first;
+        expect(
+          channels.map((channel) => channel.channelId),
+          containsAll(['local-1', 'local-2']),
+        );
+      },
+    );
 
     test('session reset clears hydrated state and wire blob', () async {
       const server = FavoritesLocalState(
@@ -326,49 +318,54 @@ void main() {
       expect(usersApi.pushCount, 1);
     });
 
-    test('first hydrate merges server favorites when dirty from pre-ready tap', () async {
-      const server = FavoritesLocalState(
-        channels: [
-          db.FavoriteChannel(
-            channelId: 'desktop-1',
-            guildId: 'guild-1',
-            position: 0,
-          ),
-          db.FavoriteChannel(
-            channelId: 'desktop-2',
-            guildId: 'guild-1',
-            position: 1,
-          ),
-        ],
-        categories: [],
-        collapsedCategoryIds: [],
-        hideMutedChannels: false,
-        muted: false,
-      );
+    test(
+      'first hydrate merges server favorites when dirty from pre-ready tap',
+      () async {
+        const server = FavoritesLocalState(
+          channels: [
+            db.FavoriteChannel(
+              channelId: 'desktop-1',
+              guildId: 'guild-1',
+              position: 0,
+            ),
+            db.FavoriteChannel(
+              channelId: 'desktop-2',
+              guildId: 'guild-1',
+              position: 1,
+            ),
+          ],
+          categories: [],
+          collapsedCategoryIds: [],
+          hideMutedChannels: false,
+          muted: false,
+        );
 
-      await database.favoriteChannelsDao.addChannel(
-        channelId: 'android-1',
-        guildId: '@me',
-      );
-      syncStore.markDirty(SyncedPreferenceField.favorites);
+        await database.favoriteChannelsDao.addChannel(
+          channelId: 'android-1',
+          guildId: '@me',
+        );
+        syncStore.markDirty(SyncedPreferenceField.favorites);
 
-      await syncStore.hydrateFromUserSettings(_settingsFor(server));
-      await _waitForDebounce();
+        await syncStore.hydrateFromUserSettings(_settingsFor(server));
+        await _waitForDebounce();
 
-      final channels = await database.favoriteChannelsDao.watchChannels().first;
-      expect(
-        channels.map((channel) => channel.channelId),
-        containsAll(['android-1', 'desktop-1', 'desktop-2']),
-      );
-      expect(usersApi.pushCount, 1);
-      final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
-        usersApi.lastPushBody!.syncedPreferences!,
-      );
-      expect(
-        pushed.channels.map((channel) => channel.channelId),
-        containsAll(['android-1', 'desktop-1', 'desktop-2']),
-      );
-    });
+        final channels = await database.favoriteChannelsDao
+            .watchChannels()
+            .first;
+        expect(
+          channels.map((channel) => channel.channelId),
+          containsAll(['android-1', 'desktop-1', 'desktop-2']),
+        );
+        expect(usersApi.pushCount, 1);
+        final pushed = FavoritesStateCodec.decodeFavoritesFromWire(
+          usersApi.lastPushBody!.syncedPreferences!,
+        );
+        expect(
+          pushed.channels.map((channel) => channel.channelId),
+          containsAll(['android-1', 'desktop-1', 'desktop-2']),
+        );
+      },
+    );
 
     test('hydrate applies remote reorder after gateway reconnect', () async {
       const localOrder = FavoritesLocalState(
@@ -413,7 +410,8 @@ void main() {
       await syncStore.hydrateFromUserSettings(_settingsFor(remoteOrder));
 
       final channels = await database.favoriteChannelsDao.watchChannels().first;
-      final sorted = [...channels]..sort((a, b) => a.position.compareTo(b.position));
+      final sorted = [...channels]
+        ..sort((a, b) => a.position.compareTo(b.position));
       expect(sorted.map((channel) => channel.channelId), [
         'channel-b',
         'channel-a',
@@ -481,13 +479,7 @@ void main() {
       );
 
       await syncStore.hydrateFromUserSettings(
-        _settingsFor(const FavoritesLocalState(
-          channels: [],
-          categories: [],
-          collapsedCategoryIds: [],
-          hideMutedChannels: false,
-          muted: false,
-        )),
+        _settingsFor(FavoritesLocalState.empty),
       );
       await database.favoriteChannelsDao.addChannel(
         channelId: 'retry-1',
@@ -506,9 +498,7 @@ void main() {
   group('FavoritesStateCodec cross-client', () {
     test('statesEqual treats null and @me guildId as equivalent', () {
       const withNull = FavoritesLocalState(
-        channels: [
-          db.FavoriteChannel(channelId: 'dm-1', position: 0),
-        ],
+        channels: [db.FavoriteChannel(channelId: 'dm-1', position: 0)],
         categories: [],
         collapsedCategoryIds: [],
         hideMutedChannels: false,
@@ -516,11 +506,7 @@ void main() {
       );
       const withAtMe = FavoritesLocalState(
         channels: [
-          db.FavoriteChannel(
-            channelId: 'dm-1',
-            guildId: '@me',
-            position: 0,
-          ),
+          db.FavoriteChannel(channelId: 'dm-1', guildId: '@me', position: 0),
         ],
         categories: [],
         collapsedCategoryIds: [],
@@ -560,7 +546,10 @@ void main() {
           ).writeToBuffer(),
         ),
       );
-      final combined = Uint8List.fromList([...preservedField, ...favoritesWire]);
+      final combined = Uint8List.fromList([
+        ...preservedField,
+        ...favoritesWire,
+      ]);
       final currentWire = base64Encode(combined);
 
       final updated = FavoritesStateCodec.encodeFavoritesIntoWire(
@@ -607,10 +596,7 @@ void main() {
       );
       final foreignField = _encodeStringField(1, 'keep-me');
       final combined = base64Encode(
-        Uint8List.fromList([
-          ...foreignField,
-          ...base64Decode(favoritesOnly),
-        ]),
+        Uint8List.fromList([...foreignField, ...base64Decode(favoritesOnly)]),
       );
       expect(
         SyncedPreferencesWireCodec.verifyWirePreservesForeignFields(
@@ -643,83 +629,4 @@ Uint8List _encodeStringField(int fieldNumber, String value) {
     ..._encodeVarint(valueBytes.length),
     ...valueBytes,
   ]);
-}
-
-String? _readStringField(Uint8List bytes, int fieldNumber) {
-  var offset = 0;
-  while (offset < bytes.length) {
-    final key = _readVarint(bytes, offset);
-    if (key == null) {
-      break;
-    }
-    offset = key.nextOffset;
-    final field = key.value >> 3;
-    final wireType = key.value & 7;
-    if (wireType != 2) {
-      final next = _skipValue(bytes, offset, wireType);
-      if (next == null) {
-        break;
-      }
-      offset = next;
-      continue;
-    }
-    final length = _readVarint(bytes, offset);
-    if (length == null) {
-      break;
-    }
-    final start = length.nextOffset;
-    final end = start + length.value;
-    if (end > bytes.length) {
-      break;
-    }
-    if (field == fieldNumber) {
-      return utf8.decode(bytes.sublist(start, end));
-    }
-    offset = end;
-  }
-  return null;
-}
-
-_VarintRead? _readVarint(Uint8List bytes, int offset) {
-  var value = 0;
-  var shift = 0;
-  while (offset < bytes.length) {
-    final byte = bytes[offset++];
-    value |= (byte & 0x7f) << shift;
-    if ((byte & 0x80) == 0) {
-      return _VarintRead(value: value, nextOffset: offset);
-    }
-    shift += 7;
-  }
-  return null;
-}
-
-int? _skipValue(Uint8List bytes, int offset, int wireType) {
-  if (wireType == 0) {
-    return _readVarint(bytes, offset)?.nextOffset;
-  }
-  if (wireType == 1) {
-    final next = offset + 8;
-    return next <= bytes.length ? next : null;
-  }
-  if (wireType == 2) {
-    final length = _readVarint(bytes, offset);
-    if (length == null) {
-      return null;
-    }
-    final next = length.nextOffset + length.value;
-    return next <= bytes.length ? next : null;
-  }
-  if (wireType == 5) {
-    final next = offset + 4;
-    return next <= bytes.length ? next : null;
-  }
-  return null;
-}
-
-class _VarintRead {
-  const _VarintRead({required this.value, required this.nextOffset});
-
-  final int value;
-  final int nextOffset;
 }

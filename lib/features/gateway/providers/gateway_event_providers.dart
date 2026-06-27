@@ -18,6 +18,54 @@ String _voiceStateStorageKey(VoiceState voiceState) {
   return '_u_${voiceState.userId}_${voiceState.channelId}';
 }
 
+List<VoiceState> _voiceStatesInGuildChannel(
+  Map<String, VoiceState> map,
+  String guildId,
+  String channelId,
+) {
+  final List<VoiceState> out = <VoiceState>[];
+  for (final VoiceState vs in map.values) {
+    if (vs.channelId == channelId && vs.guildId == guildId) {
+      out.add(vs);
+    }
+  }
+  return out;
+}
+
+List<VoiceState> _voiceStatesInPrivateChannel(
+  Map<String, VoiceState> map,
+  String channelId,
+) {
+  final List<VoiceState> out = <VoiceState>[];
+  for (final VoiceState vs in map.values) {
+    if (vs.channelId != channelId) {
+      continue;
+    }
+    if (vs.guildId != null && vs.guildId!.isNotEmpty) {
+      continue;
+    }
+    out.add(vs);
+  }
+  return out;
+}
+
+String _voiceStatesFingerprint(Iterable<VoiceState> states) {
+  final List<String> parts = <String>[];
+  for (final VoiceState vs in states) {
+    parts.add('${_voiceStateStorageKey(vs)}:${vs.hashCode}');
+  }
+  parts.sort();
+  return parts.join('|');
+}
+
+int _distinctUserCountInChannel(Iterable<VoiceState> states) {
+  final Set<String> userIds = <String>{};
+  for (final VoiceState vs in states) {
+    userIds.add(vs.userId);
+  }
+  return userIds.length;
+}
+
 List<VoiceState> otherUserConnectionsInChannel({
   required Map<String, VoiceState> voiceStates,
   required String? guildId,
@@ -374,7 +422,7 @@ class ActiveCalls extends _$ActiveCalls {
 }
 
 /// Tracks channels where this client initiated an outbound ring (suppresses
-/// incoming overlay for caller), matching fluxer-web [CallInitiator].
+/// incoming overlay for caller), matching the web `CallInitiator`.
 @Riverpod(keepAlive: true)
 class OutgoingVoiceCallInitiator extends _$OutgoingVoiceCallInitiator {
   @override
@@ -426,26 +474,33 @@ List<VoiceState> voiceStatesInChannel(
   String guildId,
   String channelId,
 ) {
-  final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
-  return map.values
-      .where(
-        (VoiceState vs) => vs.channelId == channelId && vs.guildId == guildId,
-      )
-      .toList();
+  ref.watch(
+    voiceStatesMapProvider.select(
+      (Map<String, VoiceState> map) => _voiceStatesFingerprint(
+        _voiceStatesInGuildChannel(map, guildId, channelId),
+      ),
+    ),
+  );
+  final Map<String, VoiceState> map = ref.read(voiceStatesMapProvider);
+  return List<VoiceState>.unmodifiable(
+    _voiceStatesInGuildChannel(map, guildId, channelId),
+  );
 }
 
 /// Returns voice states for a specific DM/private channel.
 /// Only emits when voice states for this specific channel change.
 @riverpod
 List<VoiceState> voiceStatesInPrivateChannel(Ref ref, String channelId) {
-  final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
-  return map.values
-      .where(
-        (VoiceState vs) =>
-            vs.channelId == channelId &&
-            (vs.guildId == null || vs.guildId!.isEmpty),
-      )
-      .toList();
+  ref.watch(
+    voiceStatesMapProvider.select(
+      (Map<String, VoiceState> map) =>
+          _voiceStatesFingerprint(_voiceStatesInPrivateChannel(map, channelId)),
+    ),
+  );
+  final Map<String, VoiceState> map = ref.read(voiceStatesMapProvider);
+  return List<VoiceState>.unmodifiable(
+    _voiceStatesInPrivateChannel(map, channelId),
+  );
 }
 
 /// Returns voice states for a specific guild (all channels).
@@ -457,36 +512,31 @@ List<VoiceState> voiceStatesInGuild(Ref ref, String guildId) {
 }
 
 /// Returns the count of unique participants in a private DM channel.
-/// Uses select for minimal rebuilds.
 @riverpod
 int privateChannelVoiceParticipantCount(Ref ref, String channelId) {
-  final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
-  final Set<String> userIds = <String>{};
-  for (final VoiceState vs in map.values) {
-    if (vs.channelId == channelId &&
-        (vs.guildId == null || vs.guildId!.isEmpty)) {
-      userIds.add(vs.userId);
-    }
-  }
-  return userIds.length;
+  return ref.watch(
+    voiceStatesMapProvider.select(
+      (Map<String, VoiceState> map) => _distinctUserCountInChannel(
+        _voiceStatesInPrivateChannel(map, channelId),
+      ),
+    ),
+  );
 }
 
 /// Returns the count of unique participants in a guild voice channel.
-/// Uses select for minimal rebuilds.
 @riverpod
 int guildChannelVoiceParticipantCount(
   Ref ref,
   String guildId,
   String channelId,
 ) {
-  final Map<String, VoiceState> map = ref.watch(voiceStatesMapProvider);
-  final Set<String> userIds = <String>{};
-  for (final VoiceState vs in map.values) {
-    if (vs.channelId == channelId && vs.guildId == guildId) {
-      userIds.add(vs.userId);
-    }
-  }
-  return userIds.length;
+  return ref.watch(
+    voiceStatesMapProvider.select(
+      (Map<String, VoiceState> map) => _distinctUserCountInChannel(
+        _voiceStatesInGuildChannel(map, guildId, channelId),
+      ),
+    ),
+  );
 }
 
 /// Clears ephemeral gateway derived UI state after session recovery

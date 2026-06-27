@@ -275,6 +275,9 @@ class _VoiceMessageComposerSheetBodyState
       );
       widget.onClose();
     } on Object {
+      if (!mounted) {
+        return;
+      }
       ref
           .read(toastProvider.notifier)
           .show(
@@ -283,9 +286,7 @@ class _VoiceMessageComposerSheetBodyState
               variant: FluxerToastVariant.danger,
             ),
           );
-      if (mounted) {
-        setState(() => _isSending = false);
-      }
+      setState(() => _isSending = false);
     }
   }
 

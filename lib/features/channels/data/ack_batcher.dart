@@ -19,6 +19,7 @@ class _PendingAck {
 class AckBatcher {
   AckBatcher({
     required FluxerClient client,
+    this.onResponse,
     this.batchDelay = kAckBatchDelay,
     this.batchSize = kAckBatchSize,
     this.retryBaseDelay = kAckRetryBaseDelay,
@@ -26,6 +27,10 @@ class AckBatcher {
   }) : _client = client;
 
   final FluxerClient _client;
+
+  /// Applies the authoritative read states the server returns for a flushed
+  /// ack batch (ack id + mention count + version), keeping local state in sync.
+  final Future<void> Function(ReadStateAckResponse response)? onResponse;
   final Duration batchDelay;
   final int batchSize;
   final Duration retryBaseDelay;
@@ -146,10 +151,10 @@ class AckBatcher {
     }
 
     for (final chunk in chunks) {
-      final body = ReadStateAckBulkRequest(
+      final body = ReadStateAckRequest(
         readStates: chunk
             .map(
-              (e) => ReadStateAckBulkRequestReadStates(
+              (e) => ReadStateAckRequestReadStates(
                 channelId: e.key,
                 messageId: e.value.messageId,
               ),
@@ -157,12 +162,16 @@ class AckBatcher {
             .toList(),
       );
       try {
-        await _client.readStates.ackBulkMessages(body: body);
+        final response = await _client.readStates.ackReadStates(body: body);
         for (final entry in chunk) {
           final current = _pending[entry.key];
           if (current != null && current.messageId == entry.value.messageId) {
             _pending.remove(entry.key);
           }
+        }
+        final onResponse = this.onResponse;
+        if (onResponse != null) {
+          await onResponse(response);
         }
       } on Object catch (e, s) {
         talker.error('[AckBatcher] bulk ack chunk failed', e, s);

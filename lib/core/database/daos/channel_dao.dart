@@ -55,14 +55,15 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<void> upsertChannel(ChannelsCompanion channel) async {
     final channelId = channel.id.value;
+    var channelToWrite = channel;
     if (channel.lastMessageId.present) {
       final merged = await mergeLastMessageIdForUpsert(
         channelId,
         channel.lastMessageId.value,
       );
-      channel = channel.copyWith(lastMessageId: Value(merged));
+      channelToWrite = channel.copyWith(lastMessageId: Value(merged));
     }
-    await into(channels).insertOnConflictUpdate(channel);
+    await into(channels).insertOnConflictUpdate(channelToWrite);
   }
 
   Future<void> upsertChannels(List<ChannelsCompanion> channelList) async {

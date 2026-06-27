@@ -23,9 +23,11 @@ final dmListPresenceMapProvider = StreamProvider<Map<String, String>>((
     return Stream<Map<String, String>>.value(const <String, String>{});
   }
   final FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
-  return database.userDao.watchUsersByIds(userIds.toList()).map(
-    (List<User> users) => <String, String>{
-      for (final User user in users) user.id: user.status ?? 'offline',
-    },
-  );
+  return database.userDao
+      .watchUsersByIds(userIds.toList())
+      .map(
+        (List<User> users) => <String, String>{
+          for (final User user in users) user.id: user.status,
+        },
+      );
 });

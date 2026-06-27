@@ -57,10 +57,22 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
     return 0;
   }
 
-  static MobilePushProviderEnvironmentSchema get _providerEnvironment {
+  static RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  get _registerProviderEnvironment {
     return kDebugMode
-        ? MobilePushProviderEnvironmentSchema.development
-        : MobilePushProviderEnvironmentSchema.production;
+        ? RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .development
+        : RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .production;
+  }
+
+  static UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+  get _unregisterProviderEnvironment {
+    return kDebugMode
+        ? UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .development
+        : UnregisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+              .production;
   }
 
   bool get _shouldRunOnThisPlatform {
@@ -156,7 +168,8 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
       return;
     }
     final String appId = AppBuildConfig.mobilePushAppId;
-    final MobilePushProviderEnvironmentSchema environment = _providerEnvironment;
+    final RegisterMobileDeviceRequestProviderEnvironmentProviderEnvironment
+    environment = _registerProviderEnvironment;
     _logApnsInfo(
       'submitting APNs registration userId=$userId appId=$appId '
       'environment=${environment.json ?? environment.toString()} token=${_maskApnsToken(hex)}',
@@ -236,7 +249,7 @@ class ApnsMobileDeviceRegistration extends _$ApnsMobileDeviceRegistration {
               platform: UnregisterMobileDeviceRequestPlatformPlatform.iosApns,
               token: hex,
               appId: AppBuildConfig.mobilePushAppId,
-              providerEnvironment: _providerEnvironment,
+              providerEnvironment: _unregisterProviderEnvironment,
             ),
           );
       _lastRegisteredUserId = null;

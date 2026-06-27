@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:talker/talker.dart';
 import 'package:talker_flutter/talker_flutter.dart' as talker_ui;
 
-final talker = Talker();
+final talker = Talker(settings: TalkerSettings());
 
 /// Pushes the Talker log viewer
 Future<void> pushTalkerLogScreen(

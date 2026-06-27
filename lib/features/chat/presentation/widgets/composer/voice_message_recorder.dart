@@ -119,7 +119,7 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
     if (reduceMotion) {
       controller.value = 1;
     } else {
-      controller.forward(from: 0);
+      unawaited(controller.forward(from: 0));
     }
   }
 
@@ -369,11 +369,11 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
       await _cancelGesture();
       return;
     }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     _durationTimer?.cancel();
     _waveformTimer?.cancel();
     await _maxDurationSubscription?.cancel();
     _maxDurationSubscription = null;
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (!send || _recordingDurationMs < kVoiceMessageMinSendDurationMs) {
       await _recordingService.discard();
       await _resetState();

@@ -62,9 +62,7 @@ final class PushNotificationClear {
       return;
     } on PlatformException catch (e, st) {
       if (kDebugMode) {
-        debugPrint(
-          '[PushNotificationClear] Android cancelAll failed: $e\n$st',
-        );
+        debugPrint('[PushNotificationClear] Android cancelAll failed: $e\n$st');
       }
     }
   }
@@ -94,7 +92,9 @@ final class PushNotificationClear {
     await LocalPushNotifications().cancelForPayload(payload);
   }
 
-  static Future<void> _cancelAndroidSystemNotifications(String channelId) async {
+  static Future<void> _cancelAndroidSystemNotifications(
+    String channelId,
+  ) async {
     try {
       await _androidChannel.invokeMethod<Object?>(
         'cancelForChannel',
@@ -104,9 +104,7 @@ final class PushNotificationClear {
       return;
     } on PlatformException catch (e, st) {
       if (kDebugMode) {
-        debugPrint(
-          '[PushNotificationClear] Android cancel failed: $e\n$st',
-        );
+        debugPrint('[PushNotificationClear] Android cancel failed: $e\n$st');
       }
     }
   }

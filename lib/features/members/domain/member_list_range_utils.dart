@@ -7,7 +7,9 @@ const int kMemberListRangeWindowOverscanPages = 1;
 const int kMemberListSubscriptionBufferRows = 12;
 
 const List<MemberListRange> kMemberListInitialSubscriptionRanges =
-    <MemberListRange>[<int>[0, kMemberListRangeMaxSpan]];
+    <MemberListRange>[
+      <int>[0, kMemberListRangeMaxSpan],
+    ];
 
 typedef MemberListRange = List<int>;
 
@@ -34,7 +36,9 @@ List<MemberListRange> normalizeMemberListRanges(List<MemberListRange> input) {
   if (sanitized.isEmpty) {
     return <MemberListRange>[];
   }
-  sanitized.sort((MemberListRange a, MemberListRange b) => a[0].compareTo(b[0]));
+  sanitized.sort(
+    (MemberListRange a, MemberListRange b) => a[0].compareTo(b[0]),
+  );
   final List<MemberListRange> normalized = <MemberListRange>[];
   int currentStart = sanitized.first[0];
   int currentEnd = sanitized.first[1];
@@ -57,7 +61,9 @@ bool areMemberListRangesEqual(
   List<MemberListRange> right,
 ) {
   final List<MemberListRange> normalizedLeft = normalizeMemberListRanges(left);
-  final List<MemberListRange> normalizedRight = normalizeMemberListRanges(right);
+  final List<MemberListRange> normalizedRight = normalizeMemberListRanges(
+    right,
+  );
   if (normalizedLeft.length != normalizedRight.length) {
     return false;
   }
@@ -90,31 +96,37 @@ List<MemberListRange> buildMemberListRangeWindow({
   double groupHeaderHeight = kMemberListGroupHeaderHeight,
 }) {
   if (rowHeight <= 0) {
-    return normalizeMemberListRanges(
-      <MemberListRange>[<int>[0, kMemberListRangeMaxSpan]],
-    );
+    return normalizeMemberListRanges(<MemberListRange>[
+      <int>[0, kMemberListRangeMaxSpan],
+    ]);
   }
   final int startIndex;
   final int endIndex;
   if (layouts != null && layouts.isNotEmpty) {
-    startIndex = _memberListRowIndexAtScrollOffset(
-      scrollOffset: scrollTop,
-      layouts: layouts,
-      memberRowHeight: rowHeight,
-      groupHeaderHeight: groupHeaderHeight,
-    ) - bufferRows;
-    endIndex = _memberListRowIndexAtScrollOffset(
-      scrollOffset: scrollTop + clientHeight,
-      layouts: layouts,
-      memberRowHeight: rowHeight,
-      groupHeaderHeight: groupHeaderHeight,
-    ) + bufferRows;
+    startIndex =
+        _memberListRowIndexAtScrollOffset(
+          scrollOffset: scrollTop,
+          layouts: layouts,
+          memberRowHeight: rowHeight,
+          groupHeaderHeight: groupHeaderHeight,
+        ) -
+        bufferRows;
+    endIndex =
+        _memberListRowIndexAtScrollOffset(
+          scrollOffset: scrollTop + clientHeight,
+          layouts: layouts,
+          memberRowHeight: rowHeight,
+          groupHeaderHeight: groupHeaderHeight,
+        ) +
+        bufferRows;
   } else {
     startIndex = (scrollTop / rowHeight).floor() - bufferRows;
     endIndex = ((scrollTop + clientHeight) / rowHeight).ceil() + bufferRows;
   }
   final int safeStart = startIndex < 0 ? 0 : startIndex;
-  final int? safeTotalRows = totalRows != null && totalRows >= 0 ? totalRows : null;
+  final int? safeTotalRows = totalRows != null && totalRows >= 0
+      ? totalRows
+      : null;
   if (safeTotalRows == 0) {
     return <MemberListRange>[];
   }

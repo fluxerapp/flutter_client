@@ -9,11 +9,11 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
+import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
-import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
-import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -48,14 +48,14 @@ class _MemberListSidebarMemberRowState
     final String displayName =
         member.nick ?? member.user.globalName ?? member.user.username;
     final String? avatar = member.avatar ?? member.user.avatar;
+    final db.User? presenceUser = ref
+        .watch(userPresenceProvider(widget.userId))
+        .value;
     final String status =
-        ref.watch(userPresenceProvider(widget.userId)).value?.status ??
-        listMember.status ??
-        'offline';
+        presenceUser?.status ?? listMember.status ?? 'offline';
     final bool isOffline = !isMemberPresenceOnline(status);
     final String? customStatus =
-        ref.watch(userPresenceProvider(widget.userId)).value?.customStatus ??
-        listMember.customStatus;
+        presenceUser?.customStatus ?? listMember.customStatus;
     final int? roleColor = resolveMemberHighestRoleColor(
       roleIds: member.roles,
       rolesById: widget.rolesById,
@@ -177,13 +177,11 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
     final String displayName =
         member.nick ?? member.user.globalName ?? member.user.username;
     final String? avatar = member.avatar ?? member.user.avatar;
+    final db.User? presenceUser = ref.watch(userPresenceProvider(userId)).value;
     final String status =
-        ref.watch(userPresenceProvider(userId)).value?.status ??
-        listMember.status ??
-        'offline';
+        presenceUser?.status ?? listMember.status ?? 'offline';
     final String? customStatus =
-        ref.watch(userPresenceProvider(userId)).value?.customStatus ??
-        listMember.customStatus;
+        presenceUser?.customStatus ?? listMember.customStatus;
     final int? roleColor = resolveMemberHighestRoleColor(
       roleIds: member.roles,
       rolesById: rolesById,
@@ -250,10 +248,7 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
                     ),
                     if (hasVisibleCustomStatus(customStatus)) ...<Widget>[
                       const SizedBox(height: 2),
-                      CustomStatusDisplay(
-                        stored: customStatus,
-                        maxLines: 1,
-                      ),
+                      CustomStatusDisplay(stored: customStatus, maxLines: 1),
                     ],
                   ],
                 ),

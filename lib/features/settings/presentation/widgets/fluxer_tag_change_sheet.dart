@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
-import 'package:fluxer_app/core/talker.dart';
-import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
+import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
@@ -381,26 +380,12 @@ class _FluxerTagChangeContentState
   }
 
   Widget _buildPremiumUpsell(
-    UserSettingsViewState state,
     FluxerLayoutTheme layout,
     FluxerLocalizations l10n,
   ) {
-    final String text;
-    if (state.isOutOfBandTrialActive) {
-      final expiryDate = state.premiumOutOfBandTrialEndsAt;
-      if (expiryDate != null) {
-        final formatted = DateFormat.yMMMd().format(expiryDate);
-        text = l10n.premiumTrialExpiresOn(formatted);
-      } else {
-        text = l10n.premiumTrialActive;
-      }
-    } else {
-      text = l10n.premiumUpsellCustomizeTag;
-    }
-
     return Padding(
       padding: EdgeInsets.only(top: layout.s3),
-      child: FluxerPlutoniumUpsell(text: text),
+      child: FluxerPlutoniumUpsell(text: l10n.premiumUpsellCustomizeTag),
     );
   }
 
@@ -496,7 +481,7 @@ class _FluxerTagChangeContentState
               ),
             ),
             if (!hasCustomDiscriminator && shouldShowPremiumCommerce)
-              _buildPremiumUpsell(state, layout, l10n),
+              _buildPremiumUpsell(layout, l10n),
             if (premiumWarning != null) ...[
               SizedBox(height: layout.s3),
               FluxerWarningAlert(message: premiumWarning),

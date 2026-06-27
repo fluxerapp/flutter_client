@@ -6,10 +6,10 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/premium/current_user_entitlements_provider.dart';
 import 'package:fluxer_app/core/premium/premium_state_sync_provider.dart';
 import 'package:fluxer_app/core/premium/user_entitlements.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
@@ -67,7 +67,7 @@ class UserSettingsViewState {
   final RenderSpoilers renderSpoilers;
   final bool defaultHideMutedChannels;
 
-  // TODO(sdk): server-sync once the SDK ships
+  // TODO(M0n7y5): server-sync once the SDK ships
   // `show_faded_unread_on_muted_channels`. For now this is an in-memory
   // accessibility toggle (resets on app restart) so we can ship the indicator
   // parity work without blocking on the SDK regen.
@@ -100,7 +100,6 @@ class UserSettingsViewState {
   final bool premiumBadgeSequenceHidden;
   final bool premiumDiscriminator;
   final String? premiumUntil;
-  final DateTime? premiumOutOfBandTrialEndsAt;
   final String? premiumBillingCycle;
 
   final Object? _editedPremiumBadgeHidden;
@@ -188,7 +187,6 @@ class UserSettingsViewState {
     this.premiumBadgeSequenceHidden = false,
     this.premiumDiscriminator = false,
     this.premiumUntil,
-    this.premiumOutOfBandTrialEndsAt,
     this.premiumBillingCycle,
     Object? editedPremiumBadgeHidden = _unset,
     Object? editedPremiumBadgeMasked = _unset,
@@ -289,7 +287,6 @@ class UserSettingsViewState {
   bool get hasVerifiedEmail => email != null;
 
   bool get hasTotpMfa => authenticatorTypes.contains(0);
-  bool get hasSmsMfa => authenticatorTypes.contains(1);
   bool get hasWebauthnMfa => authenticatorTypes.contains(2);
 
   bool get hasActiveSubscription =>
@@ -299,10 +296,6 @@ class UserSettingsViewState {
       external_link_utils.trustAllDomains(trustedDomains);
 
   int get trustedDomainsCount => trustAllDomains ? 0 : trustedDomains.length;
-
-  bool get isOutOfBandTrialActive =>
-      premiumOutOfBandTrialEndsAt != null &&
-      premiumOutOfBandTrialEndsAt!.isAfter(DateTime.now());
 
   bool get effectivePremiumBadgeHidden =>
       editedPremiumBadgeHidden ?? premiumBadgeHidden;
@@ -469,7 +462,6 @@ class UserSettingsViewState {
     bool? premiumBadgeSequenceHidden,
     bool? premiumDiscriminator,
     Object? premiumUntil = _unset,
-    Object? premiumOutOfBandTrialEndsAt = _unset,
     Object? premiumBillingCycle = _unset,
     Object? editedPremiumBadgeHidden = _unset,
     Object? editedPremiumBadgeMasked = _unset,
@@ -574,9 +566,6 @@ class UserSettingsViewState {
       premiumUntil: premiumUntil == _unset
           ? this.premiumUntil
           : premiumUntil as String?,
-      premiumOutOfBandTrialEndsAt: premiumOutOfBandTrialEndsAt == _unset
-          ? this.premiumOutOfBandTrialEndsAt
-          : premiumOutOfBandTrialEndsAt as DateTime?,
       premiumBillingCycle: premiumBillingCycle == _unset
           ? this.premiumBillingCycle
           : premiumBillingCycle as String?,
@@ -864,7 +853,6 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         premiumBadgeSequenceHidden: profile.premiumBadgeSequenceHidden,
         premiumDiscriminator: profile.premiumDiscriminator,
         premiumUntil: profile.premiumUntil,
-        premiumOutOfBandTrialEndsAt: profile.premiumOutOfBandTrialEndsAt,
         premiumBillingCycle: profile.premiumBillingCycle,
         isProfileLoaded: true,
       );
@@ -1168,16 +1156,19 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
       }
 
       await selectGuild(guildId);
-      await ref.read(fluxerDatabaseProvider).memberDao.upsertMember(
-        MembersCompanion.insert(
-          userId: state.userId,
-          guildId: guildId,
-          serverAvatar: state.guildAvatarMode == GuildAssetMode.custom
-              ? Value(state.guildAvatar)
-              : const Value(null),
-          profileFlags: Value(state.guildProfileFlags),
-        ),
-      );
+      await ref
+          .read(fluxerDatabaseProvider)
+          .memberDao
+          .upsertMember(
+            MembersCompanion.insert(
+              userId: state.userId,
+              guildId: guildId,
+              serverAvatar: state.guildAvatarMode == GuildAssetMode.custom
+                  ? Value(state.guildAvatar)
+                  : const Value(null),
+              profileFlags: Value(state.guildProfileFlags),
+            ),
+          );
     } on Exception catch (e) {
       talker.error('Failed to save guild profile', e);
       state = state.copyWith(
@@ -1446,7 +1437,7 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
     }
   }
 
-  // TODO(sdk): switch to server-sync once the SDK exposes
+  // TODO(M0n7y5): switch to server-sync once the SDK exposes
   // `show_faded_unread_on_muted_channels` on `UserSettingsUpdateRequest` /
   // `UserSettingsResponse`. Until then this is an in-memory toggle.
   void setShowFadedUnreadOnMutedChannels({required bool value}) {

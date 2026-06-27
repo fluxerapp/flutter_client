@@ -56,7 +56,7 @@ class CustomStatusDisplay extends StatelessWidget {
     final SnowflakeType? emojiId = status.emojiId;
     if (emojiId != null) {
       return CachedEmojiImage(
-        emojiId: emojiId.toString(),
+        emojiId: emojiId,
         animated: status.emojiAnimated,
         requestSize: kCustomStatusEmojiRequestSize,
         size: emojiSize,

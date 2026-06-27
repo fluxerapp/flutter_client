@@ -116,27 +116,28 @@ void main() {
       expect(find.text('Fluxer Visionary'), findsOneWidget);
     });
 
-    testWidgets('tapping a subscriber Plutonium badge toasts subscriber since', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        _buildApp(
-          const UserProfileBadges(
-            flags: 0,
-            hasPlutonium: true,
-            premiumSince: '2026-03-14',
+    testWidgets(
+      'tapping a subscriber Plutonium badge toasts subscriber since',
+      (tester) async {
+        await tester.pumpWidget(
+          _buildApp(
+            const UserProfileBadges(
+              flags: 0,
+              hasPlutonium: true,
+              premiumSince: '2026-03-14',
+            ),
           ),
-        ),
-      );
+        );
 
-      await tester.tap(find.byType(SvgPicture));
-      await tester.pump();
+        await tester.tap(find.byType(SvgPicture));
+        await tester.pump();
 
-      expect(
-        find.text('Fluxer Plutonium subscriber since Mar 14, 2026'),
-        findsOneWidget,
-      );
-    });
+        expect(
+          find.text('Fluxer Plutonium subscriber since Mar 14, 2026'),
+          findsOneWidget,
+        );
+      },
+    );
 
     testWidgets('renders Visionary ID when sequence is provided', (
       tester,

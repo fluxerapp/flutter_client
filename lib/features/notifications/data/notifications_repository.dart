@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
@@ -131,8 +132,24 @@ class NotificationsRepository {
       guilds: includeGuilds.toString(),
     );
 
+    final mentionContexts = <String, MessageMentionContext>{};
+    for (final channelId in list.map((sdk) => sdk.channelId).toSet()) {
+      mentionContexts[channelId] = await buildMessageMentionContext(
+        _database,
+        currentUserId: _currentUserId,
+        channelId: channelId,
+      );
+    }
     for (final sdk in list) {
-      final msg = Message.fromSdk(sdk, currentUserId: _currentUserId);
+      final msg = Message.fromSdk(sdk, currentUserId: _currentUserId).copyWith(
+        isMentioned: messageMentionsUser(
+          mentionContexts[sdk.channelId]!,
+          authorId: sdk.author.id,
+          mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
+          mentionEveryone: sdk.mentionEveryone,
+          mentionRoleIds: sdk.mentionRoles,
+        ),
+      );
       await _database.messageDao.upsertMessage(msg.toCompanion());
     }
 
@@ -166,8 +183,24 @@ class NotificationsRepository {
       before: beforeMessageId,
     );
 
+    final mentionContexts = <String, MessageMentionContext>{};
+    for (final channelId in list.map((sdk) => sdk.channelId).toSet()) {
+      mentionContexts[channelId] = await buildMessageMentionContext(
+        _database,
+        currentUserId: _currentUserId,
+        channelId: channelId,
+      );
+    }
     for (final sdk in list) {
-      final msg = Message.fromSdk(sdk, currentUserId: _currentUserId);
+      final msg = Message.fromSdk(sdk, currentUserId: _currentUserId).copyWith(
+        isMentioned: messageMentionsUser(
+          mentionContexts[sdk.channelId]!,
+          authorId: sdk.author.id,
+          mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
+          mentionEveryone: sdk.mentionEveryone,
+          mentionRoleIds: sdk.mentionRoles,
+        ),
+      );
       await _database.messageDao.upsertMessage(msg.toCompanion());
     }
 

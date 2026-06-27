@@ -40,10 +40,9 @@ class GuildSync extends _$GuildSync {
   }
 
   Future<void> _backfillMembersIfSparse(String guildId) async {
-    await ref.read(guildMemberChunkWaiterProvider).waitForChunk(
-      guildId,
-      timeout: const Duration(seconds: 3),
-    );
+    await ref
+        .read(guildMemberChunkWaiterProvider)
+        .waitForChunk(guildId, timeout: const Duration(seconds: 3));
     try {
       await ref.read(memberRepositoryProvider).backfillMembersIfSparse(guildId);
     } on Object catch (e) {

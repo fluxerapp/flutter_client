@@ -22,32 +22,33 @@ bool isPendingNavigationReady({
 class PendingPushNotificationPath extends _$PendingPushNotificationPath {
   @override
   PendingPushNotificationRoute? build() {
-    ref.listen<bool>(gatewayReadyProvider, (bool? previous, bool next) {
-      if (!next) {
-        return;
-      }
-      flushIfReady();
-    });
-    ref.listen<bool>(authStateProvider, (bool? previous, bool next) {
-      if (!next) {
-        return;
-      }
-      flushIfReady();
-    });
-    ref.listen<bool>(gatewayConnectionFailedProvider, (
-      bool? previous,
-      bool next,
-    ) {
-      if (next) {
-        return;
-      }
-      flushIfReady();
-    });
-    ref.listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
-      if (next > 0 && previous != next) {
+    ref
+      ..listen<bool>(gatewayReadyProvider, (bool? previous, bool next) {
+        if (!next) {
+          return;
+        }
         flushIfReady();
-      }
-    });
+      })
+      ..listen<bool>(authStateProvider, (bool? previous, bool next) {
+        if (!next) {
+          return;
+        }
+        flushIfReady();
+      })
+      ..listen<bool>(gatewayConnectionFailedProvider, (
+        bool? previous,
+        bool next,
+      ) {
+        if (next) {
+          return;
+        }
+        flushIfReady();
+      })
+      ..listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
+        if (next > 0 && previous != next) {
+          flushIfReady();
+        }
+      });
     return null;
   }
 

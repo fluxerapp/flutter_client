@@ -41,11 +41,22 @@ void main() {
     return null;
   }
 
+  void enqueue(ProviderContainer container, GuildMemberListUpdateEvent update) {
+    container.read(memberListUpdateBatcherProvider).enqueue(update);
+  }
+
+  void clearAll(ProviderContainer container) {
+    container.read(memberListUpdateBatcherProvider).clearAll();
+  }
+
+  void flushAll(ProviderContainer container) {
+    container.read(memberListUpdateBatcherProvider).flushAll();
+  }
+
   test('applies the first payload immediately', () async {
     final container = buildContainer();
-    final batcher = container.read(memberListUpdateBatcherProvider);
 
-    batcher.enqueue(event(memberCount: 5));
+    enqueue(container, event(memberCount: 5));
 
     final state = listState(container);
     expect(state, isNotNull);
@@ -56,29 +67,26 @@ void main() {
 
   test('defers updates after the first payload until flushed', () async {
     final container = buildContainer();
-    final batcher = container.read(memberListUpdateBatcherProvider);
 
-    batcher.enqueue(event(memberCount: 5));
+    enqueue(container, event(memberCount: 5));
     expect(listState(container)!.memberCount, 5);
 
-    batcher.enqueue(event(memberCount: 9));
+    enqueue(container, event(memberCount: 9));
     // Still the first value: the second event is queued, not applied.
     expect(listState(container)!.memberCount, 5);
 
-    batcher.flushAll();
+    flushAll(container);
     expect(listState(container)!.memberCount, 9);
     await pumpEventQueue();
   });
 
   test('clearAll drops pending updates without applying them', () async {
     final container = buildContainer();
-    final batcher = container.read(memberListUpdateBatcherProvider);
 
-    batcher.enqueue(event(memberCount: 5));
-    batcher.enqueue(event(memberCount: 9));
-
-    batcher.clearAll();
-    batcher.flushAll();
+    enqueue(container, event(memberCount: 5));
+    enqueue(container, event(memberCount: 9));
+    clearAll(container);
+    flushAll(container);
 
     expect(listState(container)!.memberCount, 5);
     await pumpEventQueue();
@@ -86,16 +94,17 @@ void main() {
 
   test('merges ops across batched updates instead of dropping them', () async {
     final container = buildContainer();
-    final batcher = container.read(memberListUpdateBatcherProvider);
 
     // Establish the initial payload with a large list so both row indices below
     // stay in bounds.
-    batcher.enqueue(
+    enqueue(
+      container,
       event(groups: const [MemberListGroup(id: 'all', count: 100)]),
     );
     expect(listState(container)!.rows, isEmpty);
 
-    batcher.enqueue(
+    enqueue(
+      container,
       event(
         groups: const [MemberListGroup(id: 'all', count: 100)],
         ops: <MemberListOp>[
@@ -103,7 +112,8 @@ void main() {
         ],
       ),
     );
-    batcher.enqueue(
+    enqueue(
+      container,
       event(
         groups: const [MemberListGroup(id: 'all', count: 100)],
         ops: <MemberListOp>[
@@ -111,8 +121,7 @@ void main() {
         ],
       ),
     );
-
-    batcher.flushAll();
+    flushAll(container);
 
     // Both ops survived the merge: dropping the earlier op would leave one row.
     expect(listState(container)!.rows.length, 2);
@@ -121,10 +130,9 @@ void main() {
 
   test('auto-applies a queued update after the debounce window', () async {
     final container = buildContainer();
-    final batcher = container.read(memberListUpdateBatcherProvider);
 
-    batcher.enqueue(event(memberCount: 5));
-    batcher.enqueue(event(memberCount: 9));
+    enqueue(container, event(memberCount: 5));
+    enqueue(container, event(memberCount: 9));
     expect(listState(container)!.memberCount, 5);
 
     await Future<void>.delayed(
@@ -137,7 +145,6 @@ void main() {
 
   test('applies the local user own presence change immediately', () async {
     final container = buildContainer();
-    final batcher = container.read(memberListUpdateBatcherProvider);
     container
         .read(memberListViewportProvider.notifier)
         .setSubscribedRanges(
@@ -149,7 +156,8 @@ void main() {
         );
 
     // First payload paints the local user as online.
-    batcher.enqueue(
+    enqueue(
+      container,
       event(
         memberCount: 1,
         ops: [
@@ -160,7 +168,8 @@ void main() {
     expect(rowStatus(container, 'me'), 'online');
 
     // The local user's own status change skips the batch window entirely.
-    batcher.enqueue(
+    enqueue(
+      container,
       event(
         memberCount: 1,
         ops: [

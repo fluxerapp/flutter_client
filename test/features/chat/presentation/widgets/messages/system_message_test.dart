@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/system_message.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 
 void main() {
@@ -15,7 +16,7 @@ void main() {
       id: '1',
       channelId: 'c1',
       authorId: 'u1',
-      authorName: 'Jiralite',
+      authorName: 'Sample User',
       content: '',
       timestamp: DateTime(2026),
       type: messageTypeChannelPinnedMessage,
@@ -24,11 +25,18 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          memberRoleColorProvider(('u1', 'g1')).overrideWith((ref) => roleColor),
+          memberRoleColorProvider((
+            'u1',
+            'g1',
+          )).overrideWith((ref) => roleColor),
         ],
         child: MaterialApp(
+          localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+          supportedLocales: FluxerLocalizations.supportedLocales,
           theme: ThemeData(extensions: <ThemeExtension>[buildDarkColorTheme()]),
-          home: Scaffold(body: SystemMessage(message: message, guildId: 'g1')),
+          home: Scaffold(
+            body: SystemMessage(message: message, guildId: 'g1'),
+          ),
         ),
       ),
     );
@@ -36,10 +44,27 @@ void main() {
 
     final RichText line = tester.widget(
       find.byWidgetPredicate(
-        (w) => w is RichText && w.text.toPlainText().startsWith('Jiralite'),
+        (w) => w is RichText && w.text.toPlainText().startsWith('Sample User'),
       ),
     );
-    final TextSpan username = (line.text as TextSpan).children!.first as TextSpan;
-    expect(username.style?.color, roleColor);
+    expect(_findSpan(line.text, 'Sample User')?.style?.color, roleColor);
   });
+}
+
+TextSpan? _findSpan(InlineSpan span, String text) {
+  if (span is TextSpan) {
+    if (span.text == text) {
+      return span;
+    }
+    final children = span.children;
+    if (children != null) {
+      for (final child in children) {
+        final match = _findSpan(child, text);
+        if (match != null) {
+          return match;
+        }
+      }
+    }
+  }
+  return null;
 }

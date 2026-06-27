@@ -72,6 +72,29 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get logInWithPasskey => 'Log in with a passkey';
 
   @override
+  String continueWithSso(String provider) {
+    return 'Continue with $provider';
+  }
+
+  @override
+  String get ssoRequired => 'SSO is required to access this instance.';
+
+  @override
+  String get organizationSsoProvider =>
+      'Sign in with your organization\'s single sign-on provider.';
+
+  @override
+  String get failedToStartSso => 'Failed to start SSO';
+
+  @override
+  String get ssoCancelled => 'SSO login was cancelled';
+
+  @override
+  String preferSso(String provider) {
+    return 'Prefer using SSO? Continue with $provider.';
+  }
+
+  @override
   String get logInViaBrowser => 'Log in via browser';
 
   @override
@@ -145,20 +168,11 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get mfaMethodTotp => 'Authenticator App';
 
   @override
-  String get mfaMethodSms => 'SMS Code';
-
-  @override
   String get mfaMethodWebauthn => 'Security Key / Passkey';
 
   @override
   String get mfaTotpDescription =>
       'Enter the 6-digit code from your authenticator app or one of your backup codes.';
-
-  @override
-  String get mfaSmsDescription => 'Enter the 6-digit code sent to your phone.';
-
-  @override
-  String get mfaSendSmsCode => 'Send SMS Code';
 
   @override
   String get mfaCodeLabel => 'Code';
@@ -1805,15 +1819,13 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get securityPhoneSectionTitle => 'Phone Number';
 
   @override
-  String get securityPhoneSectionDescription =>
-      'Manage your phone number for SMS two-factor authentication';
+  String get securityPhoneSectionDescription => 'Manage your phone number.';
 
   @override
   String get securityPhoneLabel => 'Phone Number';
 
   @override
-  String get securityPhoneNone =>
-      'Add a phone number to enable SMS two-factor authentication';
+  String get securityPhoneNone => 'No phone number added.';
 
   @override
   String get securityPhoneAdd => 'Add Phone';
@@ -1829,46 +1841,7 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
       'Are you sure you want to remove your phone number?';
 
   @override
-  String get securityPhoneRemoveWarning =>
-      'This will also disable SMS two-factor authentication.';
-
-  @override
   String get securityPhoneRemoved => 'Phone number removed';
-
-  @override
-  String get securitySmsSectionTitle => 'SMS Two-Factor Authentication';
-
-  @override
-  String get securitySmsSectionDescription =>
-      'Receive verification codes via SMS as a backup authentication method';
-
-  @override
-  String get securitySmsBackup => 'SMS Backup';
-
-  @override
-  String get securitySmsEnabled => 'SMS two-factor authentication is enabled';
-
-  @override
-  String get securitySmsDisabled =>
-      'Enable SMS codes as a backup for your authenticator app';
-
-  @override
-  String get securitySmsEnableTitle => 'Enable SMS Two-Factor Authentication';
-
-  @override
-  String get securitySmsEnableDescription =>
-      'SMS two-factor authentication adds an additional layer of security by requiring a verification code sent to your phone number when signing in.';
-
-  @override
-  String get securitySmsDisableTitle => 'Disable SMS Two-Factor Authentication';
-
-  @override
-  String get securitySmsDisableDescription =>
-      'Are you sure you want to disable SMS two-factor authentication? This will make your account less secure.';
-
-  @override
-  String get securitySmsDisabledForPartners =>
-      'SMS backup is disabled for partners';
 
   @override
   String get securityClaimTitle => 'Security Features';
@@ -4678,6 +4651,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
 
   @override
+  String get chatReplyAttachedMedia => 'Message contains attached media';
+
+  @override
   String get chatMessagesLoadError => 'Couldn\'t load messages.';
 
   @override
@@ -4953,6 +4929,21 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get userSettingsNavAdvanced => 'Advanced';
 
   @override
+  String get advancedPerformanceReportingTitle => 'Performance reporting';
+
+  @override
+  String get advancedPerformanceReportingSectionDescription =>
+      'Help improve Fluxer by sharing anonymous crash and performance data.';
+
+  @override
+  String get advancedPerformanceReportingLabel =>
+      'Send crash and performance reports';
+
+  @override
+  String get advancedPerformanceReportingDescription =>
+      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+
+  @override
   String get userSettingsNavApplications => 'Applications';
 
   @override
@@ -5092,6 +5083,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get uiClose => 'Close';
 
   @override
+  String get chatJumpToBottom => 'Jump to bottom';
+
+  @override
   String get uiConfirm => 'Confirm';
 
   @override
@@ -5145,6 +5139,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+
+  @override
+  String get resetToDefaultInstance => 'Reset to Fluxer';
 
   @override
   String get instanceConnect => 'Connect';

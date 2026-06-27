@@ -17,9 +17,7 @@ void main() {
         isTrue,
       );
       expect(
-        isNotificationClearPayload(const <String, String>{
-          'channel_id': '123',
-        }),
+        isNotificationClearPayload(const <String, String>{'channel_id': '123'}),
         isFalse,
       );
     });
@@ -35,9 +33,7 @@ void main() {
 
     test('derives channel id from channel tag', () {
       expect(
-        resolvePushChannelId(const <String, String>{
-          'tag': 'channel:456:789',
-        }),
+        resolvePushChannelId(const <String, String>{'tag': 'channel:456:789'}),
         '456',
       );
     });
@@ -83,9 +79,7 @@ void main() {
 
     test('falls back to channel tag from channel_id', () {
       expect(
-        resolvePushNotificationTag(const <String, String>{
-          'channel_id': '99',
-        }),
+        resolvePushNotificationTag(const <String, String>{'channel_id': '99'}),
         'channel:99',
       );
     });
@@ -134,9 +128,7 @@ void main() {
 
     test('falls back to channel tag when message tag is missing', () {
       expect(
-        resolvePushDisplayTag(const <String, String>{
-          'channel_id': '77',
-        }),
+        resolvePushDisplayTag(const <String, String>{'channel_id': '77'}),
         'channel:77',
       );
     });
@@ -145,9 +137,7 @@ void main() {
   group('enrichPushPayload', () {
     test('backfills channel_id and notification_tag from url', () {
       final Map<String, String> enriched = enrichPushPayload(
-        const <String, String>{
-          'url': '/channels/@me/dm-3/msg-4',
-        },
+        const <String, String>{'url': '/channels/@me/dm-3/msg-4'},
       );
       expect(enriched['channel_id'], 'dm-3');
       expect(enriched['notification_tag'], 'channel:dm-3');
@@ -174,13 +164,12 @@ void main() {
 
   group('normalizePushTapPayload', () {
     test('unwraps nested data json for navigation fields', () {
-      final Map<String, String> normalized = normalizePushTapPayload(
-        <String, String>{
-          'data':
-              '{"channel_id":"dm-1","message_id":"msg-1","guild_id":"null",'
-              '"url":"/channels/@me/dm-1/msg-1"}',
-        },
-      );
+      final Map<String, String> normalized =
+          normalizePushTapPayload(<String, String>{
+            'data':
+                '{"channel_id":"dm-1","message_id":"msg-1","guild_id":"null",'
+                '"url":"/channels/@me/dm-1/msg-1"}',
+          });
       expect(normalized['channel_id'], 'dm-1');
       expect(normalized['message_id'], 'msg-1');
       expect(normalized['url'], '/channels/@me/dm-1/msg-1');
@@ -190,10 +179,7 @@ void main() {
 
     test('maps navigate to url when url is missing', () {
       final Map<String, String> normalized = normalizePushTapPayload(
-        <String, String>{
-          'navigate': '/channels/10/20/30',
-          'channel_id': '20',
-        },
+        <String, String>{'navigate': '/channels/10/20/30', 'channel_id': '20'},
       );
       expect(normalized['url'], '/channels/10/20/30');
       expect(normalized.containsKey('navigate'), isFalse);

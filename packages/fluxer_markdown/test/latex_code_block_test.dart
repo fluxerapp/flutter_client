@@ -40,7 +40,8 @@ Future<void> _pumpMarkdown(WidgetTester tester, String data) async {
 void main() {
   group('latex code blocks', () {
     testWidgets('renders latex fenced block with LaTexT', (tester) async {
-      const String input = r'''```latex
+      const String input = r'''
+```latex
 \int_0^\infty e^{-x} dx
 ```''';
       await _pumpMarkdown(tester, input);
@@ -49,7 +50,8 @@ void main() {
     });
 
     testWidgets('renders tex fenced block with LaTexT', (tester) async {
-      const String input = r'''```tex
+      const String input = '''
+```tex
 x^2 + y^2 = z^2
 ```''';
       await _pumpMarkdown(tester, input);
@@ -60,7 +62,8 @@ x^2 + y^2 = z^2
     testWidgets('dart fenced block still uses syntax highlighting', (
       tester,
     ) async {
-      const String input = r'''```dart
+      const String input = '''
+```dart
 void main() {}
 ```''';
       await _pumpMarkdown(tester, input);
@@ -71,7 +74,8 @@ void main() {}
     testWidgets('keeps markdown alert syntax inside fenced block', (
       tester,
     ) async {
-      const String input = '''```
+      const String input = '''
+```
 > [!NOTE]
 Alert syntax stays literal
 ```''';

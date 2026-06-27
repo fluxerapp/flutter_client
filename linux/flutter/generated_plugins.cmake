@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_linux
   desktop_drop
+  desktop_webview_window
   file_selector_linux
   flutter_inappwebview_linux
   flutter_secure_storage_linux
@@ -19,6 +20,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   super_native_extensions
   url_launcher_linux
   window_manager
+  window_to_front
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

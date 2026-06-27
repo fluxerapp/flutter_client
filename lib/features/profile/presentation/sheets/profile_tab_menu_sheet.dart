@@ -60,11 +60,9 @@ class ProfileTabMenuSheetBody extends ConsumerWidget {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final UserSettingsViewState user = ref.watch(userSettingsViewModelProvider);
     final String? selfUserId = user.userId.isEmpty ? null : user.userId;
-    final String status =
-        selfUserId == null
-            ? 'online'
-            : ref.watch(userPresenceProvider(selfUserId)).value?.status ??
-                'online';
+    final String status = selfUserId == null
+        ? 'online'
+        : ref.watch(userPresenceProvider(selfUserId)).value?.status ?? 'online';
 
     return FluxerBottomSheetGroupColumn(
       children: [

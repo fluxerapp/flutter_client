@@ -50,31 +50,34 @@ void main() {
       expect(actual, kDefaultFreeLimits[LimitKeys.maxAttachmentFileSize]);
     });
 
-    test('self-hosted everyone mode grants feature toggles without premium trait', () {
-      const LimitConfigSnapshot snapshot = LimitConfigSnapshot(
-        traitDefinitions: <String>[],
-        rules: <LimitRule>[
-          LimitRule(
-            id: 'default',
-            limits: <String, int>{
-              LimitKeys.featureGlobalExpressions: 1,
-              LimitKeys.maxMessageLength: kMaxMessageLengthPremium,
-            },
-          ),
-        ],
-      );
-      final LimitEvaluator evaluator = LimitEvaluator(snapshot);
-      final LimitMatchContext context = buildUserLimitContext(
-        traits: const <String>[],
-      );
-      expect(
-        evaluator.resolveOne(context, LimitKeys.featureGlobalExpressions),
-        1,
-      );
-      expect(
-        evaluator.resolveOne(context, LimitKeys.maxMessageLength),
-        kMaxMessageLengthPremium,
-      );
-    });
+    test(
+      'self-hosted everyone mode grants feature toggles without premium trait',
+      () {
+        const LimitConfigSnapshot snapshot = LimitConfigSnapshot(
+          traitDefinitions: <String>[],
+          rules: <LimitRule>[
+            LimitRule(
+              id: 'default',
+              limits: <String, int>{
+                LimitKeys.featureGlobalExpressions: 1,
+                LimitKeys.maxMessageLength: kMaxMessageLengthPremium,
+              },
+            ),
+          ],
+        );
+        final LimitEvaluator evaluator = LimitEvaluator(snapshot);
+        final LimitMatchContext context = buildUserLimitContext(
+          traits: const <String>[],
+        );
+        expect(
+          evaluator.resolveOne(context, LimitKeys.featureGlobalExpressions),
+          1,
+        );
+        expect(
+          evaluator.resolveOne(context, LimitKeys.maxMessageLength),
+          kMaxMessageLengthPremium,
+        );
+      },
+    );
   });
 }

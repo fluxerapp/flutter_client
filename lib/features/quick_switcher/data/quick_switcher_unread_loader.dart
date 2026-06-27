@@ -2,7 +2,8 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
-import 'package:fluxer_app/features/channels/domain/channel.dart' show isGuildTextBasedChannel;
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isGuildTextBasedChannel;
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/quick_switcher/data/quick_switcher_unread_utils.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_unread_channel.dart';
@@ -13,9 +14,10 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
   required String? currentUserId,
   required List<DmConversation> conversations,
 }) async {
-  final Map<String, DmConversation> conversationsById = <String, DmConversation>{
-    for (final DmConversation convo in conversations) convo.id: convo,
-  };
+  final Map<String, DmConversation> conversationsById =
+      <String, DmConversation>{
+        for (final DmConversation convo in conversations) convo.id: convo,
+      };
   final List<Channel> guildChannelRows = await db.channelDao.getAllChannels();
   final Map<String, Channel> guildChannelsById = <String, Channel>{
     for (final Channel row in guildChannelRows) row.id: row,
@@ -38,7 +40,8 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
     }
   }
   final DateTime now = DateTime.now();
-  final List<QuickSwitcherUnreadChannel> unread = <QuickSwitcherUnreadChannel>[];
+  final List<QuickSwitcherUnreadChannel> unread =
+      <QuickSwitcherUnreadChannel>[];
   // Walk read states, not the conversation list. DMs live in dm_channel, not
   // channelDao, so we resolve guild rows first and fall back to conversations.
   for (final ReadState readState in readStates) {
@@ -63,11 +66,12 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
     if (convo == null || convo.isPersonalNotes) {
       continue;
     }
-    final QuickSwitcherUnreadChannel? dmUnread = await _dmUnreadFromConversation(
-      db: db,
-      convo: convo,
-      readState: readState,
-    );
+    final QuickSwitcherUnreadChannel? dmUnread =
+        await _dmUnreadFromConversation(
+          db: db,
+          convo: convo,
+          readState: readState,
+        );
     if (dmUnread != null) {
       unread.add(dmUnread);
     }
@@ -79,11 +83,12 @@ Future<List<QuickSwitcherUnreadChannel>> loadQuickSwitcherUnreadChannels({
     if (seenChannelIds.contains(convo.id) || convo.isPersonalNotes) {
       continue;
     }
-    final QuickSwitcherUnreadChannel? dmUnread = await _dmUnreadFromConversation(
-      db: db,
-      convo: convo,
-      readState: readStateByChannelId[convo.id],
-    );
+    final QuickSwitcherUnreadChannel? dmUnread =
+        await _dmUnreadFromConversation(
+          db: db,
+          convo: convo,
+          readState: readStateByChannelId[convo.id],
+        );
     if (dmUnread == null) {
       continue;
     }
@@ -119,9 +124,7 @@ Future<QuickSwitcherUnreadChannel?> _guildUnreadFromReadState({
     now: now,
   );
   final int rawMentions = readState.mentionCount;
-  final int mentionCount = unreadSettings.allowsMentionUnread
-      ? rawMentions
-      : 0;
+  final int mentionCount = unreadSettings.allowsMentionUnread ? rawMentions : 0;
   final String? latestMessageId = await resolveLatestMessageIdForUnreadDisplay(
     db,
     row.id,
@@ -186,10 +189,7 @@ Future<QuickSwitcherUnreadChannel?> _dmUnreadFromConversation({
   );
 }
 
-Future<String?> _latestDmMessageId(
-  FluxerDatabase db,
-  String channelId,
-) async {
+Future<String?> _latestDmMessageId(FluxerDatabase db, String channelId) async {
   final row = await db.dmChannelDao.getDmChannelById(channelId);
   if (row?.lastMessageId != null && row!.lastMessageId!.isNotEmpty) {
     return row.lastMessageId;

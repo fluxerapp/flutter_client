@@ -327,8 +327,8 @@ class FolderExpandedState extends _$FolderExpandedState {
     if (_isApplyingRemote) {
       return;
     }
-    ref.read(syncedPreferencesStoreProvider).markDirty(
-      SyncedPreferenceField.guildFolders,
-    );
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.guildFolders);
   }
 }

@@ -48,16 +48,22 @@ class ActiveInstance extends _$ActiveInstance {
 
   Future<List<RecentInstance>> connectToEndpoint(String input) async {
     final int connectId = ++_connectSeq;
-    final InstanceConfigSnapshot snapshot =
-        await _discoveryService.connectToEndpoint(input);
+    final InstanceConfigSnapshot snapshot = await _discoveryService
+        .connectToEndpoint(input);
     if (connectId != _connectSeq) {
-      return ref.read(fluxerDatabaseProvider).recentInstancesDao.getRecentInstances();
+      return ref
+          .read(fluxerDatabaseProvider)
+          .recentInstancesDao
+          .getRecentInstances();
     }
     _applySnapshot(snapshot);
-    return ref.read(fluxerDatabaseProvider).recentInstancesDao.touchRecentInstance(
-      domain: snapshot.displayDomain,
-      name: snapshot.instanceDisplayName,
-    );
+    return ref
+        .read(fluxerDatabaseProvider)
+        .recentInstancesDao
+        .touchRecentInstance(
+          domain: snapshot.displayDomain,
+          name: snapshot.instanceDisplayName,
+        );
   }
 
   void applySnapshot(InstanceConfigSnapshot snapshot) {

@@ -11,6 +11,8 @@ typedef AnimationCheckResult = ({bool isAnimated, String? format});
 
 const int _kMaxImageSizeBytes = 10 * 1024 * 1024;
 
+// Preserves the existing image utility API used by profile settings.
+// ignore: avoid_classes_with_only_static_members
 abstract final class ImageUtils {
   static Future<({Uint8List bytes, String name})?> pickImage() {
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {

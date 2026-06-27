@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -705,7 +705,6 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
         width: _imageSize,
         height: _imageSize,
         memCacheWidth: _imageSize.toInt(),
-        memCacheHeight: _imageSize.toInt(),
         fadeInDuration: Duration.zero,
         fadeOutDuration: Duration.zero,
         fit: BoxFit.contain,

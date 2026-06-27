@@ -22,18 +22,9 @@ class AppBottomNavBar extends ConsumerWidget {
   final ValueChanged<int> onBranchSelected;
 
   static const List<_NavItemConfig> _items = <_NavItemConfig>[
-    _NavItemConfig(
-      icon: PhosphorIconsFill.house,
-      label: 'Home',
-    ),
-    _NavItemConfig(
-      icon: PhosphorIconsFill.bell,
-      label: 'Notifications',
-    ),
-    _NavItemConfig(
-      label: 'You',
-      isProfile: true,
-    ),
+    _NavItemConfig(icon: PhosphorIconsFill.house, label: 'Home'),
+    _NavItemConfig(icon: PhosphorIconsFill.bell, label: 'Notifications'),
+    _NavItemConfig(label: 'You', isProfile: true),
   ];
 
   @override
@@ -142,10 +133,7 @@ class _AppBottomNavItem extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 config.label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: itemColor,
-                ),
+                style: TextStyle(fontSize: 12, color: itemColor),
               ),
             ],
           ),

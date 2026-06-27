@@ -37,18 +37,22 @@ CallKitParams buildVoiceCallKitParams({
     missedCallNotification: NotificationParams(
       showNotification: true,
       isShowCallback: false,
-      subtitle: display.isDm ? display.nameCaller : display.notificationSubtitle,
+      subtitle: display.isDm
+          ? display.nameCaller
+          : display.notificationSubtitle,
       callbackText: '',
     ),
     callingNotification: NotificationParams(
       showNotification: true,
       isShowCallback: true,
-      subtitle: display.isDm ? display.nameCaller : display.notificationSubtitle,
+      subtitle: display.isDm
+          ? display.nameCaller
+          : display.notificationSubtitle,
       callbackText: l10n.incomingVoiceCallDecline,
     ),
     extra: <String, dynamic>{
       kVoiceCallKitExtraChannelId: channelId,
-      if (messageId != null) kVoiceCallKitExtraMessageId: messageId,
+      kVoiceCallKitExtraMessageId: ?messageId,
       kVoiceCallKitExtraIsDm: display.isDm,
     },
     android: AndroidParams(

@@ -1,5 +1,7 @@
 import 'package:fluxer_app/features/shell/presentation/sidebar_drawer.dart'
     show SidebarDrawer;
+import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart'
+    show currentRevealSideProvider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'drawer_reveal_sync_trigger_provider.g.dart';

@@ -6,8 +6,11 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/dm_unread_state.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -84,6 +87,13 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
     );
 
     final isGroup = widget.type == 3;
+    final DmConversation? groupDm = isGroup
+        ? ref.watch(
+            dmViewModelProvider.select(
+              (state) => _findConversation(state.conversations),
+            ),
+          )
+        : null;
     final recipient = isGroup
         ? null
         : ref.watch(userPresenceProvider(widget.recipientId)).value;
@@ -164,10 +174,16 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                                 ),
                               ),
                               child: isGroup
-                                  ? FluxerAvatarCluster(
-                                      channelId: widget.channelId,
-                                      size: 44,
-                                    )
+                                  ? groupDm != null
+                                        ? groupDmAvatarCluster(
+                                            dm: groupDm,
+                                            size: 44,
+                                            status: groupDm.groupStatus,
+                                          )
+                                        : FluxerAvatarCluster(
+                                            channelId: widget.channelId,
+                                            size: 44,
+                                          )
                                   : FluxerAvatar.user(
                                       fallbackText: widget.displayName,
                                       userId: widget.recipientId,
@@ -202,5 +218,14 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
         ),
       ),
     );
+  }
+
+  DmConversation? _findConversation(List<DmConversation> conversations) {
+    for (final conversation in conversations) {
+      if (conversation.id == widget.channelId) {
+        return conversation;
+      }
+    }
+    return null;
   }
 }

@@ -266,9 +266,7 @@ void main() {
 
     test('statesEqual treats null and @me guildId as equivalent', () {
       const withNull = FavoritesLocalState(
-        channels: [
-          db.FavoriteChannel(channelId: 'dm-1', position: 0),
-        ],
+        channels: [db.FavoriteChannel(channelId: 'dm-1', position: 0)],
         categories: [],
         collapsedCategoryIds: [],
         hideMutedChannels: false,
@@ -276,11 +274,7 @@ void main() {
       );
       const withAtMe = FavoritesLocalState(
         channels: [
-          db.FavoriteChannel(
-            channelId: 'dm-1',
-            guildId: '@me',
-            position: 0,
-          ),
+          db.FavoriteChannel(channelId: 'dm-1', guildId: '@me', position: 0),
         ],
         categories: [],
         collapsedCategoryIds: [],

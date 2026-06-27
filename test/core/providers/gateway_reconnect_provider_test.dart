@@ -59,6 +59,30 @@ void main() {
     expect(container.read(gatewaySessionRecoveryProvider), 2);
   });
 
+  test('shouldKeepGatewayConnectedForVoiceFromState', () {
+    expect(
+      shouldKeepGatewayConnectedForVoiceFromState(
+        isInVoice: true,
+        pendingIncomingChannelIds: const <String>[],
+      ),
+      isTrue,
+    );
+    expect(
+      shouldKeepGatewayConnectedForVoiceFromState(
+        isInVoice: false,
+        pendingIncomingChannelIds: const <String>['channel-1'],
+      ),
+      isTrue,
+    );
+    expect(
+      shouldKeepGatewayConnectedForVoiceFromState(
+        isInVoice: false,
+        pendingIncomingChannelIds: const <String>[],
+      ),
+      isFalse,
+    );
+  });
+
   group('isPendingNavigationReady', () {
     test('requires auth, gateway ready, and no connection failure', () {
       expect(

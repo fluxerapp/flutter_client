@@ -655,7 +655,7 @@ UserProfileFullResponseGuildMemberProfile _guildProfile({
 }
 
 db.User _dbUser() {
-  return db.User(
+  return const db.User(
     id: '1',
     username: 'user',
     discriminator: '0001',

@@ -16,16 +16,17 @@ part 'friend_relationships_sync_provider.g.dart';
 class FriendRelationshipsSync extends _$FriendRelationshipsSync {
   @override
   void build() {
-    ref.listen<bool>(gatewayReadyProvider, (bool? previous, bool next) {
-      if (!(previous ?? false) && next) {
-        unawaited(_sync());
-      }
-    });
-    ref.listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
-      if (next > 0 && previous != next) {
-        unawaited(_sync());
-      }
-    });
+    ref
+      ..listen<bool>(gatewayReadyProvider, (bool? previous, bool next) {
+        if (!(previous ?? false) && next) {
+          unawaited(_sync());
+        }
+      })
+      ..listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
+        if (next > 0 && previous != next) {
+          unawaited(_sync());
+        }
+      });
     if (ref.read(gatewayReadyProvider)) {
       unawaited(_sync());
     }
@@ -34,7 +35,7 @@ class FriendRelationshipsSync extends _$FriendRelationshipsSync {
   Future<void> _sync() async {
     try {
       await ref.read(friendRepositoryProvider).getRelationships();
-    } catch (e, st) {
+    } on Exception catch (e, st) {
       talker.warning('[FriendRelationshipsSync] Failed to sync: $e', st);
     }
   }

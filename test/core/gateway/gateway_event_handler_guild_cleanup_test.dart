@@ -8,11 +8,14 @@ import 'package:fluxer_dart/gateway.dart';
 
 void main() {
   group('guild membership cleanup', () {
-    Future<({
-      GatewayEventHandler handler,
-      FluxerDatabase database,
-      List<String> evictedGuildIds,
-    })> buildHandler() async {
+    Future<
+      ({
+        GatewayEventHandler handler,
+        FluxerDatabase database,
+        List<String> evictedGuildIds,
+      })
+    >
+    buildHandler() async {
       final database = FluxerDatabase.forTesting(NativeDatabase.memory());
       addTearDown(database.close);
       final evictedGuildIds = <String>[];
@@ -49,11 +52,7 @@ void main() {
 
     test('incremental READY prunes guilds missing from payload', () async {
       final ctx = await buildHandler();
-      await sendReady(
-        ctx.handler,
-        rawGuilds: [_guildRaw(id: '200')],
-        sessionId: 'session-1',
-      );
+      await sendReady(ctx.handler, rawGuilds: [_guildRaw(id: '200')]);
       await ctx.database.guildDao.upsertServer(
         ServersCompanion.insert(id: 'stale', name: 'Stale Guild'),
       );
@@ -69,28 +68,34 @@ void main() {
       expect(ctx.evictedGuildIds, contains('stale'));
     });
 
-    test('incremental READY keeps unavailable guilds listed in payload', () async {
-      final ctx = await buildHandler();
-      await sendReady(ctx.handler, rawGuilds: [_guildRaw(id: '200')]);
-      await ctx.database.guildDao.upsertServer(
-        ServersCompanion.insert(
-          id: 'unavailable',
-          name: 'Unavailable Guild',
-          unavailable: const Value(true),
-        ),
-      );
+    test(
+      'incremental READY keeps unavailable guilds listed in payload',
+      () async {
+        final ctx = await buildHandler();
+        await sendReady(ctx.handler, rawGuilds: [_guildRaw(id: '200')]);
+        await ctx.database.guildDao.upsertServer(
+          ServersCompanion.insert(
+            id: 'unavailable',
+            name: 'Unavailable Guild',
+            unavailable: const Value(true),
+          ),
+        );
 
-      await sendReady(
-        ctx.handler,
-        rawGuilds: [
-          _guildRaw(id: '200'),
-          {'id': 'unavailable', 'unavailable': true},
-        ],
-        sessionId: 'session-2',
-      );
+        await sendReady(
+          ctx.handler,
+          rawGuilds: [
+            _guildRaw(id: '200'),
+            {'id': 'unavailable', 'unavailable': true},
+          ],
+          sessionId: 'session-2',
+        );
 
-      expect(await ctx.database.guildDao.getServerById('unavailable'), isNotNull);
-    });
+        expect(
+          await ctx.database.guildDao.getServerById('unavailable'),
+          isNotNull,
+        );
+      },
+    );
 
     test('GUILD_MEMBER_REMOVE for current user removes guild', () async {
       final ctx = await buildHandler();
@@ -131,9 +136,7 @@ void main() {
         ServersCompanion.insert(id: 'g1', name: 'Guild One'),
       );
 
-      await ctx.handler.handle(
-        const GuildDeleteEvent(guildId: 'g1'),
-      );
+      await ctx.handler.handle(const GuildDeleteEvent(guildId: 'g1'));
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       expect(await ctx.database.guildDao.getServerById('g1'), isNull);

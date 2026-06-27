@@ -8,13 +8,16 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_item.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/src/framework.dart' show Override;
@@ -106,6 +109,56 @@ void main() {
       await tester.pumpAndSettle();
       expect(router.state.uri.path, '/channels/@me/1000000000000000005');
     });
+
+    testWidgets('group DM without uploaded icon renders member cluster', (
+      tester,
+    ) async {
+      final router = _buildRouter(
+        home: const DmNavbarItem(
+          channelId: '1000000000000000010',
+          recipientId: '1000000000000000011',
+          displayName: 'Group',
+          type: 3,
+        ),
+      );
+      addTearDown(router.dispose);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          router: router,
+          dmViewState: DmViewState(
+            conversations: [
+              DmConversation(
+                id: '1000000000000000010',
+                type: 3,
+                recipientId: '1000000000000000011',
+                recipientName: 'Group',
+                lastMessage: '',
+                lastMessageTime: DateTime.fromMillisecondsSinceEpoch(0),
+                groupMembers: [
+                  GroupMemberInfo(id: '1000000000000000011', name: 'Alpha'),
+                  GroupMemberInfo(id: '1000000000000000012', name: 'Beta'),
+                  GroupMemberInfo(id: '1000000000000000013', name: 'Gamma'),
+                ],
+              ),
+            ],
+            friendsList: [],
+            activeTab: FriendsTab.online,
+            searchQuery: '',
+          ),
+        ),
+      );
+
+      final cluster = tester.widget<FluxerAvatarCluster>(
+        find.byType(FluxerAvatarCluster),
+      );
+      expect(cluster.iconUrl, isNull);
+      expect(cluster.members.map((member) => member.userId), [
+        '1000000000000000011',
+        '1000000000000000012',
+        '1000000000000000013',
+      ]);
+    });
   });
 }
 
@@ -131,7 +184,7 @@ GoRouter _buildRouter({required Widget home}) {
   );
 }
 
-Widget _buildTestApp({required GoRouter router}) {
+Widget _buildTestApp({required GoRouter router, DmViewState? dmViewState}) {
   final colorTheme = buildDarkColorTheme();
   final overrides = <Override>[
     fluxerRouterProvider.overrideWithValue(router),
@@ -151,19 +204,28 @@ Widget _buildTestApp({required GoRouter router}) {
     userPresenceProvider(
       '1000000000000000008',
     ).overrideWith((ref) => Stream.value(null)),
+    dmViewModelProvider.overrideWithValue(
+      dmViewState ??
+          const DmViewState(
+            conversations: [],
+            friendsList: [],
+            activeTab: FriendsTab.online,
+            searchQuery: '',
+          ),
+    ),
     userSettingsViewModelProvider.overrideWith(_TestUserSettingsViewModel.new),
     matureContentGateReasonProvider(
       '1000000000000000001',
-    ).overrideWith((ref) async => MatureContentGateReason.none),
+    ).overrideWith((ref) => MatureContentGateReason.none),
     matureContentGateReasonProvider(
       '1000000000000000003',
-    ).overrideWith((ref) async => MatureContentGateReason.none),
+    ).overrideWith((ref) => MatureContentGateReason.none),
     matureContentGateReasonProvider(
       '1000000000000000005',
-    ).overrideWith((ref) async => MatureContentGateReason.none),
+    ).overrideWith((ref) => MatureContentGateReason.none),
     matureContentGateReasonProvider(
       '1000000000000000007',
-    ).overrideWith((ref) async => MatureContentGateReason.none),
+    ).overrideWith((ref) => MatureContentGateReason.none),
     unreadDmChannelsProvider.overrideWith(
       () => _FakeUnreadDmChannels(
         const UnreadDmState(

@@ -9,7 +9,6 @@ import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
-import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
@@ -55,27 +54,30 @@ class DeepLinkHandler extends _$DeepLinkHandler {
   }
 
   void _handleDeepLink(Uri uri) {
+    final Uri normalizedUri = normalizeAppProtocolDeepLinkUri(uri);
     talker.info('[DeepLink] Received: $uri');
 
     // Password reset links work without authentication.
-    if (_tryHandleResetLink(uri)) {
+    if (_tryHandleResetLink(normalizedUri)) {
       return;
     }
 
-    if (!isAllowedDeepLinkPath(uri)) {
-      talker.info('[DeepLink] Ignored non-routable path: ${uri.path}');
+    if (!isAllowedDeepLinkPath(normalizedUri)) {
+      talker.info(
+        '[DeepLink] Ignored non-routable path: ${normalizedUri.path}',
+      );
       return;
     }
 
     final isAuthenticated = ref.read(authStateProvider);
     if (!isAuthenticated) {
-      _pendingDeepLink = uri;
-      _extractInviteCode(uri);
+      _pendingDeepLink = normalizedUri;
+      _extractInviteCode(normalizedUri);
       talker.info('[DeepLink] Queued for after auth');
       return;
     }
 
-    _processDeepLink(uri);
+    _processDeepLink(normalizedUri);
   }
 
   void _extractInviteCode(Uri uri) {
@@ -108,8 +110,7 @@ class DeepLinkHandler extends _$DeepLinkHandler {
     ref.read(loginViewModelProvider.notifier).setResetToken(token);
 
     // Navigate to login screen if not already there.
-    final router = ref.read(fluxerRouterProvider);
-    router.go('/login');
+    ref.read(fluxerRouterProvider).go('/login');
 
     return true;
   }
@@ -177,16 +178,16 @@ class DeepLinkHandler extends _$DeepLinkHandler {
     }
     final BuildContext? context = rootNavigatorKey.currentContext;
     if (context == null || !context.mounted) {
-      talker.warning('[DeepLink] Cannot open user settings: no navigator context');
+      talker.warning(
+        '[DeepLink] Cannot open user settings: no navigator context',
+      );
       return;
     }
     talker.info(
       '[DeepLink] Opening user settings'
       '${target.section == null ? '' : ' (${target.section!.name})'}',
     );
-    unawaited(
-      UserSettingsModal.show(context, initialSection: target.section),
-    );
+    unawaited(UserSettingsModal.show(context, initialSection: target.section));
   }
 
   void _handleChannelDeepLink(GoRouter router, List<String> segments) {

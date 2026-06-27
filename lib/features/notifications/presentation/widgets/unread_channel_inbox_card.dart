@@ -99,9 +99,9 @@ class _UnreadChannelInboxCardState
       channelId: widget.entry.channelId,
       isCollapsed: nextCollapsed,
     );
-    ref.read(syncedPreferencesStoreProvider).markDirty(
-      SyncedPreferenceField.unreadChannels,
-    );
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.unreadChannels);
     if (nextCollapsed || !mounted) {
       return;
     }

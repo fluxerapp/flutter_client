@@ -102,4 +102,122 @@ void main() {
       );
     });
   });
+
+  group('distanceFromScrollExtentEnd', () {
+    test('returns zero at minScrollExtent', () {
+      expect(distanceFromScrollExtentEnd(pixels: 80, minScrollExtent: 80), 0);
+    });
+
+    test('returns offset above minScrollExtent', () {
+      expect(distanceFromScrollExtentEnd(pixels: 140, minScrollExtent: 80), 60);
+    });
+  });
+
+  group('isAtLeastOneViewportFromBottom', () {
+    test('is false below one viewport', () {
+      expect(
+        isAtLeastOneViewportFromBottom(
+          distanceFromBottom: 399,
+          viewportHeight: 400,
+        ),
+        isFalse,
+      );
+    });
+
+    test('is true at one viewport', () {
+      expect(
+        isAtLeastOneViewportFromBottom(
+          distanceFromBottom: 400,
+          viewportHeight: 400,
+        ),
+        isTrue,
+      );
+    });
+  });
+
+  group('shouldShowJumpToBottomButton', () {
+    test('returns false when there are no messages', () {
+      expect(
+        shouldShowJumpToBottomButton(
+          hasMessages: false,
+          isLoading: false,
+          isActiveReadChannel: true,
+          distanceFromBottom: 500,
+          viewportHeight: 400,
+          hasMoreNewerMessages: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns false when loading', () {
+      expect(
+        shouldShowJumpToBottomButton(
+          hasMessages: true,
+          isLoading: true,
+          isActiveReadChannel: true,
+          distanceFromBottom: 500,
+          viewportHeight: 400,
+          hasMoreNewerMessages: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns false when channel is not actively read', () {
+      expect(
+        shouldShowJumpToBottomButton(
+          hasMessages: true,
+          isLoading: false,
+          isActiveReadChannel: false,
+          distanceFromBottom: 500,
+          viewportHeight: 400,
+          hasMoreNewerMessages: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns false within one viewport of bottom on latest page', () {
+      expect(
+        shouldShowJumpToBottomButton(
+          hasMessages: true,
+          isLoading: false,
+          isActiveReadChannel: true,
+          distanceFromBottom: 200,
+          viewportHeight: 400,
+          hasMoreNewerMessages: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns true when scrolled up at least one viewport', () {
+      expect(
+        shouldShowJumpToBottomButton(
+          hasMessages: true,
+          isLoading: false,
+          isActiveReadChannel: true,
+          distanceFromBottom: 400,
+          viewportHeight: 400,
+          hasMoreNewerMessages: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('returns true when newer pages remain even near bottom of slice', () {
+      expect(
+        shouldShowJumpToBottomButton(
+          hasMessages: true,
+          isLoading: false,
+          isActiveReadChannel: true,
+          distanceFromBottom: 0,
+          viewportHeight: 400,
+          hasMoreNewerMessages: true,
+        ),
+        isTrue,
+      );
+    });
+  });
 }

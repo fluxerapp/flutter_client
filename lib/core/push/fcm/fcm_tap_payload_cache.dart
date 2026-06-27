@@ -33,8 +33,9 @@ final class FcmTapPayloadCache {
     String? gcmMessageId,
     Map<String, String> tapData = const <String, String>{},
   }) async {
-    final Map<String, String> normalized =
-        normalizePushTapPayload(mappedPayload);
+    final Map<String, String> normalized = normalizePushTapPayload(
+      mappedPayload,
+    );
     if (_isNavigable(normalized)) {
       return normalized;
     }

@@ -60,6 +60,7 @@ List<md.Element> _customEmojiNodes(List<md.Node> nodes) {
       }
     }
   }
+
   for (final node in nodes) {
     visit(node);
   }
@@ -78,6 +79,7 @@ List<md.Element> _unicodeEmojiNodes(List<md.Node> nodes) {
       }
     }
   }
+
   for (final node in nodes) {
     visit(node);
   }

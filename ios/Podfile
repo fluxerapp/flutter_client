@@ -65,4 +65,6 @@ post_install do |installer|
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = definitions
     end
   end
+
+  installer.pods_project.save
 end

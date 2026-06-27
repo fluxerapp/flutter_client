@@ -14,9 +14,11 @@ import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provid
 import 'package:fluxer_app/features/chat/utils/gif_media_selection.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_playback_policy.dart';
 import 'package:fluxer_app/features/chat/utils/gif_preview_player_config.dart';
+import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/shared/utils/media_kit_bootstrap.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
@@ -992,19 +994,20 @@ class _FavoriteMediaPreview extends StatelessWidget {
   Widget _buildStaticImage() => LayoutBuilder(
     builder: (context, constraints) {
       final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-      final cacheWidth = constraints.maxWidth.isFinite
-          ? (constraints.maxWidth * devicePixelRatio).round()
-          : null;
-      final cacheHeight = constraints.maxHeight.isFinite
-          ? (constraints.maxHeight * devicePixelRatio).round()
-          : null;
+      final cache = coverDecodeCacheSize(
+        cellWidth: constraints.maxWidth,
+        cellHeight: constraints.maxHeight,
+        devicePixelRatio: devicePixelRatio,
+        sourceWidth: meme.width,
+        sourceHeight: meme.height,
+      );
       return CachedNetworkImage(
         imageUrl: meme.url,
         fit: BoxFit.cover,
-        memCacheWidth: cacheWidth,
-        memCacheHeight: cacheHeight,
-        maxWidthDiskCache: cacheWidth,
-        maxHeightDiskCache: cacheHeight,
+        memCacheWidth: cache.width,
+        memCacheHeight: cache.height,
+        maxWidthDiskCache: cache.width,
+        maxHeightDiskCache: cache.height,
         fadeInDuration: Duration.zero,
         fadeOutDuration: Duration.zero,
         placeholder: (_, _) => const _PreviewPlaceholder(),
@@ -1270,7 +1273,7 @@ class _FavoriteMediaSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Center(
-    child: SizedBox(width: 28, height: 28, child: CircularProgressIndicator()),
+    child: SizedBox(width: 28, height: 28, child: FluxerLoadingSpinner()),
   );
 }
 

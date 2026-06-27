@@ -56,10 +56,7 @@ class _MemberListSkeletonCircle extends StatelessWidget {
 }
 
 class _MemberListSkeletonBar extends StatelessWidget {
-  const _MemberListSkeletonBar({
-    required this.width,
-    this.height = 12,
-  });
+  const _MemberListSkeletonBar({required this.width, this.height = 12});
 
   final double width;
   final double height;
@@ -101,12 +98,7 @@ class _MemberListSidebarGroupHeaderSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerLayoutTheme layout = context.layout;
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        layout.s2,
-        layout.s3,
-        layout.s2,
-        layout.s1,
-      ),
+      padding: EdgeInsets.fromLTRB(layout.s2, layout.s3, layout.s2, layout.s1),
       child: const _MemberListSkeletonBar(width: 96, height: 10),
     );
   }
@@ -242,12 +234,7 @@ class MemberListSidebarGroupHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final FluxerLayoutTheme layout = context.layout;
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        layout.s2,
-        layout.s3,
-        layout.s2,
-        layout.s1,
-      ),
+      padding: EdgeInsets.fromLTRB(layout.s2, layout.s3, layout.s2, layout.s1),
       child: Text(
         '$groupName — $count',
         style: context.textStyles.categoryName.copyWith(
@@ -324,9 +311,7 @@ class MemberListDetailsMemberShell extends StatelessWidget {
           borderRadius: borderRadius,
           border: isFirstInGroup
               ? null
-              : Border(
-                  top: BorderSide(color: dividerColor),
-                ),
+              : Border(top: BorderSide(color: dividerColor)),
         ),
         child: child,
       ),
@@ -346,9 +331,6 @@ class MemberListGroupHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MemberListSidebarGroupHeader(
-      groupName: groupName,
-      count: count,
-    );
+    return MemberListSidebarGroupHeader(groupName: groupName, count: count);
   }
 }

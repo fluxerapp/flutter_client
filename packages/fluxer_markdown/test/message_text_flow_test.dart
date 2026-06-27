@@ -41,7 +41,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MediaQuery(
-            data: const MediaQueryData(textScaler: TextScaler.linear(1)),
+            data: const MediaQueryData(textScaler: TextScaler.noScaling),
             child: Scaffold(
               body: Center(
                 child: SizedBox(
@@ -74,7 +74,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MediaQuery(
-            data: const MediaQueryData(textScaler: TextScaler.linear(1)),
+            data: const MediaQueryData(textScaler: TextScaler.noScaling),
             child: Scaffold(
               body: Center(
                 child: SizedBox(
@@ -103,7 +103,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: MediaQuery(
-            data: const MediaQueryData(textScaler: TextScaler.linear(1)),
+            data: const MediaQueryData(textScaler: TextScaler.noScaling),
             child: Scaffold(
               body: Center(
                 child: SizedBox(
@@ -359,6 +359,32 @@ void main() {
       expect(find.text('jump pill'), findsOneWidget);
     });
 
+    testWidgets('angle-bracket message links render custom jump widgets', (
+      tester,
+    ) async {
+      const String url =
+          'https://web.fluxer.app/channels/123456789012345678/'
+          '987654321098765432/111111111111111111';
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        internalLinkPattern: _internalFluxerLinkPattern,
+        linkWidgetBuilder: (_, _, _) => const Text('jump pill'),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(data: '<$url>', config: config),
+          ),
+        ),
+      );
+
+      expect(find.text('jump pill'), findsOneWidget);
+      expect(find.text(url, findRichText: true), findsNothing);
+    });
+
     testWidgets('uses configured blockquote divider and text colors', (
       tester,
     ) async {
@@ -410,7 +436,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: MediaQuery(
-            data: MediaQueryData(textScaler: TextScaler.linear(1)),
+            data: MediaQueryData(textScaler: TextScaler.noScaling),
             child: Scaffold(
               body: Center(
                 child: SizedBox(

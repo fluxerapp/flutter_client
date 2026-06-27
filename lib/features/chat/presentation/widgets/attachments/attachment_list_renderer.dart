@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_image_grid.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_media_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_renderer.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 
@@ -33,29 +33,29 @@ class AttachmentListRenderer extends StatelessWidget {
     if (attachments.isEmpty) {
       return const SizedBox.shrink();
     }
-    final List<Attachment> imageAttachments = attachments
+    final List<Attachment> mediaAttachments = attachments
         .where(
           (Attachment attachment) =>
               inlineAttachmentMedia &&
-              attachment.isImage &&
+              attachment.isPreviewMedia &&
               attachment.url.isNotEmpty,
         )
         .toList();
-    final bool shouldRenderImageGrid = imageAttachments.length > 1;
+    final bool shouldRenderMediaGrid = mediaAttachments.length > 1;
     bool hasRenderedGrid = false;
     final List<Widget> children = <Widget>[];
     for (final Attachment attachment in attachments) {
-      final bool isImageAttachment =
+      final bool isMediaAttachment =
           inlineAttachmentMedia &&
-          attachment.isImage &&
+          attachment.isPreviewMedia &&
           attachment.url.isNotEmpty;
-      if (shouldRenderImageGrid && isImageAttachment) {
+      if (shouldRenderMediaGrid && isMediaAttachment) {
         if (!hasRenderedGrid) {
           children.add(
             Padding(
               padding: const EdgeInsets.only(top: 2),
-              child: AttachmentImageGrid(
-                attachments: imageAttachments,
+              child: AttachmentMediaGrid(
+                attachments: mediaAttachments,
                 revealSpoilers: revealSpoilers,
                 dimensionSize: dimensionSize,
                 channelId: channelId,
@@ -73,9 +73,9 @@ class AttachmentListRenderer extends StatelessWidget {
           inlineAttachmentMedia: inlineAttachmentMedia,
           dimensionSize: dimensionSize,
           revealSpoilers: revealSpoilers,
-          imageGallery: imageAttachments,
-          imageGalleryIndex: isImageAttachment
-              ? imageAttachments.indexOf(attachment)
+          imageGallery: mediaAttachments,
+          imageGalleryIndex: isMediaAttachment
+              ? mediaAttachments.indexOf(attachment)
               : 0,
           messageId: messageId,
           messageNonce: messageNonce,

@@ -8,10 +8,10 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_dart/export.dart';
 
 Future<void> leaveGuildAndCleanup(WidgetRef ref, String guildId) async {
-  await ref.read(fluxerClientProvider).guilds.leaveGuild(
-    guildId: guildId,
-    body: const SudoVerificationSchema(),
-  );
+  await ref
+      .read(fluxerClientProvider)
+      .guilds
+      .leaveGuild(guildId: guildId, body: const SudoVerificationSchema());
   await ref.read(guildRepositoryProvider).removeGuildLocally(guildId);
   ref.read(guildPermissionsProvider.notifier).evict(guildId);
   unawaited(

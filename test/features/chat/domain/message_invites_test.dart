@@ -21,10 +21,9 @@ void main() {
     });
 
     test('extracts a fluxer.app/invite code', () {
-      expect(
-        msg('https://web.fluxer.app/invite/wxyz here').invites,
-        <String>['wxyz'],
-      );
+      expect(msg('https://web.fluxer.app/invite/wxyz here').invites, <String>[
+        'wxyz',
+      ]);
     });
 
     test('ignores fluxer.gg/invite/ paths', () {
@@ -32,10 +31,10 @@ void main() {
     });
 
     test('extracts multiple distinct codes', () {
-      expect(
-        msg('fluxer.gg/one and fluxer.gg/two').invites,
-        <String>['one', 'two'],
-      );
+      expect(msg('fluxer.gg/one and fluxer.gg/two').invites, <String>[
+        'one',
+        'two',
+      ]);
     });
 
     test('dedupes repeated codes', () {

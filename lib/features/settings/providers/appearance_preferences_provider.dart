@@ -183,27 +183,27 @@ class AppearancePreferences extends _$AppearancePreferences {
     if (_isApplyingRemote) {
       return;
     }
-    ref.read(syncedPreferencesStoreProvider).markDirty(
-      SyncedPreferenceField.accessibility,
-    );
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.accessibility);
   }
 
   void _markSidebarDirty() {
     if (_isApplyingRemote) {
       return;
     }
-    ref.read(syncedPreferencesStoreProvider).markDirty(
-      SyncedPreferenceField.sidebar,
-    );
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.sidebar);
   }
 
   void _markPrivacyDirty() {
     if (_isApplyingRemote) {
       return;
     }
-    ref.read(syncedPreferencesStoreProvider).markDirty(
-      SyncedPreferenceField.privacy,
-    );
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.privacy);
   }
 
   Future<void> _persist() async {

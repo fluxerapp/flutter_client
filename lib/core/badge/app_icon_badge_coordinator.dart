@@ -21,25 +21,24 @@ class AppIconBadgeCoordinator extends _$AppIconBadgeCoordinator {
 
   @override
   void build() {
-    ref..listen(appIconBadgeProvider, (AppIconBadgeValue? previous, next) {
-      if (previous?.count == next.count) {
-        return;
-      }
-      unawaited(AppIconBadgeService.update(next.count));
-    })
-    ..listen<String?>(currentUserIdProvider, (
-      String? previous,
-      String? next,
-    ) {
-      if (previous != null &&
-          next != null &&
-          previous != next) {
-        unawaited(AppIconBadgeService.clear());
-      }
-      if (next == null && previous != null) {
-        unawaited(AppIconBadgeService.clear());
-      }
-    });
+    ref
+      ..listen(appIconBadgeProvider, (AppIconBadgeValue? previous, next) {
+        if (previous?.count == next.count) {
+          return;
+        }
+        unawaited(AppIconBadgeService.update(next.count));
+      })
+      ..listen<String?>(currentUserIdProvider, (
+        String? previous,
+        String? next,
+      ) {
+        if (previous != null && next != null && previous != next) {
+          unawaited(AppIconBadgeService.clear());
+        }
+        if (next == null && previous != null) {
+          unawaited(AppIconBadgeService.clear());
+        }
+      });
     final String? userId = ref.watch(currentUserIdProvider);
     if (userId == null) {
       unawaited(AppIconBadgeService.clear());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/observability/fluxer_route_trace_observer.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
@@ -12,6 +13,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/login_screen.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/channel_layout.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
+import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
 import 'package:fluxer_app/features/favorites/presentation/favorites_layout.dart';
 import 'package:fluxer_app/features/notifications/presentation/notifications_page.dart';
@@ -24,6 +27,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/stub_screen.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
     deferred as dm_voice_call;
 import 'package:go_router/go_router.dart';
@@ -87,6 +91,8 @@ class AuthState extends _$AuthState {
   @override
   bool build() => false;
 
+  // Auth transitions are imperative events from startup/login/logout flows.
+  // ignore: use_setters_to_change_properties
   void setAuthenticated({required bool value}) {
     state = value;
   }
@@ -97,6 +103,8 @@ class CurrentUserId extends _$CurrentUserId {
   @override
   String? build() => null;
 
+  // The active user id is assigned once a session is restored.
+  // ignore: use_setters_to_change_properties
   void set(String id) {
     state = id;
   }
@@ -107,11 +115,11 @@ class CurrentUserPremiumType extends _$CurrentUserPremiumType {
   @override
   int build() => 0;
 
+  // Premium type mirrors the current user profile payload.
+  // ignore: use_setters_to_change_properties
   void set(int type) {
     state = type;
   }
-
-  bool get isPremium => state > 0;
 }
 
 @Riverpod(keepAlive: true)
@@ -119,6 +127,8 @@ class ServerReachable extends _$ServerReachable {
   @override
   bool build() => true;
 
+  // Gateway reachability is driven by connection lifecycle events.
+  // ignore: use_setters_to_change_properties
   void setReachable({required bool value}) {
     state = value;
   }
@@ -158,12 +168,17 @@ GoRouter fluxerRouter(Ref ref) {
   final homeShellPopupRouteObserver = createShellPopupRouteObserver();
   final notificationsShellPopupRouteObserver = createShellPopupRouteObserver();
   final youShellPopupRouteObserver = createShellPopupRouteObserver();
+  final routeTraceObserver = FluxerRouteTraceObserver();
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: '/login',
     refreshListenable: refreshNotifier,
-    observers: [ChannelPersistenceObserver(db), rootShellPopupRouteObserver],
+    observers: [
+      ChannelPersistenceObserver(db),
+      rootShellPopupRouteObserver,
+      routeTraceObserver,
+    ],
     redirect: (context, state) {
       final location = state.matchedLocation;
       final isOnLoading = location == '/loading';
@@ -246,17 +261,20 @@ GoRouter fluxerRouter(Ref ref) {
       GoRoute(
         path: '/invite/:code',
         name: RouteNames.invite,
-        redirect: (context, state) => RoutePaths.me, // TODO: show invite modal
+        // TODO(M0n7y5): show invite modal.
+        redirect: (context, state) => RoutePaths.me,
       ),
       GoRoute(
         path: '/gift/:code',
         name: RouteNames.gift,
-        redirect: (context, state) => RoutePaths.me, // TODO: show gift modal
+        // TODO(M0n7y5): show gift modal.
+        redirect: (context, state) => RoutePaths.me,
       ),
       GoRoute(
         path: '/theme/:themeId',
         name: RouteNames.themePreview,
-        redirect: (context, state) => RoutePaths.me, // TODO: show theme preview
+        // TODO(M0n7y5): show theme preview.
+        redirect: (context, state) => RoutePaths.me,
       ),
 
       // Guild settings (pushed on root navigator)
@@ -271,7 +289,7 @@ GoRouter fluxerRouter(Ref ref) {
             builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
                 return const Scaffold(
-                  body: Center(child: CircularProgressIndicator()),
+                  body: Center(child: FluxerLoadingSpinner()),
                 );
               }
               return guild_settings.GuildSettingsModal(
@@ -325,23 +343,24 @@ GoRouter fluxerRouter(Ref ref) {
                           key: state.pageKey,
                           child: FutureBuilder<void>(
                             future: dm_voice_call.loadLibrary(),
-                            builder: (
-                              BuildContext context,
-                              AsyncSnapshot<void> snapshot,
-                            ) {
-                              if (snapshot.connectionState !=
-                                  ConnectionState.done) {
-                                return const Scaffold(
-                                  body: Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                              }
-                              return dm_voice_call.DmVoiceCallFullscreenPage(
-                                channelId:
-                                    state.pathParameters['channelId'] ?? '',
-                              );
-                            },
+                            builder:
+                                (
+                                  BuildContext context,
+                                  AsyncSnapshot<void> snapshot,
+                                ) {
+                                  if (snapshot.connectionState !=
+                                      ConnectionState.done) {
+                                    return const Scaffold(
+                                      body: Center(
+                                        child: FluxerLoadingSpinner(),
+                                      ),
+                                    );
+                                  }
+                                  return dm_voice_call.DmVoiceCallFullscreenPage(
+                                    channelId:
+                                        state.pathParameters['channelId'] ?? '',
+                                  );
+                                },
                           ),
                         ),
                       ),
@@ -455,7 +474,12 @@ GoRouter fluxerRouter(Ref ref) {
                   key: state.pageKey,
                   child: Scaffold(
                     backgroundColor: context.colors.backgroundPrimary,
-                    body: const Center(child: Text('Select a channel')),
+                    body: Center(
+                      child: ChatLoadingSpinner(
+                        reason: ChatSpinnerReason.panelNotReady,
+                        color: context.colors.brandPrimary,
+                      ),
+                    ),
                   ),
                 ),
                 routes: [

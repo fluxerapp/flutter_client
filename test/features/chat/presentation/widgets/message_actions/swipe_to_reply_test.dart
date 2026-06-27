@@ -14,7 +14,7 @@ Widget _buildApp(
 }) {
   final colorTheme = buildDarkColorTheme();
   Widget viewport = SizedBox(
-    key: const ValueKey<void>('swipeViewport'),
+    key: const ValueKey<String>('swipeViewport'),
     width: 400,
     height: 56,
     child: child,
@@ -67,12 +67,14 @@ void main() {
         ),
       );
       final BuildContext ctx = tester.element(
-        find.byKey(const ValueKey<void>('swipeViewport')),
+        find.byKey(const ValueKey<String>('swipeViewport')),
       );
       final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
       expect(reserve, greaterThan(0));
       final RenderBox viewport =
-          tester.renderObject(find.byKey(const ValueKey<void>('swipeViewport')))
+          tester.renderObject(
+                find.byKey(const ValueKey<String>('swipeViewport')),
+              )
               as RenderBox;
       final Offset startLocal = Offset(reserve / 2, viewport.size.height / 2);
       final TestGesture gesture = await tester.startGesture(
@@ -98,11 +100,11 @@ void main() {
       ),
     );
     final BuildContext ctx = tester.element(
-      find.byKey(const ValueKey<void>('swipeViewport')),
+      find.byKey(const ValueKey<String>('swipeViewport')),
     );
     final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
     final RenderBox viewport =
-        tester.renderObject(find.byKey(const ValueKey<void>('swipeViewport')))
+        tester.renderObject(find.byKey(const ValueKey<String>('swipeViewport')))
             as RenderBox;
     final Offset startLocal = Offset(reserve + 40, viewport.size.height / 2);
     final TestGesture gesture = await tester.startGesture(
@@ -143,11 +145,11 @@ void main() {
       ),
     );
     final BuildContext ctx = tester.element(
-      find.byKey(const ValueKey<void>('swipeViewport')),
+      find.byKey(const ValueKey<String>('swipeViewport')),
     );
     final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
     final RenderBox viewport =
-        tester.renderObject(find.byKey(const ValueKey<void>('swipeViewport')))
+        tester.renderObject(find.byKey(const ValueKey<String>('swipeViewport')))
             as RenderBox;
     final Offset startLocal = Offset(reserve + 40, viewport.size.height / 2);
     await _slowDrag(
@@ -185,11 +187,11 @@ void main() {
       ),
     );
     final BuildContext ctx = tester.element(
-      find.byKey(const ValueKey<void>('swipeViewport')),
+      find.byKey(const ValueKey<String>('swipeViewport')),
     );
     final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
     final RenderBox viewport =
-        tester.renderObject(find.byKey(const ValueKey<void>('swipeViewport')))
+        tester.renderObject(find.byKey(const ValueKey<String>('swipeViewport')))
             as RenderBox;
     final Offset startLocal = Offset(reserve + 40, viewport.size.height / 2);
     await _slowDrag(
@@ -217,11 +219,11 @@ void main() {
       ),
     );
     final BuildContext ctx = tester.element(
-      find.byKey(const ValueKey<void>('swipeViewport')),
+      find.byKey(const ValueKey<String>('swipeViewport')),
     );
     final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
     final RenderBox viewport =
-        tester.renderObject(find.byKey(const ValueKey<void>('swipeViewport')))
+        tester.renderObject(find.byKey(const ValueKey<String>('swipeViewport')))
             as RenderBox;
     final Offset startLocal = Offset(reserve + 40, viewport.size.height / 2);
     final TestGesture gesture = await tester.startGesture(
@@ -252,11 +254,11 @@ void main() {
       ),
     );
     final BuildContext ctx = tester.element(
-      find.byKey(const ValueKey<void>('swipeViewport')),
+      find.byKey(const ValueKey<String>('swipeViewport')),
     );
     final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
     final RenderBox viewport =
-        tester.renderObject(find.byKey(const ValueKey<void>('swipeViewport')))
+        tester.renderObject(find.byKey(const ValueKey<String>('swipeViewport')))
             as RenderBox;
     final Offset startLocal = Offset(reserve + 40, viewport.size.height / 2);
     final TestGesture gesture = await tester.startGesture(

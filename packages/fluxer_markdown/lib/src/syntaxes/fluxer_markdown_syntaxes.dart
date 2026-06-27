@@ -140,7 +140,8 @@ class FluxerRawUnicodeEmojiSyntax extends md.InlineSyntax {
 }
 
 class FluxerJumpLinkSyntax extends md.InlineSyntax {
-  FluxerJumpLinkSyntax(RegExp pattern) : super(pattern.pattern);
+  FluxerJumpLinkSyntax(RegExp pattern)
+    : super(pattern.pattern, caseSensitive: pattern.isCaseSensitive);
 
   static const tag = 'jump-link';
 
@@ -148,6 +149,23 @@ class FluxerJumpLinkSyntax extends md.InlineSyntax {
   bool onMatch(md.InlineParser parser, Match match) {
     final url = match[0]!;
     final el = md.Element.text(tag, url)..attributes['href'] = url;
+    parser.addNode(el);
+    return true;
+  }
+}
+
+class FluxerBracketedJumpLinkSyntax extends md.InlineSyntax {
+  FluxerBracketedJumpLinkSyntax(RegExp pattern)
+    : super('<(${pattern.pattern})>', caseSensitive: pattern.isCaseSensitive);
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final String? url = match[1];
+    if (url == null || url.isEmpty) {
+      return false;
+    }
+    final el = md.Element.text(FluxerJumpLinkSyntax.tag, url)
+      ..attributes['href'] = url;
     parser.addNode(el);
     return true;
   }

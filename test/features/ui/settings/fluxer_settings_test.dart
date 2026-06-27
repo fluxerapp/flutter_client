@@ -5,10 +5,13 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return MaterialApp(
+    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+    supportedLocales: FluxerLocalizations.supportedLocales,
     theme: buildFluxerTheme(
       colorTheme: colorTheme,
       textTheme: FluxerTextTheme.fromColors(colorTheme),

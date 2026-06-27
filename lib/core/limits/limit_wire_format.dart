@@ -7,7 +7,7 @@ LimitConfigSnapshot expandLimitWireFormat(
 ) {
   final Map<String, int> defaults = Map<String, int>.from(kDefaultFreeLimits);
   final List<LimitRule> rules = <LimitRule>[
-    for (final LimitRuleResponse rule in wireFormat.rules)
+    for (final WellKnownFluxerResponseLimitsRules rule in wireFormat.rules)
       LimitRule(
         id: rule.id,
         filters: _mapLimitFilter(rule.filters),
@@ -25,7 +25,9 @@ LimitConfigSnapshot expandLimitWireFormat(
   );
 }
 
-LimitFilter? _mapLimitFilter(LimitFilterResponse? filters) {
+LimitFilter? _mapLimitFilter(
+  WellKnownFluxerResponseLimitsRulesFilters? filters,
+) {
   if (filters == null) {
     return null;
   }

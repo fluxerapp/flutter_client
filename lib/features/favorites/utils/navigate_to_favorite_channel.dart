@@ -35,6 +35,9 @@ Future<void> navigateToFavoriteChannel({
 
   final Channel? resolvedChannel =
       channel ?? await loadGuildChannelById(ref, channelId);
+  if (!context.mounted) {
+    return;
+  }
   if (resolvedChannel != null) {
     await openGuildChannelContent(
       context: context,

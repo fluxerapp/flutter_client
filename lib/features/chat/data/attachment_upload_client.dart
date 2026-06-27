@@ -166,7 +166,7 @@ class AttachmentUploadClient {
           partSize: m.partSize,
           parts: m.parts
               .map(
-                (PresignedAttachmentUploadPart e) =>
+                (MultipartPresignedAttachmentUploadResponseItemParts e) =>
                     MultipartAttachmentUploadPartPlan(
                       partNumber: e.partNumber,
                       uploadUrl: e.uploadUrl,

@@ -112,11 +112,17 @@ class _PasswordChangeSheetState extends ConsumerState<PasswordChangeSheet>
 
       _verificationProof = response.verificationProof;
 
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _stage = _Stage.changePassword;
         _loading = false;
       });
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       final l10n = FluxerLocalizations.of(context);
       setState(() {
         _loading = false;

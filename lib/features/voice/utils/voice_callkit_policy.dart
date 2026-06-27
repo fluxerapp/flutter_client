@@ -33,7 +33,6 @@ class VoiceCallKitSession {
   final String? connectionId;
 }
 
-
 bool shouldPresentIncomingVoiceSheet({
   required bool isMobileCallKitPlatform,
   required bool isForeground,

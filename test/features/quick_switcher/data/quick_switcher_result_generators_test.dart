@@ -28,7 +28,9 @@ QuickSwitcherChannelResolver _resolver({
     conversationsById: <String, DmConversation>{
       for (final DmConversation convo in conversations) convo.id: convo,
     },
-    guildsById: <String, Guild>{for (final Guild guild in guilds) guild.id: guild},
+    guildsById: <String, Guild>{
+      for (final Guild guild in guilds) guild.id: guild,
+    },
   );
 }
 
@@ -133,18 +135,13 @@ void main() {
         communitiesHeaderIndex + 1,
         settingsHeaderIndex,
       );
-      final List<QuickSwitcherResult> settingsRows =
-          results.sublist(settingsHeaderIndex + 1);
+      final List<QuickSwitcherResult> settingsRows = results.sublist(
+        settingsHeaderIndex + 1,
+      );
 
       expect(communityRows, everyElement(isA<QuickSwitcherGuildResult>()));
-      expect(
-        settingsRows,
-        contains(isA<QuickSwitcherVirtualGuildResult>()),
-      );
-      expect(
-        settingsRows,
-        contains(isA<QuickSwitcherSettingsResult>()),
-      );
+      expect(settingsRows, contains(isA<QuickSwitcherVirtualGuildResult>()));
+      expect(settingsRows, contains(isA<QuickSwitcherSettingsResult>()));
     });
   });
 
@@ -217,10 +214,7 @@ void main() {
                 ],
               ),
               recentVisits: <RecentChannelVisit>[
-                RecentChannelVisit(
-                  channelId: '100',
-                  visitedAt: recent,
-                ),
+                RecentChannelVisit(channelId: '100', visitedAt: recent),
               ],
               unreadChannels: const [],
               excludedChannelIds: const <String>{},
@@ -242,11 +236,7 @@ void main() {
               resolver: _resolver(
                 l10n: l10n,
                 guildChannels: <Channel>[
-                  const Channel(
-                    id: '10',
-                    guildId: 'g1',
-                    name: 'general',
-                  ),
+                  const Channel(id: '10', guildId: 'g1', name: 'general'),
                   const Channel(
                     id: '20',
                     guildId: 'g1',
@@ -275,7 +265,10 @@ void main() {
 
       expect(results, hasLength(2));
       expect(results.first, isA<QuickSwitcherTextChannelResult>());
-      expect((results.first as QuickSwitcherTextChannelResult).title, 'general');
+      expect(
+        (results.first as QuickSwitcherTextChannelResult).title,
+        'general',
+      );
       expect(results.last, isA<QuickSwitcherVoiceChannelResult>());
       expect((results.last as QuickSwitcherVoiceChannelResult).title, 'Lounge');
     });
@@ -289,11 +282,7 @@ void main() {
               resolver: _resolver(
                 l10n: l10n,
                 guildChannels: const <Channel>[
-                  Channel(
-                    id: '10',
-                    guildId: 'g1',
-                    name: 'general',
-                  ),
+                  Channel(id: '10', guildId: 'g1', name: 'general'),
                 ],
                 conversations: <DmConversation>[
                   DmConversation(
@@ -337,9 +326,7 @@ void main() {
           conversations: const [],
           friends: const [],
           guildChannels: const <Channel>[],
-          guilds: const <Guild>[
-            Guild(id: 'g1', name: 'Test Guild'),
-          ],
+          guilds: const <Guild>[Guild(id: 'g1', name: 'Test Guild')],
           guildMembers: const [],
           hasFavorites: false,
         ),

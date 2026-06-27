@@ -9,6 +9,33 @@ int compareSnowflakeIds(String? a, String? b) {
   return ai.compareTo(bi);
 }
 
+/// Mirrors the web's `compareReadStateVersions` (read_states/shared.ts).
+/// Read-state versions are numeric strings; non-numeric values are treated as
+/// incomparable (returns 0). Comparison is by numeric magnitude: shorter
+/// normalized string is smaller, otherwise lexicographic.
+int compareReadStateVersions(String? a, String? b) {
+  final left = _normalizeReadStateVersion(a);
+  final right = _normalizeReadStateVersion(b);
+  if (left == null || right == null) {
+    return 0;
+  }
+  if (left.length != right.length) {
+    return left.length < right.length ? -1 : 1;
+  }
+  if (left == right) {
+    return 0;
+  }
+  return left.compareTo(right) < 0 ? -1 : 1;
+}
+
+String? _normalizeReadStateVersion(String? version) {
+  if (version == null || !RegExp(r'^\d+$').hasMatch(version)) {
+    return null;
+  }
+  final stripped = version.replaceFirst(RegExp('^0+'), '');
+  return stripped.isEmpty ? '0' : stripped;
+}
+
 int snowflakeTimestampMs(String? id) {
   final parsed = BigInt.tryParse(id ?? '');
   if (parsed == null) {

@@ -124,10 +124,7 @@ void main() {
       await expectLater(
         container
             .read(cloudUploadControllerProvider('channel-1').notifier)
-            .prepareSessionForSend(
-              nonce: nonce,
-              favoriteMemePayload: false,
-            ),
+            .prepareSessionForSend(nonce: nonce, favoriteMemePayload: false),
         throwsA(isA<MessageUploadSendCancelledException>()),
       );
     });
@@ -155,12 +152,11 @@ void main() {
           );
       final Future<Object?> prepareFuture = container
           .read(cloudUploadControllerProvider('channel-1').notifier)
-          .prepareSessionForSend(
-            nonce: nonce,
-            favoriteMemePayload: false,
-          );
+          .prepareSessionForSend(nonce: nonce, favoriteMemePayload: false);
       await pumpEventQueue();
-      container.read(messageUploadSessionsProvider.notifier).removeSession(nonce);
+      container
+          .read(messageUploadSessionsProvider.notifier)
+          .removeSession(nonce);
       uploadBlock.complete();
       await expectLater(
         prepareFuture,
@@ -170,75 +166,82 @@ void main() {
   });
 
   group('ChatViewModel cancelSendingMessage with attachments', () {
-    test('does not post message when multi-attachment upload is cancelled', () async {
-      final Completer<void> uploadBlock = Completer<void>();
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
-      await db.channelDao.upsertChannel(
-        ChannelsCompanion.insert(id: 'channel-1', guildId: '', name: 'dm'),
-      );
-      final _AttachmentSendAdapter adapter = _AttachmentSendAdapter(
-        serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
-      );
-      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
-        ..httpClientAdapter = adapter;
-      final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
-      final ProviderContainer container = ProviderContainer(
-        overrides: [
-          fluxerDatabaseProvider.overrideWithValue(db),
-          appUiForegroundProvider.overrideWithValue(true),
-          fluxerDioProvider.overrideWithValue(dio),
-          fluxerClientProvider.overrideWithValue(client),
-          currentUserIdProvider.overrideWithValue('me'),
-          maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
-          attachmentUploadClientProvider.overrideWithValue(
-            _BlockingAttachmentUploadClient(
-              channelsApi: ChannelsApi(dio),
-              uploadDio: Dio(),
-              uploadBlock: uploadBlock,
+    test(
+      'does not post message when multi-attachment upload is cancelled',
+      () async {
+        final Completer<void> uploadBlock = Completer<void>();
+        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+        addTearDown(db.close);
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(id: 'channel-1', guildId: '', name: 'dm'),
+        );
+        final _AttachmentSendAdapter adapter = _AttachmentSendAdapter(
+          serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+        );
+        final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+          ..httpClientAdapter = adapter;
+        final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+        final ProviderContainer container = ProviderContainer(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            appUiForegroundProvider.overrideWithValue(true),
+            fluxerDioProvider.overrideWithValue(dio),
+            fluxerClientProvider.overrideWithValue(client),
+            currentUserIdProvider.overrideWithValue('me'),
+            maxAttachmentFileBytesProvider.overrideWithValue(25 * 1024 * 1024),
+            attachmentUploadClientProvider.overrideWithValue(
+              _BlockingAttachmentUploadClient(
+                channelsApi: ChannelsApi(dio),
+                uploadDio: Dio(),
+                uploadBlock: uploadBlock,
+              ),
             ),
-          ),
-          ackBatcherProvider.overrideWith((Ref ref) {
-            final batcher = AckBatcher(client: client, batchDelay: Duration.zero);
-            ref.onDispose(() {
-              unawaited(batcher.dispose());
-            });
-            return batcher;
-          }),
-        ],
-      );
-      addTearDown(container.dispose);
-      final ChatViewModel notifier = container.read(chatViewModelProvider.notifier);
-      await notifier.switchChannel('channel-1');
-      await _flushAsync();
-      final Directory tempDir = await Directory.systemTemp.createTemp(
-        'fluxer_upload_cancel_test',
-      );
-      addTearDown(() => tempDir.delete(recursive: true));
-      final File fileA = File('${tempDir.path}/a.png')
-        ..writeAsBytesSync(<int>[1]);
-      final File fileB = File('${tempDir.path}/b.png')
-        ..writeAsBytesSync(<int>[2]);
-      final FileUploadValidationResult validation = await container
-          .read(cloudUploadControllerProvider('channel-1').notifier)
-          .addFiles(<XFile>[
-            XFile(fileA.path),
-            XFile(fileB.path),
-          ]);
-      expect(validation.isValid, isTrue);
-      unawaited(notifier.sendMessage(text: ''));
-      await pumpEventQueue();
-      final ChatViewState sendingState = container.read(chatViewModelProvider);
-      expect(sendingState.messages, isNotEmpty);
-      final Message optimistic = sendingState.messages.last;
-      expect(optimistic.isSending, isTrue);
-      notifier.cancelSendingMessage(optimistic.id);
-      uploadBlock.complete();
-      await _flushAsync();
-      expect(adapter.messagePostCount, 0);
-      final ChatViewState finalState = container.read(chatViewModelProvider);
-      expect(finalState.messages.where((Message m) => m.isSending), isEmpty);
-    });
+            ackBatcherProvider.overrideWith((Ref ref) {
+              final batcher = AckBatcher(
+                client: client,
+                batchDelay: Duration.zero,
+              );
+              ref.onDispose(() {
+                unawaited(batcher.dispose());
+              });
+              return batcher;
+            }),
+          ],
+        );
+        addTearDown(container.dispose);
+        final ChatViewModel notifier = container.read(
+          chatViewModelProvider.notifier,
+        );
+        await notifier.switchChannel('channel-1');
+        await _flushAsync();
+        final Directory tempDir = await Directory.systemTemp.createTemp(
+          'fluxer_upload_cancel_test',
+        );
+        addTearDown(() => tempDir.delete(recursive: true));
+        final File fileA = File('${tempDir.path}/a.png')
+          ..writeAsBytesSync(<int>[1]);
+        final File fileB = File('${tempDir.path}/b.png')
+          ..writeAsBytesSync(<int>[2]);
+        final FileUploadValidationResult validation = await container
+            .read(cloudUploadControllerProvider('channel-1').notifier)
+            .addFiles(<XFile>[XFile(fileA.path), XFile(fileB.path)]);
+        expect(validation.isValid, isTrue);
+        unawaited(notifier.sendMessage(text: ''));
+        await pumpEventQueue();
+        final ChatViewState sendingState = container.read(
+          chatViewModelProvider,
+        );
+        expect(sendingState.messages, isNotEmpty);
+        final Message optimistic = sendingState.messages.last;
+        expect(optimistic.isSending, isTrue);
+        notifier.cancelSendingMessage(optimistic.id);
+        uploadBlock.complete();
+        await _flushAsync();
+        expect(adapter.messagePostCount, 0);
+        final ChatViewState finalState = container.read(chatViewModelProvider);
+        expect(finalState.messages.where((Message m) => m.isSending), isEmpty);
+      },
+    );
   });
 }
 

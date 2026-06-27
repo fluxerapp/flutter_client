@@ -162,6 +162,7 @@ void memberListDetailsSubscription(
   Ref ref,
   String guildId,
   String channelId,
+  // ignore: avoid_positional_boolean_parameters, Riverpod generated provider keeps existing call sites positional.
   bool enabled,
 ) {
   String? subscribedGuildId;

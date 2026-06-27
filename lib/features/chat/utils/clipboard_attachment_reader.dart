@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:cross_file/cross_file.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
-Future<Uint8List?> _readFileAll(DataReader reader, FileFormat format) async {
+Future<Uint8List?> _readFileAll(DataReader reader, FileFormat format) {
   final Completer<Uint8List?> completer = Completer<Uint8List?>();
   final ReadProgress? progress = reader.getFile(
     format,

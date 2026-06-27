@@ -142,12 +142,11 @@ void main() {
       const List<MemberListGroup> groups = <MemberListGroup>[
         MemberListGroup(id: 'online', count: 1),
       ];
-      final List<MemberListGroupLayout> layouts = buildMemberListLayout(
-        <MemberListGroup>[
-          const MemberListGroup(id: '1473045383154057326', count: 2),
-          const MemberListGroup(id: 'online', count: 1),
-        ],
-      );
+      final List<MemberListGroupLayout> layouts =
+          buildMemberListLayout(<MemberListGroup>[
+            const MemberListGroup(id: '1473045383154057326', count: 2),
+            const MemberListGroup(id: 'online', count: 1),
+          ]);
       final Map<String, db.Role> rolesById = <String, db.Role>{
         '1473045383154057326': const db.Role(
           id: '1473045383154057326',

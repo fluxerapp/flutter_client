@@ -59,7 +59,7 @@ class ChannelMention extends ConsumerWidget {
               color: colors.markupMentionText,
             ),
             SizedBox(width: _mentionInlineGap(style)),
-            Text(name, style: style),
+            _MentionLabel(name, style: style),
           ],
         ),
       ),
@@ -82,7 +82,13 @@ class TextMention extends StatelessWidget {
     );
     return _MentionPill(
       baseStyle: style,
-      child: Text(label, style: style),
+      child: Text(
+        label,
+        style: style,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+      ),
     );
   }
 }
@@ -111,6 +117,7 @@ class _MentionPill extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: fillColor ?? colors.markupMentionFill,
         borderRadius: BorderRadius.circular(
@@ -157,7 +164,13 @@ class UserMention extends ConsumerWidget {
       ),
       child: _MentionPill(
         baseStyle: style,
-        child: Text('@$name', style: style),
+        child: Text(
+          '@$name',
+          style: style,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          softWrap: false,
+        ),
       ),
     );
   }
@@ -188,7 +201,13 @@ class RoleMention extends ConsumerWidget {
     return _MentionPill(
       baseStyle: style,
       fillColor: fillColor,
-      child: Text('@${role?.name ?? roleId}', style: style),
+      child: Text(
+        '@${role?.name ?? roleId}',
+        style: style,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+      ),
     );
   }
 }
@@ -272,7 +291,7 @@ class ChannelJumpLinkMention extends ConsumerWidget {
               color: colors.markupMentionText,
             ),
             SizedBox(width: iconSize * 0.2),
-            Text(l10n.messageJumpLinkNoAccess, style: style),
+            _MentionLabel(l10n.messageJumpLinkNoAccess, style: style),
           ],
         ),
       );
@@ -286,9 +305,9 @@ class ChannelJumpLinkMention extends ConsumerWidget {
         children: [
           if (link.isDm) ...[
             if (isMessage)
-              Text(dmName, style: style)
+              _MentionLabel(dmName, style: style)
             else
-              Text('# $dmName', style: style),
+              _MentionLabel('# $dmName', style: style),
             if (isMessage) ...[
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: iconSize * 0.1),
@@ -308,7 +327,7 @@ class ChannelJumpLinkMention extends ConsumerWidget {
             if (guild != null) ...[
               _GuildIcon(guild: guild, size: iconSize),
               SizedBox(width: iconSize * 0.2),
-              Text(guild.name, style: style),
+              _MentionLabel(guild.name, style: style),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: iconSize * 0.1),
                 child: PhosphorIcon(
@@ -331,7 +350,7 @@ class ChannelJumpLinkMention extends ConsumerWidget {
                 color: colors.markupMentionText,
               ),
               SizedBox(width: iconSize * 0.2),
-              Text(channel?.name ?? link.channelId, style: style),
+              _MentionLabel(channel?.name ?? link.channelId, style: style),
             ],
           ],
         ],
@@ -368,6 +387,7 @@ class _JumpLinkPillState extends State<_JumpLinkPill> {
         onTap: widget.onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 50),
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: _hovered
                 ? colors.markupJumpLinkHoverFill
@@ -382,6 +402,26 @@ class _JumpLinkPillState extends State<_JumpLinkPill> {
           ),
           child: widget.child,
         ),
+      ),
+    );
+  }
+}
+
+class _MentionLabel extends StatelessWidget {
+  const _MentionLabel(this.text, {required this.style});
+
+  final String text;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Text(
+        text,
+        style: style,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
       ),
     );
   }

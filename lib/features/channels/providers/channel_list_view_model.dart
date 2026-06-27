@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -61,7 +62,12 @@ class ChannelListViewModel extends _$ChannelListViewModel {
       return;
     }
     _currentGuildId = guildId;
-    state = state.copyWith(guild: guild ?? state.guild);
+    state = ChannelListState(
+      guild: guild,
+      categories: const <ChannelCategory>[],
+      selectedChannelId: state.selectedChannelId,
+      isMemberListVisible: state.isMemberListVisible,
+    );
 
     final repo = ref.read(channelRepositoryProvider);
     unawaited(_subscription?.cancel());
@@ -71,6 +77,11 @@ class ChannelListViewModel extends _$ChannelListViewModel {
           (channels) {
             final categories = groupChannelsIntoCategories(channels);
             state = state.copyWith(categories: categories);
+            unawaited(
+              ref
+                  .read(channelPermissionCacheProvider.notifier)
+                  .rebuildGuild(guildId),
+            );
           },
           onError: (Object error) {
             debugPrint('[ChannelListViewModel] Watch error: $error');
@@ -87,16 +98,16 @@ class ChannelListViewModel extends _$ChannelListViewModel {
   }
 
   void toggleMemberList() {
-    setMemberListVisible(!state.isMemberListVisible);
+    setMemberListVisible(isVisible: !state.isMemberListVisible);
   }
 
-  void setMemberListVisible(bool isVisible) {
+  void setMemberListVisible({required bool isVisible}) {
     if (state.isMemberListVisible == isVisible) {
       return;
     }
     state = state.copyWith(isMemberListVisible: isVisible);
-    ref.read(syncedPreferencesStoreProvider).markDirty(
-      SyncedPreferenceField.memberList,
-    );
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.memberList);
   }
 }

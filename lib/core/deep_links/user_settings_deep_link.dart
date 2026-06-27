@@ -36,7 +36,8 @@ class UserSettingsDeepLinkTarget {
 }
 
 bool isUserSettingsDeepLinkPath(Uri uri) {
-  return normalizeDeepLinkPath(uri.path) == userSettingsDeepLinkPath;
+  return normalizeDeepLinkPath(normalizeAppProtocolDeepLinkUri(uri).path) ==
+      userSettingsDeepLinkPath;
 }
 
 UserSettingsDeepLinkTarget? parseUserSettingsDeepLink(Uri uri) {
@@ -61,8 +62,9 @@ UserSettingsDeepLinkTarget? parseUserSettingsDeepLink(Uri uri) {
       sectionParam != null && sectionParam.trim().isNotEmpty
       ? sectionParam
       : null;
-  final UserSettingsSection? legacySection =
-      _mobileSectionForLegacySection(rawSection);
+  final UserSettingsSection? legacySection = _mobileSectionForLegacySection(
+    rawSection,
+  );
   if (legacySection != null) {
     return UserSettingsDeepLinkTarget(section: legacySection);
   }

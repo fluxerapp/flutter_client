@@ -1,0 +1,31 @@
+Fluxer Mobile - App Store / application-store additional permission
+
+This file grants an additional permission under section 7 of the GNU Affero
+General Public License, version 3 (AGPLv3). It supplements, and does not
+replace, the AGPLv3 in the LICENSE file. The Program means the software in this
+repository.
+
+  As an additional permission under section 7 of the GNU Affero General Public
+  License, version 3, the copyright holders of the Program give you permission
+  to convey the Program, and any covered work based on it, through application
+  stores, app marketplaces, and similar distribution platforms (including,
+  without limitation, the Apple App Store and Google Play), and to enter into
+  and comply with those platforms' standard distribution and end-user terms,
+  notwithstanding the conditions of sections 6 and 10 of the License that would
+  otherwise prohibit conveying the work subject to such additional terms or
+  restrictions.
+
+  This additional permission applies only to distribution of the Program
+  through such platforms. It grants no further rights and waives no other
+  condition of the License, including the obligation in section 13 to offer the
+  Corresponding Source to users who interact with the Program over a network.
+  It does not prevent any recipient from also exercising their rights under the
+  unmodified AGPLv3.
+
+  As permitted by section 7, a recipient may remove this additional permission
+  from their own copy of the Program. Doing so does not affect any copy conveyed
+  by the copyright holders or by anyone else relying on this permission.
+
+By contributing to this repository you grant this same additional permission for
+your contribution, on the same terms as the rest of the Program. See
+CONTRIBUTING.md.

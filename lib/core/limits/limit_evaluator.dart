@@ -50,16 +50,15 @@ List<LimitRule> _sortRulesBySpecificity(List<LimitRule> rules) {
             originalIndex: index,
           ),
       ];
-  ranked.sort((
-    ({LimitRule rule, int specificity, int originalIndex}) a,
-    ({LimitRule rule, int specificity, int originalIndex}) b,
-  ) {
-    if (a.specificity != b.specificity) {
-      return a.specificity.compareTo(b.specificity);
-    }
-    return a.originalIndex.compareTo(b.originalIndex);
-  });
-  return ranked
+  return (ranked..sort((
+        ({LimitRule rule, int specificity, int originalIndex}) a,
+        ({LimitRule rule, int specificity, int originalIndex}) b,
+      ) {
+        if (a.specificity != b.specificity) {
+          return a.specificity.compareTo(b.specificity);
+        }
+        return a.originalIndex.compareTo(b.originalIndex);
+      }))
       .map((({LimitRule rule, int specificity, int originalIndex}) e) => e.rule)
       .toList();
 }

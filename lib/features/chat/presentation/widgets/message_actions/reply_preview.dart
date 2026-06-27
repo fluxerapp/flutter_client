@@ -23,6 +23,10 @@ import 'package:fluxer_dart/models/mention_reply_preferences.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+const double _kReplyPreviewFontSize = 14;
+const double _kReplyPreviewLineHeight = 18 / _kReplyPreviewFontSize;
+const double _kReplyPreviewAuthorMaxWidthRatio = 0.3;
+
 /// The inline reply indicator shown above a message that
 /// is a reply. Displays the replied-to message's avatar,
 /// author name, and a single-line content preview.
@@ -107,7 +111,8 @@ class InlineReplyPreview extends ConsumerWidget {
             ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final maxAuthorWidth = constraints.maxWidth * 0.35;
+          final maxAuthorWidth =
+              constraints.maxWidth * _kReplyPreviewAuthorMaxWidthRatio;
           return Row(
             children: [
               if (resolution.state == MessageReferenceState.loaded &&
@@ -129,8 +134,9 @@ class InlineReplyPreview extends ConsumerWidget {
                     '${replyAuthorDisplay.displayName}',
                     style: TextStyle(
                       color: nameColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+                      fontSize: _kReplyPreviewFontSize,
+                      height: _kReplyPreviewLineHeight,
+                      fontWeight: FontWeight.w500,
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
@@ -140,7 +146,7 @@ class InlineReplyPreview extends ConsumerWidget {
                 Expanded(
                   child: _ReplyPreviewContent(
                     message: replyMsg,
-                    emptyLabel: 'Click to see attachment',
+                    emptyLabel: l10n.chatReplyAttachedMedia,
                   ),
                 ),
               ] else ...[
@@ -157,7 +163,8 @@ class InlineReplyPreview extends ConsumerWidget {
                         : l10n.chatReplyOriginalFailedToLoad,
                     style: TextStyle(
                       color: context.colors.textPrimaryMuted,
-                      fontSize: 13,
+                      fontSize: _kReplyPreviewFontSize,
+                      height: _kReplyPreviewLineHeight,
                       fontStyle: FontStyle.italic,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -183,14 +190,14 @@ class _ReplyPreviewContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = TextStyle(
       color: context.colors.textPrimaryMuted,
-      fontSize: 12,
-      height: 1.2,
+      fontSize: _kReplyPreviewFontSize,
+      height: _kReplyPreviewLineHeight,
     );
     final content = message.content.replaceAll('\n', ' ').trim();
     if (content.isEmpty) {
       return Text(
         emptyLabel,
-        style: style,
+        style: style.copyWith(fontStyle: FontStyle.italic),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
       );

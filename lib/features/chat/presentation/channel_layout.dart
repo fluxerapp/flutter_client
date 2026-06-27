@@ -14,7 +14,6 @@ import 'package:fluxer_app/features/members/providers/member_list_subscription_p
 import 'package:fluxer_app/features/shell/presentation/mobile_chat_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.dart';
-import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 
 /// Wrapper screen for the chat area content.
 /// Takes guildId and channelId from go_router params.
@@ -37,10 +36,7 @@ class ChannelLayout extends ConsumerWidget {
     final isMemberListVisible = ref.watch(
       channelListViewModelProvider.select((s) => s.isMemberListVisible),
     );
-    final channelState = ref.watch(channelListViewModelProvider);
-    final Channel? channel =
-        findChannelById(channelState, channelId) ??
-        ref.watch(channelByIdProvider(channelId)).value;
+    final Channel? channel = ref.watch(channelByIdProvider(channelId)).value;
     final bool isVoiceChannel = channel?.type == ChannelType.voice;
     final isMobile = isMobileLayout(context);
     final AsyncValue<bool> showGateAsync = ref.watch(

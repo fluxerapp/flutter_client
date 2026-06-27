@@ -15,9 +15,7 @@ class ParsedReadyGuild {
   final int? onlineCount;
 }
 
-List<ParsedReadyGuild> parseReadyGuildsOnIsolate(
-  Map<String, Object?> input,
-) {
+List<ParsedReadyGuild> parseReadyGuildsOnIsolate(Map<String, Object?> input) {
   final List<Map<String, dynamic>> rawGuilds =
       (input['rawGuilds']! as List<Object?>)
           .map((Object? guild) => Map<String, dynamic>.from(guild! as Map))

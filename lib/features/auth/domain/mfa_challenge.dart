@@ -13,8 +13,8 @@ class MfaChallenge {
     this.smsPhoneHint,
   });
 
-  /// Returns the number of available MFA methods.
-  int get methodCount => [totp, sms, webauthn].where((m) => m).length;
+  /// Returns the number of MFA methods this client supports.
+  int get methodCount => [totp, webauthn].where((m) => m).length;
 
   /// Whether the user needs to pick between methods.
   bool get hasMultipleMethods => methodCount > 1;

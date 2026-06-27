@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 
+@immutable
 class FluxerMarkdownFeatures {
   const FluxerMarkdownFeatures({
     required this.allowAlerts,

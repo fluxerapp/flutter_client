@@ -90,9 +90,8 @@ class MemberRepository {
         final List<dynamic> rawList = e.response!.data as List<dynamic>;
         return rawList
             .map(
-              (dynamic item) => GuildMemberResponse.fromJson(
-                item as Map<String, Object?>,
-              ),
+              (dynamic item) =>
+                  GuildMemberResponse.fromJson(item as Map<String, Object?>),
             )
             .toList();
       }
@@ -211,7 +210,9 @@ class MemberRepository {
       return const <Member>[];
     }
     final List<db.Role> roles = await _db.roleDao.getRoles(guildId);
-    final List<String> userIds = members.map((db.Member m) => m.userId).toList();
+    final List<String> userIds = members
+        .map((db.Member m) => m.userId)
+        .toList();
     final List<db.User> userList = await _db.userDao.getUsersByIds(userIds);
     final Map<String, db.User> users = <String, db.User>{
       for (final db.User u in userList) u.id: u,

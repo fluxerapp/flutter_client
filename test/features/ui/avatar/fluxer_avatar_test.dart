@@ -91,7 +91,6 @@ void main() {
               imageUrl: 'https://cdn.example/avatar.webp',
               fallbackText: 'Alice',
               showStatus: false,
-              size: 40,
             ),
           ),
         );

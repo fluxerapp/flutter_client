@@ -6,6 +6,7 @@ import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/chat/domain/api_attachment_metadata.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -75,9 +76,9 @@ Map<String, dynamic> buildMessageCreateBody({
 /// Builds the request body for a message forward.
 ///
 /// Forwards reference a source message and MUST NOT carry
-/// content/embeds/attachments/stickers — the server builds the snapshot itself
+/// content/embeds/attachments/stickers. The server builds the snapshot itself
 /// (it rejects forward refs that include content). [attachmentIds]/
-/// [embedIndices] narrow which media the server snapshots; omit them to
+/// [embedIndices] narrow which media the server snapshots. Omit them to
 /// forward the whole message.
 Map<String, dynamic> buildForwardMessageBody({
   required String sourceChannelId,
@@ -231,8 +232,24 @@ class MessageRepository {
         }
       }
 
+      final mentionCtx = await buildMessageMentionContext(
+        _db,
+        currentUserId: _currentUserId,
+        channelId: channelId,
+      );
       final messages = data
-          .map((sdk) => Message.fromSdk(sdk, currentUserId: _currentUserId))
+          .map(
+            (sdk) =>
+                Message.fromSdk(sdk, currentUserId: _currentUserId).copyWith(
+                  isMentioned: messageMentionsUser(
+                    mentionCtx,
+                    authorId: sdk.author.id,
+                    mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
+                    mentionEveryone: sdk.mentionEveryone,
+                    mentionRoleIds: sdk.mentionRoles,
+                  ),
+                ),
+          )
           .toList()
           .reversed
           .toList();
@@ -306,7 +323,18 @@ class MessageRepository {
         await _db.userDao.upsertUser(userFromPartialSdk(sdk.author));
       }
       await upsertMentionUsersFromSdk(_db, sdk.mentions);
-      final message = Message.fromSdk(sdk, currentUserId: _currentUserId);
+      final message = Message.fromSdk(sdk, currentUserId: _currentUserId)
+          .copyWith(
+            isMentioned: await resolveMessageMentionsUser(
+              _db,
+              currentUserId: _currentUserId,
+              channelId: channelId,
+              authorId: sdk.author.id,
+              mentionedUserIds: sdk.mentions.map((u) => u.id).toList(),
+              mentionEveryone: sdk.mentionEveryone,
+              mentionRoleIds: sdk.mentionRoles,
+            ),
+          );
       await _db.messageDao.upsertMessage(message.toCompanion());
       return message;
     } on DioException catch (e) {
@@ -344,6 +372,11 @@ class MessageRepository {
     }
 
     final messages = <Message>[];
+    final mentionCtx = await buildMessageMentionContext(
+      _db,
+      currentUserId: _currentUserId,
+      channelId: channelId,
+    );
     for (final json in data.reversed) {
       try {
         final map = json as Map<String, dynamic>;
@@ -399,7 +432,17 @@ class MessageRepository {
                     .toList() ??
                 const [],
             isPinned: (map['pinned'] as bool?) ?? false,
-            isMentioned: _isMentionedFromJson(map),
+            isMentioned: messageMentionsUser(
+              mentionCtx,
+              authorId: author['id'] as String,
+              mentionedUserIds: _mentionedUserIdsFromJson(map),
+              mentionEveryone: (map['mention_everyone'] as bool?) ?? false,
+              mentionRoleIds:
+                  (map['mention_roles'] as List<dynamic>?)
+                      ?.map((e) => e.toString())
+                      .toList() ??
+                  const [],
+            ),
             mentionedUserIds: _mentionedUserIdsFromJson(map),
             type: (map['type'] as int?) ?? 0,
             flags: (map['flags'] as int?) ?? 0,
@@ -468,24 +511,6 @@ class MessageRepository {
       networkPage: networkPage,
     );
     await _db.messageDao.deleteMessages(staleIds);
-  }
-
-  bool _isMentionedFromJson(Map<String, dynamic> map) {
-    if ((map['mention_everyone'] as bool?) ?? false) {
-      return true;
-    }
-    if (_currentUserId == null) {
-      return false;
-    }
-    final mentions = map['mentions'] as List<dynamic>?;
-    if (mentions != null) {
-      for (final m in mentions) {
-        if (m is Map<String, dynamic> && m['id'] == _currentUserId) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   List<String> _mentionedUserIdsFromJson(Map<String, dynamic> map) {
@@ -592,7 +617,7 @@ class MessageRepository {
         final Message message = Message.fromSdk(
           schema,
           currentUserId: _currentUserId,
-        );
+        ).copyWith(isMentioned: false);
         await _db.messageDao.upsertMessage(message.toCompanion());
         return message;
       }
@@ -625,7 +650,7 @@ class MessageRepository {
     final Message message = Message.fromSdk(
       schema,
       currentUserId: _currentUserId,
-    );
+    ).copyWith(isMentioned: false);
     await _db.messageDao.upsertMessage(message.toCompanion());
     return message;
   }
@@ -688,7 +713,7 @@ class MessageRepository {
       final Message message = Message.fromSdk(
         schema,
         currentUserId: _currentUserId,
-      );
+      ).copyWith(isMentioned: false);
       await _db.messageDao.upsertMessage(message.toCompanion());
       return message;
     } on DioException catch (e) {
@@ -710,7 +735,7 @@ class MessageRepository {
       final Message message = Message.fromSdk(
         schema,
         currentUserId: _currentUserId,
-      );
+      ).copyWith(isMentioned: false);
       await _db.messageDao.upsertMessage(message.toCompanion());
       return message;
     } on DioException catch (e) {

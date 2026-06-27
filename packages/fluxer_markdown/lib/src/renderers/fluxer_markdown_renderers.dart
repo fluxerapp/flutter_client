@@ -105,6 +105,7 @@ Widget buildFluxerMarkdownTextFlow({
   required md.Document inlineDocument,
   required bool selectable,
   required bool isDark,
+  String? parseCacheKey,
   int? maxLines,
   TextOverflow? overflow,
 }) {
@@ -118,7 +119,7 @@ Widget buildFluxerMarkdownTextFlow({
       spans.add(TextSpan(text: '\n', style: baseStyle));
     }
     final chunkNodes = _inlineNodeCache.resolve((
-      chunks[i],
+      markdownParseCacheKey(chunks[i], parseCacheKey),
       features,
     ), () => inlineDocument.parseInline(chunks[i]));
     if (chunkNodes.isEmpty) {
@@ -1101,6 +1102,9 @@ class _FluxerCodeBlockWithCopy extends StatelessWidget {
               child: GestureDetector(
                 onTap: () async {
                   await Clipboard.setData(ClipboardData(text: code));
+                  if (!context.mounted) {
+                    return;
+                  }
                   onCopyCode?.call(context, code);
                 },
                 child: PhosphorIcon(

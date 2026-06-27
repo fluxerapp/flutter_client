@@ -5,12 +5,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'guild_collapsed_categories_provider.g.dart';
 
 @riverpod
-Stream<Set<String>> guildCollapsedCategories(
-  Ref ref,
-  String guildId,
-) {
+Stream<Set<String>> guildCollapsedCategories(Ref ref, String guildId) {
   final db = ref.watch(fluxerDatabaseProvider);
-  return db.userGuildSettingsDao.watchByGuildId(guildId).map(
-    parseCollapsedCategoryIdsFromGuildSettingsRow,
-  );
+  return db.userGuildSettingsDao
+      .watchByGuildId(guildId)
+      .map(parseCollapsedCategoryIdsFromGuildSettingsRow);
 }

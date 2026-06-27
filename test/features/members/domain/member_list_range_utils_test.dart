@@ -18,20 +18,23 @@ void main() {
   group('normalizeMemberListRanges', () {
     test('preserves ranges beyond former 100k cap', () {
       final List<MemberListRange> ranges = normalizeMemberListRanges(
-        <MemberListRange>[<int>[250000, 250050]],
+        <MemberListRange>[
+          <int>[250000, 250050],
+        ],
       );
-      expect(ranges, <MemberListRange>[<int>[250000, 250050]]);
+      expect(ranges, <MemberListRange>[
+        <int>[250000, 250050],
+      ]);
     });
   });
 
   group('buildMemberListRangeWindow', () {
     test('uses layout-aware row mapping for group headers', () {
-      final List<MemberListGroupLayout> layouts = buildMemberListLayout(
-        <MemberListGroup>[
-          const MemberListGroup(id: 'online', count: 50),
-          const MemberListGroup(id: 'offline', count: 50),
-        ],
-      );
+      final List<MemberListGroupLayout> layouts =
+          buildMemberListLayout(<MemberListGroup>[
+            const MemberListGroup(id: 'online', count: 50),
+            const MemberListGroup(id: 'offline', count: 50),
+          ]);
       final List<MemberListRange> ranges = buildMemberListRangeWindow(
         scrollTop: 0,
         clientHeight: 200,

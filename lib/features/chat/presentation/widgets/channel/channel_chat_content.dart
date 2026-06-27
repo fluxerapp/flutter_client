@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_header.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';
 
 /// Composite chat view that assembles the top bar, message list,
@@ -38,6 +40,14 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   ({String channelId, String? targetMessageId, bool loadMessages})?
   _lastSwitchRequest;
   ({String channelId, String? targetMessageId})? _lastClosedPanelRequest;
+  bool? _lastMobileLayout;
+  RevealSide? _lastRevealSide;
+
+  @override
+  void initState() {
+    super.initState();
+    _scheduleSyncChannelIfNeeded();
+  }
 
   @override
   void didUpdateWidget(ChannelChatContent oldWidget) {
@@ -46,21 +56,45 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
         oldWidget.targetMessageId != widget.targetMessageId) {
       _lastSwitchRequest = null;
     }
+    _scheduleSyncChannelIfNeeded();
   }
 
-  void _scheduleChannelSync({required bool loadMessages}) {
+  void _scheduleSyncChannelIfNeeded() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _syncChannelIfNeeded(loadMessages: _resolveLoadMessages());
+    });
+  }
+
+  bool _resolveLoadMessages() {
+    final bool isMobile = isMobileLayout(context);
+    final RevealSide revealSide = isMobile
+        ? ref.read(currentRevealSideProvider)
+        : RevealSide.main;
+    return channelChatShouldLoadMessages(
+      isMobile: isMobile,
+      revealSide: revealSide,
+    );
+  }
+
+  void _syncChannelIfNeeded({required bool loadMessages}) {
+    if (widget.channelId != ref.read(activeChannelIdProvider) ||
+        ref.read(shellHasPopupOverlayProvider)) {
+      return;
+    }
     final request = (
       channelId: widget.channelId,
       targetMessageId: widget.targetMessageId,
       loadMessages: loadMessages,
     );
-    if (_lastSwitchRequest == request) {
+    if (_lastSwitchRequest == request &&
+        ref.read(chatViewModelProvider).channelId == request.channelId) {
       return;
     }
     _lastSwitchRequest = request;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(_runChannelSync(request));
-    });
+    unawaited(_runChannelSync(request));
   }
 
   Future<void> _runChannelSync(
@@ -88,16 +122,28 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = isMobileLayout(context);
-    final revealSide = isMobile
+    final bool isMobile = isMobileLayout(context);
+    final RevealSide revealSide = isMobile
         ? ref.watch(currentRevealSideProvider)
         : RevealSide.main;
-    final shouldLoadMessages = channelChatShouldLoadMessages(
+    ref
+      ..listen<String?>(activeChannelIdProvider, (_, _) {
+        _scheduleSyncChannelIfNeeded();
+      })
+      ..listen<bool>(shellHasPopupOverlayProvider, (_, _) {
+        _scheduleSyncChannelIfNeeded();
+      });
+    if (_lastMobileLayout != isMobile || _lastRevealSide != revealSide) {
+      _lastMobileLayout = isMobile;
+      _lastRevealSide = revealSide;
+      _scheduleSyncChannelIfNeeded();
+    }
+    listenChatViewModelErrors(ref);
+
+    final bool shouldLoadMessages = channelChatShouldLoadMessages(
       isMobile: isMobile,
       revealSide: revealSide,
     );
-    _scheduleChannelSync(loadMessages: shouldLoadMessages);
-    listenChatViewModelErrors(ref);
 
     return ColoredBox(
       color: isMobile

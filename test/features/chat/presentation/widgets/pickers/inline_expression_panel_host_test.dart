@@ -38,15 +38,16 @@ void main() {
     expect(find.byType(InlineExpressionPanel), findsNothing);
   });
 
-  testWidgets('renders nothing on mobile while the expression panel is closed', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      _harness(showInlineEmojiPicker: true, size: mobileSize),
-    );
+  testWidgets(
+    'renders nothing on mobile while the expression panel is closed',
+    (tester) async {
+      await tester.pumpWidget(
+        _harness(showInlineEmojiPicker: true, size: mobileSize),
+      );
 
-    expect(find.byType(InlineExpressionPanel), findsNothing);
-  });
+      expect(find.byType(InlineExpressionPanel), findsNothing);
+    },
+  );
 
   testWidgets('renders nothing on non-mobile layouts', (tester) async {
     await tester.pumpWidget(

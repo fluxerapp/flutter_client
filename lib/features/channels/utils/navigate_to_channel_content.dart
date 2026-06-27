@@ -42,6 +42,9 @@ Future<void> navigateToChannelContent({
 
   final Channel? resolvedChannel =
       channel ?? await loadGuildChannelById(ref, channelId);
+  if (!context.mounted) {
+    return;
+  }
   if (resolvedChannel != null) {
     final String chatPath = _guildChannelRoutePath(
       guildId: guildId,

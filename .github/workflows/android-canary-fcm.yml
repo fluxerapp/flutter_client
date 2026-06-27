@@ -4,40 +4,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-actor:
-    name: Check allowed user
-    runs-on: ubuntu-latest
-    outputs:
-      allowed: ${{ steps.check.outputs.allowed }}
-    steps:
-      - name: Check actor against allowlist
-        id: check
-        run: |
-          ALLOWED="${{ vars.ALLOWED_TESTFLIGHT_ACTORS }}"
-          if [ -z "$ALLOWED" ]; then
-            echo "::error::Repository variable ALLOWED_TESTFLIGHT_ACTORS is not set. Add a comma-separated list of GitHub usernames in Settings -> Secrets and variables -> Actions -> Variables."
-            exit 1
-          fi
-          ACTOR="${{ github.actor }}"
-          ALLOWED_ARR="${ALLOWED//,/ }"
-          FOUND=false
-          for user_name in $ALLOWED_ARR; do
-            user_name_trimmed=$(echo "$user_name" | xargs)
-            if [ "$user_name_trimmed" = "$ACTOR" ]; then
-              FOUND=true
-              break
-            fi
-          done
-          if [ "$FOUND" != "true" ]; then
-            echo "::error::User $ACTOR is not allowed to run this workflow. Allowed users are listed in ALLOWED_TESTFLIGHT_ACTORS."
-            exit 1
-          fi
-          echo "allowed=true" >> "$GITHUB_OUTPUT"
-
   build-canary:
     name: Build canary APK
-    needs: check-actor
     runs-on: macos-26
+    environment: release-builds
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
@@ -155,10 +125,10 @@ jobs:
           fi
 
       - name: Build canary split APKs
-        run: flutter build apk --release --split-per-abi --flavor canaryFcm --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+        run: flutter build apk --release --split-per-abi --flavor canaryFcm --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
       - name: Build canary combined APK
-        run: flutter build apk --release --flavor canaryFcm --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+        run: flutter build apk --release --flavor canaryFcm --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/canary.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
       - name: Upload canary APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f

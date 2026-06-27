@@ -48,12 +48,13 @@ class FluxerWarningAlert extends StatelessWidget {
           border: Border(left: BorderSide(color: borderColor, width: 4)),
           borderRadius: layout.radiusSm,
         ),
-        padding: EdgeInsets.symmetric(horizontal: layout.s3, vertical: layout.s2),
+        padding: EdgeInsets.symmetric(
+          horizontal: layout.s3,
+          vertical: layout.s2,
+        ),
         child: Row(
           children: [
-            ExcludeSemantics(
-              child: Icon(icon, color: borderColor, size: 20),
-            ),
+            ExcludeSemantics(child: Icon(icon, color: borderColor, size: 20)),
             SizedBox(width: layout.s2),
             Expanded(
               child: ExcludeSemantics(

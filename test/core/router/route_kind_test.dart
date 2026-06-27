@@ -12,10 +12,7 @@ void main() {
     });
 
     test('resolves guild channel from message jump path', () {
-      expect(
-        extractChannelId('/channels/guild-1/chan-1/msg-1'),
-        'chan-1',
-      );
+      expect(extractChannelId('/channels/guild-1/chan-1/msg-1'), 'chan-1');
     });
 
     test('returns null for guild members route', () {

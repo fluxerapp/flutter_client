@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/quick_switcher/presentation/widgets/quick_sw
 import 'package:fluxer_app/features/quick_switcher/providers/quick_switcher_provider.dart';
 import 'package:fluxer_app/features/quick_switcher/utils/quick_switcher_navigation.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 class QuickSwitcherBottomSheet {
@@ -174,9 +175,7 @@ class _QuickSwitcherSheetBodyState
           onSubmitted: (_) => _confirmSelection(state),
         ),
         SizedBox(height: context.layout.s3),
-        Expanded(
-          child: _buildSearchResults(context, state, l10n),
-        ),
+        Expanded(child: _buildSearchResults(context, state, l10n)),
       ],
     );
   }
@@ -216,7 +215,7 @@ class _QuickSwitcherSheetBodyState
     if (state.candidateSets == null) {
       return _buildScrollablePlaceholder(
         context,
-        child: const Center(child: CircularProgressIndicator()),
+        child: const Center(child: FluxerLoadingSpinner()),
       );
     }
     if (state.results.isEmpty) {
@@ -346,7 +345,8 @@ class _QuickSwitcherSheetBodyState
   }
 
   void _confirmSelection(QuickSwitcherState state) {
-    if (state.selectedIndex < 0 || state.selectedIndex >= state.results.length) {
+    if (state.selectedIndex < 0 ||
+        state.selectedIndex >= state.results.length) {
       return;
     }
     final QuickSwitcherResult result = state.results[state.selectedIndex];

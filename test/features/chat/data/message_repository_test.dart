@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
@@ -117,6 +118,62 @@ void main() {
     ]);
     expect(adapter.getMessagesCount, 4);
   });
+
+  test('backfilled role-mention message persists a rich isMentioned', () async {
+    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+    addTearDown(db.close);
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+    await db.memberDao.upsertMember(
+      MembersCompanion.insert(
+        userId: 'me',
+        guildId: 'guild-1',
+        roleIdsJson: const Value('["role-1"]'),
+      ),
+    );
+    const messageId = '1501554121113600000';
+    final messageJson = MessageResponseSchema(
+      id: messageId,
+      channelId: 'channel-1',
+      author: const UserPartialResponse(
+        id: 'other',
+        username: 'other',
+        discriminator: '0001',
+        globalName: null,
+        avatar: null,
+        avatarColor: null,
+        flags: 0,
+      ),
+      type: MessageResponseSchemaTypeType.valueDefault,
+      flags: 0,
+      content: 'hey team',
+      timestamp: DateTime.utc(2026, 5, 6, 12),
+      pinned: false,
+      mentionEveryone: false,
+      tts: false,
+      mentions: const [],
+      mentionRoles: const ['role-1'],
+    ).toJson();
+    final adapter = _StubMessagesAdapter(
+      jsonEncode(<Map<String, dynamic>>[messageJson]),
+    );
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final repo = MessageRepository(client, dio, db, 'me');
+
+    await repo.loadMessagePage(channelId: 'channel-1');
+
+    // Role-only mention: the old heuristic stored false, the rich resolver
+    // stores true.
+    final row = await db.messageDao.getMessage(messageId);
+    expect(row?.isMentioned, isTrue);
+  });
 }
 
 class _CountingAdapter implements HttpClientAdapter {
@@ -135,6 +192,34 @@ class _CountingAdapter implements HttpClientAdapter {
       await Future<void>.delayed(const Duration(milliseconds: 10));
       return ResponseBody.fromString(
         jsonEncode(const <Map<String, Object?>>[]),
+        200,
+        headers: {
+          Headers.contentTypeHeader: ['application/json'],
+        },
+      );
+    }
+    return ResponseBody.fromString('nf', 404);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+class _StubMessagesAdapter implements HttpClientAdapter {
+  _StubMessagesAdapter(this.body);
+
+  final String body;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    final String path = options.uri.path;
+    if (options.method == 'GET' && path.endsWith('/messages')) {
+      return ResponseBody.fromString(
+        body,
         200,
         headers: {
           Headers.contentTypeHeader: ['application/json'],

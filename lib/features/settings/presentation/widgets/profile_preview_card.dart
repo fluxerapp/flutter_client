@@ -152,22 +152,23 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
           SizedBox(height: layout.s4),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 300),
-            child: DecoratedBox(
+            child: Container(
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: colors.backgroundPrimary,
                 borderRadius: layout.radiusMd,
+              ),
+              foregroundDecoration: BoxDecoration(
+                borderRadius: layout.radiusMd,
                 border: Border.all(color: accentColor, width: 2.5),
               ),
-              child: ClipRRect(
-                borderRadius: layout.radiusMd,
-                child: _buildCardBody(
-                  s,
-                  accentColor,
-                  colors,
-                  textStyles,
-                  layout,
-                  l10n,
-                ),
+              child: _buildCardBody(
+                s,
+                accentColor,
+                colors,
+                textStyles,
+                layout,
+                l10n,
               ),
             ),
           ),

@@ -8,7 +8,7 @@ import 'package:fluxer_app/core/push/push_service.dart';
 class FirebaseMessagingPushService implements PushService {
   const FirebaseMessagingPushService();
 
-  static final FcmTapBindingHost tapHost = FcmTapBindingHostStub();
+  static const FcmTapBindingHost tapHost = FcmTapBindingHostStub();
 
   static Future<void> bootstrapAfterAuth() async {}
 

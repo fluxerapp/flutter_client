@@ -17,9 +17,9 @@ class _EveryoneModeWellKnown extends WellKnown {
 }
 
 WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
-  return WellKnownFluxerResponse(
+  return const WellKnownFluxerResponse(
     apiCodeVersion: 1,
-    endpoints: const WellKnownFluxerResponseEndpoints(
+    endpoints: WellKnownFluxerResponseEndpoints(
       api: 'https://example.test/api',
       apiClient: 'https://example.test/api/client',
       apiPublic: 'https://example.test/api/public',
@@ -32,41 +32,77 @@ WellKnownFluxerResponse _buildEveryoneModeWellKnown() {
       gift: 'https://example.test/gift',
       webapp: 'https://example.test/webapp',
     ),
-    captcha: const WellKnownFluxerResponseCaptcha(
+    captcha: WellKnownFluxerResponseCaptcha(
       provider: 'none',
       hcaptchaSiteKey: null,
       turnstileSiteKey: null,
     ),
-    features: const WellKnownFluxerResponseFeatures(
+    features: WellKnownFluxerResponseFeatures(
       voiceEnabled: true,
       stripeEnabled: false,
       selfHosted: true,
       presignedAttachmentUploads: false,
+      emailsEnabled: false,
     ),
-    gif: const WellKnownFluxerResponseGif(
+    gif: WellKnownFluxerResponseGif(
       provider: 'tenor',
       displayName: 'Tenor',
       attributionRequired: false,
     ),
-    sso: const WellKnownFluxerResponseSso(
+    sso: WellKnownFluxerResponseSso(
       enabled: false,
       enforced: false,
       displayName: null,
       redirectUri: 'https://example.test/sso',
     ),
-    limits: const WellKnownFluxerResponseLimits(
+    registration: WellKnownFluxerResponseRegistration(
+      mode: WellKnownFluxerResponseRegistrationModeMode.open,
+      adminRegistrationUrlsEnabled: false,
+    ),
+    community: WellKnownFluxerResponseCommunity(
+      singleCommunity: false,
+      singleCommunityGuildId: null,
+      directMessagesDisabled: false,
+    ),
+    services: WellKnownFluxerResponseServices(
+      gifEnabled: true,
+      youtubeEnabled: true,
+      blueskyEnabled: false,
+    ),
+    limits: WellKnownFluxerResponseLimits(
       version: WellKnownFluxerResponseLimitsVersionVersion.value2,
       traitDefinitions: <String>[],
       defaultsHash: 'test',
-      rules: <LimitRuleResponse>[
-        LimitRuleResponse(
+      rules: <WellKnownFluxerResponseLimitsRules>[
+        WellKnownFluxerResponseLimitsRules(
           id: 'default',
           overrides: <String, num>{'feature_global_expressions': 1},
         ),
       ],
     ),
-    push: const WellKnownFluxerResponsePush(publicVapidKey: null),
-    appPublic: const <String, Object?>{},
+    push: WellKnownFluxerResponsePush(publicVapidKey: null),
+    appPublic: WellKnownFluxerResponseAppPublic(
+      branding: WellKnownFluxerResponseAppPublicBranding(
+        productName: 'Fluxer',
+        iconUrl: null,
+        symbolUrl: null,
+        logoUrl: null,
+        wordmarkUrl: null,
+        faviconUrl: null,
+        themeColor: null,
+      ),
+      setup: WellKnownFluxerResponseAppPublicSetup(
+        configured: true,
+        adminUrl: null,
+      ),
+      legal: WellKnownFluxerResponseAppPublicLegal(
+        termsUrl: null,
+        privacyUrl: null,
+      ),
+      registration: WellKnownFluxerResponseAppPublicRegistration(
+        collectDateOfBirth: true,
+      ),
+    ),
   );
 }
 

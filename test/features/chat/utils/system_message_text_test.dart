@@ -11,9 +11,9 @@ void main() {
         resolveGuildJoinMessage(
           l10n,
           messageId: 'not-a-snowflake',
-          username: 'Jiralite',
+          username: 'Sample User',
         ),
-        "Glad you're here, Jiralite!",
+        "Glad you're here, Sample User!",
       );
     });
 
@@ -21,7 +21,7 @@ void main() {
       final template = resolveGuildJoinMessageTemplate(l10n, messageId: '0');
 
       expect(template, contains(kGuildJoinMessageUsernamePlaceholder));
-      expect(template, isNot(contains('Jiralite')));
+      expect(template, isNot(contains('Sample User')));
     });
 
     test('welcome variants match desktop order', () {

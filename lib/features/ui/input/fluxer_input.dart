@@ -263,7 +263,8 @@ class FluxerInput extends StatelessWidget {
                       onFieldSubmitted: onSubmitted,
                       validator: validator,
                       keyboardType: keyboardType,
-                      textCapitalization: textCapitalization ?? TextCapitalization.none,
+                      textCapitalization:
+                          textCapitalization ?? TextCapitalization.none,
                       autocorrect: autocorrect,
                       enableSuggestions: enableSuggestions,
                       inputFormatters: inputFormatters,

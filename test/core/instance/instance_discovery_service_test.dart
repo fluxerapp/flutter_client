@@ -33,6 +33,21 @@ void main() {
           'stripe_enabled': false,
           'self_hosted': true,
           'presigned_attachment_uploads': true,
+          'emails_enabled': true,
+        },
+        'registration': <String, dynamic>{
+          'mode': 'open',
+          'admin_registration_urls_enabled': false,
+        },
+        'community': <String, dynamic>{
+          'single_community': false,
+          'single_community_guild_id': null,
+          'direct_messages_disabled': false,
+        },
+        'services': <String, dynamic>{
+          'gif_enabled': true,
+          'youtube_enabled': true,
+          'bluesky_enabled': false,
         },
         'gif': <String, dynamic>{
           'provider': 'tenor',
@@ -52,7 +67,20 @@ void main() {
           'defaultsHash': 'hash',
         },
         'push': <String, dynamic>{'public_vapid_key': null},
-        'app_public': <String, dynamic>{},
+        'app_public': <String, dynamic>{
+          'branding': <String, dynamic>{
+            'product_name': 'Fluxer',
+            'icon_url': null,
+            'symbol_url': null,
+            'logo_url': null,
+            'wordmark_url': null,
+            'favicon_url': null,
+            'theme_color': null,
+          },
+          'setup': <String, dynamic>{'configured': true, 'admin_url': null},
+          'legal': <String, dynamic>{'terms_url': null, 'privacy_url': null},
+          'registration': <String, dynamic>{'collect_date_of_birth': false},
+        },
       };
     }
 
@@ -79,7 +107,7 @@ void main() {
       expect(snapshot.displayDomain, 'chat.example.com');
     });
 
-    test('connectToEndpoint throws on 404', () async {
+    test('connectToEndpoint throws on 404', () {
       final InstanceDiscoveryService service = InstanceDiscoveryService(
         dio: buildDio(responseJson: <String, dynamic>{}, statusCode: 404),
       );
@@ -90,7 +118,7 @@ void main() {
       );
     });
 
-    test('connectToEndpoint throws on incompatible api code version', () async {
+    test('connectToEndpoint throws on incompatible api code version', () {
       final InstanceDiscoveryService service = InstanceDiscoveryService(
         dio: buildDio(responseJson: buildDiscovery(apiCodeVersion: 0)),
       );
@@ -122,16 +150,18 @@ class _DiscoveryAdapter implements HttpClientAdapter {
     RequestOptions options,
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
-  ) async {
+  ) {
     expect(options.method, 'GET');
     expect(options.uri.path, '/api/.well-known/fluxer');
 
-    return ResponseBody.fromString(
-      jsonEncode(responseJson),
-      statusCode,
-      headers: <String, List<String>>{
-        Headers.contentTypeHeader: <String>[Headers.jsonContentType],
-      },
+    return Future<ResponseBody>.value(
+      ResponseBody.fromString(
+        jsonEncode(responseJson),
+        statusCode,
+        headers: <String, List<String>>{
+          Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+        },
+      ),
     );
   }
 

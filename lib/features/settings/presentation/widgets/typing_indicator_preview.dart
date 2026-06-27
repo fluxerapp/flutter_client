@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -101,7 +103,8 @@ class _TypingDotsState extends State<_TypingDots>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
-    )..repeat();
+    );
+    unawaited(_controller.repeat());
   }
 
   @override

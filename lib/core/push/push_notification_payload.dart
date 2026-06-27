@@ -73,8 +73,7 @@ Map<String, String> enrichPushPayload(Map<String, String> payload) {
 
 String? resolvePushNotificationTag(Map<String, String> payload) {
   final String? explicitTag =
-      _nonEmpty(payload['tag']) ??
-      _nonEmpty(payload['notification_tag']);
+      _nonEmpty(payload['tag']) ?? _nonEmpty(payload['notification_tag']);
   if (explicitTag != null) {
     return explicitTag;
   }
@@ -130,8 +129,9 @@ Map<String, String> normalizePushTapPayload(Map<String, String> raw) {
   if (navigate != null && _nonEmpty(payload['url']) == null) {
     payload['url'] = navigate;
   }
-  payload.remove('data');
-  payload.remove('navigate');
+  payload
+    ..remove('data')
+    ..remove('navigate');
   return enrichPushPayload(payload);
 }
 

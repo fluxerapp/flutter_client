@@ -29,12 +29,12 @@ class FluxerStatusIndicator extends StatelessWidget {
         width: size,
         height: size,
         child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: _statusColor(context),
-          shape: BoxShape.circle,
-          border: Border.all(color: border, width: borderWidth),
-        ),
-        child: _buildInner(context),
+          decoration: BoxDecoration(
+            color: _statusColor(context),
+            shape: BoxShape.circle,
+            border: Border.all(color: border, width: borderWidth),
+          ),
+          child: _buildInner(context),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -41,13 +42,29 @@ class ChannelPinsRepository {
       before: before,
     );
 
+    final mentionCtx = await buildMessageMentionContext(
+      _database,
+      currentUserId: _currentUserId,
+      channelId: channelId,
+    );
     final entries = <PinnedMessageEntry>[
       for (final pin in response.items)
         PinnedMessageEntry(
-          message: Message.fromPinnedMessage(
-            pin.message,
-            currentUserId: _currentUserId,
-          ),
+          message:
+              Message.fromPinnedMessage(
+                pin.message,
+                currentUserId: _currentUserId,
+              ).copyWith(
+                isMentioned: messageMentionsUser(
+                  mentionCtx,
+                  authorId: pin.message.author.id,
+                  mentionedUserIds: pin.message.mentions
+                      .map((u) => u.id)
+                      .toList(),
+                  mentionEveryone: pin.message.mentionEveryone,
+                  mentionRoleIds: pin.message.mentionRoles,
+                ),
+              ),
           pinnedAt: pin.pinnedAt,
         ),
     ];

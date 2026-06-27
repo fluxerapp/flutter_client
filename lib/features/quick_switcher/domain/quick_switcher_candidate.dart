@@ -37,7 +37,8 @@ class QuickSwitcherUserCandidate extends QuickSwitcherCandidate {
     required super.title,
     required super.searchValues,
     required super.sortWeight,
-    required this.userId, super.subtitle,
+    required this.userId,
+    super.subtitle,
     this.dmChannelId,
     this.avatar,
     this.avatarColor,
@@ -61,7 +62,8 @@ class QuickSwitcherGroupDmCandidate extends QuickSwitcherCandidate {
     required super.title,
     required super.searchValues,
     required super.sortWeight,
-    required this.channelId, super.subtitle,
+    required this.channelId,
+    super.subtitle,
     this.icon,
     this.groupStatus,
     this.groupMembers = const <GroupMemberInfo>[],
@@ -83,7 +85,10 @@ class QuickSwitcherChannelCandidate extends QuickSwitcherCandidate {
     required super.title,
     required super.searchValues,
     required super.sortWeight,
-    required this.channelId, required this.guildId, required this.isVoice, super.subtitle,
+    required this.channelId,
+    required this.guildId,
+    required this.isVoice,
+    super.subtitle,
     this.guildName,
     this.guildIcon,
   });
@@ -106,7 +111,8 @@ class QuickSwitcherGuildCandidate extends QuickSwitcherCandidate {
     required super.title,
     required super.searchValues,
     required super.sortWeight,
-    required this.guild, super.subtitle,
+    required this.guild,
+    super.subtitle,
   });
 
   final Guild guild;
@@ -122,7 +128,8 @@ class QuickSwitcherVirtualGuildCandidate extends QuickSwitcherCandidate {
     required super.title,
     required super.searchValues,
     required super.sortWeight,
-    required this.virtualGuildType, super.subtitle,
+    required this.virtualGuildType,
+    super.subtitle,
   });
 
   final QuickSwitcherVirtualGuildType virtualGuildType;
@@ -138,7 +145,8 @@ class QuickSwitcherSettingsCandidate extends QuickSwitcherCandidate {
     required super.title,
     required super.searchValues,
     required super.sortWeight,
-    required this.target, super.subtitle,
+    required this.target,
+    super.subtitle,
   });
 
   final QuickSwitcherSettingsTarget target;
@@ -193,7 +201,8 @@ class QuickSwitcherCandidateSets {
                  channel.channelId: channel,
              },
              voiceChannelById: {
-               for (final QuickSwitcherChannelCandidate channel in voiceChannels)
+               for (final QuickSwitcherChannelCandidate channel
+                   in voiceChannels)
                  channel.channelId: channel,
              },
            );

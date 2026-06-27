@@ -17,11 +17,14 @@ void main() {
       expect(request.hitsPerPage, kMessageSearchPageSize);
       expect(request.page, 1);
       expect(request.content, 'hello');
-      expect(request.scope, MessageSearchScope.current);
+      expect(request.scope, GlobalSearchMessagesRequestScopeScope.current);
       expect(request.contextChannelId, 'channel-1');
       expect(request.contextGuildId, 'guild-1');
-      expect(request.sortBy, MessageSortField.timestamp);
-      expect(request.sortOrder, MessageSortOrder.desc);
+      expect(request.sortBy, GlobalSearchMessagesRequestSortBySortBy.timestamp);
+      expect(
+        request.sortOrder,
+        GlobalSearchMessagesRequestSortOrderSortOrder.desc,
+      );
       expect(request.authorId, isNull);
       expect(request.has, isNull);
     });
@@ -44,23 +47,29 @@ void main() {
 
       expect(request.page, 7);
       expect(request.authorId, ['user-1', 'user-2']);
-      expect(request.has, [MessageContentType.image, MessageContentType.sound]);
-      expect(request.scope, MessageSearchScope.allGuilds);
+      expect(request.has, [
+        GlobalSearchMessagesRequestHasHas.image,
+        GlobalSearchMessagesRequestHasHas.sound,
+      ]);
+      expect(request.scope, GlobalSearchMessagesRequestScopeScope.allGuilds);
       expect(request.contextChannelId, isNull);
       expect(request.contextGuildId, isNull);
-      expect(request.sortBy, MessageSortField.timestamp);
-      expect(request.sortOrder, MessageSortOrder.asc);
+      expect(request.sortBy, GlobalSearchMessagesRequestSortBySortBy.timestamp);
+      expect(
+        request.sortOrder,
+        GlobalSearchMessagesRequestSortOrderSortOrder.asc,
+      );
     });
   });
 
   group('message adapters', () {
     test('adapts pinned message responses into domain messages', () {
       final message = domain.Message.fromPinnedMessage(
-        ChannelPinMessageResponse(
+        ChannelPinResponseMessage(
           id: 'message-1',
           channelId: 'channel-1',
           author: _author(),
-          type: ChannelPinMessageResponseTypeType.valueDefault,
+          type: ChannelPinResponseMessageTypeType.valueDefault,
           flags: 0,
           content: 'Pinned',
           timestamp: DateTime.utc(2026, 5, 9, 12),

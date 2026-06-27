@@ -38,7 +38,9 @@ void main() {
       final ProviderContainer container = ProviderScope.containerOf(
         tester.element(find.byType(FluxerToastOverlay)),
       );
-      container.read(toastProvider.notifier).show(
+      container
+          .read(toastProvider.notifier)
+          .show(
             const FluxerToast(
               message: 'Settings saved',
               duration: Duration(seconds: 30),

@@ -83,14 +83,11 @@ class _VoiceChannelJoinSheetContentState
     final (
       bool isInVoiceSession,
       String? sessionChannelId,
-      String? connectionId
+      String? connectionId,
     ) = ref.watch(
       voiceSessionProvider.select(
-        (VoiceSessionState s) => (
-          s.isInVoice,
-          s.channelId,
-          s.activeConnectionId,
-        ),
+        (VoiceSessionState s) =>
+            (s.isInVoice, s.channelId, s.activeConnectionId),
       ),
     );
     final bool inVoice = isInVoiceSession && sessionChannelId != null;

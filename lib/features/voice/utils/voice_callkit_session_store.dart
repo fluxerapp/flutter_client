@@ -79,7 +79,8 @@ class VoiceCallKitSessionStore {
     required VoiceCallKitVoiceSnapshot voice,
   }) {
     final VoiceCallKitSession? existing = _sessionsByCallKitId[callKitId];
-    if (existing == null || existing.kind == VoiceCallKitSessionKind.activeVoice) {
+    if (existing == null ||
+        existing.kind == VoiceCallKitSessionKind.activeVoice) {
       return;
     }
     _sessionsByCallKitId[callKitId] = VoiceCallKitSession(

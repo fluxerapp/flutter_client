@@ -13,13 +13,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_status_service.g.dart';
 
+/// User-selectable presence status sent as `UserSettingsUpdateRequest.status`.
+///
+/// Replaces the `UserStatusType` enum the previous SDK exposed; the regenerated
+/// SDK inlines the enum per request field. Values: online, dnd, idle, invisible
+/// (the backend's settable status set).
+typedef PresenceStatus = UserSettingsUpdateRequestStatusStatus;
+
+/// Presence status the account reverts to after a timed status expires
+/// (`UserSettingsUpdateRequest.statusResetsTo`). Same value set as
+/// [PresenceStatus]; the SDK models it as a separate inlined enum.
+typedef PresenceResetStatus =
+    UserSettingsUpdateRequestStatusResetsToStatusResetsTo;
+
 class UserStatusService {
   UserStatusService(this._ref);
 
   final Ref _ref;
 
   Future<void> setPresenceStatus({
-    required UserStatusType status,
+    required PresenceStatus status,
     Duration? duration,
   }) async {
     final String? userId = _ref.read(currentUserIdProvider);
@@ -29,8 +42,9 @@ class UserStatusService {
     final DateTime? resetsAt = duration == null
         ? null
         : DateTime.now().toUtc().add(duration);
-    final UserStatusType? resetsTo =
-        duration == null ? null : UserStatusType.online;
+    final PresenceResetStatus? resetsTo = duration == null
+        ? null
+        : PresenceResetStatus.online;
     final UserSettingsUpdateRequest request = UserSettingsUpdateRequest(
       status: status,
       statusResetsAt: resetsAt?.toIso8601String(),
@@ -47,7 +61,7 @@ class UserStatusService {
   }
 
   Future<void> applyScheduledStatusReset({
-    required UserStatusType fallbackStatus,
+    required PresenceStatus fallbackStatus,
   }) async {
     final String? userId = _ref.read(currentUserIdProvider);
     if (userId == null) {
@@ -91,8 +105,9 @@ class UserStatusService {
       return;
     }
     final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
-    final UserSettingsResponse? previousSettings =
-        _ref.read(userSettingsStatusProvider);
+    final UserSettingsResponse? previousSettings = _ref.read(
+      userSettingsStatusProvider,
+    );
     await _applyOptimisticUpdate(
       userId: userId,
       previousSettings: previousSettings,
@@ -102,9 +117,9 @@ class UserStatusService {
       request: const UserSettingsUpdateRequest(),
     );
     if (previousSettings != null) {
-      final Map<String, Object?> merged =
-          Map<String, Object?>.from(previousSettings.toJson())
-            ..['custom_status'] = null;
+      final Map<String, Object?> merged = Map<String, Object?>.from(
+        previousSettings.toJson(),
+      )..['custom_status'] = null;
       await database.userSettingsDao.upsertSettings(
         UserSettingsTableCompanion(
           userId: Value(userId),
@@ -117,10 +132,12 @@ class UserStatusService {
       );
     }
     try {
-      await _ref.read(fluxerDioProvider).patch<dynamic>(
-        '/users/@me/settings',
-        data: <String, dynamic>{'custom_status': null},
-      );
+      await _ref
+          .read(fluxerDioProvider)
+          .patch<dynamic>(
+            '/users/@me/settings',
+            data: <String, dynamic>{'custom_status': null},
+          );
       talker.debug('[UserStatusService] Cleared custom status');
     } on Object catch (error, stackTrace) {
       talker.error(
@@ -138,9 +155,7 @@ class UserStatusService {
         await database.userDao.updateUserPresence(
           userId,
           status: previousSettings.status,
-          customStatus: serializeCustomStatus(
-            previousSettings.customStatus,
-          ),
+          customStatus: serializeCustomStatus(previousSettings.customStatus),
         );
       }
       rethrow;
@@ -154,8 +169,9 @@ class UserStatusService {
     required String? optimisticCustomStatusText,
   }) async {
     final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
-    final UserSettingsResponse? previousSettings =
-        _ref.read(userSettingsStatusProvider);
+    final UserSettingsResponse? previousSettings = _ref.read(
+      userSettingsStatusProvider,
+    );
     await _applyOptimisticUpdate(
       userId: userId,
       previousSettings: previousSettings,
@@ -183,9 +199,7 @@ class UserStatusService {
         await database.userDao.updateUserPresence(
           userId,
           status: previousSettings.status,
-          customStatus: serializeCustomStatus(
-            previousSettings.customStatus,
-          ),
+          customStatus: serializeCustomStatus(previousSettings.customStatus),
         );
       }
       rethrow;
@@ -200,8 +214,8 @@ class UserStatusService {
     required UserSettingsUpdateRequest request,
   }) async {
     final FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
-    final UserSettingsTableData? row =
-        await database.userSettingsDao.getSettings(userId);
+    final UserSettingsTableData? row = await database.userSettingsDao
+        .getSettings(userId);
     final Map<String, Object?> merged = row == null
         ? <String, Object?>{}
         : Map<String, Object?>.from(

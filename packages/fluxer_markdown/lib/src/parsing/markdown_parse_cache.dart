@@ -2,6 +2,13 @@ import 'dart:collection';
 
 const int kMarkdownParseCacheMaxEntries = 2048;
 
+String markdownParseCacheKey(String text, String? parseCacheKey) {
+  if (parseCacheKey == null || parseCacheKey.isEmpty) {
+    return text;
+  }
+  return '$parseCacheKey:$text';
+}
+
 /// Bounded LRU cache for pure markdown parse results.
 ///
 /// Values returned by [resolve] are shared across builds and MUST be treated as

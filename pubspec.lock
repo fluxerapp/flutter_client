@@ -473,6 +473,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.1"
+  desktop_webview_window:
+    dependency: transitive
+    description:
+      name: desktop_webview_window
+      sha256: b6fdae2cbf9571879b1761c12f27facaf82e22d0bdc74d049907c2a09a432957
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   device_info_plus:
     dependency: "direct main"
     description:
@@ -896,6 +904,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0+1"
+  flutter_web_auth_2:
+    dependency: "direct main"
+    description:
+      name: flutter_web_auth_2
+      sha256: "8f9303471dcd96670878c9b7c0c4e14c37595b2add67465f6a868f17a5872dfc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.3"
+  flutter_web_auth_2_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_web_auth_2_platform_interface
+      sha256: ba0fbba55bffb47242025f96852ad1ffba34bc451568f56ef36e613612baffab
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1450,6 +1474,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  opentelemetry:
+    dependency: "direct main"
+    description:
+      name: opentelemetry
+      sha256: "92d63a2e0731d34a7548add82420b8f3819ccda569f9bdfdcc4b25e00fe88da4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.11"
   package_config:
     dependency: transitive
     description:
@@ -1771,6 +1803,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: ea0b925899e64ecdfbf9c7becb60d5b50e706ade44a85b2363be2a22d88117d2
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.2"
   recase:
     dependency: transitive
     description:
@@ -1979,6 +2019,62 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  shared_preferences:
+    dependency: "direct main"
+    description:
+      name: shared_preferences
+      sha256: c3025c5534b01739267eb7d76959bbc25a6d10f6988e1c2a3036940133dd10bf
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.5"
+  shared_preferences_android:
+    dependency: transitive
+    description:
+      name: shared_preferences_android
+      sha256: "93ae5884a9df5d3bb696825bceb3a17590754548b5d740eba51500afc8d088f5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.26"
+  shared_preferences_foundation:
+    dependency: transitive
+    description:
+      name: shared_preferences_foundation
+      sha256: "4e7eaffc2b17ba398759f1151415869a34771ba11ebbccd1b0145472a619a64f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.6"
+  shared_preferences_linux:
+    dependency: transitive
+    description:
+      name: shared_preferences_linux
+      sha256: "580abfd40f415611503cae30adf626e6656dfb2f0cee8f465ece7b6defb40f2f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
+  shared_preferences_platform_interface:
+    dependency: transitive
+    description:
+      name: shared_preferences_platform_interface
+      sha256: "649dc798a33931919ea356c4305c2d1f81619ea6e92244070b520187b5140ef9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.2"
+  shared_preferences_web:
+    dependency: transitive
+    description:
+      name: shared_preferences_web
+      sha256: c49bd060261c9a3f0ff445892695d6212ff603ef3115edbb448509d407600019
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.3"
+  shared_preferences_windows:
+    dependency: transitive
+    description:
+      name: shared_preferences_windows
+      sha256: "94ef0f72b2d71bc3e700e025db3710911bd51a71cefb65cc609dd0d9a982e3c1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
   shelf:
     dependency: transitive
     description:
@@ -2576,6 +2672,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  window_to_front:
+    dependency: transitive
+    description:
+      name: window_to_front
+      sha256: "14fad8984db4415e2eeb30b04bb77140b180e260d6cb66b26de126a8657a9241"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   xdg_directories:
     dependency: transitive
     description:

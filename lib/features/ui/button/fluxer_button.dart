@@ -416,9 +416,7 @@ class _FluxerButtonState extends State<FluxerButton> {
 
     if (_effectiveLoading) {
       return Center(
-        child: ExcludeSemantics(
-          child: FluxerLoadingSpinner(color: foreground),
-        ),
+        child: ExcludeSemantics(child: FluxerLoadingSpinner(color: foreground)),
       );
     }
 

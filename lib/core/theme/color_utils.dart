@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+// Preserves the existing color utility API used by profile and theme code.
+// ignore: avoid_classes_with_only_static_members
 abstract final class ColorUtils {
   static Color fromInt(int colorInt) {
     final r = (colorInt >> 16) & 0xFF;
@@ -25,6 +27,8 @@ abstract final class ColorUtils {
   }
 }
 
+// Preserves the existing accent color utility API used by profile code.
+// ignore: avoid_classes_with_only_static_members
 abstract final class AccentColorUtils {
   static const defaultPalette = [
     Color(0xFF5865F2),

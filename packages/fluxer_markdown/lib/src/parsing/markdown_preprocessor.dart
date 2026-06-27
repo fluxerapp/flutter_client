@@ -244,7 +244,8 @@ class _FencedCodeBlockTracker {
       return;
     }
     var fenceLength = 0;
-    while (fenceLength < trimmedLeft.length && trimmedLeft[fenceLength] == '`') {
+    while (fenceLength < trimmedLeft.length &&
+        trimmedLeft[fenceLength] == '`') {
       fenceLength++;
     }
     if (fenceLength < 3) {

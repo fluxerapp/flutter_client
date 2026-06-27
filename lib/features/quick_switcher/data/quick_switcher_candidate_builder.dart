@@ -111,18 +111,17 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
       textChannels.add(candidate);
     }
   }
-  final List<QuickSwitcherGuildCandidate> guildCandidates =
-      input.guilds
-          .map(
-            (Guild guild) => QuickSwitcherGuildCandidate(
-              id: guild.id,
-              title: guild.name,
-              guild: guild,
-              searchValues: <String>[guild.name, guild.id],
-              sortWeight: guild.position,
-            ),
-          )
-          .toList();
+  final List<QuickSwitcherGuildCandidate> guildCandidates = input.guilds
+      .map(
+        (Guild guild) => QuickSwitcherGuildCandidate(
+          id: guild.id,
+          title: guild.name,
+          guild: guild,
+          searchValues: <String>[guild.name, guild.id],
+          sortWeight: guild.position,
+        ),
+      )
+      .toList();
   final List<QuickSwitcherVirtualGuildCandidate> virtualGuilds =
       <QuickSwitcherVirtualGuildCandidate>[
         QuickSwitcherVirtualGuildCandidate(
@@ -201,19 +200,12 @@ QuickSwitcherGroupDmCandidate quickSwitcherGroupDmCandidate(
     icon: convo.icon,
     groupStatus: convo.groupStatus,
     groupMembers: convo.groupMembers,
-    searchValues: <String>[
-      convo.displayName,
-      ...participantNames,
-      convo.id,
-    ],
+    searchValues: <String>[convo.displayName, ...participantNames, convo.id],
     sortWeight: convo.lastMessageTime.millisecondsSinceEpoch,
   );
 }
 
-String? _dmChannelIdForUser(
-  List<DmConversation> conversations,
-  String userId,
-) {
+String? _dmChannelIdForUser(List<DmConversation> conversations, String userId) {
   for (final DmConversation convo in conversations) {
     if (!convo.isGroup && convo.recipientId == userId) {
       return convo.id;
@@ -308,8 +300,5 @@ List<String> _bookmarksSearchValues(FluxerLocalizations l10n) {
 }
 
 List<String> _mentionsSearchValues(FluxerLocalizations l10n) {
-  return <String>[
-    l10n.quickSwitcherMentionsLabel,
-    '@',
-  ];
+  return <String>[l10n.quickSwitcherMentionsLabel, '@'];
 }

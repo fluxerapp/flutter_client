@@ -14,6 +14,7 @@ const Duration kGuildVerificationMembershipMinAge = Duration(minutes: 10);
 
 int effectiveGuildVerificationLevel(
   int verificationLevel,
+  // ignore: avoid_positional_boolean_parameters, small public helper keeps existing positional call sites compact.
   bool isDiscoverable,
 ) {
   if (!isDiscoverable) {

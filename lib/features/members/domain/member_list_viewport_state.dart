@@ -1,10 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_dart/gateway.dart';
 
+@immutable
 class MemberListViewportKey {
-  const MemberListViewportKey({
-    required this.guildId,
-    required this.channelId,
-  });
+  const MemberListViewportKey({required this.guildId, required this.channelId});
 
   final String guildId;
   final String channelId;

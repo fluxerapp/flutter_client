@@ -35,24 +35,26 @@ Future<void> showVoiceChannelChatSheet(
       );
     },
   ).whenComplete(() {
-    Future<void>.microtask(() {
-      final String? routeChannelId = container.read(activeChannelIdProvider);
-      final String resumeChannelId = routeChannelId ?? previousChannelId;
-      final String activeChatChannelId = container
-          .read(chatViewModelProvider)
-          .channelId;
-      if (resumeChannelId.isNotEmpty &&
-          activeChatChannelId != resumeChannelId) {
-        unawaited(
-          container
-              .read(chatViewModelProvider.notifier)
-              .switchChannel(resumeChannelId),
-        );
-      }
-      reconcileShellPopupOverlayForContainer(container);
-      container.read(expressionPanelProvider.notifier).close();
-      container.read(drawerRevealSyncTriggerProvider.notifier).nudge();
-    });
+    unawaited(
+      Future<void>.microtask(() {
+        final String? routeChannelId = container.read(activeChannelIdProvider);
+        final String resumeChannelId = routeChannelId ?? previousChannelId;
+        final String activeChatChannelId = container
+            .read(chatViewModelProvider)
+            .channelId;
+        if (resumeChannelId.isNotEmpty &&
+            activeChatChannelId != resumeChannelId) {
+          unawaited(
+            container
+                .read(chatViewModelProvider.notifier)
+                .switchChannel(resumeChannelId),
+          );
+        }
+        reconcileShellPopupOverlayForContainer(container);
+        container.read(expressionPanelProvider.notifier).close();
+        container.read(drawerRevealSyncTriggerProvider.notifier).nudge();
+      }),
+    );
   });
 }
 

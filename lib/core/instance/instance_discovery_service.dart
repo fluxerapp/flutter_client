@@ -15,21 +15,17 @@ class InstanceDiscoveryException implements Exception {
 }
 
 class InstanceDiscoveryService {
-  InstanceDiscoveryService({
-    InstanceEndpointNormalizer? normalizer,
-    Dio? dio,
-  })  : _normalizer = normalizer ?? const InstanceEndpointNormalizer(),
-        _dio =
-            dio ??
-            Dio(
-              BaseOptions(
-                connectTimeout: const Duration(seconds: 15),
-                receiveTimeout: const Duration(seconds: 10),
-                headers: const <String, dynamic>{
-                  'Accept': 'application/json',
-                },
-              ),
-            );
+  InstanceDiscoveryService({InstanceEndpointNormalizer? normalizer, Dio? dio})
+    : _normalizer = normalizer ?? const InstanceEndpointNormalizer(),
+      _dio =
+          dio ??
+          Dio(
+            BaseOptions(
+              connectTimeout: const Duration(seconds: 15),
+              receiveTimeout: const Duration(seconds: 10),
+              headers: const <String, dynamic>{'Accept': 'application/json'},
+            ),
+          );
 
   final InstanceEndpointNormalizer _normalizer;
   final Dio _dio;
@@ -80,9 +76,9 @@ class InstanceDiscoveryService {
       _assertCodeVersion(wellKnown.apiCodeVersion);
       final InstanceConfigSnapshot snapshot =
           InstanceConfigSnapshot.fromWellKnown(
-        wellKnown: wellKnown,
-        normalizer: _normalizer,
-      );
+            wellKnown: wellKnown,
+            normalizer: _normalizer,
+          );
       talker.info(
         '[InstanceDiscovery] Connected to ${snapshot.displayDomain} '
         'api=${snapshot.apiBaseUrl}',

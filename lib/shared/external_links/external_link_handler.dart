@@ -33,7 +33,7 @@ Future<void> handleExternalLinkTap(BuildContext context, String url) async {
     context,
     url: url,
     hostname: uri.host,
-    onContinue: (trustDomain) async {
+    onContinue: ({required bool trustDomain}) async {
       if (trustDomain) {
         await notifier.addTrustedDomain(uri.host);
       }

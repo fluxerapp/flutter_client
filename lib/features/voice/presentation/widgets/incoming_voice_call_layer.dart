@@ -86,23 +86,11 @@ class _IncomingVoiceCallLayerState
         return;
       }
       if (result == kIncomingVoiceResultAccept) {
-        await executeAcceptIncomingVoiceCall(
-          ref,
-          actionContext,
-          channelId,
-        );
+        await executeAcceptIncomingVoiceCall(ref, actionContext, channelId);
       } else if (result == kIncomingVoiceResultReject) {
-        await executeDeclineIncomingVoiceCall(
-          ref,
-          actionContext,
-          channelId,
-        );
+        await executeDeclineIncomingVoiceCall(ref, actionContext, channelId);
       } else {
-        await executeIgnoreIncomingVoiceCall(
-          ref,
-          actionContext,
-          channelId,
-        );
+        await executeIgnoreIncomingVoiceCall(ref, actionContext, channelId);
       }
     } finally {
       _sheetOpen = false;

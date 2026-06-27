@@ -474,7 +474,7 @@ class Reaction {
       emojiId: sdk.emoji.id,
       animated: sdk.emoji.animated ?? false,
       count: sdk.count,
-      hasReacted: sdk.me != null,
+      hasReacted: sdk.me ?? false,
     );
   }
 
@@ -518,11 +518,36 @@ class MessageReference {
     this.guildId,
   });
 
-  factory MessageReference.fromSdk(MessageReferenceResponse sdk) {
+  // The regenerated SDK emits a distinct message-reference type per parent
+  // schema (message, pinned message, search result). Their shapes are
+  // identical, so each call site uses its own thin adapter.
+  factory MessageReference.fromSdk(MessageResponseSchemaMessageReference sdk) {
     return MessageReference(
       channelId: sdk.channelId,
       messageId: sdk.messageId,
-      guildId: sdk.guildId?.toString(),
+      guildId: sdk.guildId,
+      type: sdk.type,
+    );
+  }
+
+  factory MessageReference.fromPinSdk(
+    ChannelPinResponseMessageMessageReference sdk,
+  ) {
+    return MessageReference(
+      channelId: sdk.channelId,
+      messageId: sdk.messageId,
+      guildId: sdk.guildId,
+      type: sdk.type,
+    );
+  }
+
+  factory MessageReference.fromSearchSdk(
+    MessageSearchResultsResponseMessagesMessageReference sdk,
+  ) {
+    return MessageReference(
+      channelId: sdk.channelId,
+      messageId: sdk.messageId,
+      guildId: sdk.guildId,
       type: sdk.type,
     );
   }
@@ -742,7 +767,7 @@ class Message {
   }
 
   factory Message.fromReferencedSdk(
-    MessageBaseResponseSchema sdk, {
+    MessageResponseSchemaReferencedMessage sdk, {
     String? currentUserId,
   }) {
     final isMentioned =
@@ -779,7 +804,7 @@ class Message {
   }
 
   factory Message.fromPinnedMessage(
-    ChannelPinMessageResponse sdk, {
+    ChannelPinResponseMessage sdk, {
     String? currentUserId,
   }) {
     final isMentioned =
@@ -806,7 +831,7 @@ class Message {
       stickers: sdk.stickers?.map(MessageSticker.fromSdk).toList() ?? const [],
       replyToId: sdk.messageReference?.messageId,
       messageReference: sdk.messageReference != null
-          ? MessageReference.fromSdk(sdk.messageReference!)
+          ? MessageReference.fromPinSdk(sdk.messageReference!)
           : null,
       messageSnapshots:
           sdk.messageSnapshots?.map(MessageSnapshot.fromSdk).toList() ??
@@ -851,7 +876,7 @@ class Message {
       reactions: sdk.reactions?.map(Reaction.fromSdk).toList() ?? const [],
       replyToId: sdk.messageReference?.messageId,
       messageReference: sdk.messageReference != null
-          ? MessageReference.fromSdk(sdk.messageReference!)
+          ? MessageReference.fromSearchSdk(sdk.messageReference!)
           : null,
       messageSnapshots:
           sdk.messageSnapshots?.map(MessageSnapshot.fromSdk).toList() ??

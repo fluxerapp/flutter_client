@@ -20,7 +20,8 @@ void main() {
     final parent = _message(
       id: 'parent-1',
       authorId: '1001',
-      authorName: 'Jiralite',
+      authorName: 'Sample User',
+      authorIsBot: true,
     );
     final reply = _message(
       id: 'reply-1',
@@ -42,8 +43,11 @@ void main() {
       ),
     );
 
-    expect(find.text('@Jiralite'), findsOneWidget);
-    expect(find.text('Jiralite'), findsNothing);
+    expect(find.text('@Sample User'), findsOneWidget);
+    expect(find.text('Sample User'), findsNothing);
+
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
   });
 }
 
@@ -94,6 +98,7 @@ Message _message({
   required String id,
   required String authorId,
   required String authorName,
+  bool authorIsBot = false,
   int type = messageTypeDefault,
   List<String> mentionedUserIds = const [],
   MessageReference? messageReference,
@@ -103,6 +108,7 @@ Message _message({
     channelId: 'channel-1',
     authorId: authorId,
     authorName: authorName,
+    authorIsBot: authorIsBot,
     content: 'hello',
     timestamp: DateTime.utc(2026),
     type: type,

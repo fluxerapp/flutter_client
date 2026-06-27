@@ -42,10 +42,9 @@ void main() {
         'version': 1,
       };
 
-      expect(
-        parseCollapsedCategoryIdsFromGuildSettingsJson(data),
-        {'cat-collapsed'},
-      );
+      expect(parseCollapsedCategoryIdsFromGuildSettingsJson(data), {
+        'cat-collapsed',
+      });
     });
   });
 }

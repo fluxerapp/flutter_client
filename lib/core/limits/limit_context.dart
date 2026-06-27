@@ -5,10 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'limit_context.g.dart';
 
 LimitMatchContext buildUserLimitContext({required Iterable<String> traits}) {
-  return LimitMatchContext(
-    traits: traits.toSet(),
-    guildFeatures: <String>{},
-  );
+  return LimitMatchContext(traits: traits.toSet(), guildFeatures: <String>{});
 }
 
 @Riverpod(keepAlive: true)

@@ -11,10 +11,10 @@ class UserProfileMutualsSheet {
   static Future<void> show(
     BuildContext context, {
     required List<UserPartialResponse> friends,
-    required List<MutualGuildResponse> communities,
+    required List<UserProfileFullResponseMutualGuilds> communities,
     required UserProfileMutualListType initialType,
     required ValueChanged<UserPartialResponse> onFriendTap,
-    required ValueChanged<MutualGuildResponse> onCommunityTap,
+    required ValueChanged<UserProfileFullResponseMutualGuilds> onCommunityTap,
   }) {
     return FluxerBottomSheet.showScrollable<void>(
       context,
@@ -59,12 +59,12 @@ class _MutualsSheetBody extends StatelessWidget {
   });
 
   final List<UserPartialResponse> friends;
-  final List<MutualGuildResponse> communities;
+  final List<UserProfileFullResponseMutualGuilds> communities;
   final UserProfileMutualListType initialType;
   final ScrollController scrollController;
   final VoidCallback close;
   final ValueChanged<UserPartialResponse> onFriendTap;
-  final ValueChanged<MutualGuildResponse> onCommunityTap;
+  final ValueChanged<UserProfileFullResponseMutualGuilds> onCommunityTap;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _MutualsSheetBody extends StatelessWidget {
             close();
             onFriendTap(friend);
           },
-          onCommunityTap: (MutualGuildResponse community) {
+          onCommunityTap: (UserProfileFullResponseMutualGuilds community) {
             close();
             onCommunityTap(community);
           },

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
@@ -30,9 +31,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_session_provider.g.dart';
 
-/// Cleared when a [VoiceServerUpdateEvent] is accepted and [_connectLiveKit]
-/// is scheduled (voice server responded). Covers slow gateway only, not
-/// LiveKit [Room.connect] duration.
+/// Cleared when a voice server update is accepted and LiveKit connection is
+/// scheduled. Covers slow gateway only, not LiveKit [Room.connect] duration.
 const Duration _kVoiceJoinWatchdogDuration = Duration(seconds: 15);
 const Duration _kDeferredServerDisconnectDuration = Duration(seconds: 5);
 const List<Duration> _kMicPublishRetryDelays = <Duration>[
@@ -86,18 +86,19 @@ class VoiceSession extends _$VoiceSession {
 
   @override
   VoiceSessionState build() {
-    ref..onDispose(() {
-      _cancelConnectWatchdog();
-      _cancelDeferredServerDisconnect();
-      _detachLocalParticipantListener();
-      unawaited(_disconnectRoomOnly());
-    })
-    ..listen<Map<String, int>>(channelPermissionCacheProvider, (
-      Map<String, int>? _,
-      Map<String, int> _,
-    ) {
-      unawaited(_onChannelPermissionsChanged());
-    });
+    ref
+      ..onDispose(() {
+        _cancelConnectWatchdog();
+        _cancelDeferredServerDisconnect();
+        _detachLocalParticipantListener();
+        unawaited(_disconnectRoomOnly());
+      })
+      ..listen<Map<String, int>>(channelPermissionCacheProvider, (
+        Map<String, int>? _,
+        Map<String, int> _,
+      ) {
+        unawaited(_onChannelPermissionsChanged());
+      });
     return const VoiceSessionState();
   }
 
@@ -951,10 +952,13 @@ class VoiceSession extends _$VoiceSession {
     }
     final VoiceState? vs = _selfConnectionVoiceState();
     final bool nextMute = !(vs?.selfMute ?? false);
-    await setSelfMute(nextMute, playSound: true);
+    await setSelfMute(isMuted: nextMute, playSound: true);
   }
 
-  Future<void> setSelfMute(bool isMuted, {bool playSound = false}) async {
+  Future<void> setSelfMute({
+    required bool isMuted,
+    bool playSound = false,
+  }) async {
     final VoiceSessionState s = state;
     if (!s.isInVoice || s.channelId == null) {
       return;
@@ -1404,7 +1408,11 @@ class VoiceSession extends _$VoiceSession {
       activeConnectionId: connectionId,
       clearError: true,
     );
-    unawaited(ref.read(fluxerSfxProvider).playOneShot(FluxerSfxClip.userJoin));
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        ref.read(fluxerSfxProvider).playOneShot(FluxerSfxClip.userJoin),
+      );
+    });
     if (_pendingRingAfterConnect) {
       unawaited(
         _ringAfterConnect(resolvedChannelId, silently: _pendingRingSilently),

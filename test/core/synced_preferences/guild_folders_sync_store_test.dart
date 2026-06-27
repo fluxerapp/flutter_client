@@ -181,42 +181,47 @@ void main() {
       final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
       final synced = pb.SyncedPreferences.fromBuffer(bytes);
       expect(synced.hasGuildFolders(), isTrue);
-      expect(
-        synced.guildFolders.expandedFolderIds.map((id) => id.toInt()),
-        [7],
-      );
+      expect(synced.guildFolders.expandedFolderIds.map((id) => id.toInt()), [
+        7,
+      ]);
     });
 
-    test('second hydrate applies remote expand from USER_SETTINGS_UPDATE', () async {
-      final store = container.read(syncedPreferencesStoreProvider);
-      await store.hydrateFromUserSettings(
-        _testUserSettings(syncedPreferences: ''),
-      );
+    test(
+      'second hydrate applies remote expand from USER_SETTINGS_UPDATE',
+      () async {
+        final store = container.read(syncedPreferencesStoreProvider);
+        await store.hydrateFromUserSettings(
+          _testUserSettings(syncedPreferences: ''),
+        );
 
-      await store.hydrateFromUserSettings(
-        _testUserSettings(
-          syncedPreferences: _settingsWithExpandedFolders({42, 99}),
-        ),
-      );
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithExpandedFolders({42, 99}),
+          ),
+        );
 
-      expect(container.read(folderExpandedStateProvider), {42, 99});
-    });
+        expect(container.read(folderExpandedStateProvider), {42, 99});
+      },
+    );
 
-    test('second hydrate applies remote collapse from USER_SETTINGS_UPDATE', () async {
-      final store = container.read(syncedPreferencesStoreProvider);
-      await store.hydrateFromUserSettings(
-        _testUserSettings(
-          syncedPreferences: _settingsWithExpandedFolders({42}),
-        ),
-      );
+    test(
+      'second hydrate applies remote collapse from USER_SETTINGS_UPDATE',
+      () async {
+        final store = container.read(syncedPreferencesStoreProvider);
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithExpandedFolders({42}),
+          ),
+        );
 
-      await store.hydrateFromUserSettings(
-        _testUserSettings(
-          syncedPreferences: _settingsWithExpandedFolders({}),
-        ),
-      );
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithExpandedFolders({}),
+          ),
+        );
 
-      expect(container.read(folderExpandedStateProvider), isEmpty);
-    });
+        expect(container.read(folderExpandedStateProvider), isEmpty);
+      },
+    );
   });
 }

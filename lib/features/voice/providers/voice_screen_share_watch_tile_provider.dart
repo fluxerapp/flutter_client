@@ -9,6 +9,8 @@ class VoiceScreenShareWatchTile extends _$VoiceScreenShareWatchTile {
   @override
   String? build() => null;
 
+  // Keep the existing notifier call style used by voice UI call sites.
+  // ignore: use_setters_to_change_properties
   void setActiveTileId(String? tileId) {
     state = tileId;
   }

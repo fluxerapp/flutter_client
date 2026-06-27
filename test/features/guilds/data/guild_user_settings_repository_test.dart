@@ -20,7 +20,8 @@ class _FakeUsersApi implements UsersApi {
   final UserGuildSettingsResponse Function(
     String guildId,
     UserGuildSettingsUpdateRequest body,
-  )? onPatch;
+  )?
+  onPatch;
   final bool shouldThrow;
 
   @override
@@ -53,12 +54,7 @@ class _FakeUsersApi implements UsersApi {
   @override
   Future<UserGuildSettingsResponse> updateDmNotificationSettings({
     required UserGuildSettingsUpdateRequest body,
-  }) async {
-    return updateGuildSettingsForUser(
-      guildId: '@me',
-      body: body,
-    );
-  }
+  }) => updateGuildSettingsForUser(guildId: '@me', body: body);
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
@@ -130,37 +126,41 @@ void main() {
       await database.close();
     });
 
-    test('toggleCategoryCollapsed flips collapsed in drift and PATCH', () async {
-      const guildId = 'guild-1';
-      const categoryId = 'category-1';
-      final repo = container.read(guildUserSettingsRepositoryProvider);
+    test(
+      'toggleCategoryCollapsed flips collapsed in drift and PATCH',
+      () async {
+        const guildId = 'guild-1';
+        const categoryId = 'category-1';
+        final repo = container.read(guildUserSettingsRepositoryProvider);
 
-      await repo.toggleCategoryCollapsed(
-        guildId: guildId,
-        categoryId: categoryId,
-      );
+        await repo.toggleCategoryCollapsed(
+          guildId: guildId,
+          categoryId: categoryId,
+        );
 
-      expect(usersApi.patchCount, 1);
-      expect(
-        usersApi.lastRequest?.channelOverrides?[categoryId]?.collapsed,
-        isTrue,
-      );
+        expect(usersApi.patchCount, 1);
+        expect(
+          usersApi.lastRequest?.channelOverrides?[categoryId]?.collapsed,
+          isTrue,
+        );
 
-      final row = await database.userGuildSettingsDao.getByGuildId(guildId);
-      expect(row, isNotNull);
-      final data = jsonDecode(row!.data) as Map<String, dynamic>;
-      final overrides = data['channel_overrides'] as Map<String, dynamic>;
-      expect(overrides[categoryId]['collapsed'], isTrue);
+        final row = await database.userGuildSettingsDao.getByGuildId(guildId);
+        expect(row, isNotNull);
+        final data = jsonDecode(row!.data) as Map<String, dynamic>;
+        final overrides = data['channel_overrides'] as Map<String, dynamic>;
+        final categoryOverride = overrides[categoryId] as Map<String, dynamic>;
+        expect(categoryOverride['collapsed'], isTrue);
 
-      final subscription = container.listen(
-        guildCollapsedCategoriesProvider(guildId),
-        (_, _) {},
-        fireImmediately: true,
-      );
-      addTearDown(subscription.close);
-      await pumpEventQueue();
-      expect(subscription.read().requireValue, {categoryId});
-    });
+        final subscription = container.listen(
+          guildCollapsedCategoriesProvider(guildId),
+          (_, _) {},
+          fireImmediately: true,
+        );
+        addTearDown(subscription.close);
+        await pumpEventQueue();
+        expect(subscription.read().requireValue, {categoryId});
+      },
+    );
 
     test('toggleCategoryCollapsed collapses then expands', () async {
       const guildId = 'guild-1';
@@ -225,35 +225,38 @@ void main() {
       },
     );
 
-    test('updateChannelOverride mute preserves unrelated overrides in PATCH', () async {
-      const guildId = 'guild-1';
-      const categoryId = 'category-1';
-      const channelId = 'channel-1';
-      await _seedGuildSettings(
-        database: database,
-        guildId: guildId,
-        channelOverrides: {
-          categoryId: const ChannelOverrides(
-            collapsed: true,
-            messageNotifications: UserNotificationSettings.inherit,
-            muted: false,
-            muteConfig: null,
-          ),
-        },
-      );
-      final repo = container.read(guildUserSettingsRepositoryProvider);
+    test(
+      'updateChannelOverride mute preserves unrelated overrides in PATCH',
+      () async {
+        const guildId = 'guild-1';
+        const categoryId = 'category-1';
+        const channelId = 'channel-1';
+        await _seedGuildSettings(
+          database: database,
+          guildId: guildId,
+          channelOverrides: {
+            categoryId: const ChannelOverrides(
+              collapsed: true,
+              messageNotifications: UserNotificationSettings.inherit,
+              muted: false,
+              muteConfig: null,
+            ),
+          },
+        );
+        final repo = container.read(guildUserSettingsRepositoryProvider);
 
-      await repo.updateChannelOverride(
-        guildId: guildId,
-        channelId: channelId,
-        muted: true,
-      );
+        await repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelId,
+          muted: true,
+        );
 
-      final overrides = usersApi.lastRequest?.channelOverrides;
-      expect(overrides!.keys, containsAll([categoryId, channelId]));
-      expect(overrides[categoryId]?.collapsed, isTrue);
-      expect(overrides[channelId]?.muted, isTrue);
-    });
+        final overrides = usersApi.lastRequest?.channelOverrides;
+        expect(overrides!.keys, containsAll([categoryId, channelId]));
+        expect(overrides[categoryId]?.collapsed, isTrue);
+        expect(overrides[channelId]?.muted, isTrue);
+      },
+    );
 
     test('persists drift from API response not pre-merge state', () async {
       const guildId = 'guild-1';

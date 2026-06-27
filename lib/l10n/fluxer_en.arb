@@ -85,6 +85,40 @@
   "@logInWithPasskey": {
     "description": "Secondary login using a passkey."
   },
+  "continueWithSso": "Continue with {provider}",
+  "@continueWithSso": {
+    "description": "Button label that starts single sign-on.",
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "ssoRequired": "SSO is required to access this instance.",
+  "@ssoRequired": {
+    "description": "Short sign-in note shown when the instance requires single sign-on."
+  },
+  "organizationSsoProvider": "Sign in with your organization's single sign-on provider.",
+  "@organizationSsoProvider": {
+    "description": "Description shown when sign-in is restricted to the configured SSO provider."
+  },
+  "failedToStartSso": "Failed to start SSO",
+  "@failedToStartSso": {
+    "description": "Login flow error shown when the single sign-on redirect cannot be started."
+  },
+  "ssoCancelled": "SSO login was cancelled",
+  "@ssoCancelled": {
+    "description": "Shown when the user cancels the single sign-on browser flow."
+  },
+  "preferSso": "Prefer using SSO? Continue with {provider}.",
+  "@preferSso": {
+    "description": "Optional sign-in note when SSO is available but not required.",
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
   "logInViaBrowser": "Log in via browser",
   "@logInViaBrowser": {
     "description": "Secondary login that opens or uses the system browser."
@@ -183,10 +217,6 @@
   "@mfaMethodTotp": {
     "description": "Label for the TOTP authenticator method."
   },
-  "mfaMethodSms": "SMS Code",
-  "@mfaMethodSms": {
-    "description": "Label for the SMS code method."
-  },
   "mfaMethodWebauthn": "Security Key / Passkey",
   "@mfaMethodWebauthn": {
     "description": "Label for the WebAuthn security key method."
@@ -194,14 +224,6 @@
   "mfaTotpDescription": "Enter the 6-digit code from your authenticator app or one of your backup codes.",
   "@mfaTotpDescription": {
     "description": "Description for the TOTP code entry screen."
-  },
-  "mfaSmsDescription": "Enter the 6-digit code sent to your phone.",
-  "@mfaSmsDescription": {
-    "description": "Description for the SMS code entry screen."
-  },
-  "mfaSendSmsCode": "Send SMS Code",
-  "@mfaSendSmsCode": {
-    "description": "Button label to send an SMS verification code."
   },
   "mfaCodeLabel": "Code",
   "@mfaCodeLabel": {
@@ -235,7 +257,9 @@
   "@accountRemoveTitle": {
     "description": "Title for the remove account confirmation modal.",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "accountRemoveDescription": "This will remove the saved session for this account.",
@@ -254,7 +278,9 @@
   "@accountSessionExpired": {
     "description": "Message when selecting an expired account.",
     "placeholders": {
-      "identifier": { "type": "String" }
+      "identifier": {
+        "type": "String"
+      }
     }
   },
   "accountManageTitle": "Manage accounts",
@@ -389,7 +415,6 @@
   "@signOut": {
     "description": "Context menu option to sign out of current account."
   },
-
   "suspendedPermanentTitle": "Account Permanently Suspended",
   "@suspendedPermanentTitle": {
     "description": "Title when account is permanently banned."
@@ -434,7 +459,9 @@
   "@suspendedDeletionWarning": {
     "description": "Warning about scheduled account deletion.",
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "suspendedRecheck": "Check for Updates",
@@ -445,7 +472,9 @@
   "@suspendedRecheckCooldown": {
     "description": "Recheck button with cooldown timer.",
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
   "suspendedBackToLogin": "Back to Login",
@@ -484,7 +513,6 @@
   "@suspendedSignIn": {
     "description": "Button to sign in after appeal is accepted."
   },
-
   "forgotPasswordTitle": "Forgot your password?",
   "@forgotPasswordTitle": {
     "description": "Title for the forgot password screen."
@@ -533,7 +561,6 @@
   "@resetPasswordMismatch": {
     "description": "Error when password and confirmation don't match."
   },
-
   "registerTitle": "Create an account",
   "@registerTitle": {
     "description": "Title for the registration screen."
@@ -606,7 +633,6 @@
   "@registerHaveAccount": {
     "description": "Text before the login link on the register screen."
   },
-
   "passkeyNoCredentials": "No passkeys found for this app. Log in with email and password instead.",
   "@passkeyNoCredentials": {
     "description": "Error when user has no passkeys registered and tries passkey login."
@@ -631,7 +657,6 @@
   "@passkeyFailed": {
     "description": "Generic fallback error for passkey authentication."
   },
-
   "errorUnableToCreateAccount": "Unable to create account. Please try again.",
   "@errorUnableToCreateAccount": {
     "description": "Generic fallback error when registration fails unexpectedly."
@@ -652,7 +677,6 @@
   "@errorUnableToResetPassword": {
     "description": "Generic fallback error when password reset fails unexpectedly."
   },
-
   "embedInviteJoin": "Join Community",
   "@embedInviteJoin": {
     "description": "Button to join a guild from an invite embed card."
@@ -665,14 +689,18 @@
   "@embedInviteOnline": {
     "description": "Online member count on the invite embed card.",
     "placeholders": {
-      "count": { "type": "String" }
+      "count": {
+        "type": "String"
+      }
     }
   },
   "embedInviteMembers": "{count} Members",
   "@embedInviteMembers": {
     "description": "Total member count on the invite embed card.",
     "placeholders": {
-      "count": { "type": "String" }
+      "count": {
+        "type": "String"
+      }
     }
   },
   "embedInviteUnknownTitle": "Unknown Invite",
@@ -707,7 +735,6 @@
   "@okay": {
     "description": "Generic confirmation button label."
   },
-
   "embedThemeTitle": "Shared theme",
   "@embedThemeTitle": {
     "description": "Title on the theme embed card in chat."
@@ -760,7 +787,9 @@
   "@notificationMuteGuild": {
     "description": "Label for the mute toggle in guild notification settings.",
     "placeholders": {
-      "guildName": { "type": "String" }
+      "guildName": {
+        "type": "String"
+      }
     }
   },
   "notificationMuteDescription": "Muting a community prevents unread indicators and notifications from appearing unless you are mentioned",
@@ -1387,8 +1416,12 @@
   "@emojiPlutoniumUpsellText": {
     "description": "Upsell banner text in emoji picker for non-premium users.",
     "placeholders": {
-      "emojiCount": { "type": "String" },
-      "communityCount": { "type": "String" }
+      "emojiCount": {
+        "type": "String"
+      },
+      "communityCount": {
+        "type": "String"
+      }
     }
   },
   "emojiPlutoniumUpsellButton": "Get Plutonium",
@@ -1403,14 +1436,18 @@
   "@emojiPlutoniumUpsellCustomEmoji": {
     "description": "Emoji count label in upsell banner.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "emojiPlutoniumUpsellCommunity": "{count, plural, =1{1 community} other{{count} communities}}",
   "@emojiPlutoniumUpsellCommunity": {
     "description": "Community count label in upsell banner.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "externalLinkWarningTitle": "External Link Warning",
@@ -1502,7 +1539,6 @@
   "@externalLinkTrustAllDisabledDescription": {
     "description": "Description shown when trust-all external links is disabled and no trusted domains exist."
   },
-
   "imageFileTooLarge": "Image file is too large. Please choose a file smaller than 10 MB.",
   "@imageFileTooLarge": {
     "description": "Error when a selected image exceeds the maximum file size."
@@ -1547,7 +1583,6 @@
   "@crop": {
     "description": "Button to confirm image crop."
   },
-
   "changeYourFluxerTag": "Change Your FluxerTag",
   "@changeYourFluxerTag": {
     "description": "Title for the FluxerTag change bottom sheet."
@@ -1572,8 +1607,12 @@
   "@validationLengthRange": {
     "description": "Validation rule for username character length.",
     "placeholders": {
-      "min": { "type": "int" },
-      "max": { "type": "int" }
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
     }
   },
   "validationAllowedChars": "Letters (a-z, A-Z), numbers (0-9), and underscores (_) only",
@@ -1592,8 +1631,12 @@
   "@fluxerTagAlreadyTakenBody": {
     "description": "Body text when the requested FluxerTag is taken.",
     "placeholders": {
-      "username": { "type": "String" },
-      "discriminator": { "type": "String" }
+      "username": {
+        "type": "String"
+      },
+      "discriminator": {
+        "type": "String"
+      }
     }
   },
   "customTagIsTemporary": "Custom Tag Is Temporary",
@@ -1604,7 +1647,9 @@
   "@customTagTemporaryBodyWithDate": {
     "description": "Warning body when premium subscription has a known expiry date.",
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "customTagTemporaryBody": "Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.",
@@ -1623,7 +1668,9 @@
   "@premiumWarningActiveDiscriminator": {
     "description": "Warning shown when premium user already has a custom discriminator.",
     "placeholders": {
-      "discriminator": { "type": "String" }
+      "discriminator": {
+        "type": "String"
+      }
     }
   },
   "premiumUpsellCustomizeTag": "Customize your 4-digit tag or keep it when changing your username",
@@ -1634,7 +1681,9 @@
   "@premiumTrialExpiresOn": {
     "description": "Trial upsell with expiry date.",
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "premiumTrialActive": "You're on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.",
@@ -1653,7 +1702,6 @@
   "@continueAction": {
     "description": "Generic continue button label."
   },
-
   "profileCustomizationTitle": "Profile Customization",
   "@profileCustomizationTitle": {
     "description": "Heading for the profile customization settings section."
@@ -1678,7 +1726,9 @@
   "@customizeTagWithPlutoniumTooltip": {
     "description": "Tooltip on the crown upsell button next to the FluxerTag button.",
     "placeholders": {
-      "discriminator": { "type": "String" }
+      "discriminator": {
+        "type": "String"
+      }
     }
   },
   "changeUsernameAndTagHint": "Change your username and 4-digit tag",
@@ -1689,7 +1739,9 @@
   "@customTagSubscriptionWarning": {
     "description": "Warning shown when user has a premium discriminator that is not lifetime.",
     "placeholders": {
-      "discriminator": { "type": "String" }
+      "discriminator": {
+        "type": "String"
+      }
     }
   },
   "displayNameLabel": "Display Name",
@@ -1776,7 +1828,9 @@
   "@hidePlutoniumPurchaseDateWithDate": {
     "description": "Label for the toggle to hide the Plutonium purchase date, showing the actual date.",
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "hidePurchaseDateDescription": "Remove when you first bought Plutonium from your badge",
@@ -1799,7 +1853,9 @@
   "@hideVisionaryIdBadgeWithSequence": {
     "description": "Label for the toggle to hide the Visionary ID badge, showing the sequence number.",
     "placeholders": {
-      "sequence": { "type": "int" }
+      "sequence": {
+        "type": "int"
+      }
     }
   },
   "hideVisionaryIdDescription": "Remove your Visionary ID badge",
@@ -1810,7 +1866,9 @@
   "@premiumTrialSubscriptionStarts": {
     "description": "Trial banner title when user has an active subscription pending after trial.",
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "premiumTrialSubscriptionStartsDescription": "Your subscription will automatically begin when your trial ends. No action needed.",
@@ -1821,7 +1879,9 @@
   "@premiumTrialExpiresOnProfile": {
     "description": "Trial banner title with expiry date.",
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "premiumTrialActiveProfile": "You're on a Plutonium trial",
@@ -1948,7 +2008,6 @@
   "@sudoVerificationFailed": {
     "description": "Error message shown when sudo verification attempt fails."
   },
-
   "securityAccountTitle": "Account",
   "@securityAccountTitle": {
     "description": "Top-level Account section heading in Security & Login settings."
@@ -1965,7 +2024,6 @@
   "@securitySectionDescription": {
     "description": "Description for Security section heading."
   },
-
   "securityLoginEmailSectionTitle": "Email Settings",
   "@securityLoginEmailSectionTitle": {
     "description": "Title for email settings section in Security & Login."
@@ -2035,7 +2093,6 @@
   "@securityLoginSetPassword": {
     "description": "Button label to set a password."
   },
-
   "passwordChangeTitle": "Change Password",
   "@passwordChangeTitle": {
     "description": "Title for password change flow."
@@ -2096,7 +2153,6 @@
   "@passwordChangeInvalidCode": {
     "description": "Error shown when verification code is invalid."
   },
-
   "emailChangeTitle": "Change Email",
   "@emailChangeTitle": {
     "description": "Title for email change flow."
@@ -2186,7 +2242,6 @@
   "@save": {
     "description": "Generic save button label."
   },
-
   "securityTfaSectionTitle": "Two-Factor Authentication",
   "@securityTfaSectionTitle": {
     "description": "Title for the 2FA section."
@@ -2219,7 +2274,6 @@
   "@securityTfaViewCodes": {
     "description": "Button to view backup codes."
   },
-
   "securityPasskeysSectionTitle": "Passkeys",
   "@securityPasskeysSectionTitle": {
     "description": "Title for passkeys section."
@@ -2296,12 +2350,11 @@
   "@securityPasskeyNameHint": {
     "description": "Hint for passkey name input."
   },
-
   "securityPhoneSectionTitle": "Phone Number",
   "@securityPhoneSectionTitle": {
     "description": "Title for phone number section."
   },
-  "securityPhoneSectionDescription": "Manage your phone number for SMS two-factor authentication",
+  "securityPhoneSectionDescription": "Manage your phone number.",
   "@securityPhoneSectionDescription": {
     "description": "Description for phone number section."
   },
@@ -2309,7 +2362,7 @@
   "@securityPhoneLabel": {
     "description": "Label for phone number row."
   },
-  "securityPhoneNone": "Add a phone number to enable SMS two-factor authentication",
+  "securityPhoneNone": "No phone number added.",
   "@securityPhoneNone": {
     "description": "Shown when no phone number is set."
   },
@@ -2329,56 +2382,10 @@
   "@securityPhoneRemoveDescription": {
     "description": "Description for phone remove confirmation."
   },
-  "securityPhoneRemoveWarning": "This will also disable SMS two-factor authentication.",
-  "@securityPhoneRemoveWarning": {
-    "description": "Warning when removing phone with SMS MFA."
-  },
   "securityPhoneRemoved": "Phone number removed",
   "@securityPhoneRemoved": {
     "description": "Toast after phone removed."
   },
-
-  "securitySmsSectionTitle": "SMS Two-Factor Authentication",
-  "@securitySmsSectionTitle": {
-    "description": "Title for SMS MFA section."
-  },
-  "securitySmsSectionDescription": "Receive verification codes via SMS as a backup authentication method",
-  "@securitySmsSectionDescription": {
-    "description": "Description for SMS MFA section."
-  },
-  "securitySmsBackup": "SMS Backup",
-  "@securitySmsBackup": {
-    "description": "Label for SMS backup row."
-  },
-  "securitySmsEnabled": "SMS two-factor authentication is enabled",
-  "@securitySmsEnabled": {
-    "description": "Status when SMS MFA is enabled."
-  },
-  "securitySmsDisabled": "Enable SMS codes as a backup for your authenticator app",
-  "@securitySmsDisabled": {
-    "description": "Status when SMS MFA is disabled."
-  },
-  "securitySmsEnableTitle": "Enable SMS Two-Factor Authentication",
-  "@securitySmsEnableTitle": {
-    "description": "Title for SMS MFA enable confirmation."
-  },
-  "securitySmsEnableDescription": "SMS two-factor authentication adds an additional layer of security by requiring a verification code sent to your phone number when signing in.",
-  "@securitySmsEnableDescription": {
-    "description": "Description for SMS MFA enable."
-  },
-  "securitySmsDisableTitle": "Disable SMS Two-Factor Authentication",
-  "@securitySmsDisableTitle": {
-    "description": "Title for SMS MFA disable confirmation."
-  },
-  "securitySmsDisableDescription": "Are you sure you want to disable SMS two-factor authentication? This will make your account less secure.",
-  "@securitySmsDisableDescription": {
-    "description": "Description for SMS MFA disable."
-  },
-  "securitySmsDisabledForPartners": "SMS backup is disabled for partners",
-  "@securitySmsDisabledForPartners": {
-    "description": "Tooltip when SMS MFA is not available for partner accounts."
-  },
-
   "securityClaimTitle": "Security Features",
   "@securityClaimTitle": {
     "description": "Title when user needs to claim account for security."
@@ -2391,7 +2398,6 @@
   "@securityVerifyEmailRequired": {
     "description": "Warning when email is not verified."
   },
-
   "totpEnableTitle": "Setup Authenticator App",
   "@totpEnableTitle": {
     "description": "Title for TOTP enable sheet."
@@ -2424,7 +2430,6 @@
   "@totpDisableSuccess": {
     "description": "Toast after TOTP disabled."
   },
-
   "backupCodesTitle": "Backup Codes",
   "@backupCodesTitle": {
     "description": "Title for backup codes sheet."
@@ -2461,7 +2466,6 @@
   "@backupCodesViewDescription": {
     "description": "Description for view backup codes."
   },
-
   "phoneAddTitle": "Add Phone Number",
   "@phoneAddTitle": {
     "description": "Title for phone add sheet."
@@ -2494,7 +2498,6 @@
   "@phoneAddSuccess": {
     "description": "Toast after phone added."
   },
-
   "dangerZoneSectionTitle": "Danger Zone",
   "@dangerZoneSectionTitle": {
     "description": "Title for danger zone section."
@@ -2551,7 +2554,6 @@
   "@dangerZoneDeleteDisclaimer": {
     "description": "Disclaimer about data export before deletion."
   },
-
   "claimAccountTitle": "Claim Your Account",
   "@claimAccountTitle": {
     "description": "Title for claim account sheet."
@@ -2592,40 +2594,49 @@
   "@invalidCode": {
     "description": "Error message when a verification code is invalid."
   },
-
   "relativeTimeYears": "{count, plural, =1{1 year ago} other{{count} years ago}}",
   "@relativeTimeYears": {
     "description": "Relative time in years.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeMonths": "{count, plural, =1{1 month ago} other{{count} months ago}}",
   "@relativeTimeMonths": {
     "description": "Relative time in months.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeDays": "{count, plural, =1{1 day ago} other{{count} days ago}}",
   "@relativeTimeDays": {
     "description": "Relative time in days.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeHours": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
   "@relativeTimeHours": {
     "description": "Relative time in hours.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeMinutes": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
   "@relativeTimeMinutes": {
     "description": "Relative time in minutes.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeJustNow": "just now",
@@ -2742,7 +2753,9 @@
   "@blockedUsersUnblockDescription": {
     "description": "Body of the unblock confirmation sheet.",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "blockedUsersCopyTag": "Copy FluxerTag",
@@ -2831,12 +2844,20 @@
   "userProfileMutualFriends": "Mutual Friends ({count})",
   "@userProfileMutualFriends": {
     "description": "Profile mutual friends entry label with count.",
-    "placeholders": {"count": {"type": "int"}}
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "userProfileMutualCommunities": "Mutual Communities ({count})",
   "@userProfileMutualCommunities": {
     "description": "Profile mutual communities entry label with count.",
-    "placeholders": {"count": {"type": "int"}}
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "userProfileMutualFriendsTitle": "Mutual Friends",
   "@userProfileMutualFriendsTitle": {
@@ -2857,7 +2878,11 @@
   "userProfileMutualCommunityNickname": "Nickname: {nickname}",
   "@userProfileMutualCommunityNickname": {
     "description": "Subtitle showing the profiled user's nickname in a mutual community.",
-    "placeholders": {"nickname": {"type": "String"}}
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
   },
   "userProfileOpenBlockedDmTitle": "Open DM",
   "@userProfileOpenBlockedDmTitle": {
@@ -2866,7 +2891,11 @@
   "userProfileOpenBlockedDmDescription": "You blocked {username}. You won't be able to send messages unless you unblock them.",
   "@userProfileOpenBlockedDmDescription": {
     "description": "Body of the open-DM-while-blocked confirmation.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileOpenDm": "Open DM",
   "@userProfileOpenDm": {
@@ -2935,7 +2964,11 @@
   "userProfileBlockConfirmDescription": "Are you sure you want to block {username}?",
   "@userProfileBlockConfirmDescription": {
     "description": "Confirmation sheet body before blocking a user.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileUnblockConfirmTitle": "Unblock User",
   "@userProfileUnblockConfirmTitle": {
@@ -2944,7 +2977,11 @@
   "userProfileUnblockConfirmDescription": "Are you sure you want to unblock {username}?",
   "@userProfileUnblockConfirmDescription": {
     "description": "Confirmation sheet body before unblocking a user.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileRemoveFriendConfirmTitle": "Remove Friend",
   "@userProfileRemoveFriendConfirmTitle": {
@@ -2953,7 +2990,11 @@
   "userProfileRemoveFriendConfirmDescription": "Are you sure you want to remove {username} as a friend?",
   "@userProfileRemoveFriendConfirmDescription": {
     "description": "Confirmation sheet body before removing a friend.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileFailedOpenDm": "Failed to open DM",
   "@userProfileFailedOpenDm": {
@@ -3002,12 +3043,20 @@
   "userProfileKickConfirmTitle": "Kick {username}?",
   "@userProfileKickConfirmTitle": {
     "description": "Confirmation sheet title before kicking a member.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileKickConfirmDescription": "Are you sure you want to kick {username}? They can rejoin with a new invite.",
   "@userProfileKickConfirmDescription": {
     "description": "Confirmation sheet body before kicking a member.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileRemoveTimeoutConfirmTitle": "Remove timeout?",
   "@userProfileRemoveTimeoutConfirmTitle": {
@@ -3016,7 +3065,11 @@
   "userProfileRemoveTimeoutConfirmDescription": "Removing the timeout will allow {username} to send messages, react, and join voice channels again.",
   "@userProfileRemoveTimeoutConfirmDescription": {
     "description": "Confirmation sheet body before removing a member's timeout.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileTransferConfirmTitle": "Transfer ownership?",
   "@userProfileTransferConfirmTitle": {
@@ -3025,12 +3078,20 @@
   "userProfileTransferConfirmDescription": "Transfer ownership of this community to {username}? This is irreversible and you will lose all owner privileges.",
   "@userProfileTransferConfirmDescription": {
     "description": "Confirmation sheet body before transferring community ownership.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileBanSheetTitle": "Ban {username}",
   "@userProfileBanSheetTitle": {
     "description": "Title of the ban member sheet.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileBanDurationLabel": "Ban duration",
   "@userProfileBanDurationLabel": {
@@ -3043,7 +3104,14 @@
   "userProfileBanCustomSecondsHelper": "Any value from {min} to {max} seconds",
   "@userProfileBanCustomSecondsHelper": {
     "description": "Helper text for the custom ban duration input.",
-    "placeholders": {"min": {"type": "int"}, "max": {"type": "int"}}
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
   },
   "userProfileBanDeleteHistoryLabel": "Delete message history",
   "@userProfileBanDeleteHistoryLabel": {
@@ -3076,7 +3144,11 @@
   "userProfileTimeoutSheetTitle": "Timeout {username}",
   "@userProfileTimeoutSheetTitle": {
     "description": "Title of the timeout member sheet.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileTimeoutDurationLabel": "Timeout duration",
   "@userProfileTimeoutDurationLabel": {
@@ -3101,22 +3173,38 @@
   "userProfileKickSuccess": "Kicked {username}",
   "@userProfileKickSuccess": {
     "description": "Toast shown after kicking a member.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileBanSuccess": "Banned {username}",
   "@userProfileBanSuccess": {
     "description": "Toast shown after banning a member.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileTimeoutSuccess": "Timed out {username}",
   "@userProfileTimeoutSuccess": {
     "description": "Toast shown after timing out a member.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileRemoveTimeoutSuccess": "Removed timeout for {username}",
   "@userProfileRemoveTimeoutSuccess": {
     "description": "Toast shown after removing a member's timeout.",
-    "placeholders": {"username": {"type": "String"}}
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
   },
   "userProfileNicknameSuccess": "Nickname updated",
   "@userProfileNicknameSuccess": {
@@ -3193,23 +3281,37 @@
   "typingIndicatorOne": "{name} is typing...",
   "@typingIndicatorOne": {
     "description": "Typing indicator shown above the chat input when exactly one other user is typing.",
-    "placeholders": {"name": {"type": "String"}}
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "typingIndicatorTwo": "{name1} and {name2} are typing...",
   "@typingIndicatorTwo": {
     "description": "Typing indicator shown above the chat input when two other users are typing.",
     "placeholders": {
-      "name1": {"type": "String"},
-      "name2": {"type": "String"}
+      "name1": {
+        "type": "String"
+      },
+      "name2": {
+        "type": "String"
+      }
     }
   },
   "typingIndicatorThree": "{name1}, {name2} and {name3} are typing...",
   "@typingIndicatorThree": {
     "description": "Typing indicator shown above the chat input when three other users are typing.",
     "placeholders": {
-      "name1": {"type": "String"},
-      "name2": {"type": "String"},
-      "name3": {"type": "String"}
+      "name1": {
+        "type": "String"
+      },
+      "name2": {
+        "type": "String"
+      },
+      "name3": {
+        "type": "String"
+      }
     }
   },
   "typingIndicatorMultiple": "Several people are typing...",
@@ -3236,119 +3338,153 @@
   "@systemJoinGladYoureHere": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinWelcomeMakeYourselfAtHome": "Welcome, {username}! Make yourself at home.",
   "@systemJoinWelcomeMakeYourselfAtHome": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinHelloNiceToHaveYouHere": "Hello, {username}! Nice to have you here.",
   "@systemJoinHelloNiceToHaveYouHere": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinHelloJumpInWheneverYoureReady": "Hello, {username}! Jump in whenever you're ready.",
   "@systemJoinHelloJumpInWheneverYoureReady": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinHeyGreatToSeeYouHere": "Hey {username}, great to see you here!",
   "@systemJoinHeyGreatToSeeYouHere": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinHeyThereHopeYouEnjoyYourStay": "Hey there, {username}! Hope you enjoy your stay.",
   "@systemJoinHeyThereHopeYouEnjoyYourStay": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinHeyWelcomeAboard": "Hey, {username}, welcome aboard!",
   "@systemJoinHeyWelcomeAboard": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinGladYouMadeIt": "Glad you made it, {username}!",
   "@systemJoinGladYouMadeIt": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinWelcomeIn": "Welcome in, {username}!",
   "@systemJoinWelcomeIn": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinWelcome": "Welcome, {username}!",
   "@systemJoinWelcome": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinWelcomeWereGladYoureHere": "Welcome, {username}! We're glad you're here.",
   "@systemJoinWelcomeWereGladYoureHere": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinWelcomeHopeYouEnjoyYourTimeHere": "Welcome, {username}! Hope you enjoy your time here.",
   "@systemJoinWelcomeHopeYouEnjoyYourTimeHere": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinWelcomeYourNextConversationStartsHere": "Welcome, {username}! Your next conversation starts here.",
   "@systemJoinWelcomeYourNextConversationStartsHere": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinWelcomeWereHappyToHaveYouHere": "Welcome, {username}. We're happy to have you here.",
   "@systemJoinWelcomeWereHappyToHaveYouHere": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinGreatToSeeYouWelcomeIn": "Great to see you, {username}! Welcome in.",
   "@systemJoinGreatToSeeYouWelcomeIn": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinYoureHereGoodToHaveYouWithUs": "You're here, {username}! Good to have you with us.",
   "@systemJoinYoureHereGoodToHaveYouWithUs": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "systemJoinYouveArrivedLetsGetStarted": "You've arrived, {username}! Let's get started.",
   "@systemJoinYouveArrivedLetsGetStarted": {
     "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
     "placeholders": {
-      "username": { "type": "String" }
+      "username": {
+        "type": "String"
+      }
     }
   },
   "relativeTimeShortNow": "now",
@@ -3359,35 +3495,45 @@
   "@relativeTimeShortMinutes": {
     "description": "Short-form relative time in minutes (e.g. '5m').",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeShortHours": "{count, plural, =1{1h} other{{count}h}}",
   "@relativeTimeShortHours": {
     "description": "Short-form relative time in hours (e.g. '2h').",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeShortDays": "{count, plural, =1{1d} other{{count}d}}",
   "@relativeTimeShortDays": {
     "description": "Short-form relative time in days (e.g. '3d').",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeShortMonths": "{count, plural, =1{1mo} other{{count}mo}}",
   "@relativeTimeShortMonths": {
     "description": "Short-form relative time in months (e.g. '2mo').",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "relativeTimeShortYears": "{count, plural, =1{1y} other{{count}y}}",
   "@relativeTimeShortYears": {
     "description": "Short-form relative time in years (e.g. '2y').",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "linkedDevicesTitle": "My Devices",
@@ -3434,14 +3580,18 @@
   "@linkedDevicesSignOutN": {
     "description": "Label for the bulk action button when devices are selected.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "linkedDevicesSignOutSheetTitle": "{count, plural, =1{Sign out 1 device} other{Sign out {count} devices}}",
   "@linkedDevicesSignOutSheetTitle": {
     "description": "Title of the confirmation bottom sheet for selected devices (same wording as the button label but used as a heading).",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "linkedDevicesSignOutAllSheetTitle": "Sign out all other devices",
@@ -3452,7 +3602,9 @@
   "@linkedDevicesSignOutSheetDescription": {
     "description": "Body of the confirmation bottom sheet for selected devices.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "linkedDevicesSignOutAllSheetDescription": "This will log out the selected devices from your account. You will need to log in again on those devices.",
@@ -3479,7 +3631,9 @@
   "@linkedDevicesRevokeSuccess": {
     "description": "Toast shown after successfully signing devices out.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "linkedDevicesRevokeError": "Couldn't sign out. Try again.",
@@ -4304,7 +4458,9 @@
   "@guildUnavailableOutageTooltip": {
     "description": "Tooltip on the aggregate outage badge in the guild sidebar when one or more communities are unavailable.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "lookAndFeelCollapseDMsLabel": "Collapse DMs Into Folder",
@@ -4363,7 +4519,6 @@
   "@lookAndFeelEnableFavoritesDescription": {
     "description": "Toggle description for the Enable Favorites switch."
   },
-
   "favoritesTitle": "Favorites",
   "@favoritesTitle": {
     "description": "Title for the favorites section."
@@ -4476,7 +4631,6 @@
   "@favoritesDirectMessageSubtitle": {
     "description": "Subtitle for a 1:1 DM in the favorites channel list."
   },
-
   "messagesMediaDisplayGroupTitle": "Display",
   "@messagesMediaDisplayGroupTitle": {
     "description": "Top-level section title for message display settings."
@@ -4545,7 +4699,6 @@
   "@messagesMediaDefaultHideMutedChannelsNewOnlyAction": {
     "description": "Secondary confirmation action to only affect new communities."
   },
-
   "messagesMediaDisplaySectionTitle": "Media Display",
   "@messagesMediaDisplaySectionTitle": {
     "description": "Section title for media display settings."
@@ -4622,7 +4775,6 @@
   "@messagesMediaSpoilersAlwaysDescription": {
     "description": "Spoiler reveal option description for always-show."
   },
-
   "messagesMediaSizeSectionTitle": "Media Size Preferences",
   "@messagesMediaSizeSectionTitle": {
     "description": "Section title for media size preferences."
@@ -5143,8 +5295,12 @@
   "@forwardSendButton": {
     "description": "Forward sheet send button label with the selected destination count and the selection limit.",
     "placeholders": {
-      "count": { "type": "int" },
-      "limit": { "type": "int" }
+      "count": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
     }
   },
   "forwardEmptyState": "No channels found",
@@ -5700,11 +5856,15 @@
   },
   "chatReplyOriginalDeleted": "Original message was deleted",
   "@chatReplyOriginalDeleted": {
-    "description": "Placeholder in the inline reply preview when the parent message was deleted."
+    "description": "Label in the channel and chat reply preview. Keep the tone plain and specific."
   },
   "chatReplyOriginalFailedToLoad": "Original message failed to load",
   "@chatReplyOriginalFailedToLoad": {
-    "description": "Placeholder in the inline reply preview when the parent message could not be loaded."
+    "description": "Error message in the channel and chat reply preview."
+  },
+  "chatReplyAttachedMedia": "Message contains attached media",
+  "@chatReplyAttachedMedia": {
+    "description": "Label in the channel and chat reply preview."
   },
   "chatMessagesLoadError": "Couldn't load messages.",
   "@chatMessagesLoadError": {
@@ -5944,14 +6104,18 @@
   "@channelWelcomeHeading": {
     "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
     "placeholders": {
-      "channelName": { "type": "String" }
+      "channelName": {
+        "type": "String"
+      }
     }
   },
   "channelWelcomeDescription": "In the beginning, there was nothing. Then, there was {channelName}. And it was good.",
   "@channelWelcomeDescription": {
     "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
     "placeholders": {
-      "channelName": { "type": "String" }
+      "channelName": {
+        "type": "String"
+      }
     }
   },
   "personalNotesComposerHint": "Message yourself",
@@ -6074,6 +6238,22 @@
   "userSettingsNavAdvanced": "Advanced",
   "@userSettingsNavAdvanced": {
     "description": "User settings navigation item for advanced settings."
+  },
+  "advancedPerformanceReportingTitle": "Performance reporting",
+  "@advancedPerformanceReportingTitle": {
+    "description": "Advanced settings section title for crash and performance reporting."
+  },
+  "advancedPerformanceReportingSectionDescription": "Help improve Fluxer by sharing anonymous crash and performance data.",
+  "@advancedPerformanceReportingSectionDescription": {
+    "description": "Advanced settings section description for crash and performance reporting."
+  },
+  "advancedPerformanceReportingLabel": "Send crash and performance reports",
+  "@advancedPerformanceReportingLabel": {
+    "description": "Toggle label for opting into crash and performance reporting."
+  },
+  "advancedPerformanceReportingDescription": "All reported data is anonymous and is sent only to Fluxer's own monitoring service — no third-party providers are used.",
+  "@advancedPerformanceReportingDescription": {
+    "description": "Toggle description explaining anonymous self-hosted performance reporting."
   },
   "userSettingsNavApplications": "Applications",
   "@userSettingsNavApplications": {
@@ -6255,6 +6435,10 @@
   "@uiClose": {
     "description": "Accessible label for icon-only close buttons."
   },
+  "chatJumpToBottom": "Jump to bottom",
+  "@chatJumpToBottom": {
+    "description": "Accessible label for the chat jump-to-bottom button."
+  },
   "uiConfirm": "Confirm",
   "@uiConfirm": {
     "description": "Generic confirm action label for modals and sheets."
@@ -6303,14 +6487,18 @@
   "@mentionConfirmEveryoneBody": {
     "description": "Body of the @everyone mention confirmation dialog.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "mentionConfirmHereBody": "This will notify {count} online members. Continue?",
   "@mentionConfirmHereBody": {
     "description": "Body of the @here mention confirmation dialog.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "mentionConfirmButton": "Mention",
@@ -6328,6 +6516,10 @@
   "instanceUrlPlaceholder": "Enter instance URL (e.g. fluxer.app)",
   "@instanceUrlPlaceholder": {
     "description": "Placeholder for the self-hosted instance URL input."
+  },
+  "resetToDefaultInstance": "Reset to Fluxer",
+  "@resetToDefaultInstance": {
+    "description": "Tooltip for the button that resets the instance URL to the official Fluxer instance."
   },
   "instanceConnect": "Connect",
   "@instanceConnect": {
@@ -6349,7 +6541,9 @@
   "@removeRecentInstance": {
     "description": "Accessibility label for removing a recent instance.",
     "placeholders": {
-      "domain": { "type": "String" }
+      "domain": {
+        "type": "String"
+      }
     }
   },
   "instanceSheetTitle": "Connect to instance",

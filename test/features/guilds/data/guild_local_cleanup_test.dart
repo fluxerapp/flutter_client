@@ -23,10 +23,7 @@ void main() {
         ),
       );
       await db.userGuildSettingsDao.upsert(
-        UserGuildSettingsTableCompanion.insert(
-          guildId: guildId,
-          data: '{}',
-        ),
+        UserGuildSettingsTableCompanion.insert(guildId: guildId, data: '{}'),
       );
       await db.guildLastChannelDao.setLastChannel(guildId, 'channel-1');
 

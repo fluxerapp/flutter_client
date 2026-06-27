@@ -1,6 +1,6 @@
-import 'package:test/test.dart';
 import 'package:fluxer_app/core/deep_links/user_settings_deep_link.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
+import 'package:test/test.dart';
 
 void main() {
   Uri uri(String path) => Uri.parse('https://web.fluxer.app$path');
@@ -11,12 +11,11 @@ void main() {
     });
 
     test('opens settings root when tab is missing or invalid', () {
+      expect(parseUserSettingsDeepLink(uri('/settings/user'))?.section, isNull);
       expect(
-        parseUserSettingsDeepLink(uri('/settings/user'))?.section,
-        isNull,
-      );
-      expect(
-        parseUserSettingsDeepLink(uri('/settings/user?tab=unknown_tab'))?.section,
+        parseUserSettingsDeepLink(
+          uri('/settings/user?tab=unknown_tab'),
+        )?.section,
         isNull,
       );
       expect(
@@ -77,10 +76,7 @@ void main() {
         mapUserSettingsDeepLinkToSection('desktop_settings', null),
         isNull,
       );
-      expect(
-        mapUserSettingsDeepLinkToSection('plutonium', null),
-        isNull,
-      );
+      expect(mapUserSettingsDeepLinkToSection('plutonium', null), isNull);
     });
   });
 }

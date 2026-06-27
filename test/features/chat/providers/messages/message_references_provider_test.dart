@@ -140,8 +140,8 @@ void main() {
     });
 
     test('marks deleted after gateway delete event', () {
-      final notifier = container.read(messageReferencesProvider.notifier);
-      notifier.onMessageDeleted(channelId: 'channel-1', messageId: '100');
+      final notifier = container.read(messageReferencesProvider.notifier)
+        ..onMessageDeleted(channelId: 'channel-1', messageId: '100');
       final resolution = notifier.resolveSync(
         channelId: 'channel-1',
         messageId: '100',

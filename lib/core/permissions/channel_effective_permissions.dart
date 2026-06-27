@@ -8,10 +8,10 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:riverpod/misc.dart' show FutureProviderFamily;
 import 'package:riverpod/riverpod.dart';
-import 'package:riverpod/src/providers/future_provider.dart';
 
-/// Result of channel permission resolution. When [shouldCache] is false, [value]
+/// Result of channel permission resolution. When `shouldCache` is false, `value`
 /// may be 0 only because guild membership or roles are not loaded yet.
 typedef ChannelPermissionBitsOutcome = ({int value, bool shouldCache});
 

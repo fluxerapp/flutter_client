@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
+import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 
 void main() {
@@ -36,9 +36,7 @@ void main() {
         .read(pendingPushNotificationPathProvider.notifier)
         .store('/channels/@me/789');
 
-    container
-        .read(pendingPushNotificationPathProvider.notifier)
-        .flushIfReady();
+    container.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
 
     expect(
       container.read(pendingPushNotificationPathProvider)?.path,

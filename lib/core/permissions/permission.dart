@@ -41,7 +41,7 @@ enum Permission {
   const Permission(this.value);
 }
 
-const allPermissions = 0x7FFFFFFFFFFFFF;
+const int allPermissions = (1 << 55) - 1;
 
 bool hasPermission(int permissions, Permission permission) =>
     (permissions & permission.value) != 0;

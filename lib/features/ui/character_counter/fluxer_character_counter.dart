@@ -51,11 +51,7 @@ class FluxerCharacterCounter extends StatelessWidget {
         ? l10n.characterCounterTooLong
         : l10n.characterCounterRemaining(remaining);
     final Widget counterLabel = ExcludeSemantics(
-      child: Text(
-        '$remaining',
-        style: textStyle,
-        textAlign: TextAlign.right,
-      ),
+      child: Text('$remaining', style: textStyle, textAlign: TextAlign.right),
     );
     final Widget counterChild = needsPremium
         ? TextButton(

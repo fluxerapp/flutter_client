@@ -229,19 +229,22 @@ void main() {
   });
 
   group('shouldEndCallKitSessionForActiveCallsChange', () {
-    test('keeps guild voice CallKit when channel is absent from activeCalls', () {
-      expect(
-        shouldEndCallKitSessionForActiveCallsChange(
-          session: const VoiceCallKitSession(
-            callKitId: 'uuid-1',
-            channelId: 'guild-voice-1',
-            kind: VoiceCallKitSessionKind.activeVoice,
+    test(
+      'keeps guild voice CallKit when channel is absent from activeCalls',
+      () {
+        expect(
+          shouldEndCallKitSessionForActiveCallsChange(
+            session: const VoiceCallKitSession(
+              callKitId: 'uuid-1',
+              channelId: 'guild-voice-1',
+              kind: VoiceCallKitSessionKind.activeVoice,
+            ),
+            activeCallChannelIds: const <String>{},
           ),
-          activeCallChannelIds: const <String>{},
-        ),
-        isFalse,
-      );
-    });
+          isFalse,
+        );
+      },
+    );
     test('ends DM CallKit when gateway call was removed', () {
       expect(
         shouldEndCallKitSessionForActiveCallsChange(

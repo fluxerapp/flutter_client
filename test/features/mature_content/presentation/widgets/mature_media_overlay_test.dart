@@ -24,7 +24,7 @@ void main() {
               isMatureMedia: true,
             ),
           ).overrideWith(
-            (ref) async => const MatureMediaPolicy(
+            (ref) => const MatureMediaPolicy(
               shouldBlur: true,
               shouldBlock: false,
               canReveal: true,
@@ -93,7 +93,7 @@ void main() {
               isMatureMedia: true,
             ),
           ).overrideWith(
-            (ref) async => const MatureMediaPolicy(
+            (ref) => const MatureMediaPolicy(
               shouldBlur: false,
               shouldBlock: true,
               canReveal: false,

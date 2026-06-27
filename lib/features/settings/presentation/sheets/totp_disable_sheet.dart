@@ -41,7 +41,9 @@ class _TotpDisableSheetState extends ConsumerState<TotpDisableSheet> {
 
   Future<void> _handleSubmit() async {
     final code = _codeController.text.replaceAll(' ', '').trim();
-    if (code.isEmpty) return;
+    if (code.isEmpty) {
+      return;
+    }
 
     final l10n = FluxerLocalizations.of(context);
 

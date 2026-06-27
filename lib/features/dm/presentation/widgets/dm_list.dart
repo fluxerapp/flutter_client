@@ -122,7 +122,7 @@ class _DMListState extends ConsumerState<DMList> {
         return;
       }
       if (ref.read(chatViewModelProvider).channelId == channelId) {
-        await ref.read(chatViewModelProvider.notifier).switchChannel(channelId);
+        await ref.read(chatViewModelProvider.notifier).reloadCurrentChannel();
       }
       ref
           .read(toastProvider.notifier)
@@ -903,7 +903,7 @@ class _DMListState extends ConsumerState<DMList> {
     }
 
     if (result is _InviteToGuildAction) {
-      // TODO(fluxer_app): send invite for guild ${result.guildId} in DM
+      // TODO(Elias): send invite for guild ${result.guildId} in DM
       return;
     }
 
@@ -947,10 +947,10 @@ class _DMListState extends ConsumerState<DMList> {
           }
         }());
       case _DmAction.addNote:
-        // TODO(fluxer_app): open add note sheet
+        // TODO(Elias): open add note sheet
         break;
       case _DmAction.changeFriendNickname:
-        // TODO(fluxer_app): open change friend nickname sheet
+        // TODO(M0n7y5): open change friend nickname sheet
         break;
       case _DmAction.favoriteDm:
         final repository = ref.read(favoriteChannelsRepositoryProvider);
@@ -1020,10 +1020,12 @@ class _DMListState extends ConsumerState<DMList> {
           unawaited(ref.read(dmRepositoryProvider).pinDm(convo.id));
         }
       case _DmAction.editGroup:
-        // TODO(fluxer_app): open edit group sheet
+        // TODO(Elias): open edit group sheet
         break;
       case _DmAction.removeFriend:
-        if (!mounted) break;
+        if (!mounted) {
+          break;
+        }
         final l10n = FluxerLocalizations.of(context);
         await FluxerConfirmModal.show(
           context,
@@ -1057,7 +1059,9 @@ class _DMListState extends ConsumerState<DMList> {
           await ref
               .read(friendRepositoryProvider)
               .sendFriendRequest(convo.recipientId);
-          if (!mounted) break;
+          if (!mounted) {
+            break;
+          }
           ref
               .read(toastProvider.notifier)
               .show(
@@ -1066,8 +1070,10 @@ class _DMListState extends ConsumerState<DMList> {
                   variant: FluxerToastVariant.success,
                 ),
               );
-        } catch (_) {
-          if (!mounted) break;
+        } on Object catch (_) {
+          if (!mounted) {
+            break;
+          }
           ref
               .read(toastProvider.notifier)
               .show(
@@ -1083,8 +1089,10 @@ class _DMListState extends ConsumerState<DMList> {
           await ref
               .read(friendRepositoryProvider)
               .acceptFriendRequest(convo.recipientId);
-        } catch (_) {
-          if (!mounted) break;
+        } on Object catch (_) {
+          if (!mounted) {
+            break;
+          }
           ref
               .read(toastProvider.notifier)
               .show(
@@ -1100,8 +1108,10 @@ class _DMListState extends ConsumerState<DMList> {
           await ref
               .read(friendRepositoryProvider)
               .removeRelationship(convo.recipientId);
-        } catch (_) {
-          if (!mounted) break;
+        } on Object catch (_) {
+          if (!mounted) {
+            break;
+          }
           ref
               .read(toastProvider.notifier)
               .show(
@@ -1112,7 +1122,9 @@ class _DMListState extends ConsumerState<DMList> {
               );
         }
       case _DmAction.block:
-        if (!mounted) break;
+        if (!mounted) {
+          break;
+        }
         final l10n = FluxerLocalizations.of(context);
         await FluxerConfirmModal.show(
           context,
@@ -1146,8 +1158,10 @@ class _DMListState extends ConsumerState<DMList> {
           await ref
               .read(friendRepositoryProvider)
               .removeRelationship(convo.recipientId);
-        } catch (_) {
-          if (!mounted) break;
+        } on Object catch (_) {
+          if (!mounted) {
+            break;
+          }
           ref
               .read(toastProvider.notifier)
               .show(
@@ -1183,7 +1197,9 @@ class _DMListState extends ConsumerState<DMList> {
           final user = await client.users.getUserById(
             userId: convo.recipientId,
           );
-          if (!mounted) break;
+          if (!mounted || !context.mounted) {
+            break;
+          }
           await showDebugBottomSheet(
             context,
             title: FluxerLocalizations.of(context).dmDebugUser,
@@ -1204,7 +1220,9 @@ class _DMListState extends ConsumerState<DMList> {
         try {
           final client = ref.read(fluxerClientProvider);
           final channel = await client.channels.getChannel(channelId: convo.id);
-          if (!mounted) break;
+          if (!mounted || !context.mounted) {
+            break;
+          }
           await showDebugBottomSheet(
             context,
             title: FluxerLocalizations.of(context).dmDebugChannel,
@@ -1223,7 +1241,9 @@ class _DMListState extends ConsumerState<DMList> {
         }
       case _DmAction.copyUserId:
         await Clipboard.setData(ClipboardData(text: convo.recipientId));
-        if (!mounted) break;
+        if (!mounted || !context.mounted) {
+          break;
+        }
         ref
             .read(toastProvider.notifier)
             .show(
@@ -1234,7 +1254,9 @@ class _DMListState extends ConsumerState<DMList> {
             );
       case _DmAction.copyChannelId:
         await Clipboard.setData(ClipboardData(text: convo.id));
-        if (!mounted) break;
+        if (!mounted || !context.mounted) {
+          break;
+        }
         ref
             .read(toastProvider.notifier)
             .show(

@@ -1,6 +1,8 @@
 import 'package:fluxer_dart/export.dart';
 
 /// Instance URLs from `/.well-known/fluxer`, with compile-time fallbacks until loaded.
+// Preserves the global endpoint holder API used across provider and link code.
+// ignore: avoid_classes_with_only_static_members
 abstract final class InstanceEndpoints {
   static const String defaultMedia = 'https://fluxerusercontent.com';
   static const String defaultStaticCdn = 'https://fluxerstatic.com';

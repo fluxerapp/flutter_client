@@ -140,8 +140,7 @@ bool _computeIsMentioned({
   required String currentUserId,
   required UserGuildSettingsResponse gs,
 }) {
-  if (message.mentions.any((UserPartialResponse u) => u.id == currentUserId) ??
-      false) {
+  if (message.mentions.any((UserPartialResponse u) => u.id == currentUserId)) {
     return true;
   }
   if (message.mentionEveryone) {
@@ -174,6 +173,26 @@ bool _shouldNotifyFromLevel({
 
 class FluxerMessageNotificationSfxEvaluator {
   static Future<MessageNotificationSfxResolution?> evaluate({
+    required FluxerDatabase database,
+    required MessageResponseSchema message,
+    required String currentUserId,
+    required Set<String> blockedUserIds,
+    required bool selfIsDnd,
+    required MessageNotificationSfxDeduper deduper,
+  }) {
+    return const FluxerMessageNotificationSfxEvaluator().resolve(
+      database: database,
+      message: message,
+      currentUserId: currentUserId,
+      blockedUserIds: blockedUserIds,
+      selfIsDnd: selfIsDnd,
+      deduper: deduper,
+    );
+  }
+
+  const FluxerMessageNotificationSfxEvaluator();
+
+  Future<MessageNotificationSfxResolution?> resolve({
     required FluxerDatabase database,
     required MessageResponseSchema message,
     required String currentUserId,

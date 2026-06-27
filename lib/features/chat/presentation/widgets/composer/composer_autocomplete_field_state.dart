@@ -378,14 +378,13 @@ class ComposerAutocompleteFieldState
       Set<String> localMemberIds = <String>{};
       Set<String> remoteSearchMemberIds = <String>{};
       try {
-        final GatewayConnection connection = ref.read(
-          gatewayConnectionProvider,
-        );
-        connection.requestGuildMembers(
-          guildId: guildId,
-          query: searchQuery.isEmpty ? null : searchQuery,
-          limit: _kMentionLimit,
-        );
+        ref
+            .read(gatewayConnectionProvider)
+            .requestGuildMembers(
+              guildId: guildId,
+              query: searchQuery.isEmpty ? null : searchQuery,
+              limit: _kMentionLimit,
+            );
         await chunkWaiter.waitForChunk(guildId);
         final List<String> scopeUserIds = chunkWaiter.lastChunkUserIds(guildId);
         members = await repo.searchMembersForAutocomplete(
@@ -485,6 +484,7 @@ class ComposerAutocompleteFieldState
     ComposerAutocompleteTrigger trigger,
     int generation,
   ) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     await EmojiRegistry.ensureLoaded();
     final bool hasChannel = _channelId.isNotEmpty;
     final String activeGuildId = ref.read(activeGuildIdProvider) ?? '';
@@ -501,7 +501,6 @@ class ComposerAutocompleteFieldState
         ).canUseExternalEmojis;
     final List<Guild> guilds = ref.read(guildListViewModelProvider).guilds;
     final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
     final List<GuildEmojiEntry> allCustom = await ref.read(
       allGuildEmojisForPickerProvider.future,

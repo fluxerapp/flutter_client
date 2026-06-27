@@ -41,10 +41,9 @@ void main() {
     });
 
     test('does not split escaped strikethrough on one line', () {
-      expect(
-        splitIntoInlineParseChunks(r'\~~not strike~~'),
-        [r'\~~not strike~~'],
-      );
+      expect(splitIntoInlineParseChunks(r'\~~not strike~~'), [
+        r'\~~not strike~~',
+      ]);
     });
   });
 }

@@ -1,14 +1,10 @@
 import 'package:fluxer_app/core/instance/instance_constants.dart';
 
-abstract final class InstanceEndpointPatterns {
-  static final RegExp schemePrefix = RegExp(
-    r'^[a-zA-Z][a-zA-Z0-9+\-.]*://',
-  );
-  static final RegExp trailingSlashes = RegExp(r'/+$');
-  static final RegExp apiPathSuffix = RegExp(r'/api/?$');
-  static const String wellKnownPathOfficial = '/.well-known/fluxer';
-  static const String wellKnownPathSelfHosted = '/api/.well-known/fluxer';
-}
+final RegExp _schemePrefixPattern = RegExp(r'^[a-zA-Z][a-zA-Z0-9+\-.]*://');
+final RegExp _trailingSlashesPattern = RegExp(r'/+$');
+final RegExp _apiPathSuffixPattern = RegExp(r'/api/?$');
+const String _wellKnownPathOfficial = '/.well-known/fluxer';
+const String _wellKnownPathSelfHosted = '/api/.well-known/fluxer';
 
 class InstanceEndpointNormalizer {
   const InstanceEndpointNormalizer();
@@ -19,7 +15,7 @@ class InstanceEndpointNormalizer {
       throw const FormatException('API endpoint is required');
     }
     String candidate = trimmed;
-    if (!InstanceEndpointPatterns.schemePrefix.hasMatch(candidate)) {
+    if (!_schemePrefixPattern.hasMatch(candidate)) {
       candidate = 'https://$candidate';
     }
     final Uri url = Uri.parse(candidate);
@@ -30,8 +26,7 @@ class InstanceEndpointNormalizer {
     if (path.isEmpty || path == '/') {
       path = '/api';
     }
-    final String normalizedPath =
-        path.replaceAll(InstanceEndpointPatterns.trailingSlashes, '');
+    final String normalizedPath = path.replaceAll(_trailingSlashesPattern, '');
     return url.replace(path: normalizedPath).toString();
   }
 
@@ -41,13 +36,12 @@ class InstanceEndpointNormalizer {
       final bool isOfficialApiHost =
           url.host == 'api.fluxer.app' || url.host == 'api.canary.fluxer.app';
       final String wellKnownPath = isOfficialApiHost
-          ? InstanceEndpointPatterns.wellKnownPathOfficial
-          : InstanceEndpointPatterns.wellKnownPathSelfHosted;
+          ? _wellKnownPathOfficial
+          : _wellKnownPathSelfHosted;
       return url.replace(path: wellKnownPath).toString();
     } on FormatException {
-      final String base =
-          apiEndpoint.replaceAll(InstanceEndpointPatterns.apiPathSuffix, '');
-      return '$base${InstanceEndpointPatterns.wellKnownPathSelfHosted}';
+      final String base = apiEndpoint.replaceAll(_apiPathSuffixPattern, '');
+      return '$base$_wellKnownPathSelfHosted';
     }
   }
 
@@ -61,6 +55,24 @@ class InstanceEndpointNormalizer {
       return '${url.host}$path';
     } on FormatException {
       return endpoint;
+    }
+  }
+
+  bool isOfficialInstanceInput(String input) {
+    final String trimmed = input.trim();
+    if (trimmed.isEmpty) {
+      return false;
+    }
+    try {
+      String candidate = trimmed;
+      if (!_schemePrefixPattern.hasMatch(candidate)) {
+        candidate = 'https://$candidate';
+      }
+      final String host = Uri.parse(candidate).host.toLowerCase();
+      return InstanceConstants.officialInstanceHosts.contains(host);
+    } on FormatException {
+      final String host = trimmed.split('/').first.toLowerCase();
+      return InstanceConstants.officialInstanceHosts.contains(host);
     }
   }
 

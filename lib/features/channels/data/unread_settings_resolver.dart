@@ -219,7 +219,9 @@ UserNotificationSettings resolveMessageNotifications({
     return direct;
   }
   if (channel.parentId != null) {
-    final parent = _explicitLevel(overrides[channel.parentId!]?.messageNotifications);
+    final parent = _explicitLevel(
+      overrides[channel.parentId!]?.messageNotifications,
+    );
     if (parent != null) {
       return parent;
     }

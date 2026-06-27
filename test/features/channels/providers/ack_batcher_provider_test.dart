@@ -32,7 +32,14 @@ class _BulkAdapter implements HttpClientAdapter {
     recordedBatches.add(
       readStates.map((e) => Map<String, Object?>.from(e! as Map)).toList(),
     );
-    return ResponseBody.fromString('', 204, statusMessage: 'No Content');
+    return ResponseBody.fromString(
+      '{"read_states":[],"read_state_proto":""}',
+      200,
+      statusMessage: 'OK',
+      headers: {
+        Headers.contentTypeHeader: [Headers.jsonContentType],
+      },
+    );
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
@@ -561,7 +562,7 @@ void main() {
     final db = FluxerDatabase.forTesting(NativeDatabase.memory());
     addTearDown(db.close);
     final ackId = _recentSnowflake(ago: const Duration(hours: 2));
-    final latestId = _recentSnowflake(ago: const Duration(hours: 1));
+    final latestId = _recentSnowflake();
     await _seedGuild(
       db,
       'guild-1',
@@ -722,4 +723,67 @@ void main() {
     expect(after.sentinel, before.sentinel);
     expect(after.hasUnread, before.hasUnread);
   });
+
+  test(
+    'resume re-seed keeps a channel read after the ack lands during recovery',
+    () async {
+      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+
+      final lastMessageId = _recentSnowflake();
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (
+            id: 'channel-1',
+            name: 'general',
+            type: 0,
+            lastMessageId: lastMessageId,
+          ),
+        ],
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(snowflakeAtPreviousMillisecond(lastMessageId)),
+        ),
+      );
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+      await _waitForGuildState(container, 'guild-1');
+      expect(
+        container.read(guildReadStateProvider)['guild-1']!.hasUnread,
+        isTrue,
+      );
+
+      // Soft RESUME: the recovery bump re-seeds, then the replayed ack lands.
+      // Guards against the re-seed re-marking the channel unread.
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(lastMessageId),
+        ),
+      );
+
+      await _waitFor(
+        () =>
+            container.read(guildReadStateProvider)['guild-1']?.hasUnread ==
+            false,
+      );
+      expect(
+        container.read(guildReadStateProvider)['guild-1']!.hasUnread,
+        isFalse,
+      );
+    },
+  );
 }

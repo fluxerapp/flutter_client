@@ -56,6 +56,45 @@ void main() {
     expect(error, 'Session timed out. Go back and log in again.');
   });
 
+  test('ignores SMS when choosing the initial supported MFA method', () {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    const challenge = MfaChallenge(
+      ticket: 'mfa-ticket',
+      totp: true,
+      sms: true,
+      webauthn: false,
+    );
+
+    final state = container.read(mfaViewModelProvider(challenge));
+
+    expect(challenge.hasMultipleMethods, isFalse);
+    expect(state.selectedMethod, MfaMethod.totp);
+    expect(state.error, isNull);
+  });
+
+  test('reports an unsupported challenge when only SMS is available', () {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    const challenge = MfaChallenge(
+      ticket: 'mfa-ticket',
+      totp: false,
+      sms: true,
+      webauthn: false,
+    );
+
+    final state = container.read(mfaViewModelProvider(challenge));
+
+    expect(challenge.hasMultipleMethods, isFalse);
+    expect(state.selectedMethod, isNull);
+    expect(
+      state.error,
+      'This sign-in challenge requires an unsupported MFA method.',
+    );
+  });
+
   test(
     'startWebauthn surfaces a passkey error instead of swallowing it',
     () async {

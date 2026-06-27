@@ -41,9 +41,7 @@ class SyncedPreferencesEngine {
     try {
       return pb.SyncedPreferences.fromBuffer(bytes);
     } on Object catch (error) {
-      throw SyncedPreferencesDecodeException(
-        error.toString(),
-      );
+      throw SyncedPreferencesDecodeException(error.toString());
     }
   }
 
@@ -79,10 +77,7 @@ class SyncedPreferencesEngine {
     required pb.SyncedPreferences right,
   }) {
     return _toFieldNames(
-      _changedFieldNumbers(
-        preferencesToBytes(left),
-        preferencesToBytes(right),
-      ),
+      _changedFieldNumbers(preferencesToBytes(left), preferencesToBytes(right)),
     );
   }
 
@@ -113,11 +108,15 @@ class SyncedPreferencesEngine {
   }) {
     final localBytes = preferencesToBytes(local);
     final incomingBytes = preferencesToBytes(incoming);
-    final inFlightBytes =
-        inFlight == null ? null : preferencesToBytes(inFlight);
-    final protectedSet = protectedFields.map((field) => field.fieldNumber).toSet();
-    final ackedSet =
-        recentlyAckedFields.map((field) => field.fieldNumber).toSet();
+    final inFlightBytes = inFlight == null
+        ? null
+        : preferencesToBytes(inFlight);
+    final protectedSet = protectedFields
+        .map((field) => field.fieldNumber)
+        .toSet();
+    final ackedSet = recentlyAckedFields
+        .map((field) => field.fieldNumber)
+        .toSet();
     final localFields = _indexFieldChunks(
       _parseTopLevelFieldChunks(localBytes),
     );
@@ -134,8 +133,7 @@ class SyncedPreferencesEngine {
       ...localFields.keys,
       ...incomingFields.keys,
       ...inFlightFields.keys,
-    }.toList()
-      ..sort();
+    }.toList()..sort();
     for (final field in fieldNumbers) {
       if (protectedSet.contains(field)) {
         merged = SyncedPreferencesWireCodec.replaceField(
@@ -191,9 +189,7 @@ List<int> _changedFieldNumbers(Uint8List left, Uint8List right) {
   final fieldNumbers = <int>{...leftFields.keys, ...rightFields.keys}.toList()
     ..sort();
   return fieldNumbers
-      .where(
-        (field) => !_chunksEqual(leftFields[field], rightFields[field]),
-      )
+      .where((field) => !_chunksEqual(leftFields[field], rightFields[field]))
       .toList();
 }
 
@@ -213,9 +209,7 @@ Map<int, List<Uint8List>> _indexFieldChunks(
 ) {
   final fields = <int, List<Uint8List>>{};
   for (final chunk in chunks) {
-    fields
-        .putIfAbsent(chunk.fieldNumber, () => <Uint8List>[])
-        .add(chunk.bytes);
+    fields.putIfAbsent(chunk.fieldNumber, () => <Uint8List>[]).add(chunk.bytes);
   }
   return fields;
 }

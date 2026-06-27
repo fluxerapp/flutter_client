@@ -6,73 +6,76 @@ import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
+  void syncForRoute(ProviderContainer container, String location) {
+    container.read(currentRevealSideProvider.notifier).syncForRoute(location);
+  }
+
+  void setRevealSide(ProviderContainer container, RevealSide side) {
+    container.read(currentRevealSideProvider.notifier).set(side);
+  }
+
   group('CurrentRevealSide.syncForRoute', () {
     test('same channels location does not overwrite manual state', () {
       final container = _bareContainer();
-      final notifier = container.read(currentRevealSideProvider.notifier);
 
-      notifier.syncForRoute('/channels/@me');
+      syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
 
-      notifier.set(RevealSide.main);
+      setRevealSide(container, RevealSide.main);
       expect(container.read(currentRevealSideProvider), RevealSide.main);
 
       // Same location re-syncs — must NOT overwrite the manual state.
-      notifier.syncForRoute('/channels/@me');
+      syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.main);
     });
 
     test('different channels location re-syncs', () {
       final container = _bareContainer();
-      final notifier = container.read(currentRevealSideProvider.notifier);
 
-      notifier.syncForRoute('/channels/@me');
-      notifier.set(RevealSide.main);
-      notifier.syncForRoute('/channels/guild/channel');
+      syncForRoute(container, '/channels/@me');
+      setRevealSide(container, RevealSide.main);
+      syncForRoute(container, '/channels/guild/channel');
       expect(container.read(currentRevealSideProvider), RevealSide.main);
 
-      notifier.syncForRoute('/channels/@me');
+      syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
     });
 
     test('members route does not flip the drawer', () {
       final container = _bareContainer();
-      final notifier = container.read(currentRevealSideProvider.notifier);
 
-      notifier.set(RevealSide.main);
-      notifier.syncForRoute('/channels/guild/members');
+      setRevealSide(container, RevealSide.main);
+      syncForRoute(container, '/channels/guild/members');
       expect(container.read(currentRevealSideProvider), RevealSide.main);
 
-      notifier.set(RevealSide.left);
-      notifier.syncForRoute('/channels/guild/members');
+      setRevealSide(container, RevealSide.left);
+      syncForRoute(container, '/channels/guild/members');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
     });
 
     test('non-channels location does not flip the drawer', () {
       final container = _bareContainer();
-      final notifier = container.read(currentRevealSideProvider.notifier);
 
-      notifier.set(RevealSide.main);
-      notifier.syncForRoute('/notifications');
+      setRevealSide(container, RevealSide.main);
+      syncForRoute(container, '/notifications');
       expect(container.read(currentRevealSideProvider), RevealSide.main);
 
-      notifier.set(RevealSide.left);
-      notifier.syncForRoute('/you');
+      setRevealSide(container, RevealSide.left);
+      syncForRoute(container, '/you');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
     });
 
     test('logout clears the guard so post-login sync still fires', () {
       final container = _bareContainer();
-      final notifier = container.read(currentRevealSideProvider.notifier);
       // Establish the logged-in baseline before observing logout → so the
       // listener actually sees a transition (default state is false).
       container.read(authStateProvider.notifier).setAuthenticated(value: true);
 
-      notifier.syncForRoute('/channels/@me');
+      syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
 
       // Simulate "user swipes drawer closed before logging out".
-      notifier.set(RevealSide.main);
+      setRevealSide(container, RevealSide.main);
 
       // Logout fires the listener and clears the guard.
       container.read(authStateProvider.notifier).setAuthenticated(value: false);
@@ -80,7 +83,7 @@ void main() {
       // After login, syncForRoute for the same location must re-apply
       // RevealSide.left even though the location string matches a stale
       // guard from the previous session.
-      notifier.syncForRoute('/channels/@me');
+      syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
     });
   });

@@ -7,12 +7,6 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 
-String _snowflakeForUtc(DateTime utc) {
-  const epoch = 1420070400000;
-  final internal = (utc.millisecondsSinceEpoch - epoch) << 22;
-  return internal.toString();
-}
-
 Future<Channel> _seedGuildChannel({
   required FluxerDatabase db,
   required String guildId,

@@ -32,8 +32,9 @@ class UnreadState {
 Stream<UnreadState> channelUnread(Ref ref, String channelId) {
   final db = ref.watch(fluxerDatabaseProvider);
   final currentUserId = ref.watch(currentUserIdProvider);
-  ref.watch(gatewayReadyProvider);
-  ref.watch(effectiveGuildChannelPermissionBitsProvider(channelId));
+  ref
+    ..watch(gatewayReadyProvider)
+    ..watch(effectiveGuildChannelPermissionBitsProvider(channelId));
   final controller = StreamController<UnreadState>();
   var disposed = false;
   StreamSubscription<Object?>? memberSub;

@@ -34,8 +34,8 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
       ref
           .read(addAccountInstanceGuardProvider.notifier)
           .arm(ref.read(activeInstanceProvider));
-      final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier);
-      notifier.hideAccountSelector();
+      final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier)
+        ..hideAccountSelector();
       if (widget.prefillEmail != null) {
         notifier.updateEmail(widget.prefillEmail!);
       }
@@ -45,7 +45,9 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
   void _releaseAddAccountGuard() {
     final String? currentUserId = ref.read(currentUserIdProvider);
     if (_initialUserId != null && currentUserId == _initialUserId) {
-      ref.read(addAccountInstanceGuardProvider.notifier).restoreActiveInstance();
+      ref
+          .read(addAccountInstanceGuardProvider.notifier)
+          .restoreActiveInstance();
       ref.invalidate(instanceSelectorProvider);
     }
     ref.read(addAccountInstanceGuardProvider.notifier).disarm();
@@ -96,7 +98,9 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
         body: SafeArea(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: isMobileLayout(context) ? double.infinity : 420),
+              constraints: BoxConstraints(
+                maxWidth: isMobileLayout(context) ? double.infinity : 420,
+              ),
               child: Padding(
                 padding: EdgeInsets.all(layout.s5),
                 child: AuthFlowContent(

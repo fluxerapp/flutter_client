@@ -140,6 +140,9 @@ class _ClaimAccountSheetState extends ConsumerState<ClaimAccountSheet>
         ),
       );
 
+      if (!mounted) {
+        return;
+      }
       final l10n = FluxerLocalizations.of(context);
       ref
           .read(toastProvider.notifier)
@@ -156,6 +159,9 @@ class _ClaimAccountSheetState extends ConsumerState<ClaimAccountSheet>
         Navigator.of(context).pop();
       }
     } on DioException catch (e) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _loading = false;
         _error = _extractError(e);

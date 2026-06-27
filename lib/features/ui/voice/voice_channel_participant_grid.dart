@@ -184,31 +184,34 @@ class _VoiceChannelParticipantGridState
           MapEntry<int, _VoiceGridTileItem> a,
           MapEntry<int, _VoiceGridTileItem> b,
         ) {
-      final int priorityA = _tilePriority(
-        a.value,
-        room,
-        me,
-        localConnectionId,
-        speakers,
-      );
-      final int priorityB = _tilePriority(
-        b.value,
-        room,
-        me,
-        localConnectionId,
-        speakers,
-      );
-      if (priorityA != priorityB) {
-        return priorityB.compareTo(priorityA);
-      }
-      return a.key.compareTo(b.key);
-    });
+          final int priorityA = _tilePriority(
+            a.value,
+            room,
+            me,
+            localConnectionId,
+            speakers,
+          );
+          final int priorityB = _tilePriority(
+            b.value,
+            room,
+            me,
+            localConnectionId,
+            speakers,
+          );
+          if (priorityA != priorityB) {
+            return priorityB.compareTo(priorityA);
+          }
+          return a.key.compareTo(b.key);
+        });
     return indexed
         .map((MapEntry<int, _VoiceGridTileItem> e) => e.value)
         .toList();
   }
 
-  void _syncWatch(String? activeScreenShareTileId, List<_VoiceGridTileItem> tiles) {
+  void _syncWatch(
+    String? activeScreenShareTileId,
+    List<_VoiceGridTileItem> tiles,
+  ) {
     final String? current = ref.read(voiceScreenShareWatchTileProvider);
     if (current != activeScreenShareTileId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -298,7 +301,9 @@ class _VoiceChannelParticipantGridState
       data: (List<VoiceChannelParticipantData> list) {
         if (list.isEmpty) {
           final bool isConnecting = ref.read(
-            voiceSessionProvider.select((VoiceSessionState s) => s.isConnecting),
+            voiceSessionProvider.select(
+              (VoiceSessionState s) => s.isConnecting,
+            ),
           );
           if (onThisChannel && isConnecting) {
             return Center(
@@ -355,7 +360,7 @@ class _VoiceChannelParticipantGridState
       loading: () => const Center(
         child: Padding(
           padding: EdgeInsets.all(24),
-          child: CircularProgressIndicator(),
+          child: FluxerLoadingSpinner(),
         ),
       ),
       error: (Object err, StackTrace s) {
@@ -668,7 +673,8 @@ class _VoiceChannelParticipantGridState
       streamPreviewUrl: buildViewerStreamPreviewUrl(
         baseUrl: baseUrl,
         voice: tile.data.voice,
-        isScreenShareTile: tile.source == VoiceParticipantTileSource.screenShare,
+        isScreenShareTile:
+            tile.source == VoiceParticipantTileSource.screenShare,
       ),
       authToken: authToken,
       onTap: () => _onTileTap(tile, isFocusMain),
@@ -811,7 +817,10 @@ class _VoiceParticipantCard extends StatelessWidget {
                 Positioned(
                   top: 8,
                   right: 8,
-                  child: _StreamStatusBadge(l10n: l10n, participant: participant),
+                  child: _StreamStatusBadge(
+                    l10n: l10n,
+                    participant: participant,
+                  ),
                 ),
               if (showOverlay)
                 Positioned(
@@ -864,7 +873,13 @@ class _StreamStatusBadge extends StatelessWidget {
   final FluxerLocalizations l10n;
   final Participant? participant;
 
-  static const List<int> _kResolutionHeights = <int>[480, 720, 1080, 1440, 2160];
+  static const List<int> _kResolutionHeights = <int>[
+    480,
+    720,
+    1080,
+    1440,
+    2160,
+  ];
 
   int _closestResolutionHeight(int height) {
     var closest = _kResolutionHeights.first;

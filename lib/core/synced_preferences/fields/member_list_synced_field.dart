@@ -36,7 +36,7 @@ class MemberListSyncedField extends SyncedFieldAdapter<MemberListLocalState> {
     }
     _ref
         .read(channelListViewModelProvider.notifier)
-        .setMemberListVisible(value.membersOpen);
+        .setMemberListVisible(isVisible: value.membersOpen);
   }
 
   @override

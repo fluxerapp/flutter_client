@@ -30,7 +30,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:fluxer_dart/export.dart';
 
-// TODO: Re-enable if needed for WhatsApp replacement eligibility rules.
+// TODO(Elias): Re-enable if needed for phone eligibility rules.
 const int _kMaxPasskeys = 10;
 
 class UserSecurityLogin extends ConsumerStatefulWidget {
@@ -44,7 +44,7 @@ class UserSecurityLogin extends ConsumerStatefulWidget {
 
 class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
   bool _emailRevealed = false;
-  // TODO: Switch phone-number flows to WhatsApp.
+  // TODO(Elias): Restore phone-number flows when backend support is ready.
   // bool _phoneRevealed = false;
 
   String _maskEmail(String email) {
@@ -55,7 +55,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     return '${'*' * atIndex}${email.substring(atIndex)}';
   }
 
-  // TODO: Switch phone-number flows to WhatsApp.
+  // TODO(Elias): Restore phone-number flows when backend support is ready.
   // String _maskPhone(String phone) {
   //   if (phone.length <= 4) {
   //     return '*' * phone.length;
@@ -242,14 +242,10 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
         _buildTfaSubsection(s, colors, l10n),
         SizedBox(height: layout.s8),
         _buildPasskeysSubsection(s, passkeyState, colors, l10n),
-        // TODO: Switch phone-number flows to WhatsApp.
+        // TODO(Elias): Restore phone-number flows when backend support is ready.
         // if (s.mfaEnabled) ...[
         //   SizedBox(height: layout.s8),
         //   _buildPhoneSubsection(s, colors, l10n),
-        // ],
-        // if (s.mfaEnabled && s.phone != null) ...[
-        //   SizedBox(height: layout.s8),
-        //   _buildSmsSubsection(s, colors, l10n),
         // ],
       ],
     );
@@ -467,7 +463,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
     }
   }
 
-  // TODO: Switch phone-number flows to WhatsApp.
+  // TODO(Elias): Restore phone-number flows when backend support is ready.
   // Widget _buildPhoneSubsection(
   //   UserSettingsViewState s,
   //   FluxerColorTheme colors,
@@ -522,15 +518,12 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
   //   );
   // }
 
-  // TODO: Switch phone-number flows to WhatsApp.
+  // TODO(Elias): Restore phone-number flows when backend support is ready.
   // Future<void> _handleRemovePhone(
   //   UserSettingsViewState s,
   //   FluxerLocalizations l10n,
   // ) async {
-  //   final description = s.hasSmsMfa
-  //       ? '${l10n.securityPhoneRemoveDescription}'
-  //             '\n\n${l10n.securityPhoneRemoveWarning}'
-  //       : l10n.securityPhoneRemoveDescription;
+  //   final description = l10n.securityPhoneRemoveDescription;
   //
   //   final confirmed = await FluxerConfirmModal.show(
   //     context,
@@ -559,93 +552,7 @@ class _UserSecurityLoginState extends ConsumerState<UserSecurityLogin> {
   //         );
   //     await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
   //   } on Exception {
-  //     // TODO: show error toast
-  //   }
-  // }
-
-  // TODO: Switch phone-number flows to WhatsApp.
-  // Widget _buildSmsSubsection(
-  //   UserSettingsViewState s,
-  //   FluxerColorTheme colors,
-  //   FluxerLocalizations l10n,
-  // ) {
-  //   final isDisabledForUser =
-  //       s.publicFlags & _kFlagStaff != 0 || s.publicFlags & _kFlagPartner != 0;
-  //
-  //   return FluxerSettingsSubsection(
-  //     title: l10n.securitySmsSectionTitle,
-  //     description: l10n.securitySmsSectionDescription,
-  //     children: [
-  //       _responsiveRow(
-  //         label: l10n.securitySmsBackup,
-  //         child: Text(
-  //           s.hasSmsMfa ? l10n.securitySmsEnabled : l10n.securitySmsDisabled,
-  //           style: TextStyle(fontSize: 14, color: colors.textPrimaryMuted),
-  //         ),
-  //         button: s.hasSmsMfa
-  //             ? FluxerButton.dangerPrimary(
-  //                 onPressedAsync: () => _handleDisableSms(l10n),
-  //                 label: l10n.disable,
-  //                 size: FluxerButtonSize.small,
-  //               )
-  //             : isDisabledForUser
-  //             ? FluxerTooltip(
-  //                 message: l10n.securitySmsDisabledForPartners,
-  //                 child: FluxerButton.primary(
-  //                   label: l10n.enable,
-  //                   size: FluxerButtonSize.small,
-  //                 ),
-  //               )
-  //             : FluxerButton.primary(
-  //                 onPressedAsync: () => _handleEnableSms(l10n),
-  //                 label: l10n.enable,
-  //                 size: FluxerButtonSize.small,
-  //               ),
-  //       ),
-  //     ],
-  //   );
-  // }
-  //
-  // Future<void> _handleEnableSms(FluxerLocalizations l10n) async {
-  //   final confirmed = await FluxerConfirmModal.show(
-  //     context,
-  //     title: l10n.securitySmsEnableTitle,
-  //     description: l10n.securitySmsEnableDescription,
-  //     confirmLabel: l10n.enable,
-  //     onConfirm: () {},
-  //   );
-  //   if (confirmed != true) {
-  //     return;
-  //   }
-  //
-  //   try {
-  //     final client = ref.read(fluxerClientProvider);
-  //     await client.users.enableSmsMfa(body: const SudoVerificationSchema());
-  //     await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
-  //   } on Exception {
-  //     // TODO: show error toast
-  //   }
-  // }
-  //
-  // Future<void> _handleDisableSms(FluxerLocalizations l10n) async {
-  //   final confirmed = await FluxerConfirmModal.show(
-  //     context,
-  //     title: l10n.securitySmsDisableTitle,
-  //     description: l10n.securitySmsDisableDescription,
-  //     confirmLabel: l10n.disable,
-  //     isDanger: true,
-  //     onConfirm: () {},
-  //   );
-  //   if (confirmed != true) {
-  //     return;
-  //   }
-  //
-  //   try {
-  //     final client = ref.read(fluxerClientProvider);
-  //     await client.users.disableSmsMfa(body: const SudoVerificationSchema());
-  //     await ref.read(userSettingsViewModelProvider.notifier).loadProfile();
-  //   } on Exception {
-  //     // TODO: show error toast
+  //     // TODO(Elias): show error toast
   //   }
   // }
 

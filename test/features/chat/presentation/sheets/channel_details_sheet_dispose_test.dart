@@ -5,17 +5,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/members/domain/member_list_range_utils.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/list/fluxer_list_row.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -28,19 +31,20 @@ class _FakeAppearance extends AppearancePreferences {
       const AppearancePreferencesState(showFavorites: false);
 }
 
-ProviderContainer _container(FluxerDatabase database) {
-  return ProviderContainer(
-    overrides: <Override>[
-      fluxerDatabaseProvider.overrideWithValue(database),
-      appearancePreferencesProvider.overrideWith(_FakeAppearance.new),
-      // Neutralise the gateway/router-driven subscription; unrelated to dispose.
-      memberListDetailsSubscriptionProvider(
-        _guildId,
-        _channelId,
-        true,
-      ).overrideWith((ref) {}),
-    ],
-  );
+ProviderContainer _container(FluxerDatabase database, {String? currentUserId}) {
+  final List<Override> overrides = <Override>[
+    fluxerDatabaseProvider.overrideWithValue(database),
+    appearancePreferencesProvider.overrideWith(_FakeAppearance.new),
+    // Neutralise the gateway/router-driven subscription; unrelated to dispose.
+    memberListDetailsSubscriptionProvider(
+      _guildId,
+      _channelId,
+      true,
+    ).overrideWith((ref) {}),
+    if (currentUserId != null)
+      currentUserIdProvider.overrideWithValue(currentUserId),
+  ];
+  return ProviderContainer(overrides: overrides);
 }
 
 Widget _host(ProviderContainer container, {required Widget child}) {
@@ -61,6 +65,53 @@ Widget _host(ProviderContainer container, {required Widget child}) {
 }
 
 void main() {
+  testWidgets('DM members tab shows the one-to-one recipient', (tester) async {
+    final FluxerDatabase database = FluxerDatabase.forTesting(
+      NativeDatabase.memory(),
+    );
+    addTearDown(database.close);
+    final ProviderContainer container = _container(
+      database,
+      currentUserId: '1000000000000000001',
+    );
+    addTearDown(container.dispose);
+    final ScrollController scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+
+    final DmConversation dm = DmConversation(
+      id: '1000000000000000002',
+      type: 1,
+      recipientId: '1000000000000000003',
+      recipientName: 'Other User',
+      lastMessage: '',
+      lastMessageTime: DateTime.fromMillisecondsSinceEpoch(0),
+      remoteRecipientIds: const <String>['1000000000000000003'],
+    );
+
+    await tester.pumpWidget(
+      _host(
+        container,
+        child: ChannelDetailsSheet(
+          channel: null,
+          dm: dm,
+          initialTab: ChannelDetailsInitialTab.members,
+          openSearchImmediately: false,
+          scrollController: scrollController,
+          close: () {},
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.byWidgetPredicate(
+        (Widget widget) =>
+            widget is FluxerListRow && widget.title == 'Other User',
+      ),
+      findsOneWidget,
+    );
+  });
+
   testWidgets(
     'disposing a guild-channel sheet clears member-list state without using ref',
     (tester) async {

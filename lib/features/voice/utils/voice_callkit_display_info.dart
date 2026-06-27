@@ -45,7 +45,9 @@ Guild? _resolveGuild(Ref ref, String guildId) {
 
 DmConversation? _resolveDmConversation(Ref ref, String channelId) {
   return findDmById(
-    ref.read(dmViewModelProvider.select((DmViewState state) => state.conversations)),
+    ref.read(
+      dmViewModelProvider.select((DmViewState state) => state.conversations),
+    ),
     channelId,
   );
 }
@@ -67,8 +69,7 @@ VoiceCallKitDisplayInfo resolveVoiceCallKitDisplayInfo({
             ? _resolveGuild(ref, guildId)
             : null);
     final String guildName = guild?.name ?? '';
-    final String subtitle =
-        guildName.isNotEmpty ? guildName : title;
+    final String subtitle = guildName.isNotEmpty ? guildName : title;
     return VoiceCallKitDisplayInfo(
       nameCaller: title,
       handle: subtitle,

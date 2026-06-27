@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,12 +20,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 class BackupCodesSheet extends ConsumerStatefulWidget {
   const BackupCodesSheet({required this.codes, super.key});
 
-  final List<MfaBackupCodeResponse> codes;
+  final List<MfaBackupCodesResponseBackupCodes> codes;
 
   static Future<void> showWithCodes(
     BuildContext context,
     WidgetRef ref, {
-    required List<MfaBackupCodeResponse> codes,
+    required List<MfaBackupCodesResponseBackupCodes> codes,
   }) {
     return FluxerBottomSheet.show<void>(
       context,
@@ -44,7 +46,7 @@ class BackupCodesSheet extends ConsumerStatefulWidget {
         await showWithCodes(context, ref, codes: response.backupCodes);
       }
     } on DioException {
-      // TODO: show error toast
+      // TODO(M0n7y5): Show error toast.
     }
   }
 
@@ -57,7 +59,7 @@ class _BackupCodesSheetState extends ConsumerState<BackupCodesSheet> {
 
   void _copyToClipboard() {
     final codesText = widget.codes.map((c) => c.code).join('\n');
-    Clipboard.setData(ClipboardData(text: codesText));
+    unawaited(Clipboard.setData(ClipboardData(text: codesText)));
 
     final l10n = FluxerLocalizations.of(context);
     ref

@@ -90,10 +90,7 @@ void main() {
   group('fallbackTypingUserDisplay', () {
     test('uses snowflake fallback for uncached typers', () {
       const String userId = '123456789012345678';
-      expect(
-        fallbackTypingUserDisplay(userId).displayName,
-        '12345678…',
-      );
+      expect(fallbackTypingUserDisplay(userId).displayName, '12345678…');
     });
   });
 }

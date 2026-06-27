@@ -23,8 +23,11 @@ class AppBuildConfig {
     'BUILD_TIMESTAMP',
   );
   // ignore: do_not_use_environment -- compile-time build flavor config
-  static const String _betaNumberValue = String.fromEnvironment(
-    'BETA_NUMBER',
+  static const String _betaNumberValue = String.fromEnvironment('BETA_NUMBER');
+  // ignore: do_not_use_environment -- compile-time build flavor config
+  static const String _signozOtlpTracesEndpointValue = String.fromEnvironment(
+    'SIGNOZ_OTLP_TRACES_ENDPOINT',
+    defaultValue: 'https://sgnz-otlp.fluxer.tools/v1/traces',
   );
   static AppBuildEnvironment get environment {
     switch (_environmentValue) {
@@ -83,4 +86,8 @@ class AppBuildConfig {
     }
     return int.tryParse(trimmed);
   }
+
+  static String get signozOtlpTracesEndpoint =>
+      _signozOtlpTracesEndpointValue.trim();
+  static bool get hasObservabilityConfig => signozOtlpTracesEndpoint.isNotEmpty;
 }

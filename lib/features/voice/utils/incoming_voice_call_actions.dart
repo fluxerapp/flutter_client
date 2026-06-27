@@ -58,9 +58,7 @@ Future<void> executeDeclineIncomingVoiceCall(
 ) async {
   final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
   final VoiceSessionState voice = ref.read(voiceSessionProvider);
-  ref
-      .read(activeCallsProvider.notifier)
-      .clearPendingRingForChannel(channelId);
+  ref.read(activeCallsProvider.notifier).clearPendingRingForChannel(channelId);
   if (voice.channelId == channelId && voice.isConnected) {
     await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
   }
@@ -121,9 +119,9 @@ Future<void> executeAcceptIncomingVoiceCallFromCallKit(
       return;
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(ctx);
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(content: Text(l10n.voiceJoinIncomingCallFailed)),
-    );
+    ScaffoldMessenger.of(
+      ctx,
+    ).showSnackBar(SnackBar(content: Text(l10n.voiceJoinIncomingCallFailed)));
   }
 }
 
@@ -168,7 +166,10 @@ Future<void> executeIgnoreIncomingVoiceCallFromCallKit(
   }
 }
 
-Future<void> executeAcceptIncomingVoiceCallCore(Ref ref, String channelId) async {
+Future<void> executeAcceptIncomingVoiceCallCore(
+  Ref ref,
+  String channelId,
+) async {
   final String? uid = ref.read(currentUserIdProvider);
   if (uid != null) {
     ref
@@ -180,23 +181,26 @@ Future<void> executeAcceptIncomingVoiceCallCore(Ref ref, String channelId) async
     channelId,
   );
   final String? guildIdForJoin = guildRow?.guildId;
-  await ref.read(voiceSessionProvider.notifier).connectToVoiceChannel(
-    guildId: guildIdForJoin,
-    channelId: channelId,
-  );
+  await ref
+      .read(voiceSessionProvider.notifier)
+      .connectToVoiceChannel(guildId: guildIdForJoin, channelId: channelId);
 }
 
-Future<void> executeDeclineIncomingVoiceCallCore(Ref ref, String channelId) async {
+Future<void> executeDeclineIncomingVoiceCallCore(
+  Ref ref,
+  String channelId,
+) async {
   final VoiceSessionState voice = ref.read(voiceSessionProvider);
-  ref
-      .read(activeCallsProvider.notifier)
-      .clearPendingRingForChannel(channelId);
+  ref.read(activeCallsProvider.notifier).clearPendingRingForChannel(channelId);
   if (voice.channelId == channelId && voice.isConnected) {
     await ref.read(voiceSessionProvider.notifier).leaveVoice(endCall: false);
   }
 }
 
-Future<void> executeIgnoreIncomingVoiceCallCore(Ref ref, String channelId) async {
+Future<void> executeIgnoreIncomingVoiceCallCore(
+  Ref ref,
+  String channelId,
+) async {
   final String? uid = ref.read(currentUserIdProvider);
   if (uid == null) {
     return;

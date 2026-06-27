@@ -1,6 +1,7 @@
 name: fluxer_captcha
 description: Universal captcha widget supporting Cloudflare Turnstile and hCaptcha.
 version: 1.0.0
+publish_to: none
 
 platforms:
   android:
@@ -19,9 +20,9 @@ dependencies:
     sdk: flutter
 
   flutter_inappwebview: ^6.2.0-beta.2
+  meta: any
   web: ^1.1.1
 
-  meta: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

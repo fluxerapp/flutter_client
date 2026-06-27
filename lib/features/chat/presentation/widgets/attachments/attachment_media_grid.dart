@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_expiry_footnote.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
@@ -11,8 +16,8 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/intl.dart';
 
-class AttachmentImageGrid extends StatelessWidget {
-  const AttachmentImageGrid({
+class AttachmentMediaGrid extends StatelessWidget {
+  const AttachmentMediaGrid({
     required this.attachments,
     required this.revealSpoilers,
     required this.dimensionSize,
@@ -65,12 +70,7 @@ class AttachmentImageGrid extends StatelessWidget {
         heroRatio: 16 / 9,
         rows: const [3, 3],
       ),
-      8 => _buildHeroGridLayout(
-        context,
-        visibleAttachments,
-        heroRatio: 3 / 2,
-        rows: const [2, 3, 3],
-      ),
+      8 => _buildRows(context, visibleAttachments, const [2, 3, 3]),
       9 => _buildRows(context, visibleAttachments, const [3, 3, 3]),
       10 => _buildHeroGridLayout(
         context,
@@ -87,14 +87,14 @@ class AttachmentImageGrid extends StatelessWidget {
       height: 300,
       child: Row(
         children: [
-          Expanded(child: _buildTile(context, items[0], 0)),
+          Expanded(child: _buildTile(context, items[0])),
           const SizedBox(width: _kGridGap),
           Expanded(
             child: Column(
               children: [
-                Expanded(child: _buildTile(context, items[1], 1)),
+                Expanded(child: _buildTile(context, items[1])),
                 const SizedBox(height: _kGridGap),
-                Expanded(child: _buildTile(context, items[2], 2)),
+                Expanded(child: _buildTile(context, items[2])),
               ],
             ),
           ),
@@ -113,15 +113,17 @@ class AttachmentImageGrid extends StatelessWidget {
     final List<Widget> children = <Widget>[
       AspectRatio(
         aspectRatio: heroRatio,
-        child: _buildTile(context, items[index], index++),
+        child: _buildTile(context, items[index]),
       ),
     ];
+    index++;
     for (final int rowCount in rows) {
       if (index >= items.length) {
         break;
       }
-      children.add(const SizedBox(height: _kGridGap));
-      children.add(_buildRow(context, items, index, rowCount));
+      children
+        ..add(const SizedBox(height: _kGridGap))
+        ..add(_buildRow(context, items, index, rowCount));
       index += rowCount;
     }
     return Column(
@@ -172,7 +174,7 @@ class AttachmentImageGrid extends StatelessWidget {
         Expanded(
           child: AspectRatio(
             aspectRatio: 1,
-            child: _buildTile(context, items[itemIndex], itemIndex),
+            child: _buildTile(context, items[itemIndex]),
           ),
         ),
       );
@@ -183,10 +185,18 @@ class AttachmentImageGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildTile(BuildContext context, Attachment attachment, int index) {
-    final bool canOpenViewer =
+  Widget _buildTile(BuildContext context, Attachment attachment) {
+    final bool isVideo = attachment.isVideo;
+    final bool canOpen =
         attachment.url.isNotEmpty && (!attachment.isSpoiler || revealSpoilers);
     final double dpr = MediaQuery.devicePixelRatioOf(context);
+    final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
+      dimensionSize,
+    );
+    final String displayUrl = isVideo
+        ? (ChatVideoSource.fromAttachment(attachment, dimensions).posterUrl ??
+              '')
+        : attachment.url;
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: SpoilerOverlay(
@@ -197,53 +207,86 @@ class AttachmentImageGrid extends StatelessWidget {
           isMatureMedia: attachment.isMatureMedia,
           borderRadius: BorderRadius.circular(8),
           child: GestureDetector(
-            onTap: canOpenViewer
-                ? () => showAttachmentMediaViewer(
-                    context,
-                    items: attachments
-                        .map(
-                          (Attachment item) => AttachmentMediaViewerItem(
-                            url: item.url,
-                            filename: item.filename,
-                            width: item.width,
-                            height: item.height,
-                            isMatureMedia: item.isMatureMedia,
-                          ),
-                        )
-                        .toList(),
-                    initialIndex: index,
-                    channelId: channelId,
-                    onForward: (channelId != null && messageId != null)
-                        ? (int i) => showForwardMediaSheet(
-                            context,
-                            sourceChannelId: channelId!,
-                            sourceMessageId: messageId!,
-                            attachmentIds: <String>[attachments[i].id],
-                          )
-                        : null,
-                  )
-                : null,
+            onTap: canOpen ? () => _openMedia(context, attachment) : null,
             child: DecoratedBox(
               decoration: const BoxDecoration(color: Colors.black),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return CachedNetworkImage(
-                    imageUrl: attachment.url,
-                    memCacheWidth: constraints.maxWidth.isFinite
-                        ? (constraints.maxWidth * dpr).round()
-                        : null,
-                    memCacheHeight: constraints.maxHeight.isFinite
-                        ? (constraints.maxHeight * dpr).round()
-                        : null,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) =>
-                        const ColoredBox(color: Colors.black),
-                  );
-                },
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      if (displayUrl.isEmpty) {
+                        return const ColoredBox(color: Colors.black);
+                      }
+                      final ({int? width, int? height}) cache =
+                          coverDecodeCacheSize(
+                            cellWidth: constraints.maxWidth,
+                            cellHeight: constraints.maxHeight,
+                            devicePixelRatio: dpr,
+                            sourceWidth: attachment.width,
+                            sourceHeight: attachment.height,
+                          );
+                      return CachedNetworkImage(
+                        imageUrl: displayUrl,
+                        memCacheWidth: cache.width,
+                        memCacheHeight: cache.height,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) =>
+                            const ColoredBox(color: Colors.black),
+                      );
+                    },
+                  ),
+                  if (isVideo) const VideoPlayButtonOverlay(),
+                ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _openMedia(BuildContext context, Attachment attachment) {
+    if (attachment.isVideo) {
+      unawaited(
+        showChatMobileFullscreenVideo(
+          context,
+          source: ChatVideoSource.fromAttachment(
+            attachment,
+            mediaDimensionsForSize(dimensionSize),
+          ),
+        ),
+      );
+      return;
+    }
+    final List<Attachment> images = attachments
+        .where((Attachment item) => !item.isVideo)
+        .toList();
+    final int initialIndex = images.indexOf(attachment);
+    unawaited(
+      showAttachmentMediaViewer(
+        context,
+        items: images
+            .map(
+              (Attachment item) => AttachmentMediaViewerItem(
+                url: item.url,
+                filename: item.filename,
+                width: item.width,
+                height: item.height,
+                isMatureMedia: item.isMatureMedia,
+              ),
+            )
+            .toList(),
+        initialIndex: initialIndex < 0 ? 0 : initialIndex,
+        channelId: channelId,
+        onForward: (channelId != null && messageId != null)
+            ? (int i) => showForwardMediaSheet(
+                context,
+                sourceChannelId: channelId!,
+                sourceMessageId: messageId!,
+                attachmentIds: <String>[images[i].id],
+              )
+            : null,
       ),
     );
   }
