@@ -47,6 +47,7 @@ class FluxerBottomSheet {
     bool enableDrag = true,
     double? maxHeight,
     bool isDismissible = true,
+    bool reserveBottomInset = true,
   }) {
     final layout = context.layout;
 
@@ -106,7 +107,10 @@ class FluxerBottomSheet {
                   ),
                 ],
                 Flexible(child: builder(sheetContext, close)),
-                SizedBox(height: bottomPadding > 0 ? bottomPadding : layout.s4),
+                if (reserveBottomInset)
+                  SizedBox(
+                    height: bottomPadding > 0 ? bottomPadding : layout.s4,
+                  ),
               ],
             ),
           ),

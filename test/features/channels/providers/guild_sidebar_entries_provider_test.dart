@@ -10,7 +10,7 @@ void main() {
       () {
         final List<GuildSidebarEntry> entries = flattenGuildSidebarEntries(
           categories: <ChannelCategory>[
-            ChannelCategory(
+            const ChannelCategory(
               id: 'cat1',
               name: 'My Category',
               channels: <Channel>[

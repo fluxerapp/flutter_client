@@ -28,6 +28,7 @@ Future<void> showVoiceChannelChatSheet(
     title: channelName,
     maxHeight: _kChatSheetMaxHeight,
     useRootNavigator: useRootNavigator,
+    reserveBottomInset: false,
     builder: (BuildContext sheetContext, VoidCallback close) {
       return SizedBox(
         width: double.infinity,
@@ -130,7 +131,10 @@ class _VoiceChannelChatSheetBodyState
     listenChatViewModelErrors(ref);
     return UploadDropOverlay(
       channelId: widget.channelId,
-      child: ChannelChatPanel(onClose: _handleClose),
+      child: ChannelChatPanel(
+        displayChannelId: widget.channelId,
+        onClose: _handleClose,
+      ),
     );
   }
 }

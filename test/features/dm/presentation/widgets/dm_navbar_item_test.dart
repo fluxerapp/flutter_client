@@ -10,8 +10,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_item.dart';
-import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
@@ -135,7 +135,7 @@ void main() {
                 recipientName: 'Group',
                 lastMessage: '',
                 lastMessageTime: DateTime.fromMillisecondsSinceEpoch(0),
-                groupMembers: [
+                groupMembers: const <GroupMemberInfo>[
                   GroupMemberInfo(id: '1000000000000000011', name: 'Alpha'),
                   GroupMemberInfo(id: '1000000000000000012', name: 'Beta'),
                   GroupMemberInfo(id: '1000000000000000013', name: 'Gamma'),

@@ -15,6 +15,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'member_list_subscription_provider.g.dart';
 
+@Riverpod(keepAlive: true)
+class MemberListPanelActive extends _$MemberListPanelActive {
+  @override
+  bool build() => false;
+
+  void setActive({required bool value}) {
+    state = value;
+  }
+}
+
 void _scheduleMemberListSync(Ref ref, void Function() sync) {
   scheduleMicrotask(() {
     if (!ref.mounted) {
@@ -67,9 +77,13 @@ void memberListSubscription(Ref ref) {
         (ChannelListState s) => s.isMemberListVisible,
       ),
     );
+    final bool isPanelActive = ref.read(memberListPanelActiveProvider);
     final String? guildId = ref.read(activeGuildIdProvider);
     final String? channelId = ref.read(activeChannelIdProvider);
-    if (!isMemberListVisible || guildId == null || channelId == null) {
+    if (!isMemberListVisible ||
+        !isPanelActive ||
+        guildId == null ||
+        channelId == null) {
       unsubscribe();
       return;
     }
@@ -128,9 +142,16 @@ void memberListSubscription(Ref ref) {
     subscribedGuildId = guildId;
     subscribedChannelId = channelId;
     lastSentRanges = normalized;
+    unawaited(
+      ref.read(guildSyncProvider.notifier).backfillMembersIfSparse(guildId),
+    );
   }
 
   ref
+    ..listen<bool>(
+      memberListPanelActiveProvider,
+      (_, _) => _scheduleMemberListSync(ref, syncSubscription),
+    )
     ..listen<Map<String, List<MemberListRange>>>(
       memberListDesiredRangesProvider,
       (_, _) => _scheduleMemberListSync(ref, syncSubscription),
@@ -251,6 +272,9 @@ void memberListDetailsSubscription(
     subscribedGuildId = guildId;
     subscribedChannelId = channelId;
     lastSentRanges = normalized;
+    unawaited(
+      ref.read(guildSyncProvider.notifier).backfillMembersIfSparse(guildId),
+    );
   }
 
   ref

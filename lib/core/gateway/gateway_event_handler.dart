@@ -951,6 +951,7 @@ class GatewayEventHandler {
                   id: Value(id),
                   data: Value(jsonEncode(region)),
                 ),
+                mode: InsertMode.insertOrReplace,
               );
         }
       }
@@ -1510,7 +1511,28 @@ class GatewayEventHandler {
   }
 
   void _handleTypingStart(TypingStartEvent event) {
+    final String? guildId = event.guildId;
+    final GuildMemberResponse? member = event.member;
+    if (guildId != null && member != null) {
+      unawaited(_hydrateTypingMemberIfMissing(guildId, member));
+    }
     onTypingStart?.call(event.channelId, event.userId);
+  }
+
+  // Hydrate the typer's member only when absent, mirroring the web client.
+  // Avoids clobbering fresher rows and re-emitting member streams each event.
+  Future<void> _hydrateTypingMemberIfMissing(
+    String guildId,
+    GuildMemberResponse member,
+  ) async {
+    final existing = await database.memberDao.getMemberByUserId(
+      member.user.id,
+      guildId,
+    );
+    if (existing != null) {
+      return;
+    }
+    _handleMemberUpsert(guildId, member);
   }
 
   void _handlePresenceUpdate(PresenceUpdateEvent event) {

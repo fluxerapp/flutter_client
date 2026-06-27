@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/members/presentation/widgets/member_list_mem
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
 import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
+import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -31,6 +32,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
   @override
   void initState() {
     super.initState();
+    ref.read(memberListPanelActiveProvider.notifier).setActive(value: true);
     _scrollController.addListener(_handleScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final String? guildId = ref.read(activeGuildIdProvider);
@@ -43,6 +45,12 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
       }
       _updateDesiredRanges();
     });
+  }
+
+  @override
+  void deactivate() {
+    ref.read(memberListPanelActiveProvider.notifier).setActive(value: false);
+    super.deactivate();
   }
 
   @override

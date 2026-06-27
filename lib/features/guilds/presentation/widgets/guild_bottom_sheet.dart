@@ -1,15 +1,17 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_menu_data.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 
 Future<GuildAction?> showGuildBottomSheet(
@@ -23,7 +25,9 @@ Future<GuildAction?> showGuildBottomSheet(
   bool hideMutedChannels = false,
   bool developerMode = false,
 }) async {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final groups = buildGuildMenuGroups(
+    l10n: l10n,
     hasUnread: hasUnread,
     isMuted: isMuted,
     isOwner: isOwner,
@@ -33,9 +37,34 @@ Future<GuildAction?> showGuildBottomSheet(
     developerMode: developerMode,
   );
 
-  final result = await FluxerBottomSheet.show<GuildAction>(
+  final result = await FluxerBottomSheet.showScrollable<GuildAction>(
     context,
-    builder: (context, _) => _GuildBottomSheet(guild: guild, groups: groups),
+    title: guild.name,
+    leading: _GuildAvatar(guild: guild),
+    subtitle: _GuildStats(guildId: guild.id, fallbackGuild: guild),
+    initialChildSize: 0.7,
+    maxChildSize: 0.85,
+    builder: (sheetContext, scrollController, close) {
+      final layout = sheetContext.layout;
+      void pop(GuildAction action) => Navigator.of(sheetContext).pop(action);
+
+      final menuGroups = <Widget>[
+        for (final group in groups)
+          if (group.isNotEmpty)
+            FluxerMenuGroup(
+              children: [
+                for (final entry in group)
+                  _buildMenuEntry(sheetContext, entry, pop),
+              ],
+            ),
+      ];
+
+      return ListView(
+        controller: scrollController,
+        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+        children: [FluxerBottomSheetGroupColumn(children: menuGroups)],
+      );
+    },
   );
 
   if (result == GuildAction.copyGuildId) {
@@ -45,161 +74,73 @@ Future<GuildAction?> showGuildBottomSheet(
   return result;
 }
 
-class _GuildBottomSheet extends StatelessWidget {
-  final Guild guild;
-  final List<GuildMenuGroup> groups;
-
-  const _GuildBottomSheet({required this.guild, required this.groups});
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = context.layout;
-    void pop(GuildAction action) => Navigator.of(context).pop(action);
-
-    final menuGroups = <Widget>[
-      for (final group in groups)
-        if (group.isNotEmpty)
-          FluxerMenuGroup(
-            children: [
-              for (final entry in group) _buildEntry(context, entry, pop),
-            ],
-          ),
-    ];
-
-    return DraggableScrollableSheet(
-      expand: false,
-      initialChildSize: 0.7,
-      maxChildSize: 0.85,
-      builder: (context, scrollController) {
-        return SafeArea(
-          bottom: Platform.isAndroid,
-          child: Column(
-            children: [
-              FluxerBottomSheetHeader(
-                leading: _GuildAvatar(guild: guild),
-                title: guild.name,
-                subtitle: _GuildStats(guild: guild),
-              ),
-              SizedBox(height: layout.s3),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: EdgeInsets.fromLTRB(
-                    layout.s4,
-                    0,
-                    layout.s4,
-                    layout.s4,
-                  ),
-                  children: [
-                    FluxerBottomSheetGroupColumn(children: menuGroups),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildEntry(
-    BuildContext context,
-    GuildMenuEntry entry,
-    void Function(GuildAction) pop,
-  ) {
-    return switch (entry) {
-      GuildMenuAction() => FluxerBottomSheetMenuItem(
-        label: entry.label,
-        hint: entry.hint,
-        icon: entry.icon,
-        isDanger: entry.isDanger,
-        onTap: () => pop(entry.action),
-      ),
-      GuildMenuSubmenu() => FluxerBottomSheetSubmenuItem(
-        label: entry.label,
-        hint: entry.hint,
-        onTap: () => _openSubmenuSheet(context, entry),
-      ),
-      GuildMenuCheckbox() => FluxerBottomSheetCheckboxItem(
-        label: entry.label,
-        isChecked: entry.isChecked,
-        onTap: () => pop(entry.action),
-      ),
-    };
-  }
-
-  void _openSubmenuSheet(BuildContext context, GuildMenuSubmenu submenu) {
-    final nav = Navigator.of(context);
-    unawaited(
-      FluxerBottomSheet.show<GuildAction>(
-        context,
-        builder: (_, _) => _GuildSubmenuSheet(submenu: submenu),
-      ).then((result) {
-        if (result != null) {
-          nav.pop(result);
-        }
-      }),
-    );
-  }
+Widget _buildMenuEntry(
+  BuildContext context,
+  GuildMenuEntry entry,
+  void Function(GuildAction) pop,
+) {
+  return switch (entry) {
+    GuildMenuAction() => FluxerBottomSheetMenuItem(
+      label: entry.label,
+      hint: entry.hint,
+      icon: entry.icon,
+      isDanger: entry.isDanger,
+      onTap: () => pop(entry.action),
+    ),
+    GuildMenuSubmenu() => FluxerBottomSheetSubmenuItem(
+      label: entry.label,
+      hint: entry.hint,
+      onTap: () => _openSubmenuSheet(context, entry),
+    ),
+    GuildMenuCheckbox() => FluxerBottomSheetCheckboxItem(
+      label: entry.label,
+      isChecked: entry.isChecked,
+      onTap: () => pop(entry.action),
+    ),
+  };
 }
 
-class _GuildSubmenuSheet extends StatelessWidget {
-  final GuildMenuSubmenu submenu;
-
-  const _GuildSubmenuSheet({required this.submenu});
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = context.layout;
-    void pop(GuildAction action) => Navigator.of(context).pop(action);
-
-    return DraggableScrollableSheet(
-      expand: false,
+void _openSubmenuSheet(BuildContext context, GuildMenuSubmenu submenu) {
+  final nav = Navigator.of(context);
+  unawaited(
+    FluxerBottomSheet.showScrollable<GuildAction>(
+      context,
+      title: submenu.label,
+      onBack: () => Navigator.of(context).pop(),
+      initialChildSize: 0.5,
       maxChildSize: 0.85,
-      builder: (context, scrollController) {
-        return SafeArea(
-          bottom: Platform.isAndroid,
-          child: Column(
-            children: [
-              FluxerBottomSheetSubmenuHeader(
-                title: submenu.label,
-                onBack: () => Navigator.of(context).pop(),
-              ),
-              SizedBox(height: layout.s3),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: EdgeInsets.fromLTRB(
-                    layout.s4,
-                    0,
-                    layout.s4,
-                    layout.s4,
-                  ),
+      builder: (sheetContext, scrollController, close) {
+        final layout = sheetContext.layout;
+        void pop(GuildAction action) => Navigator.of(sheetContext).pop(action);
+
+        return ListView(
+          controller: scrollController,
+          padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+          children: [
+            FluxerBottomSheetGroupColumn(
+              children: [
+                FluxerMenuGroup(
                   children: [
-                    FluxerBottomSheetGroupColumn(
-                      children: [
-                        FluxerMenuGroup(
-                          children: [
-                            for (final entry in submenu.children)
-                              if (entry is GuildMenuAction)
-                                FluxerBottomSheetMenuItem(
-                                  label: entry.label,
-                                  icon: entry.icon,
-                                  onTap: () => pop(entry.action),
-                                ),
-                          ],
+                    for (final entry in submenu.children)
+                      if (entry is GuildMenuAction)
+                        FluxerBottomSheetMenuItem(
+                          label: entry.label,
+                          icon: entry.icon,
+                          onTap: () => pop(entry.action),
                         ),
-                      ],
-                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         );
       },
-    );
-  }
+    ).then((result) {
+      if (result != null) {
+        nav.pop(result);
+      }
+    }),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -246,13 +187,22 @@ class _GuildAvatar extends StatelessWidget {
   }
 }
 
-class _GuildStats extends StatelessWidget {
-  final Guild guild;
+class _GuildStats extends ConsumerWidget {
+  final String guildId;
+  final Guild fallbackGuild;
 
-  const _GuildStats({required this.guild});
+  const _GuildStats({required this.guildId, required this.fallbackGuild});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Guild guild =
+        ref.watch(
+          guildListViewModelProvider.select(
+            (GuildListViewState state) =>
+                state.guilds.where((Guild g) => g.id == guildId).firstOrNull,
+          ),
+        ) ??
+        fallbackGuild;
     final colors = context.colors;
     final textStyle = context.textStyles.timestamp;
 

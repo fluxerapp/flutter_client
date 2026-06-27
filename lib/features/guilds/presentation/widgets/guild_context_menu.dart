@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kSubmenuGap = 4.0;
@@ -30,7 +31,9 @@ Future<GuildAction?> showGuildContextMenu(
   }
 
   final local = overlay.globalToLocal(position);
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final groups = buildGuildMenuGroups(
+    l10n: l10n,
     hasUnread: hasUnread,
     isMuted: isMuted,
     isOwner: isOwner,

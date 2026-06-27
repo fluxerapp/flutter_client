@@ -15,7 +15,6 @@ import 'package:fluxer_app/features/channels/providers/channel_list_view_model.d
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
@@ -165,13 +164,13 @@ List<Override> _voicePageOverrides({
     ),
     voiceJoinEligibilityProvider(
       _channelId,
-    ).overrideWith((ref) async => const VoiceJoinEligibility(canJoin: true)),
+    ).overrideWith((ref) => const VoiceJoinEligibility(canJoin: true)),
     voiceChannelTextChatSupportedProvider(
       _channelId,
-    ).overrideWith((ref) async => false),
+    ).overrideWith((ref) => false),
     voiceChannelParticipantsProvider(
       voiceChannelParticipantsFamilyKey(_guildId, _channelId),
-    ).overrideWith((ref) async => const <VoiceChannelParticipantData>[]),
+    ).overrideWith((ref) => const <VoiceChannelParticipantData>[]),
   ];
 }
 

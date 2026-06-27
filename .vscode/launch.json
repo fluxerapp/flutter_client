@@ -119,6 +119,19 @@
             ]
         },
         {
+            "name": "iOS Canary APNs (Profile)",
+            "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "args": [
+                "--flavor",
+                "canary",
+                "--dart-define-from-file=tool/dart_defines/canary.json",
+                "--dart-define=PUSH_PROVIDER=apns"
+            ]
+        },
+        {
             "name": "iOS Beta APNs",
             "preLaunchTask": "firebase: OSS (UnifiedPush / APNs)",
             "request": "launch",

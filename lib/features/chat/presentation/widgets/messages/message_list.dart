@@ -56,8 +56,8 @@ import 'package:scrollview_observer/scrollview_observer.dart';
 
 const _kUnreadDividerHeight = 16.0;
 const _kUnreadDateDividerHeight = 20.0;
-const _kMessageListScrollCacheExtent = 800.0;
-const _kMessageListCompactScrollCacheExtent = 200.0;
+const _kMessageListScrollCacheExtent = 1200.0;
+const _kMessageListCompactScrollCacheExtent = 400.0;
 
 // Riverpod does not export the concrete auto-dispose family type.
 // ignore: specify_nonobvious_property_types
@@ -542,6 +542,22 @@ class _MessageListState extends ConsumerState<MessageList> {
     );
   }
 
+  int? _findMessageListChildIndex(Key key, List<Message> messages) {
+    for (final MapEntry<String, GlobalKey> entry in _itemKeys.entries) {
+      if (entry.value != key) {
+        continue;
+      }
+      final int dataIndex = messages.indexWhere(
+        (Message message) => message.id == entry.key,
+      );
+      if (dataIndex == -1) {
+        return null;
+      }
+      return messages.length - 1 - dataIndex;
+    }
+    return null;
+  }
+
   Widget _buildMessageListView({
     required BuildContext context,
     required List<Message> messages,
@@ -583,7 +599,8 @@ class _MessageListState extends ConsumerState<MessageList> {
               itemCount:
                   messages.length + (startOfChannelHeader != null ? 1 : 0),
               addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
+              findChildIndexCallback: (Key key) =>
+                  _findMessageListChildIndex(key, messages),
               itemBuilder: (BuildContext context, int renderIndex) {
                 if (startOfChannelHeader != null &&
                     renderIndex == messages.length) {

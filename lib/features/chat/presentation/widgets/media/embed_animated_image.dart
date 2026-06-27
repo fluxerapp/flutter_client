@@ -30,7 +30,48 @@ class EmbedAnimatedImage extends StatefulWidget {
 }
 
 class _EmbedAnimatedImageState extends State<EmbedAnimatedImage> {
-  bool _visible = false;
+  late final ValueNotifier<bool> _visibleNotifier;
+  bool _hideScheduled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _visibleNotifier = ValueNotifier<bool>(false);
+  }
+
+  @override
+  void dispose() {
+    _hideScheduled = false;
+    _visibleNotifier.dispose();
+    super.dispose();
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) {
+      return;
+    }
+    final bool visible = info.visibleFraction > 0;
+    if (visible) {
+      _hideScheduled = false;
+      if (!_visibleNotifier.value) {
+        _visibleNotifier.value = true;
+      }
+      return;
+    }
+    if (!_visibleNotifier.value || _hideScheduled) {
+      return;
+    }
+    _hideScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _hideScheduled = false;
+      if (_visibleNotifier.value) {
+        _visibleNotifier.value = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +79,19 @@ class _EmbedAnimatedImageState extends State<EmbedAnimatedImage> {
       return widget.placeholder ?? const SizedBox.shrink();
     }
     return VisibilityDetector(
-      key: ValueKey('embed-gif-${widget.visibilityKey}'),
-      onVisibilityChanged: (info) {
-        final visible = info.visibleFraction > 0;
-        if (visible != _visible && mounted) {
-          setState(() => _visible = visible);
-        }
-      },
-      child: FluxerAnimatedImage(
-        animatedUrl: widget.animatedUrl,
-        staticUrl: widget.staticUrl,
-        playing: _visible,
-        fit: widget.fit,
-        placeholder: widget.placeholder,
+      key: ValueKey<String>('embed-gif-${widget.visibilityKey}'),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: ListenableBuilder(
+        listenable: _visibleNotifier,
+        builder: (BuildContext context, Widget? _) {
+          return FluxerAnimatedImage(
+            animatedUrl: widget.animatedUrl,
+            staticUrl: widget.staticUrl,
+            playing: _visibleNotifier.value,
+            fit: widget.fit,
+            placeholder: widget.placeholder,
+          );
+        },
       ),
     );
   }

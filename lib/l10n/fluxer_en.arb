@@ -5938,6 +5938,10 @@
   "@chatMessageEdited": {
     "description": "Message metadata label displayed after edited messages."
   },
+  "chatMessageSilent": "This was a @silent message.",
+  "@chatMessageSilent": {
+    "description": "Tooltip on the bell-slash icon beside a silent message. \"@silent\" is the literal command keyword and must not be translated."
+  },
   "chatMessageTimestampToday": "Today at {time}",
   "@chatMessageTimestampToday": {
     "description": "Inline chat message timestamp when the message was sent today. {time} is locale-formatted.",
@@ -6561,5 +6565,405 @@
   "instanceConnectionRequired": "Connect to the instance to sign in",
   "@instanceConnectionRequired": {
     "description": "Hint shown when login is blocked until instance discovery succeeds."
+  },
+  "comingSoon": "Coming soon",
+  "@comingSoon": {
+    "description": "Generic toast when a feature is not yet available."
+  },
+  "guildNavbarDirectMessages": "Direct Messages",
+  "@guildNavbarDirectMessages": {
+    "description": "Label for the direct messages entry in the guild navbar."
+  },
+  "guildNavbarExploreDiscoverableCommunities": "Explore Discoverable Communities",
+  "@guildNavbarExploreDiscoverableCommunities": {
+    "description": "Label for the explore communities button in the guild navbar."
+  },
+  "guildNavbarAddCommunity": "Add a Community",
+  "@guildNavbarAddCommunity": {
+    "description": "Label for the add community button in the guild navbar."
+  },
+  "guildNavbarHelp": "Help",
+  "@guildNavbarHelp": {
+    "description": "Label for the help button in the guild navbar."
+  },
+  "guildNavbarCollapseFolder": "Collapse {folderName}",
+  "@guildNavbarCollapseFolder": {
+    "description": "Tooltip when collapsing a guild folder in the navbar.",
+    "placeholders": {
+      "folderName": {
+        "type": "String"
+      }
+    }
+  },
+  "guildNavbarGroupDm": "Group DM",
+  "@guildNavbarGroupDm": {
+    "description": "Secondary label for a group DM in the invite recipients list."
+  },
+  "guildNavbarCreateChannel": "Create Channel",
+  "@guildNavbarCreateChannel": {
+    "description": "Title and confirm label for the create channel modal."
+  },
+  "guildNavbarChannelType": "Channel Type",
+  "@guildNavbarChannelType": {
+    "description": "Section label for channel type selection in create channel modal."
+  },
+  "guildNavbarTextChannel": "Text Channel",
+  "@guildNavbarTextChannel": {
+    "description": "Label for the text channel type option."
+  },
+  "guildNavbarTextChannelDescription": "Send messages, images, GIFs, and emoji",
+  "@guildNavbarTextChannelDescription": {
+    "description": "Description for the text channel type option."
+  },
+  "guildNavbarVoiceChannel": "Voice Channel",
+  "@guildNavbarVoiceChannel": {
+    "description": "Label for the voice channel type option."
+  },
+  "guildNavbarVoiceChannelDescription": "Hang out together with voice, video, and screen share",
+  "@guildNavbarVoiceChannelDescription": {
+    "description": "Description for the voice channel type option."
+  },
+  "guildNavbarLinkChannel": "Link Channel",
+  "@guildNavbarLinkChannel": {
+    "description": "Label for the link channel type option."
+  },
+  "guildNavbarLinkChannelDescription": "Quick access to an external website or resource",
+  "@guildNavbarLinkChannelDescription": {
+    "description": "Description for the link channel type option."
+  },
+  "guildNavbarNameLabel": "Name",
+  "@guildNavbarNameLabel": {
+    "description": "Label for name input fields in guild navbar modals."
+  },
+  "guildNavbarNewChannelHint": "new-channel",
+  "@guildNavbarNewChannelHint": {
+    "description": "Placeholder hint for new channel name input."
+  },
+  "guildNavbarUrlLabel": "URL",
+  "@guildNavbarUrlLabel": {
+    "description": "Label for URL input in link channel creation."
+  },
+  "guildNavbarUrlHint": "https://example.com",
+  "@guildNavbarUrlHint": {
+    "description": "Placeholder hint for URL input in link channel creation."
+  },
+  "guildNavbarCreateCategory": "Create Category",
+  "@guildNavbarCreateCategory": {
+    "description": "Title and confirm label for the create category modal."
+  },
+  "guildNavbarNewCategoryHint": "New Category",
+  "@guildNavbarNewCategoryHint": {
+    "description": "Placeholder hint for new category name input."
+  },
+  "guildNavbarInviteFriendsTo": "Invite friends to {communityName}",
+  "@guildNavbarInviteFriendsTo": {
+    "description": "Title for the invite members modal.",
+    "placeholders": {
+      "communityName": {
+        "type": "String"
+      }
+    }
+  },
+  "guildNavbarInviteRecipientsChannel": "Recipients will be taken to #{channelName}",
+  "@guildNavbarInviteRecipientsChannel": {
+    "description": "Subtitle explaining which channel invite recipients land in.",
+    "placeholders": {
+      "channelName": {
+        "type": "String"
+      }
+    }
+  },
+  "guildNavbarSearchFriends": "Search friends",
+  "@guildNavbarSearchFriends": {
+    "description": "Search input hint in the invite members modal."
+  },
+  "guildNavbarNoFriendsYet": "No friends yet",
+  "@guildNavbarNoFriendsYet": {
+    "description": "Empty state when there are no friends to invite."
+  },
+  "guildNavbarNoResults": "No results",
+  "@guildNavbarNoResults": {
+    "description": "Empty state when friend search returns no matches."
+  },
+  "guildNavbarInviteLinkPrompt": "Or, send an invite link to a friend:",
+  "@guildNavbarInviteLinkPrompt": {
+    "description": "Prompt above the invite link field in the invite modal."
+  },
+  "guildNavbarInviteLink": "Invite link",
+  "@guildNavbarInviteLink": {
+    "description": "Hint text for the invite link field."
+  },
+  "guildNavbarCopy": "Copy",
+  "@guildNavbarCopy": {
+    "description": "Button to copy the invite link."
+  },
+  "guildNavbarCopied": "Copied!",
+  "@guildNavbarCopied": {
+    "description": "Button label after copying the invite link."
+  },
+  "guildNavbarInviteExpiresSevenDays": "Your invite link expires in 7 days.",
+  "@guildNavbarInviteExpiresSevenDays": {
+    "description": "Default invite link expiry notice."
+  },
+  "guildNavbarInviteNeverExpires": "This invite link never expires.",
+  "@guildNavbarInviteNeverExpires": {
+    "description": "Notice when an invite link has no expiry."
+  },
+  "guildNavbarInviteExpiresIn": "Your invite link expires in {duration}.",
+  "@guildNavbarInviteExpiresIn": {
+    "description": "Notice when an invite link expires after a custom duration.",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "guildNavbarEditInviteLink": "Edit invite link",
+  "@guildNavbarEditInviteLink": {
+    "description": "Link to edit invite link settings."
+  },
+  "guildNavbarInviteLinkSettings": "Invite link settings",
+  "@guildNavbarInviteLinkSettings": {
+    "description": "Title for the invite link settings modal."
+  },
+  "guildNavbarExpireAfter": "Expire After",
+  "@guildNavbarExpireAfter": {
+    "description": "Label for invite link expiry dropdown."
+  },
+  "guildNavbarMaxUses": "Max Number of Uses",
+  "@guildNavbarMaxUses": {
+    "description": "Label for invite link max uses dropdown."
+  },
+  "guildNavbarGrantTemporaryMembership": "Grant Temporary Membership",
+  "@guildNavbarGrantTemporaryMembership": {
+    "description": "Toggle label for temporary membership on invite links."
+  },
+  "guildNavbarTemporaryMembershipDescription": "Members will be removed when they go offline unless a role is assigned",
+  "@guildNavbarTemporaryMembershipDescription": {
+    "description": "Description for the temporary membership toggle."
+  },
+  "guildNavbarCreateNewLink": "Create New Link",
+  "@guildNavbarCreateNewLink": {
+    "description": "Confirm button in invite link settings modal."
+  },
+  "guildNavbarSent": "Sent",
+  "@guildNavbarSent": {
+    "description": "Button label after an invite was sent to a recipient."
+  },
+  "guildNavbarInvite": "Invite",
+  "@guildNavbarInvite": {
+    "description": "Button to send an invite to a recipient."
+  },
+  "guildNavbarLeaveCommunityTitle": "Leave Community",
+  "@guildNavbarLeaveCommunityTitle": {
+    "description": "Title for the leave community confirmation dialog."
+  },
+  "guildNavbarLeaveCommunityDescription": "Are you sure you want to leave this community? You will no longer be able to see any messages.",
+  "@guildNavbarLeaveCommunityDescription": {
+    "description": "Description for the leave community confirmation dialog."
+  },
+  "guildNavbarLeaveCommunityConfirm": "Leave Community",
+  "@guildNavbarLeaveCommunityConfirm": {
+    "description": "Confirm button for the leave community dialog."
+  },
+  "guildNavbarDeleteMyMessagesTitle": "Delete your messages in this community?",
+  "@guildNavbarDeleteMyMessagesTitle": {
+    "description": "Title for the delete my messages confirmation dialog."
+  },
+  "guildNavbarDeleteMyMessagesDescription": "Permanently delete every message you've sent here, across every channel. Cannot be undone.",
+  "@guildNavbarDeleteMyMessagesDescription": {
+    "description": "Description for the delete my messages confirmation dialog."
+  },
+  "guildNavbarDeleteMyMessagesConfirm": "Delete My Messages",
+  "@guildNavbarDeleteMyMessagesConfirm": {
+    "description": "Confirm button for the delete my messages dialog."
+  },
+  "guildNavbarDeletedYourMessages": "Deleted your messages",
+  "@guildNavbarDeletedYourMessages": {
+    "description": "Success toast after deleting messages in a community."
+  },
+  "guildNavbarCouldNotDeleteYourMessages": "Couldn't delete your messages",
+  "@guildNavbarCouldNotDeleteYourMessages": {
+    "description": "Error toast when deleting messages in a community fails."
+  },
+  "guildNavbarRemoveOverride": "Remove override",
+  "@guildNavbarRemoveOverride": {
+    "description": "Semantic label for removing a per-channel notification override."
+  },
+  "guildNavbarMutedUntil": "Muted until {formattedDate}",
+  "@guildNavbarMutedUntil": {
+    "description": "Guild tooltip text when the community is muted until a specific time.",
+    "placeholders": {
+      "formattedDate": {
+        "type": "String"
+      }
+    }
+  },
+  "guildNavbarStaffOnlyAccessible": "Only accessible to Fluxer staff",
+  "@guildNavbarStaffOnlyAccessible": {
+    "description": "Guild tooltip when the community is staff-only."
+  },
+  "guildNavbarInvitesPaused": "Invites are currently paused in this community",
+  "@guildNavbarInvitesPaused": {
+    "description": "Guild tooltip when invites are disabled."
+  },
+  "guildNavbarDurationNever": "never",
+  "@guildNavbarDurationNever": {
+    "description": "Invite expiry duration label for no expiry."
+  },
+  "guildNavbarDuration30Minutes": "30 minutes",
+  "@guildNavbarDuration30Minutes": {
+    "description": "Invite expiry duration label for 30 minutes."
+  },
+  "guildNavbarDuration1Hour": "1 hour",
+  "@guildNavbarDuration1Hour": {
+    "description": "Invite expiry duration label for 1 hour."
+  },
+  "guildNavbarDuration6Hours": "6 hours",
+  "@guildNavbarDuration6Hours": {
+    "description": "Invite expiry duration label for 6 hours."
+  },
+  "guildNavbarDuration12Hours": "12 hours",
+  "@guildNavbarDuration12Hours": {
+    "description": "Invite expiry duration label for 12 hours."
+  },
+  "guildNavbarDuration1Day": "1 day",
+  "@guildNavbarDuration1Day": {
+    "description": "Invite expiry duration label for 1 day."
+  },
+  "guildNavbarDuration7Days": "7 days",
+  "@guildNavbarDuration7Days": {
+    "description": "Invite expiry duration label for 7 days."
+  },
+  "guildNavbarDurationSeconds": "{count} seconds",
+  "@guildNavbarDurationSeconds": {
+    "description": "Invite expiry duration label for a custom number of seconds.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "guildNavbarNever": "Never",
+  "@guildNavbarNever": {
+    "description": "Invite expiry select option for no expiry."
+  },
+  "guildNavbarNoLimit": "No limit",
+  "@guildNavbarNoLimit": {
+    "description": "Invite max uses select option for unlimited uses."
+  },
+  "guildNavbarOneUse": "1 use",
+  "@guildNavbarOneUse": {
+    "description": "Invite max uses select option for a single use."
+  },
+  "guildNavbarUses": "{count} uses",
+  "@guildNavbarUses": {
+    "description": "Invite max uses select option for a specific number of uses.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "guildMenuMarkAsRead": "Mark as Read",
+  "@guildMenuMarkAsRead": {
+    "description": "Guild menu action to mark all channels as read."
+  },
+  "guildMenuInviteMembers": "Invite Members",
+  "@guildMenuInviteMembers": {
+    "description": "Guild menu action to open the invite members flow."
+  },
+  "guildMenuCommunitySettings": "Community Settings",
+  "@guildMenuCommunitySettings": {
+    "description": "Guild menu submenu for community settings tabs."
+  },
+  "guildMenuReportRaid": "Report Raid",
+  "@guildMenuReportRaid": {
+    "description": "Guild menu action to report a raid."
+  },
+  "guildMenuEditCommunityProfile": "Edit Community Profile",
+  "@guildMenuEditCommunityProfile": {
+    "description": "Guild menu action to edit the community profile."
+  },
+  "guildMenuUnmuteCommunity": "Unmute Community",
+  "@guildMenuUnmuteCommunity": {
+    "description": "Guild menu action to unmute the community."
+  },
+  "guildMenuMuteCommunity": "Mute Community",
+  "@guildMenuMuteCommunity": {
+    "description": "Guild menu submenu to mute the community."
+  },
+  "guildMenuHideMutedChannels": "Hide Muted Channels",
+  "@guildMenuHideMutedChannels": {
+    "description": "Guild menu checkbox to hide muted channels."
+  },
+  "guildMenuReportCommunity": "Report Community",
+  "@guildMenuReportCommunity": {
+    "description": "Guild menu action to report the community."
+  },
+  "guildMenuDebugCommunity": "Debug Community",
+  "@guildMenuDebugCommunity": {
+    "description": "Guild menu action to open community debug info."
+  },
+  "guildMenuCopyCommunityId": "Copy Community ID",
+  "@guildMenuCopyCommunityId": {
+    "description": "Guild menu action to copy the community ID."
+  },
+  "guildMenuMutedUntil": "Until {formattedTime}",
+  "@guildMenuMutedUntil": {
+    "description": "Guild menu hint showing when a community mute expires.",
+    "placeholders": {
+      "formattedTime": {
+        "type": "String"
+      }
+    }
+  },
+  "guildMenuSettingsGeneral": "General",
+  "@guildMenuSettingsGeneral": {
+    "description": "Community settings tab for general overview."
+  },
+  "guildMenuSettingsRoles": "Roles & Permissions",
+  "@guildMenuSettingsRoles": {
+    "description": "Community settings tab for roles and permissions."
+  },
+  "guildMenuSettingsEmoji": "Custom Emoji",
+  "@guildMenuSettingsEmoji": {
+    "description": "Community settings tab for custom emoji."
+  },
+  "guildMenuSettingsStickers": "Custom Stickers",
+  "@guildMenuSettingsStickers": {
+    "description": "Community settings tab for custom stickers."
+  },
+  "guildMenuSettingsSafetyModeration": "Safety & Moderation",
+  "@guildMenuSettingsSafetyModeration": {
+    "description": "Community settings tab for safety and moderation."
+  },
+  "guildMenuSettingsActivityLog": "Activity Log",
+  "@guildMenuSettingsActivityLog": {
+    "description": "Community settings tab for the activity log."
+  },
+  "guildMenuSettingsWebhooks": "Webhooks",
+  "@guildMenuSettingsWebhooks": {
+    "description": "Community settings tab for webhooks."
+  },
+  "guildMenuSettingsCustomInviteUrl": "Custom Invite URL",
+  "@guildMenuSettingsCustomInviteUrl": {
+    "description": "Community settings tab for custom invite URLs."
+  },
+  "guildMenuSettingsDiscovery": "Discovery",
+  "@guildMenuSettingsDiscovery": {
+    "description": "Community settings tab for discovery settings."
+  },
+  "guildMenuSettingsMembers": "Members",
+  "@guildMenuSettingsMembers": {
+    "description": "Community settings tab for member management."
+  },
+  "guildMenuSettingsInviteLinks": "Invite Links",
+  "@guildMenuSettingsInviteLinks": {
+    "description": "Community settings tab for invite links."
+  },
+  "guildMenuSettingsBans": "Bans",
+  "@guildMenuSettingsBans": {
+    "description": "Community settings tab for banned members."
   }
 }

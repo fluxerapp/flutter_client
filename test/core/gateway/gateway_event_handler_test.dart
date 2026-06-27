@@ -288,6 +288,106 @@ void main() {
       expect(parsed?.emojiAnimated, isTrue);
     });
   });
+
+  group('typing start', () {
+    const guildId = 'guild-1';
+    const channelId = 'channel-1';
+    const typerId = '300';
+
+    TypingStartEvent typingEvent({GuildMemberResponse? member}) =>
+        TypingStartEvent(
+          channelId: channelId,
+          userId: typerId,
+          timestamp: DateTime.utc(2026),
+          guildId: member == null ? null : guildId,
+          member: member,
+        );
+
+    Future<void> waitFor(Future<bool> Function() condition) async {
+      for (var i = 0; i < 50; i++) {
+        if (await condition()) {
+          return;
+        }
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+      }
+      fail('condition not met within timeout');
+    }
+
+    test('hydrates the typer member when absent from cache', () async {
+      final database = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(database.close);
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+
+      await handler.handle(
+        typingEvent(member: _member(typerId, nick: 'Monty')),
+      );
+
+      await waitFor(
+        () async =>
+            (await database.memberDao.getMemberByUserId(typerId, guildId)) !=
+            null,
+      );
+      await waitFor(
+        () async => (await database.userDao.getUserById(typerId)) != null,
+      );
+      final member = await database.memberDao.getMemberByUserId(
+        typerId,
+        guildId,
+      );
+      expect(member?.nick, 'Monty');
+    });
+
+    test('does not overwrite an already cached member', () async {
+      final database = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(database.close);
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+
+      await handler.handle(
+        typingEvent(member: _member(typerId, nick: 'first')),
+      );
+      await waitFor(
+        () async =>
+            (await database.memberDao.getMemberByUserId(
+              typerId,
+              guildId,
+            ))?.nick ==
+            'first',
+      );
+
+      await handler.handle(
+        typingEvent(member: _member(typerId, nick: 'second')),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      final member = await database.memberDao.getMemberByUserId(
+        typerId,
+        guildId,
+      );
+      expect(member?.nick, 'first');
+    });
+
+    test('skips member hydration for DM typing without a guild', () async {
+      final database = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(database.close);
+      final handler = GatewayEventHandler(
+        database: database,
+        currentUserId: '100',
+      );
+
+      await handler.handle(typingEvent());
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      final member = await database.memberDao.getMemberByUserId(
+        typerId,
+        guildId,
+      );
+      expect(member, isNull);
+    });
+  });
 }
 
 UserPrivateResponse _user() => UserPrivateResponse.fromJson({
@@ -375,18 +475,20 @@ Map<String, dynamic> _guildWithSticker() => {
   ],
 };
 
-GuildMemberResponse _member(String userId) => GuildMemberResponse(
-  user: UserPartialResponse(
-    id: userId,
-    username: 'user-$userId',
-    discriminator: '0001',
-    globalName: null,
-    avatar: null,
-    avatarColor: null,
-    flags: 0,
-  ),
-  roles: const <String>[],
-  joinedAt: DateTime.utc(2024),
-  mute: false,
-  deaf: false,
-);
+GuildMemberResponse _member(String userId, {String? nick}) =>
+    GuildMemberResponse(
+      user: UserPartialResponse(
+        id: userId,
+        username: 'user-$userId',
+        discriminator: '0001',
+        globalName: null,
+        avatar: null,
+        avatarColor: null,
+        flags: 0,
+      ),
+      roles: const <String>[],
+      joinedAt: DateTime.utc(2024),
+      mute: false,
+      deaf: false,
+      nick: nick,
+    );

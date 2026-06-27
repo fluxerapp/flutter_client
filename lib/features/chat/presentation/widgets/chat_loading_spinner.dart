@@ -15,6 +15,8 @@ class ChatLoadingSpinner extends StatelessWidget {
       debugLogChatSpinnerMount(reason);
       return true;
     }(), 'Log chat spinner mount for debug builds.');
-    return RepaintBoundary(child: FluxerLoadingSpinner(color: color));
+    return RepaintBoundary(
+      child: ExcludeSemantics(child: FluxerLoadingSpinner(color: color)),
+    );
   }
 }

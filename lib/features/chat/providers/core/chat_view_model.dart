@@ -46,7 +46,6 @@ import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/url_sanitization_utils.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -1873,9 +1872,9 @@ class ChatViewModel extends _$ChatViewModel {
         .channelDao
         .getChannelById(channelId);
     final guildId = channelRow?.guildId ?? '';
-    int? guildBits;
+    ChannelPermissionBitsOutcome? permissionOutcome;
     if (guildId.isNotEmpty) {
-      final ChannelPermissionBitsOutcome permissionOutcome =
+      permissionOutcome =
           await computeEffectiveGuildChannelPermissionBitsOutcome(
             ref: ref,
             channelId: channelId,
@@ -1893,19 +1892,12 @@ class ChatViewModel extends _$ChatViewModel {
           return;
         }
       }
-      guildBits = await ref
-          .read(guildPermissionsProvider.notifier)
-          .getPermissions(guildId);
     }
     final rateLimit = channelRow?.rateLimitPerUser ?? 0;
     if (rateLimit > 0) {
-      var isImmune = false;
-      if (guildId.isNotEmpty && guildBits != null) {
-        isImmune =
-            hasPermission(guildBits, Permission.bypassSlowmode) ||
-            hasPermission(guildBits, Permission.manageChannels) ||
-            hasPermission(guildBits, Permission.manageMessages);
-      }
+      final bool isImmune =
+          permissionOutcome != null &&
+          hasPermission(permissionOutcome.value, Permission.bypassSlowmode);
       if (!isImmune) {
         final remaining = ref
             .read(slowmodeTrackerProvider.notifier)

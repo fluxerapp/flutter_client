@@ -10,6 +10,7 @@ Message _message({
   bool authorIsBot = false,
   String? webhookId,
   DateTime? timestamp,
+  int flags = 0,
 }) {
   return Message(
     id: id,
@@ -21,6 +22,7 @@ Message _message({
     webhookId: webhookId,
     content: 'hello',
     timestamp: timestamp ?? DateTime.utc(2026, 1, 1, 12),
+    flags: flags,
   );
 }
 
@@ -39,6 +41,43 @@ void main() {
         authorName: 'Alice',
         authorAvatar: 'avatar_a',
         timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+      );
+      expect(shouldGroupMessages(second, first), isTrue);
+    });
+
+    test('does not group a silent message under a non-silent one', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Jiralite',
+        authorAvatar: 'avatar_a',
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Jiralite',
+        authorAvatar: 'avatar_a',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+        flags: messageFlagSuppressNotifications,
+      );
+      expect(shouldGroupMessages(second, first), isFalse);
+    });
+
+    test('groups consecutive silent messages from same author', () {
+      final Message first = _message(
+        id: '1',
+        authorId: 'user',
+        authorName: 'Jiralite',
+        authorAvatar: 'avatar_a',
+        flags: messageFlagSuppressNotifications,
+      );
+      final Message second = _message(
+        id: '2',
+        authorId: 'user',
+        authorName: 'Jiralite',
+        authorAvatar: 'avatar_a',
+        timestamp: DateTime.utc(2026, 1, 1, 12, 1),
+        flags: messageFlagSuppressNotifications,
       );
       expect(shouldGroupMessages(second, first), isTrue);
     });

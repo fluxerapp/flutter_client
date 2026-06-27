@@ -33,13 +33,12 @@ class GuildSync extends _$GuildSync {
       );
       state = {...state, guildId};
       prefetchGuildRoles(ref.read(memberRepositoryProvider), guildId);
-      unawaited(_backfillMembersIfSparse(guildId));
     } on Object catch (e) {
       talker.warning('[GuildSync] Failed to sync guild $guildId: $e');
     }
   }
 
-  Future<void> _backfillMembersIfSparse(String guildId) async {
+  Future<void> backfillMembersIfSparse(String guildId) async {
     await ref
         .read(guildMemberChunkWaiterProvider)
         .waitForChunk(guildId, timeout: const Duration(seconds: 3));

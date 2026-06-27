@@ -4706,6 +4706,9 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
   String get chatMessageEdited => '(edited)';
 
   @override
+  String get chatMessageSilent => 'This was a @silent message.';
+
+  @override
   String chatMessageTimestampToday(String time) {
     return 'Today at $time';
   }
@@ -5171,4 +5174,304 @@ class FluxerLocalizationsEl extends FluxerLocalizations {
 
   @override
   String get instanceConnectionRequired => 'Connect to the instance to sign in';
+
+  @override
+  String get comingSoon => 'Coming soon';
+
+  @override
+  String get guildNavbarDirectMessages => 'Direct Messages';
+
+  @override
+  String get guildNavbarExploreDiscoverableCommunities =>
+      'Explore Discoverable Communities';
+
+  @override
+  String get guildNavbarAddCommunity => 'Add a Community';
+
+  @override
+  String get guildNavbarHelp => 'Help';
+
+  @override
+  String guildNavbarCollapseFolder(String folderName) {
+    return 'Collapse $folderName';
+  }
+
+  @override
+  String get guildNavbarGroupDm => 'Group DM';
+
+  @override
+  String get guildNavbarCreateChannel => 'Create Channel';
+
+  @override
+  String get guildNavbarChannelType => 'Channel Type';
+
+  @override
+  String get guildNavbarTextChannel => 'Text Channel';
+
+  @override
+  String get guildNavbarTextChannelDescription =>
+      'Send messages, images, GIFs, and emoji';
+
+  @override
+  String get guildNavbarVoiceChannel => 'Voice Channel';
+
+  @override
+  String get guildNavbarVoiceChannelDescription =>
+      'Hang out together with voice, video, and screen share';
+
+  @override
+  String get guildNavbarLinkChannel => 'Link Channel';
+
+  @override
+  String get guildNavbarLinkChannelDescription =>
+      'Quick access to an external website or resource';
+
+  @override
+  String get guildNavbarNameLabel => 'Name';
+
+  @override
+  String get guildNavbarNewChannelHint => 'new-channel';
+
+  @override
+  String get guildNavbarUrlLabel => 'URL';
+
+  @override
+  String get guildNavbarUrlHint => 'https://example.com';
+
+  @override
+  String get guildNavbarCreateCategory => 'Create Category';
+
+  @override
+  String get guildNavbarNewCategoryHint => 'New Category';
+
+  @override
+  String guildNavbarInviteFriendsTo(String communityName) {
+    return 'Invite friends to $communityName';
+  }
+
+  @override
+  String guildNavbarInviteRecipientsChannel(String channelName) {
+    return 'Recipients will be taken to #$channelName';
+  }
+
+  @override
+  String get guildNavbarSearchFriends => 'Search friends';
+
+  @override
+  String get guildNavbarNoFriendsYet => 'No friends yet';
+
+  @override
+  String get guildNavbarNoResults => 'No results';
+
+  @override
+  String get guildNavbarInviteLinkPrompt =>
+      'Or, send an invite link to a friend:';
+
+  @override
+  String get guildNavbarInviteLink => 'Invite link';
+
+  @override
+  String get guildNavbarCopy => 'Copy';
+
+  @override
+  String get guildNavbarCopied => 'Copied!';
+
+  @override
+  String get guildNavbarInviteExpiresSevenDays =>
+      'Your invite link expires in 7 days.';
+
+  @override
+  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+
+  @override
+  String guildNavbarInviteExpiresIn(String duration) {
+    return 'Your invite link expires in $duration.';
+  }
+
+  @override
+  String get guildNavbarEditInviteLink => 'Edit invite link';
+
+  @override
+  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+
+  @override
+  String get guildNavbarExpireAfter => 'Expire After';
+
+  @override
+  String get guildNavbarMaxUses => 'Max Number of Uses';
+
+  @override
+  String get guildNavbarGrantTemporaryMembership =>
+      'Grant Temporary Membership';
+
+  @override
+  String get guildNavbarTemporaryMembershipDescription =>
+      'Members will be removed when they go offline unless a role is assigned';
+
+  @override
+  String get guildNavbarCreateNewLink => 'Create New Link';
+
+  @override
+  String get guildNavbarSent => 'Sent';
+
+  @override
+  String get guildNavbarInvite => 'Invite';
+
+  @override
+  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+
+  @override
+  String get guildNavbarLeaveCommunityDescription =>
+      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+
+  @override
+  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+
+  @override
+  String get guildNavbarDeleteMyMessagesTitle =>
+      'Delete your messages in this community?';
+
+  @override
+  String get guildNavbarDeleteMyMessagesDescription =>
+      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+
+  @override
+  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+
+  @override
+  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+
+  @override
+  String get guildNavbarCouldNotDeleteYourMessages =>
+      'Couldn\'t delete your messages';
+
+  @override
+  String get guildNavbarRemoveOverride => 'Remove override';
+
+  @override
+  String guildNavbarMutedUntil(String formattedDate) {
+    return 'Muted until $formattedDate';
+  }
+
+  @override
+  String get guildNavbarStaffOnlyAccessible =>
+      'Only accessible to Fluxer staff';
+
+  @override
+  String get guildNavbarInvitesPaused =>
+      'Invites are currently paused in this community';
+
+  @override
+  String get guildNavbarDurationNever => 'never';
+
+  @override
+  String get guildNavbarDuration30Minutes => '30 minutes';
+
+  @override
+  String get guildNavbarDuration1Hour => '1 hour';
+
+  @override
+  String get guildNavbarDuration6Hours => '6 hours';
+
+  @override
+  String get guildNavbarDuration12Hours => '12 hours';
+
+  @override
+  String get guildNavbarDuration1Day => '1 day';
+
+  @override
+  String get guildNavbarDuration7Days => '7 days';
+
+  @override
+  String guildNavbarDurationSeconds(int count) {
+    return '$count seconds';
+  }
+
+  @override
+  String get guildNavbarNever => 'Never';
+
+  @override
+  String get guildNavbarNoLimit => 'No limit';
+
+  @override
+  String get guildNavbarOneUse => '1 use';
+
+  @override
+  String guildNavbarUses(int count) {
+    return '$count uses';
+  }
+
+  @override
+  String get guildMenuMarkAsRead => 'Mark as Read';
+
+  @override
+  String get guildMenuInviteMembers => 'Invite Members';
+
+  @override
+  String get guildMenuCommunitySettings => 'Community Settings';
+
+  @override
+  String get guildMenuReportRaid => 'Report Raid';
+
+  @override
+  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+
+  @override
+  String get guildMenuUnmuteCommunity => 'Unmute Community';
+
+  @override
+  String get guildMenuMuteCommunity => 'Mute Community';
+
+  @override
+  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+
+  @override
+  String get guildMenuReportCommunity => 'Report Community';
+
+  @override
+  String get guildMenuDebugCommunity => 'Debug Community';
+
+  @override
+  String get guildMenuCopyCommunityId => 'Copy Community ID';
+
+  @override
+  String guildMenuMutedUntil(String formattedTime) {
+    return 'Until $formattedTime';
+  }
+
+  @override
+  String get guildMenuSettingsGeneral => 'General';
+
+  @override
+  String get guildMenuSettingsRoles => 'Roles & Permissions';
+
+  @override
+  String get guildMenuSettingsEmoji => 'Custom Emoji';
+
+  @override
+  String get guildMenuSettingsStickers => 'Custom Stickers';
+
+  @override
+  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+
+  @override
+  String get guildMenuSettingsActivityLog => 'Activity Log';
+
+  @override
+  String get guildMenuSettingsWebhooks => 'Webhooks';
+
+  @override
+  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+
+  @override
+  String get guildMenuSettingsDiscovery => 'Discovery';
+
+  @override
+  String get guildMenuSettingsMembers => 'Members';
+
+  @override
+  String get guildMenuSettingsInviteLinks => 'Invite Links';
+
+  @override
+  String get guildMenuSettingsBans => 'Bans';
 }

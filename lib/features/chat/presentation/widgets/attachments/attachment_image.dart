@@ -47,22 +47,18 @@ class AttachmentImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dimensions = mediaDimensionsForSize(dimensionSize);
+    final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
+      dimensionSize,
+    );
     final List<Attachment> gallery = _buildGallery();
-    final Size? display = constrainMediaSize(
+    final Size? displaySize = constrainMediaSize(
       dimensions: dimensions,
       width: attachment.width,
       height: attachment.height,
     );
-    final double dpr = MediaQuery.devicePixelRatioOf(context);
-    final int decodeWidth = ((display?.width ?? dimensions.maxWidth) * dpr)
-        .round();
-    final int? decodeHeight = display == null
-        ? null
-        : (display.height * dpr).round();
     final bool animate = attachment.isAnimated;
     final String effectiveUrl = attachment.proxyUrl ?? attachment.url;
-    final image = Container(
+    final Widget image = Container(
       margin: const EdgeInsets.only(top: 4, bottom: 3),
       constraints: BoxConstraints(
         maxWidth: dimensions.maxWidth,
@@ -101,13 +97,13 @@ class AttachmentImage extends StatelessWidget {
                     fit: BoxFit.contain,
                     placeholder: _buildImagePlaceholder(context),
                   )
-                : CachedNetworkImage(
+                : _AttachmentStaticImage(
                     imageUrl: attachment.url,
-                    memCacheWidth: decodeWidth,
-                    memCacheHeight: decodeHeight,
-                    fit: BoxFit.contain,
-                    placeholder: (context, url) =>
-                        _buildImagePlaceholder(context),
+                    displaySize: displaySize,
+                    dimensions: dimensions,
+                    sourceWidth: attachment.width,
+                    sourceHeight: attachment.height,
+                    placeholder: _buildImagePlaceholder(context),
                   ),
           ),
         ),
@@ -152,6 +148,60 @@ class AttachmentImage extends StatelessWidget {
       width: value.width,
       height: value.height,
       isMatureMedia: value.isMatureMedia,
+    );
+  }
+}
+
+class _AttachmentStaticImage extends StatelessWidget {
+  const _AttachmentStaticImage({
+    required this.imageUrl,
+    required this.displaySize,
+    required this.dimensions,
+    required this.sourceWidth,
+    required this.sourceHeight,
+    required this.placeholder,
+  });
+
+  final String imageUrl;
+  final Size? displaySize;
+  final FluxerMediaDimensions dimensions;
+  final int? sourceWidth;
+  final int? sourceHeight;
+  final Widget placeholder;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+        final int? memCacheWidth;
+        final int? memCacheHeight;
+        if (displaySize != null) {
+          memCacheWidth = (displaySize!.width * devicePixelRatio).round();
+          memCacheHeight = (displaySize!.height * devicePixelRatio).round();
+        } else {
+          final ({int? width, int? height}) cache = containDecodeCacheSize(
+            cellWidth: constraints.maxWidth.isFinite
+                ? constraints.maxWidth
+                : dimensions.maxWidth,
+            cellHeight: constraints.maxHeight.isFinite
+                ? constraints.maxHeight
+                : dimensions.maxHeight,
+            devicePixelRatio: devicePixelRatio,
+            sourceWidth: sourceWidth,
+            sourceHeight: sourceHeight,
+          );
+          memCacheWidth = cache.width;
+          memCacheHeight = cache.height;
+        }
+        return CachedNetworkImage(
+          imageUrl: imageUrl,
+          memCacheWidth: memCacheWidth,
+          memCacheHeight: memCacheHeight,
+          fit: BoxFit.contain,
+          placeholder: (BuildContext _, String _) => placeholder,
+        );
+      },
     );
   }
 }

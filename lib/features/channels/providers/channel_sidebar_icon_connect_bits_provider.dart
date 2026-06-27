@@ -21,8 +21,5 @@ Future<int?> channelSidebarIconConnectBits(Ref ref, String channelId) async {
         ref: ref,
         channelId: channelId,
       );
-  return resolveChannelSidebarIconConnectBits(
-    cachedBits: null,
-    computedOutcome: outcome,
-  );
+  return resolveChannelSidebarIconConnectBits(computedOutcome: outcome);
 }

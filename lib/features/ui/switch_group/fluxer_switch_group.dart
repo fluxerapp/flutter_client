@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
+import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -27,7 +28,7 @@ class FluxerSwitchGroup extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: _intersperseGroupDividers(children, colors),
+        children: _intersperseGroupDividers(children, colors, layout),
       ),
     );
   }
@@ -313,14 +314,20 @@ class FluxerSettingsSwitchItem extends StatelessWidget {
 List<Widget> _intersperseGroupDividers(
   List<Widget> items,
   FluxerColorTheme colors,
+  FluxerLayoutTheme layout,
 ) {
   final result = <Widget>[];
   for (var i = 0; i < items.length; i++) {
-    result.add(items[i]);
+    result.add(
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: layout.s3),
+        child: items[i],
+      ),
+    );
     if (i < items.length - 1) {
       result.add(
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: layout.s3),
           child: Divider(
             height: 1,
             thickness: 1,

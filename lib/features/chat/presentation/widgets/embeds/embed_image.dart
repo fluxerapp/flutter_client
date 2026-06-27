@@ -41,25 +41,24 @@ class EmbedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final media = embed.image ?? embed.thumbnail;
+    final EmbedMedia? media = embed.image ?? embed.thumbnail;
     if (media == null) {
       return const SizedBox.shrink();
     }
-
-    final dimensions = mediaDimensionsForSize(dimensionSize);
-    final displaySize = constrainMediaSize(
+    final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
+      dimensionSize,
+    );
+    final Size? displaySize = constrainMediaSize(
       dimensions: dimensions,
       width: media.width,
       height: media.height,
     );
     final bool animate = embed.type == EmbedType.gifv || media.isAnimated;
-    final double dpr = MediaQuery.devicePixelRatioOf(context);
-    final int decodeWidth = ((displaySize?.width ?? dimensions.maxWidth) * dpr)
-        .round();
-    final int? decodeHeight = displaySize == null
-        ? null
-        : (displaySize.height * dpr).round();
-
+    final Widget placeholder = Container(
+      width: displaySize?.width ?? dimensions.maxWidth,
+      height: displaySize?.height ?? 200,
+      color: context.colors.backgroundSecondaryAlt,
+    );
     return Container(
       margin: const EdgeInsets.only(top: 4),
       constraints: BoxConstraints(
@@ -116,30 +115,72 @@ class EmbedImage extends StatelessWidget {
                         visibilityKey:
                             '${channelId}_${messageId}_'
                             '${embedIndex}_${embed.type.name}',
-                        placeholder: Container(
-                          width: displaySize?.width ?? dimensions.maxWidth,
-                          height: displaySize?.height ?? 200,
-                          color: context.colors.backgroundSecondaryAlt,
-                        ),
+                        placeholder: placeholder,
                       ),
                     )
-                  : CachedNetworkImage(
+                  : _EmbedStaticImage(
                       imageUrl: embedMediaEffectiveUrl(media),
-                      width: displaySize?.width,
-                      height: displaySize?.height,
-                      memCacheWidth: decodeWidth,
-                      memCacheHeight: decodeHeight,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, e, s) => Container(
-                        width: displaySize?.width ?? dimensions.maxWidth,
-                        height: displaySize?.height ?? 200,
-                        color: context.colors.backgroundSecondaryAlt,
-                      ),
+                      displaySize: displaySize,
+                      dimensions: dimensions,
+                      sourceWidth: media.width,
+                      sourceHeight: media.height,
+                      placeholder: placeholder,
                     ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _EmbedStaticImage extends StatelessWidget {
+  const _EmbedStaticImage({
+    required this.imageUrl,
+    required this.displaySize,
+    required this.dimensions,
+    required this.sourceWidth,
+    required this.sourceHeight,
+    required this.placeholder,
+  });
+
+  final String imageUrl;
+  final Size? displaySize;
+  final FluxerMediaDimensions dimensions;
+  final int? sourceWidth;
+  final int? sourceHeight;
+  final Widget placeholder;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+        final double cellWidth =
+            displaySize?.width ??
+            (constraints.maxWidth.isFinite
+                ? constraints.maxWidth
+                : dimensions.maxWidth);
+        final double cellHeight =
+            displaySize?.height ??
+            (constraints.maxHeight.isFinite ? constraints.maxHeight : 200);
+        final ({int? width, int? height}) cache = coverDecodeCacheSize(
+          cellWidth: cellWidth,
+          cellHeight: cellHeight,
+          devicePixelRatio: devicePixelRatio,
+          sourceWidth: sourceWidth,
+          sourceHeight: sourceHeight,
+        );
+        return CachedNetworkImage(
+          imageUrl: imageUrl,
+          width: displaySize?.width,
+          height: displaySize?.height,
+          memCacheWidth: cache.width,
+          memCacheHeight: cache.height,
+          fit: BoxFit.cover,
+          errorBuilder: (_, Object _, StackTrace? _) => placeholder,
+        );
+      },
     );
   }
 }

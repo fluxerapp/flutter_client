@@ -8111,6 +8111,12 @@ abstract class FluxerLocalizations {
   /// **'(edited)'**
   String get chatMessageEdited;
 
+  /// Tooltip on the bell-slash icon beside a silent message. "@silent" is the literal command keyword and must not be translated.
+  ///
+  /// In en, this message translates to:
+  /// **'This was a @silent message.'**
+  String get chatMessageSilent;
+
   /// Inline chat message timestamp when the message was sent today. {time} is locale-formatted.
   ///
   /// In en, this message translates to:
@@ -8974,6 +8980,546 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Connect to the instance to sign in'**
   String get instanceConnectionRequired;
+
+  /// Generic toast when a feature is not yet available.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get comingSoon;
+
+  /// Label for the direct messages entry in the guild navbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Messages'**
+  String get guildNavbarDirectMessages;
+
+  /// Label for the explore communities button in the guild navbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Discoverable Communities'**
+  String get guildNavbarExploreDiscoverableCommunities;
+
+  /// Label for the add community button in the guild navbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Community'**
+  String get guildNavbarAddCommunity;
+
+  /// Label for the help button in the guild navbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get guildNavbarHelp;
+
+  /// Tooltip when collapsing a guild folder in the navbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse {folderName}'**
+  String guildNavbarCollapseFolder(String folderName);
+
+  /// Secondary label for a group DM in the invite recipients list.
+  ///
+  /// In en, this message translates to:
+  /// **'Group DM'**
+  String get guildNavbarGroupDm;
+
+  /// Title and confirm label for the create channel modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Channel'**
+  String get guildNavbarCreateChannel;
+
+  /// Section label for channel type selection in create channel modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel Type'**
+  String get guildNavbarChannelType;
+
+  /// Label for the text channel type option.
+  ///
+  /// In en, this message translates to:
+  /// **'Text Channel'**
+  String get guildNavbarTextChannel;
+
+  /// Description for the text channel type option.
+  ///
+  /// In en, this message translates to:
+  /// **'Send messages, images, GIFs, and emoji'**
+  String get guildNavbarTextChannelDescription;
+
+  /// Label for the voice channel type option.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice Channel'**
+  String get guildNavbarVoiceChannel;
+
+  /// Description for the voice channel type option.
+  ///
+  /// In en, this message translates to:
+  /// **'Hang out together with voice, video, and screen share'**
+  String get guildNavbarVoiceChannelDescription;
+
+  /// Label for the link channel type option.
+  ///
+  /// In en, this message translates to:
+  /// **'Link Channel'**
+  String get guildNavbarLinkChannel;
+
+  /// Description for the link channel type option.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick access to an external website or resource'**
+  String get guildNavbarLinkChannelDescription;
+
+  /// Label for name input fields in guild navbar modals.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get guildNavbarNameLabel;
+
+  /// Placeholder hint for new channel name input.
+  ///
+  /// In en, this message translates to:
+  /// **'new-channel'**
+  String get guildNavbarNewChannelHint;
+
+  /// Label for URL input in link channel creation.
+  ///
+  /// In en, this message translates to:
+  /// **'URL'**
+  String get guildNavbarUrlLabel;
+
+  /// Placeholder hint for URL input in link channel creation.
+  ///
+  /// In en, this message translates to:
+  /// **'https://example.com'**
+  String get guildNavbarUrlHint;
+
+  /// Title and confirm label for the create category modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Category'**
+  String get guildNavbarCreateCategory;
+
+  /// Placeholder hint for new category name input.
+  ///
+  /// In en, this message translates to:
+  /// **'New Category'**
+  String get guildNavbarNewCategoryHint;
+
+  /// Title for the invite members modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite friends to {communityName}'**
+  String guildNavbarInviteFriendsTo(String communityName);
+
+  /// Subtitle explaining which channel invite recipients land in.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipients will be taken to #{channelName}'**
+  String guildNavbarInviteRecipientsChannel(String channelName);
+
+  /// Search input hint in the invite members modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Search friends'**
+  String get guildNavbarSearchFriends;
+
+  /// Empty state when there are no friends to invite.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends yet'**
+  String get guildNavbarNoFriendsYet;
+
+  /// Empty state when friend search returns no matches.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get guildNavbarNoResults;
+
+  /// Prompt above the invite link field in the invite modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Or, send an invite link to a friend:'**
+  String get guildNavbarInviteLinkPrompt;
+
+  /// Hint text for the invite link field.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite link'**
+  String get guildNavbarInviteLink;
+
+  /// Button to copy the invite link.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get guildNavbarCopy;
+
+  /// Button label after copying the invite link.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied!'**
+  String get guildNavbarCopied;
+
+  /// Default invite link expiry notice.
+  ///
+  /// In en, this message translates to:
+  /// **'Your invite link expires in 7 days.'**
+  String get guildNavbarInviteExpiresSevenDays;
+
+  /// Notice when an invite link has no expiry.
+  ///
+  /// In en, this message translates to:
+  /// **'This invite link never expires.'**
+  String get guildNavbarInviteNeverExpires;
+
+  /// Notice when an invite link expires after a custom duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Your invite link expires in {duration}.'**
+  String guildNavbarInviteExpiresIn(String duration);
+
+  /// Link to edit invite link settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit invite link'**
+  String get guildNavbarEditInviteLink;
+
+  /// Title for the invite link settings modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite link settings'**
+  String get guildNavbarInviteLinkSettings;
+
+  /// Label for invite link expiry dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Expire After'**
+  String get guildNavbarExpireAfter;
+
+  /// Label for invite link max uses dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Number of Uses'**
+  String get guildNavbarMaxUses;
+
+  /// Toggle label for temporary membership on invite links.
+  ///
+  /// In en, this message translates to:
+  /// **'Grant Temporary Membership'**
+  String get guildNavbarGrantTemporaryMembership;
+
+  /// Description for the temporary membership toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Members will be removed when they go offline unless a role is assigned'**
+  String get guildNavbarTemporaryMembershipDescription;
+
+  /// Confirm button in invite link settings modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Link'**
+  String get guildNavbarCreateNewLink;
+
+  /// Button label after an invite was sent to a recipient.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get guildNavbarSent;
+
+  /// Button to send an invite to a recipient.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get guildNavbarInvite;
+
+  /// Title for the leave community confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave Community'**
+  String get guildNavbarLeaveCommunityTitle;
+
+  /// Description for the leave community confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to leave this community? You will no longer be able to see any messages.'**
+  String get guildNavbarLeaveCommunityDescription;
+
+  /// Confirm button for the leave community dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave Community'**
+  String get guildNavbarLeaveCommunityConfirm;
+
+  /// Title for the delete my messages confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your messages in this community?'**
+  String get guildNavbarDeleteMyMessagesTitle;
+
+  /// Description for the delete my messages confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.'**
+  String get guildNavbarDeleteMyMessagesDescription;
+
+  /// Confirm button for the delete my messages dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete My Messages'**
+  String get guildNavbarDeleteMyMessagesConfirm;
+
+  /// Success toast after deleting messages in a community.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted your messages'**
+  String get guildNavbarDeletedYourMessages;
+
+  /// Error toast when deleting messages in a community fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete your messages'**
+  String get guildNavbarCouldNotDeleteYourMessages;
+
+  /// Semantic label for removing a per-channel notification override.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove override'**
+  String get guildNavbarRemoveOverride;
+
+  /// Guild tooltip text when the community is muted until a specific time.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted until {formattedDate}'**
+  String guildNavbarMutedUntil(String formattedDate);
+
+  /// Guild tooltip when the community is staff-only.
+  ///
+  /// In en, this message translates to:
+  /// **'Only accessible to Fluxer staff'**
+  String get guildNavbarStaffOnlyAccessible;
+
+  /// Guild tooltip when invites are disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites are currently paused in this community'**
+  String get guildNavbarInvitesPaused;
+
+  /// Invite expiry duration label for no expiry.
+  ///
+  /// In en, this message translates to:
+  /// **'never'**
+  String get guildNavbarDurationNever;
+
+  /// Invite expiry duration label for 30 minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'30 minutes'**
+  String get guildNavbarDuration30Minutes;
+
+  /// Invite expiry duration label for 1 hour.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get guildNavbarDuration1Hour;
+
+  /// Invite expiry duration label for 6 hours.
+  ///
+  /// In en, this message translates to:
+  /// **'6 hours'**
+  String get guildNavbarDuration6Hours;
+
+  /// Invite expiry duration label for 12 hours.
+  ///
+  /// In en, this message translates to:
+  /// **'12 hours'**
+  String get guildNavbarDuration12Hours;
+
+  /// Invite expiry duration label for 1 day.
+  ///
+  /// In en, this message translates to:
+  /// **'1 day'**
+  String get guildNavbarDuration1Day;
+
+  /// Invite expiry duration label for 7 days.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get guildNavbarDuration7Days;
+
+  /// Invite expiry duration label for a custom number of seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} seconds'**
+  String guildNavbarDurationSeconds(int count);
+
+  /// Invite expiry select option for no expiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get guildNavbarNever;
+
+  /// Invite max uses select option for unlimited uses.
+  ///
+  /// In en, this message translates to:
+  /// **'No limit'**
+  String get guildNavbarNoLimit;
+
+  /// Invite max uses select option for a single use.
+  ///
+  /// In en, this message translates to:
+  /// **'1 use'**
+  String get guildNavbarOneUse;
+
+  /// Invite max uses select option for a specific number of uses.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} uses'**
+  String guildNavbarUses(int count);
+
+  /// Guild menu action to mark all channels as read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Read'**
+  String get guildMenuMarkAsRead;
+
+  /// Guild menu action to open the invite members flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite Members'**
+  String get guildMenuInviteMembers;
+
+  /// Guild menu submenu for community settings tabs.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Settings'**
+  String get guildMenuCommunitySettings;
+
+  /// Guild menu action to report a raid.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Raid'**
+  String get guildMenuReportRaid;
+
+  /// Guild menu action to edit the community profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Community Profile'**
+  String get guildMenuEditCommunityProfile;
+
+  /// Guild menu action to unmute the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute Community'**
+  String get guildMenuUnmuteCommunity;
+
+  /// Guild menu submenu to mute the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute Community'**
+  String get guildMenuMuteCommunity;
+
+  /// Guild menu checkbox to hide muted channels.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Muted Channels'**
+  String get guildMenuHideMutedChannels;
+
+  /// Guild menu action to report the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Community'**
+  String get guildMenuReportCommunity;
+
+  /// Guild menu action to open community debug info.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug Community'**
+  String get guildMenuDebugCommunity;
+
+  /// Guild menu action to copy the community ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Community ID'**
+  String get guildMenuCopyCommunityId;
+
+  /// Guild menu hint showing when a community mute expires.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {formattedTime}'**
+  String guildMenuMutedUntil(String formattedTime);
+
+  /// Community settings tab for general overview.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get guildMenuSettingsGeneral;
+
+  /// Community settings tab for roles and permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles & Permissions'**
+  String get guildMenuSettingsRoles;
+
+  /// Community settings tab for custom emoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Emoji'**
+  String get guildMenuSettingsEmoji;
+
+  /// Community settings tab for custom stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Stickers'**
+  String get guildMenuSettingsStickers;
+
+  /// Community settings tab for safety and moderation.
+  ///
+  /// In en, this message translates to:
+  /// **'Safety & Moderation'**
+  String get guildMenuSettingsSafetyModeration;
+
+  /// Community settings tab for the activity log.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Log'**
+  String get guildMenuSettingsActivityLog;
+
+  /// Community settings tab for webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhooks'**
+  String get guildMenuSettingsWebhooks;
+
+  /// Community settings tab for custom invite URLs.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Invite URL'**
+  String get guildMenuSettingsCustomInviteUrl;
+
+  /// Community settings tab for discovery settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Discovery'**
+  String get guildMenuSettingsDiscovery;
+
+  /// Community settings tab for member management.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get guildMenuSettingsMembers;
+
+  /// Community settings tab for invite links.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite Links'**
+  String get guildMenuSettingsInviteLinks;
+
+  /// Community settings tab for banned members.
+  ///
+  /// In en, this message translates to:
+  /// **'Bans'**
+  String get guildMenuSettingsBans;
 }
 
 class _FluxerLocalizationsDelegate

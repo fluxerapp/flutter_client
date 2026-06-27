@@ -34,7 +34,7 @@ void listenChatViewModelErrors(WidgetRef ref) {
 /// Shared message list, composer, and overlay chrome for channel chat surfaces.
 class ChannelChatPanel extends ConsumerWidget {
   const ChannelChatPanel({
-    this.displayChannelId,
+    required this.displayChannelId,
     this.targetMessageId,
     this.loadMessages = true,
     this.showInlineEmojiPicker = true,
@@ -42,7 +42,7 @@ class ChannelChatPanel extends ConsumerWidget {
     super.key,
   });
 
-  final String? displayChannelId;
+  final String displayChannelId;
   final String? targetMessageId;
   final bool loadMessages;
   final bool showInlineEmojiPicker;
@@ -51,7 +51,7 @@ class ChannelChatPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isMobile = isMobileLayout(context);
-    final String? listChannelId = displayChannelId;
+    final String listChannelId = displayChannelId;
     final bool isPanelOpen = ref.watch(expressionPanelProvider);
     final bool showNeko = ref.watch(
       appearancePreferencesProvider.select((state) => state.showNeko),
@@ -59,11 +59,7 @@ class ChannelChatPanel extends ConsumerWidget {
     final ActiveReadChannelState activeRead = ref.watch(
       activeReadChannelProvider,
     );
-    final String effectiveChannelId =
-        listChannelId ??
-        ref.watch(
-          chatViewModelProvider.select((ChatViewState s) => s.channelId),
-        );
+    final String effectiveChannelId = listChannelId;
     final bool hasMessages = ref.watch(
       chatViewModelProvider.select((ChatViewState s) => s.messages.isNotEmpty),
     );
@@ -81,7 +77,6 @@ class ChannelChatPanel extends ConsumerWidget {
         activeRead.channelId == effectiveChannelId;
     final bool showJumpToBottom =
         loadMessages &&
-        listChannelId != null &&
         shouldShowJumpToBottomButton(
           hasMessages: hasMessages,
           isLoading: isLoading,
@@ -105,8 +100,6 @@ class ChannelChatPanel extends ConsumerWidget {
                         onPointerDown: (_) =>
                             FocusManager.instance.primaryFocus?.unfocus(),
                         child: !loadMessages
-                            ? const SizedBox.expand()
-                            : listChannelId == null
                             ? const SizedBox.expand()
                             : RepaintBoundary(
                                 child: MessageList(

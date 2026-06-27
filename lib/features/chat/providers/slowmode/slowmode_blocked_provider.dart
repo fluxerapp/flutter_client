@@ -1,8 +1,7 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart';
-import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_immunity_provider.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'slowmode_blocked_provider.g.dart';
@@ -18,13 +17,15 @@ Stream<bool> isSlowmodeBlocked(Ref ref, String channelId) {
     ..watch(slowmodeTrackerProvider);
   final tracker = ref.read(slowmodeTrackerProvider.notifier);
   final db = ref.watch(fluxerDatabaseProvider);
-  final permissions = ref.read(guildPermissionsProvider.notifier);
+  final Future<bool> immune = ref.watch(
+    isSlowmodeImmuneProvider(channelId).future,
+  );
 
   return _watchSlowmodeBlocked(
     channelId: channelId,
     db: db,
     tracker: tracker,
-    permissions: permissions,
+    immune: immune,
     isDisposed: () => disposed,
   );
 }
@@ -33,7 +34,7 @@ Stream<bool> _watchSlowmodeBlocked({
   required String channelId,
   required FluxerDatabase db,
   required SlowmodeTracker tracker,
-  required GuildPermissions permissions,
+  required Future<bool> immune,
   required bool Function() isDisposed,
 }) async* {
   final channel = await db.channelDao.getChannelById(channelId);
@@ -41,10 +42,7 @@ Stream<bool> _watchSlowmodeBlocked({
     return;
   }
   final rate = channel?.rateLimitPerUser ?? 0;
-  final guildId = channel?.guildId ?? '';
-  final isImmune =
-      guildId.isNotEmpty &&
-      await _hasSlowmodeBypassPermission(permissions, guildId);
+  final bool isImmune = await immune;
   if (isDisposed()) {
     return;
   }
@@ -60,14 +58,4 @@ Stream<bool> _watchSlowmodeBlocked({
   if (!isDisposed()) {
     yield false;
   }
-}
-
-Future<bool> _hasSlowmodeBypassPermission(
-  GuildPermissions permissions,
-  String guildId,
-) async {
-  final bits = await permissions.getPermissions(guildId);
-  return hasPermission(bits, Permission.bypassSlowmode) ||
-      hasPermission(bits, Permission.manageChannels) ||
-      hasPermission(bits, Permission.manageMessages);
 }

@@ -41,6 +41,13 @@ bool shouldGroupMessages(Message current, Message? previous) {
   if (previous.isReply || previous.isForwarded) {
     return false;
   }
+  final bool currentSilent =
+      (current.flags & messageFlagSuppressNotifications) != 0;
+  final bool previousSilent =
+      (previous.flags & messageFlagSuppressNotifications) != 0;
+  if (currentSilent && !previousSilent) {
+    return false;
+  }
   final Duration diff = current.timestamp.difference(previous.timestamp);
   return diff < messageGroupTimeout;
 }

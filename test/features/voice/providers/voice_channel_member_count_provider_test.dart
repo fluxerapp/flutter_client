@@ -106,7 +106,7 @@ void main() {
     container
         .read(voiceStatesMapProvider.notifier)
         .update(
-          VoiceState(userId: 'u1', guildId: 'g1', connectionId: 'conn-1'),
+          const VoiceState(userId: 'u1', guildId: 'g1', connectionId: 'conn-1'),
         );
     expect(count(container, 'g1', 'A'), 0);
   });

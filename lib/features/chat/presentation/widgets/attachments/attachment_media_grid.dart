@@ -83,23 +83,51 @@ class AttachmentMediaGrid extends StatelessWidget {
   }
 
   Widget _buildThreeLayout(BuildContext context, List<Attachment> items) {
-    return SizedBox(
-      height: 300,
-      child: Row(
-        children: [
-          Expanded(child: _buildTile(context, items[0])),
-          const SizedBox(width: _kGridGap),
-          Expanded(
-            child: Column(
-              children: [
-                Expanded(child: _buildTile(context, items[1])),
-                const SizedBox(height: _kGridGap),
-                Expanded(child: _buildTile(context, items[2])),
-              ],
-            ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double gridWidth = constraints.maxWidth;
+        final double columnWidth = (gridWidth - _kGridGap) / 2;
+        const double rightCellHeight = (_kThreeLayoutHeight - _kGridGap) / 2;
+        return SizedBox(
+          height: _kThreeLayoutHeight,
+          child: Row(
+            children: [
+              Expanded(
+                child: _buildTile(
+                  context,
+                  items[0],
+                  cellWidth: columnWidth,
+                  cellHeight: _kThreeLayoutHeight,
+                ),
+              ),
+              const SizedBox(width: _kGridGap),
+              Expanded(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: _buildTile(
+                        context,
+                        items[1],
+                        cellWidth: columnWidth,
+                        cellHeight: rightCellHeight,
+                      ),
+                    ),
+                    const SizedBox(height: _kGridGap),
+                    Expanded(
+                      child: _buildTile(
+                        context,
+                        items[2],
+                        cellWidth: columnWidth,
+                        cellHeight: rightCellHeight,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -109,26 +137,40 @@ class AttachmentMediaGrid extends StatelessWidget {
     required double heroRatio,
     required List<int> rows,
   }) {
-    int index = 0;
-    final List<Widget> children = <Widget>[
-      AspectRatio(
-        aspectRatio: heroRatio,
-        child: _buildTile(context, items[index]),
-      ),
-    ];
-    index++;
-    for (final int rowCount in rows) {
-      if (index >= items.length) {
-        break;
-      }
-      children
-        ..add(const SizedBox(height: _kGridGap))
-        ..add(_buildRow(context, items, index, rowCount));
-      index += rowCount;
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: children,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double gridWidth = constraints.maxWidth;
+        final double heroHeight = gridWidth / heroRatio;
+        int index = 0;
+        final List<Widget> children = <Widget>[
+          SizedBox(
+            height: heroHeight,
+            width: gridWidth,
+            child: _buildTile(
+              context,
+              items[index],
+              cellWidth: gridWidth,
+              cellHeight: heroHeight,
+            ),
+          ),
+        ];
+        index++;
+        for (final int rowCount in rows) {
+          if (index >= items.length) {
+            break;
+          }
+          children
+            ..add(const SizedBox(height: _kGridGap))
+            ..add(
+              _buildRow(context, items, index, rowCount, gridWidth: gridWidth),
+            );
+          index += rowCount;
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children,
+        );
+      },
     );
   }
 
@@ -137,21 +179,28 @@ class AttachmentMediaGrid extends StatelessWidget {
     List<Attachment> items,
     List<int> rows,
   ) {
-    int index = 0;
-    final List<Widget> children = <Widget>[];
-    for (int i = 0; i < rows.length; i++) {
-      if (index >= items.length) {
-        break;
-      }
-      if (i > 0) {
-        children.add(const SizedBox(height: _kGridGap));
-      }
-      children.add(_buildRow(context, items, index, rows[i]));
-      index += rows[i];
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: children,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double gridWidth = constraints.maxWidth;
+        int index = 0;
+        final List<Widget> children = <Widget>[];
+        for (int i = 0; i < rows.length; i++) {
+          if (index >= items.length) {
+            break;
+          }
+          if (i > 0) {
+            children.add(const SizedBox(height: _kGridGap));
+          }
+          children.add(
+            _buildRow(context, items, index, rows[i], gridWidth: gridWidth),
+          );
+          index += rows[i];
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children,
+        );
+      },
     );
   }
 
@@ -159,8 +208,11 @@ class AttachmentMediaGrid extends StatelessWidget {
     BuildContext context,
     List<Attachment> items,
     int startIndex,
-    int count,
-  ) {
+    int count, {
+    required double gridWidth,
+  }) {
+    final double cellWidth = (gridWidth - (count - 1) * _kGridGap) / count;
+    final double cellHeight = cellWidth;
     final List<Widget> rowChildren = <Widget>[];
     for (int i = 0; i < count; i++) {
       final int itemIndex = startIndex + i;
@@ -174,7 +226,12 @@ class AttachmentMediaGrid extends StatelessWidget {
         Expanded(
           child: AspectRatio(
             aspectRatio: 1,
-            child: _buildTile(context, items[itemIndex]),
+            child: _buildTile(
+              context,
+              items[itemIndex],
+              cellWidth: cellWidth,
+              cellHeight: cellHeight,
+            ),
           ),
         ),
       );
@@ -185,11 +242,16 @@ class AttachmentMediaGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildTile(BuildContext context, Attachment attachment) {
+  Widget _buildTile(
+    BuildContext context,
+    Attachment attachment, {
+    required double cellWidth,
+    required double cellHeight,
+  }) {
     final bool isVideo = attachment.isVideo;
     final bool canOpen =
         attachment.url.isNotEmpty && (!attachment.isSpoiler || revealSpoilers);
-    final double dpr = MediaQuery.devicePixelRatioOf(context);
+    final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,
     );
@@ -197,6 +259,13 @@ class AttachmentMediaGrid extends StatelessWidget {
         ? (ChatVideoSource.fromAttachment(attachment, dimensions).posterUrl ??
               '')
         : attachment.url;
+    final ({int? width, int? height}) cache = coverDecodeCacheSize(
+      cellWidth: cellWidth,
+      cellHeight: cellHeight,
+      devicePixelRatio: devicePixelRatio,
+      sourceWidth: attachment.width,
+      sourceHeight: attachment.height,
+    );
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: SpoilerOverlay(
@@ -213,29 +282,17 @@ class AttachmentMediaGrid extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      if (displayUrl.isEmpty) {
-                        return const ColoredBox(color: Colors.black);
-                      }
-                      final ({int? width, int? height}) cache =
-                          coverDecodeCacheSize(
-                            cellWidth: constraints.maxWidth,
-                            cellHeight: constraints.maxHeight,
-                            devicePixelRatio: dpr,
-                            sourceWidth: attachment.width,
-                            sourceHeight: attachment.height,
-                          );
-                      return CachedNetworkImage(
-                        imageUrl: displayUrl,
-                        memCacheWidth: cache.width,
-                        memCacheHeight: cache.height,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) =>
-                            const ColoredBox(color: Colors.black),
-                      );
-                    },
-                  ),
+                  if (displayUrl.isEmpty)
+                    const ColoredBox(color: Colors.black)
+                  else
+                    CachedNetworkImage(
+                      imageUrl: displayUrl,
+                      memCacheWidth: cache.width,
+                      memCacheHeight: cache.height,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) =>
+                          const ColoredBox(color: Colors.black),
+                    ),
                   if (isVideo) const VideoPlayButtonOverlay(),
                 ],
               ),
@@ -316,3 +373,4 @@ class AttachmentMediaGrid extends StatelessWidget {
 }
 
 const double _kGridGap = 4;
+const double _kThreeLayoutHeight = 300;

@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/features/channels/domain/channel_sidebar_icon_connect_bits.dart';
 
 void main() {

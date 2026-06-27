@@ -1106,6 +1106,23 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     return '$h:$m';
   }
 
+  Widget _buildSilentIndicator(BuildContext context) {
+    final String message = FluxerLocalizations.of(context).chatMessageSilent;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () =>
+          ref.read(toastProvider.notifier).show(FluxerToast(message: message)),
+      child: Tooltip(
+        message: message,
+        child: PhosphorIcon(
+          PhosphorIconsFill.bellSlash,
+          size: 14,
+          color: context.textStyles.timestamp.color,
+        ),
+      ),
+    );
+  }
+
   /// Main message row: avatar on the left, content on
   /// the right.
   Widget _buildMainRow(
@@ -1198,6 +1215,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                     ),
                     style: context.textStyles.timestamp,
                   ),
+                  if ((msg.flags & messageFlagSuppressNotifications) != 0) ...[
+                    const SizedBox(width: 6),
+                    _buildSilentIndicator(context),
+                  ],
                 ],
               ),
             ),

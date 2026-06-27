@@ -66,18 +66,21 @@ class UserSettingsModal extends ConsumerStatefulWidget {
     this.openProfileSection = false,
     this.openSecuritySection = false,
     this.initialSection,
+    this.guildId,
     super.key,
   });
 
   final bool openProfileSection;
   final bool openSecuritySection;
   final UserSettingsSection? initialSection;
+  final String? guildId;
 
   static Future<void> show(
     BuildContext context, {
     bool openProfileSection = false,
     bool openSecuritySection = false,
     UserSettingsSection? initialSection,
+    String? guildId,
   }) {
     if (isMobileLayout(context)) {
       return _showMobileSettings(
@@ -85,6 +88,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
         openProfileSection: openProfileSection,
         openSecuritySection: openSecuritySection,
         initialSection: initialSection,
+        guildId: guildId,
       );
     }
 
@@ -99,6 +103,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
         openProfileSection: openProfileSection,
         openSecuritySection: openSecuritySection,
         initialSection: initialSection,
+        guildId: guildId,
       ),
     );
   }
@@ -108,6 +113,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
     bool openProfileSection = false,
     bool openSecuritySection = false,
     UserSettingsSection? initialSection,
+    String? guildId,
   }) async {
     await FluxerBottomSheet.showScrollable<void>(
       context,
@@ -120,6 +126,7 @@ class UserSettingsModal extends ConsumerStatefulWidget {
             openProfileSection: openProfileSection,
             openSecuritySection: openSecuritySection,
             initialSection: initialSection,
+            guildId: guildId,
           ),
     );
   }
@@ -143,6 +150,19 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
       _selectedIndex = 2;
     } else if (widget.openProfileSection) {
       _selectedIndex = 1;
+    }
+
+    final String? guildId = widget.guildId;
+    if (guildId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          unawaited(
+            ref
+                .read(userSettingsViewModelProvider.notifier)
+                .selectGuild(guildId),
+          );
+        }
+      });
     }
   }
 
@@ -313,6 +333,7 @@ class _MobileSettingsNavBody extends ConsumerStatefulWidget {
     this.openProfileSection = false,
     this.openSecuritySection = false,
     this.initialSection,
+    this.guildId,
   });
 
   final VoidCallback onClose;
@@ -320,6 +341,7 @@ class _MobileSettingsNavBody extends ConsumerStatefulWidget {
   final bool openProfileSection;
   final bool openSecuritySection;
   final UserSettingsSection? initialSection;
+  final String? guildId;
 
   @override
   ConsumerState<_MobileSettingsNavBody> createState() =>
@@ -345,6 +367,19 @@ class _MobileSettingsNavBodyState
         if (mounted && !_didOpenInitialSection) {
           _didOpenInitialSection = true;
           _openSettingsPage(initialSection);
+        }
+      });
+    }
+
+    final String? guildId = widget.guildId;
+    if (guildId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          unawaited(
+            ref
+                .read(userSettingsViewModelProvider.notifier)
+                .selectGuild(guildId),
+          );
         }
       });
     }

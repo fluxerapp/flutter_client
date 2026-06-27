@@ -26,30 +26,47 @@ class FluxerAnimatedImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = playing ? animatedUrl : (staticUrl ?? '');
+    final String url = playing ? animatedUrl : (staticUrl ?? '');
     if (url.isEmpty) {
       return placeholder ?? const SizedBox.shrink();
     }
     return LayoutBuilder(
-      builder: (context, constraints) {
-        final devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-        final cacheWidth = constraints.maxWidth.isFinite
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
+        final int? cacheWidth = constraints.maxWidth.isFinite
             ? (constraints.maxWidth * devicePixelRatio).round()
             : null;
-        final cacheHeight = constraints.maxHeight.isFinite
+        final int? cacheHeight = constraints.maxHeight.isFinite
             ? (constraints.maxHeight * devicePixelRatio).round()
             : null;
-        return CachedNetworkImage(
-          imageUrl: url,
-          fit: fit,
-          memCacheWidth: cacheWidth,
-          memCacheHeight: cacheHeight,
-          maxWidthDiskCache: cacheWidth,
-          maxHeightDiskCache: cacheHeight,
-          fadeInDuration: Duration.zero,
-          fadeOutDuration: Duration.zero,
-          placeholder: (_, _) => placeholder ?? const SizedBox.shrink(),
-          errorBuilder: (_, _, _) => placeholder ?? const SizedBox.shrink(),
+        final Widget fallback = placeholder ?? const SizedBox.shrink();
+        return SizedBox(
+          width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,
+          height: constraints.maxHeight.isFinite ? constraints.maxHeight : null,
+          child: AnimatedSwitcher(
+            duration: Duration.zero,
+            layoutBuilder:
+                (Widget? currentChild, List<Widget> previousChildren) {
+                  return Stack(
+                    fit: StackFit.passthrough,
+                    alignment: Alignment.center,
+                    children: <Widget>[...previousChildren, ?currentChild],
+                  );
+                },
+            child: CachedNetworkImage(
+              key: ValueKey<String>(url),
+              imageUrl: url,
+              fit: fit,
+              memCacheWidth: cacheWidth,
+              memCacheHeight: cacheHeight,
+              maxWidthDiskCache: cacheWidth,
+              maxHeightDiskCache: cacheHeight,
+              fadeInDuration: Duration.zero,
+              fadeOutDuration: Duration.zero,
+              placeholder: (_, _) => fallback,
+              errorBuilder: (_, _, _) => fallback,
+            ),
+          ),
         );
       },
     );

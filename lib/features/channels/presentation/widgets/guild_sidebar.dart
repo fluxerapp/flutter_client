@@ -36,6 +36,7 @@ import 'package:fluxer_app/features/favorites/providers/favorite_channels_provid
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -161,10 +162,11 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     final Widget headerContent = GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
+        if (guild == null) {
+          return;
+        }
         if (isMobileLayout(context)) {
-          ref
-              .read(toastProvider.notifier)
-              .show(const FluxerToast(message: 'Coming soon'));
+          unawaited(presentGuildMenuSheet(context, ref, guild: guild));
           return;
         }
 

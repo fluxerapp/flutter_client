@@ -1,6 +1,5 @@
+import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'slowmode_immunity_provider.g.dart';
@@ -10,15 +9,10 @@ Future<bool> isSlowmodeImmune(Ref ref, String channelId) async {
   if (channelId.isEmpty) {
     return false;
   }
-  final db = ref.watch(fluxerDatabaseProvider);
-  final permissions = ref.read(guildPermissionsProvider.notifier);
-  final channel = await db.channelDao.getChannelById(channelId);
-  final guildId = channel?.guildId ?? '';
-  if (guildId.isEmpty) {
-    return false;
-  }
-  final bits = await permissions.getPermissions(guildId);
-  return hasPermission(bits, Permission.bypassSlowmode) ||
-      hasPermission(bits, Permission.manageChannels) ||
-      hasPermission(bits, Permission.manageMessages);
+  final ChannelPermissionBitsOutcome outcome =
+      await computeEffectiveGuildChannelPermissionBitsOutcome(
+        ref: ref,
+        channelId: channelId,
+      );
+  return hasPermission(outcome.value, Permission.bypassSlowmode);
 }

@@ -1,6 +1,7 @@
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
@@ -16,9 +17,8 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/guild_sidebar.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
-import 'package:fluxer_app/features/channels/providers/channel_sidebar_icon_connect_bits_provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
+import 'package:fluxer_app/features/channels/providers/channel_sidebar_icon_connect_bits_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_collapsed_categories_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -525,7 +525,7 @@ List<Override> _buildOverrides({
       if (sidebarConnectBits.containsKey(channel.id))
         channelSidebarIconConnectBitsProvider(
           channel.id,
-        ).overrideWith((ref) async => sidebarConnectBits[channel.id]),
+        ).overrideWith((ref) => sidebarConnectBits[channel.id]),
     ],
     for (final entry in unread.entries)
       channelUnreadProvider(

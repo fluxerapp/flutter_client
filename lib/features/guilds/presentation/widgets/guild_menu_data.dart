@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -26,6 +27,7 @@ enum GuildAction {
   editCommunityProfile,
   hideMutedChannels,
   leaveGuild,
+  deleteMyMessages,
   reportCommunity,
   reportRaid,
   debugCommunity,
@@ -90,18 +92,19 @@ class GuildMenuCheckbox extends GuildMenuEntry {
 
 typedef GuildMenuGroup = List<GuildMenuEntry>;
 
-String? _formatMuteHint(DateTime? muteEndTime) {
+String? _formatMuteHint(FluxerLocalizations l10n, DateTime? muteEndTime) {
   if (muteEndTime == null) {
-    return 'Muted';
+    return l10n.voiceParticipantTooltipMuted;
   }
   final now = DateTime.now();
   if (muteEndTime.isBefore(now)) {
     return null;
   }
-  return 'Until ${DateFormat.jm().format(muteEndTime)}';
+  return l10n.guildMenuMutedUntil(DateFormat.jm().format(muteEndTime));
 }
 
 List<GuildMenuGroup> buildGuildMenuGroups({
+  required FluxerLocalizations l10n,
   required bool hasUnread,
   required bool isMuted,
   required bool isOwner,
@@ -123,118 +126,113 @@ List<GuildMenuGroup> buildGuildMenuGroups({
       hasPermission(p, Permission.banMembers);
 
   return <GuildMenuGroup>[
-    // Group 1: Quick Actions
     [
       if (hasUnread)
-        const GuildMenuAction(
-          label: 'Mark as Read',
+        GuildMenuAction(
+          label: l10n.guildMenuMarkAsRead,
           icon: PhosphorIconsFill.eye,
           action: GuildAction.markAsRead,
         ),
       if (canInvite)
-        const GuildMenuAction(
-          label: 'Invite Members',
+        GuildMenuAction(
+          label: l10n.guildMenuInviteMembers,
           icon: PhosphorIconsFill.userPlus,
           action: GuildAction.inviteMembers,
         ),
       if (canAccessSettings)
         GuildMenuSubmenu(
           key: 'communitySettings',
-          label: 'Community Settings',
-          children: _buildSettingsSubmenu(p),
+          label: l10n.guildMenuCommunitySettings,
+          children: _buildSettingsSubmenu(l10n, p),
         ),
       if (canManageChannels) ...[
-        const GuildMenuAction(
-          label: 'Create Channel',
+        GuildMenuAction(
+          label: l10n.guildNavbarCreateChannel,
           icon: PhosphorIconsFill.plusCircle,
           action: GuildAction.createChannel,
         ),
-        const GuildMenuAction(
-          label: 'Create Category',
+        GuildMenuAction(
+          label: l10n.guildNavbarCreateCategory,
           icon: PhosphorIconsFill.folderPlus,
           action: GuildAction.createCategory,
         ),
       ],
       if (canManageGuild)
-        const GuildMenuAction(
-          label: 'Report Raid',
+        GuildMenuAction(
+          label: l10n.guildMenuReportRaid,
           icon: PhosphorIconsFill.warning,
           action: GuildAction.reportRaid,
         ),
     ],
-
-    // Group 2: Preferences
-    const [
+    [
       GuildMenuAction(
-        label: 'Notification Settings',
+        label: l10n.notificationSettings,
         icon: PhosphorIconsFill.bell,
         action: GuildAction.notificationSettings,
       ),
       GuildMenuAction(
-        label: 'Privacy Settings',
+        label: l10n.privacySettings,
         icon: PhosphorIconsFill.shield,
         action: GuildAction.privacySettings,
       ),
       GuildMenuAction(
-        label: 'Edit Community Profile',
+        label: l10n.guildMenuEditCommunityProfile,
         icon: PhosphorIconsFill.userCircle,
         action: GuildAction.editCommunityProfile,
       ),
     ],
-
-    // Group 3: Mute & Hide
     [
       if (isMuted)
         GuildMenuAction(
-          label: 'Unmute Community',
+          label: l10n.guildMenuUnmuteCommunity,
           icon: PhosphorIconsFill.bellSlash,
           action: GuildAction.unmute,
-          hint: _formatMuteHint(muteEndTime),
+          hint: _formatMuteHint(l10n, muteEndTime),
         )
       else
-        const GuildMenuSubmenu(
+        GuildMenuSubmenu(
           key: 'mute',
-          label: 'Mute Community',
-          children: _muteSubmenuItems,
+          label: l10n.guildMenuMuteCommunity,
+          children: _buildMuteSubmenuItems(l10n),
         ),
       GuildMenuCheckbox(
-        label: 'Hide Muted Channels',
+        label: l10n.guildMenuHideMutedChannels,
         isChecked: hideMutedChannels,
         action: GuildAction.hideMutedChannels,
       ),
     ],
-
-    // Group 4: Danger (non-owners only)
     if (!isOwner)
-      const [
+      [
         GuildMenuAction(
-          label: 'Leave Community',
+          label: l10n.guildNavbarDeleteMyMessagesConfirm,
+          icon: PhosphorIconsFill.trash,
+          action: GuildAction.deleteMyMessages,
+          isDanger: true,
+        ),
+        GuildMenuAction(
+          label: l10n.guildNavbarLeaveCommunityConfirm,
           icon: PhosphorIconsFill.signOut,
           action: GuildAction.leaveGuild,
           isDanger: true,
         ),
         GuildMenuAction(
-          label: 'Report Community',
+          label: l10n.guildMenuReportCommunity,
           icon: PhosphorIconsFill.flag,
           action: GuildAction.reportCommunity,
           isDanger: true,
         ),
       ],
-
-    // Group 5: Debug (developer mode only)
     if (developerMode)
-      const [
+      [
         GuildMenuAction(
-          label: 'Debug Community',
+          label: l10n.guildMenuDebugCommunity,
           icon: PhosphorIconsFill.bug,
           action: GuildAction.debugCommunity,
         ),
       ],
-
-    // Group 6: Utility
-    const [
+    [
       GuildMenuAction(
-        label: 'Copy Community ID',
+        label: l10n.guildMenuCopyCommunityId,
         icon: PhosphorIconsRegular.snowflake,
         action: GuildAction.copyGuildId,
       ),
@@ -242,94 +240,91 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   ];
 }
 
-typedef _SettingsTab = ({
-  String label,
-  GuildAction action,
-  List<Permission> perms,
-});
+typedef _SettingsTabDef = ({GuildAction action, List<Permission> perms});
 
-const _settingsTabDefs = <_SettingsTab>[
+const List<_SettingsTabDef> _settingsTabDefs = <_SettingsTabDef>[
+  (action: GuildAction.settingsOverview, perms: [Permission.manageGuild]),
+  (action: GuildAction.settingsRoles, perms: [Permission.manageRoles]),
   (
-    label: 'General',
-    action: GuildAction.settingsOverview,
-    perms: [Permission.manageGuild],
-  ),
-  (
-    label: 'Roles & Permissions',
-    action: GuildAction.settingsRoles,
-    perms: [Permission.manageRoles],
-  ),
-  (
-    label: 'Custom Emoji',
     action: GuildAction.settingsEmoji,
     perms: [Permission.createExpressions, Permission.manageExpressions],
   ),
   (
-    label: 'Custom Stickers',
     action: GuildAction.settingsStickers,
     perms: [Permission.createExpressions, Permission.manageExpressions],
   ),
   (
-    label: 'Safety & Moderation',
     action: GuildAction.settingsSafetyModeration,
     perms: [Permission.manageGuild],
   ),
+  (action: GuildAction.settingsActivityLog, perms: [Permission.viewAuditLog]),
+  (action: GuildAction.settingsWebhooks, perms: [Permission.manageWebhooks]),
   (
-    label: 'Activity Log',
-    action: GuildAction.settingsActivityLog,
-    perms: [Permission.viewAuditLog],
-  ),
-  (
-    label: 'Webhooks',
-    action: GuildAction.settingsWebhooks,
-    perms: [Permission.manageWebhooks],
-  ),
-  (
-    label: 'Custom Invite URL',
     action: GuildAction.settingsCustomInviteUrl,
     perms: [Permission.manageGuild],
   ),
-  (
-    label: 'Discovery',
-    action: GuildAction.settingsDiscovery,
-    perms: [Permission.manageGuild],
-  ),
-  (
-    label: 'Members',
-    action: GuildAction.settingsMembers,
-    perms: [Permission.manageGuild],
-  ),
-  (
-    label: 'Invite Links',
-    action: GuildAction.settingsInviteLinks,
-    perms: [Permission.manageGuild],
-  ),
-  (
-    label: 'Bans',
-    action: GuildAction.settingsBans,
-    perms: [Permission.banMembers],
-  ),
+  (action: GuildAction.settingsDiscovery, perms: [Permission.manageGuild]),
+  (action: GuildAction.settingsMembers, perms: [Permission.manageGuild]),
+  (action: GuildAction.settingsInviteLinks, perms: [Permission.manageGuild]),
+  (action: GuildAction.settingsBans, perms: [Permission.banMembers]),
 ];
 
-List<GuildMenuEntry> _buildSettingsSubmenu(int permissions) {
+String _settingsTabLabel(GuildAction action, FluxerLocalizations l10n) {
+  return switch (action) {
+    GuildAction.settingsOverview => l10n.guildMenuSettingsGeneral,
+    GuildAction.settingsRoles => l10n.guildMenuSettingsRoles,
+    GuildAction.settingsEmoji => l10n.guildMenuSettingsEmoji,
+    GuildAction.settingsStickers => l10n.guildMenuSettingsStickers,
+    GuildAction.settingsSafetyModeration =>
+      l10n.guildMenuSettingsSafetyModeration,
+    GuildAction.settingsActivityLog => l10n.guildMenuSettingsActivityLog,
+    GuildAction.settingsWebhooks => l10n.guildMenuSettingsWebhooks,
+    GuildAction.settingsCustomInviteUrl =>
+      l10n.guildMenuSettingsCustomInviteUrl,
+    GuildAction.settingsDiscovery => l10n.guildMenuSettingsDiscovery,
+    GuildAction.settingsMembers => l10n.guildMenuSettingsMembers,
+    GuildAction.settingsInviteLinks => l10n.guildMenuSettingsInviteLinks,
+    GuildAction.settingsBans => l10n.guildMenuSettingsBans,
+    _ => '',
+  };
+}
+
+List<GuildMenuEntry> _buildSettingsSubmenu(
+  FluxerLocalizations l10n,
+  int permissions,
+) {
   return [
-    for (final tab in _settingsTabDefs)
-      if (tab.perms.any((p) => hasPermission(permissions, p)))
-        GuildMenuAction(label: tab.label, action: tab.action),
+    for (final _SettingsTabDef tab in _settingsTabDefs)
+      if (tab.perms.any((Permission p) => hasPermission(permissions, p)))
+        GuildMenuAction(
+          label: _settingsTabLabel(tab.action, l10n),
+          action: tab.action,
+        ),
   ];
 }
 
-const _muteSubmenuItems = <GuildMenuEntry>[
-  GuildMenuAction(label: 'For 15 minutes', action: GuildAction.mute15Min),
-  GuildMenuAction(label: 'For 30 minutes', action: GuildAction.mute30Min),
-  GuildMenuAction(label: 'For 1 hour', action: GuildAction.mute1Hour),
-  GuildMenuAction(label: 'For 3 hours', action: GuildAction.mute3Hours),
-  GuildMenuAction(label: 'For 4 hours', action: GuildAction.mute4Hours),
-  GuildMenuAction(label: 'For 8 hours', action: GuildAction.mute8Hours),
-  GuildMenuAction(label: 'For 24 hours', action: GuildAction.mute24Hours),
-  GuildMenuAction(label: 'For 3 days', action: GuildAction.mute3Days),
-  GuildMenuAction(
-    label: 'Until I turn it back on',
-    action: GuildAction.muteForever,
-  ),
-];
+List<GuildMenuEntry> _buildMuteSubmenuItems(FluxerLocalizations l10n) {
+  return <GuildMenuEntry>[
+    GuildMenuAction(label: l10n.dmMuteFor15Min, action: GuildAction.mute15Min),
+    GuildMenuAction(label: l10n.dmMuteFor30Min, action: GuildAction.mute30Min),
+    GuildMenuAction(label: l10n.dmMuteFor1Hour, action: GuildAction.mute1Hour),
+    GuildMenuAction(
+      label: l10n.dmMuteFor3Hours,
+      action: GuildAction.mute3Hours,
+    ),
+    GuildMenuAction(
+      label: l10n.dmMuteFor4Hours,
+      action: GuildAction.mute4Hours,
+    ),
+    GuildMenuAction(
+      label: l10n.dmMuteFor8Hours,
+      action: GuildAction.mute8Hours,
+    ),
+    GuildMenuAction(
+      label: l10n.dmMuteFor24Hours,
+      action: GuildAction.mute24Hours,
+    ),
+    GuildMenuAction(label: l10n.dmMuteFor3Days, action: GuildAction.mute3Days),
+    GuildMenuAction(label: l10n.dmMuteForever, action: GuildAction.muteForever),
+  ];
+}

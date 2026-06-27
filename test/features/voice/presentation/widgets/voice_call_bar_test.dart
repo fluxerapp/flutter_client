@@ -161,8 +161,8 @@ List<Override> _voiceBarOverrides({
         ),
       ),
     ),
-    guildListViewModelProvider.overrideWith(() => _FakeGuildListViewModel()),
-    dmViewModelProvider.overrideWith(() => _FakeDmViewModel()),
+    guildListViewModelProvider.overrideWith(_FakeGuildListViewModel.new),
+    dmViewModelProvider.overrideWith(_FakeDmViewModel.new),
   ];
 }
 
