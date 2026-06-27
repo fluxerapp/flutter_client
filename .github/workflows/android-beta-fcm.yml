@@ -135,10 +135,10 @@ jobs:
         run: bash tool/measure/write_native_measure_config.sh
 
       - name: Build beta split APKs
-        run: flutter build apk --release --split-per-abi --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ) --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }} --dart-define=MEASURE_API_KEY=${{ secrets.MEASURE_API_KEY }} --dart-define=MEASURE_API_URL=${{ secrets.MEASURE_API_URL }}
+        run: flutter build apk --release --split-per-abi --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }} --dart-define=MEASURE_API_KEY=${{ secrets.MEASURE_API_KEY }} --dart-define=MEASURE_API_URL=${{ secrets.MEASURE_API_URL }}
 
       - name: Build beta combined APK
-        run: flutter build apk --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ) --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }} --dart-define=MEASURE_API_KEY=${{ secrets.MEASURE_API_KEY }} --dart-define=MEASURE_API_URL=${{ secrets.MEASURE_API_URL }}
+        run: flutter build apk --release --flavor betaFcm --build-name ${{ steps.beta_version_name.outputs.version_name }} --build-number ${{ steps.android_build_number.outputs.build_number }} --dart-define-from-file=tool/dart_defines/beta.json --dart-define=PUSH_PROVIDER=fcm --dart-define=BUILD_TIMESTAMP="$(date -u +%Y-%m-%dT%H:%M:%SZ)" --dart-define=BETA_NUMBER=${{ steps.beta_version_name.outputs.beta_number }} --dart-define=MEASURE_API_KEY=${{ secrets.MEASURE_API_KEY }} --dart-define=MEASURE_API_URL=${{ secrets.MEASURE_API_URL }}
 
       - name: Upload beta APK artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
