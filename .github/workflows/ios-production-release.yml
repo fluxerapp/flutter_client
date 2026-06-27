@@ -38,6 +38,7 @@ jobs:
     name: Build stable and upload to App Store Connect
     needs: check-actor
     runs-on: macos-26
+    environment: release-builds
     env:
       LANG: en_US.UTF-8
       LC_ALL: en_US.UTF-8

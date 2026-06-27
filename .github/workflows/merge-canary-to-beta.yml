@@ -10,6 +10,7 @@ jobs:
   merge-canary-to-beta:
     name: Merge canary into beta
     runs-on: ubuntu-latest
+    environment: release-builds
     steps:
       - name: Checkout beta
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd

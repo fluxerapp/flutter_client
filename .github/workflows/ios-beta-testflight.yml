@@ -5,8 +5,20 @@ on:
   workflow_call:
 
 jobs:
+  release-approval:
+    name: Release approval
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: release-builds
+    steps:
+      - run: echo "Release build approved."
+
   build-and-upload:
     name: Build and upload to TestFlight
+    needs: release-approval
+    if: |
+      always() &&
+      (github.event_name == 'workflow_call' || needs.release-approval.result == 'success')
     runs-on: macos-26
     env:
       LANG: en_US.UTF-8

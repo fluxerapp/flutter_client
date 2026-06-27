@@ -8,8 +8,16 @@ permissions:
   pull-requests: read
 
 jobs:
+  release-approval:
+    name: Release approval
+    runs-on: ubuntu-latest
+    environment: release-builds
+    steps:
+      - run: echo "Release build approved."
+
   draft-release:
     name: Draft beta release
+    needs: release-approval
     uses: ./.github/workflows/_draft-beta-release.yml
     secrets: inherit
 
