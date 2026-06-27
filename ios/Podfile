@@ -76,8 +76,64 @@ def ensure_measure_sh_libwebp!
   FileUtils.mv(temp_dir, libwebp_dir)
 end
 
+# Temporary workaround for measure-sh iOS 0.11.0 on iOS 26: direct scalar
+# @NSManaged setters can pass raw integers to Core Data's Objective-C path.
+# Remove once the upstream SDK boxes scalar Core Data writes or bumps the pod.
+def patch_measure_sh_core_data_scalar_writes!
+  pod_root = File.expand_path('Pods/measure-sh', __dir__)
+  replacements = {
+    'ios/Sources/MeasureSDK/Swift/CoreData/SessionStore.swift' => {
+      'sessionOb.pid = session.pid' => 'sessionOb.setValue(NSNumber(value: session.pid), forKey: "pid")',
+      'sessionOb.createdAt = session.createdAt' => 'sessionOb.setValue(NSNumber(value: session.createdAt), forKey: "createdAt")',
+      'sessionOb.needsReporting = session.needsReporting' => 'sessionOb.setValue(NSNumber(value: session.needsReporting), forKey: "needsReporting")',
+      'sessionOb.crashed = session.crashed' => 'sessionOb.setValue(NSNumber(value: session.crashed), forKey: "crashed")',
+      'session.crashed = true' => 'session.setValue(NSNumber(value: true), forKey: "crashed")',
+      'session.needsReporting = needsReporting' => 'session.setValue(NSNumber(value: needsReporting), forKey: "needsReporting")',
+    },
+    'ios/Sources/MeasureSDK/Swift/CoreData/EventStore.swift' => {
+      'eventOb.userTriggered = event.userTriggered' => 'eventOb.setValue(NSNumber(value: event.userTriggered), forKey: "userTriggered")',
+      'eventOb.timestampInMillis = event.timestampInMillis' => 'eventOb.setValue(NSNumber(value: event.timestampInMillis), forKey: "timestampInMillis")',
+      'eventOb.needsReporting = event.needsReporting' => 'eventOb.setValue(NSNumber(value: event.needsReporting), forKey: "needsReporting")',
+      'attachmentOb.attachmentSize = attachment.size' => 'attachmentOb.setValue(NSNumber(value: attachment.size), forKey: "attachmentSize")',
+      'events.forEach { $0.needsReporting = needsReporting }' => 'events.forEach { $0.setValue(NSNumber(value: needsReporting), forKey: "needsReporting") }',
+      'events.forEach { $0.needsReporting = true }' => 'events.forEach { $0.setValue(NSNumber(value: true), forKey: "needsReporting") }',
+    },
+    'ios/Sources/MeasureSDK/Swift/CoreData/SpanStore.swift' => {
+      'spanOb.startTime = span.startTime' => 'spanOb.setValue(NSNumber(value: span.startTime), forKey: "startTime")',
+      'spanOb.endTime = span.endTime' => 'spanOb.setValue(NSNumber(value: span.endTime), forKey: "endTime")',
+      'spanOb.duration = span.duration' => 'spanOb.setValue(NSNumber(value: span.duration), forKey: "duration")',
+      'spanOb.status = span.status ?? 0' => 'spanOb.setValue(NSNumber(value: span.status ?? 0), forKey: "status")',
+      'spanOb.hasEnded = span.hasEnded' => 'spanOb.setValue(NSNumber(value: span.hasEnded), forKey: "hasEnded")',
+      'spanOb.isSampled = span.isSampled' => 'spanOb.setValue(NSNumber(value: span.isSampled), forKey: "isSampled")',
+    },
+    'ios/Sources/MeasureSDK/Swift/CoreData/BatchStore.swift' => {
+      'batchOb.createdAt = batch.createdAt' => 'batchOb.setValue(NSNumber(value: batch.createdAt), forKey: "createdAt")',
+    },
+  }
+
+  replacements.each do |relative_path, file_replacements|
+    path = File.join(pod_root, relative_path)
+    raise "Measure source file missing: #{path}" unless File.exist?(path)
+
+    contents = File.read(path)
+    patched = contents.dup
+    file_replacements.each do |source, replacement|
+      if patched.include?(source)
+        patched = patched.gsub(source, replacement)
+      elsif !patched.include?(replacement)
+        raise "Measure source pattern missing in #{relative_path}: #{source}"
+      end
+    end
+    next if patched == contents
+
+    File.write(path, patched)
+    Pod::UI.puts "Patched Measure Core Data scalar writes in #{relative_path}"
+  end
+end
+
 post_install do |installer|
   ensure_measure_sh_libwebp!
+  patch_measure_sh_core_data_scalar_writes!
 
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
