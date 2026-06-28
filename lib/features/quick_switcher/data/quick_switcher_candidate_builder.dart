@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_build_i
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_candidate.dart';
 import 'package:fluxer_app/features/quick_switcher/domain/quick_switcher_types.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
 QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
@@ -15,6 +16,9 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
   final Map<String, Guild> guildsById = <String, Guild>{
     for (final Guild guild in input.guilds) guild.id: guild,
   };
+  final Map<String, String?> friendNicknameById = friendNicknamesById(
+    input.friends,
+  );
   final Map<String, QuickSwitcherUserCandidate> users =
       <String, QuickSwitcherUserCandidate>{};
   final List<QuickSwitcherGroupDmCandidate> groupDms =
@@ -31,15 +35,19 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
     if (convo.isPersonalNotes) {
       continue;
     }
+    final String resolvedName = convo.displayNameWith(
+      friendNicknameById[convo.recipientId],
+    );
     final QuickSwitcherUserCandidate userCandidate = QuickSwitcherUserCandidate(
       id: convo.recipientId,
-      title: convo.displayName,
+      title: resolvedName,
       subtitle: convo.recipientUsername ?? convo.recipientName,
       userId: convo.recipientId,
       dmChannelId: convo.id,
       avatar: convo.recipientAvatar,
       status: convo.recipientStatus,
       searchValues: <String>[
+        resolvedName,
         convo.displayName,
         convo.recipientName,
         if (convo.recipientUsername != null) convo.recipientUsername!,
@@ -65,18 +73,24 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
     if (member.id == input.currentUserId) {
       continue;
     }
+    final String memberName = resolveDisplayName(
+      guildNickname: member.nickname,
+      friendNickname: friendNicknameById[member.id],
+      globalName: member.globalName,
+      username: member.username,
+    );
     users.putIfAbsent(
       member.id,
       () => QuickSwitcherUserCandidate(
         id: member.id,
-        title: member.nickname ?? member.globalName ?? member.username,
+        title: memberName,
         subtitle: member.username,
         userId: member.id,
         avatar: member.avatar,
         avatarColor: member.avatarColor,
         status: member.status,
         searchValues: <String>[
-          member.nickname ?? member.globalName ?? member.username,
+          memberName,
           member.username,
           if (member.globalName != null) member.globalName!,
           member.id,
@@ -222,6 +236,7 @@ List<QuickSwitcherUserCandidate> mergeMemberSearchCandidates({
   required List<QuickSwitcherUserCandidate> baseCandidates,
   required List<Member> memberSearchResults,
   required String? currentUserId,
+  Map<String, String?> friendNicknameById = const <String, String?>{},
 }) {
   if (memberSearchResults.isEmpty) {
     return baseCandidates;
@@ -235,18 +250,24 @@ List<QuickSwitcherUserCandidate> mergeMemberSearchCandidates({
     if (member.id == currentUserId) {
       continue;
     }
+    final String memberName = resolveDisplayName(
+      guildNickname: member.nickname,
+      friendNickname: friendNicknameById[member.id],
+      globalName: member.globalName,
+      username: member.username,
+    );
     candidateMap.putIfAbsent(
       member.id,
       () => QuickSwitcherUserCandidate(
         id: member.id,
-        title: member.nickname ?? member.globalName ?? member.username,
+        title: memberName,
         subtitle: member.username,
         userId: member.id,
         avatar: member.avatar,
         avatarColor: member.avatarColor,
         status: member.status,
         searchValues: <String>[
-          member.nickname ?? member.globalName ?? member.username,
+          memberName,
           member.username,
           if (member.globalName != null) member.globalName!,
           member.id,

@@ -14,8 +14,27 @@ class RelationshipDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<List<Relationship>> getRelationships() => select(relationships).get();
 
+  Future<Map<String, String?>> getNicknamesByUserId() async {
+    final List<Relationship> rows = await select(relationships).get();
+    return <String, String?>{
+      for (final Relationship r in rows) r.userId: r.nickname,
+    };
+  }
+
   Stream<List<Relationship>> watchRelationships() =>
       select(relationships).watch();
+
+  Stream<Relationship?> watchRelationship(String userId) =>
+      (select(relationships)
+            ..where((r) => r.userId.equals(userId))
+            ..limit(1))
+          .watchSingleOrNull();
+
+  Future<Relationship?> getRelationship(String userId) =>
+      (select(relationships)
+            ..where((r) => r.userId.equals(userId))
+            ..limit(1))
+          .getSingleOrNull();
 
   Future<void> upsertRelationships(
     List<RelationshipsCompanion> relationshipList,

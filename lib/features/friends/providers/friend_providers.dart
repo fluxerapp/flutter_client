@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/friends/data/friend_repository.dart';
@@ -18,6 +19,15 @@ FriendRepository friendRepository(Ref ref) {
 final friendsListProvider = StreamProvider<List<Friend>>((ref) {
   return ref.watch(friendRepositoryProvider).watchRelationships();
 });
+
+final StreamProviderFamily<String?, String> friendNicknameProvider =
+    StreamProvider.autoDispose.family<String?, String>((ref, userId) {
+      final db = ref.watch(fluxerDatabaseProvider);
+      return db.relationshipDao.watchRelationship(userId).map((row) {
+        final String? nick = row?.nickname?.trim();
+        return nick == null || nick.isEmpty ? null : nick;
+      });
+    });
 
 /// Pending incoming friend request count (type 3 = pendingIncoming).
 final pendingFriendRequestCountProvider = StreamProvider<int>((ref) {

@@ -6,6 +6,8 @@ import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
+const int dmGroupChannelType = 3;
+
 const int dmPersonalNotesChannelType = 999;
 
 const String fluxerBotUserId = '0';
@@ -31,6 +33,8 @@ bool canCallUser({required bool isBot, required bool isSystem}) =>
     !isBot && !isSystem;
 
 bool shouldShowDmRecipientPresence(DmConversation dm) => !dm.isSystem;
+
+bool isDmGroupType(int type) => type == dmGroupChannelType;
 
 bool isDmPersonalNotesType(int type) => type == dmPersonalNotesChannelType;
 

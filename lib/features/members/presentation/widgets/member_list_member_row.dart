@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
@@ -13,10 +14,22 @@ import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+
+String _memberDisplayName(
+  WidgetRef ref,
+  GuildMemberResponse member,
+  String userId,
+) => resolveDisplayName(
+  guildNickname: member.nick,
+  friendNickname: ref.watch(friendNicknameProvider(userId)).value,
+  globalName: member.user.globalName,
+  username: member.user.username,
+);
 
 class MemberListSidebarMemberRow extends ConsumerStatefulWidget {
   const MemberListSidebarMemberRow({
@@ -45,8 +58,7 @@ class _MemberListSidebarMemberRowState
   Widget build(BuildContext context) {
     final MemberListMember listMember = widget.listMember;
     final GuildMemberResponse member = listMember.member;
-    final String displayName =
-        member.nick ?? member.user.globalName ?? member.user.username;
+    final String displayName = _memberDisplayName(ref, member, widget.userId);
     final String? avatar = member.avatar ?? member.user.avatar;
     final db.User? presenceUser = ref
         .watch(userPresenceProvider(widget.userId))
@@ -174,8 +186,7 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final GuildMemberResponse member = listMember.member;
-    final String displayName =
-        member.nick ?? member.user.globalName ?? member.user.username;
+    final String displayName = _memberDisplayName(ref, member, userId);
     final String? avatar = member.avatar ?? member.user.avatar;
     final db.User? presenceUser = ref.watch(userPresenceProvider(userId)).value;
     final String status =

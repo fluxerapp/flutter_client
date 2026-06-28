@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -28,6 +30,12 @@ class SystemMessage extends ConsumerWidget {
                 memberRoleColorProvider((message.authorId, resolvedGuildId)),
               )
               .value;
+    final String authorName = watchMessageAuthorDisplay(
+      ref: ref,
+      message: message,
+      guildId: resolvedGuildId,
+      currentUserId: ref.watch(currentUserIdProvider),
+    ).displayName;
     final textStyle = TextStyle(
       color: context.colors.textTertiaryMuted,
       fontSize: 14,
@@ -39,6 +47,7 @@ class SystemMessage extends ConsumerWidget {
     );
     final (icon, textSpans) = _iconAndTextSpans(
       context,
+      authorName: authorName,
       textStyle: textStyle,
       usernameStyle: usernameStyle,
     );
@@ -83,6 +92,7 @@ class SystemMessage extends ConsumerWidget {
 
   (IconData, List<InlineSpan>) _iconAndTextSpans(
     BuildContext context, {
+    required String authorName,
     required TextStyle textStyle,
     required TextStyle usernameStyle,
   }) {
@@ -91,6 +101,7 @@ class SystemMessage extends ConsumerWidget {
         PhosphorIconsBold.arrowRight,
         _guildJoinTextSpans(
           FluxerLocalizations.of(context),
+          authorName: authorName,
           textStyle: textStyle,
           usernameStyle: usernameStyle,
         ),
@@ -101,7 +112,7 @@ class SystemMessage extends ConsumerWidget {
     return (
       icon,
       <InlineSpan>[
-        TextSpan(text: message.authorName, style: usernameStyle),
+        TextSpan(text: authorName, style: usernameStyle),
         TextSpan(text: ' $text', style: textStyle),
       ],
     );
@@ -109,6 +120,7 @@ class SystemMessage extends ConsumerWidget {
 
   List<InlineSpan> _guildJoinTextSpans(
     FluxerLocalizations l10n, {
+    required String authorName,
     required TextStyle textStyle,
     required TextStyle usernameStyle,
   }) {
@@ -124,7 +136,7 @@ class SystemMessage extends ConsumerWidget {
       for (var i = 0; i < parts.length; i++) ...[
         if (parts[i].isNotEmpty) TextSpan(text: parts[i], style: textStyle),
         if (i < parts.length - 1)
-          TextSpan(text: message.authorName, style: usernameStyle),
+          TextSpan(text: authorName, style: usernameStyle),
       ],
     ];
   }

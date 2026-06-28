@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
@@ -341,6 +342,20 @@ class UserProfileActionsSheet {
         if (!isCurrentUser) {
           if (status == FriendStatus.accepted) {
             groups.add(<Widget>[
+              FluxerMenuItem(
+                label: l10n.dmChangeFriendNickname,
+                icon: PhosphorIconsFill.pencilSimple,
+                onPressed: () async {
+                  close();
+                  await showChangeFriendNicknameSheet(
+                    context,
+                    ref,
+                    userId: user.id,
+                    username: user.username,
+                    currentNick: relationship?.nickname,
+                  );
+                },
+              ),
               FluxerMenuItem(
                 label: l10n.userProfileRemoveFriend,
                 icon: PhosphorIconsFill.userMinus,

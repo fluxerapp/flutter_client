@@ -133,6 +133,9 @@ class GuildAuditLogMemberRepository {
     required String guildId,
     required Set<String> userIds,
   }) async {
+    final Map<String, String?> nicknameByUserId = await _database
+        .relationshipDao
+        .getNicknamesByUserId();
     final Map<String, GuildUserDisplay> displays = <String, GuildUserDisplay>{};
     for (final String userId in userIds) {
       final db.User? user = await _database.userDao.getUserById(userId);
@@ -147,6 +150,7 @@ class GuildAuditLogMemberRepository {
         user: user,
         member: member,
         guildId: guildId,
+        friendNickname: nicknameByUserId[userId],
       );
     }
     return displays;

@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
@@ -676,6 +677,9 @@ class _DMListState extends ConsumerState<DMList> {
     final layout = context.layout;
     final hasUnread = c.unreadCount > 0;
     final currentUserId = ref.watch(currentUserIdProvider);
+    final String displayName = c.displayNameWith(
+      c.isGroup ? null : ref.watch(friendNicknameProvider(c.recipientId)).value,
+    );
     final titleColor = isSelected
         ? context.colors.surfaceInteractiveSelectedColor
         : hasUnread
@@ -690,9 +694,14 @@ class _DMListState extends ConsumerState<DMList> {
 
     String lastMessagePreview = c.lastMessage;
     if (c.lastMessage.isNotEmpty && c.lastMessageAuthorName != null) {
-      final prefix = c.lastMessageAuthorId == currentUserId
+      final String? authorId = c.lastMessageAuthorId;
+      final String? authorFriendNickname =
+          authorId != null && authorId.isNotEmpty
+          ? ref.watch(friendNicknameProvider(authorId)).value
+          : null;
+      final prefix = authorId == currentUserId
           ? 'You'
-          : c.lastMessageAuthorName!;
+          : (authorFriendNickname ?? c.lastMessageAuthorName!);
       lastMessagePreview = '$prefix: ${c.lastMessage}';
     }
 
@@ -747,7 +756,7 @@ class _DMListState extends ConsumerState<DMList> {
                           )
                         : null;
                     return FluxerAvatar.user(
-                      fallbackText: c.recipientName,
+                      fallbackText: displayName,
                       userId: c.recipientId,
                       imageUrl: FluxerMediaUrl.userAvatar(
                         userId: c.recipientId,
@@ -779,7 +788,7 @@ class _DMListState extends ConsumerState<DMList> {
                             ),
                           Flexible(
                             child: Text(
-                              c.displayName,
+                              displayName,
                               style: context.textStyles.username.copyWith(
                                 color: titleColor,
                               ),
@@ -929,8 +938,15 @@ class _DMListState extends ConsumerState<DMList> {
         // TODO(Elias): open add note sheet
         break;
       case _DmAction.changeFriendNickname:
-        // TODO(M0n7y5): open change friend nickname sheet
-        break;
+        unawaited(
+          showChangeFriendNicknameSheet(
+            context,
+            ref,
+            userId: convo.recipientId,
+            username: convo.recipientUsername ?? convo.recipientName,
+            currentNick: rel?.nickname,
+          ),
+        );
       case _DmAction.favoriteDm:
         final repository = ref.read(favoriteChannelsRepositoryProvider);
         if (await repository.isFavorite(convo.id)) {
@@ -1009,7 +1025,9 @@ class _DMListState extends ConsumerState<DMList> {
         await FluxerConfirmModal.show(
           context,
           title: l10n.dmRemoveFriendConfirmTitle,
-          description: l10n.dmRemoveFriendConfirmDescription(convo.displayName),
+          description: l10n.dmRemoveFriendConfirmDescription(
+            convo.displayNameWith(rel?.nickname),
+          ),
           confirmLabel: l10n.dmRemoveFriend,
           isDanger: true,
           onConfirm: () {
@@ -1108,7 +1126,9 @@ class _DMListState extends ConsumerState<DMList> {
         await FluxerConfirmModal.show(
           context,
           title: l10n.dmBlockConfirmTitle,
-          description: l10n.dmBlockConfirmDescription(convo.displayName),
+          description: l10n.dmBlockConfirmDescription(
+            convo.displayNameWith(rel?.nickname),
+          ),
           confirmLabel: l10n.dmBlock,
           isDanger: true,
           onConfirm: () {
@@ -1158,7 +1178,9 @@ class _DMListState extends ConsumerState<DMList> {
         final confirmed = await FluxerConfirmModal.show(
           context,
           title: l10n.dmCloseDmConfirmTitle,
-          description: l10n.dmCloseDmConfirmDescription(convo.displayName),
+          description: l10n.dmCloseDmConfirmDescription(
+            convo.displayNameWith(rel?.nickname),
+          ),
           confirmLabel: l10n.dmCloseDm,
           isDanger: true,
           onConfirm: () {
@@ -1414,6 +1436,11 @@ class _DmBottomSheet extends ConsumerWidget {
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
     final hasUnread = convo.unreadCount > 0;
+    final String displayName = convo.displayNameWith(
+      convo.isGroup
+          ? null
+          : ref.watch(friendNicknameProvider(convo.recipientId)).value,
+    );
 
     void pop(Object action) => Navigator.of(context).pop(action);
 
@@ -1660,7 +1687,7 @@ class _DmBottomSheet extends ConsumerWidget {
                         ),
                       )
                     : FluxerAvatar.user(
-                        fallbackText: convo.recipientName,
+                        fallbackText: displayName,
                         userId: convo.recipientId,
                         imageUrl: FluxerMediaUrl.userAvatar(
                           userId: convo.recipientId,
@@ -1672,7 +1699,7 @@ class _DmBottomSheet extends ConsumerWidget {
                         showStatus: shouldShowDmRecipientPresence(convo),
                         size: 48,
                       ),
-                title: convo.displayName,
+                title: displayName,
                 subtitle: convo.isGroup
                     ? Text(
                         l10n.dmGroupMemberCount(convo.memberCount),

@@ -25,6 +25,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_context_menu.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_item.dart';
@@ -67,6 +68,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart';
@@ -720,7 +722,14 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     final l10n = FluxerLocalizations.of(context);
     final db = ref.read(fluxerDatabaseProvider);
     final user = await db.userDao.getUserById(dm.recipientId);
-    final username = user?.globalName ?? user?.username ?? dm.recipientId;
+    final relationship = isDmGroupType(dm.type)
+        ? null
+        : await db.relationshipDao.getRelationship(dm.recipientId);
+    final username = resolveDisplayName(
+      friendNickname: relationship?.nickname,
+      globalName: user?.globalName,
+      username: user?.username ?? dm.recipientId,
+    );
 
     if (!context.mounted) {
       return;

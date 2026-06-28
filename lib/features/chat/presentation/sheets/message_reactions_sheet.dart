@@ -4,13 +4,18 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_reactors_provider.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -281,15 +286,25 @@ class _ReactionTab extends StatelessWidget {
   }
 }
 
-class _ReactorRow extends StatelessWidget {
+class _ReactorRow extends ConsumerWidget {
   const _ReactorRow({required this.user});
 
   final UserPartialResponse user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final hasGlobalName = user.globalName?.isNotEmpty ?? false;
-    final displayName = hasGlobalName ? user.globalName! : user.username;
+    final String? guildId = ref.watch(activeGuildIdProvider);
+    final GuildUserDisplay? resolved = guildId == null || guildId.isEmpty
+        ? null
+        : ref.watch(guildUserDisplayFromDbProvider((user.id, guildId))).value;
+    final displayName =
+        resolved?.displayName ??
+        resolveDisplayName(
+          friendNickname: ref.watch(friendNicknameProvider(user.id)).value,
+          globalName: user.globalName,
+          username: user.username,
+        );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),

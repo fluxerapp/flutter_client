@@ -121,6 +121,8 @@ Future<Map<String, GuildUserDisplay>> resolveGuildUserDisplaysForUserIds({
     userIds: uniqueUserIds,
     onMemberFetched: onMemberFetched,
   );
+  final Map<String, String?> nicknameByUserId = await database.relationshipDao
+      .getNicknamesByUserId();
   final Map<String, GuildUserDisplay> displays = <String, GuildUserDisplay>{};
   for (final String userId in uniqueUserIds) {
     final db.User? user = await database.userDao.getUserById(userId);
@@ -135,6 +137,7 @@ Future<Map<String, GuildUserDisplay>> resolveGuildUserDisplaysForUserIds({
       user: user,
       member: member,
       guildId: guildId,
+      friendNickname: nicknameByUserId[userId],
     );
   }
   return displays;

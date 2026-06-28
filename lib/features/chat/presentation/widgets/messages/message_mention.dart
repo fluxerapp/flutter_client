@@ -13,11 +13,13 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -228,11 +230,21 @@ final FutureProviderFamily<String?, String> _dmNameByChannelIdProvider =
       if (row == null) {
         return null;
       }
-      final user = await db.userDao.getUserById(row.recipientId);
-      if (row.type == 3) {
+      if (isDmGroupType(row.type)) {
         return row.name ?? 'Group DM';
       }
-      return user?.globalName ?? user?.username;
+      final user = await db.userDao.getUserById(row.recipientId);
+      if (user == null) {
+        return null;
+      }
+      final relationship = await db.relationshipDao.getRelationship(
+        row.recipientId,
+      );
+      return resolveDisplayName(
+        friendNickname: relationship?.nickname,
+        globalName: user.globalName,
+        username: user.username,
+      );
     });
 
 class ChannelJumpLinkMention extends ConsumerWidget {

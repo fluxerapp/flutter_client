@@ -20,6 +20,8 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_grid_layout/voice_grid_layout.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -690,6 +692,7 @@ class _VoiceChannelParticipantGridState
         );
     return _VoiceParticipantCard(
       data: tile.data,
+      guildId: widget.guildId,
       room: room,
       currentUserId: me,
       localConnectionId: localConnectionId,
@@ -745,9 +748,10 @@ class _TileEnterAnimation extends StatelessWidget {
   }
 }
 
-class _VoiceParticipantCard extends StatelessWidget {
+class _VoiceParticipantCard extends ConsumerWidget {
   const _VoiceParticipantCard({
     required this.data,
+    required this.guildId,
     required this.room,
     required this.currentUserId,
     required this.localConnectionId,
@@ -764,6 +768,7 @@ class _VoiceParticipantCard extends StatelessWidget {
   });
 
   final VoiceChannelParticipantData data;
+  final String? guildId;
   final Room? room;
   final String? currentUserId;
   final String? localConnectionId;
@@ -779,11 +784,14 @@ class _VoiceParticipantCard extends StatelessWidget {
   final FluxerLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final database.User? user = data.user;
-    final String display = user != null
-        ? (user.globalName ?? user.username)
-        : data.userId;
+    final GuildUserDisplay? resolvedDisplay = ref
+        .watch(guildUserDisplayFromDbProvider((data.userId, guildId)))
+        .value;
+    final String display =
+        resolvedDisplay?.displayName ??
+        (user != null ? (user.globalName ?? user.username) : data.userId);
     final VoiceState v = data.voice;
     final int? avatarArgb = user?.avatarColor;
     final Color cardColor = avatarArgb == null

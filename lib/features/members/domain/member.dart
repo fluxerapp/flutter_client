@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
 class MemberRole {
@@ -107,7 +108,11 @@ class Member {
     );
   }
 
-  String get displayName => nickname ?? globalName ?? username;
+  String get displayName => resolveDisplayName(
+    guildNickname: nickname,
+    globalName: globalName,
+    username: username,
+  );
 
   /// Whether the member is currently timed out (communication disabled).
   bool get isTimedOut =>

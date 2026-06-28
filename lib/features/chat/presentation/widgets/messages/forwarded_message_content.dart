@@ -19,8 +19,10 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -298,7 +300,7 @@ class _ForwardedSourceButtonState
       return null;
     }
 
-    if (dmChannel.type == 3) {
+    if (isDmGroupType(dmChannel.type)) {
       return _ForwardedSourceData.groupDm(
         channelId: widget.reference.channelId,
         messageId: widget.reference.messageId,
@@ -307,7 +309,14 @@ class _ForwardedSourceButtonState
     }
 
     final user = await db.userDao.getUserById(dmChannel.recipientId);
-    final name = user?.globalName ?? user?.username ?? dmChannel.recipientId;
+    final relationship = await db.relationshipDao.getRelationship(
+      dmChannel.recipientId,
+    );
+    final name = resolveDisplayName(
+      friendNickname: relationship?.nickname,
+      globalName: user?.globalName,
+      username: user?.username ?? dmChannel.recipientId,
+    );
     return _ForwardedSourceData.dm(
       channelId: widget.reference.channelId,
       messageId: widget.reference.messageId,

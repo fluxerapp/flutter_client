@@ -254,12 +254,16 @@ class ComposerAutocompleteFieldState
     if (generation != _syncGeneration) {
       return;
     }
+    final Map<String, String?> friendNicknameById = friendNicknamesById(
+      ref.read(dmViewModelProvider).friendsList,
+    );
     List<Member> ranked = rankMembersForMentionQuery(
       source.members,
       parsed,
       limit: _kMentionLimit,
       discriminatorByUserId: discs,
       prioritizeMemberIds: source.remoteSearchMemberIds,
+      friendNicknameById: friendNicknameById,
     );
     final Channel? ch = _guildChannel();
     final String? guildId = ch?.guildId;
@@ -280,7 +284,10 @@ class ComposerAutocompleteFieldState
     final List<_ComposerRow> rows = ranked
         .map(
           (Member m) => _ComposerRow(
-            title: memberDisplayLabel(m),
+            title: memberDisplayLabel(
+              m,
+              friendNickname: friendNicknameById[m.id],
+            ),
             subtitle: _composerMentionAutocompleteRightLabel(m, discs),
             onApply: () => _applyUserMention(trigger, m),
             mentionMember: m,
@@ -638,12 +645,22 @@ class ComposerAutocompleteFieldState
     final String userId = member.id;
     if (widget.controller is ComposerMentionController &&
         trigger.kind == ComposerAutocompleteTriggerKind.mention) {
+      String? friendNickname;
+      for (final friend in ref.read(dmViewModelProvider).friendsList) {
+        if (friend.id == userId) {
+          friendNickname = friend.nickname;
+          break;
+        }
+      }
       (widget.controller as ComposerMentionController)
           .insertUserMentionPlaceholder(
             matchStart: trigger.matchStart,
             matchEnd: trigger.matchEnd,
             userId: userId,
-            displayName: memberDisplayLabel(member),
+            displayName: memberDisplayLabel(
+              member,
+              friendNickname: friendNickname,
+            ),
           );
       _afterApply();
       return;
@@ -822,9 +839,7 @@ class ComposerAutocompleteFieldState
                   userAvatarImageUrl: m == null
                       ? null
                       : FluxerMediaUrl.userAvatar(userId: m.id, hash: m.avatar),
-                  userAvatarFallbackText: m != null
-                      ? memberDisplayLabel(m)
-                      : null,
+                  userAvatarFallbackText: m != null ? row.title : null,
                   userAvatarColor: m?.avatarColor,
                   userAvatarStatus: m == null
                       ? null

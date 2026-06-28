@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -97,6 +98,10 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
     final recipient = isGroup
         ? null
         : ref.watch(userPresenceProvider(widget.recipientId)).value;
+    final String displayName = isGroup
+        ? widget.displayName
+        : ref.watch(friendNicknameProvider(widget.recipientId)).value ??
+              widget.displayName;
     final avatarImageUrl = isGroup
         ? null
         : FluxerMediaUrl.userAvatar(
@@ -153,7 +158,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                   ),
                   const SizedBox(width: 6),
                   FluxerTooltip(
-                    message: widget.displayName,
+                    message: displayName,
                     position: FluxerTooltipPosition.right,
                     child: SizedBox(
                       width: 48,
@@ -185,7 +190,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                                             size: 44,
                                           )
                                   : FluxerAvatar.user(
-                                      fallbackText: widget.displayName,
+                                      fallbackText: displayName,
                                       userId: widget.recipientId,
                                       imageUrl: avatarImageUrl,
                                       avatarColor: avatarColor,

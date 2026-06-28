@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_hash.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
 
 const int guildProfileDefaultAccentColor = 0x4641D9;
@@ -93,11 +94,7 @@ String resolveAccountDisplayName({
   required String username,
   String? globalName,
 }) {
-  final String? trimmedGlobalName = globalName?.trim();
-  if (trimmedGlobalName != null && trimmedGlobalName.isNotEmpty) {
-    return trimmedGlobalName;
-  }
-  return username;
+  return resolveDisplayName(username: username, globalName: globalName);
 }
 
 String resolveMessageAuthorName(UserPartialResponse author) {
@@ -118,14 +115,18 @@ GuildUserDisplay resolveGuildUserDisplayFromRows({
   required db.User user,
   required db.Member? member,
   required String? guildId,
+  String? friendNickname,
   String? fallbackDisplayName,
   String? fallbackAvatarHash,
   int? fallbackAvatarColor,
 }) {
-  final String? nick = member?.nick?.trim();
-  final String displayName = nick != null && nick.isNotEmpty
-      ? nick
-      : fallbackDisplayName ?? user.globalName ?? user.username;
+  final String displayName = resolveDisplayName(
+    guildNickname: member?.nick,
+    friendNickname: friendNickname,
+    fallbackDisplayName: fallbackDisplayName,
+    globalName: user.globalName,
+    username: user.username,
+  );
   final String? memberAvatar = member?.serverAvatar;
   final bool isAvatarUnset =
       guildId != null &&
@@ -169,10 +170,10 @@ GuildUserDisplay resolveGuildUserDisplayFromMessage({
   required String? guildId,
   bool animatedAvatar = true,
 }) {
-  final String? nick = member?.nick?.trim();
-  final String displayName = nick != null && nick.isNotEmpty
-      ? nick
-      : fallbackDisplayName;
+  final String displayName = resolveDisplayName(
+    guildNickname: member?.nick,
+    username: fallbackDisplayName,
+  );
   final String? memberAvatar = member?.serverAvatar;
   final bool isAvatarUnset =
       guildId != null &&
@@ -272,7 +273,7 @@ GuildUserDisplay resolveMessageAuthorDisplay({
 GuildUserDisplay resolveGuildUserDisplayFromProfile({
   required UserProfileFullResponse response,
   required String? guildId,
-  required String? relationshipNickname,
+  required String? friendNickname,
   bool showGlobalProfile = false,
 }) {
   final UserProfileFullResponseUser user = response.user;
@@ -331,7 +332,7 @@ GuildUserDisplay resolveGuildUserDisplayFromProfile({
     displayName: resolveGuildProfileDisplayName(
       user: user,
       guildMember: guildMember,
-      relationshipNickname: relationshipNickname,
+      friendNickname: friendNickname,
       useGuildProfile: canUseGuildProfile,
     ),
     accountDisplayName: resolveAccountDisplayName(
@@ -365,18 +366,13 @@ bool hasMemberProfileFlag(int? profileFlags, int flag) {
 String resolveGuildProfileDisplayName({
   required UserProfileFullResponseUser user,
   required GuildMemberResponse? guildMember,
-  required String? relationshipNickname,
+  required String? friendNickname,
   required bool useGuildProfile,
 }) {
-  final String? nickname = relationshipNickname?.trim();
-  if (nickname != null && nickname.isNotEmpty) {
-    return nickname;
-  }
-  final String? guildNickname = useGuildProfile
-      ? guildMember?.nick?.trim()
-      : null;
-  if (guildNickname != null && guildNickname.isNotEmpty) {
-    return guildNickname;
-  }
-  return user.globalName ?? user.username;
+  return resolveDisplayName(
+    guildNickname: useGuildProfile ? guildMember?.nick : null,
+    friendNickname: friendNickname,
+    globalName: user.globalName,
+    username: user.username,
+  );
 }

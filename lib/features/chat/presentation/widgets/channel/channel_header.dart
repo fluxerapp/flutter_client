@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
@@ -659,11 +660,15 @@ class ChannelHeader extends ConsumerWidget {
     if (nickname != null && nickname.isNotEmpty) {
       return nickname;
     }
+    final String? friendNickname = dm != null && !dm.isGroup
+        ? ref.watch(friendNicknameProvider(dm.recipientId)).value
+        : null;
     return _resolveTitle(
       l10n: l10n,
       channel: channel,
       dm: dm,
       isPersonalNotes: isPersonalNotes,
+      friendNickname: friendNickname,
     );
   }
 
@@ -672,6 +677,7 @@ class ChannelHeader extends ConsumerWidget {
     required Channel? channel,
     required DmConversation? dm,
     required bool isPersonalNotes,
+    String? friendNickname,
   }) {
     if (channel != null) {
       return channel.name;
@@ -680,7 +686,7 @@ class ChannelHeader extends ConsumerWidget {
       return l10n.personalNotesTitle;
     }
     if (dm != null) {
-      return dm.displayName;
+      return dm.displayNameWith(friendNickname);
     }
     return '';
   }

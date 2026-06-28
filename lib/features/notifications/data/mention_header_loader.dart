@@ -1,8 +1,10 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 
 const String _kFallbackDmTitle = 'DM';
 
@@ -128,7 +130,17 @@ Future<MentionHeaderResult> _buildDmHeader(
   String title = dm.name?.trim() ?? '';
   if (title.isEmpty && dm.recipientId.isNotEmpty) {
     final drift_db.User? user = await db.userDao.getUserById(dm.recipientId);
-    title = user?.username ?? _kFallbackDmTitle;
+    final drift_db.Relationship? relationship = await db.relationshipDao
+        .getRelationship(dm.recipientId);
+    title = user == null
+        ? _kFallbackDmTitle
+        : resolveDisplayName(
+            friendNickname: isDmGroupType(dm.type)
+                ? null
+                : relationship?.nickname,
+            globalName: user.globalName,
+            username: user.username,
+          );
   }
   if (title.isEmpty) {
     title = _kFallbackDmTitle;

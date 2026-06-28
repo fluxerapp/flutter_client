@@ -39,6 +39,8 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -287,12 +289,15 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     if (dm == null) {
       return;
     }
+    final String? friendNickname = dm.isGroup
+        ? null
+        : ref.read(friendNicknameProvider(dm.recipientId)).value;
     await FluxerConfirmModal.show(
       context,
       title: dm.isGroup ? 'Leave Group' : 'Close DM',
       description: dm.isGroup
           ? 'Leave ${dm.displayName}?'
-          : 'Close your conversation with ${dm.displayName}?',
+          : 'Close your conversation with ${dm.displayNameWith(friendNickname)}?',
       confirmLabel: dm.isGroup ? 'Leave Group' : 'Close DM',
       isDanger: true,
       onConfirm: () {
@@ -570,7 +575,15 @@ class _DetailsIdentityHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Channel? channelEntity = channel;
-    final title = channelEntity?.name ?? dm?.displayName ?? 'Details';
+    final DmConversation? dmConvo = dm;
+    final String? friendNickname =
+        dmConvo != null && !dmConvo.isGroup && !dmConvo.isPersonalNotes
+        ? ref.watch(friendNicknameProvider(dmConvo.recipientId)).value
+        : null;
+    final title =
+        channelEntity?.name ??
+        dmConvo?.displayNameWith(friendNickname) ??
+        'Details';
     final subtitle = _detailsSubtitle(
       l10n: FluxerLocalizations.of(context),
       channel: channelEntity,
@@ -724,7 +737,9 @@ class _DetailsAvatar extends ConsumerWidget {
         );
       }
       return FluxerAvatar.user(
-        fallbackText: dm.recipientName,
+        fallbackText: dm.displayNameWith(
+          ref.watch(friendNicknameProvider(dm.recipientId)).value,
+        ),
         userId: dm.recipientId,
         imageUrl: FluxerMediaUrl.userAvatar(
           userId: dm.recipientId,
@@ -1514,10 +1529,14 @@ class _DmMemberGroups extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     final db.User? currentUser = ref.watch(userPresenceProvider(userId)).value;
+    final Map<String, String?> friendNicknameById = friendNicknamesById(
+      ref.watch(friendsListProvider).value ?? const <Friend>[],
+    );
     final List<_DmParticipant> participants = _buildDmParticipants(
       dm: dm,
       currentUserId: userId,
       currentUser: currentUser,
+      friendNicknameById: friendNicknameById,
     );
     final Map<String, db.User?> presenceById = <String, db.User?>{
       for (final _DmParticipant participant in participants)
@@ -1574,9 +1593,15 @@ List<_DmParticipant> _buildDmParticipants({
   required DmConversation dm,
   required String currentUserId,
   required db.User? currentUser,
+  required Map<String, String?> friendNicknameById,
 }) {
   final List<_DmParticipant> participants = <_DmParticipant>[];
   final Set<String> addedIds = <String>{};
+
+  String withFriendNickname(String userId, String fallback) {
+    final String? nickname = friendNicknameById[userId]?.trim();
+    return nickname != null && nickname.isNotEmpty ? nickname : fallback;
+  }
 
   void add(_DmParticipant participant) {
     if (participant.id.isEmpty || !addedIds.add(participant.id)) {
@@ -1607,7 +1632,10 @@ List<_DmParticipant> _buildDmParticipants({
       add(
         _DmParticipant(
           id: member.id,
-          name: name.isEmpty ? member.id : member.name,
+          name: withFriendNickname(
+            member.id,
+            name.isEmpty ? member.id : member.name,
+          ),
           avatar: member.avatar,
         ),
       );
@@ -1618,7 +1646,10 @@ List<_DmParticipant> _buildDmParticipants({
   add(
     _DmParticipant(
       id: dm.recipientId,
-      name: dm.recipientName.trim().isEmpty ? dm.recipientId : dm.recipientName,
+      name: withFriendNickname(
+        dm.recipientId,
+        dm.recipientName.trim().isEmpty ? dm.recipientId : dm.recipientName,
+      ),
       avatar: dm.recipientAvatar,
       isBot: dm.isBot,
       isSystem: dm.isSystem,

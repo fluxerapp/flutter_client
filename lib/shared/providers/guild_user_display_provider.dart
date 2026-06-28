@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
@@ -138,6 +139,9 @@ AsyncValue<GuildUserDisplay?> _combine(
       guildId != null && guildId.isNotEmpty
       ? ref.watch(_memberRowProvider((userId, guildId)))
       : const AsyncValue<db.Member?>.data(null);
+  final String? friendNickname = ref
+      .watch(friendNicknameProvider(userId))
+      .value;
   if (fetchOnMiss &&
       guildId != null &&
       guildId.isNotEmpty &&
@@ -166,6 +170,7 @@ AsyncValue<GuildUserDisplay?> _combine(
             user: user,
             member: memberAsync.value,
             guildId: guildId,
+            friendNickname: friendNickname,
           ),
   );
 }
