@@ -18,7 +18,7 @@ class MentionHeader {
     return MentionHeader(
       primary: title,
       secondaryLine: '',
-      guildChannelVisualType: ChannelType.text,
+      guildChannelVisualType: ChannelType.guildText,
       isDm: true,
       guildIconUrl: null,
       guildIconName: title,

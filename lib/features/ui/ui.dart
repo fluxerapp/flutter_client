@@ -18,6 +18,7 @@ export 'package:fluxer_app/features/ui/button/fluxer_action_button.dart';
 export 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 export 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 export 'package:fluxer_app/features/ui/button/fluxer_button_variant.dart';
+export 'package:fluxer_app/features/ui/card_alignment_controls/fluxer_card_alignment_controls.dart';
 // Inputs
 export 'package:fluxer_app/features/ui/character_counter/fluxer_character_counter.dart';
 export 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
@@ -30,6 +31,7 @@ export 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 // Lists
 export 'package:fluxer_app/features/ui/list/fluxer_list_row.dart';
 export 'package:fluxer_app/features/ui/list/fluxer_list_section.dart';
+export 'package:fluxer_app/features/ui/list/fluxer_selectable_row.dart';
 export 'package:fluxer_app/features/ui/list/fluxer_unread_bar.dart';
 export 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 export 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';

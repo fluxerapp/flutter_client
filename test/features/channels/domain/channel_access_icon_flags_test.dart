@@ -11,7 +11,7 @@ void main() {
     test('returns false when guildId is empty', () {
       expect(
         isChannelEveryonePrivateForIcon(
-          type: ChannelType.text,
+          type: ChannelType.guildText,
           guildId: '',
           permissionOverwritesJson: jsonEncode(<Map<String, Object>>[
             <String, Object>{
@@ -29,7 +29,7 @@ void main() {
     test('returns false when json is null', () {
       expect(
         isChannelEveryonePrivateForIcon(
-          type: ChannelType.text,
+          type: ChannelType.guildText,
           guildId: guildId,
           permissionOverwritesJson: null,
         ),
@@ -40,7 +40,7 @@ void main() {
     test('text channel: everyone fully denies VIEW_CHANNEL', () {
       expect(
         isChannelEveryonePrivateForIcon(
-          type: ChannelType.text,
+          type: ChannelType.guildText,
           guildId: guildId,
           permissionOverwritesJson: jsonEncode(<Map<String, Object>>[
             <String, Object>{
@@ -58,7 +58,7 @@ void main() {
     test('text channel: everyone partially denies VIEW_CHANNEL', () {
       expect(
         isChannelEveryonePrivateForIcon(
-          type: ChannelType.text,
+          type: ChannelType.guildText,
           guildId: guildId,
           permissionOverwritesJson: jsonEncode(<Map<String, Object>>[
             <String, Object>{
@@ -78,7 +78,7 @@ void main() {
       () {
         expect(
           isChannelEveryonePrivateForIcon(
-            type: ChannelType.text,
+            type: ChannelType.guildText,
             guildId: guildId,
             permissionOverwritesJson: jsonEncode(<Map<String, Object>>[
               <String, Object>{
@@ -97,7 +97,7 @@ void main() {
     test('link channel uses VIEW_CHANNEL deny on everyone', () {
       expect(
         isChannelEveryonePrivateForIcon(
-          type: ChannelType.link,
+          type: ChannelType.guildLink,
           guildId: guildId,
           permissionOverwritesJson: jsonEncode(<Map<String, Object>>[
             <String, Object>{
@@ -115,7 +115,7 @@ void main() {
     test('voice channel: everyone fully denies CONNECT', () {
       expect(
         isChannelEveryonePrivateForIcon(
-          type: ChannelType.voice,
+          type: ChannelType.guildVoice,
           guildId: guildId,
           permissionOverwritesJson: jsonEncode(<Map<String, Object>>[
             <String, Object>{
@@ -133,7 +133,7 @@ void main() {
     test('category ignores overwrites', () {
       expect(
         isChannelEveryonePrivateForIcon(
-          type: ChannelType.category,
+          type: ChannelType.guildCategory,
           guildId: guildId,
           permissionOverwritesJson: jsonEncode(<Map<String, Object>>[
             <String, Object>{

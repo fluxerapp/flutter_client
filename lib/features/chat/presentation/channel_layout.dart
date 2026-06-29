@@ -37,7 +37,7 @@ class ChannelLayout extends ConsumerWidget {
       channelListViewModelProvider.select((s) => s.isMemberListVisible),
     );
     final Channel? channel = ref.watch(channelByIdProvider(channelId)).value;
-    final bool isVoiceChannel = channel?.type == ChannelType.voice;
+    final bool isVoiceChannel = channel?.type == ChannelType.guildVoice;
     final isMobile = isMobileLayout(context);
     final AsyncValue<bool> showGateAsync = ref.watch(
       shouldShowMatureContentGateProvider(channelId),

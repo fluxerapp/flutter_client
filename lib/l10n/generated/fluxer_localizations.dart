@@ -2572,7 +2572,7 @@ abstract class FluxerLocalizations {
   /// Helper text describing avatar image requirements.
   ///
   /// In en, this message translates to:
-  /// **'JPEG, PNG, GIF, WebP. Max 10MB. Recommended: 512×512px'**
+  /// **'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px'**
   String get avatarDescription;
 
   /// Label for the banner upload section.
@@ -2596,7 +2596,7 @@ abstract class FluxerLocalizations {
   /// Helper text describing banner image requirements.
   ///
   /// In en, this message translates to:
-  /// **'JPEG, PNG, GIF, WebP. Max 10MB. Minimum: 680×240px (17:6)'**
+  /// **'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 960×540px (16:9)'**
   String get bannerDescription;
 
   /// Label for the accent color picker.
@@ -7280,14 +7280,20 @@ abstract class FluxerLocalizations {
   /// Action label for pinning a message.
   ///
   /// In en, this message translates to:
-  /// **'Pin Message'**
+  /// **'Pin message'**
   String get chatMessagePin;
 
   /// Action label for unpinning a message.
   ///
   /// In en, this message translates to:
-  /// **'Unpin Message'**
+  /// **'Unpin message'**
   String get chatMessageUnpin;
+
+  /// Primary button label on the unpin confirmation sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin it'**
+  String get chatMessageUnpinIt;
 
   /// Action label for bookmarking a message.
   ///
@@ -8312,14 +8318,48 @@ abstract class FluxerLocalizations {
   /// Title for the unpin message confirmation sheet.
   ///
   /// In en, this message translates to:
-  /// **'Unpin Message'**
+  /// **'Unpin message'**
   String get chatMessageUnpinConfirmTitle;
 
   /// Body text for the unpin message confirmation sheet.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to unpin this message?'**
+  /// **'Send this pin back in time?'**
   String get chatMessageUnpinConfirmDescription;
+
+  /// System message when a user pins a message. Keep {username}, {messageLink}, and {allPinsLink} in place; translate the surrounding sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} pinned {messageLink} to this channel. See {allPinsLink}.'**
+  String systemPinMessage(
+    String username,
+    String messageLink,
+    String allPinsLink,
+  );
+
+  /// Link label in the pin system message for jumping to the pinned message.
+  ///
+  /// In en, this message translates to:
+  /// **'a message'**
+  String get systemPinMessageMessageLink;
+
+  /// Link label in the pin system message for opening all pinned messages.
+  ///
+  /// In en, this message translates to:
+  /// **'all pinned messages'**
+  String get systemPinMessageAllPinsLink;
+
+  /// Title shown when a channel has no pinned messages.
+  ///
+  /// In en, this message translates to:
+  /// **'No pinned messages'**
+  String get channelPinsEmptyTitle;
+
+  /// Description shown when a channel has no pinned messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned messages show up here.'**
+  String get channelPinsEmptyDescription;
 
   /// Title for the self-DM personal notes channel in the sidebar and chat header.
   ///
@@ -9395,12 +9435,6 @@ abstract class FluxerLocalizations {
   /// **'Community Settings'**
   String get guildMenuCommunitySettings;
 
-  /// Guild menu action to report a raid.
-  ///
-  /// In en, this message translates to:
-  /// **'Report Raid'**
-  String get guildMenuReportRaid;
-
   /// Guild menu action to edit the community profile.
   ///
   /// In en, this message translates to:
@@ -9482,7 +9516,7 @@ abstract class FluxerLocalizations {
   /// Community settings tab for the activity log.
   ///
   /// In en, this message translates to:
-  /// **'Activity Log'**
+  /// **'Activity log'**
   String get guildMenuSettingsActivityLog;
 
   /// Community settings tab for webhooks.
@@ -9520,6 +9554,1899 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Bans'**
   String get guildMenuSettingsBans;
+
+  /// Shown when the user lacks permission for a guild settings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not have permission to view this settings tab.'**
+  String get guildSettingsNoPermission;
+
+  /// Title for the guild icon section in overview settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get guildSettingsOverviewIconTitle;
+
+  /// Button label to upload an image in guild settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Image'**
+  String get guildSettingsUploadImage;
+
+  /// Title for the guild banner section.
+  ///
+  /// In en, this message translates to:
+  /// **'Banner'**
+  String get guildSettingsOverviewBannerTitle;
+
+  /// Hint text for guild banner upload.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload a banner for your server.'**
+  String get guildSettingsOverviewBannerHint;
+
+  /// Title for the guild name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get guildSettingsOverviewNameTitle;
+
+  /// Hint for the guild name field.
+  ///
+  /// In en, this message translates to:
+  /// **'My awesome community'**
+  String get guildSettingsOverviewNameHint;
+
+  /// Title for guild statistics section.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get guildSettingsOverviewStatsTitle;
+
+  /// Label for member count in overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get guildSettingsOverviewMembers;
+
+  /// Label for online count in overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get guildSettingsOverviewOnline;
+
+  /// Description for the roles settings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Use roles to group members and assign permissions.'**
+  String get guildSettingsRolesDescription;
+
+  /// Button to create a new role.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Role'**
+  String get guildSettingsCreateRole;
+
+  /// Title for the roles list section.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles'**
+  String get guildSettingsRolesListTitle;
+
+  /// Emoji slot usage summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{staticCount} static, {animatedCount} animated emoji slots used'**
+  String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount);
+
+  /// Empty state for emoji settings.
+  ///
+  /// In en, this message translates to:
+  /// **'No custom emoji yet.'**
+  String get guildSettingsEmojiEmpty;
+
+  /// Sticker slot usage summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} stickers uploaded'**
+  String guildSettingsStickersSlotInfo(int count);
+
+  /// Empty state for sticker settings.
+  ///
+  /// In en, this message translates to:
+  /// **'No custom stickers yet.'**
+  String get guildSettingsStickersEmpty;
+
+  /// Title for verification level settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Member verification'**
+  String get guildSettingsModerationVerificationTitle;
+
+  /// Description for verification level settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose what members must have before they can post or DM community members.'**
+  String get guildSettingsModerationVerificationDescription;
+
+  /// Additional verification guidance in moderation settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.'**
+  String get guildSettingsModerationVerificationRolesBypass;
+
+  /// Discovery restriction note for verification level.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.'**
+  String get guildSettingsModerationVerificationDiscoveryNote;
+
+  /// Title for mature content settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content & content warnings'**
+  String get guildSettingsModerationMatureTitle;
+
+  /// Section description for mature content and content warning settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure mature content labeling and optional content warnings for members.'**
+  String get guildSettingsModerationMatureSectionDescription;
+
+  /// Switch label for mature content setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content'**
+  String get guildSettingsModerationMatureToggle;
+
+  /// Subtitle for the mature content switch in moderation settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark this community as containing mature content.'**
+  String get guildSettingsModerationMatureToggleDescription;
+
+  /// No description provided for @guildSettingsVerificationNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get guildSettingsVerificationNone;
+
+  /// No description provided for @guildSettingsVerificationNoneDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No verification is required.'**
+  String get guildSettingsVerificationNoneDescription;
+
+  /// No description provided for @guildSettingsVerificationLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get guildSettingsVerificationLow;
+
+  /// No description provided for @guildSettingsVerificationLowDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires a verified email address.'**
+  String get guildSettingsVerificationLowDescription;
+
+  /// No description provided for @guildSettingsVerificationMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get guildSettingsVerificationMedium;
+
+  /// No description provided for @guildSettingsVerificationMediumDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires a verified email address, and an account that\'s at least 5 minutes old.'**
+  String get guildSettingsVerificationMediumDescription;
+
+  /// No description provided for @guildSettingsVerificationHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get guildSettingsVerificationHigh;
+
+  /// No description provided for @guildSettingsVerificationHighDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires everything in medium, plus being a member of the community for at least 10 minutes.'**
+  String get guildSettingsVerificationHighDescription;
+
+  /// No description provided for @guildSettingsVerificationHighest.
+  ///
+  /// In en, this message translates to:
+  /// **'Very high'**
+  String get guildSettingsVerificationHighest;
+
+  /// No description provided for @guildSettingsVerificationHighestDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires a verified phone number.'**
+  String get guildSettingsVerificationHighestDescription;
+
+  /// Subtitle under the activity-log page title.
+  ///
+  /// In en, this message translates to:
+  /// **'Track moderator actions across the community.'**
+  String get guildSettingsAuditLogDescription;
+
+  /// Empty-state title in the activity log tab when there are no log entries to show.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs yet'**
+  String get guildSettingsAuditLogEmpty;
+
+  /// Empty-state body in the activity log tab when there are no log entries to show.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderation actions and community changes will appear here.'**
+  String get guildSettingsAuditLogEmptyDescription;
+
+  /// Default option in the activity log filter by user dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'All users'**
+  String get guildSettingsAuditLogFilterAllUsers;
+
+  /// Default option in the activity log filter by action dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'All actions'**
+  String get guildSettingsAuditLogFilterAllActions;
+
+  /// Fallback text when the moderator did not supply a reason.
+  ///
+  /// In en, this message translates to:
+  /// **'No reason was provided.'**
+  String get guildSettingsAuditLogNoReason;
+
+  /// Fallback avatar label when the acting user is unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown user'**
+  String get guildSettingsAuditLogUnknownUser;
+
+  /// Generic error shown when fetching log entries fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while loading the activity log.'**
+  String get guildSettingsAuditLogLoadError;
+
+  /// Error-state title when fetching log entries failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load activity logs'**
+  String get guildSettingsAuditLogLoadErrorTitle;
+
+  /// Label for the reason field in an expanded activity log entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get guildSettingsAuditLogReason;
+
+  /// Fallback label when the actor or user is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'someone'**
+  String get guildSettingsAuditLogSomeone;
+
+  /// Fallback label when an entity name is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'something'**
+  String get guildSettingsAuditLogSomething;
+
+  /// Fallback label for an entity that cannot be resolved.
+  ///
+  /// In en, this message translates to:
+  /// **'unknown entity'**
+  String get guildSettingsAuditLogUnknownEntity;
+
+  /// Fallback label for an empty or missing value.
+  ///
+  /// In en, this message translates to:
+  /// **'nothing'**
+  String get guildSettingsAuditLogNothing;
+
+  /// Fallback label for a target object that cannot be resolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown target'**
+  String get guildSettingsAuditLogUnknownTarget;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Community updated'**
+  String get auditLogActionGuildUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel created'**
+  String get auditLogActionChannelCreate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel updated'**
+  String get auditLogActionChannelUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel deleted'**
+  String get auditLogActionChannelDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel overwrite added'**
+  String get auditLogActionChannelOverwriteCreate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel overwrite updated'**
+  String get auditLogActionChannelOverwriteUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel overwrite removed'**
+  String get auditLogActionChannelOverwriteDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Member kicked'**
+  String get auditLogActionMemberKick;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Members pruned'**
+  String get auditLogActionMemberPrune;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Member banned'**
+  String get auditLogActionMemberBanAdd;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Member unbanned'**
+  String get auditLogActionMemberBanRemove;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Member updated'**
+  String get auditLogActionMemberUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Member roles updated'**
+  String get auditLogActionMemberRoleUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Member moved'**
+  String get auditLogActionMemberMove;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Member disconnected'**
+  String get auditLogActionMemberDisconnect;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Bot added'**
+  String get auditLogActionBotAdd;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Role created'**
+  String get auditLogActionRoleCreate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Role updated'**
+  String get auditLogActionRoleUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Role deleted'**
+  String get auditLogActionRoleDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite created'**
+  String get auditLogActionInviteCreate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite updated'**
+  String get auditLogActionInviteUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite deleted'**
+  String get auditLogActionInviteDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhook created'**
+  String get auditLogActionWebhookCreate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhook updated'**
+  String get auditLogActionWebhookUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhook deleted'**
+  String get auditLogActionWebhookDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji created'**
+  String get auditLogActionEmojiCreate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji updated'**
+  String get auditLogActionEmojiUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji deleted'**
+  String get auditLogActionEmojiDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker created'**
+  String get auditLogActionStickerCreate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker updated'**
+  String get auditLogActionStickerUpdate;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker deleted'**
+  String get auditLogActionStickerDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Message deleted'**
+  String get auditLogActionMessageDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages deleted'**
+  String get auditLogActionMessageBulkDelete;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Message pinned'**
+  String get auditLogActionMessagePin;
+
+  /// Audit log action filter label.
+  ///
+  /// In en, this message translates to:
+  /// **'Message unpinned'**
+  String get auditLogActionMessageUnpin;
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the community settings.'**
+  String auditLogSummaryGuildUpdate(String actor);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} created the channel {target}.'**
+  String auditLogSummaryChannelCreate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the channel {target}.'**
+  String auditLogSummaryChannelUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted the channel {target}.'**
+  String auditLogSummaryChannelDelete(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} added channel permissions for {target}.'**
+  String auditLogSummaryChannelOverwriteCreate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} added channel permissions for {target} in {channel}.'**
+  String auditLogSummaryChannelOverwriteCreateInChannel(
+    String actor,
+    String target,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated channel permissions for {target}.'**
+  String auditLogSummaryChannelOverwriteUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated channel permissions for {target} in {channel}.'**
+  String auditLogSummaryChannelOverwriteUpdateInChannel(
+    String actor,
+    String target,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} removed channel permissions for {target}.'**
+  String auditLogSummaryChannelOverwriteDelete(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} removed channel permissions for {target} in {channel}.'**
+  String auditLogSummaryChannelOverwriteDeleteInChannel(
+    String actor,
+    String target,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} kicked {target}.'**
+  String auditLogSummaryMemberKick(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} banned {target}.'**
+  String auditLogSummaryMemberBanAdd(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} unbanned {target}.'**
+  String auditLogSummaryMemberBanRemove(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated {target}.'**
+  String auditLogSummaryMemberUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated roles for {target}.'**
+  String auditLogSummaryMemberRoleUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} pruned inactive members.'**
+  String auditLogSummaryMemberPrune(String actor);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} pruned members inactive for {days} days.'**
+  String auditLogSummaryMemberPruneDays(String actor, int days);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} moved {target} to another voice channel.'**
+  String auditLogSummaryMemberMove(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} moved {target} to {channel}.'**
+  String auditLogSummaryMemberMoveToChannel(
+    String actor,
+    String target,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} disconnected {target} from voice.'**
+  String auditLogSummaryMemberDisconnect(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} added the bot {target}.'**
+  String auditLogSummaryBotAdd(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} created the role {target}.'**
+  String auditLogSummaryRoleCreate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the role {target}.'**
+  String auditLogSummaryRoleUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted the role {target}.'**
+  String auditLogSummaryRoleDelete(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} created the invite {target}.'**
+  String auditLogSummaryInviteCreate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} created the invite {target} for {channel}.'**
+  String auditLogSummaryInviteCreateForChannel(
+    String actor,
+    String target,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the invite {target}.'**
+  String auditLogSummaryInviteUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the invite {target} for {channel}.'**
+  String auditLogSummaryInviteUpdateForChannel(
+    String actor,
+    String target,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted the invite {target}.'**
+  String auditLogSummaryInviteDelete(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted the invite {target} for {channel}.'**
+  String auditLogSummaryInviteDeleteForChannel(
+    String actor,
+    String target,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} created the webhook {target}.'**
+  String auditLogSummaryWebhookCreate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the webhook {target}.'**
+  String auditLogSummaryWebhookUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted the webhook {target}.'**
+  String auditLogSummaryWebhookDelete(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} added the emoji {target}.'**
+  String auditLogSummaryEmojiCreate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the emoji {target}.'**
+  String auditLogSummaryEmojiUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted the emoji {target}.'**
+  String auditLogSummaryEmojiDelete(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} added the sticker {target}.'**
+  String auditLogSummaryStickerCreate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} updated the sticker {target}.'**
+  String auditLogSummaryStickerUpdate(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted the sticker {target}.'**
+  String auditLogSummaryStickerDelete(String actor, String target);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted a message.'**
+  String auditLogSummaryMessageDelete(String actor);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted a message in {channel}.'**
+  String auditLogSummaryMessageDeleteInChannel(String actor, String channel);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted multiple messages.'**
+  String auditLogSummaryMessageBulkDelete(String actor);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted {count} messages.'**
+  String auditLogSummaryMessageBulkDeleteCount(String actor, int count);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted multiple messages in {channel}.'**
+  String auditLogSummaryMessageBulkDeleteInChannel(
+    String actor,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} deleted {count} messages in {channel}.'**
+  String auditLogSummaryMessageBulkDeleteCountInChannel(
+    String actor,
+    int count,
+    String channel,
+  );
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} pinned a message.'**
+  String auditLogSummaryMessagePin(String actor);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} pinned a message in {channel}.'**
+  String auditLogSummaryMessagePinInChannel(String actor, String channel);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} unpinned a message.'**
+  String auditLogSummaryMessageUnpin(String actor);
+
+  /// Activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} unpinned a message in {channel}.'**
+  String auditLogSummaryMessageUnpinInChannel(String actor, String channel);
+
+  /// Fallback activity log entry summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} performed an audit action on {target}.'**
+  String auditLogSummaryDefault(String actor, String target);
+
+  /// Fallback change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {field} from {oldValue} to {newValue}.'**
+  String auditLogChangeUpdatedFromTo(
+    String field,
+    String oldValue,
+    String newValue,
+  );
+
+  /// Fallback change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Set {field} to {newValue}.'**
+  String auditLogChangeSetTo(String field, String newValue);
+
+  /// Fallback change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleared {field} (was {oldValue}).'**
+  String auditLogChangeCleared(String field, String oldValue);
+
+  /// Fallback change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {field}.'**
+  String auditLogChangeUpdated(String field);
+
+  /// Guild change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Renamed the community to {name}.'**
+  String auditLogChangeRenamedCommunity(String name);
+
+  /// Guild change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated the community icon.'**
+  String get auditLogChangeUpdatedCommunityIcon;
+
+  /// Channel change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Renamed the channel to {name}.'**
+  String auditLogChangeRenamedChannel(String name);
+
+  /// Channel change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleared the topic.'**
+  String get auditLogChangeClearedTopic;
+
+  /// Channel change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated the topic to {topic}.'**
+  String auditLogChangeUpdatedTopic(String topic);
+
+  /// Channel change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled mature content.'**
+  String get auditLogChangeEnabledMatureContent;
+
+  /// Channel change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled mature content.'**
+  String get auditLogChangeDisabledMatureContent;
+
+  /// Member change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Set nickname to {nickname}.'**
+  String auditLogChangeSetNickname(String nickname);
+
+  /// Member change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed nickname {nickname}.'**
+  String auditLogChangeRemovedNickname(String nickname);
+
+  /// Member change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted the member.'**
+  String get auditLogChangeMutedMember;
+
+  /// Member change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmuted the member.'**
+  String get auditLogChangeUnmutedMember;
+
+  /// Member change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Deafened the member.'**
+  String get auditLogChangeDeafenedMember;
+
+  /// Member change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Undeafened the member.'**
+  String get auditLogChangeUndeafenedMember;
+
+  /// Member change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Added {roles}.'**
+  String auditLogChangeAddedRoles(String roles);
+
+  /// Member change detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed {roles}.'**
+  String auditLogChangeRemovedRoles(String roles);
+
+  /// Audit log option detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel: {value}.'**
+  String auditLogOptionChannel(String value);
+
+  /// Audit log option detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Message: {value}.'**
+  String auditLogOptionMessage(String value);
+
+  /// Audit log option detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Invited by {value}.'**
+  String auditLogOptionInvitedBy(String value);
+
+  /// Audit log option detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Deleted # message.} other{Deleted # messages.}}'**
+  String auditLogOptionDeletedMessages(int count);
+
+  /// Audit log option detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Removed # member.} other{Removed # members.}}'**
+  String auditLogOptionRemovedMembers(int count);
+
+  /// Audit log option detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'This invite never expires.'**
+  String get auditLogOptionInviteNeverExpires;
+
+  /// Audit log option detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Grants temporary membership.'**
+  String get auditLogOptionTemporaryMembership;
+
+  /// Audit log option detail sentence.
+  ///
+  /// In en, this message translates to:
+  /// **'Grants permanent membership.'**
+  String get auditLogOptionPermanentMembership;
+
+  /// Button to load more audit log entries.
+  ///
+  /// In en, this message translates to:
+  /// **'Load more'**
+  String get guildSettingsLoadMore;
+
+  /// Loading state for pagination.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get guildSettingsLoadingMore;
+
+  /// Description for webhooks tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage webhooks that post messages to channels.'**
+  String get guildSettingsWebhooksDescription;
+
+  /// Empty state for webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'No webhooks configured.'**
+  String get guildSettingsWebhooksEmpty;
+
+  /// Tooltip to copy a URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy URL'**
+  String get guildSettingsCopyUrl;
+
+  /// Snackbar after copying a URL.
+  ///
+  /// In en, this message translates to:
+  /// **'URL copied to clipboard'**
+  String get guildSettingsCopiedUrl;
+
+  /// Tooltip to delete a webhook.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete webhook'**
+  String get guildSettingsDeleteWebhook;
+
+  /// Description for vanity URL tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a custom invite link for your server.'**
+  String get guildSettingsVanityUrlDescription;
+
+  /// Hint for vanity URL input.
+  ///
+  /// In en, this message translates to:
+  /// **'my-server'**
+  String get guildSettingsVanityUrlHint;
+
+  /// Generic save button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get guildSettingsSave;
+
+  /// Title for vanity URL usage section.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage'**
+  String get guildSettingsVanityUrlUsageTitle;
+
+  /// Vanity URL usage count.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} uses'**
+  String guildSettingsVanityUrlUses(int count);
+
+  /// Description for discovery tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to be listed in server discovery.'**
+  String get guildSettingsDiscoveryDescription;
+
+  /// Discovery eligibility message.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires at least {count} members to apply.'**
+  String guildSettingsDiscoveryNotEligible(int count);
+
+  /// Title for discovery application form.
+  ///
+  /// In en, this message translates to:
+  /// **'Application'**
+  String get guildSettingsDiscoveryFormTitle;
+
+  /// Title for discovery application status section.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get guildSettingsDiscoveryStatusTitle;
+
+  /// Label for discovery category dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get guildSettingsDiscoveryCategory;
+
+  /// Label for discovery description field.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get guildSettingsDiscoveryDescriptionField;
+
+  /// Label for discovery tags field.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get guildSettingsDiscoveryTags;
+
+  /// Hint for discovery tags field.
+  ///
+  /// In en, this message translates to:
+  /// **'gaming, art, music'**
+  String get guildSettingsDiscoveryTagsHint;
+
+  /// Button to submit discovery application.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Application'**
+  String get guildSettingsDiscoveryApply;
+
+  /// Button to withdraw discovery application.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get guildSettingsDiscoveryWithdraw;
+
+  /// Description for members tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Search and manage server members.'**
+  String get guildSettingsMembersDescription;
+
+  /// Hint for member search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search members'**
+  String get guildSettingsMembersSearchHint;
+
+  /// Title for member search results.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} members'**
+  String guildSettingsMembersResultsTitle(int count);
+
+  /// Description for invites tab.
+  ///
+  /// In en, this message translates to:
+  /// **'View and revoke active invite links.'**
+  String get guildSettingsInvitesDescription;
+
+  /// Empty state for invites.
+  ///
+  /// In en, this message translates to:
+  /// **'No active invites.'**
+  String get guildSettingsInvitesEmpty;
+
+  /// Invite usage count.
+  ///
+  /// In en, this message translates to:
+  /// **'{uses} / {maxUses} uses'**
+  String guildSettingsInviteUses(int uses, int maxUses);
+
+  /// Invite expiration date.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires {date}'**
+  String guildSettingsInviteExpires(String date);
+
+  /// Description for bans tab.
+  ///
+  /// In en, this message translates to:
+  /// **'View and manage banned users.'**
+  String get guildSettingsBansDescription;
+
+  /// Hint for ban search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search bans'**
+  String get guildSettingsBansSearchHint;
+
+  /// Empty state for bans.
+  ///
+  /// In en, this message translates to:
+  /// **'No banned users.'**
+  String get guildSettingsBansEmpty;
+
+  /// Label for permanent ban.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanent ban'**
+  String get guildSettingsBanPermanent;
+
+  /// Ban expiration date.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires {date}'**
+  String guildSettingsBanExpires(String date);
+
+  /// Button to unban a user.
+  ///
+  /// In en, this message translates to:
+  /// **'Unban'**
+  String get guildSettingsUnban;
+
+  /// Title for guild settings modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Settings'**
+  String get guildSettingsCommunitySettings;
+
+  /// Sidebar category for emoji and stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'EXPRESSIONS'**
+  String get guildSettingsCategoryExpressions;
+
+  /// Sidebar category for discovery and vanity URL.
+  ///
+  /// In en, this message translates to:
+  /// **'COMMUNITY'**
+  String get guildSettingsCategoryCommunity;
+
+  /// Sidebar category for webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'INTEGRATIONS'**
+  String get guildSettingsCategoryIntegrations;
+
+  /// Sidebar category for members, invites, and bans.
+  ///
+  /// In en, this message translates to:
+  /// **'PEOPLE'**
+  String get guildSettingsCategoryPeople;
+
+  /// No description provided for @guildSettingsOverviewDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your community\'s profile, channels, and default settings.'**
+  String get guildSettingsOverviewDescription;
+
+  /// No description provided for @guildSettingsOverviewBrandingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Branding'**
+  String get guildSettingsOverviewBrandingTitle;
+
+  /// Description for the branding settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your icon, name, banner, and invite background'**
+  String get guildSettingsOverviewBrandingDescription;
+
+  /// No description provided for @guildSettingsOverviewBannerUpload.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload banner'**
+  String get guildSettingsOverviewBannerUpload;
+
+  /// No description provided for @guildSettingsOverviewIdleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Idle settings'**
+  String get guildSettingsOverviewIdleTitle;
+
+  /// Description for the idle settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure AFK channel and timeout'**
+  String get guildSettingsOverviewIdleDescription;
+
+  /// No description provided for @guildSettingsOverviewSystemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'System & welcome'**
+  String get guildSettingsOverviewSystemTitle;
+
+  /// Description for the system and welcome settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose destination for system and welcome messages'**
+  String get guildSettingsOverviewSystemDescription;
+
+  /// No description provided for @guildSettingsOverviewNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Default notifications'**
+  String get guildSettingsOverviewNotificationsTitle;
+
+  /// No description provided for @guildSettingsOverviewNotificationsLargeGuild.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.'**
+  String get guildSettingsOverviewNotificationsLargeGuild;
+
+  /// No description provided for @guildSettingsOverviewAdvancedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get guildSettingsOverviewAdvancedTitle;
+
+  /// No description provided for @guildSettingsOverviewFlexibleNames.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow flexible text channel names'**
+  String get guildSettingsOverviewFlexibleNames;
+
+  /// No description provided for @guildSettingsOverviewHideOwnerCrown.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide community owner crown'**
+  String get guildSettingsOverviewHideOwnerCrown;
+
+  /// Toggle label for detached banner display.
+  ///
+  /// In en, this message translates to:
+  /// **'Detached banner'**
+  String get guildSettingsOverviewDetachedBanner;
+
+  /// Description for detached banner toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows the banner in its own section below the community header.'**
+  String get guildSettingsOverviewDetachedBannerHint;
+
+  /// Button to upload a guild icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload icon'**
+  String get guildSettingsOverviewUploadIcon;
+
+  /// Button to remove an uploaded guild image.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get guildSettingsOverviewRemoveImage;
+
+  /// Title for invite splash upload section.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite background'**
+  String get guildSettingsOverviewSplashTitle;
+
+  /// Title for embed splash upload section.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat embed background'**
+  String get guildSettingsOverviewEmbedSplashTitle;
+
+  /// Note shown when uploading chat embed background.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown in invite embeds in chat.'**
+  String get guildSettingsOverviewEmbedSplashHint;
+
+  /// Button to upload invite or embed background image.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload background'**
+  String get guildSettingsOverviewUploadBackground;
+
+  /// Placeholder when no community banner is set.
+  ///
+  /// In en, this message translates to:
+  /// **'No community banner'**
+  String get guildSettingsOverviewNoCommunityBanner;
+
+  /// Placeholder when no invite background is set.
+  ///
+  /// In en, this message translates to:
+  /// **'No invite background'**
+  String get guildSettingsOverviewNoInviteBackground;
+
+  /// Label for invite preview controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get guildSettingsOverviewInvitePreviewTitle;
+
+  /// Helper text for invite preview controls.
+  ///
+  /// In en, this message translates to:
+  /// **'See how your invite looks to visitors.'**
+  String get guildSettingsOverviewInvitePreviewHint;
+
+  /// Advanced settings section for text channel naming rules.
+  ///
+  /// In en, this message translates to:
+  /// **'Text channel names'**
+  String get guildSettingsOverviewTextChannelNamesTitle;
+
+  /// Settings section for hiding the owner crown.
+  ///
+  /// In en, this message translates to:
+  /// **'Community owner crown'**
+  String get guildSettingsOverviewOwnerCrownTitle;
+
+  /// Description for the community owner crown settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure whether the crown icon is shown next to the community owner'**
+  String get guildSettingsOverviewOwnerCrownDescription;
+
+  /// Label for invite splash card alignment selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Card alignment'**
+  String get guildSettingsSplashCardAlignment;
+
+  /// Center alignment option for invite splash card.
+  ///
+  /// In en, this message translates to:
+  /// **'Center'**
+  String get guildSettingsSplashAlignmentCenter;
+
+  /// Left alignment option for invite splash card.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get guildSettingsSplashAlignmentLeft;
+
+  /// Right alignment option for invite splash card.
+  ///
+  /// In en, this message translates to:
+  /// **'Right'**
+  String get guildSettingsSplashAlignmentRight;
+
+  /// Hint for splash card alignment setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Only applies on wide screens.'**
+  String get guildSettingsSplashAlignmentHint;
+
+  /// Permission name for reading earlier channel messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Read message history'**
+  String get permissionReadMessageHistory;
+
+  /// Title for message history cutoff section.
+  ///
+  /// In en, this message translates to:
+  /// **'Change what users without \"{permission}\" can see'**
+  String guildSettingsOverviewMessageHistoryTitle(String permission);
+
+  /// Description for message history cutoff section.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a dedicated modal to set a message history threshold date for members who don\'t have the {permission} permission.'**
+  String guildSettingsOverviewMessageHistoryDescription(String permission);
+
+  /// Button to open message history threshold settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open message history threshold'**
+  String get guildSettingsOverviewMessageHistoryOpen;
+
+  /// Title for message history threshold modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Message history threshold'**
+  String get guildSettingsMessageHistoryThresholdTitle;
+
+  /// Toggle to enable message history threshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable message history threshold'**
+  String get guildSettingsMessageHistoryThresholdEnable;
+
+  /// Label for threshold date picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Threshold date'**
+  String get guildSettingsMessageHistoryThresholdDate;
+
+  /// Hint for threshold date picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Members without Read Message History can view messages sent after this date.'**
+  String get guildSettingsMessageHistoryThresholdDateHint;
+
+  /// Toast after saving message history threshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Message history threshold updated'**
+  String get guildSettingsMessageHistoryThresholdUpdated;
+
+  /// Description for flexible channel names toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.'**
+  String get guildSettingsOverviewFlexibleNamesHint;
+
+  /// Description for hide owner crown toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hides the crown icon next to the community owner across all surfaces.'**
+  String get guildSettingsOverviewHideOwnerCrownHint;
+
+  /// Error when uploading animated icon without feature.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated icons require the Animated Icon community feature.'**
+  String get guildSettingsAnimatedIconRequiresFeature;
+
+  /// Error when uploading animated banner without feature.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated banners require the Animated Banner community feature.'**
+  String get guildSettingsAnimatedBannerRequiresFeature;
+
+  /// No description provided for @guildSettingsAfkChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'AFK / idle channel'**
+  String get guildSettingsAfkChannel;
+
+  /// Description for the AFK channel selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Move members to this channel when they\'re AFK.'**
+  String get guildSettingsAfkChannelHint;
+
+  /// No description provided for @guildSettingsNoAfkChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'No AFK channel'**
+  String get guildSettingsNoAfkChannel;
+
+  /// No description provided for @guildSettingsAfkTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'AFK timeout'**
+  String get guildSettingsAfkTimeout;
+
+  /// No description provided for @guildSettingsAfkTimeout1Min.
+  ///
+  /// In en, this message translates to:
+  /// **'1 minute'**
+  String get guildSettingsAfkTimeout1Min;
+
+  /// No description provided for @guildSettingsAfkTimeout5Min.
+  ///
+  /// In en, this message translates to:
+  /// **'5 minutes'**
+  String get guildSettingsAfkTimeout5Min;
+
+  /// No description provided for @guildSettingsAfkTimeout15Min.
+  ///
+  /// In en, this message translates to:
+  /// **'15 minutes'**
+  String get guildSettingsAfkTimeout15Min;
+
+  /// No description provided for @guildSettingsAfkTimeout30Min.
+  ///
+  /// In en, this message translates to:
+  /// **'30 minutes'**
+  String get guildSettingsAfkTimeout30Min;
+
+  /// No description provided for @guildSettingsAfkTimeout1Hour.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get guildSettingsAfkTimeout1Hour;
+
+  /// AFK timeout label for a custom duration in seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds'**
+  String guildSettingsAfkTimeoutSeconds(int seconds);
+
+  /// No description provided for @guildSettingsSystemChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Destination channel'**
+  String get guildSettingsSystemChannel;
+
+  /// Description for the system channel selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome and system messages will appear here.'**
+  String get guildSettingsSystemChannelHint;
+
+  /// No description provided for @guildSettingsNoSystemChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'No system channel'**
+  String get guildSettingsNoSystemChannel;
+
+  /// No description provided for @guildSettingsHideJoinMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide join messages'**
+  String get guildSettingsHideJoinMessages;
+
+  /// Description for the hide join messages toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Suppresses join messages in the destination channel.'**
+  String get guildSettingsHideJoinMessagesHint;
+
+  /// No description provided for @guildSettingsDefaultNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Default notification settings'**
+  String get guildSettingsDefaultNotifications;
+
+  /// No description provided for @guildSettingsNotificationsAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All messages'**
+  String get guildSettingsNotificationsAll;
+
+  /// Subtitle for the all messages default notification option.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify on all messages'**
+  String get guildSettingsNotificationsAllDescription;
+
+  /// No description provided for @guildSettingsNotificationsMentions.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentions only'**
+  String get guildSettingsNotificationsMentions;
+
+  /// Subtitle for the mentions only default notification option.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify only on mentions'**
+  String get guildSettingsNotificationsMentionsDescription;
+
+  /// Upload requirements for invite background images.
+  ///
+  /// In en, this message translates to:
+  /// **'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)'**
+  String get guildSettingsOverviewSplashUploadHint;
+
+  /// Upload requirements for chat embed background images.
+  ///
+  /// In en, this message translates to:
+  /// **'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.'**
+  String get guildSettingsOverviewEmbedSplashUploadHint;
+
+  /// No description provided for @guildSettingsModerationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure verification, content filtering, and mature content settings.'**
+  String get guildSettingsModerationDescription;
+
+  /// No description provided for @guildSettingsModerationDiscoveryNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Discovery-listed communities have restricted moderation options.'**
+  String get guildSettingsModerationDiscoveryNotice;
+
+  /// No description provided for @guildSettingsModerationContentFilterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Content filtering'**
+  String get guildSettingsModerationContentFilterTitle;
+
+  /// No description provided for @guildSettingsModerationContentFilterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically screen messages for explicit content in channels not marked for mature content.'**
+  String get guildSettingsModerationContentFilterDescription;
+
+  /// No description provided for @guildSettingsModerationContentFilterDiscoveryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.'**
+  String get guildSettingsModerationContentFilterDiscoveryNote;
+
+  /// No description provided for @guildSettingsContentFilterOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get guildSettingsContentFilterOff;
+
+  /// No description provided for @guildSettingsContentFilterOffDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Let the community self-moderate'**
+  String get guildSettingsContentFilterOffDescription;
+
+  /// No description provided for @guildSettingsContentFilterNoRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter members without roles'**
+  String get guildSettingsContentFilterNoRole;
+
+  /// No description provided for @guildSettingsContentFilterNoRoleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested for most communities'**
+  String get guildSettingsContentFilterNoRoleDescription;
+
+  /// No description provided for @guildSettingsContentFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter everyone'**
+  String get guildSettingsContentFilterAll;
+
+  /// No description provided for @guildSettingsContentFilterAllDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum protection for family-friendly spaces'**
+  String get guildSettingsContentFilterAllDescription;
+
+  /// No description provided for @guildSettingsModerationMatureOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get guildSettingsModerationMatureOff;
+
+  /// No description provided for @guildSettingsModerationMatureOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get guildSettingsModerationMatureOn;
+
+  /// Switch label for the community content warning setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Show a content warning'**
+  String get guildSettingsContentWarningToggle;
+
+  /// Subtitle for the content warning switch in moderation settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggles a consent prompt before entering any channel.'**
+  String get guildSettingsContentWarningToggleDescription;
+
+  /// Textarea label for custom content warning copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom warning text'**
+  String get guildSettingsContentWarningText;
+
+  /// Placeholder example in the custom content warning field.
+  ///
+  /// In en, this message translates to:
+  /// **'This contains sensitive content.'**
+  String get guildSettingsContentWarningTextPlaceholder;
+
+  /// No description provided for @guildSettingsModeration2faTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2FA requirement'**
+  String get guildSettingsModeration2faTitle;
+
+  /// No description provided for @guildSettingsModeration2faDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.'**
+  String get guildSettingsModeration2faDescription;
+
+  /// No description provided for @guildSettingsModeration2faSwitchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Require 2FA for moderation actions'**
+  String get guildSettingsModeration2faSwitchLabel;
+
+  /// No description provided for @guildSettingsModeration2faOwnerOnlyTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the community owner can change this setting'**
+  String get guildSettingsModeration2faOwnerOnlyTooltip;
+
+  /// No description provided for @guildSettingsModeration2faEnableFirstTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable 2FA on your account to change this setting'**
+  String get guildSettingsModeration2faEnableFirstTooltip;
+
+  /// No description provided for @guildSettingsEmojiSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search emojis'**
+  String get guildSettingsEmojiSearchHint;
+
+  /// No description provided for @guildSettingsEmojiUploadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Emoji'**
+  String get guildSettingsEmojiUploadTitle;
+
+  /// No description provided for @guildSettingsNonAnimatedEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-animated emoji ({count})'**
+  String guildSettingsNonAnimatedEmoji(int count);
+
+  /// No description provided for @guildSettingsAnimatedEmoji.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated emoji ({count})'**
+  String guildSettingsAnimatedEmoji(int count);
+
+  /// No description provided for @guildSettingsStickersSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search stickers'**
+  String get guildSettingsStickersSearchHint;
+
+  /// No description provided for @guildSettingsWebhooksInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Create webhooks from Channel settings. Edit them here.'**
+  String get guildSettingsWebhooksInfo;
+
+  /// No description provided for @guildSettingsVanityUrlWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Your vanity URL won\'t work unless at least one channel is visible to everyone.'**
+  String get guildSettingsVanityUrlWarning;
+
+  /// No description provided for @guildSettingsVanityUrlRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get guildSettingsVanityUrlRemove;
+
+  /// No description provided for @guildSettingsBannedUsersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Banned users'**
+  String get guildSettingsBannedUsersTitle;
+
+  /// No description provided for @guildSettingsInvitesTableInviter.
+  ///
+  /// In en, this message translates to:
+  /// **'Inviter'**
+  String get guildSettingsInvitesTableInviter;
+
+  /// No description provided for @guildSettingsInvitesTableChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel'**
+  String get guildSettingsInvitesTableChannel;
+
+  /// No description provided for @guildSettingsInvitesTableCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get guildSettingsInvitesTableCode;
+
+  /// No description provided for @guildSettingsInvitesTableUses.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses'**
+  String get guildSettingsInvitesTableUses;
+
+  /// No description provided for @guildSettingsInvitesTableCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get guildSettingsInvitesTableCreated;
+
+  /// No description provided for @guildSettingsMembersSortNewest.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest first'**
+  String get guildSettingsMembersSortNewest;
+
+  /// Label of the user filter dropdown in the activity log tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by user'**
+  String get guildSettingsAuditLogFilterUser;
+
+  /// Label of the action-type filter dropdown in the activity log tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by action'**
+  String get guildSettingsAuditLogFilterAction;
 }
 
 class _FluxerLocalizationsDelegate

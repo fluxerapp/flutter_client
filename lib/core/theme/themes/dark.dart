@@ -436,6 +436,7 @@ FluxerColorTheme buildDarkColorTheme({double saturationFactor = 1.0}) {
     mentionBackground: backgroundModifierAccentVal,
     spoilerBackground: const Color(0x33000000),
     spoilerOverlayHoverColor: const Color(0x4D000000),
+    guildBannerGradient: const Color(0x4D000000),
     focusPrimary: const Color(0xFF00B0F4),
     interactiveActive: toneDirect(
       hue: 0,

@@ -88,6 +88,7 @@ class GatewayEventHandler {
     this.currentUserId,
     this.isAutoAckActive,
     this.onReady,
+    this.onResumed,
     this.onTypingStart,
     this.onTypingClear,
     this.onVoiceStateUpdate,
@@ -129,6 +130,7 @@ class GatewayEventHandler {
   final String? currentUserId;
   final bool Function(String channelId)? isAutoAckActive;
   final ReadyCallback? onReady;
+  final ReadyCallback? onResumed;
   final TypingCallback? onTypingStart;
   final TypingCallback? onTypingClear;
   final VoiceStateCallback? onVoiceStateUpdate;
@@ -180,7 +182,7 @@ class GatewayEventHandler {
         await _handleReady(event);
       case ResumedEvent():
         talker.info('[Gateway] RESUMED');
-        onReady?.call();
+        (onResumed ?? onReady)?.call();
       case MessageCreateEvent():
         _logGatewayDebug(
           () => talker.debug(

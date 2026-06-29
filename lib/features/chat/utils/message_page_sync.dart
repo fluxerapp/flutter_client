@@ -60,7 +60,11 @@ List<Message> mergeMessagesSorted(
     for (final Message message in current) message.id: message,
   };
   for (final Message message in incoming) {
-    byId[message.id] = message;
+    final Message? existing = byId[message.id];
+    byId[message.id] =
+        (existing != null && existing.isRenderEquivalent(message))
+        ? existing
+        : message;
   }
   final List<Message> merged = byId.values.toList()
     ..sort((Message a, Message b) {

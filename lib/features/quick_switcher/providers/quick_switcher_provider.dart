@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -295,6 +296,9 @@ class QuickSwitcher extends _$QuickSwitcher {
         memberSearchResults: _memberSearchResults,
         currentUserId: ref.read(currentUserIdProvider),
         excludedChannelIds: excludedChannelIds,
+        friendNicknameById: friendNicknamesById(
+          ref.read(dmViewModelProvider).friendsList,
+        ),
       );
     } else {
       results = generateQuickSwitcherGeneralResults(

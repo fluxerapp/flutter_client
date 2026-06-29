@@ -1,6 +1,7 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -79,21 +80,30 @@ class VoiceSidebarParticipant {
   final bool guildDeaf;
 }
 
-String _displayNameForSort(String userId, Map<String, database.User> byId) {
+String _displayNameForSort(
+  String userId,
+  Map<String, database.User> byId,
+  Map<String, String?> nicknameByUserId,
+) {
   final database.User? u = byId[userId];
   if (u == null) {
     return userId;
   }
-  return u.globalName ?? u.username;
+  return resolveDisplayName(
+    friendNickname: nicknameByUserId[userId],
+    globalName: u.globalName,
+    username: u.username,
+  );
 }
 
 int _compareVoiceStateForSort(
   VoiceState a,
   VoiceState b,
   Map<String, database.User> byId,
+  Map<String, String?> nicknameByUserId,
 ) {
-  final String nameA = _displayNameForSort(a.userId, byId);
-  final String nameB = _displayNameForSort(b.userId, byId);
+  final String nameA = _displayNameForSort(a.userId, byId, nicknameByUserId);
+  final String nameB = _displayNameForSort(b.userId, byId, nicknameByUserId);
   final int byName = nameA.toLowerCase().compareTo(nameB.toLowerCase());
   if (byName != 0) {
     return byName;
@@ -131,9 +141,14 @@ Future<List<VoiceChannelParticipantData>> voiceChannelParticipants(
     ref,
     userIds,
   );
+  final Map<String, String?> nicknameByUserId = await ref
+      .read(fluxerDatabaseProvider)
+      .relationshipDao
+      .getNicknamesByUserId();
   final List<VoiceState> sortedInChannel = List<VoiceState>.of(inChannel)
     ..sort(
-      (VoiceState a, VoiceState b) => _compareVoiceStateForSort(a, b, byId),
+      (VoiceState a, VoiceState b) =>
+          _compareVoiceStateForSort(a, b, byId, nicknameByUserId),
     );
   return sortedInChannel
       .map(
@@ -199,6 +214,8 @@ Future<List<VoiceSidebarParticipant>> voiceChannelSidebarParticipants(
       <String, database.Member>{
         for (final database.Member m in memberRows) m.userId: m,
       };
+  final Map<String, String?> nicknameByUserId = await db.relationshipDao
+      .getNicknamesByUserId();
   final List<VoiceSidebarParticipant> out = <VoiceSidebarParticipant>[];
   for (final String userId in userIds) {
     final database.User? user = usersById[userId];
@@ -211,6 +228,7 @@ Future<List<VoiceSidebarParticipant>> voiceChannelSidebarParticipants(
       user: user,
       member: member,
       guildId: guildId,
+      friendNickname: nicknameByUserId[userId],
     );
     out.add(
       VoiceSidebarParticipant(

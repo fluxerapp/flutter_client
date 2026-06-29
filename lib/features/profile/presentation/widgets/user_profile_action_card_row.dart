@@ -94,7 +94,7 @@ class _ProfileActionCard extends StatelessWidget {
         ? colors.brandPrimary
         : colors.backgroundTertiary;
     final Color iconColor = usesBrandPrimaryCircle
-        ? colors.textPrimary
+        ? colors.textOnBrandPrimary
         : colors.interactiveNormal;
     return FluxerTappable(
       onTap: () async {

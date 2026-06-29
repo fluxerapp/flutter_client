@@ -116,9 +116,12 @@ void main() {
       // At the live tail, memory reclaims to the cap and keeps the newest.
       notifier.trimToNewestWindow();
       final trimmed = container.read(chatViewModelProvider);
-      expect(trimmed.messages.length, kMaxLoadedMessages);
+      expect(trimmed.messages.length, kTrimmedMessageWindowSize);
       expect(trimmed.messages.last.id, newestId);
-      expect(trimmed.messages.first.id, all[250 - kMaxLoadedMessages]['id']);
+      expect(
+        trimmed.messages.first.id,
+        all[250 - kTrimmedMessageWindowSize]['id'],
+      );
       expect(trimmed.hasMoreMessages, isTrue);
     },
   );
@@ -219,6 +222,49 @@ void main() {
     final Set<String> loadedIds = state.messages.map((m) => m.id).toSet();
     expect(loadedIds.intersection(channel1Ids), isEmpty);
     expect(state.isLoadingMore, isFalse);
+  });
+
+  test('refreshAfterSessionRecovery preserves a scrolled-up window', () async {
+    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+    addTearDown(db.close);
+    // Newest message far ahead so the loaded window stays in history.
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(_snowflakeForIndex(999)),
+      ),
+    );
+    final List<Map<String, Object?>> all = _channelMessages('channel-1', 250);
+    final adapter = _PaginatingAdapter(
+      messagesByChannel: {'channel-1': all},
+      pageLimit: 150,
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
+    await notifier.loadMore();
+    await _flushAsync();
+
+    // Near-bottom viewport isolates the hasMoreNewerMessages guard.
+    notifier.updateReadViewport(isNearBottom: true);
+    final before = container.read(chatViewModelProvider);
+    expect(before.hasMoreNewerMessages, isTrue);
+    expect(before.messages.length, 250);
+
+    await notifier.refreshAfterSessionRecovery();
+    await _flushAsync();
+
+    final after = container.read(chatViewModelProvider);
+    expect(after.messages.length, before.messages.length);
+    expect(after.messages.first.id, before.messages.first.id);
+    expect(after.messages.last.id, before.messages.last.id);
+    expect(after.hasMoreNewerMessages, isTrue);
+    expect(after.isSyncingMessages, isFalse);
   });
 }
 

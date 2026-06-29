@@ -160,5 +160,25 @@ void main() {
           .toList();
       expect(renderedTexts.any((String t) => t.contains('<:kekw:')), isFalse);
     });
+
+    testWidgets('blocks taps to inner content until revealed', (tester) async {
+      await pumpMarkdown(tester, _customEmojiInput);
+
+      IgnorePointer contentBlocker() => tester.widget<IgnorePointer>(
+        find
+            .ancestor(
+              of: find.byType(FluxerEmojiWidget),
+              matching: find.byType(IgnorePointer),
+            )
+            .first,
+      );
+
+      expect(contentBlocker().ignoring, isTrue);
+
+      await tester.tap(find.byType(FluxerEmojiWidget), warnIfMissed: false);
+      await tester.pumpAndSettle();
+
+      expect(contentBlocker().ignoring, isFalse);
+    });
   });
 }

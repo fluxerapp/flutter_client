@@ -1764,7 +1764,7 @@
   "@removeAvatar": {
     "description": "Button to remove the current avatar."
   },
-  "avatarDescription": "JPEG, PNG, GIF, WebP. Max 10MB. Recommended: 512×512px",
+  "avatarDescription": "PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px",
   "@avatarDescription": {
     "description": "Helper text describing avatar image requirements."
   },
@@ -1780,7 +1780,7 @@
   "@removeBanner": {
     "description": "Button to remove the current banner."
   },
-  "bannerDescription": "JPEG, PNG, GIF, WebP. Max 10MB. Minimum: 680×240px (17:6)",
+  "bannerDescription": "PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 960×540px (16:9)",
   "@bannerDescription": {
     "description": "Helper text describing banner image requirements."
   },
@@ -5352,13 +5352,17 @@
   "@chatMessageCopyText": {
     "description": "Action label for copying message text."
   },
-  "chatMessagePin": "Pin Message",
+  "chatMessagePin": "Pin message",
   "@chatMessagePin": {
     "description": "Action label for pinning a message."
   },
-  "chatMessageUnpin": "Unpin Message",
+  "chatMessageUnpin": "Unpin message",
   "@chatMessageUnpin": {
     "description": "Action label for unpinning a message."
+  },
+  "chatMessageUnpinIt": "Unpin it",
+  "@chatMessageUnpinIt": {
+    "description": "Primary button label on the unpin confirmation sheet."
   },
   "chatMessageBookmark": "Bookmark Message",
   "@chatMessageBookmark": {
@@ -6088,13 +6092,44 @@
   "@chatMessageRemoveAllReactionsConfirmDescription": {
     "description": "Body text for the remove-all-reactions confirmation sheet."
   },
-  "chatMessageUnpinConfirmTitle": "Unpin Message",
+  "chatMessageUnpinConfirmTitle": "Unpin message",
   "@chatMessageUnpinConfirmTitle": {
     "description": "Title for the unpin message confirmation sheet."
   },
-  "chatMessageUnpinConfirmDescription": "Are you sure you want to unpin this message?",
+  "chatMessageUnpinConfirmDescription": "Send this pin back in time?",
   "@chatMessageUnpinConfirmDescription": {
     "description": "Body text for the unpin message confirmation sheet."
+  },
+  "systemPinMessage": "{username} pinned {messageLink} to this channel. See {allPinsLink}.",
+  "@systemPinMessage": {
+    "description": "System message when a user pins a message. Keep {username}, {messageLink}, and {allPinsLink} in place; translate the surrounding sentence.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      },
+      "messageLink": {
+        "type": "String"
+      },
+      "allPinsLink": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPinMessageMessageLink": "a message",
+  "@systemPinMessageMessageLink": {
+    "description": "Link label in the pin system message for jumping to the pinned message."
+  },
+  "systemPinMessageAllPinsLink": "all pinned messages",
+  "@systemPinMessageAllPinsLink": {
+    "description": "Link label in the pin system message for opening all pinned messages."
+  },
+  "channelPinsEmptyTitle": "No pinned messages",
+  "@channelPinsEmptyTitle": {
+    "description": "Title shown when a channel has no pinned messages."
+  },
+  "channelPinsEmptyDescription": "Pinned messages show up here.",
+  "@channelPinsEmptyDescription": {
+    "description": "Description shown when a channel has no pinned messages."
   },
   "personalNotesTitle": "Personal notes",
   "@personalNotesTitle": {
@@ -6877,10 +6912,6 @@
   "@guildMenuCommunitySettings": {
     "description": "Guild menu submenu for community settings tabs."
   },
-  "guildMenuReportRaid": "Report Raid",
-  "@guildMenuReportRaid": {
-    "description": "Guild menu action to report a raid."
-  },
   "guildMenuEditCommunityProfile": "Edit Community Profile",
   "@guildMenuEditCommunityProfile": {
     "description": "Guild menu action to edit the community profile."
@@ -6938,7 +6969,7 @@
   "@guildMenuSettingsSafetyModeration": {
     "description": "Community settings tab for safety and moderation."
   },
-  "guildMenuSettingsActivityLog": "Activity Log",
+  "guildMenuSettingsActivityLog": "Activity log",
   "@guildMenuSettingsActivityLog": {
     "description": "Community settings tab for the activity log."
   },
@@ -6965,5 +6996,1585 @@
   "guildMenuSettingsBans": "Bans",
   "@guildMenuSettingsBans": {
     "description": "Community settings tab for banned members."
+  },
+  "guildSettingsNoPermission": "You do not have permission to view this settings tab.",
+  "@guildSettingsNoPermission": {
+    "description": "Shown when the user lacks permission for a guild settings tab."
+  },
+  "guildSettingsOverviewIconTitle": "Icon",
+  "@guildSettingsOverviewIconTitle": {
+    "description": "Title for the guild icon section in overview settings."
+  },
+  "guildSettingsUploadImage": "Upload Image",
+  "@guildSettingsUploadImage": {
+    "description": "Button label to upload an image in guild settings."
+  },
+  "guildSettingsOverviewBannerTitle": "Banner",
+  "@guildSettingsOverviewBannerTitle": {
+    "description": "Title for the guild banner section."
+  },
+  "guildSettingsOverviewBannerHint": "Upload a banner for your server.",
+  "@guildSettingsOverviewBannerHint": {
+    "description": "Hint text for guild banner upload."
+  },
+  "guildSettingsOverviewNameTitle": "Name",
+  "@guildSettingsOverviewNameTitle": {
+    "description": "Title for the guild name field."
+  },
+  "guildSettingsOverviewNameHint": "My awesome community",
+  "@guildSettingsOverviewNameHint": {
+    "description": "Hint for the guild name field."
+  },
+  "guildSettingsOverviewStatsTitle": "Statistics",
+  "@guildSettingsOverviewStatsTitle": {
+    "description": "Title for guild statistics section."
+  },
+  "guildSettingsOverviewMembers": "Members",
+  "@guildSettingsOverviewMembers": {
+    "description": "Label for member count in overview."
+  },
+  "guildSettingsOverviewOnline": "Online",
+  "@guildSettingsOverviewOnline": {
+    "description": "Label for online count in overview."
+  },
+  "guildSettingsRolesDescription": "Use roles to group members and assign permissions.",
+  "@guildSettingsRolesDescription": {
+    "description": "Description for the roles settings tab."
+  },
+  "guildSettingsCreateRole": "Create Role",
+  "@guildSettingsCreateRole": {
+    "description": "Button to create a new role."
+  },
+  "guildSettingsRolesListTitle": "Roles",
+  "@guildSettingsRolesListTitle": {
+    "description": "Title for the roles list section."
+  },
+  "guildSettingsEmojiSlotInfo": "{staticCount} static, {animatedCount} animated emoji slots used",
+  "@guildSettingsEmojiSlotInfo": {
+    "description": "Emoji slot usage summary.",
+    "placeholders": {
+      "staticCount": {"type": "int"},
+      "animatedCount": {"type": "int"}
+    }
+  },
+  "guildSettingsEmojiEmpty": "No custom emoji yet.",
+  "@guildSettingsEmojiEmpty": {
+    "description": "Empty state for emoji settings."
+  },
+  "guildSettingsStickersSlotInfo": "{count} stickers uploaded",
+  "@guildSettingsStickersSlotInfo": {
+    "description": "Sticker slot usage summary.",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "guildSettingsStickersEmpty": "No custom stickers yet.",
+  "@guildSettingsStickersEmpty": {
+    "description": "Empty state for sticker settings."
+  },
+  "guildSettingsModerationVerificationTitle": "Member verification",
+  "@guildSettingsModerationVerificationTitle": {
+    "description": "Title for verification level settings."
+  },
+  "guildSettingsModerationVerificationDescription": "Choose what members must have before they can post or DM community members.",
+  "@guildSettingsModerationVerificationDescription": {
+    "description": "Description for verification level settings."
+  },
+  "guildSettingsModerationVerificationRolesBypass": "Members with roles can bypass these checks. For public spaces, we recommend enabling verification.",
+  "@guildSettingsModerationVerificationRolesBypass": {
+    "description": "Additional verification guidance in moderation settings."
+  },
+  "guildSettingsModerationVerificationDiscoveryNote": "Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.",
+  "@guildSettingsModerationVerificationDiscoveryNote": {
+    "description": "Discovery restriction note for verification level."
+  },
+  "guildSettingsModerationMatureTitle": "Mature content & content warnings",
+  "@guildSettingsModerationMatureTitle": {
+    "description": "Title for mature content settings."
+  },
+  "guildSettingsModerationMatureSectionDescription": "Configure mature content labeling and optional content warnings for members.",
+  "@guildSettingsModerationMatureSectionDescription": {
+    "description": "Section description for mature content and content warning settings."
+  },
+  "guildSettingsModerationMatureToggle": "Mature content",
+  "@guildSettingsModerationMatureToggle": {
+    "description": "Switch label for mature content setting."
+  },
+  "guildSettingsModerationMatureToggleDescription": "Mark this community as containing mature content.",
+  "@guildSettingsModerationMatureToggleDescription": {
+    "description": "Subtitle for the mature content switch in moderation settings."
+  },
+  "guildSettingsVerificationNone": "None",
+  "guildSettingsVerificationNoneDescription": "No verification is required.",
+  "guildSettingsVerificationLow": "Low",
+  "guildSettingsVerificationLowDescription": "Requires a verified email address.",
+  "guildSettingsVerificationMedium": "Medium",
+  "guildSettingsVerificationMediumDescription": "Requires a verified email address, and an account that's at least 5 minutes old.",
+  "guildSettingsVerificationHigh": "High",
+  "guildSettingsVerificationHighDescription": "Requires everything in medium, plus being a member of the community for at least 10 minutes.",
+  "guildSettingsVerificationHighest": "Very high",
+  "guildSettingsVerificationHighestDescription": "Requires a verified phone number.",
+  "guildSettingsAuditLogDescription": "Track moderator actions across the community.",
+  "@guildSettingsAuditLogDescription": {
+    "description": "Subtitle under the activity-log page title."
+  },
+  "guildSettingsAuditLogEmpty": "No logs yet",
+  "@guildSettingsAuditLogEmpty": {
+    "description": "Empty-state title in the activity log tab when there are no log entries to show."
+  },
+  "guildSettingsAuditLogEmptyDescription": "Moderation actions and community changes will appear here.",
+  "@guildSettingsAuditLogEmptyDescription": {
+    "description": "Empty-state body in the activity log tab when there are no log entries to show."
+  },
+  "guildSettingsAuditLogFilterAllUsers": "All users",
+  "@guildSettingsAuditLogFilterAllUsers": {
+    "description": "Default option in the activity log filter by user dropdown."
+  },
+  "guildSettingsAuditLogFilterAllActions": "All actions",
+  "@guildSettingsAuditLogFilterAllActions": {
+    "description": "Default option in the activity log filter by action dropdown."
+  },
+  "guildSettingsAuditLogNoReason": "No reason was provided.",
+  "@guildSettingsAuditLogNoReason": {
+    "description": "Fallback text when the moderator did not supply a reason."
+  },
+  "guildSettingsAuditLogUnknownUser": "Unknown user",
+  "@guildSettingsAuditLogUnknownUser": {
+    "description": "Fallback avatar label when the acting user is unavailable."
+  },
+  "guildSettingsAuditLogLoadError": "Something went wrong while loading the activity log.",
+  "@guildSettingsAuditLogLoadError": {
+    "description": "Generic error shown when fetching log entries fails."
+  },
+  "guildSettingsAuditLogLoadErrorTitle": "Unable to load activity logs",
+  "@guildSettingsAuditLogLoadErrorTitle": {
+    "description": "Error-state title when fetching log entries failed."
+  },
+  "guildSettingsAuditLogReason": "Reason",
+  "@guildSettingsAuditLogReason": {
+    "description": "Label for the reason field in an expanded activity log entry."
+  },
+  "guildSettingsAuditLogSomeone": "someone",
+  "@guildSettingsAuditLogSomeone": {
+    "description": "Fallback label when the actor or user is unknown."
+  },
+  "guildSettingsAuditLogSomething": "something",
+  "@guildSettingsAuditLogSomething": {
+    "description": "Fallback label when an entity name is missing."
+  },
+  "guildSettingsAuditLogUnknownEntity": "unknown entity",
+  "@guildSettingsAuditLogUnknownEntity": {
+    "description": "Fallback label for an entity that cannot be resolved."
+  },
+  "guildSettingsAuditLogNothing": "nothing",
+  "@guildSettingsAuditLogNothing": {
+    "description": "Fallback label for an empty or missing value."
+  },
+  "guildSettingsAuditLogUnknownTarget": "Unknown target",
+  "@guildSettingsAuditLogUnknownTarget": {
+    "description": "Fallback label for a target object that cannot be resolved."
+  },
+  "auditLogActionGuildUpdate": "Community updated",
+  "@auditLogActionGuildUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionChannelCreate": "Channel created",
+  "@auditLogActionChannelCreate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionChannelUpdate": "Channel updated",
+  "@auditLogActionChannelUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionChannelDelete": "Channel deleted",
+  "@auditLogActionChannelDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionChannelOverwriteCreate": "Channel overwrite added",
+  "@auditLogActionChannelOverwriteCreate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionChannelOverwriteUpdate": "Channel overwrite updated",
+  "@auditLogActionChannelOverwriteUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionChannelOverwriteDelete": "Channel overwrite removed",
+  "@auditLogActionChannelOverwriteDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMemberKick": "Member kicked",
+  "@auditLogActionMemberKick": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMemberPrune": "Members pruned",
+  "@auditLogActionMemberPrune": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMemberBanAdd": "Member banned",
+  "@auditLogActionMemberBanAdd": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMemberBanRemove": "Member unbanned",
+  "@auditLogActionMemberBanRemove": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMemberUpdate": "Member updated",
+  "@auditLogActionMemberUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMemberRoleUpdate": "Member roles updated",
+  "@auditLogActionMemberRoleUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMemberMove": "Member moved",
+  "@auditLogActionMemberMove": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMemberDisconnect": "Member disconnected",
+  "@auditLogActionMemberDisconnect": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionBotAdd": "Bot added",
+  "@auditLogActionBotAdd": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionRoleCreate": "Role created",
+  "@auditLogActionRoleCreate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionRoleUpdate": "Role updated",
+  "@auditLogActionRoleUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionRoleDelete": "Role deleted",
+  "@auditLogActionRoleDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionInviteCreate": "Invite created",
+  "@auditLogActionInviteCreate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionInviteUpdate": "Invite updated",
+  "@auditLogActionInviteUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionInviteDelete": "Invite deleted",
+  "@auditLogActionInviteDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionWebhookCreate": "Webhook created",
+  "@auditLogActionWebhookCreate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionWebhookUpdate": "Webhook updated",
+  "@auditLogActionWebhookUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionWebhookDelete": "Webhook deleted",
+  "@auditLogActionWebhookDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionEmojiCreate": "Emoji created",
+  "@auditLogActionEmojiCreate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionEmojiUpdate": "Emoji updated",
+  "@auditLogActionEmojiUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionEmojiDelete": "Emoji deleted",
+  "@auditLogActionEmojiDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionStickerCreate": "Sticker created",
+  "@auditLogActionStickerCreate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionStickerUpdate": "Sticker updated",
+  "@auditLogActionStickerUpdate": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionStickerDelete": "Sticker deleted",
+  "@auditLogActionStickerDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMessageDelete": "Message deleted",
+  "@auditLogActionMessageDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMessageBulkDelete": "Messages deleted",
+  "@auditLogActionMessageBulkDelete": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMessagePin": "Message pinned",
+  "@auditLogActionMessagePin": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogActionMessageUnpin": "Message unpinned",
+  "@auditLogActionMessageUnpin": {
+    "description": "Audit log action filter label."
+  },
+  "auditLogSummaryGuildUpdate": "{actor} updated the community settings.",
+  "@auditLogSummaryGuildUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelCreate": "{actor} created the channel {target}.",
+  "@auditLogSummaryChannelCreate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelUpdate": "{actor} updated the channel {target}.",
+  "@auditLogSummaryChannelUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelDelete": "{actor} deleted the channel {target}.",
+  "@auditLogSummaryChannelDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelOverwriteCreate": "{actor} added channel permissions for {target}.",
+  "@auditLogSummaryChannelOverwriteCreate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelOverwriteCreateInChannel": "{actor} added channel permissions for {target} in {channel}.",
+  "@auditLogSummaryChannelOverwriteCreateInChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelOverwriteUpdate": "{actor} updated channel permissions for {target}.",
+  "@auditLogSummaryChannelOverwriteUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelOverwriteUpdateInChannel": "{actor} updated channel permissions for {target} in {channel}.",
+  "@auditLogSummaryChannelOverwriteUpdateInChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelOverwriteDelete": "{actor} removed channel permissions for {target}.",
+  "@auditLogSummaryChannelOverwriteDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryChannelOverwriteDeleteInChannel": "{actor} removed channel permissions for {target} in {channel}.",
+  "@auditLogSummaryChannelOverwriteDeleteInChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberKick": "{actor} kicked {target}.",
+  "@auditLogSummaryMemberKick": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberBanAdd": "{actor} banned {target}.",
+  "@auditLogSummaryMemberBanAdd": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberBanRemove": "{actor} unbanned {target}.",
+  "@auditLogSummaryMemberBanRemove": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberUpdate": "{actor} updated {target}.",
+  "@auditLogSummaryMemberUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberRoleUpdate": "{actor} updated roles for {target}.",
+  "@auditLogSummaryMemberRoleUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberPrune": "{actor} pruned inactive members.",
+  "@auditLogSummaryMemberPrune": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberPruneDays": "{actor} pruned members inactive for {days} days.",
+  "@auditLogSummaryMemberPruneDays": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "auditLogSummaryMemberMove": "{actor} moved {target} to another voice channel.",
+  "@auditLogSummaryMemberMove": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberMoveToChannel": "{actor} moved {target} to {channel}.",
+  "@auditLogSummaryMemberMoveToChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMemberDisconnect": "{actor} disconnected {target} from voice.",
+  "@auditLogSummaryMemberDisconnect": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryBotAdd": "{actor} added the bot {target}.",
+  "@auditLogSummaryBotAdd": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryRoleCreate": "{actor} created the role {target}.",
+  "@auditLogSummaryRoleCreate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryRoleUpdate": "{actor} updated the role {target}.",
+  "@auditLogSummaryRoleUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryRoleDelete": "{actor} deleted the role {target}.",
+  "@auditLogSummaryRoleDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryInviteCreate": "{actor} created the invite {target}.",
+  "@auditLogSummaryInviteCreate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryInviteCreateForChannel": "{actor} created the invite {target} for {channel}.",
+  "@auditLogSummaryInviteCreateForChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryInviteUpdate": "{actor} updated the invite {target}.",
+  "@auditLogSummaryInviteUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryInviteUpdateForChannel": "{actor} updated the invite {target} for {channel}.",
+  "@auditLogSummaryInviteUpdateForChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryInviteDelete": "{actor} deleted the invite {target}.",
+  "@auditLogSummaryInviteDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryInviteDeleteForChannel": "{actor} deleted the invite {target} for {channel}.",
+  "@auditLogSummaryInviteDeleteForChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryWebhookCreate": "{actor} created the webhook {target}.",
+  "@auditLogSummaryWebhookCreate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryWebhookUpdate": "{actor} updated the webhook {target}.",
+  "@auditLogSummaryWebhookUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryWebhookDelete": "{actor} deleted the webhook {target}.",
+  "@auditLogSummaryWebhookDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryEmojiCreate": "{actor} added the emoji {target}.",
+  "@auditLogSummaryEmojiCreate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryEmojiUpdate": "{actor} updated the emoji {target}.",
+  "@auditLogSummaryEmojiUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryEmojiDelete": "{actor} deleted the emoji {target}.",
+  "@auditLogSummaryEmojiDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryStickerCreate": "{actor} added the sticker {target}.",
+  "@auditLogSummaryStickerCreate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryStickerUpdate": "{actor} updated the sticker {target}.",
+  "@auditLogSummaryStickerUpdate": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryStickerDelete": "{actor} deleted the sticker {target}.",
+  "@auditLogSummaryStickerDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessageDelete": "{actor} deleted a message.",
+  "@auditLogSummaryMessageDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessageDeleteInChannel": "{actor} deleted a message in {channel}.",
+  "@auditLogSummaryMessageDeleteInChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessageBulkDelete": "{actor} deleted multiple messages.",
+  "@auditLogSummaryMessageBulkDelete": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessageBulkDeleteCount": "{actor} deleted {count} messages.",
+  "@auditLogSummaryMessageBulkDeleteCount": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "auditLogSummaryMessageBulkDeleteInChannel": "{actor} deleted multiple messages in {channel}.",
+  "@auditLogSummaryMessageBulkDeleteInChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessageBulkDeleteCountInChannel": "{actor} deleted {count} messages in {channel}.",
+  "@auditLogSummaryMessageBulkDeleteCountInChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessagePin": "{actor} pinned a message.",
+  "@auditLogSummaryMessagePin": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessagePinInChannel": "{actor} pinned a message in {channel}.",
+  "@auditLogSummaryMessagePinInChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessageUnpin": "{actor} unpinned a message.",
+  "@auditLogSummaryMessageUnpin": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryMessageUnpinInChannel": "{actor} unpinned a message in {channel}.",
+  "@auditLogSummaryMessageUnpinInChannel": {
+    "description": "Activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "channel": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogSummaryDefault": "{actor} performed an audit action on {target}.",
+  "@auditLogSummaryDefault": {
+    "description": "Fallback activity log entry summary.",
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeUpdatedFromTo": "Updated {field} from {oldValue} to {newValue}.",
+  "@auditLogChangeUpdatedFromTo": {
+    "description": "Fallback change detail sentence.",
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "oldValue": {
+        "type": "String"
+      },
+      "newValue": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeSetTo": "Set {field} to {newValue}.",
+  "@auditLogChangeSetTo": {
+    "description": "Fallback change detail sentence.",
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "newValue": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeCleared": "Cleared {field} (was {oldValue}).",
+  "@auditLogChangeCleared": {
+    "description": "Fallback change detail sentence.",
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "oldValue": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeUpdated": "Updated {field}.",
+  "@auditLogChangeUpdated": {
+    "description": "Fallback change detail sentence.",
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeRenamedCommunity": "Renamed the community to {name}.",
+  "@auditLogChangeRenamedCommunity": {
+    "description": "Guild change detail sentence.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeUpdatedCommunityIcon": "Updated the community icon.",
+  "@auditLogChangeUpdatedCommunityIcon": {
+    "description": "Guild change detail sentence."
+  },
+  "auditLogChangeRenamedChannel": "Renamed the channel to {name}.",
+  "@auditLogChangeRenamedChannel": {
+    "description": "Channel change detail sentence.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeClearedTopic": "Cleared the topic.",
+  "@auditLogChangeClearedTopic": {
+    "description": "Channel change detail sentence."
+  },
+  "auditLogChangeUpdatedTopic": "Updated the topic to {topic}.",
+  "@auditLogChangeUpdatedTopic": {
+    "description": "Channel change detail sentence.",
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeEnabledMatureContent": "Enabled mature content.",
+  "@auditLogChangeEnabledMatureContent": {
+    "description": "Channel change detail sentence."
+  },
+  "auditLogChangeDisabledMatureContent": "Disabled mature content.",
+  "@auditLogChangeDisabledMatureContent": {
+    "description": "Channel change detail sentence."
+  },
+  "auditLogChangeSetNickname": "Set nickname to {nickname}.",
+  "@auditLogChangeSetNickname": {
+    "description": "Member change detail sentence.",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeRemovedNickname": "Removed nickname {nickname}.",
+  "@auditLogChangeRemovedNickname": {
+    "description": "Member change detail sentence.",
+    "placeholders": {
+      "nickname": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeMutedMember": "Muted the member.",
+  "@auditLogChangeMutedMember": {
+    "description": "Member change detail sentence."
+  },
+  "auditLogChangeUnmutedMember": "Unmuted the member.",
+  "@auditLogChangeUnmutedMember": {
+    "description": "Member change detail sentence."
+  },
+  "auditLogChangeDeafenedMember": "Deafened the member.",
+  "@auditLogChangeDeafenedMember": {
+    "description": "Member change detail sentence."
+  },
+  "auditLogChangeUndeafenedMember": "Undeafened the member.",
+  "@auditLogChangeUndeafenedMember": {
+    "description": "Member change detail sentence."
+  },
+  "auditLogChangeAddedRoles": "Added {roles}.",
+  "@auditLogChangeAddedRoles": {
+    "description": "Member change detail sentence.",
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogChangeRemovedRoles": "Removed {roles}.",
+  "@auditLogChangeRemovedRoles": {
+    "description": "Member change detail sentence.",
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogOptionChannel": "Channel: {value}.",
+  "@auditLogOptionChannel": {
+    "description": "Audit log option detail sentence.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogOptionMessage": "Message: {value}.",
+  "@auditLogOptionMessage": {
+    "description": "Audit log option detail sentence.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogOptionInvitedBy": "Invited by {value}.",
+  "@auditLogOptionInvitedBy": {
+    "description": "Audit log option detail sentence.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "auditLogOptionDeletedMessages": "{count, plural, =1{Deleted # message.} other{Deleted # messages.}}",
+  "@auditLogOptionDeletedMessages": {
+    "description": "Audit log option detail sentence.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "auditLogOptionRemovedMembers": "{count, plural, =1{Removed # member.} other{Removed # members.}}",
+  "@auditLogOptionRemovedMembers": {
+    "description": "Audit log option detail sentence.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "auditLogOptionInviteNeverExpires": "This invite never expires.",
+  "@auditLogOptionInviteNeverExpires": {
+    "description": "Audit log option detail sentence."
+  },
+  "auditLogOptionTemporaryMembership": "Grants temporary membership.",
+  "@auditLogOptionTemporaryMembership": {
+    "description": "Audit log option detail sentence."
+  },
+  "auditLogOptionPermanentMembership": "Grants permanent membership.",
+  "@auditLogOptionPermanentMembership": {
+    "description": "Audit log option detail sentence."
+  },
+  "guildSettingsLoadMore": "Load more",
+  "@guildSettingsLoadMore": {
+    "description": "Button to load more audit log entries."
+  },
+  "guildSettingsLoadingMore": "Loading...",
+  "@guildSettingsLoadingMore": {
+    "description": "Loading state for pagination."
+  },
+  "guildSettingsWebhooksDescription": "Manage webhooks that post messages to channels.",
+  "@guildSettingsWebhooksDescription": {
+    "description": "Description for webhooks tab."
+  },
+  "guildSettingsWebhooksEmpty": "No webhooks configured.",
+  "@guildSettingsWebhooksEmpty": {
+    "description": "Empty state for webhooks."
+  },
+  "guildSettingsCopyUrl": "Copy URL",
+  "@guildSettingsCopyUrl": {
+    "description": "Tooltip to copy a URL."
+  },
+  "guildSettingsCopiedUrl": "URL copied to clipboard",
+  "@guildSettingsCopiedUrl": {
+    "description": "Snackbar after copying a URL."
+  },
+  "guildSettingsDeleteWebhook": "Delete webhook",
+  "@guildSettingsDeleteWebhook": {
+    "description": "Tooltip to delete a webhook."
+  },
+  "guildSettingsVanityUrlDescription": "Set a custom invite link for your server.",
+  "@guildSettingsVanityUrlDescription": {
+    "description": "Description for vanity URL tab."
+  },
+  "guildSettingsVanityUrlHint": "my-server",
+  "@guildSettingsVanityUrlHint": {
+    "description": "Hint for vanity URL input."
+  },
+  "guildSettingsSave": "Save",
+  "@guildSettingsSave": {
+    "description": "Generic save button label."
+  },
+  "guildSettingsVanityUrlUsageTitle": "Usage",
+  "@guildSettingsVanityUrlUsageTitle": {
+    "description": "Title for vanity URL usage section."
+  },
+  "guildSettingsVanityUrlUses": "{count} uses",
+  "@guildSettingsVanityUrlUses": {
+    "description": "Vanity URL usage count.",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "guildSettingsDiscoveryDescription": "Apply to be listed in server discovery.",
+  "@guildSettingsDiscoveryDescription": {
+    "description": "Description for discovery tab."
+  },
+  "guildSettingsDiscoveryNotEligible": "Requires at least {count} members to apply.",
+  "@guildSettingsDiscoveryNotEligible": {
+    "description": "Discovery eligibility message.",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "guildSettingsDiscoveryFormTitle": "Application",
+  "@guildSettingsDiscoveryFormTitle": {
+    "description": "Title for discovery application form."
+  },
+  "guildSettingsDiscoveryStatusTitle": "Status",
+  "@guildSettingsDiscoveryStatusTitle": {
+    "description": "Title for discovery application status section."
+  },
+  "guildSettingsDiscoveryCategory": "Category",
+  "@guildSettingsDiscoveryCategory": {
+    "description": "Label for discovery category dropdown."
+  },
+  "guildSettingsDiscoveryDescriptionField": "Description",
+  "@guildSettingsDiscoveryDescriptionField": {
+    "description": "Label for discovery description field."
+  },
+  "guildSettingsDiscoveryTags": "Tags",
+  "@guildSettingsDiscoveryTags": {
+    "description": "Label for discovery tags field."
+  },
+  "guildSettingsDiscoveryTagsHint": "gaming, art, music",
+  "@guildSettingsDiscoveryTagsHint": {
+    "description": "Hint for discovery tags field."
+  },
+  "guildSettingsDiscoveryApply": "Submit Application",
+  "@guildSettingsDiscoveryApply": {
+    "description": "Button to submit discovery application."
+  },
+  "guildSettingsDiscoveryWithdraw": "Withdraw",
+  "@guildSettingsDiscoveryWithdraw": {
+    "description": "Button to withdraw discovery application."
+  },
+  "guildSettingsMembersDescription": "Search and manage server members.",
+  "@guildSettingsMembersDescription": {
+    "description": "Description for members tab."
+  },
+  "guildSettingsMembersSearchHint": "Search members",
+  "@guildSettingsMembersSearchHint": {
+    "description": "Hint for member search field."
+  },
+  "guildSettingsMembersResultsTitle": "{count} members",
+  "@guildSettingsMembersResultsTitle": {
+    "description": "Title for member search results.",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "guildSettingsInvitesDescription": "View and revoke active invite links.",
+  "@guildSettingsInvitesDescription": {
+    "description": "Description for invites tab."
+  },
+  "guildSettingsInvitesEmpty": "No active invites.",
+  "@guildSettingsInvitesEmpty": {
+    "description": "Empty state for invites."
+  },
+  "guildSettingsInviteUses": "{uses} / {maxUses} uses",
+  "@guildSettingsInviteUses": {
+    "description": "Invite usage count.",
+    "placeholders": {
+      "uses": {"type": "int"},
+      "maxUses": {"type": "int"}
+    }
+  },
+  "guildSettingsInviteExpires": "Expires {date}",
+  "@guildSettingsInviteExpires": {
+    "description": "Invite expiration date.",
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "guildSettingsBansDescription": "View and manage banned users.",
+  "@guildSettingsBansDescription": {
+    "description": "Description for bans tab."
+  },
+  "guildSettingsBansSearchHint": "Search bans",
+  "@guildSettingsBansSearchHint": {
+    "description": "Hint for ban search field."
+  },
+  "guildSettingsBansEmpty": "No banned users.",
+  "@guildSettingsBansEmpty": {
+    "description": "Empty state for bans."
+  },
+  "guildSettingsBanPermanent": "Permanent ban",
+  "@guildSettingsBanPermanent": {
+    "description": "Label for permanent ban."
+  },
+  "guildSettingsBanExpires": "Expires {date}",
+  "@guildSettingsBanExpires": {
+    "description": "Ban expiration date.",
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "guildSettingsUnban": "Unban",
+  "@guildSettingsUnban": {
+    "description": "Button to unban a user."
+  },
+  "guildSettingsCommunitySettings": "Community Settings",
+  "@guildSettingsCommunitySettings": {
+    "description": "Title for guild settings modal."
+  },
+  "guildSettingsCategoryExpressions": "EXPRESSIONS",
+  "@guildSettingsCategoryExpressions": {
+    "description": "Sidebar category for emoji and stickers."
+  },
+  "guildSettingsCategoryCommunity": "COMMUNITY",
+  "@guildSettingsCategoryCommunity": {
+    "description": "Sidebar category for discovery and vanity URL."
+  },
+  "guildSettingsCategoryIntegrations": "INTEGRATIONS",
+  "@guildSettingsCategoryIntegrations": {
+    "description": "Sidebar category for webhooks."
+  },
+  "guildSettingsCategoryPeople": "PEOPLE",
+  "@guildSettingsCategoryPeople": {
+    "description": "Sidebar category for members, invites, and bans."
+  },
+  "guildSettingsOverviewDescription": "Manage your community's profile, channels, and default settings.",
+  "guildSettingsOverviewBrandingTitle": "Branding",
+  "guildSettingsOverviewBrandingDescription": "Update your icon, name, banner, and invite background",
+  "@guildSettingsOverviewBrandingDescription": {
+    "description": "Description for the branding settings section."
+  },
+  "guildSettingsOverviewBannerUpload": "Upload banner",
+  "guildSettingsOverviewIdleTitle": "Idle settings",
+  "guildSettingsOverviewIdleDescription": "Configure AFK channel and timeout",
+  "@guildSettingsOverviewIdleDescription": {
+    "description": "Description for the idle settings section."
+  },
+  "guildSettingsOverviewSystemTitle": "System & welcome",
+  "guildSettingsOverviewSystemDescription": "Choose destination for system and welcome messages",
+  "@guildSettingsOverviewSystemDescription": {
+    "description": "Description for the system and welcome settings section."
+  },
+  "guildSettingsOverviewNotificationsTitle": "Default notifications",
+  "guildSettingsOverviewNotificationsLargeGuild": "Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.",
+  "guildSettingsOverviewAdvancedTitle": "Advanced",
+  "guildSettingsOverviewFlexibleNames": "Allow flexible text channel names",
+  "guildSettingsOverviewHideOwnerCrown": "Hide community owner crown",
+  "guildSettingsOverviewDetachedBanner": "Detached banner",
+  "@guildSettingsOverviewDetachedBanner": {
+    "description": "Toggle label for detached banner display."
+  },
+  "guildSettingsOverviewDetachedBannerHint": "Shows the banner in its own section below the community header.",
+  "@guildSettingsOverviewDetachedBannerHint": {
+    "description": "Description for detached banner toggle."
+  },
+  "guildSettingsOverviewUploadIcon": "Upload icon",
+  "@guildSettingsOverviewUploadIcon": {
+    "description": "Button to upload a guild icon."
+  },
+  "guildSettingsOverviewRemoveImage": "Remove",
+  "@guildSettingsOverviewRemoveImage": {
+    "description": "Button to remove an uploaded guild image."
+  },
+  "guildSettingsOverviewSplashTitle": "Invite background",
+  "@guildSettingsOverviewSplashTitle": {
+    "description": "Title for invite splash upload section."
+  },
+  "guildSettingsOverviewEmbedSplashTitle": "Chat embed background",
+  "@guildSettingsOverviewEmbedSplashTitle": {
+    "description": "Title for embed splash upload section."
+  },
+  "guildSettingsOverviewEmbedSplashHint": "Shown in invite embeds in chat.",
+  "@guildSettingsOverviewEmbedSplashHint": {
+    "description": "Note shown when uploading chat embed background."
+  },
+  "guildSettingsOverviewUploadBackground": "Upload background",
+  "@guildSettingsOverviewUploadBackground": {
+    "description": "Button to upload invite or embed background image."
+  },
+  "guildSettingsOverviewNoCommunityBanner": "No community banner",
+  "@guildSettingsOverviewNoCommunityBanner": {
+    "description": "Placeholder when no community banner is set."
+  },
+  "guildSettingsOverviewNoInviteBackground": "No invite background",
+  "@guildSettingsOverviewNoInviteBackground": {
+    "description": "Placeholder when no invite background is set."
+  },
+  "guildSettingsOverviewInvitePreviewTitle": "Preview",
+  "@guildSettingsOverviewInvitePreviewTitle": {
+    "description": "Label for invite preview controls."
+  },
+  "guildSettingsOverviewInvitePreviewHint": "See how your invite looks to visitors.",
+  "@guildSettingsOverviewInvitePreviewHint": {
+    "description": "Helper text for invite preview controls."
+  },
+  "guildSettingsOverviewTextChannelNamesTitle": "Text channel names",
+  "@guildSettingsOverviewTextChannelNamesTitle": {
+    "description": "Advanced settings section for text channel naming rules."
+  },
+  "guildSettingsOverviewOwnerCrownTitle": "Community owner crown",
+  "@guildSettingsOverviewOwnerCrownTitle": {
+    "description": "Settings section for hiding the owner crown."
+  },
+  "guildSettingsOverviewOwnerCrownDescription": "Configure whether the crown icon is shown next to the community owner",
+  "@guildSettingsOverviewOwnerCrownDescription": {
+    "description": "Description for the community owner crown settings section."
+  },
+  "guildSettingsSplashCardAlignment": "Card alignment",
+  "@guildSettingsSplashCardAlignment": {
+    "description": "Label for invite splash card alignment selector."
+  },
+  "guildSettingsSplashAlignmentCenter": "Center",
+  "@guildSettingsSplashAlignmentCenter": {
+    "description": "Center alignment option for invite splash card."
+  },
+  "guildSettingsSplashAlignmentLeft": "Left",
+  "@guildSettingsSplashAlignmentLeft": {
+    "description": "Left alignment option for invite splash card."
+  },
+  "guildSettingsSplashAlignmentRight": "Right",
+  "@guildSettingsSplashAlignmentRight": {
+    "description": "Right alignment option for invite splash card."
+  },
+  "guildSettingsSplashAlignmentHint": "Only applies on wide screens.",
+  "@guildSettingsSplashAlignmentHint": {
+    "description": "Hint for splash card alignment setting."
+  },
+  "permissionReadMessageHistory": "Read message history",
+  "@permissionReadMessageHistory": {
+    "description": "Permission name for reading earlier channel messages."
+  },
+  "guildSettingsOverviewMessageHistoryTitle": "Change what users without \"{permission}\" can see",
+  "@guildSettingsOverviewMessageHistoryTitle": {
+    "description": "Title for message history cutoff section.",
+    "placeholders": {
+      "permission": {
+        "type": "String"
+      }
+    }
+  },
+  "guildSettingsOverviewMessageHistoryDescription": "Use a dedicated modal to set a message history threshold date for members who don't have the {permission} permission.",
+  "@guildSettingsOverviewMessageHistoryDescription": {
+    "description": "Description for message history cutoff section.",
+    "placeholders": {
+      "permission": {
+        "type": "String"
+      }
+    }
+  },
+  "guildSettingsOverviewMessageHistoryOpen": "Open message history threshold",
+  "@guildSettingsOverviewMessageHistoryOpen": {
+    "description": "Button to open message history threshold settings."
+  },
+  "guildSettingsMessageHistoryThresholdTitle": "Message history threshold",
+  "@guildSettingsMessageHistoryThresholdTitle": {
+    "description": "Title for message history threshold modal."
+  },
+  "guildSettingsMessageHistoryThresholdEnable": "Enable message history threshold",
+  "@guildSettingsMessageHistoryThresholdEnable": {
+    "description": "Toggle to enable message history threshold."
+  },
+  "guildSettingsMessageHistoryThresholdDate": "Threshold date",
+  "@guildSettingsMessageHistoryThresholdDate": {
+    "description": "Label for threshold date picker."
+  },
+  "guildSettingsMessageHistoryThresholdDateHint": "Members without Read Message History can view messages sent after this date.",
+  "@guildSettingsMessageHistoryThresholdDateHint": {
+    "description": "Hint for threshold date picker."
+  },
+  "guildSettingsMessageHistoryThresholdUpdated": "Message history threshold updated",
+  "@guildSettingsMessageHistoryThresholdUpdated": {
+    "description": "Toast after saving message history threshold."
+  },
+  "guildSettingsOverviewFlexibleNamesHint": "Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.",
+  "@guildSettingsOverviewFlexibleNamesHint": {
+    "description": "Description for flexible channel names toggle."
+  },
+  "guildSettingsOverviewHideOwnerCrownHint": "Hides the crown icon next to the community owner across all surfaces.",
+  "@guildSettingsOverviewHideOwnerCrownHint": {
+    "description": "Description for hide owner crown toggle."
+  },
+  "guildSettingsAnimatedIconRequiresFeature": "Animated icons require the Animated Icon community feature.",
+  "@guildSettingsAnimatedIconRequiresFeature": {
+    "description": "Error when uploading animated icon without feature."
+  },
+  "guildSettingsAnimatedBannerRequiresFeature": "Animated banners require the Animated Banner community feature.",
+  "@guildSettingsAnimatedBannerRequiresFeature": {
+    "description": "Error when uploading animated banner without feature."
+  },
+  "guildSettingsAfkChannel": "AFK / idle channel",
+  "guildSettingsAfkChannelHint": "Move members to this channel when they're AFK.",
+  "@guildSettingsAfkChannelHint": {
+    "description": "Description for the AFK channel selector."
+  },
+  "guildSettingsNoAfkChannel": "No AFK channel",
+  "guildSettingsAfkTimeout": "AFK timeout",
+  "guildSettingsAfkTimeout1Min": "1 minute",
+  "guildSettingsAfkTimeout5Min": "5 minutes",
+  "guildSettingsAfkTimeout15Min": "15 minutes",
+  "guildSettingsAfkTimeout30Min": "30 minutes",
+  "guildSettingsAfkTimeout1Hour": "1 hour",
+  "guildSettingsAfkTimeoutSeconds": "{seconds} seconds",
+  "@guildSettingsAfkTimeoutSeconds": {
+    "description": "AFK timeout label for a custom duration in seconds.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "guildSettingsSystemChannel": "Destination channel",
+  "guildSettingsSystemChannelHint": "Welcome and system messages will appear here.",
+  "@guildSettingsSystemChannelHint": {
+    "description": "Description for the system channel selector."
+  },
+  "guildSettingsNoSystemChannel": "No system channel",
+  "guildSettingsHideJoinMessages": "Hide join messages",
+  "guildSettingsHideJoinMessagesHint": "Suppresses join messages in the destination channel.",
+  "@guildSettingsHideJoinMessagesHint": {
+    "description": "Description for the hide join messages toggle."
+  },
+  "guildSettingsDefaultNotifications": "Default notification settings",
+  "guildSettingsNotificationsAll": "All messages",
+  "guildSettingsNotificationsAllDescription": "Notify on all messages",
+  "@guildSettingsNotificationsAllDescription": {
+    "description": "Subtitle for the all messages default notification option."
+  },
+  "guildSettingsNotificationsMentions": "Mentions only",
+  "guildSettingsNotificationsMentionsDescription": "Notify only on mentions",
+  "@guildSettingsNotificationsMentionsDescription": {
+    "description": "Subtitle for the mentions only default notification option."
+  },
+  "guildSettingsOverviewSplashUploadHint": "JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)",
+  "@guildSettingsOverviewSplashUploadHint": {
+    "description": "Upload requirements for invite background images."
+  },
+  "guildSettingsOverviewEmbedSplashUploadHint": "JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.",
+  "@guildSettingsOverviewEmbedSplashUploadHint": {
+    "description": "Upload requirements for chat embed background images."
+  },
+  "guildSettingsModerationDescription": "Configure verification, content filtering, and mature content settings.",
+  "guildSettingsModerationDiscoveryNotice": "Discovery-listed communities have restricted moderation options.",
+  "guildSettingsModerationContentFilterTitle": "Content filtering",
+  "guildSettingsModerationContentFilterDescription": "Automatically screen messages for explicit content in channels not marked for mature content.",
+  "guildSettingsModerationContentFilterDiscoveryNote": "Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.",
+  "guildSettingsContentFilterOff": "Off",
+  "guildSettingsContentFilterOffDescription": "Let the community self-moderate",
+  "guildSettingsContentFilterNoRole": "Filter members without roles",
+  "guildSettingsContentFilterNoRoleDescription": "Suggested for most communities",
+  "guildSettingsContentFilterAll": "Filter everyone",
+  "guildSettingsContentFilterAllDescription": "Maximum protection for family-friendly spaces",
+  "guildSettingsModerationMatureOff": "Off",
+  "guildSettingsModerationMatureOn": "On",
+  "guildSettingsContentWarningToggle": "Show a content warning",
+  "@guildSettingsContentWarningToggle": {
+    "description": "Switch label for the community content warning setting."
+  },
+  "guildSettingsContentWarningToggleDescription": "Toggles a consent prompt before entering any channel.",
+  "@guildSettingsContentWarningToggleDescription": {
+    "description": "Subtitle for the content warning switch in moderation settings."
+  },
+  "guildSettingsContentWarningText": "Custom warning text",
+  "@guildSettingsContentWarningText": {
+    "description": "Textarea label for custom content warning copy."
+  },
+  "guildSettingsContentWarningTextPlaceholder": "This contains sensitive content.",
+  "@guildSettingsContentWarningTextPlaceholder": {
+    "description": "Placeholder example in the custom content warning field."
+  },
+  "guildSettingsModeration2faTitle": "2FA requirement",
+  "guildSettingsModeration2faDescription": "Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.",
+  "guildSettingsModeration2faSwitchLabel": "Require 2FA for moderation actions",
+  "guildSettingsModeration2faOwnerOnlyTooltip": "Only the community owner can change this setting",
+  "guildSettingsModeration2faEnableFirstTooltip": "Enable 2FA on your account to change this setting",
+  "guildSettingsEmojiSearchHint": "Search emojis",
+  "guildSettingsEmojiUploadTitle": "Upload Emoji",
+  "guildSettingsNonAnimatedEmoji": "Non-animated emoji ({count})",
+  "@guildSettingsNonAnimatedEmoji": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "guildSettingsAnimatedEmoji": "Animated emoji ({count})",
+  "@guildSettingsAnimatedEmoji": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "guildSettingsStickersSearchHint": "Search stickers",
+  "guildSettingsWebhooksInfo": "Create webhooks from Channel settings. Edit them here.",
+  "guildSettingsVanityUrlWarning": "Your vanity URL won't work unless at least one channel is visible to everyone.",
+  "guildSettingsVanityUrlRemove": "Remove",
+  "guildSettingsBannedUsersTitle": "Banned users",
+  "guildSettingsInvitesTableInviter": "Inviter",
+  "guildSettingsInvitesTableChannel": "Channel",
+  "guildSettingsInvitesTableCode": "Code",
+  "guildSettingsInvitesTableUses": "Uses",
+  "guildSettingsInvitesTableCreated": "Created",
+  "guildSettingsMembersSortNewest": "Newest first",
+  "guildSettingsAuditLogFilterUser": "Filter by user",
+  "@guildSettingsAuditLogFilterUser": {
+    "description": "Label of the user filter dropdown in the activity log tab."
+  },
+  "guildSettingsAuditLogFilterAction": "Filter by action",
+  "@guildSettingsAuditLogFilterAction": {
+    "description": "Label of the action-type filter dropdown in the activity log tab."
   }
 }

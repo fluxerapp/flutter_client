@@ -231,4 +231,89 @@ void main() {
     expect(panelWidth, moreOrLessEquals(480, epsilon: 0.5));
     expect(inputWidth, lessThan(panelWidth));
   });
+
+  testWidgets(
+    'inStack mode publishes suggestions to panel host without overlay',
+    (tester) async {
+      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+      final host = ComposerAutocompletePanelHost(null);
+      addTearDown(host.dispose);
+      final scrollController = ScrollController();
+      addTearDown(scrollController.dispose);
+      final controller = EmojiTextEditingController();
+      addTearDown(controller.dispose);
+      final focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+      final colorTheme = buildDarkColorTheme();
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            activeGuildIdProvider.overrideWith((ref) => null),
+            guildListViewModelProvider.overrideWith(
+              () => _FakeGuilds(const <Guild>[
+                Guild(id: 'g1', name: 'Linux Hub', ownerId: 'owner'),
+              ]),
+            ),
+            allGuildEmojisForPickerProvider.overrideWith(
+              (ref) => Stream<List<GuildEmojiEntry>>.value(<GuildEmojiEntry>[
+                GuildEmojiEntry(
+                  id: 'e1',
+                  name: 'smile',
+                  animated: false,
+                  guildId: 'g1',
+                ),
+              ]),
+            ),
+          ],
+          child: MaterialApp(
+            localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+            supportedLocales: FluxerLocalizations.supportedLocales,
+            theme: buildFluxerTheme(
+              colorTheme: colorTheme,
+              textTheme: FluxerTextTheme.fromColors(colorTheme),
+              layoutTheme: FluxerLayoutTheme.scaled(),
+            ),
+            home: Scaffold(
+              body: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: ComposerAutocompletePanelStrip(
+                      host: host,
+                      scrollController: scrollController,
+                    ),
+                  ),
+                  ComposerAutocompleteField(
+                    controller: controller,
+                    focusNode: focusNode,
+                    allowedTriggers: const <ComposerAutocompleteTriggerKind>{
+                      ComposerAutocompleteTriggerKind.emoji,
+                    },
+                    renderMode: AutocompleteRenderMode.inStack,
+                    panelHost: host,
+                    panelScrollController: scrollController,
+                    child: TextField(
+                      controller: controller,
+                      focusNode: focusNode,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField), ':smile');
+      await _settleAutocomplete(tester);
+
+      expect(_fieldState(tester).hasOpenMenu, isTrue);
+      expect(host.value, isNotNull);
+      expect(find.byType(OverlayPortal), findsNothing);
+      expect(find.byType(ListView), findsOneWidget);
+      expect(find.text('Linux Hub'), findsOneWidget);
+    },
+  );
 }

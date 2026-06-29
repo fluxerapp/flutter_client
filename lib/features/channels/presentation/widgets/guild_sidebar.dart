@@ -159,6 +159,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
             ),
           ]
         : const <Shadow>[];
+    final Color? bannerForegroundColor = hasImage ? Colors.white : null;
     final Widget headerContent = GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -187,6 +188,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
               child: FluxerGuildBadge(
                 features: guild.features,
                 shadows: bannerShadows,
+                color: bannerForegroundColor,
                 forceBrightness: hasImage ? Brightness.dark : null,
               ),
             ),
@@ -194,6 +196,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
             child: Text(
               guild?.name ?? '',
               style: context.textStyles.channelName.copyWith(
+                color: bannerForegroundColor,
                 shadows: bannerShadows,
               ),
               overflow: TextOverflow.ellipsis,
@@ -201,7 +204,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
           ),
           PhosphorIcon(
             PhosphorIconsFill.caretDown,
-            color: context.colors.textChat,
+            color: bannerForegroundColor ?? context.colors.textChat,
             size: 16,
             shadows: bannerShadows,
           ),
@@ -212,8 +215,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     if (hasImage) {
       return AspectRatio(
         aspectRatio: bannerAspectRatio,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: DecoratedBox(
           decoration: BoxDecoration(
             color: context.colors.channelSidebarBackground,
             border: Border(
@@ -224,7 +226,38 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
               fit: BoxFit.cover,
             ),
           ),
-          child: headerContent,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: 40,
+                child: IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                          context.colors.guildBannerGradient,
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                child: headerContent,
+              ),
+            ],
+          ),
         ),
       );
     }
@@ -327,7 +360,7 @@ class _ChannelTile extends ConsumerWidget {
         .watch(effectiveGuildChannelPermissionBitsProvider(channel.id))
         .value;
 
-    final bool isVoice = channel.type == ChannelType.voice;
+    final bool isVoice = channel.type == ChannelType.guildVoice;
     final String? connectedVoiceGuildId = isVoice
         ? ref.watch(
             voiceSessionProvider.select((VoiceSessionState s) => s.guildId),
@@ -378,102 +411,87 @@ class _ChannelTile extends ConsumerWidget {
       clipBehavior: Clip.none,
       children: [
         if (showUnreadIndicator)
-          Positioned(
-            left: 1,
-            top: 0,
-            bottom: 0,
-            child: Center(
-              child: ChannelUnreadIndicator(
-                faded: channelUnreadState.isUnreadIndicatorMuted,
-              ),
-            ),
+          ChannelUnreadIndicator.positioned(
+            faded: channelUnreadState.isUnreadIndicatorMuted,
           ),
         Opacity(
           opacity: rowOpacity,
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onSecondaryTapUp: (details) => unawaited(
-                _showChannelActions(
-                  context,
-                  ref,
-                  hasUnread: hasUnread,
-                  position: details.globalPosition,
-                ),
+          child: FluxerSelectableRow(
+            isSelected: isSelected,
+            selectedColor: context.colors.backgroundModifierSelected,
+            borderRadius: BorderRadius.circular(4),
+            margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            onSecondaryTapUp: (details) => unawaited(
+              _showChannelActions(
+                context,
+                ref,
+                hasUnread: hasUnread,
+                position: details.globalPosition,
               ),
-              onLongPress: isMobileLayout(context)
-                  ? () => unawaited(
-                      _showChannelActions(
-                        context,
-                        ref,
-                        hasUnread: hasUnread,
-                        position: Offset.zero,
-                      ),
-                    )
-                  : null,
-              onTap: () async {
-                await navigateToGuildChannelContent(
-                  context: context,
-                  ref: ref,
-                  guildId: guildId,
+            ),
+            onLongPress: isMobileLayout(context)
+                ? () => unawaited(
+                    _showChannelActions(
+                      context,
+                      ref,
+                      hasUnread: hasUnread,
+                      position: Offset.zero,
+                    ),
+                  )
+                : null,
+            onTap: () async {
+              await navigateToGuildChannelContent(
+                context: context,
+                ref: ref,
+                guildId: guildId,
+                channel: channel,
+                effectivePermissionBits: effectivePermissionBits,
+              );
+            },
+            child: Row(
+              children: [
+                ChannelIcon(
+                  type: channel.type,
                   channel: channel,
-                  effectivePermissionBits: effectivePermissionBits,
-                );
-              },
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? context.colors.backgroundModifierSelected
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(4),
+                  effectivePermissionBits: connectPermissionBits,
+                  canConnectPermissionBits: connectPermissionBits,
+                  color: textColor,
+                  e2eeEncrypted: showE2eeVoiceIcon,
                 ),
-                child: Row(
-                  children: [
-                    ChannelIcon(
-                      type: channel.type,
-                      channel: channel,
-                      effectivePermissionBits: connectPermissionBits,
-                      canConnectPermissionBits: connectPermissionBits,
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    channel.name,
+                    style: context.textStyles.channelName.copyWith(
                       color: textColor,
-                      e2eeEncrypted: showE2eeVoiceIcon,
+                      fontWeight: FontWeight.w500,
                     ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        channel.name,
-                        style: context.textStyles.channelName.copyWith(
-                          color: textColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    if (hasTyping) ...[
-                      const SizedBox(width: 4),
-                      RepaintBoundary(
-                        child: FluxerLoadingSpinner(
-                          color: context.colors.textSecondary,
-                        ),
-                      ),
-                    ],
-                    if (!isSelected &&
-                        mentionCount > 0 &&
-                        channelUnreadState.hasMentions) ...[
-                      const SizedBox(width: 4),
-                      FluxerBadge.count(count: mentionCount),
-                    ],
-                    if (showVoiceUserCount) ...[
-                      const SizedBox(width: 4),
-                      VoiceChannelUserCount(
-                        currentUserCount: voiceCurrentCount,
-                        userLimit: voiceUserLimit,
-                      ),
-                    ],
-                  ],
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
+                if (hasTyping) ...[
+                  const SizedBox(width: 4),
+                  RepaintBoundary(
+                    child: FluxerLoadingSpinner(
+                      color: context.colors.textSecondary,
+                    ),
+                  ),
+                ],
+                if (!isSelected &&
+                    mentionCount > 0 &&
+                    channelUnreadState.hasMentions) ...[
+                  const SizedBox(width: 4),
+                  FluxerBadge.count(count: mentionCount),
+                ],
+                if (showVoiceUserCount) ...[
+                  const SizedBox(width: 4),
+                  VoiceChannelUserCount(
+                    currentUserCount: voiceCurrentCount,
+                    userLimit: voiceUserLimit,
+                  ),
+                ],
+              ],
             ),
           ),
         ),
@@ -502,7 +520,8 @@ class _ChannelTile extends ConsumerWidget {
         .read(userSettingsViewModelProvider)
         .developerMode;
     final bool canOpenLink =
-        channel.type == ChannelType.link && (channel.url?.isNotEmpty ?? false);
+        channel.type == ChannelType.guildLink &&
+        (channel.url?.isNotEmpty ?? false);
     final int? permissionBits =
         ref
             .read(effectiveGuildChannelPermissionBitsProvider(channel.id))
@@ -964,7 +983,9 @@ Future<ChannelOverridesMuteConfig?> _loadChannelMuteConfig(
 }
 
 bool _canMarkChannelRead(Channel channel) =>
-    channel.type != ChannelType.category && channel.type != ChannelType.link;
+    channel.type != ChannelType.guildCategory &&
+    channel.type != ChannelType.guildLink;
 
 bool _canMuteChannel(Channel channel) =>
-    channel.type == ChannelType.text || channel.type == ChannelType.voice;
+    channel.type == ChannelType.guildText ||
+    channel.type == ChannelType.guildVoice;

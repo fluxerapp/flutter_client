@@ -69,7 +69,7 @@ class MentionInboxCard extends ConsumerWidget {
     final String title = mentionHeader?.primary ?? _kFallbackTitle;
     final String guildLine = mentionHeader?.secondaryLine ?? '';
     final domain.ChannelType visualType =
-        mentionHeader?.guildChannelVisualType ?? domain.ChannelType.text;
+        mentionHeader?.guildChannelVisualType ?? domain.ChannelType.guildText;
     final Message? msg = message;
     return Row(
       children: <Widget>[

@@ -61,6 +61,7 @@ void main() {
     );
     expect(animated.animatedUrl, contains('format=webp'));
     expect(animated.animatedUrl, contains('animated=true'));
+    expect(animated.fit, BoxFit.contain);
   });
 
   testWidgets('image embed with animated flag renders animated', (
@@ -112,6 +113,9 @@ void main() {
     await tester.pump();
 
     expect(find.byType(EmbedAnimatedImage), findsNothing);
-    expect(find.byType(CachedNetworkImage), findsOneWidget);
+    final image = tester.widget<CachedNetworkImage>(
+      find.byType(CachedNetworkImage),
+    );
+    expect(image.fit, BoxFit.contain);
   });
 }

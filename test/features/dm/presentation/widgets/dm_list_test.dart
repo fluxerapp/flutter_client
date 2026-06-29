@@ -306,6 +306,7 @@ List<Override> _buildOverrides({
     ),
     pendingFriendRequestCountProvider.overrideWith((ref) => Stream.value(0)),
     friendsListProvider.overrideWith((ref) => Stream.value(friendsList)),
+    friendNicknameProvider.overrideWith((ref, userId) => Stream.value(null)),
     allChannelsProvider.overrideWith(
       (ref) => Stream<List<Channel>>.value(const <Channel>[]),
     ),

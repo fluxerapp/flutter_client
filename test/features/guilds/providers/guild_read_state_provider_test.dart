@@ -765,8 +765,7 @@ void main() {
         isTrue,
       );
 
-      // Soft RESUME: the recovery bump re-seeds, then the replayed ack lands.
-      // Guards against the re-seed re-marking the channel unread.
+      // A recovery bump alone must not re-mark the channel unread.
       container.read(gatewaySessionRecoveryProvider.notifier).bump();
       await db.readStateDao.upsertReadState(
         ReadStatesCompanion(
@@ -783,6 +782,85 @@ void main() {
       expect(
         container.read(guildReadStateProvider)['guild-1']!.hasUnread,
         isFalse,
+      );
+    },
+  );
+
+  test(
+    'recovery bump does not reseed unread, but DB writes still update',
+    () async {
+      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+
+      final lastMessageId = _recentSnowflake();
+      await _seedGuild(
+        db,
+        'guild-1',
+        channels: [
+          (
+            id: 'channel-1',
+            name: 'general',
+            type: 0,
+            lastMessageId: lastMessageId,
+          ),
+        ],
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(lastMessageId),
+        ),
+      );
+
+      final container = _container(db);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+      final sub = container.listen(
+        guildReadStateProvider,
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+
+      await _waitFor(
+        () => container.read(guildReadStateProvider)['guild-1'] != null,
+      );
+      expect(
+        container.read(guildReadStateProvider)['guild-1']!.hasUnread,
+        isFalse,
+      );
+
+      // A bare recovery bump must not reseed the guild into an unread state.
+      container.read(gatewaySessionRecoveryProvider.notifier).bump();
+      await Future<void>.delayed(const Duration(milliseconds: 80));
+      expect(
+        container.read(guildReadStateProvider)['guild-1']!.hasUnread,
+        isFalse,
+      );
+
+      // A real channel write still flows through the reactive watcher.
+      final newerMessageId = _recentSnowflake(ago: Duration.zero);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          type: const Value(0),
+          lastMessageId: Value(newerMessageId),
+        ),
+      );
+      await db.messageDao.upsertMessage(
+        _cachedMessage(id: newerMessageId, channelId: 'channel-1'),
+      );
+
+      await _waitFor(
+        () =>
+            container.read(guildReadStateProvider)['guild-1']?.hasUnread ??
+            false,
+      );
+      expect(
+        container.read(guildReadStateProvider)['guild-1']!.hasUnread,
+        isTrue,
       );
     },
   );

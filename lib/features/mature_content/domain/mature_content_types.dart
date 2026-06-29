@@ -23,10 +23,6 @@ enum EffectiveMatureSource { none, guild, parent, channel }
 const int contentWarningLevelInherit = 0;
 const int contentWarningLevelContentWarning = 1;
 
-const int dmChannelType = 1;
-const int groupDmChannelType = 3;
-const int guildCategoryChannelType = 4;
-
 const double matureMediaBlurSigma = 12;
 const double matureMediaBlurredChildOpacity = 0.15;
 

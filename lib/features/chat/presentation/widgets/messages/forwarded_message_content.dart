@@ -19,8 +19,10 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -54,87 +56,89 @@ class ForwardedMessageContent extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.only(top: 4),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
+      child: Stack(
+        children: [
+          PositionedDirectional(
+            start: 0,
+            top: 0,
+            bottom: 0,
+            child: Container(
               width: 4,
               decoration: BoxDecoration(
                 color: context.colors.interactiveMuted,
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const _ForwardedHeader(),
-                    if (snapshot.content.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: MessageMarkdown(
-                          data: snapshot.content,
-                          channelId: message.channelId,
-                          baseStyle: TextStyle(
-                            fontSize: 13,
-                            color: context.colors.textChat,
-                          ),
-                          revealSpoilers: revealSpoilers,
-                          spoilerSyncController: spoilerSyncController,
-                        ),
+          ),
+          Padding(
+            padding: const EdgeInsetsDirectional.only(
+              start: 16,
+              top: 4,
+              bottom: 4,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _ForwardedHeader(),
+                if (snapshot.content.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: MessageMarkdown(
+                      data: snapshot.content,
+                      channelId: message.channelId,
+                      baseStyle: TextStyle(
+                        fontSize: 13,
+                        color: context.colors.textChat,
                       ),
-                    if (snapshot.attachments.isNotEmpty)
-                      AttachmentListRenderer(
-                        attachments: snapshot.attachments,
-                        inlineAttachmentMedia: inlineAttachmentMedia,
-                        dimensionSize: attachmentSize,
+                      revealSpoilers: revealSpoilers,
+                      spoilerSyncController: spoilerSyncController,
+                    ),
+                  ),
+                if (snapshot.attachments.isNotEmpty)
+                  AttachmentListRenderer(
+                    attachments: snapshot.attachments,
+                    inlineAttachmentMedia: inlineAttachmentMedia,
+                    dimensionSize: attachmentSize,
+                    revealSpoilers: revealSpoilers,
+                    topPadding: 4,
+                    channelId: message.channelId,
+                    messageId: message.id,
+                    messageFlags: snapshot.flags,
+                  ),
+                if (renderEmbeds)
+                  ...snapshot.embeds.indexed.map((entry) {
+                    final int embedIndex = entry.$1;
+                    final embed = entry.$2;
+                    final spoilerSyncKeys = spoilerSyncKeysForEmbed(
+                      embed,
+                      spoileredUrls,
+                    );
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: _ForwardedEmbed(
+                        embed: embed,
+                        dimensionSize: chatPreferences.embedMediaDimensionSize,
                         revealSpoilers: revealSpoilers,
-                        topPadding: 4,
+                        isSpoiler: spoilerSyncKeys.isNotEmpty,
+                        spoilerSyncKeys: spoilerSyncKeys,
+                        spoilerSyncController: spoilerSyncController,
                         channelId: message.channelId,
                         messageId: message.id,
-                        messageFlags: snapshot.flags,
+                        embedIndex: embedIndex,
                       ),
-                    if (renderEmbeds)
-                      ...snapshot.embeds.indexed.map((entry) {
-                        final int embedIndex = entry.$1;
-                        final embed = entry.$2;
-                        final spoilerSyncKeys = spoilerSyncKeysForEmbed(
-                          embed,
-                          spoileredUrls,
-                        );
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: _ForwardedEmbed(
-                            embed: embed,
-                            dimensionSize:
-                                chatPreferences.embedMediaDimensionSize,
-                            revealSpoilers: revealSpoilers,
-                            isSpoiler: spoilerSyncKeys.isNotEmpty,
-                            spoilerSyncKeys: spoilerSyncKeys,
-                            spoilerSyncController: spoilerSyncController,
-                            channelId: message.channelId,
-                            messageId: message.id,
-                            embedIndex: embedIndex,
-                          ),
-                        );
-                      }),
-                    if (message.messageReference != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 6),
-                        child: _ForwardedSourceButton(
-                          reference: message.messageReference!,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+                    );
+                  }),
+                if (message.messageReference != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: _ForwardedSourceButton(
+                      reference: message.messageReference!,
+                    ),
+                  ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -286,7 +290,7 @@ class _ForwardedSourceButtonState
         messageId: widget.reference.messageId,
         guildId: guildId,
         channelName: guildChannel.name,
-        channelType: channelTypeFromInt(guildChannel.type),
+        channelType: ChannelType.fromWire(guildChannel.type),
         guild: guildRow == null ? null : Guild.fromRow(guildRow),
       );
     }
@@ -298,7 +302,7 @@ class _ForwardedSourceButtonState
       return null;
     }
 
-    if (dmChannel.type == 3) {
+    if (isDmGroupType(dmChannel.type)) {
       return _ForwardedSourceData.groupDm(
         channelId: widget.reference.channelId,
         messageId: widget.reference.messageId,
@@ -307,7 +311,14 @@ class _ForwardedSourceButtonState
     }
 
     final user = await db.userDao.getUserById(dmChannel.recipientId);
-    final name = user?.globalName ?? user?.username ?? dmChannel.recipientId;
+    final relationship = await db.relationshipDao.getRelationship(
+      dmChannel.recipientId,
+    );
+    final name = resolveDisplayName(
+      friendNickname: relationship?.nickname,
+      globalName: user?.globalName,
+      username: user?.username ?? dmChannel.recipientId,
+    );
     return _ForwardedSourceData.dm(
       channelId: widget.reference.channelId,
       messageId: widget.reference.messageId,
@@ -451,7 +462,7 @@ class _ForwardedSourceInfo extends StatelessWidget {
           PhosphorIcon(PhosphorIconsBold.caretRight, size: 12, color: muted),
           const SizedBox(width: 4),
           ChannelIcon(
-            type: data.channelType ?? ChannelType.text,
+            type: data.channelType ?? ChannelType.guildText,
             size: 13,
             color: muted,
           ),
@@ -472,7 +483,7 @@ class _ForwardedSourceInfo extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ChannelIcon(
-          type: data.channelType ?? ChannelType.text,
+          type: data.channelType ?? ChannelType.guildText,
           size: 13,
           color: muted,
         ),

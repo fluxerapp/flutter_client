@@ -932,6 +932,101 @@ class Message {
     );
   }
 
+  /// Whether [other] renders identically, so the merge can reuse this instance
+  /// and preserve the row's tile cache.
+  bool isRenderEquivalent(Message other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return id == other.id &&
+        channelId == other.channelId &&
+        authorId == other.authorId &&
+        authorName == other.authorName &&
+        authorAvatar == other.authorAvatar &&
+        authorAvatarColor == other.authorAvatarColor &&
+        authorIsBot == other.authorIsBot &&
+        authorIsSystem == other.authorIsSystem &&
+        webhookId == other.webhookId &&
+        content == other.content &&
+        timestamp == other.timestamp &&
+        editedTimestamp == other.editedTimestamp &&
+        replyToId == other.replyToId &&
+        forwardedFrom == other.forwardedFrom &&
+        isPinned == other.isPinned &&
+        isMentioned == other.isMentioned &&
+        type == other.type &&
+        flags == other.flags &&
+        deliveryState == other.deliveryState &&
+        clientNonce == other.clientNonce &&
+        sendError == other.sendError &&
+        _encodedListEquals<Embed>(embeds, other.embeds, (e) => e.toJson()) &&
+        _encodedListEquals<Attachment>(
+          attachments,
+          other.attachments,
+          (a) => a.toJson(),
+        ) &&
+        _encodedListEquals<MessageSticker>(
+          stickers,
+          other.stickers,
+          (s) => s.toJson(),
+        ) &&
+        _encodedListEquals<Reaction>(
+          reactions,
+          other.reactions,
+          (r) => r.toJson(),
+        ) &&
+        _encodedListEquals<MessageSnapshot>(
+          messageSnapshots,
+          other.messageSnapshots,
+          (s) => s.toJson(),
+        ) &&
+        _referenceEquals(messageReference, other.messageReference) &&
+        _stringListEquals(mentionedUserIds, other.mentionedUserIds);
+  }
+
+  static bool _encodedListEquals<T>(
+    List<T> a,
+    List<T> b,
+    Map<String, dynamic> Function(T) toJson,
+  ) {
+    if (identical(a, b)) {
+      return true;
+    }
+    if (a.length != b.length) {
+      return false;
+    }
+    if (a.isEmpty) {
+      return true;
+    }
+    return jsonEncode(a.map(toJson).toList()) ==
+        jsonEncode(b.map(toJson).toList());
+  }
+
+  static bool _referenceEquals(MessageReference? a, MessageReference? b) {
+    if (identical(a, b)) {
+      return true;
+    }
+    if (a == null || b == null) {
+      return false;
+    }
+    return jsonEncode(a.toJson()) == jsonEncode(b.toJson());
+  }
+
+  static bool _stringListEquals(List<String> a, List<String> b) {
+    if (identical(a, b)) {
+      return true;
+    }
+    if (a.length != b.length) {
+      return false;
+    }
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   db.MessagesCompanion toCompanion() {
     return db.MessagesCompanion.insert(
       id: id,
@@ -1223,6 +1318,9 @@ class Message {
     String json,
     T Function(Map<String, dynamic>) fromJson,
   ) {
+    if (json.isEmpty || json == '[]') {
+      return const [];
+    }
     try {
       final list = jsonDecode(json) as List<dynamic>;
       return list.map((e) => fromJson(e as Map<String, dynamic>)).toList();
@@ -1232,6 +1330,9 @@ class Message {
   }
 
   static List<String> _decodeStringList(String json) {
+    if (json.isEmpty || json == '[]') {
+      return const [];
+    }
     try {
       final list = jsonDecode(json) as List<dynamic>;
       return list.map((e) => e.toString()).toList();

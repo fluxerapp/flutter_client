@@ -12,6 +12,7 @@ Message _message(
   String id, {
   String content = 'body',
   MessageDeliveryState deliveryState = MessageDeliveryState.sent,
+  List<Attachment> attachments = const [],
 }) {
   return Message(
     id: id,
@@ -21,6 +22,7 @@ Message _message(
     content: content,
     timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
     deliveryState: deliveryState,
+    attachments: attachments,
   );
 }
 
@@ -165,6 +167,56 @@ void main() {
         canServeNewerFromCache(windowNewestId: idA, contigNewestId: null),
         isFalse,
       );
+    });
+  });
+
+  group('mergeMessagesSorted referential reuse', () {
+    test('keeps the existing instance when render-equivalent', () {
+      final Message existing = _message(idB);
+      final Message incoming = _message(idB);
+      final List<Message> merged = mergeMessagesSorted([existing], [incoming]);
+      expect(identical(merged.single, existing), isTrue);
+    });
+
+    test('replaces with incoming when content changed', () {
+      final Message existing = _message(idB, content: 'old');
+      final Message incoming = _message(idB, content: 'new');
+      final List<Message> merged = mergeMessagesSorted([existing], [incoming]);
+      expect(identical(merged.single, incoming), isTrue);
+    });
+
+    test('reuses when attachments are identical', () {
+      final Message existing = _message(
+        idB,
+        attachments: const [
+          Attachment(id: 'a1', filename: 'f.png', url: 'https://x/f.png'),
+        ],
+      );
+      final Message incoming = _message(
+        idB,
+        attachments: const [
+          Attachment(id: 'a1', filename: 'f.png', url: 'https://x/f.png'),
+        ],
+      );
+      final List<Message> merged = mergeMessagesSorted([existing], [incoming]);
+      expect(identical(merged.single, existing), isTrue);
+    });
+
+    test('replaces when attachments differ', () {
+      final Message existing = _message(
+        idB,
+        attachments: const [
+          Attachment(id: 'a1', filename: 'f.png', url: 'https://x/f.png'),
+        ],
+      );
+      final Message incoming = _message(
+        idB,
+        attachments: const [
+          Attachment(id: 'a2', filename: 'g.png', url: 'https://x/g.png'),
+        ],
+      );
+      final List<Message> merged = mergeMessagesSorted([existing], [incoming]);
+      expect(identical(merged.single, incoming), isTrue);
     });
   });
 }

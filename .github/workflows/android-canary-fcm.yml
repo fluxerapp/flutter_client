@@ -2,6 +2,7 @@ name: Android Canary FCM Build
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   build-canary:
@@ -42,7 +43,6 @@ jobs:
           distribution: temurin
           java-version: "17"
       - name: Restore Gradle cache
-        if: runner.environment != 'self-hosted'
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
@@ -59,7 +59,6 @@ jobs:
         with:
           channel: stable
       - name: Restore pub cache
-        if: runner.environment != 'self-hosted'
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ~/.pub-cache
@@ -80,7 +79,7 @@ jobs:
         run: flutter pub get
 
       - name: Run build_runner
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build
 
       - name: Create Android signing files
         env:

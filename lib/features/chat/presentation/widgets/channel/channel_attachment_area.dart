@@ -31,7 +31,7 @@ class ChannelAttachmentArea extends ConsumerWidget {
         const Divider(),
         Container(
           margin: const EdgeInsets.only(bottom: 6, top: 8),
-          height: 130,
+          height: 150,
           child: ReorderableListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -97,152 +97,155 @@ class _AttachmentChip extends ConsumerWidget {
 
     return SizedBox(
       width: 150,
-      height: 130,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            ColoredBox(color: colors.backgroundSecondaryAlt),
-            if (hasImagePreview && !isSpoiler)
-              Image.file(File(path), fit: BoxFit.cover)
-            else if (isVideo)
-              ColoredBox(
-                color: colors.backgroundSecondary,
-                child: Icon(
-                  PhosphorIconsFill.filmStrip,
-                  size: 48,
-                  color: colors.textPrimaryMuted,
-                ),
-              )
-            else
-              ColoredBox(
-                color: colors.backgroundSecondary,
-                child: Icon(
-                  _fileIcon(attachment.filename),
-                  size: 48,
-                  color: colors.textPrimaryMuted,
-                ),
-              ),
-            if (isSpoiler)
-              ColoredBox(
-                color: colors.backgroundPrimary.withValues(alpha: 0.72),
-                child: Center(
-                  child: Text(
-                    FluxerLocalizations.of(context).chatAttachmentSpoiler,
-                    style: context.textStyles.messageText.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-            if (attachment.status == PendingAttachmentStatus.failed)
-              ColoredBox(
-                color: colors.statusDanger.withValues(alpha: 0.35),
-                child: Center(
-                  child: Icon(
-                    PhosphorIconsFill.warningCircle,
-                    color: colors.statusDanger,
-                    size: 40,
-                  ),
-                ),
-              ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: <Color>[
-                      Colors.transparent,
-                      colors.backgroundPrimary.withValues(alpha: 0.85),
+      height: 150,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.backgroundPrimary,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ColoredBox(color: colors.backgroundTertiary),
+                      if (hasImagePreview && !isSpoiler)
+                        Image.file(File(path), fit: BoxFit.cover)
+                      else
+                        Center(
+                          child: Icon(
+                            isVideo
+                                ? PhosphorIconsFill.filmStrip
+                                : _fileIcon(attachment.filename),
+                            size: 44,
+                            color: colors.textPrimaryMuted,
+                          ),
+                        ),
+                      if (isSpoiler)
+                        ColoredBox(
+                          color: colors.backgroundPrimary.withValues(
+                            alpha: 0.72,
+                          ),
+                          child: Center(
+                            child: Text(
+                              FluxerLocalizations.of(
+                                context,
+                              ).chatAttachmentSpoiler,
+                              style: context.textStyles.smallText.copyWith(
+                                color: colors.textPrimary,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (attachment.status == PendingAttachmentStatus.failed)
+                        ColoredBox(
+                          color: colors.statusDanger.withValues(alpha: 0.35),
+                          child: Center(
+                            child: Icon(
+                              PhosphorIconsFill.warningCircle,
+                              color: colors.statusDanger,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                      Positioned(
+                        top: 4,
+                        right: 4,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _RoundIconButton(
+                              tooltip: FluxerLocalizations.of(
+                                context,
+                              ).chatAttachmentSpoilerLabel,
+                              icon: isSpoiler
+                                  ? PhosphorIconsFill.eyeSlash
+                                  : PhosphorIconsFill.eye,
+                              onPressed: () {
+                                final int next = isSpoiler
+                                    ? attachment.flags &
+                                          ~attachmentFlagIsSpoiler
+                                    : attachment.flags |
+                                          attachmentFlagIsSpoiler;
+                                ref
+                                    .read(
+                                      cloudUploadControllerProvider(
+                                        channelId,
+                                      ).notifier,
+                                    )
+                                    .updateAttachment(
+                                      attachment.id,
+                                      filename: attachment.filename,
+                                      description: attachment.description,
+                                      flags: next,
+                                    );
+                              },
+                            ),
+                            _RoundIconButton(
+                              tooltip: FluxerLocalizations.of(
+                                context,
+                              ).chatAttachmentEditTitle,
+                              icon: PhosphorIconsFill.pencilSimple,
+                              onPressed: () => AttachmentEditModal.show(
+                                context,
+                                channelId: channelId,
+                                attachment: attachment,
+                              ),
+                            ),
+                            _RoundIconButton(
+                              tooltip: FluxerLocalizations.of(
+                                context,
+                              ).chatAttachmentRemove,
+                              icon: PhosphorIconsFill.trash,
+                              onPressed: () => ref
+                                  .read(
+                                    cloudUploadControllerProvider(
+                                      channelId,
+                                    ).notifier,
+                                  )
+                                  .removeAttachment(attachment.id),
+                              danger: true,
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      attachment.filename,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.textStyles.smallText.copyWith(
-                        color: colors.textPrimary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    if (byteSizeLabel != null)
-                      Text(
-                        byteSizeLabel,
-                        style: context.textStyles.smallText.copyWith(
-                          color: colors.textTertiary,
-                          fontSize: 11,
-                        ),
-                      ),
-                  ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                attachment.filename,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: context.textStyles.smallText.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ),
-            Positioned(
-              top: 4,
-              right: 4,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _RoundIconButton(
-                    tooltip: FluxerLocalizations.of(
-                      context,
-                    ).chatAttachmentSpoilerLabel,
-                    icon: isSpoiler
-                        ? PhosphorIconsFill.eyeSlash
-                        : PhosphorIconsFill.eye,
-                    onPressed: () {
-                      final int next = isSpoiler
-                          ? attachment.flags & ~attachmentFlagIsSpoiler
-                          : attachment.flags | attachmentFlagIsSpoiler;
-                      ref
-                          .read(
-                            cloudUploadControllerProvider(channelId).notifier,
-                          )
-                          .updateAttachment(
-                            attachment.id,
-                            filename: attachment.filename,
-                            description: attachment.description,
-                            flags: next,
-                          );
-                    },
-                  ),
-                  _RoundIconButton(
-                    tooltip: FluxerLocalizations.of(
-                      context,
-                    ).chatAttachmentEditTitle,
-                    icon: PhosphorIconsFill.pencilSimple,
-                    onPressed: () => AttachmentEditModal.show(
-                      context,
-                      channelId: channelId,
-                      attachment: attachment,
+              if (byteSizeLabel != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(
+                    byteSizeLabel,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.textStyles.smallText.copyWith(
+                      color: colors.textTertiary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                  _RoundIconButton(
-                    tooltip: FluxerLocalizations.of(
-                      context,
-                    ).chatAttachmentRemove,
-                    icon: PhosphorIconsFill.trash,
-                    onPressed: () => ref
-                        .read(cloudUploadControllerProvider(channelId).notifier)
-                        .removeAttachment(attachment.id),
-                    danger: true,
-                  ),
-                ],
-              ),
-            ),
-          ],
+                ),
+            ],
+          ),
         ),
       ),
     );

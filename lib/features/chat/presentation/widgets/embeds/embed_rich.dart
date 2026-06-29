@@ -1,8 +1,10 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
@@ -29,7 +31,13 @@ class EmbedRich extends StatelessWidget {
         ? Color(0xFF000000 | (embed.color! & 0xFFFFFF))
         : context.colors.backgroundSecondaryAlt;
 
+    final ChatVideoSource? videoSource = embed.video != null
+        ? ChatVideoSource.fromEmbed(embed)
+        : null;
+    final bool hasVideo = videoSource != null && videoSource.hasPlayableContent;
+
     final hasThumbnail =
+        !hasVideo &&
         embed.thumbnail != null &&
         embed.type != EmbedType.image &&
         embed.type != EmbedType.gifv;
@@ -92,7 +100,19 @@ class EmbedRich extends StatelessWidget {
                         spoilerSyncController: spoilerSyncController,
                       ),
                     ),
-                  if (embed.image != null && !hasThumbnail)
+                  if (hasVideo)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 4),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: ChatInlineVideoPlayer(
+                          source: videoSource,
+                          dimensionSize: dimensionSize,
+                          posterFit: BoxFit.contain,
+                        ),
+                      ),
+                    )
+                  else if (embed.image != null && !hasThumbnail)
                     Padding(
                       padding: const EdgeInsets.only(top: 4, bottom: 4),
                       child: _EmbedMediaImage(

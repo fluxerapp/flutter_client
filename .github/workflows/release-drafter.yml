@@ -6,9 +6,7 @@ on:
       - beta
       - stable
 
-permissions:
-  contents: write
-  pull-requests: read
+permissions: {}
 
 jobs:
   update_beta_draft:
@@ -22,11 +20,25 @@ jobs:
     if: github.ref == 'refs/heads/stable'
     runs-on: ubuntu-latest
     steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+          permission-pull-requests: read
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          token: ${{ steps.create-token.outputs.token }}
+          persist-credentials: false
 
       - id: release_drafter
         uses: release-drafter/release-drafter@693d20e7c1ce1a81d3a41962f85914253b518449
         with:
           config-name: release-drafter-stable.yml
-          token: ${{ secrets.FLUXER_AUTOMATION_PAT }}
+          token: ${{ steps.create-token.outputs.token }}
           commitish: stable

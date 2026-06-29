@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
-import 'package:fluxer_app/features/guilds/presentation/'
-    'widgets/guild_menu_data.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_context_menu_item.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kSubmenuGap = 4.0;
 
@@ -48,6 +48,7 @@ Future<GuildAction?> showGuildContextMenu(
       position: local,
       overlaySize: overlay.size,
       groups: groups,
+      guildId: guild.id,
     ),
   );
 
@@ -62,11 +63,13 @@ class _GuildContextMenuRoute extends PopupRoute<GuildAction> {
   final Offset position;
   final Size overlaySize;
   final List<GuildMenuGroup> groups;
+  final String guildId;
 
   _GuildContextMenuRoute({
     required this.position,
     required this.overlaySize,
     required this.groups,
+    required this.guildId,
   });
 
   @override
@@ -91,6 +94,7 @@ class _GuildContextMenuRoute extends PopupRoute<GuildAction> {
     overlaySize: overlaySize,
     animation: animation,
     groups: groups,
+    guildId: guildId,
   );
 }
 
@@ -99,12 +103,14 @@ class _ContextMenuPage extends StatefulWidget {
   final Size overlaySize;
   final Animation<double> animation;
   final List<GuildMenuGroup> groups;
+  final String guildId;
 
   const _ContextMenuPage({
     required this.position,
     required this.overlaySize,
     required this.animation,
     required this.groups,
+    required this.guildId,
   });
 
   @override
@@ -235,7 +241,7 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
             ),
           ),
         ),
-        ?submenuPanel,
+        if (submenuPanel != null) submenuPanel,
       ],
     );
   }
@@ -246,6 +252,13 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
     for (final group in widget.groups) {
       for (final entry in group) {
         if (entry is GuildMenuSubmenu && entry.key == key) {
+          if (entry.key == 'communitySettings') {
+            return _mapSettingsEntriesToContextItems(
+              entry.children,
+              widget.guildId,
+              context,
+            );
+          }
           return _mapEntriesToContextItems(entry.children, pop);
         }
       }
@@ -260,13 +273,83 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
     return [
       for (final entry in entries)
         if (entry is GuildMenuAction)
-          ContextMenuItem(
-            label: entry.label,
-            icon: entry.icon,
-            isDanger: entry.isDanger,
-            onTap: () => pop(entry.action),
+          GuildContextMenuItem(entry: entry, onTap: () => pop(entry.action)),
+    ];
+  }
+
+  List<Widget> _mapSettingsEntriesToContextItems(
+    List<GuildMenuEntry> entries,
+    String guildId,
+    BuildContext context,
+  ) {
+    return [
+      for (final entry in entries)
+        if (entry is GuildMenuAction)
+          GuildContextMenuItem(
+            entry: entry,
+            onTap: () {
+              Navigator.of(context).pop();
+              _navigateToSettingsPage(context, entry.action, guildId);
+            },
           ),
     ];
+  }
+
+  void _navigateToSettingsPage(
+    BuildContext context,
+    GuildAction action,
+    String guildId,
+  ) {
+    final String? path = switch (action) {
+      GuildAction.settingsOverview => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.overview,
+      ),
+      GuildAction.settingsRoles => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.roles,
+      ),
+      GuildAction.settingsEmoji => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.emoji,
+      ),
+      GuildAction.settingsStickers => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.stickers,
+      ),
+      GuildAction.settingsSafetyModeration => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.moderation,
+      ),
+      GuildAction.settingsActivityLog => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.auditLog,
+      ),
+      GuildAction.settingsWebhooks => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.webhooks,
+      ),
+      GuildAction.settingsDiscovery => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.discovery,
+      ),
+      GuildAction.settingsMembers => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.members,
+      ),
+      GuildAction.settingsInviteLinks => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.invites,
+      ),
+      GuildAction.settingsBans => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.bans,
+      ),
+      _ => null,
+    };
+    if (path != null) {
+      context.push(path);
+    }
   }
 
   List<Widget> _buildItems(BuildContext context) {
@@ -287,20 +370,16 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
         switch (entry) {
           case GuildMenuAction():
             items.add(
-              ContextMenuItem(
-                label: entry.label,
-                hint: entry.hint,
-                icon: entry.icon,
-                isDanger: entry.isDanger,
+              GuildContextMenuItem(
+                entry: entry,
                 onTap: () => pop(entry.action),
               ),
             );
           case GuildMenuSubmenu():
             items.add(
-              _SubMenuItem(
+              GuildContextSubmenuItem(
                 key: _keyFor(entry.key),
-                label: entry.label,
-                hint: entry.hint,
+                entry: entry,
                 isActive: _activeSubmenuKey == entry.key,
                 onActivate: () => _activateSubmenu(entry.key),
                 onDeactivate: () => _requestDeactivate(entry.key),
@@ -308,9 +387,8 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
             );
           case GuildMenuCheckbox():
             items.add(
-              _CheckboxMenuItem(
-                label: entry.label,
-                isChecked: entry.isChecked,
+              GuildContextMenuCheckboxItem(
+                entry: entry,
                 onTap: () => pop(entry.action),
               ),
             );
@@ -319,184 +397,5 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
     }
 
     return items;
-  }
-}
-
-class _SubMenuItem extends StatefulWidget {
-  final String label;
-  final String? hint;
-  final bool isActive;
-  final VoidCallback onActivate;
-  final VoidCallback onDeactivate;
-
-  const _SubMenuItem({
-    required this.label,
-    required this.isActive,
-    required this.onActivate,
-    required this.onDeactivate,
-    this.hint,
-    super.key,
-  });
-
-  @override
-  State<_SubMenuItem> createState() => _SubMenuItemState();
-}
-
-class _SubMenuItemState extends State<_SubMenuItem> {
-  var _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-    final isHighlighted = _isHovered || widget.isActive;
-
-    final textColor = isHighlighted ? colors.textPrimary : colors.textSecondary;
-    final bgColor = isHighlighted
-        ? colors.backgroundModifierHover
-        : Colors.transparent;
-
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() => _isHovered = true);
-        widget.onActivate();
-      },
-      onExit: (_) {
-        setState(() => _isHovered = false);
-        widget.onDeactivate();
-      },
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: widget.onActivate,
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 36),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s2),
-          margin: const EdgeInsets.symmetric(vertical: 1),
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: layout.radiusSm,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      widget.label,
-                      style: context.textStyles.label.copyWith(
-                        color: textColor,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (widget.hint != null)
-                      Text(
-                        widget.hint!,
-                        style: context.textStyles.timestamp.copyWith(
-                          color: colors.textTertiary,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                  ],
-                ),
-              ),
-              SizedBox(width: layout.s3),
-              PhosphorIcon(
-                PhosphorIconsBold.caretRight,
-                size: 14,
-                color: textColor,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CheckboxMenuItem extends StatefulWidget {
-  final String label;
-  final bool isChecked;
-  final VoidCallback onTap;
-
-  const _CheckboxMenuItem({
-    required this.label,
-    required this.isChecked,
-    required this.onTap,
-  });
-
-  @override
-  State<_CheckboxMenuItem> createState() => _CheckboxMenuItemState();
-}
-
-class _CheckboxMenuItemState extends State<_CheckboxMenuItem> {
-  var _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-    final layout = context.layout;
-    final textColor = _isHovered ? colors.textPrimary : colors.textSecondary;
-    final bgColor = _isHovered
-        ? colors.backgroundModifierHover
-        : Colors.transparent;
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: widget.onTap,
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 36),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s2),
-          margin: const EdgeInsets.symmetric(vertical: 1),
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: layout.radiusSm,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.label,
-                  style: context.textStyles.label.copyWith(color: textColor),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              SizedBox(width: layout.s3),
-              Container(
-                width: 18,
-                height: 18,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: widget.isChecked
-                        ? colors.brandPrimary
-                        : colors.interactiveMuted,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(4),
-                  color: widget.isChecked
-                      ? colors.brandPrimary
-                      : Colors.transparent,
-                ),
-                child: widget.isChecked
-                    ? Center(
-                        child: PhosphorIcon(
-                          PhosphorIconsBold.check,
-                          size: 12,
-                          color: colors.textOnBrandPrimary,
-                        ),
-                      )
-                    : null,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

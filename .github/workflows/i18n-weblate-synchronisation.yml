@@ -1,0 +1,103 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: i18n Weblate synchronisation
+
+# Weblate pushes translation commits to the defined translations branch
+# (see the component's push branch). This workflow opens or refreshes a single
+# pull request from that branch into `canary`. Squash-merge it to land all the
+# translation updates as one clean commit.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  BASE_BRANCH: canary
+  TRANSLATIONS_BRANCH: ${{ vars.TRANSLATIONS_BRANCH }}
+
+jobs:
+  synchronise:
+    name: Synchronise
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
+        with:
+          token: ${{ steps.create-token.outputs.token }}
+          ref: ${{ env.BASE_BRANCH }}
+          fetch-depth: 0
+
+      - name: Set up Flutter
+        # Temp use while waiting for a pr: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ steps.create-token.outputs.token }}
+        run: |
+          git config user.name "fluxer-ci[bot]"
+          git config user.email "${{ vars.FLUXER_CI_APP_ID }}+fluxer-ci[bot]@users.noreply.github.com"
+
+          git fetch origin "$BASE_BRANCH:refs/remotes/origin/$BASE_BRANCH"
+
+          if ! git fetch origin "$TRANSLATIONS_BRANCH:refs/remotes/origin/$TRANSLATIONS_BRANCH"; then
+            echo "::notice::No $TRANSLATIONS_BRANCH branch yet; nothing to do."
+            exit 0
+          fi
+
+          git switch -C "$TRANSLATIONS_BRANCH" "origin/$TRANSLATIONS_BRANCH"
+
+          needs_push=false
+          if ! git merge-base --is-ancestor "origin/$BASE_BRANCH" HEAD; then
+            git rebase "origin/$BASE_BRANCH"
+            needs_push=true
+          fi
+
+          if git diff --quiet "origin/$BASE_BRANCH"...HEAD; then
+            echo "::notice::$TRANSLATIONS_BRANCH has no changes against $BASE_BRANCH; nothing to do."
+            exit 0
+          fi
+
+          flutter gen-l10n
+          if ! git diff --quiet -- lib/l10n/generated; then
+            git add lib/l10n/generated
+            git commit -m "i18n: regenerate localizations"
+            needs_push=true
+          fi
+
+          if [[ "$needs_push" == "true" ]]; then
+            git push --force-with-lease="refs/heads/$TRANSLATIONS_BRANCH" origin "HEAD:refs/heads/$TRANSLATIONS_BRANCH"
+          fi
+
+          pr="$(gh pr list --repo "$GITHUB_REPOSITORY" --base "$BASE_BRANCH" --head "$TRANSLATIONS_BRANCH" --state open --json number --jq '.[0].number // empty')"
+          body=$'Translation updates from Weblate. Squash-merge to land them as a single commit on canary.\n\nWeblate: https://weblate.fluxer.tools/projects/flutter-client/'
+          if [[ -z "$pr" ]]; then
+            gh pr create --repo "$GITHUB_REPOSITORY" --base "$BASE_BRANCH" --head "$TRANSLATIONS_BRANCH" \
+              --title "i18n: update translations from Weblate" --body "$body"
+          else
+            echo "::notice::#$pr already open; new commits are reflected automatically."
+          fi

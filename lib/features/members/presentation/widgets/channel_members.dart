@@ -32,7 +32,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
   @override
   void initState() {
     super.initState();
-    ref.read(memberListPanelActiveProvider.notifier).setActive(value: true);
+    ref.read(memberListPanelActiveProvider.notifier).active = true;
     _scrollController.addListener(_handleScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final String? guildId = ref.read(activeGuildIdProvider);
@@ -49,7 +49,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
 
   @override
   void deactivate() {
-    ref.read(memberListPanelActiveProvider.notifier).setActive(value: false);
+    ref.read(memberListPanelActiveProvider.notifier).active = false;
     super.deactivate();
   }
 

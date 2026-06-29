@@ -84,6 +84,7 @@ List<QuickSwitcherResult> generateQuickSwitcherQueryModeResults({
   required List<Member> memberSearchResults,
   required String? currentUserId,
   required Set<String> excludedChannelIds,
+  Map<String, String?> friendNicknameById = const <String, String?>{},
 }) {
   List<QuickSwitcherCandidate> candidates;
   switch (queryMode) {
@@ -92,6 +93,7 @@ List<QuickSwitcherResult> generateQuickSwitcherQueryModeResults({
         baseCandidates: sets.users,
         memberSearchResults: memberSearchResults,
         currentUserId: currentUserId,
+        friendNicknameById: friendNicknameById,
       );
     case QuickSwitcherQueryMode.textChannel:
       candidates = sets.textChannels;

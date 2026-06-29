@@ -143,7 +143,7 @@ void main() {
               id: channelId,
               guildId: guildId,
               name: 'locked',
-              type: ChannelType.voice,
+              type: ChannelType.guildVoice,
               permissionOverwritesJson: everyoneDenyConnect,
             ),
             canConnectPermissionBits: bits,

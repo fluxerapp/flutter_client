@@ -282,11 +282,16 @@ class _LobbyActionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FluxerColorTheme colors = context.colors;
+    final bool isEmphasis =
+        (activeIsDanger && isActive) || primaryWhenNotActive;
     final Color baseColor = activeIsDanger && isActive
         ? colors.statusDanger
         : primaryWhenNotActive
         ? colors.brandPrimary
         : colors.backgroundTertiary;
+    final Color iconColor = isEmphasis
+        ? colors.textOnBrandPrimary
+        : colors.textPrimary;
     return Semantics(
       button: true,
       enabled: onPressed != null,
@@ -310,7 +315,7 @@ class _LobbyActionTile extends StatelessWidget {
                     child: PhosphorIcon(
                       icon,
                       size: 24,
-                      color: colors.textPrimary.withValues(
+                      color: iconColor.withValues(
                         alpha: onPressed == null ? 0.45 : 1,
                       ),
                     ),

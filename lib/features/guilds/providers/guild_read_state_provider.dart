@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
@@ -148,19 +147,12 @@ class GuildReadState extends _$GuildReadState {
       _pruneRemovedGuilds(guilds.map((g) => g.id).toSet());
     });
 
-    ref
-      ..listen<bool>(gatewayReadyProvider, (prev, next) {
-        if (!(prev ?? false) && next) {
-          _seeded = false;
-          unawaited(_seedAll(db, currentUserId));
-        }
-      })
-      ..listen<int>(gatewaySessionRecoveryProvider, (int? previous, int next) {
-        if (next > 0 && previous != next) {
-          _seeded = false;
-          unawaited(_seedAll(db, currentUserId));
-        }
-      });
+    ref.listen<bool>(gatewayReadyProvider, (prev, next) {
+      if (!(prev ?? false) && next) {
+        _seeded = false;
+        unawaited(_seedAll(db, currentUserId));
+      }
+    });
 
     if (ref.read(gatewayReadyProvider)) {
       unawaited(_seedAll(db, currentUserId));
@@ -187,15 +179,6 @@ class GuildReadState extends _$GuildReadState {
     }
     _seeded = true;
     if (_isInitialSeedComplete) {
-      // Re-seed via the generation-guarded incremental path. A wholesale DB read
-      // here races the un-awaited gateway replay and can re-mark an acked channel
-      // unread on RESUME.
-      _enqueueChannels(
-        _channelSnapshot.keys.toList(),
-        db,
-        currentUserId,
-        refreshLatest: true,
-      );
       return;
     }
     _recomputeGeneration++;

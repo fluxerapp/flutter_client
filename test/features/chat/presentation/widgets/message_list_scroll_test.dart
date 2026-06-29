@@ -78,6 +78,10 @@ class ReverseChatHarnessState extends State<ReverseChatHarness> {
     });
   }
 
+  // Mirrors `_onScrollToBottom`'s jump.
+  void jumpToBottom() =>
+      scrollController.jumpTo(scrollController.position.minScrollExtent);
+
   @override
   Widget build(BuildContext context) {
     final ScrollPhysics chatPhysics = ScrollConfiguration.of(context)
@@ -205,5 +209,30 @@ void main() {
         );
       },
     );
+
+    testWidgets('jump to newest reaches the bottom in a single frame', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: ReverseChatHarness(initialCount: 50)),
+      );
+      await tester.pumpAndSettle();
+      final ReverseChatHarnessState state = _stateOf(tester);
+
+      // Reverse list: larger pixels == older.
+      state.scrollController.jumpTo(1500);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey<int>(49)), findsNothing);
+
+      // One pump: an instant jump lands immediately; animateTo would not.
+      state.jumpToBottom();
+      await tester.pump();
+
+      expect(
+        state.scrollController.position.pixels,
+        moreOrLessEquals(0, epsilon: 1),
+      );
+      expect(find.byKey(const ValueKey<int>(49)), findsOneWidget);
+    });
   });
 }

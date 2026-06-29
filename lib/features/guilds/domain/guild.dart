@@ -14,6 +14,10 @@ class Guild {
   final String name;
   final String? icon;
   final String? banner;
+  final String? splash;
+  final String? embedSplash;
+  final int splashCardAlignment;
+  final DateTime? messageHistoryCutoff;
   final int memberCount;
   final int onlineCount;
   final String? description;
@@ -23,6 +27,7 @@ class Guild {
   final bool unavailable;
   final int disabledOperations;
   final int verificationLevel;
+  final int mfaLevel;
   final bool nsfw;
   final int contentWarningLevel;
   final String? contentWarningText;
@@ -32,6 +37,10 @@ class Guild {
     required this.name,
     this.icon,
     this.banner,
+    this.splash,
+    this.embedSplash,
+    this.splashCardAlignment = 0,
+    this.messageHistoryCutoff,
     this.memberCount = 0,
     this.onlineCount = 0,
     this.description,
@@ -41,6 +50,7 @@ class Guild {
     this.unavailable = false,
     this.disabledOperations = 0,
     this.verificationLevel = 0,
+    this.mfaLevel = 0,
     this.nsfw = false,
     this.contentWarningLevel = 0,
     this.contentWarningText,
@@ -52,6 +62,10 @@ class Guild {
       name: row.name,
       icon: row.icon,
       banner: row.banner,
+      splash: row.splash,
+      embedSplash: row.embedSplash,
+      splashCardAlignment: row.splashCardAlignment,
+      messageHistoryCutoff: row.messageHistoryCutoff,
       memberCount: row.memberCount,
       onlineCount: row.onlineCount,
       description: row.description,
@@ -61,6 +75,7 @@ class Guild {
       unavailable: row.unavailable,
       disabledOperations: row.disabledOperations,
       verificationLevel: row.verificationLevel,
+      mfaLevel: row.mfaLevel,
       nsfw: row.nsfw,
       contentWarningLevel: row.contentWarningLevel,
       contentWarningText: row.contentWarningText,
@@ -73,6 +88,10 @@ class Guild {
       name: name,
       icon: Value(icon),
       banner: Value(banner),
+      splash: Value(splash),
+      embedSplash: Value(embedSplash),
+      splashCardAlignment: Value(splashCardAlignment),
+      messageHistoryCutoff: Value(messageHistoryCutoff),
       memberCount: Value(memberCount),
       onlineCount: Value(onlineCount),
       description: Value(description),
@@ -82,6 +101,7 @@ class Guild {
       unavailable: Value(unavailable),
       disabledOperations: Value(disabledOperations),
       verificationLevel: Value(verificationLevel),
+      mfaLevel: Value(mfaLevel),
       nsfw: Value(nsfw),
       contentWarningLevel: Value(contentWarningLevel),
       contentWarningText: Value(contentWarningText),
@@ -123,5 +143,13 @@ class Guild {
       hash: banner,
       animated: hasAnimatedBanner,
     );
+  }
+
+  String? get splashUrl {
+    return FluxerMediaUrl.guildSplash(guildId: id, hash: splash);
+  }
+
+  String? get embedSplashUrl {
+    return FluxerMediaUrl.guildEmbedSplash(guildId: id, hash: embedSplash);
   }
 }

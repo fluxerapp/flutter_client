@@ -140,7 +140,8 @@ Future<List<ForwardDestination>> forwardDestinations(
           .where(
             (Channel c) =>
                 c.id != sourceChannelId &&
-                (c.type == ChannelType.text || c.type == ChannelType.voice),
+                (c.type == ChannelType.guildText ||
+                    c.type == ChannelType.guildVoice),
           )
           .toList()
         ..sort((Channel a, Channel b) {
@@ -208,7 +209,7 @@ Future<List<ForwardDestination>> forwardDestinations(
     } else {
       disable = _resolveDisable(
         bits: bits,
-        isVoice: channel.type == ChannelType.voice,
+        isVoice: channel.type == ChannelType.guildVoice,
         hasEmbeds: sourceHasEmbeds,
         hasAttachments: sourceHasAttachments,
       );
@@ -220,7 +221,7 @@ Future<List<ForwardDestination>> forwardDestinations(
       ForwardDestination(
         channelId: channel.id,
         displayName: channel.name,
-        kind: channel.type == ChannelType.voice
+        kind: channel.type == ChannelType.guildVoice
             ? ForwardDestinationKind.guildVoice
             : ForwardDestinationKind.guildText,
         guildId: channel.guildId,

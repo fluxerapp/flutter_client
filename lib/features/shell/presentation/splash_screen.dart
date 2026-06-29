@@ -5,9 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/constants/assets.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_startup_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/instance_domain_icon.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_incident_provider.dart';
@@ -173,8 +175,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     final ServiceStatusIncident? footerIncident = ref.watch(
       serviceStatusIncidentReadProvider,
     );
-    final bool showConnectionFooter =
+    final bool isOfficialInstance = ref.watch(isActiveInstanceOfficialProvider);
+    final String displayDomain = ref.watch(activeInstanceDisplayDomainProvider);
+    final bool showConnectionProblemsFooter =
         _showProblems && !isReady && visibleIncident == null;
+    final bool showConnectionFooter =
+        showConnectionProblemsFooter && isOfficialInstance;
+    final bool showSelfHostedAccountSwitcher =
+        showConnectionProblemsFooter && !isOfficialInstance;
     final String secondLinkUrl =
         footerIncident?.url ?? ExternalUrls.serviceStatusHistory;
     final TextStyle footerPromptStyle = context.textStyles.bodySmall.copyWith(
@@ -189,6 +197,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       fontSize: 12,
       fontWeight: FontWeight.w600,
       color: context.colors.textLink,
+    );
+    final TextStyle instanceFooterStyle = context.textStyles.bodySmall.copyWith(
+      fontSize: 12,
+      color: context.colors.textChatMuted,
     );
 
     return Scaffold(
@@ -299,73 +311,92 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 ),
               ),
             ),
-            if (showConnectionFooter)
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 24,
-                child: AnimatedOpacity(
-                  opacity: 1,
-                  duration: _footerFadeDuration,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          strings.splashConnectionIssuesPrompt,
-                          style: footerPromptStyle,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 8),
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 8,
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 24,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (showConnectionFooter)
+                    AnimatedOpacity(
+                      opacity: 1,
+                      duration: _footerFadeDuration,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () => handleExternalLinkTap(
-                                  context,
-                                  ExternalUrls.serviceStatus,
-                                ),
-                                child: Text(
-                                  strings.splashStatusPageLink,
-                                  style: footerLinkStyle,
-                                ),
-                              ),
-                            ),
                             Text(
-                              '·',
-                              style: footerPromptStyle.copyWith(
-                                color: context.colors.textChatMuted,
-                              ),
+                              strings.splashConnectionIssuesPrompt,
+                              style: footerPromptStyle,
+                              textAlign: TextAlign.center,
                             ),
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () => handleExternalLinkTap(
-                                  context,
-                                  secondLinkUrl,
+                            const SizedBox(height: 8),
+                            Wrap(
+                              alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              spacing: 8,
+                              children: [
+                                MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                    onTap: () => handleExternalLinkTap(
+                                      context,
+                                      ExternalUrls.serviceStatus,
+                                    ),
+                                    child: Text(
+                                      strings.splashStatusPageLink,
+                                      style: footerLinkStyle,
+                                    ),
+                                  ),
                                 ),
-                                child: Text(
-                                  footerIncident != null
-                                      ? strings.splashReadIncident
-                                      : strings.splashIncidentHistory,
-                                  style: footerLinkStyle,
+                                Text(
+                                  '·',
+                                  style: footerPromptStyle.copyWith(
+                                    color: context.colors.textChatMuted,
+                                  ),
                                 ),
-                              ),
+                                MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                    onTap: () => handleExternalLinkTap(
+                                      context,
+                                      secondLinkUrl,
+                                    ),
+                                    child: Text(
+                                      footerIncident != null
+                                          ? strings.splashReadIncident
+                                          : strings.splashIncidentHistory,
+                                      style: footerLinkStyle,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
+                            const SizedBox(height: 12),
+                            const OfflineAccountSwitcherLink(),
                           ],
                         ),
-                        const SizedBox(height: 12),
-                        const OfflineAccountSwitcherLink(),
-                      ],
+                      ),
                     ),
+                  if (showSelfHostedAccountSwitcher) ...[
+                    const OfflineAccountSwitcherLink(),
+                    const SizedBox(height: 16),
+                  ],
+                  if (showConnectionFooter) const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InstanceDomainIcon(isOfficial: isOfficialInstance),
+                      const SizedBox(width: 4),
+                      Text(displayDomain, style: instanceFooterStyle),
+                    ],
                   ),
-                ),
+                ],
               ),
+            ),
           ],
         ),
       ),

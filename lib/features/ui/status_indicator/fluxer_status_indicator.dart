@@ -99,7 +99,6 @@ class FluxerStatusIndicator extends StatelessWidget {
       'online' => colors.statusOnline,
       'idle' => colors.statusIdle,
       'dnd' => colors.statusDnd,
-      'streaming' => colors.statusDanger,
       _ => colors.statusOffline,
     };
   }

@@ -1,9 +1,6 @@
 name: Merge Conflict Labeler
 
 on:
-  push:
-    branches:
-      - canary
   pull_request_target:
     types: [synchronize]
 
@@ -11,14 +8,21 @@ permissions: {}
 jobs:
   main:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
     if: ${{ github.repository == 'fluxerapp/flutter_client' }}
     steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-pull-requests: write
+
       - name: Apply label
         uses: eps1lon/actions-label-merge-conflict@0273be72a0bbd58fcd71d0d6c02c209b50d1e5e1 # v3.1.0
         with:
           dirtyLabel: 'merge conflict'
           commentOnDirty: 'This pull request has merge conflicts. Please resolve the conflicts so the PR can be successfully reviewed and merged.'
-          repoToken: ${{ secrets.FLUXER_AUTOMATION_PAT }}
+          repoToken: ${{ steps.create-token.outputs.token }}

@@ -8,11 +8,13 @@ class FluxerRadioItem<T> {
     required this.value,
     required this.label,
     this.description,
+    this.labelColor,
   });
 
   final T value;
   final String label;
   final String? description;
+  final Color? labelColor;
 }
 
 class FluxerRadioGroup<T> extends StatelessWidget {
@@ -111,7 +113,9 @@ class FluxerRadioGroup<T> extends StatelessWidget {
           item.label,
           style: textStyles.bodyMedium.copyWith(
             fontWeight: FontWeight.w500,
-            color: isSelected ? colors.textPrimary : colors.textSecondary,
+            color:
+                item.labelColor ??
+                (isSelected ? colors.textPrimary : colors.textSecondary),
           ),
         ),
         if (item.description != null)

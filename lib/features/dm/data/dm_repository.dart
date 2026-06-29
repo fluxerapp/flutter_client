@@ -104,7 +104,7 @@ class DmRepository {
         mentionCount: readState?.mentionCount ?? 0,
       );
       final recipientIds = _parseRecipientIds(row.recipientIds);
-      final isGroup = row.type == 3;
+      final isGroup = isDmGroupType(row.type);
       final remoteRecipientIds = _buildRemoteRecipientIds(
         recipientIds,
         row.recipientId,
@@ -225,7 +225,7 @@ class DmRepository {
   Future<String> ensureDmChannel(String userId) async {
     final rows = await _db.dmChannelDao.getDmChannels();
     for (final row in rows) {
-      if (row.type == 1 &&
+      if (isDmChannelType(row.type) &&
           (row.recipientId == userId ||
               _parseRecipientIds(row.recipientIds).contains(userId))) {
         return row.id;

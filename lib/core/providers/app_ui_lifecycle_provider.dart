@@ -21,20 +21,6 @@ class AppUiForeground extends _$AppUiForeground {
   }
 }
 
-/// When the app last entered [AppLifecycleState.paused] or
-/// [AppLifecycleState.hidden].
-@Riverpod(keepAlive: true)
-class AppLastBackgroundedAt extends _$AppLastBackgroundedAt {
-  @override
-  DateTime? build() => null;
-
-  // Keep the notifier API stable for tests and lifecycle call sites.
-  // ignore: use_setters_to_change_properties
-  void set(DateTime? value) {
-    state = value;
-  }
-}
-
 /// Pushes [WidgetsBindingObserver] lifecycle into [appUiForegroundProvider].
 class AppUiLifecycleObserver extends ConsumerStatefulWidget {
   const AppUiLifecycleObserver({required this.child, super.key});
@@ -76,10 +62,8 @@ class _AppUiLifecycleObserverState extends ConsumerState<AppUiLifecycleObserver>
     if (!mounted || state == null) {
       return;
     }
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.paused ||
+    if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.hidden) {
-      ref.read(appLastBackgroundedAtProvider.notifier).set(DateTime.now());
       clearFluxerImageCache();
     }
     ref

@@ -120,8 +120,8 @@ String _matureBody(
     return l10n.matureCategoryBody;
   }
   return switch (channelType) {
-    ChannelType.voice => l10n.matureVoiceChannelBody,
-    ChannelType.link => l10n.matureLinkChannelBody,
+    ChannelType.guildVoice => l10n.matureVoiceChannelBody,
+    ChannelType.guildLink => l10n.matureLinkChannelBody,
     _ => l10n.matureChannelBody,
   };
 }
@@ -134,7 +134,7 @@ String _primaryButtonLabel({
   if (isContentWarningOnly) {
     return l10n.matureContentUnderstandButton;
   }
-  if (channelType == ChannelType.link) {
+  if (channelType == ChannelType.guildLink) {
     return l10n.matureContentOpenLinkButton;
   }
   return l10n.matureContentProceedButton;

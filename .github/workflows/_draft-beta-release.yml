@@ -10,9 +10,7 @@ on:
         description: Tag name for the beta draft release
         value: ${{ jobs.draft.outputs.tag_name }}
 
-permissions:
-  contents: write
-  pull-requests: read
+permissions: {}
 
 jobs:
   draft:
@@ -22,17 +20,30 @@ jobs:
       release_id: ${{ steps.release_drafter.outputs.id }}
       tag_name: ${{ steps.release_drafter.outputs.tag_name }}
     steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+          permission-pull-requests: read
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           ref: beta
           fetch-depth: 0
           fetch-tags: true
+          token: ${{ steps.create-token.outputs.token }}
+          persist-credentials: false
 
       - id: release_drafter
         uses: release-drafter/release-drafter@693d20e7c1ce1a81d3a41962f85914253b518449
         with:
           config-name: release-drafter-beta.yml
-          token: ${{ secrets.FLUXER_AUTOMATION_PAT }}
+          token: ${{ steps.create-token.outputs.token }}
           commitish: beta
 
       - name: Append direct commits
@@ -41,7 +52,7 @@ jobs:
           RELEASE_TAG: ${{ steps.release_drafter.outputs.tag_name }}
           BODY: ${{ steps.release_drafter.outputs.body }}
           COMMITISH: beta
-          GH_TOKEN: ${{ secrets.FLUXER_AUTOMATION_PAT }}
+          GH_TOKEN: ${{ steps.create-token.outputs.token }}
         run: |
           printf '%s\n' "$BODY" > /tmp/release-body.md
           python3 .github/scripts/append_release_direct_commits.py /tmp/release-body.md
@@ -51,5 +62,5 @@ jobs:
           RELEASE_ID: ${{ steps.release_drafter.outputs.id }}
           RELEASE_TAG: ${{ steps.release_drafter.outputs.tag_name }}
           COMMITISH: beta
-          GH_TOKEN: ${{ secrets.FLUXER_AUTOMATION_PAT }}
+          GH_TOKEN: ${{ steps.create-token.outputs.token }}
         run: python3 .github/scripts/ensure_beta_release_metadata.py

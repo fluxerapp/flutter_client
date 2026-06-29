@@ -20,7 +20,6 @@ part 'gateway_reconnect_provider.g.dart';
 
 const Duration kGatewayReconnectFailureTimeout = Duration(seconds: 30);
 const Duration kGatewayResumeReconnectFailureTimeout = Duration(seconds: 60);
-const Duration kForegroundStaleReconnectThreshold = Duration(seconds: 30);
 const Duration kBackgroundGatewayDisconnectGrace = Duration(seconds: 45);
 const Duration kResumeReconnectDelay = Duration(milliseconds: 500);
 const Duration kConnectivityReconnectDebounce = Duration(milliseconds: 500);
@@ -251,20 +250,11 @@ void gatewayForegroundListener(Ref ref) {
       if (connection.isReconnectSuspended) {
         talker.info('[Gateway] App resumed from background suspend');
       } else {
-        final DateTime? backgroundedAt = ref.read(
-          appLastBackgroundedAtProvider,
-        );
-        final Duration? backgroundDuration = backgroundedAt != null
-            ? DateTime.now().difference(backgroundedAt)
-            : null;
-        final bool isStaleConnected =
-            connection.state == GatewayState.connected &&
-            backgroundDuration != null &&
-            backgroundDuration > kForegroundStaleReconnectThreshold;
-        if (connection.state == GatewayState.connected && !isStaleConnected) {
+        if (connection.state == GatewayState.connected &&
+            !connection.isLikelyStale) {
           return;
         }
-        talker.info('[Gateway] App resumed, scheduling reconnect');
+        talker.info('[Gateway] App resumed, reconnecting (stale socket)');
       }
       unawaited(
         nudgeGatewayReconnectAfterResume(

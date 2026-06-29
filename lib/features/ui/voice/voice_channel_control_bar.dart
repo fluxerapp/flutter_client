@@ -187,7 +187,7 @@ class VoiceChannelControlBar extends ConsumerWidget {
                           } else if (guildId != null && guildId.isNotEmpty) {
                             navigateToContent(
                               context,
-                              '${RoutePaths.guild(guildId)}?view=list',
+                              RoutePaths.guild(guildId),
                             );
                           }
                         }

@@ -136,7 +136,7 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
           channel: channel,
         ),
       );
-      if (channel.type == ChannelType.voice) {
+      if (channel.type == ChannelType.guildVoice) {
         entries.add(
           GuildSidebarEntry(
             kind: GuildSidebarEntryKind.voiceParticipants,

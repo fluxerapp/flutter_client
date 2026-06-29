@@ -11,16 +11,25 @@ on:
       - reopened
       - synchronize
 
-permissions:
-  contents: read
-  pull-requests: write
+permissions: {}
 
 jobs:
   autolabel:
     name: Label pull request for release notes
     runs-on: ubuntu-latest
     steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: read
+          permission-pull-requests: write
+
       - uses: release-drafter/release-drafter/autolabeler@693d20e7c1ce1a81d3a41962f85914253b518449
         with:
           config-name: release-drafter-beta.yml
-          token: ${{ secrets.FLUXER_AUTOMATION_PAT }}
+          token: ${{ steps.create-token.outputs.token }}

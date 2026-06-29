@@ -249,6 +249,23 @@ void main() {
     });
 
     test(
+      'first hydrate removes a category deleted on another client',
+      () async {
+        await database.favoriteChannelsDao.addCategory(
+          id: 'cat-1',
+          name: 'Read',
+        );
+
+        await syncStore.hydrateFromUserSettings(
+          _settingsFor(FavoritesLocalState.empty),
+        );
+
+        final categories = await database.favoriteChannelsDao.getCategories();
+        expect(categories, isEmpty);
+      },
+    );
+
+    test(
       'hydrate ignores remote shrink while dirty and recently acked',
       () async {
         const initial = FavoritesLocalState(

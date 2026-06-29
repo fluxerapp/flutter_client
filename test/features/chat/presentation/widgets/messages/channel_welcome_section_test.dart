@@ -58,7 +58,7 @@ void main() {
             id: 'voice-1',
             guildId: 'guild-1',
             name: 'lounge',
-            type: ChannelType.voice,
+            type: ChannelType.guildVoice,
           ),
         ),
       ),
@@ -67,7 +67,7 @@ void main() {
     final ChannelIcon icon = tester.widget<ChannelIcon>(
       find.byType(ChannelIcon),
     );
-    expect(icon.type, ChannelType.voice);
+    expect(icon.type, ChannelType.guildVoice);
     expect(icon.channel?.name, 'lounge');
   });
 }

@@ -154,7 +154,9 @@ class SettingsSidebar extends StatelessWidget {
     bool isSelected,
     VoidCallback onTap,
   ) {
-    final color = item.isDestructive
+    final color = item.isDisabled
+        ? context.colors.textTertiary
+        : item.isDestructive
         ? context.colors.textDanger
         : isSelected
         ? context.colors.textPrimary
@@ -163,12 +165,12 @@ class SettingsSidebar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 3),
       child: InkWell(
-        onTap: onTap,
+        onTap: item.isDisabled ? (item.onDisabledTap ?? onTap) : onTap,
         borderRadius: BorderRadius.circular(4),
         child: Ink(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: isSelected
+            color: isSelected && !item.isDisabled
                 ? context.colors.backgroundModifierSelected
                 : null,
             borderRadius: BorderRadius.circular(4),
@@ -185,7 +187,9 @@ class SettingsSidebar extends StatelessWidget {
                   style: TextStyle(
                     color: color,
                     fontSize: 16,
-                    fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
+                    fontWeight: isSelected && !item.isDisabled
+                        ? FontWeight.w500
+                        : FontWeight.w400,
                   ),
                 ),
               ),
@@ -202,16 +206,22 @@ class SettingsSidebarItem {
   final bool isSeparator;
   final IconData? icon;
   final bool isDestructive;
+  final bool isDisabled;
+  final VoidCallback? onDisabledTap;
 
   const SettingsSidebarItem(
     this.label, {
     this.icon,
     this.isSeparator = false,
     this.isDestructive = false,
+    this.isDisabled = false,
+    this.onDisabledTap,
   });
 
   const SettingsSidebarItem.separator([this.label = ''])
     : isSeparator = true,
       icon = null,
-      isDestructive = false;
+      isDestructive = false,
+      isDisabled = false,
+      onDisabledTap = null;
 }

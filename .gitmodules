@@ -1,4 +1,4 @@
 [submodule "dart_sdk"]
 	path = dart_sdk
 	url = https://github.com/fluxerapp/dart_sdk.git
-	branch = canary
+	branch = main

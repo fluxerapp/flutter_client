@@ -1358,7 +1358,7 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
 
   @override
   String get avatarDescription =>
-      'JPEG, PNG, GIF, WebP. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
 
   @override
   String get bannerLabel => 'Banner';
@@ -1371,7 +1371,7 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
 
   @override
   String get bannerDescription =>
-      'JPEG, PNG, GIF, WebP. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
 
   @override
   String get accentColorLabel => 'Accent Color';
@@ -4232,10 +4232,13 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
   String get chatMessageCopyText => 'Copy Message';
 
   @override
-  String get chatMessagePin => 'Pin Message';
+  String get chatMessagePin => 'Pin message';
 
   @override
-  String get chatMessageUnpin => 'Unpin Message';
+  String get chatMessageUnpin => 'Unpin message';
+
+  @override
+  String get chatMessageUnpinIt => 'Unpin it';
 
   @override
   String get chatMessageBookmark => 'Bookmark Message';
@@ -4817,11 +4820,32 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
       'Are you sure you want to remove all reactions from this message?';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin Message';
+  String get chatMessageUnpinConfirmTitle => 'Unpin message';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Are you sure you want to unpin this message?';
+      'Send this pin back in time?';
+
+  @override
+  String systemPinMessage(
+    String username,
+    String messageLink,
+    String allPinsLink,
+  ) {
+    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+  }
+
+  @override
+  String get systemPinMessageMessageLink => 'a message';
+
+  @override
+  String get systemPinMessageAllPinsLink => 'all pinned messages';
+
+  @override
+  String get channelPinsEmptyTitle => 'No pinned messages';
+
+  @override
+  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
 
   @override
   String get personalNotesTitle => 'Personal notes';
@@ -5411,9 +5435,6 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
   String get guildMenuCommunitySettings => 'Community Settings';
 
   @override
-  String get guildMenuReportRaid => 'Report Raid';
-
-  @override
   String get guildMenuEditCommunityProfile => 'Edit Community Profile';
 
   @override
@@ -5474,4 +5495,1212 @@ class FluxerLocalizationsSk extends FluxerLocalizations {
 
   @override
   String get guildMenuSettingsBans => 'Bans';
+
+  @override
+  String get guildSettingsNoPermission =>
+      'You do not have permission to view this settings tab.';
+
+  @override
+  String get guildSettingsOverviewIconTitle => 'Icon';
+
+  @override
+  String get guildSettingsUploadImage => 'Upload Image';
+
+  @override
+  String get guildSettingsOverviewBannerTitle => 'Banner';
+
+  @override
+  String get guildSettingsOverviewBannerHint =>
+      'Upload a banner for your server.';
+
+  @override
+  String get guildSettingsOverviewNameTitle => 'Name';
+
+  @override
+  String get guildSettingsOverviewNameHint => 'My awesome community';
+
+  @override
+  String get guildSettingsOverviewStatsTitle => 'Statistics';
+
+  @override
+  String get guildSettingsOverviewMembers => 'Members';
+
+  @override
+  String get guildSettingsOverviewOnline => 'Online';
+
+  @override
+  String get guildSettingsRolesDescription =>
+      'Use roles to group members and assign permissions.';
+
+  @override
+  String get guildSettingsCreateRole => 'Create Role';
+
+  @override
+  String get guildSettingsRolesListTitle => 'Roles';
+
+  @override
+  String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
+    return '$staticCount static, $animatedCount animated emoji slots used';
+  }
+
+  @override
+  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+
+  @override
+  String guildSettingsStickersSlotInfo(int count) {
+    return '$count stickers uploaded';
+  }
+
+  @override
+  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+
+  @override
+  String get guildSettingsModerationVerificationTitle => 'Member verification';
+
+  @override
+  String get guildSettingsModerationVerificationDescription =>
+      'Choose what members must have before they can post or DM community members.';
+
+  @override
+  String get guildSettingsModerationVerificationRolesBypass =>
+      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+
+  @override
+  String get guildSettingsModerationVerificationDiscoveryNote =>
+      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+
+  @override
+  String get guildSettingsModerationMatureTitle =>
+      'Mature content & content warnings';
+
+  @override
+  String get guildSettingsModerationMatureSectionDescription =>
+      'Configure mature content labeling and optional content warnings for members.';
+
+  @override
+  String get guildSettingsModerationMatureToggle => 'Mature content';
+
+  @override
+  String get guildSettingsModerationMatureToggleDescription =>
+      'Mark this community as containing mature content.';
+
+  @override
+  String get guildSettingsVerificationNone => 'None';
+
+  @override
+  String get guildSettingsVerificationNoneDescription =>
+      'No verification is required.';
+
+  @override
+  String get guildSettingsVerificationLow => 'Low';
+
+  @override
+  String get guildSettingsVerificationLowDescription =>
+      'Requires a verified email address.';
+
+  @override
+  String get guildSettingsVerificationMedium => 'Medium';
+
+  @override
+  String get guildSettingsVerificationMediumDescription =>
+      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+
+  @override
+  String get guildSettingsVerificationHigh => 'High';
+
+  @override
+  String get guildSettingsVerificationHighDescription =>
+      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+
+  @override
+  String get guildSettingsVerificationHighest => 'Very high';
+
+  @override
+  String get guildSettingsVerificationHighestDescription =>
+      'Requires a verified phone number.';
+
+  @override
+  String get guildSettingsAuditLogDescription =>
+      'Track moderator actions across the community.';
+
+  @override
+  String get guildSettingsAuditLogEmpty => 'No logs yet';
+
+  @override
+  String get guildSettingsAuditLogEmptyDescription =>
+      'Moderation actions and community changes will appear here.';
+
+  @override
+  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+
+  @override
+  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+
+  @override
+  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+
+  @override
+  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+
+  @override
+  String get guildSettingsAuditLogLoadError =>
+      'Something went wrong while loading the activity log.';
+
+  @override
+  String get guildSettingsAuditLogLoadErrorTitle =>
+      'Unable to load activity logs';
+
+  @override
+  String get guildSettingsAuditLogReason => 'Reason';
+
+  @override
+  String get guildSettingsAuditLogSomeone => 'someone';
+
+  @override
+  String get guildSettingsAuditLogSomething => 'something';
+
+  @override
+  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+
+  @override
+  String get guildSettingsAuditLogNothing => 'nothing';
+
+  @override
+  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+
+  @override
+  String get auditLogActionGuildUpdate => 'Community updated';
+
+  @override
+  String get auditLogActionChannelCreate => 'Channel created';
+
+  @override
+  String get auditLogActionChannelUpdate => 'Channel updated';
+
+  @override
+  String get auditLogActionChannelDelete => 'Channel deleted';
+
+  @override
+  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+
+  @override
+  String get auditLogActionChannelOverwriteUpdate =>
+      'Channel overwrite updated';
+
+  @override
+  String get auditLogActionChannelOverwriteDelete =>
+      'Channel overwrite removed';
+
+  @override
+  String get auditLogActionMemberKick => 'Member kicked';
+
+  @override
+  String get auditLogActionMemberPrune => 'Members pruned';
+
+  @override
+  String get auditLogActionMemberBanAdd => 'Member banned';
+
+  @override
+  String get auditLogActionMemberBanRemove => 'Member unbanned';
+
+  @override
+  String get auditLogActionMemberUpdate => 'Member updated';
+
+  @override
+  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+
+  @override
+  String get auditLogActionMemberMove => 'Member moved';
+
+  @override
+  String get auditLogActionMemberDisconnect => 'Member disconnected';
+
+  @override
+  String get auditLogActionBotAdd => 'Bot added';
+
+  @override
+  String get auditLogActionRoleCreate => 'Role created';
+
+  @override
+  String get auditLogActionRoleUpdate => 'Role updated';
+
+  @override
+  String get auditLogActionRoleDelete => 'Role deleted';
+
+  @override
+  String get auditLogActionInviteCreate => 'Invite created';
+
+  @override
+  String get auditLogActionInviteUpdate => 'Invite updated';
+
+  @override
+  String get auditLogActionInviteDelete => 'Invite deleted';
+
+  @override
+  String get auditLogActionWebhookCreate => 'Webhook created';
+
+  @override
+  String get auditLogActionWebhookUpdate => 'Webhook updated';
+
+  @override
+  String get auditLogActionWebhookDelete => 'Webhook deleted';
+
+  @override
+  String get auditLogActionEmojiCreate => 'Emoji created';
+
+  @override
+  String get auditLogActionEmojiUpdate => 'Emoji updated';
+
+  @override
+  String get auditLogActionEmojiDelete => 'Emoji deleted';
+
+  @override
+  String get auditLogActionStickerCreate => 'Sticker created';
+
+  @override
+  String get auditLogActionStickerUpdate => 'Sticker updated';
+
+  @override
+  String get auditLogActionStickerDelete => 'Sticker deleted';
+
+  @override
+  String get auditLogActionMessageDelete => 'Message deleted';
+
+  @override
+  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+
+  @override
+  String get auditLogActionMessagePin => 'Message pinned';
+
+  @override
+  String get auditLogActionMessageUnpin => 'Message unpinned';
+
+  @override
+  String auditLogSummaryGuildUpdate(String actor) {
+    return '$actor updated the community settings.';
+  }
+
+  @override
+  String auditLogSummaryChannelCreate(String actor, String target) {
+    return '$actor created the channel $target.';
+  }
+
+  @override
+  String auditLogSummaryChannelUpdate(String actor, String target) {
+    return '$actor updated the channel $target.';
+  }
+
+  @override
+  String auditLogSummaryChannelDelete(String actor, String target) {
+    return '$actor deleted the channel $target.';
+  }
+
+  @override
+  String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
+    return '$actor added channel permissions for $target.';
+  }
+
+  @override
+  String auditLogSummaryChannelOverwriteCreateInChannel(
+    String actor,
+    String target,
+    String channel,
+  ) {
+    return '$actor added channel permissions for $target in $channel.';
+  }
+
+  @override
+  String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
+    return '$actor updated channel permissions for $target.';
+  }
+
+  @override
+  String auditLogSummaryChannelOverwriteUpdateInChannel(
+    String actor,
+    String target,
+    String channel,
+  ) {
+    return '$actor updated channel permissions for $target in $channel.';
+  }
+
+  @override
+  String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
+    return '$actor removed channel permissions for $target.';
+  }
+
+  @override
+  String auditLogSummaryChannelOverwriteDeleteInChannel(
+    String actor,
+    String target,
+    String channel,
+  ) {
+    return '$actor removed channel permissions for $target in $channel.';
+  }
+
+  @override
+  String auditLogSummaryMemberKick(String actor, String target) {
+    return '$actor kicked $target.';
+  }
+
+  @override
+  String auditLogSummaryMemberBanAdd(String actor, String target) {
+    return '$actor banned $target.';
+  }
+
+  @override
+  String auditLogSummaryMemberBanRemove(String actor, String target) {
+    return '$actor unbanned $target.';
+  }
+
+  @override
+  String auditLogSummaryMemberUpdate(String actor, String target) {
+    return '$actor updated $target.';
+  }
+
+  @override
+  String auditLogSummaryMemberRoleUpdate(String actor, String target) {
+    return '$actor updated roles for $target.';
+  }
+
+  @override
+  String auditLogSummaryMemberPrune(String actor) {
+    return '$actor pruned inactive members.';
+  }
+
+  @override
+  String auditLogSummaryMemberPruneDays(String actor, int days) {
+    return '$actor pruned members inactive for $days days.';
+  }
+
+  @override
+  String auditLogSummaryMemberMove(String actor, String target) {
+    return '$actor moved $target to another voice channel.';
+  }
+
+  @override
+  String auditLogSummaryMemberMoveToChannel(
+    String actor,
+    String target,
+    String channel,
+  ) {
+    return '$actor moved $target to $channel.';
+  }
+
+  @override
+  String auditLogSummaryMemberDisconnect(String actor, String target) {
+    return '$actor disconnected $target from voice.';
+  }
+
+  @override
+  String auditLogSummaryBotAdd(String actor, String target) {
+    return '$actor added the bot $target.';
+  }
+
+  @override
+  String auditLogSummaryRoleCreate(String actor, String target) {
+    return '$actor created the role $target.';
+  }
+
+  @override
+  String auditLogSummaryRoleUpdate(String actor, String target) {
+    return '$actor updated the role $target.';
+  }
+
+  @override
+  String auditLogSummaryRoleDelete(String actor, String target) {
+    return '$actor deleted the role $target.';
+  }
+
+  @override
+  String auditLogSummaryInviteCreate(String actor, String target) {
+    return '$actor created the invite $target.';
+  }
+
+  @override
+  String auditLogSummaryInviteCreateForChannel(
+    String actor,
+    String target,
+    String channel,
+  ) {
+    return '$actor created the invite $target for $channel.';
+  }
+
+  @override
+  String auditLogSummaryInviteUpdate(String actor, String target) {
+    return '$actor updated the invite $target.';
+  }
+
+  @override
+  String auditLogSummaryInviteUpdateForChannel(
+    String actor,
+    String target,
+    String channel,
+  ) {
+    return '$actor updated the invite $target for $channel.';
+  }
+
+  @override
+  String auditLogSummaryInviteDelete(String actor, String target) {
+    return '$actor deleted the invite $target.';
+  }
+
+  @override
+  String auditLogSummaryInviteDeleteForChannel(
+    String actor,
+    String target,
+    String channel,
+  ) {
+    return '$actor deleted the invite $target for $channel.';
+  }
+
+  @override
+  String auditLogSummaryWebhookCreate(String actor, String target) {
+    return '$actor created the webhook $target.';
+  }
+
+  @override
+  String auditLogSummaryWebhookUpdate(String actor, String target) {
+    return '$actor updated the webhook $target.';
+  }
+
+  @override
+  String auditLogSummaryWebhookDelete(String actor, String target) {
+    return '$actor deleted the webhook $target.';
+  }
+
+  @override
+  String auditLogSummaryEmojiCreate(String actor, String target) {
+    return '$actor added the emoji $target.';
+  }
+
+  @override
+  String auditLogSummaryEmojiUpdate(String actor, String target) {
+    return '$actor updated the emoji $target.';
+  }
+
+  @override
+  String auditLogSummaryEmojiDelete(String actor, String target) {
+    return '$actor deleted the emoji $target.';
+  }
+
+  @override
+  String auditLogSummaryStickerCreate(String actor, String target) {
+    return '$actor added the sticker $target.';
+  }
+
+  @override
+  String auditLogSummaryStickerUpdate(String actor, String target) {
+    return '$actor updated the sticker $target.';
+  }
+
+  @override
+  String auditLogSummaryStickerDelete(String actor, String target) {
+    return '$actor deleted the sticker $target.';
+  }
+
+  @override
+  String auditLogSummaryMessageDelete(String actor) {
+    return '$actor deleted a message.';
+  }
+
+  @override
+  String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
+    return '$actor deleted a message in $channel.';
+  }
+
+  @override
+  String auditLogSummaryMessageBulkDelete(String actor) {
+    return '$actor deleted multiple messages.';
+  }
+
+  @override
+  String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
+    return '$actor deleted $count messages.';
+  }
+
+  @override
+  String auditLogSummaryMessageBulkDeleteInChannel(
+    String actor,
+    String channel,
+  ) {
+    return '$actor deleted multiple messages in $channel.';
+  }
+
+  @override
+  String auditLogSummaryMessageBulkDeleteCountInChannel(
+    String actor,
+    int count,
+    String channel,
+  ) {
+    return '$actor deleted $count messages in $channel.';
+  }
+
+  @override
+  String auditLogSummaryMessagePin(String actor) {
+    return '$actor pinned a message.';
+  }
+
+  @override
+  String auditLogSummaryMessagePinInChannel(String actor, String channel) {
+    return '$actor pinned a message in $channel.';
+  }
+
+  @override
+  String auditLogSummaryMessageUnpin(String actor) {
+    return '$actor unpinned a message.';
+  }
+
+  @override
+  String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
+    return '$actor unpinned a message in $channel.';
+  }
+
+  @override
+  String auditLogSummaryDefault(String actor, String target) {
+    return '$actor performed an audit action on $target.';
+  }
+
+  @override
+  String auditLogChangeUpdatedFromTo(
+    String field,
+    String oldValue,
+    String newValue,
+  ) {
+    return 'Updated $field from $oldValue to $newValue.';
+  }
+
+  @override
+  String auditLogChangeSetTo(String field, String newValue) {
+    return 'Set $field to $newValue.';
+  }
+
+  @override
+  String auditLogChangeCleared(String field, String oldValue) {
+    return 'Cleared $field (was $oldValue).';
+  }
+
+  @override
+  String auditLogChangeUpdated(String field) {
+    return 'Updated $field.';
+  }
+
+  @override
+  String auditLogChangeRenamedCommunity(String name) {
+    return 'Renamed the community to $name.';
+  }
+
+  @override
+  String get auditLogChangeUpdatedCommunityIcon =>
+      'Updated the community icon.';
+
+  @override
+  String auditLogChangeRenamedChannel(String name) {
+    return 'Renamed the channel to $name.';
+  }
+
+  @override
+  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+
+  @override
+  String auditLogChangeUpdatedTopic(String topic) {
+    return 'Updated the topic to $topic.';
+  }
+
+  @override
+  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+
+  @override
+  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+
+  @override
+  String auditLogChangeSetNickname(String nickname) {
+    return 'Set nickname to $nickname.';
+  }
+
+  @override
+  String auditLogChangeRemovedNickname(String nickname) {
+    return 'Removed nickname $nickname.';
+  }
+
+  @override
+  String get auditLogChangeMutedMember => 'Muted the member.';
+
+  @override
+  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+
+  @override
+  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+
+  @override
+  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+
+  @override
+  String auditLogChangeAddedRoles(String roles) {
+    return 'Added $roles.';
+  }
+
+  @override
+  String auditLogChangeRemovedRoles(String roles) {
+    return 'Removed $roles.';
+  }
+
+  @override
+  String auditLogOptionChannel(String value) {
+    return 'Channel: $value.';
+  }
+
+  @override
+  String auditLogOptionMessage(String value) {
+    return 'Message: $value.';
+  }
+
+  @override
+  String auditLogOptionInvitedBy(String value) {
+    return 'Invited by $value.';
+  }
+
+  @override
+  String auditLogOptionDeletedMessages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Deleted # messages.',
+      one: 'Deleted # message.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String auditLogOptionRemovedMembers(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Removed # members.',
+      one: 'Removed # member.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+
+  @override
+  String get auditLogOptionTemporaryMembership =>
+      'Grants temporary membership.';
+
+  @override
+  String get auditLogOptionPermanentMembership =>
+      'Grants permanent membership.';
+
+  @override
+  String get guildSettingsLoadMore => 'Load more';
+
+  @override
+  String get guildSettingsLoadingMore => 'Loading...';
+
+  @override
+  String get guildSettingsWebhooksDescription =>
+      'Manage webhooks that post messages to channels.';
+
+  @override
+  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+
+  @override
+  String get guildSettingsCopyUrl => 'Copy URL';
+
+  @override
+  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+
+  @override
+  String get guildSettingsDeleteWebhook => 'Delete webhook';
+
+  @override
+  String get guildSettingsVanityUrlDescription =>
+      'Set a custom invite link for your server.';
+
+  @override
+  String get guildSettingsVanityUrlHint => 'my-server';
+
+  @override
+  String get guildSettingsSave => 'Save';
+
+  @override
+  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+
+  @override
+  String guildSettingsVanityUrlUses(int count) {
+    return '$count uses';
+  }
+
+  @override
+  String get guildSettingsDiscoveryDescription =>
+      'Apply to be listed in server discovery.';
+
+  @override
+  String guildSettingsDiscoveryNotEligible(int count) {
+    return 'Requires at least $count members to apply.';
+  }
+
+  @override
+  String get guildSettingsDiscoveryFormTitle => 'Application';
+
+  @override
+  String get guildSettingsDiscoveryStatusTitle => 'Status';
+
+  @override
+  String get guildSettingsDiscoveryCategory => 'Category';
+
+  @override
+  String get guildSettingsDiscoveryDescriptionField => 'Description';
+
+  @override
+  String get guildSettingsDiscoveryTags => 'Tags';
+
+  @override
+  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+
+  @override
+  String get guildSettingsDiscoveryApply => 'Submit Application';
+
+  @override
+  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+
+  @override
+  String get guildSettingsMembersDescription =>
+      'Search and manage server members.';
+
+  @override
+  String get guildSettingsMembersSearchHint => 'Search members';
+
+  @override
+  String guildSettingsMembersResultsTitle(int count) {
+    return '$count members';
+  }
+
+  @override
+  String get guildSettingsInvitesDescription =>
+      'View and revoke active invite links.';
+
+  @override
+  String get guildSettingsInvitesEmpty => 'No active invites.';
+
+  @override
+  String guildSettingsInviteUses(int uses, int maxUses) {
+    return '$uses / $maxUses uses';
+  }
+
+  @override
+  String guildSettingsInviteExpires(String date) {
+    return 'Expires $date';
+  }
+
+  @override
+  String get guildSettingsBansDescription => 'View and manage banned users.';
+
+  @override
+  String get guildSettingsBansSearchHint => 'Search bans';
+
+  @override
+  String get guildSettingsBansEmpty => 'No banned users.';
+
+  @override
+  String get guildSettingsBanPermanent => 'Permanent ban';
+
+  @override
+  String guildSettingsBanExpires(String date) {
+    return 'Expires $date';
+  }
+
+  @override
+  String get guildSettingsUnban => 'Unban';
+
+  @override
+  String get guildSettingsCommunitySettings => 'Community Settings';
+
+  @override
+  String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
+
+  @override
+  String get guildSettingsCategoryCommunity => 'COMMUNITY';
+
+  @override
+  String get guildSettingsCategoryIntegrations => 'INTEGRATIONS';
+
+  @override
+  String get guildSettingsCategoryPeople => 'PEOPLE';
+
+  @override
+  String get guildSettingsOverviewDescription =>
+      'Manage your community\'s profile, channels, and default settings.';
+
+  @override
+  String get guildSettingsOverviewBrandingTitle => 'Branding';
+
+  @override
+  String get guildSettingsOverviewBrandingDescription =>
+      'Update your icon, name, banner, and invite background';
+
+  @override
+  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+
+  @override
+  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+
+  @override
+  String get guildSettingsOverviewIdleDescription =>
+      'Configure AFK channel and timeout';
+
+  @override
+  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+
+  @override
+  String get guildSettingsOverviewSystemDescription =>
+      'Choose destination for system and welcome messages';
+
+  @override
+  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+
+  @override
+  String get guildSettingsOverviewNotificationsLargeGuild =>
+      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+
+  @override
+  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+
+  @override
+  String get guildSettingsOverviewFlexibleNames =>
+      'Allow flexible text channel names';
+
+  @override
+  String get guildSettingsOverviewHideOwnerCrown =>
+      'Hide community owner crown';
+
+  @override
+  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+
+  @override
+  String get guildSettingsOverviewDetachedBannerHint =>
+      'Shows the banner in its own section below the community header.';
+
+  @override
+  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+
+  @override
+  String get guildSettingsOverviewRemoveImage => 'Remove';
+
+  @override
+  String get guildSettingsOverviewSplashTitle => 'Invite background';
+
+  @override
+  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+
+  @override
+  String get guildSettingsOverviewEmbedSplashHint =>
+      'Shown in invite embeds in chat.';
+
+  @override
+  String get guildSettingsOverviewUploadBackground => 'Upload background';
+
+  @override
+  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+
+  @override
+  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+
+  @override
+  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+
+  @override
+  String get guildSettingsOverviewInvitePreviewHint =>
+      'See how your invite looks to visitors.';
+
+  @override
+  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+
+  @override
+  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+
+  @override
+  String get guildSettingsOverviewOwnerCrownDescription =>
+      'Configure whether the crown icon is shown next to the community owner';
+
+  @override
+  String get guildSettingsSplashCardAlignment => 'Card alignment';
+
+  @override
+  String get guildSettingsSplashAlignmentCenter => 'Center';
+
+  @override
+  String get guildSettingsSplashAlignmentLeft => 'Left';
+
+  @override
+  String get guildSettingsSplashAlignmentRight => 'Right';
+
+  @override
+  String get guildSettingsSplashAlignmentHint =>
+      'Only applies on wide screens.';
+
+  @override
+  String get permissionReadMessageHistory => 'Read message history';
+
+  @override
+  String guildSettingsOverviewMessageHistoryTitle(String permission) {
+    return 'Change what users without \"$permission\" can see';
+  }
+
+  @override
+  String guildSettingsOverviewMessageHistoryDescription(String permission) {
+    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+  }
+
+  @override
+  String get guildSettingsOverviewMessageHistoryOpen =>
+      'Open message history threshold';
+
+  @override
+  String get guildSettingsMessageHistoryThresholdTitle =>
+      'Message history threshold';
+
+  @override
+  String get guildSettingsMessageHistoryThresholdEnable =>
+      'Enable message history threshold';
+
+  @override
+  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+
+  @override
+  String get guildSettingsMessageHistoryThresholdDateHint =>
+      'Members without Read Message History can view messages sent after this date.';
+
+  @override
+  String get guildSettingsMessageHistoryThresholdUpdated =>
+      'Message history threshold updated';
+
+  @override
+  String get guildSettingsOverviewFlexibleNamesHint =>
+      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+
+  @override
+  String get guildSettingsOverviewHideOwnerCrownHint =>
+      'Hides the crown icon next to the community owner across all surfaces.';
+
+  @override
+  String get guildSettingsAnimatedIconRequiresFeature =>
+      'Animated icons require the Animated Icon community feature.';
+
+  @override
+  String get guildSettingsAnimatedBannerRequiresFeature =>
+      'Animated banners require the Animated Banner community feature.';
+
+  @override
+  String get guildSettingsAfkChannel => 'AFK / idle channel';
+
+  @override
+  String get guildSettingsAfkChannelHint =>
+      'Move members to this channel when they\'re AFK.';
+
+  @override
+  String get guildSettingsNoAfkChannel => 'No AFK channel';
+
+  @override
+  String get guildSettingsAfkTimeout => 'AFK timeout';
+
+  @override
+  String get guildSettingsAfkTimeout1Min => '1 minute';
+
+  @override
+  String get guildSettingsAfkTimeout5Min => '5 minutes';
+
+  @override
+  String get guildSettingsAfkTimeout15Min => '15 minutes';
+
+  @override
+  String get guildSettingsAfkTimeout30Min => '30 minutes';
+
+  @override
+  String get guildSettingsAfkTimeout1Hour => '1 hour';
+
+  @override
+  String guildSettingsAfkTimeoutSeconds(int seconds) {
+    return '$seconds seconds';
+  }
+
+  @override
+  String get guildSettingsSystemChannel => 'Destination channel';
+
+  @override
+  String get guildSettingsSystemChannelHint =>
+      'Welcome and system messages will appear here.';
+
+  @override
+  String get guildSettingsNoSystemChannel => 'No system channel';
+
+  @override
+  String get guildSettingsHideJoinMessages => 'Hide join messages';
+
+  @override
+  String get guildSettingsHideJoinMessagesHint =>
+      'Suppresses join messages in the destination channel.';
+
+  @override
+  String get guildSettingsDefaultNotifications =>
+      'Default notification settings';
+
+  @override
+  String get guildSettingsNotificationsAll => 'All messages';
+
+  @override
+  String get guildSettingsNotificationsAllDescription =>
+      'Notify on all messages';
+
+  @override
+  String get guildSettingsNotificationsMentions => 'Mentions only';
+
+  @override
+  String get guildSettingsNotificationsMentionsDescription =>
+      'Notify only on mentions';
+
+  @override
+  String get guildSettingsOverviewSplashUploadHint =>
+      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+
+  @override
+  String get guildSettingsOverviewEmbedSplashUploadHint =>
+      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+
+  @override
+  String get guildSettingsModerationDescription =>
+      'Configure verification, content filtering, and mature content settings.';
+
+  @override
+  String get guildSettingsModerationDiscoveryNotice =>
+      'Discovery-listed communities have restricted moderation options.';
+
+  @override
+  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+
+  @override
+  String get guildSettingsModerationContentFilterDescription =>
+      'Automatically screen messages for explicit content in channels not marked for mature content.';
+
+  @override
+  String get guildSettingsModerationContentFilterDiscoveryNote =>
+      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+
+  @override
+  String get guildSettingsContentFilterOff => 'Off';
+
+  @override
+  String get guildSettingsContentFilterOffDescription =>
+      'Let the community self-moderate';
+
+  @override
+  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+
+  @override
+  String get guildSettingsContentFilterNoRoleDescription =>
+      'Suggested for most communities';
+
+  @override
+  String get guildSettingsContentFilterAll => 'Filter everyone';
+
+  @override
+  String get guildSettingsContentFilterAllDescription =>
+      'Maximum protection for family-friendly spaces';
+
+  @override
+  String get guildSettingsModerationMatureOff => 'Off';
+
+  @override
+  String get guildSettingsModerationMatureOn => 'On';
+
+  @override
+  String get guildSettingsContentWarningToggle => 'Show a content warning';
+
+  @override
+  String get guildSettingsContentWarningToggleDescription =>
+      'Toggles a consent prompt before entering any channel.';
+
+  @override
+  String get guildSettingsContentWarningText => 'Custom warning text';
+
+  @override
+  String get guildSettingsContentWarningTextPlaceholder =>
+      'This contains sensitive content.';
+
+  @override
+  String get guildSettingsModeration2faTitle => '2FA requirement';
+
+  @override
+  String get guildSettingsModeration2faDescription =>
+      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+
+  @override
+  String get guildSettingsModeration2faSwitchLabel =>
+      'Require 2FA for moderation actions';
+
+  @override
+  String get guildSettingsModeration2faOwnerOnlyTooltip =>
+      'Only the community owner can change this setting';
+
+  @override
+  String get guildSettingsModeration2faEnableFirstTooltip =>
+      'Enable 2FA on your account to change this setting';
+
+  @override
+  String get guildSettingsEmojiSearchHint => 'Search emojis';
+
+  @override
+  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+
+  @override
+  String guildSettingsNonAnimatedEmoji(int count) {
+    return 'Non-animated emoji ($count)';
+  }
+
+  @override
+  String guildSettingsAnimatedEmoji(int count) {
+    return 'Animated emoji ($count)';
+  }
+
+  @override
+  String get guildSettingsStickersSearchHint => 'Search stickers';
+
+  @override
+  String get guildSettingsWebhooksInfo =>
+      'Create webhooks from Channel settings. Edit them here.';
+
+  @override
+  String get guildSettingsVanityUrlWarning =>
+      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+
+  @override
+  String get guildSettingsVanityUrlRemove => 'Remove';
+
+  @override
+  String get guildSettingsBannedUsersTitle => 'Banned users';
+
+  @override
+  String get guildSettingsInvitesTableInviter => 'Inviter';
+
+  @override
+  String get guildSettingsInvitesTableChannel => 'Channel';
+
+  @override
+  String get guildSettingsInvitesTableCode => 'Code';
+
+  @override
+  String get guildSettingsInvitesTableUses => 'Uses';
+
+  @override
+  String get guildSettingsInvitesTableCreated => 'Created';
+
+  @override
+  String get guildSettingsMembersSortNewest => 'Newest first';
+
+  @override
+  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+
+  @override
+  String get guildSettingsAuditLogFilterAction => 'Filter by action';
 }

@@ -281,7 +281,7 @@ void main() {
           Permission.sendMessages.value | Permission.attachFiles.value;
       final ChannelMessagePermissions perms = channelMessagePermissionsFromBits(
         bits: bits,
-        channelType: ChannelType.text,
+        channelType: ChannelType.guildText,
       );
       expect(perms.isResolved, isTrue);
       expect(perms.canSendMessages, isTrue);

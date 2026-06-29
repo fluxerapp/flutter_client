@@ -20,8 +20,11 @@ void main() {
     test('keepNewest keeps the newest entries and drops the oldest', () {
       final messages = _build(250);
       final trim = trimMessageWindow(messages, keepNewest: true);
-      expect(trim.messages.length, kMaxLoadedMessages);
-      expect(trim.messages.first.id, messages[50].id);
+      expect(trim.messages.length, kTrimmedMessageWindowSize);
+      expect(
+        trim.messages.first.id,
+        messages[250 - kTrimmedMessageWindowSize].id,
+      );
       expect(trim.messages.last.id, messages[249].id);
       expect(trim.droppedOlder, isTrue);
       expect(trim.droppedNewer, isFalse);
@@ -30,9 +33,9 @@ void main() {
     test('keepNewest false keeps the oldest entries and drops the newest', () {
       final messages = _build(250);
       final trim = trimMessageWindow(messages, keepNewest: false);
-      expect(trim.messages.length, kMaxLoadedMessages);
+      expect(trim.messages.length, kTrimmedMessageWindowSize);
       expect(trim.messages.first.id, messages[0].id);
-      expect(trim.messages.last.id, messages[199].id);
+      expect(trim.messages.last.id, messages[kTrimmedMessageWindowSize - 1].id);
       expect(trim.droppedNewer, isTrue);
       expect(trim.droppedOlder, isFalse);
     });
@@ -47,11 +50,24 @@ void main() {
 
     test('respects a custom max', () {
       final messages = _build(10);
-      final trim = trimMessageWindow(messages, keepNewest: true, max: 4);
+      final trim = trimMessageWindow(
+        messages,
+        keepNewest: true,
+        max: 4,
+        target: 4,
+      );
       expect(trim.messages.length, 4);
       expect(trim.messages.first.id, messages[6].id);
       expect(trim.messages.last.id, messages[9].id);
       expect(trim.droppedOlder, isTrue);
+    });
+
+    test('trims to the target with headroom once it exceeds the cap', () {
+      final messages = _build(kMaxLoadedMessages + 1);
+      final trim = trimMessageWindow(messages, keepNewest: true);
+      expect(trim.messages.length, kTrimmedMessageWindowSize);
+      expect(trim.droppedOlder, isTrue);
+      expect(trim.droppedNewer, isFalse);
     });
   });
 }

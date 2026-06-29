@@ -2,6 +2,7 @@ name: iOS Canary TestFlight Build
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   build-and-upload:
@@ -21,24 +22,12 @@ jobs:
       - name: Sync submodules
         run: git submodule update --init --recursive
 
-      - name: Detect preinstalled Flutter
-        id: detect_flutter
-        run: |
-          if command -v flutter >/dev/null 2>&1; then
-            echo "::notice::Using preinstalled Flutter: $(flutter --version | head -n 1)"
-            echo "flutter_installed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "::notice::Flutter not found. Workflow will install it."
-            echo "flutter_installed=false" >> "$GITHUB_OUTPUT"
-          fi
       - name: Set up Flutter
-        if: steps.detect_flutter.outputs.flutter_installed != 'true'
         # Temp use while waiting for a pr: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
         uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
         with:
           channel: stable
       - name: Restore pub cache
-        if: runner.environment != 'self-hosted'
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ~/.pub-cache
@@ -53,7 +42,7 @@ jobs:
         run: flutter pub get
 
       - name: Run build_runner
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build
 
       - name: Create keychain and import certificate
         env:
@@ -159,33 +148,11 @@ jobs:
             exit 1
           fi
 
-      - name: Detect preinstalled Ruby
-        id: detect_ruby
-        run: |
-          REQUIRED_RUBY_VERSION="4.0"
-          if ! command -v ruby >/dev/null 2>&1; then
-            echo "::notice::Ruby not found. Workflow will install Ruby ${REQUIRED_RUBY_VERSION}."
-            echo "ruby_ready=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          CURRENT_RUBY_VERSION="$(ruby -e 'print RUBY_VERSION')"
-          case "$CURRENT_RUBY_VERSION" in
-            ${REQUIRED_RUBY_VERSION}.*)
-              echo "::notice::Using preinstalled Ruby ${CURRENT_RUBY_VERSION}."
-              echo "ruby_ready=true" >> "$GITHUB_OUTPUT"
-              ;;
-            *)
-              echo "::notice::Found Ruby ${CURRENT_RUBY_VERSION}; requires ${REQUIRED_RUBY_VERSION}.x. Workflow will install required version."
-              echo "ruby_ready=false" >> "$GITHUB_OUTPUT"
-              ;;
-          esac
       - name: Set up Ruby
-        if: steps.detect_ruby.outputs.ruby_ready != 'true'
         uses: ruby/setup-ruby@4c56a21280b36d862b5fc31348f463d60bdc55d5
         with:
           ruby-version: "4.0"
       - name: Restore Bundler cache
-        if: runner.environment != 'self-hosted'
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: vendor/bundle
@@ -204,25 +171,3 @@ jobs:
           APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
           APPSTORE_PRIVATE_KEY: ${{ secrets.APPSTORE_PRIVATE_KEY }}
         run: bundle exec fastlane ios testflight_canary
-      - name: Cleanup temporary keychain
-        if: always()
-        run: |
-          KEYCHAIN_PATH="$RUNNER_TEMP/build.keychain-db"
-          LOGIN_KEYCHAIN="$HOME/Library/Keychains/login.keychain-db"
-          if [ "${TEMP_KEYCHAIN_WAS_DEFAULT:-false}" = "true" ] && [ -n "${ORIGINAL_DEFAULT_KEYCHAIN:-}" ]; then
-            security default-keychain -d user -s "$ORIGINAL_DEFAULT_KEYCHAIN" || true
-          elif [ "${TEMP_KEYCHAIN_WAS_DEFAULT:-false}" = "true" ] && [ -f "$LOGIN_KEYCHAIN" ]; then
-            security default-keychain -d user -s "$LOGIN_KEYCHAIN" || true
-          fi
-          if [ -n "${ORIGINAL_DEFAULT_KEYCHAIN:-}" ]; then
-            security list-keychains -d user -s "$ORIGINAL_DEFAULT_KEYCHAIN" || true
-          elif [ -f "$LOGIN_KEYCHAIN" ]; then
-            security list-keychains -d user -s "$LOGIN_KEYCHAIN" || true
-          fi
-          if [ -f "$KEYCHAIN_PATH" ]; then
-            security delete-keychain "$KEYCHAIN_PATH" || true
-          fi
-          if [ -f "$LOGIN_KEYCHAIN" ]; then
-            security default-keychain -d user -s "$LOGIN_KEYCHAIN" || true
-            security list-keychains -d user -s "$LOGIN_KEYCHAIN" || true
-          fi

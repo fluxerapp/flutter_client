@@ -1,0 +1,31 @@
+name: DCO
+
+on:
+  pull_request_target:
+    branches:
+      - canary
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  dco:
+    name: DCO
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: Validate DCO sign-offs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: bash .github/scripts/validate_dco.sh

@@ -132,7 +132,7 @@ Future<void> openGuildChannelContent({
   required String chatPath,
   int? effectivePermissionBits,
 }) async {
-  if (channel.type == ChannelType.link) {
+  if (channel.type == ChannelType.guildLink) {
     final bool canProceed = await promptForChannelGateIfNeeded(
       context: context,
       container: ref.container,
@@ -164,14 +164,14 @@ Future<void> openGuildChannelContent({
   final int? permissionBits =
       effectivePermissionBits ??
       ref.read(effectiveGuildChannelPermissionBitsProvider(channel.id)).value;
-  final int? localConnectBits = channel.type == ChannelType.voice
+  final int? localConnectBits = channel.type == ChannelType.guildVoice
       ? ref
             .read(channelLocalGuildChannelPermissionBitsProvider(channel.id))
             .value
       : null;
   final VoiceSessionState voiceSession = ref.read(voiceSessionProvider);
   final bool isInCurrentVoiceChannel =
-      channel.type == ChannelType.voice &&
+      channel.type == ChannelType.guildVoice &&
       voiceSession.isInVoice &&
       voiceSession.guildId == guildId &&
       voiceSession.channelId == channel.id;
@@ -183,7 +183,7 @@ Future<void> openGuildChannelContent({
     navigateToContent(context, chatPath);
   }
 
-  if (channel.type == ChannelType.voice && isMobileLayout(context)) {
+  if (channel.type == ChannelType.guildVoice && isMobileLayout(context)) {
     if (isInCurrentVoiceChannel) {
       recordAndNavigate();
       return;
@@ -234,7 +234,7 @@ Future<void> openGuildChannelContent({
   }
 
   recordAndNavigate();
-  if (channel.type == ChannelType.voice && !isInCurrentVoiceChannel) {
+  if (channel.type == ChannelType.guildVoice && !isInCurrentVoiceChannel) {
     final bool canJoinVoice = canJoinGuildVoiceChannelFromBits(
       guildId: guildId,
       channelType: channel.type,

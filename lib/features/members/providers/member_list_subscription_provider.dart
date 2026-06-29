@@ -20,7 +20,9 @@ class MemberListPanelActive extends _$MemberListPanelActive {
   @override
   bool build() => false;
 
-  void setActive({required bool value}) {
+  bool get active => state;
+
+  set active(bool value) {
     state = value;
   }
 }
@@ -90,7 +92,7 @@ void memberListSubscription(Ref ref) {
     final Channel? channel = ref.read(channelByIdProvider(channelId)).value;
     if (channel == null ||
         channel.guildId != guildId ||
-        channel.type == ChannelType.voice) {
+        channel.type == ChannelType.guildVoice) {
       unsubscribe();
       return;
     }

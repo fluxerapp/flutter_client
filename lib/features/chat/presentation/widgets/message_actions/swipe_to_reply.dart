@@ -53,11 +53,11 @@ class _SwipeToReplyState extends State<SwipeToReply>
   late final AnimationController _springController;
   late final AnimationController _holdController;
   Animation<double>? _springAnimation;
-  double _dragOffset = 0;
+  final ValueNotifier<double> _dragOffset = ValueNotifier<double>(0);
   double _maxDrag = 0;
   double _triggerOffset = 0;
   bool _hasCrossedThreshold = false;
-  bool _armedEdit = false;
+  final ValueNotifier<bool> _armedEdit = ValueNotifier<bool>(false);
 
   bool get _canEdit => widget.onEdit != null;
 
@@ -78,6 +78,8 @@ class _SwipeToReplyState extends State<SwipeToReply>
   void dispose() {
     _springController.dispose();
     _holdController.dispose();
+    _dragOffset.dispose();
+    _armedEdit.dispose();
     super.dispose();
   }
 
@@ -90,7 +92,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
   void _handleDragStart(DragStartDetails details) {
     _measureBounds();
     _hasCrossedThreshold = false;
-    _armedEdit = false;
+    _armedEdit.value = false;
     _holdController
       ..stop()
       ..value = 0;
@@ -100,7 +102,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    final next = (_dragOffset + details.delta.dx).clamp(-_maxDrag, 0.0);
+    final next = (_dragOffset.value + details.delta.dx).clamp(-_maxDrag, 0.0);
     final bool pastThreshold = next <= -_triggerOffset;
     if (!_hasCrossedThreshold && pastThreshold) {
       _hasCrossedThreshold = true;
@@ -112,20 +114,18 @@ class _SwipeToReplyState extends State<SwipeToReply>
       _hasCrossedThreshold = false;
       _cancelHold();
     }
-    setState(() {
-      _dragOffset = next;
-    });
+    _dragOffset.value = next;
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    final bool shouldEdit = _armedEdit && _canEdit;
+    final bool shouldEdit = _armedEdit.value && _canEdit;
     _holdController.stop();
     if (shouldEdit) {
       widget.onEdit!.call();
-    } else if (_dragOffset <= -_triggerOffset) {
+    } else if (_dragOffset.value <= -_triggerOffset) {
       widget.onReply();
     }
-    _armedEdit = false;
+    _armedEdit.value = false;
     _holdController.value = 0;
     _animateBack();
   }
@@ -136,7 +136,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
   }
 
   void _cancelHold() {
-    _armedEdit = false;
+    _armedEdit.value = false;
     _holdController
       ..stop()
       ..value = 0;
@@ -146,19 +146,17 @@ class _SwipeToReplyState extends State<SwipeToReply>
     if (status == AnimationStatus.completed &&
         _hasCrossedThreshold &&
         _canEdit &&
-        !_armedEdit) {
+        !_armedEdit.value) {
       unawaited(HapticFeedback.heavyImpact());
-      setState(() {
-        _armedEdit = true;
-      });
+      _armedEdit.value = true;
     }
   }
 
   void _animateBack() {
-    if (_dragOffset == 0) {
+    if (_dragOffset.value == 0) {
       return;
     }
-    final start = _dragOffset;
+    final start = _dragOffset.value;
     _springController
       ..stop()
       ..reset();
@@ -173,9 +171,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
     if (!mounted) {
       return;
     }
-    setState(() {
-      _dragOffset = _springAnimation?.value ?? 0;
-    });
+    _dragOffset.value = _springAnimation?.value ?? 0;
   }
 
   @override
@@ -186,27 +182,49 @@ class _SwipeToReplyState extends State<SwipeToReply>
     if (_maxDrag == 0) {
       _measureBounds();
     }
-    final progress = _maxDrag == 0
-        ? 0.0
-        : (-_dragOffset / _maxDrag).clamp(0.0, 1.0);
-    final cornerRadius = _kMaxCornerRadius * progress;
     final double leadingReserve = leadingEdgeHorizontalSwipeReserveWidth(
       context,
     );
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Transform.translate(
-          offset: Offset(_dragOffset, 0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(cornerRadius),
-              bottomRight: Radius.circular(cornerRadius),
-            ),
-            child: widget.child,
-          ),
+        AnimatedBuilder(
+          animation: _dragOffset,
+          child: RepaintBoundary(child: widget.child),
+          builder: (BuildContext context, Widget? child) {
+            final double offset = _dragOffset.value;
+            final double progress = _maxDrag == 0
+                ? 0.0
+                : (-offset / _maxDrag).clamp(0.0, 1.0);
+            final double cornerRadius = _kMaxCornerRadius * progress;
+            return Transform.translate(
+              offset: Offset(offset, 0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(cornerRadius),
+                  bottomRight: Radius.circular(cornerRadius),
+                ),
+                child: child,
+              ),
+            );
+          },
         ),
-        if (progress > 0) _buildActionIcon(context, progress),
+        AnimatedBuilder(
+          animation: Listenable.merge([
+            _dragOffset,
+            _holdController,
+            _armedEdit,
+          ]),
+          builder: (BuildContext context, _) {
+            final double progress = _maxDrag == 0
+                ? 0.0
+                : (-_dragOffset.value / _maxDrag).clamp(0.0, 1.0);
+            if (progress <= 0) {
+              return const SizedBox.shrink();
+            }
+            return _buildActionIcon(context, progress);
+          },
+        ),
         PositionedDirectional(
           start: leadingReserve,
           top: 0,
@@ -235,6 +253,9 @@ class _SwipeToReplyState extends State<SwipeToReply>
 
   Widget _buildActionIcon(BuildContext context, double progress) {
     final scale = _kIconMinScale + (1 - _kIconMinScale) * progress;
+    final double holdProgress = _armedEdit.value ? 1.0 : _holdController.value;
+    final bool showRing = _canEdit && holdProgress > 0;
+    final Color ringColor = context.colors.textOnBrandPrimary;
     return Positioned.fill(
       child: Align(
         alignment: Alignment.centerRight,
@@ -244,45 +265,35 @@ class _SwipeToReplyState extends State<SwipeToReply>
             opacity: progress,
             child: Transform.scale(
               scale: scale,
-              child: AnimatedBuilder(
-                animation: _holdController,
-                builder: (context, _) {
-                  final double holdProgress = _armedEdit
-                      ? 1.0
-                      : _holdController.value;
-                  final bool showRing = _canEdit && holdProgress > 0;
-                  final Color ringColor = context.colors.textOnBrandPrimary;
-                  return Container(
-                    width: _kIconPillSize,
-                    height: _kIconPillSize,
-                    decoration: BoxDecoration(
-                      color: context.colors.brandPrimary,
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        if (showRing)
-                          CustomPaint(
-                            size: const Size.square(_kIconPillSize),
-                            painter: _HoldRingPainter(
-                              progress: holdProgress,
-                              color: ringColor,
-                              trackColor: ringColor.withValues(alpha: 0.25),
-                            ),
-                          ),
-                        PhosphorIcon(
-                          _armedEdit
-                              ? PhosphorIconsFill.pencilSimple
-                              : PhosphorIconsFill.arrowBendUpLeft,
-                          size: _kIconSize,
-                          color: context.colors.textOnBrandPrimary,
+              child: Container(
+                width: _kIconPillSize,
+                height: _kIconPillSize,
+                decoration: BoxDecoration(
+                  color: context.colors.brandPrimary,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    if (showRing)
+                      CustomPaint(
+                        size: const Size.square(_kIconPillSize),
+                        painter: _HoldRingPainter(
+                          progress: holdProgress,
+                          color: ringColor,
+                          trackColor: ringColor.withValues(alpha: 0.25),
                         ),
-                      ],
+                      ),
+                    PhosphorIcon(
+                      _armedEdit.value
+                          ? PhosphorIconsFill.pencilSimple
+                          : PhosphorIconsFill.arrowBendUpLeft,
+                      size: _kIconSize,
+                      color: context.colors.textOnBrandPrimary,
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
             ),
           ),

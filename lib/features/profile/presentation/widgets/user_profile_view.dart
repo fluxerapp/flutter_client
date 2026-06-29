@@ -863,7 +863,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             resolveGuildUserDisplayFromProfile(
               response: response,
               guildId: guildId,
-              relationshipNickname: relationshipAsync.value?.nickname,
+              friendNickname: relationshipAsync.value?.nickname,
               showGlobalProfile: _showGlobalProfile,
             );
         return _buildLoadedView(

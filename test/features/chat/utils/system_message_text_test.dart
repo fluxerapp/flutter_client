@@ -20,7 +20,7 @@ void main() {
     test('preserves the username placeholder for rich text rendering', () {
       final template = resolveGuildJoinMessageTemplate(l10n, messageId: '0');
 
-      expect(template, contains(kGuildJoinMessageUsernamePlaceholder));
+      expect(template, contains(kSystemMessageUsernamePlaceholder));
       expect(template, isNot(contains('Sample User')));
     });
 
@@ -49,6 +49,19 @@ void main() {
           "You've arrived, X! Let's get started.",
         ],
       );
+    });
+  });
+
+  group('resolvePinMessageTemplate', () {
+    final l10n = FluxerLocalizationsEn();
+
+    test('preserves username and link markers for rich text rendering', () {
+      final template = resolvePinMessageTemplate(l10n);
+
+      expect(template, contains(kSystemMessageUsernamePlaceholder));
+      expect(template, contains(kSystemMessageMessageLinkPlaceholder));
+      expect(template, contains(kSystemMessageAllPinsLinkPlaceholder));
+      expect(template, isNot(contains('Sample User')));
     });
   });
 }

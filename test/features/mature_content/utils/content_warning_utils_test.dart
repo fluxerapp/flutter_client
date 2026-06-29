@@ -16,7 +16,7 @@ void main() {
   Channel buildChannel({
     String id = 'channel-1',
     String? parentId,
-    ChannelType type = ChannelType.text,
+    ChannelType type = ChannelType.guildText,
     bool? nsfwOverride,
     int contentWarningLevel = contentWarningLevelInherit,
     String? contentWarningText,
@@ -52,7 +52,7 @@ void main() {
   test('parent category nsfw override sits between channel and guild', () {
     final Channel category = buildChannel(
       id: 'category-1',
-      type: ChannelType.category,
+      type: ChannelType.guildCategory,
       nsfwOverride: true,
     );
     final Channel channel = buildChannel(parentId: category.id);

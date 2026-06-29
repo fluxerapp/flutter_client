@@ -14,12 +14,15 @@ class FriendRepository {
 
   Stream<List<Friend>> watchRelationships() {
     return _db.relationshipDao.watchRelationships().asyncMap((rows) async {
-      final result = <Friend>[];
-      for (final row in rows) {
-        final user = await _db.userDao.getUserById(row.userId);
-        result.add(Friend.fromRow(row, user));
-      }
-      return result;
+      final List<db.User> users = await _db.userDao.getUsersByIds(
+        rows.map((row) => row.userId).toList(),
+      );
+      final Map<String, db.User> usersById = <String, db.User>{
+        for (final db.User user in users) user.id: user,
+      };
+      return rows
+          .map((row) => Friend.fromRow(row, usersById[row.userId]))
+          .toList();
     });
   }
 
@@ -85,6 +88,22 @@ class FriendRepository {
       throw Exception(
         e.response?.statusMessage ?? 'Failed to accept friend request',
       );
+    }
+  }
+
+  Future<void> updateNickname({
+    required String userId,
+    required String? nickname,
+  }) async {
+    try {
+      final RelationshipResponse relationship = await _client.users
+          .updateRelationshipNickname(
+            userId: userId,
+            body: RelationshipNicknameUpdateRequest(nickname: nickname),
+          );
+      await _upsertRelationship(relationship);
+    } on DioException catch (e) {
+      throw Exception(e.response?.statusMessage ?? 'Failed to update nickname');
     }
   }
 

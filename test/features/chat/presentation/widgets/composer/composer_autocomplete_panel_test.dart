@@ -79,4 +79,49 @@ void main() {
     expect(find.text('@Alice'), findsOneWidget);
     expect(find.byType(CachedNetworkImage), findsNothing);
   });
+
+  testWidgets('panel strip animates open and closed from host updates', (
+    tester,
+  ) async {
+    final host = ComposerAutocompletePanelHost(null);
+    addTearDown(host.dispose);
+    final scrollController = ScrollController();
+    addTearDown(scrollController.dispose);
+
+    await tester.pumpWidget(
+      _app(
+        SizedBox(
+          width: 320,
+          child: ComposerAutocompletePanelStrip(
+            host: host,
+            scrollController: scrollController,
+          ),
+        ),
+      ),
+    );
+
+    expect(find.byType(ListView), findsNothing);
+
+    host.value = ComposerAutocompletePanelSnapshot(
+      rows: <ComposerAutocompletePanelRow>[
+        ComposerAutocompletePanelRow(
+          title: ':smile:',
+          onTap: () {},
+          emojiSurrogates: '\u{1F604}',
+        ),
+      ],
+      selectedIndex: 0,
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 250));
+
+    expect(find.byType(ListView), findsOneWidget);
+    expect(find.text(':smile:'), findsOneWidget);
+
+    host.value = null;
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 250));
+
+    expect(find.byType(ListView), findsNothing);
+  });
 }

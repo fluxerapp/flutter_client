@@ -5,7 +5,9 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/system_message.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 
 void main() {
   testWidgets('colors the system-message author name with the role color', (
@@ -25,6 +27,16 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          guildUserDisplayProvider(('u1', 'g1')).overrideWith(
+            (ref) => const AsyncValue.data(
+              GuildUserDisplay(
+                displayName: 'Sample User',
+                avatarUrl: null,
+                avatarColor: null,
+                accountDisplayName: 'Sample User',
+              ),
+            ),
+          ),
           memberRoleColorProvider((
             'u1',
             'g1',

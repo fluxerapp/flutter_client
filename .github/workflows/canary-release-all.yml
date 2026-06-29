@@ -1,0 +1,23 @@
+name: Canary Release (iOS + Android)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android-fcm:
+    name: Android FCM build
+    uses: ./.github/workflows/android-canary-fcm.yml
+    secrets: inherit
+
+  android-oss:
+    name: Android OSS build
+    uses: ./.github/workflows/android-canary-oss.yml
+    secrets: inherit
+
+  ios-testflight:
+    name: iOS TestFlight build
+    uses: ./.github/workflows/ios-canary-testflight.yml
+    secrets: inherit

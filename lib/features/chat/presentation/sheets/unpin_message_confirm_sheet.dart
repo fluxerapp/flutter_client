@@ -20,7 +20,7 @@ Future<bool?> showUnpinMessageConfirmSheet(
     context,
     title: l10n.chatMessageUnpinConfirmTitle,
     description: l10n.chatMessageUnpinConfirmDescription,
-    confirmLabel: l10n.chatMessageUnpin,
+    confirmLabel: l10n.chatMessageUnpinIt,
     isDanger: true,
     onConfirm: () {
       unawaited(

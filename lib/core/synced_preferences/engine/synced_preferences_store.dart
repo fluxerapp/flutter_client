@@ -163,6 +163,18 @@ class SyncedPreferencesStore {
       final hasLocal = adapter.hasLocalData(local);
       final hasRemote = remote != null && adapter.hasRemoteData(remote);
       final isProtected = protectedFields.contains(field);
+      if (!isProtected && !_dirtyFields.contains(field)) {
+        if (remote != null) {
+          if (!_statesEqual(adapter, local, remote)) {
+            await _applyAdapterRemote(adapter, remote);
+          }
+          _dirtyFields.remove(field);
+        } else if (hasLocal && (wasFirstHydrate || encodedIsEmpty())) {
+          _dirtyFields.add(field);
+          scheduleFlush();
+        }
+        continue;
+      }
       if (isProtected && !wasFirstHydrate) {
         if (remote != null &&
             adapter.hasInboundUpdatesWhileProtected(local, remote)) {

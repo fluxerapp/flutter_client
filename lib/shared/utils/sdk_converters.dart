@@ -33,6 +33,10 @@ db.ServersCompanion guildFromSdk(
     name: sdk.name,
     icon: Value(sdk.icon),
     banner: Value(sdk.banner),
+    splash: Value(sdk.splash),
+    embedSplash: Value(sdk.embedSplash),
+    splashCardAlignment: Value(sdk.splashCardAlignment.json ?? 0),
+    messageHistoryCutoff: Value(sdk.messageHistoryCutoff),
     ownerId: Value(sdk.ownerId),
     memberCount: memberCount == null
         ? const Value.absent()
@@ -45,6 +49,7 @@ db.ServersCompanion guildFromSdk(
     unavailable: Value(unavailable),
     disabledOperations: Value(sdk.disabledOperations),
     verificationLevel: Value(sdk.verificationLevel.json ?? 0),
+    mfaLevel: Value(sdk.mfaLevel.json ?? 0),
     nsfw: Value(sdk.nsfw),
     contentWarningLevel: Value(sdk.contentWarningLevel.json ?? 0),
     contentWarningText: Value(sdk.contentWarningText),

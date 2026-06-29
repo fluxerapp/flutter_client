@@ -368,57 +368,45 @@ class _FavoriteChannelTile extends ConsumerWidget {
       clipBehavior: Clip.none,
       children: [
         if (!isSelected && unreadState.shouldShowUnreadIndicator)
-          Positioned(
-            left: 1,
-            top: 0,
-            bottom: 0,
-            child: Center(child: ChannelUnreadIndicator(faded: isMuted)),
-          ),
-        Material(
-          color: isSelected
-              ? context.colors.backgroundModifierSelected
-              : Colors.transparent,
+          ChannelUnreadIndicator.positioned(faded: isMuted),
+        FluxerSelectableRow(
+          isSelected: isSelected,
+          selectedColor: context.colors.backgroundModifierSelected,
           borderRadius: BorderRadius.circular(4),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(4),
-            onTap: onTap,
-            onSecondaryTapUp: (details) =>
-                onContextMenu(details.globalPosition),
-            onLongPress: isMobileLayout(context)
-                ? () => onContextMenu(Offset.zero)
-                : null,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              child: Row(
-                children: [
-                  _FavoriteLeadingIcon(entry: entry, isSelected: isSelected),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          entry.displayName,
-                          style: context.textStyles.username.copyWith(
-                            color: textColor,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        if (subtitle != null)
-                          Text(
-                            subtitle,
-                            style: context.textStyles.timestamp.copyWith(
-                              color: context.colors.textTertiary,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                      ],
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          onTap: onTap,
+          onSecondaryTapUp: (details) => onContextMenu(details.globalPosition),
+          onLongPress: isMobileLayout(context)
+              ? () => onContextMenu(Offset.zero)
+              : null,
+          child: Row(
+            children: [
+              _FavoriteLeadingIcon(entry: entry, isSelected: isSelected),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.displayName,
+                      style: context.textStyles.username.copyWith(
+                        color: textColor,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  if (mentionCount > 0) FluxerBadge.count(count: mentionCount),
-                ],
+                    if (subtitle != null)
+                      Text(
+                        subtitle,
+                        style: context.textStyles.timestamp.copyWith(
+                          color: context.colors.textTertiary,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ],
+                ),
               ),
-            ),
+              if (mentionCount > 0) FluxerBadge.count(count: mentionCount),
+            ],
           ),
         ),
       ],

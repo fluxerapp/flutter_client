@@ -150,6 +150,7 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
     required this.mentionBackground,
     required this.spoilerBackground,
     required this.spoilerOverlayHoverColor,
+    required this.guildBannerGradient,
     required this.focusPrimary,
     required this.interactiveActive,
     required this.interactiveNormal,
@@ -322,6 +323,7 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
   final Color mentionBackground;
   final Color spoilerBackground;
   final Color spoilerOverlayHoverColor;
+  final Color guildBannerGradient;
   final Color focusPrimary;
   final Color interactiveActive;
   final Color interactiveNormal;
@@ -478,6 +480,7 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
     Color? mentionBackground,
     Color? spoilerBackground,
     Color? spoilerOverlayHoverColor,
+    Color? guildBannerGradient,
     Color? focusPrimary,
     Color? interactiveActive,
     Color? interactiveNormal,
@@ -673,6 +676,7 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
       spoilerBackground: spoilerBackground ?? this.spoilerBackground,
       spoilerOverlayHoverColor:
           spoilerOverlayHoverColor ?? this.spoilerOverlayHoverColor,
+      guildBannerGradient: guildBannerGradient ?? this.guildBannerGradient,
       focusPrimary: focusPrimary ?? this.focusPrimary,
       interactiveActive: interactiveActive ?? this.interactiveActive,
       interactiveNormal: interactiveNormal ?? this.interactiveNormal,
@@ -1173,6 +1177,11 @@ class FluxerColorTheme extends ThemeExtension<FluxerColorTheme> {
       spoilerOverlayHoverColor: Color.lerp(
         spoilerOverlayHoverColor,
         other.spoilerOverlayHoverColor,
+        t,
+      )!,
+      guildBannerGradient: Color.lerp(
+        guildBannerGradient,
+        other.guildBannerGradient,
         t,
       )!,
       focusPrimary: Color.lerp(focusPrimary, other.focusPrimary, t)!,

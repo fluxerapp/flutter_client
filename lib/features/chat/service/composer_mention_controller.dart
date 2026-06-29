@@ -220,6 +220,24 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     );
   }
 
+  /// Picker-inserted emoji in a message composer always get a trailing space so
+  /// the next typed text does not abut the emoji, matching the emoji
+  /// autocomplete path which inserts with [ensureTrailingSpace] as well.
+  @override
+  void insertEmoji(
+    String name,
+    String surrogates, {
+    int? maxActualLength,
+    bool ensureTrailingSpace = true,
+  }) {
+    super.insertEmoji(
+      name,
+      surrogates,
+      maxActualLength: maxActualLength,
+      ensureTrailingSpace: ensureTrailingSpace,
+    );
+  }
+
   @override
   TextSpan buildTextSpan({
     required BuildContext context,

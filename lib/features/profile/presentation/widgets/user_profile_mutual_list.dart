@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/profile/providers/user_profile_guild_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -43,14 +46,14 @@ class UserProfileMutualList extends ConsumerWidget {
   }
 }
 
-class _MutualFriendList extends StatelessWidget {
+class _MutualFriendList extends ConsumerWidget {
   const _MutualFriendList({required this.friends, required this.onFriendTap});
 
   final List<UserPartialResponse> friends;
   final ValueChanged<UserPartialResponse> onFriendTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (friends.isEmpty) {
       return _MutualEmptyState(
@@ -58,22 +61,30 @@ class _MutualFriendList extends StatelessWidget {
         label: l10n.userProfileNoMutualFriends,
       );
     }
+    final Map<String, String?> friendNicknameById = friendNicknamesById(
+      ref.watch(friendsListProvider).value ?? const <Friend>[],
+    );
     return FluxerListSection(
       dividers: false,
       children: friends
           .map((UserPartialResponse friend) {
+            final String displayName = resolveDisplayName(
+              friendNickname: friendNicknameById[friend.id],
+              globalName: friend.globalName,
+              username: friend.username,
+            );
             return FluxerListRow(
               leading: FluxerAvatar.user(
                 imageUrl: FluxerMediaUrl.userAvatar(
                   userId: friend.id,
                   hash: friend.avatar,
                 ),
-                fallbackText: friend.globalName ?? friend.username,
+                fallbackText: displayName,
                 avatarColor: friend.avatarColor,
                 userId: friend.id,
                 showStatus: false,
               ),
-              title: friend.globalName ?? friend.username,
+              title: displayName,
               subtitle: '${friend.username}#${friend.discriminator}',
               onTap: () => onFriendTap(friend),
             );

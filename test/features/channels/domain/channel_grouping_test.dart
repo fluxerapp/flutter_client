@@ -4,20 +4,20 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 void main() {
   test('groups text and link channels before voice channels like desktop', () {
     final categories = groupChannelsIntoCategories([
-      _channel('voice-root', type: ChannelType.voice, position: 1),
+      _channel('voice-root', type: ChannelType.guildVoice, position: 1),
       _channel('text-root', position: 2),
-      _channel('link-root', type: ChannelType.link, position: 3),
-      _channel('cat', type: ChannelType.category, position: 4),
+      _channel('link-root', type: ChannelType.guildLink, position: 3),
+      _channel('cat', type: ChannelType.guildCategory, position: 4),
       _channel(
         'voice-child',
-        type: ChannelType.voice,
+        type: ChannelType.guildVoice,
         position: 5,
         parentId: 'cat',
       ),
       _channel('text-child', position: 6, parentId: 'cat'),
       _channel(
         'link-child',
-        type: ChannelType.link,
+        type: ChannelType.guildLink,
         position: 7,
         parentId: 'cat',
       ),
@@ -38,9 +38,9 @@ void main() {
 
   test('keeps position order within each channel type bucket', () {
     final categories = groupChannelsIntoCategories([
-      _channel('voice-2', type: ChannelType.voice, position: 4),
+      _channel('voice-2', type: ChannelType.guildVoice, position: 4),
       _channel('text-2', position: 3),
-      _channel('voice-1', type: ChannelType.voice, position: 2),
+      _channel('voice-1', type: ChannelType.guildVoice, position: 2),
       _channel('text-1', position: 1),
     ]);
 
@@ -63,8 +63,8 @@ void main() {
 
   test('orders category headers by position', () {
     final categories = groupChannelsIntoCategories([
-      _channel('cat-b', type: ChannelType.category, position: 2),
-      _channel('cat-a', type: ChannelType.category, position: 1),
+      _channel('cat-b', type: ChannelType.guildCategory, position: 2),
+      _channel('cat-a', type: ChannelType.guildCategory, position: 1),
     ]);
 
     expect(categories.map((category) => category.id), ['cat-a', 'cat-b']);
@@ -73,7 +73,7 @@ void main() {
 
 Channel _channel(
   String id, {
-  ChannelType type = ChannelType.text,
+  ChannelType type = ChannelType.guildText,
   int position = 0,
   String? parentId,
 }) {

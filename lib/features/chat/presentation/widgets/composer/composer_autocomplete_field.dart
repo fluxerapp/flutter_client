@@ -28,6 +28,7 @@ import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_autocomplete_search.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/data/member_repository.dart';
@@ -45,6 +46,15 @@ import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 part 'composer_autocomplete_field_state.dart';
 part 'composer_autocomplete_panel.dart';
 
+/// Where the autocomplete suggestion list is rendered.
+enum AutocompleteRenderMode {
+  /// Floating overlay anchored above the input (bio, forward comment, etc.).
+  overlay,
+
+  /// Bottom strip in the chat message-list stack, overlaying message content.
+  inStack,
+}
+
 /// Every autocomplete trigger the chat composer understands. Surfaces that only
 /// support a subset (e.g. an emoji-only bio field) pass a narrower set.
 const Set<ComposerAutocompleteTriggerKind> kAllComposerAutocompleteTriggers =
@@ -56,13 +66,12 @@ const Set<ComposerAutocompleteTriggerKind> kAllComposerAutocompleteTriggers =
     };
 
 /// Wraps a text input ([child]) with `@mention`, `#channel`, and `:emoji:`
-/// autocomplete, rendering its suggestions in a floating overlay anchored above
-/// the field.
+/// autocomplete.
 ///
-/// The single component the web app uses everywhere: chat composer, forward
-/// comment, and the emoji-only profile bio. The caller owns the actual input
-/// widget (a `TextField` or `FluxerInput.multiline`) and passes the shared
-/// [controller]/[focusNode]; this widget only adds the autocomplete behaviour.
+/// In [AutocompleteRenderMode.overlay] suggestions render in a floating overlay
+/// above the field. In [AutocompleteRenderMode.inStack] the field publishes to
+/// [panelHost] and [ComposerAutocompletePanelStrip] renders the list in the chat
+/// stack over the message list.
 class ComposerAutocompleteField extends ConsumerStatefulWidget {
   const ComposerAutocompleteField({
     required this.controller,
@@ -73,8 +82,15 @@ class ComposerAutocompleteField extends ConsumerStatefulWidget {
     this.maxActualLength,
     this.onApplied,
     this.enabled = true,
+    this.renderMode = AutocompleteRenderMode.overlay,
+    this.panelHost,
+    this.panelScrollController,
     super.key,
-  });
+  }) : assert(
+         renderMode != AutocompleteRenderMode.inStack ||
+             (panelHost != null && panelScrollController != null),
+         'inStack mode requires panelHost and panelScrollController',
+       );
 
   /// The input's controller. When it is an
   /// [InlineTokenTextEditingController] emoji are inserted as inline chips; a
@@ -103,6 +119,15 @@ class ComposerAutocompleteField extends ConsumerStatefulWidget {
 
   /// When false, autocomplete is suppressed (the [child] still renders).
   final bool enabled;
+
+  /// How suggestion UI is positioned. Chat composer uses [AutocompleteRenderMode.inStack].
+  final AutocompleteRenderMode renderMode;
+
+  /// Host for [AutocompleteRenderMode.inStack]. Updated when suggestions change.
+  final ComposerAutocompletePanelHost? panelHost;
+
+  /// Scroll controller paired with [panelHost] for keyboard-driven selection.
+  final ScrollController? panelScrollController;
 
   @override
   ConsumerState<ComposerAutocompleteField> createState() =>

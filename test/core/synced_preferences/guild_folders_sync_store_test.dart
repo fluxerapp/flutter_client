@@ -223,5 +223,18 @@ void main() {
         expect(container.read(folderExpandedStateProvider), isEmpty);
       },
     );
+
+    test('first hydrate applies remote collapse over stale local', () async {
+      final store = container.read(syncedPreferencesStoreProvider);
+      await container.read(folderExpandedStateProvider.notifier).applySynced({
+        42,
+      });
+
+      await store.hydrateFromUserSettings(
+        _testUserSettings(syncedPreferences: _settingsWithExpandedFolders({})),
+      );
+
+      expect(container.read(folderExpandedStateProvider), isEmpty);
+    });
   });
 }

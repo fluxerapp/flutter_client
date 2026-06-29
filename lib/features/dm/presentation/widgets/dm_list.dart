@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
@@ -26,6 +27,7 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
@@ -277,7 +279,7 @@ class _DMListState extends ConsumerState<DMList> {
       child: PhosphorIcon(
         PhosphorIconsFill.paperPlane,
         size: 24,
-        color: context.colors.textPrimary,
+        color: context.colors.textOnBrandPrimary,
       ),
     ),
   );
@@ -325,6 +327,30 @@ class _DMListState extends ConsumerState<DMList> {
     ),
   );
 
+  Widget _selectableRow(
+    BuildContext context, {
+    required bool isSelected,
+    required EdgeInsetsGeometry margin,
+    required EdgeInsetsGeometry padding,
+    required Widget child,
+    VoidCallback? onTap,
+    VoidCallback? onLongPress,
+    double? height,
+  }) => FluxerSelectableRow(
+    isSelected: isSelected,
+    selectedColor: context.colors.surfaceInteractiveSelectedBg.withValues(
+      alpha: 0.35,
+    ),
+    hoverColor: context.colors.surfaceInteractiveHoverBg,
+    borderRadius: context.layout.radiusMd,
+    margin: margin,
+    padding: padding,
+    height: height,
+    onTap: onTap,
+    onLongPress: onLongPress,
+    child: child,
+  );
+
   Widget _buildNavButton(
     BuildContext context, {
     required IconData icon,
@@ -332,60 +358,45 @@ class _DMListState extends ConsumerState<DMList> {
     required VoidCallback onTap,
     bool isSelected = false,
     VoidCallback? onLongPress,
-  }) => Padding(
-    padding: EdgeInsets.symmetric(horizontal: context.layout.s2, vertical: 1),
-    child: Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: context.layout.radiusMd,
-        hoverColor: context.colors.surfaceInteractiveHoverBg,
-        onTap: onTap,
-        onLongPress: onLongPress,
-        child: Container(
-          height: 42,
-          padding: EdgeInsets.symmetric(horizontal: context.layout.s2),
-          decoration: isSelected
-              ? BoxDecoration(
-                  color: context.colors.surfaceInteractiveSelectedBg.withValues(
-                    alpha: 0.35,
-                  ),
-                  borderRadius: context.layout.radiusMd,
-                )
-              : null,
-          child: Row(
-            children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? context.colors.brandPrimary
-                      : context.colors.backgroundModifierAccent,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: PhosphorIcon(
-                    icon,
-                    size: 18,
-                    color: isSelected
-                        ? context.colors.textPrimary
-                        : context.colors.interactiveNormal,
-                  ),
-                ),
-              ),
-              SizedBox(width: context.layout.s3),
-              Text(
-                label,
-                style: context.textStyles.username.copyWith(
-                  color: isSelected
-                      ? context.colors.surfaceInteractiveSelectedColor
-                      : context.colors.textPrimaryMuted,
-                ),
-              ),
-            ],
+  }) => _selectableRow(
+    context,
+    isSelected: isSelected,
+    margin: EdgeInsets.symmetric(horizontal: context.layout.s2, vertical: 1),
+    padding: EdgeInsets.symmetric(horizontal: context.layout.s2),
+    height: 42,
+    onTap: onTap,
+    onLongPress: onLongPress,
+    child: Row(
+      children: [
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? context.colors.brandPrimary
+                : context.colors.backgroundModifierAccent,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: PhosphorIcon(
+              icon,
+              size: 18,
+              color: isSelected
+                  ? context.colors.textOnBrandPrimary
+                  : context.colors.interactiveNormal,
+            ),
           ),
         ),
-      ),
+        SizedBox(width: context.layout.s3),
+        Text(
+          label,
+          style: context.textStyles.username.copyWith(
+            color: isSelected
+                ? context.colors.surfaceInteractiveSelectedColor
+                : context.colors.textPrimaryMuted,
+          ),
+        ),
+      ],
     ),
   );
 
@@ -557,67 +568,52 @@ class _DMListState extends ConsumerState<DMList> {
     BuildContext context,
     String? userId, {
     required bool isSelected,
-  }) => Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: () {
-        if (userId != null) {
-          unawaited(_navigateToDmChannel(userId));
-        }
-      },
-      onLongPress: userId != null
-          ? () => _showPersonalNotesContextMenu(context, channelId: userId)
-          : null,
-      child: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: context.layout.s2,
-          vertical: 2,
-        ),
-        padding: EdgeInsets.symmetric(
-          horizontal: context.layout.s2,
-          vertical: 6,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? context.colors.surfaceInteractiveSelectedBg.withValues(
-                  alpha: 0.35,
-                )
-              : Colors.transparent,
-          borderRadius: context.layout.radiusMd,
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? context.colors.brandPrimary
-                    : context.colors.backgroundModifierAccent,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: PhosphorIcon(
-                  PhosphorIconsFill.notePencil,
-                  size: 20,
-                  color: context.colors.interactiveNormal,
-                ),
-              ),
+  }) => _selectableRow(
+    context,
+    isSelected: isSelected,
+    margin: EdgeInsets.symmetric(horizontal: context.layout.s2, vertical: 2),
+    padding: EdgeInsets.symmetric(horizontal: context.layout.s2, vertical: 6),
+    onTap: () {
+      if (userId != null) {
+        unawaited(_navigateToDmChannel(userId));
+      }
+    },
+    onLongPress: userId != null
+        ? () => _showPersonalNotesContextMenu(context, channelId: userId)
+        : null,
+    child: Row(
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? context.colors.brandPrimary
+                : context.colors.backgroundModifierAccent,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: PhosphorIcon(
+              PhosphorIconsFill.notePencil,
+              size: 20,
+              color: isSelected
+                  ? context.colors.textOnBrandPrimary
+                  : context.colors.interactiveNormal,
             ),
-            const SizedBox(width: 12),
-            Text(
-              FluxerLocalizations.of(context).personalNotesTitle,
-              style: TextStyle(
-                color: isSelected
-                    ? context.colors.surfaceInteractiveSelectedColor
-                    : context.colors.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        const SizedBox(width: 12),
+        Text(
+          FluxerLocalizations.of(context).personalNotesTitle,
+          style: TextStyle(
+            color: isSelected
+                ? context.colors.surfaceInteractiveSelectedColor
+                : context.colors.textPrimary,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     ),
   );
 
@@ -681,6 +677,9 @@ class _DMListState extends ConsumerState<DMList> {
     final layout = context.layout;
     final hasUnread = c.unreadCount > 0;
     final currentUserId = ref.watch(currentUserIdProvider);
+    final String displayName = c.displayNameWith(
+      c.isGroup ? null : ref.watch(friendNicknameProvider(c.recipientId)).value,
+    );
     final titleColor = isSelected
         ? context.colors.surfaceInteractiveSelectedColor
         : hasUnread
@@ -695,50 +694,39 @@ class _DMListState extends ConsumerState<DMList> {
 
     String lastMessagePreview = c.lastMessage;
     if (c.lastMessage.isNotEmpty && c.lastMessageAuthorName != null) {
-      final prefix = c.lastMessageAuthorId == currentUserId
+      final String? authorId = c.lastMessageAuthorId;
+      final String? authorFriendNickname =
+          authorId != null && authorId.isNotEmpty
+          ? ref.watch(friendNicknameProvider(authorId)).value
+          : null;
+      final prefix = authorId == currentUserId
           ? 'You'
-          : c.lastMessageAuthorName!;
+          : (authorFriendNickname ?? c.lastMessageAuthorName!);
       lastMessagePreview = '$prefix: ${c.lastMessage}';
     }
 
-    return Opacity(
-      opacity: isMuted && !isSelected ? 0.5 : 1.0,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: layout.radiusMd,
-          hoverColor: context.colors.surfaceInteractiveHoverBg,
-          onTap: () {
-            unawaited(_navigateToDmChannel(c.id));
-          },
-          onLongPress: isMobile ? () => _showDmContextMenu(context, c) : null,
-          child: Container(
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        if (hasUnread && !isSelected)
+          ChannelUnreadIndicator.positioned(faded: isMuted),
+        Opacity(
+          opacity: isMuted && !isSelected ? 0.5 : 1.0,
+          child: _selectableRow(
+            context,
+            isSelected: isSelected,
             height: tileHeight,
             margin: EdgeInsets.symmetric(
               horizontal: layout.s2,
               vertical: isMobile ? 2 : 1,
             ),
             padding: EdgeInsets.symmetric(horizontal: layout.s2),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? context.colors.surfaceInteractiveSelectedBg.withValues(
-                      alpha: 0.35,
-                    )
-                  : Colors.transparent,
-              borderRadius: layout.radiusMd,
-            ),
+            onTap: () {
+              unawaited(_navigateToDmChannel(c.id));
+            },
+            onLongPress: isMobile ? () => _showDmContextMenu(context, c) : null,
             child: Row(
               children: [
-                if (hasUnread && !isSelected)
-                  Container(
-                    width: 4,
-                    height: tileHeight * 0.5,
-                    margin: const EdgeInsets.only(right: 4),
-                    decoration: BoxDecoration(
-                      color: context.colors.textPrimary,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
                 Consumer(
                   builder: (context, ref, _) {
                     if (c.isGroup) {
@@ -768,7 +756,7 @@ class _DMListState extends ConsumerState<DMList> {
                           )
                         : null;
                     return FluxerAvatar.user(
-                      fallbackText: c.recipientName,
+                      fallbackText: displayName,
                       userId: c.recipientId,
                       imageUrl: FluxerMediaUrl.userAvatar(
                         userId: c.recipientId,
@@ -800,7 +788,7 @@ class _DMListState extends ConsumerState<DMList> {
                             ),
                           Flexible(
                             child: Text(
-                              c.displayName,
+                              displayName,
                               style: context.textStyles.username.copyWith(
                                 color: titleColor,
                               ),
@@ -856,7 +844,7 @@ class _DMListState extends ConsumerState<DMList> {
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -950,8 +938,15 @@ class _DMListState extends ConsumerState<DMList> {
         // TODO(Elias): open add note sheet
         break;
       case _DmAction.changeFriendNickname:
-        // TODO(M0n7y5): open change friend nickname sheet
-        break;
+        unawaited(
+          showChangeFriendNicknameSheet(
+            context,
+            ref,
+            userId: convo.recipientId,
+            username: convo.recipientUsername ?? convo.recipientName,
+            currentNick: rel?.nickname,
+          ),
+        );
       case _DmAction.favoriteDm:
         final repository = ref.read(favoriteChannelsRepositoryProvider);
         if (await repository.isFavorite(convo.id)) {
@@ -1030,7 +1025,9 @@ class _DMListState extends ConsumerState<DMList> {
         await FluxerConfirmModal.show(
           context,
           title: l10n.dmRemoveFriendConfirmTitle,
-          description: l10n.dmRemoveFriendConfirmDescription(convo.displayName),
+          description: l10n.dmRemoveFriendConfirmDescription(
+            convo.displayNameWith(rel?.nickname),
+          ),
           confirmLabel: l10n.dmRemoveFriend,
           isDanger: true,
           onConfirm: () {
@@ -1129,7 +1126,9 @@ class _DMListState extends ConsumerState<DMList> {
         await FluxerConfirmModal.show(
           context,
           title: l10n.dmBlockConfirmTitle,
-          description: l10n.dmBlockConfirmDescription(convo.displayName),
+          description: l10n.dmBlockConfirmDescription(
+            convo.displayNameWith(rel?.nickname),
+          ),
           confirmLabel: l10n.dmBlock,
           isDanger: true,
           onConfirm: () {
@@ -1179,7 +1178,9 @@ class _DMListState extends ConsumerState<DMList> {
         final confirmed = await FluxerConfirmModal.show(
           context,
           title: l10n.dmCloseDmConfirmTitle,
-          description: l10n.dmCloseDmConfirmDescription(convo.displayName),
+          description: l10n.dmCloseDmConfirmDescription(
+            convo.displayNameWith(rel?.nickname),
+          ),
           confirmLabel: l10n.dmCloseDm,
           isDanger: true,
           onConfirm: () {
@@ -1335,7 +1336,7 @@ class _DMListState extends ConsumerState<DMList> {
         icon,
         size: size * 0.55,
         color: isSelected
-            ? context.colors.textPrimary
+            ? context.colors.textOnBrandPrimary
             : context.colors.interactiveNormal,
       ),
     );
@@ -1347,45 +1348,29 @@ class _DMListState extends ConsumerState<DMList> {
     required String label,
     required bool isSelected,
     required VoidCallback onTap,
-  }) => Material(
-    color: Colors.transparent,
-    child: InkWell(
-      borderRadius: context.layout.radiusMd,
-      hoverColor: context.colors.surfaceInteractiveHoverBg,
-      onTap: onTap,
-      child: Container(
-        height: 42,
-        margin: EdgeInsets.symmetric(
-          horizontal: context.layout.s2,
-          vertical: 1,
-        ),
-        padding: EdgeInsets.symmetric(horizontal: context.layout.s2),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? context.colors.surfaceInteractiveSelectedBg.withValues(
-                  alpha: 0.35,
-                )
-              : Colors.transparent,
-          borderRadius: context.layout.radiusMd,
-        ),
-        child: Row(
-          children: [
-            leading,
-            SizedBox(width: context.layout.s3),
-            Expanded(
-              child: Text(
-                label,
-                style: context.textStyles.username.copyWith(
-                  color: isSelected
-                      ? context.colors.surfaceInteractiveSelectedColor
-                      : context.colors.textPrimaryMuted,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
+  }) => _selectableRow(
+    context,
+    isSelected: isSelected,
+    height: 42,
+    margin: EdgeInsets.symmetric(horizontal: context.layout.s2, vertical: 1),
+    padding: EdgeInsets.symmetric(horizontal: context.layout.s2),
+    onTap: onTap,
+    child: Row(
+      children: [
+        leading,
+        SizedBox(width: context.layout.s3),
+        Expanded(
+          child: Text(
+            label,
+            style: context.textStyles.username.copyWith(
+              color: isSelected
+                  ? context.colors.surfaceInteractiveSelectedColor
+                  : context.colors.textPrimaryMuted,
             ),
-          ],
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
-      ),
+      ],
     ),
   );
 }
@@ -1451,6 +1436,11 @@ class _DmBottomSheet extends ConsumerWidget {
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
     final hasUnread = convo.unreadCount > 0;
+    final String displayName = convo.displayNameWith(
+      convo.isGroup
+          ? null
+          : ref.watch(friendNicknameProvider(convo.recipientId)).value,
+    );
 
     void pop(Object action) => Navigator.of(context).pop(action);
 
@@ -1697,7 +1687,7 @@ class _DmBottomSheet extends ConsumerWidget {
                         ),
                       )
                     : FluxerAvatar.user(
-                        fallbackText: convo.recipientName,
+                        fallbackText: displayName,
                         userId: convo.recipientId,
                         imageUrl: FluxerMediaUrl.userAvatar(
                           userId: convo.recipientId,
@@ -1709,7 +1699,7 @@ class _DmBottomSheet extends ConsumerWidget {
                         showStatus: shouldShowDmRecipientPresence(convo),
                         size: 48,
                       ),
-                title: convo.displayName,
+                title: displayName,
                 subtitle: convo.isGroup
                     ? Text(
                         l10n.dmGroupMemberCount(convo.memberCount),

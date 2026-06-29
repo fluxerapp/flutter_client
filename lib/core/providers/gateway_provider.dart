@@ -103,6 +103,15 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       );
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
     },
+    onResumed: () {
+      talker.info('[Gateway] RESUMED, light recovery');
+      ref.read(gatewayReadyProvider.notifier).setReady();
+      ref.read(gatewaySessionRecoveryProvider.notifier).bump();
+      unawaited(
+        ref.read(chatViewModelProvider.notifier).refreshAfterSessionRecovery(),
+      );
+      ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
+    },
     onTypingStart: (channelId, userId) {
       ref.read(typingIndicatorsProvider.notifier).addTyping(channelId, userId);
     },

@@ -185,7 +185,7 @@ Future<void> _applyChannelJumpResolution({
           guildId: channel?.guildId,
           channelType: channel == null
               ? null
-              : channelTypeFromInt(channel.type),
+              : ChannelType.fromWire(channel.type),
         );
         if (!canProceed) {
           return;

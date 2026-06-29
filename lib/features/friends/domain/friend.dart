@@ -1,7 +1,13 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_dart/export.dart';
 
 enum FriendStatus { accepted, pendingIncoming, pendingOutgoing, blocked }
+
+Map<String, String?> friendNicknamesById(Iterable<Friend> friends) =>
+    <String, String?>{
+      for (final Friend friend in friends) friend.id: friend.nickname,
+    };
 
 class Friend {
   final String id;
@@ -60,7 +66,12 @@ class Friend {
     );
   }
 
-  String get displayName => globalName ?? username;
+  String get displayName => resolveDisplayName(
+    friendNickname: nickname,
+    globalName: globalName,
+    username: username,
+  );
+
   String get tag => '$username#$discriminator';
 
   static FriendStatus _mapType(RelationshipTypes type) => switch (type) {

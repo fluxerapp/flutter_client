@@ -15,7 +15,5 @@ void configureFluxerImageCache() {
 }
 
 void clearFluxerImageCache() {
-  PaintingBinding.instance.imageCache
-    ..clear()
-    ..clearLiveImages();
+  PaintingBinding.instance.imageCache.clear();
 }

@@ -6,12 +6,14 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/dm_unread_state.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -86,7 +88,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
       showFadedUnreadOnMutedChannels: showFadedOnMuted,
     );
 
-    final isGroup = widget.type == 3;
+    final isGroup = isDmGroupType(widget.type);
     final DmConversation? groupDm = isGroup
         ? ref.watch(
             dmViewModelProvider.select(
@@ -97,6 +99,10 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
     final recipient = isGroup
         ? null
         : ref.watch(userPresenceProvider(widget.recipientId)).value;
+    final String displayName = isGroup
+        ? widget.displayName
+        : ref.watch(friendNicknameProvider(widget.recipientId)).value ??
+              widget.displayName;
     final avatarImageUrl = isGroup
         ? null
         : FluxerMediaUrl.userAvatar(
@@ -153,7 +159,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                   ),
                   const SizedBox(width: 6),
                   FluxerTooltip(
-                    message: widget.displayName,
+                    message: displayName,
                     position: FluxerTooltipPosition.right,
                     child: SizedBox(
                       width: 48,
@@ -185,7 +191,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                                             size: 44,
                                           )
                                   : FluxerAvatar.user(
-                                      fallbackText: widget.displayName,
+                                      fallbackText: displayName,
                                       userId: widget.recipientId,
                                       imageUrl: avatarImageUrl,
                                       avatarColor: avatarColor,

@@ -155,6 +155,20 @@ abstract final class FluxerMediaUrl {
     return _url(path: 'stickers/$id.webp', query: query);
   }
 
+  static String? guildSplash({
+    required String guildId,
+    required String? hash,
+    int size = MediaProxySizes.guildBannerDefault,
+  }) {
+    if (hash == null || hash.isEmpty) {
+      return null;
+    }
+    return _url(
+      path: 'splashes/$guildId/$hash.png',
+      query: <String, String>{'size': '$size'},
+    );
+  }
+
   static String? guildEmbedSplash({
     required String guildId,
     required String? hash,

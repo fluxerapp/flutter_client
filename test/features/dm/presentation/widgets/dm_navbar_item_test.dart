@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_item.dart'
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
@@ -192,6 +193,7 @@ Widget _buildTestApp({required GoRouter router, DmViewState? dmViewState}) {
     mutedDmChannelIdsProvider.overrideWith(
       (ref) => Stream.value(const <String>{}),
     ),
+    friendNicknameProvider.overrideWith((ref, userId) => Stream.value(null)),
     userPresenceProvider(
       '1000000000000000002',
     ).overrideWith((ref) => Stream.value(null)),

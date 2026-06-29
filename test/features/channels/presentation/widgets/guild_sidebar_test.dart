@@ -421,7 +421,7 @@ Channel _linkChannel(String id, String name, String url) => Channel(
   guildId: _guildId,
   name: name,
   url: url,
-  type: ChannelType.link,
+  type: ChannelType.guildLink,
   parentId: 'cat1',
 );
 
@@ -448,7 +448,7 @@ ChannelListState _voiceChannelState() => const ChannelListState(
           id: 'voice-1',
           guildId: _guildId,
           name: 'locked-voice',
-          type: ChannelType.voice,
+          type: ChannelType.guildVoice,
           parentId: 'cat1',
         ),
       ],
@@ -470,7 +470,7 @@ ChannelListState _mixedChannelState() => ChannelListState(
           id: 'voice-1',
           guildId: _guildId,
           name: 'voice-room',
-          type: ChannelType.voice,
+          type: ChannelType.guildVoice,
           parentId: 'cat1',
         ),
       ],

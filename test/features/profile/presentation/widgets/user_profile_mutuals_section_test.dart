@@ -5,6 +5,8 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutual_list.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_mutuals_section.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -13,6 +15,11 @@ import 'package:fluxer_dart/export.dart';
 Widget _buildApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
+    overrides: [
+      friendsListProvider.overrideWith(
+        (ref) => Stream<List<Friend>>.value(const <Friend>[]),
+      ),
+    ],
     child: MaterialApp(
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
       supportedLocales: FluxerLocalizations.supportedLocales,

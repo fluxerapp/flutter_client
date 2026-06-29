@@ -5,17 +5,56 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/members/domain/member.dart' as members;
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 import 'package:fluxer_dart/export.dart';
 
 void main() {
+  group('resolveDisplayName', () {
+    test('prefers guild > friend > global > username', () {
+      expect(
+        resolveDisplayName(
+          username: 'user',
+          guildNickname: 'Guild',
+          friendNickname: 'Friend',
+          globalName: 'Global',
+        ),
+        'Guild',
+      );
+      expect(
+        resolveDisplayName(
+          username: 'user',
+          friendNickname: 'Friend',
+          globalName: 'Global',
+        ),
+        'Friend',
+      );
+      expect(
+        resolveDisplayName(username: 'user', globalName: 'Global'),
+        'Global',
+      );
+      expect(resolveDisplayName(username: 'user'), 'user');
+    });
+
+    test('skips blank', () {
+      expect(
+        resolveDisplayName(
+          username: 'user',
+          guildNickname: '   ',
+          friendNickname: 'Friend',
+        ),
+        'Friend',
+      );
+    });
+  });
+
   group('resolveGuildUserDisplayFromProfile', () {
     test('uses global profile when guild data is absent', () {
       final GuildUserDisplay actual = resolveGuildUserDisplayFromProfile(
         response: _profile(userPronouns: 'they/them'),
         guildId: null,
-        relationshipNickname: null,
+        friendNickname: null,
       );
       expect(actual.displayName, 'Global Name');
       expect(actual.avatarUrl, contains('/avatars/1/user_avatar.webp'));
@@ -36,7 +75,7 @@ void main() {
           ),
         ),
         guildId: '10',
-        relationshipNickname: null,
+        friendNickname: null,
       );
       expect(actual.displayName, 'Guild Nick');
       expect(
@@ -55,7 +94,7 @@ void main() {
       final GuildUserDisplay actual = resolveGuildUserDisplayFromProfile(
         response: _profile(userAvatar: 'a_user_avatar', userBanner: 'a_banner'),
         guildId: null,
-        relationshipNickname: null,
+        friendNickname: null,
       );
       expect(actual.avatarUrl, contains('/avatars/1/user_avatar.webp?size='));
       expect(
@@ -71,7 +110,7 @@ void main() {
           guildProfile: _guildProfile(banner: 'a_guild_banner'),
         ),
         guildId: '10',
-        relationshipNickname: null,
+        friendNickname: null,
       );
       expect(
         actual.avatarUrl,
@@ -83,13 +122,13 @@ void main() {
       );
     });
 
-    test('relationship nickname overrides guild nickname', () {
+    test('guild nickname overrides friend nickname', () {
       final GuildUserDisplay actual = resolveGuildUserDisplayFromProfile(
         response: _profile(guildMember: _guildMember(nick: 'Guild Nick')),
         guildId: '10',
-        relationshipNickname: 'Friend Nick',
+        friendNickname: 'Friend Nick',
       );
-      expect(actual.displayName, 'Friend Nick');
+      expect(actual.displayName, 'Guild Nick');
     });
 
     test('avatar unset forces default avatar fallback', () {
@@ -101,7 +140,7 @@ void main() {
           ),
         ),
         guildId: '10',
-        relationshipNickname: null,
+        friendNickname: null,
       );
       expect(actual.avatarUrl, isNull);
     });
@@ -113,7 +152,7 @@ void main() {
           guildProfile: _guildProfile(banner: 'guild_banner'),
         ),
         guildId: '10',
-        relationshipNickname: null,
+        friendNickname: null,
       );
       expect(actual.bannerUrl, isNull);
       expect(actual.bannerColor, const Color(0xFF112233));
@@ -123,7 +162,7 @@ void main() {
       final GuildUserDisplay actual = resolveGuildUserDisplayFromProfile(
         response: _profile(guildProfile: _guildProfile()),
         guildId: '10',
-        relationshipNickname: null,
+        friendNickname: null,
       );
       expect(actual.bio, 'global bio');
     });
@@ -136,7 +175,7 @@ void main() {
           guildProfile: _guildProfile(),
         ),
         guildId: '10',
-        relationshipNickname: null,
+        friendNickname: null,
       );
       expect(actual.pronouns, 'she/her');
     });
@@ -149,7 +188,7 @@ void main() {
           guildProfile: _guildProfile(pronouns: 'he/him'),
         ),
         guildId: '10',
-        relationshipNickname: null,
+        friendNickname: null,
         showGlobalProfile: true,
       );
       expect(actual.pronouns, 'they/them');

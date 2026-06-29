@@ -25,6 +25,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_context_menu.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_navbar_item.dart';
@@ -67,17 +68,13 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-String _guildTapPath(BuildContext context, String guildId) {
-  final path = RoutePaths.guild(guildId);
-  return isMobileLayout(context) ? '$path?view=list' : path;
-}
 
 typedef _ScrollIndicatorView = ({
   bool show,
@@ -624,7 +621,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required bool isCollapsed,
     required bool isAllowlisted,
   }) async {
-    final isGroupDm = dm.type == 3;
+    final isGroupDm = isDmGroupType(dm.type);
     final pinnedIds = ref.read(pinnedDmChannelIdsProvider).value ?? {};
     final mutedIds = ref.read(mutedDmChannelIdsProvider).value ?? {};
     final action = await showDmNavbarContextMenu(
@@ -725,7 +722,14 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     final l10n = FluxerLocalizations.of(context);
     final db = ref.read(fluxerDatabaseProvider);
     final user = await db.userDao.getUserById(dm.recipientId);
-    final username = user?.globalName ?? user?.username ?? dm.recipientId;
+    final relationship = isDmGroupType(dm.type)
+        ? null
+        : await db.relationshipDao.getRelationship(dm.recipientId);
+    final username = resolveDisplayName(
+      friendNickname: relationship?.nickname,
+      globalName: user?.globalName,
+      username: user?.username ?? dm.recipientId,
+    );
 
     if (!context.mounted) {
       return;
@@ -793,7 +797,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           invitesPaused: invitesPaused,
           developerMode: developerMode,
           onTap: () {
-            context.go(_guildTapPath(context, guild.id));
+            context.go(RoutePaths.guild(guild.id));
           },
           onMenuOpened: () {
             ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
@@ -873,7 +877,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
                 final client = ref.read(fluxerClientProvider);
                 final channels = await db.channelDao.getChannels(guild.id);
                 final invitable = channels
-                    .where((c) => c.type == 0 || c.type == 2)
+                    .where((c) => isGuildTextBasedChannel(c.type))
                     .firstOrNull;
                 if (invitable == null) {
                   return null;
@@ -1149,22 +1153,25 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
     return Row(
       children: [
         if (!isExpanded)
-          AnimatedContainer(
-            duration: guildUnreadReady
-                ? const Duration(milliseconds: 200)
-                : Duration.zero,
-            curve: const Cubic(0.25, 0.1, 0.25, 1),
-            width: 6,
-            height: _isHovered
-                ? 20
-                : anyUnread
-                ? 8
-                : 0,
-            decoration: BoxDecoration(
-              color: context.colors.textPrimary,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(999),
-                bottomRight: Radius.circular(999),
+          Padding(
+            padding: const EdgeInsets.only(right: 2),
+            child: AnimatedContainer(
+              duration: guildUnreadReady
+                  ? const Duration(milliseconds: 200)
+                  : Duration.zero,
+              curve: const Cubic(0.25, 0.1, 0.25, 1),
+              width: 4,
+              height: _isHovered
+                  ? 20
+                  : anyUnread
+                  ? 8
+                  : 0,
+              decoration: BoxDecoration(
+                color: context.colors.textPrimary,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(999),
+                  bottomRight: Radius.circular(999),
+                ),
               ),
             ),
           )
@@ -1340,7 +1347,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
             invitesPaused: invitesPaused,
             developerMode: developerMode,
             onTap: () {
-              context.go(_guildTapPath(context, guild.id));
+              context.go(RoutePaths.guild(guild.id));
             },
             onMenuOpened: () {
               ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
@@ -1420,7 +1427,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
                   final client = ref.read(fluxerClientProvider);
                   final channels = await db.channelDao.getChannels(guild.id);
                   final invitable = channels
-                      .where((c) => c.type == 0 || c.type == 2)
+                      .where((c) => isGuildTextBasedChannel(c.type))
                       .firstOrNull;
                   if (invitable == null) {
                     return null;
@@ -1866,7 +1873,7 @@ Widget _buildGuildMenuActionItem({
           final client = ref.read(fluxerClientProvider);
           final channels = await db.channelDao.getChannels(guild.id);
           final invitable = channels
-              .where((c) => c.type == 0 || c.type == 2)
+              .where((c) => isGuildTextBasedChannel(c.type))
               .firstOrNull;
           if (invitable == null) {
             return null;
@@ -2330,7 +2337,6 @@ Future<void> updateGuildUserSettings(
     case GuildAction.settingsSafetyModeration:
     case GuildAction.settingsActivityLog:
     case GuildAction.settingsWebhooks:
-    case GuildAction.settingsCustomInviteUrl:
     case GuildAction.settingsDiscovery:
     case GuildAction.settingsMembers:
     case GuildAction.settingsInviteLinks:
@@ -2341,7 +2347,6 @@ Future<void> updateGuildUserSettings(
     case GuildAction.leaveGuild:
     case GuildAction.deleteMyMessages:
     case GuildAction.reportCommunity:
-    case GuildAction.reportRaid:
     case GuildAction.debugCommunity:
     case GuildAction.copyGuildId:
       return;
@@ -2593,8 +2598,12 @@ class _GuildListItemState extends State<_GuildListItem>
   Widget build(BuildContext context) {
     super.build(context);
     final isActive = widget.isSelected || _isHovered;
+    final activeAnimatedIconUrl = isActive
+        ? widget.guild?.animatedIconUrl
+        : null;
+    final iconUrl = activeAnimatedIconUrl ?? widget.iconUrl;
     final borderRadius = isActive ? 13.0 : 22.0;
-    final hasImage = widget.iconUrl != null && !widget.isUnavailable;
+    final hasImage = iconUrl != null && !widget.isUnavailable;
     final bgColor = widget.isUnavailable
         ? context.colors.statusDanger
         : hasImage
@@ -2605,28 +2614,37 @@ class _GuildListItemState extends State<_GuildListItem>
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
-      child: Row(
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
         children: [
-          AnimatedContainer(
-            duration: _unreadIndicatorDuration,
-            curve: const Cubic(0.25, 0.1, 0.25, 1),
-            width: 6,
-            height: widget.isSelected
-                ? 40
-                : _isHovered
-                ? 20
-                : _displayHasUnread
-                ? 8
-                : 0,
-            decoration: BoxDecoration(
-              color: context.colors.textPrimary,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(999),
-                bottomRight: Radius.circular(999),
+          const SizedBox(width: 72),
+          Positioned(
+            left: 0,
+            top: 0,
+            bottom: 0,
+            child: Center(
+              child: AnimatedContainer(
+                duration: _unreadIndicatorDuration,
+                curve: const Cubic(0.25, 0.1, 0.25, 1),
+                width: 4,
+                height: widget.isSelected
+                    ? 40
+                    : _isHovered
+                    ? 20
+                    : _displayHasUnread
+                    ? 8
+                    : 0,
+                decoration: BoxDecoration(
+                  color: context.colors.textPrimary,
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(999),
+                    bottomRight: Radius.circular(999),
+                  ),
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 6),
           Stack(
             clipBehavior: Clip.none,
             children: [
@@ -2685,39 +2703,24 @@ class _GuildListItemState extends State<_GuildListItem>
                                       size: 32,
                                     ),
                                   )
-                                : widget.iconUrl != null
-                                ? Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      CachedNetworkImage(
-                                        imageUrl: widget.iconUrl!,
-                                        errorBuilder: (context, url, error) =>
+                                : iconUrl != null
+                                ? CachedNetworkImage(
+                                    imageUrl: iconUrl,
+                                    fadeInDuration:
+                                        activeAnimatedIconUrl != null
+                                        ? const Duration(milliseconds: 200)
+                                        : const Duration(milliseconds: 500),
+                                    errorBuilder: (context, url, error) =>
+                                        _buildBackupIcon(
+                                          context,
+                                          isActive: isActive,
+                                        ),
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) =>
                                             _buildBackupIcon(
                                               context,
                                               isActive: isActive,
                                             ),
-                                        progressIndicatorBuilder:
-                                            (context, url, progress) =>
-                                                _buildBackupIcon(
-                                                  context,
-                                                  isActive: isActive,
-                                                ),
-                                      ),
-                                      if (isActive &&
-                                          widget.guild?.animatedIconUrl != null)
-                                        CachedNetworkImage(
-                                          imageUrl:
-                                              widget.guild!.animatedIconUrl!,
-                                          fadeInDuration: const Duration(
-                                            milliseconds: 200,
-                                          ),
-                                          errorBuilder: (context, url, error) =>
-                                              const SizedBox.shrink(),
-                                          progressIndicatorBuilder:
-                                              (context, url, progress) =>
-                                                  const SizedBox.shrink(),
-                                        ),
-                                    ],
                                   )
                                 : _buildBackupIcon(context, isActive: isActive),
                           ),
@@ -2885,7 +2888,7 @@ class _GuildListItemState extends State<_GuildListItem>
                     updateValidity();
                   },
                 ),
-                if (selectedType == 998) ...[
+                if (isGuildLinkChannelType(selectedType)) ...[
                   SizedBox(height: layout.s4),
                   FluxerInput(
                     label: l10n.guildNavbarUrlLabel,
@@ -3757,7 +3760,7 @@ class _GuildListItemState extends State<_GuildListItem>
                             value: ch.id,
                             label: ch.name,
                             icon: ChannelIcon.iconDataFor(
-                              channelTypeFromInt(ch.type),
+                              ChannelType.fromWire(ch.type),
                             ),
                           ),
                       ],
@@ -3859,7 +3862,7 @@ class _GuildListItemState extends State<_GuildListItem>
     final textStyles = context.textStyles;
     final layout = context.layout;
 
-    final isCategory = channel.type == 4;
+    final isCategory = isGuildCategoryChannelType(channel.type);
     final category = channel.parentId != null
         ? channelMap[channel.parentId]
         : null;
@@ -3884,7 +3887,7 @@ class _GuildListItemState extends State<_GuildListItem>
                 children: [
                   _GuildNotificationChannelIcon(
                     channelId: channelId,
-                    fallbackType: channelTypeFromInt(channel.type),
+                    fallbackType: ChannelType.fromWire(channel.type),
                     color: colors.textTertiary,
                   ),
                   SizedBox(width: layout.s2),
@@ -4150,7 +4153,6 @@ class _GuildListItemState extends State<_GuildListItem>
       case GuildAction.settingsSafetyModeration:
       case GuildAction.settingsActivityLog:
       case GuildAction.settingsWebhooks:
-      case GuildAction.settingsCustomInviteUrl:
       case GuildAction.settingsDiscovery:
       case GuildAction.settingsInviteLinks:
         unawaited(context.push(RoutePaths.guildSettingsPath(guildId)));
@@ -4205,7 +4207,6 @@ class _GuildListItemState extends State<_GuildListItem>
           ),
         );
       case GuildAction.reportCommunity:
-      case GuildAction.reportRaid:
         break;
       case GuildAction.privacySettings:
         unawaited(_showPrivacySettingsSheet(context));

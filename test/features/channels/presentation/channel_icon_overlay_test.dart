@@ -13,7 +13,7 @@ void main() {
         id: 'voice-1',
         guildId: 'guild-1',
         name: 'Test Voice',
-        type: ChannelType.voice,
+        type: ChannelType.guildVoice,
         nsfw: nsfw,
         permissionOverwritesJson: permissionOverwritesJson,
       );
@@ -67,7 +67,7 @@ void main() {
           id: 'voice-locked',
           guildId: 'guild-1',
           name: 'Locked Voice',
-          type: ChannelType.voice,
+          type: ChannelType.guildVoice,
           permissionOverwritesJson: everyoneDenyConnect,
         );
         // User has CONNECT via role (channel-local allows)
@@ -93,7 +93,7 @@ void main() {
           id: 'voice-nodenyc',
           guildId: 'guild-1',
           name: 'Deny Voice',
-          type: ChannelType.voice,
+          type: ChannelType.guildVoice,
           permissionOverwritesJson: everyoneDenyConnect,
         );
 
@@ -110,7 +110,7 @@ void main() {
         id: 'cat-1',
         guildId: 'guild-1',
         name: 'Category',
-        type: ChannelType.category,
+        type: ChannelType.guildCategory,
       );
       final overlay = resolveChannelIconAccessOverlay(
         channel: channel,
@@ -159,7 +159,7 @@ void main() {
             id: 'voice-private',
             guildId: 'guild-1',
             name: 'Private Voice',
-            type: ChannelType.voice,
+            type: ChannelType.guildVoice,
             permissionOverwritesJson: everyoneDenyConnect,
           ),
         );

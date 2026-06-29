@@ -143,7 +143,7 @@ List<Override> _voiceBarOverrides({
     id: _channelId,
     guildId: _guildId,
     name: 'Lobby',
-    type: ChannelType.voice,
+    type: ChannelType.guildVoice,
     parentId: 'cat1',
   );
   return <Override>[

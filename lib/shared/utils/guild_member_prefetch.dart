@@ -10,6 +10,7 @@ import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_dart/export.dart';
 
 const int guildMemberPrefetchMaxAuthors = 50;
 
@@ -37,9 +38,34 @@ Future<void> prefetchGuildMembersForMessages({
   if (authorIds.isEmpty) {
     return;
   }
-  final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-  final List<String> fetchedUserIds = <String>[];
-  for (final String userId in authorIds) {
+  await prefetchGuildMembersForUserIds(
+    database: ref.read(fluxerDatabaseProvider),
+    client: ref.read(fluxerClientProvider),
+    guildId: guildId,
+    userIds: authorIds,
+    onMemberFetched: (String userId) {
+      ref.invalidate(memberRoleColorProvider((userId, guildId)));
+    },
+  );
+}
+
+Future<void> prefetchGuildMembersForUserIds({
+  required db.FluxerDatabase database,
+  required FluxerClient client,
+  required String guildId,
+  required Iterable<String> userIds,
+  void Function(String userId)? onMemberFetched,
+}) async {
+  if (guildId.isEmpty) {
+    return;
+  }
+  final Set<String> uniqueUserIds = userIds
+      .where((String id) => id.isNotEmpty)
+      .toSet();
+  if (uniqueUserIds.isEmpty) {
+    return;
+  }
+  for (final String userId in uniqueUserIds) {
     final db.Member? existing = await database.memberDao.getMemberByUserId(
       userId,
       guildId,
@@ -48,10 +74,10 @@ Future<void> prefetchGuildMembersForMessages({
       continue;
     }
     try {
-      final sdk = await ref
-          .read(fluxerClientProvider)
-          .guilds
-          .getGuildMember(guildId: guildId, userId: userId);
+      final GuildMemberResponse sdk = await client.guilds.getGuildMember(
+        guildId: guildId,
+        userId: userId,
+      );
       await database.userDao.upsertUser(
         db.UsersCompanion.insert(
           id: sdk.user.id,
@@ -68,12 +94,51 @@ Future<void> prefetchGuildMembersForMessages({
       await database.memberDao.upsertMember(
         memberCompanionFromSdk(sdk, guildId: guildId),
       );
-      fetchedUserIds.add(userId);
+      onMemberFetched?.call(userId);
     } on Object {
-      // Skip authors that cannot be resolved.
+      // Skip users that cannot be resolved.
     }
   }
-  for (final String userId in fetchedUserIds) {
-    ref.invalidate(memberRoleColorProvider((userId, guildId)));
+}
+
+Future<Map<String, GuildUserDisplay>> resolveGuildUserDisplaysForUserIds({
+  required db.FluxerDatabase database,
+  required FluxerClient client,
+  required String guildId,
+  required Iterable<String> userIds,
+  void Function(String userId)? onMemberFetched,
+}) async {
+  final Set<String> uniqueUserIds = userIds
+      .where((String id) => id.isNotEmpty)
+      .toSet();
+  if (uniqueUserIds.isEmpty || guildId.isEmpty) {
+    return const <String, GuildUserDisplay>{};
   }
+  await prefetchGuildMembersForUserIds(
+    database: database,
+    client: client,
+    guildId: guildId,
+    userIds: uniqueUserIds,
+    onMemberFetched: onMemberFetched,
+  );
+  final Map<String, String?> nicknameByUserId = await database.relationshipDao
+      .getNicknamesByUserId();
+  final Map<String, GuildUserDisplay> displays = <String, GuildUserDisplay>{};
+  for (final String userId in uniqueUserIds) {
+    final db.User? user = await database.userDao.getUserById(userId);
+    if (user == null) {
+      continue;
+    }
+    final db.Member? member = await database.memberDao.getMemberByUserId(
+      userId,
+      guildId,
+    );
+    displays[userId] = resolveGuildUserDisplayFromRows(
+      user: user,
+      member: member,
+      guildId: guildId,
+      friendNickname: nicknameByUserId[userId],
+    );
+  }
+  return displays;
 }

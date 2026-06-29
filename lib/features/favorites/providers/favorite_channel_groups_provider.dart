@@ -1,11 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/hide_muted_channels_filter.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/domain/resolved_favorite_entry.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 
 final Provider<List<ResolvedFavoriteEntry>> favoriteResolvedEntriesProvider =
@@ -15,26 +19,39 @@ final Provider<List<ResolvedFavoriteEntry>> favoriteResolvedEntriesProvider =
       final dms = ref.watch(
         dmViewModelProvider.select((state) => state.conversations),
       );
-      final channelById = {for (final channel in channels) channel.id: channel};
-      final dmById = {for (final dm in dms) dm.id: dm};
       final guilds = ref.watch(guildListViewModelProvider).guilds;
-      final guildById = {for (final guild in guilds) guild.id: guild};
-      return [
-        for (final favorite in favorites)
-          ResolvedFavoriteEntry(
-            favorite: favorite,
-            channel: channelById[favorite.channelId],
-            dm: dmById[favorite.channelId],
-            guildId: _resolveFavoriteGuildId(favorite.guildId),
-            guildName: _isDmFavoriteGuildId(favorite.guildId)
-                ? null
-                : guildById[favorite.guildId]?.name,
-            guild: _isDmFavoriteGuildId(favorite.guildId)
-                ? null
-                : guildById[favorite.guildId],
-          ),
-      ];
+      return resolveFavoriteEntries(
+        favorites: favorites,
+        channelById: {for (final channel in channels) channel.id: channel},
+        dmById: {for (final dm in dms) dm.id: dm},
+        guildById: {for (final guild in guilds) guild.id: guild},
+      );
     });
+
+List<ResolvedFavoriteEntry> resolveFavoriteEntries({
+  required List<db.FavoriteChannel> favorites,
+  required Map<String, Channel> channelById,
+  required Map<String, DmConversation> dmById,
+  required Map<String, Guild> guildById,
+}) {
+  return [
+    for (final favorite in favorites)
+      if (channelById[favorite.channelId] != null ||
+          dmById[favorite.channelId] != null)
+        ResolvedFavoriteEntry(
+          favorite: favorite,
+          channel: channelById[favorite.channelId],
+          dm: dmById[favorite.channelId],
+          guildId: _resolveFavoriteGuildId(favorite.guildId),
+          guildName: _isDmFavoriteGuildId(favorite.guildId)
+              ? null
+              : guildById[favorite.guildId]?.name,
+          guild: _isDmFavoriteGuildId(favorite.guildId)
+              ? null
+              : guildById[favorite.guildId],
+        ),
+  ];
+}
 
 final Provider<List<FavoriteChannelGroup>> favoriteChannelGroupsProvider =
     Provider.autoDispose<List<FavoriteChannelGroup>>((ref) {
@@ -106,9 +123,6 @@ bool _isAccessible(
   ResolvedFavoriteEntry entry, {
   required bool hideMuted,
 }) {
-  if (entry.channel == null && entry.dm == null) {
-    return true;
-  }
   if (!hideMuted) {
     return true;
   }

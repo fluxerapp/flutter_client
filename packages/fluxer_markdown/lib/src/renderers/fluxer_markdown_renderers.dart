@@ -918,9 +918,13 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
         borderRadius: BorderRadius.circular(4),
         child: Stack(
           children: [
-            FadeTransition(opacity: _opacity, child: widget.child),
+            IgnorePointer(
+              ignoring: !_isRevealed,
+              child: FadeTransition(opacity: _opacity, child: widget.child),
+            ),
             Positioned.fill(
               child: IgnorePointer(
+                ignoring: _isRevealed,
                 child: AnimatedOpacity(
                   duration: _kDuration,
                   opacity: _isRevealed ? 0 : 1,

@@ -2,6 +2,31 @@ import 'dart:io';
 
 import 'package:flutter_background/flutter_background.dart';
 
+const Duration _kForegroundServiceVerifyDelay = Duration(milliseconds: 250);
+const int _kForegroundServiceVerifyAttempts = 4;
+
+/// Returns whether the Android screen-share foreground service is active.
+Future<bool> isAndroidScreenShareBackgroundRunning() async {
+  if (!Platform.isAndroid) {
+    return true;
+  }
+  return FlutterBackground.isBackgroundExecutionEnabled;
+}
+
+Future<bool> _verifyAndroidScreenShareBackgroundRunning() async {
+  for (
+    int attempt = 0;
+    attempt < _kForegroundServiceVerifyAttempts;
+    attempt++
+  ) {
+    if (FlutterBackground.isBackgroundExecutionEnabled) {
+      return true;
+    }
+    await Future<void>.delayed(_kForegroundServiceVerifyDelay);
+  }
+  return false;
+}
+
 /// Starts the media projection foreground service for Android screen share.
 Future<bool> enableAndroidScreenShareBackground({
   required String notificationText,
@@ -25,7 +50,10 @@ Future<bool> enableAndroidScreenShareBackground({
     if (hasPermissions && !FlutterBackground.isBackgroundExecutionEnabled) {
       await FlutterBackground.enableBackgroundExecution();
     }
-    return hasPermissions && FlutterBackground.isBackgroundExecutionEnabled;
+    if (!hasPermissions) {
+      return false;
+    }
+    return _verifyAndroidScreenShareBackgroundRunning();
   } on Object {
     if (!isRetry) {
       await Future<void>.delayed(const Duration(seconds: 1));

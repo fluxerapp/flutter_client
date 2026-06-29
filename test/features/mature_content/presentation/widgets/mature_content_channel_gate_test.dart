@@ -75,7 +75,7 @@ void main() {
         ],
         child: const MatureContentChannelGate(
           channelId: 'channel-2',
-          channelType: ChannelType.text,
+          channelType: ChannelType.guildText,
         ),
       ),
     );

@@ -158,7 +158,7 @@ const List<Channel> _seededChannels = <Channel>[
     id: 'voice-room',
     guildId: _guildId,
     name: 'voice-room',
-    type: ChannelType.voice,
+    type: ChannelType.guildVoice,
   ),
 ];
 

@@ -80,7 +80,14 @@ final RegExp _customEmojiIdPattern = RegExp(r'<a?:[^:]+:(\d+)>');
 
 /// The chat input bar at the bottom of the chat area.
 class ChannelTextarea extends ConsumerStatefulWidget {
-  const ChannelTextarea({super.key});
+  const ChannelTextarea({
+    this.autocompletePanelHost,
+    this.autocompletePanelScrollController,
+    super.key,
+  });
+
+  final ComposerAutocompletePanelHost? autocompletePanelHost;
+  final ScrollController? autocompletePanelScrollController;
 
   @override
   ConsumerState<ChannelTextarea> createState() => _ChannelTextareaState();
@@ -430,6 +437,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             focusNode: _focusNode,
             channelId: channelId,
             enabled: perms.isComposerEnabled,
+            renderMode: widget.autocompletePanelHost != null
+                ? AutocompleteRenderMode.inStack
+                : AutocompleteRenderMode.overlay,
+            panelHost: widget.autocompletePanelHost,
+            panelScrollController: widget.autocompletePanelScrollController,
             child: ResponsiveLayout(
               builder: (context, mode) {
                 switch (mode) {

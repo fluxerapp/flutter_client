@@ -54,5 +54,5 @@ branch with `git rebase --signoff <base>` and force-push.
 > cryptographic commit signing (`-S`, the GitHub "Verified" badge via GPG/SSH/S/MIME)
 > that this project also requires. Please do both.
 
-Pull requests are checked automatically by the [DCO app](https://github.com/cncf/dco2);
-a pull request cannot be merged until every commit is signed off.
+Pull requests from humans are checked automatically by the DCO workflow; a pull
+request cannot be merged until every non-bot commit is signed off.

@@ -81,17 +81,24 @@ class InlineTokenTextEditingController extends TextEditingController {
   /// Inserts [token] at the caret (or end when the selection is invalid),
   /// padding with single spaces when it would abut non-whitespace.
   ///
-  /// When [maxWireLength] is set the insertion is skipped if it would push
-  /// [wireLength] (including any padding spaces) past the limit.
-  void insertToken(InlineToken token, {int? maxWireLength}) {
+  /// A trailing space is ensured when [ensureTrailingSpace] is true.
+  /// When [maxWireLength] is set the insertion is
+  /// skipped if it would push [wireLength] (including any padding spaces) past
+  /// the limit.
+  void insertToken(
+    InlineToken token, {
+    int? maxWireLength,
+    bool ensureTrailingSpace = false,
+  }) {
     final TextSelection sel = selection;
     final int pos = sel.isValid ? sel.baseOffset : text.length;
     final String before = text.substring(0, pos);
     final String after = text.substring(pos);
     final bool needsLeadingSpace =
         before.isNotEmpty && !_isWhitespace(before[before.length - 1]);
-    final bool needsTrailingSpace =
-        after.isNotEmpty && !_isWhitespace(after[0]);
+    final bool needsTrailingSpace = ensureTrailingSpace
+        ? (after.isEmpty || !_isWhitespace(after[0]))
+        : (after.isNotEmpty && !_isWhitespace(after[0]));
 
     if (maxWireLength != null) {
       final int extraSpaces =
@@ -120,11 +127,9 @@ class InlineTokenTextEditingController extends TextEditingController {
 
   /// Replaces `[start, end)` with [token].
   ///
-  /// No leading space is added. A trailing space is added when
-  /// [ensureTrailingSpace] is true (unless one already follows), or - when
-  /// false - only when the token would abut following non-whitespace. When
-  /// [maxWireLength] is set the replacement is skipped if it would exceed the
-  /// limit.
+  /// No leading space is added. A trailing space is ensured when
+  /// [ensureTrailingSpace] is true. When [maxWireLength] is set the replacement
+  /// is skipped if it would exceed the limit.
   void replaceRangeWithToken(
     int start,
     int end,
@@ -160,13 +165,20 @@ class InlineTokenTextEditingController extends TextEditingController {
   /// Inserts an emoji selection at the caret as an [EmojiInlineToken].
   ///
   /// [maxActualLength] bounds the resulting [wireLength] (see [insertToken]).
-  void insertEmoji(String name, String surrogates, {int? maxActualLength}) {
+  /// [ensureTrailingSpace] ensures a trailing space at end of the text.
+  void insertEmoji(
+    String name,
+    String surrogates, {
+    int? maxActualLength,
+    bool ensureTrailingSpace = false,
+  }) {
     insertToken(
       EmojiInlineToken(
         displayName: name,
         wireText: buildEmojiWireToken(name, surrogates),
       ),
       maxWireLength: maxActualLength,
+      ensureTrailingSpace: ensureTrailingSpace,
     );
   }
 

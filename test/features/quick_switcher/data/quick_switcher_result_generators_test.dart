@@ -241,7 +241,7 @@ void main() {
                     id: '20',
                     guildId: 'g1',
                     name: 'Lounge',
-                    type: ChannelType.voice,
+                    type: ChannelType.guildVoice,
                   ),
                 ],
                 guilds: const <Guild>[Guild(id: 'g1', name: 'Guild')],

@@ -270,4 +270,28 @@ void main() {
     expect(replyCount, 1);
     expect(editCount, 0);
   });
+
+  testWidgets('wraps the child in a RepaintBoundary so the slide composites', (
+    tester,
+  ) async {
+    const childKey = ValueKey<String>('swipeChild');
+    await tester.pumpWidget(
+      _buildApp(
+        SwipeToReply(
+          onReply: () {},
+          child: const ColoredBox(key: childKey, color: Color(0xFF112233)),
+        ),
+      ),
+    );
+    expect(
+      find.ancestor(
+        of: find.byKey(childKey),
+        matching: find.descendant(
+          of: find.byType(SwipeToReply),
+          matching: find.byType(RepaintBoundary),
+        ),
+      ),
+      findsOneWidget,
+    );
+  });
 }

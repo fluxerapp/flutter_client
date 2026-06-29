@@ -29,7 +29,7 @@ bool isChannelEveryonePrivateForIcon({
   final BigInt allow = everyoneOverwrite.allow;
   final BigInt deny = everyoneOverwrite.deny;
   switch (type) {
-    case ChannelType.voice:
+    case ChannelType.guildVoice:
       // For voice channels, only show a lock overlay when the @everyone
       // entry denies CONNECT AND has no base permissions at all (allow == '0')
       // this indicates a truly private server where the channel is not
@@ -38,11 +38,14 @@ bool isChannelEveryonePrivateForIcon({
       // a lock since the channel is publicly visible in the sidebar.
       final BigInt connectMask = BigInt.from(Permission.connect.value);
       return (allow == BigInt.zero) && (deny & connectMask) == connectMask;
-    case ChannelType.text:
-    case ChannelType.link:
+    case ChannelType.guildText:
+    case ChannelType.guildLink:
       final BigInt mask = BigInt.from(Permission.viewChannel.value);
       return (deny & mask) == mask;
-    case ChannelType.category:
+    case ChannelType.guildCategory:
+    case ChannelType.dm:
+    case ChannelType.groupDm:
+    case ChannelType.dmPersonalNotes:
       return false;
   }
 }

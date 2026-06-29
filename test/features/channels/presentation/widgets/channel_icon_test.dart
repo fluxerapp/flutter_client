@@ -26,9 +26,9 @@ void main() {
     }
 
     for (final type in const <ChannelType>[
-      ChannelType.text,
-      ChannelType.voice,
-      ChannelType.link,
+      ChannelType.guildText,
+      ChannelType.guildVoice,
+      ChannelType.guildLink,
     ]) {
       testWidgets('$type icon tints via SvgTheme.currentColor', (tester) async {
         final SvgPicture svg = await pumpIcon(tester, type);
@@ -73,7 +73,7 @@ void main() {
         id: 'voice-1',
         guildId: 'guild-1',
         name: 'Restricted',
-        type: ChannelType.voice,
+        type: ChannelType.guildVoice,
       );
       final String asset = await pumpAndReadAsset(
         tester,
@@ -90,7 +90,7 @@ void main() {
         id: 'voice-1',
         guildId: 'guild-1',
         name: 'Open',
-        type: ChannelType.voice,
+        type: ChannelType.guildVoice,
       );
       final String asset = await pumpAndReadAsset(
         tester,

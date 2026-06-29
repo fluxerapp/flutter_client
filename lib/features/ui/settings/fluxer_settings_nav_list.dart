@@ -11,12 +11,16 @@ class FluxerSettingsNavItem {
     required this.icon,
     required this.onTap,
     this.isDanger = false,
+    this.isDisabled = false,
+    this.onDisabledTap,
   });
 
   final String label;
   final IconData icon;
   final VoidCallback onTap;
   final bool isDanger;
+  final bool isDisabled;
+  final VoidCallback? onDisabledTap;
 }
 
 class FluxerSettingsNavGroup {
@@ -32,11 +36,13 @@ class FluxerSettingsNavList extends StatelessWidget {
     super.key,
     this.controller,
     this.footer,
+    this.padding,
   });
 
   final List<FluxerSettingsNavGroup> groups;
   final ScrollController? controller;
   final Widget? footer;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,7 @@ class FluxerSettingsNavList extends StatelessWidget {
 
     return ListView.builder(
       controller: controller,
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: layout.s4),
       itemCount: groups.length + (footer != null ? 1 : 0),
       itemBuilder: (context, index) {
         if (index == groups.length) {
@@ -104,6 +110,20 @@ class _FluxerSettingsNavItemWidget extends StatelessWidget {
         onTap: item.onTap,
         icon: item.icon,
         isDanger: true,
+      );
+    }
+
+    if (item.isDisabled) {
+      return FluxerBottomSheetMenuItem(
+        label: item.label,
+        onTap: item.onDisabledTap ?? item.onTap,
+        icon: item.icon,
+        enabled: false,
+        trailing: PhosphorIcon(
+          PhosphorIconsBold.caretRight,
+          size: 20,
+          color: context.colors.textPrimaryMuted,
+        ),
       );
     }
 

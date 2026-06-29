@@ -110,7 +110,7 @@ class UserProfileBioCard extends StatelessWidget {
                             width: 12,
                             height: 12,
                             colorFilter: ColorFilter.mode(
-                              colors.textPrimary,
+                              colors.textOnBrandPrimary,
                               BlendMode.srcIn,
                             ),
                           ),

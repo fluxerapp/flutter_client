@@ -21,7 +21,7 @@ class UnreadInboxCardMeta {
   factory UnreadInboxCardMeta.empty() => const UnreadInboxCardMeta(
     channelTitle: '',
     subtitleLine: '',
-    guildChannelVisualType: domain.ChannelType.text,
+    guildChannelVisualType: domain.ChannelType.guildText,
     guildIconDisplayUrl: null,
     guildUnavailableForIcon: false,
     guildIconName: '',
@@ -66,7 +66,7 @@ Future<UnreadInboxCardMeta> _loadDmMeta(
   return UnreadInboxCardMeta(
     channelTitle: title,
     subtitleLine: '',
-    guildChannelVisualType: domain.ChannelType.text,
+    guildChannelVisualType: domain.ChannelType.guildText,
     guildIconDisplayUrl: null,
     guildUnavailableForIcon: false,
     guildIconName: '',
@@ -81,7 +81,8 @@ Future<UnreadInboxCardMeta> _loadGuildChannelMeta(
     entry.channelId,
   );
   final domain.Channel? mapped = ch == null ? null : domain.Channel.fromRow(ch);
-  final domain.ChannelType visualType = mapped?.type ?? domain.ChannelType.text;
+  final domain.ChannelType visualType =
+      mapped?.type ?? domain.ChannelType.guildText;
 
   final drift_db.Server? guild = entry.guildId == null
       ? null

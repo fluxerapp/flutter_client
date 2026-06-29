@@ -32,6 +32,19 @@ abstract final class RouteNames {
 
   // Settings (pushed on root)
   static const guildSettings = 'guild-settings';
+
+  // Guild settings individual pages (for mobile popup navigation)
+  static const guildSettingsOverview = 'guild-settings-overview';
+  static const guildSettingsRoles = 'guild-settings-roles';
+  static const guildSettingsEmoji = 'guild-settings-emoji';
+  static const guildSettingsStickers = 'guild-settings-stickers';
+  static const guildSettingsModeration = 'guild-settings-moderation';
+  static const guildSettingsAuditLog = 'guild-settings-audit-log';
+  static const guildSettingsWebhooks = 'guild-settings-webhooks';
+  static const guildSettingsDiscovery = 'guild-settings-discovery';
+  static const guildSettingsMembers = 'guild-settings-members';
+  static const guildSettingsInvites = 'guild-settings-invites';
+  static const guildSettingsBans = 'guild-settings-bans';
 }
 
 /// Path builders mirroring web app's Routes object.
@@ -67,6 +80,30 @@ abstract final class RoutePaths {
     }
     return '$base?tab=$tab';
   }
+
+  // Guild settings individual page paths (mobile popup navigation)
+  static String guildSettingsOverviewPath(String guildId) =>
+      '/settings/guild/$guildId/overview';
+  static String guildSettingsRolesPath(String guildId) =>
+      '/settings/guild/$guildId/roles';
+  static String guildSettingsEmojiPath(String guildId) =>
+      '/settings/guild/$guildId/emoji';
+  static String guildSettingsStickersPath(String guildId) =>
+      '/settings/guild/$guildId/stickers';
+  static String guildSettingsModerationPath(String guildId) =>
+      '/settings/guild/$guildId/moderation';
+  static String guildSettingsAuditLogPath(String guildId) =>
+      '/settings/guild/$guildId/audit-log';
+  static String guildSettingsWebhooksPath(String guildId) =>
+      '/settings/guild/$guildId/webhooks';
+  static String guildSettingsDiscoveryPath(String guildId) =>
+      '/settings/guild/$guildId/discovery';
+  static String guildSettingsMembersPath(String guildId) =>
+      '/settings/guild/$guildId/members';
+  static String guildSettingsInvitesPath(String guildId) =>
+      '/settings/guild/$guildId/invites';
+  static String guildSettingsBansPath(String guildId) =>
+      '/settings/guild/$guildId/bans';
 
   static const notificationsPath = '/notifications';
   static const youPath = '/you';

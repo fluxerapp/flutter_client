@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_textarea.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
@@ -32,7 +33,7 @@ void listenChatViewModelErrors(WidgetRef ref) {
 }
 
 /// Shared message list, composer, and overlay chrome for channel chat surfaces.
-class ChannelChatPanel extends ConsumerWidget {
+class ChannelChatPanel extends ConsumerStatefulWidget {
   const ChannelChatPanel({
     required this.displayChannelId,
     this.targetMessageId,
@@ -49,9 +50,25 @@ class ChannelChatPanel extends ConsumerWidget {
   final VoidCallback? onClose;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ChannelChatPanel> createState() => _ChannelChatPanelState();
+}
+
+class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
+  final ComposerAutocompletePanelHost _composerAutocompletePanelHost =
+      ComposerAutocompletePanelHost(null);
+  final ScrollController _composerAutocompletePanelScroll = ScrollController();
+
+  @override
+  void dispose() {
+    _composerAutocompletePanelScroll.dispose();
+    _composerAutocompletePanelHost.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final bool isMobile = isMobileLayout(context);
-    final String listChannelId = displayChannelId;
+    final String listChannelId = widget.displayChannelId;
     final bool isPanelOpen = ref.watch(expressionPanelProvider);
     final bool showNeko = ref.watch(
       appearancePreferencesProvider.select((state) => state.showNeko),
@@ -76,7 +93,7 @@ class ChannelChatPanel extends ConsumerWidget {
         effectiveChannelId.isNotEmpty &&
         activeRead.channelId == effectiveChannelId;
     final bool showJumpToBottom =
-        loadMessages &&
+        widget.loadMessages &&
         shouldShowJumpToBottomButton(
           hasMessages: hasMessages,
           isLoading: isLoading,
@@ -85,6 +102,7 @@ class ChannelChatPanel extends ConsumerWidget {
           viewportHeight: activeRead.viewportHeight,
           hasMoreNewerMessages: hasMoreNewerMessages,
         );
+    final VoidCallback? onClose = widget.onClose;
     return ColoredBox(
       color: context.colors.chatBackground,
       child: Stack(
@@ -99,13 +117,13 @@ class ChannelChatPanel extends ConsumerWidget {
                         behavior: HitTestBehavior.translucent,
                         onPointerDown: (_) =>
                             FocusManager.instance.primaryFocus?.unfocus(),
-                        child: !loadMessages
+                        child: !widget.loadMessages
                             ? const SizedBox.expand()
                             : RepaintBoundary(
                                 child: MessageList(
                                   key: ValueKey<String>(listChannelId),
                                   expectedChannelId: listChannelId,
-                                  targetMessageId: targetMessageId,
+                                  targetMessageId: widget.targetMessageId,
                                 ),
                               ),
                       ),
@@ -135,7 +153,7 @@ class ChannelChatPanel extends ConsumerWidget {
                                     color: context.colors.backgroundPrimary,
                                     shape: const CircleBorder(),
                                     child: FluxerSheetCloseButton(
-                                      onTap: onClose!,
+                                      onTap: onClose,
                                     ),
                                   ),
                                 ),
@@ -156,16 +174,31 @@ class ChannelChatPanel extends ConsumerWidget {
                         ],
                       ),
                     ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: ComposerAutocompletePanelStrip(
+                        host: _composerAutocompletePanelHost,
+                        scrollController: _composerAutocompletePanelScroll,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              const RepaintBoundary(child: ChannelTextarea()),
+              RepaintBoundary(
+                child: ChannelTextarea(
+                  autocompletePanelHost: _composerAutocompletePanelHost,
+                  autocompletePanelScrollController:
+                      _composerAutocompletePanelScroll,
+                ),
+              ),
               if (isMobile && isPanelOpen)
                 const SizedBox(height: kCollapsedPanelHeight),
             ],
           ),
           InlineExpressionPanelHost(
-            showInlineEmojiPicker: showInlineEmojiPicker,
+            showInlineEmojiPicker: widget.showInlineEmojiPicker,
           ),
         ],
       ),

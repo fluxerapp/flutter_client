@@ -34,7 +34,7 @@ class VoiceChatUnreadBadge extends ConsumerWidget {
         child: Text(
           label,
           style: context.textStyles.bodySmall.copyWith(
-            color: context.colors.textPrimary,
+            color: context.colors.textOnBrandPrimary,
             fontSize: 10,
             fontWeight: FontWeight.w700,
             height: 1,

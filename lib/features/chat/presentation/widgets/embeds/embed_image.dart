@@ -115,6 +115,7 @@ class EmbedImage extends StatelessWidget {
                         visibilityKey:
                             '${channelId}_${messageId}_'
                             '${embedIndex}_${embed.type.name}',
+                        fit: BoxFit.contain,
                         placeholder: placeholder,
                       ),
                     )
@@ -164,7 +165,7 @@ class _EmbedStaticImage extends StatelessWidget {
         final double cellHeight =
             displaySize?.height ??
             (constraints.maxHeight.isFinite ? constraints.maxHeight : 200);
-        final ({int? width, int? height}) cache = coverDecodeCacheSize(
+        final ({int? width, int? height}) cache = containDecodeCacheSize(
           cellWidth: cellWidth,
           cellHeight: cellHeight,
           devicePixelRatio: devicePixelRatio,
@@ -177,7 +178,7 @@ class _EmbedStaticImage extends StatelessWidget {
           height: displaySize?.height,
           memCacheWidth: cache.width,
           memCacheHeight: cache.height,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
           errorBuilder: (_, Object _, StackTrace? _) => placeholder,
         );
       },

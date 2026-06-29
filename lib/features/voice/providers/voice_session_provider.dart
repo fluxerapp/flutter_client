@@ -39,6 +39,10 @@ const List<Duration> _kMicPublishRetryDelays = <Duration>[
   Duration(seconds: 2),
   Duration(seconds: 5),
 ];
+const int _kScreenSharePublicationWaitIterations = 50;
+const Duration _kScreenSharePublicationWaitInterval = Duration(
+  milliseconds: 200,
+);
 const Timeouts _kE2eeConnectTimeouts = Timeouts(
   connection: Duration(seconds: 10),
   debounce: Duration(milliseconds: 20),
@@ -1097,18 +1101,29 @@ class VoiceSession extends _$VoiceSession {
         return;
       }
       if (nextSelfStream) {
+        final bool hasScreenShareAudioPermission =
+            await _ensureScreenShareAudioPermission();
+        if (!hasScreenShareAudioPermission) {
+          state = state.copyWith(
+            errorMessage: kVoiceSessionErrorScreenSharePermissionDenied,
+          );
+          return;
+        }
         final bool hasBackground = await enableAndroidScreenShareBackground(
           notificationText: screenShareNotificationText,
         );
-        if (!hasBackground) {
+        if (!hasBackground || !await isAndroidScreenShareBackgroundRunning()) {
           talker.warning(
-            '[Voice] Screen-share background service could not be started.',
+            '[Voice] Screen-share background service could not be started '
+            'or is not running.',
           );
+          await disableAndroidScreenShareBackground();
           state = state.copyWith(
             errorMessage: kVoiceSessionErrorScreenShareToggle,
           );
           return;
         }
+        talker.debug('[Voice] Screen-share background service is running.');
       }
       try {
         await lp.setScreenShareEnabled(
@@ -1116,7 +1131,12 @@ class VoiceSession extends _$VoiceSession {
           captureScreenAudio: nextSelfStream,
         );
       } on Object catch (e, st) {
-        talker.error('[Voice] setScreenShareEnabled failed', e, st);
+        talker.error(
+          '[Voice] setScreenShareEnabled failed '
+          '(enable=$nextSelfStream): $e',
+          e,
+          st,
+        );
         if (nextSelfStream) {
           await disableAndroidScreenShareBackground();
         }
@@ -1137,7 +1157,13 @@ class VoiceSession extends _$VoiceSession {
         requireTrack: true,
       );
       if (nextSelfStream && !published) {
+        talker.warning(
+          '[Voice] Screen-share track did not publish within the wait window.',
+        );
         await disableAndroidScreenShareBackground();
+        state = state.copyWith(
+          errorMessage: kVoiceSessionErrorScreenShareToggle,
+        );
         return;
       }
       unawaited(
@@ -1169,13 +1195,46 @@ class VoiceSession extends _$VoiceSession {
     return hasCapturePermission;
   }
 
+  Future<bool> _ensureScreenShareAudioPermission() async {
+    if (!Platform.isAndroid) {
+      return true;
+    }
+    final bool hasMicrophonePermission =
+        await hasMicrophonePermissionForVoice();
+    if (hasMicrophonePermission) {
+      return true;
+    }
+    talker.warning(
+      '[Voice] Screen-share audio requires microphone permission; requesting.',
+    );
+    final bool granted = await requestMicrophonePermissionForVoice();
+    if (!granted) {
+      talker.warning('[Voice] Screen-share audio permission denied by user.');
+    }
+    return granted;
+  }
+
   String _classifyScreenShareException(Object error) {
     final String msg = error.toString().toLowerCase();
+    talker.debug('[Voice] classifying screen share exception: $msg');
     if (msg.contains('permission') && msg.contains('deni')) {
       return kVoiceSessionErrorScreenSharePermissionDenied;
     }
-    if (msg.contains('not allowed') || msg.contains('user cancel')) {
+    if (msg.contains('mediaprojection') ||
+        msg.contains('media projection') ||
+        msg.contains('projection') && msg.contains('denied')) {
       return kVoiceSessionErrorScreenSharePermissionDenied;
+    }
+    if (msg.contains('securityexception') ||
+        msg.contains('not allowed') ||
+        msg.contains('user cancel') ||
+        msg.contains('user denied')) {
+      return kVoiceSessionErrorScreenSharePermissionDenied;
+    }
+    if (msg.contains('foreground') && msg.contains('service') ||
+        msg.contains('background execution') ||
+        msg.contains('media_projection')) {
+      return kVoiceSessionErrorScreenShareToggle;
     }
     return kVoiceSessionErrorScreenShareToggle;
   }
@@ -1295,11 +1354,11 @@ class VoiceSession extends _$VoiceSession {
     _reconcilingSelfStream = true;
     try {
       if (waitForPublication) {
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < _kScreenSharePublicationWaitIterations; i++) {
           if (_hasPublishedLocalScreenShareVideo(requireTrack: true)) {
             break;
           }
-          await Future<void>.delayed(const Duration(milliseconds: 200));
+          await Future<void>.delayed(_kScreenSharePublicationWaitInterval);
         }
       }
       final bool actualSelfStream = _hasPublishedLocalScreenShareVideo(

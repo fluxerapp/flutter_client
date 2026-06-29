@@ -2,11 +2,10 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
-
-const int dmPersonalNotesChannelType = 999;
 
 const String fluxerBotUserId = '0';
 
@@ -32,7 +31,12 @@ bool canCallUser({required bool isBot, required bool isSystem}) =>
 
 bool shouldShowDmRecipientPresence(DmConversation dm) => !dm.isSystem;
 
-bool isDmPersonalNotesType(int type) => type == dmPersonalNotesChannelType;
+bool isDmChannelType(int type) => type == ChannelType.dm.wireValue;
+
+bool isDmGroupType(int type) => type == ChannelType.groupDm.wireValue;
+
+bool isDmPersonalNotesType(int type) =>
+    type == ChannelType.dmPersonalNotes.wireValue;
 
 bool isPersonalNotesChannelRoute({
   required String channelId,
@@ -63,7 +67,7 @@ db.DmChannelsCompanion buildPersonalNotesDmCompanion({
   return db.DmChannelsCompanion.insert(
     id: userId,
     recipientId: userId,
-    type: const Value(dmPersonalNotesChannelType),
+    type: Value(ChannelType.dmPersonalNotes.wireValue),
     name: Value(name),
     icon: Value(icon),
     recipientCount: const Value(1),
@@ -91,7 +95,7 @@ db.DmChannelsCompanion? dmChannelCompanionFromChannelResponse(
       icon: channel.icon,
     );
   }
-  if (channel.type != 1 && channel.type != 3) {
+  if (!isDmChannelType(channel.type) && !isDmGroupType(channel.type)) {
     return null;
   }
   final recipients = channel.recipients;

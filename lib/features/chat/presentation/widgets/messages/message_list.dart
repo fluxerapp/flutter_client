@@ -15,6 +15,8 @@ import 'package:fluxer_app/features/chat/data/chat_unread_summary.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_list_anchor.dart';
 import 'package:fluxer_app/features/chat/presentation/'
+    'sheets/channel_pins_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/'
     'sheets/delete_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/forward_message_sheet.dart';
@@ -22,6 +24,8 @@ import 'package:fluxer_app/features/chat/presentation/'
     'sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/remove_all_reactions_confirm_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'sheets/system_message_actions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/channel_welcome_section.dart';
@@ -32,12 +36,15 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/'
+    'widgets/messages/message_tile_cache.dart';
+import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/system_message.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
 import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
+import 'package:fluxer_app/features/chat/utils/pinned_system_message_navigation.dart';
 import 'package:fluxer_app/features/chat/utils/message_grouping_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -47,6 +54,7 @@ import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
@@ -112,6 +120,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   late final ListObserverController _observerController;
   late final ChatScrollObserver _chatObserver;
   final Map<String, GlobalKey> _itemKeys = <String, GlobalKey>{};
+  final MessageTileCache _tileCache = MessageTileCache();
   late final ChatViewModel _chatViewModel;
   String? _pendingScrollTarget;
   String? _lastChannelId;
@@ -367,13 +376,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
-        unawaited(
-          _scrollController.animateTo(
-            _scrollController.position.minScrollExtent,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOut,
-          ),
-        );
+        // Instant jump: animateTo would build every tile it scrolls past.
+        _scrollController.jumpTo(_scrollController.position.minScrollExtent);
       }
     });
   }
@@ -450,96 +454,170 @@ class _MessageListState extends ConsumerState<MessageList> {
     final bool isNewDay =
         previousMessage == null ||
         !_isSameDay(message.timestamp, previousMessage.timestamp);
-    if (message.isSystemMessage) {
+    final bool isGrouped =
+        !message.isSystemMessage &&
+        !isNewDay &&
+        _shouldGroup(message, previousMessage);
+    final bool isJumpHighlighted = message.id == highlightedMessageId;
+    final bool isUnreadBoundary = message.id == visualUnreadId;
+    final Object signature = (
+      message,
+      isNewDay,
+      isGrouped,
+      isUnreadBoundary,
+      isJumpHighlighted,
+      currentUserId,
+      isDmChannel,
+      guildId,
+      channelPermissionBits,
+      channelCanSendMessages,
+      channelCanAddReactions,
+      channelCanPinMessage,
+      channelCanManageMessages,
+      renderSettings,
+    );
+    return _tileCache.resolve(message.id, signature, () {
+      if (message.isSystemMessage) {
+        final bool canDelete = canDeleteMessage(
+          message: message,
+          currentUserId: currentUserId,
+          isDmChannel: isDmChannel,
+          channelPermissionBits: channelPermissionBits,
+        );
+        final bool isMobile = isMobileLayout(context);
+        final bool isPinSystemMessage =
+            message.type == messageTypeChannelPinnedMessage;
+        return _withMessageSeparators(
+          context,
+          message: message,
+          isNewDay: isNewDay,
+          visualUnreadId: visualUnreadId,
+          child: SystemMessage(
+            key: ValueKey(message.id),
+            message: message,
+            guildId: guildId,
+            onJumpToPinnedMessage: isPinSystemMessage
+                ? () => unawaited(
+                    jumpToPinnedSystemMessage(ref, message: message),
+                  )
+                : null,
+            onViewAllPins: isPinSystemMessage
+                ? () => unawaited(
+                    showChannelPinsSheet(
+                      context,
+                      ref,
+                      channelId: message.channelId,
+                    ),
+                  )
+                : null,
+            onLongPress: canDelete && isMobile
+                ? () => unawaited(
+                    showSystemMessageActionsSheet(
+                      context,
+                      ref,
+                      message: message,
+                      guildId: guildId,
+                      canDelete: canDelete,
+                    ),
+                  )
+                : null,
+            onSecondaryTapUp: canDelete && !isMobile
+                ? (_) => unawaited(
+                    showSystemMessageActionsSheet(
+                      context,
+                      ref,
+                      message: message,
+                      guildId: guildId,
+                      canDelete: canDelete,
+                    ),
+                  )
+                : null,
+          ),
+        );
+      }
+      final GlobalKey itemKey = _itemKeys.putIfAbsent(
+        message.id,
+        GlobalKey.new,
+      );
+      final bool canDelete = canDeleteMessage(
+        message: message,
+        currentUserId: currentUserId,
+        isDmChannel: isDmChannel,
+        channelPermissionBits: channelPermissionBits,
+      );
       return _withMessageSeparators(
         context,
         message: message,
         isNewDay: isNewDay,
         visualUnreadId: visualUnreadId,
-        child: SystemMessage(
-          key: ValueKey(message.id),
-          message: message,
-          guildId: guildId,
+        child: RepaintBoundary(
+          child: MessageItem(
+            key: itemKey,
+            message: message,
+            isGrouped: isGrouped,
+            renderSettings: renderSettings,
+            isJumpHighlighted: isJumpHighlighted,
+            currentUserId: currentUserId,
+            canDelete: canDelete,
+            canAddReactions: channelCanAddReactions,
+            canPinMessage: channelCanPinMessage,
+            canManageMessages: channelCanManageMessages,
+            canSendMessages: channelCanSendMessages,
+            isDmChannel: isDmChannel,
+            onReply: () =>
+                ref.read(chatViewModelProvider.notifier).startReply(message),
+            onForward: () =>
+                unawaited(showForwardMessageSheet(context, message: message)),
+            onEdit: () =>
+                ref.read(chatViewModelProvider.notifier).startEdit(message),
+            onRemoveAllReactions: () => unawaited(
+              showRemoveAllReactionsConfirmSheet(
+                context,
+                ref,
+                messageId: message.id,
+              ),
+            ),
+            onDelete: () => unawaited(
+              showDeleteMessageConfirmSheet(
+                context,
+                ref,
+                message: message,
+                guildId: guildId,
+              ),
+            ),
+            onRetry: () => ref
+                .read(chatViewModelProvider.notifier)
+                .retryMessageSend(message.id),
+            onDeleteFailed: () => ref
+                .read(chatViewModelProvider.notifier)
+                .deleteFailedMessage(message.id),
+            onMarkAsUnread: () => ref
+                .read(chatViewModelProvider.notifier)
+                .markMessageUnread(message.id),
+            onViewReactions: () =>
+                unawaited(showMessageReactionsSheet(context, message: message)),
+            onReport: () => unawaited(
+              showSimpleIarReportSheet(
+                context,
+                iarContext: IarMessageContext(
+                  message: message,
+                  guildId: guildId,
+                ),
+              ),
+            ),
+            onReaction:
+                (String emoji, {String? emojiId, bool animated = false}) => ref
+                    .read(chatViewModelProvider.notifier)
+                    .toggleReaction(
+                      message.id,
+                      emoji,
+                      emojiId: emojiId,
+                      animated: animated,
+                    ),
+          ),
         ),
       );
-    }
-    final bool isGrouped = !isNewDay && _shouldGroup(message, previousMessage);
-    final GlobalKey itemKey = _itemKeys.putIfAbsent(message.id, GlobalKey.new);
-    final bool canDelete = canDeleteMessage(
-      message: message,
-      currentUserId: currentUserId,
-      isDmChannel: isDmChannel,
-      channelPermissionBits: channelPermissionBits,
-    );
-    return _withMessageSeparators(
-      context,
-      message: message,
-      isNewDay: isNewDay,
-      visualUnreadId: visualUnreadId,
-      child: RepaintBoundary(
-        child: MessageItem(
-          key: itemKey,
-          message: message,
-          isGrouped: isGrouped,
-          renderSettings: renderSettings,
-          isJumpHighlighted: message.id == highlightedMessageId,
-          currentUserId: currentUserId,
-          canDelete: canDelete,
-          canAddReactions: channelCanAddReactions,
-          canPinMessage: channelCanPinMessage,
-          canManageMessages: channelCanManageMessages,
-          canSendMessages: channelCanSendMessages,
-          isDmChannel: isDmChannel,
-          onReply: () =>
-              ref.read(chatViewModelProvider.notifier).startReply(message),
-          onForward: () =>
-              unawaited(showForwardMessageSheet(context, message: message)),
-          onEdit: () =>
-              ref.read(chatViewModelProvider.notifier).startEdit(message),
-          onRemoveAllReactions: () => unawaited(
-            showRemoveAllReactionsConfirmSheet(
-              context,
-              ref,
-              messageId: message.id,
-            ),
-          ),
-          onDelete: () => unawaited(
-            showDeleteMessageConfirmSheet(
-              context,
-              ref,
-              message: message,
-              guildId: guildId,
-            ),
-          ),
-          onRetry: () => ref
-              .read(chatViewModelProvider.notifier)
-              .retryMessageSend(message.id),
-          onDeleteFailed: () => ref
-              .read(chatViewModelProvider.notifier)
-              .deleteFailedMessage(message.id),
-          onMarkAsUnread: () => ref
-              .read(chatViewModelProvider.notifier)
-              .markMessageUnread(message.id),
-          onViewReactions: () =>
-              unawaited(showMessageReactionsSheet(context, message: message)),
-          onReport: () => unawaited(
-            showSimpleIarReportSheet(
-              context,
-              iarContext: IarMessageContext(message: message, guildId: guildId),
-            ),
-          ),
-          onReaction:
-              (String emoji, {String? emojiId, bool animated = false}) => ref
-                  .read(chatViewModelProvider.notifier)
-                  .toggleReaction(
-                    message.id,
-                    emoji,
-                    emojiId: emojiId,
-                    animated: animated,
-                  ),
-        ),
-      ),
-    );
+    });
   }
 
   int? _findMessageListChildIndex(Key key, List<Message> messages) {
@@ -801,6 +879,7 @@ class _MessageListState extends ConsumerState<MessageList> {
 
     if (messages.isEmpty) {
       _itemKeys.clear();
+      _tileCache.clear();
     }
 
     if (!isLoading && _pendingScrollTarget != null) {
@@ -920,6 +999,7 @@ class _MessageListState extends ConsumerState<MessageList> {
                 );
               }
             } else {
+              _tileCache.retainKeys(messages.map((Message m) => m.id).toSet());
               body = _buildMessageListView(
                 context: context,
                 messages: messages,
@@ -1056,7 +1136,7 @@ class _MessageListState extends ConsumerState<MessageList> {
               ],
             ),
             ColoredBox(
-              color: context.colors.backgroundSecondaryLighter,
+              color: context.colors.chatBackground,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(

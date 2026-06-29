@@ -218,13 +218,17 @@ platform :ios do
         "CODE_SIGN_STYLE=Manual",
       ].join(" ")
     )
+    changelog = "Build from GitHub Actions run: #{ENV['GITHUB_SERVER_URL']}/#{ENV['GITHUB_REPOSITORY']}/actions/runs/#{ENV['GITHUB_RUN_ID']}"
     maximum_attempts = 3
     attempt_index = 1
     begin
       upload_to_testflight(
         api_key: api_key,
         ipa: lane_context[SharedValues::IPA_OUTPUT_PATH],
-        skip_waiting_for_build_processing: true
+        skip_waiting_for_build_processing: false,
+        wait_processing_timeout_duration: 1200,
+        groups: ["Fluxer Team", "Development collaborations"],
+        changelog: changelog
       )
     rescue => err
       if err.message.include?("The bundle version must be higher") || err.message.include?("-19232")

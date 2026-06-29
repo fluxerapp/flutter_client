@@ -30,8 +30,8 @@ Future<VoiceChannelTextChatAccess> voiceChannelTextChatAccess(
   if (channelRow.guildId.isEmpty) {
     return const VoiceChannelTextChatAccess(canOpen: true);
   }
-  final ChannelType channelType = channelTypeFromInt(channelRow.type);
-  if (channelType != ChannelType.voice) {
+  final ChannelType channelType = ChannelType.fromWire(channelRow.type);
+  if (channelType != ChannelType.guildVoice) {
     return const VoiceChannelTextChatAccess(canOpen: false);
   }
   final String? currentUserId = ref.read(currentUserIdProvider);

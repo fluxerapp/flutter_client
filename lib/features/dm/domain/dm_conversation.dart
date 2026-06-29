@@ -1,5 +1,6 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/shared/utils/display_name.dart';
 
 class GroupMemberInfo {
   final String id;
@@ -59,7 +60,7 @@ class DmConversation {
     this.remoteRecipientIds = const [],
   });
 
-  bool get isGroup => type == 3;
+  bool get isGroup => isDmGroupType(type);
 
   bool get isPersonalNotes => isDmPersonalNotesType(type);
 
@@ -71,6 +72,16 @@ class DmConversation {
       return name ?? 'Group DM';
     }
     return recipientName;
+  }
+
+  String displayNameWith(String? friendNickname) {
+    if (isGroup || isPersonalNotes) {
+      return displayName;
+    }
+    return resolveDisplayName(
+      friendNickname: friendNickname,
+      username: displayName,
+    );
   }
 
   String? get recipientTag {

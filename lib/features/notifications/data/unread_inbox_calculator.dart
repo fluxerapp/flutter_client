@@ -2,12 +2,12 @@ import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart'
+    show isGuildCategoryChannelType, isGuildVoiceChannelType;
 import 'package:fluxer_app/features/notifications/domain/unread_inbox_entry.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
-const int _voiceType = 2;
-const int _categoryType = 4;
 const Duration _oldMessageThreshold = Duration(days: 7);
 const Duration _recentVisitThreshold = Duration(days: 3);
 int _snowflakeRecencyMs(String? id) => snowflakeTimestampMs(id);
@@ -101,7 +101,7 @@ class UnreadInboxCalculator {
     }
 
     for (final Channel channel in allChannels) {
-      if (channel.type == _categoryType) {
+      if (isGuildCategoryChannelType(channel.type)) {
         continue;
       }
       if (!await canReadChannelForUnread(
@@ -115,7 +115,7 @@ class UnreadInboxCalculator {
       final String guildId = channel.guildId;
       final ReadState? readState = readStateMap[channel.id];
       final int mentions = readState?.mentionCount ?? 0;
-      final bool isVoice = channel.type == _voiceType;
+      final bool isVoice = isGuildVoiceChannelType(channel.type);
       final unreadSettings = resolveUnreadSettings(
         channel: channel,
         guildSettings: guildSettingsByGuild[guildId],

@@ -5,6 +5,15 @@ class ChannelUnreadIndicator extends StatelessWidget {
   const ChannelUnreadIndicator({this.faded = false, super.key});
 
   final bool faded;
+
+  static Widget positioned({required bool faded, Key? key}) => Positioned(
+    key: key,
+    left: 1,
+    top: 0,
+    bottom: 0,
+    child: Center(child: ChannelUnreadIndicator(faded: faded)),
+  );
+
   @override
   Widget build(BuildContext context) {
     final Widget indicator = Container(

@@ -34,7 +34,7 @@ ChannelIconAccessOverlay resolveChannelIconAccessOverlay({
   if (channel.nsfw) {
     return ChannelIconAccessOverlay.nsfw;
   }
-  final bool isVoiceLike = channel.type == ChannelType.voice;
+  final bool isVoiceLike = channel.type == ChannelType.guildVoice;
   final int? connectBits = canConnectPermissionBits ?? effectivePermissionBits;
   if (isVoiceLike &&
       connectBits != null &&
@@ -60,10 +60,10 @@ String? _svgAssetForChannelVisual({
   required ChannelIconAccessOverlay overlay,
   bool e2eeEncrypted = false,
 }) {
-  if (type == ChannelType.category) {
+  if (type == ChannelType.guildCategory) {
     return null;
   }
-  if (type == ChannelType.text) {
+  if (type == ChannelType.guildText) {
     return switch (overlay) {
       ChannelIconAccessOverlay.nsfw => _kAssetTextNsfw,
       ChannelIconAccessOverlay.lock => _kAssetTextLocked,
@@ -71,7 +71,7 @@ String? _svgAssetForChannelVisual({
       ChannelIconAccessOverlay.none => _kAssetText,
     };
   }
-  if (type == ChannelType.voice) {
+  if (type == ChannelType.guildVoice) {
     if (e2eeEncrypted) {
       return _kAssetVoiceE2ee;
     }
@@ -82,7 +82,7 @@ String? _svgAssetForChannelVisual({
       ChannelIconAccessOverlay.none => _kAssetVoice,
     };
   }
-  if (type == ChannelType.link) {
+  if (type == ChannelType.guildLink) {
     return switch (overlay) {
       ChannelIconAccessOverlay.nsfw => _kAssetLinkNsfw,
       ChannelIconAccessOverlay.lock => _kAssetLinkLocked,
@@ -152,14 +152,18 @@ class ChannelIcon extends StatelessWidget {
 
   static PhosphorIconData iconDataFor(ChannelType type) {
     switch (type) {
-      case ChannelType.text:
+      case ChannelType.guildText:
         return PhosphorIconsRegular.hash;
-      case ChannelType.voice:
+      case ChannelType.guildVoice:
         return PhosphorIconsFill.speakerHigh;
-      case ChannelType.category:
+      case ChannelType.guildCategory:
         return PhosphorIconsFill.folder;
-      case ChannelType.link:
+      case ChannelType.guildLink:
         return PhosphorIconsRegular.link;
+      case ChannelType.dm:
+      case ChannelType.groupDm:
+      case ChannelType.dmPersonalNotes:
+        return PhosphorIconsRegular.hash;
     }
   }
 }

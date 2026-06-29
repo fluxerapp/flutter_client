@@ -1,41 +1,50 @@
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 
-enum ChannelType { text, voice, category, link }
+enum ChannelType {
+  guildText(0),
+  dm(1),
+  guildVoice(2),
+  groupDm(3),
+  guildCategory(4),
+  guildLink(998),
+  dmPersonalNotes(999);
+
+  const ChannelType(this.wireValue);
+
+  final int wireValue;
+
+  static ChannelType fromWire(int value) {
+    for (final ChannelType type in values) {
+      if (type.wireValue == value) {
+        return type;
+      }
+    }
+    return ChannelType.guildText;
+  }
+}
 
 /// Guild channels that support text based unread tracking (text + voice).
-bool isGuildTextBasedChannel(int type) => type == 0 || type == 2;
+const Set<ChannelType> guildTextBasedChannelTypes = <ChannelType>{
+  ChannelType.guildText,
+  ChannelType.guildVoice,
+};
+
+bool isGuildTextBasedChannel(int type) =>
+    type == ChannelType.guildText.wireValue ||
+    type == ChannelType.guildVoice.wireValue;
 
 bool isGuildTextBasedChannelType(ChannelType type) =>
-    type == ChannelType.text || type == ChannelType.voice;
+    guildTextBasedChannelTypes.contains(type);
 
-ChannelType channelTypeFromInt(int type) {
-  switch (type) {
-    case 0:
-      return ChannelType.text;
-    case 2:
-      return ChannelType.voice;
-    case 4:
-      return ChannelType.category;
-    case 998:
-      return ChannelType.link;
-    default:
-      return ChannelType.text;
-  }
-}
+bool isGuildVoiceChannelType(int type) =>
+    type == ChannelType.guildVoice.wireValue;
 
-int channelTypeToInt(ChannelType type) {
-  switch (type) {
-    case ChannelType.text:
-      return 0;
-    case ChannelType.voice:
-      return 2;
-    case ChannelType.category:
-      return 4;
-    case ChannelType.link:
-      return 998;
-  }
-}
+bool isGuildCategoryChannelType(int type) =>
+    type == ChannelType.guildCategory.wireValue;
+
+bool isGuildLinkChannelType(int type) =>
+    type == ChannelType.guildLink.wireValue;
 
 class Channel {
   final String id;
@@ -59,7 +68,7 @@ class Channel {
     required this.guildId,
     required this.name,
     this.url,
-    this.type = ChannelType.text,
+    this.type = ChannelType.guildText,
     this.topic,
     this.parentId,
     this.position = 0,
@@ -78,7 +87,7 @@ class Channel {
       guildId: row.guildId,
       name: row.name,
       url: row.url,
-      type: channelTypeFromInt(row.type),
+      type: ChannelType.fromWire(row.type),
       topic: row.topic,
       parentId: row.parentId,
       position: row.position,
@@ -98,7 +107,7 @@ class Channel {
       guildId: guildId,
       name: name,
       url: Value(url),
-      type: Value(channelTypeToInt(type)),
+      type: Value(type.wireValue),
       topic: Value(topic),
       parentId: Value(parentId),
       position: Value(position),
@@ -112,7 +121,7 @@ class Channel {
     );
   }
 
-  bool get isCategory => type == ChannelType.category;
+  bool get isCategory => type == ChannelType.guildCategory;
 }
 
 class ChannelCategory {
@@ -192,11 +201,14 @@ int _compareChannelForDisplay(Channel a, Channel b) {
 
 int _channelDisplayBucket(Channel channel) {
   switch (channel.type) {
-    case ChannelType.voice:
+    case ChannelType.guildVoice:
       return 1;
-    case ChannelType.text:
-    case ChannelType.link:
-    case ChannelType.category:
+    case ChannelType.guildText:
+    case ChannelType.guildLink:
+    case ChannelType.guildCategory:
+    case ChannelType.dm:
+    case ChannelType.groupDm:
+    case ChannelType.dmPersonalNotes:
       return 0;
   }
 }

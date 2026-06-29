@@ -20,7 +20,7 @@ bool canJoinGuildVoiceChannelFromBits({
   if (guildId.isEmpty) {
     return true;
   }
-  if (channelType != ChannelType.voice) {
+  if (channelType != ChannelType.guildVoice) {
     return true;
   }
   if (permissionBits == null) {
@@ -44,7 +44,7 @@ Future<VoiceJoinEligibility> voiceJoinEligibility(
   if (channelRow == null) {
     return const VoiceJoinEligibility(canJoin: false);
   }
-  final ChannelType channelType = channelTypeFromInt(channelRow.type);
+  final ChannelType channelType = ChannelType.fromWire(channelRow.type);
   if (channelRow.guildId.isEmpty) {
     return const VoiceJoinEligibility(canJoin: true);
   }

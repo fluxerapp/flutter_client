@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
@@ -135,10 +136,10 @@ Future<ClientSensitiveMediaFilterLevel> sensitiveMediaFilterForChannel(
   if (dmChannel == null) {
     return ClientSensitiveMediaFilterLevel.show;
   }
-  if (dmChannel.type == groupDmChannelType) {
+  if (isDmGroupType(dmChannel.type)) {
     return settings.nonFriendDmFilter;
   }
-  if (dmChannel.type != dmChannelType) {
+  if (!isDmChannelType(dmChannel.type)) {
     return ClientSensitiveMediaFilterLevel.show;
   }
   final String recipientId = dmChannel.recipientId;

@@ -104,8 +104,8 @@ Where:
 
 Use **one** of these one-click links (matching your push variant from step 1). Each enables pre-releases, filters to the correct APK (`betafcm` or `betaoss`), and picks the right CPU architecture automatically:
 
-- **Fluxer Beta (FCM):** [Add to Obtainium](https://apps.obtainium.imranr.dev/redirect.html?r=obtainium%3A%2F%2Fapp%2F%7B%22id%22%3A%22com.fluxer%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Ffluxerapp%2Fflutter_client%22%2C%22author%22%3A%22fluxerapp%22%2C%22name%22%3A%22Fluxer%20Beta%20%28FCM%29%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22betafcm%5C%22%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%7D%22%7D)
-- **Fluxer Beta (OSS):** [Add to Obtainium](https://apps.obtainium.imranr.dev/redirect.html?r=obtainium%3A%2F%2Fapp%2F%7B%22id%22%3A%22com.fluxer%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Ffluxerapp%2Fflutter_client%22%2C%22author%22%3A%22fluxerapp%22%2C%22name%22%3A%22Fluxer%20Beta%20%28OSS%29%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22betaoss%5C%22%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%7D%22%7D)
+- **Fluxer Beta (FCM):** [Add to Obtainium](https://apps.obtainium.page/redirect?r=obtainium%3A%2F%2Fapp%2F%7B%22id%22%3A%22com.fluxer%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Ffluxerapp%2Fflutter_client%22%2C%22author%22%3A%22fluxerapp%22%2C%22name%22%3A%22Fluxer%20Beta%20%28FCM%29%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22betafcm%5C%22%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%7D%22%7D)
+- **Fluxer Beta (OSS):** [Add to Obtainium](https://apps.obtainium.page/redirect?r=obtainium%3A%2F%2Fapp%2F%7B%22id%22%3A%22com.fluxer%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Ffluxerapp%2Fflutter_client%22%2C%22author%22%3A%22fluxerapp%22%2C%22name%22%3A%22Fluxer%20Beta%20%28OSS%29%22%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22betaoss%5C%22%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%7D%22%7D)
 
 #### Signing
 
@@ -150,7 +150,7 @@ We welcome contributions for app translations. Translations are managed through 
 Riverpod generated files are not committed, so you need to generate them before running the project.
 
 ```text
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 ### Mobile builds

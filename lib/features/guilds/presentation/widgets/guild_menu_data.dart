@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +16,6 @@ enum GuildAction {
   settingsSafetyModeration,
   settingsActivityLog,
   settingsWebhooks,
-  settingsCustomInviteUrl,
   settingsDiscovery,
   settingsMembers,
   settingsInviteLinks,
@@ -29,7 +27,6 @@ enum GuildAction {
   leaveGuild,
   deleteMyMessages,
   reportCommunity,
-  reportRaid,
   debugCommunity,
   copyGuildId,
   mute15Min,
@@ -67,6 +64,7 @@ class GuildMenuAction extends GuildMenuEntry {
 class GuildMenuSubmenu extends GuildMenuEntry {
   final String key;
   final String label;
+  final IconData? icon;
   final String? hint;
   final List<GuildMenuEntry> children;
 
@@ -74,6 +72,7 @@ class GuildMenuSubmenu extends GuildMenuEntry {
     required this.key,
     required this.label,
     required this.children,
+    this.icon,
     this.hint,
   });
 }
@@ -143,6 +142,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
         GuildMenuSubmenu(
           key: 'communitySettings',
           label: l10n.guildMenuCommunitySettings,
+          icon: PhosphorIconsFill.gear,
           children: _buildSettingsSubmenu(l10n, p),
         ),
       if (canManageChannels) ...[
@@ -157,12 +157,6 @@ List<GuildMenuGroup> buildGuildMenuGroups({
           action: GuildAction.createCategory,
         ),
       ],
-      if (canManageGuild)
-        GuildMenuAction(
-          label: l10n.guildMenuReportRaid,
-          icon: PhosphorIconsFill.warning,
-          action: GuildAction.reportRaid,
-        ),
     ],
     [
       GuildMenuAction(
@@ -240,33 +234,68 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   ];
 }
 
-typedef _SettingsTabDef = ({GuildAction action, List<Permission> perms});
+typedef _SettingsTabDef = ({
+  GuildAction action,
+  List<Permission> perms,
+  IconData icon,
+});
 
 const List<_SettingsTabDef> _settingsTabDefs = <_SettingsTabDef>[
-  (action: GuildAction.settingsOverview, perms: [Permission.manageGuild]),
-  (action: GuildAction.settingsRoles, perms: [Permission.manageRoles]),
+  (
+    action: GuildAction.settingsOverview,
+    perms: [Permission.manageGuild],
+    icon: PhosphorIconsFill.gear,
+  ),
+  (
+    action: GuildAction.settingsRoles,
+    perms: [Permission.manageRoles],
+    icon: PhosphorIconsFill.shield,
+  ),
   (
     action: GuildAction.settingsEmoji,
     perms: [Permission.createExpressions, Permission.manageExpressions],
+    icon: PhosphorIconsFill.smiley,
   ),
   (
     action: GuildAction.settingsStickers,
     perms: [Permission.createExpressions, Permission.manageExpressions],
+    icon: PhosphorIconsFill.sticker,
   ),
   (
     action: GuildAction.settingsSafetyModeration,
     perms: [Permission.manageGuild],
+    icon: PhosphorIconsFill.hammer,
   ),
-  (action: GuildAction.settingsActivityLog, perms: [Permission.viewAuditLog]),
-  (action: GuildAction.settingsWebhooks, perms: [Permission.manageWebhooks]),
   (
-    action: GuildAction.settingsCustomInviteUrl,
-    perms: [Permission.manageGuild],
+    action: GuildAction.settingsActivityLog,
+    perms: [Permission.viewAuditLog],
+    icon: PhosphorIconsFill.bookOpen,
   ),
-  (action: GuildAction.settingsDiscovery, perms: [Permission.manageGuild]),
-  (action: GuildAction.settingsMembers, perms: [Permission.manageGuild]),
-  (action: GuildAction.settingsInviteLinks, perms: [Permission.manageGuild]),
-  (action: GuildAction.settingsBans, perms: [Permission.banMembers]),
+  (
+    action: GuildAction.settingsWebhooks,
+    perms: [Permission.manageWebhooks],
+    icon: PhosphorIconsFill.webhooksLogo,
+  ),
+  (
+    action: GuildAction.settingsDiscovery,
+    perms: [Permission.manageGuild],
+    icon: PhosphorIconsFill.compass,
+  ),
+  (
+    action: GuildAction.settingsMembers,
+    perms: [Permission.manageGuild],
+    icon: PhosphorIconsFill.users,
+  ),
+  (
+    action: GuildAction.settingsInviteLinks,
+    perms: [Permission.manageGuild],
+    icon: PhosphorIconsFill.ticket,
+  ),
+  (
+    action: GuildAction.settingsBans,
+    perms: [Permission.banMembers],
+    icon: PhosphorIconsFill.prohibit,
+  ),
 ];
 
 String _settingsTabLabel(GuildAction action, FluxerLocalizations l10n) {
@@ -279,14 +308,23 @@ String _settingsTabLabel(GuildAction action, FluxerLocalizations l10n) {
       l10n.guildMenuSettingsSafetyModeration,
     GuildAction.settingsActivityLog => l10n.guildMenuSettingsActivityLog,
     GuildAction.settingsWebhooks => l10n.guildMenuSettingsWebhooks,
-    GuildAction.settingsCustomInviteUrl =>
-      l10n.guildMenuSettingsCustomInviteUrl,
     GuildAction.settingsDiscovery => l10n.guildMenuSettingsDiscovery,
     GuildAction.settingsMembers => l10n.guildMenuSettingsMembers,
     GuildAction.settingsInviteLinks => l10n.guildMenuSettingsInviteLinks,
     GuildAction.settingsBans => l10n.guildMenuSettingsBans,
     _ => '',
   };
+}
+
+bool canAccessGuildSettingsTab(GuildAction action, int permissions) {
+  for (final _SettingsTabDef tab in _settingsTabDefs) {
+    if (tab.action == action) {
+      return tab.perms.any(
+        (Permission permission) => hasPermission(permissions, permission),
+      );
+    }
+  }
+  return false;
 }
 
 List<GuildMenuEntry> _buildSettingsSubmenu(
@@ -299,6 +337,7 @@ List<GuildMenuEntry> _buildSettingsSubmenu(
         GuildMenuAction(
           label: _settingsTabLabel(tab.action, l10n),
           action: tab.action,
+          icon: tab.icon,
         ),
   ];
 }

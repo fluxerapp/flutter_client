@@ -135,7 +135,28 @@ void main() {
     await tester.pump();
 
     expect(find.text(':wave:'), findsOneWidget);
-    expect(controller.toWireText(), ':wave:');
+    expect(controller.toWireText().trim(), ':wave:');
+  });
+
+  testWidgets('a picker-inserted emoji leaves a trailing space', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await _pumpController(tester);
+
+    controller.insertEmoji('wave', '\u{1F44B}');
+    await tester.pump();
+
+    expect(controller.toWireText(), ':wave: ');
+    expect(controller.selection.baseOffset, controller.text.length);
+
+    final String before = controller.text;
+    controller.value = TextEditingValue(
+      text: '${before}text',
+      selection: TextSelection.collapsed(offset: before.length + 4),
+    );
+    await tester.pump();
+
+    expect(controller.toWireText(), ':wave: text');
   });
 
   testWidgets('applyWireText re-chips a custom emoji and round-trips', (
