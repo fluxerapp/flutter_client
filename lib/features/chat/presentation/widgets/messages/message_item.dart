@@ -4,12 +4,9 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
-import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
-import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_avatar.dart';
@@ -29,6 +26,7 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_context_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_reply.dart';
@@ -40,10 +38,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_r
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
-import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
-import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
@@ -57,7 +53,6 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_dart/export.dart';
@@ -421,82 +416,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         widget.message.type == messageTypeReply;
   }
 
-  Future<List<QuickReactionItem>?> _loadQuickReactionItems() async {
-    try {
-      final db = ref.read(fluxerDatabaseProvider);
-      final keys = await db.emojiUsageDao.getQuickReactionMixedKeys(12);
-      final messageGuildId =
-          widget.previewRoleGuildId ?? ref.read(activeGuildIdProvider);
-      // Mirror the emoji picker's eligibility: a custom emoji shows if it's
-      // from this guild, or the user has global access (premium + external
-      // emojis), the only path in DMs, where there's no guild to match.
-      final hasGlobalEmojiAccess =
-          ref.read(
-            instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
-          ) &&
-          channelMessagePermissionsForComposer(
-            ref.read(
-              channelMessagePermissionsProvider(widget.message.channelId),
-            ),
-          ).canUseExternalEmojis;
-
-      final resolved = <QuickReactionItem>[];
-      final seenSurrogates = <String>{};
-      final seenCustomIds = <String>{};
-
-      for (final key in keys) {
-        if (resolved.length >= 4) {
-          break;
-        }
-        if (key.startsWith('unicode:')) {
-          final suffix = key.substring('unicode:'.length);
-          if (suffix.isEmpty) {
-            continue;
-          }
-          final entry =
-              EmojiRegistry.entryByName(suffix) ??
-              EmojiRegistry.entryBySurrogates(suffix);
-          final surrogates = entry?.surrogates ?? suffix;
-          if (!seenSurrogates.add(surrogates)) {
-            continue;
-          }
-          resolved.add(UnicodeQuickReaction(surrogates));
-          continue;
-        }
-        if (key.startsWith('custom:')) {
-          final lastColon = key.lastIndexOf(':');
-          if (lastColon < 'custom:'.length - 1) {
-            continue;
-          }
-          final emojiId = key.substring(lastColon + 1);
-          if (emojiId.isEmpty || !seenCustomIds.add(emojiId)) {
-            continue;
-          }
-          final row = await db.guildEmojiDao.getById(emojiId);
-          if (row == null ||
-              !(hasGlobalEmojiAccess || row.guildId == messageGuildId)) {
-            continue;
-          }
-          resolved.add(CustomQuickReaction(GuildEmojiEntry.fromRow(row)));
-        }
-      }
-
-      for (final fallback in kQuickReactionDefaults) {
-        if (resolved.length >= 4) {
-          break;
-        }
-        if (fallback is UnicodeQuickReaction &&
-            !seenSurrogates.add(fallback.emoji)) {
-          continue;
-        }
-        resolved.add(fallback);
-      }
-
-      return resolved.take(4).toList();
-    } on Object catch (e, st) {
-      talker.error('Failed to load quick reaction items', e, st);
-      return null;
-    }
+  Future<List<QuickReactionItem>?> _loadQuickReactionItems() {
+    final guildId =
+        widget.previewRoleGuildId ?? ref.read(activeGuildIdProvider);
+    return loadQuickReactionItems(
+      ref,
+      channelId: widget.message.channelId,
+      guildId: guildId,
+    );
   }
 
   void _dispatchQuickReaction(QuickReactionItem item) {

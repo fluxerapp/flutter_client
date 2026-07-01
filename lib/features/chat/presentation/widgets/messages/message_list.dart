@@ -523,25 +523,33 @@ class _MessageListState extends ConsumerState<MessageList> {
                     ),
                   )
                 : null,
-            onLongPress: canDelete && isMobile
+            onLongPress: isMobile
                 ? () => unawaited(
                     showSystemMessageActionsSheet(
                       context,
                       ref,
                       message: message,
                       guildId: guildId,
+                      isDmChannel: isDmChannel,
                       canDelete: canDelete,
+                      canAddReactions: channelCanAddReactions,
+                      canManageMessages: channelCanManageMessages,
+                      currentUserId: currentUserId,
                     ),
                   )
                 : null,
-            onSecondaryTapUp: canDelete && !isMobile
+            onSecondaryTapUp: !isMobile
                 ? (_) => unawaited(
                     showSystemMessageActionsSheet(
                       context,
                       ref,
                       message: message,
                       guildId: guildId,
+                      isDmChannel: isDmChannel,
                       canDelete: canDelete,
+                      canAddReactions: channelCanAddReactions,
+                      canManageMessages: channelCanManageMessages,
+                      currentUserId: currentUserId,
                     ),
                   )
                 : null,
