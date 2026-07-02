@@ -9,146 +9,149 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   FluxerLocalizationsDe([String locale = 'de']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'Wir haben\'s vermasselt!';
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Irgendetwas stimmt mit den Servern nicht.\nSollte gleich behoben sein!';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => 'Verbinde erneut…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => 'Verbunden';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return 'Start fehlgeschlagen: $error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'Erneut versuchen';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => 'Verbindung verloren';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'Auf der Statusseite anzeigen';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => 'Verbindungsprobleme?';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'Statusseite';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'Vorfall lesen';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'Vorfallverlauf';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => 'Willkommen zurück';
 
   @override
-  String get email => 'Email';
+  String get email => 'E-Mail';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => 'Bitte gib eine gültige E-Mail-Adresse ein.';
 
   @override
-  String get password => 'Password';
+  String get password => 'Passwort';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'Passwort vergessen?';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'Anmelden';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => 'Mit einem Passkey anmelden';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return 'Mit $provider fortfahren';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired =>
+      'SSO ist erforderlich, um auf diese Instanz zuzugreifen.';
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'Melde dich mit dem Single Sign-On-Anbieter deiner Organisation an.';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => 'SSO konnte nicht gestartet werden';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'SSO-Anmeldung wurde abgebrochen';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return 'Bevorzugst du SSO? Fahre mit $provider fort.';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => 'Über Browser anmelden';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => 'Noch kein Konto? ';
 
   @override
-  String get register => 'Register';
+  String get register => 'Registrieren';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => 'Verifiziere, dass du menschlich bist';
 
   @override
   String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+      'Wir müssen sicherstellen, dass du kein Bot bist. Bitte schließe die Verifizierung unten ab.';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha =>
+      'Probleme? Versuche es stattdessen mit hCaptcha';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile =>
+      'Versuche es stattdessen mit Turnstile';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Abbrechen';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'Überprüfe deine E-Mail';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'Wir haben einen Link zur Autorisierung dieser Anmeldung per E-Mail gesendet. Bitte öffne deinen Posteingang für $email.';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => 'Verbindung verloren';
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'Die Verbindung ist während des Wartens auf die Autorisierung verloren gegangen. Bitte versuche es erneut.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => 'Anmelde-Link abgelaufen';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'Dieser Autorisierungslink ist abgelaufen. Bitte melde dich erneut an.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'E-Mail erneut senden';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'Erneut gesendet';
 
   @override
   String ipAuthResendCountdown(int seconds) {
@@ -156,384 +159,388 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'Zurück';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => 'Zwei-Faktor-Authentifizierung';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => 'Wähle eine Verifizierungsmethode';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'Authenticator-App';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => 'Sicherheitsschlüssel / Passkey';
 
   @override
   String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+      'Gib den 6-stelligen Code aus deiner Authenticator-App oder einen deiner Backup-Codes ein.';
 
   @override
   String get mfaCodeLabel => 'Code';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'Andere Methode versuchen';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey =>
+      'Sicherheitsschlüssel / Passkey stattdessen versuchen';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'Konto auswählen';
 
   @override
   String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+      'Wähle ein Konto aus, um fortzufahren, oder füge ein anderes hinzu.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'Konto hinzufügen';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => 'Entfernen';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return '$username entfernen';
   }
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'Dadurch wird die gespeicherte Sitzung für dieses Konto entfernt.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+      'Dadurch wird das einzige gespeicherte Konto auf diesem Gerät entfernt.';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'Abgelaufen';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return 'Sitzung für $identifier abgelaufen. Bitte melde dich erneut an.';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => 'Konten verwalten';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed =>
+      'Konnte Konten nicht wechseln. Versuche es erneut.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => 'Konten wechseln';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => 'Status festlegen';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => 'Online-Status';
 
   @override
   String get statusOnline => 'Online';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => 'Abwesend';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => 'Nicht stören';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => 'Unsichtbar';
 
   @override
   String get statusOffline => 'Offline';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => 'Bis ich es ändere';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'Nicht löschen';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => 'Für 10 Sekunden';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 Sekunden';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 Minuten';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 Minuten';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 Stunde';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 Stunden';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 Stunden';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 Stunden';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 Stunden';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 Tage';
 
   @override
   String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+      'Du erhältst keine Benachrichtigungen auf dem Desktop';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => 'Du erscheinst offline';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => 'Benutzerdefinierten Status festlegen';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => 'Benutzerdefinierter Status';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => 'Benutzerdefinierten Status löschen';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'Was passiert gerade?';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'Emoji auswählen';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'Löschen nach';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => 'Speichern';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => 'Aktives Konto';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'Abmelden';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => 'Konto dauerhaft gesperrt';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => 'Konto gesperrt';
 
   @override
   String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+      'Dein Konto wurde dauerhaft wegen Verstoßes gegen unsere Nutzungsbedingungen gesperrt.';
 
   @override
   String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+      'Dein Konto wurde vorübergehend gesperrt. Du kannst auf dein Konto zugreifen, sobald die Sperrfrist abgelaufen ist.';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => 'Ausgestellt';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => 'Endet';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => 'Dauer';
 
   @override
   String get suspendedPermanent => 'Permanent';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => 'Grund';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => 'Frist für Überprüfung';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return 'Dein Konto wird am $date zur Löschung vorgemerkt.';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => 'Aktualisierungen prüfen';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return 'In ${seconds}s erneut prüfen';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => 'Zurück zum Login';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => 'Überprüfung';
 
   @override
   String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+      'Erkläre, warum deine Sperrung überdacht werden sollte (mindestens 50 Zeichen)...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => 'Überprüfung einreichen';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => 'Wartet auf Überprüfung';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => 'Überprüfung akzeptiert';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => 'Überprüfung abgelehnt';
 
   @override
   String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+      'Deine Überprüfung wurde akzeptiert und dein Konto wurde wiederhergestellt.';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => 'Melde dich bei deinem Konto an';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'Passwort vergessen?';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => 'Link zum Zurücksetzen senden';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'Überprüfe deine E-Mails';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'Wir haben Anweisungen zum Zurücksetzen des Passworts an deine E-Mail-Adresse gesendet. Bitte überprüfe deinen Posteingang und folge dem Link, um dein Passwort zurückzusetzen.';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'Zurück zum Login';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'Neues Passwort festlegen';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+      'Gib unten dein neues Passwort ein, um den Zurücksetzungsvorgang abzuschließen.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'Neues Passwort';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'Neues Passwort bestätigen';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => 'Passwort zurücksetzen';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'Passwörter stimmen nicht überein.';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => 'Konto erstellen';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => 'Anzeigename (Optional)';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => 'Wie sollen dich die Leute nennen?';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => 'Benutzername (Optional)';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint =>
+      'Leer lassen für einen zufälligen Benutzernamen';
 
   @override
   String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+      'Eine 4-stellige Kennung wird automatisch hinzugefügt, um die Einzigartigkeit zu gewährleisten';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'Geburtsdatum';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'Monat';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'Tag';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'Jahr';
 
   @override
   String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+      'Ich stimme den Nutzungsbedingungen und der Datenschutzerklärung zu';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => 'Ich stimme den ';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => 'Nutzungsbedingungen';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => ' und ';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => 'Datenschutzerklärung';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => 'Passwort bestätigen';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Konto erstellen';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => 'Hast du bereits ein Konto? ';
 
   @override
   String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+      'Keine Passkeys für diese App gefunden. Melde dich stattdessen mit E-Mail und Passwort an.';
 
   @override
   String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+      'Passkeys werden auf diesem Gerät nicht unterstützt.';
 
   @override
   String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+      'Passkeys sind für diese App nicht konfiguriert. Melde dich stattdessen mit E-Mail und Passwort an.';
 
   @override
   String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+      'Passkey-Authentifizierung Zeitüberschreitung. Bitte versuche es erneut.';
 
   @override
   String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+      'Passkeys sind für diese App nicht verfügbar. Melde dich stattdessen mit E-Mail und Passwort an.';
 
   @override
   String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+      'Die Passkey-Authentifizierung ist fehlgeschlagen. Bitte versuche es erneut.';
 
   @override
   String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+      'Konto konnte nicht erstellt werden. Bitte versuche es erneut.';
 
   @override
   String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+      'Anmeldung derzeit nicht möglich. Bitte versuche es erneut.';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword =>
+      'Ungültige E-Mail-Adresse oder Passwort.';
 
   @override
   String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+      'Zurücksetzungslink konnte nicht gesendet werden. Bitte versuche es erneut.';
 
   @override
   String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+      'Passwort konnte nicht zurückgesetzt werden. Bitte versuche es erneut.';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => 'Community beitreten';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => 'Zur Community';
 
   @override
   String embedInviteOnline(String count) {
@@ -542,506 +549,512 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count Mitglieder';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => 'Unbekannte Einladung';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle =>
+      'Bitte fordere eine neue Einladung an.';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => 'Einladung nicht verfügbar';
 
   @override
-  String get inviteAcceptTitle => 'You\'ve been invited to join';
+  String get inviteAcceptTitle => 'Du wurdest eingeladen zu';
 
   @override
-  String get inviteAcceptJoinButton => 'Join Community';
+  String get inviteAcceptJoinButton => 'Community beitreten';
 
   @override
-  String get inviteAcceptGoToButton => 'Go to Community';
+  String get inviteAcceptGoToButton => 'Zur Community';
 
   @override
-  String get inviteAcceptInvitesPaused => 'Invites Paused';
+  String get inviteAcceptInvitesPaused => 'Einladungen pausiert';
 
   @override
-  String get inviteAcceptNotFoundTitle => 'Invite Invalid';
+  String get inviteAcceptNotFoundTitle => 'Einladung ungültig';
 
   @override
   String get inviteAcceptNotFoundDescription =>
-      'This invite may be expired or invalid.';
+      'Diese Einladung ist möglicherweise abgelaufen oder ungültig.';
 
   @override
-  String get inviteAcceptJoinGroupButton => 'Join group';
+  String get inviteAcceptJoinGroupButton => 'Gruppe beitreten';
 
   @override
   String inviteAcceptGroupDmDescription(String inviterName) {
-    return 'You\'ve been invited to join a group DM by $inviterName';
+    return 'Du wurdest von $inviterName eingeladen, einer Gruppen-DM beizutreten';
   }
 
   @override
-  String get inviteAcceptSomeone => 'someone';
+  String get inviteAcceptSomeone => 'jemand';
 
   @override
-  String get inviteAcceptEmojiPack => 'Emoji pack';
+  String get inviteAcceptEmojiPack => 'Emoji-Paket';
 
   @override
-  String get inviteAcceptStickerPack => 'Sticker pack';
+  String get inviteAcceptStickerPack => 'Sticker-Paket';
 
   @override
-  String get inviteAcceptInstallEmojiPack => 'Install emoji pack';
+  String get inviteAcceptInstallEmojiPack => 'Emoji-Paket installieren';
 
   @override
-  String get inviteAcceptInstallStickerPack => 'Install sticker pack';
+  String get inviteAcceptInstallStickerPack => 'Sticker-Paket installieren';
 
   @override
   String get inviteAcceptPackInstallNote =>
-      'Accepting this invite installs the pack automatically.';
+      'Durch Annahme dieser Einladung wird das Paket automatisch installiert.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => 'Kanalzugriff verweigert';
 
   @override
   String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+      'Du hast keinen Zugriff auf den Kanal, in dem diese Nachricht gesendet wurde.';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => 'Kein Zugriff';
 
   @override
   String get okay => 'Okay';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => 'Geteiltes Design';
 
   @override
   String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+      'Dieser Client unterstützt keine benutzerdefinierten Designs.';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => 'Designs nicht verfügbar';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => 'Datenschutzeinstellungen';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => 'Direktnachrichten';
 
   @override
   String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+      'Direktnachrichten von anderen Mitgliedern in dieser Community zulassen';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => 'Bot-Direktnachrichten';
 
   @override
   String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+      'Bots aus dieser Community erlauben, dir Direktnachrichten zu senden';
 
   @override
   String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+      'Die Community-Administratoren haben den Empfang von Direktnachrichten nur von gemeinsamen Mitgliedern in dieser Community deaktiviert.';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => 'Community-Debug';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => 'In die Zwischenablage kopiert';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => 'Benachrichtigungseinstellungen';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return '$guildName stummschalten';
   }
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'Das Stummschalten einer Community verhindert, dass ungelesene Indikatoren und Benachrichtigungen angezeigt werden, es sei denn, du wirst erwähnt.';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings =>
+      'Community-Benachrichtigungseinstellungen';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => 'Alle Nachrichten';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => 'Nur Erwähnungen';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => 'Nichts';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => '@everyone und @here unterdrücken';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles => 'Alle Rollenerwähnungen unterdrücken';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => 'Mobile Push-Benachrichtigungen';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => 'Benachrichtigungs-Overrides';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => 'Kanal oder Kategorie auswählen';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => 'Nur @Erwähnungen';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => 'Kanal stummschalten';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => 'Kanal-Entstummschaltung';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => 'Keine Kategorie';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => 'Als gelesen markieren';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => 'DM stummschalten';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => 'DM-Entstummschaltung';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => 'DM anheften';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => 'DM lösen';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => 'Immer in der Seitenleiste anzeigen';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => 'Aus „Immer anzeigen“ entfernen';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => 'DM schließen';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => 'DM schließen';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return 'Möchtest du deine DM mit $username wirklich schließen? Du kannst sie jederzeit wieder öffnen.';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => 'Kanal-ID kopieren';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => 'Kanal-ID kopiert';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => 'Benutzer-ID kopieren';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => 'Benutzer-ID kopiert';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => 'Profil anzeigen';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => 'Sprachanruf starten';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => 'Eingehender Sprachanruf';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => 'Annehmen';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => 'Ablehnen';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => 'Eingehender Anruf';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => 'Ignorieren';
 
   @override
   String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+      'Dieser Anruf kann gerade nicht gestartet werden. Versuche es gleich noch einmal.';
 
   @override
   String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+      'Verbindung zu diesem Anruf konnte nicht hergestellt werden. Überprüfe deine Verbindung und versuche es erneut.';
 
   @override
   String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+      'Verbindung zu diesem Anruf konnte nicht hergestellt werden. Überprüfe deine Verbindung und versuche es erneut.';
 
   @override
   String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+      'Dieser Anruf konnte auf dem Server nicht aktualisiert werden. Überprüfe deine Verbindung und versuche es erneut.';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => 'Notiz hinzufügen';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => 'Gruppen-DM bearbeiten';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => 'Zur Community einladen';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => 'Blockieren';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => 'Gruppe verlassen';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => 'Keine Communities verfügbar';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count Mitglieder';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => 'Für 15 Minuten';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => 'Für 30 Minuten';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => 'Für 1 Stunde';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => 'Für 3 Stunden';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => 'Für 4 Stunden';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => 'Für 8 Stunden';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => 'Für 24 Stunden';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => 'Für 3 Tage';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => 'Bis ich es wieder aktiviere';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => 'Gruppen-DM anheften';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => 'Gruppen-DM anheften aufheben';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => 'DM als Favorit markieren';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => 'DM-Favorit entfernen';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => 'Gruppen-DM als Favorit markieren';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => 'Gruppen-DM-Favorit entfernen';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => 'Spitznamen des Freundes ändern';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => 'Freund entfernen';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => 'Freund hinzufügen';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => 'Freundschaftsanfrage annehmen';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => 'Freundschaftsanfrage ignorieren';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => 'Freundschaftsanfrage gesendet';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => 'Blockieren aufheben';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => 'Benutzer debuggen';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => 'Kanal debuggen';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => 'DM angeheftet';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => 'DM angeheftet aufgehoben';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => 'DM stummgeschaltet';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => 'DM-Stummschaltung aufgehoben';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => 'Freund entfernen';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Möchtest du $username wirklich als Freund entfernen?';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => 'Benutzer blockieren';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return 'Möchtest du $username wirklich blockieren? Er/Sie kann dir dann keine Nachrichten mehr senden oder Freundschaftsanfragen stellen.';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => 'Freundschaftsanfrage gesendet';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed =>
+      'Freundschaftsanfrage konnte nicht gesendet werden';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed =>
+      'Freundschaftsanfrage konnte nicht angenommen werden';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => 'Freund konnte nicht entfernt werden';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => 'Benutzer konnte nicht blockiert werden';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed =>
+      'Blockierung des Benutzers konnte nicht aufgehoben werden';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed =>
+      'Freundschaftsanfrage konnte nicht ignoriert werden';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => 'Freunde hinzufügen';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => 'Freund hinzufügen';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => 'Benutzername#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => 'Benutzername des Freundes';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => 'Anfrage senden';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound =>
+      'Kein Benutzer mit diesem Benutzernamen gefunden.';
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+      'Gib einen gültigen Benutzernamen ein (Benutzername#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => 'Freundschaftsanfrage gesendet';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => 'Konto beanspruchen';
 
   @override
   String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+      'Beanspruche dein Konto, um Freundschaftsanfragen zu senden.';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => 'E-Mail verifizieren';
 
   @override
   String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+      'Du musst deine E-Mail-Adresse verifizieren, bevor du Freundschaftsanfragen senden kannst.';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => 'E-Mail verifizieren';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return 'Eingehende Freundschaftsanfragen ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return 'Ausgehende Freundschaftsanfragen ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => 'Eingehende Freundschaftsanfrage';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => 'Freundschaftsanfrage gesendet';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => 'Profil anzeigen';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => 'Annehmen';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => 'Ignorieren';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => 'Freundschaftsanfrage annehmen';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => 'Freundschaftsanfrage ignorieren';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return 'Freundschaftsanfrage von $userName annehmen?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return 'Freundschaftsanfrage von $displayName ignorieren?';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => 'Anfrage abbrechen';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+      'Freundschaftsanfrage konnte nicht abgebrochen werden. Versuche es erneut.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+      'Diese Person nimmt derzeit keine Freundschaftsanfragen an.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+      'Entblockiere die Person zuerst, um eine Freundschaftsanfrage zu senden.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+      'Du kannst dir selbst keine Freundschaftsanfrage senden.';
 
   @override
-  String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+  String get addFriendAlreadyFriends => 'Ihr seid bereits Freunde.';
 
   @override
   String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+      'Schließe die Registrierung ab, um Freundschaftsanfragen zu senden.';
 
   @override
   String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+      'Freundschaftsanfrage konnte nicht gesendet werden. Versuche es erneut.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1050,101 +1063,103 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get userTagSystem => 'System';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => 'Finde das Emoji deiner Träume';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty => 'Keine Emojis entsprechen deiner Suche';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => 'Standard-Emoji';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => 'Häufig verwendet';
 
   @override
   String get emojiTabGifs => 'GIFs';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => 'Medien';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => 'Sticker';
 
   @override
   String get emojiTabEmojis => 'Emojis';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => 'GIFs suchen';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => 'KLIPY suchen';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => 'Tenor suchen';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => 'Favoriten';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => 'Trend-GIFs';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => 'Keine Suchergebnisse';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription =>
+      'Versuche einen anderen Suchbegriff';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => 'GIFs konnten nicht geladen werden';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody =>
+      'Überprüfe deine Verbindung und versuche es erneut.';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => 'Personen';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => 'Natur';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => 'Essen & Trinken';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => 'Aktivitäten';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => 'Reisen & Orte';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => 'Objekte';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => 'Symbole';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => 'Flaggen';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return 'Schalte $emojiCount aus $communityCount mit Plutonium frei.';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => 'Plutonium holen';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => 'Dies nicht mehr anzeigen';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count benutzerdefinierte Emojis',
+      one: '1 benutzerdefiniertes Emoji',
     );
     return '$_temp0';
   }
@@ -1154,944 +1169,956 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count Communities',
+      one: '1 Community',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => 'Warnung vor externem Link';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => 'Du bist dabei, Fluxer zu verlassen';
 
   @override
   String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+      'Externe Links können gefährlich sein. Bitte sei vorsichtig.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => 'Ziel-URL:';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => 'Externe Links';
 
   @override
   String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+      'Konfiguriere, wie externe Link-Warnungen behandelt werden.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => 'Immer vertrauen ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix =>
+      ' – diese Warnung beim nächsten Mal überspringen';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => 'Website besuchen';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => 'Alle externen Links vertrauen';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Tracking-Parameter aus URLs entfernen';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      'Entferne automatisch Tracking-Parameter (wie utm_source, fbclid, gclid) aus URLs in Nachrichten, die du sendest. Bereinigt den Link, bevor er jemanden erreicht.';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle =>
+      'Allen externen Links vertrauen?';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      'Dadurch werden alle externen Links vertrauenswürdig und die Warnung für jede Domain übersprungen. Deine vorhandenen vertrauenswürdigen Domains werden ersetzt. Dies ist weniger sicher.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => 'Alle vertrauen';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle =>
+      'Vertrauen in alle Links beenden?';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      'Warnungen für externe Links werden wieder angezeigt. Du musst vertrauenswürdige Domains einzeln hinzufügen.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction => 'Vertrauen in alle beenden';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+      'Allen externen Links wird vertraut. Warnungen werden nicht angezeigt.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return 'Du hast $count vertrauenswürdige Domain(s). Füge weitere hinzu, indem du das Kästchen anklickst, wenn du externe Links besuchst.';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      'Wenn aktiviert, werden keine Warnungen für externe Links angezeigt. Dies ist weniger sicher.';
 
   @override
   String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+      'Bilddatei ist zu groß. Bitte wähle eine Datei, die kleiner als 10 MB ist.';
 
   @override
   String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+      'Animierte Avatare erfordern Plutonium';
 
   @override
   String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+      'Animierte Banner erfordern Plutonium';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported => 'Animiertes AVIF nicht unterstützt';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      'Das Zuschneiden und Drehen von animierten AVIF-Dateien wird noch nicht unterstützt. Wenn du fortfährst, wird es in seiner ursprünglichen Form hochgeladen.';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => 'Wie vorhanden hochladen';
 
   @override
   String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+      'Das Zuschneiden animierter Bilder wird noch nicht unterstützt. Die ursprüngliche Datei wird verwendet.';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => 'Avatar zuschneiden';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => 'Banner zuschneiden';
 
   @override
-  String get skip => 'Skip';
+  String get skip => 'Überspringen';
 
   @override
-  String get crop => 'Crop';
+  String get crop => 'Zuschneiden';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => 'Deinen FluxerTag ändern';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      'Benutzernamen dürfen nur Buchstaben (a-z, A-Z), Zahlen (0-9) und Unterstriche enthalten. Benutzernamen sind nicht case-sensitiv.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      'Benutzernamen dürfen nur Buchstaben (a-z, A-Z), Zahlen (0-9) und Unterstriche enthalten. Benutzernamen sind nicht case-sensitiv. Du kannst jeden verfügbaren 4-stelligen Tag von #0000 bis #9999 auswählen.';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      'Benutzernamen dürfen nur Buchstaben (a-z, A-Z), Zahlen (0-9) und Unterstriche enthalten. Benutzernamen sind nicht case-sensitiv. Du kannst jeden verfügbaren 4-stelligen Tag von #0001 bis #9999 auswählen.';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return 'Zwischen $min und $max Zeichen';
   }
 
   @override
   String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+      'Nur Buchstaben (a-z, A-Z), Zahlen (0-9) und Unterstriche (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      'Hol dir Plutonium, um deinen Tag anzupassen oder ihn beim Ändern deines Benutzernamens zu behalten';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'FluxerTag bereits vergeben';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'Der FluxerTag $username#$discriminator ist bereits vergeben. Wenn du fortfährst, wird dein Diskriminator automatisch neu ausgewürfelt.';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => 'Benutzerdefinierter Tag ist temporär';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return 'Dein benutzerdefinierter 4-stelliger Tag ist nur verfügbar, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement am $date abläuft, wird dein Tag nach einer 3-tägigen Kulanzfrist auf eine zufällig zugewiesene Nummer zurückgesetzt.';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      'Dein benutzerdefinierter 4-stelliger Tag ist nur verfügbar, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement abläuft, wird dein Tag nach einer 3-tägigen Kulanzfrist auf eine zufällig zugewiesene Nummer zurückgesetzt.';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => 'Ich verstehe, weiter';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      'Wenn du diesen FluxerTag speicherst, wird dein benutzerdefinierter 4-stelliger Tag auf eine zufällige Nummer zurückgesetzt, wenn dein Plutonium-Abonnement endet. Wenn dein Abonnement nicht erneuert wird, hast du eine 3-tägige Kulanzfrist, bevor sich der Tag ändert.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return 'Dein benutzerdefinierter 4-stelliger Tag (#$discriminator) ist aktiv, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement nach einer 3-tägigen Kulanzfrist endet oder nicht erneuert wird, wird dein Tag auf eine zufällige Nummer zurückgesetzt.';
   }
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'Passe deinen 4-stelligen Tag an oder behalte ihn, wenn du deinen Benutzernamen änderst';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return 'Deine Plutonium-Testversion läuft am $date ab. Upgrade, um deinen benutzerdefinierten Tag zu behalten und eine Auszeichnung auf deinem Profil zu erhalten.';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      'Du befindest dich in einer Plutonium-Testversion. Upgrade, um deinen benutzerdefinierten Tag zu behalten und eine Auszeichnung auf deinem Profil zu erhalten.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'FluxerTag aktualisiert';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+      'FluxerTag konnte nicht aktualisiert werden. Bitte versuche es erneut.';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Weiter';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => 'Profilanpassung';
 
   @override
   String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+      'Bearbeite das Aussehen deines Profils und sieh eine Live-Vorschau';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => 'Benutzername';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+      'Fordere dein Konto an, um deinen FluxerTag zu ändern';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => 'FluxerTag ändern';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return 'Passe deinen 4-stelligen Tag (#$discriminator) mit Plutonium nach Belieben an';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint =>
+      'Ändere deinen Benutzernamen und 4-stelligen Tag';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return 'Dein benutzerdefinierter Tag (#$discriminator) ist an dein Plutonium-Abo gebunden und wird zu einem zufälligen Tag, wenn es abläuft.';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => 'Anzeigename';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => 'Pronomen';
 
   @override
   String get avatarLabel => 'Avatar';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => 'Avatar ändern';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => 'Avatar entfernen';
 
   @override
   String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, GIF. Max. 10 MB. Empfohlen: 512×512px';
 
   @override
   String get bannerLabel => 'Banner';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => 'Banner ändern';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => 'Banner entfernen';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG, JPEG, WebP, GIF. Max. 10 MB. Mindestens: 960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => 'Akzentfarbe';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'Passt die Rand- und Bannerfarbe deines Profils an';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => 'Über mich';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText =>
+      'Du kannst Links, Emojis und Markdown verwenden.';
 
   @override
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle => 'Plutonium-Badge-Datenschutz';
 
   @override
   String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+      'Steuere, wie dein Plutonium-Badge anderen angezeigt wird';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel => 'Plutonium-Badge komplett ausblenden';
 
   @override
   String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+      'Blende dein Plutonium-Badge vollständig für andere Benutzer aus';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => 'Plutonium-Kaufdatum ausblenden';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return 'Plutonium-Kaufdatum ausblenden ($date)';
   }
 
   @override
   String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+      'Entferne das Datum deines ersten Plutonium-Kaufs von deinem Badge';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription =>
+      'Visionary als Abonnement maskieren';
 
   @override
   String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+      'Zeige dein Visionary als reguläres Abonnement an';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => 'Visionary-ID-Badge ausblenden';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return 'Visionary-ID-Badge ausblenden (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription => 'Entferne deinen Visionary-ID-Badge';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return 'Du bist in einer Plutonium-Testphase – dein Abonnement beginnt am $date';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      'Dein Abonnement beginnt automatisch, wenn deine Testphase endet. Keine Aktion erforderlich.';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return 'Du bist in einer Plutonium-Testphase, die am $date abläuft';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile =>
+      'Du bist in einer Plutonium-Testphase';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG, PNG, WebP. Max. 10 MB. Empfohlen: 512×512px. Animierte Avatare (GIF) erfordern Plutonium.';
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'Passe dein Profil mit einem statischen oder animierten Bannerbild an, um es hervorzuheben.';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => 'Plutonium erhalten';
 
   @override
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
   String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+      'In-App-Käufe sind auf dieser Plattform noch nicht verfügbar. Bleib dran – bald verfügbar!';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => 'Vorschau';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => 'Nachricht';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'Fluxer-Mitglied seit';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => 'Nicht beanspruchtes Konto';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      'Dein Konto wurde noch nicht beansprucht. Ohne E-Mail und Passwort könntest du den Zugriff verlieren. Beanspruche dein Konto jetzt, um es zu sichern.';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => 'Konto beanspruchen';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => 'Profiltyp';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => 'Globales Profil';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      'Du bearbeitest dein Profil pro Community. Dieses Profil ist nur in dieser Community sichtbar und überschreibt dein globales Profil.';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => 'Community-Nickname';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'Das Anpassen deines Avatars, Banners, deiner Akzentfarbe und deines Profils für einzelne Communities erfordert Plutonium. Community-Spitznamen und Pronomen sind für alle kostenlos.';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => 'Globales Profil verwenden';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => 'Benutzerdefiniertes Bild verwenden';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => 'Nicht anzeigen';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => 'Profil aktualisiert';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => 'Profil bearbeiten';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => 'Notiz';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '(nur für dich sichtbar)';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => 'Noch keine Notiz.';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => 'Identität verifizieren';
 
   @override
   String get sudoDescription =>
-      'This action requires verification to continue.';
+      'Diese Aktion erfordert eine Verifizierung, um fortzufahren.';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => 'Authenticator-Code';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => 'Passwort';
 
   @override
   String get sudoMethodTotp => 'Authenticator';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed =>
+      'Verifizierung fehlgeschlagen. Bitte versuche es erneut.';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => 'Konto';
 
   @override
   String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+      'Verwalte deine E-Mail-Adresse, dein Passwort und deine Kontoeinstellungen';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => 'Sicherheit';
 
   @override
   String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+      'Schütze dein Konto mit Zwei-Faktor-Authentifizierung und Passkeys';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => 'E-Mail-Einstellungen';
 
   @override
   String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+      'Verwalte die E-Mail-Adresse, mit der du dich bei Fluxer anmeldest';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => 'E-Mail-Adresse';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => 'Keine E-Mail-Adresse festgelegt';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => 'E-Mail ändern';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => 'E-Mail hinzufügen';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => 'Anzeigen';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => 'Ausblenden';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => 'Passwort';
 
   @override
   String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+      'Ändere dein Passwort, um dein Konto zu schützen';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => 'Aktuelles Passwort';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return 'Zuletzt geändert: $date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'Zuletzt geändert: Nie';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => 'Kein Passwort festgelegt';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => 'Passwort ändern';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => 'Passwort festlegen';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => 'Passwort ändern';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      'Wir senden dir einen Verifizierungscode an deine E-Mail-Adresse, um deine Identität zu bestätigen, bevor du dein Passwort änderst.';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => 'Starten';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => 'E-Mail verifizieren';
 
   @override
   String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+      'Gib den Verifizierungscode ein, der an deine E-Mail-Adresse gesendet wurde.';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => 'Verifizierungscode';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => 'Verifizieren';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => 'Neues Passwort festlegen';
 
   @override
   String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+      'Gib unten dein neues Passwort ein.';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => 'Neues Passwort';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => 'Neues Passwort bestätigen';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => 'Passwort ändern';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => 'Passwort geändert';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch =>
+      'Passwörter stimmen nicht überein';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => 'Ungültiger oder abgelaufener Code';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => 'E-Mail ändern';
 
   @override
   String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+      'Wir senden Ihnen Verifizierungscodes, um Ihre Identität zu bestätigen, bevor wir Ihre E-Mail-Adresse ändern.';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => 'Starten';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => 'Aktuelle E-Mail verifizieren';
 
   @override
   String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+      'Gib den Verifizierungscode ein, der an deine aktuelle E-Mail-Adresse gesendet wurde.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => 'Neue E-Mail eingeben';
 
   @override
   String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+      'Gib die neue E-Mail-Adresse ein, die du verwenden möchtest.';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => 'Neue E-Mail';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => 'Verifizierungscode senden';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => 'Neue E-Mail verifizieren';
 
   @override
   String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+      'Gib den Verifizierungscode ein, der an deine neue E-Mail-Adresse gesendet wurde.';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => 'E-Mail geändert';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => 'Ungültiger oder abgelaufener Code';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'Erneut senden';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return 'Erneut senden (${seconds}s)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => 'Verifizierungscode';
 
   @override
-  String get verify => 'Verify';
+  String get verify => 'Verifizieren';
 
   @override
-  String get enable => 'Enable';
+  String get enable => 'Aktivieren';
 
   @override
-  String get disable => 'Disable';
+  String get disable => 'Deaktivieren';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Löschen';
 
   @override
-  String get save => 'Save';
+  String get save => 'Speichern';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => 'Zwei-Faktor-Authentifizierung';
 
   @override
   String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+      'Füge deinem Konto eine zusätzliche Sicherheitsebene hinzu';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Authenticator-App';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+      'Zwei-Faktor-Authentifizierung ist aktiviert';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+      'Verwende eine Authenticator-App, um Codes für die Zwei-Faktor-Authentifizierung zu generieren';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => 'Backup-Codes';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+      'Zeige deine Backup-Codes zur Kontowiederherstellung an und verwalte sie';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => 'Codes anzeigen';
 
   @override
   String get securityPasskeysSectionTitle => 'Passkeys';
 
   @override
   String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+      'Verwende Passkeys für die passwortlose Anmeldung und Zwei-Faktor-Authentifizierung';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => 'Registrierte Passkeys';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => 'Keine Passkeys registriert';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: 'Passkeys',
+      one: 'Passkey',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$count $_temp0 registriert (max. 10)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => 'Passkey hinzufügen';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return 'Hinzugefügt: $date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return 'Zuletzt verwendet: $date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => 'Umbenennen';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => 'Passkey löschen';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return 'Möchtest du den Passkey „$name“ wirklich löschen?';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => 'Passkey benennen';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => 'Passkey-Name';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint =>
+      'z. B. YubiKey, iPhone, Arbeitscomputer';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => 'Telefonnummer';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription => 'Verwalte deine Telefonnummer.';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => 'Telefonnummer';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => 'Keine Telefonnummer hinzugefügt.';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => 'Telefon hinzufügen';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => 'Entfernen';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => 'Telefonnummer entfernen';
 
   @override
   String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+      'Möchtest du deine Telefonnummer wirklich entfernen?';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => 'Telefonnummer entfernt';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => 'Sicherheitsfunktionen';
 
   @override
   String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+      'Fordere dein Konto an, um auf Sicherheitsfunktionen wie Zwei-Faktor-Authentifizierung und Passkeys zuzugreifen.';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'Du musst deine E-Mail-Adresse verifizieren, bevor du Zwei-Faktor-Authentifizierung, Passkeys oder SMS-Verifizierung einrichten kannst.';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => 'Authenticator-App einrichten';
 
   @override
   String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+      'Scanne den QR-Code mit deiner Authenticator-App, um Codes für die Zwei-Faktor-Authentifizierung zu generieren.';
 
   @override
   String get totpEnableCodeLabel => 'Code';
 
   @override
   String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+      'Gib den 6-stelligen Code aus deiner Authenticator-App ein';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess =>
+      'Zwei-Faktor-Authentifizierung wurde aktiviert';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => 'Authenticator-App entfernen';
 
   @override
   String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+      'Gib den 6-stelligen Code aus deiner Authenticator-App ein, um die Zwei-Faktor-Authentifizierung zu deaktivieren.';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => 'Zwei-Faktor-Authentifizierung deaktiviert';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => 'Backup-Codes';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      'Wenn du den Zugriff auf deine Authenticator-App verlierst und diese Codes nicht hast, wirst du dauerhaft von deinem Konto ausgesperrt. Lade sie herunter oder kopiere sie jetzt und bewahre sie sicher auf.';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => 'Herunterladen';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => 'Kopieren';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied => 'Backup-Codes in die Zwischenablage kopiert';
 
   @override
   String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+      'Ich habe meine Backup-Codes heruntergeladen oder kopiert und sicher aufbewahrt.';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => 'Fertig';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => 'Backup-Codes anzeigen';
 
   @override
   String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+      'Zur Anzeige deiner Backup-Codes ist möglicherweise eine Verifizierung erforderlich.';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => 'Telefonnummer hinzufügen';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => 'Telefonnummer';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => 'Gib deine Telefonnummer ein';
 
   @override
   String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+      'Gib deine Telefonnummer ein. Wir senden dir einen Verifizierungscode per SMS.';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => 'Code senden';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => 'Telefonnummer verifizieren';
 
   @override
   String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+      'Gib den Verifizierungscode ein, der an deine Telefonnummer gesendet wurde.';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => 'Telefonnummer hinzugefügt';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => 'Gefahrenzone';
 
   @override
   String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+      'Irreversible und destruktive Aktionen';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => 'Konto deaktivieren';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+      'Deaktiviere dein Konto vorübergehend. Du kannst es später reaktivieren, indem du dich wieder anmeldest.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      'Das Deaktivieren deines Kontos wird dich aus allen Sitzungen abmelden. Du kannst dein Konto jederzeit wieder aktivieren, indem du dich erneut anmeldest.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => 'Konto löschen';
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+      'Lösche dein Konto und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      'Kündige dein aktives Plutonium-Abonnement in den Plutonium-Einstellungen, bevor du dein Konto löschst.';
 
   @override
-  String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
+  String get dangerZoneDeleteCannotDeleteAccount =>
+      'Konto kann nicht gelöscht werden';
 
   @override
   String get dangerZoneDeleteOwnsCommunities =>
-      'You cannot delete your account while you own communities. Transfer ownership of the following communities first:';
+      'Du kannst dein Konto nicht löschen, solange du Communities besitzt. Übertrage zuerst den Besitz der folgenden Communities:';
 
   @override
   String dangerZoneDeleteAndXMore(int count) {
-    return 'and $count more';
+    return 'und $count weitere';
   }
 
   @override
   String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'To transfer ownership, go to $settingsPath and use the transfer ownership option.';
+    return 'Um den Besitz zu übertragen, gehe zu $settingsPath und nutze die Option „Besitz übertragen“.';
   }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      'Möchtest du dein Konto wirklich löschen? Diese Aktion plant dein Konto zur dauerhaften Löschung ein.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+      'Du kannst den Löschvorgang innerhalb von 14 Tagen abbrechen';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+      'Nach 14 Tagen wird dein Konto dauerhaft gelöscht';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+      'Nachdem die Löschung verarbeitet wurde, kannst du nicht mehr auf dein Konto zugreifen';
 
   @override
   String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+      'Du kannst deine gesendeten Nachrichten nach der Löschung deines Kontos nicht mehr löschen';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      'Wenn du deine Daten exportieren oder zuerst deine Nachrichten löschen möchtest, besuche bitte den Abschnitt „Datenschutz-Dashboard“ in den Benutzereinstellungen, bevor du fortfährst.';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => 'Fordere dein Konto an';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      'Fordere dein Konto an, indem du eine E-Mail-Adresse und ein Passwort hinzufügst. Wir senden dir einen Verifizierungscode, um deine E-Mail zu bestätigen, bevor wir fertig sind.';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => 'E-Mail';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => 'Passwort';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => 'Code senden';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      'Gib den Code ein, den wir an deine E-Mail gesendet haben, um sie zu verifizieren. Dein Passwort wird festgelegt, sobald der Code bestätigt wurde.';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => 'Konto erfolgreich beansprucht';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => 'Wichtige Informationen:';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => 'Ein Fehler ist aufgetreten';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => 'Ungültiger Code';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: 'vor $count Jahren',
+      one: 'vor 1 Jahr',
     );
     return '$_temp0';
   }
@@ -2101,8 +2128,8 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: 'vor $count Monaten',
+      one: 'vor 1 Monat',
     );
     return '$_temp0';
   }
@@ -2112,8 +2139,8 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: 'vor $count Tagen',
+      one: 'vor 1 Tag',
     );
     return '$_temp0';
   }
@@ -2123,8 +2150,8 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: 'vor $count Stunden',
+      one: 'vor 1 Stunde',
     );
     return '$_temp0';
   }
@@ -2134,129 +2161,133 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: 'vor $count Minuten',
+      one: 'vor 1 Minute',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => 'gerade eben';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => 'Autorisierte Anwendungen';
 
   @override
   String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+      'Diesen Anwendungen wurde der Zugriff auf dein Fluxer-Konto gewährt.';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => 'Keine autorisierten Anwendungen';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'Du hast noch keine Anwendungen autorisiert, auf dein Konto zuzugreifen.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+      'Autorisierte Anwendungen konnten nicht geladen werden';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'Autorisiert am $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => 'Erteilte Berechtigungen';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => 'Entziehen';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => 'Anwendungszugriff entziehen';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return 'Möchtest du den Zugriff für $appName wirklich entziehen? Diese Anwendung hat dann keinen Zugriff mehr auf dein Konto.';
   }
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+      'Zugriff auf deine grundlegenden Profilinformationen (Benutzername, Avatar usw.)';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => 'Deine E-Mail-Adresse anzeigen';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+      'Die Communities anzeigen, deren Mitglied du bist';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections =>
+      'Deine verbundenen Konten anzeigen';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+      'Einen Bot mit den angeforderten Berechtigungen zu einer Community hinzufügen';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin =>
+      'Auf administrative Endpunkte zugreifen';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => 'Löschung ausstehend';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => 'Blockierte Benutzer';
 
   @override
   String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+      'Blockierte Benutzer können dir keine Freundschaftsanfragen senden oder dich direkt anschreiben.';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => 'Keine blockierten Benutzer';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription =>
+      'Du hast noch niemanden blockiert.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError =>
+      'Blockierte Benutzer konnten nicht geladen werden';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => 'Entsperren';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => 'Benutzer entsperren';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Möchtest du $username wirklich entsperren?';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => 'FluxerTag kopieren';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => 'Benutzer-ID kopieren';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => 'Profil konnte nicht geladen werden';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => 'Erneut versuchen';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => 'Nachricht';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => 'Sprachanruf';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => 'Videoanruf';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => 'Profil bearbeiten';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'Fluxer Team';
 
   @override
   String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
@@ -2272,7 +2303,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'Fluxer Plutonium Abonnent seit $date';
   }
 
   @override
@@ -2280,7 +2311,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'Fluxer Visionary seit $date';
   }
 
   @override
@@ -2290,422 +2321,427 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return 'Gemeinsame Freunde ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return 'Gemeinsame Communities ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => 'Gemeinsame Freunde';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => 'Gemeinsame Communities';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends =>
+      'Keine gemeinsamen Freunde gefunden.';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities =>
+      'Keine gemeinsamen Communities gefunden.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return 'Spitzname: $nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => 'DM öffnen';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return 'Du hast $username blockiert. Du kannst keine Nachrichten senden, es sei denn, du hebst die Blockierung auf.';
   }
 
   @override
-  String get blockedUserComposerBarrierAction => 'Unblock';
+  String get blockedUserComposerBarrierAction => 'Blockierung aufheben';
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get userProfileOpenDm => 'DM öffnen';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileNoteTitle => 'Notiz';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteVisibility => '(nur für dich sichtbar)';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteSave => 'Speichern';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteDelete => 'Löschen';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteEmpty => 'Klicke, um eine Notiz hinzuzufügen';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileMemberSince => 'Mitglied seit';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileAboutMe => 'Über mich';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileCopyUsername => 'Benutzernamen kopieren';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUserId => 'Benutzer-ID kopieren';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileViewMainProfile => 'Hauptprofil anzeigen';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewCommunityProfile => 'Community-Profil anzeigen';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileBlockUser => 'Benutzer blockieren';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileUnblockUser => 'Benutzer blockieren aufheben';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileRemoveFriend => 'Freund entfernen';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileBlockConfirmTitle => 'Benutzer blockieren';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return 'Möchtest du $username wirklich blockieren?';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => 'Benutzer blockieren aufheben';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Möchtest du $username wirklich blockieren aufheben?';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => 'Freund entfernen';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Möchtest du $username wirklich als Freund entfernen?';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => 'DM konnte nicht geöffnet werden';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote =>
+      'Notiz konnte nicht gespeichert werden';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed =>
+      'Aktion fehlgeschlagen, bitte versuche es erneut';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => 'Spitznamen ändern';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => 'Entfernen';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => 'Sperren';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'Zeitlimit';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => 'Zeitlimit aufheben';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => 'Besitz übertragen';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => 'Benutzer melden';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => 'Nachricht melden';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return '$username entfernen?';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return 'Möchtest du $username wirklich entfernen? Sie können mit einer neuen Einladung wieder beitreten.';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => 'Zeitlimit aufheben?';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return 'Wenn das Zeitlimit aufgehoben wird, kann $username wieder Nachrichten senden, reagieren und an Sprachkanälen teilnehmen.';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => 'Besitz übertragen?';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return 'Besitz dieser Community an $username übertragen? Dies ist unumkehrbar und Sie verlieren alle Inhaberprivilegien.';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return '$username sperren';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => 'Sperrdauer';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel =>
+      'Benutzerdefinierte Dauer (Sekunden)';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return 'Jeder Wert von $min bis $max Sekunden';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel => 'Nachrichtenverlauf löschen';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => 'Keine löschen';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => 'Vorherige 24 Stunden';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => 'Vorherige 7 Tage';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => 'Grund (optional)';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => 'Grund für die Sperre eingeben';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => 'Mitglied sperren';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return '$username stummschalten';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => 'Stummschaltungsdauer';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => 'Mitglied stummschalten';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => 'Spitzname';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => 'Spitznamen eingeben';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => 'Speichern';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return '$username wurde gekickt';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return '$username wurde gesperrt';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return '$username wurde stummgeschaltet';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return 'Zeitlimit für $username aufgehoben';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => 'Spitzname aktualisiert';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => 'Besitz übertragen';
 
   @override
   String get durationPermanent => 'Permanent';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 Sekunden';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 Minuten';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 Minuten';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 Stunde';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 Stunden';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 Tag';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 Tage';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 Tage';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 Woche';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 Wochen';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 Monat';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => 'Benutzerdefiniert…';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => 'Benutzer melden';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => 'Unangemessenes Profil';
 
   @override
   String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+      'Dieses Benutzerprofil enthält unangemessene Inhalte';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return '$name tippt...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return '$name1 und $name2 tippen...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return '$name1, $name2 und $name3 tippen...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'Mehrere Personen tippen...';
 
   @override
   String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+      'Eine Handvoll Tastatur-Krieger versammelt sich...';
 
   @override
   String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+      'Eine Symphonie aus klappernden Tasten ist im Gange...';
 
   @override
   String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+      'Hier ist eine ausgewachsene Tipp-Fiesta im Gange';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => 'Wer, das ist eine Tipp-Apokalypse';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return 'Schön, dass du da bist, $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return 'Willkommen, $username! Mach es dir gemütlich.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return 'Hallo, $username! Schön, dich hier zu haben.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return 'Hallo, $username! Spring rein, wann immer du bereit bist.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return 'Hey $username, schön, dich hier zu sehen!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return 'Hey, $username! Ich hoffe, du genießt deinen Aufenthalt.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return 'Hey, $username, willkommen an Bord!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return 'Schön, dass du es geschafft hast, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return 'Willkommen, $username!';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return 'Willkommen, $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return 'Willkommen, $username! Wir freuen uns, dass du hier bist.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return 'Willkommen, $username! Ich hoffe, du genießt deine Zeit hier.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return 'Willkommen, $username! Dein nächstes Gespräch beginnt hier.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return 'Willkommen, $username. Wir freuen uns, dich hier zu haben.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return 'Schön, dich zu sehen, $username! Willkommen.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return 'Du bist hier, $username! Gut, dich bei uns zu haben.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return 'Du bist angekommen, $username! Lass uns anfangen.';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => 'jetzt';
 
   @override
   String relativeTimeShortMinutes(int count) {
@@ -2763,43 +2799,43 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => 'Meine Geräte';
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'Alle Geräte anzeigen, die derzeit bei Ihrem Konto angemeldet sind. Widerrufen Sie alle Sitzungen, die Sie nicht erkennen.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => 'Aktuelles Gerät';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => 'Andere Geräte';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => 'Auswahlmodus aktivieren';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => 'Auswahlmodus beenden';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => 'Alle auswählen';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => 'Auswahl löschen';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => 'Gerät widerrufen';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => 'Alle anderen Geräte abmelden';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: '$count Geräte abmelden',
+      one: '1 Gerät abmelden',
     );
     return '$_temp0';
   }
@@ -2809,14 +2845,15 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: '$count Geräte abmelden',
+      one: '1 Gerät abmelden',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle =>
+      'Alle anderen Geräte abmelden';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -2824,180 +2861,184 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+          'Dadurch werden die ausgewählten Geräte von Ihrem Konto abgemeldet. Sie müssen sich auf diesen Geräten erneut anmelden.',
       one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+          'Dadurch wird das ausgewählte Gerät von Ihrem Konto abgemeldet. Sie müssen sich auf diesem Gerät erneut anmelden.',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      'Dadurch werden die ausgewählten Geräte von Ihrem Konto abgemeldet. Sie müssen sich auf diesen Geräten erneut anmelden.';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => 'Fortfahren';
 
   @override
   String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+      'Sie müssen sich auf allen abgemeldeten Geräten erneut anmelden';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => 'Netzwerkfehler';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      'Wir haben Probleme, eine Verbindung zum Raum-Zeit-Kontinuum herzustellen. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: 'Geräte widerrufen',
+      one: 'Gerät widerrufen',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError =>
+      'Abmeldung fehlgeschlagen. Versuchen Sie es erneut.';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => 'Unbekanntes Betriebssystem';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => 'Unbekannte Plattform';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return '$duration Zeitlupenmodus';
   }
 
   @override
   String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+      'Sie befinden sich im Zeitlupenmodus. Bitte warten Sie, bevor Sie eine weitere Nachricht senden.';
 
   @override
   String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+      'Zeitlupenmodus ist aktiviert, aber Sie sind immun.';
 
   @override
   String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+      'Du kannst in diesem Kanal keine Nachrichten senden.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return 'Systemankündigungen von $productName-Mitarbeitern. Du kannst hier nicht antworten.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+      'Das Senden von Nachrichten ist in dieser Community vorübergehend pausiert.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      'Du wurdest vorübergehend gesperrt. Nachrichten, Reaktionen und Sprache sind bis zum Ablauf der Sperre pausiert.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+      'Du musst dein Konto beanspruchen, um in dieser Community Nachrichten senden zu können.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+      'Du musst deine E-Mail-Adresse verifizieren, um in dieser Community Nachrichten senden zu können.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+      'Dein Konto ist zu neu, um in dieser Community Nachrichten senden zu können.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      'Du bist noch nicht lange genug Mitglied dieser Community, um Nachrichten senden zu können.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+      'Du musst eine Telefonnummer verifizieren, um in dieser Community Nachrichten senden zu können.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => 'E-Mail verifizieren';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => 'Telefon verifizieren';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return 'Zu viele Anhänge (max. $max)';
   }
 
   @override
   String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+      'Eine oder mehrere Dateien überschreiten die Größenbeschränkung';
 
   @override
   String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+      'Diese Dateien sind zu groß, um sie zusammen zu senden';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload =>
+      'Dateien hierher ziehen zum Hochladen';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend =>
+      'Dateien hierher ziehen zum sofortigen Senden';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => 'Sprachnachricht senden';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => 'Sprachnachricht';
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'Halten zum Aufnehmen. Nach oben ziehen zum Sperren oder loslassen zum Senden.';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => 'Sprachnachricht verwerfen';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => 'Sprachnachricht senden';
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+      'Aufnahme kann nicht gestartet werden. Mikrofonzugriff erlauben.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+      'Sprachaufnahmen werden auf diesem Gerät nicht unterstützt.';
 
   @override
   String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+      'Verlasse den Sprachanruf, um eine Sprachnachricht aufzunehmen.';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed =>
+      'Aufnahme fehlgeschlagen. Versuche es erneut.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+      'Sprachnachricht kann nicht gesendet werden. Versuche es erneut.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+      'Sprich jetzt. Drücke Stopp, wenn du fertig bist – du kannst danach schneiden.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+      'Ziehe die Regler zum Schneiden, dann drücke Senden.';
 
   @override
-  String get voiceMessageStop => 'Stop';
+  String get voiceMessageStop => 'Stopp';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => 'Aufnahme starten';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => 'Wiedergabe';
 
   @override
   String get voiceMessagePause => 'Pause';
@@ -3009,44 +3050,45 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return 'Auswahl muss mindestens ${secondsString}s lang sein.';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => 'Anhang bearbeiten';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => 'Dateiname';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => 'Beschreibung';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => 'Optionale Alternativtext';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => 'Als Spoiler markieren';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => 'Anhang entfernen';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => 'Herunterladen';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => 'Anhang abgelaufen';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => 'Galerie';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => 'Kamera';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => 'Dateien durchsuchen';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip =>
+      'Bild aus der Zwischenablage einfügen';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -3055,163 +3097,164 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => 'Spoiler anzeigen';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => 'Anzeigen';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => 'Zum Anzeigen klicken';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => 'Inhalte für Erwachsene';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => 'Reife Community';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => 'Reife Kategorie';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => 'Reifer Kanal';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => 'Community-Inhaltswarnung';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle => 'Kategorie-Inhaltswarnung';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => 'Kanal-Inhaltswarnung';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => 'Dies enthält sensible Inhalte.';
 
   @override
   String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Diese Community ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Diese Kategorie ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Dieser Kanal ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Dieser Sprachkanal ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+      'Dieser Linkkanal ist für reife Inhalte gekennzeichnet und kann Material öffnen, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+      'Diese reife Community ist für Ihr Konto nicht verfügbar.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+      'Diese reife Kategorie ist für Ihr Konto nicht verfügbar.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+      'Dieser reife Kanal ist für Ihr Konto nicht verfügbar.';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => 'Fortfahren';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => 'Ich verstehe';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => 'Link öffnen';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => 'Sensible Inhalte';
 
   @override
   String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+      'Steuere, wie reife oder sensible Medien in verschiedenen Kontexten gefiltert werden';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel => 'Direktnachrichten von Freunden';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel =>
+      'Direktnachrichten von anderen';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => 'Nachrichten in Community-Kanälen';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => 'Anzeigen';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => 'Unschärfe';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => 'Blockieren';
 
   @override
   String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+      'Medien bis zum Abschluss des Sicherheitsscans unscharf machen';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      'Wenn aktiviert, werden Bilder und Videos unscharf gemacht, bis der Inhalts-Sicherheitsscan abgeschlossen ist.';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+      'Diese Einstellung ist für Ihr Konto immer aktiviert.';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => 'Zurücksetzen';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => 'Speichern';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count Dateien',
+      one: '1 Datei',
     );
-    return 'Uploading $_temp0';
+    return 'Lade $_temp0 hoch';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => 'Upload abbrechen';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return 'Läuft ab am $date';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return 'Läuft ab zwischen $start und $end';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => 'Verbindungen';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      'Verknüpfe externe Konten und Domains mit deinem Fluxer-Profil. Verifizierte Verbindungen werden auf deinem Profil angezeigt.';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => 'Noch keine Verbindungen';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      'Verknüpfe dein Bluesky-Konto oder verifiziere den Domainbesitz, um sie auf deinem Profil anzuzeigen.';
 
   @override
   String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+      'Verifiziere den Domainbesitz, um sie auf deinem Profil anzuzeigen.';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
@@ -3220,29 +3263,29 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get connectionsAddDomain => 'Domain';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => 'Bluesky-Verbindung hinzufügen';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => 'Domain-Verbindung hinzufügen';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => 'Bearbeiten';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => 'Entfernen';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => 'Diese Verbindung wurde verifiziert.';
 
   @override
   String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+      'Diese Verbindung wurde nicht verifiziert.';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => 'Verbindung hinzufügen';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => 'Verbindungstyp';
 
   @override
   String get connectionHandleLabel => 'Handle';
@@ -3257,284 +3300,289 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => 'Diese Verbindung hast du bereits.';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => 'Mit Bluesky verbinden';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => 'Weiter';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => 'Verbindung verifizieren';
 
   @override
   String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+      'Verwende den unten stehenden Eintrag, um den Besitz der Domain nachzuweisen.';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'DNS TXT-Eintrag';
 
   @override
   String get connectionDnsHostLabel => 'Host';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => 'Wert';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => 'Host kopieren';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => 'Wert kopieren';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => 'Kopiert!';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => 'Token-Datei bereitstellen';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      'Lade **fluxer-verification** herunter und lege es in deinem **.well-known**-Ordner ab, damit wir die Domain validieren können.';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => 'fluxer-verification herunterladen';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return 'Die Datei enthält das Verifizierungstoken, das wir von **$dnsUrl** abrufen.';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => 'fluxer-verification speichern';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => 'Verifizieren';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => 'Zurück';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => 'Verbindung bearbeiten';
 
   @override
   String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+      'Wähle aus, wer diese Verbindung auf deinem Profil sehen kann.';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => 'Alle';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+      'Erlaube jedem, diese Verbindung auf deinem Profil zu sehen';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => 'Freunde';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+      'Erlaube deinen Freunden, diese Verbindung zu sehen';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => 'Community-Mitglieder';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+      'Erlaube Mitgliedern aus Communities, in denen du bist, diese Verbindung zu sehen';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => 'Verbindung entfernen';
 
   @override
   String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+      'Möchtest du diese Verbindung wirklich entfernen? Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => 'Entfernen';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError =>
+      'Verbindungen konnten nicht geladen werden';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError =>
+      'Reihenfolge konnte nicht aktualisiert werden';
 
   @override
   String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+      'Verifizierung konnte nicht gestartet werden. Versuche es erneut.';
 
   @override
   String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+      'Konnte nicht verifizieren. Überprüfe deinen DNS-Eintrag und versuche es erneut.';
 
   @override
   String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+      'Bluesky-Autorisierung konnte nicht gestartet werden.';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed =>
+      'Verbindung konnte nicht aktualisiert werden';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed =>
+      'Verbindung konnte nicht entfernt werden';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => 'fluxer-verification gespeichert';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast =>
+      'Datei konnte nicht gespeichert werden';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => 'Gib einen Bluesky-Handle ein.';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => 'Gib eine Domain ein.';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => 'Darstellung';
 
   @override
   String get lookAndFeelThemeSectionTitle => 'Theme';
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+      'Wähle zwischen dunkler, kohlefarbener oder heller Darstellung.';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => 'Dunkles Theme';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => 'Kohle-Theme';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => 'Helles Theme';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => 'System-Theme';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+      'Theme geräteübergreifend synchronisieren';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      'Wenn aktiviert, werden Designänderungen auf allen deinen Geräten synchronisiert. Wenn deaktiviert, verwendet dieses Gerät seine eigene Designeinstellung.';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      'Das Systemdesign deaktiviert die Synchronisierung automatisch, um deine Systemeinstellungen auf diesem Gerät zu verfolgen.';
 
   @override
   String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+      'Das Design konnte nicht mit deinem Konto synchronisiert werden. Bitte versuche es erneut.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Chat-Schriftgröße';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Passe die Schriftgröße im Chatbereich an.';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => 'Oberfläche';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'Passe Oberflächenelemente und -verhalten an.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+      'Tipp-Indikatoren in der Kanalliste';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      'Wähle aus, wie Tipp-Indikatoren in der Kanalliste angezeigt werden, wenn jemand in einem Kanal tippt.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+      'Tipp-Indikator + Avatare';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      'Zeige Tipp-Indikator mit Benutzer-Avataren in der Kanalliste an';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+  String get lookAndFeelChannelTypingIndicatorOnlyName => 'Nur Tipp-Indikator';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      'Zeige nur den Tipp-Indikator ohne Avatare an';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Ausgeblendet';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      'Tipp-Indikatoren in der Kanalliste nicht anzeigen';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      'Tippen im ausgewählten Kanal anzeigen';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      'Wenn deaktiviert (Standard), werden Tipp-Indikatoren nicht im aktuell angezeigten Kanal angezeigt.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'allgemein';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => 'Tastaturhinweise';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+      'Steuere, ob Tastaturkürzel-Hinweise in Tooltips angezeigt werden.';
 
   @override
   String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+      'Tastaturhinweise in Tooltips ausblenden';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      'Wenn aktiviert, werden Kürzel-Badges in Tooltip-Popups ausgeblendet.';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => 'Sonstiges';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription => 'Sonstige Oberflächenoptionen.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => 'Neko anzeigen';
 
   @override
   String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+      'Wenn aktiviert, erscheint Neko in der Nähe der Chat-Eingabezeile.';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle =>
+      'Verhalten beim Beitreten zu Sprachkanälen';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+      'Steuere, wie du Sprachkanälen in Communities beitrittst.';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Doppelklick zum Beitreten zu Sprachkanälen erforderlich';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      'Wenn aktiviert, musst du auf Sprachkanäle doppelklicken, um ihnen beizutreten. Wenn deaktiviert (Standard), tritt ein einfacher Klick dem Kanal sofort bei.';
 
   @override
   String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+      'Der schnelle braune Fuchs springt über den faulen Hund.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => 'Server-Seitenleiste';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Konfiguriere, wie die Server-Seitenleiste Direktnachrichten anzeigt.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -3542,457 +3590,461 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
+          '$count Communities sind aufgrund einer Störung des Flusskondensators vorübergehend nicht verfügbar.',
       one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+          '1 Community ist aufgrund einer Störung des Flusskondensators vorübergehend nicht verfügbar.',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel => 'DMs in Ordner einklappen';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      'Wenn aktiviert, werden ungelesene DMs in der Server-Seitenleiste in einem Ordner auf der Fluxer-Schaltfläche eingeklappt. Klicke auf die Fluxer-Schaltfläche, während du dich auf der DMs-Seite befindest, um den Ordner ein- oder auszuklappen.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => 'Kanalliste';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'Steuere das Verhalten von ungelesenen Indikatoren für stummgeschaltete Kanäle in Kanallisten.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+      'Ungelesenen Indikator auf stummgeschalteten Kanälen anzeigen';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      'Wenn aktiviert, zeigen stummgeschaltete Kanäle einen verblassten ungelesenen Indikator auf der linken Seite an. Erwähnungen erscheinen unabhängig von dieser Einstellung.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => 'Jetzt aktiv';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+      'Steuere, wie „Jetzt aktiv“ in der App angezeigt wird.';
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+      'Jetzt aktiv auf der Startseite anzeigen';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      'Zeige „Jetzt aktiv“ auf der Startseite an, um Freunde anzuzeigen, die in Sprachkanälen aktiv sind. Du siehst eine Vorschau, den Kanal-Kontext, wer bereits dort ist, und eine schnelle Möglichkeit, beizutreten.';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => 'Favoriten';
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'Steuere die Sichtbarkeit von Favoriten in der gesamten App.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel => 'Favoriten aktivieren';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'Wenn aktiviert, kannst du Kanäle zu Favoriten hinzufügen und sie werden im Abschnitt „Favoriten“ angezeigt. Wenn deaktiviert, werden alle favoritenbezogenen UI-Elemente (Schaltflächen, Menüpunkte) ausgeblendet. Deine vorhandenen Favoriten bleiben erhalten.';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => 'Favoriten';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'Noch keine Favoriten';
 
   @override
   String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+      'Markiere Kanäle im Chat-Header, um sie hier zu behalten.';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => 'Willkommen bei Favoriten';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      'Dein persönlicher Bereich für schnellen Zugriff auf Kanäle, DMs und Gruppen, die du liebst. Drücke auf den Stern bei einem Kanal, um ihn hier hinzuzufügen.';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip =>
+      'Nichts für dich? Schalte es jederzeit aus.';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => 'Favoriten deaktivieren';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => 'Zu Favoriten hinzugefügt';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => 'Aus Favoriten entfernt';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => 'Favoriten ausgeblendet';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => 'Favoriten stummschalten';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => 'Favoriten wieder aktivieren';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => 'Favoriten-Menü';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => 'Kategorie erstellen';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => 'Kategoriename';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => 'Stummgeschaltete Kanäle ausblenden';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => 'Stummgeschaltete Kanäle anzeigen';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => 'Spitznamen festlegen';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => 'Spitzname';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => 'Spitznamen speichern';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => 'In Kategorie verschieben';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => 'Unkategorisiert';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => 'Andere';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => 'Aus Favoriten entfernen';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => 'Zu Favoriten hinzufügen';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => 'Favoriten ausblenden';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      'Dies blendet alle Favoriten-bezogenen UI-Elemente aus, einschließlich Schaltflächen und Menüpunkte. Deine vorhandenen Favoriten bleiben erhalten und können jederzeit unter Einstellungen > Erweitert > Darstellung wieder aktiviert werden.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => 'Direkte Nachricht';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => 'Anzeige';
 
   @override
   String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+      'Steuere, wie Nachrichten, Medien und andere Inhalte angezeigt werden.';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => 'Medien';
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'Passe Medien-Größen und Schaltflächen an.';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => 'Eingabe';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'Passe die Einstellungen für die Nachrichteneingabe an.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => 'Seitenleiste';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+      'Konfiguriere, wie die Community-Seitenleiste angezeigt wird.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Stummgeschaltete Kanäle standardmäßig ausblenden';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      'Blendet stummgeschaltete Kanäle in der Seitenleiste automatisch aus, wenn du neuen Communities beitrittst';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+      'Stummgeschaltete Kanäle standardmäßig ausblenden?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      'Neue Communities, denen du beitrittst, blenden stummgeschaltete Kanäle automatisch aus. Möchtest du diese Einstellung auch auf alle deine bestehenden Communities anwenden?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      'Stummgeschaltete Kanäle nicht mehr standardmäßig ausblenden?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      'Neue Communities, denen du beitrittst, blenden stummgeschaltete Kanäle nicht mehr automatisch aus. Möchtest du stummgeschaltete Kanäle auch in allen deinen bestehenden Communities anzeigen?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+      'Auf alle Communities anwenden';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+      'In allen Communities anzeigen';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+      'Nur neue Communities';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => 'Medienanzeige';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      'Steuere, wie Bilder, Videos und andere Medien angezeigt werden. Alle Medien werden in der Größe angepasst und konvertiert. Extrem große Dateien, die nicht in eine Vorschau komprimiert werden können, werden unabhängig von diesen Einstellungen nicht eingebettet.';
 
   @override
   String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+      'Wenn als Links zum Chat gepostet';
 
   @override
   String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+      'Wenn direkt zu Fluxer hochgeladen';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => 'Link-Vorschauen';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+      'Steuere, wie Website-Links im Chat in der Vorschau angezeigt werden';
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+      'Einbettungen anzeigen und Website-Links in der Vorschau anzeigen';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => 'Reaktionen';
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+      'Emoji-Reaktionen auf Nachrichten konfigurieren';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+      'Emoji-Reaktionen auf Nachrichten anzeigen';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => 'Spoiler-Inhalt';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+      'Steuern, wie Spoiler-Inhalt angezeigt wird';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => 'Spoiler-Inhalt anzeigen';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => 'Beim Klicken';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+      'Spoiler-Inhalt beim Klicken anzeigen';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName =>
+      'In Kanälen, die ich moderiere';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      'Spoiler-Inhalt immer in Kanälen anzeigen, in denen du die Berechtigung „Nachrichten verwalten“ hast';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => 'Immer';
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+      'Spoiler-Inhalt immer anzeigen';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => 'Medien-Größen-Einstellungen';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      'Passen Sie die maximale Anzeigegröße für eingebettete und angehängte Medien an. Kleinere Größen verbrauchen weniger Speicherplatz, während größere Größen mehr Details anzeigen.';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => 'Medien aus Links (Embeds)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel => 'Hochgeladene Anhänge';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => 'Kompakt (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => 'Kleinere Mediengröße';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => 'Bequem (550x400)';
 
   @override
   String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+      'Größere Mediengröße mit mehr Details';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'GIF-Verhalten';
 
   @override
   String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+      'Steuern, wie GIFs in den Chat eingefügt werden';
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+      'GIFs automatisch senden, wenn ausgewählt';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+      'Ausdruck-Autovervollständigung (Doppelpunkt-Autovervollständigung)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'Steuern Sie, was in der Ausdruck-Autovervollständigung angezeigt wird, wenn Sie einen Doppelpunkt eingeben. Passen Sie an, welche Vorschläge angezeigt werden, um Ihren Vorlieben zu entsprechen.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      'Standard-Emojis in der Ausdruck-Autovervollständigung anzeigen';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Benutzerdefinierte Emojis in der Ausdruck-Autovervollständigung anzeigen';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+      'Sticker in der Ausdruck-Autovervollständigung anzeigen';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+      'Gespeicherte Medien in der Ausdruck-Autovervollständigung anzeigen';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle => 'Nachrichtenbearbeitung';
 
   @override
   String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+      'Steuern Sie, was mit Ihrem Bearbeitungsentwurf geschieht, wenn Sie abbrechen.';
 
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+      'Bearbeitungsentwurf beim Abbrechen beibehalten';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => 'Ungelesene Indikatoren';
 
   @override
   String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+      'Steuern Sie, wie ungelesene Nachrichtenindikatoren angezeigt werden.';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      'Abgeblendeten ungelesenen Indikator in stummgeschalteten Kanälen anzeigen';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      'Zeigen Sie einen abgeblendeten ungelesenen Indikator neben stummgeschalteten Direktnachrichten und Kanälen an, damit Sie auf einen Blick sehen können, wann Aktivität stattfindet.';
 
   @override
-  String get accessibilityDmMessagePreviewGroupTitle => 'DM message previews';
+  String get accessibilityDmMessagePreviewGroupTitle =>
+      'DM-Nachrichten-Vorschauen';
 
   @override
   String get accessibilityDmMessagePreviewGroupDescription =>
-      'Control when message previews are shown in the DM list.';
+      'Steuern Sie, wann Nachrichten-Vorschauen in der DM-Liste angezeigt werden.';
 
   @override
   String get accessibilityDmMessagePreviewModeLabel =>
-      'DM message preview mode';
+      'DM-Nachrichten-Vorschau-Modus';
 
   @override
-  String get accessibilityDmMessagePreviewAllName => 'All messages';
+  String get accessibilityDmMessagePreviewAllName => 'Alle Nachrichten';
 
   @override
   String get accessibilityDmMessagePreviewAllDescription =>
-      'Show message previews for all DM conversations';
+      'Nachrichten-Vorschauen für alle DM-Konversationen anzeigen';
 
   @override
-  String get accessibilityDmMessagePreviewUnreadOnlyName => 'Unread DMs only';
+  String get accessibilityDmMessagePreviewUnreadOnlyName =>
+      'Nur ungelesene DMs';
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
-      'Only show message previews for DMs with unread messages';
+      'Nachrichten-Vorschauen nur für DMs mit ungelesenen Nachrichten anzeigen';
 
   @override
-  String get accessibilityDmMessagePreviewNoneName => 'None';
+  String get accessibilityDmMessagePreviewNoneName => 'Keine';
 
   @override
   String get accessibilityDmMessagePreviewNoneDescription =>
-      'Don\'t show message previews in the DM list';
+      'Keine Nachrichten-Vorschauen in der DM-Liste anzeigen';
 
   @override
-  String get dmListSentAnAttachment => 'Sent an attachment';
+  String get dmListSentAnAttachment => 'Hat einen Anhang gesendet';
 
   @override
   String systemPreviewPinnedMessage(String username) {
-    return '$username pinned a message to this channel.';
+    return '$username hat eine Nachricht an diesen Kanal angeheftet.';
   }
 
   @override
   String systemPreviewAddedToGroup(String username, String userName) {
-    return '$username added $userName to the group.';
+    return '$username hat $userName zur Gruppe hinzugefügt.';
   }
 
   @override
   String systemPreviewAddedSomeoneToGroup(String username) {
-    return '$username added someone to the group.';
+    return '$username hat jemanden zur Gruppe hinzugefügt.';
   }
 
   @override
   String systemPreviewHasLeftGroup(String username) {
-    return '$username has left the group.';
+    return '$username hat die Gruppe verlassen.';
   }
 
   @override
   String systemPreviewRemovedFromGroup(String username, String userName) {
-    return '$username removed $userName from the group.';
+    return '$username hat $userName aus der Gruppe entfernt.';
   }
 
   @override
   String systemPreviewRemovedSomeoneFromGroup(String username) {
-    return '$username removed someone from the group.';
+    return '$username hat jemanden aus der Gruppe entfernt.';
   }
 
   @override
   String systemPreviewChangedChannelNameTo(String username, String newName) {
-    return '$username changed the channel name to $newName.';
+    return '$username hat den Kanalnamen in $newName geändert.';
   }
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username changed the channel name.';
+    return '$username hat den Kanalnamen geändert.';
   }
 
   @override
   String systemPreviewChangedChannelIcon(String username) {
-    return '$username changed the channel icon.';
+    return '$username hat das Kanalbild geändert.';
   }
 
   @override
   String systemPreviewStartedCall(String username) {
-    return '$username started a call.';
+    return '$username hat einen Anruf gestartet.';
   }
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get voiceConnectionConfirmTitle => 'Sprachverbindungsbestätigung';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -4000,92 +4052,94 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+          'Du bist bereits von $count anderen Geräten mit diesem Sprachkanal verbunden. Was möchtest du tun?',
       one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+          'Du bist bereits von 1 anderen Gerät mit diesem Sprachkanal verbunden. Was möchtest du tun?',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => 'Zu diesem Gerät wechseln';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+      'Einfach beitreten (andere Verbindungen beibehalten)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+      'Nichts tun, ich möchte nicht beitreten';
 
   @override
   String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+      'Dies ist ein Sprachkanal. Verbinde dich, um zu sprechen!';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => 'Sprachkanal beitreten';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => 'Mit Sprache verbinden';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+      'Du hast keine Berechtigung, diesem Sprachkanal beizutreten';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Mikrofon-, Kamera- und Bildschirmfreigabeinhalte sind Ende-zu-Ende-verschlüsselt.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Mikrofon-, Kamera- und Bildschirmfreigabeinhalte sind Ende-zu-Ende-verschlüsselt.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+      'Ende-zu-Ende-Verschlüsselung ist nicht verfügbar, da ein nicht unterstützter Teilnehmer in diesem Sprachkanal ist.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+      'Ende-zu-Ende-Verschlüsselung ist nicht verfügbar, da ein nicht unterstützter Teilnehmer in diesem Anruf ist.';
 
   @override
   String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+      'Dieser Client muss aktualisiert werden, bevor er diesem verschlüsselten Anruf beitritt.';
 
   @override
   String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+      'Dein Mikrofon konnte nicht gestartet werden. Du bist noch im Anruf.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => 'Verbinden…';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => 'Verbunden';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => 'Fehler';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => 'Mobiles Gerät';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => 'Desktop-Gerät';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted =>
+      'Von der Community stummgeschaltet';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => 'Stummgeschaltet';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened =>
+      'Von der Community taubgeschaltet';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => 'Taubgeschaltet';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return 'Verbindung: $connectionId';
   }
 
   @override
@@ -4093,209 +4147,210 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count Teilnehmer',
+      one: '1 Teilnehmer',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => 'Verlassen';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => 'Stummschalten';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => 'Stummschaltung aufheben';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => 'Taubschalten';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => 'Taubschaltung aufheben';
 
   @override
   String get voiceControlVideo => 'Video';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => 'Bildschirmfreigabe';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText => 'Bildschirm wird geteilt.';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => 'Mehr';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => 'Trennen';
 
   @override
   String get voiceControlChat => 'Chat';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => 'Chat anzeigen';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# ungelesenen Nachrichten',
+      one: '1 ungelesener Nachricht',
     );
-    return 'Show chat with $_temp0';
+    return 'Chat anzeigen mit $_temp0';
   }
 
   @override
   String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+      'Kamera-Berechtigung ist für Video erforderlich.';
 
   @override
   String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+      'Bildschirmfreigabe konnte nicht gestartet werden. Bitte versuche es erneut.';
 
   @override
   String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+      'Berechtigung zur Bildschirmfreigabe wurde verweigert.';
 
   @override
   String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+      'Bildschirmfreigabe ist auf diesem Gerät nicht verfügbar.';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => 'Stream ansehen';
 
   @override
-  String get voiceStopWatching => 'Stop Watching';
+  String get voiceStopWatching => 'Nicht mehr ansehen';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
-      'Stop watching the current stream';
+      'Aktuellen Stream nicht mehr ansehen';
 
   @override
-  String get voiceOwnScreenShareTitle => 'You are broadcasting';
+  String get voiceOwnScreenShareTitle => 'Du sendest';
 
   @override
   String get voiceOwnScreenShareSubtitle =>
-      'Your stream is live for participants.';
+      'Dein Stream ist für Teilnehmer live.';
 
   @override
-  String get voiceLiveBadge => 'Live';
+  String get voiceLiveBadge => 'LIVE';
 
   @override
-  String get dmVoiceViewCall => 'View call';
+  String get dmVoiceViewCall => 'Anruf ansehen';
 
   @override
-  String get dmVoiceCallFullScreen => 'Full screen';
+  String get dmVoiceCallFullScreen => 'Vollbild';
 
   @override
-  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+  String get dmVoiceCallFullScreenTooltip => 'Anruf im Vollbildmodus öffnen';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Connecting…';
+  String get dmVoiceStripStatusConnecting => 'Verbinde…';
 
   @override
-  String get dmVoiceStripStatusInCall => 'In call';
+  String get dmVoiceStripStatusInCall => 'Im Anruf';
 
   @override
-  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+  String get dmVoiceEmbeddedFallbackTitle => 'Sprachanruf';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Connecting…';
+  String get dmVoiceCallBarConnecting => 'Verbinde…';
 
   @override
-  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+  String get dmVoiceCallBarDirectPrimary => 'Direkter Anruf';
 
   @override
-  String get dmVoiceCallBarGroupPrimary => 'Group call';
+  String get dmVoiceCallBarGroupPrimary => 'Gruppenanruf';
 
   @override
-  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+  String get dmVoiceCallBarIssueFallback => 'Sprachproblem';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Voice';
+  String get dmVoiceFullscreenTitle => 'Sprache';
 
   @override
-  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
+  String get voiceCallBarGuildConnectedFallback => 'Sprache verbunden';
 
   @override
-  String get notificationsPageTitle => 'Notifications';
+  String get notificationsPageTitle => 'Benachrichtigungen';
 
   @override
-  String get notificationsFilterUnreads => 'Unreads';
+  String get notificationsFilterUnreads => 'Ungelesen';
 
   @override
-  String get notificationsFilterMentions => 'Mentions';
+  String get notificationsFilterMentions => 'Erwähnungen';
 
   @override
-  String get notificationsBookmarksTooltip => 'Bookmarks';
+  String get notificationsBookmarksTooltip => 'Lesezeichen';
 
   @override
-  String get notificationsMentionFilterTooltip => 'Filter mentions';
+  String get notificationsMentionFilterTooltip => 'Erwähnungen filtern';
 
   @override
-  String get notificationsMentionFiltersTitle => 'Mention filters';
+  String get notificationsMentionFiltersTitle => 'Erwähnungsfilter';
 
   @override
   String get notificationsMentionIncludeEveryone =>
-      'Include @everyone and @here mentions';
+      '@everyone und @here-Erwähnungen einschließen';
 
   @override
-  String get notificationsMentionIncludeRoles => 'Include role mentions';
+  String get notificationsMentionIncludeRoles =>
+      'Rollen-Erwähnungen einschließen';
 
   @override
   String get notificationsMentionIncludeGuilds =>
-      'Include all community mentions';
+      'Alle Community-Erwähnungen einschließen';
 
   @override
-  String get notificationsNoUnreadTitle => 'No Unread Messages';
+  String get notificationsNoUnreadTitle => 'Keine ungelesenen Nachrichten';
 
   @override
-  String get notificationsNoUnreadBody => 'You\'re all caught up.';
+  String get notificationsNoUnreadBody => 'Du bist auf dem neuesten Stand.';
 
   @override
-  String get notificationsNoMentionsTitle => 'No Recent Mentions';
+  String get notificationsNoMentionsTitle => 'Keine aktuellen Erwähnungen';
 
   @override
   String get notificationsNoMentionsBody =>
-      'All @mentions of you will appear here for 7 days.';
+      'Alle @-Erwähnungen von dir erscheinen hier für 7 Tage.';
 
   @override
-  String get notificationsMentionsEndTitle => 'You\'ve reached the end';
+  String get notificationsMentionsEndTitle => 'Du hast das Ende erreicht';
 
   @override
   String get notificationsMentionsEndBody =>
-      'You\'ve seen all your recent mentions. Don\'t fret, more will appear here soon.';
+      'Du hast alle deine letzten Erwähnungen gesehen. Keine Sorge, hier werden bald mehr erscheinen.';
 
   @override
-  String get notificationsJump => 'Jump';
+  String get notificationsJump => 'Springen';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Remove mention';
+  String get notificationsRemoveMentionTooltip => 'Erwähnung entfernen';
 
   @override
-  String get notificationsViewAllUnread => 'View all unread';
+  String get notificationsViewAllUnread => 'Alle ungelesenen anzeigen';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead => 'Als gelesen markieren';
 
   @override
-  String get notificationsExpand => 'Expand';
+  String get notificationsExpand => 'Erweitern';
 
   @override
-  String get notificationsCollapse => 'Collapse';
+  String get notificationsCollapse => 'Einklappen';
 
   @override
   String get notificationsMessageUnavailable =>
-      'This message couldn\'t be loaded.';
+      'Diese Nachricht konnte nicht geladen werden.';
 
   @override
   String characterCounterRemaining(int remaining) {
-    return '$remaining characters left';
+    return '$remaining Zeichen übrig';
   }
 
   @override
-  String get characterCounterTooLong => 'Message is too long';
+  String get characterCounterTooLong => 'Nachricht ist zu lang';
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -4303,628 +4358,643 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String productName,
     int premiumMaxLength,
   ) {
-    return '$remaining characters left. Get $productName to write up to $premiumMaxLength characters.';
+    return '$remaining Zeichen übrig. Hol dir $productName, um bis zu $premiumMaxLength Zeichen zu schreiben.';
   }
 
   @override
-  String get chatMessageFailedToSend => 'Failed to send message';
+  String get chatMessageFailedToSend =>
+      'Nachricht konnte nicht gesendet werden';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {
-    return 'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in $settingsPath.';
+    return 'Deine Nachricht konnte nicht zugestellt werden. Das liegt meist daran, dass du keine Community mit dem Empfänger teilst oder der Empfänger nur Direktnachrichten von Freunden akzeptiert. Möglicherweise musst du auch deine eigenen Datenschutzeinstellungen für Direktnachrichten in $settingsPath anpassen.';
   }
 
   @override
   String get chatSendFailureUnclaimedDm =>
-      'Your message could not be delivered. You need to claim your account to send direct messages.';
+      'Deine Nachricht konnte nicht zugestellt werden. Du musst dein Konto beanspruchen, um Direktnachrichten senden zu können.';
 
   @override
   String get chatSendFailureUnclaimedGeneral =>
-      'Your message could not be delivered. You need to claim your account to send messages.';
+      'Deine Nachricht konnte nicht zugestellt werden. Du musst dein Konto beanspruchen, um Nachrichten senden zu können.';
 
   @override
   String get chatSendFailureContentBlocked =>
-      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'Deine Nachricht konnte nicht zugestellt werden, da sie von unseren Sicherheitssystemen markiert wurde. Wenn du glaubst, dass dies ein Fehler ist, kontaktiere bitte den Support.';
 
   @override
   String get chatSendFailureNsfwEmojiSticker =>
-      'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
+      'Deine Nachricht konnte nicht zugestellt werden, da sie jugendgefährdende Emoji oder Sticker enthält, die in diesem Kontext nicht erlaubt sind.';
 
   @override
-  String get chatClientSystemOnlyYouCanSee => 'Only you can see this message.';
+  String get chatClientSystemOnlyYouCanSee =>
+      'Nur du kannst diese Nachricht sehen.';
 
   @override
-  String get chatClientSystemDismiss => 'Dismiss';
+  String get chatClientSystemDismiss => 'Schließen';
 
   @override
-  String get privacyDashboardCommunicationSection => 'Communication';
+  String get privacyDashboardCommunicationSection => 'Kommunikation';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String get chatMessageDeleteFailed =>
+      'Nachricht konnte nicht gelöscht werden';
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatMessageAddReaction => 'Reaktion hinzufügen';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatMessageEdit => 'Nachricht bearbeiten';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatMessageReply => 'Antworten';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatMessageForward => 'Weiterleiten';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get forwardMessageTitle => 'Nachricht weiterleiten';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get forwardSearchHint => 'Kanäle oder Direktnachrichten suchen';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get forwardDirectMessagesSection => 'Direktnachrichten';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get forwardCommentHint => 'Kommentar hinzufügen (optional)';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return 'Senden ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => 'Keine Kanäle gefunden';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => 'Nachricht weitergeleitet';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => 'Nachricht konnte nicht weitergeleitet werden';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'Kommentare sind nicht verfügbar, da in einem ausgewählten Kanal der Zeitlimit-Modus aktiviert ist.';
 
   @override
   String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+      'Du kannst hier keine Nachrichten senden';
 
   @override
   String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+      'Du kannst hier keine Links einbetten';
 
   @override
   String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+      'Du kannst hier keine Dateien anhängen';
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+      'Nachrichten senden ist in dieser Community deaktiviert';
 
   @override
   String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+      'Du bist in dieser Community im Zeitlimit';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'Zeitlimit-Modus – warte $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => 'Nachricht kopieren';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => 'Nachricht anpinnen';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => 'Nachricht lösen';
 
   @override
-  String get chatMessageUnpinIt => 'Unpin it';
+  String get chatMessageUnpinIt => 'Lösen';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageBookmark => 'Nachricht als Lesezeichen speichern';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageRemoveBookmark => 'Lesezeichen entfernen';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageMarkAsUnread => 'Als ungelesen markieren';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageCopyMessageLink => 'Nachrichtenlink kopieren';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageId => 'Nachrichten-ID kopieren';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageViewReactions => 'Reaktionen anzeigen';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageRemoveAllReactions => 'Alle Reaktionen entfernen';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageDebug => 'Nachricht debuggen';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebugSheetTitle => 'Nachricht debuggen';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugCopyJson => 'JSON kopieren';
 
   @override
   String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+      'Nachrichten-JSON in die Zwischenablage kopiert';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => 'Reaktionen';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty => 'Niemand hat bisher darauf reagiert.';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => 'Nachricht melden';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get iarReportMessageTitle => 'Nachricht melden';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarThisUserFallback => 'diesem Nutzer';
 
   @override
   String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+      'Regelverstoß melden oder Tools zur Verwaltung von Kontakten und Einstellungen finden.';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarPathStepAriaLabel => 'Was brauchst du?';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarCategoryStepTitle => 'Welche Art von Regel wurde gebrochen?';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarReasonStepTitle => 'Welche Regel wurde gebrochen?';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonSelectHint => 'Grund auswählen';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarPickAnOptionToast => 'Wähle eine Option, um fortzufahren.';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickARuleToast => 'Wähle die gebrochene Regel aus.';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPathPlatform => 'Regelverstoß auf der Plattform melden';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathCommunity => 'An die Moderatoren dieser Community melden';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathPreferenceMessage => 'Ich mag diese Inhalte nicht';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarCategoryTargetedHarmLabel =>
+      'Bedrohungen, Belästigung oder Schaden';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+      'Mobbing, Drohungen, Hass, Gewalt, Razzien oder Inhalte, die Selbstverletzung fördern.';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategorySafetyMinorsLabel =>
+      'Kinderschutz oder jugendgefährdende Inhalte';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+      'Minderjährige in Gefahr, jugendgefährdende Inhalte am falschen Ort oder unerwünschtes Verhalten.';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategoryPrivacyIdentityLabel =>
+      'Privatsphäre oder Identitätsdiebstahl';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+      'Doxing, Stalking, sich als jemand ausgeben oder ein unangemessenes Profil.';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryDeceptionLabel =>
+      'Betrug, Malware oder Fehlinformationen';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+      'Phishing, Betrug, bösartige Links oder falsche Behauptungen, die wahrscheinlich echten Schaden verursachen.';
 
   @override
   String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+      'Illegale Aktivität oder etwas anderes';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+      'Illegale Verkäufe, kriminelle Erleichterung oder ein klarer Regelverstoß, der nicht oben passt.';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarReasonHarassmentLabel => 'Belästigung oder Drohungen';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+      'Mobbing, wiederholter unerwünschter Kontakt, Stalking oder gezielte Beleidigung.';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHateLabel => 'Hassrede';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      'Schimpfwörter, entmenschlichende Sprache oder Angriffe auf geschützte Gruppen.';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonViolenceLabel => 'Gewalt oder Gewaltdrohungen';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+      'Glaubwürdige Drohungen, grafische Gewalt oder Verherrlichung von Gewalt.';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonMatureContentLabel =>
+      'Jugendgefährdende Inhalte oder Belästigung';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+      'Unerwünschtes Verhalten oder jugendgefährdende Inhalte am falschen Ort.';
 
   @override
   String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+      'Kinderschutz oder Ausbeutung von Minderjährigen';
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+      'Grooming oder Inhalte zur Ausbeutung von Minderjährigen.';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonHarmfulMisinfoLabel => 'Schädliche Fehlinformationen';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+      'Falsche Behauptungen, die wahrscheinlich echten Schaden verursachen.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonSpamLabel => 'Spam, Betrug oder Phishing';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+      'Massen-Spam, Betrug, gefälschte Gewinnspiele oder Missbrauch von Konten.';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonMalwareLabel => 'Malware oder gefährliche Links';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+      'Malware, Diebstahl von Anmeldedaten oder schädliche Dateien.';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonPrivacyLabel => 'Verletzung der Privatsphäre';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+      'Doxing, offengelegte private Informationen oder Stalking.';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonImpersonationLabel =>
+      'Identitätsdiebstahl oder täuschende Medien';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+      'Sich als jemand anderes ausgeben, einschließlich täuschender KI-generierter Inhalte.';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonIllegalLabel => 'Illegale Aktivität';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+      'Illegale Verkäufe, kriminelle Erleichterung oder rechtswidrige Aktivitäten.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonSelfHarmLabel => 'Selbstverletzung oder Suizid';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+      'Förderung oder Anleitungen zur Selbstverletzung oder zu Essstörungen.';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonOtherLabel => 'Ein anderer klarer Regelverstoß';
 
   @override
   String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+      'Nur verwenden, wenn es eindeutig gegen die Regeln von Fluxer verstößt und nicht oben passt.';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return 'Wenn ein Minderjähriger beteiligt ist, verwende stattdessen \"$childSafetyReason\".';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      'Wenn es sich um CSAM oder die Ausbeutung eines Minderjährigen handelt, sende es jetzt und teile das Material nicht erneut.';
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+      'Wenn jemand in unmittelbarer Gefahr ist, kontaktiere die örtlichen Rettungsdienste, wenn du dies sicher tun kannst.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+      'Wenn dies eine glaubwürdige, unmittelbare Bedrohung ist, kontaktiere ebenfalls die örtlichen Rettungsdienste.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+      'Wenn dies eine unmittelbare terroristische Bedrohung ist, kontaktiere ebenfalls die örtlichen Rettungsdienste.';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => 'Diesen Benutzer blockieren';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+      'Nachrichten und Freundschaftsanfragen stoppen.';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => 'Blockieren';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => 'Nachrichtenlink kopieren';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+      'Mit Community-Mods teilen.';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => 'Kopieren';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => 'Diese Direktnachricht schließen';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+      'Blockiert nicht. Kann später wieder geöffnet werden.';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => 'DM schließen';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => 'Community verlassen';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+      'Keine Inhalte und Mitglieder mehr sehen.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => 'Verlassen';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle =>
+      'DM- & Freundschaftsanfragen-Einstellungen';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription =>
+      'Ändere, wer dich erreichen kann.';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle => 'Anruf- & Gruppenchat-Einstellungen';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+      'Ändere, wer dich anrufen oder hinzufügen kann.';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => 'Öffnen';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => 'Diese Nachricht löschen';
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+      'Entferne sie für alle aus dem Kanal.';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => 'Löschen';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => 'Gelöscht';
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+      'Diese Nachricht wurde bereits gelöscht.';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => 'Diesen Nutzer sperren';
 
   @override
   String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+      'Öffne den Sperr-Dialog für diese Community.';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => 'Sperren';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => 'Gesperrt';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+      'Dieser Nutzer ist bereits aus der Community gesperrt.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => 'DM schließen';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return 'Schließe deine aktuelle DM mit $name. Das blockiert sie nicht; du kannst sie später wieder öffnen.';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => 'Bericht gesendet';
 
   @override
   String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+      'Unser Sicherheitsteam prüft ihn. Wir senden dir eine DM und E-Mail, sobald wir eine Entscheidung getroffen haben.';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => 'Bereits gemeldet';
 
   @override
   String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+      'Du hast diese Nachricht bereits gemeldet. Unser Sicherheitsteam prüft sie.';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => 'Zurück';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => 'Weiter';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => 'Bericht senden';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => 'Fertig';
 
   @override
   String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+      'Bericht konnte nicht gesendet werden. Bitte versuche es erneut.';
 
   @override
   String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+      'Du meldest zu schnell. Bitte warte einen Moment und versuche es erneut.';
 
   @override
   String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+      'Bericht gesendet. Unser Sicherheitsteam wird ihn prüfen.';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return '$name blockieren? Sie können dir keine Nachrichten mehr senden oder Freundschaftsanfragen stellen. Du kannst sie später wieder entsperren.';
   }
 
   @override
   String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+      'Nutzer konnte nicht blockiert werden. Bitte versuche es erneut.';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => 'DM geschlossen.';
 
   @override
   String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+      'DM konnte nicht geschlossen werden. Bitte versuche es erneut.';
 
   @override
   String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+      'Community konnte nicht verlassen werden. Bitte versuche es erneut.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => 'Einbettungen unterdrücken';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => 'Einbettungen wiederherstellen';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => 'Nachricht löschen';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => 'Nachricht löschen';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+      'Möchtest du diese Nachricht wirklich löschen?';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => 'Mehr';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => 'Nachricht wird bearbeitet';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => 'Originalnachricht wurde gelöscht';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad =>
+      'Originalnachricht konnte nicht geladen werden';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia => 'Nachricht enthält angehängte Medien';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError =>
+      'Nachrichten konnten nicht geladen werden.';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle =>
+      'Erwähnungseinstellung überschreiben?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return '$authorNickname möchte lieber mit @erwähnt werden, wenn auf Nachrichten geantwortet wird. Trotzdem ohne Erwähnung senden?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname bevorzugt Antworten ohne @Erwähnung. Trotzdem mit Erwähnung senden?';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => 'Präferenz ignorieren';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+      'Klicken, um den Benutzer, auf den Sie antworten, nicht zu pingen.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+      'Klicken, um den Benutzer, auf den Sie antworten, zu pingen.';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel =>
+      'Antwortenden Benutzer erwähnen';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => 'An';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => 'Aus';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => 'Antwort abbrechen';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => 'Nachricht bearbeiten';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => 'Keine Änderungen zum Speichern';
 
   @override
   String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+      'Dieser Kanal ist noch nicht bereit. Versuchen Sie es in einem Moment erneut.';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(bearbeitet)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'Dies war eine @silent-Nachricht.';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'Heute um $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'Gestern um $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => 'Bildvorschau';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => 'Medienanzeige schließen';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'Im Browser öffnen';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => 'Weiterleiten';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => 'Vergrößern';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => 'Verkleinern';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => 'Vorheriger Anhang';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => 'Nächster Anhang';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -4932,83 +5002,85 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls => 'Videosteuerung umschalten';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => 'Video stummschalten';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => 'Video-Ton einschalten';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'Video abspielen';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'Video anhalten';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => 'Video-Fortschritt';
 
   @override
-  String get chatVideoPlaybackFailed => 'Could not play this video.';
+  String get chatVideoPlaybackFailed =>
+      'Dieses Video konnte nicht abgespielt werden.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      'Benachrichtigen Sie Benutzer mit dieser Rolle, die die Berechtigung haben, diesen Kanal anzuzeigen.';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => 'Community hinzufügen';
 
   @override
   String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+      'Erstellen Sie eine neue Community oder treten Sie einer bestehenden bei.';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => 'Community erstellen';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => 'Community beitreten';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => 'Discord-Vorlage importieren';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => 'Einer Community beitreten';
 
   @override
   String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+      'Geben Sie den Einladungslink ein, um einer Community beizutreten.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => 'Einladungslink';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => 'Community beitreten';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid =>
+      'Diese Einladung ist ungültig oder abgelaufen.';
 
   @override
   String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+      'Der Beitritt zur Community ist fehlgeschlagen. Bitte versuchen Sie es erneut.';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => 'Paket erfolgreich installiert.';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+      'Alle Reaktionen entfernen';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      'Möchten Sie wirklich alle Reaktionen von dieser Nachricht entfernen?';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => 'Nachricht anpinnen aufheben';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+      'Diese Anstecknadel in der Zeit zurückschicken?';
 
   @override
   String systemPinMessage(
@@ -5016,68 +5088,70 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+    return '$username hat $messageLink in diesem Kanal angepinnt. Alle angepinnten Nachrichten anzeigen: $allPinsLink.';
   }
 
   @override
-  String get systemPinMessageMessageLink => 'a message';
+  String get systemPinMessageMessageLink => 'eine Nachricht';
 
   @override
-  String get systemPinMessageAllPinsLink => 'all pinned messages';
+  String get systemPinMessageAllPinsLink => 'alle angepinnten Nachrichten';
 
   @override
-  String get channelPinsEmptyTitle => 'No pinned messages';
+  String get channelPinsEmptyTitle => 'Keine angepinnten Nachrichten';
 
   @override
-  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
+  String get channelPinsEmptyDescription =>
+      'Hier werden angepinnte Nachrichten angezeigt.';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String get personalNotesTitle => 'Persönliche Notizen';
 
   @override
   String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+      'Dein privater Bereich für Gedanken und Erinnerungen';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return 'Willkommen in $channelName';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return 'Am Anfang war nichts. Dann kam $channelName. Und es war gut.';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => 'Schreib dir selbst eine Nachricht';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => 'Dein privater Bereich';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => 'Persönliche Notizen löschen';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      'Dadurch werden alle Nachrichten und Anhänge in deinen persönlichen Notizen dauerhaft gelöscht. Dies kann nicht rückgängig gemacht werden.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => 'Löschen';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return '$count Nachrichten aus persönlichen Notizen gelöscht';
   }
 
   @override
   String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+      'Persönliche Notizen waren bereits leer';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed =>
+      'Persönliche Notizen konnten nicht geleert werden';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => 'DEIN KONTO';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -5089,185 +5163,187 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => 'Profil';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => 'Sicherheit & Anmeldung';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => 'Geschenke & Codes';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => 'Emoji-Pakete';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard => 'Datenschutz-Dashboard';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => 'Autorisierte Apps';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => 'Blockierte Benutzer';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => 'Verbundene Geräte';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => 'Verbindungen';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => 'Darstellung';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => 'Barrierefreiheit';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => 'Nachrichten & Medien';
 
   @override
   String get userSettingsNavAudioAndVideo => 'Audio & Video';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => 'Töne & Benachrichtigungen';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => 'Sprache & Uhrzeit';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => 'Erweitert';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => 'Leistungsberichte';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      'Hilf mit, Fluxer zu verbessern, indem du anonyme Absturz- und Leistungsdaten teilst.';
 
   @override
   String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+      'Absturz- und Leistungsberichte senden';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      'Alle gemeldeten Daten sind anonym und werden nur an Fluxers eigenen Überwachungsdienst gesendet – es werden keine Drittanbieter verwendet.';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => 'Anwendungen';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => 'App-Protokolle';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => 'Entwicklertools';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => 'Limits-Konfiguration';
 
   @override
   String get userSettingsNavFeatureFlags => 'Feature Flags';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => 'Neues';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => 'Abmelden';
 
   @override
-  String get betaWarningTitle => 'Beta software';
+  String get betaWarningTitle => 'Beta-Software';
 
   @override
   String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+      'Dies ist Beta-Software. Noch ist nicht alles fertig oder hinzugefügt.';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      'Bitte melde alle gefundenen Probleme an die Fluxer Mobile Community (derzeit musst du Plutonium haben, um der Community beitreten zu können).';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => 'Quelle auf GitHub anzeigen';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => 'Verstanden';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => 'Suchen';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => 'Freunde';
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+      'Kanäle, Personen oder Communities suchen';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => 'Freunde suchen';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => 'Keine Treffer gefunden';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+      'Versuche einen anderen Namen oder verwende die Präfixe @ / # / ! / *, um Ergebnisse zu filtern.';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => 'Personen';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => 'Gruppenchats';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => 'Textkanäle';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => 'Sprachkanäle';
 
   @override
   String get quickSwitcherSectionCommunities => 'Communities';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => 'Einstellungen';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => 'Startseite';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => 'Direktnachrichten';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => 'Favoriten';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => 'Benutzereinstellungen';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => 'Benachrichtigungen';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => 'Lesezeichen';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => 'Erwähnungen';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => 'Noch keine Freunde';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint =>
+      'Füge einen Freund hinzu, um loszulegen.';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle =>
+      'Keine Freunde entsprechen dieser Suche';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => 'Versuche einen anderen Namen.';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => 'Benutzer';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => 'Du';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
@@ -5276,159 +5352,164 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get quickSwitcherSearchAliasDms => 'DMs';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => 'Nachrichten';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => 'Favoriten';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => 'Markiert';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => 'Posteingang';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => 'Gespeichert';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => 'Schließen';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => 'Zum Ende springen';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => 'Bestätigen';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => 'Wird geladen';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => 'Ungespeicherte Änderungen';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => 'Zurücksetzen';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'Farbauswahl öffnen';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => 'Auswählen';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => 'Suchen';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => 'Keine Optionen gefunden';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => 'Benachrichtigung schließen';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'Farbauswahl';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => 'Alle erwähnen?';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return 'Dies benachrichtigt $count Mitglieder. Fortfahren?';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return 'Dies benachrichtigt $count Mitglieder, die online sind. Fortfahren?';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => 'Erwähnen';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable =>
+      'Dieses Emoji kannst du hier nicht verwenden.';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => 'Instanz-URL';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder =>
+      'Instanz-URL eingeben (z. B. fluxer.app)';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => 'Auf Fluxer zurücksetzen';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => 'Verbinden';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => 'Verbinde…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => 'Verbindung zur Instanz fehlgeschlagen';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => 'Kürzliche Instanzen';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return '$domain aus kürzlichen Instanzen entfernen';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => 'Mit Instanz verbinden';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance =>
+      'Mit einer anderen Instanz verbinden';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => 'Ändern';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired =>
+      'Verbinde dich mit der Instanz, um dich anzumelden';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => 'Demnächst verfügbar';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => 'Direktnachrichten';
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+      'Entdeckbare Communities durchsuchen';
 
   @override
-  String get discoveryExplore => 'Explore';
+  String get discoveryExplore => 'Entdecken';
 
   @override
-  String get discoveryExplorePublicCommunities => 'Explore public communities';
+  String get discoveryExplorePublicCommunities =>
+      'Öffentliche Communities entdecken';
 
   @override
   String get discoveryListingSubheading =>
-      'Want to list your community on here? Apply if you meet the requirements in your community\'s settings > Discovery.';
+      'Möchtest du deine Community hier auflisten? Bewirb dich, wenn du die Anforderungen in den Einstellungen deiner Community > Entdecken erfüllst.';
 
   @override
-  String get discoverySearchCommunities => 'Search communities';
+  String get discoverySearchCommunities => 'Communities suchen';
 
   @override
-  String get discoveryFilterByLanguage => 'Filter by language';
+  String get discoveryFilterByLanguage => 'Nach Sprache filtern';
 
   @override
-  String get discoveryAllLanguages => 'All languages';
+  String get discoveryAllLanguages => 'Alle Sprachen';
 
   @override
-  String get discoveryAllCategories => 'All';
+  String get discoveryAllCategories => 'Alle';
 
   @override
   String get discoveryCategoryGaming => 'Gaming';
 
   @override
-  String get discoveryCategoryMusic => 'Music';
+  String get discoveryCategoryMusic => 'Musik';
 
   @override
-  String get discoveryCategoryEntertainment => 'Entertainment';
+  String get discoveryCategoryEntertainment => 'Unterhaltung';
 
   @override
-  String get discoveryCategoryEducation => 'Education';
+  String get discoveryCategoryEducation => 'Bildung';
 
   @override
-  String get discoveryCategoryScienceAndTechnology => 'Science & Technology';
+  String get discoveryCategoryScienceAndTechnology => 'Wissenschaft & Technik';
 
   @override
   String get discoveryCategoryContentCreator => 'Content Creator';
@@ -5437,19 +5518,19 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
 
   @override
-  String get discoveryCategoryMoviesAndTv => 'Movies & TV';
+  String get discoveryCategoryMoviesAndTv => 'Filme & TV';
 
   @override
-  String get discoveryCategoryOther => 'Other';
+  String get discoveryCategoryOther => 'Sonstiges';
 
   @override
-  String get discoveryNoCommunitiesMatch => 'No communities match.';
+  String get discoveryNoCommunitiesMatch => 'Keine Communities gefunden.';
 
   @override
-  String get discoveryJoinCommunity => 'Join community';
+  String get discoveryJoinCommunity => 'Community beitreten';
 
   @override
-  String get discoveryJoined => 'Joined';
+  String get discoveryJoined => 'Beigetreten';
 
   @override
   String discoveryOnlineCount(String count) {
@@ -5465,14 +5546,14 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString members',
-      one: '1 member',
+      other: '$countString Mitglieder',
+      one: '1 Mitglied',
     );
     return '$_temp0';
   }
 
   @override
-  String get discoveryNoDescription => 'No description.';
+  String get discoveryNoDescription => 'Keine Beschreibung.';
 
   @override
   String get discoveryCommunities => 'Communities';
@@ -5481,95 +5562,97 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get discoveryApps => 'Apps';
 
   @override
-  String get discoveryJoinErrorGenericTitle => 'Couldn\'t join this community';
+  String get discoveryJoinErrorGenericTitle =>
+      'Diese Community konnte nicht beigetreten werden';
 
   @override
   String get discoveryJoinErrorGenericMessage =>
-      'Something went wrong. Please try again in a moment.';
+      'Etwas ist schiefgelaufen. Bitte versuche es gleich noch einmal.';
 
   @override
-  String get discoveryJoinErrorFullTitle => 'This community is full';
+  String get discoveryJoinErrorFullTitle => 'Diese Community ist voll';
 
   @override
   String get discoveryJoinErrorFullMessage =>
-      'This community has reached its member limit, so you can\'t join right now.';
+      'Diese Community hat ihr Mitgliedslimit erreicht, daher kannst du ihr im Moment nicht beitreten.';
 
   @override
   String get discoveryJoinErrorMaxGuildsTitle =>
-      'You\'ve reached the community limit';
+      'Du hast das Community-Limit erreicht';
 
   @override
   String get discoveryJoinErrorMaxGuildsMessage =>
-      'You\'re in the maximum number of communities. Leave one and try again.';
+      'Du bist in der maximalen Anzahl von Communities. Verlasse eine und versuche es erneut.';
 
   @override
-  String get discoveryJoinErrorBannedTitle => 'You can\'t join this community';
+  String get discoveryJoinErrorBannedTitle =>
+      'Du kannst dieser Community nicht beitreten';
 
   @override
   String get discoveryJoinErrorBannedMessage =>
-      'You have been banned from this community.';
+      'Du wurdest aus dieser Community gesperrt.';
 
   @override
   String get discoveryJoinErrorNotAvailableTitle =>
-      'This community is no longer available';
+      'Diese Community ist nicht mehr verfügbar';
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'It may have left discovery or turned off new joins. Refresh the page and you won\'t see it again.';
+      'Sie hat möglicherweise die Entdeckung verlassen oder neue Beitritte deaktiviert. Lade die Seite neu, und du wirst sie nicht mehr sehen.';
 
   @override
-  String get discoveryJoinErrorRateLimitTitle => 'You\'re going too fast';
+  String get discoveryJoinErrorRateLimitTitle => 'Du bist zu schnell';
 
   @override
   String get discoveryJoinErrorRateLimitMessage =>
-      'Please wait a moment and try again.';
+      'Bitte warte einen Moment und versuche es erneut.';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get guildNavbarAddCommunity => 'Community hinzufügen';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get guildNavbarHelp => 'Hilfe';
 
   @override
   String get scrollIndicatorNew => 'NEW';
 
   @override
-  String get scrollIndicatorNewMessage => 'NEW MESSAGE';
+  String get scrollIndicatorNewMessage => 'NEUE NACHRICHT';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+    return 'Ordner $folderName einklappen';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String get guildNavbarGroupDm => 'Gruppen-DM';
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get guildNavbarCreateChannel => 'Kanal erstellen';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get guildNavbarChannelType => 'Kanalart';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get guildNavbarTextChannel => 'Textkanal';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Nachrichten, Bilder, GIFs und Emojis senden';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => 'Sprachkanal';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Gemeinsam per Sprache, Video und Bildschirmfreigabe abhängen';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => 'Kanal verknüpfen';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Schneller Zugriff auf eine externe Website oder Ressource';
 
   @override
   String get guildNavbarNameLabel => 'Name';
@@ -5584,544 +5667,550 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => 'Kategorie erstellen';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => 'Neue Kategorie';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return 'Freunde zu $communityName einladen';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return 'Empfänger gelangen zu #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => 'Freunde suchen';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => 'Noch keine Freunde';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => 'Keine Ergebnisse';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+      'Oder sende einen Einladungslink an einen Freund:';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => 'Einladungslink';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => 'Kopieren';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => 'Kopiert!';
 
   @override
   String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+      'Dein Einladungslink läuft in 7 Tagen ab.';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires =>
+      'Dieser Einladungslink läuft nie ab.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return 'Dein Einladungslink läuft in $duration ab.';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => 'Einladungslink bearbeiten';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => 'Einladungslink-Einstellungen';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => 'Ablauf nach';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => 'Max. Anzahl der Nutzungen';
 
   @override
   String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+      'Temporäre Mitgliedschaft gewähren';
 
   @override
   String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+      'Mitglieder werden entfernt, wenn sie offline gehen, es sei denn, eine Rolle ist zugewiesen';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => 'Neuen Link erstellen';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => 'Gesendet';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => 'Einladen';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => 'Community verlassen';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+      'Möchtest du diese Community wirklich verlassen? Du kannst dann keine Nachrichten mehr sehen.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => 'Community verlassen';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+      'Deine Nachrichten in dieser Community löschen?';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      'Alle deine Nachrichten hier, in jedem Kanal, dauerhaft löschen. Kann nicht rückgängig gemacht werden.';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm => 'Meine Nachrichten löschen';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => 'Deine Nachrichten gelöscht';
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Deine Nachrichten konnten nicht gelöscht werden';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => 'Überschreibung entfernen';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return 'Stummgeschaltet bis $formattedDate';
   }
 
   @override
   String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+      'Nur für Fluxer-Mitarbeiter zugänglich';
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+      'Einladungen sind in dieser Community derzeit pausiert';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => 'nie';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 Minuten';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 Stunde';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 Stunden';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12 Stunden';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1 Tag';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7 Tage';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count Sekunden';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => 'Niemals';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => 'Kein Limit';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1 Nutzung';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count Nutzungen';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => 'Als gelesen markieren';
 
   @override
-  String get guildPeekMoreOptions => 'More Options';
+  String get guildPeekMoreOptions => 'Weitere Optionen';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildMenuInviteMembers => 'Mitglieder einladen';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuCommunitySettings => 'Community-Einstellungen';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuEditCommunityProfile => 'Community-Profil bearbeiten';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuUnmuteCommunity => 'Community stummschalten aufheben';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuMuteCommunity => 'Community stummschalten';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuHideMutedChannels => 'Stummgeschaltete Kanäle ausblenden';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuReportCommunity => 'Community melden';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuDebugCommunity => 'Community debuggen';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuCopyCommunityId => 'Community-ID kopieren';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return 'Bis $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => 'Allgemein';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => 'Rollen & Berechtigungen';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => 'Benutzerdefinierte Emojis';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => 'Benutzerdefinierte Sticker';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => 'Sicherheit & Moderation';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => 'Aktivitätsprotokoll';
 
   @override
   String get guildMenuSettingsWebhooks => 'Webhooks';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl =>
+      'Benutzerdefinierte Einladungs-URL';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Entdeckung';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => 'Mitglieder';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => 'Einladungslinks';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => 'Sperren';
 
   @override
   String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+      'Du hast keine Berechtigung, diesen Einstellungsbereich anzuzeigen.';
 
   @override
   String get guildSettingsOverviewIconTitle => 'Icon';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => 'Bild hochladen';
 
   @override
   String get guildSettingsOverviewBannerTitle => 'Banner';
 
   @override
   String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+      'Lade ein Banner für deinen Server hoch.';
 
   @override
   String get guildSettingsOverviewNameTitle => 'Name';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => 'Meine tolle Community';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => 'Statistiken';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => 'Mitglieder';
 
   @override
   String get guildSettingsOverviewOnline => 'Online';
 
   @override
   String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+      'Verwende Rollen, um Mitglieder zu gruppieren und Berechtigungen zuzuweisen.';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => 'Rolle erstellen';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => 'Rollen';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '$staticCount statische, $animatedCount animierte Emoji-Slots belegt';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty =>
+      'Noch keine benutzerdefinierten Emojis.';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '$count Sticker hochgeladen';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty =>
+      'Noch keine benutzerdefinierten Sticker.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle =>
+      'Mitgliederüberprüfung';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      'Lege fest, was Mitglieder haben müssen, bevor sie Community-Mitgliedern Nachrichten senden oder diese direkt anschreiben können.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      'Mitglieder mit Rollen können diese Prüfungen umgehen. Für öffentliche Bereiche empfehlen wir die Aktivierung der Verifizierung.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      'Communities, die in der Suche aufgeführt sind, benötigen mindestens eine verifizierte E-Mail-Adresse. „Keine“ kann nicht ausgewählt werden, wenn die Suche aktiviert ist.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+      'Reife Inhalte & Inhaltswarnungen';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'Konfiguriere die Kennzeichnung reifer Inhalte und optionale Inhaltswarnungen für Mitglieder.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => 'Reife Inhalte';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      'Markiere diese Community als reife Inhalte enthaltend.';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => 'Keine';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+      'Es ist keine Verifizierung erforderlich.';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => 'Niedrig';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+      'Erfordert eine verifizierte E-Mail-Adresse.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => 'Mittel';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      'Erfordert eine verifizierte E-Mail-Adresse und ein Konto, das mindestens 5 Minuten alt ist.';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => 'Hoch';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      'Erfordert alles aus „Mittel“ plus die Mitgliedschaft in der Community für mindestens 10 Minuten.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => 'Sehr hoch';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+      'Erfordert eine verifizierte Telefonnummer.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+      'Verfolge Moderatoraktionen in der gesamten Community.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => 'Noch keine Protokolle';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+      'Moderationsaktionen und Community-Änderungen werden hier angezeigt.';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => 'Alle Benutzer';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => 'Alle Aktionen';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => 'Es wurde kein Grund angegeben.';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => 'Unbekannter Benutzer';
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+      'Beim Laden des Aktivitätsprotokolls ist etwas schiefgelaufen.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+      'Aktivitätsprotokolle konnten nicht geladen werden';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => 'Grund';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => 'jemand';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => 'etwas';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => 'unbekannte Entität';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => 'nichts';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => 'Unbekanntes Ziel';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => 'Community aktualisiert';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => 'Kanal erstellt';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => 'Kanal aktualisiert';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => 'Kanal gelöscht';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate =>
+      'Kanal-Berechtigung hinzugefügt';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+      'Kanal-Berechtigung aktualisiert';
 
   @override
   String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+      'Kanal-Berechtigung entfernt';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => 'Mitglied entfernt';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => 'Mitglieder bereinigt';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => 'Mitglied gesperrt';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => 'Mitglied entperrt';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => 'Mitglied aktualisiert';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => 'Mitgliederrollen aktualisiert';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => 'Mitglied verschoben';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => 'Mitglied getrennt';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => 'Bot hinzugefügt';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => 'Rolle erstellt';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => 'Rolle aktualisiert';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => 'Rolle gelöscht';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => 'Einladung erstellt';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => 'Einladung aktualisiert';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => 'Einladung gelöscht';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'Webhook erstellt';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'Webhook aktualisiert';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'Webhook gelöscht';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => 'Emoji erstellt';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => 'Emoji aktualisiert';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => 'Emoji gelöscht';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => 'Sticker erstellt';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => 'Sticker aktualisiert';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => 'Sticker gelöscht';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => 'Nachricht gelöscht';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => 'Nachrichten gelöscht';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => 'Nachricht angepinnt';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => 'Nachricht abgepinnt';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return '$actor hat die Community-Einstellungen aktualisiert.';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return '$actor hat den Kanal $target erstellt.';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return '$actor hat den Kanal $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return '$actor hat den Kanal $target gelöscht.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return '$actor hat Kanalberechtigungen für $target hinzugefügt.';
   }
 
   @override
@@ -6130,12 +6219,12 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return '$actor hat Kanalberechtigungen für $target in $channel hinzugefügt.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return '$actor hat Kanalberechtigungen für $target aktualisiert.';
   }
 
   @override
@@ -6144,12 +6233,12 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return '$actor hat Kanalberechtigungen für $target in $channel aktualisiert.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return '$actor hat die Berechtigungen für den Kanal für $target entfernt.';
   }
 
   @override
@@ -6158,47 +6247,47 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return '$actor hat die Berechtigungen für den Kanal für $target in $channel entfernt.';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return '$actor hat $target gekickt.';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return '$actor hat $target gesperrt.';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return '$actor hat $target entbannt.';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return '$actor hat $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return '$actor hat die Rollen für $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return '$actor hat inaktive Mitglieder bereinigt.';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return '$actor hat Mitglieder bereinigt, die $days Tage inaktiv waren.';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return '$actor hat $target in einen anderen Sprachkanal verschoben.';
   }
 
   @override
@@ -6207,37 +6296,37 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return '$actor hat $target nach $channel verschoben.';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return '$actor hat $target vom Sprachkanal getrennt.';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return '$actor hat den Bot $target hinzugefügt.';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return '$actor hat die Rolle $target erstellt.';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return '$actor hat die Rolle $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return '$actor hat die Rolle $target gelöscht.';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return '$actor hat die Einladung $target erstellt.';
   }
 
   @override
@@ -6246,12 +6335,12 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return '$actor hat die Einladung $target für $channel erstellt.';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return '$actor hat die Einladung $target aktualisiert.';
   }
 
   @override
@@ -6260,12 +6349,12 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return '$actor hat die Einladung $target für $channel aktualisiert.';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return '$actor hat die Einladung $target gelöscht.';
   }
 
   @override
@@ -6274,72 +6363,72 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return '$actor hat die Einladung $target für $channel gelöscht.';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return '$actor hat den Webhook $target erstellt.';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor hat den Webhook $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor hat den Webhook $target gelöscht.';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor hat das Emoji $target hinzugefügt.';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor hat das Emoji $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor hat das Emoji $target gelöscht.';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor hat den Sticker $target hinzugefügt.';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor hat den Sticker $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor hat den Sticker $target gelöscht.';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor hat eine Nachricht gelöscht.';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor hat eine Nachricht in $channel gelöscht.';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor hat mehrere Nachrichten gelöscht.';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor hat $count Nachrichten gelöscht.';
   }
 
   @override
@@ -6347,7 +6436,7 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor hat mehrere Nachrichten in $channel gelöscht.';
   }
 
   @override
@@ -6356,32 +6445,32 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor hat $count Nachrichten in $channel gelöscht.';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor hat eine Nachricht angepinnt.';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor hat eine Nachricht in $channel angepinnt.';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor hat eine Nachricht entpinnt.';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor hat eine Nachricht in $channel entpinnt.';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor hat eine Audit-Aktion für $target durchgeführt.';
   }
 
   @override
@@ -6390,97 +6479,99 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return '$field von $oldValue auf $newValue aktualisiert.';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return '$field auf $newValue gesetzt.';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return '$field gelöscht (war $oldValue).';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return '$field aktualisiert.';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return 'Die Community wurde in $name umbenannt.';
   }
 
   @override
   String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+      'Das Community-Symbol wurde aktualisiert.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return 'Der Kanal wurde in $name umbenannt.';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => 'Das Thema wurde gelöscht.';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return 'Das Thema wurde zu $topic geändert.';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent =>
+      'Erwachseneninhalte aktiviert.';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent =>
+      'Erwachseneninhalte deaktiviert.';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return 'Spitzname auf $nickname gesetzt.';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return 'Spitzname $nickname entfernt.';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => 'Mitglied stummgeschaltet.';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => 'Mitglied entstummgeschaltet.';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => 'Mitglied taubgeschaltet.';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember => 'Mitglied enttaubgeschaltet.';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return '$roles hinzugefügt.';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return '$roles entfernt.';
   }
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return 'Kanal: $value.';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return 'Nachricht: $value.';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return 'Eingeladen von $value.';
   }
 
   @override
@@ -6488,8 +6579,8 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: '# Nachrichten gelöscht.',
+      one: '1 Nachricht gelöscht.',
     );
     return '$_temp0';
   }
@@ -6499,188 +6590,192 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: '# Mitglieder entfernt.',
+      one: '1 Mitglied entfernt.',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires =>
+      'Diese Einladung läuft nie ab.';
 
   @override
   String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+      'Gewährt temporäre Mitgliedschaft.';
 
   @override
   String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+      'Gewährt permanente Mitgliedschaft.';
 
   @override
-  String get guildSettingsLoadMore => 'Load more';
+  String get guildSettingsLoadMore => 'Mehr laden';
 
   @override
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+      'Webhooks verwalten, die Nachrichten in Kanäle posten.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty => 'Keine Webhooks konfiguriert.';
 
   @override
-  String get guildSettingsCopyUrl => 'Copy URL';
+  String get guildSettingsCopyUrl => 'URL kopieren';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => 'URL in die Zwischenablage kopiert';
 
   @override
-  String get guildSettingsDeleteWebhook => 'Delete webhook';
+  String get guildSettingsDeleteWebhook => 'Webhook löschen';
 
   @override
   String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+      'Lege einen benutzerdefinierten Einladungslink für deinen Server fest.';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => 'Speichern';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => 'Nutzung';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count Nutzungen';
   }
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+      'Bewirb dich für die Aufnahme in die Server-Discovery.';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return 'Benötigt mindestens $count Mitglieder für die Bewerbung.';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => 'Bewerbung';
 
   @override
   String get guildSettingsDiscoveryStatusTitle => 'Status';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => 'Kategorie';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => 'Beschreibung';
 
   @override
   String get guildSettingsDiscoveryTags => 'Tags';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => 'Gaming, Kunst, Musik';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => 'Bewerbung abschicken';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => 'Zurückziehen';
 
   @override
   String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+      'Servermitglieder suchen und verwalten.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => 'Mitglieder suchen';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count Mitglieder';
   }
 
   @override
   String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+      'Aktive Einladungslinks anzeigen und widerrufen.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => 'Keine aktiven Einladungen.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses Nutzungen';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return 'Läuft ab $date';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription =>
+      'Gesperrte Benutzer anzeigen und verwalten.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => 'Sperren suchen';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => 'Keine gesperrten Benutzer.';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => 'Dauerhaft sperren';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return 'Läuft ab $date';
   }
 
   @override
-  String get guildSettingsBanExpiresLabel => 'Expires';
+  String get guildSettingsBanExpiresLabel => 'Läuft ab';
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsUnban => 'Entsperren';
 
   @override
-  String get guildSettingsBansLoading => 'Loading banned users';
+  String get guildSettingsBansLoading => 'Gesperrte Benutzer werden geladen';
 
   @override
   String get guildSettingsBansNoSearchResults =>
-      'No bans found matching your search.';
+      'Keine Sperren gefunden, die deiner Suche entsprechen.';
 
   @override
-  String get guildSettingsBanDetailsTitle => 'Ban details';
+  String get guildSettingsBanDetailsTitle => 'Sperrdetails';
 
   @override
-  String get guildSettingsBanViewDetails => 'View details';
+  String get guildSettingsBanViewDetails => 'Details anzeigen';
 
   @override
-  String get guildSettingsBannedOn => 'Banned on';
+  String get guildSettingsBannedOn => 'Gesperrt am';
 
   @override
-  String get guildSettingsBannedBy => 'Banned by';
+  String get guildSettingsBannedBy => 'Gesperrt von';
 
   @override
-  String get guildSettingsRevokeBanTitle => 'Revoke ban';
+  String get guildSettingsRevokeBanTitle => 'Sperre widerrufen';
 
   @override
   String guildSettingsRevokeBanDescription(String displayName) {
-    return 'Are you sure you want to revoke the ban for $displayName? They will be able to rejoin the community.';
+    return 'Möchtest du die Sperre für $displayName wirklich widerrufen? Die Person kann der Community dann wieder beitreten.';
   }
 
   @override
   String guildSettingsRevokeBanSuccess(String displayName) {
-    return 'Revoked ban for $displayName';
+    return 'Sperre für $displayName widerrufen';
   }
 
   @override
-  String get guildSettingsBansLoadError => 'Couldn\'t load bans. Try again.';
+  String get guildSettingsBansLoadError =>
+      'Sperren konnten nicht geladen werden. Versuche es erneut.';
 
   @override
-  String get guildSettingsRevokeBanError => 'Couldn\'t revoke ban. Try again.';
+  String get guildSettingsRevokeBanError =>
+      'Sperre konnte nicht widerrufen werden. Versuche es erneut.';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsCommunitySettings => 'Community-Einstellungen';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -6696,378 +6791,381 @@ class FluxerLocalizationsDe extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+      'Verwalte das Profil, die Kanäle und die Standardeinstellungen deiner Community.';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'Branding';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+      'Aktualisiere dein Icon, deinen Namen, dein Banner und den Einladungshintergrund';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => 'Banner hochladen';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => 'Leerlauf-Einstellungen';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+      'AFK-Kanal und Timeout konfigurieren';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => 'System & Willkommen';
 
   @override
   String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+      'Ziel für System- und Willkommensnachrichten auswählen';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle =>
+      'Standardbenachrichtigungen';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      'Communities mit über 250 Personen werden auf die Einstellung „Nur Erwähnungen“ gesetzt. Deine ursprüngliche Einstellung bleibt erhalten und wird wiederhergestellt, wenn die Community unter 250 Mitglieder fällt.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => 'Erweitert';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+      'Flexible Textkanalnamen zulassen';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+      'Community-Besitzerkrone ausblenden';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => 'Abgelöster Banner';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+      'Zeigt den Banner in einem eigenen Abschnitt unter dem Community-Header an.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => 'Icon hochladen';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => 'Entfernen';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => 'Einladungs-Hintergrund';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle => 'Chat-Embed-Hintergrund';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+      'Wird in Einladungs-Embeds im Chat angezeigt.';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => 'Hintergrund hochladen';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => 'Kein Community-Banner';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground =>
+      'Kein Einladungs-Hintergrund';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => 'Vorschau';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+      'Sieh dir an, wie deine Einladung für Besucher aussieht.';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle => 'Textkanalnamen';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle => 'Community-Besitzerkrone';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+      'Lege fest, ob das Kronen-Icon neben dem Community-Besitzer angezeigt wird';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => 'Karten-Ausrichtung';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => 'Mitte';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => 'Links';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => 'Rechts';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+      'Gilt nur auf breiten Bildschirmen.';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => 'Nachrichtenverlauf lesen';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return 'Ändere, was Benutzer ohne \"$permission\" sehen können';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return 'Verwende ein separates Modal, um ein Datum für den Nachrichtenverlaufsschwellenwert für Mitglieder festzulegen, die nicht über die Berechtigung \"$permission\" verfügen.';
   }
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+      'Nachrichtenverlaufsschwellenwert öffnen';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+      'Nachrichtenverlaufsschwellenwert';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+      'Nachrichtenverlaufsschwellenwert aktivieren';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => 'Schwellenwert-Datum';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      'Mitglieder ohne Nachrichtenverlauf lesen können Nachrichten anzeigen, die nach diesem Datum gesendet wurden.';
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+      'Nachrichtenverlaufsschwellenwert aktualisiert';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      'Erlaube Großbuchstaben und Leerzeichen in Textkanalnamen. Deaktiviert beschränkt die Namen auf Kleinbuchstaben mit Bindestrichen und Unterstrichen.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+      'Blendet das Kronen-Icon neben dem Community-Besitzer auf allen Oberflächen aus.';
 
   @override
   String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+      'Animierte Icons erfordern die Community-Funktion \"Animiertes Icon\".';
 
   @override
   String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+      'Animierte Banner erfordern die Community-Funktion \"Animierter Banner\".';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'AFK / Inaktiv-Kanal';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+      'Verschiebe Mitglieder in diesen Kanal, wenn sie AFK sind.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => 'Kein AFK-Kanal';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'AFK-Timeout';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 Minute';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 Minuten';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 Minuten';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 Minuten';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 Stunde';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds Sekunden';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => 'Zielkanal';
 
   @override
   String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+      'Willkommens- und Systemnachrichten werden hier angezeigt.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => 'Kein Systemkanal';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages => 'Beitrittsnachrichten ausblenden';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+      'Unterdrückt Beitrittsnachrichten im Zielkanal.';
 
   @override
   String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+      'Standard-Benachrichtigungseinstellungen';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => 'Alle Nachrichten';
 
   @override
   String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+      'Benachrichtige bei allen Nachrichten';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => 'Nur Erwähnungen';
 
   @override
   String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+      'Benachrichtige nur bei Erwähnungen';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG, PNG, WebP, AVIF. Max. 10 MB. Minimum: 960×540px (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG, PNG, WebP, AVIF. Max. 10 MB. Minimum: 960×540px (16:9). Wird in Einladungs-Embeds im Chat angezeigt.';
 
   @override
   String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+      'Konfiguriere Verifizierungs-, Inhaltsfilter- und Jugendschutzeinstellungen.';
 
   @override
   String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+      'In der Suche gelistete Communities haben eingeschränkte Moderationsoptionen.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => 'Inhaltsfilterung';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      'Filtert Nachrichten automatisch auf explizite Inhalte in Kanälen, die nicht als jugendgefährdend gekennzeichnet sind.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      'In der Suche gelistete Communities müssen alle Mitglieder scannen. Diese Einstellung kann nicht geändert werden, solange die Suche aktiviert ist.';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => 'Aus';
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+      'Überlasse die Moderation der Community selbst';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole =>
+      'Mitglieder ohne Rollen filtern';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+      'Empfohlen für die meisten Communities';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => 'Alle filtern';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+      'Maximaler Schutz für familienfreundliche Bereiche';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => 'Aus';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => 'An';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle => 'Inhaltswarnung anzeigen';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+      'Schaltet eine Zustimmungsaufforderung vor dem Betreten eines Kanals um.';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => 'Benutzerdefinierter Warntext';
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+      'Dies enthält sensible Inhalte.';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => '2FA-Anforderung';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      'Fordere Zwei-Faktor-Authentifizierung für Moderatoren an, bevor sie verbannen, kicken, stumm schalten oder Nachrichten entfernen können.';
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+      '2FA für Moderationsaktionen erforderlich';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+      'Nur der Community-Besitzer kann diese Einstellung ändern';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      'Aktiviere 2FA für dein Konto, um diese Einstellung zu ändern';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => 'Emojis suchen';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => 'Emoji hochladen';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return 'Nicht animierte Emojis ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return 'Animierte Emojis ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => 'Sticker suchen';
 
   @override
   String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+      'Erstelle Webhooks in den Kanaleinstellungen. Bearbeite sie hier.';
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+      'Deine Vanity-URL funktioniert nicht, es sei denn, mindestens ein Kanal ist für alle sichtbar.';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => 'Entfernen';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => 'Gesperrte Benutzer';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => 'Einlader';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => 'Kanal';
 
   @override
   String get guildSettingsInvitesTableCode => 'Code';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => 'Verwendungen';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => 'Erstellt';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => 'Neueste zuerst';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => 'Nach Benutzer filtern';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => 'Nach Aktion filtern';
 }
 
 /// The translations for German, as used in Switzerland (`de_CH`).
@@ -7075,146 +7173,146 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   FluxerLocalizationsDeCh() : super('de_CH');
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'Mir isch es verglumpt!';
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Mit de Server stimmt öppis nöd.\nSött bald wieder laufe!';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => 'Verbinde…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => 'Verbunde';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return 'Start fehlgeschlage: $error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'Noh versuäche';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => 'Verbindung verlore';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'Uf de Status-Siite aaluege';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => 'Verbindungsproblem?';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'Status-Siite';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'Vorfall aaluege';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'Vorfall-Historie';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => 'Willkomme zrugg';
 
   @override
-  String get email => 'Email';
+  String get email => 'E-Mail';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => 'Bitte gib e gültigi E-Mail-Adress ii.';
 
   @override
-  String get password => 'Password';
+  String get password => 'Passwort';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'Passwort vergässe?';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'Aamälde';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => 'Aamälde mit Passkey';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return 'Witer mit $provider';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired => 'Zum Zugriff uf die Instanz isch SSO erforderlich.';
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'Melde dich mit de Single-Sign-On-Lösig vo dimere Organisation a.';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => 'SSO konnt nöd starte';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'SSO-Aamäldig isch abbroche worde';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return 'Lieber SSO bruuche? Witer mit $provider.';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => 'Aamälde per Browser';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => 'Kei Account? ';
 
   @override
-  String get register => 'Register';
+  String get register => 'Registriere';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => 'Bestätige, dass du ke Roboter bisch';
 
   @override
   String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+      'Mir müend sicher si, dass du ke Bot bisch. Bitte schliesse die Bestätigung ab.';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha => 'Problem? Versuechs mit hCaptcha';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile => 'Versuechs mit Turnstile';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Abbreche';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'Lueg i dim E-Mail-Postfach';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'Mir händ dir e Link per E-Mail gschickt zum Aamälde z\'autorisiere. Bitte öffne din Inbox für $email.';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => 'Verbindung verlore';
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'Mir händ d\'Verbindung verlore, währed mir uf d\'Autorisation gwartet händ. Bitte versuechs noh.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => 'Aamäldig-Link abgloufe';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'Dii Autorisations-Link isch abgloufe. Bitte melde dich noh a.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'E-Mail nohschicke';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'Nohg\'schickt';
 
   @override
   String ipAuthResendCountdown(int seconds) {
@@ -7222,384 +7320,388 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'Zurück';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => 'Zweifaktor-Authentifizierig';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => 'Wähle e Bestätigungs-Methode';
 
   @override
   String get mfaMethodTotp => 'Authenticator App';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => 'Sicherheits-Schlüssel / Passkey';
 
   @override
   String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+      'Gib de 6-stellige Code vo dimere Authenticator-App oder ein vo dine Backup-Codes ii.';
 
   @override
   String get mfaCodeLabel => 'Code';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'Anderi Methode versuäche';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey =>
+      'Sicherheitsschlüssel / Passkey stattdessen versuchen';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'Konto auswählen';
 
   @override
   String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+      'Wähle ein Konto aus, um fortzufahren, oder füge ein anderes hinzu.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'Konto hinzufügen';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => 'Entfernen';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return '$username entfernen';
   }
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'Dies entfernt die gespeicherte Sitzung für dieses Konto.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+      'Dies entfernt das einzige gespeicherte Konto auf diesem Gerät.';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'Abgelaufen';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return 'Sitzung für $identifier abgelaufen. Bitte melde dich erneut an.';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => 'Konten verwalten';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed =>
+      'Konnte Konten nicht wechseln. Versuche es erneut.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => 'Konten wechseln';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => 'Status festlegen';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => 'Online-Status';
 
   @override
   String get statusOnline => 'Online';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => 'Abwesend';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => 'Nicht stören';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => 'Unsichtbar';
 
   @override
   String get statusOffline => 'Offline';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => 'Bis ich es ändere';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'Nicht löschen';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => 'Für 10 Sekunden';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 Sekunden';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 Minuten';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 Minuten';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 Stunde';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 Stunden';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 Stunden';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 Stunden';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 Stunden';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 Tage';
 
   @override
   String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+      'Du erhältst keine Benachrichtigungen auf dem Desktop';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => 'Du erscheinst als offline';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => 'Benutzerdefinierten Status festlegen';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => 'Benutzerdefinierter Status';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => 'Benutzerdefinierten Status löschen';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'Was passiert gerade?';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'Emoji auswählen';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'Löschen nach';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => 'Speichern';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => 'Aktives Konto';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'Abmelden';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => 'Konto dauerhaft gesperrt';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => 'Konto gesperrt';
 
   @override
   String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+      'Dein Konto wurde dauerhaft wegen Verstosses gegen unsere Nutzungsbedingungen gesperrt.';
 
   @override
   String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+      'Dein Konto wurde vorübergehend gesperrt. Du kannst auf dein Konto zugreifen, sobald die Sperrfrist abgelaufen ist.';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => 'Ausgestellt';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => 'Endet';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => 'Dauer';
 
   @override
   String get suspendedPermanent => 'Permanent';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => 'Grund';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => 'Einreichungsfrist';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return 'Dein Konto wird am $date zur Löschung vorgemerkt.';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => 'Aktualisierungen prüfen';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return 'In ${seconds}s erneut prüfen';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => 'Zurück zum Login';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => 'Einspruch';
 
   @override
   String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+      'Erkläre, warum deine Sperrung überdacht werden sollte (mindestens 50 Zeichen)...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => 'Einspruch einreichen';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => 'Wird geprüft';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => 'Einspruch akzeptiert';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => 'Einspruch abgelehnt';
 
   @override
   String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+      'Dein Einspruch wurde akzeptiert und dein Konto wurde wiederhergestellt.';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => 'Melde dich bei deinem Konto an';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'Passwort vergessen?';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => 'Link zum Zurücksetzen senden';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'Prüfe deine E-Mails';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'Wir haben Anweisungen zum Zurücksetzen deines Passworts an deine E-Mail-Adresse gesendet. Bitte überprüfe deinen Posteingang und folge dem Link, um dein Passwort zurückzusetzen.';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'Zurück zum Login';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'Neues Passwort festlegen';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+      'Gib unten dein neues Passwort ein, um den Zurücksetzungsprozess abzuschliessen.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'Neues Passwort';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'Neues Passwort bestätigen';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => 'Passwort zurücksetzen';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'Passwörter stimmen nicht überein.';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => 'Konto erstellen';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => 'Anzeigename (Optional)';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => 'Wie sollen dich die Leute nennen?';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => 'Benutzername (Optional)';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint =>
+      'Leer lassen für einen zufälligen Benutzernamen';
 
   @override
   String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+      'Ein 4-stelliger Tag wird automatisch hinzugefügt, um die Einzigartigkeit zu gewährleisten';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'Geburtsdatum';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'Monat';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'Tag';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'Jahr';
 
   @override
   String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+      'Ich stimme den Nutzungsbedingungen und der Datenschutzerklärung zu';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => 'Ich stimme den ';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => 'Nutzungsbedingungen';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => ' und ';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => 'Datenschutzerklärung';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => 'Passwort bestätigen';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Konto erstellen';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => 'Haben Sie bereits ein Konto? ';
 
   @override
   String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+      'Keine Passkeys für diese App gefunden. Melden Sie sich stattdessen mit E-Mail und Passwort an.';
 
   @override
   String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+      'Passkeys werden auf diesem Gerät nicht unterstützt.';
 
   @override
   String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+      'Passkeys sind für diese App nicht konfiguriert. Melden Sie sich stattdessen mit E-Mail und Passwort an.';
 
   @override
   String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+      'Passkey-Authentifizierung Zeitüberschreitung. Bitte versuchen Sie es erneut.';
 
   @override
   String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+      'Passkeys sind für diese App nicht verfügbar. Melden Sie sich stattdessen mit E-Mail und Passwort an.';
 
   @override
   String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+      'Passkey-Authentifizierung fehlgeschlagen. Bitte versuche es erneut.';
 
   @override
   String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+      'Konto konnte nicht erstellt werden. Bitte versuche es erneut.';
 
   @override
   String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+      'Anmeldung derzeit nicht möglich. Bitte versuche es erneut.';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword =>
+      'Ungültige E-Mail-Adresse oder Passwort.';
 
   @override
   String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+      'Zurücksetzungslink konnte nicht gesendet werden. Bitte versuche es erneut.';
 
   @override
   String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+      'Passwort konnte nicht zurückgesetzt werden. Bitte versuche es erneut.';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => 'Community beitreten';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => 'Zur Community';
 
   @override
   String embedInviteOnline(String count) {
@@ -7608,460 +7710,512 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count Mitglieder';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => 'Unbekanntes Invite';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle =>
+      'Versuche, ein neues Invite anzufordern.';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => 'Invite nicht verfügbar';
+
+  @override
+  String get inviteAcceptTitle => 'Du wurdest eingeladen, beizutreten';
+
+  @override
+  String get inviteAcceptJoinButton => 'Community beitreten';
+
+  @override
+  String get inviteAcceptGoToButton => 'Zur Community';
+
+  @override
+  String get inviteAcceptInvitesPaused => 'Invites pausiert';
+
+  @override
+  String get inviteAcceptNotFoundTitle => 'Invite ungültig';
+
+  @override
+  String get inviteAcceptNotFoundDescription =>
+      'Dieses Invite ist möglicherweise abgelaufen oder ungültig.';
+
+  @override
+  String get inviteAcceptJoinGroupButton => 'Gruppe beitreten';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return 'Du wurdest von $inviterName eingeladen, einer Gruppen-DM beizutreten';
+  }
+
+  @override
+  String get inviteAcceptSomeone => 'jemand';
+
+  @override
+  String get inviteAcceptEmojiPack => 'Emoji-Paket';
+
+  @override
+  String get inviteAcceptStickerPack => 'Sticker-Paket';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => 'Emoji-Paket installieren';
+
+  @override
+  String get inviteAcceptInstallStickerPack => 'Sticker-Paket installieren';
+
+  @override
+  String get inviteAcceptPackInstallNote =>
+      'Wenn du dieses Invite annimmst, wird das Paket automatisch installiert.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => 'Kanalzugriff verweigert';
 
   @override
   String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+      'Du hast keinen Zugriff auf den Kanal, in dem diese Nachricht gesendet wurde.';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => 'Kein Zugriff';
 
   @override
   String get okay => 'Okay';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => 'Geteiltes Theme';
 
   @override
   String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+      'Dieser Client unterstützt keine benutzerdefinierten Themes.';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => 'Themes nicht verfügbar';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => 'Datenschutzeinstellungen';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => 'Direktnachrichten';
 
   @override
   String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+      'Direktnachrichten von anderen Mitgliedern dieser Community zulassen';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => 'Bot-Direktnachrichten';
 
   @override
   String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+      'Bots aus dieser Community dürfen dir Direktnachrichten senden';
 
   @override
   String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+      'Die Community-Admins haben das Empfangen von Direktnachrichten nur von gemeinsamen Mitgliedern in dieser Community deaktiviert.';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => 'Community-Debug';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => 'In die Zwischenablage kopiert';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => 'Benachrichtigungseinstellungen';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return '$guildName stummschalten';
   }
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'Das Stummschalten einer Community verhindert, dass ungelesene Indikatoren und Benachrichtigungen angezeigt werden, es sei denn, du wirst erwähnt.';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings =>
+      'Community-Benachrichtigungseinstellungen';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => 'Alle Nachrichten';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => 'Nur Erwähnungen';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => 'Nichts';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => '@everyone und @here unterdrücken';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles =>
+      'Alle @Erwähnungen von Rollen unterdrücken';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => 'Mobile Push-Benachrichtigungen';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => 'Benachrichtigungs-Overrides';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => 'Kanal oder Kategorie auswählen';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => 'Nur @Erwähnungen';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => 'Kanal stummschalten';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => 'Kanal stummschalten aufheben';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => 'Keine Kategorie';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => 'Als gelesen markieren';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => 'DM stummschalten';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => 'DM-Stummschaltung aufheben';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => 'DM anheften';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => 'DM lösen';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => 'Immer in der Seitenleiste anzeigen';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => 'Aus \"Immer anzeigen\" entfernen';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => 'DM schliessen';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => 'DM schliessen';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return 'Möchtest du deinen DM mit $username wirklich schliessen? Du kannst ihn später jederzeit wieder öffnen.';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => 'Kanal-ID kopieren';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => 'Kanal-ID kopiert';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => 'Benutzer-ID kopieren';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => 'Benutzer-ID kopiert';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => 'Profil anzeigen';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => 'Sprachanruf starten';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => 'Eingehender Sprachanruf';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => 'Annehmen';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => 'Ablehnen';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => 'Eingehender Anruf';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => 'Ignorieren';
 
   @override
   String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+      'Dieser Anruf kann gerade nicht gestartet werden. Versuche es später erneut.';
 
   @override
   String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+      'Verbindung zu diesem Anruf konnte nicht hergestellt werden. Überprüfe deine Verbindung und versuche es erneut.';
 
   @override
   String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+      'Anruf konnte nicht beigetreten werden. Überprüfe deine Verbindung und versuche es erneut.';
 
   @override
   String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+      'Anruf konnte auf dem Server nicht aktualisiert werden. Überprüfe deine Verbindung und versuche es erneut.';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => 'Notiz hinzufügen';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => 'Gruppe bearbeiten';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => 'Zur Community einladen';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => 'Blockieren';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => 'Gruppe verlassen';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => 'Keine Communities verfügbar';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count Mitglieder';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => 'Für 15 Minuten';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => 'Für 30 Minuten';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => 'Für 1 Stunde';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => 'Für 3 Stunden';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => 'Für 4 Stunden';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => 'Für 8 Stunden';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => 'Für 24 Stunden';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => 'Für 3 Tage';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => 'Bis ich es wieder aktiviere';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => 'Gruppen-DM anheften';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => 'Gruppen-DM ausblenden';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => 'DM favorisieren';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => 'DM entfavorisieren';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => 'Gruppen-DM favorisieren';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => 'Gruppen-DM entfavorisieren';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => 'Freundes-Spitznamen ändern';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => 'Freund entfernen';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => 'Freund hinzufügen';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => 'Freundschaftsanfrage annehmen';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => 'Freundschaftsanfrage ignorieren';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => 'Freundschaftsanfrage gesendet';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => 'Blockieren aufheben';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => 'Benutzer debuggen';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => 'Kanal debuggen';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => 'DM angeheftet';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => 'DM ausgeheftet';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => 'DM stummgeschaltet';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => 'DM entstummgeschaltet';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => 'Freund entfernen';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Möchtest du $username wirklich als Freund entfernen?';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => 'Benutzer blockieren';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return 'Möchtest du $username wirklich blockieren? Er/Sie kann dir dann keine Nachrichten oder Freundschaftsanfragen mehr senden.';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => 'Freundschaftsanfrage gesendet';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed =>
+      'Freundschaftsanfrage konnte nicht gesendet werden';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed =>
+      'Freundschaftsanfrage konnte nicht angenommen werden';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => 'Freund konnte nicht entfernt werden';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => 'Benutzer konnte nicht blockiert werden';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed => 'Blockierung konnte nicht aufgehoben werden';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed =>
+      'Freundschaftsanfrage konnte nicht ignoriert werden';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => 'Freunde hinzufügen';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => 'Freund hinzufügen';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => 'Benutzername#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => 'Benutzername des Freundes';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => 'Anfrage senden';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound =>
+      'Kein Benutzer mit diesem Benutzernamen gefunden.';
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+      'Gib einen gültigen Benutzernamen ein (Benutzername#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => 'Freundschaftsanfrage gesendet';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => 'Konto beanspruchen';
 
   @override
   String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+      'Beanspruche dein Konto, um Freundschaftsanfragen zu senden.';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => 'E-Mail verifizieren';
 
   @override
   String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+      'Du musst deine E-Mail-Adresse verifizieren, bevor du Freundschaftsanfragen senden kannst.';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => 'E-Mail verifizieren';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return 'Eingehende Freundschaftsanfragen ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return 'Ausgehende Freundschaftsanfragen ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => 'Eingehende Freundschaftsanfrage';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => 'Freundschaftsanfrage gesendet';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => 'Profil anzeigen';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => 'Annehmen';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => 'Ignorieren';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => 'Freundschaftsanfrage annehmen';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => 'Freundschaftsanfrage ignorieren';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return 'Freundschaftsanfrage von $userName annehmen?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return 'Freundschaftsanfrage von $displayName ignorieren?';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => 'Anfrage abbrechen';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+      'Freundschaftsanfrage konnte nicht abgebrochen werden. Versuche es erneut.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+      'Diese Person nimmt gerade keine Freundschaftsanfragen an.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+      'Entblockiere diese Person zuerst, um eine Freundschaftsanfrage zu senden.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+      'Du kannst dir selbst keine Freundschaftsanfrage senden.';
 
   @override
-  String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+  String get addFriendAlreadyFriends => 'Ihr seid bereits Freunde.';
 
   @override
   String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+      'Schliesse die Anmeldung ab, um Freundschaftsanfragen zu senden.';
 
   @override
   String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+      'Freundschaftsanfrage konnte nicht gesendet werden. Versuche es erneut.';
 
   @override
   String get userTagBot => 'BOT';
@@ -8070,101 +8224,103 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   String get userTagSystem => 'System';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => 'Finde das Emoji deiner Träume';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty => 'Keine Emojis entsprechen deiner Suche';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => 'Standard-Emoji';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => 'Häufig verwendet';
 
   @override
   String get emojiTabGifs => 'GIFs';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => 'Medien';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => 'Sticker';
 
   @override
   String get emojiTabEmojis => 'Emojis';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => 'GIFs suchen';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => 'KLIPY suchen';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => 'Tenor suchen';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => 'Favoriten';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => 'Aktuelle GIFs';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => 'Keine Suchergebnisse';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription =>
+      'Versuche einen anderen Suchbegriff';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => 'GIFs konnten nicht geladen werden';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody =>
+      'Überprüfe deine Verbindung und versuche es erneut.';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => 'Personen';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => 'Natur';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => 'Essen & Trinken';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => 'Aktivitäten';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => 'Reisen & Orte';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => 'Objekte';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => 'Symbole';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => 'Flaggen';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return 'Schalte $emojiCount von $communityCount mit Plutonium frei.';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => 'Plutonium erhalten';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => 'Dies nicht mehr anzeigen';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count benutzerdefinierte Emojis',
+      one: '1 benutzerdefiniertes Emoji',
     );
     return '$_temp0';
   }
@@ -8174,927 +8330,957 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count Communities',
+      one: '1 Community',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => 'Warnung: Externer Link';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => 'Du verlässt Fluxer';
 
   @override
   String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+      'Externe Links können gefährlich sein. Bitte sei vorsichtig.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => 'Ziel-URL:';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => 'Externe Links';
 
   @override
   String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+      'Lege fest, wie Warnungen für externe Links behandelt werden.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => 'Immer vertrauen ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix =>
+      '— diese Warnung überspringen, wenn du ihr das nächste Mal begegnest';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => 'Webseite besuchen';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => 'Alle externen Links vertrauen';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Tracking-Parameter aus URLs entfernen';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      'Entferne automatisch Tracking-Parameter (wie utm_source, fbclid, gclid) aus den URLs in Nachrichten, die du sendest. Bereinigt den Link, bevor er jemand anderen erreicht.';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle =>
+      'Allen externen Links vertrauen?';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      'Dadurch werden alle externen Links vertraut und die Warnung für jede Domain übersprungen. Deine bestehenden vertrauenswürdigen Domains werden ersetzt. Dies ist weniger sicher.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => 'Alle vertrauen';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle =>
+      'Vertrauen in alle Links stoppen?';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      'Warnungen für externe Links werden wieder angezeigt. Du musst vertrauenswürdige Domains einzeln hinzufügen.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction => 'Alle vertrauen deaktivieren';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+      'Allen externen Links wird vertraut. Warnungen werden nicht angezeigt.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return 'Du hast $count vertrauenswürdige Domain(s). Füge weitere hinzu, indem du das Kästchen ankreuzt, wenn du externe Links besuchst.';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      'Wenn aktiviert, werden keine Warnungen für externe Links angezeigt. Dies ist weniger sicher.';
 
   @override
   String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+      'Bilddatei ist zu gross. Bitte wähle eine Datei mit weniger als 10 MB.';
 
   @override
   String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+      'Animierte Avatare erfordern Plutonium';
 
   @override
   String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+      'Animierte Banner erfordern Plutonium';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported => 'Animiertes AVIF nicht unterstützt';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      'Das Zuschneiden und Drehen von animierten AVIF-Dateien wird noch nicht unterstützt. Wenn du fortfährst, wird es in seiner ursprünglichen Form hochgeladen.';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => 'Wie besehen hochladen';
 
   @override
   String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+      'Das Zuschneiden animierter Bilder wird noch nicht unterstützt. Die ursprüngliche Datei wird verwendet.';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => 'Avatar zuschneiden';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => 'Banner zuschneiden';
 
   @override
-  String get skip => 'Skip';
+  String get skip => 'Überspringen';
 
   @override
-  String get crop => 'Crop';
+  String get crop => 'Zuschneiden';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => 'Deinen FluxerTag ändern';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      'Benutzernamen dürfen nur Buchstaben (a-z, A-Z), Zahlen (0-9) und Unterstriche enthalten. Benutzernamen sind nicht gross-/kleinschreibungsempfindlich.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      'Benutzernamen dürfen nur Buchstaben (a-z, A-Z), Zahlen (0-9) und Unterstriche enthalten. Benutzernamen sind nicht gross-/kleinschreibungsempfindlich. Du kannst jeden verfügbaren 4-stelligen Tag von #0000 bis #9999 auswählen.';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      'Benutzernamen dürfen nur Buchstaben (a-z, A-Z), Zahlen (0-9) und Unterstriche enthalten. Benutzernamen sind nicht gross-/kleinschreibungsempfindlich. Du kannst jeden verfügbaren 4-stelligen Tag von #0001 bis #9999 auswählen.';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return 'Zwischen $min und $max Zeichen';
   }
 
   @override
   String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+      'Nur Buchstaben (a-z, A-Z), Zahlen (0-9) und Unterstriche (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      'Hol dir Plutonium, um deinen Tag anzupassen oder ihn beim Ändern deines Benutzernamens zu behalten';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'FluxerTag bereits vergeben';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'Der FluxerTag $username#$discriminator ist bereits vergeben. Wenn du fortfährst, wird dein Diskriminator automatisch neu ausgewürfelt.';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => 'Benutzerdefinierter Tag ist temporär';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return 'Dein benutzerdefinierter 4-stelliger Tag ist nur verfügbar, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement am $date abläuft, wird dein Tag nach einer 3-tägigen Kulanzfrist auf eine zufällig zugewiesene Nummer zurückgesetzt.';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      'Dein benutzerdefinierter 4-stelliger Tag ist nur verfügbar, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement abläuft, wird dein Tag nach einer 3-tägigen Kulanzfrist auf eine zufällig zugewiesene Nummer zurückgesetzt.';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => 'Ich verstehe, weiter';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      'Wenn du diesen FluxerTag speicherst, wird dein benutzerdefinierter 4-stelliger Tag auf eine zufällige Nummer zurückgesetzt, wenn dein Plutonium-Abonnement endet. Wenn dein Abonnement nicht erneuert wird, hast du eine 3-tägige Kulanzfrist, bevor sich der Tag ändert.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return 'Dein benutzerdefinierter 4-stelliger Tag (#$discriminator) ist aktiv, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement nach einer 3-tägigen Kulanzfrist endet oder nicht erneuert wird, wird dein Tag auf eine zufällige Nummer zurückgesetzt.';
   }
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'Passe deinen 4-stelligen Tag an oder behalte ihn, wenn du deinen Benutzernamen änderst';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return 'Deine Plutonium-Testversion läuft am $date ab. Upgrade, um deinen benutzerdefinierten Tag zu behalten und eine Auszeichnung auf deinem Profil zu erhalten.';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      'Du befindest dich in einer Plutonium-Testversion. Upgrade, um deinen benutzerdefinierten Tag zu behalten und eine Auszeichnung auf deinem Profil zu erhalten.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'FluxerTag aktualisiert';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+      'FluxerTag konnte nicht aktualisiert werden. Bitte versuche es erneut.';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Weiter';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => 'Profilanpassung';
 
   @override
   String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+      'Bearbeite das Erscheinungsbild deines Profils und sieh eine Live-Vorschau';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => 'Benutzername';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+      'Beanspruche dein Konto, um deinen FluxerTag zu ändern';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => 'FluxerTag ändern';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return 'Passe deine 4-stellige Tag (#$discriminator) mit Plutonium nach Belieben an';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint =>
+      'Ändere deinen Benutzernamen und 4-stelligen Tag';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return 'Dein benutzerdefinierter Tag (#$discriminator) ist an dein Plutonium-Abo gebunden und wird zu einem zufälligen Tag zurückgesetzt, wenn es abläuft.';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => 'Anzeigename';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => 'Pronomen';
 
   @override
   String get avatarLabel => 'Avatar';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => 'Avatar ändern';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => 'Avatar entfernen';
 
   @override
   String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, GIF. Max. 10 MB. Empfohlen: 512×512px';
 
   @override
   String get bannerLabel => 'Banner';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => 'Banner ändern';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => 'Banner entfernen';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG, JPEG, WebP, GIF. Max. 10 MB. Mindestens: 960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => 'Akzentfarbe';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'Passt die Rahmen- und Bannerfarbe deines Profils an';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => 'Über mich';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText =>
+      'Du kannst Links, Emojis und Markdown verwenden.';
 
   @override
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle => 'Plutonium-Badge-Datenschutz';
 
   @override
   String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+      'Steuere, wie dein Plutonium-Badge anderen angezeigt wird';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel =>
+      'Plutonium-Badge vollständig ausblenden';
 
   @override
   String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+      'Blende dein Plutonium-Badge vollständig für andere Benutzer aus';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => 'Kaufdatum von Plutonium ausblenden';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return 'Kaufdatum von Plutonium ausblenden ($date)';
   }
 
   @override
   String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+      'Entferne das Datum deines ersten Plutonium-Kaufs von deinem Badge';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription =>
+      'Visionary als Abonnement maskieren';
 
   @override
   String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+      'Zeige dein Visionary als reguläres Abonnement an';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => 'Visionary-ID-Badge ausblenden';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return 'Visionary-ID-Badge ausblenden (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription => 'Entferne deinen Visionary-ID-Badge';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return 'Du bist in einer Plutonium-Testphase – dein Abonnement beginnt am $date';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      'Dein Abonnement beginnt automatisch, wenn deine Testphase endet. Keine Aktion erforderlich.';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return 'Du bist in einer Plutonium-Testphase, die am $date abläuft';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile =>
+      'Du bist in einer Plutonium-Testphase';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG, PNG, WebP. Max. 10 MB. Empfohlen: 512×512px. Animierte Avatare (GIF) erfordern Plutonium.';
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'Passe dein Profil mit einem statischen oder animierten Bannerbild an, um es hervorzuheben.';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => 'Plutonium erhalten';
 
   @override
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
   String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+      'In-App-Käufe sind auf dieser Plattform noch nicht verfügbar. Bleib dran – bald verfügbar!';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => 'Vorschau';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => 'Nachricht';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'Fluxer-Mitglied seit';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => 'Unbeanspruchtes Konto';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      'Dein Konto wurde noch nicht beansprucht. Ohne E-Mail und Passwort könntest du den Zugriff verlieren. Beanspruche dein Konto jetzt, um es zu sichern.';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => 'Konto beanspruchen';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => 'Profiltyp';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => 'Globales Profil';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      'Du bearbeitest dein Profil pro Community. Dieses Profil ist nur in dieser Community sichtbar und überschreibt dein globales Profil.';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => 'Community-Nickname';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'Das Anpassen deines Avatars, Banners, deiner Akzentfarbe und deines Profils für einzelne Gemeinschaften erfordert Plutonium. Community-Spitznamen und Pronomen sind für alle kostenlos.';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => 'Globales Profil verwenden';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => 'Benutzerdefiniertes Bild verwenden';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => 'Nicht anzeigen';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => 'Profil aktualisiert';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => 'Profil bearbeiten';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => 'Notiz';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '(nur für dich sichtbar)';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => 'Noch keine Notiz.';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => 'Identität verifizieren';
 
   @override
   String get sudoDescription =>
-      'This action requires verification to continue.';
+      'Diese Aktion erfordert eine Verifizierung, um fortzufahren.';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => 'Authenticator-Code';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => 'Passwort';
 
   @override
   String get sudoMethodTotp => 'Authenticator';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed =>
+      'Verifizierung fehlgeschlagen. Bitte versuche es erneut.';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => 'Konto';
 
   @override
   String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+      'Verwalte deine E-Mail-Adresse, dein Passwort und deine Kontoeinstellungen';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => 'Sicherheit';
 
   @override
   String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+      'Schütze dein Konto mit Zwei-Faktor-Authentifizierung und Passkeys';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => 'E-Mail-Einstellungen';
 
   @override
   String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+      'Verwalte die E-Mail-Adresse, mit der du dich bei Fluxer anmeldest';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => 'E-Mail-Adresse';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => 'Keine E-Mail-Adresse festgelegt';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => 'E-Mail ändern';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => 'E-Mail hinzufügen';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => 'Anzeigen';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => 'Ausblenden';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => 'Passwort';
 
   @override
   String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+      'Ändere dein Passwort, um dein Konto zu schützen';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => 'Aktuelles Passwort';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return 'Zuletzt geändert: $date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'Zuletzt geändert: Nie';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => 'Kein Passwort festgelegt';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => 'Passwort ändern';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => 'Passwort festlegen';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => 'Passwort ändern';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      'Wir senden einen Verifizierungscode an deine E-Mail-Adresse, um deine Identität zu bestätigen, bevor du dein Passwort änderst.';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => 'Starten';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => 'E-Mail verifizieren';
 
   @override
   String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+      'Gib den Verifizierungscode ein, der an deine E-Mail-Adresse gesendet wurde.';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => 'Verifizierungscode';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => 'Verifizieren';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => 'Neues Passwort festlegen';
 
   @override
   String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+      'Gib unten dein neues Passwort ein.';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => 'Neues Passwort';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => 'Neues Passwort bestätigen';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => 'Passwort ändern';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => 'Passwort geändert';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch =>
+      'Passwörter stimmen nicht überein';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => 'Ungültiger oder abgelaufener Code';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => 'E-Mail ändern';
 
   @override
   String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+      'Wir senden Ihnen Verifizierungscodes, um Ihre Identität zu bestätigen, bevor wir Ihre E-Mail-Adresse ändern.';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => 'Starten';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => 'Aktuelle E-Mail verifizieren';
 
   @override
   String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+      'Geben Sie den Verifizierungscode ein, der an Ihre aktuelle E-Mail-Adresse gesendet wurde.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => 'Neue E-Mail eingeben';
 
   @override
   String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+      'Geben Sie die neue E-Mail-Adresse ein, die Sie verwenden möchten.';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => 'Neue E-Mail';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => 'Verifizierungscode senden';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => 'Neue E-Mail verifizieren';
 
   @override
   String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+      'Geben Sie den Verifizierungscode ein, der an Ihre neue E-Mail-Adresse gesendet wurde.';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => 'E-Mail geändert';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => 'Ungültiger oder abgelaufener Code';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'Erneut senden';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return 'Erneut senden (${seconds}s)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => 'Verifizierungscode';
 
   @override
-  String get verify => 'Verify';
+  String get verify => 'Verifizieren';
 
   @override
-  String get enable => 'Enable';
+  String get enable => 'Aktivieren';
 
   @override
-  String get disable => 'Disable';
+  String get disable => 'Deaktivieren';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Löschen';
 
   @override
-  String get save => 'Save';
+  String get save => 'Speichern';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => 'Zwei-Faktor-Authentifizierung';
 
   @override
   String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+      'Fügen Sie Ihrem Konto eine zusätzliche Sicherheitsebene hinzu';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Authentifizierungs-App';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+      'Zwei-Faktor-Authentifizierung ist aktiviert';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+      'Verwende eine Authenticator-App, um Codes für die Zwei-Faktor-Authentifizierung zu generieren';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => 'Backup-Codes';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+      'Zeige deine Backup-Codes an und verwalte sie für die Kontowiederherstellung';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => 'Codes anzeigen';
 
   @override
   String get securityPasskeysSectionTitle => 'Passkeys';
 
   @override
   String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+      'Verwende Passkeys für die passwortlose Anmeldung und Zwei-Faktor-Authentifizierung';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => 'Registrierte Passkeys';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => 'Keine Passkeys registriert';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: 'Passkeys',
+      one: 'Passkey',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$count $_temp0 registriert (max. 10)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => 'Passkey hinzufügen';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return 'Hinzugefügt: $date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return 'Zuletzt verwendet: $date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => 'Umbenennen';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => 'Passkey löschen';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return 'Möchtest du den Passkey „$name“ wirklich löschen?';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => 'Passkey benennen';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => 'Passkey-Name';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint =>
+      'z. B. YubiKey, iPhone, Arbeitscomputer';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => 'Telefonnummer';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription => 'Verwalte deine Telefonnummer';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => 'Telefonnummer';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => 'Keine Telefonnummer hinzugefügt.';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => 'Telefon hinzufügen';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => 'Entfernen';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => 'Telefonnummer entfernen';
 
   @override
   String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+      'Möchtest du deine Telefonnummer wirklich entfernen?';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => 'Telefonnummer entfernt';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => 'Sicherheitsfunktionen';
 
   @override
   String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+      'Beanspruche dein Konto, um auf Sicherheitsfunktionen wie Zwei-Faktor-Authentifizierung und Passkeys zuzugreifen.';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'Du musst deine E-Mail-Adresse verifizieren, bevor du die Zwei-Faktor-Authentifizierung, Passkeys oder SMS-Verifizierung einrichten kannst.';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => 'Authenticator-App einrichten';
 
   @override
   String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+      'Scanne den QR-Code mit deiner Authenticator-App, um Codes für die Zwei-Faktor-Authentifizierung zu generieren.';
 
   @override
   String get totpEnableCodeLabel => 'Code';
 
   @override
   String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+      'Gib den 6-stelligen Code aus deiner Authenticator-App ein';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess =>
+      'Zwei-Faktor-Authentifizierung wurde aktiviert';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => 'Authenticator-App entfernen';
 
   @override
   String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+      'Gib den 6-stelligen Code aus deiner Authenticator-App ein, um die Zwei-Faktor-Authentifizierung zu deaktivieren.';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => 'Zwei-Faktor-Authentifizierung deaktiviert';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => 'Backup-Codes';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      'Wenn du den Zugriff auf deine Authenticator-App verlierst und diese Codes nicht hast, wirst du dauerhaft von deinem Konto ausgesperrt. Lade sie jetzt herunter oder kopiere sie und bewahre sie sicher auf.';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => 'Herunterladen';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => 'Kopieren';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied => 'Backup-Codes in die Zwischenablage kopiert';
 
   @override
   String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+      'Ich habe meine Backup-Codes heruntergeladen oder kopiert und an einem sicheren Ort gespeichert.';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => 'Fertig';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => 'Backup-Codes anzeigen';
 
   @override
   String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+      'Zur Anzeige deiner Backup-Codes ist möglicherweise eine Verifizierung erforderlich.';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => 'Telefonnummer hinzufügen';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => 'Telefonnummer';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => 'Gib deine Telefonnummer ein';
 
   @override
   String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+      'Gib deine Telefonnummer ein. Wir senden dir per SMS einen Verifizierungscode.';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => 'Code senden';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => 'Telefonnummer verifizieren';
 
   @override
   String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+      'Gib den Verifizierungscode ein, der an deine Telefonnummer gesendet wurde.';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => 'Telefonnummer hinzugefügt';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => 'Gefahrenzone';
 
   @override
   String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+      'Unumkehrbare und destruktive Aktionen';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => 'Konto deaktivieren';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+      'Deaktiviere dein Konto vorübergehend. Du kannst es später reaktivieren, indem du dich wieder anmeldest.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      'Das Deaktivieren deines Kontos meldet dich von allen Sitzungen ab. Du kannst dein Konto jederzeit wieder aktivieren, indem du dich erneut anmeldest.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => 'Konto löschen';
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+      'Lösche dein Konto und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      'Kündige dein aktives Plutonium-Abonnement in den Plutonium-Einstellungen, bevor du dein Konto löschst.';
+
+  @override
+  String get dangerZoneDeleteCannotDeleteAccount =>
+      'Konto kann nicht gelöscht werden';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      'Du kannst dein Konto nicht löschen, solange du Communities besitzt. Übertrage zuerst den Besitz der folgenden Communities:';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return 'und $count weitere';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return 'Um den Besitz zu übertragen, gehe zu $settingsPath und verwende die Option \"Besitz übertragen\".';
+  }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      'Möchtest du dein Konto wirklich löschen? Diese Aktion plant dein Konto zur dauerhaften Löschung ein.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+      'Du kannst den Löschvorgang innerhalb von 14 Tagen abbrechen';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+      'Nach 14 Tagen wird dein Konto dauerhaft gelöscht';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+      'Sobald die Löschung verarbeitet wurde, kannst du nicht mehr auf dein Konto zugreifen';
 
   @override
   String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+      'Du kannst deine gesendeten Nachrichten nach der Kontolöschung nicht mehr löschen';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      'Wenn du deine Daten exportieren oder zuerst deine Nachrichten löschen möchtest, besuche bitte den Abschnitt \"Datenschutz-Dashboard\" in den Benutzereinstellungen, bevor du fortfährst.';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => 'Beanspruche dein Konto';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      'Beanspruche dein Konto, indem du eine E-Mail-Adresse und ein Passwort hinzufügst. Wir senden dir einen Verifizierungscode, um deine E-Mail-Adresse zu bestätigen, bevor wir fertig sind.';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => 'E-Mail';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => 'Passwort';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => 'Code senden';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      'Gib den Code ein, den wir dir per E-Mail gesendet haben, um deine E-Mail zu verifizieren. Dein Passwort wird festgelegt, sobald der Code bestätigt wurde.';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => 'Konto erfolgreich beansprucht';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => 'Wichtige Informationen:';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => 'Ein Fehler ist aufgetreten';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => 'Ungültiger Code';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: 'vor $count Jahren',
+      one: 'vor 1 Jahr',
     );
     return '$_temp0';
   }
@@ -9104,8 +9290,8 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: 'vor $count Monaten',
+      one: 'vor 1 Monat',
     );
     return '$_temp0';
   }
@@ -9115,8 +9301,8 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: 'vor $count Tagen',
+      one: 'vor 1 Tag',
     );
     return '$_temp0';
   }
@@ -9126,8 +9312,8 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: 'vor $count Stunden',
+      one: 'vor 1 Stunde',
     );
     return '$_temp0';
   }
@@ -9137,129 +9323,133 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: 'vor $count Minuten',
+      one: 'vor 1 Minute',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => 'gerade eben';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => 'Autorisierte Anwendungen';
 
   @override
   String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+      'Diesen Anwendungen wurde Zugriff auf dein Fluxer-Konto gewährt.';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => 'Keine autorisierten Anwendungen';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'Du hast noch keine Anwendungen autorisiert, auf dein Konto zuzugreifen.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+      'Autorisierte Anwendungen konnten nicht geladen werden';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'Autorisiert am $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => 'Erteilte Berechtigungen';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => 'Entziehen';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => 'Anwendungszugriff entziehen';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return 'Möchtest du den Zugriff für $appName wirklich entziehen? Diese Anwendung hat dann keinen Zugriff mehr auf dein Konto.';
   }
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+      'Zugriff auf deine Basisprofilinformationen (Benutzername, Avatar usw.)';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => 'Deine E-Mail-Adresse anzeigen';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+      'Die Gemeinschaften anzeigen, deren Mitglied du bist';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections =>
+      'Deine verbundenen Konten anzeigen';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+      'Einen Bot mit den angeforderten Berechtigungen zu einer Gemeinschaft hinzufügen';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin =>
+      'Auf administrative Endpunkte zugreifen';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => 'Löschung ausstehend';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => 'Blockierte Benutzer';
 
   @override
   String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+      'Blockierte Benutzer können dir keine Freundschaftsanfragen senden oder dich direkt anschreiben.';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => 'Keine blockierten Benutzer';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription =>
+      'Du hast noch niemanden blockiert.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError =>
+      'Blockierte Benutzer konnten nicht geladen werden';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => 'Entsperren';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => 'Benutzer entsperren';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Möchtest du $username wirklich entsperren?';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => 'FluxerTag kopieren';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => 'Benutzer-ID kopieren';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => 'Profil konnte nicht geladen werden';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => 'Erneut versuchen';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => 'Nachricht';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => 'Sprachanruf';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => 'Videoanruf';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => 'Profil bearbeiten';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'Fluxer-Mitarbeiter';
 
   @override
   String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
@@ -9275,7 +9465,7 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'Fluxer Plutonium Abonnent seit $date';
   }
 
   @override
@@ -9283,7 +9473,7 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'Fluxer Visionary seit $date';
   }
 
   @override
@@ -9293,419 +9483,427 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return 'Gemeinsame Freunde ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return 'Gemeinsame Communities ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => 'Gemeinsame Freunde';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => 'Gemeinsame Communities';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends =>
+      'Keine gemeinsamen Freunde gefunden.';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities =>
+      'Keine gemeinsamen Communities gefunden.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return 'Spitzname: $nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => 'DM öffnen';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return 'Du hast $username blockiert. Du kannst keine Nachrichten senden, es sei denn, du entfernst die Blockierung.';
   }
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get blockedUserComposerBarrierAction => 'Blockierung aufheben';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileOpenDm => 'DM öffnen';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteTitle => 'Notiz';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteVisibility => '(nur für dich sichtbar)';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteSave => 'Speichern';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteDelete => 'Löschen';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileNoteEmpty => 'Klicke hier, um eine Notiz hinzuzufügen';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileMemberSince => 'Mitglied seit';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileAboutMe => 'Über mich';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUsername => 'Benutzernamen kopieren';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileCopyUserId => 'Benutzer-ID kopieren';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewMainProfile => 'Hauptprofil anzeigen';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileViewCommunityProfile => 'Community-Profil anzeigen';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileBlockUser => 'Benutzer blockieren';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileUnblockUser => 'Benutzer entsperren';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileRemoveFriend => 'Freund entfernen';
+
+  @override
+  String get userProfileBlockConfirmTitle => 'Benutzer blockieren';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return 'Möchtest du $username wirklich blockieren?';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => 'Benutzer entsperren';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Möchtest du $username wirklich entsperren?';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => 'Freund entfernen';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Möchtest du $username wirklich als Freund entfernen?';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => 'DM konnte nicht geöffnet werden';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote =>
+      'Notiz konnte nicht gespeichert werden';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed =>
+      'Aktion fehlgeschlagen, bitte versuche es erneut';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => 'Spitznamen ändern';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => 'Entfernen';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => 'Sperren';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'Zeitlimit';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => 'Zeitlimit aufheben';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => 'Besitz übertragen';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => 'Benutzer melden';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => 'Nachricht melden';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return '$username entfernen?';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return 'Möchtest du $username wirklich entfernen? Er/Sie kann mit einer neuen Einladung wieder beitreten.';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => 'Zeitstrafe aufheben?';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return 'Wenn die Zeitstrafe aufgehoben wird, kann $username wieder Nachrichten senden, reagieren und an Sprachkanälen teilnehmen.';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => 'Besitz übertragen?';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return 'Besitz dieser Community an $username übertragen? Dies ist nicht rückgängig zu machen und Sie verlieren alle Inhaberprivilegien.';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return '$username sperren';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => 'Sperrdauer';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel =>
+      'Benutzerdefinierte Dauer (Sekunden)';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return 'Jeder Wert zwischen $min und $max Sekunden';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel => 'Nachrichtenverlauf löschen';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => 'Nichts löschen';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => 'Letzte 24 Stunden';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => 'Letzte 7 Tage';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => 'Grund (optional)';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => 'Grund für die Sperre eingeben';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => 'Mitglied sperren';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return '$username eine Zeitstrafe geben';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => 'Zeitstrafedauer';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => 'Mitglied Zeitstrafe geben';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => 'Spitzname';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => 'Spitzname eingeben';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => 'Speichern';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return '$username wurde rausgeworfen';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return '$username wurde gesperrt';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return '$username hat eine Zeitstrafe erhalten';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return 'Zeitstrafe für $username aufgehoben';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => 'Spitzname aktualisiert';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => 'Besitz übertragen';
 
   @override
   String get durationPermanent => 'Permanent';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 Sekunden';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 Minuten';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 Minuten';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 Stunde';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 Stunden';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 Tag';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 Tage';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 Tage';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 Woche';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 Wochen';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 Monat';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => 'Benutzerdefiniert…';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => 'Benutzer melden';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => 'Unangemessenes Profil';
 
   @override
   String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+      'Dieses Benutzerprofil enthält unangemessene Inhalte';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return '$name tippt...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return '$name1 und $name2 tippen...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return '$name1, $name2 und $name3 tippen...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'Mehrere Personen tippen...';
 
   @override
   String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+      'Eine Handvoll Tastatur-Krieger versammelt sich...';
 
   @override
   String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+      'Eine Symphonie von klickenden Tasten ist im Gange...';
 
   @override
   String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+      'Hier ist eine ausgewachsene Tipp-Fiesta im Gange';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => 'Wow, das ist ja ein Tipp-Apokalypse';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return 'Schön, dass du da bist, $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return 'Willkommen, $username! Mach es dir gemütlich.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return 'Hallo, $username! Schön, dich hier zu haben.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return 'Hallo, $username! Mach einfach mit, wenn du bereit bist.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return 'Hey $username, schön, dich hier zu sehen!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return 'Hey $username! Wir hoffen, du geniesst deinen Aufenthalt.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return 'Hey, $username, willkommen an Bord!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return 'Schön, dass du es geschafft hast, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return 'Willkommen, $username!';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return 'Willkommen, $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return 'Willkommen, $username! Wir freuen uns, dass du da bist.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return 'Willkommen, $username! Wir hoffen, du geniesst deine Zeit hier.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return 'Willkommen, $username! Dein nächstes Gespräch beginnt hier.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return 'Willkommen, $username. Wir freuen uns, dich hier zu haben.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return 'Schön, dich zu sehen, $username! Willkommen.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return 'Du bist hier, $username! Schön, dich bei uns zu haben.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return 'Du bist angekommen, $username! Lass uns loslegen.';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => 'jetzt';
 
   @override
   String relativeTimeShortMinutes(int count) {
@@ -9734,8 +9932,8 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}d',
-      one: '1d',
+      other: '${count}T',
+      one: '1T',
     );
     return '$_temp0';
   }
@@ -9745,8 +9943,8 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}mo',
-      one: '1mo',
+      other: '${count}M',
+      one: '1M',
     );
     return '$_temp0';
   }
@@ -9756,50 +9954,50 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}y',
-      one: '1y',
+      other: '${count}J',
+      one: '1J',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => 'Meine Geräte';
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'Sieh alle Geräte, die gerade in deinem Konto angemeldet sind. Widerrufe alle Sitzungen, die du nicht erkennst.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => 'Aktuelles Gerät';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => 'Andere Geräte';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => 'Auswahlmodus aktivieren';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => 'Auswahlmodus beenden';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => 'Alle auswählen';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => 'Auswahl löschen';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => 'Gerät widerrufen';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => 'Alle anderen Geräte abmelden';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: '$count Geräte abmelden',
+      one: '1 Gerät abmelden',
     );
     return '$_temp0';
   }
@@ -9809,14 +10007,15 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: '$count Geräte abmelden',
+      one: '1 Gerät abmelden',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle =>
+      'Alle anderen Geräte abmelden';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -9824,180 +10023,184 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
       count,
       locale: localeName,
       other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+          'Dies meldet die ausgewählten Geräte von deinem Konto ab. Du musst dich auf diesen Geräten erneut anmelden.',
       one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+          'Dies meldet das ausgewählte Gerät von deinem Konto ab. Du musst dich auf diesem Gerät erneut anmelden.',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      'Dies meldet die ausgewählten Geräte von deinem Konto ab. Du musst dich auf diesen Geräten erneut anmelden.';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => 'Weiter';
 
   @override
   String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+      'Du musst dich auf allen abgemeldeten Geräten wieder anmelden';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => 'Netzwerkfehler';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      'Wir haben Probleme, eine Verbindung zum Raum-Zeit-Kontinuum herzustellen. Bitte überprüfe deine Verbindung und versuche es erneut.';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: 'Geräte widerrufen',
+      one: 'Gerät widerrufen',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError =>
+      'Abmeldung fehlgeschlagen. Versuche es erneut.';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => 'Unbekanntes Betriebssystem';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => 'Unbekannte Plattform';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return '$duration Zeitlupe';
   }
 
   @override
   String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+      'Du bist im Zeitlupenmodus. Bitte warte, bevor du eine weitere Nachricht sendest.';
 
   @override
   String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+      'Zeitlupe ist aktiviert, aber du bist immun.';
 
   @override
   String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+      'Du kannst in diesem Kanal keine Nachrichten senden.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return 'Systemankündigungen von $productName-Mitarbeitern. Du kannst hier nicht antworten.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+      'Das Senden von Nachrichten ist in dieser Community vorübergehend pausiert.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      'Du wurdest vorübergehend gesperrt. Nachrichten, Reaktionen und Sprache sind bis zum Ablauf der Sperre pausiert.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+      'Du musst dein Konto beanspruchen, um in dieser Community Nachrichten senden zu können.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+      'Du musst deine E-Mail-Adresse verifizieren, um in dieser Community Nachrichten senden zu können.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+      'Dein Konto ist zu neu, um in dieser Community Nachrichten senden zu können.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      'Du bist noch nicht lange genug Mitglied dieser Community, um Nachrichten senden zu können.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+      'Du musst eine Telefonnummer verifizieren, um in dieser Community Nachrichten senden zu können.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => 'E-Mail verifizieren';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => 'Telefon verifizieren';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return 'Zu viele Anhänge (max. $max)';
   }
 
   @override
   String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+      'Eine oder mehrere Dateien überschreiten die Grössenbeschränkung';
 
   @override
   String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+      'Diese Dateien sind zu gross, um sie zusammen zu senden';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload =>
+      'Dateien hierher ziehen zum Hochladen';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend =>
+      'Dateien hierher ziehen zum sofortigen Senden';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => 'Sprachnachricht senden';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => 'Sprachnachricht';
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'Halten zum Aufnehmen. Nach oben ziehen zum Sperren oder loslassen zum Senden.';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => 'Sprachnachricht verwerfen';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => 'Sprachnachricht senden';
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+      'Aufnahme kann nicht gestartet werden. Mikrofonzugriff erlauben.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+      'Sprachaufnahmen werden auf diesem Gerät nicht unterstützt.';
 
   @override
   String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+      'Verlasse den Sprachanruf, um eine Sprachnachricht aufzunehmen.';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed =>
+      'Aufnahme fehlgeschlagen. Versuche es erneut.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+      'Sprachnachricht kann nicht gesendet werden. Versuche es erneut.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+      'Sprich jetzt. Drücke Stopp, wenn du fertig bist – du kannst danach schneiden.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+      'Ziehe die Regler zum Schneiden, drücke dann Senden.';
 
   @override
-  String get voiceMessageStop => 'Stop';
+  String get voiceMessageStop => 'Stopp';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => 'Aufnahme starten';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => 'Abspielen';
 
   @override
   String get voiceMessagePause => 'Pause';
@@ -10009,44 +10212,44 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return 'Auswahl muss mindestens ${secondsString}s lang sein.';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => 'Anhang bearbeiten';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => 'Dateiname';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => 'Beschreibung';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => 'Optionale Alternativtext';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => 'Als Spoiler markieren';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => 'Anhang entfernen';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => 'Herunterladen';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => 'Anhang abgelaufen';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => 'Galerie';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => 'Kamera';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => 'Dateien durchsuchen';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip => 'Bild aus Zwischenablage einfügen';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -10055,163 +10258,164 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => 'Spoiler anzeigen';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => 'Anzeigen';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => 'Klicken zum Anzeigen';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => 'Nicht jugendfreie Inhalte';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => 'Reife Community';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => 'Reife Kategorie';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => 'Reifer Kanal';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => 'Community-Inhaltswarnung';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle => 'Kategorie-Inhaltswarnung';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => 'Kanal-Inhaltswarnung';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => 'Dies enthält sensible Inhalte.';
 
   @override
   String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Diese Community ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Diese Kategorie ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Dieser Kanal ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Dieser Sprachkanal ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+      'Dieser Linkkanal ist für reife Inhalte gekennzeichnet und kann Material öffnen, das für einige Benutzer ungeeignet ist.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+      'Diese reife Community ist für Ihr Konto nicht verfügbar.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+      'Diese reife Kategorie ist für Ihr Konto nicht verfügbar.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+      'Dieser reife Kanal ist für Ihr Konto nicht verfügbar.';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => 'Weiter';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => 'Ich verstehe';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => 'Link öffnen';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => 'Sensible Inhalte';
 
   @override
   String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+      'Steuern Sie, wie reife oder sensible Medien in verschiedenen Kontexten gefiltert werden';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel => 'Direktnachrichten von Freunden';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel =>
+      'Direktnachrichten von anderen';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => 'Nachrichten in Community-Kanälen';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => 'Anzeigen';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => 'Unschärfe';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => 'Blockieren';
 
   @override
   String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+      'Medien unscharf machen, bis der Sicherheitsscan abgeschlossen ist';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      'Wenn aktiviert, werden Bilder und Videos unscharf gemacht, bis der Inhalts-Sicherheitsscan abgeschlossen ist.';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+      'Diese Einstellung ist für Ihr Konto immer aktiviert.';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => 'Zurücksetzen';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => 'Speichern';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count Dateien',
+      one: '1 Datei',
     );
-    return 'Uploading $_temp0';
+    return 'Lade $_temp0 hoch';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => 'Upload abbrechen';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return 'Läuft ab am $date';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return 'Läuft ab zwischen $start und $end';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => 'Verbindungen';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      'Verknüpfe externe Konten und Domains mit deinem Fluxer-Profil. Verifizierte Verbindungen werden auf deinem Profil angezeigt.';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => 'Noch keine Verbindungen';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      'Verknüpfe dein Bluesky-Konto oder verifiziere die Domain-Inhaberschaft, um sie auf deinem Profil anzuzeigen.';
 
   @override
   String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+      'Verifiziere die Domain-Inhaberschaft, um sie auf deinem Profil anzuzeigen.';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
@@ -10220,29 +10424,29 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   String get connectionsAddDomain => 'Domain';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => 'Bluesky-Verbindung hinzufügen';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => 'Domain-Verbindung hinzufügen';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => 'Bearbeiten';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => 'Entfernen';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => 'Diese Verbindung wurde verifiziert.';
 
   @override
   String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+      'Diese Verbindung wurde nicht verifiziert.';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => 'Verbindung hinzufügen';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => 'Verbindungstyp';
 
   @override
   String get connectionHandleLabel => 'Handle';
@@ -10257,284 +10461,289 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => 'Du hast diese Verbindung bereits.';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => 'Mit Bluesky verbinden';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => 'Weiter';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => 'Verbindung verifizieren';
 
   @override
   String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+      'Verwende den untenstehenden Eintrag, um den Besitz der Domain nachzuweisen.';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'DNS TXT-Eintrag';
 
   @override
   String get connectionDnsHostLabel => 'Host';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => 'Wert';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => 'Host kopieren';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => 'Wert kopieren';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => 'Kopiert!';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => 'Token-Datei bereitstellen';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      'Lade **fluxer-verification** herunter und lege es in deinem **.well-known**-Ordner ab, damit wir die Domain validieren können.';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => 'fluxer-verification herunterladen';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return 'Die Datei enthält das Verifizierungstoken, das wir von **$dnsUrl** abrufen.';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => 'fluxer-verification speichern';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => 'Verifizieren';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => 'Zurück';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => 'Verbindung bearbeiten';
 
   @override
   String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+      'Wähle aus, wer diese Verbindung auf deinem Profil sehen kann.';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => 'Alle';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+      'Erlaube allen, diese Verbindung auf deinem Profil zu sehen';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => 'Freunde';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+      'Erlaube deinen Freunden, diese Verbindung zu sehen';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => 'Community-Mitglieder';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+      'Erlaube Mitgliedern aus Communities, in denen du bist, diese Verbindung zu sehen';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => 'Verbindung entfernen';
 
   @override
   String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+      'Bist du sicher, dass du diese Verbindung entfernen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => 'Entfernen';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError =>
+      'Verbindungen konnten nicht geladen werden';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError =>
+      'Reihenfolge konnte nicht aktualisiert werden';
 
   @override
   String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+      'Verifizierung konnte nicht gestartet werden. Versuche es erneut.';
 
   @override
   String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+      'Verifizierung fehlgeschlagen. Überprüfe deinen DNS-Eintrag und versuche es erneut.';
 
   @override
   String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+      'Bluesky-Autorisierung konnte nicht gestartet werden.';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed =>
+      'Verbindung konnte nicht aktualisiert werden';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed =>
+      'Verbindung konnte nicht entfernt werden';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => 'fluxer-verification gespeichert';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast =>
+      'Datei konnte nicht gespeichert werden';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => 'Gib einen Bluesky-Handle ein.';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => 'Gib eine Domain ein.';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => 'Aussehen';
 
   @override
   String get lookAndFeelThemeSectionTitle => 'Theme';
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+      'Wähle zwischen dunklem, kohlschwarzem oder hellem Aussehen.';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => 'Dunkles Theme';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => 'Kohle-Theme';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => 'Helles Theme';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => 'System-Theme';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+      'Theme geräteübergreifend synchronisieren';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      'Wenn aktiviert, werden Designänderungen auf allen deinen Geräten synchronisiert. Wenn deaktiviert, verwendet dieses Gerät seine eigene Designeinstellung.';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      'Das Systemdesign deaktiviert die Synchronisierung automatisch, um die Präferenzen deines Systems auf diesem Gerät zu verfolgen.';
 
   @override
   String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+      'Das Design konnte nicht mit deinem Konto synchronisiert werden. Bitte versuche es erneut.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Schriftgrösse im Chat';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Passe die Schriftgrösse im Chatbereich an.';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => 'Oberfläche';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'Passe Oberflächenelemente und -verhalten an.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+      'Tippanzeigen in der Kanalliste';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      'Wähle aus, wie Tippanzeigen in der Kanalliste erscheinen, wenn jemand in einem Kanal tippt.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+      'Tippanzeige + Avatare';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      'Zeige die Tippanzeige mit Benutzeravataren in der Kanalliste an';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+  String get lookAndFeelChannelTypingIndicatorOnlyName => 'Nur Tippanzeige';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      'Zeige nur die Tippanzeige ohne Avatare an';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Ausgeblendet';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      'Zeige keine Tippanzeigen in der Kanalliste an';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      'Tippen im ausgewählten Kanal anzeigen';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      'Wenn deaktiviert (Standard), werden Tippanzeigen nicht im Kanal angezeigt, den du gerade ansiehst.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'allgemein';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => 'Tastaturhinweise';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+      'Steuere, ob Tastaturkürzelhinweise in Tooltips angezeigt werden.';
 
   @override
   String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+      'Tastaturhinweise in Tooltips ausblenden';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      'Wenn aktiviert, werden Tastaturkürzel-Badges in Tooltip-Popups ausgeblendet.';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => 'Sonstiges';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription => 'Sonstige Oberflächenoptionen.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => 'Neko anzeigen';
 
   @override
   String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+      'Wenn aktiviert, erscheint Neko neben dem Chat-Eingabefeld.';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle =>
+      'Verhalten beim Beitreten zu Sprachkanälen';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+      'Steuere, wie du Sprachkanälen in Gemeinschaften beitrittst.';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Doppelklick zum Beitreten zu Sprachkanälen erforderlich';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      'Wenn aktiviert, musst du auf Sprachkanäle doppelklicken, um ihnen beizutreten. Wenn deaktiviert (Standard), tritt ein einfacher Klick dem Kanal sofort bei.';
 
   @override
   String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+      'Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => 'Server-Seitenleiste';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Konfiguriere, wie die Server-Seitenleiste Direktnachrichten anzeigt.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -10542,372 +10751,461 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
       count,
       locale: localeName,
       other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
+          '$count Server sind wegen einer Störung des Flusskondensators vorübergehend nicht verfügbar.',
       one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+          '1 Server ist wegen einer Störung des Flusskondensators vorübergehend nicht verfügbar.',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel => 'DMs in Ordner einklappen';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      'Wenn aktiviert, werden ungelesene DMs in der Server-Seitenleiste in einem Ordner auf der Fluxer-Schaltfläche eingeklappt. Klicke auf die Fluxer-Schaltfläche, während du dich auf der DM-Seite befindest, um den Ordner ein- oder auszuklappen.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => 'Kanal-Liste';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'Steuere das Verhalten von ungelesenen Markierungen für stummgeschaltete Kanäle in Kanal-Listen.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+      'Ungelesene Markierung in stummgeschalteten Kanälen anzeigen';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      'Wenn aktiviert, zeigen stummgeschaltete Kanäle eine verblasste Markierung für ungelesene Nachrichten auf der linken Seite an. Erwähnungen erscheinen unabhängig von dieser Einstellung.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => 'Jetzt aktiv';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+      'Steuere, wie „Jetzt aktiv“ in der gesamten App angezeigt wird.';
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+      'Jetzt aktiv auf der Startseite anzeigen';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      'Zeige „Jetzt aktiv“ auf der Startseite an, um Freunde anzuzeigen, die in Sprachkanälen aktiv sind. Du siehst eine Vorschau, den Kanal-Kontext, wer bereits da ist, und eine schnelle Möglichkeit, beizutreten.';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => 'Favoriten';
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'Steuere die Sichtbarkeit von Favoriten in der gesamten App.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel => 'Favoriten aktivieren';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'Wenn aktiviert, kannst du Kanäle zu deinen Favoriten hinzufügen, und sie werden im Abschnitt „Favoriten“ angezeigt. Wenn deaktiviert, werden alle favoritenbezogenen UI-Elemente (Schaltflächen, Menüpunkte) ausgeblendet. Deine vorhandenen Favoriten bleiben erhalten.';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => 'Favoriten';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'Noch keine Favoriten';
 
   @override
   String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+      'Kanalen mit einem Stern im Chat-Header markieren, um sie hier zu behalten.';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => 'Willkommen bei Favoriten';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      'Dein persönlicher Bereich für schnellen Zugriff auf Kanäle, Direktnachrichten und Gruppen, die du magst. Tippe auf den Stern bei einem Kanal, um ihn hier hinzuzufügen.';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip =>
+      'Nichts für dich? Schalte es jederzeit aus.';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => 'Favoriten deaktivieren';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => 'Zu Favoriten hinzugefügt';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => 'Aus Favoriten entfernt';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => 'Favoriten ausgeblendet';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => 'Favoriten stummschalten';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => 'Favoriten-Stummschaltung aufheben';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => 'Favoriten-Menü';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => 'Kategorie erstellen';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => 'Kategoriename';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => 'Stummgeschaltete Kanäle ausblenden';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => 'Stummgeschaltete Kanäle anzeigen';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => 'Spitznamen festlegen';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => 'Spitzname';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => 'Spitznamen speichern';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => 'In Kategorie verschieben';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => 'Unkategorisiert';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => 'Andere';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => 'Aus Favoriten entfernen';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => 'Zu Favoriten hinzufügen';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => 'Favoriten ausblenden';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      'Dies blendet alle Favoriten-bezogenen UI-Elemente aus, einschliesslich Schaltflächen und Menüpunkte. Deine bestehenden Favoriten bleiben erhalten und können jederzeit unter Einstellungen > Erweitert > Darstellung wieder aktiviert werden.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => 'Direktnachricht';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => 'Anzeige';
 
   @override
   String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+      'Steuere, wie Nachrichten, Medien und andere Inhalte angezeigt werden.';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => 'Medien';
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'Passe die Grösse von Medien und Schaltflächen an.';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => 'Eingabe';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'Passe die Einstellungen für die Nachrichteneingabe an.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => 'Seitenleiste';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+      'Konfiguriere, wie die Community-Seitenleiste angezeigt wird.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Stummgeschaltete Kanäle standardmässig ausblenden';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      'Blendet stummgeschaltete Kanäle in der Seitenleiste automatisch aus, wenn du neuen Communities beitrittst.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+      'Stummgeschaltete Kanäle standardmässig ausblenden?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      'Neue Communities, denen du beitrittst, blenden stummgeschaltete Kanäle automatisch aus. Möchtest du diese Einstellung auch auf alle deine bestehenden Communities anwenden?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      'Stummgeschaltete Kanäle nicht mehr standardmässig ausblenden?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      'Neue Communities, denen du beitrittst, blenden stummgeschaltete Kanäle nicht mehr automatisch aus. Möchtest du stummgeschaltete Kanäle auch in allen deinen bestehenden Communities anzeigen?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+      'Auf alle Communities anwenden';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+      'In allen Communities anzeigen';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+      'Nur neue Communities';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => 'Medienanzeige';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      'Steuere, wie Bilder, Videos und andere Medien angezeigt werden. Alle Medien werden skaliert und konvertiert. Extrem grosse Dateien, die nicht in eine Vorschau komprimiert werden können, werden unabhängig von diesen Einstellungen nicht eingebettet.';
 
   @override
   String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+      'Wenn als Links im Chat gepostet';
 
   @override
   String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+      'Wenn direkt in Fluxer hochgeladen';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => 'Link-Vorschauen';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+      'Steuere, wie Website-Links im Chat in der Vorschau angezeigt werden.';
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+      'Embeds anzeigen und Website-Links in der Vorschau anzeigen';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => 'Reaktionen';
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+      'Emoji-Reaktionen auf Nachrichten konfigurieren';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+      'Emoji-Reaktionen auf Nachrichten anzeigen';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => 'Spoiler-Inhalt';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+      'Steuern, wie Spoiler-Inhalt angezeigt wird';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => 'Spoiler-Inhalt anzeigen';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => 'Beim Klicken';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+      'Spoiler-Inhalt beim Klicken anzeigen';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName =>
+      'In Kanälen, die ich moderiere';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      'Spoiler-Inhalt immer in Kanälen anzeigen, in denen du die Berechtigung „Nachrichten verwalten“ hast';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => 'Immer';
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+      'Spoiler-Inhalt immer anzeigen';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => 'Medien-Grösse';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      'Die maximale Anzeigegrösse für eingebettete und angehängte Medien anpassen. Kleinere Grössen verbrauchen weniger Speicherplatz, grössere zeigen mehr Details.';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => 'Medien von Links (Embeds)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel => 'Hochgeladene Anhänge';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => 'Kompakt (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => 'Kleinere Mediengrösse';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => 'Komfortabel (550x400)';
 
   @override
   String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+      'Grössere Mediengrösse mit mehr Details';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'GIF-Verhalten';
 
   @override
   String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+      'Steuern, wie GIFs in den Chat eingefügt werden';
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+      'GIFs automatisch senden, wenn ausgewählt';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+      'Ausdruck-Vervollständigung (Doppelpunkt-Vervollständigung)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'Steuern, was in der Ausdruck-Vervollständigung erscheint, wenn du einen Doppelpunkt eingibst. Passe an, welche Vorschläge angezeigt werden, um deinen Vorlieben zu entsprechen.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      'Standard-Emojis in der Ausdruck-Vervollständigung anzeigen';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Benutzerdefinierte Emojis in der Ausdruck-Vervollständigung anzeigen';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+      'Sticker in der Ausdruck-Vervollständigung anzeigen';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+      'Gespeicherte Medien in der Ausdruck-Vervollständigung anzeigen';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle => 'Nachrichten bearbeiten';
 
   @override
   String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+      'Steuern, was mit deinem Bearbeitungsentwurf geschieht, wenn du abbrichst.';
 
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+      'Bearbeitungsentwurf beim Abbrechen beibehalten';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => 'Ungelesene Anzeigen';
 
   @override
   String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+      'Steuern, wie ungelesene Nachrichtenanzeigen angezeigt werden.';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      'Gedimmte Anzeige für Ungelesenes in stummgeschalteten Kanälen anzeigen';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      'Zeige eine gedimmte Anzeige für Ungelesenes neben stummgeschalteten Direktnachrichten und Kanälen an, damit du auf einen Blick sehen kannst, wenn es Aktivität gibt.';
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get accessibilityDmMessagePreviewGroupTitle =>
+      'DM-Nachrichten-Vorschauen';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      'Steuern, wann Nachrichten-Vorschauen in der DM-Liste angezeigt werden.';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel =>
+      'DM-Nachrichten-Vorschau-Modus';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => 'Alle Nachrichten';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription =>
+      'Nachrichten-Vorschauen für alle DM-Konversationen anzeigen';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName =>
+      'Nur ungelesene DMs';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      'Nachrichten-Vorschauen nur für DMs mit ungelesenen Nachrichten anzeigen';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => 'Keine';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription =>
+      'Keine Nachrichten-Vorschauen in der DM-Liste anzeigen';
+
+  @override
+  String get dmListSentAnAttachment => 'Hat einen Anhang gesendet';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return '$username hat eine Nachricht an diesen Kanal angeheftet.';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return '$username hat $userName zur Gruppe hinzugefügt.';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return '$username hat jemanden zur Gruppe hinzugefügt.';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return '$username hat die Gruppe verlassen.';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username hat $userName aus der Gruppe entfernt.';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username hat jemanden aus der Gruppe entfernt.';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username hat den Kanalnamen in $newName geändert.';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username hat den Kanalnamen geändert.';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username hat das Kanalbild geändert.';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username hat einen Anruf gestartet.';
+  }
+
+  @override
+  String get voiceConnectionConfirmTitle => 'Stimmverbindungsbestätigung';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -10915,92 +11213,94 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
       count,
       locale: localeName,
       other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+          'Du bist bereits von $count anderen Geräten mit diesem Sprachkanal verbunden. Was möchtest du tun?',
       one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+          'Du bist bereits von 1 anderen Gerät mit diesem Sprachkanal verbunden. Was möchtest du tun?',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => 'Zu diesem Gerät wechseln';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+      'Einfach beitreten (andere Verbindungen beibehalten)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+      'Nichts tun, ich möchte nicht beitreten';
 
   @override
   String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+      'Dies ist ein Sprachkanal. Verbinde dich, um zu sprechen!';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => 'Sprachkanal beitreten';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => 'Mit Sprache verbinden';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+      'Du hast keine Berechtigung, diesem Sprachkanal beizutreten';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Mikrofon-, Kamera- und Bildschirmfreigabeinhalte sind Ende-zu-Ende-verschlüsselt.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Mikrofon-, Kamera- und Bildschirmfreigabeinhalte sind Ende-zu-Ende-verschlüsselt.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+      'Ende-zu-Ende-Verschlüsselung ist nicht verfügbar, da ein nicht unterstützter Teilnehmer in diesem Sprachkanal ist.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+      'Ende-zu-Ende-Verschlüsselung ist nicht verfügbar, da ein nicht unterstützter Teilnehmer in diesem Anruf ist.';
 
   @override
   String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+      'Dieser Client muss aktualisiert werden, bevor er diesem verschlüsselten Anruf beitritt.';
 
   @override
   String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+      'Dein Mikrofon konnte nicht gestartet werden. Du bist noch im Anruf.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => 'Verbinde...';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => 'Verbunden';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => 'Fehler';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => 'Mobiles Gerät';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => 'Desktop-Gerät';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted =>
+      'Von der Community stummgeschaltet';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => 'Stummgeschaltet';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened =>
+      'Von der Community taubgeschaltet';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => 'Taubgeschaltet';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return 'Verbindung: $connectionId';
   }
 
   @override
@@ -11008,209 +11308,211 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count Teilnehmer',
+      one: '1 Teilnehmer',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => 'Verlassen';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => 'Stummschalten';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => 'Stummschaltung aufheben';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => 'Taubschalten';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => 'Taubschaltung aufheben';
 
   @override
   String get voiceControlVideo => 'Video';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => 'Bildschirmfreigabe';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText =>
+      'Dein Bildschirm wird geteilt.';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => 'Mehr';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => 'Trennen';
 
   @override
   String get voiceControlChat => 'Chat';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => 'Chat anzeigen';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# ungelesenen Nachrichten',
+      one: '1 ungelesener Nachricht',
     );
-    return 'Show chat with $_temp0';
+    return 'Chat anzeigen mit $_temp0';
   }
 
   @override
   String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+      'Kamera-Berechtigung ist für Video erforderlich.';
 
   @override
   String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+      'Bildschirmfreigabe konnte nicht gestartet werden. Bitte versuche es erneut.';
 
   @override
   String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+      'Berechtigung zur Bildschirmfreigabe wurde verweigert.';
 
   @override
   String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+      'Bildschirmfreigabe ist auf diesem Gerät nicht verfügbar.';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => 'Stream ansehen';
 
   @override
-  String get voiceStopWatching => 'Stop Watching';
+  String get voiceStopWatching => 'Stoppe Beobachtung';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
-      'Stop watching the current stream';
+      'Aktuellen Stream nicht mehr ansehen';
 
   @override
-  String get voiceOwnScreenShareTitle => 'You are broadcasting';
+  String get voiceOwnScreenShareTitle => 'Du sendest';
 
   @override
   String get voiceOwnScreenShareSubtitle =>
-      'Your stream is live for participants.';
+      'Dein Stream ist für Teilnehmende live.';
 
   @override
-  String get voiceLiveBadge => 'Live';
+  String get voiceLiveBadge => 'LIVE';
 
   @override
-  String get dmVoiceViewCall => 'View call';
+  String get dmVoiceViewCall => 'Anruf ansehen';
 
   @override
-  String get dmVoiceCallFullScreen => 'Full screen';
+  String get dmVoiceCallFullScreen => 'Vollbild';
 
   @override
-  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+  String get dmVoiceCallFullScreenTooltip => 'Anruf im Vollbild öffnen';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Connecting…';
+  String get dmVoiceStripStatusConnecting => 'Verbinde…';
 
   @override
-  String get dmVoiceStripStatusInCall => 'In call';
+  String get dmVoiceStripStatusInCall => 'Im Anruf';
 
   @override
-  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+  String get dmVoiceEmbeddedFallbackTitle => 'Sprachanruf';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Connecting…';
+  String get dmVoiceCallBarConnecting => 'Verbinde…';
 
   @override
-  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+  String get dmVoiceCallBarDirectPrimary => 'Direkter Anruf';
 
   @override
-  String get dmVoiceCallBarGroupPrimary => 'Group call';
+  String get dmVoiceCallBarGroupPrimary => 'Gruppenanruf';
 
   @override
-  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+  String get dmVoiceCallBarIssueFallback => 'Sprachproblem';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Voice';
+  String get dmVoiceFullscreenTitle => 'Sprache';
 
   @override
-  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
+  String get voiceCallBarGuildConnectedFallback => 'Sprache verbunden';
 
   @override
-  String get notificationsPageTitle => 'Notifications';
+  String get notificationsPageTitle => 'Benachrichtigungen';
 
   @override
-  String get notificationsFilterUnreads => 'Unreads';
+  String get notificationsFilterUnreads => 'Ungelesene';
 
   @override
-  String get notificationsFilterMentions => 'Mentions';
+  String get notificationsFilterMentions => 'Erwähnungen';
 
   @override
-  String get notificationsBookmarksTooltip => 'Bookmarks';
+  String get notificationsBookmarksTooltip => 'Lesezeichen';
 
   @override
-  String get notificationsMentionFilterTooltip => 'Filter mentions';
+  String get notificationsMentionFilterTooltip => 'Erwähnungen filtern';
 
   @override
-  String get notificationsMentionFiltersTitle => 'Mention filters';
+  String get notificationsMentionFiltersTitle => 'Erwähnungsfilter';
 
   @override
   String get notificationsMentionIncludeEveryone =>
-      'Include @everyone and @here mentions';
+      'Einschliesslich @everyone und @here Erwähnungen';
 
   @override
-  String get notificationsMentionIncludeRoles => 'Include role mentions';
+  String get notificationsMentionIncludeRoles =>
+      'Rollen-Erwähnungen einschliessen';
 
   @override
   String get notificationsMentionIncludeGuilds =>
-      'Include all community mentions';
+      'Alle Community-Erwähnungen einschliessen';
 
   @override
-  String get notificationsNoUnreadTitle => 'No Unread Messages';
+  String get notificationsNoUnreadTitle => 'Keine ungelesenen Nachrichten';
 
   @override
-  String get notificationsNoUnreadBody => 'You\'re all caught up.';
+  String get notificationsNoUnreadBody => 'Du bist auf dem neuesten Stand.';
 
   @override
-  String get notificationsNoMentionsTitle => 'No Recent Mentions';
+  String get notificationsNoMentionsTitle => 'Keine aktuellen Erwähnungen';
 
   @override
   String get notificationsNoMentionsBody =>
-      'All @mentions of you will appear here for 7 days.';
+      'Alle @Erwähnungen von dir erscheinen hier für 7 Tage.';
 
   @override
-  String get notificationsMentionsEndTitle => 'You\'ve reached the end';
+  String get notificationsMentionsEndTitle => 'Du hast das Ende erreicht';
 
   @override
   String get notificationsMentionsEndBody =>
-      'You\'ve seen all your recent mentions. Don\'t fret, more will appear here soon.';
+      'Du hast alle deine aktuellen Erwähnungen gesehen. Keine Sorge, bald erscheinen hier mehr.';
 
   @override
-  String get notificationsJump => 'Jump';
+  String get notificationsJump => 'Springen';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Remove mention';
+  String get notificationsRemoveMentionTooltip => 'Erwähnung entfernen';
 
   @override
-  String get notificationsViewAllUnread => 'View all unread';
+  String get notificationsViewAllUnread => 'Alle ungelesenen anzeigen';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead => 'Als gelesen markieren';
 
   @override
-  String get notificationsExpand => 'Expand';
+  String get notificationsExpand => 'Erweitern';
 
   @override
-  String get notificationsCollapse => 'Collapse';
+  String get notificationsCollapse => 'Einklappen';
 
   @override
   String get notificationsMessageUnavailable =>
-      'This message couldn\'t be loaded.';
+      'Diese Nachricht konnte nicht geladen werden.';
 
   @override
   String characterCounterRemaining(int remaining) {
-    return '$remaining characters left';
+    return '$remaining Zeichen übrig';
   }
 
   @override
-  String get characterCounterTooLong => 'Message is too long';
+  String get characterCounterTooLong => 'Nachricht ist zu lang';
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -11218,595 +11520,643 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String productName,
     int premiumMaxLength,
   ) {
-    return '$remaining characters left. Get $productName to write up to $premiumMaxLength characters.';
+    return '$remaining Zeichen übrig. Hol dir $productName, um bis zu $premiumMaxLength Zeichen zu schreiben.';
   }
 
   @override
-  String get chatMessageFailedToSend => 'Failed to send message';
+  String get chatMessageFailedToSend =>
+      'Nachricht konnte nicht gesendet werden';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return 'Deine Nachricht konnte nicht zugestellt werden. Das liegt meist daran, dass du keine Community mit dem Empfänger teilst oder der Empfänger nur Direktnachrichten von Freunden akzeptiert. Möglicherweise musst du auch deine eigenen Datenschutzeinstellungen für Direktnachrichten in $settingsPath anpassen.';
+  }
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatSendFailureUnclaimedDm =>
+      'Deine Nachricht konnte nicht zugestellt werden. Du musst dein Konto beanspruchen, um Direktnachrichten senden zu können.';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatSendFailureUnclaimedGeneral =>
+      'Deine Nachricht konnte nicht zugestellt werden. Du musst dein Konto beanspruchen, um Nachrichten senden zu können.';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatSendFailureContentBlocked =>
+      'Deine Nachricht konnte nicht zugestellt werden, da sie von unseren Sicherheitssystemen markiert wurde. Wenn du glaubst, dass dies ein Fehler ist, kontaktiere bitte den Support.';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatSendFailureNsfwEmojiSticker =>
+      'Deine Nachricht konnte nicht zugestellt werden, da sie jugendgefährdende Emojis oder Sticker enthält, die in diesem Kontext nicht erlaubt sind.';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get chatClientSystemOnlyYouCanSee =>
+      'Nur du kannst diese Nachricht sehen.';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get chatClientSystemDismiss => 'Schliessen';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get privacyDashboardCommunicationSection => 'Kommunikation';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get chatMessageDeleteFailed =>
+      'Nachricht konnte nicht gelöscht werden';
+
+  @override
+  String get chatMessageAddReaction => 'Reaktion hinzufügen';
+
+  @override
+  String get chatMessageEdit => 'Nachricht bearbeiten';
+
+  @override
+  String get chatMessageReply => 'Antworten';
+
+  @override
+  String get chatMessageForward => 'Weiterleiten';
+
+  @override
+  String get forwardMessageTitle => 'Nachricht weiterleiten';
+
+  @override
+  String get forwardSearchHint => 'Kanäle oder Direktnachrichten suchen';
+
+  @override
+  String get forwardDirectMessagesSection => 'Direktnachrichten';
+
+  @override
+  String get forwardCommentHint => 'Kommentar hinzufügen (optional)';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return 'Senden ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => 'Keine Kanäle gefunden';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => 'Nachricht weitergeleitet';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => 'Nachricht konnte nicht weitergeleitet werden';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'Kommentare sind nicht verfügbar, da für einen ausgewählten Kanal der Zeitlupenmodus aktiviert ist.';
 
   @override
   String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+      'Du kannst hier keine Nachrichten senden';
 
   @override
   String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+      'Du kannst hier keine Links einbetten';
 
   @override
   String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+      'Du kannst hier keine Dateien anhängen';
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+      'Nachrichten senden ist in dieser Community deaktiviert';
 
   @override
   String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+      'Du bist in dieser Community auf Zeitlimit';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'Zeitlupenmodus – warte $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => 'Nachricht kopieren';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => 'Nachricht anheften';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => 'Nachricht lösen';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageUnpinIt => 'Lösen';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageBookmark => 'Nachricht als Lesezeichen speichern';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageRemoveBookmark => 'Lesezeichen entfernen';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageMarkAsUnread => 'Als ungelesen markieren';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageLink => 'Nachrichtenlink kopieren';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageCopyMessageId => 'Nachrichten-ID kopieren';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageViewReactions => 'Reaktionen anzeigen';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageRemoveAllReactions => 'Alle Reaktionen entfernen';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebug => 'Nachricht debuggen';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugSheetTitle => 'Nachricht debuggen';
+
+  @override
+  String get chatMessageDebugCopyJson => 'JSON kopieren';
 
   @override
   String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+      'Nachrichten-JSON in die Zwischenablage kopiert';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => 'Reaktionen';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty => 'Niemand hat bisher darauf reagiert.';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => 'Nachricht melden';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get iarReportMessageTitle => 'Nachricht melden';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarThisUserFallback => 'diesem Benutzer';
 
   @override
   String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+      'Regelverstoss melden oder Werkzeuge zur Verwaltung von Kontakten und Präferenzen finden.';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarPathStepAriaLabel => 'Was brauchst du?';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarCategoryStepTitle => 'Welche Art von Regel wurde gebrochen?';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarReasonStepTitle => 'Welche Regel wurde gebrochen?';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonSelectHint => 'Grund auswählen';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarPickAnOptionToast => 'Wähle eine Option, um fortzufahren.';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickARuleToast => 'Wähle die gebrochene Regel aus.';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPathPlatform => 'Regelverstoss gegen die Plattform melden';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathCommunity => 'An die Moderatoren dieser Community melden';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathPreferenceMessage => 'Ich mag diese Inhalte nicht';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarCategoryTargetedHarmLabel =>
+      'Bedrohungen, Belästigung oder Schaden';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+      'Mobbing, Drohungen, Hass, Gewalt, Razzien oder Inhalte, die Selbstverletzung fördern.';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategorySafetyMinorsLabel =>
+      'Kinderschutz oder jugendgefährdende Inhalte';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+      'Minderjährige in Gefahr, jugendgefährdende Inhalte am falschen Ort oder unerwünschtes Verhalten.';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategoryPrivacyIdentityLabel =>
+      'Privatsphäre oder Identitätsdiebstahl';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+      'Doxing, Stalking, sich als jemand ausgeben oder ein unangemessenes Profil.';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryDeceptionLabel =>
+      'Betrug, Malware oder Fehlinformationen';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+      'Phishing, Betrug, bösartige Links oder falsche Behauptungen, die wahrscheinlich zu realem Schaden führen.';
 
   @override
   String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+      'Illegale Aktivität oder etwas anderes';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+      'Illegale Verkäufe, kriminelle Erleichterung oder ein klarer Regelverstoss, der nicht oben passt.';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarReasonHarassmentLabel => 'Belästigung oder Drohungen';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+      'Mobbing, wiederholter unerwünschter Kontakt, Stalking oder gezielte Belästigung.';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHateLabel => 'Hassrede';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      'Schimpfwörter, entmenschlichende Sprache oder Angriffe auf geschützte Gruppen.';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonViolenceLabel => 'Gewalt oder Gewaltdrohungen';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+      'Glaubwürdige Drohungen, grafische Gewalt oder Verherrlichung von Gewalt.';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonMatureContentLabel =>
+      'Jugendgefährdende Inhalte oder Belästigung';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+      'Unerwünschtes Verhalten oder jugendgefährdende Inhalte am falschen Ort.';
 
   @override
   String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+      'Kinderschutz oder Ausbeutung von Minderjährigen';
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+      'Grooming oder Inhalte zur Ausbeutung von Minderjährigen.';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonHarmfulMisinfoLabel => 'Schädliche Fehlinformationen';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+      'Falsche Behauptungen, die wahrscheinlich zu realem Schaden führen.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonSpamLabel => 'Spam, Betrug oder Phishing';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+      'Massen-Spam, Betrug, gefälschte Gewinnspiele oder Missbrauch von Konten.';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonMalwareLabel => 'Malware oder gefährliche Links';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+      'Malware, Diebstahl von Anmeldedaten oder schädliche Dateien.';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonPrivacyLabel => 'Verletzung der Privatsphäre';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+      'Doxing, offengelegte private Informationen oder Stalking.';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonImpersonationLabel =>
+      'Identitätsdiebstahl oder täuschende Medien';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+      'Sich als jemand anderes ausgeben, einschliesslich täuschender KI-generierter Inhalte.';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonIllegalLabel => 'Illegale Aktivität';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+      'Illegale Verkäufe, kriminelle Erleichterung oder rechtswidrige Aktivitäten.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonSelfHarmLabel => 'Selbstverletzung oder Suizid';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+      'Förderung oder Anleitungen zu Selbstverletzung oder Essstörungen.';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonOtherLabel => 'Ein anderer klarer Regelverstoss';
 
   @override
   String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+      'Nur verwenden, wenn es eindeutig gegen die Regeln von Fluxer verstösst und nicht oben passt.';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return 'Wenn ein Minderjähriger beteiligt ist, verwenden Sie stattdessen \"$childSafetyReason\".';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      'Wenn es sich um CSAM oder die Ausbeutung eines Minderjährigen handelt, senden Sie es jetzt und teilen Sie das Material nicht erneut.';
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+      'Wenn jemand in unmittelbarer Gefahr sein könnte, kontaktieren Sie die örtlichen Rettungsdienste, wenn Sie dies sicher tun können.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+      'Wenn dies eine glaubwürdige unmittelbare Bedrohung ist, kontaktieren Sie ebenfalls die örtlichen Rettungsdienste.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+      'Wenn dies eine unmittelbare terroristische Bedrohung ist, kontaktieren Sie ebenfalls die örtlichen Rettungsdienste.';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => 'Diesen Benutzer blockieren';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+      'Nachrichten und Freundschaftsanfragen stoppen.';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => 'Blockieren';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => 'Nachrichtenlink kopieren';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+      'Mit Community-Mods teilen.';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => 'Kopieren';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => 'Diese Direktnachricht schliessen';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+      'Blockiert nicht. Kann später wieder geöffnet werden.';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => 'DM schließen';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => 'Community verlassen';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+      'Keine Inhalte und Mitglieder mehr sehen.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => 'Verlassen';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle =>
+      'DM- & Freundschaftsanfragen-Einstellungen';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription =>
+      'Ändere, wer dich erreichen kann.';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle => 'Anruf- & Gruppenchat-Einstellungen';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+      'Ändere, wer dich anrufen oder hinzufügen kann.';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => 'Öffnen';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => 'Diese Nachricht löschen';
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+      'Entferne sie für alle aus dem Kanal.';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => 'Löschen';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => 'Gelöscht';
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+      'Diese Nachricht wurde bereits gelöscht.';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => 'Diesen Benutzer sperren';
 
   @override
   String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+      'Öffne den Sperrdialog für diese Community.';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => 'Sperren';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => 'Gesperrt';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+      'Dieser Benutzer ist bereits aus der Community gesperrt.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => 'DM schließen';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return 'Schliesse deine aktuelle DM mit $name. Das blockiert sie nicht; du kannst sie später wieder öffnen.';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => 'Meldung gesendet';
 
   @override
   String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+      'Unser Sicherheitsteam prüft sie. Wir senden dir eine DM und E-Mail, sobald wir eine Entscheidung getroffen haben.';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => 'Bereits gemeldet';
 
   @override
   String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+      'Du hast diese Nachricht bereits gemeldet. Unser Sicherheitsteam prüft sie.';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => 'Zurück';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => 'Weiter';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => 'Meldung senden';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => 'Fertig';
 
   @override
   String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+      'Meldung konnte nicht gesendet werden. Bitte versuche es erneut.';
 
   @override
   String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+      'Du meldest zu schnell. Bitte warte einen Moment und versuche es erneut.';
 
   @override
   String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+      'Meldung gesendet. Unser Sicherheitsteam wird sie prüfen.';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return 'Blockiere $name? Sie können dir keine Nachrichten mehr senden oder Freundschaftsanfragen stellen. Du kannst sie später wieder entsperren.';
   }
 
   @override
   String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+      'Dieser Benutzer konnte nicht blockiert werden. Bitte versuche es erneut.';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => 'DM geschlossen.';
 
   @override
   String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+      'Diese DM konnte nicht geschlossen werden. Bitte versuche es erneut.';
 
   @override
   String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+      'Diese Community konnte nicht verlassen werden. Bitte versuche es erneut.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => 'Einbettungen unterdrücken';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => 'Einbettungen wieder anzeigen';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => 'Nachricht löschen';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => 'Nachricht löschen';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+      'Möchtest du diese Nachricht wirklich löschen?';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => 'Mehr';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => 'Nachricht wird bearbeitet';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => 'Originalnachricht wurde gelöscht';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad =>
+      'Originalnachricht konnte nicht geladen werden';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia => 'Nachricht enthält angehängte Medien';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError =>
+      'Nachrichten konnten nicht geladen werden.';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle =>
+      'Erwähnungseinstellung überschreiben?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return '$authorNickname möchte lieber mit @erwähnt werden, wenn geantwortet wird. Trotzdem ohne Erwähnung senden?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname bevorzugt Antworten ohne @Erwähnung. Trotzdem mit Erwähnung senden?';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => 'Präferenz ignorieren';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+      'Klicke, um die Person, auf die du antwortest, nicht zu pingen.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+      'Klicke, um die Person, auf die du antwortest, zu pingen.';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel =>
+      'Antwortende Person erwähnen';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => 'An';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => 'Aus';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => 'Antwort abbrechen';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => 'Nachricht bearbeiten';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => 'Keine Änderungen zum Speichern';
 
   @override
   String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+      'Dieser Kanal ist noch nicht bereit. Versuche es gleich noch einmal.';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(bearbeitet)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'Dies war eine @silent-Nachricht.';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'Heute um $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'Gestern um $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => 'Bildvorschau';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => 'Medienanzeige schliessen';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'Im Browser öffnen';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => 'Weiterleiten';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => 'Vergrössern';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => 'Verkleinern';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => 'Vorheriger Anhang';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => 'Nächster Anhang';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -11814,128 +12164,157 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls =>
+      'Videosteuerung ein-/ausblenden';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => 'Video stummschalten';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => 'Video-Ton einschalten';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'Video abspielen';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'Video pausieren';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => 'Video-Fortschritt';
+
+  @override
+  String get chatVideoPlaybackFailed =>
+      'Dieses Video konnte nicht abgespielt werden.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      'Benachrichtige Benutzer mit dieser Rolle, die Zugriff auf diesen Kanal haben.';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => 'Community hinzufügen';
 
   @override
   String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+      'Erstelle eine neue Community oder tritt einer bestehenden bei.';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => 'Community erstellen';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => 'Community beitreten';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => 'Discord-Vorlage importieren';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => 'Einer Community beitreten';
 
   @override
   String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+      'Gib den Einladungslink ein, um einer Community beizutreten.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => 'Einladungslink';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => 'Community beitreten';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid =>
+      'Diese Einladung ist ungültig oder abgelaufen.';
 
   @override
   String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+      'Der Beitritt zur Community ist fehlgeschlagen. Bitte versuche es erneut.';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => 'Paket erfolgreich installiert.';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+      'Alle Reaktionen entfernen';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      'Möchtest du wirklich alle Reaktionen von dieser Nachricht entfernen?';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => 'Nachricht lösen';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+      'Diese Markierung in der Zeit zurückschicken?';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String systemPinMessage(
+    String username,
+    String messageLink,
+    String allPinsLink,
+  ) {
+    return '$username hat $messageLink in diesem Kanal angepinnt. Sieh dir $allPinsLink an.';
+  }
+
+  @override
+  String get systemPinMessageMessageLink => 'eine Nachricht';
+
+  @override
+  String get systemPinMessageAllPinsLink => 'alle angepinnten Nachrichten';
+
+  @override
+  String get channelPinsEmptyTitle => 'Keine angepinnten Nachrichten';
+
+  @override
+  String get channelPinsEmptyDescription =>
+      'Hier werden angepinnten Nachrichten angezeigt.';
+
+  @override
+  String get personalNotesTitle => 'Persönliche Notizen';
 
   @override
   String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+      'Dein privater Bereich für Gedanken und Erinnerungen';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return 'Willkommen in $channelName';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return 'Am Anfang war nichts. Dann kam $channelName. Und es war gut.';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => 'Schreib dir selbst eine Nachricht';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => 'Dein privater Bereich';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => 'Persönliche Notizen löschen';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      'Dadurch werden alle Nachrichten und Anhänge in deinen persönlichen Notizen dauerhaft gelöscht. Dies kann nicht rückgängig gemacht werden.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => 'Löschen';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return '$count Nachrichten aus persönlichen Notizen gelöscht';
   }
 
   @override
   String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+      'Persönliche Notizen waren bereits leer';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed =>
+      'Persönliche Notizen konnten nicht geleert werden';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => 'DEIN KONTO';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -11947,185 +12326,187 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => 'Profil';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => 'Sicherheit & Anmeldung';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => 'Geschenke & Codes';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => 'Emote-Pakete';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard => 'Datenschutz-Dashboard';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => 'Autorisierte Apps';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => 'Blockierte Benutzer';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => 'Verbundene Geräte';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => 'Verbindungen';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => 'Aussehen';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => 'Bedienungshilfen';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => 'Nachrichten & Medien';
 
   @override
   String get userSettingsNavAudioAndVideo => 'Audio & Video';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => 'Töne & Benachrichtigungen';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => 'Sprache & Zeit';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => 'Erweitert';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => 'Leistungsberichte';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      'Hilf mit, Fluxer zu verbessern, indem du anonyme Absturz- und Leistungsdaten teilst.';
 
   @override
   String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+      'Absturz- und Leistungsberichte senden';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      'Alle gemeldeten Daten sind anonym und werden nur an Fluxers eigenen Überwachungsdienst gesendet – es werden keine Drittanbieter verwendet.';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => 'Anwendungen';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => 'App-Protokolle';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => 'Entwicklerwerkzeuge';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => 'Limits-Konfiguration';
 
   @override
   String get userSettingsNavFeatureFlags => 'Feature Flags';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => 'Neues';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => 'Abmelden';
 
   @override
-  String get betaWarningTitle => 'Beta software';
+  String get betaWarningTitle => 'Beta-Software';
 
   @override
   String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+      'Dies ist Beta-Software. Noch ist nicht alles fertig oder hinzugefügt.';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      'Bitte melde alle Probleme, die du findest, an die Fluxer Mobile Community (du benötigst derzeit Plutonium, um der Community beitreten zu können).';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => 'Quelle auf GitHub anzeigen';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => 'Verstanden';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => 'Suchen';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => 'Freunde';
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+      'Kanäle, Personen oder Communities suchen';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => 'Freunde suchen';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => 'Keine Treffer gefunden';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+      'Versuche einen anderen Namen oder benutze die Präfixe @ / # / ! / *, um Ergebnisse zu filtern.';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => 'Personen';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => 'Gruppennachrichten';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => 'Textkanäle';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => 'Sprachkanäle';
 
   @override
   String get quickSwitcherSectionCommunities => 'Communities';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => 'Einstellungen';
 
   @override
   String get quickSwitcherHomeLabel => 'Home';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => 'Direktnachrichten';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => 'Favoriten';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => 'Benutzereinstellungen';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => 'Benachrichtigungen';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => 'Lesezeichen';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => 'Erwähnungen';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => 'Noch keine Freunde';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint =>
+      'Füge einen Freund hinzu, um loszulegen.';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle =>
+      'Keine Freunde entsprechen dieser Suche';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => 'Versuche einen anderen Namen.';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => 'Benutzer';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => 'Du';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
@@ -12134,163 +12515,306 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   String get quickSwitcherSearchAliasDms => 'DMs';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => 'Nachrichten';
 
   @override
   String get quickSwitcherSearchAliasFav => 'Fav';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => 'Markiert';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => 'Posteingang';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => 'Gespeichert';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => 'Schliessen';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => 'Zum Ende springen';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => 'Bestätigen';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => 'Lädt';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => 'Ungespeicherte Änderungen';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => 'Zurücksetzen';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'Farbwähler öffnen';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => 'Auswählen';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => 'Suchen';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => 'Keine Optionen gefunden';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => 'Benachrichtigung schliessen';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'Farbwähler';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => 'Alle erwähnen?';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return 'Dies benachrichtigt $count Mitglieder. Fortfahren?';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return 'Dies benachrichtigt $count Online-Mitglieder. Fortfahren?';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => 'Erwähnen';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable =>
+      'Du kannst dieses Emoji hier nicht verwenden.';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => 'Instanz-URL';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder =>
+      'Instanz-URL eingeben (z. B. fluxer.app)';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => 'Auf Fluxer zurücksetzen';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => 'Verbinden';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => 'Verbinde…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => 'Verbindung zur Instanz fehlgeschlagen';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => 'Kürzliche Instanzen';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return '$domain von kürzlichen Instanzen entfernen';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => 'Mit Instanz verbinden';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance => 'Mit anderer Instanz verbinden';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => 'Ändern';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired =>
+      'Verbinde dich mit der Instanz, um dich anzumelden';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => 'Bald verfügbar';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => 'Direktnachrichten';
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+      'Entdeckbare Communities durchsuchen';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get discoveryExplore => 'Entdecken';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get discoveryExplorePublicCommunities =>
+      'Öffentliche Communities durchsuchen';
 
   @override
-  String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+  String get discoveryListingSubheading =>
+      'Möchtest du deine Community hier auflisten? Bewirb dich, wenn du die Anforderungen in den Einstellungen deiner Community > Entdecken erfüllst.';
+
+  @override
+  String get discoverySearchCommunities => 'Communities suchen';
+
+  @override
+  String get discoveryFilterByLanguage => 'Nach Sprache filtern';
+
+  @override
+  String get discoveryAllLanguages => 'Alle Sprachen';
+
+  @override
+  String get discoveryAllCategories => 'Alle';
+
+  @override
+  String get discoveryCategoryGaming => 'Gaming';
+
+  @override
+  String get discoveryCategoryMusic => 'Musik';
+
+  @override
+  String get discoveryCategoryEntertainment => 'Unterhaltung';
+
+  @override
+  String get discoveryCategoryEducation => 'Bildung';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology => 'Wissenschaft & Technik';
+
+  @override
+  String get discoveryCategoryContentCreator => 'Content Creator';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => 'Filme & TV';
+
+  @override
+  String get discoveryCategoryOther => 'Andere';
+
+  @override
+  String get discoveryNoCommunitiesMatch => 'Keine Communities passen.';
+
+  @override
+  String get discoveryJoinCommunity => 'Community beitreten';
+
+  @override
+  String get discoveryJoined => 'Beigetreten';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count online';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString Mitglieder',
+      one: '1 Mitglied',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get discoveryNoDescription => 'Keine Beschreibung.';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get discoveryCommunities => 'Communities';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get discoveryApps => 'Apps';
+
+  @override
+  String get discoveryJoinErrorGenericTitle =>
+      'Diese Community konnte nicht beigetreten werden';
+
+  @override
+  String get discoveryJoinErrorGenericMessage =>
+      'Etwas ist schiefgelaufen. Bitte versuche es gleich noch einmal.';
+
+  @override
+  String get discoveryJoinErrorFullTitle => 'Diese Community ist voll';
+
+  @override
+  String get discoveryJoinErrorFullMessage =>
+      'Diese Community hat ihr Mitglied Limit erreicht, du kannst ihr also im Moment nicht beitreten.';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle =>
+      'Du hast das Community-Limit erreicht';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage =>
+      'Du bist in der maximalen Anzahl von Communities. Verlasse eine und versuche es erneut.';
+
+  @override
+  String get discoveryJoinErrorBannedTitle =>
+      'Du kannst dieser Community nicht beitreten';
+
+  @override
+  String get discoveryJoinErrorBannedMessage =>
+      'Du wurdest aus dieser Community ausgeschlossen.';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle =>
+      'Diese Community ist nicht mehr verfügbar';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      'Sie hat möglicherweise die Entdeckung verlassen oder neue Beitritte deaktiviert. Aktualisiere die Seite und du wirst sie nicht mehr sehen.';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle => 'Du bist zu schnell';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage =>
+      'Bitte warte einen Moment und versuche es erneut.';
+
+  @override
+  String get guildNavbarAddCommunity => 'Community hinzufügen';
+
+  @override
+  String get guildNavbarHelp => 'Hilfe';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => 'NEUE NACHRICHT';
+
+  @override
+  String guildNavbarCollapseFolder(String folderName) {
+    return 'Ordner $folderName einklappen';
+  }
+
+  @override
+  String get guildNavbarGroupDm => 'Gruppen-DM';
+
+  @override
+  String get guildNavbarCreateChannel => 'Kanal erstellen';
+
+  @override
+  String get guildNavbarChannelType => 'Kanal-Typ';
+
+  @override
+  String get guildNavbarTextChannel => 'Textkanal';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Nachrichten, Bilder, GIFs und Emojis senden';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => 'Sprachkanal';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Gemeinsam per Sprache, Video und Bildschirmfreigabe abhängen';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => 'Kanal verknüpfen';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Schneller Zugriff auf eine externe Website oder Ressource';
 
   @override
   String get guildNavbarNameLabel => 'Name';
@@ -12305,541 +12829,551 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => 'Kategorie erstellen';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => 'Neue Kategorie';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return 'Freunde zu $communityName einladen';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return 'Empfänger gelangen zu Kanal #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => 'Freunde suchen';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => 'Noch keine Freunde';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => 'Keine Ergebnisse';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+      'Oder sende einen Einladungslink an einen Freund:';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => 'Einladungslink';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => 'Kopieren';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => 'Kopiert!';
 
   @override
   String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+      'Dein Einladungslink läuft in 7 Tagen ab.';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires =>
+      'Dieser Einladungslink läuft nie ab.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return 'Dein Einladungslink läuft in $duration ab.';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => 'Einladungslink bearbeiten';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings =>
+      'Einstellungen für Einladungslink';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => 'Ablauf nach';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => 'Max. Anzahl Verwendungen';
 
   @override
   String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+      'Temporäre Mitgliedschaft gewähren';
 
   @override
   String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+      'Mitglieder werden entfernt, wenn sie offline gehen, es sei denn, eine Rolle wird zugewiesen';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => 'Neuen Link erstellen';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => 'Gesendet';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => 'Einladen';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => 'Community verlassen';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+      'Möchtest du diese Community wirklich verlassen? Du kannst dann keine Nachrichten mehr sehen.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => 'Community verlassen';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+      'Deine Nachrichten in dieser Community löschen?';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      'Alle deine Nachrichten hier, in jedem Kanal, dauerhaft löschen. Kann nicht rückgängig gemacht werden.';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm => 'Meine Nachrichten löschen';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => 'Deine Nachrichten gelöscht';
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Deine Nachrichten konnten nicht gelöscht werden';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => 'Überschreibung entfernen';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return 'Stummgeschaltet bis $formattedDate';
   }
 
   @override
   String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+      'Nur für Fluxer-Mitarbeiter zugänglich';
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+      'Einladungen sind in dieser Community derzeit pausiert';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => 'nie';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 Minuten';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 Stunde';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 Stunden';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12 Stunden';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1 Tag';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7 Tage';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count Sekunden';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => 'Nie';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => 'Kein Limit';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1 Nutzung';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count Nutzungen';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => 'Als gelesen markieren';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildPeekMoreOptions => 'Weitere Optionen';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuInviteMembers => 'Mitglieder einladen';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuCommunitySettings => 'Community-Einstellungen';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuEditCommunityProfile => 'Community-Profil bearbeiten';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuUnmuteCommunity => 'Community stummschalten';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuMuteCommunity => 'Community stummschalten';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuHideMutedChannels => 'Stummgeschaltete Kanäle ausblenden';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuReportCommunity => 'Community melden';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuDebugCommunity => 'Community-Debug-Infos';
+
+  @override
+  String get guildMenuCopyCommunityId => 'Community-ID kopieren';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return 'Bis $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => 'Allgemein';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => 'Rollen & Berechtigungen';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => 'Benutzerdefinierte Emojis';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => 'Benutzerdefinierte Sticker';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => 'Sicherheit & Moderation';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => 'Aktivitätsprotokoll';
 
   @override
   String get guildMenuSettingsWebhooks => 'Webhooks';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl =>
+      'Benutzerdefinierte Einladungs-URL';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Entdeckung';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => 'Mitglieder';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => 'Einladungslinks';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => 'Sperren';
 
   @override
   String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+      'Sie haben keine Berechtigung, diesen Einstellungsbereich anzuzeigen.';
 
   @override
   String get guildSettingsOverviewIconTitle => 'Icon';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => 'Bild hochladen';
 
   @override
   String get guildSettingsOverviewBannerTitle => 'Banner';
 
   @override
   String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+      'Lade ein Banner für deinen Server hoch.';
 
   @override
   String get guildSettingsOverviewNameTitle => 'Name';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => 'Meine tolle Community';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => 'Statistiken';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => 'Mitglieder';
 
   @override
   String get guildSettingsOverviewOnline => 'Online';
 
   @override
   String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+      'Verwende Rollen, um Mitglieder zu gruppieren und Berechtigungen zuzuweisen.';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => 'Rolle erstellen';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => 'Rollen';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '$staticCount statische, $animatedCount animierte Emoji-Slots belegt';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty =>
+      'Noch keine benutzerdefinierten Emojis.';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '$count Sticker hochgeladen';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty =>
+      'Noch keine benutzerdefinierten Sticker.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle =>
+      'Mitgliederüberprüfung';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      'Wähle aus, was Mitglieder haben müssen, bevor sie Community-Mitgliedern schreiben oder Direktnachrichten senden können.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      'Mitglieder mit Rollen können diese Prüfungen umgehen. Für öffentliche Bereiche empfehlen wir, die Verifizierung zu aktivieren.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      'Communities, die in der Entdeckung aufgeführt sind, benötigen mindestens eine verifizierte E-Mail-Adresse. „Keine“ kann nicht ausgewählt werden, wenn die Entdeckung aktiviert ist.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+      'Reife Inhalte & Inhaltswarnungen';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'Konfiguriere die Kennzeichnung reifer Inhalte und optionale Inhaltswarnungen für Mitglieder.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => 'Reife Inhalte';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      'Markiere diese Community als reife Inhalte enthaltend.';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => 'Keine';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+      'Es ist keine Verifizierung erforderlich.';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => 'Niedrig';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+      'Erfordert eine verifizierte E-Mail-Adresse.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => 'Mittel';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      'Erfordert eine verifizierte E-Mail-Adresse und ein Konto, das mindestens 5 Minuten alt ist.';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => 'Hoch';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      'Erfordert alles aus „Mittel“ plus die Mitgliedschaft in der Community seit mindestens 10 Minuten.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => 'Sehr hoch';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+      'Erfordert eine verifizierte Telefonnummer.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+      'Verfolge Moderatoraktionen in der gesamten Community.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => 'Noch keine Protokolle';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+      'Moderationsaktionen und Community-Änderungen werden hier angezeigt.';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => 'Alle Benutzer';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => 'Alle Aktionen';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => 'Es wurde kein Grund angegeben.';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => 'Unbekannter Benutzer';
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+      'Beim Laden des Aktivitätsprotokolls ist etwas schiefgelaufen.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+      'Aktivitätsprotokolle konnten nicht geladen werden';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => 'Grund';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => 'jemand';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => 'etwas';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => 'unbekannte Entität';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => 'nichts';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => 'Unbekanntes Ziel';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => 'Community aktualisiert';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => 'Kanal erstellt';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => 'Kanal aktualisiert';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => 'Kanal gelöscht';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate =>
+      'Kanal-Berechtigung hinzugefügt';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+      'Kanal-Berechtigung aktualisiert';
 
   @override
   String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+      'Kanal-Berechtigung entfernt';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => 'Mitglied gekickt';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => 'Mitglieder bereinigt';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => 'Mitglied gesperrt';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => 'Mitglied entsperrt';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => 'Mitglied aktualisiert';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => 'Mitgliederrollen aktualisiert';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => 'Mitglied verschoben';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => 'Mitglied getrennt';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => 'Bot hinzugefügt';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => 'Rolle erstellt';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => 'Rolle aktualisiert';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => 'Rolle gelöscht';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => 'Einladung erstellt';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => 'Einladung aktualisiert';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => 'Einladung gelöscht';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'Webhook erstellt';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'Webhook aktualisiert';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'Webhook gelöscht';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => 'Emoji erstellt';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => 'Emoji aktualisiert';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => 'Emoji gelöscht';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => 'Sticker erstellt';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => 'Sticker aktualisiert';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => 'Sticker gelöscht';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => 'Nachricht gelöscht';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => 'Nachrichten gelöscht';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => 'Nachricht angepinnt';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => 'Nachricht abgepinnt';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return '$actor hat die Community-Einstellungen aktualisiert.';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return '$actor hat den Kanal $target erstellt.';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return '$actor hat den Kanal $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return '$actor hat den Kanal $target gelöscht.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return '$actor hat Kanalberechtigungen für $target hinzugefügt.';
   }
 
   @override
@@ -12848,12 +13382,12 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return '$actor hat Kanalberechtigungen für $target im Kanal $channel hinzugefügt.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return '$actor hat Kanalberechtigungen für $target aktualisiert.';
   }
 
   @override
@@ -12862,12 +13396,12 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return '$actor hat Kanalberechtigungen für $target im Kanal $channel aktualisiert.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return '$actor hat Kanalberechtigungen für $target entfernt.';
   }
 
   @override
@@ -12876,47 +13410,47 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return '$actor hat Kanalberechtigungen für $target im Kanal $channel entfernt.';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return '$actor hat $target rausgeworfen.';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return '$actor hat $target gesperrt.';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return '$actor hat $target entsperrt.';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return '$actor hat $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return '$actor hat die Rollen für $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return '$actor hat inaktive Mitglieder bereinigt.';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return '$actor hat Mitglieder bereinigt, die seit $days Tagen inaktiv waren.';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return '$actor hat $target in einen anderen Sprachkanal verschoben.';
   }
 
   @override
@@ -12925,37 +13459,37 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return '$actor hat $target in den Kanal $channel verschoben.';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return '$actor hat $target vom Sprachkanal getrennt.';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return '$actor hat den Bot $target hinzugefügt.';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return '$actor hat die Rolle $target erstellt.';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return '$actor hat die Rolle $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return '$actor hat die Rolle $target gelöscht.';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return '$actor hat die Einladung $target erstellt.';
   }
 
   @override
@@ -12964,12 +13498,12 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return '$actor hat die Einladung $target für den Kanal $channel erstellt.';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return '$actor hat die Einladung $target aktualisiert.';
   }
 
   @override
@@ -12978,12 +13512,12 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return '$actor hat die Einladung $target für den Kanal $channel aktualisiert.';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return '$actor hat die Einladung $target gelöscht.';
   }
 
   @override
@@ -12992,72 +13526,72 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return '$actor hat die Einladung $target für den Kanal $channel gelöscht.';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return '$actor hat den Webhook $target erstellt.';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor hat den Webhook $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor hat den Webhook $target gelöscht.';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor hat das Emoji $target hinzugefügt.';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor hat das Emoji $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor hat das Emoji $target gelöscht.';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor hat den Sticker $target hinzugefügt.';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor hat den Sticker $target aktualisiert.';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor hat den Sticker $target gelöscht.';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor hat eine Nachricht gelöscht.';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor hat eine Nachricht in $channel gelöscht.';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor hat mehrere Nachrichten gelöscht.';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor hat $count Nachrichten gelöscht.';
   }
 
   @override
@@ -13065,7 +13599,7 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor hat mehrere Nachrichten in $channel gelöscht.';
   }
 
   @override
@@ -13074,32 +13608,32 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor hat $count Nachrichten in $channel gelöscht.';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor hat eine Nachricht angepinnt.';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor hat eine Nachricht in $channel angepinnt.';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor hat eine Nachricht entpinnt.';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor hat eine Nachricht in $channel entpinnt.';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor hat eine Audit-Aktion auf $target ausgeführt.';
   }
 
   @override
@@ -13108,97 +13642,100 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return '$field von $oldValue auf $newValue aktualisiert.';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return '$field auf $newValue gesetzt.';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return '$field gelöscht (war $oldValue).';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return '$field aktualisiert.';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return 'Die Community wurde in $name umbenannt.';
   }
 
   @override
   String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+      'Das Community-Symbol wurde aktualisiert.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return 'Der Kanal wurde in $name umbenannt.';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => 'Das Thema wurde gelöscht.';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return 'Das Thema wurde auf $topic aktualisiert.';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent =>
+      'Erwachsenen-Inhalte aktiviert.';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent =>
+      'Erwachsenen-Inhalte deaktiviert.';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return 'Nickname auf $nickname gesetzt.';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return 'Nickname $nickname entfernt.';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => 'Mitglied stummgeschaltet.';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => 'Mitglied entstummt.';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => 'Mitglied taubgeschaltet.';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember =>
+      'Mitglied nicht mehr taubgeschaltet.';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return '$roles hinzugefügt.';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return '$roles entfernt.';
   }
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return 'Kanal: $value.';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return 'Nachricht: $value.';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return 'Eingeladen von $value.';
   }
 
   @override
@@ -13206,8 +13743,8 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: '# Nachrichten gelöscht.',
+      one: 'Eine Nachricht gelöscht.',
     );
     return '$_temp0';
   }
@@ -13217,147 +13754,192 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: '# Mitglieder entfernt.',
+      one: 'Ein Mitglied entfernt.',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires =>
+      'Diese Einladung läuft nie ab.';
 
   @override
   String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+      'Gewährt temporäre Mitgliedschaft.';
 
   @override
   String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+      'Gewährt permanente Mitgliedschaft.';
 
   @override
-  String get guildSettingsLoadMore => 'Load more';
+  String get guildSettingsLoadMore => 'Mehr laden';
 
   @override
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+      'Verwalte Webhooks, die Nachrichten in Kanäle posten.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty => 'Keine Webhooks konfiguriert.';
 
   @override
-  String get guildSettingsCopyUrl => 'Copy URL';
+  String get guildSettingsCopyUrl => 'URL kopieren';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => 'URL in die Zwischenablage kopiert';
 
   @override
-  String get guildSettingsDeleteWebhook => 'Delete webhook';
+  String get guildSettingsDeleteWebhook => 'Webhook löschen';
 
   @override
   String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+      'Lege einen benutzerdefinierten Einladungslink für deinen Server fest.';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => 'Speichern';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => 'Nutzung';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count Nutzung(en)';
   }
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+      'Bewirb dich für die Aufnahme in die Server-Suche.';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return 'Benötigt mindestens $count Mitglieder für die Bewerbung.';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => 'Bewerbung';
 
   @override
   String get guildSettingsDiscoveryStatusTitle => 'Status';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => 'Kategorie';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => 'Beschreibung';
 
   @override
   String get guildSettingsDiscoveryTags => 'Tags';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => 'Gaming, Kunst, Musik';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => 'Bewerbung abschicken';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => 'Zurückziehen';
 
   @override
   String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+      'Servermitglieder suchen und verwalten.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => 'Mitglieder suchen';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count Mitglied(er)';
   }
 
   @override
   String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+      'Aktive Einladungslinks anzeigen und widerrufen.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => 'Keine aktiven Einladungen.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses Nutzung(en)';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return 'Läuft ab $date';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription =>
+      'Gesperrte Benutzer anzeigen und verwalten.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => 'Sperren suchen';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => 'Keine gesperrten Benutzer.';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => 'Dauerhafte Sperre';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return 'Läuft ab $date';
   }
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsBanExpiresLabel => 'Läuft ab';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsUnban => 'Sperre aufheben';
+
+  @override
+  String get guildSettingsBansLoading => 'Gesperrte Benutzer werden geladen';
+
+  @override
+  String get guildSettingsBansNoSearchResults =>
+      'Keine Sperren gefunden, die deiner Suche entsprechen.';
+
+  @override
+  String get guildSettingsBanDetailsTitle => 'Details zur Sperre';
+
+  @override
+  String get guildSettingsBanViewDetails => 'Details anzeigen';
+
+  @override
+  String get guildSettingsBannedOn => 'Gesperrt am';
+
+  @override
+  String get guildSettingsBannedBy => 'Gesperrt von';
+
+  @override
+  String get guildSettingsRevokeBanTitle => 'Sperre widerrufen';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return 'Möchtest du die Sperre für $displayName wirklich widerrufen? Sie können der Community wieder beitreten.';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return 'Sperre für $displayName widerrufen';
+  }
+
+  @override
+  String get guildSettingsBansLoadError =>
+      'Sperren konnten nicht geladen werden. Versuche es erneut.';
+
+  @override
+  String get guildSettingsRevokeBanError =>
+      'Sperre konnte nicht widerrufen werden. Versuche es erneut.';
+
+  @override
+  String get guildSettingsCommunitySettings => 'Community-Einstellungen';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -13373,376 +13955,379 @@ class FluxerLocalizationsDeCh extends FluxerLocalizationsDe {
 
   @override
   String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+      'Verwalte das Profil, die Kanäle und die Standardeinstellungen deiner Community.';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'Branding';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+      'Aktualisiere dein Icon, deinen Namen, dein Banner und den Einladungs-Hintergrund';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => 'Banner hochladen';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => 'Leerlauf-Einstellungen';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+      'AFK-Kanal und Timeout konfigurieren';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => 'System & Willkommen';
 
   @override
   String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+      'Wähle das Ziel für System- und Willkommensnachrichten';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle =>
+      'Standardbenachrichtigungen';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      'Communities mit über 250 Mitgliedern werden auf die Einstellung \"Nur Erwähnungen\" gesetzt. Deine ursprüngliche Einstellung bleibt erhalten und wird wiederhergestellt, wenn die Community unter 250 Mitglieder fällt.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => 'Erweitert';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+      'Flexible Kanalnamen zulassen';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+      'Community-Besitzerkrone ausblenden';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => 'Abgetrennter Banner';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+      'Zeigt den Banner in einem eigenen Abschnitt unter dem Community-Header an.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => 'Symbol hochladen';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => 'Entfernen';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => 'Einladungs-Hintergrund';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle => 'Chat-Embed-Hintergrund';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+      'Wird in Einladungs-Embeds im Chat angezeigt.';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => 'Hintergrund hochladen';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => 'Kein Community-Banner';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground =>
+      'Kein Einladungs-Hintergrund';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => 'Vorschau';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+      'Sieh dir an, wie deine Einladung für Besucher aussieht.';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle => 'Textkanalnamen';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle => 'Community-Besitzerkrone';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+      'Konfiguriere, ob das Kronensymbol neben dem Community-Besitzer angezeigt wird';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => 'Karten-Ausrichtung';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => 'Mitte';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => 'Links';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => 'Rechts';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+      'Gilt nur auf breiten Bildschirmen.';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => 'Nachrichtenverlauf lesen';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return 'Ändere, was Benutzer ohne \"$permission\" sehen können';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return 'Verwende ein separates Modal, um ein Nachrichtenverlauf-Schwellendatum für Mitglieder festzulegen, die nicht über die Berechtigung \"$permission\" verfügen.';
   }
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+      'Schwellenwert für Nachrichtenverlauf öffnen';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+      'Schwellenwert für Nachrichtenverlauf';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+      'Schwellenwert für Nachrichtenverlauf aktivieren';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => 'Schwellendatum';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      'Mitglieder ohne Nachrichtenverlauf lesen können Nachrichten sehen, die nach diesem Datum gesendet wurden.';
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+      'Schwellenwert für Nachrichtenverlauf aktualisiert';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      'Erlaube Grossbuchstaben und Leerzeichen in Textkanalnamen. Deaktiviert beschränkt Namen auf Kleinbuchstaben mit Bindestrichen und Unterstrichen.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+      'Blendet das Kronensymbol neben dem Community-Besitzer auf allen Oberflächen aus.';
 
   @override
   String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+      'Animierte Symbole erfordern die Community-Funktion \"Animiertes Symbol\".';
 
   @override
   String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+      'Animierte Banner erfordern die Community-Funktion \"Animierter Banner\".';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'AFK / Inaktiv-Kanal';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+      'Verschiebe Mitglieder in diesen Kanal, wenn sie AFK sind.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => 'Kein AFK-Kanal';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'AFK-Timeout';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 Minute';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 Minuten';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 Minuten';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 Minuten';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 Stunde';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds Sekunden';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => 'Zielkanal';
 
   @override
   String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+      'Willkommens- und Systemnachrichten werden hier angezeigt.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => 'Kein Systemkanal';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages => 'Beitrittsnachrichten ausblenden';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+      'Unterdrückt Beitrittsnachrichten im Zielkanal.';
 
   @override
   String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+      'Standard-Benachrichtigungseinstellungen';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => 'Alle Nachrichten';
 
   @override
   String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+      'Benachrichtige bei allen Nachrichten';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => 'Nur Erwähnungen';
 
   @override
   String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+      'Benachrichtige nur bei Erwähnungen';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG, PNG, WebP, AVIF. Max. 10 MB. Mindestens: 960×540px (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG, PNG, WebP, AVIF. Max. 10 MB. Mindestens: 960×540px (16:9). Wird in Einladungs-Embeds im Chat angezeigt.';
 
   @override
   String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+      'Überprüfungs-, Inhaltsfilter- und Jugendschutzeinstellungen konfigurieren.';
 
   @override
   String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+      'In der Discovery gelistete Communities haben eingeschränkte Moderationsoptionen.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => 'Inhaltsfilterung';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      'Nachrichten automatisch auf explizite Inhalte prüfen in Kanälen, die nicht als jugendgefährdend gekennzeichnet sind.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      'Communities, die in der Discovery gelistet sind, müssen alle Mitglieder scannen. Diese Einstellung kann nicht geändert werden, solange die Discovery aktiviert ist.';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => 'Aus';
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+      'Die Community sich selbst moderieren lassen';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole =>
+      'Mitglieder ohne Rollen filtern';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+      'Für die meisten Communities empfohlen';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => 'Alle filtern';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+      'Maximaler Schutz für familienfreundliche Bereiche';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => 'Aus';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => 'An';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle => 'Inhaltswarnung anzeigen';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+      'Schaltet eine Zustimmungsaufforderung vor dem Betreten eines Kanals um.';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => 'Benutzerdefinierter Warntext';
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+      'Dies enthält sensible Inhalte.';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => '2FA-Anforderung';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      'Zwei-Faktor-Authentifizierung für Moderatoren verlangen, bevor sie verbannen, kicken, stummschalten oder Nachrichten entfernen können.';
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+      '2FA für Moderationsaktionen erforderlich';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+      'Nur der Community-Besitzer kann diese Einstellung ändern';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      'Aktiviere 2FA für dein Konto, um diese Einstellung zu ändern';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => 'Emojis suchen';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => 'Emoji hochladen';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return 'Nicht animierte Emojis ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return 'Animierte Emojis ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => 'Sticker suchen';
 
   @override
   String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+      'Webhooks in den Kanaleinstellungen erstellen. Hier bearbeiten.';
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+      'Deine Vanity-URL funktioniert nicht, es sei denn, mindestens ein Kanal ist für alle sichtbar.';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => 'Entfernen';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => 'Gesperrte Benutzer';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => 'Einladender';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => 'Kanal';
 
   @override
   String get guildSettingsInvitesTableCode => 'Code';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => 'Verwendungen';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => 'Erstellt';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => 'Neueste zuerst';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => 'Nach Benutzer filtern';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => 'Nach Aktion filtern';
 }

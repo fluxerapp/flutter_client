@@ -9,146 +9,148 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   FluxerLocalizationsCy([String locale = 'cy']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'Fe wnaethon ni gamio!';
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Mae rhywbeth o\'i le gyda\'r palvel. \nDylai gael ei drwsio mewn eiliad!';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => 'Ail-gysylltu…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => 'Wedi\'i gysylltu';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return 'Methu dechrau: $error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'Ceisiwch eto';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => 'Wedi colli cysylltiad';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'Gweld ar dudalen statws';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => 'Problemau cysylltiad?';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'Tudalen statws';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'Darllenwch ddigwyddiad';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'Hanes digwyddiadau';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => 'Croeso yn ôl';
 
   @override
-  String get email => 'Email';
+  String get email => 'E-bost';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => 'Rhowch gyfeiriad e-bost dilys.';
 
   @override
-  String get password => 'Password';
+  String get password => 'Cyfrinair';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'Wedi anghofio eich cyfrinair?';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'Mewngofnodi';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => 'Mewngofnodi gyda allwedd pas';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return 'Parhau gyda $provider';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired => 'Mae angen SSO i gyrchu\'r ddaran hon.';
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'Mewngofnodwch gyda darparwr un-signio eich sefydliad.';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => 'Methu dechrau SSO';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'Gohirwyd mewngofnodi SSO';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return 'Yn well gennych ddefnyddio SSO? Parhau gyda $provider.';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => 'Mewngofnodi trwy borwr';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => 'Angen cyfrif? ';
 
   @override
-  String get register => 'Register';
+  String get register => 'Cofrestru';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => 'Gwirio eich bod yn ddynol';
 
   @override
   String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+      'Mae angen i ni sicrhau nad ydych chi\'n fot. Cwblhewch y dilysiad isod.';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha =>
+      'Gyrrwch broblemau? Rhowch gynnig ar hCaptcha yn lle hynny';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile =>
+      'Rhowch gynnig ar Turnstile yn lle hynny';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Canslo';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'Gwirio eich e-bost';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'Anfonwyd e-bost gyda dolen i awdurdodi\'r mewngofnodi hwn. Agorwch eich blwch derbynnydd ar gyfer $email.';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => 'Cysylltiad ar goll';
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'Gollwyd y cysylltiad wrth aros am awdurdodiad. Rhowch gynnig arall arni.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => 'Dolen mewngofnodi wedi dod i ben';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'Mae\'r ddolen awdurdodi hon wedi dod i ben. Mewngofnodwch eto.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'Ail-anfon e-bost';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'Ail-anfonwyd';
 
   @override
   String ipAuthResendCountdown(int seconds) {
@@ -156,892 +158,895 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'Yn ôl';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => 'Awdurdodi dau ffactor';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => 'Dewiswch ddull dilysu';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'Ap dilysu';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => 'Allwedd Diogelwch / Passkey';
 
   @override
   String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+      'Rhowch y cod 6 digid o\'ch ap dilysu neu un o\'ch codau wrth gefn.';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => 'Cod';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'Rhowch gynnig ar ddull arall';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey =>
+      'Rhowch gynnig ar allwedd diogelwch / passkey yn lle hynny';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'Dewiswch gyfrif';
 
   @override
   String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+      'Dewiswch gyfrif i barhau, neu ychwanegwch un arall.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'Ychwanegu cyfrif';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => 'Dileáu';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return 'Dileáu $username';
   }
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'Bydd hyn yn dileáu\'r sesiwn a arbedwyd ar gyfer y cyfrif hwn.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+      'Bydd hyn yn dileáu\'r unig gyfrif a arbedwyd ar y ddyfais hon.';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'Drosodd';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return 'Drosodd y sesiwn ar gyfer $identifier. Mewngofnodwch eto.';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => 'Rheoli cyfrifon';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed =>
+      'Methodd newid cyfrifon. Rhowch gynnig arall arni.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => 'Newid cyfrifon';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => 'Gosod statws';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => 'Statws ar-lein';
 
   @override
-  String get statusOnline => 'Online';
+  String get statusOnline => 'Ar-lein';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => 'Anweithgar';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => 'Peidiwch ag aflonyddu';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => 'Anweledig';
 
   @override
-  String get statusOffline => 'Offline';
+  String get statusOffline => 'Dall-lein';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => 'Nes i mi ei newid';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'Peidiwch â dileu';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => 'Am 10 eiliad';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 eiliad';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 munud';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 munud';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 awr';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 awr';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 awr';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 awr';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 awr';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 diwrnod';
 
   @override
-  String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+  String get statusDndDescription => 'Ni chewch hysbysiadau ar gyfrifiadur';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => 'Byddwch yn ymddangos yn all-lein';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => 'Gosod statws personol';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => 'Statws personol';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => 'Dileáu statws personol';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'Beth sy\'n digwydd?';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'Dewiswch emoji';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'Dileáu ar ôl';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => 'Cadw';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => 'Cyfrif gweithredol';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'Allgofnodi';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => 'Cyfrif wedi\'i Atal yn Barhaol';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => 'Cyfrif wedi\'i Atal';
 
   @override
   String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+      'Mae eich cyfrif wedi\'i atal yn barhaol am dorri ein Telerau Gwasanaeth.';
 
   @override
   String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+      'Mae eich cyfrif wedi\'i atal dros dro. Byddwch yn gallu cyrchu eich cyfrif ar ôl i\'r cyfnod atal ddod i ben.';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => 'Dyddiedig';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => 'Yn dod i ben';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => 'Hyd';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedPermanent => 'Parhaol';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => 'Rheswm';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => 'Dyddiad Apêl';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return 'Mae eich cyfrif wedi\'i drefnu i gael ei ddileu ar $date.';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => 'Gwirio am Ddiweddariadau';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return 'Gwirio eto mewn ${seconds}s';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => 'Yn ôl i Mewngofnodi';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => 'Apêl';
 
   @override
   String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+      'Eglurwch pam y dylid ailystyried eich ataliad (o leiaf 50 nod)...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => 'Cyflwyno Apêl';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => 'Ar Eich Aros i\'w Adolygu';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => 'Apêl Wedi\'i Dderbyn';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => 'Apêl Wedi\'i Gwrthod';
 
   @override
   String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+      'Mae eich apêl wedi\'i derbyn ac mae eich cyfrif wedi\'i adfer.';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => 'Mewngofnodi i\'ch Cyfrif';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'Wedi anghofio\'ch cyfrinair?';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'Teipiwch eich cyfeiriad e-bost a byddwn yn anfon dolen atoch i ailosod eich cyfrinair.';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => 'Anfon dolen ailosod';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'Gwirioch eich e-bost';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'Rydym wedi anfon cyfarwyddiadau i ailosod eich cyfrinair i\'ch cyfeiriad e-bost. Gwiriwch eich blwch derbyn a dilynwch y ddolen i ailosod eich cyfrinair.';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'Dychwelyd i fewngofnodi';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'Gosod cyfrinair newydd';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+      'Teipiwch eich cyfrinair newydd isod i gwblhau\'r broses ailosod.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'Cyfrinair newydd';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'Cadarnhau cyfrinair newydd';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => 'Ailosod cyfrinair';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'Mae cyfrineiriau yn anghydweddu.';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => 'Creu cyfrif';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => 'Enw Dangos (Dewisol)';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => 'Beth ddylai pobl eich galw chi?';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => 'Defnyddiwr (Dewisol)';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint => 'Gadewch yn wag am enw defnyddiwr ar hap';
 
   @override
   String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+      'Ychwanegir tag 4 digid yn awtomatig i sicrhau unigrywiaeth';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'Dyddiad geni';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'Mis';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'Dydd';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'Blwyddyn';
 
   @override
   String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+      'Rwy\'n cytuno i\'r Telerau Gwasanaeth a\'r Polisi Preifatrwydd';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => 'Rwy\'n cytuno i\'r ';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => 'Telerau Gwasanaeth';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => ' a ';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => 'Polisi Preifatrwydd';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => 'Cadarnhau Cyfrinair';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Creu cyfrif';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => 'Eisoes wedi\'ch cofrestru? ';
 
   @override
   String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+      'Ni chafwyd hyd i allweddau pas i\'r app hwn. Mewngofnodwch gyda\'r cyfeiriad e-bost a chyfrinair yn lle hynny.';
 
   @override
   String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+      'Nid yw allweddau pas yn cael eu cefnogi ar y ddyfais hon.';
 
   @override
   String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+      'Nid yw allweddau pas wedi\'u ffurfweddu ar gyfer yr app hwn. Mewngofnodwch gyda\'r cyfeiriad e-bost a chyfrinair yn lle hynny.';
 
   @override
   String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+      'Aeth dilysu allwedd pas yn rhy bell. Rhowch gynnig arall arni.';
 
   @override
   String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+      'Nid yw allweddau pas ar gael ar gyfer yr app hwn. Mewngofnodwch gyda\'r cyfeiriad e-bost a chyfrinair yn lle hynny.';
 
   @override
   String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+      'Method pasys yn methu. Rhowch gynnig arall arni.';
 
   @override
   String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+      'Methu creu cyfrif. Rhowch gynnig arall arni.';
 
   @override
   String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+      'Methu mewngofnodi ar hyn o bryd. Rhowch gynnig arall arni.';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword => 'E-bost neu gyfrinair annilys.';
 
   @override
   String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+      'Methu anfon dolen ailosod. Rhowch gynnig arall arni.';
 
   @override
   String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+      'Methu ailosod cyfrinair. Rhowch gynnig arall arni.';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => 'Ymunwch â\'r Gymuned';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => 'Ewch i\'r Gymuned';
 
   @override
   String embedInviteOnline(String count) {
-    return '$count Online';
+    return '$count Ar-lein';
   }
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count Aelod';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => 'Gwahoddiad Anhysbys';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle =>
+      'Rhowch gynnig ar ofyn am wahoddiad newydd.';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => 'Gwahoddiad Ddim ar Gael';
 
   @override
-  String get inviteAcceptTitle => 'You\'ve been invited to join';
+  String get inviteAcceptTitle => 'Mae croeso i chi ymuno';
 
   @override
-  String get inviteAcceptJoinButton => 'Join Community';
+  String get inviteAcceptJoinButton => 'Ymunwch â\'r Gymuned';
 
   @override
-  String get inviteAcceptGoToButton => 'Go to Community';
+  String get inviteAcceptGoToButton => 'Ewch i\'r Gymuned';
 
   @override
-  String get inviteAcceptInvitesPaused => 'Invites Paused';
+  String get inviteAcceptInvitesPaused => 'Gwahoddiadau Wedi\'u Oedi';
 
   @override
-  String get inviteAcceptNotFoundTitle => 'Invite Invalid';
+  String get inviteAcceptNotFoundTitle => 'Gwahoddiad Annilys';
 
   @override
   String get inviteAcceptNotFoundDescription =>
-      'This invite may be expired or invalid.';
+      'Gall y gwahoddiad hwn fod wedi dod i ben neu fod yn annilys.';
 
   @override
-  String get inviteAcceptJoinGroupButton => 'Join group';
+  String get inviteAcceptJoinGroupButton => 'Ymunwch â\'r grŵp';
 
   @override
   String inviteAcceptGroupDmDescription(String inviterName) {
-    return 'You\'ve been invited to join a group DM by $inviterName';
+    return 'Mae croeso i chi ymuno â grŵp DM gan $inviterName';
   }
 
   @override
-  String get inviteAcceptSomeone => 'someone';
+  String get inviteAcceptSomeone => 'rhywun';
 
   @override
-  String get inviteAcceptEmojiPack => 'Emoji pack';
+  String get inviteAcceptEmojiPack => 'Pecyn emoji';
 
   @override
-  String get inviteAcceptStickerPack => 'Sticker pack';
+  String get inviteAcceptStickerPack => 'Pecyn sticeri';
 
   @override
-  String get inviteAcceptInstallEmojiPack => 'Install emoji pack';
+  String get inviteAcceptInstallEmojiPack => 'Gosodwch y pecyn emoji';
 
   @override
-  String get inviteAcceptInstallStickerPack => 'Install sticker pack';
+  String get inviteAcceptInstallStickerPack => 'Gosodwch y pecyn sticeri';
 
   @override
   String get inviteAcceptPackInstallNote =>
-      'Accepting this invite installs the pack automatically.';
+      'Bydd derbyn y gwahoddiad hwn yn gosod y pecyn yn awtomatig.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => 'Gwrthodwyd Mynediad i\'r Sianel';
 
   @override
   String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+      'Nid oes gennych fynediad i\'r sianel lle anfonwyd y neges hon.';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => 'Dim mynediad';
 
   @override
-  String get okay => 'Okay';
+  String get okay => 'Iawn';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => 'Them Dros Dro';
 
   @override
   String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+      'Nid yw\'r cleient hwn yn cefnogi themâu personol.';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => 'Themâu ddim ar gael';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => 'Gosodiadau Preifatrwydd';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => 'Negeseuon Uniongyrchol';
 
   @override
   String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+      'Caniatáu negeseuon uniongyrchol gan aelodau eraill yn y gymuned hon';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => 'Negeseuon Uniongyrchol Bot';
 
   @override
   String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+      'Caniatáu i botiau o\'r gymuned hon anfon negeseuon uniongyrchol atoch';
 
   @override
   String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+      'Mae gweinyddwyr y gymuned wedi analluogi derbyn negeseuon uniongyrchol gan aelodau cyffredin yn unig yn y gymuned hon.';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => 'Debug Cymuned';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => 'Wedi\'i gopïo i\'r clipfwrdd';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => 'Gosodiadau Hysbysiadau';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return 'Mudwch $guildName';
   }
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'Mae mud an gymuned yn atal dangosyddion heb eu darllen a hysbysiadau rhag ymddangos oni bai eich bod yn cael eich crybwyll';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings => 'Gosodiadau Hysbysiadau Cymuned';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => 'Pawb o\'r Negeseuon';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => 'Crybwyllion yn Unig';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => 'Dim';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => 'Atal @bawb a @yma';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles => 'Atal Gwahoddiadau Roliau i gyd';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => 'Hysbysiadau Gwthio Symudol';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => 'Gwrthrediadau Hysbysiadau';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => 'Dewiswch sianel neu gategori';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => 'Dim ond @ennillion';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => 'Mudwch Sianel';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => 'Dad-fwydwch Sianel';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => 'Dim Categori';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => 'Marcio fel Wedi\'i Ddarllen';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => 'Mudwch DM';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => 'Dad-fwydwch DM';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => 'Pinio DM';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => 'Tynnu Pin DM';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => 'Dangos Bob Amser yn y Bar Ochr';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => 'Tynnu o Bob Amser yn Dangos';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => 'Cau DM';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => 'Cau DM';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return 'Ydych chi\'n siŵr eich bod chi eisiau cau eich DM gyda $username? Gallwch ei ailagor bob amser yn ddiweddarach.';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => 'Copïo ID Sianel';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => 'ID Sianel wedi\'i gopïo';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => 'Copïo ID Defnyddiwr';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => 'ID defnyddiwr wedi\'i gopïo';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => 'Gweld Proffil';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => 'Dechrau Galwad Llais';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => 'Galwad llais yn dod i mewn';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => 'Derbyn';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => 'Gwrthod';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => 'Galwad yn dod i mewn';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => 'Anwybyddu';
 
   @override
   String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+      'Ni ellir cychwyn yr alwad hon ar hyn o bryd. Rhowch gynnig arall arni mewn eiliad.';
 
   @override
   String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+      'Methodd cysylltu â\'r alwad hon. Gwiriwch eich cysylltiad a rhowch gynnig arall arni.';
 
   @override
   String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+      'Methodd ymuno â\'r alwad hon. Gwiriwch eich cysylltiad a rhowch gynnig arall arni.';
 
   @override
   String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+      'Methodd diweddaru\'r alwad hon ar y gweinydd. Gwiriwch eich cysylltiad a rhowch gynnig arall arni.';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => 'Ychwanegu Nôd';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => 'Golygu Grŵp';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => 'Gwahodd i Gymuned';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => 'Blocio';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => 'Gadael Grŵp';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => 'Dim cymunedau ar gael';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count Aelod';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => 'Am 15 munud';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => 'Am 30 munud';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => 'Am 1 awr';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => 'Am 3 awr';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => 'Am 4 awr';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => 'Am 8 awr';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => 'Am 24 awr';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => 'Am 3 diwrnod';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => 'Nes i mi ei droi yn ôl ymlaen';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => 'Pinio Grŵp DM';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => 'Dirymchwelyd DM Grŵp';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => 'Hoffi DM';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => 'Diddymhoffi DM';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => 'Hoffi DM Grŵp';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => 'Diddymhoffi DM Grŵp';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => 'Newid Llysenw Ffrind';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => 'Dileu Ffrind';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => 'Ychwanegu Ffrind';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => 'Derbyn Cais Ffrind';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => 'Anwybyddu Cais Ffrind';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => 'Anfonwyd Cais Ffrind';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => 'Datgloi';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => 'Defnyddiwr Debug';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => 'Sianel Debug';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => 'DM Wedi\'i Binio';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => 'DM Heb ei Binio';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => 'DM Mud';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => 'DM Heb ei Fudo';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => 'Dileu Ffrind';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Ydych chi\'n siŵr eich bod am ddileu $username fel ffrind?';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => 'Blocio Defnyddiwr';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return 'Ydych chi\'n siŵr eich bod am floccio $username? Ni allan nhw\'ch negesu chi nac anfon ceisiadau ffrind atoch.';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => 'Anfonwyd y cais ffrind';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed => 'Methodd anfon y cais ffrind';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed => 'Methodd derbyn y cais ffrind';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => 'Methodd dileu\'r ffrind';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => 'Methodd blocio\'r defnyddiwr';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed => 'Methodd datgloi\'r defnyddiwr';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed => 'Methodd anwybyddu\'r cais ffrind';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => 'Ychwanegu ffrindiau';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => 'Ychwanegu ffrind';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => 'Defnyddiwr#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => 'Defnyddiwr ffrind';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => 'Anfon cais';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound =>
+      'Ni chafwyd defnyddiwr gyda\'r enw defnyddiwr hwnnw.';
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+      'Rhowch enw defnyddiwr dilys (Defnyddiwr#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => 'Anfonwyd y cais ffrind';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => 'Hawlio\'ch cyfrif';
 
   @override
   String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+      'Hawliwch eich cyfrif i anfon ceisiadau ffrind.';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => 'Gwirio\'ch e-bost';
 
   @override
   String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+      'Mae angen i chi wirio\'ch cyfeiriad e-bost cyn y gallwch anfon ceisiadau ffrind.';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => 'Gwirio e-bost';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return 'Ceisiadau ffrind sy\'n dod i mewn ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return 'Ceisiadau ffrind sy\'n mynd allan ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => 'Cais ffrind sy\'n dod i mewn';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => 'Anfonwyd y cais ffrind';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => 'Gweld proffil';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => 'Derbyn';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => 'Anwybyddu';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => 'Derbyn y cais ffrind';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => 'Anwybyddwch gais ffrind';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return 'Derbyn y cais ffrind gan $userName?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return 'Anwybyddwch y cais ffrind gan $displayName?';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => 'Canslo cais';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+      'Methodd â chanslo\'r cais ffrind. Rhowch gynnig arall arni.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+      'Nid ydynt yn derbyn ceisiadau ffrindiau ar hyn o bryd.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+      'Datflociwch nhw yn gyntaf i anfon cais ffrind.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+      'Ni allwch anfon cais ffrind i chi\'ch hun.';
 
   @override
   String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+      'Rydych chi eisoes yn ffrindiau gyda\'r defnyddiwr hwn.';
 
   @override
   String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+      'Gorffennwch gofrestru i anfon ceisiadau ffrindiau.';
 
   @override
   String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+      'Methodd â hanfon y cais ffrind. Rhowch gynnig arall arni.';
 
   @override
   String get userTagBot => 'BOT';
@@ -1050,101 +1055,103 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   String get userTagSystem => 'System';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder =>
+      'Dewch o hyd i\'r emoji o\'ch breuddwydion';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty => 'Dim emojis yn cyfateb i\'ch chwiliad';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => 'Emoji rhagosodedig';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => 'Eitemau a ddefnyddir yn aml';
 
   @override
   String get emojiTabGifs => 'GIFs';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => 'Cyfryngau';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => 'Sticeri';
 
   @override
-  String get emojiTabEmojis => 'Emojis';
+  String get emojiTabEmojis => 'Emjis';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => 'Chwilio am GIFs';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => 'Chwilio am KLIPY';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => 'Chwilio am Tenor';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => 'Hoff';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => 'GIFs sy\'n treio';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => 'Dim Canlyniadau Chwilio';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription => 'Ceisiwch derm chwilio arall';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => 'Methu llwytho GIFs';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody =>
+      'Gwiriwch eich cysylltiad a rhowch gynnig arall arni.';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => 'Pobl';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => 'Natur';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => 'Bwyd a Diod';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => 'Gweithgareddau';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => 'Teithio a Mannau';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => 'Gwrthrychau';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => 'Symbolau';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => 'Baneri';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return 'Datgloi $emojiCount o $communityCount gyda Plutonium.';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => 'Sicrhewch Plutonium';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => 'Peidiwch â dangos hyn eto';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count emojïau personoliad',
+      one: '1 emoji personoliad',
     );
     return '$_temp0';
   }
@@ -1154,944 +1161,953 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count cymunedau',
+      one: '1 cymuned',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => 'Rhybudd Dolenni Allanol';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => 'Rydych chi ar fin gadael Fluxer';
 
   @override
   String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+      'Gall dolenni allanol fod yn beryglus. Byddwch yn ofalus.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => 'Cyfeiriad y cyrchfan:';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => 'Dolenni Allanol';
 
   @override
   String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+      'Gosodwch sut y caiff rhybyddion dolenni allanol eu trin.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => 'Ymddiried bob amser yn ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix =>
+      ' — hepgorwch y rhybudd hwn y tro nesaf';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => 'Ewch i\'r Safle';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => 'Ymddiried pob dolen allanol';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Dileu paramedrau olrhain o URLs';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      'Dileuwch baramedrau olrhain (fel utm_source, fbclid, gclid) yn awtomatig o URLs mewn negeseuon rydych chi\'n eu hanfon. Glanhau\'r ddolen cyn iddi gyrraedd neb arall.';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle => 'Ymddiried pob dolen allanol?';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      'Bydd hyn yn ymddiried pob dolen allanol ac yn neidio\'r rhybudd ar gyfer pob parth. Bydd eich parthau dibynadwy presennol yn cael eu disodli. Mae hyn yn llai diogel.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => 'Ymddiried Pob Un';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle =>
+      'Peidio ag ymddiried pob dolen?';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      'Bydd rhybuddion dolen allanol yn cael eu harddangos eto. Bydd angen i chi ychwanegu parthau dibynadwy yn unigol.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction => 'Analluogi Ymddiried Pob Un';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+      'Mae pob dolen allanol yn cael eu hymddiried. Ni fydd rhybuddion yn cael eu harddangos.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return 'Mae gennych $count parth dibynadwy. Ychwanegwch fwy trwy wirio\'r blwch pan fyddwch yn ymweld â dolen allanol.';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      'Pan fydd wedi\'i alluogi, ni fydd unrhyw rybuddion dolen allanol yn cael eu harddangos. Mae hyn yn llai diogel.';
 
   @override
   String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+      'Mae\'r ffeil ddelwedd yn rhy fawr. Dewiswch ffeil sy\'n llai na 10 MB.';
 
   @override
   String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+      'Mae angen Plutonium ar gyfer avatars animeiddiedig';
 
   @override
   String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+      'Mae angen Plutonium ar gyfer baneri animeiddiedig';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported =>
+      'Nid yw AVIF animeiddiedig yn cael ei gefnogi';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      'Nid yw torri a chylchdroi ffeiliau AVIF animeiddiedig yn cael ei gefnogi eto. Os byddwch yn parhau, fe\'i huploadir yn ei ffurf wreiddiol.';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => 'Uplod fel y mae';
 
   @override
   String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+      'Nid yw torri delweddau animeiddiedig yn cael ei gefnogi eto. Defnyddir yr uwchlwythiad gwreiddiol.';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => 'Torri Avatar';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => 'Torri Baner';
 
   @override
-  String get skip => 'Skip';
+  String get skip => 'Neidio';
 
   @override
-  String get crop => 'Crop';
+  String get crop => 'Torri';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => 'Newid eich FluxerTag';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      'Dim ond llythrennau (a-z, A-Z), rhifau (0-9), ac islinellau y gellir eu defnyddio mewn enwau defnyddiwr. Nid yw enwau defnyddiwr yn wahanol i feintiau llythrennau.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      'Dim ond llythrennau (a-z, A-Z), rhifau (0-9), ac islinellau y gellir eu defnyddio mewn enwau defnyddiwr. Nid yw enwau defnyddiwr yn wahanol i feintiau llythrennau. Gallwch ddewis unrhyw dag 4 digid ar gael o #0000 i #9999.';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      'Dim ond llythrennau (a-z, A-Z), rhifau (0-9), ac islinellau y gellir eu defnyddio mewn enwau defnyddiwr. Nid yw enwau defnyddiwr yn wahanol i feintiau llythrennau. Gallwch ddewis unrhyw dag 4 digid ar gael o #0001 i #9999.';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return 'Rhwng $min a $max nod';
   }
 
   @override
   String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+      'Dim ond llythrennau (a-z, A-Z), rhifau (0-9), ac islinellau (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      'Sicrhewch blwtonium i addasu eich tag neu ei gadw wrth newid eich enw defnyddiwr';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'Mae\'r FluxerTag eisoes wedi\'i gymryd';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'Mae\'r FluxerTag $username#$discriminator eisoes wedi\'i gymryd. Bydd parhau yn ail-gylchu eich gwahaniaeth yn awtomatig.';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => 'Mae Tag Personol yn Dros Dro';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return 'Dim ond tra bod eich tanysgrifiad Plutonium yn weithredol y mae eich tag 4 digid personol ar gael. Pan ddaw eich tanysgrifiad i ben ar $date, bydd eich tag yn dychwelyd i rif a neilltuwyd ar hap ar ôl cyfnod gras o 3 diwrnod.';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      'Dim ond tra bod eich tanysgrifiad Plutonium yn weithredol y mae eich tag 4 digid personol ar gael. Pan ddaw eich tanysgrifiad i ben, bydd eich tag yn dychwelyd i rif a neilltuwyd ar hap ar ôl cyfnod gras o 3 diwrnod.';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => 'Rwy\'n Deall, Parhau';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      'Os byddwch yn cadw\'r FluxerTag hwn, bydd eich tag 4 digid personol yn dychwelyd i rif ar hap pan ddaw eich tanysgrifiad Plutonium i ben. Os bydd eich tanysgrifiad yn methu ag adnewyddu, bydd gennych gyfnod gras o 3 diwrnod cyn i\'r tag newid.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return 'Mae eich tag 4 digid personol (#$discriminator) yn weithredol tra bod eich tanysgrifiad Plutonium yn weithredol. Os daw eich tanysgrifiad i ben neu os bydd yn methu ag adnewyddu ar ôl cyfnod gras o 3 diwrnod, bydd eich tag yn dychwelyd i rif a neilltuwyd ar hap.';
   }
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'Addaswch eich tag 4 digid neu cadwch ef wrth newid eich enw defnyddiwr';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return 'Daw eich treial Plutonium i ben ar $date. Uwchratiwch i gadw eich tag personol a chael bathodyn ar eich proffil.';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      'Rydych chi ar dreial Plutonium. Uwchratiwch i gadw eich tag personol a chael bathodyn ar eich proffil.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'Mae\'r FluxerTag wedi\'i ddiweddaru';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+      'Methodd diweddaru\'r FluxerTag. Rhowch gynnig arall arni.';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Parhau';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => 'Addasu Proffil';
 
   @override
   String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+      'Golygu ymddangosiad eich proffil a gweld rhagolwg byw';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => 'Enw Defnyddiwr';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+      'Hawlio eich cyfrif i newid eich FluxerTag';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => 'Newch FluxerTag';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return 'Addwch eich tag 4-digid (#$discriminator) i\'ch dant gyda Phlwtōniwm';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint =>
+      'Newch eich enw defnyddiwr a\'ch tag 4-digid';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return 'Mae eich tag personol (#$discriminator) yn gysylltiedig â\'ch tanysgrifiad Phlwtōniwm a bydd yn dychwelyd i dag ar hap os daw i ben.';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => 'Enw Dangos';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => 'Rhagenwau';
 
   @override
-  String get avatarLabel => 'Avatar';
+  String get avatarLabel => 'Aelod-lun';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => 'Newch yr Aelod-lun';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => 'Dileu\'r Aelod-lun';
 
   @override
   String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, GIF. Uchafswm 10MB. Argymhellir: 512×512px';
 
   @override
-  String get bannerLabel => 'Banner';
+  String get bannerLabel => 'Baner';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => 'Newch y Faner';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => 'Dileu\'r Faner';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG, JPEG, WebP, GIF. Uchafswm 10MB. Isafswm: 960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => 'Lliw Accen';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'Yn personoli\'r ffin a lliw\'r faner ar eich proffil';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => 'Amdanof Fi';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText =>
+      'Gallwch ddefnyddio dolenni, emoji, a Markdown.';
 
   @override
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle => 'Preifatrwydd Bathodyn Phlwtōniwm';
 
   @override
   String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+      'Rheoli sut mae eich bathodyn Phlwtōniwm yn cael ei arddangos i eraill';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel =>
+      'Cuddio bathodyn Phlwtōniwm yn gyfan gwbl';
 
   @override
   String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+      'Cuddio\'ch bathodyn Phlwtōniwm yn llwyr rhag defnyddwyr eraill';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => 'Cuddio dyddiad prynu Phlwtōniwm';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return 'Cuddio dyddiad prynu Phlwtōniwm ($date)';
   }
 
   @override
   String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+      'Dileu pryd y prynoch Phlwtōniwm gyntaf o\'ch bathodyn';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription => 'Masgio Gweledydd fel tanysgrifiad';
 
   @override
   String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+      'Dangos eich Gweledydd fel tanysgrifiad rheolaidd yn lle hynny';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => 'Cuddio bathodyn ID Gweledydd';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return 'Cuddio bathodyn ID Gweledydd (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription => 'Dileu\'ch bathodyn ID Gweledydd';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return 'Rydych chi ar dreial Phlwtōniwm — bydd eich tanysgrifiad yn dechrau ar $date';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      'Bydd eich tanysgrifiad yn dechrau\'n awtomatig pan ddaw eich treial i ben. Dim angen gwneud dim.';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return 'Rydych chi ar dreial Phlwtōniwm sy\'n dod i ben ar $date';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile => 'Rydych chi ar dreial Phlwtōniwm';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG, PNG, WebP. Uchafswm 10MB. Argymhellir: 512×512px. Mae angen Phlwtōniwm ar gyfer aelod-luniau animeiddiedig (GIF).';
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'Personolwch eich proffil gyda delwedd faner statig neu animeiddiedig i\'w gwneud yn arbennig.';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => 'Cael Phlwtōniwm';
 
   @override
-  String get plutoniumNotAvailableTitle => 'Plutonium';
+  String get plutoniumNotAvailableTitle => 'Phlwtōniwm';
 
   @override
   String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+      'Nid yw pryniannau yn yr ap ar gael ar y platfform hwn eto. Arhoswch yn tiwn — yn fuan!';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => 'Rhagolwg';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => 'Neges';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'Aelod Fluxer Ers';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => 'Cyfrif Heb Hawlio';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      'Nid yw eich cyfrif wedi\'i hawlio eto. Heb e-bost a chyfrinair, gallech golli mynediad. Hawliwch eich cyfrif nawr i\'w sicrhau.';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => 'Hawlio Cyfrif';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => 'Math Proffil';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => 'Proffil Byd-eang';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      'Rydych chi\'n golygu eich proffil fesul cymuned. Dim ond yn y gymuned hon y bydd y proffil hwn i\'w weld a bydd yn rhagori ar eich proffil byd-eang.';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => 'Llysenw Cymunedol';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'Mae addasu eich avatar, baner, lliw acen, a bio ar gyfer cymunedau unigol yn gofyn am Blatinwm. Mae llysenw cymunedol a rhagenwau yn rhad ac am ddim i bawb.';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => 'Defnyddio Proffil Byd-Eang';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => 'Defnyddio Delwedd Personol';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => 'Peidio â Dangos';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => 'Wedi diweddaru proffil';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => 'Golygu Proffil';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => 'Nodyn';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '(dim ond chi all ei weld)';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => 'Dim nodyn eto.';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => 'Dilysu Eich Hunaniaeth';
 
   @override
   String get sudoDescription =>
-      'This action requires verification to continue.';
+      'Mae\'r weithred hon yn gofyn am ddilysu i barhau.';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => 'Cod Dilysydd';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => 'Cyfrinair';
 
   @override
-  String get sudoMethodTotp => 'Authenticator';
+  String get sudoMethodTotp => 'Dilysydd';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed =>
+      'Methodd y dilysu. Rhowch gynnig arall arni.';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => 'Cyfrif';
 
   @override
   String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+      'Rheoli eich e-bost, cyfrinair, a gosodiadau cyfrif';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => 'Diogelwch';
 
   @override
   String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+      'Amddiffyn eich cyfrif gyda dilysu dau ffactor a phasskeys';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => 'Gosodiadau E-bost';
 
   @override
   String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+      'Rheoli\'r cyfeiriad e-bost rydych chi\'n ei ddefnyddio i fewngofnodi i Fluxer';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => 'Cyfeiriad E-bost';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => 'Dim cyfeiriad e-bost wedi\'i osod';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => 'Newid E-bost';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => 'Ychwanegu E-bost';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => 'Datgelu';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => 'Cuddio';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => 'Cyfrinair';
 
   @override
   String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+      'Newidiwch eich cyfrinair i gadw eich cyfrif yn ddiogel';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => 'Cyfrinair Presennol';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return 'Newidiwyd ddiwethaf: $date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'Newidiwyd ddiwethaf: Byth';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => 'Dim cyfrinair wedi\'i osod';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => 'Newid Cyfrinair';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => 'Gosod Cyfrinair';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => 'Newid Cyfrinair';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      'Byddwn yn anfon cod dilysu i\'ch cyfeiriad e-bost i gadarnhau\'ch hunaniaeth cyn newid eich cyfrinair.';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => 'Dechrau';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => 'Dilysu Eich E-bost';
 
   @override
   String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+      'Nac ydych y cod dilysu a anfonwyd i\'ch cyfeiriad e-bost.';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => 'Cod Dilysu';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => 'Dilysu';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => 'Gosod Cyfrinair Newydd';
 
   @override
   String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+      'Nac ydych eich cyfrinair newydd isod.';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => 'Cyfrinair Newydd';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => 'Cadarnhau Cyfrinair Newydd';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => 'Newid Cyfrinair';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => 'Wedi newid cyfrinair';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch =>
+      'Nid yw cyfrineiriau\'n cyfateb';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => 'Cod annilys neu wedi dyddio';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => 'New Email';
 
   @override
   String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+      'Byddwn yn anfon codau dilysu i wirio\'ch hunaniaeth cyn newid eich cyfeiriad e-bost.';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => 'Dechrau';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => 'Dilysu E-bost Presennol';
 
   @override
   String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+      'Rhowch y cod dilysu a anfonwyd i\'ch cyfeiriad e-bost presennol.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => 'Rhowch E-bost Newydd';
 
   @override
   String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+      'Rhowch y cyfeiriad e-bost newydd yr hoffech ei ddefnyddio.';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => 'E-bost Newydd';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => 'Anfon Cod Dilysu';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => 'Dilysu E-bost Newydd';
 
   @override
   String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+      'Rhowch y cod dilysu a anfonwyd i\'ch cyfeiriad e-bost newydd.';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => 'Newidiwyd yr e-bost';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => 'Cod annilys neu wedi dod i ben';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'Ail-anfon';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return 'Ail-anfon (${seconds}s)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => 'Cod Dilysu';
 
   @override
-  String get verify => 'Verify';
+  String get verify => 'Dilysu';
 
   @override
-  String get enable => 'Enable';
+  String get enable => 'Galluogi';
 
   @override
-  String get disable => 'Disable';
+  String get disable => 'Analluogi';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Dileu';
 
   @override
-  String get save => 'Save';
+  String get save => 'Cadw';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => 'Amdiffyniad Dau-Ffactor';
 
   @override
   String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+      'Ychwanegwch haen ychwanegol o ddiogelwch i\'ch cyfrif';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Ap Dilysu';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+      'Mae amddiffyniad dau-ffactor wedi\'i alluogi';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+      'Defnyddiwch ap dilysydd i gynhyrchu codau ar gyfer dilysu dau-ffactor';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => 'Codau Wrth Gefn';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+      'Gweld a rheoli eich codau wrth gefn ar gyfer adfer cyfrif';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => 'Gweld Codau';
 
   @override
-  String get securityPasskeysSectionTitle => 'Passkeys';
+  String get securityPasskeysSectionTitle => 'Allweddau Pas';
 
   @override
   String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+      'Defnyddiwch allweddau pas ar gyfer mewngofnodi heb gyfrinair a dilysu dau-ffactor';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => 'Allweddau Pas wedi\'u Cofrestru';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => 'Dim allweddau pas wedi\'u cofrestru';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: 'allweddau pas',
+      one: 'allwedd pas',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$count $_temp0 wedi\'u cofrestru (uchafswm o 10)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => 'Ychwanegu Allwedd Pas';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return 'Ychwanegwyd: $date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return 'Ddefnyddiwyd ddiwethaf: $date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => 'Ail-enwi';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => 'Dileu Allwedd Pas';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return 'Ydych chi\'n siŵr eich bod am ddileu\'r allwedd pas \"$name\"?';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => 'Enwi Allwedd Pas';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => 'Enw Allwedd Pas';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint =>
+      'ee. YubiKey, iPhone, Cyfrifiadur Gwaith';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => 'Rhif Ffôn';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription => 'Rheoli eich rhif ffôn.';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => 'Rhif Ffôn';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => 'Dim rhif ffôn wedi\'i ychwanegu.';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => 'Ychwanegu Ffôn';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => 'Dileu';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => 'Dileu Rhif Ffôn';
 
   @override
   String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+      'Ydych chi\'n siŵr eich bod am dynnu eich rhif ffôn?';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => 'Rhif ffôn wedi\'i dynnu';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => 'Nodweddion Diogelwch';
 
   @override
   String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+      'Hawlwch eich cyfrif i gael mynediad i nodweddion diogelwch fel dilysu dau ffactor a allweddi cyfrinair.';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'Rhaid i chi ddilysu eich cyfeiriad e-bost cyn y gallwch osod dilysu dau ffactor, allweddi cyfrinair, neu ddilysu SMS.';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => 'Gosod Ap Dilysu';
 
   @override
   String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+      'Sganiwch y cod QR gyda\'ch ap dilysu i greu codau ar gyfer dilysu dau ffactor.';
 
   @override
-  String get totpEnableCodeLabel => 'Code';
+  String get totpEnableCodeLabel => 'Cod';
 
   @override
-  String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+  String get totpEnableCodeHint => 'Rhowch y cod 6 digid o\'ch ap dilysu';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess => 'Mae dilysu dau ffactor wedi\'i alluogi';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => 'Tynnu Ap Dilysu';
 
   @override
   String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+      'Rhowch y cod 6 digid o\'ch ap dilysu i analluogi dilysu dau ffactor.';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => 'Dilysu dau ffactor wedi\'i analluogi';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => 'Codau Wrth Gefn';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      'Os collwch chi fynediad i\'ch ap dilysu ac nad oes gennych y codau hyn, byddwch yn cael eich cloi allan o\'ch cyfrif yn barhaol. Dadlwythwch neu copïwch nhw nawr a\'u storio mewn lle diogel.';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => 'Dadlwytho';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => 'Copïo';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied =>
+      'Codau wrth gefn wedi\'u copïo i\'r clipfwrdd';
 
   @override
   String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+      'Rwyf wedi lawrlwytho neu gopïo fy nghodau wrth gefn ac wedi\'u storio mewn lle diogel.';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => 'Wedi';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => 'Gweld Codau Wrth Gefn';
 
   @override
   String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+      'Efallai y bydd angen dilysu cyn gweld eich codau wrth gefn.';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => 'Ychwanegu Rhif Ffôn';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => 'Rhif Ffôn';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => 'Rhowch eich rhif ffôn';
 
   @override
   String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+      'Rhowch eich rhif ffôn. Byddwn yn anfon cod dilysu atoch trwy SMS.';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => 'Anfon Cod';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => 'Dilysu Rhif Ffôn';
 
   @override
   String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+      'Rhowch y cod dilysu a anfonwyd i\'ch rhif ffôn.';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => 'Rhif ffôn wedi\'i ychwanegu';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => 'Parth Perygl';
 
   @override
   String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+      'Gweithredoedd anadferadwy a dinistriol';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => 'Analluogi Cyfrif';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+      'Analluogwch eich cyfrif dros dro. Gallwch ei ailgyflwyno\'n ddiweddarach trwy fewngofnodi eto.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      'Bydd analluogi eich cyfrif yn eich allgofnodi o\'r holl sesiynau. Gallwch ailgyflwyno eich cyfrif ar unrhyw adeg trwy fewngofnodi eto.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => 'Dileu Cyfrif';
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+      'Dileuwch eich cyfrif a\'r holl ddata cysylltiedig yn barhaol. Ni ellir gwrthdroi\'r weithred hon.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      'Canslwch eich tanysgrifiad Plwtoniwm gweithredol yn gosodiadau Plwtoniwm cyn dileu eich cyfrif.';
 
   @override
-  String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
+  String get dangerZoneDeleteCannotDeleteAccount => 'Methu dileu cyfrif';
 
   @override
   String get dangerZoneDeleteOwnsCommunities =>
-      'You cannot delete your account while you own communities. Transfer ownership of the following communities first:';
+      'Ni allwch ddileu eich cyfrif tra\'ch bod chi\'n berchen ar gymunedau. Trosglwyddwch berchnogaeth y canlynol cymunedau yn gyntaf:';
 
   @override
   String dangerZoneDeleteAndXMore(int count) {
-    return 'and $count more';
+    return 'a $count eraill';
   }
 
   @override
   String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'To transfer ownership, go to $settingsPath and use the transfer ownership option.';
+    return 'I drosglwyddo perchnogaeth, ewch i $settingsPath a defnyddiwch yr opsiwn trosglwyddo perchnogaeth.';
   }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      'Ydych chi\'n siŵr eich bod am ddileu eich cyfrif? Bydd y weithred hon yn amserlennu eich cyfrif i\'w ddileu yn barhaol.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+      'Gallwch ganslo\'r broses ddileu o fewn 14 diwrnod';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+      'Ar ôl 14 diwrnod, bydd eich cyfrif yn cael ei ddileu yn barhaol';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+      'Ar ôl i\'r dileu gael ei brosesu, ni allwch adfer mynediad i\'ch cyfrif';
 
   @override
   String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+      'Ni allwch ddileu eich negeseuon a anfonwyd ar ôl i\'ch cyfrif gael ei ddileu';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      'Os ydych chi am allforio eich data neu ddileu eich negeseuon yn gyntaf, ewch i\'r adran Dangosfwrdd Preifatrwydd yng Ngosodiadau Defnyddiwr cyn parhau.';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => 'Hawlwch Eich Cyfrif';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      'Hawlwch eich cyfrif trwy ychwanegu e-bost a chyfrinair. Byddwn yn anfon cod dilysu i gadarnhau eich e-bost cyn gorffen.';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => 'E-bost';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => 'Cyfrinair';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => 'Anfon Cod';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      'Rhowch y cod a anfonwyd gennym i\'ch e-bost i\'w ddilysu. Gosodir eich cyfrinair ar ôl cadarnhau\'r cod.';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => 'Wedi hawlio\'r cyfrif yn llwyddiannus';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => 'Gwybodaeth bwysig:';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => 'Digwyddodd gwall';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => 'Cod annilys';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: '$count blynedd yn ôl',
+      one: '1 flwyddyn yn ôl',
     );
     return '$_temp0';
   }
@@ -2101,8 +2117,8 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: '$count mis yn ôl',
+      one: '1 mis yn ôl',
     );
     return '$_temp0';
   }
@@ -2112,8 +2128,8 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: '$count diwrnodau yn ôl',
+      one: '1 diwrnod yn ôl',
     );
     return '$_temp0';
   }
@@ -2123,8 +2139,8 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count oriau yn ôl',
+      one: '1 awr yn ôl',
     );
     return '$_temp0';
   }
@@ -2134,578 +2150,582 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count munudau yn ôl',
+      one: '1 munud yn ôl',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => 'dim ond nawr';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => 'Cymhwysiadau Awdurdodedig';
 
   @override
   String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+      'Mae\'r cymhwysiadau hyn wedi cael caniatâd i gyrchu eich cyfrif Fluxer.';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => 'Dim Cymhwysiadau Awdurdodedig';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'Nid ydych wedi awdurdodi unrhyw gymhwysiadau i gyrchu eich cyfrif.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+      'Methodd Llwytho Cymhwysiadau Awdurdodedig';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'Awdurdodedig ar $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => 'Caniatâd wedi\'i roi';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => 'Diddymu';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => 'Diddymu mynediad cymhwysiad';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return 'Ydych chi\'n siŵr eich bod am ddiddymu mynediad ar gyfer $appName? Ni fydd gan y cymhwysiad hwn fynediad i\'ch cyfrif mwyach.';
   }
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+      'Cyrchu eich gwybodaeth proffil sylfaenol (enw defnyddiwr, avatar, ac ati)';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => 'Gweld eich cyfeiriad e-bost';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+      'Gweld y cymunedau rydych chi\'n aelod ohonynt';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections =>
+      'Gweld eich cyfrifon cysylltiedig';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+      'Ychwanegu bot i gymuned gyda chaniatâd gofynnol';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin => 'Cyrchu pwyntiau terfyn gweinyddol';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => 'Ar Eich Disgwyliad Dileu';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => 'Defnyddwyr wedi\'u Blocio';
 
   @override
   String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+      'Ni all defnyddwyr wedi\'u blocio eich anfon ceisiadau ffrindiau nac anfon neges atoch yn uniongyrchol.';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => 'Dim Defnyddwyr Wedi\'u Blocio';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription => 'Nid ydych wedi blocio neb eto.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError =>
+      'Methodd Llwytho Defnyddwyr Wedi\'u Blocio';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => 'Dadflocio';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => 'Dadflocio Defnyddiwr';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Ydych chi\'n siŵr eich bod am ddadflocio $username?';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => 'Copïo FluxerTag';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => 'Copïo ID Defnyddiwr';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => 'Methodd llwytho proffil';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => 'Ceisiwch eto';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => 'Neges';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => 'Galwad Llais';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => 'Galwad Fideo';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => 'Golygu Proffil';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'Staff Fluxer';
 
   @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
+  String get userProfileCtpBadgeTooltip => 'Tîm Cymuned Fluxer';
 
   @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer Partner';
+  String get userProfilePartnerBadgeTooltip => 'Partner Fluxer';
 
   @override
-  String get userProfileBugHunterBadgeTooltip => 'Fluxer Bug Hunter';
+  String get userProfileBugHunterBadgeTooltip => 'Heliwr Bugiau Fluxer';
 
   @override
-  String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
+  String get userProfilePlutoniumBadgeTooltip => 'Plwtoniwm Fluxer';
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'tanysgrifiwr Plwtoniwm Fluxer er $date';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Fluxer Visionary';
+  String get userProfileVisionaryBadgeTooltip => 'Gweledydd Fluxer';
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'Gweledydd er $date';
   }
 
   @override
   String userProfileVisionaryIdTooltip(int sequence) {
-    return 'Visionary ID #$sequence';
+    return 'ID Gweledydd #$sequence';
   }
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return 'Ffrindiau Ar Y Cyd ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return 'Cymunedau Ar Y Cyd ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => 'Ffrindiau Ar Y Cyd';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => 'Cymunedau Ar Y Cyd';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends =>
+      'Ni chafwyd hyd i ffrindiau ar y cyd.';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities =>
+      'Ni chafwyd hyd i gymunedau ar y cyd.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return 'Llysenw: $nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => 'Agor DM';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return 'Fe wnaethoch chi rwystro $username. Ni fyddwch yn gallu anfon negeseuon oni bai eich bod yn dadflocio nhw.';
   }
 
   @override
-  String get blockedUserComposerBarrierAction => 'Unblock';
+  String get blockedUserComposerBarrierAction => 'Dadflocio';
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get userProfileOpenDm => 'Agor DM';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileNoteTitle => 'Nodyn';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteVisibility => '(dim ond chi all ei weld)';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteSave => 'Cadw';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteDelete => 'Dileu';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteEmpty => 'Cliciwch i ychwanegu nodyn';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileMemberSince => 'Aelod Ers';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileAboutMe => 'Amdan i Fi';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileCopyUsername => 'Copïo Enw Defnyddiwr';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUserId => 'Copïo ID Defnyddiwr';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileViewMainProfile => 'Gweld Prif Broffil';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewCommunityProfile => 'Gweld Proffil Cymuned';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileBlockUser => 'Rhwystro Defnyddiwr';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileUnblockUser => 'Dadflocio Defnyddiwr';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileRemoveFriend => 'Dileu Ffrind';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileBlockConfirmTitle => 'Rhwystro Defnyddiwr';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return 'Ydych chi\'n siŵr eich bod am rwystro $username?';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => 'Dadflocio Defnyddiwr';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Ydych chi\'n siŵr eich bod am ddadflocio $username?';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => 'Dileu Ffrind';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Ydych chi\'n siŵr eich bod am ddileu $username fel ffrind?';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => 'Methwyd ag agor DM';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote => 'Methwyd â chadw\'r nodyn';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed =>
+      'Methodd y weithred, rhowch gynnig arall arni';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => 'Newid llysenw';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => 'Cicio';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => 'Gwahardd';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'Amser allan';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => 'Dileu amser allan';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => 'Trosglwyddo perchnogaeth';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => 'Adrodd am ddefnyddiwr';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => 'Adrodd am neges';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return 'Cicio $username?';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return 'Ydych chi\'n siŵr eich bod am gicio $username? Gallant ailymuno gyda gwahoddiad newydd.';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => 'Diddymu\'r amseriad?';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return 'Bydd dileu\'r amseriad yn caniatáu i $username anfon negeseuon, ymateb, ac ymuno â sianeliadau llais eto.';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => 'Trosglwyddo perchnogaeth?';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return 'Trosglwyddo perchnogaeth y gymuned hon i $username? Mae hyn yn anadferadwy a byddwch yn colli pob hawl perchennog.';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return 'Gwahardd $username';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => 'Hyd yr amser gwahardd';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel => 'Hyd personol (eiliadau)';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return 'Unrhyw werth o $min i $max eiliad';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel => 'Dileu hanes negeseuon';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => 'Peidio â dileu unrhyw rai';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => '24 awr diwethaf';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => '7 diwrnod diwethaf';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => 'Rheswm (dewisol)';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => 'Rhowch reswm dros y gwaharddiad';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => 'Gwahardd aelod';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return 'Amseriad allan $username';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => 'Hyd amseriad allan';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => 'Amseriad allan aelod';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => 'Llysenw';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => 'Rhowch lysenw';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => 'Cadw';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return 'Wedi cicio $username';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return 'Wedi gwahardd $username';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return 'Wedi rhoi amseriad allan i $username';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return 'Wedi tynnu amseriad allan ar gyfer $username';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => 'Wedi diweddaru\'r llysenw';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => 'Trosglwyddwyd perchnogaeth';
 
   @override
-  String get durationPermanent => 'Permanent';
+  String get durationPermanent => 'Parhaol';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 eiliad';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 munud';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 munud';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 awr';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 awr';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 diwrnod';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 diwrnod';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 diwrnod';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 wythnos';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 wythnos';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 mis';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => 'Arferol…';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => 'Adrodd am ddefnyddiwr';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => 'Proffil amhriodol';
 
   @override
   String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+      'Mae proffil y defnyddiwr hwn yn cynnwys cynnwys amhriodol';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return 'Mae $name yn teipio...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return 'Mae $name1 a $name2 yn teipio...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return 'Mae $name1, $name2 a $name3 yn teipio...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'Mae sawl person yn teipio...';
 
   @override
   String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+      'Mae dyrnaid o feistri bysellfwrdd yn ymgasglu...';
 
   @override
   String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+      'Mae symffoni o fysellfyrddau\'n digwydd...';
 
   @override
-  String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+  String get typingIndicatorFiesta => 'Mae gwledd deipio lawn yn digwydd yma';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => 'O, dyma apocalyps ysgrifennu!';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return 'Rydw i\'n falch dy fod ti yma, $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return 'Croeso, $username! Teimla\'n gartrefol.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return 'Helo, $username! Pleser dy gael yma.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return 'Helo, $username! Ymunwch pryd bynnag fyddi di\'n barod.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return 'Hae $username, mae\'n bleser dy weld di yma!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return 'Hae di, $username! Gobeithio dy fod ti\'n mwynhau dy arhosiad.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return 'Hae, $username, croeso ar eich bwrdd!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return 'Rydw i\'n falch dy fod ti wedi cyrraedd, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return 'Croeso i mewn, $username!';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return 'Croeso, $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return 'Croeso, $username! Rydyn ni\'n falch dy fod ti yma.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return 'Croeso, $username! Gobeithio dy fod ti\'n mwynhau dy amser yma.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return 'Croeso, $username! Dy nesaf sgwrs sy\'n dechrau yma.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return 'Croeso, $username. Rydyn ni\'n hapus dy fod ti yma.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return 'Da gen i\'ch gweld chi, $username! Croeso i mewn.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return 'Rwyt ti yma, $username! Da gen i\'ch cael chi gyda ni.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return 'Rwyt ti wedi cyrraedd, $username! Gad inni ddechrau.';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => 'nawr';
 
   @override
   String relativeTimeShortMinutes(int count) {
@@ -2745,8 +2765,8 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}mo',
-      one: '1mo',
+      other: '${count}m',
+      one: '1m',
     );
     return '$_temp0';
   }
@@ -2763,43 +2783,43 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => 'Fy Ndyfeisiau';
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'Gweld pob dyfais sydd wedi mewngofnodi i\'ch cyfrif ar hyn o bryd. Dirymwch unrhyw sesiynau nad ydych chi\'n eu hadnabod.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => 'Dyfais Gyfredol';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => 'Dyfeisiau Eraill';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => 'Mewnbynnu\'r Modd Dewis';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => 'Gadael y Modd Dewis';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => 'Dewis Pawb';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => 'Clirio\'r Dewis';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => 'Dirymu dyfais';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => 'Allgofnodi pob dyfais arall';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Allgofnodi $count dyfais',
+      one: 'Allgofnodi 1 dyfais',
     );
     return '$_temp0';
   }
@@ -2809,14 +2829,14 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Allgofnodi $count dyfais',
+      one: 'Allgofnodi 1 dyfais',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle => 'Allgofnodi pob dyfais arall';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -2824,50 +2844,51 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+          'Bydd hyn yn allgofnodi\'r dyfeisiau dethol o\'ch cyfrif. Bydd angen i chi fewngofnodi eto ar y dyfeisiau hynny.',
       one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+          'Bydd hyn yn allgofnodi\'r ddyfais ddethol o\'ch cyfrif. Bydd angen i chi fewngofnodi eto ar y ddyfais honno.',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      'Bydd hyn yn allgofnodi\'r dyfeisiau dethol o\'ch cyfrif. Bydd angen i chi fewngofnodi eto ar y dyfeisiau hynny.';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => 'Parhau';
 
   @override
   String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+      'Bydd yn rhaid i chi fewngofnodi eto ar bob dyfais a allgofnodwyd';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => 'Gwall Rhwydwaith';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      'Mae problemau gyda ni\'n cysylltu â\'r parth amser-gofod. Gwiriwch eich cysylltiad a rhowch gynnig arall arni.';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: 'Dyfeisiau wedi\'u dirymu',
+      one: 'Dyfais wedi\'i dirymu',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError =>
+      'Methodd allgofnodi. Rhowch gynnig arall arni.';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => 'OS Anhysbys';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => 'Llwyfan Anhysbys';
 
   @override
   String slowmodeLabel(String duration) {
@@ -2876,131 +2897,132 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
 
   @override
   String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+      'Rydych chi mewn slowmode. Rhowch gynnig arall cyn anfon neges arall.';
 
   @override
   String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+      'Mae slowmode wedi\'i alluogi, ond rydych chi\'n imiwn.';
 
   @override
   String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+      'Allwch chi ddim anfon negesion yn y sianel hon.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return 'Cyhoeddiadau system gan staff $productName. Ni allwch ymateb yma.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+      'Mae negeseua yn cael ei oedi dros dro yn y gymuned hon.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      'Rydych chi wedi cael eich amseru allan. Mae negeseua, adweithiau, a llais wedi\'u hatal tan i\'r amseriad ddod i ben.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+      'Mae angen i chi hawlio\'ch cyfrif i anfon negeseion yn y gymuned hon.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+      'Mae angen i chi ddilysu\'ch e-bost i anfon negeseion yn y gymuned hon.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+      'Mae eich cyfrif yn rhy newydd i anfon negeseion yn y gymuned hon.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      'Nid ydych chi wedi bod yn aelod o\'r gymuned hon ddigon hir i anfon negeseion.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+      'Mae angen i chi ddilysu rhif ffôn i anfon negeseion yn y gymuned hon.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => 'Dilysu e-bost';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => 'Dilysu ffôn';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return 'Gormod o atodiadau (uchafswm $max)';
   }
 
   @override
   String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+      'Mae un neu fwy o ffeiliau yn fwy na\'r terfyn maint';
 
   @override
   String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+      'Mae\'r ffeiliau hynny\'n rhy fawr i\'w hanfon gyda\'i gilydd';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload => 'Gollwng ffeiliau i\'w lanlwytho';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend => 'Gollwng ffeiliau i\'w hanfon nawr';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => 'Anfon neges llais';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => 'Neges llais';
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'Daliwch i recordio. Tynnwch i fyny i gloi, neu rhyddhewch i\'w anfon.';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => 'Taflwch neges llais';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => 'Anfon neges llais';
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+      'Methu dechrau recordio. Caniatewch fynediad i\'r meicroffon.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+      'Nid yw recordio llais yn cael ei gefnogi ar y ddyfais hon.';
 
   @override
   String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+      'Gadewch yr alwad llais i recordio neges llais.';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed =>
+      'Methodd recordio. Rhowch gynnig arall arni.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+      'Methu anfon neges llais. Rhowch gynnig arall arni.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+      'Siaradwch nawr. Pwyswch Stop pan fyddwch wedi gorffen — gallwch docio wedyn.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+      'Tynnwch y dolenni i docio, yna pwyswch Anfon.';
 
   @override
   String get voiceMessageStop => 'Stop';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => 'Dechrau recordio';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => 'Chwarae';
 
   @override
-  String get voiceMessagePause => 'Pause';
+  String get voiceMessagePause => 'Aros';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -3009,44 +3031,44 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return 'Rhaid i\'r detholiad fod yn ${secondsString}s o leiaf.';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => 'Golygu atodiad';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => 'Enw ffeil';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => 'Disgrifiad';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => 'Testun amgen dewisol';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => 'Marcio fel spoiler';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => 'Tynnu atodiad';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => 'Llwytho i lawr';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => 'Dododd yr atodiad i ben';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => 'Oriel';
 
   @override
   String get chatAttachmentSourceCamera => 'Camera';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => 'Pori ffeiliau';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip => 'Gludo delwedd o\'r clipfwrdd';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -3055,200 +3077,204 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => 'Datgelu spoiler';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => 'Datgelu';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => 'Cliciwch i ddatgelu';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => 'Cynnwys aeddfed';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => 'Cymuned oedolion';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => 'Categori oedolion';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => 'Sianel oedolion';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => 'Rhybudd cynnwys cymunedol';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle => 'Rhybudd cynnwys categori';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => 'Rhybudd cynnwys sianel';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody =>
+      'Mae hyn yn cynnwys cynnwys sensitif.';
 
   @override
   String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Mae\'r gymuned hon wedi\'i nodi ar gyfer cynnwys oedolion ac efallai y bydd yn cynnwys deunydd a allai fod yn anaddas i rai defnyddwyr.';
 
   @override
   String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Mae\'r categori hwn wedi\'i nodi ar gyfer cynnwys oedolion ac efallai y bydd yn cynnwys deunydd a allai fod yn anaddas i rai defnyddwyr.';
 
   @override
   String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Mae\'r sianel hon wedi\'i nodi ar gyfer cynnwys oedolion ac efallai y bydd yn cynnwys deunydd a allai fod yn anaddas i rai defnyddwyr.';
 
   @override
   String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Mae\'r sianel lais hon wedi\'i nodi ar gyfer cynnwys oedolion ac efallai y bydd yn cynnwys deunydd a allai fod yn anaddas i rai defnyddwyr.';
 
   @override
   String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+      'Mae\'r sianel ddolen hon wedi\'i nodi ar gyfer cynnwys oedolion ac efallai y bydd yn agor deunydd a allai fod yn anaddas i rai defnyddwyr.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+      'Nid yw\'r gymuned oedolion hon ar gael i\'ch cyfrif.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+      'Nid yw\'r categori oedolion hwn ar gael i\'ch cyfrif.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+      'Nid yw\'r sianel oedolion hon ar gael i\'ch cyfrif.';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => 'Parhau';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => 'Rwy\'n deall';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => 'Agor dolen';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => 'Cynnwys sensitif';
 
   @override
   String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+      'Rheoli sut mae cyfryngau oedolion neu sensitif yn cael eu hidlo mewn gwahanol gyd-destunau';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel =>
+      'Negeseuon uniongyrchol gan ffrindiau';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel =>
+      'Negeseuon uniongyrchol gan eraill';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => 'Negeseuon mewn sianeli cymunedol';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => 'Dangos';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => 'Niweidio';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => 'Blocio';
 
   @override
   String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+      'Niweidio cyfryngau nes bod y sgan diogelwch wedi\'i gwblhau';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      'Pan fydd wedi\'i alluogi, mae delweddau a fideos yn cael eu niweidio nes bod y sgan diogelwch cynnwys yn gorffen.';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+      'Mae\'r gosodiad hwn bob amser ymlaen ar gyfer eich cyfrif.';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => 'Ailosod';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => 'Cadw';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count ffeil',
+      one: '1 ffeil',
     );
-    return 'Uploading $_temp0';
+    return 'Yn uwchlwytho $_temp0';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => 'Canslo uwchlwytho';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return 'Yn dod i ben ar $date';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return 'Yn dod i ben rhwng $start a $end';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => 'Cysylltiadau';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      'Cysylltwch gyfrifon ac ardaloedd allanol i\'ch proffil Fluxer. Bydd cysylltiadau wedi\'u dilysu yn cael eu harddangos ar eich proffil i eraill eu gweld.';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => 'Dim cysylltiadau eto';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      'Cysylltwch eich cyfrif Bluesky neu ddilyswch berchnogaeth parth i\'w harddangos ar eich proffil.';
 
   @override
   String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+      'Dilyswch berchnogaeth parth i\'w harddangos ar eich proffil.';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
 
   @override
-  String get connectionsAddDomain => 'Domain';
+  String get connectionsAddDomain => 'Parth';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => 'Ychwanegu cysylltiad Bluesky';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => 'Ychwanegu cysylltiad parth';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => 'Golygu';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => 'Dileu';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel =>
+      'Mae\'r cysylltiad hwn wedi\'i ddilysu.';
 
   @override
   String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+      'Nid yw\'r cysylltiad hwn wedi\'i ddilysu.';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => 'Ychwanegu Cysylltiad';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => 'Math o Gysylltiad';
 
   @override
-  String get connectionHandleLabel => 'Handle';
+  String get connectionHandleLabel => 'Trin';
 
   @override
-  String get connectionDomainLabel => 'Domain';
+  String get connectionDomainLabel => 'Parthbarth';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -3257,284 +3283,284 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => 'Mae\'r cysylltiad hwn gennych eisoes.';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => 'Cysylltu â Bluesky';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => 'Parhau';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => 'Dilysu Cysylltiad';
 
   @override
   String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+      'Defnyddiwch y cofnod isod i brofi perchnogaeth parthbarth.';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'Cofnod TXT DNS';
 
   @override
-  String get connectionDnsHostLabel => 'Host';
+  String get connectionDnsHostLabel => 'Gwesteiwr';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => 'Gwerth';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => 'Copïo gwesteiwr';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => 'Copïo gwerth';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => 'Wedi\'i gopïo!';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => 'Gwasanaethu\'r ffeil tocyn';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      'Dadlwythwch **fluxer-verification** a\'i osod yn eich ffolder **.well-known** fel y gallwn ddilysu\'r parthbarth.';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => 'Dadlwytho fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return 'Mae\'r ffeil yn cynnwys y tocyn dilysu y byddwn yn ei nôl o **$dnsUrl**.';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => 'Cadw fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => 'Dilysu';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => 'Yn ôl';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => 'Golygu Cysylltiad';
 
   @override
   String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+      'Dewiswch pwy all weld y cysylltiad hwn ar eich proffil.';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => 'Pawb';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+      'Caniatáu i unrhyw un weld y cysylltiad hwn ar eich proffil';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => 'Ffrindiau';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+      'Caniatewch i\'ch ffrindiau weld y cysylltiad hwn';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => 'Aelodau\'r Gymuned';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+      'Caniatewch i aelodau o\'r cymunedau lle\'r ydych chi weld y cysylltiad hwn';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => 'Dileu Cysylltiad';
 
   @override
   String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+      'Ydych chi\'n siŵr eich bod am ddileu\'r cysylltiad hwn? Ni ellir dadwneud y weithred hon.';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => 'Dileu';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError => 'Methodd llwytho cysylltiadau';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError => 'Methodd diweddaru\'r drefn';
 
   @override
   String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+      'Methodd cychwyn dilysu. Rhowch gynnig arall arni.';
 
   @override
   String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+      'Methodd dilysu. Gwiriwch eich cofnod DNS a rhowch gynnig arall arni.';
 
   @override
   String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+      'Methodd cychwyn awdurdodiad Bluesky.';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed => 'Methodd diweddaru\'r cysylltiad';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed => 'Methodd dileu\'r cysylltiad';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => 'Cadwyd fluxer-verification';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast => 'Methodd cadw\'r ffeil';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => 'Rhowch handlen Bluesky.';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => 'Rhowch barth.';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => 'Ymddangosiad';
 
   @override
-  String get lookAndFeelThemeSectionTitle => 'Theme';
+  String get lookAndFeelThemeSectionTitle => 'Them';
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+      'Dewiswch rhwng ymddangosiad tywyll, glo, neu ysgafn.';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => 'Them Dywyll';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => 'Them Glo';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => 'Them Ysgafn';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => 'Them System';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+      'Cysoni them ar draws dyfeisiau';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      'Pan fydd wedi\'i alluogi, bydd newidiadau thema yn cydamseru i\'ch holl ddyfeisiau. Pan fydd wedi\'i analluogi, bydd y ddyfais hon yn defnyddio ei gosodiad thema ei hun.';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      'Mae thema\'r system yn analluogi cydamseru yn awtomatig i olrhain eich hoffter system ar y ddyfais hon.';
 
   @override
   String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+      'Methodd cydamseru thema i\'ch cyfrif. Rhowch gynnig arall arni.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Graddio Ffont Sgwrs';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Addaswch faint y ffont yn ardal y sgwrs.';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => 'Rhyngwyneb';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'Addaswch elfennau ac ymddygiadau\'r rhyngwyneb.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+      'Dangosyddion teipio rhestr sianel';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      'Dewiswch sut mae dangosyddion teipio yn ymddangos yn y rhestr sianel pan fydd rhywun yn teipio mewn sianel.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+      'Dangosydd Teipio + Avatars';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      'Dangos dangosydd teipio gyda avatars defnyddwyr yn y rhestr sianel';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+      'Dangosydd Teipio yn Unig';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      'Dangos y dangosydd teipio yn unig heb avatars';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Cuddiedig';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      'Peidiwch â dangos dangosyddion teipio yn y rhestr sianel';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      'Dangos teipio ar sianel a ddewiswyd';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      'Pan fydd wedi\'i analluogi (rhagosodiad), ni fydd dangosyddion teipio yn ymddangos ar y sianel rydych chi\'n ei gweld ar hyn o bryd.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'cyffredinol';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => 'Awgrymiadau Bysellfwrdd';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+      'Rheoli a fydd awgrymiadau llwybr byr bysellfwrdd yn ymddangos y tu mewn i awgrymiadau offer.';
 
   @override
   String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+      'Cuddio awgrymiadau bysellfwrdd mewn awgrymiadau offer';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      'Pan fydd wedi\'i alluogi, mae bathodynnau llwybr byr yn cael eu cuddio mewn pop-ups awgrymiadau offer.';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => 'Amrywiol';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription => 'Opsiynau rhyngwyneb amrywiol.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => 'Dangos Neko';
 
   @override
   String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+      'Pan fydd wedi\'i alluogi, bydd Neko yn ymddangos ger y bar mewnbwn sgwrs.';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle => 'Ymuno â sianelau llais';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+      'Rheoli sut rydych chi\'n ymuno â sianelau llais mewn cymunedau.';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Gofyn am glicio dwbl i ymuno â sianelau llais';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      'Pan fydd wedi\'i alluogi, bydd angen i chi glicio ddwywaith ar sianelau llais i\'w cyrchu. Pan fydd wedi\'i analluogi (rhagosodiad), bydd un glicio yn ymuno â\'r sianel ar unwaith.';
 
   @override
   String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+      'Y llwynog brown cyflym sy\'n neidio dros y ci diog.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => 'Bar ochr yr achlysur';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Ffurfweddu sut mae\'r bar ochr achlysur yn arddangos negeseuon uniongyrchol.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -3542,457 +3568,461 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
-      one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+          '$count cymunedau ar gael dros dro oherwydd camweithio capasiydd fflwcs.',
+      one: '1 cymuned ar gael dros dro oherwydd camweithio capasiydd fflwcs.',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel => 'Crymchu DMau I Foldr';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      'Pan fydd wedi\'i alluogi, mae DMau heb eu darllen yn y bar ochr achlysur yn cael eu crychu i mewn i ffolder ar y botwm Fluxer. Cliciwch y botwm Fluxer tra\'ch bod ar dudalen DMau i ehangu neu grychu\'r ffolder.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => 'Rhestr Sianelau';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'Rheoli ymddygiad dangosydd heb ei ddarllen ar gyfer sianelau mud mewn rhestrau sianel.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+      'Dangos dangosydd heb ei ddarllen ar sianelau mud';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      'Pan fydd wedi\'i alluogi, mae sianelau mud yn dangos dangosydd heb ei ddarllen wedi pylu ar yr ochr chwith. Mae sonion yn dal i ymddangos ni waeth beth yw\'r gosodiad hwn.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => 'Nawr yn Weithredol';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+      'Rheoli sut mae \'Nawr yn Weithredol\' yn ymddangos ledled yr ap.';
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+      'Dangos \'Nawr yn Weithredol\' ar y dudalen gartref';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      'Dangos \'Nawr yn Weithredol\' ar y dudalen gartref i arddangos ffrindiau sy\'n weithredol mewn llais. Gwelwch ragolwg, y cyd-destun sianel, pwy sydd eisoes yno, a ffordd gyflym i ymuno.';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => 'Hoffion';
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'Rheoli gwelededd hoffion ledled yr ap.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel => 'Galluogi Hoffion';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'Pan fydd wedi\'i alluogi, gallwch chi hoffi sianelau a byddant yn ymddangos yn yr adran Hoffion. Pan fydd wedi\'i analluogi, bydd pob elfen UI sy\'n gysylltiedig â hoffion (botymau, eitemau dewislen) yn cael eu cuddio. Bydd eich hoffion presennol yn cael eu cadw.';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => 'Hoffion';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'Dim hoffion eto';
 
   @override
   String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+      'Serenwch sianeliadau o bennawd y sgwrs i\'w cadw yma.';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => 'Croeso i ffefrynnau';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      'Eich gofod personol ar gyfer mynediad cyflym i sianeliadau, DMau, a grwpiau yr ydych yn eu hoffi. Gwasgwch y seren ar unrhyw sianel i\'w hychwanegu yma.';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip => 'Ddim i chi? Diffoddwch ef ar unrhyw adeg.';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => 'Analluogi ffefrynnau';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => 'Ychwanegwyd at ffefrynnau';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => 'Dilewyd o ffefrynnau';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => 'Cuddwyd ffefrynnau';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => 'Mudewch ffefrynnau';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => 'Tynnwch fuddug ffefrynnau';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => 'Dewislen ffefrynnau';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => 'Creu categori';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => 'Enw\'r categori';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => 'Cuddio sianeliadau mud';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => 'Dangos sianeliadau mud';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => 'Gosod llysenw';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => 'Llysenw';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => 'Cadw llysenw';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => 'Symud i gategori';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => 'Heb ei gategori';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => 'Arall';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => 'Dileu o ffefrynnau';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => 'Ychwanegu at ffefrynnau';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => 'Cuddio ffefrynnau';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      'Bydd hyn yn cuddio holl elfennau UI sy\'n gysylltiedig â ffefrynnau gan gynnwys botymau a mân-fanylion dewislen. Bydd eich ffefrynnau presennol yn cael eu cadw a gellir eu hail-alluogi ar unrhyw adeg o Gosodiadau > Uwch > Ymddangosiad.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => 'Neges uniongyrchol';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => 'Dangos';
 
   @override
   String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+      'Rheoli sut mae negeseuon, cyfryngau, a chynnwys arall yn cael eu harddangos.';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => 'Cyfryngau';
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'Addasu dewisiadau maint cyfryngau a botymau.';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => 'Mewnbwn';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'Addasu gosodiadau mewnbwn negeseuon.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => 'Bar ochr';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+      'Ffurfweddu sut mae bar ochr y gymuned yn cael ei arddangos.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Cuddio sianeliadau mud yn ddiofyn';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      'Cuddio sianeliadau mud yn awtomatig yn y bar ochr pan fyddwch chi\'n ymuno â chymunedau newydd';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+      'Cuddio sianeliadau mud yn ddiofyn?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      'Bydd cymunedau newydd yr ydych yn ymuno â nhw yn cuddio sianeliadau mud yn awtomatig. A fyddech chi hefyd yn hoffi cymhwyso\'r gosodiad hwn i\'ch holl gymunedau presennol?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      'Peidio â chuddio sianeliadau mud yn ddiofyn?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      'Ni fydd cymunedau newydd yr ydych yn ymuno â nhw yn cuddio sianeliadau mud yn awtomatig mwyach. A fyddech chi hefyd yn hoffi dangos sianeliadau mud ym mhob un o\'ch cymunedau presennol?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+      'Cymhwyso i bob cymuned';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+      'Dangos ym mhob cymuned';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+      'Cymunedau newydd yn unig';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => 'Dangos cyfryngau';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      'Rheoli sut mae delweddau, fideos a chyfryngau eraill yn cael eu harddangos. Mae pob cyfrwng yn cael ei ail-feintio a\'i drosi. Ni fydd ffeiliau hynod fawr na ellir eu cywasgu i ragolwg yn cael eu hymgorffori ni waeth beth yw\'r gosodiadau hyn.';
 
   @override
   String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+      'Pan fyddant wedi\'u postio fel dolenni i sgwrs';
 
   @override
   String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+      'Pan fyddant wedi\'u huwchlwytho\'n uniongyrchol i Fluxer';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => 'Rhagolygon dolen';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+      'Rheoli sut mae dolenni gwefan yn cael eu rhagolwg mewn sgwrs';
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+      'Dangos rhagolygon a rhagolwg dolenni gwefan';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => 'Adweithiau';
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+      'Gwneud gosodiadau adweithiau emoji ar negeseuon';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+      'Dangos adweithiau emoji ar negeseuon';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => 'Cynnwys Spoiler';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+      'Rheoli sut mae cynnwys spoiler yn cael ei arddangos';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => 'Dangos cynnwys spoiler';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => 'Ar glicio';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+      'Dangos cynnwys spoiler pan gaiff ei glicio';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName =>
+      'Mewn sianeli rwy\'n eu gweinyddu';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      'Dangos cynnwys spoiler bob amser mewn sianeli lle mae gennych y caniatâd \"Gweinyddu Negeseuon\"';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => 'Bob amser';
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+      'Dangos cynnwys spoiler bob amser';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => 'Dewisiadau Maint Cyfryngau';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      'Gwneud addasu\'r maint arddangos uchaf ar gyfer cyfryngau wedi\'u hymgorffori ac wedi\'u hatodi. Mae meintiau llai yn defnyddio llai o le sgrin, tra bod meintiau mwy yn dangos mwy o fanylion.';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel =>
+      'Cyfryngau o ddolenni (ymgorfforiadau)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel =>
+      'Atodiadau wedi\'u huwchlwytho';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => 'Cryno (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => 'Maint cyfryngau llai';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => 'Cyfforddus (550x400)';
 
   @override
   String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+      'Maint cyfryngau mwy gyda mwy o fanylion';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'Ymddygiad GIF';
 
   @override
   String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+      'Rheoli sut mae GIFs yn cael eu mewnosod i sgwrs';
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+      'Anfon GIFs yn awtomatig pan gaiff eu dewis';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+      'Awtogwblhau mynegiant (awtogwblhau colon)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'Rheoli beth sy\'n ymddangos yn awtogyflawni mynegiant pan fyddwch chi\'n teipio colon. Gwneud addasu pa awgrymiadau sy\'n cael eu harddangos i gyd-fynd â\'ch dewisiadau.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      'Dangos emojis diofyn mewn awtogyflawni mynegiant';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Dangos emojis personol mewn awtogyflawni mynegiant';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+      'Dangos sticeri mewn awtogyflawni mynegiant';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+      'Dangos cyfryngau wedi\'u cadw mewn awtogyflawni mynegiant';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle => 'Golygu Negeseuon';
 
   @override
   String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+      'Rheoli beth sy\'n digwydd i\'ch drafft golygu pan fyddwch chi\'n canslo.';
 
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+      'Cadw drafft golygu wrth ganslo';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => 'Dangosyddion heb eu darllen';
 
   @override
   String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+      'Rheoli sut mae dangosyddion negeseuon heb eu darllen yn cael eu harddangos.';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      'Dangos dangosydd heb ei ddarllen wedi pylu ar sianeli mud';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      'Dangos dangosydd heb ei ddarllen wedi\'i ddimio nesaf at negeseuon uniongyrchol a sianeli mud fel y gallwch chi weld ar yr olwg gyntaf pan fydd gweithgaredd.';
 
   @override
-  String get accessibilityDmMessagePreviewGroupTitle => 'DM message previews';
+  String get accessibilityDmMessagePreviewGroupTitle =>
+      'Rhagolygon negeseuon DM';
 
   @override
   String get accessibilityDmMessagePreviewGroupDescription =>
-      'Control when message previews are shown in the DM list.';
+      'Rheoli pryd mae rhagolygon negeseuon yn cael eu harddangos yn y rhestr DM.';
 
   @override
   String get accessibilityDmMessagePreviewModeLabel =>
-      'DM message preview mode';
+      'Modd rhagolwg negeseuon DM';
 
   @override
-  String get accessibilityDmMessagePreviewAllName => 'All messages';
+  String get accessibilityDmMessagePreviewAllName => 'Pawb';
 
   @override
   String get accessibilityDmMessagePreviewAllDescription =>
-      'Show message previews for all DM conversations';
+      'Dangos rhagolygon negeseuon ar gyfer pob sgwrs DM';
 
   @override
-  String get accessibilityDmMessagePreviewUnreadOnlyName => 'Unread DMs only';
+  String get accessibilityDmMessagePreviewUnreadOnlyName =>
+      'DM heb eu darllen yn unig';
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
-      'Only show message previews for DMs with unread messages';
+      'Dangos rhagolygon negeseuon yn unig ar gyfer DMs gyda negeseuon heb eu darllen';
 
   @override
-  String get accessibilityDmMessagePreviewNoneName => 'None';
+  String get accessibilityDmMessagePreviewNoneName => 'Dim';
 
   @override
   String get accessibilityDmMessagePreviewNoneDescription =>
-      'Don\'t show message previews in the DM list';
+      'Peidiwch â dangos rhagolygon negeseuon yn y rhestr DM';
 
   @override
-  String get dmListSentAnAttachment => 'Sent an attachment';
+  String get dmListSentAnAttachment => 'Anfonwyd atodiad';
 
   @override
   String systemPreviewPinnedMessage(String username) {
-    return '$username pinned a message to this channel.';
+    return '$username wedi pinio neges i\'r sianel hon.';
   }
 
   @override
   String systemPreviewAddedToGroup(String username, String userName) {
-    return '$username added $userName to the group.';
+    return '$username wedi ychwanegu $userName i\'r grŵp.';
   }
 
   @override
   String systemPreviewAddedSomeoneToGroup(String username) {
-    return '$username added someone to the group.';
+    return '$username wedi ychwanegu rhywun i\'r grŵp.';
   }
 
   @override
   String systemPreviewHasLeftGroup(String username) {
-    return '$username has left the group.';
+    return '$username wedi gadael y grŵp.';
   }
 
   @override
   String systemPreviewRemovedFromGroup(String username, String userName) {
-    return '$username removed $userName from the group.';
+    return '$username aeth â $userName o\'r grŵp.';
   }
 
   @override
   String systemPreviewRemovedSomeoneFromGroup(String username) {
-    return '$username removed someone from the group.';
+    return '$username aeth â rhywun o\'r grŵp.';
   }
 
   @override
   String systemPreviewChangedChannelNameTo(String username, String newName) {
-    return '$username changed the channel name to $newName.';
+    return '$username newidiodd enw\'r sianel i $newName.';
   }
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username changed the channel name.';
+    return '$username newidiodd enw\'r sianel.';
   }
 
   @override
   String systemPreviewChangedChannelIcon(String username) {
-    return '$username changed the channel icon.';
+    return '$username newidiodd eicon y sianel.';
   }
 
   @override
   String systemPreviewStartedCall(String username) {
-    return '$username started a call.';
+    return '$username ddechreuodd alwad.';
   }
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get voiceConnectionConfirmTitle => 'Cadarnhad Cysylltiad Llais';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -4000,92 +4030,93 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+          'Rydych eisoes wedi\'ch cysylltu â\'r sianel llais hon o $count dyfais arall. Beth hoffech chi ei wneud?',
       one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+          'Rydych eisoes wedi\'ch cysylltu â\'r sianel llais hon o 1 ddyfais arall. Beth hoffech chi ei wneud?',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => 'Newid i\'r Ddyfais Hon';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+      'Ymunwch (Cadw Cysylltiadau Eraill)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+      'Peidio gwneud dim, nid wyf am ymuno';
 
   @override
   String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+      'Dyma sianel lais. Cysylltwch i ddechrau siarad!';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => 'Ymunwch â\'r Sianel Llais';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => 'Cysylltu â Llais';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+      'Nid oes gennych ganiatâd i ymuno â\'r sianel lais hon';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Mae cynnwys meicroffon, camera, a rhannu sgrin wedi\'i amgryptio o\'r dechrau i\'r diwedd.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Mae cynnwys meicroffon, camera, a rhannu sgrin wedi\'i amgryptio o\'r dechrau i\'r diwedd.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+      'Nid yw amgryptio o\'r dechrau i\'r diwedd ar gael oherwydd bod cyfranogwr anghydnaws yn y sianel lais hon.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+      'Nid yw amgryptio o\'r dechrau i\'r diwedd ar gael oherwydd bod cyfranogwr anghydnaws yn yr alwad hon.';
 
   @override
   String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+      'Rhaid diweddaru\'r cleient hwn cyn ymuno â\'r alwad amgryptiedig hon.';
 
   @override
   String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+      'Methodd eich meicroffon â dechrau. Rydych chi\'n dal i fod yn yr alwad.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => 'Yn cysylltu…';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => 'Wedi\'i gysylltu';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => 'Gwall';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => 'Dyfais symudol';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => 'Dyfais bwrdd gwaith';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted => 'Tawelwyd gan y gymuned';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => 'Tawelwyd';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened =>
+      'Byddwyd gan y gymuned';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => 'Byddwyd';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return 'Cysylltiad: $connectionId';
   }
 
   @override
@@ -4093,77 +4124,77 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count cyfranogwr',
+      one: '1 cyfranogwr',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => 'Ymadael';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => 'Tawelu';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => 'Dirymu tawelwch';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => 'Byddwyo';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => 'Dirymu byddwyo';
 
   @override
-  String get voiceControlVideo => 'Video';
+  String get voiceControlVideo => 'Fideo';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => 'Rhannu sgrin';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText => 'Yn rhannu eich sgrin.';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => 'Mwy';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => 'Datgysylltu';
 
   @override
-  String get voiceControlChat => 'Chat';
+  String get voiceControlChat => 'Sgwrs';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => 'Dangos sgwrs';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# neges heb ei darllen',
+      one: '# neges heb ei darllen',
     );
-    return 'Show chat with $_temp0';
+    return 'Dangos sgwrs gyda $_temp0';
   }
 
   @override
   String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+      'Mae angen caniatâd camera ar gyfer fideo.';
 
   @override
   String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+      'Methodd cychwyn rhannu sgrin. Rhowch gynnig arall arni.';
 
   @override
   String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+      'Gwrthodwyd caniatâd rhannu sgrin.';
 
   @override
   String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+      'Nid yw rhannu sgrin ar gael ar y ddyfais hon.';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => 'Gwylio\'r ffryd';
 
   @override
   String get voiceStopWatching => 'Stop Watching';
@@ -4337,594 +4368,603 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   String get chatClientSystemDismiss => 'Dismiss';
 
   @override
-  String get privacyDashboardCommunicationSection => 'Communication';
+  String get privacyDashboardCommunicationSection => 'Cyfathrebu';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String get chatMessageDeleteFailed => 'Methu Dileu Neges';
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatMessageAddReaction => 'Ychwanegu Adwaith';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatMessageEdit => 'Golygu Neges';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatMessageReply => 'Ateb';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatMessageForward => 'Anfon Ymlaen';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get forwardMessageTitle => 'Anfon neges ymlaen';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get forwardSearchHint =>
+      'Chwilio sianeliadau neu negeseuon uniongyrchol';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get forwardDirectMessagesSection => 'Negeseuon Uniongyrchol';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get forwardCommentHint => 'Ychwanegu sylw (dewisol)';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return 'Anfon ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => 'Dim sianeliadau wedi\'u canfod';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => 'Neges wedi\'i hanfon ymlaen';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => 'Methwyd anfon y neges ymlaen';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'Nid yw sylwadau ar gael oherwydd bod slowmode wedi\'i alluogi mewn sianel ddethol.';
 
   @override
   String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+      'Allwch chi ddim anfon negeseuon yma';
 
   @override
   String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+      'Allwch chi ddim mewngyrchu dolenni yma';
 
   @override
   String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+      'Allwch chi ddim atodi ffeiliau yma';
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+      'Mae anfon negeseuon wedi\'i analluogi yn y gymuned hon';
 
   @override
   String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+      'Rydych chi ar amser allan yn y gymuned hon';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'Slowmode - arhoswch $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => 'Copïo Neges';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => 'Pinio neges';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => 'Dadbopio neges';
 
   @override
-  String get chatMessageUnpinIt => 'Unpin it';
+  String get chatMessageUnpinIt => 'Dadbopio hi';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageBookmark => 'Cadw Neges';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageRemoveBookmark => 'Dileu Cadw';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageMarkAsUnread => 'Marciwch fel Heb Ddarllen';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageCopyMessageLink => 'Copïo Dolenni Neges';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageId => 'Copïo ID Neges';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageViewReactions => 'Gweld adweithiau';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageRemoveAllReactions => 'Dileu pob adwaith';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageDebug => 'Debugio Neges';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebugSheetTitle => 'Debugio neges';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugCopyJson => 'Copïo JSON';
 
   @override
   String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+      'JSON neges wedi\'i gopïo i\'r clipfwrdd';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => 'Adweithiau';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty => 'Nid oes neb wedi ymateb gyda hyn eto.';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => 'Adrodd ar Neges';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get iarReportMessageTitle => 'Adrodd ar neges';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarThisUserFallback => 'y defnyddiwr hwn';
 
   @override
   String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+      'Adrodd ar dorri rheol, neu dod o hyd i offer i reoli cyswllt a dewisiadau.';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarPathStepAriaLabel => 'Beth sydd ei angen arnoch?';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarCategoryStepTitle => 'Sert math o reol gafodd ei dorri?';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarReasonStepTitle => 'Sert ba reol gafodd ei dorri?';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonSelectHint => 'Dewiswch reswm';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarPickAnOptionToast => 'Dewiswch opsiwn i barhau.';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickARuleToast => 'Dewiswch y rheol gafodd ei dorri.';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPathPlatform => 'Adrodd ar dorri rheol y platfform';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathCommunity => 'Adrodd i reolwyr yr uned hon';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathPreferenceMessage => 'Dw i\'n hoffi\'r cynnwys yma';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarCategoryTargetedHarmLabel =>
+      'Bygythiadau, aflonyddu, neu niwed';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+      'Bwlio, bygythiadau, casineb, trais, cyrchoedd, neu gynnwys sy\'n annog hunan-niwed.';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategorySafetyMinorsLabel =>
+      'Diogelwch plant neu gynnwys i oedolion';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+      'Plant mewn perygl, cynnwys i oedolion yn y lle anghywir, neu ymddygiad diangen.';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategoryPrivacyIdentityLabel =>
+      'Preifatrwydd neu ffug-bersonoli';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+      'Doxio, stelcio, esgusodi fel rhywun arall, neu broffil amhriodol.';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryDeceptionLabel =>
+      'Twyllod, maleiswedd, neu gamwybodaeth';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+      'Seiber-swyddogaeth, twyll, dolenni maleisus, neu honiadau ffug sy\'n debygol o achosi niwed yn y byd go iawn.';
 
   @override
   String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+      'Gweithgarwch anghyfreithlon neu rywbeth arall';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+      'Gwerthiannau anghyfreithlon, hwylusydd troseddau, neu dorri rheol amlwg nad yw\'n cyd-fynd â\'r uchod.';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarReasonHarassmentLabel => 'Aflonyddu neu fygythiadau';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+      'Bwlio, cyswllt diangen dro ar ôl tro, stelcio, neu gam-drin wedi\'i dargedu.';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHateLabel => 'Araith gasineb';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      'Geiriau sarhaus, iaith ddynol-yn-gwrthod, neu ymosodiadau ar grwpiau gwarchodedig.';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonViolenceLabel => 'Trais neu fygythiadau trais';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+      'Bygythiadau credadwy, trais graffig, neu ogoneddu trais.';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonMatureContentLabel => 'Cynnwys i oedolion neu aflonyddu';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+      'Ymddygiad diangen neu gynnwys i oedolion yn y lle anghywir.';
 
   @override
-  String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+  String get iarReasonChildSafetyLabel => 'Diogelwch plant neu faleisio plant';
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+      'Cynnwys trin plant neu faleisio plant.';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonHarmfulMisinfoLabel => 'Camwybodaeth niweidiol';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+      'Honiadau ffug sy\'n debygol o achosi niwed yn y byd go iawn.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonSpamLabel => 'Sbam, twyllod, neu seiber-swyddogaeth';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+      'Sbam torfol, twyll, gwobrau ffug, neu gam-drin cyfrif.';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonMalwareLabel => 'Maleiswedd neu ddolenni peryglus';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+      'Maleiswedd, dwyn manylion mewngofnodi, neu ffeiliau niweidiol.';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonPrivacyLabel => 'Torri preifatrwydd';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+      'Doxio, gwybodaeth breifat wedi\'i datgelu, neu stelcio.';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonImpersonationLabel =>
+      'Ffug-bersonoli neu gyfryngau twyllodrus';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+      'Esgusodi fel rhywun arall, gan gynnwys cynnwys wedi\'i greu gan AI yn dwyllo.';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonIllegalLabel => 'Gweithgarwch anghyfreithlon';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+      'Gwerthiannau anghyfreithlon, hwylusydd troseddau, neu weithgarwch anghyfreithlon.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonSelfHarmLabel => 'Hunan-niwed neu hunanladdiad';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+      'Hyrwyddo neu gyfarwyddiadau\'n annog hunan-niwed neu anhwylderau bwyta.';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonOtherLabel => 'Torri rheol amlwg arall';
 
   @override
   String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+      'Defnyddiwch yn unig os yw\'n torri rheolau Fluxer yn amlwg ac nid yw\'n cyd-fynd â\'r uchod.';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return 'Os oes plentyn yn gysylltiedig, defnyddiwch \"$childSafetyReason\" yn lle hynny.';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      'Os yw hyn yn cynnwys CSAM neu faleisio plentyn, anfonwch ef nawr ac peidiwch ag ail-rannu\'r deunydd.';
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+      'Os yw rhywun mewn perygl ar unwaith, cysylltwch â gwasanaethau brys lleol os gallwch wneud hynny\'n ddiogel.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+      'Os yw hwn yn fygythiad ar unwaith y gellir ei gredu, cysylltwch â gwasanaethau brys lleol hefyd.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+      'Os yw hwn yn fygythiad terfysgol ar unwaith, cysylltwch â gwasanaethau brys lleol hefyd.';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => 'Rhwystro\'r defnyddiwr hwn';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+      'Stopio negeseuon a cheisiadau ffrind.';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => 'Rhwystro';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => 'Copïo dolen neges';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+      'Rhannu gyda moddion cymunedol.';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => 'Copïo';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => 'Cau\'r DM hwn';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+      'Nid yw\'n rhwystro. Gallwch agor eto\'n hwyrach.';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => 'Cau DM';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => 'Ylä lähteä yhteisöstä';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+      'Lopeta sen sisällön ja jäsenten näkeminen.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => 'Ylä lähteä';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle => 'DM- ja kaveripyyntöasetukset';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription =>
+      'Muuta, kuka voi ottaa sinuun yhteyttä.';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle =>
+      'Puhelu- ja ryhmäkeskusteluasetukset';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+      'Newidiwch pwy all eich galw neu ychwanegu atoch.';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => 'Agor';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => 'Dileu\'r neges hon';
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+      'Tynnwch hi o\'r sianel i bawb.';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => 'Dileu';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => 'Dilewyd';
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+      'Mae\'r neges hon eisoes wedi\'i dileu.';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => 'Gwahardd y defnyddiwr hwn';
 
   @override
   String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+      'Agorwch y deialog gwahardd ar gyfer y gymuned hon.';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => 'Gwahardd';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => 'Wedi\'i wahardd';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+      'Mae\'r defnyddiwr hwn eisoes wedi\'i wahardd o\'r gymuned.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => 'Cau DM';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return 'Cau eich DM presennol gyda $name. Nid yw hyn yn eich rhwystro; gallwch ailagor yn ddiweddarach.';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => 'Anfonwyd yr adroddiad';
 
   @override
   String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+      'Mae ein tîm diogelwch yn ei adolygu. Byddwn yn anfon DM ac e-bost atoch pan fyddwn wedi cyrraedd dyfarniad.';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => 'Wedi\'i adrodd eisoes';
 
   @override
   String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+      'Rydych eisoes wedi adrodd ar y neges hon. Mae ein tîm diogelwch yn ei hadolygu.';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => 'Yn ôl';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => 'Ymlaen';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => 'Anfon adroddiad';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => 'Wedi';
 
   @override
   String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+      'Methodd yr anfon yr adroddiad. Rhowch gynnig arall arni.';
 
   @override
   String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+      'Rydych chi\'n adrodd yn rhy gyflym. Arhoswch ychydig a rhowch gynnig arall arni.';
 
   @override
   String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+      'Anfonwyd yr adroddiad. Bydd ein tîm diogelwch yn ei adolygu.';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return 'Blocio $name? Ni fyddant yn gallu anfon neges atoch na\'ch gwahodd i fod yn ffrindiau. Gallwch eu dadflocio yn ddiweddarach.';
   }
 
   @override
   String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+      'Methodd rhwystro\'r defnyddiwr hwn. Rhowch gynnig arall arni.';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => 'Caewyd y DM.';
 
   @override
   String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+      'Methodd cau\'r DM hwn. Rhowch gynnig arall arni.';
 
   @override
   String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+      'Methodd gadael y gymuned hon. Rhowch gynnig arall arni.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => 'Cuddio Embeds';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => 'Dangos Embeds';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => 'Dileu Neges';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => 'Dileu Neges';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+      'Ydych chi\'n siŵr eich bod am ddileu\'r neges hon?';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => 'Mwy';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => 'Yn golygu neges';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => 'Dileuwyd y neges wreiddiol';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad =>
+      'Methodd llwytho\'r neges wreiddiol';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia =>
+      'Mae\'r neges yn cynnwys cyfryngau wedi\'u hatodi';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError => 'Methodd llwytho negeseuon.';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle => 'A ddylid newid y dewisleniad?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return 'Mae $authorNickname yn hoffi cael ei grybwyll drwy @ wrth ateb. Anfon heb y grybwylliad beth bynnag?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname yn well ganddo/ganddi ymatebion heb @wneud sylw. Anfon gyda\'r sylw beth bynnag?';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => 'Anwybyddu dewis';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+      'Cliciwch i analluogi pingio\'r person rydych chi\'n ymateb iddo.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+      'Cliciwch i alluogi pingio\'r person rydych chi\'n ymateb iddo.';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel => 'Sôn am y person ymateb';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => 'Ymlaen';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => 'I ffwrdd';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => 'Canslo ymateb';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => 'Golygu neges';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => 'Dim newidiadau i\'w cadw';
 
   @override
   String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+      'Nid yw\'r sianel hon yn barod eto. Rhowch gynnig arall arni mewn moment. ';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(wedi\'i olygu)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'Roedd hon yn neges @silent.';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'Heddiw am $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'Ddoe am $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => 'Rhagolwg llun';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => 'Cau gwyliwr y cyfryngau';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'Agor yn y porwr';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => 'Anfon ymlaen';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => 'Chwyddo i mewn';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => 'Chwyddo allan';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => 'Ymlyniad blaenorol';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => 'Ymlyniad nesaf';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -4932,83 +4972,83 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls => 'Newid rheolyddion fideo';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => 'Mud fideo';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => 'Dad-fudo fideo';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'Chwarae fideo';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'Sa draw fideo';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => 'Cynnydd fideo';
 
   @override
-  String get chatVideoPlaybackFailed => 'Could not play this video.';
+  String get chatVideoPlaybackFailed => 'Methodd chwarae\'r fideo hwn.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      'Hysbysu defnyddwyr gyda\'r rôl hon sydd â chaniatâd i weld y sianel hon.';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => 'Ychwanegu cymuned';
 
   @override
   String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+      'Creu cymuned newydd neu ymuno ag un sy\'n bod eisoes.';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => 'Creu cymuned';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => 'Ymuno â chymuned';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => 'Mewnforio templed Discord';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => 'Ymuno â chymuned';
 
   @override
   String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+      'Rhowch y ddolen wahoddiad i ymuno â chymuned.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => 'Dolen wahoddiad';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => 'Ymuno â chymuned';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid =>
+      'Mae\'r gwahoddiad hwn yn annilys neu wedi dod i ben.';
 
   @override
   String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+      'Methodd ymuno â\'r gymuned. Rhowch gynnig arall arni.';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => 'Pecyn wedi\'i osod yn llwyddiannus.';
 
   @override
-  String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+  String get chatMessageRemoveAllReactionsConfirmTitle => 'Dileu Pob Adwaith';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      'Ydych chi\'n siŵr eich bod chi am ddileu\'r holl adweithiau o\'r neges hon?';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => 'Tynnu pin o neges';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+      'Anfon yr hoelen hon yn ôl mewn amser?';
 
   @override
   String systemPinMessage(
@@ -5016,68 +5056,69 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+    return '$username a osododd $messageLink i\'r sianel hon. Gweler $allPinsLink.';
   }
 
   @override
-  String get systemPinMessageMessageLink => 'a message';
+  String get systemPinMessageMessageLink => 'neges';
 
   @override
-  String get systemPinMessageAllPinsLink => 'all pinned messages';
+  String get systemPinMessageAllPinsLink => 'pob neges sydd wedi\'i hoelio';
 
   @override
-  String get channelPinsEmptyTitle => 'No pinned messages';
+  String get channelPinsEmptyTitle => 'Dim negeseuon wedi\'u pinio';
 
   @override
-  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
+  String get channelPinsEmptyDescription =>
+      'Bydd negeseuon wedi\'u pinio yn ymddangos yma.';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String get personalNotesTitle => 'Nodiadau personol';
 
   @override
   String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+      'Eich gofod preifat ar gyfer meddyliau a remynion';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return 'Croeso i $channelName';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return 'I\'r dechreuad, nid oedd dim. Yna, daeth $channelName. Ac yr oedd yn dda.';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => 'Negeswch eich hun';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => 'Eich gofod preifat';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => 'Dileu nodiadau personol';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      'Bydd hyn yn dileu pob neges ac atodiad yn eich nodiadau personol yn barhaol. Ni ellir dadwneud hyn.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => 'Dileu';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return 'Dilewyd $count neges o nodiadau personol';
   }
 
   @override
   String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+      'Roedd nodiadau personol eisoes yn wag';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed => 'Ni allwyd clirio nodiadau personol';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => 'EICH CYFRIF';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -5089,371 +5130,376 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => 'Proffil';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => 'Diogelwch a Mewngofnodi';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => 'Rhoddion a Chodau';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => 'Pecynnau Mynegiant';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard => 'Panel Preifatrwydd';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => 'Apiau Awdurdodedig';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => 'Defnyddwyr wedi\'u Blocio';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => 'Dyfeisiau Cysylltiedig';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => 'Cysylltiadau';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => 'Ymddangosiad';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => 'Hygyrchedd';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => 'Negeseuon a Chyfryngau';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Audio & Video';
+  String get userSettingsNavAudioAndVideo => 'Sain a Fideo';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => 'Swn a Rhybuddion';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => 'Iaith ac Amser';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => 'Uwch';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => 'Adroddiadau perfformiad';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      'Helpwch i wella Fluxer trwy rannu data damweiniau a pherfformiad dienw.';
 
   @override
   String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+      'Anfon adroddiadau damweiniau a pherfformiad';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      'Mae\'r holl ddata a adroddir yn ddienw ac fe\'i hanfonir yn unig at wasanaeth monitro Fluxer ei hun - ni ddefnyddir darparwyr trydydd parti.';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => 'Cymhwysiadau';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => 'Cofnodion Ap';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => 'Offerynnau Datblygwr';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => 'Ffurfweddu Terfynau';
 
   @override
-  String get userSettingsNavFeatureFlags => 'Feature Flags';
+  String get userSettingsNavFeatureFlags => 'Baneri Nodwedd';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => 'Beth sy\'n Newydd';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => 'Allgofnodi';
 
   @override
-  String get betaWarningTitle => 'Beta software';
+  String get betaWarningTitle => 'Meddalwedd beta';
 
   @override
   String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+      'Mae hwn yn feddalwedd beta. Nid yw popeth wedi\'i orffen neu ei ychwanegu eto.';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      'Rhowch wybod am unrhyw broblemau a geir i gymuned Fluxer Mobile (mae\'n rhaid i chi fod â Plutonium i allu ymuno â\'r gymuned ar hyn o bryd).';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => 'Gweld ffynhonnell ar GitHub';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => 'Wedi\'i ddeall';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => 'Chwilio';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => 'Ffrindiau';
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+      'Chwilio am sianelau, pobl, neu gymunedau';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => 'Chwilio am ffrindiau';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => 'Dim canlyniadau';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+      'Rhowch gynnig ar enw gwahanol neu defnyddiwch ragddôt @ / # / ! / * i hidlo canlyniadau.';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => 'Pobl';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => 'Negeseuon grŵp';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => 'Sianelau testun';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => 'Sianelau llais';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Communities';
+  String get quickSwitcherSectionCommunities => 'Cymunedau';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => 'Gosodiadau';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => 'Hafan';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => 'Negeseuon uniongyrchol';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => 'Hoffion';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => 'Gosodiadau defnyddiwr';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => 'Hysbysiadau';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => 'Boch-nodau';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => 'Soniadau';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => 'Dim ffrindiau eto';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint => 'Ychwanegwch ffrind i ddechrau.';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle =>
+      'Dim ffrindiau\'n cyd-fynd â\'r chwiliad hwnnw';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint =>
+      'Rhowch gynnig ar enw gwahanol.';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => 'Defnyddiwr';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => 'Ti';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
 
   @override
-  String get quickSwitcherSearchAliasDms => 'DMs';
+  String get quickSwitcherSearchAliasDms => 'Neg. uniongyrchol';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => 'Negeseuon';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => 'Hoff';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => 'Seren';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => 'Bocs mewnol';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => 'Wedi\'i gadw';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => 'Cau';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => 'Neidio i\'r gwaelod';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => 'Cadarnhau';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => 'Yn llwytho';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => 'Newidiadau heb eu cadw';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => 'Ailosod';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'Agor dewiswr lliw';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => 'Dewis';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => 'Chwilio';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => 'Dim opsiynau ar gael';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => 'Gwaredu hysbysiad';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'Dewiswr lliw';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => 'Soni am bawb?';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return 'Bydd hyn yn hysbysu $count aelod. Parhau?';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return 'Bydd hyn yn hysbysu $count aelod ar-lein. Parhau?';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => 'Soni';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable =>
+      'Nid allwch ddefnyddio\'r emoji hwnnw yma.';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => 'URL yr achos';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder => 'Rhowch URL yr achos (ee fluxer.app)';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => 'Ailosod i Fluxer';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => 'Cysylltu';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => 'Yn cysylltu…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => 'Methu cysylltu â\'r parth';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => 'Parthau diweddar';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return 'Dileu $domain o barthau diweddar';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => 'Cysylltu â pharth';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance => 'Cysylltu â pharth gwahanol';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => 'Newid';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired => 'Cysylltu â\'r parth i fewngofnodi';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => 'Dewch yn fuan';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => 'Negeseuon Uniongyrchol';
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+      'Archwilio Cymunedau i\'w Darganfod';
 
   @override
-  String get discoveryExplore => 'Explore';
+  String get discoveryExplore => 'Archwilio';
 
   @override
-  String get discoveryExplorePublicCommunities => 'Explore public communities';
+  String get discoveryExplorePublicCommunities =>
+      'Archwilio cymunedau cyhoeddus';
 
   @override
   String get discoveryListingSubheading =>
-      'Want to list your community on here? Apply if you meet the requirements in your community\'s settings > Discovery.';
+      'Eisiau rhestru eich cymuned yma? Gwnewch gais os ydych yn bodloni\'r gofynion yn gosodiadau eich cymuned > Darganfod.';
 
   @override
-  String get discoverySearchCommunities => 'Search communities';
+  String get discoverySearchCommunities => 'Chwilio am gymunedau';
 
   @override
-  String get discoveryFilterByLanguage => 'Filter by language';
+  String get discoveryFilterByLanguage => 'Hidlo yn ôl iaith';
 
   @override
-  String get discoveryAllLanguages => 'All languages';
+  String get discoveryAllLanguages => 'Pob iaith';
 
   @override
-  String get discoveryAllCategories => 'All';
+  String get discoveryAllCategories => 'Pob un';
 
   @override
-  String get discoveryCategoryGaming => 'Gaming';
+  String get discoveryCategoryGaming => 'Gemau';
 
   @override
-  String get discoveryCategoryMusic => 'Music';
+  String get discoveryCategoryMusic => 'Cerddoriaeth';
 
   @override
-  String get discoveryCategoryEntertainment => 'Entertainment';
+  String get discoveryCategoryEntertainment => 'Adloniant';
 
   @override
-  String get discoveryCategoryEducation => 'Education';
+  String get discoveryCategoryEducation => 'Addysg';
 
   @override
-  String get discoveryCategoryScienceAndTechnology => 'Science & Technology';
+  String get discoveryCategoryScienceAndTechnology =>
+      'Gwyddoniaeth a Thechnoleg';
 
   @override
-  String get discoveryCategoryContentCreator => 'Content Creator';
+  String get discoveryCategoryContentCreator => 'Crewr Cynnwys';
 
   @override
-  String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
+  String get discoveryCategoryAnimeAndManga => 'Anime a Manga';
 
   @override
-  String get discoveryCategoryMoviesAndTv => 'Movies & TV';
+  String get discoveryCategoryMoviesAndTv => 'Ffilmiau a Theledu';
 
   @override
-  String get discoveryCategoryOther => 'Other';
+  String get discoveryCategoryOther => 'Arall';
 
   @override
-  String get discoveryNoCommunitiesMatch => 'No communities match.';
+  String get discoveryNoCommunitiesMatch => 'Dim cymunedau\'n cyd-fynd.';
 
   @override
-  String get discoveryJoinCommunity => 'Join community';
+  String get discoveryJoinCommunity => 'Ymuno â chymuned';
 
   @override
-  String get discoveryJoined => 'Joined';
+  String get discoveryJoined => 'Wedi ymuno';
 
   @override
   String discoveryOnlineCount(String count) {
-    return '$count online';
+    return '$count ar-lein';
   }
 
   @override
@@ -5465,67 +5511,69 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString members',
-      one: '1 member',
+      other: '$countString aelod',
+      one: '1 aelod',
     );
     return '$_temp0';
   }
 
   @override
-  String get discoveryNoDescription => 'No description.';
+  String get discoveryNoDescription => 'Dim disgrifiad.';
 
   @override
-  String get discoveryCommunities => 'Communities';
+  String get discoveryCommunities => 'Cymunedau';
 
   @override
-  String get discoveryApps => 'Apps';
+  String get discoveryApps => 'Apiau';
 
   @override
-  String get discoveryJoinErrorGenericTitle => 'Couldn\'t join this community';
+  String get discoveryJoinErrorGenericTitle => 'Methu ymuno â\'r gymuned hon';
 
   @override
   String get discoveryJoinErrorGenericMessage =>
-      'Something went wrong. Please try again in a moment.';
+      'Aeth rhywbeth o\'i le. Rhowch gynnig arall arni mewn eiliad.';
 
   @override
-  String get discoveryJoinErrorFullTitle => 'This community is full';
+  String get discoveryJoinErrorFullTitle => 'Mae\'r gymuned hon yn llawn';
 
   @override
   String get discoveryJoinErrorFullMessage =>
-      'This community has reached its member limit, so you can\'t join right now.';
+      'Mae\'r gymuned hon wedi cyrraedd ei marc uchaf o aelodau, felly allwch chi ddim ymuno ar hyn o bryd.';
 
   @override
   String get discoveryJoinErrorMaxGuildsTitle =>
-      'You\'ve reached the community limit';
+      'Rydych wedi cyrraedd y marc uchaf o gymunedau';
 
   @override
   String get discoveryJoinErrorMaxGuildsMessage =>
-      'You\'re in the maximum number of communities. Leave one and try again.';
+      'Rydych chi yn y nifer uchaf o gymunedau. Gadewch un a rhowch gynnig arall arni.';
 
   @override
-  String get discoveryJoinErrorBannedTitle => 'You can\'t join this community';
+  String get discoveryJoinErrorBannedTitle =>
+      'Allwch chi ddim ymuno â\'r gymuned hon';
 
   @override
   String get discoveryJoinErrorBannedMessage =>
-      'You have been banned from this community.';
+      'Rydych wedi cael eich gwaharddu o\'r gymuned hon.';
 
   @override
   String get discoveryJoinErrorNotAvailableTitle =>
-      'This community is no longer available';
+      'Nid yw\'r gymuned hon ar gael mwyach';
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'It may have left discovery or turned off new joins. Refresh the page and you won\'t see it again.';
+      'Efallai ei bod wedi gadael darganfod neu wedi diffodd aelodau newydd. Adnewyddwch yr dudalen ac ni welwch hi eto.';
 
   @override
-  String get discoveryJoinErrorRateLimitTitle => 'You\'re going too fast';
+  String get discoveryJoinErrorRateLimitTitle =>
+      'Rydych chi\'n mynd yn rhy gyflym';
 
   @override
   String get discoveryJoinErrorRateLimitMessage =>
-      'Please wait a moment and try again.';
+      'Aroswch eiliad a rhowch gynnig arall arni.';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get guildNavbarAddCommunity => 'Ychwanegu Cymuned';
 
   @override
   String get guildNavbarHelp => 'Help';
@@ -5534,45 +5582,45 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   String get scrollIndicatorNew => 'NEW';
 
   @override
-  String get scrollIndicatorNewMessage => 'NEW MESSAGE';
+  String get scrollIndicatorNewMessage => 'NEGES NEWYDD';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+    return 'Cau<bos> $folderName';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String get guildNavbarGroupDm => 'Sgr a grŵp';
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get guildNavbarCreateChannel => 'Creu sianel';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get guildNavbarChannelType => 'Math o sianel';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get guildNavbarTextChannel => 'Sianel destun';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Anfon negeseuon, delweddau, GIFs ac emoji';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => 'Sianel lais';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Cyd-fyw gyda llais, fideo a rhannu sgrin';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => 'Cysylltu sianel';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Mynediad cyflym i wefan neu adnodd allanol';
 
   @override
-  String get guildNavbarNameLabel => 'Name';
+  String get guildNavbarNameLabel => 'Enw';
 
   @override
   String get guildNavbarNewChannelHint => 'new-channel';
@@ -5584,544 +5632,546 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => 'Creu categori';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => 'Categori newydd';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return 'Gwahodd ffrindiau i $communityName';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return 'Bydd derbynwyr yn cael eu cyfeirio i #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => 'Chwilio am ffrindiau';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => 'Dim ffrindiau eto';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => 'Dim canlyniadau';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+      'Neu, anfonwch ddolen wahodd i ffrind:';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => 'Dolen wahodd';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => 'Copïo';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => 'Wediu copïo!';
 
   @override
   String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+      'Daw eich dolen wahodd i ben mewn 7 diwrnod.';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires =>
+      'Nid yw\'r ddolen wahodd hon byth yn dod i ben.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return 'Daw eich dolen wahodd i ben mewn $duration.';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => 'Golygu dolen wahodd';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => 'Gosodiadau dolen wahodd';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => 'Dod i ben ar ôl';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => 'Uchafswm defnyddiau';
 
   @override
   String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+      'Rhoddwch aelodaeth dros dro';
 
   @override
   String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+      'Bydd aelodau\'n cael eu tynnu pan fyddant all-lein oni bai bod rôl yn cael ei neilltuo';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => 'Creu dolen newydd';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => 'Anfonwyd';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => 'Gwahodd';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => 'Gadael y gymuned';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+      'Ydych chi\'n siŵr eich bod am adael y gymuned hon? Ni fyddwch yn gallu gweld unrhyw negeseuon bellach.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => 'Gadael y gymuned';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+      'Dileu eich negeseuon yn y gymuned hon?';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      'Dileuwch yn barhaol bob neges yr ydych wedi\'i hanfon yma, ar draws pob sianel. Ni ellir ei ddirymu.';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm => 'Dileu fy negeseuon';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => 'Wedi dileu eich negeseuon';
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Methu â dileu eich negeseuon';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => 'Tynnu goruchwyliad';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return 'Cael eich mudu tan $formattedDate';
   }
 
   @override
   String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+      'Dim ond staff Fluxer all gyrchu';
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+      'Mae gwahoddiadau ar hyn o bryd wedi\'u rhoi ar eu त्यांनी yn y gymuned hon';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => 'byth';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 munud';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 awr';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 awr';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12 awr';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1 diwrnod';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7 diwrnod';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count eiliad';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => 'Byth';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => 'Dim terfyn';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1 defnydd';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count defnydd';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => 'Marciwch fel wedi\'i Ddarllen';
 
   @override
-  String get guildPeekMoreOptions => 'More Options';
+  String get guildPeekMoreOptions => 'Mwy o Opsiynau';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildMenuInviteMembers => 'Gwahodd Aelodau';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuCommunitySettings => 'Gosodiadau Cymuned';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuEditCommunityProfile => 'Golygu Proffil y Gymuned';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuUnmuteCommunity => 'Diddymu Myndrau\'r Gymuned';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuMuteCommunity => 'Myndrau\'r Gymuned';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuHideMutedChannels => 'Cuddio Sianeli Myndrau';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuReportCommunity => 'Adrodd am y Gymuned';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuDebugCommunity => 'Debugio\'r Gymuned';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuCopyCommunityId => 'Copïo ID\'r Gymuned';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return 'Tan $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => 'Cyffredinol';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => 'Roliau a Hawliau';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => 'Emoji Personoli';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => 'Sticeri Personoli';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => 'Diogelwch a Moderadu';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => 'Cofnod Gweithgaredd';
 
   @override
   String get guildMenuSettingsWebhooks => 'Webhooks';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl => 'URL Gwahodd Personoli';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Darganfod';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => 'Aelodau';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => 'Dolenni Gwahodd';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => 'Gwaharddiadau';
 
   @override
   String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+      'Nid oes gennych ganiatâd i weld y tab gosodiadau hwn.';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Icon';
+  String get guildSettingsOverviewIconTitle => 'Eicon';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => 'Llwytho Delwedd';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Banner';
+  String get guildSettingsOverviewBannerTitle => 'Baner';
 
   @override
   String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+      'Llwythwch faner ar gyfer eich sesiwn.';
 
   @override
-  String get guildSettingsOverviewNameTitle => 'Name';
+  String get guildSettingsOverviewNameTitle => 'Enw';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => 'Fy nghymuned wych';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => 'Ystadegau';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => 'Aelodau';
 
   @override
-  String get guildSettingsOverviewOnline => 'Online';
+  String get guildSettingsOverviewOnline => 'Ar-lein';
 
   @override
   String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+      'Defnyddiwch rolau i grwpio aelodau a dyrannu caniatâd.';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => 'Creu Rôl';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => 'Roliau';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '$staticCount statig, $animatedCount slotiau emoji animeiddiedig wedi\'u defnyddio';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty => 'Dim emoji personoli eto.';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '$count sticer wedi\'u llwytho i fyny';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty => 'Dim sticeri personoli eto.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle => 'Gwirio aelodau';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      'Dewiswch beth mae\'n rhaid i aelodau ei gael cyn y gallant bostio neu anfon neges breifat i aelodau\'r gymuned.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      'Gall aelodau â rolau osgoi\'r gwiriadau hyn. Ar gyfer mannau cyhoeddus, rydym yn argymell galluogi dilysu.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      'Mae cymunedau sydd wedi\'u rhestru yn y Darganfod yn gofyn am o leiaf ebost wedi\'i ddilysu. Ni ellir dewis \'Dim\' tra bod y Darganfod wedi\'i alluogi.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+      'Cynnwys aeddfed a rhybuddion cynnwys';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'Ffurfweddu labelu cynnwys aeddfed a rhybuddion cynnwys dewisol i aelodau.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => 'Cynnwys aeddfed';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      'Marcwch y gymuned hon fel un sy\'n cynnwys cynnwys aeddfed.';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => 'Dim';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+      'Nid oes angen dilysu.';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => 'Isel';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+      'Mae angen cyfeiriad ebost wedi\'i ddilysu.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => 'Canolig';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      'Mae angen cyfeiriad ebost wedi\'i ddilysu, a chyfrif sydd o leiaf 5 munud oed.';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => 'Uchel';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      'Mae angen popeth yn y canolig, ynghyd â bod yn aelod o\'r gymuned am o leiaf 10 munud.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => 'Uchel iawn';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+      'Mae angen rhif ffôn wedi\'i ddilysu.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+      'Traciwch gweithredoedd gweinyddwyr ledled y gymuned.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => 'Dim cofnodion eto';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+      'Bydd gweithredoedd gweinyddiaeth a newidiadau cymunedol yn ymddangos yma.';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => 'Pob defnyddiwr';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => 'Pob gweithred';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => 'Ni roddwyd unrhyw reswm.';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => 'Defnyddiwr anhysbys';
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+      'Aeth rhywbeth o\'i le wrth lwytho\'r cofnod gweithrediadau.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+      'Methu llwytho cofnodion gweithrediadau';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => 'Reswm';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => 'rhywun';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => 'rhywbeth';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => 'endid anhysbys';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => 'dim byd';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => 'Targed anhysbys';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => 'Cymuned wedi\'i diweddaru';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => 'Sianel wedi\'i chreu';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => 'Sianel wedi\'i diweddaru';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => 'Sianel wedi\'i dileu';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate =>
+      'Gor-ysgrifennu sianel wedi\'i ychwanegu';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+      'Gor-ysgrifennu sianel wedi\'i diweddaru';
 
   @override
   String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+      'Gor-ysgrifennu sianel wedi\'i symud';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => 'Aelod wedi\'i gicio allan';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => 'Aelodau wedi\'u glanhau';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => 'Aelod wedi\'i wahardd';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => 'Aelod wedi\'i ddadwahardd';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => 'Aelod wedi\'i ddiweddaru';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => 'Roliau aelod wedi\'u diweddaru';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => 'Aelod wedi\'i symud';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => 'Aelod wedi\'i ddatgysylltu';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => 'Bot wedi\'i ychwanegu';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => 'Rôl wedi\'i chreu';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => 'Rôl wedi\'i diweddaru';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => 'Rôl wedi\'i dileu';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => 'Gwahoddiad wedi\'i greu';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => 'Gwahoddiad wedi\'i ddiweddaru';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => 'Gwahoddiad wedi\'i dileu';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'Webhook wedi\'i greu';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'Webhook wedi\'i ddiweddaru';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'Webhook wedi\'i dileu';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => 'Emoji wedi\'i greu';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => 'Emoji wedi\'i ddiweddaru';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => 'Emoji wedi\'i dileu';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => 'Sticer wedi\'i greu';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => 'Sticer wedi\'i ddiweddaru';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => 'Sticer wedi\'i dileu';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => 'Neges wedi\'i dileu';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => 'Negeseuon wedi\'u dileu';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => 'Neges wedi\'i phinio';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => 'Neges wedi\'i dadbopio';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return 'Diweddarodd $actor y gosodiadau cymunedol.';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return 'Crëodd $actor y sianel $target.';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return 'Diweddarodd $actor y sianel $target.';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return 'Dileodd $actor y sianel $target.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return 'Ychwanegodd $actor hawliau sianel ar gyfer $target.';
   }
 
   @override
@@ -6130,12 +6180,12 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return 'Ychwanegodd $actor hawliau sianel ar gyfer $target yn $channel.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return 'Diweddarodd $actor hawliau sianel ar gyfer $target.';
   }
 
   @override
@@ -6144,12 +6194,12 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return 'Diweddarodd $actor hawliau sianel ar gyfer $target yn $channel.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return 'Dileodd $actor hawliau sianel ar gyfer $target.';
   }
 
   @override
@@ -6158,47 +6208,47 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return 'Dileodd $actor hawliau sianel ar gyfer $target yn $channel.';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return 'Bwriodd $actor allan $target.';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return 'Gwaharddodd $actor $target.';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return 'Diddymodd $actor waharddiad $target.';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return 'Diweddarodd $actor $target.';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return 'Diweddarodd $actor rolau ar gyfer $target.';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return 'Dileodd $actor aelodau anweithgar.';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return 'Dileodd $actor aelodau anweithgar am $days diwrnod.';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return 'Symudodd $actor $target i sianel lais arall.';
   }
 
   @override
@@ -6207,37 +6257,37 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return 'Symudodd $actor $target i $channel.';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return 'Datgysylltodd $actor $target o lais.';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return 'Ychwanegodd $actor y bot $target.';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return 'Crëodd $actor y rôl $target.';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return 'Diweddarodd $actor y rôl $target.';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return 'Dileodd $actor y rôl $target.';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return 'Crëodd $actor y gwahoddiad $target.';
   }
 
   @override
@@ -6246,12 +6296,12 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return 'Crëodd $actor y gwahoddiad $target ar gyfer $channel.';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return 'Diweddarodd $actor y gwahoddiad $target.';
   }
 
   @override
@@ -6260,12 +6310,12 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return 'Diweddarodd $actor y gwahoddiad $target ar gyfer $channel.';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return 'Dileodd $actor y gwahoddiad $target.';
   }
 
   @override
@@ -6274,72 +6324,72 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return 'Dileodd $actor y gwahoddiad $target ar gyfer $channel.';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return 'Crëodd $actor y webhook $target.';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return 'Diweddarodd $actor y webhook $target.';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return 'Dileodd $actor y webhook $target.';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor ychwanegodd yr emoji $target.';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor diweddarodd yr emoji $target.';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor ddileisodd yr emoji $target.';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor ychwanegodd y sticer $target.';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor diweddarodd y sticer $target.';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor ddileisodd y sticer $target.';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor ddileisodd neges.';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor ddileisodd neges yn $channel.';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor ddileisodd nifer o negeseuon.';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor ddileisodd $count neges.';
   }
 
   @override
@@ -6347,7 +6397,7 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor ddileisodd nifer o negeseuon yn $channel.';
   }
 
   @override
@@ -6356,32 +6406,32 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor ddileisodd $count neges yn $channel.';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor gosododd neges i fyny.';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor gosododd neges i fyny yn $channel.';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor tynnodd neges oddi ar ben.';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor tynnodd neges oddi ar ben yn $channel.';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor perfformiodd weithred archwilio ar $target.';
   }
 
   @override
@@ -6390,97 +6440,99 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return 'Diweddarwyd $field o $oldValue i $newValue.';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return 'Gosodwyd $field i $newValue.';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return 'Cliriwyd $field (oedd $oldValue).';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return 'Diweddarwyd $field.';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return 'Ail-enwyd y gymuned yn $name.';
   }
 
   @override
   String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+      'Diweddarwyd eicon y gymuned.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return 'Ail-enwyd y sianel yn $name.';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => 'Cliriwyd y pwnc.';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return 'Diweddarwyd y pwnc i $topic.';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent =>
+      'Galluogwyd cynnwys ar gyfer oedolion.';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent =>
+      'Analluogwyd cynnwys ar gyfer oedolion.';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return 'Gosodwyd y llysenw i $nickname.';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return 'Dileiswyd y llysenw $nickname.';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => 'Tawelwyd yr aelod.';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => 'Dad-diharddwyd yr aelod.';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => 'Analluogwyd clyw yr aelod.';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember => 'Adferwyd clyw yr aelod.';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return 'Ychwanegwyd $roles.';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return 'Dileiswyd $roles.';
   }
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return 'Sianel: $value.';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return 'Neges: $value.';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return 'Wedi\'i wahodd gan $value.';
   }
 
   @override
@@ -6488,8 +6540,8 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: 'Dileiswyd # neges.',
+      one: 'Dileiswyd # neges.',
     );
     return '$_temp0';
   }
@@ -6499,188 +6551,191 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: 'Dileiswyd # aelod.',
+      one: 'Dileiswyd # aelod.',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires =>
+      'Nid yw\'r gwahoddiad hwn yn dod i ben.';
 
   @override
-  String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+  String get auditLogOptionTemporaryMembership => 'Yn rhoi aelodaeth dros dro.';
 
   @override
-  String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+  String get auditLogOptionPermanentMembership => 'Yn rhoi aelodaeth barhaol.';
 
   @override
-  String get guildSettingsLoadMore => 'Load more';
+  String get guildSettingsLoadMore => 'Llwytho mwy';
 
   @override
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+      'Rheoli webhookiau sy\'n postio negeseuon i sianeli.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty => 'Dim webhookiau wedi\'u ffurfweddu.';
 
   @override
-  String get guildSettingsCopyUrl => 'Copy URL';
+  String get guildSettingsCopyUrl => 'Copïo URL';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => 'URL wedi\'i gopïo i\'r glipfwrdd';
 
   @override
-  String get guildSettingsDeleteWebhook => 'Delete webhook';
+  String get guildSettingsDeleteWebhook => 'Diledu webhook';
 
   @override
   String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+      'Gosodwch ddolen wahoddiad arferol ar gyfer eich gweinydd.';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => 'Cadw';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => 'Defnydd';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count o ddefnyddiau';
   }
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+      'Gwneud cais i gael eich rhestru yn y darganfyddiad gweinydd.';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return 'Mae angen o leiaf $count aelod i wneud cais.';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => 'Cais';
 
   @override
-  String get guildSettingsDiscoveryStatusTitle => 'Status';
+  String get guildSettingsDiscoveryStatusTitle => 'Statws';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => 'Categori';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => 'Disgrifiad';
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tags';
+  String get guildSettingsDiscoveryTags => 'Tagiau';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => 'gemau, celf, cerddoriaeth';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => 'Cyflwyno Cais';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => 'Tynnu\'n ôl';
 
   @override
   String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+      'Chwilio a rheoli aelodau\'r gweinydd.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => 'Chwilio aelodau';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count aelod';
   }
 
   @override
   String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+      'Gweld a dirymu dolenni gwahoddiad gweithredol.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => 'Dim gwahoddiadau gweithredol.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses o ddefnyddiau';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return 'Yn dod i ben $date';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription =>
+      'Gweld a rheoli defnyddwyr sydd wedi\'u gwahardd.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => 'Chwilio gwaharddiadau';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => 'Dim defnyddwyr wedi\'u gwahardd.';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => 'Gwaharddiad parhaol';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return 'Yn dod i ben $date';
   }
 
   @override
-  String get guildSettingsBanExpiresLabel => 'Expires';
+  String get guildSettingsBanExpiresLabel => 'Yn dod i ben';
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsUnban => 'Diddymu gwaharddiad';
 
   @override
-  String get guildSettingsBansLoading => 'Loading banned users';
+  String get guildSettingsBansLoading =>
+      'Yn llwytho defnyddwyr wedi\'u gwahardd';
 
   @override
   String get guildSettingsBansNoSearchResults =>
-      'No bans found matching your search.';
+      'Ni chafwyd gwaharddiadau yn cyfateb i\'ch chwiliad.';
 
   @override
-  String get guildSettingsBanDetailsTitle => 'Ban details';
+  String get guildSettingsBanDetailsTitle => 'Manylion gwaharddiad';
 
   @override
-  String get guildSettingsBanViewDetails => 'View details';
+  String get guildSettingsBanViewDetails => 'Gweld manylion';
 
   @override
-  String get guildSettingsBannedOn => 'Banned on';
+  String get guildSettingsBannedOn => 'Gwaharddwyd ar';
 
   @override
-  String get guildSettingsBannedBy => 'Banned by';
+  String get guildSettingsBannedBy => 'Gwaharddwyd gan';
 
   @override
-  String get guildSettingsRevokeBanTitle => 'Revoke ban';
+  String get guildSettingsRevokeBanTitle => 'Dirymu gwaharddiad';
 
   @override
   String guildSettingsRevokeBanDescription(String displayName) {
-    return 'Are you sure you want to revoke the ban for $displayName? They will be able to rejoin the community.';
+    return 'Ydych chi\'n siŵr eich bod am ddirymu\'r gwaharddiad ar gyfer $displayName? Byddant yn gallu ailymuno â\'r gymuned.';
   }
 
   @override
   String guildSettingsRevokeBanSuccess(String displayName) {
-    return 'Revoked ban for $displayName';
+    return 'Dirymwyd gwaharddiad ar gyfer $displayName';
   }
 
   @override
-  String get guildSettingsBansLoadError => 'Couldn\'t load bans. Try again.';
+  String get guildSettingsBansLoadError =>
+      'Methodd llwytho gwaharddiadau. Rhowch gynnig arall arni.';
 
   @override
-  String get guildSettingsRevokeBanError => 'Couldn\'t revoke ban. Try again.';
+  String get guildSettingsRevokeBanError =>
+      'Methodd dirymu gwaharddiad. Rhowch gynnig arall arni.';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsCommunitySettings => 'Gosodiadau Cymuned';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -6696,376 +6751,379 @@ class FluxerLocalizationsCy extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+      'Rheoli proffil eich cymuned, sianeli, a gosodiadau rhagosodedig.';
 
   @override
-  String get guildSettingsOverviewBrandingTitle => 'Branding';
+  String get guildSettingsOverviewBrandingTitle => 'Brandio';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+      'Diweddarwch eich eicon, enw, baner, a chefndir gwahoddiad';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => 'Llwytho baner';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => 'Gosodiadau segur';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+      'Ffurfweddu sianel AFK ac amser allan';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => 'System a chroeso';
 
   @override
   String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+      'Dewiswch gyrchfan ar gyfer negeseuon system a chroeso';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle =>
+      'Hysbysiadau rhagosodedig';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      'Mae cymunedau â dros 250 o bobl yn cael eu gorfodi i\'r gosodiad \"dim ond sonion\". Mae eich gosodiad gwreiddiol yn cael ei gadw a bydd yn cael ei adfer os bydd y gymuned yn gostwng o dan 250 o aelodau.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => 'Uwch';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+      'Caniatáu enwau sianel testun hyblyg';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+      'Cuddio coron perchennog y gymuned';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => 'Baner ar wahân';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+      'Yn dangos y faner yn ei hadran ei hun islaw\'r penawd cymuned.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => 'Llwytho\'r eicon i fyny';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => 'Dileu';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => 'Cefndir gwahodd';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle => 'Cefndir amgodio sgwrs';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+      'Yn cael ei ddangos mewn amgodion gwahodd mewn sgwrs.';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground =>
+      'Llwytho\'r cefndir i fyny';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => 'Dim baner gymuned';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground => 'Dim cefndir gwahodd';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => 'Rhagolwg';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+      'Gweld sut mae eich gwahodd yn edrych i ymwelwyr.';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle =>
+      'Enwau sianel testun';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle =>
+      'Coron perchennog y gymuned';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+      'Ffurfweddu a ddangosir yr eicon coron nesaf at berchnogion y gymuned';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => 'Aliniad cerdyn';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => 'Canol';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => 'Chwith';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => 'Dde';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+      'Dim ond yn berthnasol ar sgriniau llydan.';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => 'Darllen hanes negeseuon';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return 'Newid yr hyn y gall defnyddwyr heb \"$permission\" ei weld';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return 'Defnyddiwch foddol pwrpasol i osod dyddiad trothwy hanes negeseuon ar gyfer aelodau nad oes ganddynt y drwydded $permission.';
   }
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+      'Agor trothwy hanes negeseuon';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+      'Trothwy hanes negeseuon';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+      'Galluogi trothwy hanes negeseuon';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => 'Dyddiad trothwy';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      'Gall aelodau heb Ddarllen Hanes Negeseuon weld negeseuon a anfonwyd ar ôl y dyddiad hwn.';
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+      'Diweddarwyd trothwy hanes negeseuon';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      'Caniatáu priflythrennau a bylchau mewn enwau sianel testun. Mae \'Diffodd\' yn cyfyngu enwau i lythrennau bach gyda llinellau islaw a atalnodau.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+      'Yn cuddio\'r eicon coron nesaf at berchnogion y gymuned ar draws pob arwyneb.';
 
   @override
   String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+      'Mae angen nodwedd cymuned \'Eiconau Animeiddiedig\' ar gyfer eiconau animeiddiedig.';
 
   @override
   String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+      'Mae angen nodwedd cymuned \'Baneri Animeiddiedig\' ar gyfer baneri animeiddiedig.';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'Sianel AFK / segur';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+      'Symud aelodau i\'r sianel hon pan fyddant yn AFK.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => 'Dim sianel AFK';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'Amser allan AFK';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 munud';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 munud';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 munud';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 munud';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 awr';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds eiliad';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => 'Sianel gyrchfan';
 
   @override
   String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+      'Bydd negeseuon croeso a negeseuon system yn ymddangos yma.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => 'Dim sianel system';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages => 'Cuddio negeseuon ymuno';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+      'Yn cuddio negeseuon ymuno yn y sianel gyrchfan.';
 
   @override
   String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+      'Gosodiadau hysbysiadau rhagosodedig';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => 'Pawb';
 
   @override
-  String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+  String get guildSettingsNotificationsAllDescription => 'Hysbysu am bob neges';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => 'Soniadau yn unig';
 
   @override
   String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+      'Hysbysu am soniadau yn unig';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG, PNG, WebP, AVIF. Uchafswm 10MB. Isafswm: 960×540px (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG, PNG, WebP, AVIF. Uchafswm 10MB. Isafswm: 960×540px (16:9). Yn cael ei arddangos mewn mewnblaniadau gwahodd mewn sgwrs.';
 
   @override
   String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+      'Ffurfweddu gosodiadau dilysu, hidlo cynnwys, a chynnwys ar gyfer oedolion.';
 
   @override
   String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+      'Mae gan gymunedau sydd wedi\'u rhestru yn Discovery opsiynau cymedroli cyfyngedig.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => 'Hidlo cynnwys';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      'Sgrinio negeseuon yn awtomatig am gynnwys amhriodol mewn sianeli nad ydynt wedi\'u marcio ar gyfer cynnwys ar gyfer oedolion.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      'Mae\'n ofynnol i gymunedau sydd wedi\'u rhestru yn Discovery sganio pob aelod. Ni ellir newid y gosodiad hwn tra bod Discovery wedi\'i alluogi.';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => 'I ffwrdd';
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+      'Gadewch i\'r gymuned hunan-gymedroli';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole => 'Hidlo aelodau heb rannau';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+      'Argymhellir ar gyfer y rhan fwyaf o gymunedau';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => 'Hidlo pawb';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+      'Uchafswm o amddiffyniad ar gyfer mannau sy\'n addas i\'r teulu';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => 'I ffwrdd';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => 'Ymlaen';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle => 'Dangos rhybudd am gynnwys';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+      'Yn troi anogwr caniatâd ymlaen cyn mynd i mewn i unrhyw sianel.';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => 'Testun rhybudd personol';
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+      'Mae hyn yn cynnwys cynnwys sensitif.';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => 'Gofyniad 2FA';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      'Gofynnwch am ddilysu dau-ffactor ar gyfer gweinyddwyr cyn y gallant wahardd, gicio, amseru allan, neu dynnu negeseuon.';
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+      'Gofyn am 2FA ar gyfer gweithredoedd gweinyddu';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+      'Dim ond perchennog y gymuned all newid y gosodiad hwn';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      'Galluogi 2FA ar eich cyfrif i newid y gosodiad hwn';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => 'Chwilio am emojis';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => 'Uwchlwytho Emoji';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return 'Emoji heb animeiddio ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return 'Emoji animeiddiedig ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => 'Chwilio am sticeri';
 
   @override
   String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+      'Creu webhookiau o leoliadau Sianel. Golygu nhw yma.';
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+      'Ni fydd eich URL gwagedd yn gweithio oni bai bod o leiaf un sianel yn weladwy i bawb.';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => 'Tynnu';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => 'Defnyddwyr gwaharddedig';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => 'Gwahoddwr';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => 'Sianel';
 
   @override
-  String get guildSettingsInvitesTableCode => 'Code';
+  String get guildSettingsInvitesTableCode => 'Cod';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => 'Defnyddiau';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => 'Crëwyd';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => 'Diweddaraf yn gyntaf';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => 'Hidlo yn ôl defnyddiwr';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => 'Hidlo yn ôl gweithred';
 }

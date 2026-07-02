@@ -9,1142 +9,1145 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
   FluxerLocalizationsFa([String locale = 'fa']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'مشکل فنی!';
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'مشکلی در سرورها وجود دارد.\nبه زودی درست می‌شود!';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => 'درحال اتصال مجدد…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => 'متصل شد';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return 'شروع با شکست مواجه شد: $error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'تلاش مجدد';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => 'اتصال قطع شد';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'مشاهده در صفحه وضعیت';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => 'مشکلات اتصال؟';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'صفحه وضعیت';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'مشاهده حادثه';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'تاریخچه حوادث';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => 'خوش برگشتی';
 
   @override
-  String get email => 'Email';
+  String get email => 'ایمیل';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => 'لطفاً یک آدرس ایمیل معتبر وارد کنید.';
 
   @override
-  String get password => 'Password';
+  String get password => 'رمز عبور';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'رمز عبور خود را فراموش کرده‌اید؟';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'ورود';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => 'ورود با کلید عبور';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return 'ادامه با $provider';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired => 'برای دسترسی به این نمونه، SSO الزامی است.';
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'با ارائه‌دهنده ورود یکپارچه سازمان خود وارد شوید.';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => 'شروع SSO با شکست مواجه شد';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'ورود SSO لغو شد';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return 'ترجیح می‌دهید از SSO استفاده کنید؟ با $provider ادامه دهید.';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => 'ورود از طریق مرورگر';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => 'حساب کاربری ندارید؟ ';
 
   @override
-  String get register => 'Register';
+  String get register => 'ثبت‌نام';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => 'تأیید کنید که انسان هستید';
 
   @override
   String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+      'باید مطمئن شویم که ربات نیستید. لطفاً تأیید را در زیر تکمیل کنید.';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha =>
+      'مشکل دارید؟ به جای آن hCaptcha را امتحان کنید';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile => 'به جای آن Turnstile را امتحان کنید';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'لغو';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'ایمیل خود را بررسی کنید';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'ما لینکی برای تأیید این ورود برای شما ایمیل کردیم. لطفاً صندوق ورودی خود را برای $email باز کنید.';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => 'اتصال قطع شد';
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'هنگام انتظار برای تأیید، اتصال را از دست دادیم. لطفاً دوباره امتحان کنید.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => 'لینک ورود منقضی شد';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'این لینک تأیید منقضی شده است. لطفاً دوباره وارد شوید.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'ارسال مجدد ایمیل';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'ارسال شد';
 
   @override
   String ipAuthResendCountdown(int seconds) {
-    return '${seconds}s';
+    return '$secondsث';
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'بازگشت';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => 'احراز هویت دو مرحله‌ای';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => 'یک روش تأیید را انتخاب کنید';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'برنامه احراز هویت';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => 'کلید امنیتی / کلید عبور';
 
   @override
   String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+      'کد ۶ رقمی را از برنامه احراز هویت خود یا یکی از کدهای پشتیبان خود وارد کنید.';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => 'کد';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'روش دیگری را امتحان کنید';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey => 'از کلید امنیتی / گذرواژه عبور استفاده کنید';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'انتخاب حساب کاربری';
 
   @override
   String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+      'برای ادامه یک حساب را انتخاب کنید، یا حساب دیگری اضافه کنید.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'افزودن حساب کاربری';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => 'حذف';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return 'حذف $username';
   }
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'این کار جلسه ذخیره شده برای این حساب را حذف می‌کند.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+      'این کار تنها حساب ذخیره شده در این دستگاه را حذف می‌کند.';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'منقضی شده';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return 'جلسه برای $identifier منقضی شده است. لطفاً دوباره وارد شوید.';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => 'مدیریت حساب‌های کاربری';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed =>
+      'تغییر حساب کاربری امکان‌پذیر نبود. دوباره تلاش کنید.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => 'تغییر حساب‌های کاربری';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => 'تنظیم وضعیت';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => 'وضعیت آنلاین';
 
   @override
-  String get statusOnline => 'Online';
+  String get statusOnline => 'آنلاین';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => 'غیرفعال';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => 'مزاحم نشوید';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => 'نامرئی';
 
   @override
-  String get statusOffline => 'Offline';
+  String get statusOffline => 'آفلاین';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => 'تا زمانی که آن را تغییر دهم';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'پاک نکن';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => 'برای ۱۰ ثانیه';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '۱۰ ثانیه';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '۱۵ دقیقه';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '۳۰ دقیقه';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '۱ ساعت';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '۳ ساعت';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '۴ ساعت';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '۸ ساعت';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '۲۴ ساعت';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '۳ روز';
 
   @override
   String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+      'شما اعلان‌ها را در دسکتاپ دریافت نخواهید کرد';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => 'شما آفلاین به نظر خواهید رسید';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => 'تنظیم وضعیت سفارشی';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => 'وضعیت سفارشی';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => 'حذف وضعیت سفارشی';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'چه خبر است؟';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'انتخاب ایموجی';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'پاک کردن پس از';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => 'ذخیره';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => 'حساب فعال';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'خروج';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => 'حساب کاربری به طور دائم مسدود شده است';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => 'حساب کاربری مسدود شده است';
 
   @override
   String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+      'حساب کاربری شما به دلیل نقض شرایط خدمات ما به طور دائم مسدود شده است.';
 
   @override
   String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+      'حساب کاربری شما به طور موقت مسدود شده است. پس از پایان دوره تعلیق، می‌توانید به حساب خود دسترسی پیدا کنید.';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => 'صادر شده در';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => 'پایان در';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => 'مدت زمان';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedPermanent => 'دائمی';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => 'دلیل';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => 'مهلت تجدید نظر';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return 'حساب شما برای حذف در تاریخ $date زمان‌بندی شده است.';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => 'بررسی مجدد به‌روزرسانی‌ها';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return 'دوباره در $seconds ثانیه دیگر بررسی کنید';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => 'بازگشت به ورود';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => 'تجدید نظر';
 
   @override
   String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+      'توضیح دهید چرا تعلیق شما باید دوباره بررسی شود (حداقل ۵۰ کاراکتر)...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => 'ارسال درخواست تجدید نظر';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => 'در انتظار بررسی';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => 'درخواست تجدید نظر پذیرفته شد';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => 'درخواست تجدید نظر رد شد';
 
   @override
   String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+      'درخواست تجدید نظر شما پذیرفته شده و حساب شما دوباره فعال شده است.';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => 'ورود به حساب کاربری خود';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'رمز عبور خود را فراموش کرده‌اید؟';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'آدرس ایمیل خود را وارد کنید و ما لینکی برای بازنشانی رمز عبور برای شما ارسال خواهیم کرد.';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => 'ارسال لینک بازنشانی';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'ایمیل خود را بررسی کنید';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'دستورالعمل‌های بازنشانی رمز عبور به آدرس ایمیل شما ارسال شده است. لطفاً صندوق ورودی خود را بررسی کرده و برای بازنشانی رمز عبور، روی لینک کلیک کنید.';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'بازگشت به ورود';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'رمز عبور جدید تنظیم کنید';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+      'برای تکمیل فرآیند بازنشانی، رمز عبور جدید خود را در زیر وارد کنید.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'رمز عبور جدید';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'تأیید رمز عبور جدید';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => 'بازنشانی رمز عبور';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'رمزهای عبور مطابقت ندارند.';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => 'ایجاد حساب کاربری';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => 'نام نمایشی (اختیاری)';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => 'مردم شما را با چه نامی صدا بزنند؟';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => 'نام کاربری (اختیاری)';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint => 'برای نام کاربری تصادفی، خالی بگذارید';
 
   @override
   String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+      'یک تگ ۴ رقمی به طور خودکار برای اطمینان از منحصر به فرد بودن اضافه می‌شود';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'تاریخ تولد';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'ماه';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'روز';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'سال';
 
   @override
-  String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+  String get registerConsent => 'من با شرایط خدمات و خط مشی رازداری موافقم';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => 'من با ';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => 'شرایط خدمات';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => ' و ';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => 'خط مشی رازداری';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => 'تأیید رمز عبور';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'ایجاد حساب کاربری';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => 'از قبل حساب کاربری دارید؟ ';
 
   @override
   String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+      'هیچ کلید عبوری برای این برنامه یافت نشد. در عوض با ایمیل و رمز عبور وارد شوید.';
 
   @override
   String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+      'کلیدهای عبور در این دستگاه پشتیبانی نمی‌شوند.';
 
   @override
   String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+      'کلیدهای عبور برای این برنامه پیکربندی نشده‌اند. در عوض با ایمیل و رمز عبور وارد شوید.';
 
   @override
   String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+      'احراز هویت کلید عبور منقضی شد. لطفاً دوباره امتحان کنید.';
 
   @override
   String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+      'کلیدهای عبور برای این برنامه در دسترس نیستند. در عوض با ایمیل و رمز عبور وارد شوید.';
 
   @override
   String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+      'احراز هویت با کلید عبور ناموفق بود. لطفاً دوباره امتحان کنید.';
 
   @override
   String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+      'ایجاد حساب کاربری امکان‌پذیر نیست. لطفاً دوباره امتحان کنید.';
 
   @override
   String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+      'ورود به سیستم در حال حاضر امکان‌پذیر نیست. لطفاً دوباره امتحان کنید.';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword => 'ایمیل یا رمز عبور نامعتبر است.';
 
   @override
   String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+      'ارسال لینک بازنشانی امکان‌پذیر نیست. لطفاً دوباره امتحان کنید.';
 
   @override
   String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+      'بازنشانی رمز عبور امکان‌پذیر نیست. لطفاً دوباره امتحان کنید.';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => 'پیوستن به انجمن';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => 'رفتن به انجمن';
 
   @override
   String embedInviteOnline(String count) {
-    return '$count Online';
+    return '$count نفر آنلاین';
   }
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count عضو';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => 'دعوت‌نامه نامعتبر';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle => 'سعی کنید دعوت‌نامه جدیدی بخواهید.';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => 'دعوت‌نامه در دسترس نیست';
 
   @override
-  String get inviteAcceptTitle => 'You\'ve been invited to join';
+  String get inviteAcceptTitle => 'شما دعوت شده‌اید تا بپیوندید';
 
   @override
-  String get inviteAcceptJoinButton => 'Join Community';
+  String get inviteAcceptJoinButton => 'پیوستن به انجمن';
 
   @override
-  String get inviteAcceptGoToButton => 'Go to Community';
+  String get inviteAcceptGoToButton => 'رفتن به انجمن';
 
   @override
-  String get inviteAcceptInvitesPaused => 'Invites Paused';
+  String get inviteAcceptInvitesPaused => 'دعوت‌نامه‌ها متوقف شده‌اند';
 
   @override
-  String get inviteAcceptNotFoundTitle => 'Invite Invalid';
+  String get inviteAcceptNotFoundTitle => 'دعوت‌نامه نامعتبر است';
 
   @override
   String get inviteAcceptNotFoundDescription =>
-      'This invite may be expired or invalid.';
+      'این دعوت‌نامه ممکن است منقضی شده یا نامعتبر باشد.';
 
   @override
-  String get inviteAcceptJoinGroupButton => 'Join group';
+  String get inviteAcceptJoinGroupButton => 'پیوستن به گروه';
 
   @override
   String inviteAcceptGroupDmDescription(String inviterName) {
-    return 'You\'ve been invited to join a group DM by $inviterName';
+    return 'شما توسط $inviterName به یک گروه پیام خصوصی دعوت شده‌اید';
   }
 
   @override
-  String get inviteAcceptSomeone => 'someone';
+  String get inviteAcceptSomeone => 'شخصی';
 
   @override
-  String get inviteAcceptEmojiPack => 'Emoji pack';
+  String get inviteAcceptEmojiPack => 'بسته ایموجی';
 
   @override
-  String get inviteAcceptStickerPack => 'Sticker pack';
+  String get inviteAcceptStickerPack => 'بسته استیکر';
 
   @override
-  String get inviteAcceptInstallEmojiPack => 'Install emoji pack';
+  String get inviteAcceptInstallEmojiPack => 'نصب بسته ایموجی';
 
   @override
-  String get inviteAcceptInstallStickerPack => 'Install sticker pack';
+  String get inviteAcceptInstallStickerPack => 'نصب بسته استیکر';
 
   @override
   String get inviteAcceptPackInstallNote =>
-      'Accepting this invite installs the pack automatically.';
+      'با پذیرش این دعوت‌نامه، بسته به طور خودکار نصب می‌شود.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => 'دسترسی به کانال رد شد';
 
   @override
   String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+      'شما به کانالی که این پیام در آن ارسال شده است دسترسی ندارید.';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => 'دسترسی وجود ندارد';
 
   @override
-  String get okay => 'Okay';
+  String get okay => 'باشه';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => 'قالب اشتراک‌گذاری شده';
 
   @override
   String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+      'این کلاینت از قالب‌های سفارشی پشتیبانی نمی‌کند.';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => 'قالب‌ها در دسترس نیستند';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => 'تنظیمات حریم خصوصی';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => 'پیام‌های خصوصی';
 
   @override
   String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+      'اجازه ارسال پیام خصوصی از سایر اعضای این انجمن';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => 'پیام‌های خصوصی ربات';
 
   @override
   String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+      'به ربات‌های این انجمن اجازه دهید پیام‌های خصوصی برای شما ارسال کنند';
 
   @override
   String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+      'مدیران انجمن دریافت پیام‌های خصوصی صرفاً از اعضای مشترک در این انجمن را غیرفعال کرده‌اند.';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => 'اشکال‌زدایی انجمن';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => 'کپی شد';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => 'تنظیمات اعلان';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return 'بی‌صدا کردن $guildName';
   }
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'بی‌صدا کردن یک انجمن از نمایش نشانگرهای خوانده نشده و اعلان‌ها جلوگیری می‌کند مگر اینکه شما را منشن کنند.';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings => 'تنظیمات اعلان انجمن';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => 'همه پیام‌ها';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => 'فقط منشن‌ها';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => 'هیچ';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => 'سرکوب @everyone و @here';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles => 'نادیده گرفتن تمام @منشن‌های نقش';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => 'اعلان‌های پوش نوتیفیکیشن موبایل';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => 'لغو تنظیمات اعلان';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => 'انتخاب کانال یا دسته';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => 'فقط @منشن‌ها';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => 'بی‌صدا کردن کانال';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => 'برداشتن بی‌صدا از کانال';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => 'بدون دسته';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => 'علامت‌گذاری به عنوان خوانده شده';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => 'بی‌صدا کردن گفتگوی خصوصی';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => 'برداشتن بی‌صدا از گفتگوی خصوصی';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => 'پین کردن گفتگوی خصوصی';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => 'باز کردن پین گفتگوی خصوصی';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => 'همیشه در نوار کناری نمایش بده';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => 'حذف از نمایش همیشگی';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => 'بستن گفتگوی خصوصی';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => 'بستن گفتگوی خصوصی';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return 'آیا مطمئن هستید که می‌خواهید گفتگوی خصوصی خود را با $username ببندید؟ همیشه می‌توانید بعداً آن را دوباره باز کنید.';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => 'کپی کردن شناسه کانال';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => 'شناسه کانال کپی شد';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => 'کپی کردن شناسه کاربر';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => 'شناسه کاربر کپی شد';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => 'مشاهده پروفایل';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => 'شروع تماس صوتی';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => 'تماس صوتی ورودی';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => 'پاسخ دادن';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => 'رد کردن';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => 'تماس ورودی';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => 'نادیده گرفتن';
 
   @override
   String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+      'این تماس در حال حاضر قابل شروع نیست. لحظه‌ای دیگر دوباره امتحان کنید.';
 
   @override
   String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+      'اتصال به این تماس امکان‌پذیر نبود. اتصال خود را بررسی کرده و دوباره امتحان کنید.';
 
   @override
   String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+      'اتصال به این تماس امکان‌پذیر نبود. اتصال خود را بررسی کرده و دوباره امتحان کنید.';
 
   @override
   String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+      'به‌روزرسانی این تماس در سرور امکان‌پذیر نبود. اتصال خود را بررسی کرده و دوباره امتحان کنید.';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => 'افزودن یادداشت';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => 'ویرایش گروه';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => 'دعوت به انجمن';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => 'مسدود کردن';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => 'ترک گروه';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => 'انجمنی در دسترس نیست';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count عضو';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => 'برای ۱۵ دقیقه';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => 'برای ۳۰ دقیقه';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => 'برای ۱ ساعت';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => 'برای ۳ ساعت';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => 'برای ۴ ساعت';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => 'برای ۸ ساعت';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => 'برای ۲۴ ساعت';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => 'برای ۳ روز';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => 'تا زمانی که دوباره فعالش کنم';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => 'پین کردن گروه گفتگوی خصوصی';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => 'لغو پین کردن گروه DM';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => 'مورد علاقه کردن DM';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => 'حذف از مورد علاقه DM';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => 'مورد علاقه کردن گروه DM';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => 'حذف از مورد علاقه گروه DM';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => 'تغییر نام مستعار دوست';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => 'حذف دوست';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => 'افزودن دوست';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => 'پذیرش درخواست دوستی';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => 'نادیده گرفتن درخواست دوستی';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => 'درخواست دوستی ارسال شد';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => 'رفع مسدودیت';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => 'اشکال‌زدایی کاربر';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => 'اشکال‌زدایی کانال';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => 'DM پین شده';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => 'DM لغو پین شد';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => 'DM بی‌صدا شد';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => 'DM از بی‌صدا خارج شد';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => 'حذف دوست';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'آیا مطمئن هستید که می‌خواهید $username را به عنوان دوست حذف کنید؟';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => 'مسدود کردن کاربر';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return 'آیا مطمئن هستید که می‌خواهید $username را مسدود کنید؟ او قادر به ارسال پیام یا درخواست دوستی به شما نخواهد بود.';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => 'درخواست دوستی ارسال شد';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed => 'ارسال درخواست دوستی ناموفق بود';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed => 'پذیرش درخواست دوستی ناموفق بود';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => 'حذف دوست ناموفق بود';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => 'مسدود کردن کاربر ناموفق بود';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed => 'رفع مسدودیت کاربر ناموفق بود';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed =>
+      'نادیده گرفتن درخواست دوستی ناموفق بود';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => 'افزودن دوستان';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => 'افزودن دوست';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => 'نام کاربری#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => 'نام کاربری دوست';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => 'ارسال درخواست';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound => 'هیچ کاربری با این نام کاربری یافت نشد.';
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+      'یک نام کاربری معتبر وارد کنید (نام کاربری#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => 'درخواست دوستی ارسال شد';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => 'حساب خود را ادعا کنید';
 
   @override
   String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+      'برای ارسال درخواست دوستی، حساب خود را ادعا کنید.';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => 'ایمیل خود را تأیید کنید';
 
   @override
   String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+      'شما باید قبل از ارسال درخواست دوستی، آدرس ایمیل خود را تأیید کنید.';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => 'تأیید ایمیل';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return 'درخواست‌های دوستی ورودی ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return 'درخواست‌های دوستی خروجی ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => 'درخواست دوستی ورودی';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => 'درخواست دوستی ارسال شد';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => 'مشاهده پروفایل';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => 'پذیرش';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => 'نادیده گرفتن';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => 'پذیرش درخواست دوستی';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => 'رد درخواست دوستی';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return 'آیا درخواست دوستی از $userName را می‌پذیرید؟';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return 'آیا درخواست دوستی از $displayName را نادیده می‌گیرید؟';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => 'لغو درخواست';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+      'امکان لغو درخواست دوستی وجود نداشت. دوباره تلاش کنید.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+      'آنها در حال حاضر درخواست دوستی را نمی‌پذیرند.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+      'برای ارسال درخواست دوستی، ابتدا آنها را از مسدودیت خارج کنید.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+      'شما نمی‌توانید درخواست دوستی برای خودتان ارسال کنید.';
 
   @override
-  String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+  String get addFriendAlreadyFriends => 'شما از قبل با این کاربر دوست هستید.';
 
   @override
   String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+      'برای ارسال درخواست دوستی، ثبت نام خود را کامل کنید.';
 
   @override
   String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+      'امکان ارسال درخواست دوستی وجود نداشت. دوباره تلاش کنید.';
 
   @override
   String get userTagBot => 'BOT';
 
   @override
-  String get userTagSystem => 'System';
+  String get userTagSystem => 'سیستم';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => 'بهترین ایموجی را پیدا کنید';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty => 'هیچ ایموجی با جستجوی شما مطابقت ندارد';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => 'ایموجی پیش‌فرض';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => 'اخیراً استفاده شده';
 
   @override
-  String get emojiTabGifs => 'GIFs';
+  String get emojiTabGifs => 'گیف‌ها';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => 'رسانه';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => 'استیکرها';
 
   @override
-  String get emojiTabEmojis => 'Emojis';
+  String get emojiTabEmojis => 'ایموجی‌ها';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => 'جستجوی گیف';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => 'جستجوی KLIPY';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => 'جستجوی Tenor';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => 'مورد علاقه';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => 'گیف‌های پرطرفدار';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => 'نتیجه جستجو یافت نشد';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription =>
+      'یک عبارت جستجوی دیگر را امتحان کنید';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => 'بارگیری گیف‌ها ممکن نبود';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody =>
+      'اتصال خود را بررسی کرده و دوباره امتحان کنید.';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => 'افراد';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => 'طبیعت';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => 'غذا و نوشیدنی';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => 'فعالیت‌ها';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => 'سفر و مکان‌ها';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => 'اشیاء';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => 'نمادها';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => 'پرچم‌ها';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return 'با پلوتونیوم $emojiCount از $communityCount را باز کنید.';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => 'پلوتونیوم را دریافت کنید';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => 'دیگر این را نشان نده';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count ایموجی سفارشی',
+      one: '۱ ایموجی سفارشی',
     );
     return '$_temp0';
   }
@@ -1154,944 +1157,949 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count انجمن',
+      one: '۱ انجمن',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => 'هشدار لینک خارجی';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => 'شما در حال خروج از فلوکسر هستید';
 
   @override
   String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+      'پیوندهای خارجی می‌توانند خطرناک باشند. لطفاً مراقب باشید.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => 'آدرس مقصد:';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => 'پیوندهای خارجی';
 
   @override
   String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+      'نحوه رسیدگی به هشدارهای لینک خارجی را پیکربندی کنید.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => 'همیشه اعتماد کن ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix => '— این هشدار را دفعه بعد رد کن';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => 'مشاهده سایت';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => 'اعتماد به همه لینک‌های خارجی';
 
   @override
-  String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+  String get externalLinkStripTrackingLabel => 'حذف پارامترهای ردیابی از URLها';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      'پارامترهای ردیابی (مانند utm_source، fbclid، gclid) را از URLهای پیام‌های ارسالی خود به‌طور خودکار حذف کنید. لینک را قبل از رسیدن به دیگران پاک می‌کند.';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle =>
+      'به همه لینک‌های خارجی اعتماد می‌کنید؟';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      'این کار به همه لینک‌های خارجی اعتماد می‌کند و هشدار برای هر دامنه را رد می‌کند. دامنه‌های مورد اعتماد فعلی شما جایگزین خواهند شد. این کمتر امن است.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => 'اعتماد به همه';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle =>
+      'اعتماد به همه لینک‌ها را متوقف می‌کنید؟';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      'هشدارهای لینک خارجی دوباره نمایش داده می‌شوند. باید دامنه‌ها را به‌صورت جداگانه اضافه کنید.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction => 'غیرفعال کردن اعتماد به همه';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+      'به همه لینک‌های خارجی اعتماد شده است. هشدارها نمایش داده نمی‌شوند.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return 'شما $count دامنه مورد اعتماد دارید. با علامت زدن کادر هنگام بازدید از لینک‌های خارجی، دامنه‌های بیشتری اضافه کنید.';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      'هنگامی که فعال باشد، هیچ هشداری برای لینک خارجی نمایش داده نمی‌شود. این کمتر امن است.';
 
   @override
   String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+      'فایل تصویر خیلی بزرگ است. لطفاً فایلی با حجم کمتر از ۱۰ مگابایت انتخاب کنید.';
 
   @override
   String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+      'آواتارهای متحرک به Plutonium نیاز دارند';
 
   @override
   String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+      'بنرهای متحرک به Plutonium نیاز دارند';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported => 'AVIF متحرک پشتیبانی نمی‌شود';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      'برش و چرخش فایل‌های AVIF متحرک هنوز پشتیبانی نمی‌شود. اگر ادامه دهید، در فرمت اصلی خود آپلود خواهد شد.';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => 'همانطور که هست آپلود کن';
 
   @override
   String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+      'برش تصاویر متحرک هنوز پشتیبانی نمی‌شود. فایل اصلی آپلود شده استفاده خواهد شد.';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => 'برش آواتار';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => 'برش بنر';
 
   @override
-  String get skip => 'Skip';
+  String get skip => 'رد شدن';
 
   @override
-  String get crop => 'Crop';
+  String get crop => 'برش';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => 'تغییر FluxerTag شما';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      'نام‌های کاربری فقط می‌توانند شامل حروف (a-z، A-Z)، اعداد (0-9) و خط زیر باشند. نام‌های کاربری به بزرگی و کوچکی حروف حساس نیستند.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      'نام‌های کاربری فقط می‌توانند شامل حروف (a-z، A-Z)، اعداد (0-9) و خط زیر باشند. نام‌های کاربری به بزرگی و کوچکی حروف حساس نیستند. می‌توانید هر تگ ۴ رقمی موجود از #0000 تا #9999 را انتخاب کنید.';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      'نام‌های کاربری فقط می‌توانند شامل حروف (a-z، A-Z)، اعداد (0-9) و خط زیر باشند. نام‌های کاربری به بزرگی و کوچکی حروف حساس نیستند. می‌توانید هر تگ ۴ رقمی موجود از #0001 تا #9999 را انتخاب کنید.';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return 'بین $min و $max کاراکتر';
   }
 
   @override
   String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+      'فقط حروف (a-z، A-Z)، اعداد (0-9) و خط زیر (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      'برای سفارشی کردن تگ خود یا حفظ آن هنگام تغییر نام کاربری، Plutonium دریافت کنید';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'FluxerTag از قبل گرفته شده است';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'FluxerTag $username#$discriminator از قبل گرفته شده است. ادامه دادن باعث می‌شود که دیسکریمییناتور شما به‌طور خودکار دوباره انتخاب شود.';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => 'تگ سفارشی موقتی است';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return 'تگ ۴ رقمی سفارشی شما فقط تا زمانی که اشتراک Plutonium شما فعال باشد در دسترس است. هنگامی که اشتراک شما در تاریخ $date منقضی شود، تگ شما پس از یک دوره مهلت ۳ روزه به یک عدد تصادفی باز می‌گردد.';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      'تگ ۴ رقمی سفارشی شما فقط تا زمانی که اشتراک Plutonium شما فعال باشد در دسترس است. هنگامی که اشتراک شما منقضی شود، تگ شما پس از یک دوره مهلت ۳ روزه به یک عدد تصادفی باز می‌گردد.';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => 'متوجه شدم، ادامه می‌دهم';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      'اگر این FluxerTag را ذخیره کنید، تگ ۴ رقمی سفارشی شما هنگام پایان اشتراک Plutonium به یک عدد تصادفی باز می‌گردد. اگر اشتراک شما تمدید نشود، قبل از تغییر تگ، ۳ روز مهلت خواهید داشت.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return 'تگ ۴ رقمی سفارشی شما (#$discriminator) تا زمانی که اشتراک Plutonium شما فعال باشد، فعال است. اگر اشتراک شما پس از ۳ روز مهلت منقضی شود یا تمدید نشود، تگ شما به یک عدد تصادفی باز می‌گردد.';
   }
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'تگ ۴ رقمی خود را سفارشی کنید یا هنگام تغییر نام کاربری آن را حفظ کنید';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return 'دوره آزمایشی Plutonium شما در $date منقضی می‌شود. برای حفظ تگ سفارشی خود و کسب نشان در پروفایل خود، ارتقا دهید.';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      'شما در دوره آزمایشی Plutonium هستید. برای حفظ تگ سفارشی خود و کسب نشان در پروفایل خود، ارتقا دهید.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'FluxerTag به‌روز شد';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+      'به‌روزرسانی FluxerTag ناموفق بود. لطفاً دوباره امتحان کنید.';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'ادامه';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => 'سفارشی‌سازی پروفایل';
 
   @override
   String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+      'ظاهر پروفایل خود را ویرایش کنید و پیش‌نمایش زنده را ببینید';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => 'نام کاربری';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+      'برای تغییر FluxerTag خود حساب خود را ادعا کنید';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => 'تغییر FluxerTag';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return 'تگ ۴ رقمی خود (#$discriminator) را با پلوتونیوم شخصی‌سازی کنید';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint =>
+      'نام کاربری و تگ ۴ رقمی خود را تغییر دهید';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return 'تگ سفارشی شما (#$discriminator) به اشتراک پلوتونیوم شما گره خورده است و در صورت انقضا به یک تگ تصادفی باز خواهد گشت.';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => 'نام نمایشی';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => 'ضمایر';
 
   @override
-  String get avatarLabel => 'Avatar';
+  String get avatarLabel => 'آواتار';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => 'تغییر آواتار';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => 'حذف آواتار';
 
   @override
   String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+      'PNG، JPEG، WebP، GIF. حداکثر ۱۰ مگابایت. توصیه شده: ۵۱۲×۵۱۲ پیکسل';
 
   @override
-  String get bannerLabel => 'Banner';
+  String get bannerLabel => 'بنر';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => 'تغییر بنر';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => 'حذف بنر';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG، JPEG، WebP، GIF. حداکثر ۱۰ مگابایت. حداقل: ۹۶۰×۵۴۰ پیکسل (۱۶:۹)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => 'رنگ برجسته';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'رنگ حاشیه و بنر پروفایل شما را سفارشی می‌کند';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => 'درباره من';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText =>
+      'می‌توانید از لینک‌ها، ایموجی‌ها و Markdown استفاده کنید.';
 
   @override
-  String get emojiPickerTitle => 'Emoji';
+  String get emojiPickerTitle => 'ایموجی';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle => 'حریم خصوصی نشان پلوتونیوم';
 
   @override
   String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+      'نحوه نمایش نشان پلوتونیوم خود را به دیگران کنترل کنید';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel => 'پنهان کردن کامل نشان پلوتونیوم';
 
   @override
   String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+      'نشان پلوتونیوم خود را کاملاً از سایر کاربران پنهان کنید';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => 'تاریخ خرید پلوتونیوم را پنهان کنید';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return 'تاریخ خرید پلوتونیوم را پنهان کنید ($date)';
   }
 
   @override
   String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+      'تاریخ اولین خرید پلوتونیوم خود را از نشان خود حذف کنید';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription => 'نمایش Visionary به عنوان اشتراک';
 
   @override
   String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+      'Visionary خود را به جای آن به عنوان یک اشتراک معمولی نمایش دهید';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => 'پنهان کردن نشان شناسه Visionary';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return 'پنهان کردن نشان شناسه Visionary (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription =>
+      'نشان شناسه Visionary خود را حذف کنید';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return 'شما در دوره آزمایشی پلوتونیوم هستید — اشتراک شما در تاریخ $date آغاز می‌شود';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      'اشتراک شما به طور خودکار پس از پایان دوره آزمایشی آغاز خواهد شد. نیازی به اقدام نیست.';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return 'شما در دوره آزمایشی پلوتونیوم هستید که در تاریخ $date منقضی می‌شود';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile => 'شما در دوره آزمایشی پلوتونیوم هستید';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG، PNG، WebP. حداکثر ۱۰ مگابایت. توصیه شده: ۵۱۲×۵۱۲ پیکسل. آواتارهای متحرک (GIF) به پلوتونیوم نیاز دارند.';
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'پروفایل خود را با یک تصویر بنر ثابت یا متحرک سفارشی کنید تا برجسته شود.';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => 'دریافت پلوتونیوم';
 
   @override
-  String get plutoniumNotAvailableTitle => 'Plutonium';
+  String get plutoniumNotAvailableTitle => 'پلوتونیوم';
 
   @override
   String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+      'خرید درون برنامه‌ای هنوز در این پلتفرم در دسترس نیست. منتظر باشید — به زودی!';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => 'پیش‌نمایش';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => 'پیام';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'عضو Fluxer از';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => 'حساب ادعا نشده';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      'حساب شما هنوز ادعا نشده است. بدون ایمیل و رمز عبور، ممکن است دسترسی خود را از دست بدهید. برای امن کردن حساب خود، اکنون آن را ادعا کنید.';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => 'ادعای حساب';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => 'نوع پروفایل';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => 'پروفایل سراسری';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      'شما در حال ویرایش پروفایل مخصوص انجمن خود هستید. این پروفایل فقط در این انجمن قابل مشاهده خواهد بود و پروفایل سراسری شما را لغو می‌کند.';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => 'نام مستعار انجمن';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'شخصی‌سازی آواتار، بنر، رنگ تأکید و بیو برای انجمن‌های خاص نیازمند پلوتونیوم است. نام مستعار انجمن و ضمایر برای همه رایگان است.';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => 'استفاده از پروفایل سراسری';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => 'استفاده از تصویر سفارشی';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => 'عدم نمایش';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => 'پروفایل به‌روز شد';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => 'ویرایش پروفایل';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => 'یادداشت';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '(فقط برای شما قابل مشاهده است)';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => 'هنوز یادداشتی وجود ندارد.';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => 'هویت خود را تأیید کنید';
 
   @override
-  String get sudoDescription =>
-      'This action requires verification to continue.';
+  String get sudoDescription => 'این اقدام برای ادامه نیاز به تأیید دارد.';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => 'کد احراز هویت';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => 'گذرواژه';
 
   @override
-  String get sudoMethodTotp => 'Authenticator';
+  String get sudoMethodTotp => 'احراز هویت';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed =>
+      'تأیید ناموفق بود. لطفاً دوباره تلاش کنید.';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => 'حساب';
 
   @override
   String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+      'تنظیمات ایمیل، گذرواژه و حساب خود را مدیریت کنید';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => 'امنیت';
 
   @override
   String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+      'حساب خود را با احراز هویت دو مرحله‌ای و کلیدهای عبور محافظت کنید';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => 'تنظیمات ایمیل';
 
   @override
   String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+      'آدرس ایمیلی را که برای ورود به فلوکسر استفاده می‌کنید مدیریت کنید';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => 'آدرس ایمیل';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => 'هیچ آدرس ایمیلی تنظیم نشده است';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => 'تغییر ایمیل';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => 'افزودن ایمیل';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => 'نمایش';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => 'پنهان کردن';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => 'گذرواژه';
 
   @override
   String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+      'گذرواژه خود را تغییر دهید تا حساب خود را امن نگه دارید';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => 'گذرواژه فعلی';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return 'آخرین تغییر: $date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'آخرین تغییر: هرگز';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => 'هیچ گذرواژه‌ای تنظیم نشده است';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => 'تغییر گذرواژه';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => 'تنظیم گذرواژه';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => 'تغییر گذرواژه';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      'قبل از تغییر گذرواژه، یک کد تأیید به آدرس ایمیل شما ارسال می‌کنیم تا هویت شما را تأیید کنیم.';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => 'شروع';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => 'ایمیل خود را تأیید کنید';
 
   @override
   String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+      'کد تأیید ارسال شده به آدرس ایمیل خود را وارد کنید.';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => 'کد تأیید';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => 'تأیید';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => 'تنظیم گذرواژه جدید';
 
   @override
   String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+      'گذرواژه جدید خود را در زیر وارد کنید.';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => 'گذرواژه جدید';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => 'تأیید گذرواژه جدید';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => 'تغییر گذرواژه';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => 'گذرواژه تغییر کرد';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch => 'گذرواژه‌ها مطابقت ندارند';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => 'کد نامعتبر یا منقضی شده';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => 'تغییر ایمیل';
 
   @override
   String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+      'برای تأیید هویت شما قبل از تغییر آدرس ایمیل، کدهای تأیید ارسال خواهیم کرد.';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => 'شروع';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => 'تأیید ایمیل فعلی';
 
   @override
   String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+      'کد تأیید ارسال شده به ایمیل فعلی خود را وارد کنید.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => 'ورود ایمیل جدید';
 
   @override
   String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+      'آدرس ایمیل جدیدی را که می‌خواهید استفاده کنید وارد کنید.';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => 'ایمیل جدید';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => 'ارسال کد تأیید';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => 'تأیید ایمیل جدید';
 
   @override
   String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+      'کد تأیید ارسال شده به آدرس ایمیل جدید خود را وارد کنید.';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => 'ایمیل تغییر کرد';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => 'کد نامعتبر یا منقضی شده';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'ارسال مجدد';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return 'ارسال مجدد (${seconds}s)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => 'کد تأیید';
 
   @override
-  String get verify => 'Verify';
+  String get verify => 'تأیید';
 
   @override
-  String get enable => 'Enable';
+  String get enable => 'فعال کردن';
 
   @override
-  String get disable => 'Disable';
+  String get disable => 'غیرفعال کردن';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'حذف';
 
   @override
-  String get save => 'Save';
+  String get save => 'ذخیره';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => 'احراز هویت دو مرحله‌ای';
 
   @override
   String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+      'یک لایه امنیتی اضافی به حساب خود اضافه کنید';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'برنامه احراز هویت';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+      'احراز هویت دو مرحله‌ای فعال است';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+      'از یک برنامه احراز هویت برای تولید کد برای احراز هویت دو مرحله‌ای استفاده کنید';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => 'کدهای پشتیبان';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+      'کدهای پشتیبان خود را برای بازیابی حساب مشاهده و مدیریت کنید';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => 'مشاهده کدها';
 
   @override
-  String get securityPasskeysSectionTitle => 'Passkeys';
+  String get securityPasskeysSectionTitle => 'کلیدهای عبور';
 
   @override
   String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+      'از کلیدهای عبور برای ورود بدون رمز عبور و احراز هویت دو مرحله‌ای استفاده کنید';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => 'کلیدهای عبور ثبت شده';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => 'هیچ کلید عبوری ثبت نشده است';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: 'کلید عبور',
+      one: 'کلید عبور',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$count $_temp0 ثبت شده (حداکثر ۱۰)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => 'افزودن کلید عبور';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return 'افزوده شده در: $date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return 'آخرین استفاده: $date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => 'تغییر نام';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => 'حذف کلید عبور';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return 'آیا مطمئن هستید که می‌خواهید کلید عبور \"$name\" را حذف کنید؟';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => 'نام‌گذاری کلید عبور';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => 'نام کلید عبور';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint =>
+      'مثال: YubiKey، iPhone، کامپیوتر محل کار';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => 'شماره تلفن';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription =>
+      'شماره تلفن خود را مدیریت کنید.';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => 'شماره تلفن';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => 'هیچ شماره تلفنی اضافه نشده است.';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => 'افزودن تلفن';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => 'حذف';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => 'حذف شماره تلفن';
 
   @override
   String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+      'آیا مطمئن هستید که می‌خواهید شماره تلفن خود را حذف کنید؟';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => 'شماره تلفن حذف شد';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => 'ویژگی‌های امنیتی';
 
   @override
   String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+      'برای دسترسی به ویژگی‌های امنیتی مانند احراز هویت دو مرحله‌ای و کلیدهای عبور، حساب خود را ادعا کنید.';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'قبل از راه‌اندازی احراز هویت دو مرحله‌ای، کلیدهای عبور یا تأیید پیامک، باید آدرس ایمیل خود را تأیید کنید.';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => 'راه‌اندازی برنامه احراز هویت';
 
   @override
   String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+      'کد QR را با برنامه احراز هویت خود اسکن کنید تا کدهایی برای احراز هویت دو مرحله‌ای تولید شود.';
 
   @override
-  String get totpEnableCodeLabel => 'Code';
+  String get totpEnableCodeLabel => 'کد';
 
   @override
   String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+      'کد ۶ رقمی برنامه احراز هویت خود را وارد کنید';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess => 'احراز هویت دو مرحله‌ای فعال شد';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => 'حذف برنامه احراز هویت';
 
   @override
   String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+      'برای غیرفعال کردن احراز هویت دو مرحله‌ای، کد ۶ رقمی برنامه احراز هویت خود را وارد کنید.';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => 'احراز هویت دو مرحله‌ای غیرفعال شد';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => 'کدهای پشتیبان';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      'اگر دسترسی به برنامه احراز هویت خود را از دست بدهید و این کدها را نداشته باشید، برای همیشه از حساب خود قفل خواهید شد. اکنون آن‌ها را دانلود یا کپی کنید و در جایی امن نگهداری کنید.';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => 'دانلود';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => 'کپی';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied => 'کدهای پشتیبان در کلیپ‌بورد کپی شد';
 
   @override
   String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+      'من کدهای پشتیبان خود را دانلود یا کپی کرده و در مکانی امن نگهداری کرده‌ام.';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => 'انجام شد';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => 'مشاهده کدهای پشتیبان';
 
   @override
   String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+      'ممکن است قبل از مشاهده کدهای پشتیبان شما، تأیید لازم باشد.';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => 'افزودن شماره تلفن';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => 'شماره تلفن';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => 'شماره تلفن خود را وارد کنید';
 
   @override
   String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+      'شماره تلفن خود را وارد کنید. ما یک کد تأیید از طریق پیامک برای شما ارسال خواهیم کرد.';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => 'ارسال کد';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => 'تأیید شماره تلفن';
 
   @override
   String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+      'کد تأیید ارسال شده به شماره تلفن خود را وارد کنید.';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => 'شماره تلفن اضافه شد';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => 'منطقه خطر';
 
   @override
-  String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+  String get dangerZoneSectionDescription => 'اقدامات برگشت‌ناپذیر و مخرب';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => 'غیرفعال کردن حساب';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+      'حساب خود را به طور موقت غیرفعال کنید. بعداً با ورود مجدد می‌توانید آن را دوباره فعال کنید.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      'غیرفعال کردن حساب شما باعث خروج شما از تمام جلسات خواهد شد. شما می‌توانید در هر زمان با ورود مجدد، حساب خود را دوباره فعال کنید.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => 'حذف حساب';
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+      'حساب و تمام داده‌های مرتبط را به طور دائم حذف کنید. این عمل قابل برگشت نیست.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      'لطفاً قبل از حذف حساب، اشتراک فعال Plutonium خود را در تنظیمات Plutonium لغو کنید.';
 
   @override
-  String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
+  String get dangerZoneDeleteCannotDeleteAccount => 'امکان حذف حساب وجود ندارد';
 
   @override
   String get dangerZoneDeleteOwnsCommunities =>
-      'You cannot delete your account while you own communities. Transfer ownership of the following communities first:';
+      'شما نمی‌توانید حساب خود را در حالی که مالک انجمن‌ها هستید حذف کنید. ابتدا مالکیت انجمن‌های زیر را منتقل کنید:';
 
   @override
   String dangerZoneDeleteAndXMore(int count) {
-    return 'and $count more';
+    return 'و $count مورد دیگر';
   }
 
   @override
   String dangerZoneDeleteTransferInstructions(String settingsPath) {
-    return 'To transfer ownership, go to $settingsPath and use the transfer ownership option.';
+    return 'برای انتقال مالکیت، به $settingsPath بروید و از گزینه انتقال مالکیت استفاده کنید.';
   }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      'آیا مطمئن هستید که می‌خواهید حساب خود را حذف کنید؟ این عمل حساب شما را برای حذف دائمی زمان‌بندی می‌کند.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+      'شما می‌توانید فرآیند حذف را ظرف ۱۴ روز لغو کنید';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+      'پس از ۱۴ روز، حساب شما به طور دائم حذف خواهد شد';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+      'پس از پردازش حذف، نمی‌توانید دسترسی به حساب خود را بازیابی کنید';
 
   @override
   String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+      'پس از حذف حساب، قادر به حذف پیام‌های ارسالی خود نخواهید بود';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      'اگر می‌خواهید داده‌های خود را صادر کنید یا پیام‌های خود را ابتدا حذف کنید، لطفاً قبل از ادامه به بخش داشبورد حریم خصوصی در تنظیمات کاربر مراجعه کنید.';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => 'ادعای حساب کاربری شما';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      'با افزودن ایمیل و رمز عبور، حساب خود را ادعا کنید. ما قبل از اتمام، یک کد تأیید به ایمیل شما ارسال خواهیم کرد.';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => 'ایمیل';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => 'رمز عبور';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => 'ارسال کد';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      'کدی را که به ایمیل شما ارسال کردیم وارد کنید تا آن را تأیید کنید. رمز عبور شما پس از تأیید کد تنظیم خواهد شد.';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => 'حساب با موفقیت ادعا شد';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => 'اطلاعات مهم:';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => 'خطایی رخ داد';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => 'کد نامعتبر است';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: '$count سال پیش',
+      one: '1 سال پیش',
     );
     return '$_temp0';
   }
@@ -2101,8 +2109,8 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: '$count ماه پیش',
+      one: '1 ماه پیش',
     );
     return '$_temp0';
   }
@@ -2112,8 +2120,8 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: '$count روز پیش',
+      one: '1 روز پیش',
     );
     return '$_temp0';
   }
@@ -2123,8 +2131,8 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count ساعت پیش',
+      one: '1 ساعت پیش',
     );
     return '$_temp0';
   }
@@ -2134,586 +2142,587 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count دقیقه پیش',
+      one: '1 دقیقه پیش',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => 'همین الان';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => 'برنامه‌های مجاز';
 
   @override
   String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+      'به این برنامه‌ها دسترسی به حساب Fluxer شما اعطا شده است.';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => 'هیچ برنامه مجاز وجود ندارد';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'شما هیچ برنامه‌ای را برای دسترسی به حساب خود مجاز نکرده‌اید.';
 
   @override
-  String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+  String get authorizedAppsLoadError => 'بارگیری برنامه‌های مجاز ناموفق بود';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'مجاز شده در $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => 'مجوزهای اعطا شده';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => 'لغو';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => 'لغو دسترسی برنامه';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return 'آیا مطمئن هستید که می‌خواهید دسترسی $appName را لغو کنید؟ این برنامه دیگر به حساب شما دسترسی نخواهد داشت.';
   }
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+      'به اطلاعات اولیه پروفایل شما (نام کاربری، آواتار و غیره) دسترسی داشته باشید';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => 'آدرس ایمیل شما را مشاهده کنید';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+      'انجمن‌هایی را که عضو آن‌ها هستید مشاهده کنید';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections =>
+      'حساب‌های متصل خود را مشاهده کنید';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+      'یک ربات را با مجوزهای درخواستی به یک انجمن اضافه کنید';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin =>
+      'به نقاط پایانی مدیریتی دسترسی داشته باشید';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => 'در انتظار حذف';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => 'کاربران مسدود شده';
 
   @override
   String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+      'کاربران مسدود شده نمی‌توانند درخواست دوستی یا پیام مستقیم برای شما ارسال کنند.';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => 'هیچ کاربر مسدود شده‌ای وجود ندارد';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription => 'شما هنوز کسی را مسدود نکرده‌اید.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError => 'بارگیری کاربران مسدود شده ناموفق بود';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => 'رفع مسدودیت';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => 'رفع مسدودیت کاربر';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'آیا مطمئن هستید که می‌خواهید $username را از مسدودیت خارج کنید؟';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => 'کپی کردن تگ Fluxer';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => 'کپی کردن شناسه کاربر';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => 'پروفایل بارگیری نشد';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => 'تلاش مجدد';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => 'پیام';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => 'تماس صوتی';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => 'تماس تصویری';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => 'ویرایش پروفایل';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'کارکنان Fluxer';
 
   @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
+  String get userProfileCtpBadgeTooltip => 'تیم انجمن Fluxer';
 
   @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer Partner';
+  String get userProfilePartnerBadgeTooltip => 'شریک Fluxer';
 
   @override
-  String get userProfileBugHunterBadgeTooltip => 'Fluxer Bug Hunter';
+  String get userProfileBugHunterBadgeTooltip => 'شکارچی باگ فاکسر';
 
   @override
-  String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
+  String get userProfilePlutoniumBadgeTooltip => 'پلوتونیوم فاکسر';
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'مشترک پلوتونیوم فاکسر از $date';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Fluxer Visionary';
+  String get userProfileVisionaryBadgeTooltip => 'رویابین فاکسر';
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'رویابین فاکسر از $date';
   }
 
   @override
   String userProfileVisionaryIdTooltip(int sequence) {
-    return 'Visionary ID #$sequence';
+    return 'شناسه رویابین #$sequence';
   }
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return 'دوستان مشترک ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return 'انجمن‌های مشترک ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => 'دوستان مشترک';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => 'انجمن‌های مشترک';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends => 'هیچ دوست مشترکی یافت نشد.';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities => 'هیچ انجمن مشترکی یافت نشد.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return 'نام مستعار: $nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => 'باز کردن پیام خصوصی';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return 'شما $username را مسدود کرده‌اید. تا زمانی که او را از مسدودیت خارج نکنید، قادر به ارسال پیام نخواهید بود.';
   }
 
   @override
-  String get blockedUserComposerBarrierAction => 'Unblock';
+  String get blockedUserComposerBarrierAction => 'لغو مسدودیت';
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get userProfileOpenDm => 'باز کردن پیام خصوصی';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileNoteTitle => 'یادداشت';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteVisibility => '(فقط برای شما قابل مشاهده است)';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteSave => 'ذخیره';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteDelete => 'حذف';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteEmpty => 'برای افزودن یادداشت کلیک کنید';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileMemberSince => 'عضو از';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileAboutMe => 'درباره من';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileCopyUsername => 'کپی نام کاربری';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUserId => 'کپی شناسه کاربر';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileViewMainProfile => 'مشاهده پروفایل اصلی';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewCommunityProfile => 'مشاهده پروفایل انجمن';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileBlockUser => 'مسدود کردن کاربر';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileUnblockUser => 'لغو مسدودیت کاربر';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileRemoveFriend => 'حذف دوست';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileBlockConfirmTitle => 'مسدود کردن کاربر';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return 'آیا مطمئن هستید که می‌خواهید $username را مسدود کنید؟';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => 'لغو مسدودیت کاربر';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'آیا مطمئن هستید که می‌خواهید $username را از مسدودیت خارج کنید؟';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => 'حذف دوست';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'آیا مطمئن هستید که می‌خواهید $username را به عنوان دوست حذف کنید؟';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => 'خطا در باز کردن پیام خصوصی';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote => 'خطا در ذخیره یادداشت';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed =>
+      'عملیات ناموفق بود، لطفاً دوباره امتحان کنید';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => 'تغییر نام مستعار';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => 'اخراج';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => 'مسدود کردن';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'محدودیت زمانی';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => 'حذف محدودیت زمانی';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => 'انتقال مالکیت';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => 'گزارش کاربر';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => 'گزارش پیام';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return 'اخراج $username؟';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return 'آیا مطمئن هستید که می‌خواهید $username را اخراج کنید؟ او می‌تواند با یک دعوت‌نامه جدید دوباره بپیوندد.';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => 'حذف مسدودیت موقت؟';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return 'حذف مسدودیت موقت به $username اجازه می‌دهد دوباره پیام ارسال کند، واکنش نشان دهد و به کانال‌های صوتی بپیوندد.';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => 'انتقال مالکیت؟';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return 'مالکیت این انجمن را به $username منتقل می‌کنید؟ این عمل برگشت‌ناپذیر است و شما تمام امتیازات مالکیت را از دست خواهید داد.';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return 'مسدود کردن $username';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => 'مدت زمان مسدودیت';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel => 'مدت زمان سفارشی (ثانیه)';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return 'هر مقداری بین $min تا $max ثانیه';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel => 'حذف تاریخچه پیام‌ها';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => 'هیچ موردی حذف نشود';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => '۲۴ ساعت گذشته';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => '۷ روز گذشته';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => 'دلیل (اختیاری)';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => 'دلیل مسدودیت را وارد کنید';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => 'مسدود کردن عضو';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return 'مسدودیت موقت $username';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => 'مدت زمان مسدودیت موقت';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => 'مسدودیت موقت عضو';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => 'نام مستعار';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => 'نام مستعار را وارد کنید';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => 'ذخیره';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return '$username اخراج شد';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return '$username مسدود شد';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return 'مسدودیت موقت $username اعمال شد';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return 'مسدودیت موقت $username حذف شد';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => 'نام مستعار به‌روز شد';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => 'مالکیت منتقل شد';
 
   @override
-  String get durationPermanent => 'Permanent';
+  String get durationPermanent => 'دائمی';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '۶۰ ثانیه';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '۵ دقیقه';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '۱۰ دقیقه';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '۱ ساعت';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '۱۲ ساعت';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '۱ روز';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '۳ روز';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '۵ روز';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '۱ هفته';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '۲ هفته';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '۱ ماه';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => 'سفارشی...';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => 'گزارش کاربر';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => 'پروفایل نامناسب';
 
   @override
   String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+      'پروفایل این کاربر حاوی محتوای نامناسب است';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return 'در حال تایپ $name...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return 'در حال تایپ $name1 و $name2...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return 'در حال تایپ $name1، $name2 و $name3...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'چند نفر در حال تایپ هستند...';
 
   @override
   String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+      'تعدادی جنگجوی کیبورد در حال آماده شدن هستند...';
 
   @override
   String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+      'سمفونی کلیک‌های کیبورد در حال اجراست...';
 
   @override
-  String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+  String get typingIndicatorFiesta => 'یک جشن تایپ تمام عیار در اینجا برپاست';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => 'وای، چه آخرالزمان تایپ کردنی!';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return 'خوش اومدی $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return 'خوش اومدی $username! راحت باش.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return 'سلام $username! خوشحالیم که اینجا هستی.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return 'سلام $username! هر وقت آماده بودی شروع کن.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return 'سلام $username، خوشحالیم که اینجا می‌بینیمت!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return 'سلام $username! امیدواریم از حضورت لذت ببری.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return 'سلام $username، به جمع ما خوش اومدی!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return 'خوشحالم که رسیدی $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return 'خوش اومدی $username!';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return 'خوش اومدی $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return 'خوش اومدی $username! خوشحالیم که اینجا هستی.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return 'خوش اومدی $username! امیدواریم از وقتت اینجا لذت ببری.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return 'خوش اومدی $username! مکالمه بعدی شما از اینجا شروع می‌شه.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return 'خوش اومدی $username. خوشحالیم که اینجا هستی.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return 'خوشحالم که می‌بینمت $username! خوش اومدی.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return 'اینجایی $username! خوبه که با ما هستی.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return 'رسیدی $username! بیا شروع کنیم.';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => 'الان';
 
   @override
   String relativeTimeShortMinutes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}m',
-      one: '1m',
+      other: '$count دقیقه',
+      one: '1 دقیقه',
     );
     return '$_temp0';
   }
@@ -2723,8 +2732,8 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}h',
-      one: '1h',
+      other: '$count ساعت',
+      one: '1 ساعت',
     );
     return '$_temp0';
   }
@@ -2734,8 +2743,8 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}d',
-      one: '1d',
+      other: '$count روز',
+      one: '1 روز',
     );
     return '$_temp0';
   }
@@ -2745,8 +2754,8 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}mo',
-      one: '1mo',
+      other: '$count ماه',
+      one: '1 ماه',
     );
     return '$_temp0';
   }
@@ -2756,50 +2765,50 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}y',
-      one: '1y',
+      other: '$count سال',
+      one: '1 سال',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => 'دستگاه‌های من';
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'تمام دستگاه‌هایی که در حال حاضر به حساب شما وارد شده‌اند را ببینید. جلساتی را که نمی‌شناسید لغو کنید.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => 'دستگاه فعلی';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => 'دستگاه‌های دیگر';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => 'حالت انتخاب را وارد کنید';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => 'حالت انتخاب را خارج شوید';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => 'انتخاب همه';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => 'پاک کردن انتخاب';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => 'لغو دستگاه';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => 'خروج از همه دستگاه‌های دیگر';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'خروج از $count دستگاه',
+      one: 'خروج از ۱ دستگاه',
     );
     return '$_temp0';
   }
@@ -2809,14 +2818,14 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'خروج از $count دستگاه',
+      one: 'خروج از ۱ دستگاه',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle => 'خروج از همه دستگاه‌های دیگر';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -2824,183 +2833,185 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+          'این کار دستگاه‌های انتخاب شده را از حساب شما خارج می‌کند. دوباره باید در آن دستگاه‌ها وارد شوید.',
       one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+          'این کار دستگاه انتخاب شده را از حساب شما خارج می‌کند. دوباره باید در آن دستگاه وارد شوید.',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      'این کار دستگاه‌های انتخاب شده را از حساب شما خارج می‌کند. دوباره باید در آن دستگاه‌ها وارد شوید.';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => 'ادامه';
 
   @override
   String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+      'شما باید دوباره در تمام دستگاه‌های خارج شده وارد شوید';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => 'خطای شبکه';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      'ما در اتصال به پیوستار فضا-زمان مشکل داریم. لطفاً اتصال خود را بررسی کرده و دوباره امتحان کنید.';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: 'دستگاه‌ها لغو شدند',
+      one: 'دستگاه لغو شد',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError =>
+      'امکان خروج وجود نداشت. دوباره امتحان کنید.';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => 'سیستم عامل ناشناخته';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => 'پلتفرم ناشناخته';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return '$duration حالت کند';
   }
 
   @override
   String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+      'شما در حالت کند هستید. لطفاً قبل از ارسال پیام دیگر صبر کنید.';
 
   @override
-  String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+  String get slowmodeTooltipImmune => 'حالت کند فعال است، اما شما مصون هستید.';
 
   @override
   String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+      'شما نمی‌توانید در این کانال پیام ارسال کنید.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return 'اعلان‌های سیستمی از طرف کارکنان $productName. شما نمی‌توانید اینجا پاسخ دهید.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+      'ارسال پیام در این انجمن به طور موقت متوقف شده است.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      'شما تایم‌اوت شده‌اید. ارسال پیام، واکنش‌ها و صدا تا پایان زمان تایم‌اوت متوقف شده است.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+      'برای ارسال پیام در این انجمن باید حساب خود را ادعا کنید.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+      'برای ارسال پیام در این انجمن باید ایمیل خود را تأیید کنید.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+      'حساب شما برای ارسال پیام در این انجمن خیلی جدید است.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      'شما به اندازه کافی عضو این انجمن نبوده‌اید تا بتوانید پیام ارسال کنید.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+      'برای ارسال پیام در این انجمن باید شماره تلفن خود را تأیید کنید.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => 'تأیید ایمیل';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => 'تأیید تلفن';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return 'پیوست‌های زیاد (حداکثر $max)';
   }
 
   @override
   String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+      'یک یا چند فایل از حد مجاز بزرگتر هستند';
 
   @override
   String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+      'این فایل‌ها برای ارسال با هم خیلی بزرگ هستند';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload => 'فایل‌ها را رها کنید تا آپلود شوند';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend =>
+      'فایل‌ها را رها کنید تا فوراً ارسال شوند';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => 'ارسال پیام صوتی';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => 'پیام صوتی';
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'برای ضبط نگه دارید. برای قفل کردن بکشید، یا برای ارسال رها کنید.';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => 'حذف پیام صوتی';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => 'ارسال پیام صوتی';
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+      'امکان شروع ضبط وجود ندارد. دسترسی به میکروفون را مجاز کنید.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+      'ضبط صدا در این دستگاه پشتیبانی نمی‌شود.';
 
   @override
   String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+      'برای ضبط پیام صوتی، تماس صوتی را ترک کنید.';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed =>
+      'ضبط ناموفق بود. دوباره امتحان کنید.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+      'ارسال پیام صوتی امکان‌پذیر نیست. دوباره امتحان کنید.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+      'حالا صحبت کنید. وقتی تمام شد روی توقف ضربه بزنید — می‌توانید بعداً کوتاه کنید.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+      'دستگیره‌ها را بکشید تا کوتاه کنید، سپس ارسال را فشار دهید.';
 
   @override
-  String get voiceMessageStop => 'Stop';
+  String get voiceMessageStop => 'توقف';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => 'شروع ضبط';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => 'پخش';
 
   @override
-  String get voiceMessagePause => 'Pause';
+  String get voiceMessagePause => 'مکث';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -3009,246 +3020,245 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return 'انتخاب باید حداقل $secondsString ثانیه باشد.';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => 'ویرایش پیوست';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => 'نام فایل';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => 'توضیحات';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => 'متن جایگزین اختیاری';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => 'علامت‌گذاری به عنوان اسپویلر';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => 'حذف پیوست';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => 'دانلود';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => 'پیوست منقضی شده است';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => 'گالری';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => 'دوربین';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => 'مرور فایل‌ها';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip => 'چسباندن تصویر از کلیپ‌بورد';
 
   @override
-  String get chatAttachmentSpoiler => 'Spoiler';
+  String get chatAttachmentSpoiler => 'اسپویلر';
 
   @override
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => 'نمایش اسپویلر';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => 'نمایش';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => 'برای نمایش کلیک کنید';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => 'محتوای نامناسب';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => 'انجمن بالغین';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => 'دسته بندی بالغین';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => 'کانال بالغین';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => 'هشدار محتوای انجمن';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle => 'هشدار محتوای دسته بندی';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => 'هشدار محتوای کانال';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => 'این حاوی محتوای حساس است.';
 
   @override
   String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+      'این انجمن برای محتوای بالغین علامت‌گذاری شده است و ممکن است حاوی مطالبی باشد که برای برخی کاربران نامناسب باشد.';
 
   @override
   String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+      'این دسته بندی برای محتوای بالغین علامت‌گذاری شده است و ممکن است حاوی مطالبی باشد که برای برخی کاربران نامناسب باشد.';
 
   @override
   String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'این کانال برای محتوای بالغین علامت‌گذاری شده است و ممکن است حاوی مطالبی باشد که برای برخی کاربران نامناسب باشد.';
 
   @override
   String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'این کانال صوتی برای محتوای بالغین علامت‌گذاری شده است و ممکن است حاوی مطالبی باشد که برای برخی کاربران نامناسب باشد.';
 
   @override
   String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+      'این کانال پیوند برای محتوای بالغین علامت‌گذاری شده است و ممکن است مطالبی را باز کند که برای برخی کاربران نامناسب باشد.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+      'این انجمن بالغین برای حساب شما در دسترس نیست.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+      'این دسته بندی بالغین برای حساب شما در دسترس نیست.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+      'این کانال بالغین برای حساب شما در دسترس نیست.';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => 'ادامه';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => 'متوجه شدم';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => 'باز کردن پیوند';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => 'محتوای حساس';
 
   @override
   String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+      'نحوه فیلتر شدن رسانه های بالغ یا حساس را در زمینه های مختلف کنترل کنید';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel => 'پیام های مستقیم از دوستان';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel => 'پیام های مستقیم از دیگران';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => 'پیام ها در کانال های انجمن';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => 'نمایش';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => 'تار کردن';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => 'مسدود کردن';
 
   @override
   String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+      'رسانه را تا اتمام اسکن ایمنی تار کنید';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      'هنگامی که فعال باشد، تصاویر و ویدیوها تا زمانی که اسکن ایمنی محتوا به پایان برسد، تار می شوند.';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+      'این تنظیم همیشه برای حساب شما فعال است.';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => 'بازنشانی';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => 'ذخیره';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count فایل',
+      one: '1 فایل',
     );
-    return 'Uploading $_temp0';
+    return 'در حال بارگذاری $_temp0';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => 'لغو بارگذاری';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return 'منقضی در $date';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return 'منقضی بین $start و $end';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => 'اتصالات';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      'حساب ها و دامنه های خارجی را به پروفایل Fluxer خود پیوند دهید. اتصالات تأیید شده در پروفایل شما نمایش داده می شوند تا دیگران ببینند.';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => 'هنوز هیچ اتصالی وجود ندارد';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      'حساب Bluesky خود را پیوند دهید یا مالکیت دامنه را تأیید کنید تا آنها را در پروفایل خود نمایش دهید.';
 
   @override
   String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+      'مالکیت دامنه را تأیید کنید تا آن را در پروفایل خود نمایش دهید.';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
 
   @override
-  String get connectionsAddDomain => 'Domain';
+  String get connectionsAddDomain => 'دامنه';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => 'افزودن اتصال Bluesky';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => 'افزودن اتصال دامنه';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => 'ویرایش';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => 'حذف';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => 'این اتصال تأیید شده است.';
 
   @override
-  String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+  String get connectionUnverifiedLabel => 'این اتصال تأیید نشده است.';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => 'افزودن اتصال';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => 'نوع اتصال';
 
   @override
-  String get connectionHandleLabel => 'Handle';
+  String get connectionHandleLabel => 'نام کاربری';
 
   @override
-  String get connectionDomainLabel => 'Domain';
+  String get connectionDomainLabel => 'دامنه';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -3257,742 +3267,742 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => 'شما قبلاً این اتصال را دارید.';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => 'اتصال با بلواسکای';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => 'ادامه';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => 'تأیید اتصال';
 
   @override
   String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+      'از رکورد زیر برای اثبات مالکیت دامنه استفاده کنید.';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'رکورد TXT DNS';
 
   @override
-  String get connectionDnsHostLabel => 'Host';
+  String get connectionDnsHostLabel => 'میزبان';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => 'مقدار';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => 'کپی میزبان';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => 'کپی مقدار';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => 'کپی شد!';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => 'فایل توکن را ارائه دهید';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      'فایل **fluxer-verification** را دانلود کرده و در پوشه **.well-known** خود قرار دهید تا بتوانیم دامنه را تأیید کنیم.';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => 'دانلود fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return 'فایل حاوی توکن تأیید است که از **$dnsUrl** دریافت خواهیم کرد.';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => 'ذخیره fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => 'تأیید';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => 'بازگشت';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => 'ویرایش اتصال';
 
   @override
   String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+      'انتخاب کنید چه کسانی بتوانند این اتصال را در پروفایل شما ببینند.';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => 'همه';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+      'به هر کسی اجازه دهید این اتصال را در پروفایل شما ببیند';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => 'دوستان';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+      'به دوستان خود اجازه دهید این اتصال را ببینند';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => 'اعضای انجمن';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+      'به اعضای انجمن‌هایی که در آن‌ها هستید اجازه دهید این اتصال را ببینند';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => 'حذف اتصال';
 
   @override
   String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+      'آیا مطمئن هستید که می‌خواهید این اتصال را حذف کنید؟ این عمل قابل بازگشت نیست.';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => 'حذف';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError => 'بارگیری اتصالات ناموفق بود';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError => 'به‌روزرسانی ترتیب ناموفق بود';
 
   @override
   String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+      'شروع تأیید ممکن نبود. دوباره امتحان کنید.';
 
   @override
   String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+      'تأیید ممکن نبود. رکورد DNS خود را بررسی کرده و دوباره امتحان کنید.';
 
   @override
   String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+      'شروع مجوز بلواسکای ممکن نبود.';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed => 'به‌روزرسانی اتصال ممکن نبود';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed => 'حذف اتصال ممکن نبود';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => 'fluxer-verification ذخیره شد';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast => 'ذخیره فایل ممکن نبود';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => 'یک نام کاربری بلواسکای وارد کنید.';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => 'یک دامنه وارد کنید.';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => 'ظاهر و حس';
 
   @override
-  String get lookAndFeelThemeSectionTitle => 'Theme';
+  String get lookAndFeelThemeSectionTitle => 'قالب';
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+      'بین ظاهر تیره، زغالی یا روشن انتخاب کنید.';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => 'قالب تیره';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => 'قالب زغالی';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => 'قالب روشن';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => 'قالب سیستم';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+      'همگام‌سازی قالب در دستگاه‌های مختلف';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      'وقتی فعال باشد، تغییرات تم به همه دستگاه‌های شما همگام‌سازی می‌شوند. وقتی غیرفعال باشد، این دستگاه از تنظیمات تم خود استفاده می‌کند.';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      'تم سیستم به‌طور خودکار همگام‌سازی را غیرفعال می‌کند تا اولویت سیستم شما را در این دستگاه پیگیری کند.';
 
   @override
   String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+      'همگام‌سازی تم با حساب شما انجام نشد. لطفاً دوباره امتحان کنید.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => 'تغییر مقیاس فونت چت';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'اندازه فونت را در ناحیه چت تنظیم کنید.';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => 'رابط کاربری';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'عناصر و رفتارهای رابط کاربری را سفارشی کنید.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+      'نشانگرهای تایپ در لیست کانال';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      'نحوه نمایش نشانگرهای تایپ در لیست کانال را هنگام تایپ کردن کسی در کانال انتخاب کنید.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+      'نشانگر تایپ + آواتارها';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      'نشانگر تایپ را با آواتارهای کاربر در لیست کانال نمایش دهید';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+  String get lookAndFeelChannelTypingIndicatorOnlyName => 'فقط نشانگر تایپ';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      'فقط نشانگر تایپ را بدون آواتار نمایش دهید';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => 'مخفی';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      'نشانگرهای تایپ را در لیست کانال نمایش ندهید';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      'نمایش تایپ در کانال انتخاب شده';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      'وقتی غیرفعال است (پیش‌فرض)، نشانگرهای تایپ در کانالی که در حال مشاهده آن هستید ظاهر نمی‌شوند.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'عمومی';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => 'راهنمای صفحه کلید';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+      'کنترل کنید که آیا راهنمای میانبر صفحه کلید در راهنمای ابزار ظاهر می‌شود یا خیر.';
 
   @override
   String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+      'راهنمای صفحه کلید را در راهنمای ابزار مخفی کنید';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      'وقتی فعال باشد، نشان‌های میانبر در پنجره‌های راهنمای ابزار مخفی می‌شوند.';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => 'متفرقه';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription => 'گزینه‌های متفرقه رابط کاربری.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => 'نمایش نکو';
 
   @override
   String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+      'وقتی فعال باشد، نکو نزدیک نوار ورودی چت ظاهر می‌شود.';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle => 'رفتار پیوستن به کانال صوتی';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+      'نحوه پیوستن به کانال‌های صوتی در انجمن‌ها را کنترل کنید.';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'برای پیوستن به کانال‌های صوتی روی دابل کلیک کنید';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      'وقتی فعال باشد، برای پیوستن به کانال‌های صوتی باید روی آن‌ها دابل کلیک کنید. وقتی غیرفعال است (پیش‌فرض)، با یک کلیک کانال بلافاصله پیوست می‌شود.';
 
   @override
   String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+      'روباه قهوه‌ای چابک از روی سگ تنبل پرید.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => 'نوار کناری انجمن';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'نحوه نمایش پیام‌های مستقیم در نوار کناری انجمن را پیکربندی کنید.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
-      one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+      other: '$count انجمن به دلیل نقص خازن فلاکس به طور موقت در دسترس نیست.',
+      one: '۱ انجمن به دلیل نقص خازن فلاکس به طور موقت در دسترس نیست.',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel =>
+      'پیام‌های مستقیم را در پوشه جمع کنید';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      'وقتی فعال باشد، پیام‌های مستقیم خوانده نشده در نوار کناری انجمن در پوشه‌ای در دکمه فلاکسر جمع می‌شوند. برای باز کردن یا بستن پوشه، هنگام حضور در صفحه پیام‌های مستقیم روی دکمه فلاکسر کلیک کنید.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => 'لیست کانال';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'رفتار نشانگر خوانده نشده برای کانال‌های بی‌صدا شده در لیست کانال‌ها را کنترل کنید.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+      'نمایش نشانگر خوانده نشده در کانال‌های بی‌صدا شده';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      'وقتی فعال باشد، کانال‌های بی‌صدا شده یک نشانگر خوانده نشده کم‌رنگ در سمت چپ نشان می‌دهند. ذکرها همچنان صرف نظر از این تنظیم ظاهر می‌شوند.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => 'اکنون فعال';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+      'نحوه نمایش \"اکنون فعال\" در سراسر برنامه را کنترل کنید.';
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+      'نمایش \"اکنون فعال\" در صفحه اصلی';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      '\"اکنون فعال\" را در صفحه اصلی نمایش دهید تا دوستان فعال در صدا را ببینید. پیش‌نمایشی از زمینه کانال، کسانی که در حال حاضر آنجا هستند و راهی سریع برای پیوستن را مشاهده خواهید کرد.';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => 'موارد دلخواه';
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'قابلیت مشاهده موارد دلخواه را در سراسر برنامه کنترل کنید.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel => 'فعال کردن موارد دلخواه';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'وقتی فعال باشد، می‌توانید کانال‌ها را به موارد دلخواه خود اضافه کنید و آن‌ها در بخش موارد دلخواه ظاهر می‌شوند. وقتی غیرفعال باشد، تمام عناصر رابط کاربری مربوط به موارد دلخواه (دکمه‌ها، موارد منو) مخفی می‌شوند. موارد دلخواه موجود شما حفظ خواهند شد.';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => 'موارد دلخواه';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'هنوز موردی دلخواه وجود ندارد';
 
   @override
   String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+      'کانال‌ها را از سربرگ چت ستاره‌دار کنید تا اینجا نگه داشته شوند.';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => 'به موارد دلخواه خوش آمدید';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      'فضای شخصی شما برای دسترسی سریع به کانال‌ها، پیام‌های خصوصی و گروه‌های مورد علاقه‌تان. برای افزودن به اینجا، روی ستاره هر کانال فشار دهید.';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip =>
+      'برای شما مناسب نیست؟ هر زمان خواستید آن را خاموش کنید.';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => 'موارد دلخواه را غیرفعال کنید';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => 'به موارد دلخواه اضافه شد';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => 'از موارد دلخواه حذف شد';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => 'موارد دلخواه مخفی شدند';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => 'موارد دلخواه را بی‌صدا کنید';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => 'موارد دلخواه را از حالت بی‌صدا خارج کنید';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => 'منوی موارد دلخواه';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => 'ایجاد دسته';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => 'نام دسته';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => 'کانال‌های بی‌صدا شده را مخفی کنید';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => 'کانال‌های بی‌صدا شده را نمایش دهید';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => 'نام مستعار تنظیم کنید';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => 'نام مستعار';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => 'نام مستعار را ذخیره کنید';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => 'انتقال به دسته';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => 'دسته‌بندی نشده';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => 'دیگر';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => 'حذف از موارد دلخواه';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => 'افزودن به موارد دلخواه';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => 'موارد دلخواه را مخفی کنید';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      'این کار تمام عناصر رابط کاربری مربوط به موارد دلخواه، از جمله دکمه‌ها و موارد منو را مخفی می‌کند. موارد دلخواه موجود شما حفظ می‌شوند و هر زمان از تنظیمات > پیشرفته > ظاهر قابل فعال‌سازی مجدد هستند.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => 'پیام مستقیم';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => 'نمایش';
 
   @override
   String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+      'نحوه نمایش پیام‌ها، رسانه‌ها و سایر محتوا را کنترل کنید.';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => 'رسانه';
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'تنظیمات اندازه و دکمه‌های رسانه را سفارشی کنید.';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => 'ورودی';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'تنظیمات ورودی پیام را سفارشی کنید.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => 'نوار کناری';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+      'نحوه نمایش نوار کناری انجمن را پیکربندی کنید.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'کانال‌های بی‌صدا شده را به‌طور پیش‌فرض مخفی کنید';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      'هنگام پیوستن به انجمن‌های جدید، کانال‌های بی‌صدا شده را در نوار کناری به‌طور خودکار مخفی کنید';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+      'آیا کانال‌های بی‌صدا شده را به‌طور پیش‌فرض مخفی کنید؟';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      'انجمن‌های جدیدی که به آن‌ها می‌پیوندید به‌طور خودکار کانال‌های بی‌صدا شده را مخفی می‌کنند. آیا می‌خواهید این تنظیم را برای تمام انجمن‌های موجود خود نیز اعمال کنید؟';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      'آیا مخفی کردن کانال‌های بی‌صدا شده به‌طور پیش‌فرض را متوقف کنید؟';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      'انجمن‌های جدیدی که به آن‌ها می‌پیوندید دیگر به‌طور خودکار کانال‌های بی‌صدا شده را مخفی نمی‌کنند. آیا می‌خواهید کانال‌های بی‌صدا شده را در تمام انجمن‌های موجود خود نیز نمایش دهید؟';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+      'برای همه انجمن‌ها اعمال کنید';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+      'در همه انجمن‌ها نمایش دهید';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+      'فقط انجمن‌های جدید';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => 'نمایش رسانه';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      'نحوه نمایش تصاویر، ویدیوها و سایر رسانه‌ها را کنترل کنید. همه رسانه‌ها تغییر اندازه داده و تبدیل می‌شوند. فایل‌های بسیار بزرگ که قابل فشرده‌سازی به پیش‌نمایش نیستند، صرف‌نظر از این تنظیمات، جاسازی نخواهند شد.';
 
   @override
   String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+      'هنگام ارسال به‌عنوان پیوند به چت';
 
   @override
   String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+      'هنگام آپلود مستقیم در فلوکسر';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => 'پیش‌نمایش پیوندها';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+      'نحوه پیش‌نمایش پیوندهای وب‌سایت در چت را کنترل کنید';
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+      'نمایش جاسازی‌ها و پیش‌نمایش پیوندهای وب‌سایت';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => 'واکنش‌ها';
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+      'تنظیم واکنش‌های ایموجی به پیام‌ها';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+      'نمایش واکنش‌های ایموجی به پیام‌ها';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => 'محتوای اسپویلر';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+      'نحوه نمایش محتوای اسپویلر را کنترل کنید';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => 'نمایش محتوای اسپویلر';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => 'با کلیک';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+      'محتوای اسپویلر را هنگام کلیک نمایش دهید';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName =>
+      'در کانال‌هایی که مدیریت می‌کنم';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      'همیشه محتوای اسپویلر را در کانال‌هایی که مجوز \"مدیریت پیام‌ها\" را دارید نمایش دهید';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => 'همیشه';
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+      'همیشه محتوای اسپویلر را نمایش دهید';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => 'تنظیمات اندازه رسانه';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      'حداکثر اندازه نمایش رسانه‌های جاسازی شده و پیوست شده را سفارشی کنید. اندازه‌های کوچک‌تر فضای کمتری از صفحه را اشغال می‌کنند، در حالی که اندازه‌های بزرگ‌تر جزئیات بیشتری را نشان می‌دهند.';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => 'رسانه از پیوندها (جاسازی‌ها)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel => 'پیوست‌های آپلود شده';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => 'فشرده (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => 'اندازه کوچک‌تر رسانه';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => 'راحت (550x400)';
 
   @override
   String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+      'اندازه بزرگ‌تر رسانه با جزئیات بیشتر';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'رفتار GIF';
 
   @override
   String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+      'نحوه درج GIFها در چت را کنترل کنید';
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+      'هنگام انتخاب، GIFها را به‌طور خودکار ارسال کنید';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+      'تکمیل خودکار عبارت (تکمیل خودکار با دونقطه)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'کنترل کنید چه چیزی در تکمیل خودکار عبارت هنگام تایپ دونقطه ظاهر می‌شود. سفارشی کنید که چه پیشنهاداتی برای مطابقت با اولویت‌های شما نمایش داده شوند.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      'نمایش ایموجی‌های پیش‌فرض در تکمیل خودکار عبارت';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+      'نمایش ایموجی‌های سفارشی در تکمیل خودکار عبارت';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+      'نمایش استیکرها در تکمیل خودکار عبارت';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+      'نمایش رسانه‌های ذخیره شده در تکمیل خودکار عبارت';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle => 'ویرایش پیام';
 
   @override
   String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+      'کنترل کنید هنگام لغو ویرایش، چه اتفاقی برای پیش‌نویس شما می‌افتد.';
 
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+      'پیش‌نویس ویرایش را هنگام لغو حفظ کنید';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => 'نشانگرهای خوانده نشده';
 
   @override
   String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+      'نحوه نمایش نشانگرهای پیام خوانده نشده را کنترل کنید.';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      'نمایش نشانگر خوانده نشده کم‌رنگ در کانال‌های بی‌صدا شده';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      'یک نشانگر خوانده نشده کم‌رنگ در کنار پیام‌های مستقیم و کانال‌های بی‌صدا شده نمایش دهید تا همچنان بتوانید با یک نگاه متوجه فعالیت شوید.';
 
   @override
-  String get accessibilityDmMessagePreviewGroupTitle => 'DM message previews';
+  String get accessibilityDmMessagePreviewGroupTitle => 'پیش‌نمایش پیام‌های DM';
 
   @override
   String get accessibilityDmMessagePreviewGroupDescription =>
-      'Control when message previews are shown in the DM list.';
+      'کنترل کنید چه زمانی پیش‌نمایش پیام‌ها در لیست DM نمایش داده شود.';
 
   @override
-  String get accessibilityDmMessagePreviewModeLabel =>
-      'DM message preview mode';
+  String get accessibilityDmMessagePreviewModeLabel => 'حالت پیش‌نمایش پیام DM';
 
   @override
-  String get accessibilityDmMessagePreviewAllName => 'All messages';
+  String get accessibilityDmMessagePreviewAllName => 'همه پیام‌ها';
 
   @override
   String get accessibilityDmMessagePreviewAllDescription =>
-      'Show message previews for all DM conversations';
+      'پیش‌نمایش پیام‌ها را برای همه مکالمات DM نمایش دهید';
 
   @override
-  String get accessibilityDmMessagePreviewUnreadOnlyName => 'Unread DMs only';
+  String get accessibilityDmMessagePreviewUnreadOnlyName =>
+      'فقط DMهای خوانده نشده';
 
   @override
   String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
-      'Only show message previews for DMs with unread messages';
+      'فقط پیش‌نمایش پیام‌ها را برای DMهایی که پیام خوانده نشده دارند نمایش دهید';
 
   @override
-  String get accessibilityDmMessagePreviewNoneName => 'None';
+  String get accessibilityDmMessagePreviewNoneName => 'هیچ‌کدام';
 
   @override
   String get accessibilityDmMessagePreviewNoneDescription =>
-      'Don\'t show message previews in the DM list';
+      'پیش‌نمایش پیام‌ها را در لیست DM نمایش ندهید';
 
   @override
-  String get dmListSentAnAttachment => 'Sent an attachment';
+  String get dmListSentAnAttachment => 'یک پیوست ارسال شد';
 
   @override
   String systemPreviewPinnedMessage(String username) {
-    return '$username pinned a message to this channel.';
+    return '$username یک پیام را در این کانال پین کرد.';
   }
 
   @override
   String systemPreviewAddedToGroup(String username, String userName) {
-    return '$username added $userName to the group.';
+    return '$username $userName را به گروه اضافه کرد.';
   }
 
   @override
   String systemPreviewAddedSomeoneToGroup(String username) {
-    return '$username added someone to the group.';
+    return '$username شخصی را به گروه اضافه کرد.';
   }
 
   @override
   String systemPreviewHasLeftGroup(String username) {
-    return '$username has left the group.';
+    return '$username گروه را ترک کرد.';
   }
 
   @override
   String systemPreviewRemovedFromGroup(String username, String userName) {
-    return '$username removed $userName from the group.';
+    return '$username $userName را از گروه حذف کرد.';
   }
 
   @override
   String systemPreviewRemovedSomeoneFromGroup(String username) {
-    return '$username removed someone from the group.';
+    return '$username شخصی را از گروه حذف کرد.';
   }
 
   @override
   String systemPreviewChangedChannelNameTo(String username, String newName) {
-    return '$username changed the channel name to $newName.';
+    return '$username نام کانال را به $newName تغییر داد.';
   }
 
   @override
   String systemPreviewChangedChannelName(String username) {
-    return '$username changed the channel name.';
+    return '$username نام کانال را تغییر داد.';
   }
 
   @override
   String systemPreviewChangedChannelIcon(String username) {
-    return '$username changed the channel icon.';
+    return '$username آیکون کانال را تغییر داد.';
   }
 
   @override
   String systemPreviewStartedCall(String username) {
-    return '$username started a call.';
+    return '$username تماس را شروع کرد.';
   }
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get voiceConnectionConfirmTitle => 'تأیید اتصال صوتی';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -4000,92 +4010,94 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+          'شما در حال حاضر از $count دستگاه دیگر به این کانال صوتی متصل هستید. چه کاری می‌خواهید انجام دهید؟',
       one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+          'شما در حال حاضر از ۱ دستگاه دیگر به این کانال صوتی متصل هستید. چه کاری می‌خواهید انجام دهید؟',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => 'به این دستگاه سوئیچ کنید';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+      'فقط ملحق شوید (اتصالات دیگر را حفظ کنید)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+      'کاری انجام ندهید، نمی‌خواهم ملحق شوم';
 
   @override
   String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+      'این یک کانال صوتی است. برای شروع صحبت کردن وصل شوید!';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => 'به کانال صوتی ملحق شوید';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => 'به صدا وصل شوید';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+      'شما اجازه پیوستن به این کانال صوتی را ندارید';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'میکروفون، دوربین و محتوای اشتراک‌گذاری صفحه نمایش به صورت سرتاسری رمزگذاری شده‌اند.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'میکروفون، دوربین و محتوای اشتراک‌گذاری صفحه نمایش به صورت سرتاسری رمزگذاری شده‌اند.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+      'رمزگذاری سرتاسری در دسترس نیست زیرا یک شرکت‌کننده پشتیبانی نشده در این کانال صوتی حضور دارد.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+      'رمزگذاری سرتاسری در دسترس نیست زیرا یک شرکت‌کننده پشتیبانی نشده در این تماس حضور دارد.';
 
   @override
   String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+      'این کلاینت باید قبل از پیوستن به این تماس رمزگذاری شده به‌روزرسانی شود.';
 
   @override
   String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+      'شروع میکروفون شما امکان‌پذیر نبود. شما همچنان در تماس هستید.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => 'در حال اتصال…';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => 'متصل شد';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => 'خطا';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => 'دستگاه موبایل';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => 'دستگاه دسکتاپ';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted =>
+      'بی‌صدا شده توسط جامعه کاربری';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => 'بی‌صدا';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened =>
+      'کر شده توسط جامعه کاربری';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => 'کر شده';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return 'اتصال: $connectionId';
   }
 
   @override
@@ -4093,209 +4105,209 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count شرکت‌کننده',
+      one: '۱ شرکت‌کننده',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => 'ترک';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => 'بی‌صدا کردن';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => 'فعال کردن صدا';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => 'کر کردن';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => 'غیرفعال کردن کر';
 
   @override
-  String get voiceControlVideo => 'Video';
+  String get voiceControlVideo => 'ویدیو';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => 'اشتراک‌گذاری صفحه نمایش';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText =>
+      'در حال اشتراک‌گذاری صفحه نمایش شما.';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => 'بیشتر';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => 'قطع اتصال';
 
   @override
-  String get voiceControlChat => 'Chat';
+  String get voiceControlChat => 'چت';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => 'نمایش چت';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# پیام خوانده نشده',
+      one: '# پیام خوانده نشده',
     );
-    return 'Show chat with $_temp0';
+    return 'نمایش چت با $_temp0';
   }
 
   @override
   String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+      'دسترسی به دوربین برای ویدیو لازم است.';
 
   @override
   String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+      'شروع اشتراک‌گذاری صفحه نمایش امکان‌پذیر نبود. لطفاً دوباره امتحان کنید.';
 
   @override
   String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+      'دسترسی اشتراک‌گذاری صفحه نمایش رد شد.';
 
   @override
   String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+      'اشتراک‌گذاری صفحه نمایش در این دستگاه در دسترس نیست.';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => 'تماشای استریم';
 
   @override
-  String get voiceStopWatching => 'Stop Watching';
+  String get voiceStopWatching => 'توقف تماشا';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
-      'Stop watching the current stream';
+      'تماشای استریم فعلی را متوقف کنید';
 
   @override
-  String get voiceOwnScreenShareTitle => 'You are broadcasting';
+  String get voiceOwnScreenShareTitle => 'شما در حال پخش هستید';
 
   @override
   String get voiceOwnScreenShareSubtitle =>
-      'Your stream is live for participants.';
+      'استریم شما برای شرکت‌کنندگان زنده است.';
 
   @override
-  String get voiceLiveBadge => 'Live';
+  String get voiceLiveBadge => 'زنده';
 
   @override
-  String get dmVoiceViewCall => 'View call';
+  String get dmVoiceViewCall => 'مشاهده تماس';
 
   @override
-  String get dmVoiceCallFullScreen => 'Full screen';
+  String get dmVoiceCallFullScreen => 'تمام صفحه';
 
   @override
-  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+  String get dmVoiceCallFullScreenTooltip => 'تماس را در تمام صفحه باز کنید';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Connecting…';
+  String get dmVoiceStripStatusConnecting => 'در حال اتصال…';
 
   @override
-  String get dmVoiceStripStatusInCall => 'In call';
+  String get dmVoiceStripStatusInCall => 'در تماس';
 
   @override
-  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+  String get dmVoiceEmbeddedFallbackTitle => 'تماس صوتی';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Connecting…';
+  String get dmVoiceCallBarConnecting => 'در حال اتصال…';
 
   @override
-  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+  String get dmVoiceCallBarDirectPrimary => 'تماس مستقیم';
 
   @override
-  String get dmVoiceCallBarGroupPrimary => 'Group call';
+  String get dmVoiceCallBarGroupPrimary => 'تماس گروهی';
 
   @override
-  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+  String get dmVoiceCallBarIssueFallback => 'مشکل صوتی';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Voice';
+  String get dmVoiceFullscreenTitle => 'صوتی';
 
   @override
-  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
+  String get voiceCallBarGuildConnectedFallback => 'صوتی متصل شد';
 
   @override
-  String get notificationsPageTitle => 'Notifications';
+  String get notificationsPageTitle => 'اعلان‌ها';
 
   @override
-  String get notificationsFilterUnreads => 'Unreads';
+  String get notificationsFilterUnreads => 'خوانده نشده‌ها';
 
   @override
-  String get notificationsFilterMentions => 'Mentions';
+  String get notificationsFilterMentions => 'منشن‌ها';
 
   @override
-  String get notificationsBookmarksTooltip => 'Bookmarks';
+  String get notificationsBookmarksTooltip => 'نشانک‌ها';
 
   @override
-  String get notificationsMentionFilterTooltip => 'Filter mentions';
+  String get notificationsMentionFilterTooltip => 'فیلتر کردن منشن‌ها';
 
   @override
-  String get notificationsMentionFiltersTitle => 'Mention filters';
+  String get notificationsMentionFiltersTitle => 'فیلترهای منشن';
 
   @override
   String get notificationsMentionIncludeEveryone =>
-      'Include @everyone and @here mentions';
+      'شامل منشن‌های @everyone و @here باشید';
 
   @override
-  String get notificationsMentionIncludeRoles => 'Include role mentions';
+  String get notificationsMentionIncludeRoles => 'شامل منشن‌های نقش باشید';
 
   @override
   String get notificationsMentionIncludeGuilds =>
-      'Include all community mentions';
+      'شامل تمام منشن‌های انجمن باشید';
 
   @override
-  String get notificationsNoUnreadTitle => 'No Unread Messages';
+  String get notificationsNoUnreadTitle => 'پیام خوانده نشده‌ای وجود ندارد';
 
   @override
-  String get notificationsNoUnreadBody => 'You\'re all caught up.';
+  String get notificationsNoUnreadBody => 'همه چیز را بررسی کرده‌اید.';
 
   @override
-  String get notificationsNoMentionsTitle => 'No Recent Mentions';
+  String get notificationsNoMentionsTitle => 'منشن اخیر وجود ندارد';
 
   @override
   String get notificationsNoMentionsBody =>
-      'All @mentions of you will appear here for 7 days.';
+      'تمام @منشن‌های شما به مدت ۷ روز در اینجا ظاهر می‌شوند.';
 
   @override
-  String get notificationsMentionsEndTitle => 'You\'ve reached the end';
+  String get notificationsMentionsEndTitle => 'به انتها رسیده‌اید';
 
   @override
   String get notificationsMentionsEndBody =>
-      'You\'ve seen all your recent mentions. Don\'t fret, more will appear here soon.';
+      'تمام منشن‌های اخیر خود را دیده‌اید. نگران نباشید، به زودی موارد بیشتری در اینجا ظاهر می‌شوند.';
 
   @override
-  String get notificationsJump => 'Jump';
+  String get notificationsJump => 'پرش';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Remove mention';
+  String get notificationsRemoveMentionTooltip => 'حذف منشن';
 
   @override
-  String get notificationsViewAllUnread => 'View all unread';
+  String get notificationsViewAllUnread => 'مشاهده تمام خوانده نشده‌ها';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead => 'علامت‌گذاری به عنوان خوانده شده';
 
   @override
-  String get notificationsExpand => 'Expand';
+  String get notificationsExpand => 'گسترش';
 
   @override
-  String get notificationsCollapse => 'Collapse';
+  String get notificationsCollapse => 'جمع کردن';
 
   @override
-  String get notificationsMessageUnavailable =>
-      'This message couldn\'t be loaded.';
+  String get notificationsMessageUnavailable => 'این پیام بارگیری نشد.';
 
   @override
   String characterCounterRemaining(int remaining) {
-    return '$remaining characters left';
+    return '$remaining کاراکتر باقی مانده';
   }
 
   @override
-  String get characterCounterTooLong => 'Message is too long';
+  String get characterCounterTooLong => 'پیام خیلی طولانی است';
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -4303,628 +4315,631 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String productName,
     int premiumMaxLength,
   ) {
-    return '$remaining characters left. Get $productName to write up to $premiumMaxLength characters.';
+    return '$remaining کاراکتر باقی مانده. برای نوشتن تا $premiumMaxLength کاراکتر، $productName را دریافت کنید.';
   }
 
   @override
-  String get chatMessageFailedToSend => 'Failed to send message';
+  String get chatMessageFailedToSend => 'ارسال پیام ناموفق بود';
 
   @override
   String chatSendFailureDmRestricted(String settingsPath) {
-    return 'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in $settingsPath.';
+    return 'پیام شما تحویل داده نشد. این معمولاً به این دلیل است که شما با گیرنده انجمنی مشترک ندارید یا گیرنده فقط پیام‌های مستقیم را از دوستان دریافت می‌کند. همچنین ممکن است لازم باشد تنظیمات حریم خصوصی پیام مستقیم خود را در $settingsPath تنظیم کنید.';
   }
 
   @override
   String get chatSendFailureUnclaimedDm =>
-      'Your message could not be delivered. You need to claim your account to send direct messages.';
+      'پیام شما تحویل داده نشد. برای ارسال پیام‌های مستقیم باید حساب خود را ادعا کنید.';
 
   @override
   String get chatSendFailureUnclaimedGeneral =>
-      'Your message could not be delivered. You need to claim your account to send messages.';
+      'پیام شما تحویل داده نشد. برای ارسال پیام باید حساب خود را ادعا کنید.';
 
   @override
   String get chatSendFailureContentBlocked =>
-      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+      'پیام شما به دلیل مسدود شدن توسط سیستم‌های ایمنی ما تحویل داده نشد. اگر فکر می‌کنید این اشتباه است، لطفاً با پشتیبانی تماس بگیرید.';
 
   @override
   String get chatSendFailureNsfwEmojiSticker =>
-      'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
+      'پیام شما به دلیل داشتن ایموجی‌ها یا استیکرهای نامناسب که در این زمینه مجاز نیستند، تحویل داده نشد.';
 
   @override
-  String get chatClientSystemOnlyYouCanSee => 'Only you can see this message.';
+  String get chatClientSystemOnlyYouCanSee =>
+      'فقط شما می‌توانید این پیام را ببینید.';
 
   @override
-  String get chatClientSystemDismiss => 'Dismiss';
+  String get chatClientSystemDismiss => 'رد کردن';
 
   @override
-  String get privacyDashboardCommunicationSection => 'Communication';
+  String get privacyDashboardCommunicationSection => 'ارتباطات';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String get chatMessageDeleteFailed => 'حذف پیام ناموفق بود';
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatMessageAddReaction => 'افزودن واکنش';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatMessageEdit => 'ویرایش پیام';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatMessageReply => 'پاسخ دادن';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatMessageForward => 'ارسال';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get forwardMessageTitle => 'ارسال پیام';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get forwardSearchHint => 'جستجوی کانال‌ها یا پیام‌های خصوصی';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get forwardDirectMessagesSection => 'پیام‌های خصوصی';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get forwardCommentHint => 'افزودن نظر (اختیاری)';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return 'ارسال ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => 'کانالی یافت نشد';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => 'پیام ارسال شد';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => 'ارسال پیام ناموفق بود';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'نظرات در دسترس نیستند زیرا یک کانال انتخاب شده حالت کندی را فعال کرده است.';
 
   @override
   String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+      'شما نمی‌توانید پیام‌ها را اینجا ارسال کنید';
 
   @override
   String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+      'شما نمی‌توانید پیوندها را اینجا جاسازی کنید';
 
   @override
   String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+      'شما نمی‌توانید فایل‌ها را اینجا پیوست کنید';
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+      'ارسال پیام‌ها در این انجمن غیرفعال شده است';
 
   @override
   String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+      'شما در این انجمن در حالت انتظار هستید';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'حالت کندی - منتظر بمانید $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => 'کپی پیام';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => 'پین کردن پیام';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => 'حذف پین پیام';
 
   @override
-  String get chatMessageUnpinIt => 'Unpin it';
+  String get chatMessageUnpinIt => 'حذف پین';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageBookmark => 'نشانه‌گذاری پیام';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageRemoveBookmark => 'حذف نشانه‌گذاری';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageMarkAsUnread => 'علامت‌گذاری به عنوان خوانده نشده';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageCopyMessageLink => 'کپی لینک پیام';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageId => 'کپی شناسه پیام';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageViewReactions => 'مشاهده واکنش‌ها';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageRemoveAllReactions => 'حذف همه واکنش‌ها';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageDebug => 'اشکال‌زدایی پیام';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebugSheetTitle => 'اشکال‌زدایی پیام';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugCopyJson => 'کپی JSON';
 
   @override
-  String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+  String get chatMessageDebugJsonCopiedToast => 'JSON پیام در کلیپ‌بورد کپی شد';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => 'واکنش‌ها';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty =>
+      'هنوز هیچ‌کس با این واکنش نشان نداده است.';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => 'گزارش پیام';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get iarReportMessageTitle => 'گزارش پیام';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarThisUserFallback => 'این کاربر';
 
   @override
   String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+      'گزارش نقض قوانین، یا یافتن ابزارهایی برای مدیریت تماس و ترجیحات.';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarPathStepAriaLabel => 'چه چیزی نیاز دارید؟';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarCategoryStepTitle => 'چه نوع قانونی نقض شد؟';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarReasonStepTitle => 'کدام قانون نقض شد؟';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonSelectHint => 'انتخاب دلیل';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarPickAnOptionToast => 'برای ادامه یک گزینه را انتخاب کنید.';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickARuleToast => 'قانونی که نقض شده را انتخاب کنید.';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPathPlatform => 'گزارش نقض قانون پلتفرم';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathCommunity => 'گزارش به مدیران این انجمن';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathPreferenceMessage => 'من این محتوا را دوست ندارم';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarCategoryTargetedHarmLabel => 'تهدید، آزار یا آسیب';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+      'قلدری، تهدید، نفرت‌پراکنی، خشونت، یورش یا محتوایی که به خودآزاری دامن می‌زند.';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategorySafetyMinorsLabel => 'ایمنی کودکان یا محتوای نامناسب';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+      'کودکان در معرض خطر، محتوای نامناسب در جای نامناسب، یا رفتار ناخواسته.';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategoryPrivacyIdentityLabel => 'حریم خصوصی یا جعل هویت';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+      'افشای اطلاعات شخصی، تعقیب، جا زدن خود به جای دیگران، یا پروفایل نامناسب.';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryDeceptionLabel =>
+      'کلاهبرداری، بدافزار یا اطلاعات نادرست';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+      'فیشینگ، کلاهبرداری، لینک‌های مخرب، یا ادعاهای نادرست که احتمالاً باعث آسیب واقعی می‌شود.';
 
   @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+  String get iarCategoryIllegalOtherLabel => 'فعالیت غیرقانونی یا مورد دیگر';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+      'فروش‌های غیرقانونی، تسهیل جرم، یا نقض آشکار قوانین که در موارد بالا نمی‌گنجد.';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarReasonHarassmentLabel => 'آزار یا تهدید';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+      'قلدری، تماس مکرر ناخواسته، تعقیب، یا سوءاستفاده هدفمند.';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHateLabel => 'نفرت‌پراکنی';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      'استفاده از کلمات توهین‌آمیز، زبان غیرانسانی، یا حملات به گروه‌های تحت حمایت.';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonViolenceLabel => 'خشونت یا تهدید به خشونت';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+      'تهدیدهای معتبر، خشونت گرافیکی، یا تجلیل از خشونت.';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonMatureContentLabel => 'محتوای نامناسب یا آزار';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+      'رفتار ناخواسته یا محتوای نامناسب در جای نامناسب.';
 
   @override
   String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+      'ایمنی کودکان یا بهره‌کشی از خردسالان';
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+      'محتوای مربوط به اغفال یا بهره‌کشی از کودکان.';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonHarmfulMisinfoLabel => 'اطلاعات نادرست مضر';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+      'ادعاهای نادرستی که احتمالاً باعث آسیب واقعی می‌شود.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonSpamLabel => 'هرزنامه، کلاهبرداری، یا فیشینگ';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+      'هرزنامه انبوه، کلاهبرداری، هدایای جعلی، یا سوءاستفاده از حساب کاربری.';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonMalwareLabel => 'بدافزار یا لینک‌های خطرناک';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+      'بدافزار، سرقت اطلاعات ورود به سیستم، یا فایل‌های مخرب.';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonPrivacyLabel => 'نقض حریم خصوصی';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+      'افشای اطلاعات شخصی، اطلاعات خصوصی فاش شده، یا تعقیب.';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonImpersonationLabel => 'جعل هویت یا رسانه فریبنده';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+      'جا زدن خود به جای شخص دیگر، از جمله محتوای تولید شده توسط هوش مصنوعی فریبنده.';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonIllegalLabel => 'فعالیت غیرقانونی';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+      'فروش‌های غیرقانونی، تسهیل جرم، یا فعالیت غیرقانونی.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonSelfHarmLabel => 'خودآزاری یا خودکشی';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+      'ترویج یا دستورالعمل‌هایی که به خودآزاری یا اختلالات خوردن تشویق می‌کند.';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonOtherLabel => 'نقض آشکار قانون دیگر';
 
   @override
   String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+      'فقط در صورتی استفاده کنید که به وضوح قوانین فلوکسر را نقض کند و در موارد بالا نگنجد.';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return 'اگر پای یک فرد زیر سن قانونی در میان است، به جای آن از «$childSafetyReason» استفاده کنید.';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      'اگر این مورد شامل CSAM یا بهره‌کشی از یک فرد زیر سن قانونی است، فوراً آن را ارسال کنید و مجدداً مواد را به اشتراک نگذارید.';
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+      'اگر کسی ممکن است در معرض خطر فوری باشد، در صورت امکان با خیال راحت با خدمات اضطراری محلی تماس بگیرید.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+      'اگر این یک تهدید فوری معتبر است، با خدمات اضطراری محلی نیز تماس بگیرید.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+      'اگر این یک تهدید تروریستی فوری است، با خدمات اضطراری محلی نیز تماس بگیرید.';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => 'مسدود کردن این کاربر';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+      'جلوگیری از پیام‌ها و درخواست‌های دوستی.';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => 'مسدود کردن';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => 'کپی کردن لینک پیام';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+      'با مدیران انجمن به اشتراک بگذارید.';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => 'کپی';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => 'بستن این پیام خصوصی';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+      'مسدود نمی‌کند. می‌توانید بعداً دوباره باز کنید.';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => 'بستن پیام خصوصی';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => 'ترک انجمن';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+      'مشاهده محتوا و اعضای آن را متوقف کنید.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => 'ترک';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle => 'تنظیمات پیام خصوصی و درخواست دوستی';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription =>
+      'تغییر دهید چه کسی می‌تواند با شما تماس بگیرد.';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle => 'تنظیمات تماس و چت گروهی';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+      'تغییر دهید چه کسی می‌تواند با شما تماس بگیرد یا شما را اضافه کند.';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => 'باز کردن';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => 'حذف این پیام';
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+      'آن را برای همه از کانال حذف کنید.';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => 'حذف';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => 'حذف شده';
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+      'این پیام قبلاً حذف شده است.';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => 'مسدود کردن این کاربر';
 
   @override
   String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+      'پنجره مسدود کردن را برای این انجمن باز کنید.';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => 'مسدود کردن';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => 'مسدود شده';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+      'این کاربر قبلاً از انجمن مسدود شده است.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => 'بستن پیام خصوصی';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return 'پیام خصوصی فعلی خود را با $name ببندید. این کار آنها را مسدود نمی‌کند؛ می‌توانید بعداً دوباره باز کنید.';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => 'گزارش ارسال شد';
 
   @override
   String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+      'تیم امنیتی ما در حال بررسی آن است. پس از رسیدن به نتیجه، یک پیام خصوصی و ایمیل برای شما ارسال خواهیم کرد.';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => 'قبلاً گزارش شده است';
 
   @override
   String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+      'شما قبلاً این پیام را گزارش کرده‌اید. تیم امنیتی ما در حال بررسی آن است.';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => 'بازگشت';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => 'ادامه';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => 'ارسال گزارش';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => 'انجام شد';
 
   @override
   String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+      'ارسال گزارش ممکن نبود. لطفاً دوباره امتحان کنید.';
 
   @override
   String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+      'شما خیلی سریع گزارش می‌دهید. لطفاً لحظه‌ای صبر کنید و دوباره امتحان کنید.';
 
   @override
   String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+      'گزارش ارسال شد. تیم امنیتی ما آن را بررسی خواهد کرد.';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return 'آیا $name را مسدود می‌کنید؟ آنها قادر به ارسال پیام یا درخواست دوستی به شما نخواهند بود. می‌توانید بعداً آنها را از مسدودیت خارج کنید.';
   }
 
   @override
   String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+      'مسدود کردن این کاربر ممکن نبود. لطفاً دوباره امتحان کنید.';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => 'پیام خصوصی بسته شد.';
 
   @override
   String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+      'بستن این پیام خصوصی ممکن نبود. لطفاً دوباره امتحان کنید.';
 
   @override
   String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+      'ترک این انجمن ممکن نبود. لطفاً دوباره امتحان کنید.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => 'پنهان کردن پیش‌نمایش پیوند';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => 'نمایش پیش‌نمایش پیوند';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => 'حذف پیام';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => 'حذف پیام';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+      'آیا مطمئن هستید که می‌خواهید این پیام را حذف کنید؟';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => 'بیشتر';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => 'در حال ویرایش پیام';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => 'پیام اصلی حذف شد';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad => 'بارگیری پیام اصلی ناموفق بود';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia => 'پیام حاوی رسانه پیوست شده است';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError => 'بارگیری پیام‌ها ممکن نبود.';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle => 'نادیده گرفتن تنظیمات منشن؟';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return 'کاربر $authorNickname ترجیح می‌دهد در پاسخ‌ها منشن شود. آیا همچنان بدون منشن ارسال می‌کنید؟';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname ترجیح می‌دهد پاسخ‌ها بدون منشن @ باشد. با این حال ارسال می‌کنید؟';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => 'نادیده گرفتن ترجیح';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+      'برای غیرفعال کردن پینگ کردن کاربری که به او پاسخ می‌دهید، کلیک کنید.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+      'برای فعال کردن پینگ کردن کاربری که به او پاسخ می‌دهید، کلیک کنید.';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel =>
+      'منشن کردن کاربر پاسخ‌داده‌شده';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => 'روشن';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => 'خاموش';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => 'لغو پاسخ';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => 'ویرایش پیام';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => 'تغییری برای ذخیره وجود ندارد';
 
   @override
   String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+      'این کانال هنوز آماده نیست. لحظه‌ای دیگر دوباره امتحان کنید.';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(ویرایش شده)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'این یک پیام @silent بود.';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'امروز در $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'دیروز در $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => 'پیش‌نمایش تصویر';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => 'بستن نمایشگر رسانه';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'باز کردن در مرورگر';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => 'ارسال';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => 'بزرگ‌نمایی';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => 'کوچک‌نمایی';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => 'رسانه قبلی';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => 'رسانه بعدی';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -4932,83 +4947,84 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls =>
+      'نمایش/پنهان کردن کنترل‌های ویدیو';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => 'بی‌صدا کردن ویدیو';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => 'باصدا کردن ویدیو';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'پخش ویدیو';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'مکث ویدیو';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => 'پیشرفت ویدیو';
 
   @override
-  String get chatVideoPlaybackFailed => 'Could not play this video.';
+  String get chatVideoPlaybackFailed => 'پخش این ویدیو امکان‌پذیر نبود.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      'به کاربران این نقش که مجوز مشاهده این کانال را دارند اطلاع دهید.';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => 'افزودن یک انجمن';
 
   @override
   String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+      'یک انجمن جدید ایجاد کنید یا به انجمن موجود بپیوندید.';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => 'ایجاد انجمن';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => 'پیوستن به انجمن';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => 'وارد کردن قالب دیسکورد';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => 'پیوستن به یک انجمن';
 
   @override
   String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+      'برای پیوستن به یک انجمن، لینک دعوت را وارد کنید.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => 'لینک دعوت';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => 'پیوستن به انجمن';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid =>
+      'این دعوت‌نامه نامعتبر است یا منقضی شده است.';
 
   @override
   String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+      'پیوستن به انجمن امکان‌پذیر نبود. لطفاً دوباره امتحان کنید.';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => 'بسته با موفقیت نصب شد.';
 
   @override
-  String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+  String get chatMessageRemoveAllReactionsConfirmTitle => 'حذف همه واکنش‌ها';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      'آیا مطمئن هستید که می‌خواهید همه واکنش‌ها را از این پیام حذف کنید؟';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => 'حذف پین پیام';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+      'آیا می‌خواهید این پین را به گذشته برگردانید؟';
 
   @override
   String systemPinMessage(
@@ -5016,68 +5032,69 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+    return '$username $messageLink را به این کانال پین کرد. $allPinsLink را ببینید.';
   }
 
   @override
-  String get systemPinMessageMessageLink => 'a message';
+  String get systemPinMessageMessageLink => 'یک پیام';
 
   @override
-  String get systemPinMessageAllPinsLink => 'all pinned messages';
+  String get systemPinMessageAllPinsLink => 'همه پیام‌های پین‌شده';
 
   @override
-  String get channelPinsEmptyTitle => 'No pinned messages';
+  String get channelPinsEmptyTitle => 'هیچ پیام پین شده‌ای وجود ندارد';
 
   @override
-  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
+  String get channelPinsEmptyDescription =>
+      'پیام‌های پین شده در اینجا نمایش داده می‌شوند.';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String get personalNotesTitle => 'یادداشت‌های شخصی';
 
   @override
-  String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+  String get personalNotesSubtitle => 'فضای خصوصی شما برای افکار و یادآوری‌ها';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return 'به $channelName خوش آمدید';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return 'در ابتدا، هیچ چیز نبود. سپس، $channelName پدیدار شد. و نیکو بود.';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => 'به خودتان پیام دهید';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => 'فضای خصوصی شما';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => 'پاک کردن یادداشت‌های شخصی';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      'این کار هر پیام و پیوست در یادداشت‌های شخصی شما را به طور دائم حذف می‌کند. این عمل قابل بازگشت نیست.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => 'پاک کردن';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return '$count پیام از یادداشت‌های شخصی پاک شد';
   }
 
   @override
   String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+      'یادداشت‌های شخصی از قبل خالی بودند';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed =>
+      'امکان پاک کردن یادداشت‌های شخصی وجود نداشت';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => 'حساب کاربری شما';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -5089,371 +5106,374 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => 'پروفایل';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => 'امنیت و ورود';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => 'هدیه‌ها و کدها';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => 'بسته‌های ابراز وجود';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard => 'داشبورد حریم خصوصی';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => 'برنامه‌های مجاز';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => 'کاربران مسدود شده';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => 'دستگاه‌های متصل';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => 'اتصالات';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => 'ظاهر و حس';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => 'دسترسی‌پذیری';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => 'پیام‌ها و رسانه';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Audio & Video';
+  String get userSettingsNavAudioAndVideo => 'صدا و تصویر';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => 'صداها و هشدارها';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => 'زبان و زمان';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => 'پیشرفته';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => 'گزارش عملکرد';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      'با اشتراک‌گذاری داده‌های ناشناس خرابی و عملکرد، به بهبود Fluxer کمک کنید.';
 
   @override
   String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+      'ارسال گزارش‌های خرابی و عملکرد';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      'تمام داده‌های گزارش شده ناشناس هستند و فقط به سرویس نظارت خود Fluxer ارسال می‌شوند — هیچ ارائه‌دهنده شخص ثالثی استفاده نمی‌شود.';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => 'برنامه‌ها';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => 'لاگ‌های برنامه';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => 'ابزارهای توسعه‌دهنده';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => 'پیکربندی محدودیت‌ها';
 
   @override
-  String get userSettingsNavFeatureFlags => 'Feature Flags';
+  String get userSettingsNavFeatureFlags => 'پرچم‌های ویژگی';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => 'تازه‌ها';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => 'خروج';
 
   @override
-  String get betaWarningTitle => 'Beta software';
+  String get betaWarningTitle => 'نرم‌افزار بتا';
 
   @override
   String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+      'این نرم‌افزار بتا است. هنوز همه چیز کامل یا اضافه نشده است.';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      'لطفاً هر مشکلی را که پیدا می‌کنید به جامعه موبایل Fluxer گزارش دهید (در حال حاضر برای پیوستن به جامعه باید Plutonium داشته باشید).';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => 'مشاهده سورس در گیت‌هاب';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => 'متوجه شدم';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => 'جستجو';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => 'دوستان';
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+      'جستجو در کانال‌ها، افراد یا انجمن‌ها';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => 'جستجوی دوستان';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => 'موردی یافت نشد';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+      'نام دیگری را امتحان کنید یا از پیشوندها @ / # / ! / * برای فیلتر کردن نتایج استفاده کنید.';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => 'افراد';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => 'پیام‌های گروهی';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => 'کانال‌های متنی';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => 'کانال‌های صوتی';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Communities';
+  String get quickSwitcherSectionCommunities => 'انجمن‌ها';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => 'تنظیمات';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => 'خانه';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => 'پیام‌های مستقیم';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => 'موارد دلخواه';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => 'تنظیمات کاربر';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => 'اعلان‌ها';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => 'نشانک‌ها';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => 'منشن‌ها';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => 'هنوز دوستی ندارید';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint => 'برای شروع یک دوست اضافه کنید.';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle =>
+      'هیچ دوستی با این جستجو مطابقت ندارد';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => 'نام دیگری را امتحان کنید.';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => 'کاربر';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => 'شما';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
 
   @override
-  String get quickSwitcherSearchAliasDms => 'DMs';
+  String get quickSwitcherSearchAliasDms => 'پیام‌های مستقیم';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => 'پیام‌ها';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => 'مورد دلخواه';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => 'ستاره‌دار';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => 'صندوق ورودی';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => 'ذخیره شده';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => 'بستن';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => 'پرش به پایین';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => 'تأیید';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => 'در حال بارگیری';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => 'تغییرات ذخیره نشده';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => 'بازنشانی';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'باز کردن انتخابگر رنگ';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => 'انتخاب کنید';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => 'جستجو';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => 'گزینه‌ای یافت نشد';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => 'رد کردن اعلان';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'انتخابگر رنگ';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => 'همه را منشن می‌کنید؟';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return 'این کار $count عضو را مطلع می‌کند. ادامه می‌دهید؟';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return 'این کار $count عضو آنلاین را مطلع می‌کند. ادامه می‌دهید؟';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => 'منشن';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable =>
+      'شما نمی‌توانید از این ایموجی در اینجا استفاده کنید.';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => 'آدرس URL نمونه';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder =>
+      'آدرس URL نمونه را وارد کنید (مانند fluxer.app)';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => 'بازنشانی به Fluxer';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => 'اتصال';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => 'در حال اتصال…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => 'اتصال به نمونه ناموفق بود';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => 'نمونه‌های اخیر';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return 'حذف $domain از نمونه‌های اخیر';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => 'اتصال به نمونه';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance => 'اتصال به نمونه‌ای دیگر';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => 'تغییر';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired =>
+      'برای ورود به سیستم به نمونه متصل شوید';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => 'به زودی';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => 'پیام‌های مستقیم';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+  String get guildNavbarExploreDiscoverableCommunities => 'کاوش جوامع قابل کشف';
 
   @override
-  String get discoveryExplore => 'Explore';
+  String get discoveryExplore => 'کاوش';
 
   @override
-  String get discoveryExplorePublicCommunities => 'Explore public communities';
+  String get discoveryExplorePublicCommunities => 'کاوش جوامع عمومی';
 
   @override
   String get discoveryListingSubheading =>
-      'Want to list your community on here? Apply if you meet the requirements in your community\'s settings > Discovery.';
+      'آیا می‌خواهید جامعه خود را در اینجا فهرست کنید؟ اگر شرایط را در تنظیمات جامعه خود > کشف برآورده می‌کنید، درخواست دهید.';
 
   @override
-  String get discoverySearchCommunities => 'Search communities';
+  String get discoverySearchCommunities => 'جستجوی جوامع';
 
   @override
-  String get discoveryFilterByLanguage => 'Filter by language';
+  String get discoveryFilterByLanguage => 'فیلتر بر اساس زبان';
 
   @override
-  String get discoveryAllLanguages => 'All languages';
+  String get discoveryAllLanguages => 'همه زبان‌ها';
 
   @override
-  String get discoveryAllCategories => 'All';
+  String get discoveryAllCategories => 'همه';
 
   @override
-  String get discoveryCategoryGaming => 'Gaming';
+  String get discoveryCategoryGaming => 'بازی';
 
   @override
-  String get discoveryCategoryMusic => 'Music';
+  String get discoveryCategoryMusic => 'موسیقی';
 
   @override
-  String get discoveryCategoryEntertainment => 'Entertainment';
+  String get discoveryCategoryEntertainment => 'سرگرمی';
 
   @override
-  String get discoveryCategoryEducation => 'Education';
+  String get discoveryCategoryEducation => 'آموزش';
 
   @override
-  String get discoveryCategoryScienceAndTechnology => 'Science & Technology';
+  String get discoveryCategoryScienceAndTechnology => 'علم و فناوری';
 
   @override
-  String get discoveryCategoryContentCreator => 'Content Creator';
+  String get discoveryCategoryContentCreator => 'سازنده محتوا';
 
   @override
-  String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
+  String get discoveryCategoryAnimeAndManga => 'انیمه و مانگا';
 
   @override
-  String get discoveryCategoryMoviesAndTv => 'Movies & TV';
+  String get discoveryCategoryMoviesAndTv => 'فیلم و تلویزیون';
 
   @override
-  String get discoveryCategoryOther => 'Other';
+  String get discoveryCategoryOther => 'دیگر';
 
   @override
-  String get discoveryNoCommunitiesMatch => 'No communities match.';
+  String get discoveryNoCommunitiesMatch => 'هیچ جامعه‌ای مطابقت ندارد.';
 
   @override
-  String get discoveryJoinCommunity => 'Join community';
+  String get discoveryJoinCommunity => 'پیوستن به جامعه';
 
   @override
-  String get discoveryJoined => 'Joined';
+  String get discoveryJoined => 'پیوسته';
 
   @override
   String discoveryOnlineCount(String count) {
-    return '$count online';
+    return '$count آنلاین';
   }
 
   @override
@@ -5465,114 +5485,116 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$countString members',
-      one: '1 member',
+      other: '$countString عضو',
+      one: '1 عضو',
     );
     return '$_temp0';
   }
 
   @override
-  String get discoveryNoDescription => 'No description.';
+  String get discoveryNoDescription => 'بدون توضیحات.';
 
   @override
-  String get discoveryCommunities => 'Communities';
+  String get discoveryCommunities => 'جوامع';
 
   @override
-  String get discoveryApps => 'Apps';
+  String get discoveryApps => 'برنامه‌ها';
 
   @override
-  String get discoveryJoinErrorGenericTitle => 'Couldn\'t join this community';
+  String get discoveryJoinErrorGenericTitle =>
+      'امکان پیوستن به این جامعه وجود نداشت';
 
   @override
   String get discoveryJoinErrorGenericMessage =>
-      'Something went wrong. Please try again in a moment.';
+      'مشکلی پیش آمد. لطفاً لحظه‌ای دیگر دوباره امتحان کنید.';
 
   @override
-  String get discoveryJoinErrorFullTitle => 'This community is full';
+  String get discoveryJoinErrorFullTitle => 'این جامعه پر است';
 
   @override
   String get discoveryJoinErrorFullMessage =>
-      'This community has reached its member limit, so you can\'t join right now.';
+      'این جامعه به حداکثر تعداد اعضای خود رسیده است، بنابراین در حال حاضر نمی‌توانید بپیوندید.';
 
   @override
   String get discoveryJoinErrorMaxGuildsTitle =>
-      'You\'ve reached the community limit';
+      'به حداکثر تعداد جامعه رسیده‌اید';
 
   @override
   String get discoveryJoinErrorMaxGuildsMessage =>
-      'You\'re in the maximum number of communities. Leave one and try again.';
+      'شما در حداکثر تعداد جوامع هستید. یکی را ترک کنید و دوباره امتحان کنید.';
 
   @override
-  String get discoveryJoinErrorBannedTitle => 'You can\'t join this community';
+  String get discoveryJoinErrorBannedTitle =>
+      'شما نمی‌توانید به این جامعه بپیوندید';
 
   @override
   String get discoveryJoinErrorBannedMessage =>
-      'You have been banned from this community.';
+      'شما از این جامعه محروم شده‌اید.';
 
   @override
   String get discoveryJoinErrorNotAvailableTitle =>
-      'This community is no longer available';
+      'این جامعه دیگر در دسترس نیست';
 
   @override
   String get discoveryJoinErrorNotAvailableMessage =>
-      'It may have left discovery or turned off new joins. Refresh the page and you won\'t see it again.';
+      'ممکن است از کشف خارج شده باشد یا پیوستن جدید را غیرفعال کرده باشد. صفحه را تازه کنید و دیگر آن را نخواهید دید.';
 
   @override
-  String get discoveryJoinErrorRateLimitTitle => 'You\'re going too fast';
+  String get discoveryJoinErrorRateLimitTitle => 'خیلی سریع عمل می‌کنید';
 
   @override
   String get discoveryJoinErrorRateLimitMessage =>
-      'Please wait a moment and try again.';
+      'لطفاً لحظه‌ای صبر کنید و دوباره امتحان کنید.';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get guildNavbarAddCommunity => 'افزودن جامعه';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get guildNavbarHelp => 'راهنما';
 
   @override
   String get scrollIndicatorNew => 'NEW';
 
   @override
-  String get scrollIndicatorNewMessage => 'NEW MESSAGE';
+  String get scrollIndicatorNewMessage => 'پیام جدید';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+    return '$folderName را ببند';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String get guildNavbarGroupDm => 'پیام خصوصی گروهی';
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get guildNavbarCreateChannel => 'ایجاد کانال';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get guildNavbarChannelType => 'نوع کانال';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get guildNavbarTextChannel => 'کانال متنی';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'ارسال پیام، عکس، گیف و ایموجی';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => 'کانال صوتی';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'با صدا، تصویر و اشتراک‌گذاری صفحه با هم وقت بگذرانید';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => 'لینک کانال';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'دسترسی سریع به یک وب‌سایت یا منبع خارجی';
 
   @override
-  String get guildNavbarNameLabel => 'Name';
+  String get guildNavbarNameLabel => 'نام';
 
   @override
   String get guildNavbarNewChannelHint => 'new-channel';
@@ -5584,544 +5606,543 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => 'ایجاد دسته';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => 'دسته جدید';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return 'دوستان را به $communityName دعوت کنید';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return 'گیرندگان به #$channelName هدایت می‌شوند';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => 'جستجوی دوستان';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => 'هنوز دوستی ندارید';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => 'نتیجه‌ای یافت نشد';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+      'یا، یک لینک دعوت برای دوستی بفرستید:';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => 'لینک دعوت';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => 'کپی';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => 'کپی شد!';
 
   @override
   String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+      'لینک دعوت شما در ۷ روز منقضی می‌شود.';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires =>
+      'این لینک دعوت هرگز منقضی نمی‌شود.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return 'لینک دعوت شما در $duration منقضی می‌شود.';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => 'ویرایش لینک دعوت';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => 'تنظیمات لینک دعوت';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => 'انقضا پس از';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => 'حداکثر تعداد استفاده';
 
   @override
-  String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+  String get guildNavbarGrantTemporaryMembership => 'اعطای عضویت موقت';
 
   @override
   String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+      'اعضا تا زمانی که آفلاین شوند حذف خواهند شد مگر اینکه نقشی اختصاص داده شود';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => 'ایجاد لینک جدید';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => 'ارسال شد';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => 'دعوت';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => 'ترک انجمن';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+      'آیا مطمئن هستید که می‌خواهید این انجمن را ترک کنید؟ دیگر قادر به مشاهده هیچ پیامی نخواهید بود.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => 'ترک انجمن';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+      'پیام‌های خود را در این انجمن حذف می‌کنید؟';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      'تمام پیام‌هایی را که در اینجا، در هر کانالی ارسال کرده‌اید، به‌طور دائم حذف کنید. قابل بازگشت نیست.';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm => 'حذف پیام‌های من';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => 'پیام‌های شما حذف شد';
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'امکان حذف پیام‌های شما وجود نداشت';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => 'حذف جایگزینی';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return 'بی‌صدا تا $formattedDate';
   }
 
   @override
   String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+      'فقط برای کارکنان فلوکسر قابل دسترسی است';
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+      'دعوت‌ها در حال حاضر در این انجمن متوقف شده‌اند';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => 'هرگز';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '۳۰ دقیقه';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '۱ ساعت';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '۶ ساعت';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '۱۲ ساعت';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '۱ روز';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '۷ روز';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count ثانیه';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => 'هرگز';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => 'بدون محدودیت';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '۱ استفاده';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count استفاده';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => 'علامت‌گذاری به عنوان خوانده شده';
 
   @override
-  String get guildPeekMoreOptions => 'More Options';
+  String get guildPeekMoreOptions => 'گزینه‌های بیشتر';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildMenuInviteMembers => 'دعوت اعضا';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuCommunitySettings => 'تنظیمات انجمن';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuEditCommunityProfile => 'ویرایش پروفایل انجمن';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuUnmuteCommunity => 'لغو بی‌صدا کردن انجمن';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuMuteCommunity => 'بی‌صدا کردن انجمن';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuHideMutedChannels => 'پنهان کردن کانال‌های بی‌صدا شده';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuReportCommunity => 'گزارش انجمن';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuDebugCommunity => 'اشکال‌زدایی انجمن';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuCopyCommunityId => 'کپی کردن شناسه انجمن';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return 'تا $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => 'عمومی';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => 'نقش‌ها و مجوزها';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => 'اموجی سفارشی';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => 'استیکرهای سفارشی';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => 'ایمنی و نظارت';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => 'گزارش فعالیت';
 
   @override
-  String get guildMenuSettingsWebhooks => 'Webhooks';
+  String get guildMenuSettingsWebhooks => 'وب‌هوک‌ها';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl => 'لینک دعوت سفارشی';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'کشف';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => 'اعضا';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => 'لینک‌های دعوت';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => 'ممنوعیت‌ها';
 
   @override
   String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+      'شما اجازه مشاهده این تب تنظیمات را ندارید.';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Icon';
+  String get guildSettingsOverviewIconTitle => 'آیکون';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => 'آپلود تصویر';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Banner';
+  String get guildSettingsOverviewBannerTitle => 'بنر';
 
   @override
   String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+      'یک بنر برای سرور خود آپلود کنید.';
 
   @override
-  String get guildSettingsOverviewNameTitle => 'Name';
+  String get guildSettingsOverviewNameTitle => 'نام';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => 'انجمن شگفت‌انگیز من';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => 'آمار';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => 'اعضا';
 
   @override
-  String get guildSettingsOverviewOnline => 'Online';
+  String get guildSettingsOverviewOnline => 'آنلاین';
 
   @override
   String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+      'از نقش‌ها برای گروه‌بندی اعضا و تخصیص مجوزها استفاده کنید.';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => 'ایجاد نقش';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => 'نقش‌ها';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '$staticCount استاتیک، $animatedCount اسلات اموجی متحرک استفاده شده';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty => 'هنوز اموجی سفارشی وجود ندارد.';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '$count استیکر آپلود شده';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty => 'هنوز استیکر سفارشی وجود ندارد.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle => 'تأیید عضو';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      'انتخاب کنید اعضا قبل از ارسال یا ارسال پیام خصوصی به اعضای انجمن به چه مواردی نیاز دارند.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      'اعضای دارای نقش می‌توانند این بررسی‌ها را دور بزنند. برای فضاهای عمومی، فعال کردن تأیید را توصیه می‌کنیم.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      'انجمن‌های فهرست شده در Discovery حداقل به ایمیل تأیید شده نیاز دارند. هنگام فعال بودن Discovery، نمی‌توان None را انتخاب کرد.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+      'محتوای نامناسب و هشدارهای محتوا';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'برچسب‌گذاری محتوای نامناسب و هشدارهای محتوای اختیاری را برای اعضا پیکربندی کنید.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => 'محتوای نامناسب';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      'این انجمن را به عنوان حاوی محتوای نامناسب علامت‌گذاری کنید.';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => 'هیچ‌کدام';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+      'هیچ تأییدی لازم نیست.';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => 'پایین';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+      'نیاز به آدرس ایمیل تأیید شده دارد.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => 'متوسط';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      'نیاز به آدرس ایمیل تأیید شده و حسابی با حداقل ۵ دقیقه قدمت دارد.';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => 'بالا';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      'همه موارد در سطح متوسط را به همراه عضویت در انجمن به مدت حداقل ۱۰ دقیقه نیاز دارد.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => 'خیلی بالا';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+      'نیاز به شماره تلفن تأیید شده دارد.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+      'اقدامات مدیران را در سراسر انجمن پیگیری کنید.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => 'هنوز هیچ گزارشی وجود ندارد';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+      'اقدامات مدیریتی و تغییرات انجمن در اینجا نمایش داده می‌شوند.';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => 'همه کاربران';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => 'همه اقدامات';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => 'هیچ دلیلی ارائه نشد.';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => 'کاربر ناشناس';
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+      'هنگام بارگیری گزارش فعالیت مشکلی پیش آمد.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+      'امکان بارگیری گزارش‌های فعالیت وجود ندارد';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => 'دلیل';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => 'شخصی';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => 'چیزی';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => 'موجودیت ناشناس';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => 'هیچ چیز';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => 'هدف ناشناس';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => 'انجمن به‌روزرسانی شد';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => 'کانال ایجاد شد';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => 'کانال به‌روزرسانی شد';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => 'کانال حذف شد';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate => 'بازنویسی کانال اضافه شد';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+      'بازنویسی کانال به‌روزرسانی شد';
 
   @override
-  String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+  String get auditLogActionChannelOverwriteDelete => 'بازنویسی کانال حذف شد';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => 'عضو اخراج شد';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => 'اعضا حذف شدند';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => 'عضو مسدود شد';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => 'عضو از مسدودیت خارج شد';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => 'عضو به‌روزرسانی شد';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => 'نقش‌های عضو به‌روزرسانی شد';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => 'عضو منتقل شد';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => 'عضو قطع اتصال شد';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => 'ربات اضافه شد';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => 'نقش ایجاد شد';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => 'نقش به‌روزرسانی شد';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => 'نقش حذف شد';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => 'دعوت‌نامه ایجاد شد';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => 'دعوت‌نامه به‌روزرسانی شد';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => 'دعوت‌نامه حذف شد';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'وب‌هوک ایجاد شد';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'وب‌هوک به‌روزرسانی شد';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'وب‌هوک حذف شد';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => 'ایموجی ایجاد شد';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => 'ایموجی به‌روزرسانی شد';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => 'ایموجی حذف شد';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => 'استیکر ایجاد شد';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => 'استیکر به‌روزرسانی شد';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => 'استیکر حذف شد';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => 'پیام حذف شد';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => 'پیام‌ها حذف شدند';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => 'پیام پین شد';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => 'پیام از حالت پین خارج شد';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return '$actor تنظیمات انجمن را به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return '$actor کانال $target را ایجاد کرد.';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return '$actor کانال $target را به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return '$actor کانال $target را حذف کرد.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return '$actor مجوزهای کانال را برای $target اضافه کرد.';
   }
 
   @override
@@ -6130,12 +6151,12 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return '$actor مجوزهای کانال را برای $target در $channel اضافه کرد.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return '$actor مجوزهای کانال را برای $target به‌روزرسانی کرد.';
   }
 
   @override
@@ -6144,12 +6165,12 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return '$actor مجوزهای کانال را برای $target در $channel به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return '$actor مجوزهای کانال را برای $target حذف کرد.';
   }
 
   @override
@@ -6158,47 +6179,47 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return '$actor مجوزهای کانال را برای $target در $channel حذف کرد.';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return '$actor عضو $target را اخراج کرد.';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return '$actor عضو $target را مسدود کرد.';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return '$actor عضو $target را از مسدودیت خارج کرد.';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return '$actor عضو $target را به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return '$actor نقش‌های $target را به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return '$actor اعضای غیرفعال را پاکسازی کرد.';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return '$actor اعضای غیرفعال برای $days روز را پاکسازی کرد.';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return '$actor عضو $target را به کانال صوتی دیگری منتقل کرد.';
   }
 
   @override
@@ -6207,37 +6228,37 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return '$actor عضو $target را به $channel منتقل کرد.';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return '$actor عضو $target را از صدا قطع کرد.';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return '$actor ربات $target را اضافه کرد.';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return '$actor نقش $target را ایجاد کرد.';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return '$actor نقش $target را به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return '$actor نقش $target را حذف کرد.';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return '$actor دعوت‌نامه $target را ایجاد کرد.';
   }
 
   @override
@@ -6246,12 +6267,12 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return '$actor دعوت‌نامه $target را برای کانال $channel ایجاد کرد.';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return '$actor دعوت‌نامه $target را به‌روزرسانی کرد.';
   }
 
   @override
@@ -6260,12 +6281,12 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return '$actor دعوت‌نامه $target را برای کانال $channel به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return '$actor دعوت‌نامه $target را حذف کرد.';
   }
 
   @override
@@ -6274,72 +6295,72 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return '$actor دعوت‌نامه $target را برای کانال $channel حذف کرد.';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return '$actor وب‌هوک $target را ایجاد کرد.';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor وب‌هوک $target را به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor وب‌هوک $target را حذف کرد.';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor emoji $target را اضافه کرد.';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor emoji $target را به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor emoji $target را حذف کرد.';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor استیکر $target را اضافه کرد.';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor استیکر $target را به‌روزرسانی کرد.';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor استیکر $target را حذف کرد.';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor یک پیام را حذف کرد.';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor یک پیام را در $channel حذف کرد.';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor چندین پیام را حذف کرد.';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor $count پیام را حذف کرد.';
   }
 
   @override
@@ -6347,7 +6368,7 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor چندین پیام را در $channel حذف کرد.';
   }
 
   @override
@@ -6356,32 +6377,32 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor $count پیام را در $channel حذف کرد.';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor یک پیام را پین کرد.';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor یک پیام را در $channel پین کرد.';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor یک پیام را از حالت پین خارج کرد.';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor یک پیام را در $channel از حالت پین خارج کرد.';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor یک اقدام حسابرسی روی $target انجام داد.';
   }
 
   @override
@@ -6390,97 +6411,98 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return '$field از $oldValue به $newValue به‌روزرسانی شد.';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return '$field روی $newValue تنظیم شد.';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return '$field پاک شد (قبلاً $oldValue بود).';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return '$field به‌روزرسانی شد.';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return 'انجمن به $name تغییر نام یافت.';
   }
 
   @override
   String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+      'آیکون انجمن به‌روزرسانی شد.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return 'کانال به $name تغییر نام یافت.';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => 'موضوع پاک شد.';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return 'موضوع به $topic به‌روزرسانی شد.';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent => 'محتوای نامناسب فعال شد.';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent =>
+      'محتوای نامناسب غیرفعال شد.';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return 'نام مستعار به $nickname تنظیم شد.';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return 'نام مستعار $nickname حذف شد.';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => 'عضو میوت شد.';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => 'عضو از حالت میوت خارج شد.';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => 'عضو ناشنوا شد.';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember => 'عضو از حالت ناشنوا خارج شد.';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return '$roles اضافه شد.';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return '$roles حذف شد.';
   }
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return 'کانال: $value.';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return 'پیام: $value.';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return 'دعوت شده توسط $value.';
   }
 
   @override
@@ -6488,8 +6510,8 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: '# پیام حذف شد.',
+      one: 'یک پیام حذف شد.',
     );
     return '$_temp0';
   }
@@ -6499,188 +6521,190 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: '# عضو حذف شد.',
+      one: 'یک عضو حذف شد.',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires =>
+      'این دعوت‌نامه هرگز منقضی نمی‌شود.';
 
   @override
-  String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+  String get auditLogOptionTemporaryMembership => 'عضویت موقت اعطا می‌کند.';
 
   @override
-  String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+  String get auditLogOptionPermanentMembership => 'عضویت دائمی اعطا می‌کند.';
 
   @override
-  String get guildSettingsLoadMore => 'Load more';
+  String get guildSettingsLoadMore => 'بارگذاری بیشتر';
 
   @override
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+      'وب‌هوک‌هایی را که پیام‌ها را در کانال‌ها ارسال می‌کنند، مدیریت کنید.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty => 'وب‌هوک پیکربندی نشده است.';
 
   @override
-  String get guildSettingsCopyUrl => 'Copy URL';
+  String get guildSettingsCopyUrl => 'کپی کردن URL';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => 'URL در کلیپ‌بورد کپی شد';
 
   @override
-  String get guildSettingsDeleteWebhook => 'Delete webhook';
+  String get guildSettingsDeleteWebhook => 'حذف وب‌هوک';
 
   @override
   String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+      'یک لینک دعوت سفارشی برای سرور خود تنظیم کنید.';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => 'ذخیره';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => 'استفاده';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count بار استفاده';
   }
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+      'برای فهرست شدن در بخش کشف سرور درخواست دهید.';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return 'برای درخواست حداقل $count عضو لازم است.';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => 'درخواست';
 
   @override
-  String get guildSettingsDiscoveryStatusTitle => 'Status';
+  String get guildSettingsDiscoveryStatusTitle => 'وضعیت';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => 'دسته بندی';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => 'توضیحات';
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tags';
+  String get guildSettingsDiscoveryTags => 'تگ‌ها';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => 'بازی، هنر، موسیقی';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => 'ارسال درخواست';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => 'لغو';
 
   @override
   String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+      'اعضای سرور را جستجو و مدیریت کنید.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => 'جستجوی اعضا';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count عضو';
   }
 
   @override
   String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+      'لینک‌های دعوت فعال را مشاهده و لغو کنید.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => 'دعوت‌نامه فعالی وجود ندارد.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses استفاده';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return 'منقضی می‌شود $date';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription =>
+      'کاربران مسدود شده را مشاهده و مدیریت کنید.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => 'جستجوی مسدودیت‌ها';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => 'کاربر مسدود شده‌ای وجود ندارد.';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => 'مسدودیت دائمی';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return 'منقضی می‌شود $date';
   }
 
   @override
-  String get guildSettingsBanExpiresLabel => 'Expires';
+  String get guildSettingsBanExpiresLabel => 'منقضی می‌شود';
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsUnban => 'رفع مسدودیت';
 
   @override
-  String get guildSettingsBansLoading => 'Loading banned users';
+  String get guildSettingsBansLoading => 'در حال بارگیری کاربران مسدود شده';
 
   @override
   String get guildSettingsBansNoSearchResults =>
-      'No bans found matching your search.';
+      'هیچ مسدودیت مطابق با جستجوی شما یافت نشد.';
 
   @override
-  String get guildSettingsBanDetailsTitle => 'Ban details';
+  String get guildSettingsBanDetailsTitle => 'جزئیات مسدودیت';
 
   @override
-  String get guildSettingsBanViewDetails => 'View details';
+  String get guildSettingsBanViewDetails => 'مشاهده جزئیات';
 
   @override
-  String get guildSettingsBannedOn => 'Banned on';
+  String get guildSettingsBannedOn => 'مسدود شده در';
 
   @override
-  String get guildSettingsBannedBy => 'Banned by';
+  String get guildSettingsBannedBy => 'مسدود شده توسط';
 
   @override
-  String get guildSettingsRevokeBanTitle => 'Revoke ban';
+  String get guildSettingsRevokeBanTitle => 'لغو مسدودیت';
 
   @override
   String guildSettingsRevokeBanDescription(String displayName) {
-    return 'Are you sure you want to revoke the ban for $displayName? They will be able to rejoin the community.';
+    return 'آیا مطمئن هستید که می‌خواهید مسدودیت $displayName را لغو کنید؟ او قادر به پیوستن مجدد به انجمن خواهد بود.';
   }
 
   @override
   String guildSettingsRevokeBanSuccess(String displayName) {
-    return 'Revoked ban for $displayName';
+    return 'مسدودیت $displayName لغو شد';
   }
 
   @override
-  String get guildSettingsBansLoadError => 'Couldn\'t load bans. Try again.';
+  String get guildSettingsBansLoadError =>
+      'امکان بارگیری مسدودیت‌ها وجود نداشت. دوباره تلاش کنید.';
 
   @override
-  String get guildSettingsRevokeBanError => 'Couldn\'t revoke ban. Try again.';
+  String get guildSettingsRevokeBanError =>
+      'امکان لغو مسدودیت وجود نداشت. دوباره تلاش کنید.';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsCommunitySettings => 'تنظیمات انجمن';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -6696,376 +6720,374 @@ class FluxerLocalizationsFa extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+      'پروفایل، کانال‌ها و تنظیمات پیش‌فرض انجمن خود را مدیریت کنید.';
 
   @override
-  String get guildSettingsOverviewBrandingTitle => 'Branding';
+  String get guildSettingsOverviewBrandingTitle => 'برندینگ';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+      'آیکون، نام، بنر و پس‌زمینه دعوت خود را به‌روز کنید';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => 'بارگذاری بنر';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => 'تنظیمات بیکاری';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+      'کانال AFK و مهلت زمانی را پیکربندی کنید';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => 'سیستم و خوش‌آمدگویی';
 
   @override
   String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+      'مقصد پیام‌های سیستمی و خوش‌آمدگویی را انتخاب کنید';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle => 'اعلان‌های پیش‌فرض';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      'انجمن‌های با بیش از ۲۵۰ نفر به تنظیمات «فقط منشن‌ها» اجبار می‌شوند. تنظیمات اصلی شما حفظ می‌شود و در صورت کاهش تعداد اعضای انجمن به زیر ۲۵۰ نفر، بازیابی خواهد شد.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => 'پیشرفته';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+      'اجازه نام‌های انعطاف‌پذیر کانال متنی';
 
   @override
-  String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+  String get guildSettingsOverviewHideOwnerCrown => 'مخفی کردن تاج مالک انجمن';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => 'بنر جدا';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+      'بنر را در بخش جداگانه‌ای زیر هدر انجمن نمایش می‌دهد.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => 'بارگذاری آیکون';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => 'حذف';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => 'پس‌زمینه دعوت‌نامه';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle => 'پس‌زمینه امبد چت';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+      'در امبد‌های دعوت‌نامه در چت نمایش داده می‌شود.';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => 'بارگذاری پس‌زمینه';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => 'بدون بنر انجمن';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground =>
+      'بدون پس‌زمینه دعوت‌نامه';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => 'پیش‌نمایش';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+      'ببینید دعوت‌نامه شما برای بازدیدکنندگان چگونه به نظر می‌رسد.';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle => 'نام کانال‌های متنی';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle => 'تاج مالک انجمن';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+      'تنظیم کنید که آیا آیکون تاج در کنار مالک انجمن نمایش داده شود یا خیر';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => 'تراز کارت';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => 'وسط';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => 'چپ';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => 'راست';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+      'فقط در صفحه‌های عریض اعمال می‌شود.';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => 'خواندن تاریخچه پیام';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return 'تغییر آنچه کاربران بدون \"$permission\" می‌توانند ببینند';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return 'از یک پنجره اختصاصی برای تعیین تاریخ آستانه تاریخچه پیام برای اعضایی که مجوز $permission را ندارند استفاده کنید.';
   }
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+      'باز کردن آستانه تاریخچه پیام';
 
   @override
-  String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+  String get guildSettingsMessageHistoryThresholdTitle => 'آستانه تاریخچه پیام';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+      'فعال کردن آستانه تاریخچه پیام';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => 'تاریخ آستانه';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      'اعضایی که تاریخچه پیام را نمی‌خوانند می‌توانند پیام‌های ارسال شده پس از این تاریخ را مشاهده کنند.';
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+      'آستانه تاریخچه پیام به‌روز شد';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      'اجازه حروف بزرگ و فاصله‌ها در نام کانال‌های متنی. غیرفعال کردن نام‌ها را به حروف کوچک با خط تیره و زیرخط محدود می‌کند.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+      'آیکون تاج را در کنار مالک انجمن در همه جا مخفی می‌کند.';
 
   @override
   String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+      'آیکون‌های متحرک به ویژگی انجمن آیکون متحرک نیاز دارند.';
 
   @override
   String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+      'بنرهای متحرک به ویژگی انجمن بنر متحرک نیاز دارند.';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'کانال AFK / بیکار';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+      'اعضا را هنگام بیکار بودن به این کانال منتقل کنید.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => 'بدون کانال AFK';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'زمان انتظار AFK';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '۱ دقیقه';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '۵ دقیقه';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '۱۵ دقیقه';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '۳۰ دقیقه';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '۱ ساعت';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds ثانیه';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => 'کانال مقصد';
 
   @override
   String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+      'پیام‌های خوش‌آمدگویی و سیستمی در اینجا ظاهر می‌شوند.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => 'بدون کانال سیستمی';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages => 'مخفی کردن پیام‌های پیوستن';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+      'پیام‌های ورود را در کانال مقصد پنهان می‌کند.';
 
   @override
-  String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+  String get guildSettingsDefaultNotifications => 'تنظیمات پیش‌فرض اعلان';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => 'همه پیام‌ها';
 
   @override
   String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+      'دریافت اعلان برای همه پیام‌ها';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => 'فقط منشن‌ها';
 
   @override
   String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+      'دریافت اعلان فقط برای منشن‌ها';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG، PNG، WebP، AVIF. حداکثر ۱۰ مگابایت. حداقل: ۹۶۰×۵۴۰ پیکسل (۱۶:۹)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG، PNG، WebP، AVIF. حداکثر ۱۰ مگابایت. حداقل: ۹۶۰×۵۴۰ پیکسل (۱۶:۹). در امبد‌های دعوت در چت نمایش داده می‌شود.';
 
   @override
   String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+      'تنظیمات تأیید، فیلتر محتوا و محتوای نامناسب را پیکربندی کنید.';
 
   @override
   String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+      'انجمن‌های فهرست شده در دیسکاوری گزینه‌های تعدیل محدودی دارند.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => 'فیلتر محتوا';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      'پیام‌ها را برای محتوای صریح در کانال‌هایی که برای محتوای نامناسب علامت‌گذاری نشده‌اند، به‌طور خودکار غربالگری کنید.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      'انجمن‌های فهرست شده در دیسکاوری موظف به اسکن همه اعضا هستند. این تنظیم را نمی‌توان در حالی که دیسکاوری فعال است تغییر داد.';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => 'خاموش';
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+      'به انجمن اجازه دهید خود را تعدیل کند';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole => 'فیلتر اعضای بدون نقش';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+      'برای اکثر انجمن‌ها پیشنهاد می‌شود';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => 'فیلتر همه';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+      'حداکثر محافظت برای فضاهای خانوادگی';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => 'خاموش';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => 'روشن';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle => 'نمایش هشدار محتوا';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+      'یک درخواست رضایت قبل از ورود به هر کانال را فعال/غیرفعال می‌کند.';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => 'متن هشدار سفارشی';
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+      'این حاوی محتوای حساس است.';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => 'الزام احراز هویت دو مرحله‌ای';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      'قبل از اینکه بتوانند بن کنند، اخراج کنند، تایم‌اوت کنند یا پیام‌ها را حذف کنند، برای مدیران احراز هویت دو مرحله‌ای الزامی است.';
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+      'الزام احراز هویت دو مرحله‌ای برای اقدامات مدیریتی';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+      'فقط مالک انجمن می‌تواند این تنظیم را تغییر دهد';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      'برای تغییر این تنظیم، احراز هویت دو مرحله‌ای را در حساب خود فعال کنید';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => 'جستجوی ایموجی';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => 'بارگذاری ایموجی';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return 'ایموجی غیر متحرک ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return 'ایموجی متحرک ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => 'جستجوی استیکر';
 
   @override
   String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+      'وب‌هوک‌ها را از تنظیمات کانال ایجاد کنید. آن‌ها را اینجا ویرایش کنید.';
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+      'URL سفارشی شما کار نخواهد کرد مگر اینکه حداقل یک کانال برای همه قابل مشاهده باشد.';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => 'حذف';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => 'کاربران مسدود شده';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => 'دعوت‌کننده';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => 'کانال';
 
   @override
-  String get guildSettingsInvitesTableCode => 'Code';
+  String get guildSettingsInvitesTableCode => 'کد';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => 'استفاده‌ها';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => 'ایجاد شده';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => 'جدیدترین اول';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => 'فیلتر بر اساس کاربر';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => 'فیلتر بر اساس اقدام';
 }

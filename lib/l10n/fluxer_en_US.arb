@@ -84,6 +84,40 @@
     "@logInWithPasskey": {
         "description": "Secondary login using a passkey."
     },
+    "continueWithSso": "Continue with {provider}",
+    "@continueWithSso": {
+        "description": "Button label that starts single sign-on.",
+        "placeholders": {
+            "provider": {
+                "type": "String"
+            }
+        }
+    },
+    "ssoRequired": "SSO is required to access this instance.",
+    "@ssoRequired": {
+        "description": "Short sign-in note shown when the instance requires single sign-on."
+    },
+    "organizationSsoProvider": "Sign in with your organization's single sign-on provider.",
+    "@organizationSsoProvider": {
+        "description": "Description shown when sign-in is restricted to the configured SSO provider."
+    },
+    "failedToStartSso": "Failed to start SSO",
+    "@failedToStartSso": {
+        "description": "Login flow error shown when the single sign-on redirect cannot be started."
+    },
+    "ssoCancelled": "SSO login was cancelled",
+    "@ssoCancelled": {
+        "description": "Shown when the user cancels the single sign-on browser flow."
+    },
+    "preferSso": "Prefer using SSO? Continue with {provider}.",
+    "@preferSso": {
+        "description": "Optional sign-in note when SSO is available but not required.",
+        "placeholders": {
+            "provider": {
+                "type": "String"
+            }
+        }
+    },
     "logInViaBrowser": "Log in via browser",
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
@@ -140,6 +174,14 @@
     "ipAuthConnectionLostDescription": "We lost the connection while waiting for authorization. Please try again.",
     "@ipAuthConnectionLostDescription": {
         "description": "Description when IP authorization polling fails."
+    },
+    "ipAuthLinkExpired": "Sign-in link expired",
+    "@ipAuthLinkExpired": {
+        "description": "Title shown when the IP authorization ticket has expired and the user must sign in again."
+    },
+    "ipAuthLinkExpiredDescription": "This authorization link expired. Please sign in again.",
+    "@ipAuthLinkExpiredDescription": {
+        "description": "Body shown when the IP authorization ticket has expired."
     },
     "ipAuthResendEmail": "Resend email",
     "@ipAuthResendEmail": {
@@ -239,6 +281,130 @@
                 "type": "String"
             }
         }
+    },
+    "accountManageTitle": "Manage accounts",
+    "@accountManageTitle": {
+        "description": "Title for the in-app account switcher sheet."
+    },
+    "accountSwitchFailed": "Couldn't switch accounts. Try again.",
+    "@accountSwitchFailed": {
+        "description": "Error when switching accounts from the account switcher."
+    },
+    "profileTabMenuSwitchAccounts": "Switch accounts",
+    "@profileTabMenuSwitchAccounts": {
+        "description": "Menu item to open the account switcher from the profile tab."
+    },
+    "statusChangeSheetTitle": "Set status",
+    "@statusChangeSheetTitle": {
+        "description": "Title for the status change bottom sheet."
+    },
+    "statusOnlineStatusSection": "Online status",
+    "@statusOnlineStatusSection": {
+        "description": "Section header for presence status options."
+    },
+    "statusOnline": "Online",
+    "@statusOnline": {
+        "description": "Online presence status label."
+    },
+    "statusIdle": "Idle",
+    "@statusIdle": {
+        "description": "Idle presence status label."
+    },
+    "statusDnd": "Do not disturb",
+    "@statusDnd": {
+        "description": "Do not disturb presence status label."
+    },
+    "statusInvisible": "Invisible",
+    "@statusInvisible": {
+        "description": "Invisible presence status label."
+    },
+    "statusOffline": "Offline",
+    "@statusOffline": {
+        "description": "Offline presence status label."
+    },
+    "statusUntilIChangeIt": "Until I change it",
+    "@statusUntilIChangeIt": {
+        "description": "Presence status expiry option for a permanent status."
+    },
+    "statusDontClear": "Don't clear",
+    "@statusDontClear": {
+        "description": "Custom status expiry option to never auto-clear."
+    },
+    "statusFor10Seconds": "For 10 seconds",
+    "@statusFor10Seconds": {
+        "description": "Presence status expiry option for 10 seconds."
+    },
+    "statusClearAfter10Seconds": "10 seconds",
+    "@statusClearAfter10Seconds": {
+        "description": "Custom status clear-after option for 10 seconds."
+    },
+    "statusClearAfter15Minutes": "15 minutes",
+    "@statusClearAfter15Minutes": {
+        "description": "Custom status clear-after option for 15 minutes."
+    },
+    "statusClearAfter30Minutes": "30 minutes",
+    "@statusClearAfter30Minutes": {
+        "description": "Custom status clear-after option for 30 minutes."
+    },
+    "statusClearAfter1Hour": "1 hour",
+    "@statusClearAfter1Hour": {
+        "description": "Custom status clear-after option for 1 hour."
+    },
+    "statusClearAfter3Hours": "3 hours",
+    "@statusClearAfter3Hours": {
+        "description": "Custom status clear-after option for 3 hours."
+    },
+    "statusClearAfter4Hours": "4 hours",
+    "@statusClearAfter4Hours": {
+        "description": "Custom status clear-after option for 4 hours."
+    },
+    "statusClearAfter8Hours": "8 hours",
+    "@statusClearAfter8Hours": {
+        "description": "Custom status clear-after option for 8 hours."
+    },
+    "statusClearAfter24Hours": "24 hours",
+    "@statusClearAfter24Hours": {
+        "description": "Custom status clear-after option for 24 hours."
+    },
+    "statusClearAfter3Days": "3 days",
+    "@statusClearAfter3Days": {
+        "description": "Custom status clear-after option for 3 days."
+    },
+    "statusDndDescription": "You won't receive notifications on desktop",
+    "@statusDndDescription": {
+        "description": "Description shown for the do not disturb status option."
+    },
+    "statusInvisibleDescription": "You'll appear offline",
+    "@statusInvisibleDescription": {
+        "description": "Description shown for the invisible status option."
+    },
+    "customStatusSetTitle": "Set custom status",
+    "@customStatusSetTitle": {
+        "description": "Title for the custom status editor."
+    },
+    "customStatusCurrentHint": "Custom status",
+    "@customStatusCurrentHint": {
+        "description": "Hint label for the current custom status row."
+    },
+    "customStatusClear": "Clear custom status",
+    "@customStatusClear": {
+        "description": "Action to remove the current custom status."
+    },
+    "customStatusPlaceholder": "What's happening?",
+    "@customStatusPlaceholder": {
+        "description": "Placeholder for the custom status text field."
+    },
+    "customStatusChooseEmoji": "Choose an emoji",
+    "@customStatusChooseEmoji": {
+        "description": "Button to pick an emoji for custom status."
+    },
+    "customStatusClearAfter": "Clear after",
+    "@customStatusClearAfter": {
+        "description": "Label for the custom status expiry picker."
+    },
+    "customStatusSave": "Save",
+    "@customStatusSave": {
+        "description": "Button to save custom status changes."
     },
     "accountActive": "Active account",
     "@accountActive": {
@@ -498,6 +664,10 @@
     "@errorUnableToSignIn": {
         "description": "Generic fallback error when login fails unexpectedly."
     },
+    "errorInvalidEmailOrPassword": "Invalid email or password.",
+    "@errorInvalidEmailOrPassword": {
+        "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
     "errorUnableToSendResetLink": "Unable to send reset link. Please try again.",
     "@errorUnableToSendResetLink": {
         "description": "Generic fallback error when forgot password request fails."
@@ -543,6 +713,67 @@
     "embedInviteUnavailable": "Invite Unavailable",
     "@embedInviteUnavailable": {
         "description": "Disabled button label when an invite is unavailable."
+    },
+    "inviteAcceptTitle": "You've been invited to join",
+    "@inviteAcceptTitle": {
+        "description": "Title of the invite accept modal."
+    },
+    "inviteAcceptJoinButton": "Join Community",
+    "@inviteAcceptJoinButton": {
+        "description": "Primary action to join a community from the invite modal."
+    },
+    "inviteAcceptGoToButton": "Go to Community",
+    "@inviteAcceptGoToButton": {
+        "description": "Primary action when the user is already a member of the invited community."
+    },
+    "inviteAcceptInvitesPaused": "Invites Paused",
+    "@inviteAcceptInvitesPaused": {
+        "description": "Disabled action label when community invites are paused."
+    },
+    "inviteAcceptNotFoundTitle": "Invite Invalid",
+    "@inviteAcceptNotFoundTitle": {
+        "description": "Title when an invite link is expired or invalid."
+    },
+    "inviteAcceptNotFoundDescription": "This invite may be expired or invalid.",
+    "@inviteAcceptNotFoundDescription": {
+        "description": "Description when an invite link is expired or invalid."
+    },
+    "inviteAcceptJoinGroupButton": "Join group",
+    "@inviteAcceptJoinGroupButton": {
+        "description": "Primary action to join a group DM from the invite modal."
+    },
+    "inviteAcceptGroupDmDescription": "You've been invited to join a group DM by {inviterName}",
+    "@inviteAcceptGroupDmDescription": {
+        "description": "Description for a group DM invite in the accept modal.",
+        "placeholders": {
+            "inviterName": {
+                "type": "String"
+            }
+        }
+    },
+    "inviteAcceptSomeone": "someone",
+    "@inviteAcceptSomeone": {
+        "description": "Fallback inviter name when the inviter is unknown."
+    },
+    "inviteAcceptEmojiPack": "Emoji pack",
+    "@inviteAcceptEmojiPack": {
+        "description": "Label for an emoji pack invite."
+    },
+    "inviteAcceptStickerPack": "Sticker pack",
+    "@inviteAcceptStickerPack": {
+        "description": "Label for a sticker pack invite."
+    },
+    "inviteAcceptInstallEmojiPack": "Install emoji pack",
+    "@inviteAcceptInstallEmojiPack": {
+        "description": "Primary action to install an emoji pack from an invite."
+    },
+    "inviteAcceptInstallStickerPack": "Install sticker pack",
+    "@inviteAcceptInstallStickerPack": {
+        "description": "Primary action to install a sticker pack from an invite."
+    },
+    "inviteAcceptPackInstallNote": "Accepting this invite installs the pack automatically.",
+    "@inviteAcceptPackInstallNote": {
+        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -2359,6 +2590,32 @@
     "@dangerZoneDeleteCancelSubscription": {
         "description": "Warning about active subscription before deletion."
     },
+    "dangerZoneDeleteCannotDeleteAccount": "Cannot delete account",
+    "@dangerZoneDeleteCannotDeleteAccount": {
+        "description": "Title for the guild ownership warning modal when trying to delete account."
+    },
+    "dangerZoneDeleteOwnsCommunities": "You cannot delete your account while you own communities. Transfer ownership of the following communities first:",
+    "@dangerZoneDeleteOwnsCommunities": {
+        "description": "Warning message shown when user owns communities and tries to delete account."
+    },
+    "dangerZoneDeleteAndXMore": "and {count} more",
+    "@dangerZoneDeleteAndXMore": {
+        "description": "Shown when user owns more than 3 communities.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "dangerZoneDeleteTransferInstructions": "To transfer ownership, go to {settingsPath} and use the transfer ownership option.",
+    "@dangerZoneDeleteTransferInstructions": {
+        "description": "Instructions for transferring community ownership.",
+        "placeholders": {
+            "settingsPath": {
+                "type": "String"
+            }
+        }
+    },
     "dangerZoneDeleteConfirmDescription": "Are you sure you want to delete your account? This action will schedule your account for permanent deletion.",
     "@dangerZoneDeleteConfirmDescription": {
         "description": "Confirmation description for account delete."
@@ -2621,27 +2878,49 @@
     },
     "userProfileStaffBadgeTooltip": "Fluxer Staff",
     "@userProfileStaffBadgeTooltip": {
-        "description": "Tooltip and semantic label for the staff badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
     },
     "userProfileCtpBadgeTooltip": "Fluxer Community Team",
     "@userProfileCtpBadgeTooltip": {
-        "description": "Tooltip and semantic label for the community team badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
     },
     "userProfilePartnerBadgeTooltip": "Fluxer Partner",
     "@userProfilePartnerBadgeTooltip": {
-        "description": "Tooltip and semantic label for the partner badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
     },
     "userProfileBugHunterBadgeTooltip": "Fluxer Bug Hunter",
     "@userProfileBugHunterBadgeTooltip": {
-        "description": "Tooltip and semantic label for the bug hunter badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
     },
     "userProfilePlutoniumBadgeTooltip": "Fluxer Plutonium",
     "@userProfilePlutoniumBadgeTooltip": {
-        "description": "Tooltip and semantic label for the Plutonium badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+    },
+    "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium subscriber since {date}",
+    "@userProfilePlutoniumSubscriberSinceTooltip": {
+        "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileVisionaryBadgeTooltip": "Fluxer Visionary",
+    "@userProfileVisionaryBadgeTooltip": {
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+    },
+    "userProfileVisionaryBadgeSinceTooltip": "Fluxer Visionary since {date}",
+    "@userProfileVisionaryBadgeSinceTooltip": {
+        "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
     },
     "userProfileVisionaryIdTooltip": "Visionary ID #{sequence}",
     "@userProfileVisionaryIdTooltip": {
-        "description": "Tooltip for the Visionary ID number shown next to the premium badge on a user profile.",
+        "description": "Short label in the user profile badges popout. Keep it concise. Preserve {sequence}; it is inserted by code.",
         "placeholders": {
             "sequence": {
                 "type": "int"
@@ -2703,6 +2982,10 @@
                 "type": "String"
             }
         }
+    },
+    "blockedUserComposerBarrierAction": "Unblock",
+    "@blockedUserComposerBarrierAction": {
+        "description": "Button label on the composer barrier shown when messaging a blocked user."
     },
     "userProfileOpenDm": "Open DM",
     "@userProfileOpenDm": {
@@ -3140,6 +3423,159 @@
     "typingIndicatorApocalypse": "Whoa, it's a typing apocalypse",
     "@typingIndicatorApocalypse": {
         "description": "Typing indicator shown when 20 or more other users are typing."
+    },
+    "systemJoinGladYoureHere": "Glad you're here, {username}!",
+    "@systemJoinGladYoureHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeMakeYourselfAtHome": "Welcome, {username}! Make yourself at home.",
+    "@systemJoinWelcomeMakeYourselfAtHome": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHelloNiceToHaveYouHere": "Hello, {username}! Nice to have you here.",
+    "@systemJoinHelloNiceToHaveYouHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHelloJumpInWheneverYoureReady": "Hello, {username}! Jump in whenever you're ready.",
+    "@systemJoinHelloJumpInWheneverYoureReady": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHeyGreatToSeeYouHere": "Hey {username}, great to see you here!",
+    "@systemJoinHeyGreatToSeeYouHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHeyThereHopeYouEnjoyYourStay": "Hey there, {username}! Hope you enjoy your stay.",
+    "@systemJoinHeyThereHopeYouEnjoyYourStay": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHeyWelcomeAboard": "Hey, {username}, welcome aboard!",
+    "@systemJoinHeyWelcomeAboard": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinGladYouMadeIt": "Glad you made it, {username}!",
+    "@systemJoinGladYouMadeIt": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeIn": "Welcome in, {username}!",
+    "@systemJoinWelcomeIn": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcome": "Welcome, {username}!",
+    "@systemJoinWelcome": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeWereGladYoureHere": "Welcome, {username}! We're glad you're here.",
+    "@systemJoinWelcomeWereGladYoureHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeHopeYouEnjoyYourTimeHere": "Welcome, {username}! Hope you enjoy your time here.",
+    "@systemJoinWelcomeHopeYouEnjoyYourTimeHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeYourNextConversationStartsHere": "Welcome, {username}! Your next conversation starts here.",
+    "@systemJoinWelcomeYourNextConversationStartsHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeWereHappyToHaveYouHere": "Welcome, {username}. We're happy to have you here.",
+    "@systemJoinWelcomeWereHappyToHaveYouHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinGreatToSeeYouWelcomeIn": "Great to see you, {username}! Welcome in.",
+    "@systemJoinGreatToSeeYouWelcomeIn": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinYoureHereGoodToHaveYouWithUs": "You're here, {username}! Good to have you with us.",
+    "@systemJoinYoureHereGoodToHaveYouWithUs": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinYouveArrivedLetsGetStarted": "You've arrived, {username}! Let's get started.",
+    "@systemJoinYouveArrivedLetsGetStarted": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
     },
     "relativeTimeShortNow": "now",
     "@relativeTimeShortNow": {
@@ -4525,6 +4961,145 @@
     "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
         "description": "Toggle description for showing a faded unread indicator on muted channels."
     },
+    "accessibilityDmMessagePreviewGroupTitle": "DM message previews",
+    "@accessibilityDmMessagePreviewGroupTitle": {
+        "description": "Section title for DM message preview accessibility settings."
+    },
+    "accessibilityDmMessagePreviewGroupDescription": "Control when message previews are shown in the DM list.",
+    "@accessibilityDmMessagePreviewGroupDescription": {
+        "description": "Section description for DM message preview accessibility settings."
+    },
+    "accessibilityDmMessagePreviewModeLabel": "DM message preview mode",
+    "@accessibilityDmMessagePreviewModeLabel": {
+        "description": "Accessibility label for the DM message preview mode radio group."
+    },
+    "accessibilityDmMessagePreviewAllName": "All messages",
+    "@accessibilityDmMessagePreviewAllName": {
+        "description": "Radio option name for showing DM previews for all conversations."
+    },
+    "accessibilityDmMessagePreviewAllDescription": "Show message previews for all DM conversations",
+    "@accessibilityDmMessagePreviewAllDescription": {
+        "description": "Radio option description for showing DM previews for all conversations."
+    },
+    "accessibilityDmMessagePreviewUnreadOnlyName": "Unread DMs only",
+    "@accessibilityDmMessagePreviewUnreadOnlyName": {
+        "description": "Radio option name for showing DM previews only when unread."
+    },
+    "accessibilityDmMessagePreviewUnreadOnlyDescription": "Only show message previews for DMs with unread messages",
+    "@accessibilityDmMessagePreviewUnreadOnlyDescription": {
+        "description": "Radio option description for showing DM previews only when unread."
+    },
+    "accessibilityDmMessagePreviewNoneName": "None",
+    "@accessibilityDmMessagePreviewNoneName": {
+        "description": "Radio option name for hiding DM message previews."
+    },
+    "accessibilityDmMessagePreviewNoneDescription": "Don't show message previews in the DM list",
+    "@accessibilityDmMessagePreviewNoneDescription": {
+        "description": "Radio option description for hiding DM message previews."
+    },
+    "dmListSentAnAttachment": "Sent an attachment",
+    "@dmListSentAnAttachment": {
+        "description": "DM list row preview text when the most recent message has only attachments."
+    },
+    "systemPreviewPinnedMessage": "{username} pinned a message to this channel.",
+    "@systemPreviewPinnedMessage": {
+        "description": "Plaintext DM list preview for a pin system message.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewAddedToGroup": "{username} added {userName} to the group.",
+    "@systemPreviewAddedToGroup": {
+        "description": "Plaintext DM list preview when a member adds another user to a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewAddedSomeoneToGroup": "{username} added someone to the group.",
+    "@systemPreviewAddedSomeoneToGroup": {
+        "description": "Plaintext DM list preview when a member adds an unresolved user to a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewHasLeftGroup": "{username} has left the group.",
+    "@systemPreviewHasLeftGroup": {
+        "description": "Plaintext DM list preview when a member leaves a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewRemovedFromGroup": "{username} removed {userName} from the group.",
+    "@systemPreviewRemovedFromGroup": {
+        "description": "Plaintext DM list preview when a member removes another user from a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewRemovedSomeoneFromGroup": "{username} removed someone from the group.",
+    "@systemPreviewRemovedSomeoneFromGroup": {
+        "description": "Plaintext DM list preview when a member removes an unresolved user from a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewChangedChannelNameTo": "{username} changed the channel name to {newName}.",
+    "@systemPreviewChangedChannelNameTo": {
+        "description": "Plaintext DM list preview when a group DM is renamed.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "newName": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewChangedChannelName": "{username} changed the channel name.",
+    "@systemPreviewChangedChannelName": {
+        "description": "Plaintext DM list preview when a group DM is renamed without a known new name.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewChangedChannelIcon": "{username} changed the channel icon.",
+    "@systemPreviewChangedChannelIcon": {
+        "description": "Plaintext DM list preview when a group DM icon changes.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewStartedCall": "{username} started a call.",
+    "@systemPreviewStartedCall": {
+        "description": "Plaintext DM list preview when a call starts.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
     "voiceConnectionConfirmTitle": "Voice Connection Confirmation",
     "@voiceConnectionConfirmTitle": {
         "description": "Title of the multi-device voice join confirmation dialog."
@@ -4729,6 +5304,14 @@
     "@voiceStopWatchingCurrentStreamTooltip": {
         "description": "Tooltip for the Stop Watching control in the voice bar."
     },
+    "voiceOwnScreenShareTitle": "You are broadcasting",
+    "@voiceOwnScreenShareTitle": {
+        "description": "Title on the participant's own screen-share tile when they are sharing their screen."
+    },
+    "voiceOwnScreenShareSubtitle": "Your stream is live for participants.",
+    "@voiceOwnScreenShareSubtitle": {
+        "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
+    },
     "voiceLiveBadge": "Live",
     "@voiceLiveBadge": {
         "description": "Compact LIVE indicator on a screen-share tile (shown uppercase)."
@@ -4901,6 +5484,43 @@
     "@chatMessageFailedToSend": {
         "description": "Status label shown under a failed outgoing chat message."
     },
+    "chatSendFailureDmRestricted": "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in {settingsPath}.",
+    "@chatSendFailureDmRestricted": {
+        "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",
+        "placeholders": {
+            "settingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "chatSendFailureUnclaimedDm": "Your message could not be delivered. You need to claim your account to send direct messages.",
+    "@chatSendFailureUnclaimedDm": {
+        "description": "Fluxerbot system message when an unclaimed account tries to send a DM."
+    },
+    "chatSendFailureUnclaimedGeneral": "Your message could not be delivered. You need to claim your account to send messages.",
+    "@chatSendFailureUnclaimedGeneral": {
+        "description": "Fluxerbot system message when an unclaimed account tries to send a message."
+    },
+    "chatSendFailureContentBlocked": "Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.",
+    "@chatSendFailureContentBlocked": {
+        "description": "Fluxerbot system message when message content is blocked by safety systems."
+    },
+    "chatSendFailureNsfwEmojiSticker": "Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.",
+    "@chatSendFailureNsfwEmojiSticker": {
+        "description": "Fluxerbot system message when mature emoji or stickers are blocked."
+    },
+    "chatClientSystemOnlyYouCanSee": "Only you can see this message.",
+    "@chatClientSystemOnlyYouCanSee": {
+        "description": "Footer on ephemeral Fluxerbot client system messages."
+    },
+    "chatClientSystemDismiss": "Dismiss",
+    "@chatClientSystemDismiss": {
+        "description": "Action to remove an ephemeral Fluxerbot client system message locally."
+    },
+    "privacyDashboardCommunicationSection": "Communication",
+    "@privacyDashboardCommunicationSection": {
+        "description": "Section title for communication privacy settings in the privacy dashboard."
+    },
     "chatMessageDeleteFailed": "Delete Failed Message",
     "@chatMessageDeleteFailed": {
         "description": "Action label for deleting a failed outgoing chat message."
@@ -5005,6 +5625,10 @@
     "chatMessageUnpin": "Unpin message",
     "@chatMessageUnpin": {
         "description": "Action label for unpinning a message."
+    },
+    "chatMessageUnpinIt": "Unpin it",
+    "@chatMessageUnpinIt": {
+        "description": "Primary button label on the unpin confirmation sheet."
     },
     "chatMessageBookmark": "Bookmark Message",
     "@chatMessageBookmark": {
@@ -5502,11 +6126,19 @@
     },
     "chatReplyOriginalDeleted": "Original message was deleted",
     "@chatReplyOriginalDeleted": {
-        "description": "Placeholder in the inline reply preview when the parent message was deleted."
+        "description": "Label in the channel and chat reply preview. Keep the tone plain and specific."
     },
     "chatReplyOriginalFailedToLoad": "Original message failed to load",
     "@chatReplyOriginalFailedToLoad": {
-        "description": "Placeholder in the inline reply preview when the parent message could not be loaded."
+        "description": "Error message in the channel and chat reply preview."
+    },
+    "chatReplyAttachedMedia": "Message contains attached media",
+    "@chatReplyAttachedMedia": {
+        "description": "Label in the channel and chat reply preview."
+    },
+    "chatMessagesLoadError": "Couldn't load messages.",
+    "@chatMessagesLoadError": {
+        "description": "Shown in the chat message list when the initial message history request fails. The user can retry from the same screen."
     },
     "chatReplyMentionOverrideTitle": "Override mention preference?",
     "@chatReplyMentionOverrideTitle": {
@@ -5575,6 +6207,28 @@
     "chatMessageEdited": "(edited)",
     "@chatMessageEdited": {
         "description": "Message metadata label displayed after edited messages."
+    },
+    "chatMessageSilent": "This was a @silent message.",
+    "@chatMessageSilent": {
+        "description": "Tooltip on the bell-slash icon beside a silent message. \"@silent\" is the literal command keyword and must not be translated."
+    },
+    "chatMessageTimestampToday": "Today at {time}",
+    "@chatMessageTimestampToday": {
+        "description": "Inline chat message timestamp when the message was sent today. {time} is locale-formatted.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageTimestampYesterday": "Yesterday at {time}",
+    "@chatMessageTimestampYesterday": {
+        "description": "Inline chat message timestamp when the message was sent yesterday. {time} is locale-formatted.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
     },
     "mediaViewerImagePreview": "Image preview",
     "@mediaViewerImagePreview": {
@@ -5716,6 +6370,37 @@
     "@chatMessageUnpinConfirmDescription": {
         "description": "Body text for the unpin message confirmation sheet."
     },
+    "systemPinMessage": "{username} pinned {messageLink} to this channel. See {allPinsLink}.",
+    "@systemPinMessage": {
+        "description": "System message when a user pins a message. Keep {username}, {messageLink}, and {allPinsLink} in place; translate the surrounding sentence.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "messageLink": {
+                "type": "String"
+            },
+            "allPinsLink": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPinMessageMessageLink": "a message",
+    "@systemPinMessageMessageLink": {
+        "description": "Link label in the pin system message for jumping to the pinned message."
+    },
+    "systemPinMessageAllPinsLink": "all pinned messages",
+    "@systemPinMessageAllPinsLink": {
+        "description": "Link label in the pin system message for opening all pinned messages."
+    },
+    "channelPinsEmptyTitle": "No pinned messages",
+    "@channelPinsEmptyTitle": {
+        "description": "Title shown when a channel has no pinned messages."
+    },
+    "channelPinsEmptyDescription": "Pinned messages show up here.",
+    "@channelPinsEmptyDescription": {
+        "description": "Description shown when a channel has no pinned messages."
+    },
     "personalNotesTitle": "Personal notes",
     "@personalNotesTitle": {
         "description": "Title for the self-DM personal notes channel in the sidebar and chat header."
@@ -5723,6 +6408,24 @@
     "personalNotesSubtitle": "Your private space for thoughts and reminders",
     "@personalNotesSubtitle": {
         "description": "Subtitle on the personal notes welcome empty state."
+    },
+    "channelWelcomeHeading": "Welcome to {channelName}",
+    "@channelWelcomeHeading": {
+        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelWelcomeDescription": "In the beginning, there was nothing. Then, there was {channelName}. And it was good.",
+    "@channelWelcomeDescription": {
+        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
     },
     "personalNotesComposerHint": "Message yourself",
     "@personalNotesComposerHint": {
@@ -5844,6 +6547,22 @@
     "userSettingsNavAdvanced": "Advanced",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
+    },
+    "advancedPerformanceReportingTitle": "Performance reporting",
+    "@advancedPerformanceReportingTitle": {
+        "description": "Advanced settings section title for crash and performance reporting."
+    },
+    "advancedPerformanceReportingSectionDescription": "Help improve Fluxer by sharing anonymous crash and performance data.",
+    "@advancedPerformanceReportingSectionDescription": {
+        "description": "Advanced settings section description for crash and performance reporting."
+    },
+    "advancedPerformanceReportingLabel": "Send crash and performance reports",
+    "@advancedPerformanceReportingLabel": {
+        "description": "Toggle label for opting into crash and performance reporting."
+    },
+    "advancedPerformanceReportingDescription": "All reported data is anonymous and is sent only to Fluxer's own monitoring service — no third-party providers are used.",
+    "@advancedPerformanceReportingDescription": {
+        "description": "Toggle description explaining anonymous self-hosted performance reporting."
     },
     "userSettingsNavApplications": "Applications",
     "@userSettingsNavApplications": {
@@ -6021,133 +6740,13 @@
     "@quickSwitcherSearchAliasSaved": {
         "description": "Quick switcher search alias for bookmarks."
     },
-    "accountManageTitle": "Manage accounts",
-    "@accountManageTitle": {
-        "description": "Title for the in-app account switcher sheet."
-    },
-    "accountSwitchFailed": "Couldn't switch accounts. Try again.",
-    "@accountSwitchFailed": {
-        "description": "Error when switching accounts from the account switcher."
-    },
-    "profileTabMenuSwitchAccounts": "Switch accounts",
-    "@profileTabMenuSwitchAccounts": {
-        "description": "Menu item to open the account switcher from the profile tab."
-    },
-    "statusChangeSheetTitle": "Set status",
-    "@statusChangeSheetTitle": {
-        "description": "Title for the status change bottom sheet."
-    },
-    "statusOnlineStatusSection": "Online status",
-    "@statusOnlineStatusSection": {
-        "description": "Section header for presence status options."
-    },
-    "statusOnline": "Online",
-    "@statusOnline": {
-        "description": "Online presence status label."
-    },
-    "statusIdle": "Idle",
-    "@statusIdle": {
-        "description": "Idle presence status label."
-    },
-    "statusDnd": "Do not disturb",
-    "@statusDnd": {
-        "description": "Do not disturb presence status label."
-    },
-    "statusInvisible": "Invisible",
-    "@statusInvisible": {
-        "description": "Invisible presence status label."
-    },
-    "statusOffline": "Offline",
-    "@statusOffline": {
-        "description": "Offline presence status label."
-    },
-    "statusUntilIChangeIt": "Until I change it",
-    "@statusUntilIChangeIt": {
-        "description": "Presence status expiry option for a permanent status."
-    },
-    "statusDontClear": "Don't clear",
-    "@statusDontClear": {
-        "description": "Custom status expiry option to never auto-clear."
-    },
-    "statusFor10Seconds": "For 10 seconds",
-    "@statusFor10Seconds": {
-        "description": "Presence status expiry option for 10 seconds."
-    },
-    "statusClearAfter10Seconds": "10 seconds",
-    "@statusClearAfter10Seconds": {
-        "description": "Custom status clear-after option for 10 seconds."
-    },
-    "statusClearAfter15Minutes": "15 minutes",
-    "@statusClearAfter15Minutes": {
-        "description": "Custom status clear-after option for 15 minutes."
-    },
-    "statusClearAfter30Minutes": "30 minutes",
-    "@statusClearAfter30Minutes": {
-        "description": "Custom status clear-after option for 30 minutes."
-    },
-    "statusClearAfter1Hour": "1 hour",
-    "@statusClearAfter1Hour": {
-        "description": "Custom status clear-after option for 1 hour."
-    },
-    "statusClearAfter3Hours": "3 hours",
-    "@statusClearAfter3Hours": {
-        "description": "Custom status clear-after option for 3 hours."
-    },
-    "statusClearAfter4Hours": "4 hours",
-    "@statusClearAfter4Hours": {
-        "description": "Custom status clear-after option for 4 hours."
-    },
-    "statusClearAfter8Hours": "8 hours",
-    "@statusClearAfter8Hours": {
-        "description": "Custom status clear-after option for 8 hours."
-    },
-    "statusClearAfter24Hours": "24 hours",
-    "@statusClearAfter24Hours": {
-        "description": "Custom status clear-after option for 24 hours."
-    },
-    "statusClearAfter3Days": "3 days",
-    "@statusClearAfter3Days": {
-        "description": "Custom status clear-after option for 3 days."
-    },
-    "statusDndDescription": "You won't receive notifications on desktop",
-    "@statusDndDescription": {
-        "description": "Description shown for the do not disturb status option."
-    },
-    "statusInvisibleDescription": "You'll appear offline",
-    "@statusInvisibleDescription": {
-        "description": "Description shown for the invisible status option."
-    },
-    "customStatusSetTitle": "Set custom status",
-    "@customStatusSetTitle": {
-        "description": "Title for the custom status editor."
-    },
-    "customStatusCurrentHint": "Custom status",
-    "@customStatusCurrentHint": {
-        "description": "Hint label for the current custom status row."
-    },
-    "customStatusClear": "Clear custom status",
-    "@customStatusClear": {
-        "description": "Action to remove the current custom status."
-    },
-    "customStatusPlaceholder": "What's happening?",
-    "@customStatusPlaceholder": {
-        "description": "Placeholder for the custom status text field."
-    },
-    "customStatusChooseEmoji": "Choose an emoji",
-    "@customStatusChooseEmoji": {
-        "description": "Button to pick an emoji for custom status."
-    },
-    "customStatusClearAfter": "Clear after",
-    "@customStatusClearAfter": {
-        "description": "Label for the custom status expiry picker."
-    },
-    "customStatusSave": "Save",
-    "@customStatusSave": {
-        "description": "Button to save custom status changes."
-    },
     "uiClose": "Close",
     "@uiClose": {
         "description": "Accessible label for icon-only close buttons."
+    },
+    "chatJumpToBottom": "Jump to bottom",
+    "@chatJumpToBottom": {
+        "description": "Accessible label for the chat jump-to-bottom button."
     },
     "uiConfirm": "Confirm",
     "@uiConfirm": {
@@ -6188,241 +6787,6 @@
     "uiColorPickerTitle": "Color picker",
     "@uiColorPickerTitle": {
         "description": "Title for the mobile color picker sheet."
-    },
-    "ipAuthLinkExpired": "Sign-in link expired",
-    "@ipAuthLinkExpired": {
-        "description": "Title shown when the IP authorization ticket has expired and the user must sign in again."
-    },
-    "ipAuthLinkExpiredDescription": "This authorization link expired. Please sign in again.",
-    "@ipAuthLinkExpiredDescription": {
-        "description": "Body shown when the IP authorization ticket has expired."
-    },
-    "errorInvalidEmailOrPassword": "Invalid email or password.",
-    "@errorInvalidEmailOrPassword": {
-        "description": "Error shown on the login screen when the email and password combination is incorrect."
-    },
-    "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium subscriber since {date}",
-    "@userProfilePlutoniumSubscriberSinceTooltip": {
-        "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "userProfileVisionaryBadgeTooltip": "Fluxer Visionary",
-    "@userProfileVisionaryBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
-    },
-    "userProfileVisionaryBadgeSinceTooltip": "Fluxer Visionary since {date}",
-    "@userProfileVisionaryBadgeSinceTooltip": {
-        "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinGladYoureHere": "Glad you're here, {username}!",
-    "@systemJoinGladYoureHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeMakeYourselfAtHome": "Welcome, {username}! Make yourself at home.",
-    "@systemJoinWelcomeMakeYourselfAtHome": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHelloNiceToHaveYouHere": "Hello, {username}! Nice to have you here.",
-    "@systemJoinHelloNiceToHaveYouHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHelloJumpInWheneverYoureReady": "Hello, {username}! Jump in whenever you're ready.",
-    "@systemJoinHelloJumpInWheneverYoureReady": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHeyGreatToSeeYouHere": "Hey {username}, great to see you here!",
-    "@systemJoinHeyGreatToSeeYouHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHeyThereHopeYouEnjoyYourStay": "Hey there, {username}! Hope you enjoy your stay.",
-    "@systemJoinHeyThereHopeYouEnjoyYourStay": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHeyWelcomeAboard": "Hey, {username}, welcome aboard!",
-    "@systemJoinHeyWelcomeAboard": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinGladYouMadeIt": "Glad you made it, {username}!",
-    "@systemJoinGladYouMadeIt": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeIn": "Welcome in, {username}!",
-    "@systemJoinWelcomeIn": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcome": "Welcome, {username}!",
-    "@systemJoinWelcome": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeWereGladYoureHere": "Welcome, {username}! We're glad you're here.",
-    "@systemJoinWelcomeWereGladYoureHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeHopeYouEnjoyYourTimeHere": "Welcome, {username}! Hope you enjoy your time here.",
-    "@systemJoinWelcomeHopeYouEnjoyYourTimeHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeYourNextConversationStartsHere": "Welcome, {username}! Your next conversation starts here.",
-    "@systemJoinWelcomeYourNextConversationStartsHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeWereHappyToHaveYouHere": "Welcome, {username}. We're happy to have you here.",
-    "@systemJoinWelcomeWereHappyToHaveYouHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinGreatToSeeYouWelcomeIn": "Great to see you, {username}! Welcome in.",
-    "@systemJoinGreatToSeeYouWelcomeIn": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinYoureHereGoodToHaveYouWithUs": "You're here, {username}! Good to have you with us.",
-    "@systemJoinYoureHereGoodToHaveYouWithUs": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinYouveArrivedLetsGetStarted": "You've arrived, {username}! Let's get started.",
-    "@systemJoinYouveArrivedLetsGetStarted": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "voiceOwnScreenShareTitle": "You are broadcasting",
-    "@voiceOwnScreenShareTitle": {
-        "description": "Title on the participant's own screen-share tile when they are sharing their screen."
-    },
-    "voiceOwnScreenShareSubtitle": "Your stream is live for participants.",
-    "@voiceOwnScreenShareSubtitle": {
-        "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
-    },
-    "chatMessagesLoadError": "Couldn't load messages.",
-    "@chatMessagesLoadError": {
-        "description": "Shown in the chat message list when the initial message history request fails. The user can retry from the same screen."
-    },
-    "chatMessageTimestampToday": "Today at {time}",
-    "@chatMessageTimestampToday": {
-        "description": "Inline chat message timestamp when the message was sent today. {time} is locale-formatted.",
-        "placeholders": {
-            "time": {
-                "type": "String"
-            }
-        }
-    },
-    "chatMessageTimestampYesterday": "Yesterday at {time}",
-    "@chatMessageTimestampYesterday": {
-        "description": "Inline chat message timestamp when the message was sent yesterday. {time} is locale-formatted.",
-        "placeholders": {
-            "time": {
-                "type": "String"
-            }
-        }
-    },
-    "channelWelcomeHeading": "Welcome to {channelName}",
-    "@channelWelcomeHeading": {
-        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
-    },
-    "channelWelcomeDescription": "In the beginning, there was nothing. Then, there was {channelName}. And it was good.",
-    "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
     },
     "mentionConfirmTitle": "Mention everyone?",
     "@mentionConfirmTitle": {
@@ -6507,56 +6871,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "continueWithSso": "Continue with {provider}",
-    "@continueWithSso": {
-        "description": "Button label that starts single sign-on.",
-        "placeholders": {
-            "provider": {
-                "type": "String"
-            }
-        }
-    },
-    "ssoRequired": "SSO is required to access this instance.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
-    "organizationSsoProvider": "Sign in with your organization's single sign-on provider.",
-    "@organizationSsoProvider": {
-        "description": "Description shown when sign-in is restricted to the configured SSO provider."
-    },
-    "failedToStartSso": "Failed to start SSO",
-    "@failedToStartSso": {
-        "description": "Login flow error shown when the single sign-on redirect cannot be started."
-    },
-    "ssoCancelled": "SSO login was cancelled",
-    "@ssoCancelled": {
-        "description": "Shown when the user cancels the single sign-on browser flow."
-    },
-    "preferSso": "Prefer using SSO? Continue with {provider}.",
-    "@preferSso": {
-        "description": "Optional sign-in note when SSO is available but not required.",
-        "placeholders": {
-            "provider": {
-                "type": "String"
-            }
-        }
-    },
-    "advancedPerformanceReportingTitle": "Performance reporting",
-    "@advancedPerformanceReportingTitle": {
-        "description": "Advanced settings section title for crash and performance reporting."
-    },
-    "advancedPerformanceReportingSectionDescription": "Help improve Fluxer by sharing anonymous crash and performance data.",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting."
-    },
-    "advancedPerformanceReportingLabel": "Send crash and performance reports",
-    "@advancedPerformanceReportingLabel": {
-        "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "All reported data is anonymous and is sent only to Fluxer's own monitoring service — no third-party providers are used.",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting."
-    },
     "comingSoon": "Coming soon",
     "@comingSoon": {
         "description": "Generic toast when a feature is not yet available."
@@ -6569,6 +6883,161 @@
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
+    "discoveryExplore": "Explore",
+    "@discoveryExplore": {
+        "description": "Short label in the discovery page header."
+    },
+    "discoveryExplorePublicCommunities": "Explore public communities",
+    "@discoveryExplorePublicCommunities": {
+        "description": "Main heading on the Discovery page."
+    },
+    "discoveryListingSubheading": "Want to list your community on here? Apply if you meet the requirements in your community's settings > Discovery.",
+    "@discoveryListingSubheading": {
+        "description": "Subheading on the Discovery page explaining how to apply for listing."
+    },
+    "discoverySearchCommunities": "Search communities",
+    "@discoverySearchCommunities": {
+        "description": "Accessible label and placeholder for the community search field."
+    },
+    "discoveryFilterByLanguage": "Filter by language",
+    "@discoveryFilterByLanguage": {
+        "description": "Label for the language filter on the discovery page."
+    },
+    "discoveryAllLanguages": "All languages",
+    "@discoveryAllLanguages": {
+        "description": "Option label for showing communities in all languages."
+    },
+    "discoveryAllCategories": "All",
+    "@discoveryAllCategories": {
+        "description": "Label for the all-categories tab on the discovery page."
+    },
+    "discoveryCategoryGaming": "Gaming",
+    "@discoveryCategoryGaming": {
+        "description": "Discovery category label for gaming communities."
+    },
+    "discoveryCategoryMusic": "Music",
+    "@discoveryCategoryMusic": {
+        "description": "Discovery category label for music communities."
+    },
+    "discoveryCategoryEntertainment": "Entertainment",
+    "@discoveryCategoryEntertainment": {
+        "description": "Discovery category label for entertainment communities."
+    },
+    "discoveryCategoryEducation": "Education",
+    "@discoveryCategoryEducation": {
+        "description": "Discovery category label for education communities."
+    },
+    "discoveryCategoryScienceAndTechnology": "Science & Technology",
+    "@discoveryCategoryScienceAndTechnology": {
+        "description": "Discovery category label for science and technology communities."
+    },
+    "discoveryCategoryContentCreator": "Content Creator",
+    "@discoveryCategoryContentCreator": {
+        "description": "Discovery category label for content creator communities."
+    },
+    "discoveryCategoryAnimeAndManga": "Anime & Manga",
+    "@discoveryCategoryAnimeAndManga": {
+        "description": "Discovery category label for anime and manga communities."
+    },
+    "discoveryCategoryMoviesAndTv": "Movies & TV",
+    "@discoveryCategoryMoviesAndTv": {
+        "description": "Discovery category label for movies and TV communities."
+    },
+    "discoveryCategoryOther": "Other",
+    "@discoveryCategoryOther": {
+        "description": "Discovery category label for communities that do not fit other categories."
+    },
+    "discoveryNoCommunitiesMatch": "No communities match.",
+    "@discoveryNoCommunitiesMatch": {
+        "description": "Empty-state text when no discovery communities match the filters."
+    },
+    "discoveryJoinCommunity": "Join community",
+    "@discoveryJoinCommunity": {
+        "description": "Button label to join a discovery community."
+    },
+    "discoveryJoined": "Joined",
+    "@discoveryJoined": {
+        "description": "Button label when the user is already in a discovery community."
+    },
+    "discoveryOnlineCount": "{count} online",
+    "@discoveryOnlineCount": {
+        "description": "Online member count on a discovery guild card.",
+        "placeholders": {
+            "count": {
+                "type": "String"
+            }
+        }
+    },
+    "discoveryMemberCount": "{count, plural, one{1 member} other{{count} members}}",
+    "@discoveryMemberCount": {
+        "description": "Member count on a discovery guild card.",
+        "placeholders": {
+            "count": {
+                "type": "num",
+                "format": "decimalPattern"
+            }
+        }
+    },
+    "discoveryNoDescription": "No description.",
+    "@discoveryNoDescription": {
+        "description": "Fallback text when a discovery guild has no description."
+    },
+    "discoveryCommunities": "Communities",
+    "@discoveryCommunities": {
+        "description": "Discovery sidebar section label for communities."
+    },
+    "discoveryApps": "Apps",
+    "@discoveryApps": {
+        "description": "Discovery sidebar section label for apps."
+    },
+    "discoveryJoinErrorGenericTitle": "Couldn't join this community",
+    "@discoveryJoinErrorGenericTitle": {
+        "description": "Title of the generic join error dialog on the discovery page."
+    },
+    "discoveryJoinErrorGenericMessage": "Something went wrong. Please try again in a moment.",
+    "@discoveryJoinErrorGenericMessage": {
+        "description": "Body of the generic join error dialog on the discovery page."
+    },
+    "discoveryJoinErrorFullTitle": "This community is full",
+    "@discoveryJoinErrorFullTitle": {
+        "description": "Title when a discovery community has reached its member limit."
+    },
+    "discoveryJoinErrorFullMessage": "This community has reached its member limit, so you can't join right now.",
+    "@discoveryJoinErrorFullMessage": {
+        "description": "Body when a discovery community has reached its member limit."
+    },
+    "discoveryJoinErrorMaxGuildsTitle": "You've reached the community limit",
+    "@discoveryJoinErrorMaxGuildsTitle": {
+        "description": "Title when the user is in the maximum number of communities."
+    },
+    "discoveryJoinErrorMaxGuildsMessage": "You're in the maximum number of communities. Leave one and try again.",
+    "@discoveryJoinErrorMaxGuildsMessage": {
+        "description": "Body when the user is in the maximum number of communities."
+    },
+    "discoveryJoinErrorBannedTitle": "You can't join this community",
+    "@discoveryJoinErrorBannedTitle": {
+        "description": "Title when the user is banned from a discovery community."
+    },
+    "discoveryJoinErrorBannedMessage": "You have been banned from this community.",
+    "@discoveryJoinErrorBannedMessage": {
+        "description": "Body when the user is banned from a discovery community."
+    },
+    "discoveryJoinErrorNotAvailableTitle": "This community is no longer available",
+    "@discoveryJoinErrorNotAvailableTitle": {
+        "description": "Title when a discovery community is no longer joinable."
+    },
+    "discoveryJoinErrorNotAvailableMessage": "It may have left discovery or turned off new joins. Refresh the page and you won't see it again.",
+    "@discoveryJoinErrorNotAvailableMessage": {
+        "description": "Body when a discovery community is no longer joinable."
+    },
+    "discoveryJoinErrorRateLimitTitle": "You're going too fast",
+    "@discoveryJoinErrorRateLimitTitle": {
+        "description": "Title when joining a discovery community is rate limited."
+    },
+    "discoveryJoinErrorRateLimitMessage": "Please wait a moment and try again.",
+    "@discoveryJoinErrorRateLimitMessage": {
+        "description": "Body when joining a discovery community is rate limited."
+    },
     "guildNavbarAddCommunity": "Add a Community",
     "@guildNavbarAddCommunity": {
         "description": "Label for the add community button in the guild navbar."
@@ -6576,6 +7045,14 @@
     "guildNavbarHelp": "Help",
     "@guildNavbarHelp": {
         "description": "Label for the help button in the guild navbar."
+    },
+    "scrollIndicatorNew": "NEW",
+    "@scrollIndicatorNew": {
+        "description": "Scroll pill shown when unread guilds are off-screen in the guild navbar."
+    },
+    "scrollIndicatorNewMessage": "NEW MESSAGE",
+    "@scrollIndicatorNewMessage": {
+        "description": "Scroll pill shown when unread channels are off-screen in the channel sidebar."
     },
     "guildNavbarCollapseFolder": "Collapse {folderName}",
     "@guildNavbarCollapseFolder": {
@@ -6860,6 +7337,10 @@
     "@guildMenuMarkAsRead": {
         "description": "Guild menu action to mark all channels as read."
     },
+    "guildPeekMoreOptions": "More Options",
+    "@guildPeekMoreOptions": {
+        "description": "Guild peek menu action to open the full guild options sheet."
+    },
     "guildMenuInviteMembers": "Invite Members",
     "@guildMenuInviteMembers": {
         "description": "Guild menu action to open the invite members flow."
@@ -6953,17 +7434,610 @@
     "@guildMenuSettingsBans": {
         "description": "Community settings tab for banned members."
     },
-    "chatReplyAttachedMedia": "Message contains attached media",
-    "@chatReplyAttachedMedia": {
-        "description": "Label in the channel and chat reply preview."
+    "guildSettingsNoPermission": "You do not have permission to view this settings tab.",
+    "@guildSettingsNoPermission": {
+        "description": "Shown when the user lacks permission for a guild settings tab."
     },
-    "chatMessageSilent": "This was a @silent message.",
-    "@chatMessageSilent": {
-        "description": "Tooltip on the bell-slash icon beside a silent message. \"@silent\" is the literal command keyword and must not be translated."
+    "guildSettingsOverviewIconTitle": "Icon",
+    "@guildSettingsOverviewIconTitle": {
+        "description": "Title for the guild icon section in overview settings."
     },
-    "chatJumpToBottom": "Jump to bottom",
-    "@chatJumpToBottom": {
-        "description": "Accessible label for the chat jump-to-bottom button."
+    "guildSettingsUploadImage": "Upload Image",
+    "@guildSettingsUploadImage": {
+        "description": "Button label to upload an image in guild settings."
+    },
+    "guildSettingsOverviewBannerTitle": "Banner",
+    "@guildSettingsOverviewBannerTitle": {
+        "description": "Title for the guild banner section."
+    },
+    "guildSettingsOverviewBannerHint": "Upload a banner for your server.",
+    "@guildSettingsOverviewBannerHint": {
+        "description": "Hint text for guild banner upload."
+    },
+    "guildSettingsOverviewNameTitle": "Name",
+    "@guildSettingsOverviewNameTitle": {
+        "description": "Title for the guild name field."
+    },
+    "guildSettingsOverviewNameHint": "My awesome community",
+    "@guildSettingsOverviewNameHint": {
+        "description": "Hint for the guild name field."
+    },
+    "guildSettingsOverviewStatsTitle": "Statistics",
+    "@guildSettingsOverviewStatsTitle": {
+        "description": "Title for guild statistics section."
+    },
+    "guildSettingsOverviewMembers": "Members",
+    "@guildSettingsOverviewMembers": {
+        "description": "Label for member count in overview."
+    },
+    "guildSettingsOverviewOnline": "Online",
+    "@guildSettingsOverviewOnline": {
+        "description": "Label for online count in overview."
+    },
+    "guildSettingsRolesDescription": "Use roles to group members and assign permissions.",
+    "@guildSettingsRolesDescription": {
+        "description": "Description for the roles settings tab."
+    },
+    "guildSettingsCreateRole": "Create Role",
+    "@guildSettingsCreateRole": {
+        "description": "Button to create a new role."
+    },
+    "guildSettingsRolesListTitle": "Roles",
+    "@guildSettingsRolesListTitle": {
+        "description": "Title for the roles list section."
+    },
+    "guildSettingsEmojiSlotInfo": "{staticCount} static, {animatedCount} animated emoji slots used",
+    "@guildSettingsEmojiSlotInfo": {
+        "description": "Emoji slot usage summary.",
+        "placeholders": {
+            "staticCount": {
+                "type": "int"
+            },
+            "animatedCount": {
+                "type": "int"
+            }
+        }
+    },
+    "guildSettingsEmojiEmpty": "No custom emoji yet.",
+    "@guildSettingsEmojiEmpty": {
+        "description": "Empty state for emoji settings."
+    },
+    "guildSettingsStickersSlotInfo": "{count} stickers uploaded",
+    "@guildSettingsStickersSlotInfo": {
+        "description": "Sticker slot usage summary.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "guildSettingsStickersEmpty": "No custom stickers yet.",
+    "@guildSettingsStickersEmpty": {
+        "description": "Empty state for sticker settings."
+    },
+    "guildSettingsModerationVerificationTitle": "Member verification",
+    "@guildSettingsModerationVerificationTitle": {
+        "description": "Title for verification level settings."
+    },
+    "guildSettingsModerationVerificationDescription": "Choose what members must have before they can post or DM community members.",
+    "@guildSettingsModerationVerificationDescription": {
+        "description": "Description for verification level settings."
+    },
+    "guildSettingsModerationVerificationRolesBypass": "Members with roles can bypass these checks. For public spaces, we recommend enabling verification.",
+    "@guildSettingsModerationVerificationRolesBypass": {
+        "description": "Additional verification guidance in moderation settings."
+    },
+    "guildSettingsModerationVerificationDiscoveryNote": "Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.",
+    "@guildSettingsModerationVerificationDiscoveryNote": {
+        "description": "Discovery restriction note for verification level."
+    },
+    "guildSettingsModerationMatureTitle": "Mature content & content warnings",
+    "@guildSettingsModerationMatureTitle": {
+        "description": "Title for mature content settings."
+    },
+    "guildSettingsModerationMatureSectionDescription": "Configure mature content labeling and optional content warnings for members.",
+    "@guildSettingsModerationMatureSectionDescription": {
+        "description": "Section description for mature content and content warning settings."
+    },
+    "guildSettingsModerationMatureToggle": "Mature content",
+    "@guildSettingsModerationMatureToggle": {
+        "description": "Switch label for mature content setting."
+    },
+    "guildSettingsModerationMatureToggleDescription": "Mark this community as containing mature content.",
+    "@guildSettingsModerationMatureToggleDescription": {
+        "description": "Subtitle for the mature content switch in moderation settings."
+    },
+    "guildSettingsVerificationNone": "None",
+    "guildSettingsVerificationNoneDescription": "No verification is required.",
+    "guildSettingsVerificationLow": "Low",
+    "guildSettingsVerificationLowDescription": "Requires a verified email address.",
+    "guildSettingsVerificationMedium": "Medium",
+    "guildSettingsVerificationMediumDescription": "Requires a verified email address, and an account that's at least 5 minutes old.",
+    "guildSettingsVerificationHigh": "High",
+    "guildSettingsVerificationHighDescription": "Requires everything in medium, plus being a member of the community for at least 10 minutes.",
+    "guildSettingsVerificationHighest": "Very high",
+    "guildSettingsVerificationHighestDescription": "Requires a verified phone number.",
+    "guildSettingsAuditLogDescription": "Track moderator actions across the community.",
+    "@guildSettingsAuditLogDescription": {
+        "description": "Subtitle under the activity-log page title."
+    },
+    "guildSettingsAuditLogEmpty": "No logs yet",
+    "@guildSettingsAuditLogEmpty": {
+        "description": "Empty-state title in the activity log tab when there are no log entries to show."
+    },
+    "guildSettingsAuditLogEmptyDescription": "Moderation actions and community changes will appear here.",
+    "@guildSettingsAuditLogEmptyDescription": {
+        "description": "Empty-state body in the activity log tab when there are no log entries to show."
+    },
+    "guildSettingsAuditLogFilterAllUsers": "All users",
+    "@guildSettingsAuditLogFilterAllUsers": {
+        "description": "Default option in the activity log filter by user dropdown."
+    },
+    "guildSettingsAuditLogFilterAllActions": "All actions",
+    "@guildSettingsAuditLogFilterAllActions": {
+        "description": "Default option in the activity log filter by action dropdown."
+    },
+    "guildSettingsAuditLogNoReason": "No reason was provided.",
+    "@guildSettingsAuditLogNoReason": {
+        "description": "Fallback text when the moderator did not supply a reason."
+    },
+    "guildSettingsAuditLogUnknownUser": "Unknown user",
+    "@guildSettingsAuditLogUnknownUser": {
+        "description": "Fallback avatar label when the acting user is unavailable."
+    },
+    "guildSettingsAuditLogLoadError": "Something went wrong while loading the activity log.",
+    "@guildSettingsAuditLogLoadError": {
+        "description": "Generic error shown when fetching log entries fails."
+    },
+    "guildSettingsAuditLogLoadErrorTitle": "Unable to load activity logs",
+    "@guildSettingsAuditLogLoadErrorTitle": {
+        "description": "Error-state title when fetching log entries failed."
+    },
+    "guildSettingsAuditLogReason": "Reason",
+    "@guildSettingsAuditLogReason": {
+        "description": "Label for the reason field in an expanded activity log entry."
+    },
+    "guildSettingsAuditLogSomeone": "someone",
+    "@guildSettingsAuditLogSomeone": {
+        "description": "Fallback label when the actor or user is unknown."
+    },
+    "guildSettingsAuditLogSomething": "something",
+    "@guildSettingsAuditLogSomething": {
+        "description": "Fallback label when an entity name is missing."
+    },
+    "guildSettingsAuditLogUnknownEntity": "unknown entity",
+    "@guildSettingsAuditLogUnknownEntity": {
+        "description": "Fallback label for an entity that cannot be resolved."
+    },
+    "guildSettingsAuditLogNothing": "nothing",
+    "@guildSettingsAuditLogNothing": {
+        "description": "Fallback label for an empty or missing value."
+    },
+    "guildSettingsAuditLogUnknownTarget": "Unknown target",
+    "@guildSettingsAuditLogUnknownTarget": {
+        "description": "Fallback label for a target object that cannot be resolved."
+    },
+    "auditLogActionGuildUpdate": "Community updated",
+    "@auditLogActionGuildUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionChannelCreate": "Channel created",
+    "@auditLogActionChannelCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionChannelUpdate": "Channel updated",
+    "@auditLogActionChannelUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionChannelDelete": "Channel deleted",
+    "@auditLogActionChannelDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionChannelOverwriteCreate": "Channel overwrite added",
+    "@auditLogActionChannelOverwriteCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionChannelOverwriteUpdate": "Channel overwrite updated",
+    "@auditLogActionChannelOverwriteUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionChannelOverwriteDelete": "Channel overwrite removed",
+    "@auditLogActionChannelOverwriteDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMemberKick": "Member kicked",
+    "@auditLogActionMemberKick": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMemberPrune": "Members pruned",
+    "@auditLogActionMemberPrune": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMemberBanAdd": "Member banned",
+    "@auditLogActionMemberBanAdd": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMemberBanRemove": "Member unbanned",
+    "@auditLogActionMemberBanRemove": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMemberUpdate": "Member updated",
+    "@auditLogActionMemberUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMemberRoleUpdate": "Member roles updated",
+    "@auditLogActionMemberRoleUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMemberMove": "Member moved",
+    "@auditLogActionMemberMove": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMemberDisconnect": "Member disconnected",
+    "@auditLogActionMemberDisconnect": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionBotAdd": "Bot added",
+    "@auditLogActionBotAdd": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionRoleCreate": "Role created",
+    "@auditLogActionRoleCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionRoleUpdate": "Role updated",
+    "@auditLogActionRoleUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionRoleDelete": "Role deleted",
+    "@auditLogActionRoleDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionInviteCreate": "Invite created",
+    "@auditLogActionInviteCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionInviteUpdate": "Invite updated",
+    "@auditLogActionInviteUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionInviteDelete": "Invite deleted",
+    "@auditLogActionInviteDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionWebhookCreate": "Webhook created",
+    "@auditLogActionWebhookCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionWebhookUpdate": "Webhook updated",
+    "@auditLogActionWebhookUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionWebhookDelete": "Webhook deleted",
+    "@auditLogActionWebhookDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionEmojiCreate": "Emoji created",
+    "@auditLogActionEmojiCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionEmojiUpdate": "Emoji updated",
+    "@auditLogActionEmojiUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionEmojiDelete": "Emoji deleted",
+    "@auditLogActionEmojiDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionStickerCreate": "Sticker created",
+    "@auditLogActionStickerCreate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionStickerUpdate": "Sticker updated",
+    "@auditLogActionStickerUpdate": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionStickerDelete": "Sticker deleted",
+    "@auditLogActionStickerDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMessageDelete": "Message deleted",
+    "@auditLogActionMessageDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMessageBulkDelete": "Messages deleted",
+    "@auditLogActionMessageBulkDelete": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMessagePin": "Message pinned",
+    "@auditLogActionMessagePin": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogActionMessageUnpin": "Message unpinned",
+    "@auditLogActionMessageUnpin": {
+        "description": "Audit log action filter label."
+    },
+    "auditLogSummaryGuildUpdate": "{actor} updated the community settings.",
+    "@auditLogSummaryGuildUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelCreate": "{actor} created the channel {target}.",
+    "@auditLogSummaryChannelCreate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelUpdate": "{actor} updated the channel {target}.",
+    "@auditLogSummaryChannelUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelDelete": "{actor} deleted the channel {target}.",
+    "@auditLogSummaryChannelDelete": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelOverwriteCreate": "{actor} added channel permissions for {target}.",
+    "@auditLogSummaryChannelOverwriteCreate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelOverwriteCreateInChannel": "{actor} added channel permissions for {target} in {channel}.",
+    "@auditLogSummaryChannelOverwriteCreateInChannel": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            },
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelOverwriteUpdate": "{actor} updated channel permissions for {target}.",
+    "@auditLogSummaryChannelOverwriteUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelOverwriteUpdateInChannel": "{actor} updated channel permissions for {target} in {channel}.",
+    "@auditLogSummaryChannelOverwriteUpdateInChannel": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            },
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelOverwriteDelete": "{actor} removed channel permissions for {target}.",
+    "@auditLogSummaryChannelOverwriteDelete": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryChannelOverwriteDeleteInChannel": "{actor} removed channel permissions for {target} in {channel}.",
+    "@auditLogSummaryChannelOverwriteDeleteInChannel": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            },
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberKick": "{actor} kicked {target}.",
+    "@auditLogSummaryMemberKick": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberBanAdd": "{actor} banned {target}.",
+    "@auditLogSummaryMemberBanAdd": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberBanRemove": "{actor} unbanned {target}.",
+    "@auditLogSummaryMemberBanRemove": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberUpdate": "{actor} updated {target}.",
+    "@auditLogSummaryMemberUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberRoleUpdate": "{actor} updated roles for {target}.",
+    "@auditLogSummaryMemberRoleUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberPrune": "{actor} pruned inactive members.",
+    "@auditLogSummaryMemberPrune": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberPruneDays": "{actor} pruned members inactive for {days} days.",
+    "@auditLogSummaryMemberPruneDays": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "days": {
+                "type": "int"
+            }
+        }
+    },
+    "auditLogSummaryMemberMove": "{actor} moved {target} to another voice channel.",
+    "@auditLogSummaryMemberMove": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberMoveToChannel": "{actor} moved {target} to {channel}.",
+    "@auditLogSummaryMemberMoveToChannel": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            },
+            "channel": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryMemberDisconnect": "{actor} disconnected {target} from voice.",
+    "@auditLogSummaryMemberDisconnect": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryBotAdd": "{actor} added the bot {target}.",
+    "@auditLogSummaryBotAdd": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryRoleCreate": "{actor} created the role {target}.",
+    "@auditLogSummaryRoleCreate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
+    },
+    "auditLogSummaryRoleUpdate": "{actor} updated the role {target}.",
+    "@auditLogSummaryRoleUpdate": {
+        "description": "Activity log entry summary.",
+        "placeholders": {
+            "actor": {
+                "type": "String"
+            },
+            "target": {
+                "type": "String"
+            }
+        }
     },
     "auditLogSummaryRoleDelete": "{actor} deleted the role {target}.",
     "@auditLogSummaryRoleDelete": {
@@ -7658,9 +8732,67 @@
             }
         }
     },
+    "guildSettingsBanExpiresLabel": "Expires",
+    "@guildSettingsBanExpiresLabel": {
+        "description": "Label for ban expiration row."
+    },
     "guildSettingsUnban": "Unban",
     "@guildSettingsUnban": {
         "description": "Button to unban a user."
+    },
+    "guildSettingsBansLoading": "Loading banned users",
+    "@guildSettingsBansLoading": {
+        "description": "Loading state for the guild bans list."
+    },
+    "guildSettingsBansNoSearchResults": "No bans found matching your search.",
+    "@guildSettingsBansNoSearchResults": {
+        "description": "Empty state when ban search has no matches."
+    },
+    "guildSettingsBanDetailsTitle": "Ban details",
+    "@guildSettingsBanDetailsTitle": {
+        "description": "Title for the ban details modal."
+    },
+    "guildSettingsBanViewDetails": "View details",
+    "@guildSettingsBanViewDetails": {
+        "description": "Menu action to open ban details."
+    },
+    "guildSettingsBannedOn": "Banned on",
+    "@guildSettingsBannedOn": {
+        "description": "Label for when a user was banned."
+    },
+    "guildSettingsBannedBy": "Banned by",
+    "@guildSettingsBannedBy": {
+        "description": "Label for who issued the ban."
+    },
+    "guildSettingsRevokeBanTitle": "Revoke ban",
+    "@guildSettingsRevokeBanTitle": {
+        "description": "Title for the revoke ban confirmation."
+    },
+    "guildSettingsRevokeBanDescription": "Are you sure you want to revoke the ban for {displayName}? They will be able to rejoin the community.",
+    "@guildSettingsRevokeBanDescription": {
+        "description": "Confirmation message when revoking a ban.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRevokeBanSuccess": "Revoked ban for {displayName}",
+    "@guildSettingsRevokeBanSuccess": {
+        "description": "Toast shown after successfully revoking a ban.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsBansLoadError": "Couldn't load bans. Try again.",
+    "@guildSettingsBansLoadError": {
+        "description": "Error when loading the guild bans list fails."
+    },
+    "guildSettingsRevokeBanError": "Couldn't revoke ban. Try again.",
+    "@guildSettingsRevokeBanError": {
+        "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Community Settings",
     "@guildSettingsCommunitySettings": {
@@ -7967,610 +9099,5 @@
     "guildSettingsAuditLogFilterAction": "Filter by action",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
-    },
-    "guildSettingsNoPermission": "You do not have permission to view this settings tab.",
-    "@guildSettingsNoPermission": {
-        "description": "Shown when the user lacks permission for a guild settings tab."
-    },
-    "guildSettingsOverviewIconTitle": "Icon",
-    "@guildSettingsOverviewIconTitle": {
-        "description": "Title for the guild icon section in overview settings."
-    },
-    "guildSettingsUploadImage": "Upload Image",
-    "@guildSettingsUploadImage": {
-        "description": "Button label to upload an image in guild settings."
-    },
-    "guildSettingsOverviewBannerTitle": "Banner",
-    "@guildSettingsOverviewBannerTitle": {
-        "description": "Title for the guild banner section."
-    },
-    "guildSettingsOverviewBannerHint": "Upload a banner for your server.",
-    "@guildSettingsOverviewBannerHint": {
-        "description": "Hint text for guild banner upload."
-    },
-    "guildSettingsOverviewNameTitle": "Name",
-    "@guildSettingsOverviewNameTitle": {
-        "description": "Title for the guild name field."
-    },
-    "guildSettingsOverviewNameHint": "My awesome community",
-    "@guildSettingsOverviewNameHint": {
-        "description": "Hint for the guild name field."
-    },
-    "guildSettingsOverviewStatsTitle": "Statistics",
-    "@guildSettingsOverviewStatsTitle": {
-        "description": "Title for guild statistics section."
-    },
-    "guildSettingsOverviewMembers": "Members",
-    "@guildSettingsOverviewMembers": {
-        "description": "Label for member count in overview."
-    },
-    "guildSettingsOverviewOnline": "Online",
-    "@guildSettingsOverviewOnline": {
-        "description": "Label for online count in overview."
-    },
-    "guildSettingsRolesDescription": "Use roles to group members and assign permissions.",
-    "@guildSettingsRolesDescription": {
-        "description": "Description for the roles settings tab."
-    },
-    "guildSettingsCreateRole": "Create Role",
-    "@guildSettingsCreateRole": {
-        "description": "Button to create a new role."
-    },
-    "guildSettingsRolesListTitle": "Roles",
-    "@guildSettingsRolesListTitle": {
-        "description": "Title for the roles list section."
-    },
-    "guildSettingsEmojiSlotInfo": "{staticCount} static, {animatedCount} animated emoji slots used",
-    "@guildSettingsEmojiSlotInfo": {
-        "description": "Emoji slot usage summary.",
-        "placeholders": {
-            "staticCount": {
-                "type": "int"
-            },
-            "animatedCount": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsEmojiEmpty": "No custom emoji yet.",
-    "@guildSettingsEmojiEmpty": {
-        "description": "Empty state for emoji settings."
-    },
-    "guildSettingsStickersSlotInfo": "{count} stickers uploaded",
-    "@guildSettingsStickersSlotInfo": {
-        "description": "Sticker slot usage summary.",
-        "placeholders": {
-            "count": {
-                "type": "int"
-            }
-        }
-    },
-    "guildSettingsStickersEmpty": "No custom stickers yet.",
-    "@guildSettingsStickersEmpty": {
-        "description": "Empty state for sticker settings."
-    },
-    "guildSettingsModerationVerificationTitle": "Member verification",
-    "@guildSettingsModerationVerificationTitle": {
-        "description": "Title for verification level settings."
-    },
-    "guildSettingsModerationVerificationDescription": "Choose what members must have before they can post or DM community members.",
-    "@guildSettingsModerationVerificationDescription": {
-        "description": "Description for verification level settings."
-    },
-    "guildSettingsModerationVerificationRolesBypass": "Members with roles can bypass these checks. For public spaces, we recommend enabling verification.",
-    "@guildSettingsModerationVerificationRolesBypass": {
-        "description": "Additional verification guidance in moderation settings."
-    },
-    "guildSettingsModerationVerificationDiscoveryNote": "Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.",
-    "@guildSettingsModerationVerificationDiscoveryNote": {
-        "description": "Discovery restriction note for verification level."
-    },
-    "guildSettingsModerationMatureTitle": "Mature content & content warnings",
-    "@guildSettingsModerationMatureTitle": {
-        "description": "Title for mature content settings."
-    },
-    "guildSettingsModerationMatureSectionDescription": "Configure mature content labeling and optional content warnings for members.",
-    "@guildSettingsModerationMatureSectionDescription": {
-        "description": "Section description for mature content and content warning settings."
-    },
-    "guildSettingsModerationMatureToggle": "Mature content",
-    "@guildSettingsModerationMatureToggle": {
-        "description": "Switch label for mature content setting."
-    },
-    "guildSettingsModerationMatureToggleDescription": "Mark this community as containing mature content.",
-    "@guildSettingsModerationMatureToggleDescription": {
-        "description": "Subtitle for the mature content switch in moderation settings."
-    },
-    "guildSettingsVerificationNone": "None",
-    "guildSettingsVerificationNoneDescription": "No verification is required.",
-    "guildSettingsVerificationLow": "Low",
-    "guildSettingsVerificationLowDescription": "Requires a verified email address.",
-    "guildSettingsVerificationMedium": "Medium",
-    "guildSettingsVerificationMediumDescription": "Requires a verified email address, and an account that's at least 5 minutes old.",
-    "guildSettingsVerificationHigh": "High",
-    "guildSettingsVerificationHighDescription": "Requires everything in medium, plus being a member of the community for at least 10 minutes.",
-    "guildSettingsVerificationHighest": "Very high",
-    "guildSettingsVerificationHighestDescription": "Requires a verified phone number.",
-    "guildSettingsAuditLogDescription": "Track moderator actions across the community.",
-    "@guildSettingsAuditLogDescription": {
-        "description": "Subtitle under the activity-log page title."
-    },
-    "guildSettingsAuditLogEmpty": "No logs yet",
-    "@guildSettingsAuditLogEmpty": {
-        "description": "Empty-state title in the activity log tab when there are no log entries to show."
-    },
-    "guildSettingsAuditLogEmptyDescription": "Moderation actions and community changes will appear here.",
-    "@guildSettingsAuditLogEmptyDescription": {
-        "description": "Empty-state body in the activity log tab when there are no log entries to show."
-    },
-    "guildSettingsAuditLogFilterAllUsers": "All users",
-    "@guildSettingsAuditLogFilterAllUsers": {
-        "description": "Default option in the activity log filter by user dropdown."
-    },
-    "guildSettingsAuditLogFilterAllActions": "All actions",
-    "@guildSettingsAuditLogFilterAllActions": {
-        "description": "Default option in the activity log filter by action dropdown."
-    },
-    "guildSettingsAuditLogNoReason": "No reason was provided.",
-    "@guildSettingsAuditLogNoReason": {
-        "description": "Fallback text when the moderator did not supply a reason."
-    },
-    "guildSettingsAuditLogUnknownUser": "Unknown user",
-    "@guildSettingsAuditLogUnknownUser": {
-        "description": "Fallback avatar label when the acting user is unavailable."
-    },
-    "guildSettingsAuditLogLoadError": "Something went wrong while loading the activity log.",
-    "@guildSettingsAuditLogLoadError": {
-        "description": "Generic error shown when fetching log entries fails."
-    },
-    "guildSettingsAuditLogLoadErrorTitle": "Unable to load activity logs",
-    "@guildSettingsAuditLogLoadErrorTitle": {
-        "description": "Error-state title when fetching log entries failed."
-    },
-    "guildSettingsAuditLogReason": "Reason",
-    "@guildSettingsAuditLogReason": {
-        "description": "Label for the reason field in an expanded activity log entry."
-    },
-    "guildSettingsAuditLogSomeone": "someone",
-    "@guildSettingsAuditLogSomeone": {
-        "description": "Fallback label when the actor or user is unknown."
-    },
-    "guildSettingsAuditLogSomething": "something",
-    "@guildSettingsAuditLogSomething": {
-        "description": "Fallback label when an entity name is missing."
-    },
-    "guildSettingsAuditLogUnknownEntity": "unknown entity",
-    "@guildSettingsAuditLogUnknownEntity": {
-        "description": "Fallback label for an entity that cannot be resolved."
-    },
-    "guildSettingsAuditLogNothing": "nothing",
-    "@guildSettingsAuditLogNothing": {
-        "description": "Fallback label for an empty or missing value."
-    },
-    "guildSettingsAuditLogUnknownTarget": "Unknown target",
-    "@guildSettingsAuditLogUnknownTarget": {
-        "description": "Fallback label for a target object that cannot be resolved."
-    },
-    "auditLogActionGuildUpdate": "Community updated",
-    "@auditLogActionGuildUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionChannelCreate": "Channel created",
-    "@auditLogActionChannelCreate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionChannelUpdate": "Channel updated",
-    "@auditLogActionChannelUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionChannelDelete": "Channel deleted",
-    "@auditLogActionChannelDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionChannelOverwriteCreate": "Channel overwrite added",
-    "@auditLogActionChannelOverwriteCreate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionChannelOverwriteUpdate": "Channel overwrite updated",
-    "@auditLogActionChannelOverwriteUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionChannelOverwriteDelete": "Channel overwrite removed",
-    "@auditLogActionChannelOverwriteDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMemberKick": "Member kicked",
-    "@auditLogActionMemberKick": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMemberPrune": "Members pruned",
-    "@auditLogActionMemberPrune": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMemberBanAdd": "Member banned",
-    "@auditLogActionMemberBanAdd": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMemberBanRemove": "Member unbanned",
-    "@auditLogActionMemberBanRemove": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMemberUpdate": "Member updated",
-    "@auditLogActionMemberUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMemberRoleUpdate": "Member roles updated",
-    "@auditLogActionMemberRoleUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMemberMove": "Member moved",
-    "@auditLogActionMemberMove": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMemberDisconnect": "Member disconnected",
-    "@auditLogActionMemberDisconnect": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionBotAdd": "Bot added",
-    "@auditLogActionBotAdd": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionRoleCreate": "Role created",
-    "@auditLogActionRoleCreate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionRoleUpdate": "Role updated",
-    "@auditLogActionRoleUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionRoleDelete": "Role deleted",
-    "@auditLogActionRoleDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionInviteCreate": "Invite created",
-    "@auditLogActionInviteCreate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionInviteUpdate": "Invite updated",
-    "@auditLogActionInviteUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionInviteDelete": "Invite deleted",
-    "@auditLogActionInviteDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionWebhookCreate": "Webhook created",
-    "@auditLogActionWebhookCreate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionWebhookUpdate": "Webhook updated",
-    "@auditLogActionWebhookUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionWebhookDelete": "Webhook deleted",
-    "@auditLogActionWebhookDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionEmojiCreate": "Emoji created",
-    "@auditLogActionEmojiCreate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionEmojiUpdate": "Emoji updated",
-    "@auditLogActionEmojiUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionEmojiDelete": "Emoji deleted",
-    "@auditLogActionEmojiDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionStickerCreate": "Sticker created",
-    "@auditLogActionStickerCreate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionStickerUpdate": "Sticker updated",
-    "@auditLogActionStickerUpdate": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionStickerDelete": "Sticker deleted",
-    "@auditLogActionStickerDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMessageDelete": "Message deleted",
-    "@auditLogActionMessageDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMessageBulkDelete": "Messages deleted",
-    "@auditLogActionMessageBulkDelete": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMessagePin": "Message pinned",
-    "@auditLogActionMessagePin": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogActionMessageUnpin": "Message unpinned",
-    "@auditLogActionMessageUnpin": {
-        "description": "Audit log action filter label."
-    },
-    "auditLogSummaryGuildUpdate": "{actor} updated the community settings.",
-    "@auditLogSummaryGuildUpdate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelCreate": "{actor} created the channel {target}.",
-    "@auditLogSummaryChannelCreate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelUpdate": "{actor} updated the channel {target}.",
-    "@auditLogSummaryChannelUpdate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelDelete": "{actor} deleted the channel {target}.",
-    "@auditLogSummaryChannelDelete": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelOverwriteCreate": "{actor} added channel permissions for {target}.",
-    "@auditLogSummaryChannelOverwriteCreate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelOverwriteCreateInChannel": "{actor} added channel permissions for {target} in {channel}.",
-    "@auditLogSummaryChannelOverwriteCreateInChannel": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            },
-            "channel": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelOverwriteUpdate": "{actor} updated channel permissions for {target}.",
-    "@auditLogSummaryChannelOverwriteUpdate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelOverwriteUpdateInChannel": "{actor} updated channel permissions for {target} in {channel}.",
-    "@auditLogSummaryChannelOverwriteUpdateInChannel": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            },
-            "channel": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelOverwriteDelete": "{actor} removed channel permissions for {target}.",
-    "@auditLogSummaryChannelOverwriteDelete": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryChannelOverwriteDeleteInChannel": "{actor} removed channel permissions for {target} in {channel}.",
-    "@auditLogSummaryChannelOverwriteDeleteInChannel": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            },
-            "channel": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberKick": "{actor} kicked {target}.",
-    "@auditLogSummaryMemberKick": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberBanAdd": "{actor} banned {target}.",
-    "@auditLogSummaryMemberBanAdd": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberBanRemove": "{actor} unbanned {target}.",
-    "@auditLogSummaryMemberBanRemove": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberUpdate": "{actor} updated {target}.",
-    "@auditLogSummaryMemberUpdate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberRoleUpdate": "{actor} updated roles for {target}.",
-    "@auditLogSummaryMemberRoleUpdate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberPrune": "{actor} pruned inactive members.",
-    "@auditLogSummaryMemberPrune": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberPruneDays": "{actor} pruned members inactive for {days} days.",
-    "@auditLogSummaryMemberPruneDays": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "days": {
-                "type": "int"
-            }
-        }
-    },
-    "auditLogSummaryMemberMove": "{actor} moved {target} to another voice channel.",
-    "@auditLogSummaryMemberMove": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberMoveToChannel": "{actor} moved {target} to {channel}.",
-    "@auditLogSummaryMemberMoveToChannel": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            },
-            "channel": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryMemberDisconnect": "{actor} disconnected {target} from voice.",
-    "@auditLogSummaryMemberDisconnect": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryBotAdd": "{actor} added the bot {target}.",
-    "@auditLogSummaryBotAdd": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryRoleCreate": "{actor} created the role {target}.",
-    "@auditLogSummaryRoleCreate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
-    },
-    "auditLogSummaryRoleUpdate": "{actor} updated the role {target}.",
-    "@auditLogSummaryRoleUpdate": {
-        "description": "Activity log entry summary.",
-        "placeholders": {
-            "actor": {
-                "type": "String"
-            },
-            "target": {
-                "type": "String"
-            }
-        }
     }
 }
