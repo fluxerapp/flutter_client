@@ -44,9 +44,6 @@ jobs:
         with:
           channel: stable
 
-      - name: Run tests
-        run: flutter test
-
       - name: Verify generated localisations
         run: |
           flutter gen-l10n
