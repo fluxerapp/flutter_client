@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_custom_status.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
@@ -22,6 +23,16 @@ Widget buildTestApp(Widget child) {
 }
 
 void main() {
+  setUp(() {
+    VisibilityDetectorController.instance.updateInterval = Duration.zero;
+  });
+
+  tearDown(() {
+    VisibilityDetectorController.instance.updateInterval = const Duration(
+      milliseconds: 500,
+    );
+  });
+
   group('UserProfileCustomStatus', () {
     testWidgets('renders nothing for null', (tester) async {
       await tester.pumpWidget(
@@ -53,6 +64,7 @@ void main() {
       await tester.pumpWidget(
         buildTestApp(UserProfileCustomStatus(text: stored)),
       );
+      await tester.pump();
       expect(find.byType(CachedEmojiImage), findsOneWidget);
       expect(find.byType(Text), findsNothing);
     });

@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_fcm/fcm_message_mapper.dart';
 import 'package:fluxer_fcm/fcm_push_message.dart';
+import 'package:fluxer_fcm/fcm_tap_payload_cache_hooks.dart';
 
 class FluxerFcmPushService {
   factory FluxerFcmPushService() => instance;
@@ -111,7 +112,21 @@ class FluxerFcmPushService {
     if (kDebugMode) {
       debugPrint('[FluxerFcmPushService] foreground id=${mapped.id}');
     }
+    unawaited(_cacheTapPayloadIfNeeded(message, mapped.payload));
     _messages.add(mapped);
+  }
+
+  Future<void> _cacheTapPayloadIfNeeded(
+    RemoteMessage message,
+    Map<String, String> payload,
+  ) async {
+    if (!FcmTapPayloadCacheHooks.shouldSaveTapPayloadCache(payload)) {
+      return;
+    }
+    await FcmTapPayloadCacheHooks.saveTapPayloadCache(
+      payload: payload,
+      gcmMessageId: message.messageId,
+    );
   }
 
   void _onMessageOpenedApp(RemoteMessage message) {
@@ -168,5 +183,6 @@ class FluxerFcmPushService {
     _onMessageOpenedAppSubscription = null;
     _onTokenRefreshSubscription = null;
     tapPayloadEnricher = null;
+    FcmTapPayloadCacheHooks.resetForTesting();
   }
 }

@@ -6,13 +6,13 @@ import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/media_kit_bootstrap.dart';
 import 'package:fluxer_app/shared/widgets/shared_video_controls.dart';
 import 'package:media_kit/media_kit.dart';
@@ -47,10 +47,13 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
   StreamSubscription<bool>? _bufferingSubscription;
   StreamSubscription<Duration>? _positionSubscription;
   StreamSubscription<Duration>? _durationSubscription;
+  StreamSubscription<String>? _errorSubscription;
   bool _isPlaying = false;
   bool _isBuffering = false;
   bool _isLoading = false;
   bool _hasLoadedMedia = false;
+  bool _playbackFailed = false;
+  bool _hasAttemptedPlayback = false;
   bool _showControls = true;
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
@@ -66,6 +69,7 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
     unawaited(_bufferingSubscription?.cancel());
     unawaited(_positionSubscription?.cancel());
     unawaited(_durationSubscription?.cancel());
+    unawaited(_errorSubscription?.cancel());
     unawaited(_player?.dispose());
     super.dispose();
   }
@@ -84,13 +88,24 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
     await showChatMobileFullscreenVideo(context, source: widget.source);
   }
 
+  void _markPlaybackFailed() {
+    if (!mounted || _playbackFailed) {
+      return;
+    }
+    setState(() {
+      _playbackFailed = true;
+      _isLoading = false;
+    });
+  }
+
   Future<void> _startPlayback() async {
-    if (_isLoading || !widget.source.hasPlayableContent) {
+    if (_isLoading || !widget.source.hasPlayableContent || _playbackFailed) {
       return;
     }
     setState(() {
       _isLoading = true;
     });
+    _hasAttemptedPlayback = true;
     try {
       await MediaKitBootstrap.ensureInitialized();
       final Player player = _ensurePlayer();
@@ -101,17 +116,12 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
         await player.open(Media(playbackUrl));
         _hasLoadedMedia = true;
       }
-      if (!mounted) {
+      if (!mounted || _playbackFailed) {
         return;
       }
       _showControlsTemporarily();
     } on Object {
-      if (!mounted) {
-        return;
-      }
-      if (widget.source.fallbackUrl.isNotEmpty) {
-        await handleExternalLinkTap(context, widget.source.fallbackUrl);
-      }
+      _markPlaybackFailed();
     } finally {
       if (mounted) {
         setState(() {
@@ -141,6 +151,16 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
                   const VideoPlayButtonOverlay(),
                 ],
               ),
+            )
+          : _playbackFailed
+          ? Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                _buildPoster(),
+                ChatVideoPlaybackFailureOverlay(
+                  fallbackUrl: widget.source.fallbackUrl,
+                ),
+              ],
             )
           : _hasLoadedMedia
           ? Stack(
@@ -225,6 +245,12 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
       setState(() {
         _duration = duration;
       });
+    });
+    _errorSubscription = player.stream.error.listen((String error) {
+      if (!mounted || !_hasAttemptedPlayback || _playbackFailed) {
+        return;
+      }
+      _markPlaybackFailed();
     });
     return player;
   }

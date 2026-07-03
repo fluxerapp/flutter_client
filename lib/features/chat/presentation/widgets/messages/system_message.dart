@@ -5,9 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
@@ -26,6 +29,8 @@ class SystemMessage extends ConsumerWidget {
   final VoidCallback? onViewAllPins;
   final VoidCallback? onLongPress;
   final void Function(Offset position)? onSecondaryTapUp;
+  final ReactionToggleCallback? onReaction;
+  final bool canAddReactions;
 
   const SystemMessage({
     required this.message,
@@ -34,6 +39,8 @@ class SystemMessage extends ConsumerWidget {
     this.onViewAllPins,
     this.onLongPress,
     this.onSecondaryTapUp,
+    this.onReaction,
+    this.canAddReactions = false,
     super.key,
   });
 
@@ -84,6 +91,10 @@ class SystemMessage extends ConsumerWidget {
         style: timestampStyle,
       ),
     ];
+    final bool renderReactions = ref.watch(
+      userSettingsViewModelProvider.select((s) => s.renderReactions),
+    );
+    final bool showReactions = renderReactions && message.reactions.isNotEmpty;
     Widget content = Padding(
       padding: const EdgeInsets.fromLTRB(
         kMessageRowPaddingHorizontal,
@@ -91,35 +102,59 @@ class SystemMessage extends ConsumerWidget {
         kMessageRowPaddingHorizontal,
         kMessageRowPaddingVertical,
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: kMessageAvatarSize,
-            child: Padding(
-              padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Opacity(
-                  opacity: 0.6,
-                  child: PhosphorIcon(
-                    icon,
-                    size: kSystemMessageIconSize,
-                    color: message.type == messageTypeUserJoin
-                        ? _kGuildJoinIconColor
-                        : context.colors.textTertiaryMuted,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: kMessageAvatarSize,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Opacity(
+                      opacity: 0.6,
+                      child: PhosphorIcon(
+                        icon,
+                        size: kSystemMessageIconSize,
+                        color: message.type == messageTypeUserJoin
+                            ? _kGuildJoinIconColor
+                            : context.colors.textTertiaryMuted,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              const SizedBox(width: kMessageAvatarTextGap),
+              Expanded(
+                child: Text.rich(
+                  TextSpan(children: spansWithTimestamp),
+                  overflow: TextOverflow.clip,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: kMessageAvatarTextGap),
-          Expanded(
-            child: Text.rich(
-              TextSpan(children: spansWithTimestamp),
-              overflow: TextOverflow.clip,
+          if (showReactions)
+            Padding(
+              padding: const EdgeInsets.only(
+                left: kMessageAvatarColumnWidth,
+                top: 4,
+              ),
+              child: MessageReactionsBar(
+                reactions: message.reactions,
+                channelId: message.channelId,
+                onReactionTap: (emoji, {emojiId, animated = false}) =>
+                    onReaction?.call(
+                      emoji,
+                      emojiId: emojiId,
+                      animated: animated,
+                    ),
+                showAddReaction: canAddReactions && onReaction != null,
+                isMobile: isMobileLayout(context),
+              ),
             ),
-          ),
         ],
       ),
     );

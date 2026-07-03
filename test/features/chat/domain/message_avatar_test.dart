@@ -37,4 +37,38 @@ void main() {
       );
     });
   });
+
+  group('messageAuthorAvatarKeyFromDisplay', () {
+    test('prefers resolved display hash over message payload hash', () {
+      expect(
+        messageAuthorAvatarKeyFromDisplay(
+          authorId: 'user-1',
+          displayAvatarHash: 'guild-hash',
+          messageAvatarHash: 'global-hash',
+        ),
+        messageAuthorAvatarKey(authorId: 'user-1', avatarHash: 'guild-hash'),
+      );
+      expect(
+        messageAuthorAvatarKeyFromDisplay(
+          authorId: 'user-1',
+          displayAvatarHash: 'guild-hash',
+          messageAvatarHash: 'global-hash',
+        ),
+        isNot(
+          messageAuthorAvatarKey(authorId: 'user-1', avatarHash: 'global-hash'),
+        ),
+      );
+    });
+
+    test('falls back to message hash when display hash is null', () {
+      expect(
+        messageAuthorAvatarKeyFromDisplay(
+          authorId: 'user-1',
+          displayAvatarHash: null,
+          messageAvatarHash: 'global-hash',
+        ),
+        messageAuthorAvatarKey(authorId: 'user-1', avatarHash: 'global-hash'),
+      );
+    });
+  });
 }

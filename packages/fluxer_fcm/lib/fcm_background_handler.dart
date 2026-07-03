@@ -11,27 +11,33 @@ import 'package:fluxer_fcm/fluxer_fcm_bootstrap.dart';
 
 @pragma('vm:entry-point')
 Future<void> fcmBackgroundMessageHandler(RemoteMessage message) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
-  if (kDebugMode) {
-    debugPrint(
-      '[FCM] background message id=${message.messageId} '
-      'hasNotification=${message.notification != null} '
-      'data=${message.data}',
-    );
-  }
-  final FcmPushMessage mapped = mapRemoteMessage(message);
-  if (shouldDisplayFcmBackgroundLocalNotification()) {
-    await showFcmBackgroundNotification(mapped);
-  }
-  if (FluxerFcmBootstrap.shouldSaveTapPayloadCache(mapped.payload)) {
-    await FluxerFcmBootstrap.saveTapPayloadCache(
-      payload: mapped.payload,
-      gcmMessageId: message.messageId,
-    );
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+    if (kDebugMode) {
+      debugPrint(
+        '[FCM] background message id=${message.messageId} '
+        'hasNotification=${message.notification != null} '
+        'data=${message.data}',
+      );
+    }
+    final FcmPushMessage mapped = mapRemoteMessage(message);
+    if (FluxerFcmBootstrap.shouldSaveTapPayloadCache(mapped.payload)) {
+      await FluxerFcmBootstrap.saveTapPayloadCache(
+        payload: mapped.payload,
+        gcmMessageId: message.messageId,
+      );
+    }
+    if (shouldDisplayFcmBackgroundLocalNotification(message, mapped)) {
+      await showFcmBackgroundNotification(mapped);
+    }
+  } on Object catch (error, stackTrace) {
+    if (kDebugMode) {
+      debugPrint('[FCM] background handler failed: $error\n$stackTrace');
+    }
   }
 }

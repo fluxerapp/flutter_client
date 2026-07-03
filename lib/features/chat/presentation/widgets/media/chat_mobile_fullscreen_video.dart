@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
+import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/media_kit_bootstrap.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
@@ -19,13 +21,21 @@ Future<void> showChatMobileFullscreenVideo(
   if (!source.hasPlayableContent) {
     return;
   }
-  await Navigator.of(context).push<void>(
-    MaterialPageRoute<void>(
-      fullscreenDialog: true,
-      builder: (BuildContext context) =>
-          _ChatMobileFullscreenVideoPage(source: source),
-    ),
-  );
+  final ShellManualGestureBlock shellGestureBlock = ProviderScope.containerOf(
+    context,
+  ).read(shellManualGestureBlockProvider.notifier);
+  shellGestureBlock.setBlocked(value: true);
+  try {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (BuildContext context) =>
+            _ChatMobileFullscreenVideoPage(source: source),
+      ),
+    );
+  } finally {
+    shellGestureBlock.setBlocked(value: false);
+  }
 }
 
 class _ChatMobileFullscreenVideoPage extends StatefulWidget {
@@ -49,8 +59,10 @@ class _ChatMobileFullscreenVideoPageState
   StreamSubscription<bool>? _bufferingSubscription;
   StreamSubscription<Duration>? _positionSubscription;
   StreamSubscription<Duration>? _durationSubscription;
+  StreamSubscription<String>? _errorSubscription;
   bool _isOpening = true;
-  bool _openFailed = false;
+  bool _playbackFailed = false;
+  bool _hasAttemptedPlayback = false;
   bool _isPlaying = false;
   bool _isBuffering = false;
   bool _hudVisible = true;
@@ -114,6 +126,15 @@ class _ChatMobileFullscreenVideoPageState
         _duration = duration;
       });
     });
+    _errorSubscription = player.stream.error.listen((String error) {
+      if (!mounted || !_hasAttemptedPlayback || _playbackFailed) {
+        return;
+      }
+      setState(() {
+        _playbackFailed = true;
+        _isOpening = false;
+      });
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(_startPlayback());
     });
@@ -126,19 +147,31 @@ class _ChatMobileFullscreenVideoPageState
     unawaited(_bufferingSubscription?.cancel());
     unawaited(_positionSubscription?.cancel());
     unawaited(_durationSubscription?.cancel());
+    unawaited(_errorSubscription?.cancel());
     unawaited(_player?.dispose());
     super.dispose();
   }
 
-  Future<void> _startPlayback() async {
-    final Player? player = _player;
-    if (player == null || !mounted) {
+  void _markPlaybackFailed() {
+    if (!mounted || _playbackFailed) {
       return;
     }
+    setState(() {
+      _playbackFailed = true;
+      _isOpening = false;
+    });
+  }
+
+  Future<void> _startPlayback() async {
+    final Player? player = _player;
+    if (player == null || !mounted || _playbackFailed) {
+      return;
+    }
+    _hasAttemptedPlayback = true;
     try {
       final String playbackUrl = await resolvePlaybackUrl(widget.source);
       await player.open(Media(playbackUrl));
-      if (!mounted) {
+      if (!mounted || _playbackFailed) {
         return;
       }
       setState(() {
@@ -148,19 +181,7 @@ class _ChatMobileFullscreenVideoPageState
         _scheduleHudHide();
       }
     } on Object {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _openFailed = true;
-        _isOpening = false;
-      });
-      if (widget.source.fallbackUrl.isNotEmpty) {
-        await handleExternalLinkTap(context, widget.source.fallbackUrl);
-      }
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
+      _markPlaybackFailed();
     }
   }
 
@@ -249,7 +270,7 @@ class _ChatMobileFullscreenVideoPageState
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          if (controller != null && !_openFailed && !_isOpening)
+          if (controller != null && !_playbackFailed && !_isOpening)
             Positioned.fill(
               child: mkv.Video(controller: controller, controls: null),
             ),
@@ -260,14 +281,14 @@ class _ChatMobileFullscreenVideoPageState
                 child: Center(child: FluxerLoadingSpinner()),
               ),
             ),
-          if (_isBuffering && !_isOpening)
+          if (_isBuffering && !_isOpening && !_playbackFailed)
             IgnorePointer(
               child: ColoredBox(
                 color: Colors.black.withValues(alpha: 0.22),
                 child: const Center(child: FluxerLoadingSpinner()),
               ),
             ),
-          if (controller != null && !_openFailed && !_isOpening)
+          if (controller != null && !_playbackFailed && !_isOpening)
             Positioned.fill(
               child: _hudVisible
                   ? GestureDetector(
@@ -285,7 +306,7 @@ class _ChatMobileFullscreenVideoPageState
                       ),
                     ),
             ),
-          if (_hudVisible)
+          if (_hudVisible && !_playbackFailed)
             _MobileVideoHud(
               l10n: l10n,
               onClose: _executeClose,
@@ -296,6 +317,12 @@ class _ChatMobileFullscreenVideoPageState
               position: _position,
               duration: _duration,
               onSeekFromGlobalDx: _seekFromGlobalDx,
+            ),
+          if (_playbackFailed)
+            ChatVideoPlaybackFailureOverlay(
+              fallbackUrl: widget.source.fallbackUrl,
+              useRootNavigator: true,
+              onClose: _executeClose,
             ),
         ],
       ),

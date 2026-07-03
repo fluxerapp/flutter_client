@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
 import 'package:markdown/markdown.dart' as md;
 
@@ -82,6 +83,86 @@ void main() {
       expect(segments[1], isA<MessageBlockMarkdownSegment>());
       expect((segments[1] as MessageBlockMarkdownSegment).text, '>>> quote');
     });
+
+    test(
+      'single line blockquote followed by non-blockquote lines splits correctly',
+      () {
+        const String input =
+            '> This is a quoted line.\nThis is not a quoted line.\nThis is also not a quoted line.';
+        final List<MessageContentSegment> segments =
+            parseMessageContentStructure(input, features);
+
+        expect(segments, hasLength(2));
+        expect(segments[0], isA<MessageBlockMarkdownSegment>());
+        expect(
+          (segments[0] as MessageBlockMarkdownSegment).text,
+          '> This is a quoted line.',
+        );
+        expect(segments[1], isA<MessageTextFlowSegment>());
+        expect(
+          (segments[1] as MessageTextFlowSegment).text,
+          'This is not a quoted line.\nThis is also not a quoted line.',
+        );
+      },
+    );
+
+    test(
+      'multiline blockquote followed by non-blockquote lines splits correctly',
+      () {
+        const String input =
+            '> First quoted line.\n> Second quoted line.\nThis is not a quoted line.';
+        final List<MessageContentSegment> segments =
+            parseMessageContentStructure(input, features);
+
+        expect(segments, hasLength(2));
+        expect(segments[0], isA<MessageBlockMarkdownSegment>());
+        expect(
+          (segments[0] as MessageBlockMarkdownSegment).text,
+          '> First quoted line.\n> Second quoted line.',
+        );
+        expect(segments[1], isA<MessageTextFlowSegment>());
+        expect(
+          (segments[1] as MessageTextFlowSegment).text,
+          'This is not a quoted line.',
+        );
+      },
+    );
+
+    test('splits code block with inline closing fence from trailing text', () {
+      const String input = 'before\n```dart\ncode```\nafter';
+      final String normalized = preprocessFluxerMarkdown(input, features);
+      final List<MessageContentSegment> segments = parseMessageContentStructure(
+        normalized,
+        features,
+      );
+      expect(segments, hasLength(3));
+      expect(segments[0], isA<MessageTextFlowSegment>());
+      expect((segments[0] as MessageTextFlowSegment).text, 'before\n');
+      expect(segments[1], isA<MessageBlockMarkdownSegment>());
+      expect(
+        (segments[1] as MessageBlockMarkdownSegment).text,
+        '```dart\ncode\n```',
+      );
+      expect(segments[2], isA<MessageTextFlowSegment>());
+      expect((segments[2] as MessageTextFlowSegment).text, 'after');
+    });
+
+    test(
+      'splits code block with inline closing fence without preprocessing',
+      () {
+        const String input = '```dart\ncode```\nafter';
+        final List<MessageContentSegment> segments =
+            parseMessageContentStructure(input, features);
+        expect(segments, hasLength(2));
+        expect(segments[0], isA<MessageBlockMarkdownSegment>());
+        expect(
+          (segments[0] as MessageBlockMarkdownSegment).text,
+          '```dart\ncode```',
+        );
+        expect(segments[1], isA<MessageTextFlowSegment>());
+        expect((segments[1] as MessageTextFlowSegment).text, 'after');
+      },
+    );
   });
 
   group('normalizeBlockquoteBarMarkdown', () {

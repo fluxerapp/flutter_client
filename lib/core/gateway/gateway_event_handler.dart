@@ -1088,6 +1088,9 @@ class GatewayEventHandler {
     Object? updatesRaw,
   ) {
     if (updatesRaw == null) {
+      if (existingRaw is Map) {
+        return existingRaw.cast<String, dynamic>();
+      }
       return null;
     }
     final existing = existingRaw is Map
@@ -1497,18 +1500,10 @@ class GatewayEventHandler {
   }
 
   Future<void> _refreshLastMessageAfterDelete(String channelId) async {
-    final latest = await database.messageDao.getLastMessage(channelId);
     final channel = await database.channelDao.getChannelById(channelId);
     if (channel != null) {
+      final latest = await database.messageDao.getLastMessage(channelId);
       await database.channelDao.setLastMessageId(channelId, latest?.id);
-    }
-
-    final dm = await database.dmChannelDao.getDmChannelById(channelId);
-    if (dm != null) {
-      await database.dmChannelDao.replaceLastMessageFromCache(
-        channelId,
-        latest,
-      );
     }
   }
 

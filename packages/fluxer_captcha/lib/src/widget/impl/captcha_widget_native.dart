@@ -611,7 +611,6 @@ class _FluxerCaptchaState extends State<FluxerCaptcha> {
   }
 
   late final _view = InAppWebView(
-    keepAlive: InAppWebViewKeepAlive(),
     key: webViewKey,
     initialData: InAppWebViewInitialData(
       data: data,
@@ -827,8 +826,10 @@ class _CaptchaInvisible extends FluxerCaptcha {
   Timer? _scriptLoadTimer;
   Timer? _tokenTimer;
 
-  static const Duration _renderTimeout = Duration(seconds: 5);
-  static const Duration _tokenTimeout = Duration(seconds: 7);
+  static const Duration _renderTimeout = Duration(seconds: 4);
+  Duration get _tokenTimeout => provider == CaptchaProvider.hcaptcha
+      ? const Duration(seconds: 2)
+      : const Duration(seconds: 4);
 
   void _createChannels(InAppWebViewController wController) {
     wController

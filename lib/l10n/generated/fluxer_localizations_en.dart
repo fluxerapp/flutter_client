@@ -555,6 +555,52 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get embedInviteUnavailable => 'Invite Unavailable';
 
   @override
+  String get inviteAcceptTitle => 'You\'ve been invited to join';
+
+  @override
+  String get inviteAcceptJoinButton => 'Join Community';
+
+  @override
+  String get inviteAcceptGoToButton => 'Go to Community';
+
+  @override
+  String get inviteAcceptInvitesPaused => 'Invites Paused';
+
+  @override
+  String get inviteAcceptNotFoundTitle => 'Invite Invalid';
+
+  @override
+  String get inviteAcceptNotFoundDescription =>
+      'This invite may be expired or invalid.';
+
+  @override
+  String get inviteAcceptJoinGroupButton => 'Join group';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return 'You\'ve been invited to join a group DM by $inviterName';
+  }
+
+  @override
+  String get inviteAcceptSomeone => 'someone';
+
+  @override
+  String get inviteAcceptEmojiPack => 'Emoji pack';
+
+  @override
+  String get inviteAcceptStickerPack => 'Sticker pack';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => 'Install emoji pack';
+
+  @override
+  String get inviteAcceptInstallStickerPack => 'Install sticker pack';
+
+  @override
+  String get inviteAcceptPackInstallNote =>
+      'Accepting this invite installs the pack automatically.';
+
+  @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
@@ -1967,6 +2013,23 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
 
   @override
+  String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      'You cannot delete your account while you own communities. Transfer ownership of the following communities first:';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return 'and $count more';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return 'To transfer ownership, go to $settingsPath and use the transfer ownership option.';
+  }
+
+  @override
   String get dangerZoneDeleteConfirmDescription =>
       'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
 
@@ -2259,6 +2322,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String userProfileOpenBlockedDmDescription(String username) {
     return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
   }
+
+  @override
+  String get blockedUserComposerBarrierAction => 'Unblock';
 
   @override
   String get userProfileOpenDm => 'Open DM';
@@ -3841,6 +3907,91 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
 
   @override
+  String get accessibilityDmMessagePreviewGroupTitle => 'DM message previews';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      'Control when message previews are shown in the DM list.';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel =>
+      'DM message preview mode';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => 'All messages';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription =>
+      'Show message previews for all DM conversations';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName => 'Unread DMs only';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      'Only show message previews for DMs with unread messages';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => 'None';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription =>
+      'Don\'t show message previews in the DM list';
+
+  @override
+  String get dmListSentAnAttachment => 'Sent an attachment';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return '$username pinned a message to this channel.';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return '$username added $userName to the group.';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return '$username added someone to the group.';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return '$username has left the group.';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username removed $userName from the group.';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username removed someone from the group.';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username changed the channel name to $newName.';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username changed the channel name.';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username changed the channel icon.';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username started a call.';
+  }
+
+  @override
   String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
 
   @override
@@ -4157,6 +4308,36 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get chatMessageFailedToSend => 'Failed to send message';
+
+  @override
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return 'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in $settingsPath.';
+  }
+
+  @override
+  String get chatSendFailureUnclaimedDm =>
+      'Your message could not be delivered. You need to claim your account to send direct messages.';
+
+  @override
+  String get chatSendFailureUnclaimedGeneral =>
+      'Your message could not be delivered. You need to claim your account to send messages.';
+
+  @override
+  String get chatSendFailureContentBlocked =>
+      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+
+  @override
+  String get chatSendFailureNsfwEmojiSticker =>
+      'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
+
+  @override
+  String get chatClientSystemOnlyYouCanSee => 'Only you can see this message.';
+
+  @override
+  String get chatClientSystemDismiss => 'Dismiss';
+
+  @override
+  String get privacyDashboardCommunicationSection => 'Communication';
 
   @override
   String get chatMessageDeleteFailed => 'Delete Failed Message';
@@ -4769,6 +4950,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get chatAttachmentVideoProgress => 'Video progress';
 
   @override
+  String get chatVideoPlaybackFailed => 'Could not play this video.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Notify users with this role who have permission to view this channel.';
 
@@ -5210,10 +5394,147 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
       'Explore Discoverable Communities';
 
   @override
+  String get discoveryExplore => 'Explore';
+
+  @override
+  String get discoveryExplorePublicCommunities => 'Explore public communities';
+
+  @override
+  String get discoveryListingSubheading =>
+      'Want to list your community on here? Apply if you meet the requirements in your community\'s settings > Discovery.';
+
+  @override
+  String get discoverySearchCommunities => 'Search communities';
+
+  @override
+  String get discoveryFilterByLanguage => 'Filter by language';
+
+  @override
+  String get discoveryAllLanguages => 'All languages';
+
+  @override
+  String get discoveryAllCategories => 'All';
+
+  @override
+  String get discoveryCategoryGaming => 'Gaming';
+
+  @override
+  String get discoveryCategoryMusic => 'Music';
+
+  @override
+  String get discoveryCategoryEntertainment => 'Entertainment';
+
+  @override
+  String get discoveryCategoryEducation => 'Education';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology => 'Science & Technology';
+
+  @override
+  String get discoveryCategoryContentCreator => 'Content Creator';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => 'Movies & TV';
+
+  @override
+  String get discoveryCategoryOther => 'Other';
+
+  @override
+  String get discoveryNoCommunitiesMatch => 'No communities match.';
+
+  @override
+  String get discoveryJoinCommunity => 'Join community';
+
+  @override
+  String get discoveryJoined => 'Joined';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count online';
+  }
+
+  @override
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get discoveryNoDescription => 'No description.';
+
+  @override
+  String get discoveryCommunities => 'Communities';
+
+  @override
+  String get discoveryApps => 'Apps';
+
+  @override
+  String get discoveryJoinErrorGenericTitle => 'Couldn\'t join this community';
+
+  @override
+  String get discoveryJoinErrorGenericMessage =>
+      'Something went wrong. Please try again in a moment.';
+
+  @override
+  String get discoveryJoinErrorFullTitle => 'This community is full';
+
+  @override
+  String get discoveryJoinErrorFullMessage =>
+      'This community has reached its member limit, so you can\'t join right now.';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle =>
+      'You\'ve reached the community limit';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage =>
+      'You\'re in the maximum number of communities. Leave one and try again.';
+
+  @override
+  String get discoveryJoinErrorBannedTitle => 'You can\'t join this community';
+
+  @override
+  String get discoveryJoinErrorBannedMessage =>
+      'You have been banned from this community.';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle =>
+      'This community is no longer available';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      'It may have left discovery or turned off new joins. Refresh the page and you won\'t see it again.';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle => 'You\'re going too fast';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage =>
+      'Please wait a moment and try again.';
+
+  @override
   String get guildNavbarAddCommunity => 'Add a Community';
 
   @override
   String get guildNavbarHelp => 'Help';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => 'NEW MESSAGE';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
@@ -5427,6 +5748,9 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
 
   @override
   String get guildMenuMarkAsRead => 'Mark as Read';
+
+  @override
+  String get guildPeekMoreOptions => 'More Options';
 
   @override
   String get guildMenuInviteMembers => 'Invite Members';
@@ -6312,7 +6636,48 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   }
 
   @override
+  String get guildSettingsBanExpiresLabel => 'Expires';
+
+  @override
   String get guildSettingsUnban => 'Unban';
+
+  @override
+  String get guildSettingsBansLoading => 'Loading banned users';
+
+  @override
+  String get guildSettingsBansNoSearchResults =>
+      'No bans found matching your search.';
+
+  @override
+  String get guildSettingsBanDetailsTitle => 'Ban details';
+
+  @override
+  String get guildSettingsBanViewDetails => 'View details';
+
+  @override
+  String get guildSettingsBannedOn => 'Banned on';
+
+  @override
+  String get guildSettingsBannedBy => 'Banned by';
+
+  @override
+  String get guildSettingsRevokeBanTitle => 'Revoke ban';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return 'Are you sure you want to revoke the ban for $displayName? They will be able to rejoin the community.';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return 'Revoked ban for $displayName';
+  }
+
+  @override
+  String get guildSettingsBansLoadError => 'Couldn\'t load bans. Try again.';
+
+  @override
+  String get guildSettingsRevokeBanError => 'Couldn\'t revoke ban. Try again.';
 
   @override
   String get guildSettingsCommunitySettings => 'Community Settings';
@@ -6782,7 +7147,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'Sign in with your organisation\'s single sign-on provider.';
 
   @override
   String get failedToStartSso => 'Failed to start SSO';
@@ -6828,7 +7193,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'We emailed a link to authorise this login. Please open your inbox for $email.';
   }
 
   @override
@@ -6836,14 +7201,14 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'We lost the connection while waiting for authorisation. Please try again.';
 
   @override
   String get ipAuthLinkExpired => 'Sign-in link expired';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'This authorisation link expired. Please sign in again.';
 
   @override
   String get ipAuthResendEmail => 'Resend email';
@@ -7256,6 +7621,52 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get embedInviteUnavailable => 'Invite Unavailable';
 
   @override
+  String get inviteAcceptTitle => 'You\'ve been invited to join';
+
+  @override
+  String get inviteAcceptJoinButton => 'Join Community';
+
+  @override
+  String get inviteAcceptGoToButton => 'Go to Community';
+
+  @override
+  String get inviteAcceptInvitesPaused => 'Invites Paused';
+
+  @override
+  String get inviteAcceptNotFoundTitle => 'Invite Invalid';
+
+  @override
+  String get inviteAcceptNotFoundDescription =>
+      'This invite may be expired or invalid.';
+
+  @override
+  String get inviteAcceptJoinGroupButton => 'Join group';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return 'You\'ve been invited to join a group DM by $inviterName';
+  }
+
+  @override
+  String get inviteAcceptSomeone => 'someone';
+
+  @override
+  String get inviteAcceptEmojiPack => 'Emoji pack';
+
+  @override
+  String get inviteAcceptStickerPack => 'Sticker pack';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => 'Install emoji pack';
+
+  @override
+  String get inviteAcceptInstallStickerPack => 'Install sticker pack';
+
+  @override
+  String get inviteAcceptPackInstallNote =>
+      'Accepting this invite installs the pack automatically.';
+
+  @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
@@ -7494,7 +7905,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get dmPinGroupDm => 'Pin Group DM';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => 'Unpin group DM';
 
   @override
   String get dmFavoriteDm => 'Favorite DM';
@@ -7503,37 +7914,37 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get dmUnfavoriteDm => 'Unfavorite DM';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => 'Favorite group DM';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => 'Unfavorite group DM';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => 'Change friend nickname';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => 'Remove friend';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => 'Add friend';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => 'Accept friend request';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => 'Ignore friend request';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => 'Friend request sent';
 
   @override
   String get dmUnblock => 'Unblock';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => 'Debug user';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => 'Debug channel';
 
   @override
   String get dmPinned => 'Pinned DM';
@@ -7548,7 +7959,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get dmUnmuted => 'Unmuted DM';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => 'Remove friend';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
@@ -7556,7 +7967,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => 'Block user';
 
   @override
   String dmBlockConfirmDescription(String username) {
@@ -7955,7 +8366,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      'Get Plutonium to customise your tag or keep it when changing your username';
 
   @override
   String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
@@ -7991,7 +8402,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'Customise your 4-digit tag or keep it when changing your username';
 
   @override
   String premiumTrialExpiresOn(String date) {
@@ -8013,7 +8424,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get continueAction => 'Continue';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => 'Profile Customisation';
 
   @override
   String get profileCustomizationDescription =>
@@ -8072,14 +8483,14 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => 'Accent Colour';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'Customises the border and banner colour on your profile';
 
   @override
   String get aboutMeLabel => 'About Me';
@@ -8157,7 +8568,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'Customise your profile with a static or animated banner image to make it stand out.';
 
   @override
   String get getPlutonium => 'Get Plutonium';
@@ -8203,7 +8614,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'Customising your avatar, banner, accent colour, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
 
   @override
   String get avatarModeInherit => 'Use Global Profile';
@@ -8668,6 +9079,23 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
 
   @override
+  String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      'You cannot delete your account while you own communities. Transfer ownership of the following communities first:';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return 'and $count more';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return 'To transfer ownership, go to $settingsPath and use the transfer ownership option.';
+  }
+
+  @override
   String get dangerZoneDeleteConfirmDescription =>
       'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
 
@@ -8793,15 +9221,15 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'You haven\'t authorised any applications to access your account.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+      'Failed to load authorised applications';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'Authorised on $date';
   }
 
   @override
@@ -8856,7 +9284,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError => 'Failed to load blocked users';
 
   @override
   String get blockedUsersUnblock => 'Unblock';
@@ -8960,6 +9388,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String userProfileOpenBlockedDmDescription(String username) {
     return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
   }
+
+  @override
+  String get blockedUserComposerBarrierAction => 'Unblock';
 
   @override
   String get userProfileOpenDm => 'Open DM';
@@ -9402,7 +9833,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognise.';
 
   @override
   String get linkedDevicesCurrentDevice => 'Current Device';
@@ -10073,7 +10504,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'Customise interface elements and behaviours.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
@@ -10146,7 +10577,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'When enabled, Neko appears near the chat input bar.';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behaviour';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
@@ -10196,7 +10627,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'Control unread indicator behaviour for muted channels in channel lists.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
@@ -10226,20 +10657,20 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'Control the visibility of favourites throughout the app.';
 
   @override
   String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'When enabled, you can favourite channels and they\'ll appear in the Favorites section. When disabled, all favourite-related UI elements (buttons, menu items) will be hidden. Your existing favourites will be preserved.';
 
   @override
   String get favoritesTitle => 'Favorites';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'No favourites yet';
 
   @override
   String get favoritesEmptyDescription =>
@@ -10334,14 +10765,14 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'Customise media size preferences and buttons.';
 
   @override
   String get messagesMediaInputGroupTitle => 'Input';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'Customise message input settings.';
 
   @override
   String get messagesMediaSidebarGroupTitle => 'Sidebar';
@@ -10481,7 +10912,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Larger media size with more detail';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'GIF Behaviour';
 
   @override
   String get messagesMediaGifsSectionDescription =>
@@ -10497,7 +10928,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'Control what appears in the expression autocomplete when you type colon. Customise what suggestions show up to match your preferences.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
@@ -10540,6 +10971,91 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
       'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupTitle => 'DM message previews';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      'Control when message previews are shown in the DM list.';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel =>
+      'DM message preview mode';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => 'All messages';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription =>
+      'Show message previews for all DM conversations';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName => 'Unread DMs only';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      'Only show message previews for DMs with unread messages';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => 'None';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription =>
+      'Don\'t show message previews in the DM list';
+
+  @override
+  String get dmListSentAnAttachment => 'Sent an attachment';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return '$username pinned a message to this channel.';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return '$username added $userName to the group.';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return '$username added someone to the group.';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return '$username has left the group.';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username removed $userName from the group.';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username removed someone from the group.';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username changed the channel name to $newName.';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username changed the channel name.';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username changed the channel icon.';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username started a call.';
+  }
 
   @override
   String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
@@ -10716,7 +11232,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get voiceWatchStream => 'Watch Stream';
 
   @override
-  String get voiceStopWatching => 'Stop Watching';
+  String get voiceStopWatching => 'Stop watching';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
@@ -10860,13 +11376,43 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatMessageFailedToSend => 'Failed to send message';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return 'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in $settingsPath.';
+  }
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatSendFailureUnclaimedDm =>
+      'Your message could not be delivered. You need to claim your account to send direct messages.';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatSendFailureUnclaimedGeneral =>
+      'Your message could not be delivered. You need to claim your account to send messages.';
+
+  @override
+  String get chatSendFailureContentBlocked =>
+      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+
+  @override
+  String get chatSendFailureNsfwEmojiSticker =>
+      'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
+
+  @override
+  String get chatClientSystemOnlyYouCanSee => 'Only you can see this message.';
+
+  @override
+  String get chatClientSystemDismiss => 'Dismiss';
+
+  @override
+  String get privacyDashboardCommunicationSection => 'Communication';
+
+  @override
+  String get chatMessageDeleteFailed => 'Delete failed message';
+
+  @override
+  String get chatMessageAddReaction => 'Add reaction';
+
+  @override
+  String get chatMessageEdit => 'Edit message';
 
   @override
   String get chatMessageReply => 'Reply';
@@ -10881,7 +11427,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get forwardSearchHint => 'Search channels or DMs';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get forwardDirectMessagesSection => 'Direct messages';
 
   @override
   String get forwardCommentHint => 'Add a comment (optional)';
@@ -10902,7 +11448,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'Comments are unavailable because a selected channel has slow mode enabled.';
 
   @override
   String get forwardDestinationNoSendPermission =>
@@ -10926,11 +11472,11 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'Slow mode - wait $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => 'Copy message';
 
   @override
   String get chatMessagePin => 'Pin message';
@@ -10939,19 +11485,22 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatMessageUnpin => 'Unpin message';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageUnpinIt => 'Unpin it';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageBookmark => 'Bookmark message';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageRemoveBookmark => 'Remove bookmark';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageMarkAsUnread => 'Mark as unread';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageLink => 'Copy message link';
+
+  @override
+  String get chatMessageCopyMessageId => 'Copy message ID';
 
   @override
   String get chatMessageViewReactions => 'View reactions';
@@ -10960,7 +11509,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatMessageRemoveAllReactions => 'Remove all reactions';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageDebug => 'Debug message';
 
   @override
   String get chatMessageDebugSheetTitle => 'Debug message';
@@ -10979,7 +11528,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => 'Report message';
 
   @override
   String get iarReportMessageTitle => 'Report message';
@@ -11066,7 +11615,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      'Slurs, dehumanising language, or attacks on protected groups.';
 
   @override
   String get iarReasonViolenceLabel => 'Violence or violent threats';
@@ -11467,6 +12016,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get chatAttachmentVideoProgress => 'Video progress';
 
   @override
+  String get chatVideoPlaybackFailed => 'Could not play this video.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Notify users with this role who have permission to view this channel.';
 
@@ -11523,6 +12075,27 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   @override
   String get chatMessageUnpinConfirmDescription =>
       'Send this pin back in time?';
+
+  @override
+  String systemPinMessage(
+    String username,
+    String messageLink,
+    String allPinsLink,
+  ) {
+    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+  }
+
+  @override
+  String get systemPinMessageMessageLink => 'a message';
+
+  @override
+  String get systemPinMessageAllPinsLink => 'all pinned messages';
+
+  @override
+  String get channelPinsEmptyTitle => 'No pinned messages';
+
+  @override
+  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
 
   @override
   String get personalNotesTitle => 'Personal notes';
@@ -11802,7 +12375,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get uiReset => 'Reset';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'Open colour picker';
 
   @override
   String get uiSelectPlaceholder => 'Select';
@@ -11817,7 +12390,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get uiDismissNotification => 'Dismiss notification';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'Colour picker';
 
   @override
   String get mentionConfirmTitle => 'Mention everyone?';
@@ -11887,10 +12460,147 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'Explore Discoverable Communities';
 
   @override
+  String get discoveryExplore => 'Explore';
+
+  @override
+  String get discoveryExplorePublicCommunities => 'Explore public communities';
+
+  @override
+  String get discoveryListingSubheading =>
+      'Want to list your community on here? Apply if you meet the requirements in your community\'s settings > Discovery.';
+
+  @override
+  String get discoverySearchCommunities => 'Search communities';
+
+  @override
+  String get discoveryFilterByLanguage => 'Filter by language';
+
+  @override
+  String get discoveryAllLanguages => 'All languages';
+
+  @override
+  String get discoveryAllCategories => 'All';
+
+  @override
+  String get discoveryCategoryGaming => 'Gaming';
+
+  @override
+  String get discoveryCategoryMusic => 'Music';
+
+  @override
+  String get discoveryCategoryEntertainment => 'Entertainment';
+
+  @override
+  String get discoveryCategoryEducation => 'Education';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology => 'Science & Technology';
+
+  @override
+  String get discoveryCategoryContentCreator => 'Content Creator';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => 'Movies & TV';
+
+  @override
+  String get discoveryCategoryOther => 'Other';
+
+  @override
+  String get discoveryNoCommunitiesMatch => 'No communities match.';
+
+  @override
+  String get discoveryJoinCommunity => 'Join community';
+
+  @override
+  String get discoveryJoined => 'Joined';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count online';
+  }
+
+  @override
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get discoveryNoDescription => 'No description.';
+
+  @override
+  String get discoveryCommunities => 'Communities';
+
+  @override
+  String get discoveryApps => 'Apps';
+
+  @override
+  String get discoveryJoinErrorGenericTitle => 'Couldn\'t join this community';
+
+  @override
+  String get discoveryJoinErrorGenericMessage =>
+      'Something went wrong. Please try again in a moment.';
+
+  @override
+  String get discoveryJoinErrorFullTitle => 'This community is full';
+
+  @override
+  String get discoveryJoinErrorFullMessage =>
+      'This community has reached its member limit, so you can\'t join right now.';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle =>
+      'You\'ve reached the community limit';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage =>
+      'You\'re in the maximum number of communities. Leave one and try again.';
+
+  @override
+  String get discoveryJoinErrorBannedTitle => 'You can\'t join this community';
+
+  @override
+  String get discoveryJoinErrorBannedMessage =>
+      'You have been banned from this community.';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle =>
+      'This community is no longer available';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      'It may have left discovery or turned off new joins. Refresh the page and you won\'t see it again.';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle => 'You\'re going too fast';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage =>
+      'Please wait a moment and try again.';
+
+  @override
   String get guildNavbarAddCommunity => 'Add a Community';
 
   @override
   String get guildNavbarHelp => 'Help';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => 'NEW MESSAGE';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
@@ -12106,6 +12816,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get guildMenuMarkAsRead => 'Mark as Read';
 
   @override
+  String get guildPeekMoreOptions => 'More Options';
+
+  @override
   String get guildMenuInviteMembers => 'Invite Members';
 
   @override
@@ -12153,7 +12866,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => 'Activity log';
 
   @override
   String get guildMenuSettingsWebhooks => 'Webhooks';
@@ -12252,7 +12965,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'Configure mature content labelling and optional content warnings for members.';
 
   @override
   String get guildSettingsModerationMatureToggle => 'Mature content';
@@ -12989,7 +13702,48 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   }
 
   @override
+  String get guildSettingsBanExpiresLabel => 'Expires';
+
+  @override
   String get guildSettingsUnban => 'Unban';
+
+  @override
+  String get guildSettingsBansLoading => 'Loading banned users';
+
+  @override
+  String get guildSettingsBansNoSearchResults =>
+      'No bans found matching your search.';
+
+  @override
+  String get guildSettingsBanDetailsTitle => 'Ban details';
+
+  @override
+  String get guildSettingsBanViewDetails => 'View details';
+
+  @override
+  String get guildSettingsBannedOn => 'Banned on';
+
+  @override
+  String get guildSettingsBannedBy => 'Banned by';
+
+  @override
+  String get guildSettingsRevokeBanTitle => 'Revoke ban';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return 'Are you sure you want to revoke the ban for $displayName? They will be able to rejoin the community.';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return 'Revoked ban for $displayName';
+  }
+
+  @override
+  String get guildSettingsBansLoadError => 'Couldn\'t load bans. Try again.';
+
+  @override
+  String get guildSettingsRevokeBanError => 'Couldn\'t revoke ban. Try again.';
 
   @override
   String get guildSettingsCommunitySettings => 'Community Settings';
@@ -13933,6 +14687,52 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get embedInviteUnavailable => 'Invite Unavailable';
 
   @override
+  String get inviteAcceptTitle => 'You\'ve been invited to join';
+
+  @override
+  String get inviteAcceptJoinButton => 'Join Community';
+
+  @override
+  String get inviteAcceptGoToButton => 'Go to Community';
+
+  @override
+  String get inviteAcceptInvitesPaused => 'Invites Paused';
+
+  @override
+  String get inviteAcceptNotFoundTitle => 'Invite Invalid';
+
+  @override
+  String get inviteAcceptNotFoundDescription =>
+      'This invite may be expired or invalid.';
+
+  @override
+  String get inviteAcceptJoinGroupButton => 'Join group';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return 'You\'ve been invited to join a group DM by $inviterName';
+  }
+
+  @override
+  String get inviteAcceptSomeone => 'someone';
+
+  @override
+  String get inviteAcceptEmojiPack => 'Emoji pack';
+
+  @override
+  String get inviteAcceptStickerPack => 'Sticker pack';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => 'Install emoji pack';
+
+  @override
+  String get inviteAcceptInstallStickerPack => 'Install sticker pack';
+
+  @override
+  String get inviteAcceptPackInstallNote =>
+      'Accepting this invite installs the pack automatically.';
+
+  @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
@@ -15345,6 +16145,23 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
 
   @override
+  String get dangerZoneDeleteCannotDeleteAccount => 'Cannot delete account';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      'You cannot delete your account while you own communities. Transfer ownership of the following communities first:';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return 'and $count more';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return 'To transfer ownership, go to $settingsPath and use the transfer ownership option.';
+  }
+
+  @override
   String get dangerZoneDeleteConfirmDescription =>
       'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
 
@@ -15637,6 +16454,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String userProfileOpenBlockedDmDescription(String username) {
     return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
   }
+
+  @override
+  String get blockedUserComposerBarrierAction => 'Unblock';
 
   @override
   String get userProfileOpenDm => 'Open DM';
@@ -17219,6 +18039,91 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
 
   @override
+  String get accessibilityDmMessagePreviewGroupTitle => 'DM message previews';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      'Control when message previews are shown in the DM list.';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel =>
+      'DM message preview mode';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => 'All messages';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription =>
+      'Show message previews for all DM conversations';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName => 'Unread DMs only';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      'Only show message previews for DMs with unread messages';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => 'None';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription =>
+      'Don\'t show message previews in the DM list';
+
+  @override
+  String get dmListSentAnAttachment => 'Sent an attachment';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return '$username pinned a message to this channel.';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return '$username added $userName to the group.';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return '$username added someone to the group.';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return '$username has left the group.';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username removed $userName from the group.';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username removed someone from the group.';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username changed the channel name to $newName.';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username changed the channel name.';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username changed the channel icon.';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username started a call.';
+  }
+
+  @override
   String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
 
   @override
@@ -17537,6 +18442,36 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get chatMessageFailedToSend => 'Failed to send message';
 
   @override
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return 'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in $settingsPath.';
+  }
+
+  @override
+  String get chatSendFailureUnclaimedDm =>
+      'Your message could not be delivered. You need to claim your account to send direct messages.';
+
+  @override
+  String get chatSendFailureUnclaimedGeneral =>
+      'Your message could not be delivered. You need to claim your account to send messages.';
+
+  @override
+  String get chatSendFailureContentBlocked =>
+      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
+
+  @override
+  String get chatSendFailureNsfwEmojiSticker =>
+      'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
+
+  @override
+  String get chatClientSystemOnlyYouCanSee => 'Only you can see this message.';
+
+  @override
+  String get chatClientSystemDismiss => 'Dismiss';
+
+  @override
+  String get privacyDashboardCommunicationSection => 'Communication';
+
+  @override
   String get chatMessageDeleteFailed => 'Delete Failed Message';
 
   @override
@@ -17614,6 +18549,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get chatMessageUnpin => 'Unpin message';
+
+  @override
+  String get chatMessageUnpinIt => 'Unpin it';
 
   @override
   String get chatMessageBookmark => 'Bookmark Message';
@@ -18144,6 +19082,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   String get chatAttachmentVideoProgress => 'Video progress';
 
   @override
+  String get chatVideoPlaybackFailed => 'Could not play this video.';
+
+  @override
   String get composerAutocompleteRoleMentionDescription =>
       'Notify users with this role who have permission to view this channel.';
 
@@ -18200,6 +19141,27 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   @override
   String get chatMessageUnpinConfirmDescription =>
       'Send this pin back in time?';
+
+  @override
+  String systemPinMessage(
+    String username,
+    String messageLink,
+    String allPinsLink,
+  ) {
+    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+  }
+
+  @override
+  String get systemPinMessageMessageLink => 'a message';
+
+  @override
+  String get systemPinMessageAllPinsLink => 'all pinned messages';
+
+  @override
+  String get channelPinsEmptyTitle => 'No pinned messages';
+
+  @override
+  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
 
   @override
   String get personalNotesTitle => 'Personal notes';
@@ -18564,10 +19526,147 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
       'Explore Discoverable Communities';
 
   @override
+  String get discoveryExplore => 'Explore';
+
+  @override
+  String get discoveryExplorePublicCommunities => 'Explore public communities';
+
+  @override
+  String get discoveryListingSubheading =>
+      'Want to list your community on here? Apply if you meet the requirements in your community\'s settings > Discovery.';
+
+  @override
+  String get discoverySearchCommunities => 'Search communities';
+
+  @override
+  String get discoveryFilterByLanguage => 'Filter by language';
+
+  @override
+  String get discoveryAllLanguages => 'All languages';
+
+  @override
+  String get discoveryAllCategories => 'All';
+
+  @override
+  String get discoveryCategoryGaming => 'Gaming';
+
+  @override
+  String get discoveryCategoryMusic => 'Music';
+
+  @override
+  String get discoveryCategoryEntertainment => 'Entertainment';
+
+  @override
+  String get discoveryCategoryEducation => 'Education';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology => 'Science & Technology';
+
+  @override
+  String get discoveryCategoryContentCreator => 'Content Creator';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => 'Movies & TV';
+
+  @override
+  String get discoveryCategoryOther => 'Other';
+
+  @override
+  String get discoveryNoCommunitiesMatch => 'No communities match.';
+
+  @override
+  String get discoveryJoinCommunity => 'Join community';
+
+  @override
+  String get discoveryJoined => 'Joined';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count online';
+  }
+
+  @override
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString members',
+      one: '1 member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get discoveryNoDescription => 'No description.';
+
+  @override
+  String get discoveryCommunities => 'Communities';
+
+  @override
+  String get discoveryApps => 'Apps';
+
+  @override
+  String get discoveryJoinErrorGenericTitle => 'Couldn\'t join this community';
+
+  @override
+  String get discoveryJoinErrorGenericMessage =>
+      'Something went wrong. Please try again in a moment.';
+
+  @override
+  String get discoveryJoinErrorFullTitle => 'This community is full';
+
+  @override
+  String get discoveryJoinErrorFullMessage =>
+      'This community has reached its member limit, so you can\'t join right now.';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle =>
+      'You\'ve reached the community limit';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage =>
+      'You\'re in the maximum number of communities. Leave one and try again.';
+
+  @override
+  String get discoveryJoinErrorBannedTitle => 'You can\'t join this community';
+
+  @override
+  String get discoveryJoinErrorBannedMessage =>
+      'You have been banned from this community.';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle =>
+      'This community is no longer available';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      'It may have left discovery or turned off new joins. Refresh the page and you won\'t see it again.';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle => 'You\'re going too fast';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage =>
+      'Please wait a moment and try again.';
+
+  @override
   String get guildNavbarAddCommunity => 'Add a Community';
 
   @override
   String get guildNavbarHelp => 'Help';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => 'NEW MESSAGE';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
@@ -18781,6 +19880,9 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
 
   @override
   String get guildMenuMarkAsRead => 'Mark as Read';
+
+  @override
+  String get guildPeekMoreOptions => 'More Options';
 
   @override
   String get guildMenuInviteMembers => 'Invite Members';
@@ -19666,7 +20768,48 @@ class FluxerLocalizationsEnUs extends FluxerLocalizationsEn {
   }
 
   @override
+  String get guildSettingsBanExpiresLabel => 'Expires';
+
+  @override
   String get guildSettingsUnban => 'Unban';
+
+  @override
+  String get guildSettingsBansLoading => 'Loading banned users';
+
+  @override
+  String get guildSettingsBansNoSearchResults =>
+      'No bans found matching your search.';
+
+  @override
+  String get guildSettingsBanDetailsTitle => 'Ban details';
+
+  @override
+  String get guildSettingsBanViewDetails => 'View details';
+
+  @override
+  String get guildSettingsBannedOn => 'Banned on';
+
+  @override
+  String get guildSettingsBannedBy => 'Banned by';
+
+  @override
+  String get guildSettingsRevokeBanTitle => 'Revoke ban';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return 'Are you sure you want to revoke the ban for $displayName? They will be able to rejoin the community.';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return 'Revoked ban for $displayName';
+  }
+
+  @override
+  String get guildSettingsBansLoadError => 'Couldn\'t load bans. Try again.';
+
+  @override
+  String get guildSettingsRevokeBanError => 'Couldn\'t revoke ban. Try again.';
 
   @override
   String get guildSettingsCommunitySettings => 'Community Settings';

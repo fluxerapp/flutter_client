@@ -20,6 +20,7 @@ import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -48,6 +49,8 @@ import 'package:fluxer_app/features/guilds/presentation/'
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_drag_wrapper.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
+    'widgets/guild_icon_peek_menu.dart';
+import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_scroll_indicator.dart';
@@ -59,6 +62,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.d
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_voice_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -75,18 +79,6 @@ import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-typedef _ScrollIndicatorView = ({
-  bool show,
-  ScrollIndicatorSeverity severity,
-  String? targetId,
-});
-
-const _ScrollIndicatorView _hiddenIndicator = (
-  show: false,
-  severity: ScrollIndicatorSeverity.unread,
-  targetId: null,
-);
 
 enum _NavbarListEntryKind {
   directMessages,
@@ -125,24 +117,25 @@ class GuildNavbar extends ConsumerStatefulWidget {
 
 class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   final _scrollController = ScrollController();
-  final _itemKeys = <String, GlobalKey>{};
-  final ValueNotifier<_ScrollIndicatorView> _topIndicator = ValueNotifier(
-    _hiddenIndicator,
-  );
-  final ValueNotifier<_ScrollIndicatorView> _bottomIndicator = ValueNotifier(
-    _hiddenIndicator,
-  );
-  bool _scrollIndicatorUpdateScheduled = false;
+  final Map<String, GlobalKey> _itemKeys = <String, GlobalKey>{};
+  late final UnreadScrollIndicatorController _scrollIndicator;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scheduleScrollIndicatorUpdate);
+    _scrollIndicator = UnreadScrollIndicatorController(
+      scrollController: _scrollController,
+      itemKeys: _itemKeys,
+      resolveSeverity: _resolveGuildScrollSeverity,
+      isMounted: () => mounted,
+      hideTopWhen: (double scrollOffset) => scrollOffset < 80,
+    )..attach();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
       _prefetchGuildPermissions(ref.read(organizedGuildListProvider));
+      _scrollIndicator.scheduleUpdate();
     });
   }
 
@@ -227,118 +220,15 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_scheduleScrollIndicatorUpdate)
-      ..dispose();
-    _topIndicator.dispose();
-    _bottomIndicator.dispose();
+    _scrollController.dispose();
+    _scrollIndicator.detach();
     super.dispose();
   }
 
-  void _scheduleScrollIndicatorUpdate() {
-    if (_scrollIndicatorUpdateScheduled) {
-      return;
-    }
-    _scrollIndicatorUpdateScheduled = true;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollIndicatorUpdateScheduled = false;
-      _updateScrollIndicators();
-    });
-  }
-
-  void _updateScrollIndicators() {
-    if (!_scrollController.hasClients || !mounted) {
-      return;
-    }
-
-    final scrollPosition = _scrollController.position;
-
-    var showTop = false;
-    var showBottom = false;
-    var topSeverity = ScrollIndicatorSeverity.unread;
-    var bottomSeverity = ScrollIndicatorSeverity.unread;
-    String? topTarget;
-    String? bottomTarget;
-    var topDistance = double.infinity;
-    var bottomDistance = double.infinity;
-
-    for (final entry in _itemKeys.entries) {
-      final severity = _getItemSeverity(entry.key);
-      if (severity == null) {
-        continue;
-      }
-
-      final key = entry.value;
-      final renderObject = key.currentContext?.findRenderObject();
-      if (renderObject is! RenderBox || !renderObject.attached) {
-        continue;
-      }
-
-      final scrollableContext = scrollPosition.context.storageContext;
-      final scrollableRenderObject =
-          scrollableContext.findRenderObject()! as RenderBox;
-      final scrollableTop = scrollableRenderObject
-          .localToGlobal(Offset.zero)
-          .dy;
-      final scrollableBottom = scrollableTop + scrollPosition.viewportDimension;
-
-      final itemTop = renderObject.localToGlobal(Offset.zero).dy;
-      final itemBottom = itemTop + renderObject.size.height;
-
-      if (itemBottom < scrollableTop) {
-        final distance = scrollableTop - itemBottom;
-        final severityPriority = severity == ScrollIndicatorSeverity.mention
-            ? 2
-            : 1;
-        final currentTopPriority =
-            topSeverity == ScrollIndicatorSeverity.mention ? 2 : 1;
-
-        if (!showTop ||
-            severityPriority > currentTopPriority ||
-            (severityPriority == currentTopPriority &&
-                distance < topDistance)) {
-          showTop = true;
-          topSeverity = severity;
-          topTarget = entry.key;
-          topDistance = distance;
-        }
-      } else if (itemTop > scrollableBottom) {
-        final distance = itemTop - scrollableBottom;
-        final severityPriority = severity == ScrollIndicatorSeverity.mention
-            ? 2
-            : 1;
-        final currentBottomPriority =
-            bottomSeverity == ScrollIndicatorSeverity.mention ? 2 : 1;
-
-        if (!showBottom ||
-            severityPriority > currentBottomPriority ||
-            (severityPriority == currentBottomPriority &&
-                distance < bottomDistance)) {
-          showBottom = true;
-          bottomSeverity = severity;
-          bottomTarget = entry.key;
-          bottomDistance = distance;
-        }
-      }
-    }
-
-    final scrollOffset = scrollPosition.pixels;
-    final hideTopIndicatorOverDms = scrollOffset < 80;
-
-    _topIndicator.value = (
-      show: showTop && !hideTopIndicatorOverDms,
-      severity: topSeverity,
-      targetId: topTarget,
-    );
-    _bottomIndicator.value = (
-      show: showBottom,
-      severity: bottomSeverity,
-      targetId: bottomTarget,
-    );
-  }
-
-  ScrollIndicatorSeverity? _getItemSeverity(String guildId) {
-    final unread = ref.read(guildReadStateProvider)[guildId];
+  ScrollIndicatorSeverity? _resolveGuildScrollSeverity(String guildId) {
+    final GuildReadStateEntry? unread = ref.read(
+      guildReadStateProvider,
+    )[guildId];
     if (unread == null) {
       return null;
     }
@@ -349,23 +239,6 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       return ScrollIndicatorSeverity.unread;
     }
     return null;
-  }
-
-  void _scrollToItem(String? itemId) {
-    if (itemId == null) {
-      return;
-    }
-    final key = _itemKeys[itemId];
-    if (key?.currentContext == null) {
-      return;
-    }
-    unawaited(
-      Scrollable.ensureVisible(
-        key!.currentContext!,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeOut,
-      ),
-    );
   }
 
   @override
@@ -412,7 +285,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         }
       })
       ..listen(guildReadStateProvider, (_, _) {
-        _scheduleScrollIndicatorUpdate();
+        _scrollIndicator.scheduleUpdate();
       });
 
     final double topPadding = max<double>(MediaQuery.paddingOf(context).top, 4);
@@ -441,6 +314,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       },
     );
 
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Container(
       width: 72,
       decoration: BoxDecoration(
@@ -449,62 +323,11 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       ),
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        child: Stack(
-          children: [
-            guildListView,
-            Positioned(
-              top: 8 + topPadding,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: ValueListenableBuilder<_ScrollIndicatorView>(
-                  valueListenable: _topIndicator,
-                  builder: (context, view, _) => IgnorePointer(
-                    ignoring: !view.show,
-                    child: AnimatedSlide(
-                      offset: Offset(0, view.show ? 0 : -1),
-                      duration: const Duration(milliseconds: 150),
-                      curve: Curves.easeOut,
-                      child: AnimatedOpacity(
-                        opacity: view.show ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 150),
-                        child: GuildScrollIndicator(
-                          severity: view.severity,
-                          onTap: () => _scrollToItem(view.targetId),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 8,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: ValueListenableBuilder<_ScrollIndicatorView>(
-                  valueListenable: _bottomIndicator,
-                  builder: (context, view, _) => IgnorePointer(
-                    ignoring: !view.show,
-                    child: AnimatedSlide(
-                      offset: Offset(0, view.show ? 0 : 1),
-                      duration: const Duration(milliseconds: 150),
-                      curve: Curves.easeOut,
-                      child: AnimatedOpacity(
-                        opacity: view.show ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 150),
-                        child: GuildScrollIndicator(
-                          severity: view.severity,
-                          onTap: () => _scrollToItem(view.targetId),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+        child: UnreadScrollIndicatorLayer(
+          controller: _scrollIndicator,
+          label: l10n.scrollIndicatorNew,
+          topInset: 8 + topPadding,
+          child: guildListView,
         ),
       ),
     );
@@ -563,39 +386,81 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         final GuildNavbarGuild guildItem =
             entry.organizedItem! as GuildNavbarGuild;
         final Guild guild = guildItem.guild;
-        return GuildDragWrapper(
-          key: ValueKey<String>('guild-${guild.id}'),
-          itemId: guild.id,
-          isFolder: false,
-          enabled: !guild.isUnavailable,
-          child: _buildGuildItem(
-            context,
-            guild: guild,
-            activeGuildId: activeGuildId,
-            unavailableCount: unavailableCount,
-          ),
+        return Consumer(
+          builder: (context, ref, child) {
+            final unread = ref.watch(
+              guildReadStateProvider.select((s) => s[guild.id]),
+            );
+            final GlobalKey<_GuildListItemState> itemKey =
+                _itemKeys.putIfAbsent(
+                      guild.id,
+                      GlobalKey<_GuildListItemState>.new,
+                    )
+                    as GlobalKey<_GuildListItemState>;
+            final bool hasUnread =
+                !guild.isUnavailable && (unread?.hasUnread ?? false);
+            return GuildDragWrapper(
+              key: ValueKey<String>('guild-${guild.id}'),
+              itemId: guild.id,
+              isFolder: false,
+              enabled: !guild.isUnavailable,
+              dragFeedback: GuildDragFeedback(
+                label: guild.name,
+                iconUrl: guild.iconUrl,
+                isUnavailable: guild.isUnavailable,
+              ),
+              peekMenu: buildGuildPeekMenuConfig(
+                context,
+                guild: guild,
+                hasUnread: hasUnread,
+                onAction:
+                    (
+                      BuildContext actionContext,
+                      GuildIconPeekAction action,
+                    ) async {
+                      await itemKey.currentState?.handlePeekAction(
+                        actionContext,
+                        action,
+                      );
+                    },
+              ),
+              child: _buildGuildItem(
+                context,
+                guild: guild,
+                activeGuildId: activeGuildId,
+                unavailableCount: unavailableCount,
+                itemKey: itemKey,
+              ),
+            );
+          },
         );
       case _NavbarListEntryKind.organizedFolder:
         final GuildNavbarFolder folderItem =
             entry.organizedItem! as GuildNavbarFolder;
-        return GuildDragWrapper(
+        return _GuildFolderWidget(
           key: ValueKey<String>('folder-${folderItem.id}'),
-          itemId: folderItem.id.toString(),
-          isFolder: true,
-          child: _GuildFolderWidget(
-            folder: folderItem,
-            activeGuildId: activeGuildId,
-            unavailableCount: unavailableCount,
-          ),
+          folder: folderItem,
+          activeGuildId: activeGuildId,
+          unavailableCount: unavailableCount,
+          resolveGuildItemKey: (String guildId) =>
+              _itemKeys.putIfAbsent(guildId, GlobalKey<_GuildListItemState>.new)
+                  as GlobalKey<_GuildListItemState>,
         );
       case _NavbarListEntryKind.exploreCommunities:
+        final bool isDiscover = ref.watch(
+          currentLocationProvider.select(
+            (String l) => l == RoutePaths.discover,
+          ),
+        );
         return _DashedGuildIcon(
           label: l10n.guildNavbarExploreDiscoverableCommunities,
           icon: PhosphorIconsRegular.compass,
+          isSelected: isDiscover,
           onTap: () {
-            ref
-                .read(toastProvider.notifier)
-                .show(FluxerToast(message: l10n.comingSoon));
+            if (ref.read(currentLocationProvider) == RoutePaths.discover) {
+              return;
+            }
+            openDiscover(context, ref);
           },
         );
       case _NavbarListEntryKind.addCommunity:
@@ -752,8 +617,8 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required Guild guild,
     required String? activeGuildId,
     required int unavailableCount,
+    required GlobalKey<_GuildListItemState> itemKey,
   }) {
-    final itemKey = _itemKeys.putIfAbsent(guild.id, GlobalKey.new);
     return Consumer(
       builder: (context, ref, child) {
         final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -796,12 +661,15 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           guildUnreadReady: guildUnreadReady,
           invitesPaused: invitesPaused,
           developerMode: developerMode,
+          enableLongPressMenu: !isMobileLayout(context),
           onTap: () {
             context.go(RoutePaths.guild(guild.id));
           },
           onMenuOpened: () {
             ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
           },
+          resolveMenuPermissions: () =>
+              _resolveGuildMenuPermissions(ref, guild.id),
           onMarkAsRead: () {
             unawaited(
               markGuildAsRead(
@@ -1019,11 +887,15 @@ class _GuildFolderWidget extends ConsumerStatefulWidget {
   final GuildNavbarFolder folder;
   final String? activeGuildId;
   final int unavailableCount;
+  final GlobalKey<_GuildListItemState> Function(String guildId)
+  resolveGuildItemKey;
 
   const _GuildFolderWidget({
     required this.folder,
     required this.activeGuildId,
     required this.unavailableCount,
+    required this.resolveGuildItemKey,
+    super.key,
   });
 
   @override
@@ -1102,15 +974,24 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildFolderButton(
-                context,
-                folderAccent: folderAccent,
-                folderSurface: folderSurface,
-                anyUnread: anyUnread,
-                totalMentions: totalMentions,
-                folderVoiceActivity: folderVoiceActivity,
-                isExpanded: isExpanded,
-                guildUnreadReady: guildUnreadReady,
+              GuildDragWrapper(
+                itemId: folder.id.toString(),
+                isFolder: true,
+                dragFeedback: GuildFolderDragFeedback(
+                  guilds: folder.guilds,
+                  folderIcon: folder.icon,
+                  showIconWhenCollapsed: folder.showIconWhenCollapsed,
+                ),
+                child: _buildFolderButton(
+                  context,
+                  folderAccent: folderAccent,
+                  folderSurface: folderSurface,
+                  anyUnread: anyUnread,
+                  totalMentions: totalMentions,
+                  folderVoiceActivity: folderVoiceActivity,
+                  isExpanded: isExpanded,
+                  guildUnreadReady: guildUnreadReady,
+                ),
               ),
               // Animated expand/collapse of guild items.
               AnimatedSize(
@@ -1201,7 +1082,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
                     child: isExpanded
                         ? Center(
                             child: PhosphorIcon(
-                              _folderIcon(folder.icon),
+                              guildFolderIconForName(folder.icon),
                               color: context.colors.textPrimary,
                               size: 24,
                             ),
@@ -1249,7 +1130,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
     if (folder.showIconWhenCollapsed && folder.icon != null) {
       return Center(
         child: PhosphorIcon(
-          _folderIcon(folder.icon),
+          guildFolderIconForName(folder.icon),
           color: context.colors.textPrimary,
           size: 24,
         ),
@@ -1324,10 +1205,33 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
         final developerMode = ref.watch(
           userSettingsViewModelProvider.select((s) => s.developerMode),
         );
+        final GlobalKey<_GuildListItemState> itemKey = widget
+            .resolveGuildItemKey(guild.id);
+        final bool hasUnread =
+            !guild.isUnavailable && (unread?.hasUnread ?? false);
         return GuildDragWrapper(
           itemId: guild.id,
           isFolder: false,
+          allowCombine: false,
+          dragFeedback: GuildDragFeedback(
+            label: guild.name,
+            iconUrl: guild.iconUrl,
+            isUnavailable: guild.isUnavailable,
+          ),
+          peekMenu: buildGuildPeekMenuConfig(
+            context,
+            guild: guild,
+            hasUnread: hasUnread,
+            onAction:
+                (BuildContext actionContext, GuildIconPeekAction action) async {
+                  await itemKey.currentState?.handlePeekAction(
+                    actionContext,
+                    action,
+                  );
+                },
+          ),
           child: _GuildListItem(
+            key: itemKey,
             label: guild.name,
             guild: guild,
             isSelected: guild.id == widget.activeGuildId,
@@ -1346,12 +1250,15 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
             guildUnreadReady: guildUnreadReady,
             invitesPaused: invitesPaused,
             developerMode: developerMode,
+            enableLongPressMenu: !isMobileLayout(context),
             onTap: () {
               context.go(RoutePaths.guild(guild.id));
             },
             onMenuOpened: () {
               ref.read(guildSyncProvider.notifier).syncIfNeeded(guild.id);
             },
+            resolveMenuPermissions: () =>
+                _resolveGuildMenuPermissions(ref, guild.id),
             onMarkAsRead: () {
               unawaited(
                 markGuildAsRead(
@@ -1573,18 +1480,6 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
     final names = widget.folder.guilds.take(3).map((g) => g.name);
     return names.join(', ');
   }
-
-  static IconData _folderIcon(String? icon) {
-    return switch (icon) {
-      'star' => PhosphorIconsFill.star,
-      'heart' => PhosphorIconsFill.heart,
-      'bookmark' => PhosphorIconsFill.bookmarkSimple,
-      'game_controller' => PhosphorIconsFill.gameController,
-      'shield' => PhosphorIconsFill.shield,
-      'music_note' => PhosphorIconsFill.musicNote,
-      _ => PhosphorIconsFill.folder,
-    };
-  }
 }
 
 String _inviteExpirationDurationLabel(int maxAge, FluxerLocalizations l10n) {
@@ -1701,6 +1596,11 @@ Future<void> markGuildAsRead(
   );
 }
 
+Future<int> _resolveGuildMenuPermissions(WidgetRef ref, String guildId) async {
+  await ref.read(guildPermissionsProvider.notifier).refreshPermissions(guildId);
+  return ref.read(guildPermissionsProvider)[guildId] ?? 0;
+}
+
 Future<void> presentGuildMenuSheet(
   BuildContext context,
   WidgetRef ref, {
@@ -1715,7 +1615,7 @@ Future<void> presentGuildMenuSheet(
       guild;
   final unread = ref.read(guildReadStateProvider)[guild.id];
   final muteState = ref.read(guildMuteProvider(guild.id)).value;
-  final permissions = ref.read(guildPermissionsProvider)[guild.id] ?? 0;
+  final int permissions = await _resolveGuildMenuPermissions(ref, guild.id);
   final String? currentUserId = ref.read(currentUserIdProvider);
   final bool developerMode = ref.read(
     userSettingsViewModelProvider.select((s) => s.developerMode),
@@ -2473,6 +2373,8 @@ class _GuildListItem extends StatefulWidget {
   onUpdateChannelOverride;
   final void Function(String channelId)? onRemoveChannelOverride;
   final VoidCallback? onMounted;
+  final bool enableLongPressMenu;
+  final Future<int> Function()? resolveMenuPermissions;
 
   const _GuildListItem({
     required this.label,
@@ -2518,6 +2420,8 @@ class _GuildListItem extends StatefulWidget {
     this.onUpdateChannelOverride,
     this.onRemoveChannelOverride,
     this.onMounted,
+    this.enableLongPressMenu = true,
+    this.resolveMenuPermissions,
   });
 
   @override
@@ -2675,7 +2579,8 @@ class _GuildListItemState extends State<_GuildListItem>
                             _showContextMenu(context, details.globalPosition),
                           )
                         : null,
-                    onLongPress: widget.guild != null
+                    onLongPress:
+                        widget.guild != null && widget.enableLongPressMenu
                         ? () => unawaited(_showActionSheet(context))
                         : null,
                     child: SizedBox(
@@ -2766,6 +2671,12 @@ class _GuildListItemState extends State<_GuildListItem>
       return;
     }
     widget.onMenuOpened?.call();
+    final int permissions = widget.resolveMenuPermissions != null
+        ? await widget.resolveMenuPermissions!()
+        : widget.permissions;
+    if (!context.mounted) {
+      return;
+    }
     final action = await showGuildContextMenu(
       context,
       position: position,
@@ -2773,7 +2684,7 @@ class _GuildListItemState extends State<_GuildListItem>
       hasUnread: widget.hasUnread,
       isMuted: widget.isMuted,
       isOwner: widget.isOwner,
-      permissions: widget.permissions,
+      permissions: permissions,
       muteEndTime: widget.muteEndTime,
       hideMutedChannels: widget.hideMutedChannels,
       developerMode: widget.developerMode,
@@ -2792,13 +2703,19 @@ class _GuildListItemState extends State<_GuildListItem>
     if (!isMobile) {
       return;
     }
+    final int permissions = widget.resolveMenuPermissions != null
+        ? await widget.resolveMenuPermissions!()
+        : widget.permissions;
+    if (!context.mounted) {
+      return;
+    }
     final action = await showGuildBottomSheet(
       context,
       guild: widget.guild!,
       hasUnread: widget.hasUnread,
       isMuted: widget.isMuted,
       isOwner: widget.isOwner,
-      permissions: widget.permissions,
+      permissions: permissions,
       muteEndTime: widget.muteEndTime,
       hideMutedChannels: widget.hideMutedChannels,
       developerMode: widget.developerMode,
@@ -4131,6 +4048,24 @@ class _GuildListItemState extends State<_GuildListItem>
     _handleAction(context, action);
   }
 
+  Future<void> handlePeekAction(
+    BuildContext context,
+    GuildIconPeekAction action,
+  ) async {
+    if (widget.guild == null) {
+      return;
+    }
+    widget.onMenuOpened?.call();
+    switch (action) {
+      case GuildIconPeekAction.markAsRead:
+        _handleAction(context, GuildAction.markAsRead);
+      case GuildIconPeekAction.notifications:
+        await _showNotificationSettingsSheet(context);
+      case GuildIconPeekAction.moreOptions:
+        await _showActionSheet(context);
+    }
+  }
+
   void _handleAction(BuildContext context, GuildAction action) {
     final guildId = widget.guild!.id;
     switch (action) {
@@ -4315,11 +4250,13 @@ class _DashedGuildIcon extends StatefulWidget {
   final String label;
   final IconData icon;
   final VoidCallback onTap;
+  final bool isSelected;
 
   const _DashedGuildIcon({
     required this.label,
     required this.icon,
     required this.onTap,
+    this.isSelected = false,
   });
 
   @override
@@ -4379,33 +4316,37 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
               onTap: widget.onTap,
               child: AnimatedBuilder(
                 animation: _controller,
-                builder: (context, _) => SizedBox(
-                  width: 48,
-                  height: 48,
-                  child: Center(
-                    child: SizedBox(
-                      width: 44,
-                      height: 44,
-                      child: CustomPaint(
-                        painter: _DashedBorderPainter(
-                          borderRadius: _radiusAnim.value,
-                          color:
-                              _colorAnim.value ??
-                              context.colors.interactiveMuted,
-                        ),
-                        child: Center(
-                          child: PhosphorIcon(
-                            widget.icon,
-                            color:
-                                _colorAnim.value ??
-                                context.colors.interactiveMuted,
-                            size: 20,
+                builder: (context, _) {
+                  final Color activeColor = widget.isSelected
+                      ? context.colors.brandPrimary
+                      : (_colorAnim.value ?? context.colors.interactiveMuted);
+                  return SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: Center(
+                      child: SizedBox(
+                        width: 44,
+                        height: 44,
+                        child: CustomPaint(
+                          painter: _DashedBorderPainter(
+                            borderRadius: widget.isSelected
+                                ? 13
+                                : _radiusAnim.value,
+                            color: activeColor,
+                            isSolid: widget.isSelected,
+                          ),
+                          child: Center(
+                            child: PhosphorIcon(
+                              widget.icon,
+                              color: activeColor,
+                              size: 20,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
           ),
@@ -4418,8 +4359,13 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
 class _DashedBorderPainter extends CustomPainter {
   final double borderRadius;
   final Color color;
+  final bool isSolid;
 
-  _DashedBorderPainter({required this.borderRadius, required this.color});
+  _DashedBorderPainter({
+    required this.borderRadius,
+    required this.color,
+    this.isSolid = false,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -4433,6 +4379,11 @@ class _DashedBorderPainter extends CustomPainter {
       Radius.circular(borderRadius),
     );
     final path = Path()..addRRect(rrect);
+
+    if (isSolid) {
+      canvas.drawPath(path, paint);
+      return;
+    }
 
     const dashLength = 6.0;
     const gapLength = 4.0;
@@ -4450,7 +4401,9 @@ class _DashedBorderPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_DashedBorderPainter oldDelegate) =>
-      oldDelegate.borderRadius != borderRadius || oldDelegate.color != color;
+      oldDelegate.borderRadius != borderRadius ||
+      oldDelegate.color != color ||
+      oldDelegate.isSolid != isSolid;
 }
 
 class _RightTooltip extends StatefulWidget {

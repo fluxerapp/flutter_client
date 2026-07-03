@@ -715,6 +715,67 @@
   "@embedInviteUnavailable": {
     "description": "Disabled button label when an invite is unavailable."
   },
+  "inviteAcceptTitle": "You've been invited to join",
+  "@inviteAcceptTitle": {
+    "description": "Title of the invite accept modal."
+  },
+  "inviteAcceptJoinButton": "Join Community",
+  "@inviteAcceptJoinButton": {
+    "description": "Primary action to join a community from the invite modal."
+  },
+  "inviteAcceptGoToButton": "Go to Community",
+  "@inviteAcceptGoToButton": {
+    "description": "Primary action when the user is already a member of the invited community."
+  },
+  "inviteAcceptInvitesPaused": "Invites Paused",
+  "@inviteAcceptInvitesPaused": {
+    "description": "Disabled action label when community invites are paused."
+  },
+  "inviteAcceptNotFoundTitle": "Invite Invalid",
+  "@inviteAcceptNotFoundTitle": {
+    "description": "Title when an invite link is expired or invalid."
+  },
+  "inviteAcceptNotFoundDescription": "This invite may be expired or invalid.",
+  "@inviteAcceptNotFoundDescription": {
+    "description": "Description when an invite link is expired or invalid."
+  },
+  "inviteAcceptJoinGroupButton": "Join group",
+  "@inviteAcceptJoinGroupButton": {
+    "description": "Primary action to join a group DM from the invite modal."
+  },
+  "inviteAcceptGroupDmDescription": "You've been invited to join a group DM by {inviterName}",
+  "@inviteAcceptGroupDmDescription": {
+    "description": "Description for a group DM invite in the accept modal.",
+    "placeholders": {
+      "inviterName": {
+        "type": "String"
+      }
+    }
+  },
+  "inviteAcceptSomeone": "someone",
+  "@inviteAcceptSomeone": {
+    "description": "Fallback inviter name when the inviter is unknown."
+  },
+  "inviteAcceptEmojiPack": "Emoji pack",
+  "@inviteAcceptEmojiPack": {
+    "description": "Label for an emoji pack invite."
+  },
+  "inviteAcceptStickerPack": "Sticker pack",
+  "@inviteAcceptStickerPack": {
+    "description": "Label for a sticker pack invite."
+  },
+  "inviteAcceptInstallEmojiPack": "Install emoji pack",
+  "@inviteAcceptInstallEmojiPack": {
+    "description": "Primary action to install an emoji pack from an invite."
+  },
+  "inviteAcceptInstallStickerPack": "Install sticker pack",
+  "@inviteAcceptInstallStickerPack": {
+    "description": "Primary action to install a sticker pack from an invite."
+  },
+  "inviteAcceptPackInstallNote": "Accepting this invite installs the pack automatically.",
+  "@inviteAcceptPackInstallNote": {
+    "description": "Note shown on expression pack invites before accepting."
+  },
   "mentionUnknownChannel": "unknown-channel",
   "@mentionUnknownChannel": {
     "description": "Fallback name shown in a channel mention pill when the channel is not found."
@@ -2530,6 +2591,32 @@
   "@dangerZoneDeleteCancelSubscription": {
     "description": "Warning about active subscription before deletion."
   },
+  "dangerZoneDeleteCannotDeleteAccount": "Cannot delete account",
+  "@dangerZoneDeleteCannotDeleteAccount": {
+    "description": "Title for the guild ownership warning modal when trying to delete account."
+  },
+  "dangerZoneDeleteOwnsCommunities": "You cannot delete your account while you own communities. Transfer ownership of the following communities first:",
+  "@dangerZoneDeleteOwnsCommunities": {
+    "description": "Warning message shown when user owns communities and tries to delete account."
+  },
+  "dangerZoneDeleteAndXMore": "and {count} more",
+  "@dangerZoneDeleteAndXMore": {
+    "description": "Shown when user owns more than 3 communities.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dangerZoneDeleteTransferInstructions": "To transfer ownership, go to {settingsPath} and use the transfer ownership option.",
+  "@dangerZoneDeleteTransferInstructions": {
+    "description": "Instructions for transferring community ownership.",
+    "placeholders": {
+      "settingsPath": {
+        "type": "String"
+      }
+    }
+  },
   "dangerZoneDeleteConfirmDescription": "Are you sure you want to delete your account? This action will schedule your account for permanent deletion.",
   "@dangerZoneDeleteConfirmDescription": {
     "description": "Confirmation description for account delete."
@@ -2896,6 +2983,10 @@
         "type": "String"
       }
     }
+  },
+  "blockedUserComposerBarrierAction": "Unblock",
+  "@blockedUserComposerBarrierAction": {
+    "description": "Button label on the composer barrier shown when messaging a blocked user."
   },
   "userProfileOpenDm": "Open DM",
   "@userProfileOpenDm": {
@@ -4871,6 +4962,145 @@
   "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
     "description": "Toggle description for showing a faded unread indicator on muted channels."
   },
+  "accessibilityDmMessagePreviewGroupTitle": "DM message previews",
+  "@accessibilityDmMessagePreviewGroupTitle": {
+    "description": "Section title for DM message preview accessibility settings."
+  },
+  "accessibilityDmMessagePreviewGroupDescription": "Control when message previews are shown in the DM list.",
+  "@accessibilityDmMessagePreviewGroupDescription": {
+    "description": "Section description for DM message preview accessibility settings."
+  },
+  "accessibilityDmMessagePreviewModeLabel": "DM message preview mode",
+  "@accessibilityDmMessagePreviewModeLabel": {
+    "description": "Accessibility label for the DM message preview mode radio group."
+  },
+  "accessibilityDmMessagePreviewAllName": "All messages",
+  "@accessibilityDmMessagePreviewAllName": {
+    "description": "Radio option name for showing DM previews for all conversations."
+  },
+  "accessibilityDmMessagePreviewAllDescription": "Show message previews for all DM conversations",
+  "@accessibilityDmMessagePreviewAllDescription": {
+    "description": "Radio option description for showing DM previews for all conversations."
+  },
+  "accessibilityDmMessagePreviewUnreadOnlyName": "Unread DMs only",
+  "@accessibilityDmMessagePreviewUnreadOnlyName": {
+    "description": "Radio option name for showing DM previews only when unread."
+  },
+  "accessibilityDmMessagePreviewUnreadOnlyDescription": "Only show message previews for DMs with unread messages",
+  "@accessibilityDmMessagePreviewUnreadOnlyDescription": {
+    "description": "Radio option description for showing DM previews only when unread."
+  },
+  "accessibilityDmMessagePreviewNoneName": "None",
+  "@accessibilityDmMessagePreviewNoneName": {
+    "description": "Radio option name for hiding DM message previews."
+  },
+  "accessibilityDmMessagePreviewNoneDescription": "Don't show message previews in the DM list",
+  "@accessibilityDmMessagePreviewNoneDescription": {
+    "description": "Radio option description for hiding DM message previews."
+  },
+  "dmListSentAnAttachment": "Sent an attachment",
+  "@dmListSentAnAttachment": {
+    "description": "DM list row preview text when the most recent message has only attachments."
+  },
+  "systemPreviewPinnedMessage": "{username} pinned a message to this channel.",
+  "@systemPreviewPinnedMessage": {
+    "description": "Plaintext DM list preview for a pin system message.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewAddedToGroup": "{username} added {userName} to the group.",
+  "@systemPreviewAddedToGroup": {
+    "description": "Plaintext DM list preview when a member adds another user to a group DM.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewAddedSomeoneToGroup": "{username} added someone to the group.",
+  "@systemPreviewAddedSomeoneToGroup": {
+    "description": "Plaintext DM list preview when a member adds an unresolved user to a group DM.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewHasLeftGroup": "{username} has left the group.",
+  "@systemPreviewHasLeftGroup": {
+    "description": "Plaintext DM list preview when a member leaves a group DM.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewRemovedFromGroup": "{username} removed {userName} from the group.",
+  "@systemPreviewRemovedFromGroup": {
+    "description": "Plaintext DM list preview when a member removes another user from a group DM.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      },
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewRemovedSomeoneFromGroup": "{username} removed someone from the group.",
+  "@systemPreviewRemovedSomeoneFromGroup": {
+    "description": "Plaintext DM list preview when a member removes an unresolved user from a group DM.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewChangedChannelNameTo": "{username} changed the channel name to {newName}.",
+  "@systemPreviewChangedChannelNameTo": {
+    "description": "Plaintext DM list preview when a group DM is renamed.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      },
+      "newName": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewChangedChannelName": "{username} changed the channel name.",
+  "@systemPreviewChangedChannelName": {
+    "description": "Plaintext DM list preview when a group DM is renamed without a known new name.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewChangedChannelIcon": "{username} changed the channel icon.",
+  "@systemPreviewChangedChannelIcon": {
+    "description": "Plaintext DM list preview when a group DM icon changes.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "systemPreviewStartedCall": "{username} started a call.",
+  "@systemPreviewStartedCall": {
+    "description": "Plaintext DM list preview when a call starts.",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
   "voiceConnectionConfirmTitle": "Voice Connection Confirmation",
   "@voiceConnectionConfirmTitle": {
     "description": "Title of the multi-device voice join confirmation dialog."
@@ -5254,6 +5484,43 @@
   "chatMessageFailedToSend": "Failed to send message",
   "@chatMessageFailedToSend": {
     "description": "Status label shown under a failed outgoing chat message."
+  },
+  "chatSendFailureDmRestricted": "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in {settingsPath}.",
+  "@chatSendFailureDmRestricted": {
+    "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",
+    "placeholders": {
+      "settingsPath": {
+        "type": "String"
+      }
+    }
+  },
+  "chatSendFailureUnclaimedDm": "Your message could not be delivered. You need to claim your account to send direct messages.",
+  "@chatSendFailureUnclaimedDm": {
+    "description": "Fluxerbot system message when an unclaimed account tries to send a DM."
+  },
+  "chatSendFailureUnclaimedGeneral": "Your message could not be delivered. You need to claim your account to send messages.",
+  "@chatSendFailureUnclaimedGeneral": {
+    "description": "Fluxerbot system message when an unclaimed account tries to send a message."
+  },
+  "chatSendFailureContentBlocked": "Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.",
+  "@chatSendFailureContentBlocked": {
+    "description": "Fluxerbot system message when message content is blocked by safety systems."
+  },
+  "chatSendFailureNsfwEmojiSticker": "Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.",
+  "@chatSendFailureNsfwEmojiSticker": {
+    "description": "Fluxerbot system message when mature emoji or stickers are blocked."
+  },
+  "chatClientSystemOnlyYouCanSee": "Only you can see this message.",
+  "@chatClientSystemOnlyYouCanSee": {
+    "description": "Footer on ephemeral Fluxerbot client system messages."
+  },
+  "chatClientSystemDismiss": "Dismiss",
+  "@chatClientSystemDismiss": {
+    "description": "Action to remove an ephemeral Fluxerbot client system message locally."
+  },
+  "privacyDashboardCommunicationSection": "Communication",
+  "@privacyDashboardCommunicationSection": {
+    "description": "Section title for communication privacy settings in the privacy dashboard."
   },
   "chatMessageDeleteFailed": "Delete Failed Message",
   "@chatMessageDeleteFailed": {
@@ -6032,6 +6299,10 @@
   "@chatAttachmentVideoProgress": {
     "description": "Accessibility label for the seek bar in mobile attachment fullscreen video."
   },
+  "chatVideoPlaybackFailed": "Could not play this video.",
+  "@chatVideoPlaybackFailed": {
+    "description": "Shown when embedded or attachment video playback fails in the chat player."
+  },
   "composerAutocompleteRoleMentionDescription": "Notify users with this role who have permission to view this channel.",
   "@composerAutocompleteRoleMentionDescription": {
     "description": "Secondary line in the @ mention autocomplete when the row is a mentionable guild role."
@@ -6613,6 +6884,161 @@
   "@guildNavbarExploreDiscoverableCommunities": {
     "description": "Label for the explore communities button in the guild navbar."
   },
+  "discoveryExplore": "Explore",
+  "@discoveryExplore": {
+    "description": "Short label in the discovery page header."
+  },
+  "discoveryExplorePublicCommunities": "Explore public communities",
+  "@discoveryExplorePublicCommunities": {
+    "description": "Main heading on the Discovery page."
+  },
+  "discoveryListingSubheading": "Want to list your community on here? Apply if you meet the requirements in your community's settings > Discovery.",
+  "@discoveryListingSubheading": {
+    "description": "Subheading on the Discovery page explaining how to apply for listing."
+  },
+  "discoverySearchCommunities": "Search communities",
+  "@discoverySearchCommunities": {
+    "description": "Accessible label and placeholder for the community search field."
+  },
+  "discoveryFilterByLanguage": "Filter by language",
+  "@discoveryFilterByLanguage": {
+    "description": "Label for the language filter on the discovery page."
+  },
+  "discoveryAllLanguages": "All languages",
+  "@discoveryAllLanguages": {
+    "description": "Option label for showing communities in all languages."
+  },
+  "discoveryAllCategories": "All",
+  "@discoveryAllCategories": {
+    "description": "Label for the all-categories tab on the discovery page."
+  },
+  "discoveryCategoryGaming": "Gaming",
+  "@discoveryCategoryGaming": {
+    "description": "Discovery category label for gaming communities."
+  },
+  "discoveryCategoryMusic": "Music",
+  "@discoveryCategoryMusic": {
+    "description": "Discovery category label for music communities."
+  },
+  "discoveryCategoryEntertainment": "Entertainment",
+  "@discoveryCategoryEntertainment": {
+    "description": "Discovery category label for entertainment communities."
+  },
+  "discoveryCategoryEducation": "Education",
+  "@discoveryCategoryEducation": {
+    "description": "Discovery category label for education communities."
+  },
+  "discoveryCategoryScienceAndTechnology": "Science & Technology",
+  "@discoveryCategoryScienceAndTechnology": {
+    "description": "Discovery category label for science and technology communities."
+  },
+  "discoveryCategoryContentCreator": "Content Creator",
+  "@discoveryCategoryContentCreator": {
+    "description": "Discovery category label for content creator communities."
+  },
+  "discoveryCategoryAnimeAndManga": "Anime & Manga",
+  "@discoveryCategoryAnimeAndManga": {
+    "description": "Discovery category label for anime and manga communities."
+  },
+  "discoveryCategoryMoviesAndTv": "Movies & TV",
+  "@discoveryCategoryMoviesAndTv": {
+    "description": "Discovery category label for movies and TV communities."
+  },
+  "discoveryCategoryOther": "Other",
+  "@discoveryCategoryOther": {
+    "description": "Discovery category label for communities that do not fit other categories."
+  },
+  "discoveryNoCommunitiesMatch": "No communities match.",
+  "@discoveryNoCommunitiesMatch": {
+    "description": "Empty-state text when no discovery communities match the filters."
+  },
+  "discoveryJoinCommunity": "Join community",
+  "@discoveryJoinCommunity": {
+    "description": "Button label to join a discovery community."
+  },
+  "discoveryJoined": "Joined",
+  "@discoveryJoined": {
+    "description": "Button label when the user is already in a discovery community."
+  },
+  "discoveryOnlineCount": "{count} online",
+  "@discoveryOnlineCount": {
+    "description": "Online member count on a discovery guild card.",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryMemberCount": "{count, plural, one{1 member} other{{count} members}}",
+  "@discoveryMemberCount": {
+    "description": "Member count on a discovery guild card.",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "discoveryNoDescription": "No description.",
+  "@discoveryNoDescription": {
+    "description": "Fallback text when a discovery guild has no description."
+  },
+  "discoveryCommunities": "Communities",
+  "@discoveryCommunities": {
+    "description": "Discovery sidebar section label for communities."
+  },
+  "discoveryApps": "Apps",
+  "@discoveryApps": {
+    "description": "Discovery sidebar section label for apps."
+  },
+  "discoveryJoinErrorGenericTitle": "Couldn't join this community",
+  "@discoveryJoinErrorGenericTitle": {
+    "description": "Title of the generic join error dialog on the discovery page."
+  },
+  "discoveryJoinErrorGenericMessage": "Something went wrong. Please try again in a moment.",
+  "@discoveryJoinErrorGenericMessage": {
+    "description": "Body of the generic join error dialog on the discovery page."
+  },
+  "discoveryJoinErrorFullTitle": "This community is full",
+  "@discoveryJoinErrorFullTitle": {
+    "description": "Title when a discovery community has reached its member limit."
+  },
+  "discoveryJoinErrorFullMessage": "This community has reached its member limit, so you can't join right now.",
+  "@discoveryJoinErrorFullMessage": {
+    "description": "Body when a discovery community has reached its member limit."
+  },
+  "discoveryJoinErrorMaxGuildsTitle": "You've reached the community limit",
+  "@discoveryJoinErrorMaxGuildsTitle": {
+    "description": "Title when the user is in the maximum number of communities."
+  },
+  "discoveryJoinErrorMaxGuildsMessage": "You're in the maximum number of communities. Leave one and try again.",
+  "@discoveryJoinErrorMaxGuildsMessage": {
+    "description": "Body when the user is in the maximum number of communities."
+  },
+  "discoveryJoinErrorBannedTitle": "You can't join this community",
+  "@discoveryJoinErrorBannedTitle": {
+    "description": "Title when the user is banned from a discovery community."
+  },
+  "discoveryJoinErrorBannedMessage": "You have been banned from this community.",
+  "@discoveryJoinErrorBannedMessage": {
+    "description": "Body when the user is banned from a discovery community."
+  },
+  "discoveryJoinErrorNotAvailableTitle": "This community is no longer available",
+  "@discoveryJoinErrorNotAvailableTitle": {
+    "description": "Title when a discovery community is no longer joinable."
+  },
+  "discoveryJoinErrorNotAvailableMessage": "It may have left discovery or turned off new joins. Refresh the page and you won't see it again.",
+  "@discoveryJoinErrorNotAvailableMessage": {
+    "description": "Body when a discovery community is no longer joinable."
+  },
+  "discoveryJoinErrorRateLimitTitle": "You're going too fast",
+  "@discoveryJoinErrorRateLimitTitle": {
+    "description": "Title when joining a discovery community is rate limited."
+  },
+  "discoveryJoinErrorRateLimitMessage": "Please wait a moment and try again.",
+  "@discoveryJoinErrorRateLimitMessage": {
+    "description": "Body when joining a discovery community is rate limited."
+  },
   "guildNavbarAddCommunity": "Add a Community",
   "@guildNavbarAddCommunity": {
     "description": "Label for the add community button in the guild navbar."
@@ -6620,6 +7046,14 @@
   "guildNavbarHelp": "Help",
   "@guildNavbarHelp": {
     "description": "Label for the help button in the guild navbar."
+  },
+  "scrollIndicatorNew": "NEW",
+  "@scrollIndicatorNew": {
+    "description": "Scroll pill shown when unread guilds are off-screen in the guild navbar."
+  },
+  "scrollIndicatorNewMessage": "NEW MESSAGE",
+  "@scrollIndicatorNewMessage": {
+    "description": "Scroll pill shown when unread channels are off-screen in the channel sidebar."
   },
   "guildNavbarCollapseFolder": "Collapse {folderName}",
   "@guildNavbarCollapseFolder": {
@@ -6903,6 +7337,10 @@
   "guildMenuMarkAsRead": "Mark as Read",
   "@guildMenuMarkAsRead": {
     "description": "Guild menu action to mark all channels as read."
+  },
+  "guildPeekMoreOptions": "More Options",
+  "@guildPeekMoreOptions": {
+    "description": "Guild peek menu action to open the full guild options sheet."
   },
   "guildMenuInviteMembers": "Invite Members",
   "@guildMenuInviteMembers": {
@@ -8275,9 +8713,63 @@
       "date": {"type": "String"}
     }
   },
+  "guildSettingsBanExpiresLabel": "Expires",
+  "@guildSettingsBanExpiresLabel": {
+    "description": "Label for ban expiration row."
+  },
   "guildSettingsUnban": "Unban",
   "@guildSettingsUnban": {
     "description": "Button to unban a user."
+  },
+  "guildSettingsBansLoading": "Loading banned users",
+  "@guildSettingsBansLoading": {
+    "description": "Loading state for the guild bans list."
+  },
+  "guildSettingsBansNoSearchResults": "No bans found matching your search.",
+  "@guildSettingsBansNoSearchResults": {
+    "description": "Empty state when ban search has no matches."
+  },
+  "guildSettingsBanDetailsTitle": "Ban details",
+  "@guildSettingsBanDetailsTitle": {
+    "description": "Title for the ban details modal."
+  },
+  "guildSettingsBanViewDetails": "View details",
+  "@guildSettingsBanViewDetails": {
+    "description": "Menu action to open ban details."
+  },
+  "guildSettingsBannedOn": "Banned on",
+  "@guildSettingsBannedOn": {
+    "description": "Label for when a user was banned."
+  },
+  "guildSettingsBannedBy": "Banned by",
+  "@guildSettingsBannedBy": {
+    "description": "Label for who issued the ban."
+  },
+  "guildSettingsRevokeBanTitle": "Revoke ban",
+  "@guildSettingsRevokeBanTitle": {
+    "description": "Title for the revoke ban confirmation."
+  },
+  "guildSettingsRevokeBanDescription": "Are you sure you want to revoke the ban for {displayName}? They will be able to rejoin the community.",
+  "@guildSettingsRevokeBanDescription": {
+    "description": "Confirmation message when revoking a ban.",
+    "placeholders": {
+      "displayName": {"type": "String"}
+    }
+  },
+  "guildSettingsRevokeBanSuccess": "Revoked ban for {displayName}",
+  "@guildSettingsRevokeBanSuccess": {
+    "description": "Toast shown after successfully revoking a ban.",
+    "placeholders": {
+      "displayName": {"type": "String"}
+    }
+  },
+  "guildSettingsBansLoadError": "Couldn't load bans. Try again.",
+  "@guildSettingsBansLoadError": {
+    "description": "Error when loading the guild bans list fails."
+  },
+  "guildSettingsRevokeBanError": "Couldn't revoke ban. Try again.",
+  "@guildSettingsRevokeBanError": {
+    "description": "Error when revoking a ban fails."
   },
   "guildSettingsCommunitySettings": "Community Settings",
   "@guildSettingsCommunitySettings": {

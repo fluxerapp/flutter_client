@@ -98,11 +98,90 @@ void main() {
     });
   });
 
+  group('normalizeInviteDeepLinkUri', () {
+    test('maps fluxer.gg short links to invite paths', () {
+      expect(
+        normalizeInviteDeepLinkUri(Uri.parse('https://fluxer.gg/abcd')).path,
+        '/invite/abcd',
+      );
+      expect(
+        normalizeInviteDeepLinkUri(
+          Uri.parse('https://fluxer.gg/invite/abcd'),
+        ).path,
+        '/invite/abcd',
+      );
+      expect(
+        normalizeIncomingDeepLinkUri(
+          Uri.parse('https://web.fluxer.app/invite/abcd'),
+        ).path,
+        '/invite/abcd',
+      );
+    });
+
+    test('allows fluxer.gg short links through isAllowedDeepLinkPath', () {
+      expect(
+        isAllowedDeepLinkPath(Uri.parse('https://fluxer.gg/abcd')),
+        isTrue,
+      );
+    });
+  });
+
   group('normalizeDeepLinkPath', () {
     test('trims trailing slashes and preserves root', () {
       expect(normalizeDeepLinkPath('/channels/@me/'), '/channels/@me');
       expect(normalizeDeepLinkPath('/'), '/');
       expect(normalizeDeepLinkPath(''), '/');
+    });
+  });
+
+  group('isFluxerOAuthDeepLinkUri', () {
+    test('matches oauth authorize paths on official Fluxer web hosts', () {
+      const oauthUrls = <String>[
+        'https://web.fluxer.app/oauth2/authorize?client_id=abc',
+        'https://fluxer.app/oauth2/authorize?client_id=abc',
+        'https://web.canary.fluxer.app/oauth2/authorize',
+        'https://web.canary.fluxer.com/oauth2/authorize/consent',
+      ];
+      for (final String url in oauthUrls) {
+        expect(isFluxerOAuthDeepLinkUri(Uri.parse(url)), isTrue, reason: url);
+      }
+    });
+
+    test('does not match fluxer:// oauth URLs', () {
+      expect(
+        isFluxerOAuthDeepLinkUri(
+          Uri.parse('fluxer://oauth2/authorize?client_id=abc'),
+        ),
+        isFalse,
+      );
+    });
+
+    test('matches self-hosted instance web app host', () {
+      expect(
+        isFluxerOAuthDeepLinkUri(
+          Uri.parse('https://chat.example.com/oauth2/authorize'),
+          instanceWebAppBase: 'https://chat.example.com',
+        ),
+        isTrue,
+      );
+    });
+
+    test('does not match oauth paths on unrelated hosts', () {
+      expect(
+        isFluxerOAuthDeepLinkUri(
+          Uri.parse('https://evil.com/oauth2/authorize'),
+        ),
+        isFalse,
+      );
+    });
+
+    test('does not match non-oauth paths on Fluxer hosts', () {
+      expect(
+        isFluxerOAuthDeepLinkUri(
+          Uri.parse('https://web.fluxer.app/channels/@me'),
+        ),
+        isFalse,
+      );
     });
   });
 }

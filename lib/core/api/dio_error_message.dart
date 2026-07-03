@@ -1,5 +1,20 @@
 import 'package:dio/dio.dart';
 
+/// Reads the Fluxer API `code` field from a [DioException] response body.
+String? apiErrorCodeFromDioException(DioException error) {
+  final Object? data = error.response?.data;
+  if (data is Map<String, dynamic>) {
+    final Object? code = data['code'];
+    if (code is String && code.isNotEmpty) {
+      return code;
+    }
+    if (code is int) {
+      return code.toString();
+    }
+  }
+  return null;
+}
+
 /// Reads the Fluxer API `message` field from a [DioException] response body.
 String? apiMessageFromDioException(DioException error) {
   final Object? data = error.response?.data;

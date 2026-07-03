@@ -20,6 +20,7 @@ import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_attachment_area.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/composer/blocked_user_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/channel_composer_barrier.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
@@ -49,7 +50,10 @@ import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/paste_text_attachment.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
@@ -130,6 +134,47 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     }
     if (ref.read(chatViewModelProvider).editingMessage != null) {
       chatNotifier.cancelEdit();
+    }
+  }
+
+  Future<void> _handleUnblock(
+    BuildContext context,
+    String userId,
+    String username,
+  ) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool? confirmed = isMobileLayout(context)
+        ? await FluxerConfirmSheet.show(
+            context,
+            title: l10n.blockedUsersUnblockTitle,
+            description: l10n.blockedUsersUnblockDescription(username),
+            confirmLabel: l10n.blockedUserComposerBarrierAction,
+            onConfirm: () {},
+          )
+        : await FluxerConfirmModal.show(
+            context,
+            title: l10n.blockedUsersUnblockTitle,
+            description: l10n.blockedUsersUnblockDescription(username),
+            confirmLabel: l10n.blockedUserComposerBarrierAction,
+            onConfirm: () {},
+          );
+    if (confirmed != true || !mounted) {
+      return;
+    }
+    try {
+      await ref.read(friendRepositoryProvider).removeRelationship(userId);
+    } on Object catch (_) {
+      if (!mounted) {
+        return;
+      }
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: l10n.dmUnblockFailed,
+              variant: FluxerToastVariant.danger,
+            ),
+          );
     }
   }
 
@@ -285,6 +330,11 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             perms: perms,
             channelId: channelId,
           ),
+          onTap: () {
+            if (ref.read(expressionPanelProvider)) {
+              ref.read(expressionPanelProvider.notifier).close();
+            }
+          },
         ),
         Positioned(
           right: 8,
@@ -359,6 +409,54 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     );
     if (dm != null && isSystemDmConversation(dm)) {
       return const SystemDmComposerBarrier();
+    }
+    final Set<String> blockedUserIds = ref.watch(blockedUserIdsProvider);
+    final bool isBlockedDmRecipient =
+        dm != null &&
+        !dm.isGroup &&
+        !dm.isPersonalNotes &&
+        blockedUserIds.contains(dm.recipientId);
+    ref
+      ..listen<Set<String>>(blockedUserIdsProvider, (
+        Set<String>? previous,
+        Set<String> next,
+      ) {
+        if (dm == null || dm.isGroup || dm.isPersonalNotes) {
+          return;
+        }
+        final bool wasBlocked = previous?.contains(dm.recipientId) ?? false;
+        final bool isBlocked = next.contains(dm.recipientId);
+        if (!wasBlocked && isBlocked) {
+          _clearComposerForBlockedAccess();
+        }
+      })
+      ..listen<String>(
+        chatViewModelProvider.select((ChatViewState state) => state.channelId),
+        (String? previous, String next) {
+          final DmConversation? nextDm = findDmById(
+            ref.read(
+              dmViewModelProvider.select(
+                (DmViewState state) => state.conversations,
+              ),
+            ),
+            next,
+          );
+          if (nextDm == null || nextDm.isGroup || nextDm.isPersonalNotes) {
+            return;
+          }
+          final Set<String> blocked = ref.read(blockedUserIdsProvider);
+          if (blocked.contains(nextDm.recipientId)) {
+            _clearComposerForBlockedAccess();
+          }
+        },
+      );
+    if (isBlockedDmRecipient) {
+      return BlockedUserComposerBarrier(
+        username: dm.recipientName,
+        onUnblock: () => unawaited(
+          _handleUnblock(context, dm.recipientId, dm.recipientName),
+        ),
+      );
     }
     final AsyncValue<GuildComposerAccess> composerAccessAsync = ref.watch(
       guildComposerAccessProvider(channelId),

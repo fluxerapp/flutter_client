@@ -65,6 +65,41 @@ void main() {
     });
   });
 
+  group('preprocessFluxerMarkdown inline fenced code block closers', () {
+    test('splits single-line block with adjacent closing fence', () {
+      const String input = '```dart\nvoid main() {}```';
+      final String output = preprocessFluxerMarkdown(input, features);
+      expect(output, '```dart\nvoid main() {}\n```');
+    });
+
+    test(
+      'splits multi-line block when only last line has adjacent closing fence',
+      () {
+        const String input = '```\nline one\nline two```';
+        final String output = preprocessFluxerMarkdown(input, features);
+        expect(output, '```\nline one\nline two\n```');
+      },
+    );
+
+    test('splits at trailing fence when content contains backticks', () {
+      const String input = '```\nprint("``")```';
+      final String output = preprocessFluxerMarkdown(input, features);
+      expect(output, '```\nprint("``")\n```');
+    });
+
+    test('leaves normal closing fence on its own line unchanged', () {
+      const String input = '```dart\nvoid main() {}\n```';
+      final String output = preprocessFluxerMarkdown(input, features);
+      expect(output, input);
+    });
+
+    test('leaves unclosed code blocks unchanged', () {
+      const String input = '```dart\nvoid main() {}';
+      final String output = preprocessFluxerMarkdown(input, features);
+      expect(output, input);
+    });
+  });
+
   group('parseFluxerMarkdownSegments fenced code blocks', () {
     test('does not extract alerts from inside a code block', () {
       const String input = '''

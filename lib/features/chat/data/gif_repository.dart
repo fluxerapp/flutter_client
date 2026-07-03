@@ -76,15 +76,7 @@ class GifRepository {
     final featured = await _getFeatured(locale: locale);
     final mapped = GifPickerFeatured(
       gifs: _mapGifs(featured.gifs, provider),
-      categories: featured.categories
-          .map(
-            (category) => GifPickerCategory(
-              name: category.name,
-              src: category.src,
-              proxySrc: category.proxySrc,
-            ),
-          )
-          .toList(),
+      categories: featured.categories.map(_mapCategory).toList(),
     );
     _featuredCache.set(key, mapped);
     return mapped;
@@ -247,6 +239,32 @@ class GifRepository {
     );
   }).toList();
 
+  GifPickerCategory _mapCategory(_GifApiCategory category) {
+    final gif = category.gif;
+    if (gif == null) {
+      return GifPickerCategory(
+        name: category.name,
+        src: category.src,
+        proxySrc: category.proxySrc,
+      );
+    }
+
+    final previewMedia = gifPreviewMediaForPicker(
+      src: gif.src,
+      proxySrc: gif.proxySrc,
+      width: gif.width,
+      height: gif.height,
+      media: gif.media,
+    );
+    return GifPickerCategory(
+      name: category.name,
+      src: previewMedia.src.isNotEmpty ? previewMedia.src : category.src,
+      proxySrc: previewMedia.proxySrc.isNotEmpty
+          ? previewMedia.proxySrc
+          : category.proxySrc,
+    );
+  }
+
   String _cacheKey(
     GifProviderKind provider,
     sdk.Locale locale, [
@@ -287,6 +305,7 @@ class _GifApiCategory {
     required this.name,
     required this.src,
     required this.proxySrc,
+    this.gif,
   });
 
   factory _GifApiCategory.fromJson(Map<String, Object?> json) =>
@@ -294,11 +313,15 @@ class _GifApiCategory {
         name: _requiredString(json, 'name'),
         src: _requiredString(json, 'src'),
         proxySrc: _requiredString(json, 'proxy_src'),
+        gif: json['gif'] == null
+            ? null
+            : _GifApiGif.fromJson(_stringObjectMap(json['gif'], 'gif')),
       );
 
   final String name;
   final String src;
   final String proxySrc;
+  final _GifApiGif? gif;
 }
 
 class _GifApiGif {

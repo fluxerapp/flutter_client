@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 void main() {
   test('loads chat immediately outside mobile drawer context', () {
     expect(
-      channelChatShouldLoadMessages(
+      computeChannelChatShouldLoadMessages(
         isMobile: false,
         revealSide: RevealSide.left,
       ),
@@ -15,14 +15,14 @@ void main() {
 
   test('defers mobile chat loading until the chat side is visible', () {
     expect(
-      channelChatShouldLoadMessages(
+      computeChannelChatShouldLoadMessages(
         isMobile: true,
         revealSide: RevealSide.left,
       ),
       isFalse,
     );
     expect(
-      channelChatShouldLoadMessages(
+      computeChannelChatShouldLoadMessages(
         isMobile: true,
         revealSide: RevealSide.main,
       ),

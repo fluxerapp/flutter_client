@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -86,6 +87,7 @@ class ForwardedMessageContent extends ConsumerWidget {
                     child: MessageMarkdown(
                       data: snapshot.content,
                       channelId: message.channelId,
+                      mentionChannels: snapshot.mentionChannels,
                       baseStyle: TextStyle(
                         fontSize: 13,
                         color: context.colors.textChat,
@@ -106,28 +108,37 @@ class ForwardedMessageContent extends ConsumerWidget {
                     messageFlags: snapshot.flags,
                   ),
                 if (renderEmbeds)
-                  ...snapshot.embeds.indexed.map((entry) {
-                    final int embedIndex = entry.$1;
-                    final embed = entry.$2;
-                    final spoilerSyncKeys = spoilerSyncKeysForEmbed(
-                      embed,
-                      spoileredUrls,
+                  ...() {
+                    final EmbedGalleryIndex galleryIndex = EmbedGalleryIndex(
+                      snapshot.embeds,
                     );
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: _ForwardedEmbed(
-                        embed: embed,
-                        dimensionSize: chatPreferences.embedMediaDimensionSize,
-                        revealSpoilers: revealSpoilers,
-                        isSpoiler: spoilerSyncKeys.isNotEmpty,
-                        spoilerSyncKeys: spoilerSyncKeys,
-                        spoilerSyncController: spoilerSyncController,
-                        channelId: message.channelId,
-                        messageId: message.id,
-                        embedIndex: embedIndex,
-                      ),
-                    );
-                  }),
+                    return snapshot.embeds.indexed
+                        .where((entry) => !galleryIndex.isDuplicateAt(entry.$1))
+                        .map((entry) {
+                          final int embedIndex = entry.$1;
+                          final embed = entry.$2;
+                          final spoilerSyncKeys = spoilerSyncKeysForEmbed(
+                            embed,
+                            spoileredUrls,
+                          );
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: _ForwardedEmbed(
+                              embed: embed,
+                              galleryIndex: galleryIndex,
+                              dimensionSize:
+                                  chatPreferences.embedMediaDimensionSize,
+                              revealSpoilers: revealSpoilers,
+                              isSpoiler: spoilerSyncKeys.isNotEmpty,
+                              spoilerSyncKeys: spoilerSyncKeys,
+                              spoilerSyncController: spoilerSyncController,
+                              channelId: message.channelId,
+                              messageId: message.id,
+                              embedIndex: embedIndex,
+                            ),
+                          );
+                        });
+                  }(),
                 if (message.messageReference != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 6),
@@ -174,6 +185,7 @@ class _ForwardedHeader extends StatelessWidget {
 class _ForwardedEmbed extends StatelessWidget {
   const _ForwardedEmbed({
     required this.embed,
+    required this.galleryIndex,
     required this.dimensionSize,
     required this.revealSpoilers,
     required this.isSpoiler,
@@ -185,6 +197,7 @@ class _ForwardedEmbed extends StatelessWidget {
   });
 
   final Embed embed;
+  final EmbedGalleryIndex galleryIndex;
   final MediaDimensionSize dimensionSize;
   final bool revealSpoilers;
   final bool isSpoiler;
@@ -199,9 +212,13 @@ class _ForwardedEmbed extends StatelessWidget {
     final child = switch (embed.type) {
       EmbedType.rich => EmbedRich(
         embed: embed,
+        galleryIndex: galleryIndex,
+        embedIndex: embedIndex ?? 0,
         dimensionSize: dimensionSize,
         revealSpoilers: revealSpoilers,
         spoilerSyncController: spoilerSyncController,
+        channelId: channelId,
+        messageId: messageId,
       ),
       EmbedType.image || EmbedType.gifv => EmbedImage(
         embed: embed,
@@ -216,9 +233,13 @@ class _ForwardedEmbed extends StatelessWidget {
       ),
       EmbedType.link => EmbedLink(
         embed: embed,
+        galleryIndex: galleryIndex,
+        embedIndex: embedIndex ?? 0,
         dimensionSize: dimensionSize,
         revealSpoilers: revealSpoilers,
         spoilerSyncController: spoilerSyncController,
+        channelId: channelId,
+        messageId: messageId,
       ),
       EmbedType.video => EmbedVideo(
         embed: embed,

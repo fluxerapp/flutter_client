@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
@@ -204,4 +205,78 @@ InlineSpan _pinMessageLinkSpan({
       child: Text(linkText, style: linkStyle),
     ),
   );
+}
+
+String? stringifySystemMessageForDmListPreview({
+  required FluxerLocalizations l10n,
+  required int messageType,
+  required String messageId,
+  required String content,
+  required String authorName,
+  String? mentionedUserName,
+  String? mentionedUserId,
+  String? authorId,
+}) {
+  switch (messageType) {
+    case messageTypeUserJoin:
+      return _stripTrailingPeriod(
+        resolveGuildJoinMessage(
+          l10n,
+          messageId: messageId,
+          username: authorName,
+        ),
+      );
+    case messageTypeChannelPinnedMessage:
+      return _stripTrailingPeriod(l10n.systemPreviewPinnedMessage(authorName));
+    case messageTypeRecipientAdd:
+      if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
+        return _stripTrailingPeriod(
+          l10n.systemPreviewAddedToGroup(authorName, mentionedUserName),
+        );
+      }
+      return _stripTrailingPeriod(
+        l10n.systemPreviewAddedSomeoneToGroup(authorName),
+      );
+    case messageTypeRecipientRemove:
+      final bool isSelfRemove =
+          mentionedUserId != null &&
+          authorId != null &&
+          mentionedUserId == authorId;
+      if (isSelfRemove) {
+        return _stripTrailingPeriod(l10n.systemPreviewHasLeftGroup(authorName));
+      }
+      if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
+        return _stripTrailingPeriod(
+          l10n.systemPreviewRemovedFromGroup(authorName, mentionedUserName),
+        );
+      }
+      return _stripTrailingPeriod(
+        l10n.systemPreviewRemovedSomeoneFromGroup(authorName),
+      );
+    case messageTypeChannelNameChange:
+      final String newName = content.trim();
+      if (newName.isNotEmpty) {
+        return _stripTrailingPeriod(
+          l10n.systemPreviewChangedChannelNameTo(authorName, newName),
+        );
+      }
+      return _stripTrailingPeriod(
+        l10n.systemPreviewChangedChannelName(authorName),
+      );
+    case messageTypeChannelIconChange:
+      return _stripTrailingPeriod(
+        l10n.systemPreviewChangedChannelIcon(authorName),
+      );
+    case messageTypeCall:
+      return _stripTrailingPeriod(l10n.systemPreviewStartedCall(authorName));
+    default:
+      return null;
+  }
+}
+
+String _stripTrailingPeriod(String text) {
+  if (text.endsWith('.')) {
+    return text.substring(0, text.length - 1);
+  }
+  return text;
 }

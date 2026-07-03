@@ -15,6 +15,8 @@ import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -70,21 +72,24 @@ Message _msg({
 );
 
 void main() {
-  Future<(ProviderContainer, _SendAdapter, String)> setUpChannel() async {
+  Future<(ProviderContainer, _SendAdapter, String)> setUpChannel({
+    _SendAdapter? adapter,
+  }) async {
     final db = FluxerDatabase.forTesting(NativeDatabase.memory());
     addTearDown(db.close);
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(id: 'channel-1', guildId: '', name: 'dm'),
     );
     final serverMessageId = _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12));
-    final adapter = _SendAdapter(serverMessageId: serverMessageId);
-    final container = _container(db, adapter);
+    final _SendAdapter sendAdapter =
+        adapter ?? _SendAdapter(serverMessageId: serverMessageId);
+    final container = _container(db, sendAdapter);
     addTearDown(container.dispose);
 
     final notifier = container.read(chatViewModelProvider.notifier);
     await notifier.switchChannel('channel-1');
     await _flushAsync();
-    return (container, adapter, serverMessageId);
+    return (container, sendAdapter, serverMessageId);
   }
 
   test(
@@ -247,6 +252,31 @@ void main() {
       expect(state.messageText, isEmpty);
     },
   );
+
+  test(
+    'send failure with DM restriction adds Fluxerbot system message',
+    () async {
+      final (container, _, _) = await setUpChannel(
+        adapter: _SendAdapter(
+          serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
+          failureCode: apiErrorCodeCannotSendMessagesToUser,
+        ),
+      );
+      final notifier = container.read(chatViewModelProvider.notifier);
+
+      await notifier.sendMessage(text: 'test');
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.errorMessage, isNull);
+      expect(state.messages, hasLength(2));
+      expect(state.messages.first.hasFailed, isTrue);
+      expect(state.messages.first.content, 'test');
+      expect(state.messages.last.isClientSystemMessage, isTrue);
+      expect(state.messages.last.authorId, fluxerBotUserId);
+      expect(state.messages.last.content, contains('could not be delivered'));
+    },
+  );
 }
 
 ProviderContainer _container(FluxerDatabase db, _SendAdapter adapter) {
@@ -278,9 +308,10 @@ Future<void> _flushAsync() async {
 }
 
 class _SendAdapter implements HttpClientAdapter {
-  _SendAdapter({required this.serverMessageId});
+  _SendAdapter({required this.serverMessageId, this.failureCode});
 
   final String serverMessageId;
+  final String? failureCode;
   String? lastSentNonce;
   Map<String, dynamic>? lastBody;
   int messagePostCount = 0;
@@ -301,6 +332,18 @@ class _SendAdapter implements HttpClientAdapter {
     }
     if (options.method == 'POST' && isMessages) {
       messagePostCount++;
+      if (failureCode != null) {
+        return ResponseBody.fromString(
+          jsonEncode(<String, Object?>{
+            'code': failureCode,
+            'message': 'Cannot send message',
+          }),
+          400,
+          headers: {
+            Headers.contentTypeHeader: ['application/json'],
+          },
+        );
+      }
       final String? raw = await _readRequestBody(requestStream, options.data);
       final Map<String, dynamic> body = raw == null || raw.isEmpty
           ? <String, dynamic>{}

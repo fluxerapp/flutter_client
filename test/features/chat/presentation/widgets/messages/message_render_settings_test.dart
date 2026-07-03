@@ -8,6 +8,7 @@ void main() {
     MessageRenderSettings makeSettings({
       bool renderEmbeds = true,
       ChatPreferencesState chatPreferences = const ChatPreferencesState(),
+      double messageGroupSpacing = 16,
     }) {
       return MessageRenderSettings(
         activeGuildId: 'g1',
@@ -17,6 +18,7 @@ void main() {
         renderSpoilers: RenderSpoilers.onClick,
         revealSpoilers: false,
         chatPreferences: chatPreferences,
+        messageGroupSpacing: messageGroupSpacing,
       );
     }
 
@@ -38,6 +40,12 @@ void main() {
       final MessageRenderSettings b = makeSettings(
         chatPreferences: const ChatPreferencesState(sanitizeUrls: false),
       );
+      expect(a, isNot(equals(b)));
+    });
+
+    test('a differing messageGroupSpacing makes them unequal', () {
+      final MessageRenderSettings a = makeSettings();
+      final MessageRenderSettings b = makeSettings(messageGroupSpacing: 0);
       expect(a, isNot(equals(b)));
     });
   });

@@ -62,6 +62,15 @@ const List<String> _trackingPrefixes = [
   'vero_',
 ];
 
+bool matchOverlapsMarkdownCodeSpan(String content, Match match) {
+  for (final Match code in _codeSpanRegex.allMatches(content)) {
+    if (match.start < code.end && match.end > code.start) {
+      return true;
+    }
+  }
+  return false;
+}
+
 String sanitizeUrlsInContent(String content) {
   if (content.isEmpty) {
     return content;

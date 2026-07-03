@@ -14,7 +14,10 @@ void main() {
         channelTypingIndicatorMode: ChannelTypingIndicatorMode.hidden,
         showSelectedChannelTypingIndicator: true,
         showFadedUnreadOnMutedChannels: false,
+        dmMessagePreviewMode: DmMessagePreviewMode.unreadOnly,
         showFavorites: false,
+        messageGroupSpacing: 24,
+        compactMessageGroupSpacing: 4,
       );
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
@@ -25,7 +28,10 @@ void main() {
       );
       expect(restored.showSelectedChannelTypingIndicator, isTrue);
       expect(restored.showFadedUnreadOnMutedChannels, isFalse);
+      expect(restored.dmMessagePreviewMode, DmMessagePreviewMode.unreadOnly);
       expect(restored.showFavorites, isFalse);
+      expect(restored.messageGroupSpacing, 24);
+      expect(restored.compactMessageGroupSpacing, 4);
     });
 
     test('maps proto channel typing indicator modes', () {
@@ -43,6 +49,14 @@ void main() {
         restored.channelTypingIndicatorMode,
         ChannelTypingIndicatorMode.indicatorOnly,
       );
+    });
+
+    test('defaults group spacing when proto omits the fields', () {
+      final restored = AccessibilitySyncedField.fromProto(
+        accessibility_pb.AccessibilitySettings(),
+      );
+      expect(restored.messageGroupSpacing, 16);
+      expect(restored.compactMessageGroupSpacing, 0);
     });
   });
 }

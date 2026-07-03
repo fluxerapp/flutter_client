@@ -3,13 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart'
-    show currentRevealSideProvider, eagerRevealSideFor;
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -131,9 +129,5 @@ Future<void> _joinPackInvite({
 }
 
 void _navigateToContent(WidgetRef ref, String path) {
-  final eager = eagerRevealSideFor(path);
-  if (eager != null) {
-    ref.read(currentRevealSideProvider.notifier).set(eager);
-  }
-  ref.read(fluxerRouterProvider).go(path);
+  navigateToContentVia(ref, path);
 }

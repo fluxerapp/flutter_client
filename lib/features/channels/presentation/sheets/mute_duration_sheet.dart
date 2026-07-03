@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MuteSelection {
-  const MuteSelection({required this.muted, this.durationSeconds});
+  const MuteSelection({this.durationSeconds});
 
-  final bool muted;
   final int? durationSeconds;
 }
 
@@ -79,79 +76,29 @@ String _formatMuteEnd(DateTime t) {
 }
 
 class MuteDurationSheetBody extends StatelessWidget {
-  const MuteDurationSheetBody({
-    required this.isMuted,
-    required this.onSelected,
-    this.muteConfig,
-    super.key,
-  });
+  const MuteDurationSheetBody({required this.onSelected, super.key});
 
-  final bool isMuted;
-  final ChannelOverridesMuteConfig? muteConfig;
   final ValueChanged<MuteSelection> onSelected;
 
   @override
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
-    final colors = context.colors;
-    final mutedText = isMuted ? formatMutedHintText(muteConfig) : null;
 
     return FluxerBottomSheetGroupColumn(
       children: [
-        if (mutedText != null)
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: colors.backgroundSecondaryAlt,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Center(
-                child: Text(
-                  'Currently: $mutedText',
-                  style: context.textStyles.bodySmall.copyWith(
-                    color: colors.textSecondary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
         FluxerMenuGroup(
-          children: isMuted
-              ? [
-                  FluxerBottomSheetMenuItem(
-                    label: l10n.dmUnmuteConversation,
-                    onTap: () => onSelected(const MuteSelection(muted: false)),
-                  ),
-                ]
-              : [
-                  for (final seconds in kMuteDurationsSeconds)
-                    FluxerBottomSheetMenuItem(
-                      label: muteDurationLabel(seconds, l10n),
-                      trailing: muteConfig?.selectedTimeWindow == seconds
-                          ? PhosphorIcon(
-                              PhosphorIconsBold.check,
-                              size: 20,
-                              color: colors.textPrimary,
-                            )
-                          : null,
-                      onTap: () => onSelected(
-                        MuteSelection(muted: true, durationSeconds: seconds),
-                      ),
-                    ),
-                  FluxerBottomSheetMenuItem(
-                    label: l10n.dmMuteForever,
-                    trailing: muteConfig != null && muteConfig!.endTime == null
-                        ? PhosphorIcon(
-                            PhosphorIconsBold.check,
-                            size: 20,
-                            color: colors.textPrimary,
-                          )
-                        : null,
-                    onTap: () => onSelected(const MuteSelection(muted: true)),
-                  ),
-                ],
+          children: [
+            for (final seconds in kMuteDurationsSeconds)
+              FluxerBottomSheetMenuItem(
+                label: muteDurationLabel(seconds, l10n),
+                onTap: () =>
+                    onSelected(MuteSelection(durationSeconds: seconds)),
+              ),
+            FluxerBottomSheetMenuItem(
+              label: l10n.dmMuteForever,
+              onTap: () => onSelected(const MuteSelection()),
+            ),
+          ],
         ),
       ],
     );
@@ -160,21 +107,16 @@ class MuteDurationSheetBody extends StatelessWidget {
 
 Future<MuteSelection?> showMuteDurationSheet(
   BuildContext context, {
-  required bool isMuted,
-  ChannelOverridesMuteConfig? muteConfig,
-  String? muteTitle,
-  String? unmuteTitle,
+  required String muteTitle,
   bool useRootNavigator = false,
 }) {
   return FluxerBottomSheet.show<MuteSelection>(
     context,
-    title: isMuted ? (unmuteTitle ?? 'Unmute') : (muteTitle ?? 'Mute'),
+    title: muteTitle,
     variant: FluxerBottomSheetVariant.menu,
     useRootNavigator: useRootNavigator,
     builder: (sheetContext, _) => FluxerBottomSheetContent(
       child: MuteDurationSheetBody(
-        isMuted: isMuted,
-        muteConfig: muteConfig,
         onSelected: (selection) => Navigator.of(sheetContext).pop(selection),
       ),
     ),

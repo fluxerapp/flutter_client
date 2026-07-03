@@ -1,5 +1,6 @@
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/fenced_code_block_utils.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 
 sealed class FluxerMarkdownSegment {}
@@ -35,6 +36,10 @@ String _preprocessFluxerMarkdownUncached(
   String text,
   FluxerMarkdownFeatures features,
 ) {
+  text = normalizeFencedCodeBlockInlineClosers(
+    text,
+    allowCodeBlocks: features.allowCodeBlocks,
+  );
   final lines = text.split('\n');
   final output = <String>[];
 
@@ -240,23 +245,15 @@ class _FencedCodeBlockTracker {
 
   void onLine(String line) {
     final String trimmedLeft = line.trimLeft();
-    if (!trimmedLeft.startsWith('`')) {
-      return;
-    }
-    var fenceLength = 0;
-    while (fenceLength < trimmedLeft.length &&
-        trimmedLeft[fenceLength] == '`') {
-      fenceLength++;
-    }
-    if (fenceLength < 3) {
-      return;
-    }
     if (!inside) {
-      inside = true;
-      _fenceLength = fenceLength;
+      final int? openingLength = parseOpeningBacktickFenceLength(trimmedLeft);
+      if (openingLength != null) {
+        inside = true;
+        _fenceLength = openingLength;
+      }
       return;
     }
-    if (fenceLength >= _fenceLength!) {
+    if (lineClosesBacktickFence(line, _fenceLength!)) {
       inside = false;
       _fenceLength = null;
     }

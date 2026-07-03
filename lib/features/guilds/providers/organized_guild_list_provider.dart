@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_fiel
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:fluxer_app/features/guilds/data/guild_order_repository.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/models/user_settings_response_guild_folders.dart';
@@ -145,18 +146,61 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     required bool insertAfter,
   }) {
     final items = [...state];
-    final sourceIndex = _findTopLevelIndex(items, sourceId);
-    final targetIndex = _findTopLevelIndex(items, targetId);
-    if (sourceIndex == -1 || targetIndex == -1) {
+    final _FolderGuildLocation? sourceLocation = _findGuildInFolders(
+      items,
+      sourceId,
+    );
+    final int targetIndexBefore = _findTopLevelIndex(items, targetId);
+    final bool targetIsSourceFolder =
+        sourceLocation != null &&
+        targetIndexBefore == sourceLocation.folderIndex;
+    final int? guildCountInSourceFolderBefore = sourceLocation == null
+        ? null
+        : (items[sourceLocation.folderIndex] as GuildNavbarFolder)
+              .guilds
+              .length;
+
+    GuildNavbarItem? movingItem;
+    int? removedTopLevelSourceIndex;
+
+    final int sourceTopIndex = _findTopLevelIndex(items, sourceId);
+    if (sourceTopIndex != -1) {
+      movingItem = items.removeAt(sourceTopIndex);
+      removedTopLevelSourceIndex = sourceTopIndex;
+    } else if (sourceLocation != null) {
+      movingItem = GuildNavbarGuild(guild: sourceLocation.guild);
+      _removeGuildFromFolderAt(
+        items,
+        sourceLocation.folderIndex,
+        sourceLocation.guildIndex,
+      );
+    } else {
       return;
     }
 
-    final item = items.removeAt(sourceIndex);
-    final adjustedTarget = sourceIndex < targetIndex
-        ? targetIndex - 1
-        : targetIndex;
-    final insertIndex = insertAfter ? adjustedTarget + 1 : adjustedTarget;
-    items.insert(insertIndex, item);
+    final int insertIndex;
+    if (targetIsSourceFolder) {
+      insertIndex = _insertIndexForSourceFolderTarget(
+        folderIndex: sourceLocation!.folderIndex,
+        guildCountBeforeMove: guildCountInSourceFolderBefore!,
+        insertAfter: insertAfter,
+        items: items,
+        targetId: targetId,
+      );
+    } else {
+      final int targetIndex = _findTopLevelIndex(items, targetId);
+      if (targetIndex == -1) {
+        return;
+      }
+      final int adjustedTarget =
+          removedTopLevelSourceIndex != null &&
+              removedTopLevelSourceIndex < targetIndex
+          ? targetIndex - 1
+          : targetIndex;
+      insertIndex = insertAfter ? adjustedTarget + 1 : adjustedTarget;
+    }
+
+    items.insert(insertIndex.clamp(0, items.length), movingItem);
 
     state = items;
     _persist();
@@ -206,35 +250,21 @@ class OrganizedGuildList extends _$OrganizedGuildList {
   }
 
   void moveIntoFolder({required String guildId, required int folderId}) {
+    if (_isGuildInFolder(state, guildId, folderId)) {
+      return;
+    }
+
     final items = [...state];
 
-    // Check if the guild is inside another folder first.
     Guild? sourceGuild;
-    for (var i = 0; i < items.length; i++) {
-      final item = items[i];
-      if (item is GuildNavbarFolder) {
-        final guildIndex = item.guilds.indexWhere((g) => g.id == guildId);
-        if (guildIndex != -1) {
-          sourceGuild = item.guilds[guildIndex];
-          final remainingGuilds = [...item.guilds]..removeAt(guildIndex);
-          if (remainingGuilds.isEmpty) {
-            items.removeAt(i);
-          } else if (remainingGuilds.length == 1) {
-            // Dissolve folder into a standalone guild.
-            items[i] = GuildNavbarGuild(guild: remainingGuilds.first);
-          } else {
-            items[i] = GuildNavbarFolder(
-              id: item.id,
-              name: item.name,
-              color: item.color,
-              flags: item.flags,
-              icon: item.icon,
-              guilds: remainingGuilds,
-            );
-          }
-          break;
-        }
-      }
+    final _FolderGuildLocation? location = _findGuildInFolders(items, guildId);
+    if (location != null) {
+      sourceGuild = location.guild;
+      _removeGuildFromFolderAt(
+        items,
+        location.folderIndex,
+        location.guildIndex,
+      );
     }
 
     // If not found in a folder, look for a top-level guild.
@@ -276,8 +306,168 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     _persist();
   }
 
+  void moveIntoFolderAtPosition({
+    required String guildId,
+    required int folderId,
+    required String referenceGuildId,
+    required bool insertAfter,
+  }) {
+    if (guildId == referenceGuildId) {
+      return;
+    }
+
+    final items = [...state];
+    final int folderIndexBefore = _findTopLevelIndex(
+      items,
+      folderId.toString(),
+    );
+    if (folderIndexBefore == -1) {
+      return;
+    }
+    final GuildNavbarItem folderItemBefore = items[folderIndexBefore];
+    if (folderItemBefore is! GuildNavbarFolder) {
+      return;
+    }
+    final int referenceIndexBefore = folderItemBefore.guilds.indexWhere(
+      (Guild g) => g.id == referenceGuildId,
+    );
+    if (referenceIndexBefore == -1) {
+      return;
+    }
+
+    Guild? sourceGuild;
+    int? sourceFolderIndex;
+    int? sourceGuildIndex;
+
+    final int sourceTopIndex = _findTopLevelIndex(items, guildId);
+    if (sourceTopIndex != -1) {
+      final GuildNavbarItem sourceItem = items.removeAt(sourceTopIndex);
+      if (sourceItem is! GuildNavbarGuild) {
+        return;
+      }
+      sourceGuild = sourceItem.guild;
+    } else {
+      final _FolderGuildLocation? location = _findGuildInFolders(
+        items,
+        guildId,
+      );
+      if (location == null) {
+        return;
+      }
+      sourceGuild = location.guild;
+      sourceFolderIndex = location.folderIndex;
+      sourceGuildIndex = location.guildIndex;
+      _removeGuildFromFolderAt(
+        items,
+        location.folderIndex,
+        location.guildIndex,
+      );
+    }
+
+    final int folderIndex = _findTopLevelIndex(items, folderId.toString());
+    if (folderIndex == -1) {
+      return;
+    }
+    final GuildNavbarFolder folderItem =
+        items[folderIndex] as GuildNavbarFolder;
+    var referenceIndex = folderItem.guilds.indexWhere(
+      (Guild g) => g.id == referenceGuildId,
+    );
+    if (referenceIndex == -1) {
+      return;
+    }
+    if (sourceFolderIndex == folderIndex &&
+        sourceGuildIndex != null &&
+        sourceGuildIndex < referenceIndex) {
+      referenceIndex -= 1;
+    }
+
+    final int insertIndex = insertAfter ? referenceIndex + 1 : referenceIndex;
+    final List<Guild> guilds = [...folderItem.guilds];
+    guilds.insert(insertIndex.clamp(0, guilds.length), sourceGuild);
+
+    items[folderIndex] = GuildNavbarFolder(
+      id: folderItem.id,
+      name: folderItem.name,
+      color: folderItem.color,
+      flags: folderItem.flags,
+      icon: folderItem.icon,
+      guilds: guilds,
+    );
+
+    state = items;
+    _persist();
+  }
+
+  void applyDragDrop({
+    required String sourceId,
+    required String targetId,
+    required bool targetIsFolder,
+    required DropPosition position,
+  }) {
+    switch (position) {
+      case DropPosition.before:
+        if (!targetIsFolder && _findGuildInFolders(state, targetId) != null) {
+          final _FolderGuildLocation location = _findGuildInFolders(
+            state,
+            targetId,
+          )!;
+          final int folderId =
+              (state[location.folderIndex] as GuildNavbarFolder).id;
+          moveIntoFolderAtPosition(
+            guildId: sourceId,
+            folderId: folderId,
+            referenceGuildId: targetId,
+            insertAfter: false,
+          );
+          return;
+        }
+        reorder(sourceId: sourceId, targetId: targetId, insertAfter: false);
+      case DropPosition.after:
+        if (!targetIsFolder && _findGuildInFolders(state, targetId) != null) {
+          final _FolderGuildLocation location = _findGuildInFolders(
+            state,
+            targetId,
+          )!;
+          final int folderId =
+              (state[location.folderIndex] as GuildNavbarFolder).id;
+          moveIntoFolderAtPosition(
+            guildId: sourceId,
+            folderId: folderId,
+            referenceGuildId: targetId,
+            insertAfter: true,
+          );
+          return;
+        }
+        reorder(sourceId: sourceId, targetId: targetId, insertAfter: true);
+      case DropPosition.combine:
+        if (targetIsFolder) {
+          moveIntoFolder(guildId: sourceId, folderId: int.parse(targetId));
+        } else {
+          combineIntoFolder(sourceGuildId: sourceId, targetGuildId: targetId);
+        }
+    }
+  }
+
   void _persist() {
     ref.read(guildOrderRepositoryProvider).saveGuildFolders(state);
+  }
+
+  static int _insertIndexForSourceFolderTarget({
+    required int folderIndex,
+    required int guildCountBeforeMove,
+    required bool insertAfter,
+    required List<GuildNavbarItem> items,
+    required String targetId,
+  }) {
+    if (guildCountBeforeMove <= 1) {
+      return folderIndex.clamp(0, items.length);
+    }
+    final int folderIndexAfterMove = _findTopLevelIndex(items, targetId);
+    if (folderIndexAfterMove == -1) {
+      return insertAfter ? folderIndex + 1 : folderIndex;
+    }
+    return insertAfter ? folderIndexAfterMove + 1 : folderIndexAfterMove;
   }
 
   static int _findTopLevelIndex(List<GuildNavbarItem> items, String id) {
@@ -296,6 +486,79 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     }
     return -1;
   }
+
+  static _FolderGuildLocation? _findGuildInFolders(
+    List<GuildNavbarItem> items,
+    String guildId,
+  ) {
+    for (var i = 0; i < items.length; i++) {
+      final GuildNavbarItem item = items[i];
+      if (item is GuildNavbarFolder) {
+        final int guildIndex = item.guilds.indexWhere(
+          (Guild g) => g.id == guildId,
+        );
+        if (guildIndex != -1) {
+          return _FolderGuildLocation(
+            folderIndex: i,
+            guildIndex: guildIndex,
+            guild: item.guilds[guildIndex],
+          );
+        }
+      }
+    }
+    return null;
+  }
+
+  static void _removeGuildFromFolderAt(
+    List<GuildNavbarItem> items,
+    int folderIndex,
+    int guildIndex,
+  ) {
+    final GuildNavbarItem item = items[folderIndex];
+    if (item is! GuildNavbarFolder) {
+      return;
+    }
+    final List<Guild> remainingGuilds = [...item.guilds]..removeAt(guildIndex);
+    if (remainingGuilds.isEmpty) {
+      items.removeAt(folderIndex);
+    } else if (remainingGuilds.length == 1) {
+      items[folderIndex] = GuildNavbarGuild(guild: remainingGuilds.first);
+    } else {
+      items[folderIndex] = GuildNavbarFolder(
+        id: item.id,
+        name: item.name,
+        color: item.color,
+        flags: item.flags,
+        icon: item.icon,
+        guilds: remainingGuilds,
+      );
+    }
+  }
+
+  static bool _isGuildInFolder(
+    List<GuildNavbarItem> items,
+    String guildId,
+    int folderId,
+  ) {
+    for (final GuildNavbarItem item in items) {
+      if (item is GuildNavbarFolder && item.id == folderId) {
+        return item.guilds.any((Guild g) => g.id == guildId);
+      }
+    }
+    return false;
+  }
+}
+
+class _FolderGuildLocation {
+  const _FolderGuildLocation({
+    required this.folderIndex,
+    required this.guildIndex,
+    required this.guild,
+  });
+
+  final int folderIndex;
+  final int guildIndex;
+  final Guild guild;
 }
 
 @Riverpod(keepAlive: true)

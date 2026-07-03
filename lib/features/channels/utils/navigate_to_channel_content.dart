@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/utils/link_channel_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
 import 'package:fluxer_app/features/quick_switcher/providers/recent_channel_visits_provider.dart';
@@ -18,7 +19,6 @@ import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provi
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
-import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 
 /// Opens a channel from the guild sidebar or DM list.
 Future<void> navigateToChannelContent({
@@ -132,21 +132,14 @@ Future<void> openGuildChannelContent({
   required String chatPath,
   int? effectivePermissionBits,
 }) async {
-  if (channel.type == ChannelType.guildLink) {
-    final bool canProceed = await promptForChannelGateIfNeeded(
-      context: context,
-      container: ref.container,
-      channelId: channel.id,
-      guildId: guildId,
-      channelType: channel.type,
-    );
-    if (!context.mounted || !canProceed) {
-      return;
-    }
-    final String? channelUrl = channel.url;
-    if (channelUrl != null && channelUrl.isNotEmpty) {
-      unawaited(handleExternalLinkTap(context, channelUrl));
-    }
+  if (await tryOpenLinkChannel(
+    context: context,
+    container: ref.container,
+    channel: channel,
+  )) {
+    return;
+  }
+  if (!context.mounted) {
     return;
   }
 

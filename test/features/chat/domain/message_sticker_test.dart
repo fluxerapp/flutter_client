@@ -81,6 +81,7 @@ void main() {
         pinned: false,
         isMentioned: false,
         mentionedUserIdsJson: '[]',
+        mentionChannelsJson: '[]',
         type: 0,
         flags: 0,
         deliveryState: MessageDeliveryState.sent.index,

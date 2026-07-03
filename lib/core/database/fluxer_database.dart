@@ -143,7 +143,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 65;
+  int get schemaVersion => 67;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -628,6 +628,25 @@ class FluxerDatabase extends _$FluxerDatabase {
           ),
         );
       }
+      if (from < 66) {
+        await m.addColumn(
+          userPreferencesTable,
+          userPreferencesTable.messageGroupSpacing,
+        );
+        await m.addColumn(
+          userPreferencesTable,
+          userPreferencesTable.compactMessageGroupSpacing,
+        );
+      }
+      if (from < 67) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'mention_channels_json',
+        )) {
+          await m.addColumn(messages, messages.mentionChannelsJson);
+        }
+      }
     },
   );
 
@@ -668,6 +687,17 @@ class FluxerDatabase extends _$FluxerDatabase {
       await clearUserData();
     });
   }
+}
+
+Future<bool> _tableHasColumn(
+  GeneratedDatabase database, {
+  required String tableName,
+  required String columnName,
+}) async {
+  final List<QueryRow> rows = await database
+      .customSelect('PRAGMA table_info($tableName)')
+      .get();
+  return rows.any((QueryRow row) => row.read<String>('name') == columnName);
 }
 
 QueryExecutor _openConnection() {

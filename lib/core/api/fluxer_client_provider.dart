@@ -12,6 +12,7 @@ import 'package:fluxer_app/core/observability/fluxer_otel_dio_interceptor.dart';
 import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/auth/providers/auth_instance_snapshot_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
@@ -41,11 +42,9 @@ String fluxerClientPropertiesHeader(Ref ref) {
   );
 }
 
-@Riverpod(keepAlive: true)
-Dio fluxerDio(Ref ref) {
-  final baseUrl = ref.watch(fluxerBaseUrlProvider);
-  final userAgent = ref.watch(fluxerClientPropertiesProvider).userAgent;
-  final clientPropertiesHeader = ref.watch(
+Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
+  final String userAgent = ref.watch(fluxerClientPropertiesProvider).userAgent;
+  final String clientPropertiesHeader = ref.watch(
     fluxerClientPropertiesHeaderProvider,
   );
   final Dio dio = Dio(
@@ -60,7 +59,6 @@ Dio fluxerDio(Ref ref) {
       },
     ),
   );
-
   dio.interceptors.add(
     SessionAuthInterceptor(readToken: () => ref.read(fluxerAuthTokenProvider)),
   );
@@ -92,7 +90,6 @@ Dio fluxerDio(Ref ref) {
           showSudoVerificationSheet(navigatorKey: rootNavigatorKey, dio: dio),
     ),
   );
-
   if (kDebugMode) {
     dio.interceptors.add(
       TalkerDioLogger(
@@ -103,14 +100,37 @@ Dio fluxerDio(Ref ref) {
       ),
     );
   }
-
   return dio;
 }
 
 @Riverpod(keepAlive: true)
+Dio fluxerDio(Ref ref) {
+  final String baseUrl = ref.watch(fluxerBaseUrlProvider);
+  return _buildFluxerDio(ref: ref, baseUrl: baseUrl);
+}
+
+@Riverpod(keepAlive: true)
 FluxerClient fluxerClient(Ref ref) {
-  final dio = ref.watch(fluxerDioProvider);
-  final baseUrl = ref.watch(fluxerBaseUrlProvider);
+  final Dio dio = ref.watch(fluxerDioProvider);
+  final String baseUrl = ref.watch(fluxerBaseUrlProvider);
+  return FluxerClient(dio, baseUrl: baseUrl);
+}
+
+@Riverpod(keepAlive: true)
+String authFluxerBaseUrl(Ref ref) {
+  return ref.watch(authInstanceSnapshotProvider).apiBaseUrl;
+}
+
+@Riverpod(keepAlive: true)
+Dio authFluxerDio(Ref ref) {
+  final String baseUrl = ref.watch(authFluxerBaseUrlProvider);
+  return _buildFluxerDio(ref: ref, baseUrl: baseUrl);
+}
+
+@Riverpod(keepAlive: true)
+FluxerClient authFluxerClient(Ref ref) {
+  final Dio dio = ref.watch(authFluxerDioProvider);
+  final String baseUrl = ref.watch(authFluxerBaseUrlProvider);
   return FluxerClient(dio, baseUrl: baseUrl);
 }
 

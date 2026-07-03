@@ -26,7 +26,6 @@ const List<GuildSettingsTab> _comingSoonTabs = <GuildSettingsTab>[
   GuildSettingsTab.discovery,
   GuildSettingsTab.members,
   GuildSettingsTab.invites,
-  GuildSettingsTab.bans,
 ];
 
 bool isGuildSettingsTabComingSoon(GuildSettingsTab tab) {

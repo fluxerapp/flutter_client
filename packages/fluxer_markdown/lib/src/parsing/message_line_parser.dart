@@ -1,5 +1,6 @@
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/parsing/fenced_code_block_utils.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 
 sealed class MessageContentSegment {}
@@ -242,17 +243,14 @@ int _findBlockEnd(
 }
 
 int _findCodeBlockEnd(List<String> lines, int startIndex) {
-  final opening = lines[startIndex].trimLeft();
-  var fenceLength = 0;
-  while (fenceLength < opening.length && opening[fenceLength] == '`') {
-    fenceLength++;
-  }
-  if (fenceLength < 3) {
+  final int? fenceLength = parseOpeningBacktickFenceLength(
+    lines[startIndex].trimLeft(),
+  );
+  if (fenceLength == null) {
     return startIndex + 1;
   }
-  final closingFence = '`' * fenceLength;
   for (var i = startIndex + 1; i < lines.length; i++) {
-    if (lines[i].trimLeft().startsWith(closingFence)) {
+    if (lineClosesBacktickFence(lines[i], fenceLength)) {
       return i + 1;
     }
   }

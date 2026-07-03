@@ -115,14 +115,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   final p = permissions;
   final canInvite = hasPermission(p, Permission.createInstantInvite);
   final canManageChannels = hasPermission(p, Permission.manageChannels);
-  final canManageGuild = hasPermission(p, Permission.manageGuild);
-  final canAccessSettings =
-      canManageGuild ||
-      hasPermission(p, Permission.manageRoles) ||
-      hasPermission(p, Permission.viewAuditLog) ||
-      hasPermission(p, Permission.manageWebhooks) ||
-      hasPermission(p, Permission.manageExpressions) ||
-      hasPermission(p, Permission.banMembers);
+  final canAccessSettings = canAccessAnyGuildSettings(p);
 
   return <GuildMenuGroup>[
     [
@@ -314,6 +307,12 @@ String _settingsTabLabel(GuildAction action, FluxerLocalizations l10n) {
     GuildAction.settingsBans => l10n.guildMenuSettingsBans,
     _ => '',
   };
+}
+
+bool canAccessAnyGuildSettings(int permissions) {
+  return _settingsTabDefs.any(
+    (tab) => tab.perms.any((p) => hasPermission(permissions, p)),
+  );
 }
 
 bool canAccessGuildSettingsTab(GuildAction action, int permissions) {

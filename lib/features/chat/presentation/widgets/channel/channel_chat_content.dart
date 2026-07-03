@@ -15,6 +15,9 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/dm_call_e2ee_footer.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'channel_chat_content.g.dart';
 
 /// Composite chat view that assembles the top bar, message list,
 /// and input field. Works for both server channels and DMs.
@@ -41,7 +44,6 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   _lastSwitchRequest;
   ({String channelId, String? targetMessageId})? _lastClosedPanelRequest;
   bool? _lastMobileLayout;
-  RevealSide? _lastRevealSide;
 
   @override
   void initState() {
@@ -70,13 +72,10 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
 
   bool _resolveLoadMessages() {
     final bool isMobile = isMobileLayout(context);
-    final RevealSide revealSide = isMobile
-        ? ref.read(currentRevealSideProvider)
-        : RevealSide.main;
-    return channelChatShouldLoadMessages(
-      isMobile: isMobile,
-      revealSide: revealSide,
-    );
+    if (!isMobile) {
+      return true;
+    }
+    return ref.read(channelChatShouldLoadMessagesProvider(widget.channelId));
   }
 
   void _syncChannelIfNeeded({required bool loadMessages}) {
@@ -123,27 +122,27 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = isMobileLayout(context);
-    final RevealSide revealSide = isMobile
-        ? ref.watch(currentRevealSideProvider)
-        : RevealSide.main;
+    final bool shouldLoadMessages = isMobile
+        ? ref.watch(channelChatShouldLoadMessagesProvider(widget.channelId))
+        : true;
     ref
       ..listen<String?>(activeChannelIdProvider, (_, _) {
         _scheduleSyncChannelIfNeeded();
       })
       ..listen<bool>(shellHasPopupOverlayProvider, (_, _) {
         _scheduleSyncChannelIfNeeded();
+      })
+      ..listen<bool>(channelChatShouldLoadMessagesProvider(widget.channelId), (
+        _,
+        _,
+      ) {
+        _scheduleSyncChannelIfNeeded();
       });
-    if (_lastMobileLayout != isMobile || _lastRevealSide != revealSide) {
+    if (_lastMobileLayout != isMobile) {
       _lastMobileLayout = isMobile;
-      _lastRevealSide = revealSide;
       _scheduleSyncChannelIfNeeded();
     }
     listenChatViewModelErrors(ref);
-
-    final bool shouldLoadMessages = channelChatShouldLoadMessages(
-      isMobile: isMobile,
-      revealSide: revealSide,
-    );
 
     return ColoredBox(
       color: isMobile
@@ -179,9 +178,17 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
 }
 
 @visibleForTesting
-bool channelChatShouldLoadMessages({
+bool computeChannelChatShouldLoadMessages({
   required bool isMobile,
   required RevealSide revealSide,
 }) {
   return !isMobile || revealSide == RevealSide.main;
+}
+
+@riverpod
+bool channelChatShouldLoadMessages(Ref ref, String channelId) {
+  return computeChannelChatShouldLoadMessages(
+    isMobile: true,
+    revealSide: ref.watch(currentRevealSideProvider),
+  );
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -12,12 +13,15 @@ import 'package:fluxer_app/features/channels/providers/guild_collapsed_categorie
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
 import 'package:fluxer_dart/export.dart';
 
+const GuildUserSettingsPersistenceOptions _immediateSync =
+    GuildUserSettingsPersistenceOptions(persistImmediately: true);
+
 class _FakeUsersApi implements UsersApi {
   _FakeUsersApi({this.onPatch, this.shouldThrow = false});
 
   UserGuildSettingsUpdateRequest? lastRequest;
   int patchCount = 0;
-  final UserGuildSettingsResponse Function(
+  final FutureOr<UserGuildSettingsResponse> Function(
     String guildId,
     UserGuildSettingsUpdateRequest body,
   )?
@@ -35,7 +39,7 @@ class _FakeUsersApi implements UsersApi {
       throw Exception('patch failed');
     }
     if (onPatch != null) {
-      return onPatch!(guildId, body);
+      return await onPatch!(guildId, body);
     }
     return UserGuildSettingsResponse(
       guildId: guildId,
@@ -72,11 +76,16 @@ class _FakeClient extends FluxerClient {
 ProviderContainer _createContainer({
   required db.FluxerDatabase database,
   required _FakeUsersApi usersApi,
+  Duration patchDebounce = kGuildUserSettingsPatchDebounce,
 }) {
   return ProviderContainer(
     overrides: [
       fluxerDatabaseProvider.overrideWithValue(database),
       fluxerClientProvider.overrideWithValue(_FakeClient(usersApi)),
+      guildUserSettingsRepositoryProvider.overrideWith(
+        (Ref ref) =>
+            GuildUserSettingsRepository(ref, patchDebounce: patchDebounce),
+      ),
     ],
   );
 }
@@ -131,11 +140,14 @@ void main() {
       () async {
         const guildId = 'guild-1';
         const categoryId = 'category-1';
-        final repo = container.read(guildUserSettingsRepositoryProvider);
+        final GuildUserSettingsRepository repo = container.read(
+          guildUserSettingsRepositoryProvider,
+        );
 
         await repo.toggleCategoryCollapsed(
           guildId: guildId,
           categoryId: categoryId,
+          options: _immediateSync,
         );
 
         expect(usersApi.patchCount, 1);
@@ -165,15 +177,19 @@ void main() {
     test('toggleCategoryCollapsed collapses then expands', () async {
       const guildId = 'guild-1';
       const categoryId = 'category-1';
-      final repo = container.read(guildUserSettingsRepositoryProvider);
+      final GuildUserSettingsRepository repo = container.read(
+        guildUserSettingsRepositoryProvider,
+      );
 
       await repo.toggleCategoryCollapsed(
         guildId: guildId,
         categoryId: categoryId,
+        options: _immediateSync,
       );
       await repo.toggleCategoryCollapsed(
         guildId: guildId,
         categoryId: categoryId,
+        options: _immediateSync,
       );
 
       expect(
@@ -209,11 +225,14 @@ void main() {
             ),
           },
         );
-        final repo = container.read(guildUserSettingsRepositoryProvider);
+        final GuildUserSettingsRepository repo = container.read(
+          guildUserSettingsRepositoryProvider,
+        );
 
         await repo.toggleCategoryCollapsed(
           guildId: guildId,
           categoryId: categoryId,
+          options: _immediateSync,
         );
 
         expect(usersApi.patchCount, 1);
@@ -243,12 +262,15 @@ void main() {
             ),
           },
         );
-        final repo = container.read(guildUserSettingsRepositoryProvider);
+        final GuildUserSettingsRepository repo = container.read(
+          guildUserSettingsRepositoryProvider,
+        );
 
         await repo.updateChannelOverride(
           guildId: guildId,
           channelId: channelId,
           muted: true,
+          options: _immediateSync,
         );
 
         final overrides = usersApi.lastRequest?.channelOverrides;
@@ -258,11 +280,141 @@ void main() {
       },
     );
 
-    test('persists drift from API response not pre-merge state', () async {
+    test(
+      'persists merged channel overrides when API response is partial',
+      () async {
+        const guildId = 'guild-1';
+        const channelId = 'channel-1';
+        const otherChannelId = 'channel-other';
+        await _seedGuildSettings(
+          database: database,
+          guildId: guildId,
+          channelOverrides: {
+            otherChannelId: const ChannelOverrides(
+              collapsed: false,
+              messageNotifications: UserNotificationSettings.inherit,
+              muted: true,
+              muteConfig: null,
+            ),
+          },
+        );
+        usersApi = _FakeUsersApi(
+          onPatch: (guildId, body) {
+            return UserGuildSettingsResponse(
+              guildId: guildId,
+              messageNotifications: UserNotificationSettings.inherit,
+              muted: false,
+              muteConfig: null,
+              mobilePush: true,
+              suppressEveryone: false,
+              suppressRoles: false,
+              hideMutedChannels: false,
+              channelOverrides: {
+                channelId: const ChannelOverrides(
+                  collapsed: false,
+                  messageNotifications: UserNotificationSettings.inherit,
+                  muted: true,
+                  muteConfig: null,
+                ),
+              },
+              version: 42,
+            );
+          },
+        );
+        container.dispose();
+        container = _createContainer(database: database, usersApi: usersApi);
+        final GuildUserSettingsRepository repo = container.read(
+          guildUserSettingsRepositoryProvider,
+        );
+
+        await repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelId,
+          muted: true,
+          durationSeconds: 900,
+          options: _immediateSync,
+        );
+
+        final row = await database.userGuildSettingsDao.getByGuildId(guildId);
+        final stored = UserGuildSettingsResponse.fromJson(
+          jsonDecode(row!.data) as Map<String, dynamic>,
+        );
+        expect(stored.version, 42);
+        expect(
+          stored.channelOverrides?.keys,
+          containsAll([channelId, otherChannelId]),
+        );
+        expect(stored.channelOverrides?[channelId]?.muted, isTrue);
+        expect(stored.channelOverrides?[channelId]?.muteConfig, isNull);
+        expect(stored.channelOverrides?[otherChannelId]?.muted, isTrue);
+      },
+    );
+
+    test(
+      'debounced channel override updates coalesce into one PATCH',
+      () async {
+        const guildId = 'guild-1';
+        const channelA = 'channel-a';
+        const channelB = 'channel-b';
+        const channelC = 'channel-c';
+        container.dispose();
+        container = _createContainer(
+          database: database,
+          usersApi: usersApi,
+          patchDebounce: const Duration(milliseconds: 50),
+        );
+        final GuildUserSettingsRepository repo = container.read(
+          guildUserSettingsRepositoryProvider,
+        );
+
+        await repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelA,
+          muted: true,
+        );
+        await repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelB,
+          muted: true,
+        );
+        await repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelC,
+          muted: true,
+        );
+
+        expect(usersApi.patchCount, 0);
+
+        final rowBeforeFlush = await database.userGuildSettingsDao.getByGuildId(
+          guildId,
+        );
+        final storedBeforeFlush = UserGuildSettingsResponse.fromJson(
+          jsonDecode(rowBeforeFlush!.data) as Map<String, dynamic>,
+        );
+        expect(
+          storedBeforeFlush.channelOverrides?.keys,
+          containsAll([channelA, channelB, channelC]),
+        );
+
+        await repo.flushPendingPatches(guildId: guildId);
+
+        expect(usersApi.patchCount, 1);
+        final lastOverrides = usersApi.lastRequest?.channelOverrides;
+        expect(
+          lastOverrides?.keys,
+          containsAll([channelA, channelB, channelC]),
+        );
+      },
+    );
+
+    test('concurrent mutes include every channel in final PATCH', () async {
       const guildId = 'guild-1';
-      const channelId = 'channel-1';
+      const channelA = 'channel-a';
+      const channelB = 'channel-b';
+      const channelC = 'channel-c';
       usersApi = _FakeUsersApi(
-        onPatch: (guildId, body) {
+        onPatch: (guildId, body) async {
+          await Future<void>.delayed(const Duration(milliseconds: 10));
           return UserGuildSettingsResponse(
             guildId: guildId,
             messageNotifications: UserNotificationSettings.inherit,
@@ -272,56 +424,84 @@ void main() {
             suppressEveryone: false,
             suppressRoles: false,
             hideMutedChannels: false,
-            channelOverrides: {
-              channelId: const ChannelOverrides(
-                collapsed: false,
-                messageNotifications: UserNotificationSettings.inherit,
-                muted: true,
-                muteConfig: null,
-              ),
-            },
-            version: 42,
+            channelOverrides: body.channelOverrides,
+            version: 1,
           );
         },
       );
       container.dispose();
       container = _createContainer(database: database, usersApi: usersApi);
-      final repo = container.read(guildUserSettingsRepositoryProvider);
-
-      await repo.updateChannelOverride(
-        guildId: guildId,
-        channelId: channelId,
-        muted: true,
-        durationSeconds: 900,
+      final GuildUserSettingsRepository repo = container.read(
+        guildUserSettingsRepositoryProvider,
       );
+
+      await Future.wait<void>(<Future<void>>[
+        repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelA,
+          muted: true,
+          options: _immediateSync,
+        ),
+        repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelB,
+          muted: true,
+          options: _immediateSync,
+        ),
+        repo.updateChannelOverride(
+          guildId: guildId,
+          channelId: channelC,
+          muted: true,
+          options: _immediateSync,
+        ),
+      ]);
+
+      expect(usersApi.patchCount, 3);
+      final lastOverrides = usersApi.lastRequest?.channelOverrides;
+      expect(lastOverrides?.keys, containsAll([channelA, channelB, channelC]));
+      expect(lastOverrides?[channelA]?.muted, isTrue);
+      expect(lastOverrides?[channelB]?.muted, isTrue);
+      expect(lastOverrides?[channelC]?.muted, isTrue);
 
       final row = await database.userGuildSettingsDao.getByGuildId(guildId);
       final stored = UserGuildSettingsResponse.fromJson(
         jsonDecode(row!.data) as Map<String, dynamic>,
       );
-      expect(stored.version, 42);
-      expect(stored.channelOverrides?[channelId]?.muteConfig, isNull);
+      expect(
+        stored.channelOverrides?.keys,
+        containsAll([channelA, channelB, channelC]),
+      );
+      expect(stored.channelOverrides?[channelA]?.muted, isTrue);
+      expect(stored.channelOverrides?[channelB]?.muted, isTrue);
+      expect(stored.channelOverrides?[channelC]?.muted, isTrue);
     });
 
-    test('does not write drift when PATCH fails', () async {
+    test('keeps optimistic local mute when immediate PATCH fails', () async {
       const guildId = 'guild-1';
       const channelId = 'channel-1';
       usersApi = _FakeUsersApi(shouldThrow: true);
       container.dispose();
       container = _createContainer(database: database, usersApi: usersApi);
-      final repo = container.read(guildUserSettingsRepositoryProvider);
+      final GuildUserSettingsRepository repo = container.read(
+        guildUserSettingsRepositoryProvider,
+      );
 
       await expectLater(
         repo.updateChannelOverride(
           guildId: guildId,
           channelId: channelId,
           muted: true,
+          options: _immediateSync,
         ),
         throwsException,
       );
 
       final row = await database.userGuildSettingsDao.getByGuildId(guildId);
-      expect(row, isNull);
+      expect(row, isNotNull);
+      final stored = UserGuildSettingsResponse.fromJson(
+        jsonDecode(row!.data) as Map<String, dynamic>,
+      );
+      expect(stored.channelOverrides?[channelId]?.muted, isTrue);
     });
   });
 }

@@ -260,15 +260,18 @@ class ReadStateRepository {
 
   Future<String?> latestAckableMessageId(String channelId) async {
     final channel = await _db.channelDao.getChannelById(channelId);
+    final channelLastMessageId =
+        channel?.lastMessageId ??
+        (await _db.dmChannelDao.getDmChannelById(channelId))?.lastMessageId;
     final readState = await _db.readStateDao.getReadState(channelId);
     final resolved = await resolveLatestMessageIdForChannel(
       _db,
       channelId,
-      channelLastMessageId: channel?.lastMessageId,
+      channelLastMessageId: channelLastMessageId,
     );
     final latestForUnread = resolveLatestMessageIdForUnread(
       strictLatestMessageId: resolved,
-      channelLastMessageId: channel?.lastMessageId,
+      channelLastMessageId: channelLastMessageId,
       ackLastMessageId: readState?.lastMessageId,
       mentionCount: readState?.mentionCount ?? 0,
     );

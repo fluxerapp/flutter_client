@@ -6,8 +6,8 @@ import 'package:fluxer_app/features/members/domain/member.dart';
 // `FutureProviderFamily` is not exposed by the public API; the explicit type
 // would require a `package:riverpod/src/...` import.
 // ignore: specify_nonobvious_property_types
-final userProfileGuildRolesProvider =
-    FutureProvider.family<List<MemberRole>, String>((ref, guildId) async {
+final userProfileGuildRolesProvider = FutureProvider.autoDispose
+    .family<List<MemberRole>, String>((ref, guildId) async {
       final FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
       final List<Role> rows = await database.roleDao.getRoles(guildId);
       return rows.map(MemberRole.fromRow).toList(growable: false);
@@ -15,21 +15,16 @@ final userProfileGuildRolesProvider =
 
 // Same provider-family type issue as above.
 // ignore: specify_nonobvious_property_types
-final userProfileGuildInfoProvider = FutureProvider.family<Server?, String>((
-  ref,
-  guildId,
-) {
-  final FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
-  return database.guildDao.getServerById(guildId);
-});
+final userProfileGuildInfoProvider = FutureProvider.autoDispose
+    .family<Server?, String>((ref, guildId) {
+      final FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
+      return database.guildDao.getServerById(guildId);
+    });
 
 // Same provider-family type issue as above.
 // ignore: specify_nonobvious_property_types
-final userProfileMutualGuildInfoProvider =
-    FutureProvider.family<Map<String, Server>, String>((
-      ref,
-      guildIdsKey,
-    ) async {
+final userProfileMutualGuildInfoProvider = FutureProvider.autoDispose
+    .family<Map<String, Server>, String>((ref, guildIdsKey) async {
       final FluxerDatabase database = ref.watch(fluxerDatabaseProvider);
       final Map<String, Server> serversById = <String, Server>{};
       final List<String> guildIds = guildIdsKey

@@ -22,6 +22,10 @@ class UserPreferencesTable extends Table {
   BoolColumn get showNeko => boolean().withDefault(const Constant(false))();
   BoolColumn get hideKeyboardHints =>
       boolean().withDefault(const Constant(false))();
+  RealColumn get messageGroupSpacing =>
+      real().withDefault(const Constant(16))();
+  RealColumn get compactMessageGroupSpacing =>
+      real().withDefault(const Constant(0))();
   TextColumn get embedMediaDimensionSize =>
       text().withDefault(const Constant('small'))();
   TextColumn get attachmentMediaDimensionSize =>

@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/system_message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -63,13 +64,15 @@ class _DeleteMessagePreview extends ConsumerWidget {
           child: IgnorePointer(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: MessageItem(
-                message: message,
-                inboxPreviewMode: true,
-                hideMentionHighlight: true,
-                previewRoleGuildId: guildId,
-                currentUserId: ref.watch(currentUserIdProvider),
-              ),
+              child: message.isSystemMessage
+                  ? SystemMessage(message: message, guildId: guildId)
+                  : MessageItem(
+                      message: message,
+                      inboxPreviewMode: true,
+                      hideMentionHighlight: true,
+                      previewRoleGuildId: guildId,
+                      currentUserId: ref.watch(currentUserIdProvider),
+                    ),
             ),
           ),
         ),

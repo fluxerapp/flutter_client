@@ -13,6 +13,7 @@ const String _serviceFcmTemplate =
 const String _entrypointPath = 'lib/core/push/fcm/fcm_entrypoint.dart';
 const String _entrypointFcmTemplate =
     'lib/core/push/fcm/fcm_entrypoint.fcm.dart';
+const String _fcmManifestPath = 'android/app/src/fcm/AndroidManifest.xml';
 
 Future<void> main(List<String> args) async {
   final Directory root = _findProjectRoot(Directory.current);
@@ -27,6 +28,7 @@ Future<void> main(List<String> args) async {
     sourceRelative: _entrypointFcmTemplate,
     targetRelative: _entrypointPath,
   );
+  _verifyFcmManifest(root);
   print('Merged Firebase deps and FCM sources. Run: flutter pub get');
 }
 
@@ -95,6 +97,25 @@ Future<void> _copyTemplate(
   }
   target.writeAsStringSync(source.readAsStringSync());
   print('Wrote $targetRelative');
+}
+
+void _verifyFcmManifest(Directory root) {
+  final File manifest = File('${root.path}/$_fcmManifestPath');
+  if (!manifest.existsSync()) {
+    throw StateError('Missing $_fcmManifestPath');
+  }
+  final String content = manifest.readAsStringSync();
+  if (!content.contains('FluxerFirebaseMessagingService')) {
+    throw StateError(
+      '$_fcmManifestPath must declare FluxerFirebaseMessagingService',
+    );
+  }
+  if (!content.contains('com.google.firebase.MESSAGING_EVENT')) {
+    throw StateError(
+      '$_fcmManifestPath must handle com.google.firebase.MESSAGING_EVENT',
+    );
+  }
+  print('Verified $_fcmManifestPath');
 }
 
 Directory _findProjectRoot(Directory start) {

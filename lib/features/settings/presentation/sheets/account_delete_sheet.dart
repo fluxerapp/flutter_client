@@ -2,8 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/settings/presentation/sheets/guild_ownership_warning_sheet.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -12,7 +15,25 @@ import 'package:fluxer_dart/export.dart';
 class AccountDeleteSheet extends ConsumerStatefulWidget {
   const AccountDeleteSheet({super.key});
 
-  static Future<void> show(BuildContext context, WidgetRef ref) {
+  static Future<void> show(BuildContext context, WidgetRef ref) async {
+    final String? userId = ref.read(currentUserIdProvider);
+    if (userId != null) {
+      final ownedGuilds = await ref
+          .read(guildRepositoryProvider)
+          .getOwnedGuilds(userId);
+      if (ownedGuilds.isNotEmpty) {
+        if (!context.mounted) {
+          return;
+        }
+        return GuildOwnershipWarningSheet.show(
+          context,
+          ownedGuilds: ownedGuilds,
+        );
+      }
+    }
+    if (!context.mounted) {
+      return;
+    }
     return FluxerBottomSheet.show<void>(
       context,
       title: FluxerLocalizations.of(context).dangerZoneDeleteTitle,

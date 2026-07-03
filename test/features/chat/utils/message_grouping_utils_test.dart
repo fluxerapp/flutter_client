@@ -139,4 +139,104 @@ void main() {
       expect(shouldGroupMessages(second, first), isFalse);
     });
   });
+
+  group('leadingGroupSpacing', () {
+    test('returns full spacing for a group start after a non-system row', () {
+      expect(
+        leadingGroupSpacing(
+          isGroupStart: true,
+          isNewDay: false,
+          isUnreadBoundary: false,
+          hasPrevious: true,
+          bothSystem: false,
+          spacing: 16,
+        ),
+        16,
+      );
+    });
+
+    test('returns half spacing between two adjacent system messages', () {
+      expect(
+        leadingGroupSpacing(
+          isGroupStart: true,
+          isNewDay: false,
+          isUnreadBoundary: false,
+          hasPrevious: true,
+          bothSystem: true,
+          spacing: 16,
+        ),
+        8,
+      );
+    });
+
+    test('returns zero within a group', () {
+      expect(
+        leadingGroupSpacing(
+          isGroupStart: false,
+          isNewDay: false,
+          isUnreadBoundary: false,
+          hasPrevious: true,
+          bothSystem: false,
+          spacing: 16,
+        ),
+        0,
+      );
+    });
+
+    test('returns zero on a new day so the divider stands alone', () {
+      expect(
+        leadingGroupSpacing(
+          isGroupStart: true,
+          isNewDay: true,
+          isUnreadBoundary: false,
+          hasPrevious: true,
+          bothSystem: false,
+          spacing: 16,
+        ),
+        0,
+      );
+    });
+
+    test('returns zero at an unread boundary', () {
+      expect(
+        leadingGroupSpacing(
+          isGroupStart: true,
+          isNewDay: false,
+          isUnreadBoundary: true,
+          hasPrevious: true,
+          bothSystem: false,
+          spacing: 16,
+        ),
+        0,
+      );
+    });
+
+    test('returns zero before the first row', () {
+      expect(
+        leadingGroupSpacing(
+          isGroupStart: true,
+          isNewDay: false,
+          isUnreadBoundary: false,
+          hasPrevious: false,
+          bothSystem: false,
+          spacing: 16,
+        ),
+        0,
+      );
+    });
+
+    test('returns zero when spacing is disabled', () {
+      expect(
+        leadingGroupSpacing(
+          isGroupStart: true,
+          isNewDay: false,
+          isUnreadBoundary: false,
+          hasPrevious: true,
+          bothSystem: false,
+          spacing: 0,
+        ),
+        0,
+      );
+    });
+  });
 }

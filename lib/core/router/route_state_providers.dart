@@ -1,84 +1,100 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
+import 'package:fluxer_app/core/router/shell_location_resolver.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'route_state_providers.g.dart';
 
-/// Snapshot of the router's current location plus its derived classification.
-///
-/// Consumers should prefer the dedicated providers ([currentLocationProvider],
-/// [activeGuildIdProvider], [activeChannelIdProvider]) which `select` from
-/// this state so they only rebuild when their field of interest changes.
 @immutable
 class RouteState {
   final String location;
+  final String? activeBranchLocation;
+  final int activeBranchIndex;
   final RouteKind kind;
   final String? guildId;
   final String? channelId;
 
   const RouteState({
     required this.location,
+    required this.activeBranchLocation,
+    required this.activeBranchIndex,
     required this.kind,
     required this.guildId,
     required this.channelId,
   });
 
-  factory RouteState.fromLocation(String location) => RouteState(
-    location: location,
-    kind: classifyRoute(location),
-    guildId: extractGuildId(location),
-    channelId: extractChannelId(location),
-  );
+  String? get shellLocation => activeBranchLocation;
+
+  String get effectiveShellLocation => activeBranchLocation ?? location;
+
+  bool get hasRootOverlay =>
+      activeBranchLocation != null && activeBranchLocation != location;
+
+  factory RouteState.fromRouter(GoRouter router) {
+    final RouteMatchList config = router.routerDelegate.currentConfiguration;
+    final String top = resolveTopLocation(config);
+    final String? branchLocation = resolveActiveBranchLocation(config);
+    final int branchIndex = inferShellBranchIndex(top);
+    final String contextLocation = branchLocation ?? top;
+    return RouteState(
+      location: top,
+      activeBranchLocation: branchLocation,
+      activeBranchIndex: branchIndex,
+      kind: classifyRoute(contextLocation),
+      guildId: extractGuildId(contextLocation),
+      channelId: extractChannelId(contextLocation),
+    );
+  }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is RouteState &&
           location == other.location &&
+          activeBranchLocation == other.activeBranchLocation &&
+          activeBranchIndex == other.activeBranchIndex &&
           kind == other.kind &&
           guildId == other.guildId &&
           channelId == other.channelId);
 
   @override
-  int get hashCode => Object.hash(location, kind, guildId, channelId);
+  int get hashCode => Object.hash(
+    location,
+    activeBranchLocation,
+    activeBranchIndex,
+    kind,
+    guildId,
+    channelId,
+  );
 }
 
-/// Single router-delegate listener that fans the matched location out
-/// into a classified [RouteState]. Replaces three independent listeners
-/// that previously each parsed the location with their own regex.
-///
-/// Prefer this over `GoRouterState.of(context)` — the app shell is
-/// mounted via `StatefulShellRoute.indexedStack.pageBuilder`, and
-/// go_router's state lookup is not available for descendants of a
-/// `pageBuilder`.
 @Riverpod(keepAlive: true)
 class RouteStateNotifier extends _$RouteStateNotifier {
   @override
   RouteState build() {
-    final router = ref.watch(fluxerRouterProvider);
+    final GoRouter router = ref.watch(fluxerRouterProvider);
     void listener() {
-      // Per commit 2451be4: defer the state mutation by a microtask to
-      // prevent "modifying state during build" errors when go_router
-      // notifies its delegate while another widget is mid-build.
-      unawaited(
-        Future(() {
-          state = RouteState.fromLocation(_readLocation(router));
-        }),
-      );
+      void applyRouteState() {
+        state = RouteState.fromRouter(router);
+      }
+
+      final SchedulerPhase phase = SchedulerBinding.instance.schedulerPhase;
+      if (phase == SchedulerPhase.idle ||
+          phase == SchedulerPhase.postFrameCallbacks) {
+        applyRouteState();
+        return;
+      }
+      SchedulerBinding.instance.scheduleFrameCallback((_) {
+        applyRouteState();
+      });
     }
 
     router.routerDelegate.addListener(listener);
     ref.onDispose(() => router.routerDelegate.removeListener(listener));
-    return RouteState.fromLocation(_readLocation(router));
-  }
-
-  static String _readLocation(GoRouter router) {
-    final config = router.routerDelegate.currentConfiguration;
-    return config.isNotEmpty ? config.last.matchedLocation : '/';
+    return RouteState.fromRouter(router);
   }
 }
 
@@ -88,11 +104,33 @@ String currentLocation(Ref ref) {
 }
 
 @Riverpod(keepAlive: true)
+String topLocation(Ref ref) {
+  return ref.watch(routeStateProvider).location;
+}
+
+@Riverpod(keepAlive: true)
+String shellLocation(Ref ref) {
+  return ref.watch(routeStateProvider).effectiveShellLocation;
+}
+
+@Riverpod(keepAlive: true)
+String activeBranchLocation(Ref ref) {
+  return ref.watch(routeStateProvider).effectiveShellLocation;
+}
+
+@Riverpod(keepAlive: true)
+int activeShellBranchIndex(Ref ref) {
+  return ref.watch(routeStateProvider).activeBranchIndex;
+}
+
+@Riverpod(keepAlive: true)
 String? activeGuildId(Ref ref) {
-  return ref.watch(routeStateProvider).guildId;
+  final RouteState state = ref.watch(routeStateProvider);
+  return extractGuildId(state.effectiveShellLocation);
 }
 
 @Riverpod(keepAlive: true)
 String? activeChannelId(Ref ref) {
-  return ref.watch(routeStateProvider).channelId;
+  final RouteState state = ref.watch(routeStateProvider);
+  return extractChannelId(state.effectiveShellLocation);
 }

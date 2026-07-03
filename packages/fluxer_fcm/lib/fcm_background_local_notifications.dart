@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluxer_fcm/fcm_android_system_notification_cancel.dart';
+import 'package:fluxer_fcm/fcm_background_notification_tap_hooks.dart';
+import 'package:fluxer_fcm/fcm_background_notification_display.dart';
 import 'package:fluxer_fcm/fcm_push_message.dart';
 import 'package:fluxer_fcm/fcm_push_notification_ids.dart';
 
@@ -38,7 +41,12 @@ Future<void> ensureFcmBackgroundNotificationsReady() async {
   const InitializationSettings settings = InitializationSettings(
     android: androidSettings,
   );
-  final bool? initialized = await plugin.initialize(settings: settings);
+  final bool? initialized = await plugin.initialize(
+    settings: settings,
+    onDidReceiveNotificationResponse: _onBackgroundNotificationResponse,
+    onDidReceiveBackgroundNotificationResponse:
+        _onBackgroundNotificationResponse,
+  );
   if (initialized != true) {
     if (kDebugMode) {
       debugPrint('[FcmBackgroundNotifications] initialize failed');
@@ -54,6 +62,14 @@ Future<void> ensureFcmBackgroundNotificationsReady() async {
   _isBackgroundNotificationsReady = true;
 }
 
+@pragma('vm:entry-point')
+void _onBackgroundNotificationResponse(NotificationResponse response) {
+  if (kDebugMode) {
+    debugPrint('[FcmBackgroundNotifications] tap payload=${response.payload}');
+  }
+  FcmBackgroundNotificationTapHooks.handleTap(response.payload);
+}
+
 Future<void> showFcmBackgroundNotification(FcmPushMessage message) async {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) {
     return;
@@ -66,31 +82,39 @@ Future<void> showFcmBackgroundNotification(FcmPushMessage message) async {
     }
     return;
   }
-  final String title = message.title ?? kFcmBackgroundNotificationChannelName;
-  final String body = (message.body != null && message.body!.isNotEmpty)
-      ? message.body!
-      : 'New message';
+  final String title = resolveFcmBackgroundNotificationTitle(message);
+  final String body = resolveFcmBackgroundNotificationBody(message);
   final int id = fcmPushMessageNotificationId(message.id);
-  final Map<String, String> payloadWithMessageId = Map<String, String>.from(
-    message.payload,
+  final Map<String, String> payloadWithMessageId = buildFcmBackgroundTapPayload(
+    message,
   );
-  payloadWithMessageId[kFcmLocalNotificationMessageIdKey] = message.id;
+  final Iterable<String> messageIds = collectFcmCandidateMessageIds(
+    messageId: message.id,
+    payload: message.payload,
+  );
   try {
-    await plugin.show(
-      id: id,
-      title: title,
-      body: body,
-      notificationDetails: const NotificationDetails(
-        android: AndroidNotificationDetails(
-          kFcmBackgroundNotificationChannelId,
-          kFcmBackgroundNotificationChannelName,
-          channelDescription: kFcmBackgroundNotificationChannelDescription,
-          importance: Importance.high,
-          priority: Priority.high,
-          icon: kFcmBackgroundNotificationIcon,
-        ),
-      ),
-      payload: jsonEncode(payloadWithMessageId),
+    await deduplicateFcmSystemNotifications(
+      plugin: plugin,
+      messageIds: messageIds,
+      excludeNotificationId: id,
+      showLocalNotification: () async {
+        await plugin.show(
+          id: id,
+          title: title,
+          body: body,
+          notificationDetails: const NotificationDetails(
+            android: AndroidNotificationDetails(
+              kFcmBackgroundNotificationChannelId,
+              kFcmBackgroundNotificationChannelName,
+              channelDescription: kFcmBackgroundNotificationChannelDescription,
+              importance: Importance.high,
+              priority: Priority.high,
+              icon: kFcmBackgroundNotificationIcon,
+            ),
+          ),
+          payload: jsonEncode(payloadWithMessageId),
+        );
+      },
     );
   } on Object catch (error, stackTrace) {
     if (kDebugMode) {

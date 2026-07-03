@@ -281,7 +281,9 @@ class _UserPrivacyDashboardState extends ConsumerState<UserPrivacyDashboard> {
     FluxerLayoutTheme layout,
   ) {
     return FluxerSettingsSection(
-      title: 'Communication',
+      title: FluxerLocalizations.of(
+        context,
+      ).privacyDashboardCommunicationSection,
       description: 'Control who can call you and add you to group chats',
       children: [
         _buildIncomingCallsSubsection(state, colors, layout),

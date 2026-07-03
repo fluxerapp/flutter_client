@@ -237,39 +237,4 @@ class ComposerMentionController extends InlineTokenTextEditingController {
       ensureTrailingSpace: ensureTrailingSpace,
     );
   }
-
-  @override
-  TextSpan buildTextSpan({
-    required BuildContext context,
-    required bool withComposing,
-    TextStyle? style,
-  }) {
-    if (withComposing &&
-        value.composing.isValid &&
-        !value.composing.isCollapsed &&
-        value.isComposingRangeValid) {
-      final TextStyle? composingStyle = style?.merge(
-        const TextStyle(decoration: TextDecoration.underline),
-      );
-      return TextSpan(
-        style: style,
-        children: <TextSpan>[
-          TextSpan(text: value.composing.textBefore(value.text)),
-          TextSpan(
-            style: composingStyle,
-            text: value.text.substring(
-              value.composing.start,
-              value.composing.end,
-            ),
-          ),
-          TextSpan(text: value.composing.textAfter(value.text)),
-        ],
-      );
-    }
-    return super.buildTextSpan(
-      context: context,
-      withComposing: withComposing,
-      style: style,
-    );
-  }
 }

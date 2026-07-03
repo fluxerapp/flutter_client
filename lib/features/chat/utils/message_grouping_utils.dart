@@ -51,3 +51,22 @@ bool shouldGroupMessages(Message current, Message? previous) {
   final Duration diff = current.timestamp.difference(previous.timestamp);
   return diff < messageGroupTimeout;
 }
+
+/// Between-group spacer height (web parity); half between system messages.
+double leadingGroupSpacing({
+  required bool isGroupStart,
+  required bool isNewDay,
+  required bool isUnreadBoundary,
+  required bool hasPrevious,
+  required bool bothSystem,
+  required double spacing,
+}) {
+  if (!isGroupStart ||
+      isNewDay ||
+      isUnreadBoundary ||
+      !hasPrevious ||
+      spacing <= 0) {
+    return 0;
+  }
+  return bothSystem ? spacing / 2 : spacing;
+}

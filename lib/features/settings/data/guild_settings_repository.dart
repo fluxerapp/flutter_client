@@ -27,6 +27,25 @@ class GuildSettingsRepository {
     }
   }
 
+  Future<List<GuildBanResponse>> listBans(String guildId) async {
+    try {
+      return await _client.guilds.listGuildBans(guildId: guildId);
+    } on DioException catch (error) {
+      throw Exception(_messageFromDio(error, 'Failed to load bans'));
+    }
+  }
+
+  Future<void> unbanMember({
+    required String guildId,
+    required String userId,
+  }) async {
+    try {
+      await _client.guilds.unbanGuildMember(guildId: guildId, userId: userId);
+    } on DioException catch (error) {
+      throw Exception(_messageFromDio(error, 'Failed to revoke ban'));
+    }
+  }
+
   Future<GuildAuditLogPage> listAuditLogs({
     required String guildId,
     int limit = 50,

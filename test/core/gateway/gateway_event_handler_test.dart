@@ -388,6 +388,45 @@ void main() {
       expect(member, isNull);
     });
   });
+
+  group('USER_PINNED_DMS_UPDATE', () {
+    test('replaces pinned DM rows with gateway order', () async {
+      final database = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(database.close);
+      final handler = GatewayEventHandler(database: database);
+
+      await handler.handle(
+        const UserPinnedDmsUpdateEvent(pinnedDmChannelIds: ['ch-1', 'ch-2']),
+      );
+      await pumpEventQueue();
+
+      final pinnedDms = await database.pinnedDmsDao.getPinnedDms();
+      expect(pinnedDms, hasLength(2));
+      expect(pinnedDms[0].channelId, 'ch-1');
+      expect(pinnedDms[0].position, 0);
+      expect(pinnedDms[1].channelId, 'ch-2');
+      expect(pinnedDms[1].position, 1);
+    });
+
+    test('clears pinned DM rows when list is empty', () async {
+      final database = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(database.close);
+      final handler = GatewayEventHandler(database: database);
+
+      await handler.handle(
+        const UserPinnedDmsUpdateEvent(pinnedDmChannelIds: ['ch-1']),
+      );
+      await pumpEventQueue();
+
+      await handler.handle(
+        const UserPinnedDmsUpdateEvent(pinnedDmChannelIds: []),
+      );
+      await pumpEventQueue();
+
+      final pinnedDms = await database.pinnedDmsDao.getPinnedDms();
+      expect(pinnedDms, isEmpty);
+    });
+  });
 }
 
 UserPrivateResponse _user() => UserPrivateResponse.fromJson({

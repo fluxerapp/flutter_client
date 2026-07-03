@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
-import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
+import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 
 /// Navigates to [path] using `go()` and pre-sets the mobile drawer for
 /// chat-route targets so re-tapping the active channel still closes the
@@ -12,23 +10,21 @@ import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 /// Use this from widgets. For non-context call sites (notifiers,
 /// providers, deep-link handlers) use [navigateToContentVia].
 void navigateToContent(BuildContext context, String path) {
-  final container = ProviderScope.containerOf(context);
-  final eager = eagerRevealSideFor(path);
-  if (eager != null) {
-    container.read(currentRevealSideProvider.notifier).set(eager);
-    container.read(drawerRevealSyncTriggerProvider.notifier).nudge();
-  }
-  container.read(fluxerRouterProvider).go(path);
+  final ProviderContainer container = ProviderScope.containerOf(context);
+  DrawerNavigationCoordinator.navigateToContent(container, path);
 }
 
 /// Same as [navigateToContent] but for call sites that hold a Riverpod
 /// [Ref] instead of a [BuildContext] (e.g. notifiers, deep-link handlers,
 /// non-widget providers).
-void navigateToContentVia(Ref ref, String path) {
-  final eager = eagerRevealSideFor(path);
-  if (eager != null) {
-    ref.read(currentRevealSideProvider.notifier).set(eager);
-    ref.read(drawerRevealSyncTriggerProvider.notifier).nudge();
-  }
-  ref.read(fluxerRouterProvider).go(path);
+void navigateToContentVia(WidgetRef ref, String path) {
+  DrawerNavigationCoordinator.navigateToContent(ref.container, path);
+}
+
+void navigateToContentViaRef(Ref ref, String path) {
+  DrawerNavigationCoordinator.navigateToContent(ref.container, path);
+}
+
+void navigateToContentViaContainer(ProviderContainer container, String path) {
+  DrawerNavigationCoordinator.navigateToContent(container, path);
 }

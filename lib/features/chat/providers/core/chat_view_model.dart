@@ -37,8 +37,12 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_s
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:dio/dio.dart';
+import 'package:fluxer_app/core/api/dio_error_message.dart';
 import 'package:fluxer_app/features/chat/utils/client_nonce.dart';
+import 'package:fluxer_app/features/chat/utils/client_system_message.dart';
 import 'package:fluxer_app/features/chat/utils/composer_command.dart';
+import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/chat/utils/guild_composer_barrier_l10n.dart';
 import 'package:fluxer_app/features/chat/utils/mention_reply_preference_utils.dart';
@@ -1057,9 +1061,10 @@ class ChatViewModel extends _$ChatViewModel {
       mentionCount: readState?.mentionCount ?? 0,
       isGuildChannel: channel != null,
     );
-    if (hasChannelLevelUnread) {
+    if (hasChannelLevelUnread && channel != null) {
       return;
     }
+    _readViewportNearBottom = true;
     unawaited(ackCurrentChannel());
   }
 
@@ -2052,7 +2057,7 @@ class ChatViewModel extends _$ChatViewModel {
         error,
         st,
       );
-      _markOptimisticSendFailed(optimisticMessageId);
+      _handleSendFailure(optimisticMessageId, error);
     }
   }
 
@@ -2128,7 +2133,7 @@ class ChatViewModel extends _$ChatViewModel {
       uploadNotifier
         ..restoreToComposer(clientNonce)
         ..removeMessageUpload(clientNonce);
-      _markOptimisticSendFailed(optimisticMessageId);
+      _handleSendFailure(optimisticMessageId, error);
     }
   }
 
@@ -2202,7 +2207,7 @@ class ChatViewModel extends _$ChatViewModel {
         );
   }
 
-  void _markOptimisticSendFailed(String optimisticMessageId) {
+  void _handleSendFailure(String optimisticMessageId, Object error) {
     final FluxerLocalizations l10n = lookupFluxerLocalizationsWithFallback(
       PlatformDispatcher.instance.locale,
     );
@@ -2210,16 +2215,53 @@ class ChatViewModel extends _$ChatViewModel {
     final int optimisticIndex = state.messages.indexWhere(
       (Message m) => m.id == optimisticMessageId,
     );
+    List<Message> nextMessages;
+    if (optimisticIndex == -1) {
+      nextMessages = List<Message>.from(state.messages);
+    } else {
+      nextMessages = List<Message>.from(state.messages);
+      nextMessages[optimisticIndex] = nextMessages[optimisticIndex].copyWith(
+        deliveryState: MessageDeliveryState.failed,
+        sendError: failedMessage,
+      );
+    }
+    final String? apiErrorCode = error is DioException
+        ? apiErrorCodeFromDioException(error)
+        : null;
+    final String? systemMessageContent = clientSystemMessageForSendError(
+      apiErrorCode: apiErrorCode,
+      l10n: l10n,
+    );
+    if (systemMessageContent != null) {
+      nextMessages.add(
+        createClientSystemMessage(
+          channelId: state.channelId,
+          content: systemMessageContent,
+        ),
+      );
+      state = state.copyWith(messages: nextMessages);
+      return;
+    }
     if (optimisticIndex == -1) {
       state = state.copyWith(errorMessage: failedMessage);
       return;
     }
-    final List<Message> nextMessages = List<Message>.from(state.messages);
-    nextMessages[optimisticIndex] = nextMessages[optimisticIndex].copyWith(
-      deliveryState: MessageDeliveryState.failed,
-      sendError: failedMessage,
-    );
     state = state.copyWith(messages: nextMessages, errorMessage: failedMessage);
+  }
+
+  void dismissClientSystemMessage(String messageId) {
+    final int messageIndex = state.messages.indexWhere(
+      (Message m) => m.id == messageId,
+    );
+    if (messageIndex == -1 ||
+        !state.messages[messageIndex].isClientSystemMessage) {
+      return;
+    }
+    final List<Message>? next = _removeIds(state.messages, {messageId});
+    if (next == null) {
+      return;
+    }
+    state = state.copyWith(messages: next);
   }
 
   void cancelSendingMessage(String messageId) {
@@ -2284,8 +2326,12 @@ class ChatViewModel extends _$ChatViewModel {
         ),
       );
       state = state.copyWith(messages: nextMessages);
-    } on Exception catch (e) {
+    } on Object catch (e) {
       debugPrint('[ChatViewModel] Retry failed: $e');
+      final FluxerLocalizations l10n = lookupFluxerLocalizationsWithFallback(
+        PlatformDispatcher.instance.locale,
+      );
+      final String failedMessage = l10n.chatMessageFailedToSend;
       final List<Message> nextMessages = List<Message>.from(state.messages);
       final int latestIndex = nextMessages.indexWhere(
         (m) => m.id == message.id,
@@ -2295,11 +2341,28 @@ class ChatViewModel extends _$ChatViewModel {
       }
       nextMessages[latestIndex] = nextMessages[latestIndex].copyWith(
         deliveryState: MessageDeliveryState.failed,
-        sendError: 'Failed to send message',
+        sendError: failedMessage,
       );
+      final String? apiErrorCode = e is DioException
+          ? apiErrorCodeFromDioException(e)
+          : null;
+      final String? systemMessageContent = clientSystemMessageForSendError(
+        apiErrorCode: apiErrorCode,
+        l10n: l10n,
+      );
+      if (systemMessageContent != null) {
+        nextMessages.add(
+          createClientSystemMessage(
+            channelId: message.channelId,
+            content: systemMessageContent,
+          ),
+        );
+        state = state.copyWith(messages: nextMessages);
+        return;
+      }
       state = state.copyWith(
         messages: nextMessages,
-        errorMessage: 'Failed to send message',
+        errorMessage: failedMessage,
       );
     }
   }

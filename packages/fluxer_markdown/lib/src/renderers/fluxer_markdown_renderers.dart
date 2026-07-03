@@ -16,6 +16,7 @@ import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/inline_parse_chunks.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
+import 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
 import 'package:intl/intl.dart';
@@ -96,6 +97,22 @@ final MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>
 _inlineNodeCache =
     MarkdownParseCache<(String, FluxerMarkdownFeatures), List<md.Node>>();
 
+void appendTrailingInlineWidget(
+  List<InlineSpan> spans,
+  TextStyle baseStyle,
+  Widget trailingInlineWidget,
+) {
+  spans
+    ..add(TextSpan(text: ' ', style: baseStyle))
+    ..add(
+      WidgetSpan(
+        alignment: PlaceholderAlignment.baseline,
+        baseline: TextBaseline.alphabetic,
+        child: trailingInlineWidget,
+      ),
+    );
+}
+
 Widget buildFluxerMarkdownTextFlow({
   required BuildContext context,
   required String text,
@@ -108,20 +125,32 @@ Widget buildFluxerMarkdownTextFlow({
   String? parseCacheKey,
   int? maxLines,
   TextOverflow? overflow,
+  Widget? trailingInlineWidget,
+  bool allowJumboEmoji = true,
 }) {
   if (text.isEmpty) {
     return const SizedBox.shrink();
   }
   final chunks = splitIntoInlineParseChunks(text);
+  final chunkNodesList = <List<md.Node>>[];
+  for (final chunk in chunks) {
+    chunkNodesList.add(
+      _inlineNodeCache.resolve((
+        markdownParseCacheKey(chunk, parseCacheKey),
+        features,
+      ), () => inlineDocument.parseInline(chunk)),
+    );
+  }
+  final useJumbo =
+      allowJumboEmoji &&
+      features.allowJumboEmoji &&
+      _textFlowAllowsJumboEmoji(chunkNodesList);
   final spans = <InlineSpan>[];
   for (var i = 0; i < chunks.length; i++) {
     if (i > 0) {
       spans.add(TextSpan(text: '\n', style: baseStyle));
     }
-    final chunkNodes = _inlineNodeCache.resolve((
-      markdownParseCacheKey(chunks[i], parseCacheKey),
-      features,
-    ), () => inlineDocument.parseInline(chunks[i]));
+    final chunkNodes = chunkNodesList[i];
     if (chunkNodes.isEmpty) {
       continue;
     }
@@ -131,22 +160,28 @@ Widget buildFluxerMarkdownTextFlow({
       config: config,
       features: features,
       isDark: isDark,
-      jumbo: features.allowJumboEmoji && _allNodesAreEmoji(chunkNodes),
+      jumbo: useJumbo,
     ).build(chunkNodes);
     spans.addAll(chunkSpans);
   }
   if (spans.isEmpty) {
     return const SizedBox.shrink();
   }
-  final body = RichText(
+  if (trailingInlineWidget != null) {
+    appendTrailingInlineWidget(spans, baseStyle, trailingInlineWidget);
+  }
+  final RichText richText = RichText(
     text: TextSpan(style: baseStyle, children: spans),
     textScaler: MediaQuery.textScalerOf(context),
     maxLines: maxLines,
     overflow: overflow ?? TextOverflow.clip,
-    textWidthBasis: maxLines != null
+    textWidthBasis: trailingInlineWidget != null || maxLines != null
         ? TextWidthBasis.parent
         : TextWidthBasis.longestLine,
   );
+  final Widget body = trailingInlineWidget != null
+      ? SizedBox(width: double.infinity, child: richText)
+      : richText;
   if (!selectable) {
     return body;
   }
@@ -213,7 +248,7 @@ class _MarkdownBlockRenderer {
       case 'h1':
         return _buildParagraph(
           node.children ?? const [],
-          style: baseStyle.copyWith(fontSize: 24, fontWeight: FontWeight.w700),
+          style: baseStyle.copyWith(fontSize: 22, fontWeight: FontWeight.w700),
         );
       case 'h2':
         return _buildParagraph(
@@ -224,6 +259,11 @@ class _MarkdownBlockRenderer {
         return _buildParagraph(
           node.children ?? const [],
           style: baseStyle.copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+        );
+      case 'h4':
+        return _buildParagraph(
+          node.children ?? const [],
+          style: baseStyle.copyWith(fontSize: 16, fontWeight: FontWeight.w600),
         );
       case 'blockquote':
         return _buildBlockquote(node);
@@ -256,7 +296,8 @@ class _MarkdownBlockRenderer {
       config: config,
       features: features,
       isDark: isDark,
-      jumbo: features.allowJumboEmoji && _allNodesAreEmoji(nodes),
+      jumbo:
+          style == null && features.allowJumboEmoji && _allNodesAreEmoji(nodes),
     ).build(nodes);
 
     if (spans.isEmpty) {
@@ -366,12 +407,22 @@ class _MarkdownBlockRenderer {
     final children = item.children ?? const <md.Node>[];
     final content = <Widget>[];
     final nestedBlocks = <Widget>[];
+    final inlineBuffer = <md.Node>[];
+
+    void flushInlineBuffer() {
+      if (inlineBuffer.isEmpty) {
+        return;
+      }
+      content.add(_buildParagraph(List<md.Node>.from(inlineBuffer)));
+      inlineBuffer.clear();
+    }
 
     for (final child in children) {
       if (child is md.Element &&
           (child.tag == 'ul' ||
               child.tag == 'ol' ||
               child.tag == 'blockquote')) {
+        flushInlineBuffer();
         final nested = buildBlock(child);
         if (nested != null) {
           nestedBlocks.add(nested);
@@ -380,15 +431,24 @@ class _MarkdownBlockRenderer {
       }
 
       if (child is md.Element && child.tag == 'p') {
+        flushInlineBuffer();
         content.add(_buildParagraph(child.children ?? const []));
         continue;
       }
 
+      if (_isInlineListNode(child)) {
+        inlineBuffer.add(child);
+        continue;
+      }
+
+      flushInlineBuffer();
       final block = buildBlock(child);
       if (block != null) {
         content.add(block);
       }
     }
+
+    flushInlineBuffer();
 
     final body = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -550,6 +610,18 @@ class _MarkdownInlineRenderer {
           children: build(node.children ?? const [], style: underlineStyle),
         );
       case 'code':
+        if (features.allowPlainInlineCode) {
+          final double fontSize = effectiveStyle.fontSize ?? 16;
+          return TextSpan(
+            text: node.textContent,
+            style: effectiveStyle.copyWith(
+              color: config.inlineCodeTextColor,
+              backgroundColor: config.inlineCodeBackgroundColor,
+              fontFamily: 'monospace',
+              fontSize: fontSize * 0.85,
+            ),
+          );
+        }
         return WidgetSpan(
           alignment: PlaceholderAlignment.middle,
           child: FluxerInlineCodeWidget(
@@ -653,14 +725,38 @@ class _MarkdownInlineRenderer {
       return TextSpan(text: '[$text]($href)', style: style);
     }
     final linkColor = config.linkColor ?? Theme.of(context).colorScheme.primary;
+    final linkStyle = style.copyWith(color: linkColor);
+    final children = _attachLinkRecognizers(
+      build(element.children ?? [md.Text(text)], style: linkStyle),
+      href,
+    );
+    return TextSpan(style: linkStyle, children: children);
+  }
 
+  List<InlineSpan> _attachLinkRecognizers(List<InlineSpan> spans, String href) {
+    return spans
+        .map((InlineSpan span) => _attachLinkRecognizerToSpan(span, href))
+        .toList();
+  }
+
+  InlineSpan _attachLinkRecognizerToSpan(InlineSpan span, String href) {
+    if (span is! TextSpan) {
+      return span;
+    }
+    final List<InlineSpan>? children = span.children;
+    if (children == null || children.isEmpty) {
+      return TextSpan(
+        text: span.text,
+        style: span.style,
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            unawaited(_handleLinkTap(href));
+          },
+      );
+    }
     return TextSpan(
-      text: text,
-      style: style.copyWith(color: linkColor, decoration: TextDecoration.none),
-      recognizer: TapGestureRecognizer()
-        ..onTap = () {
-          unawaited(_handleLinkTap(href));
-        },
+      style: span.style,
+      children: _attachLinkRecognizers(children, href),
     );
   }
 
@@ -724,33 +820,69 @@ class _MarkdownInlineRenderer {
   }
 }
 
-bool _allNodesAreEmoji(List<md.Node> nodes) {
-  var hasEmoji = false;
-  var emojiCount = 0;
+class _EmojiOnlyAnalysis {
+  const _EmojiOnlyAnalysis({
+    required this.isEmojiOnly,
+    required this.emojiCount,
+  });
 
+  final bool isEmojiOnly;
+  final int emojiCount;
+}
+
+_EmojiOnlyAnalysis _analyzeEmojiOnlyNodes(List<md.Node> nodes) {
+  var emojiCount = 0;
   for (final node in nodes) {
     if (node is md.Text) {
       if (node.text.trim().isNotEmpty) {
-        return false;
+        return const _EmojiOnlyAnalysis(isEmojiOnly: false, emojiCount: 0);
       }
       continue;
     }
-
     if (node is! md.Element) {
-      return false;
+      return const _EmojiOnlyAnalysis(isEmojiOnly: false, emojiCount: 0);
     }
-
     if (node.tag == FluxerUnicodeEmojiToneSyntax.tag ||
         node.tag == FluxerCustomEmojiSyntax.tag) {
-      hasEmoji = true;
       emojiCount++;
       continue;
     }
-
-    return false;
+    return const _EmojiOnlyAnalysis(isEmojiOnly: false, emojiCount: 0);
   }
+  return _EmojiOnlyAnalysis(isEmojiOnly: true, emojiCount: emojiCount);
+}
 
-  return hasEmoji && emojiCount <= kFluxerMarkdownJumboMaxCount;
+bool _allNodesAreEmoji(List<md.Node> nodes) {
+  final _EmojiOnlyAnalysis analysis = _analyzeEmojiOnlyNodes(nodes);
+  return analysis.isEmojiOnly &&
+      analysis.emojiCount > 0 &&
+      analysis.emojiCount <= kFluxerMarkdownJumboMaxCount;
+}
+
+bool _textFlowAllowsJumboEmoji(List<List<md.Node>> chunkNodes) {
+  var totalEmojiCount = 0;
+  for (final List<md.Node> nodes in chunkNodes) {
+    if (nodes.isEmpty) {
+      continue;
+    }
+    final _EmojiOnlyAnalysis analysis = _analyzeEmojiOnlyNodes(nodes);
+    if (!analysis.isEmojiOnly) {
+      return false;
+    }
+    totalEmojiCount += analysis.emojiCount;
+  }
+  return totalEmojiCount >= 1 &&
+      totalEmojiCount <= kFluxerMarkdownJumboMaxCount;
+}
+
+bool _isInlineListNode(md.Node node) {
+  if (node is md.Text) {
+    return true;
+  }
+  if (node is md.Element) {
+    return _isInlineOnlyTag(node.tag);
+  }
+  return false;
 }
 
 bool _isInlineOnlyTag(String tag) {
@@ -1014,7 +1146,9 @@ class FluxerCodeBlockWidget extends StatelessWidget {
       codeBody = HighlightView(
         code,
         language: knownLang,
-        theme: isDark ? vs2015Theme : githubTheme,
+        theme: isDark
+            ? kVs2015CodeBlockHighlightTheme
+            : kGithubCodeBlockHighlightTheme,
         padding: _kPadding,
         textStyle: baseStyle.copyWith(
           fontFamily: 'monospace',
@@ -1201,7 +1335,7 @@ class FluxerEmojiWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = jumbo
         ? kFluxerMarkdownEmojiSizeJumbo
-        : (baseStyle.fontSize ?? 16) * 1.375;
+        : (baseStyle.fontSize ?? 16) * kFluxerMarkdownEmojiSizeMultiplier;
     if (element.tag == FluxerCustomEmojiSyntax.tag) {
       return _buildCustom(size);
     }

@@ -624,8 +624,8 @@ class MessageRepository {
 
       final Message sent = await _postMessage(channelId, body);
       return sent;
-    } on DioException catch (e) {
-      throw Exception(dioExceptionMessage(e, 'Failed to send message'));
+    } on DioException {
+      rethrow;
     }
   }
 

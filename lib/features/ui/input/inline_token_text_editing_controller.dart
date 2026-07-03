@@ -217,42 +217,111 @@ class InlineTokenTextEditingController extends TextEditingController {
   static bool _isWhitespace(String char) =>
       char == ' ' || char == '\n' || char == '\t';
 
+  static void _appendPlainTextSpans(
+    List<InlineSpan> children,
+    String text,
+    int start,
+    int end,
+    TextStyle? style,
+    TextRange? composing,
+    TextStyle? composingStyle,
+  ) {
+    if (start >= end) {
+      return;
+    }
+    if (composing == null || composingStyle == null) {
+      children.add(TextSpan(text: text.substring(start, end), style: style));
+      return;
+    }
+    final int compStart = composing.start.clamp(start, end);
+    final int compEnd = composing.end.clamp(start, end);
+    if (start < compStart) {
+      children.add(
+        TextSpan(text: text.substring(start, compStart), style: style),
+      );
+    }
+    if (compStart < compEnd) {
+      children.add(
+        TextSpan(
+          text: text.substring(compStart, compEnd),
+          style: composingStyle,
+        ),
+      );
+    }
+    if (compEnd < end) {
+      children.add(TextSpan(text: text.substring(compEnd, end), style: style));
+    }
+  }
+
+  static int _nextPlainTextOffset(String text, int index) {
+    if (index >= text.length) {
+      return index;
+    }
+    final int codeUnit = text.codeUnitAt(index);
+    if (codeUnit >= 0xD800 && codeUnit <= 0xDBFF && index + 1 < text.length) {
+      return index + 2;
+    }
+    return index + 1;
+  }
+
   @override
   TextSpan buildTextSpan({
     required BuildContext context,
     required bool withComposing,
     TextStyle? style,
   }) {
+    assert(
+      !value.composing.isValid || !withComposing || value.isComposingRangeValid,
+    );
     final String t = text;
     if (t.isEmpty) {
       return TextSpan(style: style, text: '');
     }
+    final bool useComposing =
+        withComposing &&
+        value.composing.isValid &&
+        !value.composing.isCollapsed &&
+        value.isComposingRangeValid;
+    final TextRange? composing = useComposing ? value.composing : null;
+    final TextStyle? composingStyle = useComposing
+        ? style?.merge(const TextStyle(decoration: TextDecoration.underline))
+        : null;
     final List<InlineSpan> children = <InlineSpan>[];
-    final StringBuffer buffer = StringBuffer();
-
-    void flushBuffer() {
-      if (buffer.isNotEmpty) {
-        children.add(TextSpan(text: buffer.toString(), style: style));
-        buffer.clear();
-      }
-    }
-
-    for (final int rune in t.runes) {
-      final String char = String.fromCharCode(rune);
-      final InlineToken? token = _tokens[char];
+    int plainStart = 0;
+    int index = 0;
+    while (index < t.length) {
+      final InlineToken? token = _tokens[t[index]];
       if (token != null) {
-        flushBuffer();
+        _appendPlainTextSpans(
+          children,
+          t,
+          plainStart,
+          index,
+          style,
+          composing,
+          composingStyle,
+        );
         children.add(
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,
             child: token.buildInline(context, style),
           ),
         );
-      } else {
-        buffer.write(char);
+        index += 1;
+        plainStart = index;
+        continue;
       }
+      index = _nextPlainTextOffset(t, index);
     }
-    flushBuffer();
+    _appendPlainTextSpans(
+      children,
+      t,
+      plainStart,
+      t.length,
+      style,
+      composing,
+      composingStyle,
+    );
     return TextSpan(style: style, children: children);
   }
 }

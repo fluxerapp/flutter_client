@@ -240,6 +240,62 @@ void main() {
     expect(decoded.version, 2);
   });
 
+  test(
+    'user guild settings update preserves overrides when channel_overrides is null',
+    () async {
+      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+      await db.userGuildSettingsDao.upsert(
+        UserGuildSettingsTableCompanion.insert(
+          guildId: 'guild-1',
+          data: jsonEncode(
+            const UserGuildSettingsResponse(
+              guildId: 'guild-1',
+              messageNotifications: UserNotificationSettings.onlyMentions,
+              muted: false,
+              muteConfig: null,
+              mobilePush: true,
+              suppressEveryone: true,
+              suppressRoles: false,
+              hideMutedChannels: false,
+              channelOverrides: {
+                'channel-1': ChannelOverrides(
+                  collapsed: false,
+                  messageNotifications: UserNotificationSettings.inherit,
+                  muted: true,
+                  muteConfig: null,
+                ),
+              },
+              version: 1,
+            ).toJson(),
+          ),
+        ),
+      );
+      final handler = GatewayEventHandler(database: db, currentUserId: 'me');
+
+      await handler.handle(
+        const UserGuildSettingsUpdateEvent(
+          guildId: 'guild-1',
+          data: <String, dynamic>{
+            'guild_id': 'guild-1',
+            'muted': true,
+            'channel_overrides': null,
+            'version': 2,
+          },
+        ),
+      );
+      await pumpEventQueue();
+
+      final row = await db.userGuildSettingsDao.getByGuildId('guild-1');
+      final decoded = UserGuildSettingsResponse.fromJson(
+        jsonDecode(row!.data) as Map<String, dynamic>,
+      );
+      expect(decoded.muted, isTrue);
+      expect(decoded.channelOverrides?['channel-1']?.muted, isTrue);
+      expect(decoded.version, 2);
+    },
+  );
+
   test('own created messages locally ack the channel', () async {
     final db = FluxerDatabase.forTesting(NativeDatabase.memory());
     addTearDown(db.close);
@@ -767,37 +823,50 @@ void main() {
     );
   });
 
-  test('dm last message clears but unread count persists when only message is '
-      'deleted', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
-    final messageId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
-    await db.dmChannelDao.upsertDmChannels([
-      DmChannelsCompanion.insert(
-        id: 'dm-1',
-        recipientId: 'other',
-        recipientIds: const Value('["other"]'),
-      ),
-    ]);
-    final handler = GatewayEventHandler(database: db, currentUserId: 'me');
+  test(
+    'dm stays hoisted and unread when its newest message is deleted',
+    () async {
+      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+      final olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+      final newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.dmChannelDao.upsertDmChannels([
+        DmChannelsCompanion.insert(
+          id: 'dm-1',
+          recipientId: 'other',
+          recipientIds: const Value('["other"]'),
+          lastMessageId: Value(olderId),
+          lastMessageTime: Value(dateTimeFromUserSnowflakeOrNull(olderId)!),
+        ),
+      ]);
+      await db.messageDao.upsertMessages([
+        _cachedMessage(id: olderId, channelId: 'dm-1', authorId: 'other'),
+      ]);
+      final handler = GatewayEventHandler(database: db, currentUserId: 'me');
 
-    await handler.handle(
-      MessageCreateEvent(
-        message: _message(id: messageId, channelId: 'dm-1', authorId: 'other'),
-      ),
-    );
+      await handler.handle(
+        MessageCreateEvent(
+          message: _message(id: newerId, channelId: 'dm-1', authorId: 'other'),
+        ),
+      );
+      await handler.handle(
+        MessageDeleteEvent(channelId: 'dm-1', messageId: newerId),
+      );
+      await pumpEventQueue();
 
-    await handler.handle(
-      MessageDeleteEvent(channelId: 'dm-1', messageId: messageId),
-    );
-    await pumpEventQueue();
-
-    final dm = await db.dmChannelDao.getDmChannelById('dm-1');
-    final readState = await db.readStateDao.getReadState('dm-1');
-    expect(dm?.lastMessageId, isNull);
-    expect(dm?.unreadCount, 1);
-    expect(readState?.mentionCount, 1);
-  });
+      final dm = await db.dmChannelDao.getDmChannelById('dm-1');
+      final readState = await db.readStateDao.getReadState('dm-1');
+      expect(dm?.lastMessageId, newerId);
+      expect(
+        dm?.lastMessageTime.isAtSameMomentAs(
+          dateTimeFromUserSnowflakeOrNull(newerId)!,
+        ),
+        isTrue,
+      );
+      expect(dm?.unreadCount, 1);
+      expect(readState?.mentionCount, 1);
+    },
+  );
 
   test(
     'muted incoming DM updates unread presence without mention badge',

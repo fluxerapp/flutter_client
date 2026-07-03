@@ -10,13 +10,16 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_settings_details
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/guild_settings_nav_page.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_state.dart';
+import 'package:fluxer_app/features/settings/domain/guild/guild_bans_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_widget.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/bans/guild_bans_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_access_gate.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_page_shell.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/moderation/guild_moderation_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/overview/guild_overview_widget.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_audit_log_provider.dart';
+import 'package:fluxer_app/features/settings/providers/guild/guild_bans_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -221,6 +224,16 @@ class GuildSettingsTabBody extends ConsumerWidget {
         scrollController: scrollController,
         data: (GuildAuditLogState state) =>
             GuildAuditLogWidget(guildId: guildId, state: state),
+      ),
+      GuildSettingsTab.bans => GuildSettingsAsyncBody<GuildBansState>(
+        value: ref.watch(guildBansProvider(guildId)),
+        scrollController: scrollController,
+        usesSettingsSheet: true,
+        data: (GuildBansState state) => GuildBansWidget(
+          guildId: guildId,
+          state: state,
+          scrollController: scrollController,
+        ),
       ),
       _ => const SizedBox.shrink(),
     };

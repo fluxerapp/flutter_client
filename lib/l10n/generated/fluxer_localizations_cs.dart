@@ -9,146 +9,147 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   FluxerLocalizationsCs([String locale = 'cs']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'Něco jsme pokazili!';
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Něco je špatně se servery.\nMělo by se to za chvilku opravit!';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => 'Připojování…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => 'Připojeno';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return 'Spuštění selhalo: $error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'Zkusit znovu';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => 'Spojení ztraceno';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'Zobrazit na stránce stavu';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => 'Problémy s připojením?';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'Stránka stavu';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'Přečíst incident';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'Historie incidentů';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => 'Vítejte zpět';
 
   @override
-  String get email => 'Email';
+  String get email => 'E-mail';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => 'Zadejte platnou e-mailovou adresu.';
 
   @override
-  String get password => 'Password';
+  String get password => 'Heslo';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'Zapomněli jste heslo?';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'Přihlásit se';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => 'Přihlásit se pomocí klíče';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return 'Pokračovat s $provider';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired => 'Pro přístup k této instanci je vyžadováno SSO.';
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'Přihlaste se pomocí poskytovatele jednotného přihlašování vaší organizace.';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => 'Spuštění SSO selhalo';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'Přihlášení SSO bylo zrušeno';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return 'Preferujete SSO? Pokračujte s $provider.';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => 'Přihlásit se přes prohlížeč';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => 'Potřebujete účet? ';
 
   @override
-  String get register => 'Register';
+  String get register => 'Registrovat';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => 'Ověřte, že jste člověk';
 
   @override
   String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+      'Musíme se ujistit, že nejste robot. Dokončete prosím ověření níže.';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha =>
+      'Máte problémy? Zkuste místo toho hCaptcha';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile => 'Zkuste místo toho Turnstile';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Zrušit';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'Zkontrolujte svůj e-mail';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'Poslali jsme e-mail s odkazem pro autorizaci tohoto přihlášení. Otevřete si prosím schránku pro $email.';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => 'Spojení ztraceno';
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'Ztratili jsme spojení při čekání na autorizaci. Zkuste to prosím znovu.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => 'Platnost odkazu pro přihlášení vypršela';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'Platnost tohoto odkazu pro autorizaci vypršela. Znovu se prosím přihlaste.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'Znovu poslat e-mail';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'Znovu odesláno';
 
   @override
   String ipAuthResendCountdown(int seconds) {
@@ -156,949 +157,1000 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'Zpět';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => 'Dvoufaktorové ověření';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => 'Vyberte metodu ověření';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'Aplikace pro ověření';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => 'Bezpečnostní klíč / Klíč';
 
   @override
   String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+      'Zadejte 6místný kód z vaší aplikace pro ověření nebo jeden z vašich záložních kódů.';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => 'Kód';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'Zkusit jinou metodu';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey =>
+      'Zkusit místo toho bezpečnostní klíč / přístupový klíč';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'Vyberte účet';
 
   @override
   String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+      'Vyberte účet pro pokračování nebo přidejte jiný.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'Přidat účet';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => 'Odebrat';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return 'Odebrat účet $username';
   }
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'Tímto odeberete uloženou relaci pro tento účet.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+      'Tímto odeberete jediný uložený účet na tomto zařízení.';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'Platnost vypršela';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return 'Platnost relace pro $identifier vypršela. Přihlaste se znovu.';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => 'Spravovat účty';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed =>
+      'Nepodařilo se přepnout účty. Zkuste to znovu.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => 'Přepnout účty';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => 'Nastavit stav';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => 'Stav online';
 
   @override
   String get statusOnline => 'Online';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => 'Nečinný';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => 'Nerušit';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => 'Neviditelný';
 
   @override
   String get statusOffline => 'Offline';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => 'Dokud ho nezměním';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'Neodstranit';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => 'Na 10 sekund';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 sekund';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 minut';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 minut';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 hodina';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 hodiny';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 hodiny';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 hodin';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 hodin';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 dny';
 
   @override
-  String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+  String get statusDndDescription => 'Nebudete dostávat oznámení na ploše';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => 'Budete se zobrazovat jako offline';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => 'Nastavit vlastní stav';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => 'Vlastní stav';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => 'Vymazat vlastní stav';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'Co se děje?';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'Vybrat emoji';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'Vymazat po';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => 'Uložit';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => 'Aktivní účet';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'Odhlásit se';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => 'Účet trvale pozastaven';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => 'Účet pozastaven';
 
   @override
   String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+      'Váš účet byl trvale pozastaven za porušení našich Podmínek služby.';
 
   @override
   String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+      'Váš účet byl dočasně pozastaven. K účtu budete mít přístup po skončení období pozastavení.';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => 'Vydáno';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => 'Končí';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => 'Doba trvání';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedPermanent => 'Trvalý';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => 'Důvod';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => 'Termín odvolání';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return 'Váš účet je naplánován ke smazání $date.';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => 'Zkontrolovat aktualizace';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return 'Zkusit znovu za ${seconds}s';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => 'Zpět na přihlášení';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => 'Odvolání';
 
   @override
   String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+      'Vysvětlete, proč by mělo být vaše pozastavení přezkoumáno (minimálně 50 znaků)...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => 'Odeslat odvolání';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => 'Čeká na přezkoumání';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => 'Odvolání přijato';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => 'Odvolání zamítnuto';
 
   @override
   String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+      'Vaše odvolání bylo přijato a váš účet byl obnoven.';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => 'Přihlásit se ke svému účtu';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'Zapomněli jste heslo?';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'Zadejte svou e-mailovou adresu a my vám zašleme odkaz na resetování hesla.';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => 'Odeslat odkaz na resetování';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'Zkontrolujte svůj e-mail';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'Odeslali jsme vám pokyny k resetování hesla na vaši e-mailovou adresu. Zkontrolujte prosím svou schránku a klikněte na odkaz pro resetování hesla.';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'Zpět na přihlášení';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'Nastavit nové heslo';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+      'Zadejte své nové heslo níže, abyste dokončili proces resetování.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'Nové heslo';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'Potvrdit nové heslo';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => 'Resetovat heslo';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'Hesla se neshodují.';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => 'Vytvořit účet';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => 'Zobrazované jméno (volitelné)';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => 'Jak vás mají lidé oslovovat?';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => 'Uživatelské jméno (volitelné)';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint =>
+      'Ponechte prázdné pro náhodné uživatelské jméno';
 
   @override
   String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+      'Čtyřmístný tag bude automaticky přidán pro zajištění jedinečnosti';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'Datum narození';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'Měsíc';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'Den';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'Rok';
 
   @override
   String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+      'Souhlasím s podmínkami služby a zásadami ochrany osobních údajů';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => 'Souhlasím s ';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => 'podmínkami služby';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => ' a ';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => 'zásadami ochrany osobních údajů';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => 'Potvrdit heslo';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Vytvořit účet';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => 'Už máte účet? ';
 
   @override
   String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+      'Pro tuto aplikaci nebyly nalezeny žádné passkey. Místo toho se přihlaste pomocí e-mailu a hesla.';
 
   @override
   String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+      'Passkey nejsou na tomto zařízení podporovány.';
 
   @override
   String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+      'Passkey nejsou pro tuto aplikaci nakonfigurovány. Místo toho se přihlaste pomocí e-mailu a hesla.';
 
   @override
   String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+      'Autentizace passkey vypršela. Zkuste to prosím znovu.';
 
   @override
   String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+      'Passkey nejsou pro tuto aplikaci k dispozici. Místo toho se přihlaste pomocí e-mailu a hesla.';
 
   @override
   String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+      'Autentizace pomocí hesla selhala. Zkuste to prosím znovu.';
 
   @override
   String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+      'Účet se nepodařilo vytvořit. Zkuste to prosím znovu.';
 
   @override
   String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+      'Přihlášení právě teď není možné. Zkuste to prosím znovu.';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword => 'Neplatný e-mail nebo heslo.';
 
   @override
   String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+      'Odkaz pro obnovení hesla se nepodařilo odeslat. Zkuste to prosím znovu.';
 
   @override
   String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+      'Heslo se nepodařilo obnovit. Zkuste to prosím znovu.';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => 'Připojit se ke komunitě';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => 'Přejít do komunity';
 
   @override
   String embedInviteOnline(String count) {
-    return '$count Online';
+    return '$count online';
   }
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count členů';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => 'Neznámé pozvání';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle => 'Zkuste požádat o nové pozvání.';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => 'Pozvání není k dispozici';
+
+  @override
+  String get inviteAcceptTitle => 'Byli jste pozváni do';
+
+  @override
+  String get inviteAcceptJoinButton => 'Připojit se ke komunitě';
+
+  @override
+  String get inviteAcceptGoToButton => 'Přejít do komunity';
+
+  @override
+  String get inviteAcceptInvitesPaused => 'Pozvánky pozastaveny';
+
+  @override
+  String get inviteAcceptNotFoundTitle => 'Pozvání je neplatné';
+
+  @override
+  String get inviteAcceptNotFoundDescription =>
+      'Toto pozvání může být neplatné nebo vypršelo.';
+
+  @override
+  String get inviteAcceptJoinGroupButton => 'Připojit se do skupiny';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return 'Byli jste pozváni do skupinového DM od $inviterName';
+  }
+
+  @override
+  String get inviteAcceptSomeone => 'někdo';
+
+  @override
+  String get inviteAcceptEmojiPack => 'Balíček emotikonů';
+
+  @override
+  String get inviteAcceptStickerPack => 'Balíček samolepek';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => 'Nainstalovat balíček emotikonů';
+
+  @override
+  String get inviteAcceptInstallStickerPack => 'Nainstalovat balíček samolepek';
+
+  @override
+  String get inviteAcceptPackInstallNote =>
+      'Přijetím tohoto pozvání se balíček automaticky nainstaluje.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => 'Přístup do kanálu odepřen';
 
   @override
   String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+      'Nemáte přístup do kanálu, kam byla tato zpráva odeslána.';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => 'Žádný přístup';
 
   @override
-  String get okay => 'Okay';
+  String get okay => 'Dobře';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => 'Sdílené téma';
 
   @override
-  String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+  String get embedThemeSubtitle => 'Tento klient nepodporuje vlastní témata.';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => 'Témata nejsou k dispozici';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => 'Nastavení soukromí';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => 'Přímé zprávy';
 
   @override
   String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+      'Povolit přímé zprávy od ostatních členů této komunity';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => 'Přímé zprávy od botů';
 
   @override
   String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+      'Povolit botům z této komunity, aby vám posílali přímé zprávy';
 
   @override
   String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+      'Správci komunity zakázali přijímání přímých zpráv výhradně od vzájemných členů v této komunitě.';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => 'Ladění komunity';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => 'Zkopírováno do schránky';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => 'Nastavení oznámení';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return 'Ztlumit $guildName';
   }
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'Ztlumení komunity zabrání zobrazování indikátorů nepřečtených zpráv a oznámení, pokud nejste zmíněni.';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings => 'Nastavení oznámení komunity';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => 'Všechny zprávy';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => 'Pouze zmínky';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => 'Nic';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => 'Potlačit @everyone a @here';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles => 'Potlačit všechna @zmínění rolí';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => 'Mobilní oznámení push';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => 'Přepsání oznámení';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => 'Vyberte kanál nebo kategorii';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => 'Pouze @zmínění';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => 'Ztlumit kanál';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => 'Zrušit ztlumení kanálu';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => 'Žádná kategorie';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => 'Označit jako přečtené';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => 'Ztlumit DM';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => 'Zrušit ztlumení DM';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => 'Připnout DM';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => 'Odepnout DM';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => 'Vždy zobrazit v postranním panelu';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => 'Odebrat z vždy zobrazených';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => 'Zavřít DM';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => 'Zavřít DM';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return 'Opravdu chcete zavřít váš DM s $username? Můžete ho kdykoli znovu otevřít.';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => 'Zkopírovat ID kanálu';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => 'ID kanálu zkopírováno';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => 'Zkopírovat ID uživatele';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => 'ID uživatele zkopírováno';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => 'Zobrazit profil';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => 'Zahájit hlasový hovor';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => 'Příchozí hlasový hovor';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => 'Přijmout';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => 'Odmítnout';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => 'Příchozí hovor';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => 'Ignorovat';
 
   @override
   String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+      'Tento hovor nelze právě zahájit. Zkuste to za chvíli znovu.';
 
   @override
   String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+      'Nepodařilo se připojit k tomuto hovoru. Zkontrolujte své připojení a zkuste to znovu.';
 
   @override
   String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+      'Nepodařilo se připojit k tomuto hovoru. Zkontrolujte své připojení a zkuste to znovu.';
 
   @override
   String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+      'Nepodařilo se aktualizovat tento hovor na serveru. Zkontrolujte své připojení a zkuste to znovu.';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => 'Přidat poznámku';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => 'Upravit skupinu';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => 'Pozvat do komunity';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => 'Blokovat';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => 'Opustit skupinu';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => 'Žádné dostupné komunity';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count členů';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => 'Na 15 minut';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => 'Na 30 minut';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => 'Na 1 hodinu';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => 'Na 3 hodiny';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => 'Na 4 hodiny';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => 'Na 8 hodin';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => 'Na 24 hodin';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => 'Na 3 dny';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => 'Dokud to znovu nezapnu';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => 'Připnout skupinový DM';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => 'Odepnout skupinovou DM';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => 'Označit DM jako oblíbenou';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => 'Odznačit DM jako oblíbenou';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => 'Označit skupinovou DM jako oblíbenou';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => 'Odznačit skupinovou DM jako oblíbenou';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => 'Změnit přezdívku přítele';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => 'Odebrat přítele';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => 'Přidat přítele';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => 'Přijmout žádost o přátelství';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => 'Ignorovat žádost o přátelství';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => 'Odeslaná žádost o přátelství';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => 'Odblokovat';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => 'Ladit uživatele';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => 'Ladit kanál';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => 'Připnutá DM';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => 'Odepnutá DM';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => 'Ztlumená DM';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => 'Zrušit ztlumení DM';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => 'Odebrat přítele';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Opravdu chcete odebrat $username jako přítele?';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => 'Blokovat uživatele';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return 'Opravdu chcete zablokovat $username? Nebude vám moci posílat zprávy ani žádosti o přátelství.';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => 'Žádost o přátelství odeslána';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed => 'Odeslání žádosti o přátelství selhalo';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed =>
+      'Přijetí žádosti o přátelství selhalo';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => 'Odebrání přítele selhalo';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => 'Blokování uživatele selhalo';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed => 'Odblokování uživatele selhalo';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed =>
+      'Ignorování žádosti o přátelství selhalo';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => 'Přidat přátele';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => 'Přidat přítele';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => 'Uživatelské jméno#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => 'Uživatelské jméno přítele';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => 'Odeslat žádost';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound =>
+      'Uživatel s tímto uživatelským jménem nebyl nalezen.';
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+      'Zadejte platné uživatelské jméno (Uživatelské jméno#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => 'Žádost o přátelství odeslána';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => 'Nárokujte si svůj účet';
 
   @override
   String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+      'Nárokujte si svůj účet, abyste mohli posílat žádosti o přátelství.';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => 'Ověřte svůj e-mail';
 
   @override
   String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+      'Před odesláním žádostí o přátelství si musíte ověřit svou e-mailovou adresu.';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => 'Ověřit e-mail';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return 'Příchozí žádosti o přátelství ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return 'Odchozí žádosti o přátelství ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => 'Příchozí žádost o přátelství';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => 'Žádost o přátelství odeslána';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => 'Zobrazit profil';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => 'Přijmout';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => 'Ignorovat';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => 'Přijmout žádost o přátelství';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => 'Ignorovat žádost o přátelství';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return 'Přijmout žádost o přátelství od uživatele $userName?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return 'Ignorovat žádost o přátelství od $displayName?';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => 'Zrušit žádost';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+      'Žádost o přátelství se nepodařilo zrušit. Zkuste to znovu.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+      'Právě teď nepřijímají žádosti o přátelství.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+      'Nejprve je odblokujte a poté odešlete žádost o přátelství.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+      'Nemůžete si poslat žádost o přátelství sami sobě.';
 
   @override
-  String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+  String get addFriendAlreadyFriends => 'S tímto uživatelem už jste přátelé.';
 
   @override
   String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+      'Dokončete registraci a odešlete žádosti o přátelství.';
 
   @override
   String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+      'Žádost o přátelství se nepodařilo odeslat. Zkuste to znovu.';
 
   @override
   String get userTagBot => 'BOT';
 
   @override
-  String get userTagSystem => 'System';
+  String get userTagSystem => 'Systém';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => 'Najděte emotikon svých snů';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty =>
+      'Žádné emotikony neodpovídají vašemu vyhledávání';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => 'Výchozí emotikon';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => 'Často používané';
 
   @override
-  String get emojiTabGifs => 'GIFs';
+  String get emojiTabGifs => 'GIFy';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => 'Média';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => 'Nálepky';
 
   @override
-  String get emojiTabEmojis => 'Emojis';
+  String get emojiTabEmojis => 'Emotikony';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => 'Hledat GIFy';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => 'Hledat KLIPY';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => 'Hledat Tenor';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => 'Oblíbené';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => 'Populární GIFy';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => 'Žádné výsledky hledání';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription => 'Zkuste jiný výraz';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => 'Nepodařilo se načíst GIFy';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody =>
+      'Zkontrolujte připojení a zkuste to znovu.';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => 'Lidé';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => 'Příroda';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => 'Jídlo a pití';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => 'Aktivity';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => 'Cestování a místa';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => 'Předměty';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => 'Symboly';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => 'Vlajky';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return 'Odemkněte $emojiCount z $communityCount s Plutonium.';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => 'Získat Plutonium';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => 'Už nezobrazovat';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count vlastních emodži',
+      one: '1 vlastní emoji',
     );
     return '$_temp0';
   }
@@ -1108,927 +1160,948 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count komunity',
+      one: '1 komunita',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => 'Varování před externím odkazem';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => 'Chystáte se opustit Fluxer';
 
   @override
   String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+      'Externí odkazy mohou být nebezpečné. Buďte prosím opatrní.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => 'Cílová URL:';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => 'Externí odkazy';
 
   @override
   String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+      'Nastavte, jak se budou zpracovávat varování před externími odkazy.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => 'Vždy důvěřovat ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix =>
+      ' — příště tento varovný hlásek přeskočit';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => 'Navštívit web';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => 'Důvěřovat všem externím odkazům';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Odstranit sledovací parametry z URL';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      'Automaticky odstraní sledovací parametry (jako utm_source, fbclid, gclid) z URL ve zprávách, které posíláte. Odkaz vyčistí, než se dostane k ostatním.';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle =>
+      'Důvěřovat všem externím odkazům?';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      'Tímto důvěřujete všem externím odkazům a přeskočíte varování pro každou doménu. Vaše stávající důvěryhodné domény budou nahrazeny. Je to méně bezpečné.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => 'Důvěřovat všem';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle =>
+      'Přestat důvěřovat všem odkazům?';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      'Varování před externími odkazy se znovu zobrazí. Budete muset přidávat důvěryhodné domény jednotlivě.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction => 'Zakázat důvěřovat všem';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+      'Všem externím odkazům je důvěřováno. Varování se nebudou zobrazovat.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return 'Máte $count důvěryhodnou doménu/domény. Přidejte další zaškrtnutím políčka při návštěvě externích odkazů.';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      'Když je povoleno, nezobrazí se žádná varování před externími odkazy. Je to méně bezpečné.';
 
   @override
   String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+      'Soubor obrázku je příliš velký. Vyberte soubor menší než 10 MB.';
 
   @override
   String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+      'Animované avatary vyžadují Plutonium';
 
   @override
   String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+      'Animované bannery vyžadují Plutonium';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported => 'Animovaný AVIF není podporován';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      'Ořezávání a otáčení animovaných souborů AVIF zatím není podporováno. Pokud budete pokračovat, nahraje se v původní podobě.';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => 'Nahrát tak, jak je';
 
   @override
   String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+      'Ořezávání animovaných obrázků zatím není podporováno. Použije se původní nahrávka.';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => 'Oříznout avatar';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => 'Oříznout banner';
 
   @override
-  String get skip => 'Skip';
+  String get skip => 'Přeskočit';
 
   @override
-  String get crop => 'Crop';
+  String get crop => 'Oříznout';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => 'Změnit váš FluxerTag';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      'Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka. Uživatelská jména nerozlišují malá a velká písmena.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      'Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka. Uživatelská jména nerozlišují malá a velká písmena. Můžete si vybrat jakýkoli dostupný 4místný tag od #0000 do #9999.';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      'Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka. Uživatelská jména nerozlišují malá a velká písmena. Můžete si vybrat jakýkoli dostupný 4místný tag od #0001 do #9999.';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return 'Mezi $min a $max znaky';
   }
 
   @override
   String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+      'Pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      'Získejte Plutonium pro úpravu svého tagu nebo si ho ponechte při změně uživatelského jména';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'FluxerTag je již obsazen';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'FluxerTag $username#$discriminator je již obsazen. Pokračováním automaticky znovu vygenerujeme váš diskriminátor.';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => 'Vlastní tag je dočasný';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return 'Vaše vlastní 4místné označení je dostupné pouze po dobu trvání vašeho předplatného Plutonia. Když vaše předplatné vyprší $date, vaše označení se po 3denní lhůtě vrátí na náhodně přiřazené číslo.';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      'Váš vlastní 4místný tag je k dispozici pouze po dobu aktivního předplatného Plutonium. Když vaše předplatné vyprší, váš tag se po 3denní lhůtě vrátí na náhodně přiřazené číslo.';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => 'Rozumím, pokračovat';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      'Pokud uložíte tento FluxerTag, váš vlastní 4místný tag se po skončení předplatného Plutonium vrátí na náhodné číslo. Pokud se vaše předplatné neobnoví, budete mít 3denní lhůtu, než se tag změní.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return 'Váš vlastní 4místný tag (#$discriminator) je aktivní po dobu aktivního předplatného Plutonium. Pokud vaše předplatné skončí nebo se po 3denní lhůtě neobnoví, váš tag se vrátí na náhodné číslo.';
   }
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'Upravte si svůj 4místný tag nebo si ho ponechte při změně uživatelského jména';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return 'Vaše zkušební verze Plutonia vyprší $date. Vylepšete si ji a ponechte si vlastní značku a získejte odznak na svém profilu.';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      'Jste ve zkušební verzi Plutonium. Upgradujte, abyste si ponechali vlastní tag a získali odznak na svém profilu.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'FluxerTag aktualizován';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+      'Nepodařilo se aktualizovat FluxerTag. Zkuste to prosím znovu.';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Pokračovat';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => 'Přizpůsobení profilu';
 
   @override
   String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+      'Upravte vzhled svého profilu a zobrazte náhled v reálném čase';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => 'Uživatelské jméno';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+      'Ověřte svůj účet, abyste mohli změnit svůj FluxerTag';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => 'Změnit FluxerTag';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return 'Přizpůsobte si svůj 4místný tag (#$discriminator) podle svého gusta s Plutoniem';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint =>
+      'Změňte své uživatelské jméno a 4místný tag';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return 'Váš vlastní tag (#$discriminator) je vázán na vaše předplatné Plutonia a po jeho vypršení bude vrácen na náhodný tag.';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => 'Zobrazované jméno';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => 'Zájmena';
 
   @override
   String get avatarLabel => 'Avatar';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => 'Změnit avatar';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => 'Odebrat avatar';
 
   @override
   String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, GIF. Max 10 MB. Doporučeno: 512×512px';
 
   @override
   String get bannerLabel => 'Banner';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => 'Změnit banner';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => 'Odebrat banner';
 
   @override
   String get bannerDescription =>
       'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => 'Barva zvýraznění';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'Přizpůsobí barvu okraje a banneru na vašem profilu';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => 'O mně';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText => 'Můžete používat odkazy, emoji a Markdown.';
 
   @override
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle => 'Soukromí odznaku Plutonia';
 
   @override
   String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+      'Ovládejte, jak se váš odznak Plutonia zobrazuje ostatním';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel => 'Skrýt odznak Plutonia úplně';
 
   @override
   String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+      'Úplně skryjte svůj odznak Plutonia před ostatními uživateli';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => 'Skrýt datum nákupu Plutonia';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return 'Skrýt datum nákupu Plutonia ($date)';
   }
 
   @override
   String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+      'Odstraňte z odznaku datum prvního nákupu Plutonia';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription => 'Skrýt Visionary jako předplatné';
 
   @override
   String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+      'Zobrazit váš Visionary jako běžné předplatné';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => 'Skrýt odznak Visionary ID';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return 'Skrýt odznak Visionary ID (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription => 'Odstraňte svůj odznak Visionary ID';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return 'Jste na zkušební verzi Plutonia — vaše předplatné začíná $date';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      'Vaše předplatné se automaticky spustí po skončení zkušební verze. Není třeba nic dělat.';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return 'Jste na zkušební verzi Plutonia, která končí $date';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile => 'Jste na zkušební verzi Plutonia';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG, PNG, WebP. Max 10 MB. Doporučeno: 512×512px. Animované avatary (GIF) vyžadují Plutonium.';
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'Přizpůsobte si svůj profil statickým nebo animovaným obrázkem banneru, aby vynikl.';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => 'Získat Plutonium';
 
   @override
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
   String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+      'Nákupy v aplikaci zatím nejsou na této platformě k dispozici. Zůstaňte naladěni — brzy to bude!';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => 'Náhled';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => 'Zpráva';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'Členem Fluxeru od';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => 'Nevyžádaný účet';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      'Váš účet ještě není vyžádán. Bez e-mailu a hesla můžete ztratit přístup. Vyžádejte si svůj účet nyní a zabezpečte ho.';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => 'Vyžádat účet';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => 'Typ profilu';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => 'Globální profil';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      'Upravujete svůj profil pro tuto komunitu. Tento profil bude viditelný pouze v této komunitě a přepíše váš globální profil.';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => 'Přezdívka v komunitě';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'Přizpůsobení vašeho avatara, banneru, akcentové barvy a biografie pro jednotlivé komunity vyžaduje Plutonium. Přezdívka v komunitě a zájmena jsou zdarma pro všechny.';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => 'Použít globální profil';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => 'Použít vlastní obrázek';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => 'Nezobrazovat';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => 'Profil aktualizován';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => 'Upravit profil';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => 'Poznámka';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '(viditelné pouze pro vás)';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => 'Zatím žádná poznámka.';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => 'Ověřte svou identitu';
 
   @override
-  String get sudoDescription =>
-      'This action requires verification to continue.';
+  String get sudoDescription => 'Tato akce vyžaduje ověření k pokračování.';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => 'Ověřovací kód';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => 'Heslo';
 
   @override
-  String get sudoMethodTotp => 'Authenticator';
+  String get sudoMethodTotp => 'Ověřovací aplikace';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed => 'Ověření selhalo. Zkuste to znovu.';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => 'Účet';
 
   @override
   String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+      'Spravujte svůj e-mail, heslo a nastavení účtu';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => 'Zabezpečení';
 
   @override
   String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+      'Chraňte svůj účet dvoufaktorovým ověřením a heslovými klíči';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => 'Nastavení e-mailu';
 
   @override
   String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+      'Spravujte e-mailovou adresu, kterou používáte k přihlášení do Fluxeru';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => 'E-mailová adresa';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => 'Není nastavena žádná e-mailová adresa';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => 'Změnit e-mail';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => 'Přidat e-mail';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => 'Zobrazit';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => 'Skrýt';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => 'Heslo';
 
   @override
   String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+      'Změňte své heslo, abyste svůj účet udrželi v bezpečí';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => 'Aktuální heslo';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return 'Poslední změna: $date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'Poslední změna: Nikdy';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => 'Není nastaveno žádné heslo';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => 'Změnit heslo';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => 'Nastavit heslo';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => 'Změnit heslo';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      'Před změnou hesla vám zašleme ověřovací kód na vaši e-mailovou adresu, abychom potvrdili vaši totožnost.';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => 'Začít';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => 'Ověřte svůj e-mail';
 
   @override
   String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+      'Zadejte ověřovací kód zaslaný na vaši e-mailovou adresu.';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => 'Ověřovací kód';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => 'Ověřit';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => 'Nastavit nové heslo';
 
   @override
   String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+      'Zadejte své nové heslo níže.';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => 'Nové heslo';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => 'Potvrdit nové heslo';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => 'Změnit heslo';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => 'Heslo změněno';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch => 'Hesla se neshodují';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => 'Neplatný nebo vypršel platnost kódu';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => 'Změnit e-mail';
 
   @override
   String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+      'Před změnou e-mailové adresy vám zašleme ověřovací kódy k ověření vaší identity.';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => 'Začít';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => 'Ověřit aktuální e-mail';
 
   @override
   String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+      'Zadejte ověřovací kód zaslaný na vaši aktuální e-mailovou adresu.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => 'Zadat nový e-mail';
 
   @override
   String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+      'Zadejte novou e-mailovou adresu, kterou chcete použít.';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => 'Nový e-mail';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => 'Odeslat ověřovací kód';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => 'Ověřit nový e-mail';
 
   @override
   String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+      'Zadejte ověřovací kód zaslaný na vaši novou e-mailovou adresu.';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => 'E-mail změněn';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => 'Neplatný nebo vypršel platnost kódu';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'Znovu odeslat';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return 'Znovu odeslat (${seconds}s)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => 'Ověřovací kód';
 
   @override
-  String get verify => 'Verify';
+  String get verify => 'Ověřit';
 
   @override
-  String get enable => 'Enable';
+  String get enable => 'Povolit';
 
   @override
-  String get disable => 'Disable';
+  String get disable => 'Zakázat';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Smazat';
 
   @override
-  String get save => 'Save';
+  String get save => 'Uložit';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => 'Dvoufaktorové ověřování';
 
   @override
   String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+      'Přidejte svému účtu další vrstvu zabezpečení';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Aplikace pro ověřování';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+      'Dvoufaktorové ověřování je povoleno';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+      'Použijte aplikaci pro ověřování k generování kódů pro dvoufaktorové ověřování';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => 'Záložní kódy';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+      'Zobrazte a spravujte své záložní kódy pro obnovení účtu';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => 'Zobrazit kódy';
 
   @override
-  String get securityPasskeysSectionTitle => 'Passkeys';
+  String get securityPasskeysSectionTitle => 'Heslové klíče';
 
   @override
   String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+      'Používejte heslové klíče pro přihlašování bez hesla a dvoufaktorové ověřování';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => 'Registrované heslové klíče';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => 'Žádné registrované heslové klíče';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: 'heslové klíče',
+      one: 'heslový klíč',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$count $_temp0 registrovaných (max. 10)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => 'Přidat heslový klíč';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return 'Přidáno: $date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return 'Naposledy použito: $date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => 'Přejmenovat';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => 'Smazat heslový klíč';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return 'Opravdu chcete smazat heslový klíč „$name“?';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => 'Pojmenovat heslový klíč';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => 'Název heslového klíče';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint =>
+      'např. YubiKey, iPhone, pracovní počítač';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => 'Telefonní číslo';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription =>
+      'Spravujte své telefonní číslo.';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => 'Telefonní číslo';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => 'Není přidáno žádné telefonní číslo.';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => 'Přidat telefonní číslo';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => 'Odebrat';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => 'Odebrat telefonní číslo';
 
   @override
   String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+      'Opravdu chcete odebrat své telefonní číslo?';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => 'Telefonní číslo odebráno';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => 'Bezpečnostní funkce';
 
   @override
   String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+      'Ověřte svůj účet a získejte přístup k bezpečnostním funkcím, jako je dvoufaktorové ověřování a hesla.';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'Před nastavením dvoufaktorového ověřování, hesel nebo ověření přes SMS musíte ověřit svou e-mailovou adresu.';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => 'Nastavit aplikaci pro ověřování';
 
   @override
   String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+      'Naskenujte QR kód pomocí své aplikace pro ověřování a vygenerujte kódy pro dvoufaktorové ověřování.';
 
   @override
-  String get totpEnableCodeLabel => 'Code';
+  String get totpEnableCodeLabel => 'Kód';
 
   @override
   String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+      'Zadejte 6místný kód ze své aplikace pro ověřování';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess => 'Dvoufaktorové ověřování bylo povoleno';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => 'Odebrat aplikaci pro ověřování';
 
   @override
   String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+      'Zadejte 6místný kód ze své aplikace pro ověřování pro deaktivaci dvoufaktorového ověřování.';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => 'Dvoufaktorové ověřování deaktivováno';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => 'Záložní kódy';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      'Pokud ztratíte přístup ke své aplikaci pro ověřování a nebudete mít tyto kódy, budete trvale zablokováni ze svého účtu. Stáhněte si je nebo si je zkopírujte a uložte je na bezpečné místo.';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => 'Stáhnout';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => 'Kopírovat';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied => 'Záložní kódy zkopírovány do schránky';
 
   @override
   String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+      'Stáhl/a jsem si nebo zkopíroval/a záložní kódy a uložil/a je na bezpečné místo.';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => 'Hotovo';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => 'Zobrazit záložní kódy';
 
   @override
   String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+      'Před zobrazením záložních kódů může být vyžadováno ověření.';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => 'Přidat telefonní číslo';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => 'Telefonní číslo';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => 'Zadejte své telefonní číslo';
 
   @override
   String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+      'Zadejte své telefonní číslo. Pošleme vám ověřovací kód přes SMS.';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => 'Odeslat kód';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => 'Ověřit telefonní číslo';
 
   @override
   String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+      'Zadejte ověřovací kód zaslaný na vaše telefonní číslo.';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => 'Telefonní číslo přidáno';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => 'Nebezpečná zóna';
 
   @override
-  String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+  String get dangerZoneSectionDescription => 'Nevratné a destruktivní akce';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => 'Deaktivovat účet';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+      'Dočasně deaktivujte svůj účet. Můžete jej později znovu aktivovat přihlášením.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      'Deaktivace vašeho účtu vás odhlásí ze všech relací. Svůj účet můžete kdykoli znovu aktivovat přihlášením.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => 'Smazat účet';
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+      'Trvale smažte svůj účet a všechna přidružená data. Tuto akci nelze vrátit zpět.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      'Před smazáním účtu zrušte svou aktivní předplatné Plutonium v nastavení Plutonium.';
+
+  @override
+  String get dangerZoneDeleteCannotDeleteAccount => 'Nelze smazat účet';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      'Nemůžete smazat svůj účet, dokud vlastníte komunity. Nejprve přeneste vlastnictví následujících komunit:';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return 'a ještě $count';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return 'Chcete-li přenést vlastnictví, přejděte na $settingsPath a použijte možnost přenosu vlastnictví.';
+  }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      'Opravdu chcete smazat svůj účet? Tato akce naplánuje váš účet k trvalému smazání.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+      'Proces smazání můžete zrušit do 14 dnů';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+      'Po 14 dnech bude váš účet trvale smazán';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+      'Jakmile bude smazání zpracováno, nebudete moci obnovit přístup ke svému účtu';
 
   @override
   String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+      'Po smazání účtu nebudete moci smazat své odeslané zprávy';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      'Pokud chcete nejprve exportovat svá data nebo smazat zprávy, navštivte prosím sekci Dashboard ochrany soukromí v Nastavení uživatele, než budete pokračovat.';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => 'Nárokujte si svůj účet';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      'Nárokujte si svůj účet přidáním e-mailu a hesla. Před dokončením vám zašleme ověřovací kód k potvrzení vašeho e-mailu.';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => 'E-mail';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => 'Heslo';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => 'Odeslat kód';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      'Zadejte kód, který jsme vám poslali na e-mail, abyste jej ověřili. Vaše heslo bude nastaveno po potvrzení kódu.';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => 'Účet byl úspěšně nárokován';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => 'Důležité informace:';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => 'Došlo k chybě';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => 'Neplatný kód';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: 'před # lety',
+      one: 'před 1 rokem',
     );
     return '$_temp0';
   }
@@ -2038,8 +2111,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: 'před # měsíci',
+      one: 'před 1 měsícem',
     );
     return '$_temp0';
   }
@@ -2049,8 +2122,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: 'před # dny',
+      one: 'před 1 dnem',
     );
     return '$_temp0';
   }
@@ -2060,8 +2133,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: 'před # hodinami',
+      one: 'před 1 hodinou',
     );
     return '$_temp0';
   }
@@ -2071,583 +2144,591 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: 'před # minutami',
+      one: 'před 1 minutou',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => 'právě teď';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => 'Autorizované aplikace';
 
   @override
   String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+      'Těmto aplikacím byl udělen přístup k vašemu účtu Fluxer.';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => 'Žádné autorizované aplikace';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'Zatím jste neautorizovali žádné aplikace pro přístup k vašemu účtu.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+      'Nepodařilo se načíst autorizované aplikace';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'Autorizováno $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => 'Udělená oprávnění';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => 'Odebrat';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => 'Odebrat přístup k aplikaci';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return 'Opravdu chcete odebrat přístup aplikaci $appName? Tato aplikace již nebude mít přístup k vašemu účtu.';
   }
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+      'Přístup k základním informacím o vašem profilu (uživatelské jméno, avatar atd.)';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => 'Zobrazit vaši e-mailovou adresu';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+      'Zobrazit komunity, jejichž jste členem';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections => 'Zobrazit vaše propojené účty';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+      'Přidat bota do komunity s požadovanými oprávněními';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin =>
+      'Přístup k administrativním koncovým bodům';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => 'Čeká na smazání';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => 'Blokovaní uživatelé';
 
   @override
   String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+      'Blokovaní uživatelé vám nemohou posílat žádosti o přátelství ani vás přímo kontaktovat.';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => 'Žádní blokovaní uživatelé';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription => 'Zatím jste nikoho neblokovali.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError =>
+      'Nepodařilo se načíst blokované uživatele';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => 'Odblokovat';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => 'Odblokovat uživatele';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Opravdu chcete odblokovat uživatele $username?';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => 'Zkopírovat FluxerTag';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => 'Zkopírovat ID uživatele';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => 'Nepodařilo se načíst profil';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => 'Zkusit znovu';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => 'Zpráva';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => 'Hlasový hovor';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => 'Video hovor';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => 'Upravit profil';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'Tým Fluxeru';
 
   @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
+  String get userProfileCtpBadgeTooltip => 'Komunitní tým Fluxeru';
 
   @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer Partner';
+  String get userProfilePartnerBadgeTooltip => 'Partner Fluxeru';
 
   @override
-  String get userProfileBugHunterBadgeTooltip => 'Fluxer Bug Hunter';
+  String get userProfileBugHunterBadgeTooltip => 'Lovec chyb Fluxeru';
 
   @override
   String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'Předplatitel Fluxer Plutonium od $date';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Fluxer Visionary';
+  String get userProfileVisionaryBadgeTooltip => 'Vizionář Fluxeru';
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'Vizionář Fluxeru od $date';
   }
 
   @override
   String userProfileVisionaryIdTooltip(int sequence) {
-    return 'Visionary ID #$sequence';
+    return 'ID vizionáře #$sequence';
   }
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return 'Společní přátelé ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return 'Společenství ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => 'Společní přátelé';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => 'Společenství';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends =>
+      'Nebyli nalezeni žádní společní přátelé.';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities =>
+      'Nebyla nalezena žádná společenství.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return 'Přezdívka: $nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => 'Otevřít DM';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return 'Blokovali jste $username. Nebudete moci posílat zprávy, dokud je neodblokujete.';
   }
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get blockedUserComposerBarrierAction => 'Odblokovat';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileOpenDm => 'Otevřít DM';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteTitle => 'Poznámka';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteVisibility => '(viditelné pouze pro vás)';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteSave => 'Uložit';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteDelete => 'Smazat';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileNoteEmpty => 'Klikněte pro přidání poznámky';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileMemberSince => 'Členem od';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileAboutMe => 'O mně';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUsername => 'Zkopírovat uživatelské jméno';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileCopyUserId => 'Zkopírovat ID uživatele';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewMainProfile => 'Zobrazit hlavní profil';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileViewCommunityProfile => 'Zobrazit komunitní profil';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileBlockUser => 'Blokovat uživatele';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileUnblockUser => 'Odblokovat uživatele';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileRemoveFriend => 'Odstranit přítele';
+
+  @override
+  String get userProfileBlockConfirmTitle => 'Blokovat uživatele';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return 'Opravdu chcete zablokovat uživatele $username?';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => 'Odblokovat uživatele';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Opravdu chcete odblokovat uživatele $username?';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => 'Odstranit přítele';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Opravdu chcete odstranit $username z přátel?';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => 'Nepodařilo se otevřít DM';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote => 'Nepodařilo se uložit poznámku';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed =>
+      'Akce se nezdařila, zkuste to prosím znovu';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => 'Změnit přezdívku';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => 'Vyhodit';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => 'Zabanovat';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'Uvalit časový postih';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => 'Odebrat časový postih';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => 'Předat vlastnictví';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => 'Nahlásit uživatele';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => 'Nahlásit zprávu';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return 'Vyloučit $username?';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return 'Opravdu chcete vyloučit $username? Může se znovu připojit s novým pozváním.';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => 'Odebrat dočasný zákaz?';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return 'Odebráním dočasného zákazu umožníte $username znovu posílat zprávy, reagovat a připojovat se k hlasovým kanálům.';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => 'Předat vlastnictví?';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return 'Předat vlastnictví této komunity uživateli $username? Toto je nevratné a ztratíte všechna vlastnická oprávnění.';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return 'Zablokovat $username';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => 'Doba blokace';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel => 'Vlastní doba (sekundy)';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return 'Jakákoli hodnota od $min do $max sekund';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel => 'Smazat historii zpráv';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => 'Nesmazat žádné';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => 'Posledních 24 hodin';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => 'Posledních 7 dní';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => 'Důvod (volitelné)';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => 'Zadejte důvod blokace';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => 'Zablokovat člena';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return 'Dočasně omezit $username';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => 'Doba omezení';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => 'Dočasně omezit člena';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => 'Přezdívka';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => 'Zadejte přezdívku';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => 'Uložit';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return 'Uživatel $username byl vyloučen';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return 'Uživatel $username byl zablokován';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return 'Uživatel $username byl dočasně omezen';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return 'Dočasné omezení pro $username bylo odebráno';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => 'Přezdívka aktualizována';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => 'Vlastnictví předáno';
 
   @override
-  String get durationPermanent => 'Permanent';
+  String get durationPermanent => 'Trvale';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 sekund';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 minut';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 minut';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 hodina';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 hodin';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 den';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 dny';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 dní';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 týden';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 týdny';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 měsíc';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => 'Vlastní...';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => 'Nahlásit uživatele';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => 'Nevhodný profil';
 
   @override
   String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+      'Profil tohoto uživatele obsahuje nevhodný obsah';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return 'Uživatel $name píše...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return 'Uživatelé $name1 a $name2 píší...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return 'Uživatelé $name1, $name2 a $name3 píší...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'Několik lidí píše...';
 
   @override
   String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+      'Hrstka válečníků s klávesnicemi se shromažďuje...';
 
   @override
   String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+      'Symphonie klapajících kláves je v plném proudu...';
 
   @override
   String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+      'Tady je plnohodnotná fiesta psaní na klávesnici';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => 'Páni, to je apokalypsa psaní';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return 'Jsme rádi, že jsi tady, $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return 'Vítej, $username! Cítíš se jako doma.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return 'Ahoj, $username! Jsme rádi, že tě tu máme.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return 'Ahoj, $username! Zapoj se, kdykoli budeš připraven.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return 'Ahoj $username, skvělé tě tu vidět!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return 'Ahoj, $username! Doufáme, že si svůj pobyt užiješ.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return 'Ahoj, $username, vítej na palubě!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return 'Jsme rádi, že jsi dorazil, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return 'Vítej, $username!';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return 'Vítej, $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return 'Vítej, $username! Jsme rádi, že jsi tady.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return 'Vítej, $username! Doufáme, že si svůj čas zde užiješ.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return 'Vítej, $username! Tvoje další konverzace začíná zde.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return 'Vítej, $username. Jsme rádi, že tě tu máme.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return 'Skvělé tě vidět, $username! Vítej.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return 'Jsi tady, $username! Jsme rádi, že jsi s námi.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return 'Dorazil jsi, $username! Pojďme začít.';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => 'teď';
 
   @override
   String relativeTimeShortMinutes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}m',
-      one: '1m',
+      other: '$count min',
+      one: '1 min',
     );
     return '$_temp0';
   }
@@ -2657,8 +2738,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}h',
-      one: '1h',
+      other: '$count h',
+      one: '1 h',
     );
     return '$_temp0';
   }
@@ -2668,8 +2749,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}d',
-      one: '1d',
+      other: '$count d',
+      one: '1 d',
     );
     return '$_temp0';
   }
@@ -2679,8 +2760,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}mo',
-      one: '1mo',
+      other: '$count měsíců',
+      one: '1 měsíc',
     );
     return '$_temp0';
   }
@@ -2690,50 +2771,50 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}y',
-      one: '1y',
+      other: '$count let',
+      one: '1 rok',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => 'Moje zařízení';
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'Zobrazte všechna zařízení, která jsou aktuálně přihlášena k vašemu účtu. Zrušte platnost všech relací, které nepoznáváte.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => 'Aktuální zařízení';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => 'Ostatní zařízení';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => 'Přejít do režimu výběru';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => 'Ukončit režim výběru';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => 'Vybrat vše';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => 'Zrušit výběr';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => 'Odebrat zařízení';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => 'Odhlásit všechna ostatní zařízení';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Odhlásit $count zařízení',
+      one: 'Odhlásit 1 zařízení',
     );
     return '$_temp0';
   }
@@ -2743,14 +2824,15 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Odhlásit $count zařízení',
+      one: 'Odhlásit 1 zařízení',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle =>
+      'Odhlásit všechna ostatní zařízení';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -2758,183 +2840,185 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+          'Tímto se odhlásí vybraná zařízení z vašeho účtu. Na těchto zařízeních se budete muset znovu přihlásit.',
       one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+          'Tímto se odhlásí vybrané zařízení z vašeho účtu. Na tomto zařízení se budete muset znovu přihlásit.',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      'Tímto se odhlásí vybraná zařízení z vašeho účtu. Na těchto zařízeních se budete muset znovu přihlásit.';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => 'Pokračovat';
 
   @override
   String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+      'Na všech odhlášených zařízeních se budete muset znovu přihlásit';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => 'Chyba sítě';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      'Máme potíže s připojením k časoprostoru. Zkontrolujte své připojení a zkuste to znovu.';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: 'Zařízení odebrána',
+      one: 'Zařízení odebráno',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError =>
+      'Nepodařilo se odhlásit. Zkuste to znovu.';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => 'Neznámý OS';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => 'Neznámá platforma';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return '$duration režim zpoždění';
   }
 
   @override
   String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+      'Jste v režimu zpoždění. Pošlete další zprávu později.';
 
   @override
   String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+      'Režim zpoždění je zapnutý, ale vy jste imunní.';
 
   @override
   String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+      'Do tohoto kanálu nemůžete posílat zprávy.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return 'Systémová oznámení od personálu $productName. Zde nemůžete odpovědět.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+      'Odesílání zpráv je v této komunitě dočasně pozastaveno.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      'Jste v dočasném zákazu. Zprávy, reakce a hlas jsou pozastaveny, dokud zákaz nevyprší.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+      'Abyste mohli posílat zprávy v této komunitě, musíte si nárokovat svůj účet.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+      'Abyste mohli posílat zprávy v této komunitě, musíte ověřit svůj e-mail.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+      'Váš účet je příliš nový na to, abyste mohli posílat zprávy v této komunitě.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      'Nejste v této komunitě dostatečně dlouho členem, abyste mohli posílat zprávy.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+      'Abyste mohli posílat zprávy v této komunitě, musíte ověřit telefonní číslo.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => 'Ověřit e-mail';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => 'Ověřit telefon';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return 'Příliš mnoho příloh (max $max)';
   }
 
   @override
   String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+      'Jeden nebo více souborů přesahuje limit velikosti';
 
   @override
   String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+      'Tyto soubory jsou příliš velké na odeslání společně';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload => 'Pusťte soubory pro nahrání';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend => 'Pusťte soubory pro okamžité odeslání';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => 'Odeslat hlasovou zprávu';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => 'Hlasová zpráva';
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'Podržte pro nahrávání. Přetáhněte nahoru pro uzamčení, nebo uvolněte pro odeslání.';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => 'Zahodit hlasovou zprávu';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => 'Odeslat hlasovou zprávu';
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+      'Nahrávání nelze spustit. Povolte přístup k mikrofonu.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+      'Nahrávání hlasu není na tomto zařízení podporováno.';
 
   @override
   String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+      'Opusťte hlasový hovor a nahrajte hlasovou zprávu.';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed =>
+      'Nahrávání selhalo. Zkuste to znovu.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+      'Hlasovou zprávu nelze odeslat. Zkuste to znovu.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+      'Mluvte. Po dokončení stiskněte Stop – později můžete oříznout.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+      'Přetáhněte úchyty pro oříznutí, poté stiskněte Odeslat.';
 
   @override
   String get voiceMessageStop => 'Stop';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => 'Spustit nahrávání';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => 'Přehrát';
 
   @override
-  String get voiceMessagePause => 'Pause';
+  String get voiceMessagePause => 'Pauza';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -2943,44 +3027,44 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return 'Výběr musí mít minimálně ${secondsString}s.';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => 'Upravit přílohu';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => 'Název souboru';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => 'Popis';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => 'Volitelný alternativní text';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => 'Označit jako spoiler';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => 'Odstranit přílohu';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => 'Stáhnout';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => 'Příloha vypršela';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => 'Galerie';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => 'Fotoaparát';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => 'Procházet soubory';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip => 'Vložit obrázek ze schránky';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -2989,200 +3073,199 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => 'Odhalit spoiler';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => 'Zobrazit';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => 'Kliknutím zobrazíte';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => 'Nevhodný obsah';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => 'Nevhodná komunita';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => 'Nevhodná kategorie';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => 'Nevhodný kanál';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => 'Upozornění na obsah komunity';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle => 'Upozornění na obsah kategorie';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => 'Upozornění na obsah kanálu';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => 'Obsahuje citlivý obsah.';
 
   @override
   String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Tato komunita je označena jako nevhodná a může obsahovat materiál, který není vhodný pro některé uživatele.';
 
   @override
   String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Tato kategorie je označena jako nevhodná a může obsahovat materiál, který není vhodný pro některé uživatele.';
 
   @override
   String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Tento kanál je označen jako nevhodný a může obsahovat materiál, který není vhodný pro některé uživatele.';
 
   @override
   String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Tento hlasový kanál je označen jako nevhodný a může obsahovat materiál, který není vhodný pro některé uživatele.';
 
   @override
   String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+      'Tento odkazový kanál je označen jako nevhodný a může odkazovat na materiál, který není vhodný pro některé uživatele.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+      'Tato nevhodná komunita není pro váš účet dostupná.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+      'Tato nevhodná kategorie není pro váš účet dostupná.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+      'Tento nevhodný kanál není pro váš účet dostupný.';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => 'Pokračovat';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => 'Rozumím';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => 'Otevřít odkaz';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => 'Citlivý obsah';
 
   @override
   String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+      'Ovládejte, jak je nevhodný nebo citlivý obsah filtrován v různých kontextech.';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel => 'Přímé zprávy od přátel';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel => 'Přímé zprávy od ostatních';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => 'Zprávy v kanálech komunity';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => 'Zobrazit';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => 'Rozmazat';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => 'Blokovat';
 
   @override
   String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+      'Rozmazat média do dokončení kontroly bezpečnosti';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      'Pokud je povoleno, obrázky a videa se rozmažou, dokud se nedokončí kontrola bezpečnosti obsahu.';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+      'Toto nastavení je pro váš účet vždy zapnuté.';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => 'Resetovat';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => 'Uložit';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count souborů',
+      one: '1 souboru',
     );
-    return 'Uploading $_temp0';
+    return 'Nahrávání $_temp0';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => 'Zrušit nahrávání';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return 'Platnost vyprší $date';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return 'Platnost vyprší mezi $start a $end';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => 'Propojení';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      'Propojte externí účty a domény s vaším profilem Fluxer. Ověřená propojení se zobrazí ve vašem profilu.';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => 'Zatím žádná propojení';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      'Propojte svůj účet Bluesky nebo ověřte vlastnictví domény a zobrazte je ve svém profilu.';
 
   @override
   String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+      'Ověřte vlastnictví domény a zobrazte ji ve svém profilu.';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
 
   @override
-  String get connectionsAddDomain => 'Domain';
+  String get connectionsAddDomain => 'Doména';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => 'Přidat propojení Bluesky';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => 'Přidat propojení domény';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => 'Upravit';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => 'Odebrat';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => 'Toto propojení bylo ověřeno.';
 
   @override
-  String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+  String get connectionUnverifiedLabel => 'Tato spojení nebylo ověřeno.';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => 'Přidat spojení';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => 'Typ spojení';
 
   @override
   String get connectionHandleLabel => 'Handle';
 
   @override
-  String get connectionDomainLabel => 'Domain';
+  String get connectionDomainLabel => 'Doména';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -3191,284 +3274,285 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => 'Toto spojení již máte.';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => 'Připojit přes Bluesky';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => 'Pokračovat';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => 'Ověřit spojení';
 
   @override
   String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+      'Pomocí níže uvedeného záznamu prokažte vlastnictví domény.';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'Záznam DNS TXT';
 
   @override
-  String get connectionDnsHostLabel => 'Host';
+  String get connectionDnsHostLabel => 'Hostitel';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => 'Hodnota';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => 'Zkopírovat hostitele';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => 'Zkopírovat hodnotu';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => 'Zkopírováno!';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => 'Poskytněte soubor s tokenem';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      'Stáhněte si **fluxer-verification** a umístěte jej do složky **.well-known**, abychom mohli ověřit doménu.';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => 'Stáhnout fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return 'Soubor obsahuje ověřovací token, který načteme z **$dnsUrl**.';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => 'Uložit fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => 'Ověřit';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => 'Zpět';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => 'Upravit spojení';
 
   @override
   String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+      'Vyberte, kdo může toto spojení vidět na vašem profilu.';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => 'Každý';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+      'Umožnit komukoli vidět toto spojení na vašem profilu';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => 'Přátelé';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+      'Umožnit vašim přátelům vidět toto spojení';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => 'Členové komunity';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+      'Umožnit členům komunit, ve kterých jste, vidět toto spojení';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => 'Odebrat spojení';
 
   @override
   String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+      'Opravdu chcete toto spojení odebrat? Tuto akci nelze vrátit zpět.';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => 'Odebrat';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError => 'Nepodařilo se načíst spojení';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError => 'Nepodařilo se aktualizovat pořadí';
 
   @override
   String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+      'Nepodařilo se zahájit ověření. Zkuste to znovu.';
 
   @override
   String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+      'Nepodařilo se ověřit. Zkontrolujte svůj záznam DNS a zkuste to znovu.';
 
   @override
   String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+      'Nepodařilo se zahájit autorizaci Bluesky.';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed => 'Nepodařilo se aktualizovat spojení';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed => 'Nepodařilo se odebrat spojení';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => 'Soubor fluxer-verification uložen';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast => 'Nepodařilo se uložit soubor';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => 'Zadejte handle pro Bluesky.';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => 'Zadejte doménu.';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => 'Vzhled a chování';
 
   @override
-  String get lookAndFeelThemeSectionTitle => 'Theme';
+  String get lookAndFeelThemeSectionTitle => 'Motiv';
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+      'Vyberte si mezi tmavým, uhlovým nebo světlým vzhledem.';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => 'Tmavý motiv';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => 'Uhelný motiv';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => 'Světlý motiv';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => 'Motiv systému';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+      'Synchronizovat motiv mezi zařízeními';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      'Když je povoleno, změny motivu se synchronizují na všechna vaše zařízení. Když je zakázáno, toto zařízení použije vlastní nastavení motivu.';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      'Motiv systému automaticky zakáže synchronizaci, aby sledoval preference vašeho systému na tomto zařízení.';
 
   @override
   String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+      'Motiv se nepodařilo synchronizovat s vaším účtem. Zkuste to prosím znovu.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Škálování písma chatu';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Upravte velikost písma v oblasti chatu.';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => 'Rozhraní';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'Přizpůsobte prvky a chování rozhraní.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+      'Indikátory psaní v seznamu kanálů';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      'Vyberte, jak se indikátory psaní zobrazují v seznamu kanálů, když někdo píše v kanálu.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+      'Indikátor psaní + Avatary';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      'Zobrazit indikátor psaní s avatary uživatelů v seznamu kanálů';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+      'Pouze indikátor psaní';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      'Zobrazit pouze indikátor psaní bez avatarů';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Skryté';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      'Nezobrazovat indikátory psaní v seznamu kanálů';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      'Zobrazit psaní v aktivním kanálu';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      'Když je zakázáno (výchozí), indikátory psaní se nezobrazí v kanálu, který právě prohlížíte.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'obecný';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => 'Nápovědy ke klávesnici';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+      'Ovládejte, zda se nápovědy klávesových zkratek zobrazují v popiscích.';
 
   @override
   String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+      'Skrýt nápovědy ke klávesnici v popiscích';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      'Když je povoleno, odznaky zkratek jsou skryty v kontextových oknech.';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => 'Různé';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription => 'Různé možnosti rozhraní.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => 'Zobrazit Neko';
 
   @override
   String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+      'Když je povoleno, Neko se zobrazí poblíž vstupního pole chatu.';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle =>
+      'Chování při připojení k hlasovému kanálu';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+      'Ovládejte, jak se připojujete k hlasovým kanálům v komunitách.';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Vyžadovat dvojklik pro připojení k hlasovým kanálům';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      'Když je povoleno, budete muset dvakrát kliknout na hlasové kanály, abyste se k nim připojili. Když je zakázáno (výchozí), jedním kliknutím se okamžitě připojíte ke kanálu.';
 
   @override
   String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+      'Rychlá hnědá liška skáče přes líného psa.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => 'Postranní panel komunity';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Konfigurujte, jak postranní panel komunity zobrazuje přímé zprávy.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -3476,372 +3560,460 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
+          '$count komunit je dočasně nedostupných kvůli poruše časového kondenzátoru.',
       one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+          '1 komunita je dočasně nedostupná kvůli poruše časového kondenzátoru.',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel => 'Sbalit DM do složky';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      'Když je povoleno, nepřečtené DM v postranním panelu komunity jsou sbaleny do složky na tlačítku Fluxer. Kliknutím na tlačítko Fluxer na stránce DM složku rozbalíte nebo sbalíte.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => 'Seznam kanálů';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'Ovládejte chování indikátoru nepřečtených zpráv u ztlumených kanálů v seznamech kanálů.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+      'Zobrazit indikátor nepřečtených zpráv u ztlumených kanálů';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      'Když je povoleno, ztlumené kanály zobrazují slabý indikátor nepřečtených zpráv na levé straně. Zmínky se stále zobrazují bez ohledu na toto nastavení.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => 'Právě aktivní';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+      'Ovládejte, jak se funkce Právě aktivní zobrazuje v celé aplikaci.';
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+      'Zobrazit Právě aktivní na domovské obrazovce';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      'Zobrazte funkci Právě aktivní na domovské obrazovce, abyste viděli přátele aktivní ve hlase. Uvidíte náhled, kontext kanálu, kdo už je tam, a rychlý způsob, jak se připojit.';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => 'Oblíbené';
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'Ovládejte viditelnost oblíbených položek v celé aplikaci.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel => 'Povolit oblíbené';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'Když je tato funkce povolena, můžete označit kanály jako oblíbené a zobrazí se v sekci Oblíbené. Když je zakázána, skryjí se všechny prvky uživatelského rozhraní související s oblíbenými (tlačítka, položky nabídky). Vaše stávající oblíbené položky budou zachovány.';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => 'Oblíbené';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'Zatím žádné oblíbené položky';
 
   @override
   String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+      'Označte kanály hvězdičkou v záhlaví chatu, abyste je měli zde.';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => 'Vítejte v Oblíbených';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      'Váš osobní prostor pro rychlý přístup ke kanálům, přímým zprávám a skupinám, které máte rádi. Chcete-li je sem přidat, stiskněte hvězdičku u libovolného kanálu.';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip => 'Není to pro vás? Kdykoli to vypněte.';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => 'Zakázat oblíbené';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => 'Přidáno do Oblíbených';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => 'Odebráno z Oblíbených';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => 'Oblíbené skryty';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => 'Ztlumit oblíbené';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => 'Zrušit ztlumení oblíbených';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => 'Nabídka Oblíbených';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => 'Vytvořit kategorii';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => 'Název kategorie';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => 'Skrýt ztlumené kanály';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => 'Zobrazit ztlumené kanály';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => 'Nastavit přezdívku';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => 'Přezdívka';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => 'Uložit přezdívku';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => 'Přesunout do kategorie';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => 'Nekategorizované';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => 'Ostatní';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => 'Odebrat z Oblíbených';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => 'Přidat do Oblíbených';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => 'Skrýt oblíbené';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      'Tímto skryjete všechny prvky uživatelského rozhraní související s oblíbenými, včetně tlačítek a položek nabídky. Vaše stávající oblíbené položky budou zachovány a lze je kdykoli znovu povolit v Nastavení > Pokročilé > Vzhled.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => 'Přímá zpráva';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => 'Zobrazení';
 
   @override
   String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+      'Ovládejte, jak se zobrazují zprávy, média a další obsah.';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => 'Média';
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'Přizpůsobte si velikost médií a tlačítka.';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => 'Vstup';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'Přizpůsobte si nastavení vstupu zpráv.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => 'Postranní panel';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+      'Nakonfigurujte, jak se zobrazuje postranní panel komunity.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Skrýt ztlumené kanály ve výchozím nastavení';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      'Automaticky skryjte ztlumené kanály v postranním panelu, když se připojíte k novým komunitám';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+      'Skrýt ztlumené kanály ve výchozím nastavení?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      'Nové komunity, ke kterým se připojíte, budou mít automaticky skryté ztlumené kanály. Chcete toto nastavení použít i na všechny vaše stávající komunity?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      'Přestat skrývat ztlumené kanály ve výchozím nastavení?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      'Nové komunity, ke kterým se připojíte, již nebudou mít automaticky skryté ztlumené kanály. Chcete také zobrazit ztlumené kanály ve všech vašich stávajících komunitách?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+      'Použít na všechny komunity';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+      'Zobrazit ve všech komunitách';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+      'Pouze nové komunity';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => 'Zobrazení médií';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      'Ovládejte, jak se zobrazují obrázky, videa a další média. Všechna média jsou změněna velikost a převedena. Extrémně velké soubory, které nelze komprimovat do náhledu, nebudou vloženy bez ohledu na tato nastavení.';
 
   @override
   String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+      'Při odesílání jako odkazy do chatu';
 
   @override
   String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+      'Při nahrávání přímo do Fluxeru';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => 'Náhledy odkazů';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+      'Ovládejte, jak se v chatu zobrazují náhledy webových odkazů';
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+      'Zobrazit vložené prvky a náhledy webových odkazů';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => 'Reakce';
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+      'Nastavte si emoji reakce na zprávy';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+      'Zobrazit emoji reakce na zprávy';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => 'Skrytý obsah';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+      'Ovládejte, jak se zobrazuje skrytý obsah';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => 'Zobrazit skrytý obsah';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => 'Po kliknutí';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+      'Zobrazit skrytý obsah po kliknutí';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName =>
+      'V kanálech, které moderuji';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      'Vždy zobrazit skrytý obsah v kanálech, kde máte oprávnění „Spravovat zprávy“';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => 'Vždy';
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+      'Vždy zobrazit skrytý obsah';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => 'Preferovaná velikost médií';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      'Přizpůsobte maximální velikost pro vložená média a přílohy. Menší velikosti zaberou méně místa, větší zobrazí více detailů.';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => 'Média z odkazů (vložené prvky)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel => 'Nahrané přílohy';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => 'Kompaktní (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => 'Menší velikost médií';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => 'Pohodlná (550x400)';
 
   @override
   String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+      'Větší velikost médií s více detaily';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'Chování GIFů';
 
   @override
   String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+      'Ovládejte, jak se GIFy vkládají do chatu';
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+      'Automaticky odeslat GIFy po výběru';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+      'Automatické doplňování výrazů (doplňování pomocí dvojtečky)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'Ovládejte, co se zobrazí v automatickém doplňování výrazů po zadání dvojtečky. Přizpůsobte si návrhy podle svých preferencí.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      'Zobrazit výchozí emotikony v automatickém doplňování výrazů';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Zobrazit vlastní emotikony v automatickém doplňování výrazů';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+      'Zobrazit samolepky v automatickém doplňování výrazů';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+      'Zobrazit uložená média v automatickém doplňování výrazů';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle => 'Úprava zpráv';
 
   @override
   String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+      'Ovládejte, co se stane s návrhem úpravy po zrušení.';
 
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+      'Ponechat návrh úpravy při zrušení';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => 'Indikátory nepřečtených zpráv';
 
   @override
   String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+      'Ovládejte, jak se zobrazují indikátory nepřečtených zpráv.';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      'Zobrazit tlumený indikátor nepřečtených zpráv v ztlumených kanálech';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      'Zobrazte ztlumený indikátor nepřečtených zpráv u ztlumených přímých zpráv a kanálů, abyste na první pohled viděli aktivitu.';
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get accessibilityDmMessagePreviewGroupTitle =>
+      'Náhledy zpráv v přímých zprávách';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      'Ovládejte, kdy se zobrazují náhledy zpráv v seznamu přímých zpráv.';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel =>
+      'Režim náhledu zpráv v přímých zprávách';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => 'Všechny zprávy';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription =>
+      'Zobrazit náhledy zpráv pro všechny konverzace v přímých zprávách';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName =>
+      'Pouze nepřečtené přímé zprávy';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      'Zobrazit náhledy zpráv pouze u přímých zpráv s nepřečtenými zprávami';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => 'Žádné';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription =>
+      'Nezobrazovat náhledy zpráv v seznamu přímých zpráv';
+
+  @override
+  String get dmListSentAnAttachment => 'Odeslal přílohu';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return '$username připnul zprávu do tohoto kanálu.';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return '$username přidal(a) $userName do skupiny.';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return '$username přidal(a) někoho do skupiny.';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return '$username opustil(a) skupinu.';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username odebral(a) $userName ze skupiny.';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username odebral(a) někoho ze skupiny.';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username změnil(a) název kanálu na $newName.';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username změnil(a) název kanálu.';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username změnil(a) ikonu kanálu.';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username zahájil(a) hovor.';
+  }
+
+  @override
+  String get voiceConnectionConfirmTitle => 'Potvrzení hlasového připojení';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -3849,92 +4021,92 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+          'K tomuto hlasovému kanálu jste již připojeni z $count dalších zařízení. Co chcete udělat?',
       one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+          'K tomuto hlasovému kanálu jste již připojeni z 1 dalšího zařízení. Co chcete udělat?',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => 'Přepnout na toto zařízení';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+      'Jen se připojit (ponechat ostatní připojení)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+      'Nedělat nic, nechci se připojit';
 
   @override
   String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+      'Toto je hlasový kanál. Připojte se a začněte mluvit!';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => 'Připojit se k hlasovému kanálu';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => 'Připojit se k hlasu';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+      'Nemáte oprávnění připojit se k tomuto hlasovému kanálu';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Obsah mikrofonu, kamery a sdílení obrazovky je šifrován end-to-end.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Obsah mikrofonu, kamery a sdílení obrazovky je šifrován end-to-end.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+      'End-to-end šifrování není k dispozici, protože se v tomto hlasovém kanálu nachází nepodporovaný účastník.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+      'End-to-end šifrování není k dispozici, protože se v tomto hovoru nachází nepodporovaný účastník.';
 
   @override
   String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+      'Tento klient musí být aktualizován před připojením k tomuto šifrovanému hovoru.';
 
   @override
   String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+      'Nepodařilo se spustit váš mikrofon. Stále jste v hovoru.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => 'Připojování…';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => 'Připojeno';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => 'Chyba';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => 'Mobilní zařízení';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => 'Počítač';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted => 'Ztlumeno komunitou';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => 'Ztlumeno';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened => 'Neslyšící (komunita)';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => 'Neslyšící';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return 'Připojení: $connectionId';
   }
 
   @override
@@ -3942,209 +4114,208 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count účastníků',
+      one: '1 účastník',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => 'Odejít';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => 'Ztlumit';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => 'Zrušit ztlumení';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => 'Znehybnit';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => 'Zrušit znehybnění';
 
   @override
   String get voiceControlVideo => 'Video';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => 'Sdílet obrazovku';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText => 'Sdílíte obrazovku.';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => 'Více';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => 'Ukončit spojení';
 
   @override
   String get voiceControlChat => 'Chat';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => 'Zobrazit chat';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# nepřečtenými zprávami',
+      one: '# nepřečtenou zprávou',
     );
-    return 'Show chat with $_temp0';
+    return 'Zobrazit chat s $_temp0';
   }
 
   @override
   String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+      'Pro video je vyžadováno povolení kamery.';
 
   @override
   String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+      'Nepodařilo se spustit sdílení obrazovky. Zkuste to znovu.';
 
   @override
   String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+      'Oprávnění ke sdílení obrazovky bylo zamítnuto.';
 
   @override
   String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+      'Sdílení obrazovky není na tomto zařízení k dispozici.';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => 'Sledovat stream';
 
   @override
-  String get voiceStopWatching => 'Stop Watching';
+  String get voiceStopWatching => 'Přestat sledovat';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
-      'Stop watching the current stream';
+      'Přestat sledovat aktuální stream';
 
   @override
-  String get voiceOwnScreenShareTitle => 'You are broadcasting';
+  String get voiceOwnScreenShareTitle => 'Vysíláte';
 
   @override
-  String get voiceOwnScreenShareSubtitle =>
-      'Your stream is live for participants.';
+  String get voiceOwnScreenShareSubtitle => 'Váš stream je pro účastníky živý.';
 
   @override
-  String get voiceLiveBadge => 'Live';
+  String get voiceLiveBadge => 'ŽIVĚ';
 
   @override
-  String get dmVoiceViewCall => 'View call';
+  String get dmVoiceViewCall => 'Zobrazit hovor';
 
   @override
-  String get dmVoiceCallFullScreen => 'Full screen';
+  String get dmVoiceCallFullScreen => 'Celá obrazovka';
 
   @override
-  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+  String get dmVoiceCallFullScreenTooltip => 'Otevřít hovor na celou obrazovku';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Connecting…';
+  String get dmVoiceStripStatusConnecting => 'Připojování…';
 
   @override
-  String get dmVoiceStripStatusInCall => 'In call';
+  String get dmVoiceStripStatusInCall => 'V hovoru';
 
   @override
-  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+  String get dmVoiceEmbeddedFallbackTitle => 'Hlasový hovor';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Connecting…';
+  String get dmVoiceCallBarConnecting => 'Připojování…';
 
   @override
-  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+  String get dmVoiceCallBarDirectPrimary => 'Přímý hovor';
 
   @override
-  String get dmVoiceCallBarGroupPrimary => 'Group call';
+  String get dmVoiceCallBarGroupPrimary => 'Skupinový hovor';
 
   @override
-  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+  String get dmVoiceCallBarIssueFallback => 'Problém s hlasem';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Voice';
+  String get dmVoiceFullscreenTitle => 'Hlas';
 
   @override
-  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
+  String get voiceCallBarGuildConnectedFallback => 'Hlasové připojení';
 
   @override
-  String get notificationsPageTitle => 'Notifications';
+  String get notificationsPageTitle => 'Oznámení';
 
   @override
-  String get notificationsFilterUnreads => 'Unreads';
+  String get notificationsFilterUnreads => 'Nepřečtené';
 
   @override
-  String get notificationsFilterMentions => 'Mentions';
+  String get notificationsFilterMentions => 'Zmínky';
 
   @override
-  String get notificationsBookmarksTooltip => 'Bookmarks';
+  String get notificationsBookmarksTooltip => 'Záložky';
 
   @override
-  String get notificationsMentionFilterTooltip => 'Filter mentions';
+  String get notificationsMentionFilterTooltip => 'Filtrovat zmínky';
 
   @override
-  String get notificationsMentionFiltersTitle => 'Mention filters';
+  String get notificationsMentionFiltersTitle => 'Filtry zmínek';
 
   @override
   String get notificationsMentionIncludeEveryone =>
-      'Include @everyone and @here mentions';
+      'Zahrnout zmínky @everyone a @here';
 
   @override
-  String get notificationsMentionIncludeRoles => 'Include role mentions';
+  String get notificationsMentionIncludeRoles => 'Zahrnout zmínky rolí';
 
   @override
   String get notificationsMentionIncludeGuilds =>
-      'Include all community mentions';
+      'Zahrnout všechny zmínky komunity';
 
   @override
-  String get notificationsNoUnreadTitle => 'No Unread Messages';
+  String get notificationsNoUnreadTitle => 'Žádné nepřečtené zprávy';
 
   @override
-  String get notificationsNoUnreadBody => 'You\'re all caught up.';
+  String get notificationsNoUnreadBody => 'Vše je aktuální.';
 
   @override
-  String get notificationsNoMentionsTitle => 'No Recent Mentions';
+  String get notificationsNoMentionsTitle => 'Žádné nedávné zmínky';
 
   @override
   String get notificationsNoMentionsBody =>
-      'All @mentions of you will appear here for 7 days.';
+      'Všechny zmínky o vás se zde zobrazí po dobu 7 dnů.';
 
   @override
-  String get notificationsMentionsEndTitle => 'You\'ve reached the end';
+  String get notificationsMentionsEndTitle => 'Dosáhli jste konce';
 
   @override
   String get notificationsMentionsEndBody =>
-      'You\'ve seen all your recent mentions. Don\'t fret, more will appear here soon.';
+      'Viděli jste všechny své nedávné zmínky. Nebojte se, brzy se zde objeví další.';
 
   @override
-  String get notificationsJump => 'Jump';
+  String get notificationsJump => 'Přejít';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Remove mention';
+  String get notificationsRemoveMentionTooltip => 'Odstranit zmínku';
 
   @override
-  String get notificationsViewAllUnread => 'View all unread';
+  String get notificationsViewAllUnread => 'Zobrazit všechny nepřečtené';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead => 'Označit jako přečtené';
 
   @override
-  String get notificationsExpand => 'Expand';
+  String get notificationsExpand => 'Rozbalit';
 
   @override
-  String get notificationsCollapse => 'Collapse';
+  String get notificationsCollapse => 'Sbalit';
 
   @override
   String get notificationsMessageUnavailable =>
-      'This message couldn\'t be loaded.';
+      'Tuto zprávu se nepodařilo načíst.';
 
   @override
   String characterCounterRemaining(int remaining) {
-    return '$remaining characters left';
+    return '$remaining znaků zbývá';
   }
 
   @override
-  String get characterCounterTooLong => 'Message is too long';
+  String get characterCounterTooLong => 'Zpráva je příliš dlouhá';
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -4152,598 +4323,636 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String productName,
     int premiumMaxLength,
   ) {
-    return '$remaining characters left. Get $productName to write up to $premiumMaxLength characters.';
+    return '$remaining znaků zbývá. Získejte $productName a pište až $premiumMaxLength znaků.';
   }
 
   @override
-  String get chatMessageFailedToSend => 'Failed to send message';
+  String get chatMessageFailedToSend => 'Zprávu se nepodařilo odeslat';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return 'Vaši zprávu nebylo možné doručit. Obvykle je to proto, že nesdílíte komunitu s příjemcem nebo příjemce přijímá přímé zprávy pouze od přátel. Možná budete muset také upravit svá vlastní nastavení soukromí pro přímé zprávy v části $settingsPath.';
+  }
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatSendFailureUnclaimedDm =>
+      'Vaši zprávu nebylo možné doručit. Chcete-li odesílat přímé zprávy, musíte si účet nárokovat.';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatSendFailureUnclaimedGeneral =>
+      'Vaši zprávu nebylo možné doručit. Chcete-li odesílat zprávy, musíte si účet nárokovat.';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatSendFailureContentBlocked =>
+      'Vaši zprávu nebylo možné doručit, protože byla označena našimi bezpečnostními systémy. Pokud se domníváte, že jde o chybu, kontaktujte prosím podporu.';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatSendFailureNsfwEmojiSticker =>
+      'Vaše zpráva nemohla být doručena, protože obsahuje nevhodné emoji nebo nálepky, které nejsou v tomto kontextu povoleny.';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get chatClientSystemOnlyYouCanSee => 'Tuto zprávu vidíte pouze vy.';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get chatClientSystemDismiss => 'Zavřít';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get privacyDashboardCommunicationSection => 'Komunikace';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get chatMessageDeleteFailed => 'Nepodařilo se odstranit zprávu';
+
+  @override
+  String get chatMessageAddReaction => 'Přidat reakci';
+
+  @override
+  String get chatMessageEdit => 'Upravit zprávu';
+
+  @override
+  String get chatMessageReply => 'Odpovědět';
+
+  @override
+  String get chatMessageForward => 'Přeposlat';
+
+  @override
+  String get forwardMessageTitle => 'Přeposlat zprávu';
+
+  @override
+  String get forwardSearchHint => 'Hledat kanály nebo přímé zprávy';
+
+  @override
+  String get forwardDirectMessagesSection => 'Přímé zprávy';
+
+  @override
+  String get forwardCommentHint => 'Přidat komentář (volitelné)';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return 'Odeslat ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => 'Nebyly nalezeny žádné kanály';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => 'Zpráva byla přeposlána';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => 'Nepodařilo se přeposlat zprávu';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'Komentáře nejsou k dispozici, protože vybraný kanál má povolený režim zpomalení.';
 
   @override
   String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+      'Zprávy sem nemůžete posílat';
 
   @override
   String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+      'Odkazy sem nemůžete vkládat';
 
   @override
   String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+      'Soubory sem nemůžete nahrávat';
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+      'Odesílání zpráv je v této komunitě zakázáno';
 
   @override
   String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+      'V této komunitě máte pozastavenou komunikaci';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'Režim zpomalení – počkejte $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => 'Zkopírovat zprávu';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => 'Připnout zprávu';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => 'Odepnout zprávu';
 
   @override
-  String get chatMessageUnpinIt => 'Unpin it';
+  String get chatMessageUnpinIt => 'Odepnout ji';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageBookmark => 'Uložit zprávu';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageRemoveBookmark => 'Odstranit uloženou zprávu';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageMarkAsUnread => 'Označit jako nepřečtené';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageCopyMessageLink => 'Zkopírovat odkaz na zprávu';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageId => 'Zkopírovat ID zprávy';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageViewReactions => 'Zobrazit reakce';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageRemoveAllReactions => 'Odstranit všechny reakce';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageDebug => 'Ladit zprávu';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebugSheetTitle => 'Ladit zprávu';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugCopyJson => 'Zkopírovat JSON';
 
   @override
   String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+      'JSON zprávy zkopírován do schránky';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => 'Reakce';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty => 'Zatím nikdo nereagoval.';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => 'Nahlásit zprávu';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get iarReportMessageTitle => 'Nahlásit zprávu';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarThisUserFallback => 'tohoto uživatele';
 
   @override
   String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+      'Nahlaste porušení pravidel nebo najděte nástroje pro správu kontaktů a preferencí.';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarPathStepAriaLabel => 'Co potřebujete?';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarCategoryStepTitle => 'Jaké pravidlo bylo porušeno?';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarReasonStepTitle => 'Které pravidlo bylo porušeno?';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonSelectHint => 'Vyberte důvod';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarPickAnOptionToast => 'Vyberte možnost pro pokračování.';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickARuleToast => 'Vyberte pravidlo, které bylo porušeno.';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPathPlatform => 'Nahlásit porušení pravidel platformy';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathCommunity => 'Nahlásit moderátorům této komunity';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathPreferenceMessage => 'Nelíbí se mi tento obsah';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarCategoryTargetedHarmLabel => 'Výhrůžky, obtěžování nebo škody';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+      'Šikana, výhrůžky, nenávist, násilí, nájezdy nebo obsah podporující sebepoškozování.';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategorySafetyMinorsLabel =>
+      'Bezpečnost dětí nebo nevhodný obsah';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+      'Ohrožené děti, nevhodný obsah na nesprávném místě nebo nežádoucí chování.';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategoryPrivacyIdentityLabel =>
+      'Soukromí nebo vydávání se za někoho';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+      'Doxxing, sledování, vydávání se za někoho nebo nevhodný profil.';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryDeceptionLabel => 'Podvody, malware nebo dezinformace';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+      'Phishing, podvody, škodlivé odkazy nebo falešná tvrzení, která pravděpodobně způsobí škodu v reálném světě.';
 
   @override
   String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+      'Nezákonná činnost nebo něco jiného';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+      'Nezákonný prodej, usnadňování trestné činnosti nebo jasné porušení pravidel, které nespadá pod výše uvedené.';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarReasonHarassmentLabel => 'Obtěžování nebo výhrůžky';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+      'Šikana, opakovaný nežádoucí kontakt, sledování nebo cílené útoky.';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHateLabel => 'Nenávistné projevy';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      'Urážky, dehumanizující jazyk nebo útoky na chráněné skupiny.';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonViolenceLabel => 'Násilí nebo násilné výhrůžky';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+      'Důvěryhodné výhrůžky, grafické násilí nebo glorifikace násilí.';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonMatureContentLabel => 'Nevhodný obsah nebo obtěžování';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+      'Nežádoucí chování nebo nevhodný obsah na nesprávném místě.';
 
   @override
   String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+      'Bezpečnost dětí nebo zneužívání nezletilých';
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+      'Obsah týkající se groomingu nebo zneužívání dětí.';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonHarmfulMisinfoLabel => 'Škodlivé dezinformace';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+      'Falešná tvrzení, která pravděpodobně způsobí škodu v reálném světě.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonSpamLabel => 'Spam, podvody nebo phishing';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+      'Hromadný spam, podvody, falešné dárky nebo zneužití účtu.';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonMalwareLabel => 'Malware nebo nebezpečné odkazy';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+      'Malware, krádež přihlašovacích údajů nebo škodlivé soubory.';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonPrivacyLabel => 'Porušení soukromí';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+      'Doxxing, zveřejněné soukromé informace nebo sledování.';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonImpersonationLabel =>
+      'Vydávání se za někoho nebo klamavá média';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+      'Vydávání se za někoho jiného, včetně klamavého obsahu generovaného umělou inteligencí.';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonIllegalLabel => 'Nezákonná činnost';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+      'Nezákonný prodej, usnadňování trestné činnosti nebo nezákonná činnost.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonSelfHarmLabel => 'Sebepoškozování nebo sebevražda';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+      'Propagace nebo pokyny k podněcování k sebepoškozování nebo poruchám příjmu potravy.';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonOtherLabel => 'Další jasné porušení pravidel';
 
   @override
   String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+      'Použijte pouze v případě, že jasně porušuje pravidla Fluxeru a nespadá pod výše uvedené.';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return 'Pokud se jedná o nezletilou osobu, použijte místo toho „$childSafetyReason“.';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      'Pokud se jedná o CSAM nebo zneužívání nezletilé osoby, odešlete to nyní a znovu nesdílejte materiál.';
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+      'Pokud je někdo v bezprostředním nebezpečí, pokud to můžete bezpečně udělat, kontaktujte místní pohotovostní služby.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+      'Pokud se jedná o důvěryhodnou bezprostřední hrozbu, kontaktujte také místní pohotovostní služby.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+      'Pokud se jedná o bezprostřední teroristickou hrozbu, kontaktujte také místní pohotovostní služby.';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => 'Blokovat tohoto uživatele';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+      'Zastavit zprávy a žádosti o přátelství.';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => 'Blokovat';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => 'Zkopírovat odkaz na zprávu';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+      'Sdílet s moderátory komunity.';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => 'Kopírovat';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => 'Zavřít tento soukromý chat';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+      'Neblokuje. Můžete znovu otevřít později.';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => 'Zavřít soukromý chat';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => 'Odejít z komunity';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+      'Přestat zobrazovat její obsah a členy.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => 'Odejít';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle =>
+      'Nastavení soukromých chatů a žádostí o přátelství';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription =>
+      'Změnit, kdo vás může kontaktovat.';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle =>
+      'Nastavení hovorů a skupinových chatů';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+      'Změnit, kdo vám může volat nebo vás přidávat.';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => 'Otevřít';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => 'Smazat tuto zprávu';
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+      'Odstranit ji z kanálu pro všechny.';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => 'Smazat';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => 'Smazáno';
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+      'Tato zpráva již byla smazána.';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => 'Zablokovat tohoto uživatele';
 
   @override
   String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+      'Otevřít dialog pro zablokování v této komunitě.';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => 'Zablokovat';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => 'Zablokováno';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+      'Tento uživatel je již v komunitě zablokován.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => 'Zavřít soukromý chat';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return 'Zavřete svůj aktuální soukromý chat s $name. Tím je neblokujete; můžete je znovu otevřít později.';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => 'Nahlášení odesláno';
 
   @override
   String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+      'Náš bezpečnostní tým jej prověřuje. Až rozhodneme, pošleme vám soukromou zprávu a e-mail.';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => 'Již nahlášeno';
 
   @override
   String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+      'Tuto zprávu jste již nahlásili. Náš bezpečnostní tým ji prověřuje.';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => 'Zpět';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => 'Pokračovat';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => 'Odeslat nahlášení';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => 'Hotovo';
 
   @override
   String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+      'Nahlášení se nepodařilo odeslat. Zkuste to prosím znovu.';
 
   @override
   String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+      'Nahlásili jste příliš rychle. Počkejte prosím chvíli a zkuste to znovu.';
 
   @override
   String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+      'Nahlášení odesláno. Náš bezpečnostní tým ho prověří.';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return 'Zablokovat $name? Nebude vám moci posílat zprávy ani vám posílat žádosti o přátelství. Můžete je později odblokovat.';
   }
 
   @override
   String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+      'Nepodařilo se zablokovat tohoto uživatele. Zkuste to prosím znovu.';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => 'Soukromý chat zavřen.';
 
   @override
   String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+      'Nepodařilo se zavřít tento soukromý chat. Zkuste to prosím znovu.';
 
   @override
   String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+      'Nepodařilo se opustit tuto komunitu. Zkuste to prosím znovu.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => 'Potlačit náhledy';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => 'Zobrazit náhledy';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => 'Smazat zprávu';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => 'Smazat zprávu';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+      'Opravdu chcete tuto zprávu smazat?';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => 'Více';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => 'Upravuje se zpráva';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => 'Původní zpráva byla smazána';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad =>
+      'Původní zprávu se nepodařilo načíst';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia => 'Zpráva obsahuje připojená média';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError => 'Nepodařilo se načíst zprávy.';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle => 'Přepsat předvolbu zmínky?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return '$authorNickname preferuje @zmínky v odpovědích. Odeslat bez zmínky i přesto?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname preferuje odpovědi bez @zmínky. Odeslat se zmínkou i přesto?';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => 'Ignorovat předvolbu';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+      'Kliknutím zakážete pingnutí uživatele, kterému odpovídáte.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+      'Kliknutím povolíte pingnutí uživatele, kterému odpovídáte.';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel =>
+      'Zmínit uživatele v odpovědi';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => 'Zapnuto';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => 'Vypnuto';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => 'Zrušit odpověď';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => 'Upravit zprávu';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => 'Žádné změny k uložení';
 
   @override
   String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+      'Tento kanál ještě není připraven. Zkuste to za chvíli znovu.';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(upraveno)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'Toto byla @silent zpráva.';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'Dnes v $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'Včera v $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => 'Náhled obrázku';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => 'Zavřít prohlížeč médií';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'Otevřít v prohlížeči';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => 'Přeposlat';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => 'Přiblížit';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => 'Oddálit';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => 'Předchozí příloha';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => 'Další příloha';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -4751,80 +4960,85 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls =>
+      'Přepnout ovládací prvky videa';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => 'Ztlumit video';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => 'Zrušit ztlumení videa';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'Přehrát video';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'Pozastavit video';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => 'Průběh videa';
+
+  @override
+  String get chatVideoPlaybackFailed => 'Toto video se nepodařilo přehrát.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      'Upozornit uživatele s touto rolí, kteří mají oprávnění zobrazit tento kanál.';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => 'Přidat komunitu';
 
   @override
   String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+      'Vytvořte novou komunitu nebo se připojte k existující.';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => 'Vytvořit komunitu';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => 'Připojit se ke komunitě';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => 'Importovat šablonu Discordu';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => 'Připojit se ke komunitě';
 
   @override
   String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+      'Zadejte odkaz k pozvánce pro připojení ke komunitě.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => 'Odkaz k pozvánce';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => 'Připojit se ke komunitě';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid =>
+      'Tato pozvánka je neplatná nebo vypršela.';
 
   @override
   String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+      'Nepodařilo se připojit ke komunitě. Zkuste to prosím znovu.';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => 'Balíček byl úspěšně nainstalován.';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+      'Odebrat všechny reakce';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      'Opravdu chcete odebrat všechny reakce z této zprávy?';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => 'Odebrat připnutí zprávy';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+      'Chcete tuto připnutou zprávu vrátit zpět v čase?';
 
   @override
   String systemPinMessage(
@@ -4832,68 +5046,69 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+    return '$username připnul $messageLink do tohoto kanálu. Viz $allPinsLink.';
   }
 
   @override
-  String get systemPinMessageMessageLink => 'a message';
+  String get systemPinMessageMessageLink => 'zprávu';
 
   @override
-  String get systemPinMessageAllPinsLink => 'all pinned messages';
+  String get systemPinMessageAllPinsLink => 'všechny připnuté zprávy';
 
   @override
-  String get channelPinsEmptyTitle => 'No pinned messages';
+  String get channelPinsEmptyTitle => 'Žádné připnuté zprávy';
 
   @override
-  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
+  String get channelPinsEmptyDescription => 'Připnuté zprávy se zobrazí zde.';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String get personalNotesTitle => 'Osobní poznámky';
 
   @override
   String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+      'Váš soukromý prostor pro myšlenky a připomínky';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return 'Vítejte v kanálu $channelName';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return 'Na počátku nebylo nic. Pak přišel $channelName. A bylo to dobré.';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => 'Napište si zprávu';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => 'Váš soukromý prostor';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => 'Smazat osobní poznámky';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      'Tímto trvale smažete každou zprávu a přílohu ve svých osobních poznámkách. Tuto akci nelze vzít zpět.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => 'Smazat';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return 'Smazáno $count zpráv z osobních poznámek';
   }
 
   @override
   String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+      'Osobní poznámky již byly prázdné';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed =>
+      'Osobní poznámky se nepodařilo vymazat';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => 'VÁŠ ÚČET';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -4905,353 +5120,494 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => 'Profil';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => 'Zabezpečení a přihlášení';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => 'Dárky a kódy';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => 'Balíčky výrazů';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard => 'Přehled ochrany soukromí';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => 'Autorizované aplikace';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => 'Blokovaní uživatelé';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => 'Propojená zařízení';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => 'Připojení';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => 'Vzhled';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => 'Přístupnost';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => 'Zprávy a média';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Audio & Video';
+  String get userSettingsNavAudioAndVideo => 'Zvuk a video';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => 'Zvuky a upozornění';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => 'Jazyk a čas';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => 'Pokročilé';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => 'Hlášení o výkonu';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      'Pomozte vylepšit Fluxer sdílením anonymních dat o pádech a výkonu.';
 
   @override
   String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+      'Odesílat zprávy o pádech a výkonu';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      'Všechna odeslaná data jsou anonymní a odesílají se pouze do vlastních monitorovacích služeb Fluxeru – nepoužívají se žádní poskytovatelé třetích stran.';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => 'Aplikace';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => 'Protokoly aplikace';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => 'Nástroje pro vývojáře';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => 'Konfigurace limitů';
 
   @override
-  String get userSettingsNavFeatureFlags => 'Feature Flags';
+  String get userSettingsNavFeatureFlags => 'Příznaky funkcí';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => 'Co je nového';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => 'Odhlásit se';
 
   @override
   String get betaWarningTitle => 'Beta software';
 
   @override
   String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+      'Toto je beta software. Ještě ne vše je hotové nebo přidané.';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      'Jakékoli nalezené problémy prosím nahlaste komunitě Fluxer Mobile (pro vstup do komunity momentálně potřebujete Plutonium).';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => 'Zobrazit zdroj na GitHubu';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => 'Rozumím';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => 'Hledat';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => 'Přátelé';
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+      'Hledat kanály, lidi nebo komunity';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => 'Hledat přátele';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => 'Nebyly nalezeny žádné výsledky';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+      'Zkuste jiné jméno nebo použijte předpony @ / # / ! / * k filtrování výsledků.';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => 'Lidé';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => 'Skupinové zprávy';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => 'Textové kanály';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => 'Hlasové kanály';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Communities';
+  String get quickSwitcherSectionCommunities => 'Komunity';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => 'Nastavení';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => 'Domů';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => 'Přímé zprávy';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => 'Oblíbené';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => 'Nastavení uživatele';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => 'Oznámení';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => 'Záložky';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => 'Zmínky';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => 'Zatím žádní přátelé';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint => 'Přidejte přítele a začněte.';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle =>
+      'Žádní přátelé neodpovídají tomuto vyhledávání';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => 'Zkuste jiné jméno.';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => 'Uživatel';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => 'Vy';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
 
   @override
-  String get quickSwitcherSearchAliasDms => 'DMs';
+  String get quickSwitcherSearchAliasDms => 'SZ';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => 'Zprávy';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => 'Obl.';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => 'Označené';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => 'Doručená pošta';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => 'Uložené';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => 'Zavřít';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => 'Přejít dolů';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => 'Potvrdit';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => 'Načítání';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => 'Neuložené změny';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => 'Resetovat';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'Otevřít výběr barvy';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => 'Vybrat';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => 'Hledat';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => 'Nebyly nalezeny žádné možnosti';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => 'Zavřít oznámení';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'Výběr barvy';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => 'Zmínit všechny?';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return 'Tímto upozorníme $count členů. Pokračovat?';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return 'Tímto upozorníme $count online členů. Pokračovat?';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => 'Zmínit';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable => 'Tuto emotikonu zde nemůžete použít.';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => 'URL instance';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder =>
+      'Zadejte URL instance (např. fluxer.app)';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => 'Obnovit na Fluxer';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => 'Připojit';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => 'Připojování…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => 'Nepodařilo se připojit k instanci';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => 'Nedávné instance';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return 'Odebrat $domain z nedávných instancí';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => 'Připojit k instanci';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance => 'Připojit k jiné instanci';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => 'Změnit';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired =>
+      'Pro přihlášení se připojte k instanci';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => 'Již brzy';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => 'Přímé zprávy';
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+      'Prozkoumat komunity k objevování';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get discoveryExplore => 'Prozkoumat';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get discoveryExplorePublicCommunities => 'Prozkoumat veřejné komunity';
 
   @override
-  String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+  String get discoveryListingSubheading =>
+      'Chcete mít svou komunitu uvedenou zde? Požádejte o to, pokud splňujete požadavky v nastavení vaší komunity > Objevování.';
+
+  @override
+  String get discoverySearchCommunities => 'Hledat komunity';
+
+  @override
+  String get discoveryFilterByLanguage => 'Filtrovat podle jazyka';
+
+  @override
+  String get discoveryAllLanguages => 'Všechny jazyky';
+
+  @override
+  String get discoveryAllCategories => 'Vše';
+
+  @override
+  String get discoveryCategoryGaming => 'Hry';
+
+  @override
+  String get discoveryCategoryMusic => 'Hudba';
+
+  @override
+  String get discoveryCategoryEntertainment => 'Zábava';
+
+  @override
+  String get discoveryCategoryEducation => 'Vzdělávání';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology => 'Věda a technologie';
+
+  @override
+  String get discoveryCategoryContentCreator => 'Tvůrce obsahu';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => 'Anime a manga';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => 'Filmy a TV';
+
+  @override
+  String get discoveryCategoryOther => 'Ostatní';
+
+  @override
+  String get discoveryNoCommunitiesMatch => 'Žádné komunity neodpovídají.';
+
+  @override
+  String get discoveryJoinCommunity => 'Připojit se ke komunitě';
+
+  @override
+  String get discoveryJoined => 'Připojeno';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count online';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString členů',
+      one: '1 člen',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get discoveryNoDescription => 'Bez popisu.';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get discoveryCommunities => 'Komunity';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get discoveryApps => 'Aplikace';
+
+  @override
+  String get discoveryJoinErrorGenericTitle =>
+      'Nepodařilo se připojit k této komunitě';
+
+  @override
+  String get discoveryJoinErrorGenericMessage =>
+      'Něco se pokazilo. Zkuste to prosím za chvíli znovu.';
+
+  @override
+  String get discoveryJoinErrorFullTitle => 'Tato komunita je plná';
+
+  @override
+  String get discoveryJoinErrorFullMessage =>
+      'Tato komunita dosáhla limitu členů, takže se k ní nyní nemůžete připojit.';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle => 'Dosáhli jste limitu komunit';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage =>
+      'Jste v maximálním počtu komunit. Opusťte jednu a zkuste to znovu.';
+
+  @override
+  String get discoveryJoinErrorBannedTitle =>
+      'Nemůžete se připojit k této komunitě';
+
+  @override
+  String get discoveryJoinErrorBannedMessage =>
+      'Byli jste z této komunity zabanováni.';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle =>
+      'Tato komunita již není k dispozici';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      'Možná opustila objevování nebo vypnula nové přihlašování. Obnovte stránku a už ji neuvidíte.';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle => 'Jste příliš rychlí';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage =>
+      'Počkejte prosím chvíli a zkuste to znovu.';
+
+  @override
+  String get guildNavbarAddCommunity => 'Přidat komunitu';
+
+  @override
+  String get guildNavbarHelp => 'Nápověda';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => 'NOVÁ ZPRÁVA';
+
+  @override
+  String guildNavbarCollapseFolder(String folderName) {
+    return 'Sbalit $folderName';
+  }
+
+  @override
+  String get guildNavbarGroupDm => 'Skupinová DM';
+
+  @override
+  String get guildNavbarCreateChannel => 'Vytvořit kanál';
+
+  @override
+  String get guildNavbarChannelType => 'Typ kanálu';
+
+  @override
+  String get guildNavbarTextChannel => 'Textový kanál';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Odesílejte zprávy, obrázky, GIFy a emotikony';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => 'Hlasový kanál';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Zůstaňte spolu hlasem, videem a sdílením obrazovky';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => 'Odkaz na kanál';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Rychlý přístup k externí webové stránce nebo zdroji';
 
   @override
-  String get guildNavbarNameLabel => 'Name';
+  String get guildNavbarNameLabel => 'Název';
 
   @override
   String get guildNavbarNewChannelHint => 'new-channel';
@@ -5263,460 +5619,462 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => 'Vytvořit kategorii';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => 'Nová kategorie';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return 'Pozvěte přátele do $communityName';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return 'Příjemci budou přesměrováni do #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => 'Vyhledat přátele';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => 'Ještě nemáte žádné přátele';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => 'Žádné výsledky';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+      'Nebo pošlete odkaz s pozvánkou příteli:';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => 'Odkaz s pozvánkou';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => 'Kopírovat';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => 'Zkopírováno!';
 
   @override
   String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+      'Váš odkaz s pozvánkou vyprší za 7 dní.';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires =>
+      'Tento odkaz s pozvánkou nikdy nevyprší.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return 'Váš odkaz s pozvánkou vyprší za $duration.';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => 'Upravit odkaz s pozvánkou';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => 'Nastavení odkazu s pozvánkou';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => 'Vyprší po';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => 'Maximální počet použití';
 
   @override
-  String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+  String get guildNavbarGrantTemporaryMembership => 'Udělit dočasné členství';
 
   @override
   String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+      'Členové budou odstraněni, když přejdou do offline režimu, pokud není přiřazena role';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => 'Vytvořit nový odkaz';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => 'Odesláno';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => 'Pozvat';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => 'Opustit komunitu';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+      'Opravdu chcete opustit tuto komunitu? Nebudete již moci zobrazit žádné zprávy.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => 'Opustit komunitu';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+      'Smazat vaše zprávy v této komunitě?';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      'Trvale smažte každou zprávu, kterou jste zde poslali, napříč všemi kanály. Nelze vrátit zpět.';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm => 'Smazat mé zprávy';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => 'Vaše zprávy byly smazány';
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Vaše zprávy nebylo možné smazat';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => 'Odebrat přepsání';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return 'Ztlumeno do $formattedDate';
   }
 
   @override
   String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+      'Přístupné pouze personálu Fluxeru';
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+      'Pozvánky jsou v této komunitě momentálně pozastaveny';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => 'nikdy';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 minut';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 hodina';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 hodin';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12 hodin';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1 den';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7 dní';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count sekund';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => 'Nikdy';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => 'Bez omezení';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1 použití';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count použití';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => 'Označit jako přečtené';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildPeekMoreOptions => 'Další možnosti';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuInviteMembers => 'Pozvat členy';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuCommunitySettings => 'Nastavení komunity';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuEditCommunityProfile => 'Upravit profil komunity';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuUnmuteCommunity => 'Zrušit ztišení komunity';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuMuteCommunity => 'Ztišit komunitu';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuHideMutedChannels => 'Skrýt ztišené kanály';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuReportCommunity => 'Nahlásit komunitu';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuDebugCommunity => 'Ladit komunitu';
+
+  @override
+  String get guildMenuCopyCommunityId => 'Zkopírovat ID komunity';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return 'Do $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => 'Obecné';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => 'Role a oprávnění';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => 'Vlastní emotikony';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => 'Vlastní samolepky';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => 'Bezpečnost a moderování';
 
   @override
   String get guildMenuSettingsActivityLog => 'Activity Log';
 
   @override
-  String get guildMenuSettingsWebhooks => 'Webhooks';
+  String get guildMenuSettingsWebhooks => 'Webhooky';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl => 'Vlastní odkaz na pozvánku';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Objevování';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => 'Členové';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => 'Odkazy na pozvánky';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => 'Zákazy';
 
   @override
   String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+      'Nemáte oprávnění zobrazit tuto kartu nastavení.';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Icon';
+  String get guildSettingsOverviewIconTitle => 'Ikona';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => 'Nahrát obrázek';
 
   @override
   String get guildSettingsOverviewBannerTitle => 'Banner';
 
   @override
   String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+      'Nahrajte banner pro svůj server.';
 
   @override
-  String get guildSettingsOverviewNameTitle => 'Name';
+  String get guildSettingsOverviewNameTitle => 'Název';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => 'Moje skvělá komunita';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => 'Statistiky';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => 'Členové';
 
   @override
   String get guildSettingsOverviewOnline => 'Online';
 
   @override
   String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+      'Použijte role ke seskupení členů a přiřazení oprávnění.';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => 'Vytvořit roli';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => 'Role';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '$staticCount statických, $animatedCount animovaných slotů pro emotikony obsazeno';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty => 'Zatím žádné vlastní emotikony.';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '$count samolepek nahráno';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty => 'Ještě žádné vlastní nálepky.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle => 'Ověření členů';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      'Vyberte, co musí členové splnit, než budou moci posílat zprávy nebo DM členům komunity.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      'Členové s rolemi mohou tyto kontroly přeskočit. Veřejné prostory doporučujeme ověřovat.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      'Komunity uvedené v sekci Objevit vyžadují alespoň ověřený e-mail. Při zapnutém Objevit nelze vybrat možnost Žádné.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+      'Obsah pro dospělé a varování před obsahem';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'Nastavte označování obsahu pro dospělé a volitelná varování před obsahem pro členy.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => 'Obsah pro dospělé';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      'Označte tuto komunitu jako obsahující obsah pro dospělé.';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => 'Žádné';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+      'Nevyžaduje se žádné ověření.';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => 'Nízké';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+      'Vyžaduje ověřenou e-mailovou adresu.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => 'Střední';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      'Vyžaduje ověřenou e-mailovou adresu a účet starý alespoň 5 minut.';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => 'Vysoké';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      'Vyžaduje vše ze střední úrovně a navíc členství v komunitě alespoň 10 minut.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => 'Velmi vysoké';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+      'Vyžaduje ověřené telefonní číslo.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+      'Sledujte akce moderátorů v celé komunitě.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => 'Žádné záznamy';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+      'Akce moderátorů a změny komunity se zde zobrazí.';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => 'Všichni uživatelé';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => 'Všechny akce';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => 'Nebyl uveden žádný důvod.';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => 'Neznámý uživatel';
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+      'Při načítání protokolu aktivit se něco pokazilo.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+      'Nelze načíst protokoly aktivit';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => 'Důvod';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => 'někdo';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => 'něco';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => 'neznámá entita';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => 'nic';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => 'Neznámý cíl';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => 'Komunita aktualizována';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => 'Kanál vytvořen';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => 'Kanál aktualizován';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => 'Kanál smazán';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate => 'Přepsání kanálu přidáno';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+      'Přepsání kanálu aktualizováno';
 
   @override
-  String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+  String get auditLogActionChannelOverwriteDelete => 'Přepsání kanálu odebráno';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => 'Člen vyloučen';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => 'Členové pročištěni';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => 'Člen zablokován';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => 'Člen odblokován';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => 'Člen aktualizován';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => 'Role členů aktualizovány';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => 'Člen přesunut';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => 'Člen odpojen';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => 'Robot přidán';
 
   @override
   String get auditLogActionRoleCreate => 'Role created';
@@ -5960,62 +6318,62 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor aktualizoval webhook $target.';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor odstranil webhook $target.';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor přidal emoji $target.';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor aktualizoval emoji $target.';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor odstranil emoji $target.';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor přidal samolepku $target.';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor aktualizoval samolepku $target.';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor odstranil samolepku $target.';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor smazal zprávu.';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor smazal zprávu v kanálu $channel.';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor smazal více zpráv.';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor smazal $count zpráv.';
   }
 
   @override
@@ -6023,7 +6381,7 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor smazal více zpráv v kanálu $channel.';
   }
 
   @override
@@ -6032,32 +6390,32 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor smazal $count zpráv v kanálu $channel.';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor připnul zprávu.';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor připnul zprávu v kanálu $channel.';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor odepnul zprávu.';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor odepnul zprávu v kanálu $channel.';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor provedl auditní akci na $target.';
   }
 
   @override
@@ -6066,97 +6424,97 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return 'Aktualizováno $field z $oldValue na $newValue.';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return 'Nastaveno $field na $newValue.';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return 'Vymazáno $field (bylo $oldValue).';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return 'Aktualizováno $field.';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return 'Přejmenováno společenství na $name.';
   }
 
   @override
   String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+      'Aktualizována ikona společenství.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return 'Přejmenován kanál na $name.';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => 'Vymazáno téma.';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return 'Aktualizováno téma na $topic.';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent => 'Povoleno zralé obsah.';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent => 'Zakázáno zralé obsah.';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return 'Nastavena přezdívka na $nickname.';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return 'Odstraněna přezdívka $nickname.';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => 'Uživatel umlčen.';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => 'Uživatel odmlčen.';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => 'Uživatel ohlušen.';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember => 'Uživatel odohlušen.';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return 'Přidány role $roles.';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return 'Odebrány role $roles.';
   }
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return 'Kanál: $value.';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return 'Zpráva: $value.';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return 'Pozváno kým $value.';
   }
 
   @override
@@ -6164,8 +6522,8 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: 'Smazány # zprávy.',
+      one: 'Smazána # zpráva.',
     );
     return '$_temp0';
   }
@@ -6175,147 +6533,189 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: 'Odstraněni # členové.',
+      one: 'Odstraněn # člen.',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires => 'Toto pozvání nikdy nevyprší.';
 
   @override
-  String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+  String get auditLogOptionTemporaryMembership => 'Uděluje dočasné členství.';
 
   @override
-  String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+  String get auditLogOptionPermanentMembership => 'Uděluje trvalé členství.';
 
   @override
-  String get guildSettingsLoadMore => 'Load more';
+  String get guildSettingsLoadMore => 'Načíst další';
 
   @override
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+      'Spravujte webhooky, které odesílají zprávy do kanálů.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty => 'Nenastaveny žádné webhooky.';
 
   @override
-  String get guildSettingsCopyUrl => 'Copy URL';
+  String get guildSettingsCopyUrl => 'Zkopírovat URL';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => 'URL zkopírována do schránky';
 
   @override
-  String get guildSettingsDeleteWebhook => 'Delete webhook';
+  String get guildSettingsDeleteWebhook => 'Odstranit webhook';
 
   @override
   String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+      'Nastavte vlastní odkaz pro pozvánku na váš server.';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => 'Uložit';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => 'Použití';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count použití';
   }
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+      'Požádejte o zařazení do vyhledávání serverů.';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return 'Pro podání žádosti je potřeba alespoň $count členů.';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => 'Žádost';
 
   @override
-  String get guildSettingsDiscoveryStatusTitle => 'Status';
+  String get guildSettingsDiscoveryStatusTitle => 'Stav';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => 'Kategorie';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => 'Popis';
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tags';
+  String get guildSettingsDiscoveryTags => 'Štítky';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => 'hra, umění, hudba';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => 'Odeslat žádost';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => 'Stáhnout';
 
   @override
   String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+      'Vyhledávejte a spravujte členy serveru.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => 'Vyhledat členy';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count členů';
   }
 
   @override
   String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+      'Zobrazte a zrušte platné odkazy pro pozvánky.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => 'Žádné aktivní pozvánky.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses použití';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return 'Vyprší $date';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription =>
+      'Zobrazte a spravujte zabanované uživatele.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => 'Vyhledat bany';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => 'Žádní zabanovaní uživatelé.';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => 'Trvalý ban';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return 'Vyprší $date';
   }
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsBanExpiresLabel => 'Vyprší';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsUnban => 'Zrušit ban';
+
+  @override
+  String get guildSettingsBansLoading => 'Načítání zabanovaných uživatelů';
+
+  @override
+  String get guildSettingsBansNoSearchResults =>
+      'Nebyly nalezeny žádné bany odpovídající vašemu vyhledávání.';
+
+  @override
+  String get guildSettingsBanDetailsTitle => 'Detaily banu';
+
+  @override
+  String get guildSettingsBanViewDetails => 'Zobrazit detaily';
+
+  @override
+  String get guildSettingsBannedOn => 'Zabanován dne';
+
+  @override
+  String get guildSettingsBannedBy => 'Zabanován kým';
+
+  @override
+  String get guildSettingsRevokeBanTitle => 'Zrušit ban';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return 'Opravdu chcete zrušit ban pro $displayName? Bude se moci znovu připojit ke komunitě.';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return 'Ban pro $displayName zrušen';
+  }
+
+  @override
+  String get guildSettingsBansLoadError =>
+      'Nepodařilo se načíst bany. Zkuste to znovu.';
+
+  @override
+  String get guildSettingsRevokeBanError =>
+      'Nepodařilo se zrušit ban. Zkuste to znovu.';
+
+  @override
+  String get guildSettingsCommunitySettings => 'Nastavení komunity';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -6331,376 +6731,377 @@ class FluxerLocalizationsCs extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+      'Spravujte profil své komunity, kanály a výchozí nastavení.';
 
   @override
-  String get guildSettingsOverviewBrandingTitle => 'Branding';
+  String get guildSettingsOverviewBrandingTitle => 'Značka';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+      'Aktualizujte ikonu, název, banner a pozadí pozvánky';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => 'Nahrát banner';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => 'Nastavení nečinnosti';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+      'Nastavit AFK kanál a časový limit';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => 'Systém a uvítání';
 
   @override
   String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+      'Vybrat cíl pro systémové a uvítací zprávy';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle => 'Výchozí oznámení';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      'Komunity s více než 250 členy jsou nuceny do nastavení „pouze zmínky“. Vaše původní nastavení je zachováno a bude obnoveno, pokud komunita klesne pod 250 členů.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => 'Pokročilé';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+      'Povolit flexibilní názvy textových kanálů';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+      'Skrýt korunu vlastníka komunity';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => 'Samostatný banner';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+      'Zobrazí banner ve vlastní sekci pod hlavičkou komunity.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => 'Nahrát ikonu';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => 'Odebrat';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => 'Pozadí pozvánky';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle =>
+      'Pozadí pro vkládání do chatu';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+      'Zobrazí se ve vkládaných pozvánkách v chatu.';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => 'Nahrát pozadí';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => 'Žádný banner komunity';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground => 'Žádné pozadí pozvánky';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => 'Náhled';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+      'Podívejte se, jak vaše pozvánka vypadá pro návštěvníky.';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle =>
+      'Názvy textových kanálů';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle =>
+      'Koruna vlastníka komunity';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+      'Nastavte, zda se vedle vlastníka komunity zobrazí ikona koruny';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => 'Zarovnání karty';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => 'Na střed';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => 'Vlevo';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => 'Vpravo';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+      'Platí pouze na širokých obrazovkách.';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => 'Číst historii zpráv';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return 'Změnit, co mohou vidět uživatelé bez oprávnění „$permission“';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return 'Použijte vyhrazené modální okno k nastavení prahu historie zpráv pro členy, kteří nemají oprávnění $permission.';
   }
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+      'Otevřít práh historie zpráv';
 
   @override
-  String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+  String get guildSettingsMessageHistoryThresholdTitle => 'Práh historie zpráv';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+      'Povolit práh historie zpráv';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => 'Datum prahu';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      'Členové bez oprávnění Číst historii zpráv si mohou prohlížet zprávy odeslané po tomto datu.';
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+      'Práh historie zpráv aktualizován';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      'Povolit velká písmena a mezery v názvech textových kanálů. Vypnuto omezuje názvy na malá písmena s pomlčkami a podtržítky.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+      'Skryje ikonu koruny vedle vlastníka komunity na všech místech.';
 
   @override
   String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+      'Animované ikony vyžadují funkci komunity Animovaná ikona.';
 
   @override
   String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+      'Animované bannery vyžadují funkci komunity Animovaný banner.';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'AFK / nečinný kanál';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+      'Přesunout členy do tohoto kanálu, když jsou AFK.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => 'Žádný AFK kanál';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'AFK časový limit';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 minuta';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 minut';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 minut';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 minut';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 hodina';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds sekund';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => 'Cílový kanál';
 
   @override
   String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+      'Zprávy s uvítáním a systémové zprávy se zobrazí zde.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => 'Žádný systémový kanál';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages => 'Skrýt zprávy o připojení';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+      'Potlačí zprávy o připojení v cílovém kanálu.';
 
   @override
-  String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+  String get guildSettingsDefaultNotifications => 'Výchozí nastavení oznámení';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => 'Všechny zprávy';
 
   @override
   String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+      'Upozornit na všechny zprávy';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => 'Pouze zmínky';
 
   @override
   String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+      'Upozornit pouze na zmínky';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG, PNG, WebP, AVIF. Max 10 MB. Minimum: 960×540 px (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG, PNG, WebP, AVIF. Max 10 MB. Minimum: 960×540 px (16:9). Zobrazuje se ve vkládaných odkazech v chatu.';
 
   @override
   String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+      'Nastavte ověřování, filtrování obsahu a nastavení pro obsah pro dospělé.';
 
   @override
   String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+      'Komunity uvedené v Discovery mají omezené možnosti moderování.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => 'Filtrování obsahu';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      'Automaticky kontrolujte zprávy na explicitní obsah v kanálech, které nejsou označeny jako pro dospělé.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      'Komunity uvedené v Discovery musí skenovat všechny členy. Toto nastavení nelze změnit, dokud je povoleno Discovery.';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => 'Vypnuto';
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+      'Nechte komunitu moderovat se sama';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole => 'Filtrovat členy bez rolí';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+      'Doporučeno pro většinu komunit';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => 'Filtrovat všechny';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+      'Maximální ochrana pro rodinné prostory';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => 'Vypnuto';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => 'Zapnuto';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle => 'Zobrazit varování o obsahu';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+      'Přepíná výzvu k souhlasu před vstupem do jakéhokoli kanálu.';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => 'Vlastní text varování';
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+      'Toto obsahuje citlivý obsah.';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => 'Požadavek 2FA';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      'Vyžadujte dvoufaktorové ověření pro moderátory, než budou moci zabanovat, vyhodit, ztlumit nebo odstranit zprávy.';
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+      'Vyžadovat 2FA pro akce moderování';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+      'Toto nastavení může změnit pouze vlastník komunity';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      'Povolte 2FA na svém účtu, abyste mohli toto nastavení změnit';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => 'Hledat emotikony';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => 'Nahrát emotikon';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return 'Neanimované emotikony ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return 'Animované emotikony ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => 'Hledat samolepky';
 
   @override
   String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+      'Vytvářejte webhooky z nastavení kanálu. Upravujte je zde.';
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+      'Vaše vlastní URL nebude fungovat, pokud alespoň jeden kanál nebude viditelný pro všechny.';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => 'Odstranit';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => 'Zabanovaní uživatelé';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => 'Zval';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => 'Kanál';
 
   @override
-  String get guildSettingsInvitesTableCode => 'Code';
+  String get guildSettingsInvitesTableCode => 'Kód';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => 'Použití';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => 'Vytvořeno';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => 'Nejnovější první';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => 'Filtrovat podle uživatele';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => 'Filtrovat podle akce';
 }

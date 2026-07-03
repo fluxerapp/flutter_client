@@ -83,5 +83,25 @@ Alert syntax stays literal
       expect(find.textContaining('[!NOTE]'), findsOneWidget);
       expect(find.textContaining('Alert syntax stays literal'), findsOneWidget);
     });
+
+    testWidgets('renders code block when closing fence is on the last line', (
+      tester,
+    ) async {
+      const String input = '```dart\nvoid main() {}```';
+      await _pumpMarkdown(tester, input);
+      expect(find.byType(HighlightView), findsOneWidget);
+      expect(find.textContaining('```'), findsNothing);
+    });
+
+    testWidgets(
+      'renders multi-line code block when closing fence is adjacent to last line',
+      (tester) async {
+        const String input = '```\nline one\nline two```';
+        await _pumpMarkdown(tester, input);
+        expect(find.textContaining('line one'), findsOneWidget);
+        expect(find.textContaining('line two'), findsOneWidget);
+        expect(find.textContaining('```'), findsNothing);
+      },
+    );
   });
 }

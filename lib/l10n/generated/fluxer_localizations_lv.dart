@@ -9,146 +9,146 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   FluxerLocalizationsLv([String locale = 'lv']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'Mums sanāca putra!';
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Kaut kas nav kārtībā ar serveriem.\nDrīzumā tiks salabots!';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => 'Tiek izveidots savienojums vēlreiz…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => 'Savienots';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return 'Startēšana neizdevās: $error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'Mēģināt vēlreiz';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => 'Savienojums zaudēts';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'Skatīt statusa lapā';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => 'Problēmas ar savienojumu?';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'Statusa lapa';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'Lasīt par incidentu';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'Incidentu vēsture';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => 'Laipni lūgti atpakaļ';
 
   @override
-  String get email => 'Email';
+  String get email => 'E-pasts';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => 'Lūdzu, ievadiet derīgu e-pasta adresi.';
 
   @override
-  String get password => 'Password';
+  String get password => 'Parole';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'Aizmirsi paroli?';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'Ienākt';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => 'Ienākt ar piekļuves atslēgu';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return 'Turpināt ar $provider';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired => 'Lai piekļūtu šai instancei, ir nepieciešams SSO.';
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'Ienākt, izmantojot jūsu organizācijas vienreizējās pieteikšanās nodrošinātāju.';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => 'SSO nevarēja sākties';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'SSO pieteikšanās tika atcelta';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return 'Vēlaties izmantot SSO? Turpiniet ar $provider.';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => 'Ienākt caur pārlūkprogrammu';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => 'Nepieciešams konts? ';
 
   @override
-  String get register => 'Register';
+  String get register => 'Reģistrēties';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => 'Pārliecinieties, ka esat cilvēks';
 
   @override
   String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+      'Mums ir jāpārliecinās, ka neesat robots. Lūdzu, pabeidziet verificēšanu zemāk.';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha => 'Problēmas? Mēģiniet hCaptcha vietā';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile => 'Mēģiniet Turnstile vietā';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Atcelt';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'Pārbaudiet savu e-pastu';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'Mēs nosūtījām e-pastā saiti, lai autorizētu šo pieteikšanos. Lūdzu, atveriet savu iesūtni $email.';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => 'Savienojums zaudēts';
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'Mēs zaudējām savienojumu, gaidot autorizāciju. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => 'Pieteikšanās saite ir nederīga';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'Šī autorizācijas saite ir nederīga. Lūdzu, piesakieties vēlreiz.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'Nosūtīt e-pastu vēlreiz';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'Nosūtīts vēlreiz';
 
   @override
   String ipAuthResendCountdown(int seconds) {
@@ -156,949 +156,1000 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'Atpakaļ';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => 'Divu faktoru autentifikācija';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => 'Izvēlieties verifikācijas metodi';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'Autentifikatora lietotne';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => 'Drošības atslēga / Piekļuves atslēga';
 
   @override
   String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+      'Ievadiet 6 ciparu kodu no savas autentifikatora lietotnes vai vienu no saviem rezerves kodiem.';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => 'Kods';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'Mēģināt citu metodi';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey =>
+      'Mēģināt izmantot drošības atslēgu / piekļuves atslēgu';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'Izvēlieties kontu';
 
   @override
   String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+      'Atlasiet kontu, lai turpinātu, vai pievienojiet citu.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'Pievienot kontu';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => 'Noņemt';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return 'Noņemt $username';
   }
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'Tiks noņemta šī konta saglabātā sesija.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+      'Tiks noņemts vienīgais šajā ierīcē saglabātais konts.';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'Derīguma termiņš beidzies';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return 'Sesija beigusies priekš $identifier. Lūdzu, piesakieties vēlreiz.';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => 'Pārvaldīt kontus';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed =>
+      'Neizdevās pārslēgt kontus. Mēģiniet vēlreiz.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => 'Pārslēgt kontus';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => 'Iestatīt statusu';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => 'Tiešsaistes statuss';
 
   @override
-  String get statusOnline => 'Online';
+  String get statusOnline => 'Tiešsaistē';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => 'Dīkstāvē';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => 'Netraucēt';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => 'Neredzams';
 
   @override
-  String get statusOffline => 'Offline';
+  String get statusOffline => 'Bezsaistē';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => 'Līdz brīdim, kad to mainīšu';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'Neatcelt';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => '10 sekundes';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 sekundes';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 minūtes';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 minūtes';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 stunda';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 stundas';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 stundas';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 stundas';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 stundas';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 dienas';
 
   @override
-  String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+  String get statusDndDescription => 'Jūs nesaņemsiet paziņojumus darbvirsmā';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => 'Jūs parādīsities kā bezsaistē';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => 'Iestatīt pielāgoto statusu';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => 'Pielāgotais statuss';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => 'Notīrīt pielāgoto statusu';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'Kas notiek?';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'Izvēlieties emocellīti';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'Notīrīt pēc';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => 'Saglabāt';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => 'Aktīvais konts';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'Izrakstīties';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => 'Konts pastāvīgi apturēts';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => 'Konts apturēts';
 
   @override
   String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+      'Jūsu konts ir pastāvīgi apturēts par mūsu pakalpojumu sniegšanas noteikumu pārkāpšanu.';
 
   @override
   String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+      'Jūsu konts ir īslaicīgi apturēts. Jūs varēsiet piekļūt savam kontam, kad beigsies apturēšanas periods.';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => 'Izdots';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => 'Beidzas';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => 'Ilgums';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedPermanent => 'Pastāvēties';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => 'Iemesls';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => 'Apelācijas termiņš';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return 'Jūsu konts ir plānots dzēšanai $date';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => 'Pārbaudīt atjauninājumus';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return 'Pārbaudīt vēl pēc ${seconds}s';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => 'Atpakaļ uz pieteikšanos';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => 'Apelācija';
 
   @override
   String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+      'Paskaidrojiet, kāpēc jūsu noraidījums būtu jāpārskata (vismaz 50 rakstzīmes)...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => 'Iesniegt apelāciju';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => 'Gaida izskatīšanu';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => 'Apelācija pieņemta';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => 'Apelācija noraidīta';
 
   @override
   String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+      'Jūsu apelācija ir pieņemta un jūsu konts ir atjaunots.';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => 'Piesakieties savā kontā';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'Aizmirsi paroli?';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'Ievadiet savu e-pasta adresi, un mēs nosūtīsim jums saiti paroles atiestatīšanai.';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => 'Nosūtīt atiestatīšanas saiti';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'Pārbaudiet savu e-pastu';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'Mēs nosūtījām paroles atiestatīšanas norādījumus uz jūsu e-pasta adresi. Lūdzu, pārbaudiet savu iesūtni un sekojiet saitei, lai atiestatītu paroli.';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'Atgriezties uz pieteikšanos';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'Iestatīt jaunu paroli';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+      'Ievadiet savu jauno paroli zemāk, lai pabeigtu atiestatīšanas procesu.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'Jauna parole';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'Apstiprināt jauno paroli';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => 'Atiestatīt paroli';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'Paroles nesakrīt.';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => 'Izveidot kontu';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => 'Vārds (nav obligāts)';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => 'Kā cilvēki jūs sauks?';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => 'Lietotājvārds (nav obligāts)';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint =>
+      'Atstājiet tukšu, lai iegūtu nejaušu lietotājvārdu';
 
   @override
   String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+      'Lai nodrošinātu unikalitāti, automātiski tiks pievienots 4 ciparu tagad';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'Dzimšanas datums';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'Mēnesis';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'Diena';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'Gads';
 
   @override
   String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+      'Es piekrītu pakalpojumu sniegšanas noteikumiem un privātuma politikai';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => 'Es piekrītu ';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => 'pakalpojumu sniegšanas noteikumiem';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => ' un ';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => 'privātuma politikai';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => 'Apstiprināt paroli';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Izveidot kontu';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => 'Jau ir konts? ';
 
   @override
   String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+      'Šai lietotnei nav atrasti atslēgu pāri. Piesakieties, izmantojot e-pastu un paroli.';
 
   @override
-  String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+  String get passkeyDeviceNotSupported => 'Šī ierīce neatbalsta atslēgu pārus.';
 
   @override
   String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+      'Atslēgu pāri nav konfigurēti šai lietotnei. Piesakieties, izmantojot e-pastu un paroli.';
 
   @override
   String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+      'Atslēgu pāru autentifikācija beidzās. Lūdzu, mēģiniet vēlreiz.';
 
   @override
   String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+      'Atslēgu pāri nav pieejami šai lietotnei. Piesakieties, izmantojot e-pastu un paroli.';
 
   @override
   String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+      'Neizdevās autentificēties ar piekļuves atslēgu. Lūdzu, mēģiniet vēlreiz.';
 
   @override
   String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+      'Nevar izveidot kontu. Lūdzu, mēģiniet vēlreiz.';
 
   @override
   String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+      'Pašlaik nevar pieteikties. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword => 'Nepareizs e-pasts vai parole.';
 
   @override
   String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+      'Nevar nosūtīt atiestatīšanas saiti. Lūdzu, mēģiniet vēlreiz.';
 
   @override
   String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+      'Nevar atiestatīt paroli. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => 'Pievienoties kopienai';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => 'Doties uz kopienu';
 
   @override
   String embedInviteOnline(String count) {
-    return '$count Online';
+    return '$count tiešsaistē';
   }
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count dalībnieki';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => 'Nezināms ielūgums';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle => 'Mēģiniet pieprasīt jaunu ielūgumu.';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => 'Ielūgums nav pieejams';
+
+  @override
+  String get inviteAcceptTitle => 'Jūs esat uzaicināts pievienoties';
+
+  @override
+  String get inviteAcceptJoinButton => 'Pievienoties kopienai';
+
+  @override
+  String get inviteAcceptGoToButton => 'Doties uz kopienu';
+
+  @override
+  String get inviteAcceptInvitesPaused => 'Ielūgumi ir apturēti';
+
+  @override
+  String get inviteAcceptNotFoundTitle => 'Ielūgums nav derīgs';
+
+  @override
+  String get inviteAcceptNotFoundDescription =>
+      'Šis ielūgums var būt nederīgs vai beidzies tā derīguma termiņš.';
+
+  @override
+  String get inviteAcceptJoinGroupButton => 'Pievienoties grupai';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return 'Jūs esat uzaicināts pievienoties grupas DM, ko veicis $inviterName';
+  }
+
+  @override
+  String get inviteAcceptSomeone => 'kāds';
+
+  @override
+  String get inviteAcceptEmojiPack => 'Emociju komplekts';
+
+  @override
+  String get inviteAcceptStickerPack => 'Uzlīmju komplekts';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => 'Instalēt emociju komplektu';
+
+  @override
+  String get inviteAcceptInstallStickerPack => 'Instalēt uzlīmju komplektu';
+
+  @override
+  String get inviteAcceptPackInstallNote =>
+      'Šī ielūguma pieņemšana automātiski instalēs komplektu.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => 'Nav piekļuves kanālam';
 
   @override
   String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+      'Jums nav piekļuves kanālam, kurā tika nosūtīta šī ziņa.';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => 'Nav piekļuves';
 
   @override
-  String get okay => 'Okay';
+  String get okay => 'Labi';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => 'Koplietota tēma';
 
   @override
-  String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+  String get embedThemeSubtitle => 'Šis klients neatbalsta pielāgotas tēmas.';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => 'Tēmas nav pieejamas';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => 'Privātuma iestatījumi';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => 'Privātās ziņas';
 
   @override
   String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+      'Atļaut privātās ziņas no citiem šīs kopienas dalībniekiem';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => 'Botu privātās ziņas';
 
   @override
   String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+      'Atļaut botu no šīs kopienas sūtīt jums privātās ziņas';
 
   @override
   String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+      'Kopienas administratori ir atspējojuši privāto ziņu saņemšanu tikai no savstarpējiem dalībniekiem šajā kopienā.';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => 'Kopienas atkļūdošana';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => 'Nokopēts starpliktuvē';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => 'Paziņojumu iestatījumi';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return 'Izslēgt $guildName skaņu';
   }
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'Kopienas izslēgšana novērš nelasītu indikatoru un paziņojumu parādīšanos, ja vien neesat pieminēts.';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings => 'Kopienas paziņojumu iestatījumi';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => 'Visas ziņas';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => 'Tikai pieminējumi';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => 'Nekas';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => 'Atslēgt @everyone un @here';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles => 'Ignorēt visas @pieminētās lomas';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => 'Mobilie informatīvie paziņojumi';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => 'Paziņojumu pārrakstīšanas iestatījumi';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => 'Izvēlieties kanālu vai kategoriju';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => 'Tikai @pieminētie';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => 'Izslēgt kanālu';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => 'Ieslēgt kanālu';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => 'Nav kategorijas';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => 'Atzīmēt kā izlasītu';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => 'Izslēgt DM';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => 'Ieslēgt DM';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => 'Piespraust DM';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => 'Atspraust DM';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => 'Vienmēr rādīt sānu joslā';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => 'Noņemt no vienmēr rādītajiem';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => 'Aizvērt DM';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => 'Aizvērt DM';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return 'Vai tiešām vēlaties aizvērt savu DM ar $username? Jūs vienmēr varat to atvērt vēlāk.';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => 'Kopēt kanāla ID';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => 'Kanāla ID kopēts';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => 'Kopēt lietotāja ID';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => 'Lietotāja ID kopēts';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => 'Skatīt profilu';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => 'Sākt balss zvanu';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => 'Ienākošais balss zvans';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => 'Pieņemt';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => 'Noraidīt';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => 'Ienākošais zvans';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => 'Ignorēt';
 
   @override
   String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+      'Šo zvanu pašlaik nevar sākt. Mēģiniet vēlreiz pēc brīža.';
 
   @override
   String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+      'Neizdevās savienoties ar šo zvanu. Pārbaudiet savu savienojumu un mēģiniet vēlreiz.';
 
   @override
   String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+      'Neizdevās pievienoties šim zvanam. Pārbaudiet savu savienojumu un mēģiniet vēlreiz.';
 
   @override
   String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+      'Neizdevās atjaunināt šo zvanu serverī. Pārbaudiet savu savienojumu un mēģiniet vēlreiz.';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => 'Pievienot piezīmi';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => 'Rediģēt grupu';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => 'Uzaicināt uz kopienu';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => 'Bloķēt';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => 'Pamest grupu';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => 'Nav pieejamu kopienu';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count dalībnieki';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => 'Uz 15 minūtēm';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => 'Uz 30 minūtēm';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => 'Uz 1 stundu';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => 'Uz 3 stundām';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => 'Uz 4 stundām';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => 'Uz 8 stundām';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => 'Uz 24 stundām';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => 'Uz 3 dienām';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => 'Līdz brīdim, kad to atkal ieslēgšu';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => 'Piespraust grupas DM';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => 'Noņemt grupas DM no saraksta';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => 'Iecienīt DM';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => 'Noņemt no iecienītākajiem DM';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => 'Iecienīt grupas DM';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => 'Noņemt grupas DM no iecienītākajiem';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => 'Mainīt drauga segvārdu';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => 'Noņemt draugu';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => 'Pievienot draugu';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => 'Pieņemt drauga pieprasījumu';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => 'Ignorēt drauga pieprasījumu';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => 'Draudzības pieprasījums nosūtīts';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => 'Atbloķēt';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => 'Debugot lietotāju';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => 'Debugot kanālu';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => 'Piesprausts DM';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => 'DM noņemts no saraksta';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => 'Izslēgts DM';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => 'DM skaņa ieslēgta';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => 'Noņemt draugu';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Vai tiešām vēlaties noņemt $username kā draugu?';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => 'Bloķēt lietotāju';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return 'Vai tiešām vēlaties bloķēt $username? Viņš nevarēs jums rakstīt vai sūtīt drauga pieprasījumus.';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => 'Draudzības pieprasījums nosūtīts';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed => 'Neizdevās nosūtīt drauga pieprasījumu';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed =>
+      'Neizdevās pieņemt drauga pieprasījumu';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => 'Neizdevās noņemt draugu';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => 'Neizdevās bloķēt lietotāju';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed => 'Neizdevās atbloķēt lietotāju';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed =>
+      'Neizdevās ignorēt drauga pieprasījumu';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => 'Pievienot draugus';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => 'Pievienot draugu';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => 'Lietotājvārds#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => 'Drauga lietotājvārds';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => 'Nosūtīt pieprasījumu';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound =>
+      'Nav atrasts lietotājs ar šādu lietotājvārdu.';
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+      'Ievadiet derīgu lietotājvārdu (Lietotājvārds#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => 'Draudzības pieprasījums nosūtīts';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => 'Pieprasiet savu kontu';
 
   @override
   String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+      'Pieprasiet savu kontu, lai nosūtītu drauga pieprasījumus.';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => 'Verificējiet savu e-pastu';
 
   @override
   String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+      'Jums ir jāverificē sava e-pasta adrese, pirms varat nosūtīt drauga pieprasījumus.';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => 'Verificēt e-pastu';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return 'Ienākošie drauga pieprasījumi ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return 'Izsūtītie drauga pieprasījumi ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => 'Ienākošais drauga pieprasījums';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => 'Draudzības pieprasījums nosūtīts';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => 'Skatīt profilu';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => 'Pieņemt';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => 'Ignorēt';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => 'Pieņemt drauga pieprasījumu';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => 'Ignorēt drauga pieprasījumu';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return 'Pieņemt drauga pieprasījumu no $userName?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return 'Ignorēt drauga pieprasījumu no $displayName?';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => 'Atcelt pieprasījumu';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+      'Neizdevās atcelt drauga pieprasījumu. Mēģiniet vēlreiz.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+      'Viņi pašlaik nepieņem draugu pieprasījumus.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+      'Vispirms atbloķējiet viņu, lai nosūtītu drauga pieprasījumu.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+      'Jūs nevarat nosūtīt drauga pieprasījumu sev.';
 
   @override
-  String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+  String get addFriendAlreadyFriends => 'Jūs jau esat draugos ar šo lietotāju.';
 
   @override
   String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+      'Pabeidziet reģistrēšanos, lai nosūtītu drauga pieprasījumus.';
 
   @override
   String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+      'Neizdevās nosūtīt drauga pieprasījumu. Mēģiniet vēlreiz.';
 
   @override
   String get userTagBot => 'BOT';
 
   @override
-  String get userTagSystem => 'System';
+  String get userTagSystem => 'Sistēma';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => 'Atrodiet savu sapņu emocijzīmi';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty =>
+      'Nav emocijzīmju, kas atbilstu jūsu meklēšanai';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => 'Noklusējuma emocijzīme';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => 'Bieži lietotās';
 
   @override
-  String get emojiTabGifs => 'GIFs';
+  String get emojiTabGifs => 'GIF';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => 'Multivide';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => 'Uzlīmes';
 
   @override
-  String get emojiTabEmojis => 'Emojis';
+  String get emojiTabEmojis => 'Emocijzīmes';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => 'Meklēt GIF';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => 'Meklēt KLIPY';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => 'Meklēt Tenor';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => 'Izlase';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => 'Populāri GIF';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => 'Nav meklēšanas rezultātu';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription =>
+      'Mēģiniet citu meklēšanas termiņu';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => 'Neizdevās ielādēt GIF';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody =>
+      'Pārbaudiet savu savienojumu un mēģiniet vēlreiz.';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => 'Cilvēki';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => 'Daba';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => 'Pārtika un dzērieni';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => 'Darbības';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => 'Ceļojumi un vietas';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => 'Objekti';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => 'Simboli';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => 'Karogi';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return 'Atbloķējiet $emojiCount no $communityCount ar Plutonium.';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => 'Iegūt Plutonium';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => 'Nekad vairs nerādīt';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count pielāgotas emocijzīmes',
+      one: '1 pielāgota emocijzīme',
     );
     return '$_temp0';
   }
@@ -1108,668 +1159,675 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count kopienas',
+      one: '1 kopiena',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => 'Brīdinājums par ārējo saiti';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => 'Jūs gatavojaties pamest Fluxer';
 
   @override
   String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+      'Ārējās saites var būt bīstamas. Lūdzu, esiet uzmanīgi.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => 'Galamērķa URL:';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => 'Ārējās saites';
 
   @override
   String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+      'Konfigurējiet, kā tiek apstrādāti brīdinājumi par ārējām saitēm.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => 'Vienmēr uzticēties';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix =>
+      ' — izlaist šo brīdinājumu nākamreiz';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => 'Apmeklēt vietni';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => 'Uzticēt visām ārējām saitēm';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Noņemt izsekošanas parametrus no URL';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      'Automātiski noņemiet izsekošanas parametrus (piemēram, utm_source, fbclid, gclid) no URL ziņojumos, ko sūtāt. Tīra saiti, pirms tā sasniedz kādu citu.';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle => 'Uzticēt visām ārējām saitēm?';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      'Tas uzticēs visām ārējām saitēm un izlaidīs brīdinājumu par katru domēnu. Jūsu esošie uzticamie domēni tiks aizstāti. Tas ir mazāk droši.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => 'Uzticēt visām';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle =>
+      'Pārtraukt uzticēšanos visām saitēm?';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      'Ārējo saišu brīdinājumi tiks rādīti vēlreiz. Jums būs jāpievieno uzticami domēni atsevišķi.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction => 'Atspējot uzticēšanos visām';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+      'Visām ārējām saitēm tiek uzticēts. Brīdinājumi netiks rādīti.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return 'Jums ir $count uzticami domēni. Pievienojiet vairāk, atzīmējot izvēles rūtiņu, apmeklējot ārējas saites.';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      'Kad tas ir iespējots, netiks rādīti brīdinājumi par ārējām saitēm. Tas ir mazāk droši.';
 
   @override
   String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+      'Attēla fails ir pārāk liels. Lūdzu, izvēlieties failu, kas mazāks par 10 MB.';
 
   @override
   String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+      'Animētiem avatariem nepieciešams Plutonium';
 
   @override
   String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+      'Animētiem baneriem nepieciešams Plutonium';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported => 'Animēts AVIF netiek atbalstīts';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      'Animētu AVIF failu apgriešana un pagriešana vēl netiek atbalstīta. Ja turpināsiet, tas tiks augšupielādēts oriģinālajā formā.';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => 'Augšupielādēt kā ir';
 
   @override
   String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+      'Animētu attēlu apgriešana vēl netiek atbalstīta. Tiks izmantots sākotnējais augšupielādes attēls.';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => 'Apgriezt avatāru';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => 'Apgriezt baneri';
 
   @override
-  String get skip => 'Skip';
+  String get skip => 'Izlaist';
 
   @override
-  String get crop => 'Crop';
+  String get crop => 'Apgriezt';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => 'Mainīt savu FluxerTag';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      'Lietotājvārdi var saturēt tikai burtus (a-z, A-Z), ciparus (0-9) un pasvītrojumus. Lietotājvārdi nav reģistrjutīgi.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      'Lietotājvārdi var saturēt tikai burtus (a-z, A-Z), ciparus (0-9) un pasvītrojumus. Lietotājvārdi nav reģistrjutīgi. Jūs varat izvēlēties jebkuru pieejamo 4 ciparu tagu no #0000 līdz #9999.';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      'Lietotājvārdi var saturēt tikai burtus (a-z, A-Z), ciparus (0-9) un pasvītrojumus. Lietotājvārdi nav reģistrjutīgi. Jūs varat izvēlēties jebkuru pieejamo 4 ciparu tagu no #0001 līdz #9999.';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return 'No $min līdz $max rakstzīmēm';
   }
 
   @override
   String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+      'Tikai burti (a-z, A-Z), cipari (0-9) un pasvītrojumi (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      'Iegūstiet Plutonium, lai pielāgotu savu tagu vai saglabātu to, mainot lietotājvārdu';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'FluxerTag jau aizņemts';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'FluxerTag $username#$discriminator jau ir aizņemts. Turpinot, jūsu diskriminators tiks automātiski pārrullēts.';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => 'Pielāgotais tag ir pagaidu';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return 'Jūsu pielāgotais 4 ciparu tag ir pieejams tikai tad, kamēr ir aktīva jūsu Plutonium abonements. Kad jūsu abonements beigsies $date, jūsu tag pēc 3 dienu žēlastības perioda atgriezīsies pie nejauši piešķirta numura.';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      'Jūsu pielāgotais 4 ciparu tag ir pieejams tikai tad, kamēr ir aktīva jūsu Plutonium abonements. Kad jūsu abonements beigsies, jūsu tag pēc 3 dienu žēlastības perioda atgriezīsies pie nejauši piešķirta numura.';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => 'Saprotu, turpināt';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      'Ja saglabāsiet šo FluxerTag, jūsu pielāgotais 4 ciparu tag pēc Plutonium abonementa beigām atgriezīsies pie nejauša numura. Ja jūsu abonements netiks atjaunots, jums būs 3 dienu žēlastības periods pirms taga maiņas.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return 'Jūsu pielāgotais 4 ciparu tag (#$discriminator) ir aktīvs, kamēr ir aktīvs jūsu Plutonium abonements. Ja jūsu abonements beigsies vai netiks atjaunots pēc 3 dienu žēlastības perioda, jūsu tag atgriezīsies pie nejauša numura.';
   }
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'Pielāgojiet savu 4 ciparu tagu vai saglabājiet to, mainot lietotājvārdu';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return 'Jūsu Plutonium izmēģinājuma periods beidzas $date. Jauniniet, lai saglabātu savu pielāgoto tagu un iegūtu emblēmu savā profilā.';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      'Jūs izmantojat Plutonium izmēģinājuma versiju. Jauniniet, lai saglabātu savu pielāgoto tagu un iegūtu emblēmu savā profilā.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'FluxerTag atjaunināts';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+      'Neizdevās atjaunināt FluxerTag. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Turpināt';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => 'Profila pielāgošana';
 
   @override
   String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+      'Rediģējiet sava profila izskatu un skatiet tiešraides priekšskatījumu';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => 'Lietotājvārds';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+      'Pieprasiet savu kontu, lai mainītu savu FluxerTag';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => 'Mainīt FluxerTag';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return 'Pielāgojiet savu 4 ciparu tagu (#$discriminator) pēc savas gaumes ar Plutonium';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint =>
+      'Mainīt savu lietotājvārdu un 4 ciparu tagu';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return 'Jūsu pielāgotais tag (#$discriminator) ir saistīts ar jūsu Plutonium abonementu un tiks atjaunots uz nejaušu tagu, ja tas beigsies.';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => 'Vārds';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => 'Vietniekvārdi';
 
   @override
-  String get avatarLabel => 'Avatar';
+  String get avatarLabel => ' ietvars';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => 'Mainīt ietvaru';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => 'Noņemt ietvaru';
 
   @override
   String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, GIF. Maksimālais izmērs 10 MB. Ieteicams: 512×512 pikseļi';
 
   @override
-  String get bannerLabel => 'Banner';
+  String get bannerLabel => 'Baneris';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => 'Mainīt baneri';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => 'Noņemt baneri';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG, JPEG, WebP, GIF. Maksimālais izmērs 10 MB. Minimālais izmērs: 960×540 pikseļi (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => 'Akcenta krāsa';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'Pielāgo jūsu profila apmali un banera krāsu';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => 'Par mani';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText =>
+      'Varat izmantot saites, emocijzīmes un Markdown.';
 
   @override
-  String get emojiPickerTitle => 'Emoji';
+  String get emojiPickerTitle => 'Emocijzīmes';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle =>
+      'Plutonium nozīmītes konfidencialitāte';
 
   @override
   String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+      'Kontrolējiet, kā jūsu Plutonium nozīmīte tiek rādīta citiem';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel => 'Pilnībā paslēpt Plutonium nozīmīti';
 
   @override
   String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+      'Pilnībā paslēpt savu Plutonium nozīmīti no citiem lietotājiem';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => 'Paslēpt Plutonium iegādes datumu';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return 'Paslēpt Plutonium iegādes datumu ($date)';
   }
 
   @override
   String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+      'Noņemiet no savas nozīmītes informāciju par Plutonium iegādi';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription => 'Maskēt Visionary kā abonementu';
 
   @override
   String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+      'Rādīt jūsu Visionary kā parastu abonementu';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => 'Paslēpt Visionary ID nozīmīti';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return 'Paslēpt Visionary ID nozīmīti (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription =>
+      'Noņemiet savu Visionary ID nozīmīti';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return 'Jūs izmantojat Plutonium izmēģinājuma versiju — jūsu abonements sāksies $date';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      'Jūsu abonements automātiski sāksies, kad beigsies izmēģinājuma periods. Nav nepieciešamas darbības.';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return 'Jūs izmantojat Plutonium izmēģinājuma versiju, kas beidzas $date';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile =>
+      'Jūs izmantojat Plutonium izmēģinājuma versiju';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG, PNG, WebP. Maksimālais izmērs 10 MB. Ieteicams: 512×512 pikseļi. Animētiem ietvariem (GIF) nepieciešams Plutonium.';
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'Pielāgojiet savu profilu ar statisku vai animētu banera attēlu, lai tas izceltos.';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => 'Iegūt Plutonium';
 
   @override
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
   String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+      'Pirkumi lietotnē vēl nav pieejami šajā platformā. Sekojiet līdzi — drīzumā!';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => 'Priekšskatījums';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => 'Ziņojums';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'Fluxer dalībnieks kopš';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => 'Nepieprasīts konts';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      'Jūsu konts vēl nav pieprasīts. Bez e-pasta un paroles varat zaudēt piekļuvi. Pieprasiet savu kontu tūlīt, lai to nodrošinātu.';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => 'Pieprasīt kontu';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => 'Profila veids';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => 'Globālais profils';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      'Jūs rediģējat savu profila informāciju katrai kopienai. Šis profils būs redzams tikai šajā kopienā un aizstās jūsu globālo profilu.';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => 'Kopienas segvārds';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'Individuālu kopienu iestatījumu pielāgošana (avataram, banerim, akcenta krāsai un biogrāfijai) prasa Plutoniju. Kopienas segvārds un vietniekvārdi ir bez maksas visiem.';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => 'Lietot globālo profilu';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => 'Lietot pielāgotu attēlu';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => 'Nekrāt';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => 'Profils atjaunināts';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => 'Rediģēt profilu';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => 'Piezīme';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '(redzams tikai jums)';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => 'Vēl nav piezīmes.';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => 'Verificējiet savu identitāti';
 
   @override
-  String get sudoDescription =>
-      'This action requires verification to continue.';
+  String get sudoDescription => 'Šī darbība prasa verifikāciju, lai turpinātu.';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => 'Autentifikatora kods';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => 'Parole';
 
   @override
-  String get sudoMethodTotp => 'Authenticator';
+  String get sudoMethodTotp => 'Autentifikators';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed =>
+      'Verifikācija neizdevās. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => 'Konts';
 
   @override
   String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+      'Pārvaldiet savu e-pastu, paroli un konta iestatījumus';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => 'Drošība';
 
   @override
   String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+      'Aizsargājiet savu kontu ar divu faktoru autentifikāciju un piekļuves atslēgām';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => 'E-pasta iestatījumi';
 
   @override
   String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+      'Pārvaldiet e-pasta adresi, ko izmantojat, lai pieteiktos Fluxer';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => 'E-pasta adrese';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => 'E-pasta adrese nav iestatīta';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => 'Mainīt e-pastu';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => 'Pievienot e-pastu';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => 'Rādīt';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => 'Slēpt';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => 'Parole';
 
   @override
   String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+      'Mainiet savu paroli, lai jūsu konts būtu drošībā';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => 'Pašreizējā parole';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return 'Pēdējo reizi mainīta: $date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => 'Pēdējo reizi mainīta: Nekad';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => 'Parole nav iestatīta';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => 'Mainīt paroli';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => 'Iestatīt paroli';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => 'Mainīt paroli';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      'Mēs nosūtīsim verifikācijas kodu uz jūsu e-pasta adresi, lai apstiprinātu jūsu identitāti pirms paroles maiņas.';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => 'Sākt';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => 'Verificējiet savu e-pastu';
 
   @override
   String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+      'Ievadiet verifikācijas kodu, kas nosūtīts uz jūsu e-pasta adresi.';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => 'Verifikācijas kods';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => 'Verificēt';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => 'Iestatīt jaunu paroli';
 
   @override
   String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+      'Ievadiet savu jauno paroli zemāk.';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => 'Jaunā parole';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => 'Apstiprināt jauno paroli';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => 'Mainīt paroli';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => 'Parole mainīta';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch => 'Paroles nesakrīt';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => 'Nederīgs vai beidzies kods';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => 'Mainīt e-pastu';
 
   @override
   String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+      'Mēs nosūtīsim verifikācijas kodus, lai apstiprinātu jūsu identitāti pirms e-pasta adreses maiņas.';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => 'Sākt';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => 'Verificēt pašreizējo e-pastu';
 
   @override
   String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+      'Ievadiet verifikācijas kodu, kas nosūtīts uz jūsu pašreizējo e-pasta adresi.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => 'Ievadiet jauno e-pastu';
 
   @override
   String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+      'Ievadiet jauno e-pasta adresi, kuru vēlaties izmantot.';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => 'Jauns e-pasts';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => 'Nosūtīt verifikācijas kodu';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => 'Verificēt jauno e-pastu';
 
   @override
   String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+      'Ievadiet verifikācijas kodu, kas nosūtīts uz jūsu jauno e-pasta adresi.';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => 'E-pasts mainīts';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => 'Nederīgs vai beidzies kods';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'Nosūtīt vēlreiz';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return 'Nosūtīt vēlreiz (${seconds}s)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => 'Verifikācijas kods';
 
   @override
-  String get verify => 'Verify';
+  String get verify => 'Verificēt';
 
   @override
-  String get enable => 'Enable';
+  String get enable => 'Iespējot';
 
   @override
-  String get disable => 'Disable';
+  String get disable => 'Atspējot';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Dzēst';
 
   @override
-  String get save => 'Save';
+  String get save => 'Saglabāt';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => 'Divu faktoru autentifikācija';
 
   @override
   String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+      'Pievienojiet savam kontam papildu drošības slāni';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Autentifikatora lietotne';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+      'Divu faktoru autentifikācija ir iespējota';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+      'Izmantojiet autentifikatora lietotni, lai ģenerētu kodus divu faktoru autentifikācijai';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => 'Rezerves kodi';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+      'Skatīt un pārvaldīt savus rezerves kodus konta atjaunošanai';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => 'Skatīt kodus';
 
   @override
   String get securityPasskeysSectionTitle => 'Passkeys';
 
   @override
   String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+      'Izmantojiet passkeys pieteikšanos bez paroles un divu faktoru autentifikācijai';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => 'Reģistrēti Passkeys';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => 'Nav reģistrētu passkeys';
 
   @override
   String securityPasskeysCount(int count) {
@@ -1779,256 +1837,275 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
       other: 'passkeys',
       one: 'passkey',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$count $_temp0 reģistrēti (maks. 10)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => 'Pievienot Passkey';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return 'Pievienots: $date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return 'Pēdējo reizi izmantots: $date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => 'Pārdēvēt';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => 'Dzēst Passkey';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return 'Vai tiešām vēlaties dzēst passkey \"$name\"?';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => 'Nosaukt Passkey';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => 'Passkey nosaukums';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint =>
+      'piemēram, YubiKey, iPhone, darba dators';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => 'Tālruņa numurs';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription =>
+      'Pārvaldīt savu tālruņa numuru.';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => 'Tālruņa numurs';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => 'Nav pievienots tālruņa numurs.';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => 'Pievienot tālruni';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => 'Noņemt';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => 'Noņemt tālruņa numuru';
 
   @override
   String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+      'Vai tiešām vēlaties noņemt savu tālruņa numuru?';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => 'Tālruņa numurs noņemts';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => 'Drošības līdzekļi';
 
   @override
   String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+      'Pieprasiet savu kontu, lai piekļūtu drošības līdzekļiem, piemēram, divu faktoru autentifikācijai un piekļuves atslēgām.';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'Jums ir jāapstiprina savs e-pasta adrese, pirms varat iestatīt divu faktoru autentifikāciju, piekļuves atslēgas vai SMS verifikāciju.';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => 'Iestatīt autentifikatora lietotni';
 
   @override
   String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+      'Skenējiet QR kodu ar savu autentifikatora lietotni, lai ģenerētu kodus divu faktoru autentifikācijai.';
 
   @override
-  String get totpEnableCodeLabel => 'Code';
+  String get totpEnableCodeLabel => 'Kods';
 
   @override
   String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+      'Ievadiet 6 ciparu kodu no savas autentifikatora lietotnes';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess => 'Divu faktoru autentifikācija ir iespējota';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => 'Noņemt autentifikatora lietotni';
 
   @override
   String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+      'Ievadiet 6 ciparu kodu no savas autentifikatora lietotnes, lai atspējotu divu faktoru autentifikāciju.';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => 'Divu faktoru autentifikācija atspējota';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => 'Rezerves kodi';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      'Ja pazaudēsiet piekļuvi savai autentifikatora lietotnei un jums nebūs šo kodu, jūs neatgriezeniski zaudēsiet piekļuvi savam kontam. Lejupielādējiet vai kopējiet tos tagad un glabājiet drošā vietā.';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => 'Lejupielādēt';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => 'Kopēt';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied => 'Rezerves kodi kopēti starpliktuvē';
 
   @override
   String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+      'Esmu lejupielādējis vai kopējis savus rezerves kodus un glabāju tos drošā vietā.';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => 'Gatavs';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => 'Skatīt rezerves kodus';
 
   @override
   String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+      'Pirms rezerves kodu skatīšanas var būt nepieciešama verifikācija.';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => 'Pievienot tālruņa numuru';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => 'Tālruņa numurs';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => 'Ievadiet savu tālruņa numuru';
 
   @override
   String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+      'Ievadiet savu tālruņa numuru. Mēs nosūtīsim jums verifikācijas kodu SMS veidā.';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => 'Sūtīt kodu';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => 'Verificēt tālruņa numuru';
 
   @override
   String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+      'Ievadiet verifikācijas kodu, kas nosūtīts uz jūsu tālruņa numuru.';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => 'Tālruņa numurs pievienots';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => 'Bīstamā zona';
 
   @override
   String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+      'Neatgriezeniskas un destruktīvas darbības';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => 'Atspējot kontu';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+      'Īslaicīgi atspējojiet savu kontu. Varat to aktivizēt vēlāk, vēlreiz piesakoties.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      'Konta atspējošana izlogos jūs no visām sesijām. Jūs varat atkārtoti aktivizēt savu kontu jebkurā laikā, vēlreiz piesakoties.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => 'Dzēst kontu';
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+      'Neatgriezeniski dzēsiet savu kontu un visus saistītos datus. Šo darbību nevar atcelt.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      'Pirms konta dzēšanas atceliet savu aktīvo Plutonium abonementu Plutonium iestatījumos.';
+
+  @override
+  String get dangerZoneDeleteCannotDeleteAccount => 'Nevar dzēst kontu';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      'Jūs nevarat dzēst savu kontu, kamēr jums pieder kopienas. Vispirms pārsūtiet īpašumtiesības uz šādām kopienām:';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return 'un vēl $count';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return 'Lai pārsūtītu īpašumtiesības, dodieties uz $settingsPath un izmantojiet opciju pārsūtīt īpašumtiesības.';
+  }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      'Vai tiešām vēlaties dzēst savu kontu? Šī darbība ieplānos jūsu konta neatgriezenisku dzēšanu.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+      'Dzēšanas procesu varat atcelt 14 dienu laikā';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+      'Pēc 14 dienām jūsu konts tiks neatgriezeniski dzēsts';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+      'Pēc dzēšanas apstrādes jūs nevarēsiet atgūt piekļuvi savam kontam';
 
   @override
   String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+      'Jūs nevarēsiet dzēst savus nosūtītos ziņojumus pēc sava konta dzēšanas';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      'Ja vēlaties eksportēt savus datus vai vispirms dzēst savus ziņojumus, pirms turpināt, lūdzu, apmeklējiet sadaļu Privātuma informācijas panelis lietotāja iestatījumos.';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => 'Pieprasīt savu kontu';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      'Pieprasiet savu kontu, pievienojot e-pastu un paroli. Mēs nosūtīsim verifikācijas kodu, lai apstiprinātu jūsu e-pastu pirms pabeigšanas.';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => 'E-pasts';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => 'Parole';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => 'Sūtīt kodu';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      'Ievadiet kodu, ko nosūtījām uz jūsu e-pastu, lai to verificētu. Jūsu parole tiks iestatīta pēc koda apstiprināšanas.';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => 'Konts veiksmīgi pieprasīts';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => 'Svarīga informācija:';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => 'Radās kļūda';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => 'Nederīgs kods';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: 'pirms $count gadiem',
+      one: 'pirms 1 gada',
     );
     return '$_temp0';
   }
@@ -2038,8 +2115,8 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: 'pirms $count mēnešiem',
+      one: 'pirms 1 mēneša',
     );
     return '$_temp0';
   }
@@ -2049,8 +2126,8 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: 'pirms $count dienām',
+      one: 'pirms 1 dienas',
     );
     return '$_temp0';
   }
@@ -2060,8 +2137,8 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: 'pirms $count stundām',
+      one: 'pirms 1 stundas',
     );
     return '$_temp0';
   }
@@ -2071,135 +2148,136 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: 'pirms $count minūtēm',
+      one: 'pirms 1 minūtes',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => 'tikko';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => 'Autorizētās lietojumprogrammas';
 
   @override
   String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+      'Šīm lietojumprogrammām ir piešķirta piekļuve jūsu Fluxer kontam.';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => 'Nav autorizētu lietojumprogrammu';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'Jūs neesat autorizējis nevienu lietojumprogrammu piekļuvei savam kontam.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+      'Neizdevās ielādēt autorizētās lietojumprogrammas';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'Autorizēts $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => 'Piešķirtās atļaujas';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => 'Atcelt';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => 'Atcelt lietojumprogrammas piekļuvi';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return 'Vai tiešām vēlaties atcelt piekļuvi lietojumprogrammai $appName? Šai lietojumprogrammai vairs nebūs piekļuves jūsu kontam.';
   }
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+      'Piekļūt jūsu pamatinformācijai (lietotājvārds, avatar, utt.)';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => 'Skatīt jūsu e-pasta adresi';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+      'Skatīt kopienas, kurās esat dalībnieks';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections => 'Skatīt jūsu savienotos kontus';
 
   @override
   String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+      'Pievienot botu kopienai ar pieprasītajām atļaujām';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin =>
+      'Piekļūt administratīvajiem galapunktiem';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => 'Gaida dzēšanu';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => 'Bloķētie lietotāji';
 
   @override
   String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+      'Bloķētie lietotāji nevar jums sūtīt uzaicinājumus draudzēties vai tieši rakstīt.';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => 'Nav bloķētu lietotāju';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription => 'Jūs vēl nevienu neesat bloķējis.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError => 'Neizdevās ielādēt bloķētos lietotājus';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => 'Atbloķēt';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => 'Atbloķēt lietotāju';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Vai tiešām vēlaties atbloķēt lietotāju $username?';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => 'Kopēt FluxerTag';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => 'Kopēt lietotāja ID';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => 'Nevarēja ielādēt profilu';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => 'Mēģināt vēlreiz';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => 'Sūtīt ziņojumu';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => 'Balss zvans';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => 'Videozvans';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => 'Rediģēt profilu';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'Fluxer personāls';
 
   @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
+  String get userProfileCtpBadgeTooltip => 'Fluxer kopienas komanda';
 
   @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer Partner';
+  String get userProfilePartnerBadgeTooltip => 'Fluxer partneris';
 
   @override
   String get userProfileBugHunterBadgeTooltip => 'Fluxer Bug Hunter';
@@ -2209,7 +2287,7 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'Fluxer Plutonium abonents kopš $date';
   }
 
   @override
@@ -2217,7 +2295,7 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'Fluxer Visionary kopš $date';
   }
 
   @override
@@ -2227,419 +2305,423 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return 'Kopīgi draugi ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return 'Kopienas ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => 'Kopīgi draugi';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => 'Kopienas';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends => 'Kopīgi draugi nav atrasti.';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities => 'Kopienas nav atrastas.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return 'Segvārds: $nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => 'Atvērt DM';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return 'Jūs bloķējāt $username. Jūs nevarēsiet sūtīt ziņojumus, kamēr neatbloķēsiet viņu.';
   }
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get blockedUserComposerBarrierAction => 'Atbloķēt';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileOpenDm => 'Atvērt DM';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteTitle => 'Piezīme';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteVisibility => '(redzams tikai jums)';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteSave => 'Saglabāt';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteDelete => 'Dzēst';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileNoteEmpty => 'Noklikšķiniet, lai pievienotu piezīmi';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileMemberSince => 'Dalībnieks kopš';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileAboutMe => 'Par mani';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUsername => 'Kopēt lietotājvārdu';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileCopyUserId => 'Kopēt lietotāja ID';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewMainProfile => 'Skatīt galveno profilu';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileViewCommunityProfile => 'Skatīt kopienas profilu';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileBlockUser => 'Bloķēt lietotāju';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileUnblockUser => 'Atbloķēt lietotāju';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileRemoveFriend => 'Noņemt draugu';
+
+  @override
+  String get userProfileBlockConfirmTitle => 'Bloķēt lietotāju';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return 'Vai tiešām vēlaties bloķēt $username?';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => 'Atbloķēt lietotāju';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'Vai tiešām vēlaties atbloķēt $username?';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => 'Noņemt draugu';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'Vai tiešām vēlaties noņemt $username kā draugu?';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => 'Neizdevās atvērt DM';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote => 'Neizdevās saglabāt piezīmi';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed =>
+      'Darbība neizdevās, lūdzu, mēģiniet vēlreiz';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => 'Mainīt segvārdu';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => 'Izmest';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => 'Aizliegt';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'Laika ierobežojums';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => 'Noņemt laika ierobežojumu';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => 'Pārsūtīt īpašumtiesības';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => 'Ziņot par lietotāju';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => 'Ziņot par ziņojumu';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return 'Izmest $username?';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return 'Vai tiešām vēlaties izmest $username? Viņi var pievienoties atkārtoti ar jaunu ielūgumu.';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle =>
+      'Noņemt laika ierobežojumu?';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return 'Noņemot laika ierobežojumu, $username varēs atkal sūtīt ziņojumus, reaģēt un pievienoties balss kanāliem.';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => 'Pārsūtīt īpašumtiesības?';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return 'Pārsūtīt šīs kopienas īpašumtiesības uz $username? Tas ir neatgriezeniski, un jūs zaudēsiet visas īpašnieka privilēģijas.';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return 'Bloķēt $username';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => 'Bloķēšanas ilgums';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel => 'Pielāgots ilgums (sekundēs)';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return 'Jebkura vērtība no $min līdz $max sekundēm';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel => 'Dzēst ziņojumu vēsturi';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => 'Dzēst neko';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => 'Iepriekšējās 24 stundas';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => 'Iepriekšējās 7 dienas';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => 'Iemesls (nav obligāts)';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => 'Ievadiet bloķēšanas iemeslu';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => 'Bloķēt dalībnieku';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return 'Ierobežot $username';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => 'Ierobežojuma ilgums';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => 'Ierobežot dalībnieku';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => 'Segvārds';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => 'Ievadiet segvārdu';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => 'Saglabāt';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return 'Dalībnieks $username izmests';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return 'Dalībnieks $username bloķēts';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return 'Dalībniekam $username noteikts laika ierobežojums';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return 'Noņemts laika ierobežojums dalībniekam $username';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => 'Segvārds atjaunināts';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => 'Īpašumtiesības pārsūtītas';
 
   @override
-  String get durationPermanent => 'Permanent';
+  String get durationPermanent => 'Pastāvīgi';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 sekundes';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 minūtes';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 minūtes';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 stunda';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 stundas';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 diena';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 dienas';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 dienas';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 nedēļa';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 nedēļas';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 mēnesis';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => 'Pielāgots…';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => 'Ziņot par lietotāju';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => 'Nepiemērots profils';
 
   @override
   String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+      'Šī lietotāja profils satur nepiemērotu saturu';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return '$name raksta...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return '$name1 un $name2 raksta...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return '$name1, $name2 un $name3 raksta...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'Vairāki cilvēki raksta...';
 
   @override
-  String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+  String get typingIndicatorHandful => 'Pulcējas dažādi tastatūras varoņi...';
 
   @override
   String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+      'Notiek taustiņu klakšķināšanas simfonija...';
 
   @override
   String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+      'Šeit notiek pilnvērtīga rakstīšanas fiesta';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => 'Tā ir rakstīšanas apokalipse';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return 'Prieks, ka esi šeit, $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return 'Laipni lūgts, $username! Jūties kā mājās.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return 'Sveiks, $username! Prieks, ka esi šeit.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return 'Sveiks, $username! Pieslēdzies, kad būsi gatavs.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return 'Sveiks, $username, prieks tevi šeit redzēt!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return 'Sveiks, $username! Ceru, ka tev patiks šeit uzturēties.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return 'Sveiks, $username, laipni aicināts!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return 'Prieks, ka nokļuvi, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return 'Laipni lūgts, $username!';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return 'Laipni lūgts, $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return 'Laipni lūgts, $username! Mēs priecājamies, ka esi šeit.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return 'Laipni lūgts, $username! Ceru, ka tev patiks šeit pavadītais laiks.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return 'Laipni lūgts, $username! Tava nākamā saruna sākas šeit.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return 'Laipni lūgts, $username. Mēs priecājamies, ka esi šeit.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return 'Prieks tevi redzēt, $username! Laipni lūgts.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return 'Tu esi šeit, $username! Prieks, ka esi kopā ar mums.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return 'Tu esi ieradies, $username! Sāksim.';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => 'tagad';
 
   @override
   String relativeTimeShortMinutes(int count) {
@@ -2697,43 +2779,43 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => 'Manas ierīces';
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'Skatīt visas ierīces, kas pašlaik ir pieteiktas jūsu kontā. Atsaukt jebkuras sesijas, kuras neatpazīstat.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => 'Pašreizējā ierīce';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => 'Citas ierīces';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => 'Ienākt atlases režīmā';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => 'Iziet no atlases režīma';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => 'Atlasīt visu';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => 'Notīrīt atlasi';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => 'Atsaukt ierīci';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => 'Izrakstīt visas pārējās ierīces';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Izrakstīt $count ierīces',
+      one: 'Izrakstīt 1 ierīci',
     );
     return '$_temp0';
   }
@@ -2743,14 +2825,15 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Izrakstīt $count ierīces',
+      one: 'Izrakstīt 1 ierīci',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle =>
+      'Izrakstīt visas pārējās ierīces';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -2758,183 +2841,185 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+          'Tas izrakstīs atlasītās ierīces no jūsu konta. Jums būs jāpiesakās vēlreiz tajās ierīcēs.',
       one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+          'Tas izrakstīs atlasīto ierīci no jūsu konta. Jums būs jāpiesakās vēlreiz tajā ierīcē.',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      'Tas izrakstīs atlasītās ierīces no jūsu konta. Jums būs jāpiesakās vēlreiz tajās ierīcēs.';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => 'Turpināt';
 
   @override
   String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+      'Jums būs jāpiesakās vēlreiz visās izrakstītajās ierīcēs';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => 'Tīkla kļūda';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      'Mums ir problēmas savienoties ar laika-telpas nepārtrauktību. Lūdzu, pārbaudiet savu savienojumu un mēģiniet vēlreiz.';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: 'Ierīces atsaukta',
+      one: 'Ierīce atsaukta',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError =>
+      'Nevarēja izrakstīt. Mēģiniet vēlreiz.';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => 'Nezināma OS';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => 'Nezināma platforma';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return '$duration lēnais režīms';
   }
 
   @override
   String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+      'Jūs esat lēnajā režīmā. Lūdzu, uzgaidiet pirms nākamās ziņas nosūtīšanas.';
 
   @override
   String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+      'Lēnais režīms ir iespējots, bet jūs tam neesat pakļauts.';
 
   @override
   String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+      'Jūs nevarat sūtīt ziņojumus šajā kanālā.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return 'Sistēmas paziņojumi no $productName personāla. Jūs nevarat atbildēt šeit.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+      'Ziņojumapmaiņa šajā kopienā ir īslaicīgi apturēta.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      'Jums ir laika ierobežojums. Ziņojumapmaiņa, reakcijas un balss saziņa ir apturēta, līdz beidzas laika ierobežojums.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+      'Jums ir jāpieprasa savs konts, lai sūtītu ziņojumus šajā kopienā.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+      'Jums ir jāapstiprina savs e-pasts, lai sūtītu ziņojumus šajā kopienā.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+      'Jūsu konts ir pārāk jauns, lai sūtītu ziņojumus šajā kopienā.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      'Jūs neesat bijis šīs kopienas dalībnieks pietiekami ilgi, lai sūtītu ziņojumus.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+      'Jums ir jāapstiprina tālruņa numurs, lai sūtītu ziņojumus šajā kopienā.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => 'Apstiprināt e-pastu';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => 'Apstiprināt tālruni';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return 'Pārāk daudz pielikumu (maks. $max)';
   }
 
   @override
   String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+      'Viens vai vairāki faili pārsniedz izmēra ierobežojumu';
 
   @override
   String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+      'Šie faili ir pārāk lieli, lai tos nosūtītu kopā';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload => 'Velciet failus, lai augšupielādētu';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend => 'Velciet failus, lai nosūtītu tūlīt';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => 'Sūtīt balss ziņojumu';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => 'Balss ziņojums';
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'Piespiediet, lai ierakstītu. Velciet uz augšu, lai bloķētu, vai atlaidiet, lai nosūtītu.';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => 'Dzēst balss ziņojumu';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => 'Sūtīt balss ziņojumu';
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+      'Nevar sākt ierakstīšanu. Atļaut piekļuvi mikrofonam.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+      'Balss ierakstīšana netiek atbalstīta šajā ierīcē.';
 
   @override
   String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+      'Atstājiet balss zvanu, lai ierakstītu balss ziņojumu.';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed =>
+      'Ierakstīšana neizdevās. Mēģiniet vēlreiz.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+      'Nevar nosūtīt balss ziņojumu. Mēģiniet vēlreiz.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+      'Runājiet tagad. Nospiediet Apturēt, kad esat pabeidzis — pēc tam varat apgriezt.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+      'Velciet rokturus, lai apgrieztu, pēc tam nospiediet Sūtīt.';
 
   @override
-  String get voiceMessageStop => 'Stop';
+  String get voiceMessageStop => 'Apturēt';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => 'Sākt ierakstīšanu';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => 'Atskaņot';
 
   @override
-  String get voiceMessagePause => 'Pause';
+  String get voiceMessagePause => 'Pauze';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -2943,246 +3028,246 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return 'Atlasījumam jābūt vismaz ${secondsString}s.';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => 'Rediģēt pielikumu';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => 'Faila nosaukums';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => 'Apraksts';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => 'Neobligāts alternatīvais teksts';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => 'Atzīmēt kā spoileru';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => 'Noņemt pielikumu';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => 'Lejupielādēt';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => 'Pielikums ir zaudējis derīgumu';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => 'Galerija';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => 'Kamera';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => 'Pārlūkot failus';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip => 'Ievietot attēlu no starpliktuves';
 
   @override
-  String get chatAttachmentSpoiler => 'Spoiler';
+  String get chatAttachmentSpoiler => 'Spoilers';
 
   @override
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => 'Atklāt spoileru';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => 'Atklāt';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => 'Noklikšķiniet, lai atklātu';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => 'Nepiedienīgs saturs';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => 'Kopiena pieaugušajiem';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => 'Kategorija pieaugušajiem';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => 'Kanāls pieaugušajiem';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => 'Brīdinājums par kopienas saturu';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle =>
+      'Brīdinājums par kategorijas saturu';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => 'Brīdinājums par kanāla saturu';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => 'Šis satur sensitīvu saturu.';
 
   @override
   String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Šī kopiena ir atzīmēta kā saturs pieaugušajiem un var saturēt materiālu, kas var būt nepiemērots dažiem lietotājiem.';
 
   @override
   String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Šī kategorija ir atzīmēta kā saturs pieaugušajiem un var saturēt materiālu, kas var būt nepiemērots dažiem lietotājiem.';
 
   @override
   String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Šis kanāls ir atzīmēts kā saturs pieaugušajiem un var saturēt materiālu, kas var būt nepiemērots dažiem lietotājiem.';
 
   @override
   String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Šis balss kanāls ir atzīmēts kā saturs pieaugušajiem un var saturēt materiālu, kas var būt nepiemērots dažiem lietotājiem.';
 
   @override
   String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+      'Šis saites kanāls ir atzīmēts kā saturs pieaugušajiem un var atvērt materiālu, kas var būt nepiemērots dažiem lietotājiem.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+      'Šī pieaugušajiem paredzētā kopiena nav pieejama jūsu kontam.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+      'Šī pieaugušajiem paredzētā kategorija nav pieejama jūsu kontam.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+      'Šis pieaugušajiem paredzētais kanāls nav pieejams jūsu kontam.';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => 'Turpināt';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => 'Es saprotu';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => 'Atvērt saiti';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => 'Sensitīvs saturs';
 
   @override
   String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+      'Kontrolējiet, kā tiek filtrēti pieaugušajiem vai sensitīvi mediji dažādos kontekstos';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel => 'Tiešās ziņas no draugiem';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel => 'Tiešās ziņas no citiem';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => 'Ziņojumi kopienas kanālos';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => 'Rādīt';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => 'Aizmiglot';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => 'Bloķēt';
 
   @override
   String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+      'Aizmiglot medijus līdz drošības skenēšanas pabeigšanai';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      'Ja iespējots, attēli un video tiek aizmigloti, līdz pabeigta satura drošības skenēšana.';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+      'Šis iestatījums vienmēr ir ieslēgts jūsu kontam.';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => 'Atiestatīt';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => 'Saglabāt';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count failus',
+      one: '1 failu',
     );
-    return 'Uploading $_temp0';
+    return 'Augšupielādē $_temp0';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => 'Atcelt augšupielādi';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return 'Derīgs līdz $date';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return 'Derīgs starp $start un $end';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => 'Savienojumi';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      'Saistiet ārējos kontus un domēnus ar savu Fluxer profilu. Verificēti savienojumi tiks parādīti jūsu profilā, lai citi varētu tos redzēt.';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => 'Vēl nav savienojumu';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      'Saistiet savu Bluesky kontu vai verificējiet domēna īpašumtiesības, lai tos parādītu savā profilā.';
 
   @override
   String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+      'Verificējiet domēna īpašumtiesības, lai to parādītu savā profilā.';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
 
   @override
-  String get connectionsAddDomain => 'Domain';
+  String get connectionsAddDomain => 'Domēns';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => 'Pievienot Bluesky savienojumu';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => 'Pievienot domēna savienojumu';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => 'Rediģēt';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => 'Noņemt';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => 'Šis savienojums ir verificēts.';
 
   @override
-  String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+  String get connectionUnverifiedLabel => 'Šis savienojums nav verificēts.';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => 'Pievienot savienojumu';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => 'Savienojuma veids';
 
   @override
-  String get connectionHandleLabel => 'Handle';
+  String get connectionHandleLabel => 'Rokturis';
 
   @override
-  String get connectionDomainLabel => 'Domain';
+  String get connectionDomainLabel => 'Domēns';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -3191,657 +3276,745 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => 'Jums jau ir šis savienojums.';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => 'Savienot ar Bluesky';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => 'Turpināt';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => 'Verificēt savienojumu';
 
   @override
   String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+      'Izmantojiet tālāk norādīto ierakstu, lai pierādītu domēna īpašumtiesības.';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'DNS TXT ieraksts';
 
   @override
-  String get connectionDnsHostLabel => 'Host';
+  String get connectionDnsHostLabel => 'Resursdators';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => 'Vērtība';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => 'Kopēt resursdatoru';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => 'Kopēt vērtību';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => 'Nokopēts!';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => 'Apkalpot verifikācijas failu';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      'Lejupielādējiet **fluxer-verification** un ievietojiet to savā **.well-known** mapē, lai mēs varētu apstiprināt domēnu.';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => 'Lejupielādēt fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return 'Fails satur verifikācijas marķieri, ko mēs izgūsim no **$dnsUrl**.';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => 'Saglabāt fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => 'Verificēt';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => 'Atpakaļ';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => 'Rediģēt savienojumu';
 
   @override
   String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+      'Izvēlieties, kas var redzēt šo savienojumu jūsu profilā.';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => 'Visi';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+      'Atļaut ikvienam redzēt šo savienojumu jūsu profilā';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => 'Draugi';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+      'Atļaut jūsu draugiem redzēt šo savienojumu';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => 'Kopienas dalībnieki';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+      'Atļaut dalībniekiem no kopienām, kurās atrodaties, redzēt šo savienojumu';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => 'Noņemt savienojumu';
 
   @override
   String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+      'Vai tiešām vēlaties noņemt šo savienojumu? Šo darbību nevar atsaukt.';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => 'Noņemt';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError => 'Neizdevās ielādēt savienojumus';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError => 'Neizdevās atjaunināt secību';
 
   @override
   String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+      'Nevarēja sākt verifikāciju. Mēģiniet vēlreiz.';
 
   @override
   String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+      'Nevarēja verificēt. Pārbaudiet savu DNS ierakstu un mēģiniet vēlreiz.';
 
   @override
   String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+      'Nevarēja sākt Bluesky autorizāciju.';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed => 'Nevarēja atjaunināt savienojumu';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed => 'Nevarēja noņemt savienojumu';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => 'Fluxer-verification saglabāts';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast => 'Nevarēja saglabāt failu';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => 'Ievadiet Bluesky rokturi.';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => 'Ievadiet domēnu.';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => 'Izskats un noformējums';
 
   @override
-  String get lookAndFeelThemeSectionTitle => 'Theme';
+  String get lookAndFeelThemeSectionTitle => 'Tēma';
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+      'Izvēlieties tumšu, ogles krāsas vai gaišu izskatu.';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => 'Tumšā tēma';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => 'Ogles krāsas tēma';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => 'Gaišā tēma';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => 'Sistēmas tēma';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+      'Sinhronizēt tēmu visās ierīcēs';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      'Ja iespējots, motīva izmaiņas tiks sinhronizētas visās jūsu ierīcēs. Ja tas ir atspējots, šī ierīce izmantos savus motīva iestatījumus.';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      'Sistēmas motīvs automātiski atspējo sinhronizāciju, lai šajā ierīcē sekotu jūsu sistēmas izvēlei.';
 
   @override
   String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+      'Neizdevās sinhronizēt motīvu ar jūsu kontu. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Tērzēšanas fonta mērogošana';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Pielāgojiet fonta lielumu tērzēšanas apgabalā.';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => 'Interfeiss';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'Pielāgojiet interfeisa elementus un darbības.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+      'Kanālu saraksta rakstīšanas indikatori';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      'Izvēlieties, kā rakstīšanas indikatori parādās kanālu sarakstā, kad kāds raksta kanālā.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+      'Rakstīšanas indikators + Avatari';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      'Rādīt rakstīšanas indikatoru ar lietotāju avatariem kanālu sarakstā';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+      'Tikai rakstīšanas indikators';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      'Rādīt tikai rakstīšanas indikatoru bez avatariem';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Paslēpts';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      'Nekad nerādīt rakstīšanas indikatorus kanālu sarakstā';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      'Rādīt rakstīšanu atlasītajā kanālā';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      'Ja tas ir atspējots (pēc noklusējuma), rakstīšanas indikatori neparādīsies kanālā, kuru pašlaik skatāt.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'vispārīgi';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => 'Tastatūras uzvednes';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+      'Kontrolējiet, vai tastatūras īsceļu uzvednes parādās rīku padomos.';
 
   @override
   String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+      'Paslēpt tastatūras uzvednes rīku padomos';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      'Ja iespējots, īsceļu emblēmas ir paslēptas rīku padomu uznirstošajos logos.';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => 'Dažādi';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription => 'Dažādas interfeisa opcijas.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => 'Rādīt Neko';
 
   @override
   String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+      'Ja iespējots, Neko parādās pie tērzēšanas ievades joslas.';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle =>
+      'Balss kanālu pievienošanās uzvedība';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+      'Kontrolējiet, kā pievienojaties balss kanāliem kopienās.';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Nepieciešama dubultklikšķināšana, lai pievienotos balss kanāliem';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      'Ja iespējots, jums būs nepieciešama dubultklikšķināšana uz balss kanāliem, lai tiem pievienotos. Ja tas ir atspējots (pēc noklusējuma), ar vienu klikšķināšanu kanāls tiks pievienots nekavējoties.';
 
   @override
   String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+      'Ātrais brūnais lapsa lec pāri slinkajam sunim.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => 'Servera sānu josla';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Konfigurējiet, kā servera sānu josla parāda tiešos ziņojumus.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
-      one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+      other: '$count kopienas ir īslaicīgi nepieejamas kļūmes dēļ.',
+      one: '1 kopiena ir īslaicīgi nepieejama kļūmes dēļ.',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel => 'Sakļaut DM mapē';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      'Ja iespējots, nelasītie DM servera sānu joslā tiek sakļauti mapē zem Fluxer pogas. Noklikšķiniet uz Fluxer pogas, atrodoties DM lapā, lai atvērtu vai sakļautu mapi.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => 'Kanālu saraksts';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'Kontrolējiet nelasīto indikatoru uzvedību izslēgtajiem kanāliem kanālu sarakstos.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+      'Rādīt nelasīto indikatoru izslēgtajos kanālos';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      'Ja iespējots, izslēgtajos kanālos kreisajā pusē parādās izbalējis nelasītais indikators. Atzīmes joprojām parādās neatkarīgi no šiem iestatījumiem.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => 'Tagad aktīvi';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+      'Kontrolējiet, kā “Tagad aktīvi” parādās visā lietotnē.';
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+      'Rādīt “Tagad aktīvi” sākuma ekrānā';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      'Rādīt “Tagad aktīvi” sākuma ekrānā, lai parādītu draugus, kas ir aktīvi balsī. Jūs redzēsiet priekšskatījumu, kanāla kontekstu, kas jau ir tur, un ātru veidu, kā pievienoties.';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => 'Izlase';
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'Kontrolējiet izlases redzamību visā lietotnē.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel => 'Iespējot izlasi';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'Ja iespējots, varat pievienot kanālus izlasei, un tie parādīsies sadaļā Izlase. Ja tas ir atspējots, visi ar izlasi saistītie UI elementi (pogas, izvēlnes vienumi) tiks paslēpti. Jūsu esošā izlase tiks saglabāta.';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => 'Izlase';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'Vēl nav izlases';
 
   @override
   String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+      'Zvaigznes kanālus no tērzēšanas galvenes, lai saglabātu tos šeit.';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => 'Laipni lūdzam izlasē';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      'Jūsu personīgā vieta ātrai piekļuvei kanāliem, DM un grupām, kas jums patīk. Nospiediet zvaigzni jebkurā kanālā, lai pievienotu to šeit.';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip =>
+      'Nav priekš jums? Jebkurā laikā varat to izslēgt.';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => 'Atspējot izlasi';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => 'Pievienots izlasei';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => 'Noņemts no izlases';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => 'Izlase paslēpta';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => 'Izslēgt izlases skaņu';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => 'Ieslēgt izlases skaņu';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => 'Izlases izvēlne';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => 'Izveidot kategoriju';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => 'Kategorijas nosaukums';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => 'Slēpt izslēgtos kanālus';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => 'Rādīt izslēgtos kanālus';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => 'Iestatīt segvārdu';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => 'Segvārds';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => 'Saglabāt segvārdu';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => 'Pārvietot uz kategoriju';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => 'Nekategorizēts';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => 'Cits';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => 'Noņemt no izlases';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => 'Pievienot izlasei';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => 'Paslēpt izlasi';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      'Tas paslēps visus ar izlasi saistītos UI elementus, ieskaitot pogas un izvēlnes vienumus. Jūsu esošā izlase tiks saglabāta un to varēs atkārtoti iespējot jebkurā laikā sadaļā Iestatījumi > Papildu > Izskats.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => 'Tiešais ziņojums';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => 'Displejs';
 
   @override
   String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+      'Kontrolējiet, kā tiek rādīti ziņojumi, mediji un cits saturs.';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => 'Multivide';
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'Pielāgojiet multivides izmēra preferences un pogas.';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => 'Ievade';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'Pielāgojiet ziņojumu ievades iestatījumus.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => 'Sānjosla';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+      'Konfigurējiet, kā tiek rādīta kopienas sānjosla.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Pēc noklusējuma slēpt izslēgtos kanālus';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      'Automātiski slēpt izslēgtos kanālus sānjoslā, pievienojoties jaunām kopienām';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+      'Vai pēc noklusējuma slēpt izslēgtos kanālus?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      'Jaunajām kopienām, kurām pievienosities, automātiski tiks paslēpti izslēgtie kanāli. Vai vēlaties šo iestatījumu piemērot arī visām jūsu esošajām kopienām?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      'Vai pārtraukt izslēgto kanālu slēpšanu pēc noklusējuma?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      'Jaunajām kopienām, kurām pievienosities, vairs netiks automātiski paslēpti izslēgtie kanāli. Vai vēlaties arī rādīt izslēgtos kanālus visās jūsu esošajās kopienās?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+      'Piemērot visām kopienām';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+      'Rādīt visās kopienās';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+      'Tikai jaunajām kopienām';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => 'Multivides displejs';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      'Kontrolējiet, kā tiek rādīti attēli, video un cita multivide. Visa multivide tiek mainīta izmēros un konvertēta. Īpaši lieli faili, kurus nevar saspiest priekšskatījumā, netiks iegulti neatkarīgi no šiem iestatījumiem.';
 
   @override
   String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+      'Kad publicēts kā saites uz tērzēšanu';
 
   @override
   String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+      'Kad augšupielādēts tieši uz Fluxer';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => 'Saites priekšskatījumi';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+      'Kontrolējiet, kā vietņu saites tiek priekšskatītas tērzēšanā';
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+      'Rādīt iegultnes un priekšskatīt vietņu saites';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => 'Reakcijas';
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+      'Konfigurēt emocijikona reakcijas uz ziņojumiem';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+      'Rādīt emocijikona reakcijas uz ziņojumiem';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => 'Slepenais saturs';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+      'Kontrolēt, kā tiek rādīts slepenais saturs';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => 'Rādīt slepeno saturu';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => 'Noklikšķinot';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+      'Rādīt slepeno saturu, kad tiek uzklikšķināts';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName => 'Kanālos, ko moderēju';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      'Vienmēr rādīt slepeno saturu kanālos, kuros jums ir atļauja \"Pārvaldīt ziņojumus\"';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => 'Vienmēr';
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+      'Vienmēr rādīt slepeno saturu';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => 'Multivides izmēra preferences';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      'Pielāgojiet iegultās un pievienotās multivides maksimālo attēlojuma izmēru. Mazāki izmēri aizņem mazāk vietas, savukārt lielāki izmēri parāda vairāk detaļu.';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => 'Multivide no saitēm (iegultās)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel =>
+      'Augšupielādētās pievienotās datnes';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => 'Kompakts (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => 'Mazāks multivides izmērs';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => 'Ērts (550x400)';
 
   @override
   String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+      'Lielāks multivides izmērs ar vairāk detaļu';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'GIF darbības';
 
   @override
   String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+      'Kontrolēt, kā GIF tiek ievietoti tērzēšanā';
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+      'Automātiski sūtīt GIF, kad tie ir atlasīti';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+      'Emociju automātiskā aizpildīšana (ar dubultpunktu)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'Kontrolējiet, kas parādās emociju automātiskajā aizpildīšanā, kad rakstāt dubultpunktu. Pielāgojiet, kādi ieteikumi tiek rādīti, lai tie atbilstu jūsu vēlmēm.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      'Rādīt noklusējuma emocijzīmes automātiskajā izteiksmju papildināšanā';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Rādīt pielāgotās emocijzīmes automātiskajā izteiksmju papildināšanā';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+      'Rādīt uzlīmes automātiskajā izteiksmju papildināšanā';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+      'Rādīt saglabātos medijus automātiskajā izteiksmju papildināšanā';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle => 'Ziņojumu rediģēšana';
 
   @override
   String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+      'Kontrolējiet, kas notiek ar jūsu rediģēšanas projektu, kad atceļat.';
 
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+      'Saglabāt rediģēšanas projektu atcelšanas gadījumā';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => 'Nelasītu indikatori';
 
   @override
   String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+      'Kontrolējiet, kā tiek rādīti nelasīto ziņojumu indikatori.';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      'Rādīt pieklusinātu nelasītu indikatoru pieklusinātajos kanālos';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      'Rādīt pieklusinātu nelasītu indikatoru blakus pieklusinātajiem tiešajiem ziņojumiem un kanāliem, lai jūs joprojām varētu ātri redzēt, kad ir aktivitāte.';
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get accessibilityDmMessagePreviewGroupTitle =>
+      'DM ziņojumu priekšskatījumi';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      'Kontrolējiet, kad ziņojumu priekšskatījumi tiek rādīti DM sarakstā.';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel =>
+      'DM ziņojumu priekšskatījuma režīms';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => 'Visi ziņojumi';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription =>
+      'Rādīt ziņojumu priekšskatījumus visām DM sarunām';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName =>
+      'Tikai nelasītie DM';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      'Rādīt ziņojumu priekšskatījumus tikai DM ar nelasītiem ziņojumiem';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => 'Nav';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription =>
+      'Neparādīt ziņojumu priekšskatījumus DM sarakstā';
+
+  @override
+  String get dmListSentAnAttachment => 'Nosūtīja pielikumu';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return '$username piesprauda ziņojumu šim kanālam.';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return '$username pievienoja $userName grupai.';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return '$username pievienoja kādu grupai.';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return '$username ir izgājis no grupas.';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username izslēdza $userName no grupas.';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username izslēdza kādu no grupas.';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username mainīja kanāla nosaukumu uz $newName.';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username mainīja kanāla nosaukumu.';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username mainīja kanāla ikonu.';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username sāka zvanu.';
+  }
+
+  @override
+  String get voiceConnectionConfirmTitle => 'Balss savienojuma apstiprinājums';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -3849,92 +4022,92 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+          'Jūs jau esat savienots ar šo balss kanālu no $count citām ierīcēm. Ko vēlaties darīt?',
       one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+          'Jūs jau esat savienots ar šo balss kanālu no 1 citas ierīces. Ko vēlaties darīt?',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => 'Pārslēgties uz šo ierīci';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+      'Vienkārši pievienoties (saglabāt citus savienojumus)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+      'Neko nedarīt, es nevēlos pievienoties';
 
   @override
   String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+      'Šis ir balss kanāls. Savienojieties, lai sāktu runāt!';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => 'Pievienoties balss kanālam';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => 'Savienoties ar balsi';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+      'Jums nav atļaujas pievienoties šim balss kanālam';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Mikrofona, kameras un ekrāna kopīgošanas saturs ir šifrēts no gala līdz galam.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Mikrofona, kameras un ekrāna kopīgošanas saturs ir šifrēts no gala līdz galam.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+      'Šifrēšana no gala līdz galam nav pieejama, jo šajā balss kanālā ir neatbalstīts dalībnieks.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+      'Šifrēšana no gala līdz galam nav pieejama, jo šajā zvanā ir neatbalstīts dalībnieks.';
 
   @override
   String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+      'Šis klients ir jāatjaunina pirms pievienošanās šim šifrētajam zvanam.';
 
   @override
   String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+      'Nevarēja ieslēgt mikrofonu. Jūs joprojām esat zvanā.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => 'Savienojas…';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => 'Savienots';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => 'Kļūda';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => 'Mobilā ierīce';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => 'Darbvirsmas ierīce';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted => 'Kopienas izslēgts';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => 'Izslēgts';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened => 'Kopienas nedzirdīgs';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => 'Nedzirdīgs';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return 'Savienojums: $connectionId';
   }
 
   @override
@@ -3942,209 +4115,208 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count dalībnieki',
+      one: '1 dalībnieks',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => 'Atstāt';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => 'Izslēgt mikrofonu';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => 'Ieslēgt mikrofonu';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => 'Izslēgt skaņu';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => 'Ieslēgt skaņu';
 
   @override
   String get voiceControlVideo => 'Video';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => 'Kopīgot ekrānu';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText => 'Tiek kopīgots jūsu ekrāns.';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => 'Vairāk';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => 'Atvienoties';
 
   @override
-  String get voiceControlChat => 'Chat';
+  String get voiceControlChat => 'Tērzēt';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => 'Rādīt tērzēšanu';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# nelasīti ziņojumi',
+      one: '# nelasītu ziņojumu',
     );
-    return 'Show chat with $_temp0';
+    return 'Rādīt tērzēšanu ar $_temp0';
   }
 
   @override
   String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+      'Kameras atļauja ir nepieciešama video.';
 
   @override
   String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+      'Nevarēja sākt ekrāna kopīgošanu. Lai mēģinātu vēlreiz.';
 
   @override
   String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+      'Ekrāna kopīgošanas atļauja tika atteikta.';
 
   @override
   String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+      'Ekrāna kopīgošana nav pieejama šajā ierīcē.';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => 'Skatīties straumi';
 
   @override
-  String get voiceStopWatching => 'Stop Watching';
+  String get voiceStopWatching => 'Beigt skatīties';
 
   @override
   String get voiceStopWatchingCurrentStreamTooltip =>
-      'Stop watching the current stream';
+      'Beigt skatīties pašreizējo straumi';
 
   @override
-  String get voiceOwnScreenShareTitle => 'You are broadcasting';
+  String get voiceOwnScreenShareTitle => 'Jūs pārraidāt';
 
   @override
   String get voiceOwnScreenShareSubtitle =>
-      'Your stream is live for participants.';
+      'Jūsu straume ir tiešraidē dalībniekiem.';
 
   @override
-  String get voiceLiveBadge => 'Live';
+  String get voiceLiveBadge => 'Tiešraide';
 
   @override
-  String get dmVoiceViewCall => 'View call';
+  String get dmVoiceViewCall => 'Skatīt zvanu';
 
   @override
-  String get dmVoiceCallFullScreen => 'Full screen';
+  String get dmVoiceCallFullScreen => 'Pilnekrāna režīms';
 
   @override
-  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+  String get dmVoiceCallFullScreenTooltip => 'Atvērt zvanu pilnekrāna režīmā';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Connecting…';
+  String get dmVoiceStripStatusConnecting => 'Notiek savienojums...';
 
   @override
-  String get dmVoiceStripStatusInCall => 'In call';
+  String get dmVoiceStripStatusInCall => 'Zvanā';
 
   @override
-  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+  String get dmVoiceEmbeddedFallbackTitle => 'Balss zvans';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Connecting…';
+  String get dmVoiceCallBarConnecting => 'Notiek savienojums...';
 
   @override
-  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+  String get dmVoiceCallBarDirectPrimary => 'Tiešais zvans';
 
   @override
-  String get dmVoiceCallBarGroupPrimary => 'Group call';
+  String get dmVoiceCallBarGroupPrimary => 'Grupas zvans';
 
   @override
-  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+  String get dmVoiceCallBarIssueFallback => 'Balss problēma';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Voice';
+  String get dmVoiceFullscreenTitle => 'Balss';
 
   @override
-  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
+  String get voiceCallBarGuildConnectedFallback => 'Balss savienots';
 
   @override
-  String get notificationsPageTitle => 'Notifications';
+  String get notificationsPageTitle => 'Paziņojumi';
 
   @override
-  String get notificationsFilterUnreads => 'Unreads';
+  String get notificationsFilterUnreads => 'Nelasītie';
 
   @override
-  String get notificationsFilterMentions => 'Mentions';
+  String get notificationsFilterMentions => 'Mijiedarbības';
 
   @override
-  String get notificationsBookmarksTooltip => 'Bookmarks';
+  String get notificationsBookmarksTooltip => 'Grāmatzīmes';
 
   @override
-  String get notificationsMentionFilterTooltip => 'Filter mentions';
+  String get notificationsMentionFilterTooltip => 'Filtrēt mijiedarbības';
 
   @override
-  String get notificationsMentionFiltersTitle => 'Mention filters';
+  String get notificationsMentionFiltersTitle => 'Mijiedarbības filtri';
 
   @override
   String get notificationsMentionIncludeEveryone =>
-      'Include @everyone and @here mentions';
+      'Iekļaut @everyone un @here mijiedarbības';
 
   @override
-  String get notificationsMentionIncludeRoles => 'Include role mentions';
+  String get notificationsMentionIncludeRoles => 'Iekļaut lomu mijiedarbības';
 
   @override
   String get notificationsMentionIncludeGuilds =>
-      'Include all community mentions';
+      'Iekļaut visas kopienas mijiedarbības';
 
   @override
-  String get notificationsNoUnreadTitle => 'No Unread Messages';
+  String get notificationsNoUnreadTitle => 'Nav nelasītu ziņojumu';
 
   @override
-  String get notificationsNoUnreadBody => 'You\'re all caught up.';
+  String get notificationsNoUnreadBody => 'Jūs esat visu izlasījis.';
 
   @override
-  String get notificationsNoMentionsTitle => 'No Recent Mentions';
+  String get notificationsNoMentionsTitle => 'Nav nesenu mijiedarbību';
 
   @override
   String get notificationsNoMentionsBody =>
-      'All @mentions of you will appear here for 7 days.';
+      'Visas jūsu @mijiedarbības šeit parādīsies 7 dienas.';
 
   @override
-  String get notificationsMentionsEndTitle => 'You\'ve reached the end';
+  String get notificationsMentionsEndTitle => 'Jūs esat sasniedzis beigas';
 
   @override
   String get notificationsMentionsEndBody =>
-      'You\'ve seen all your recent mentions. Don\'t fret, more will appear here soon.';
+      'Jūs esat redzējis visas savas nesenās mijiedarbības. Neuztraucieties, drīzumā šeit parādīsies jaunas.';
 
   @override
-  String get notificationsJump => 'Jump';
+  String get notificationsJump => 'Lēkt';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Remove mention';
+  String get notificationsRemoveMentionTooltip => 'Noņemt mijiedarbību';
 
   @override
-  String get notificationsViewAllUnread => 'View all unread';
+  String get notificationsViewAllUnread => 'Skatīt visus nelasītos';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead => 'Atzīmēt kā izlasītu';
 
   @override
-  String get notificationsExpand => 'Expand';
+  String get notificationsExpand => 'Izvērst';
 
   @override
-  String get notificationsCollapse => 'Collapse';
+  String get notificationsCollapse => 'Sakļaut';
 
   @override
-  String get notificationsMessageUnavailable =>
-      'This message couldn\'t be loaded.';
+  String get notificationsMessageUnavailable => 'Šo ziņojumu nevarēja ielādēt.';
 
   @override
   String characterCounterRemaining(int remaining) {
-    return '$remaining characters left';
+    return '$remaining rakstzīmes atlikušas';
   }
 
   @override
-  String get characterCounterTooLong => 'Message is too long';
+  String get characterCounterTooLong => 'Ziņojums ir pārāk garš';
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -4152,598 +4324,640 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String productName,
     int premiumMaxLength,
   ) {
-    return '$remaining characters left. Get $productName to write up to $premiumMaxLength characters.';
+    return '$remaining rakstzīmes atlikušas. Iegūstiet $productName, lai rakstītu līdz $premiumMaxLength rakstzīmēm.';
   }
 
   @override
-  String get chatMessageFailedToSend => 'Failed to send message';
+  String get chatMessageFailedToSend => 'Ziņojumu neizdevās nosūtīt';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return 'Jūsu ziņojums netika piegādāts. Tas parasti notiek tāpēc, ka jums nav kopīgas kopienas ar saņēmēju vai saņēmējs pieņem tiešos ziņojumus tikai no draugiem. Iespējams, jums arī būs jāpielāgo savi tiešo ziņojumu privātuma iestatījumi sadaļā $settingsPath.';
+  }
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatSendFailureUnclaimedDm =>
+      'Jūsu ziņojums netika piegādāts. Lai nosūtītu tiešos ziņojumus, jums ir jāpieprasa savs konts.';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatSendFailureUnclaimedGeneral =>
+      'Jūsu ziņojums netika piegādāts. Lai nosūtītu ziņojumus, jums ir jāpieprasa savs konts.';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatSendFailureContentBlocked =>
+      'Jūsu ziņojums netika piegādāts, jo to atzīmēja mūsu drošības sistēmas. Ja uzskatāt, ka tā ir kļūda, lūdzu, sazinieties ar atbalsta dienestu.';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatSendFailureNsfwEmojiSticker =>
+      'Jūsu ziņojums netika piegādāts, jo tas satur saturiski neatbilstošus emocijzīmes vai uzlīmes, kas nav atļautas šajā kontekstā.';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get chatClientSystemOnlyYouCanSee =>
+      'Šo ziņojumu var redzēt tikai jūs.';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get chatClientSystemDismiss => 'Noraidīt';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get privacyDashboardCommunicationSection => 'Komunikācija';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get chatMessageDeleteFailed => 'Dzēst neizdevās';
+
+  @override
+  String get chatMessageAddReaction => 'Pievienot reakciju';
+
+  @override
+  String get chatMessageEdit => 'Rediģēt ziņojumu';
+
+  @override
+  String get chatMessageReply => 'Atbildēt';
+
+  @override
+  String get chatMessageForward => 'Pārsūtīt';
+
+  @override
+  String get forwardMessageTitle => 'Pārsūtīt ziņojumu';
+
+  @override
+  String get forwardSearchHint => 'Meklēt kanālus vai DM';
+
+  @override
+  String get forwardDirectMessagesSection => 'Privātie ziņojumi';
+
+  @override
+  String get forwardCommentHint => 'Pievienot komentāru (nav obligāti)';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return 'Sūtīt ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => 'Kanāli nav atrasti';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => 'Ziņojums pārsūtīts';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => 'Neizdevās pārsūtīt ziņojumu';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'Komentāri nav pieejami, jo atlasītajam kanālam ir ieslēgts lēnais režīms.';
 
   @override
   String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+      'Šeit nevarat sūtīt ziņojumus';
 
   @override
   String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+      'Šeit nevarat iegult saites';
 
   @override
   String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+      'Šeit nevarat pievienot failus';
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+      'Ziņojumu sūtīšana ir atspējota šajā kopienā';
 
   @override
   String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+      'Jums ir laika ierobežojums šajā kopienā';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'Lēnais režīms — uzgaidiet $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => 'Kopēt ziņojumu';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => 'Piespraust ziņojumu';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => 'Atspraust ziņojumu';
 
   @override
-  String get chatMessageUnpinIt => 'Unpin it';
+  String get chatMessageUnpinIt => 'Atspraust';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageBookmark => 'Grāmatzīme ziņojumam';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageRemoveBookmark => 'Noņemt grāmatzīmi';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageMarkAsUnread => 'Atzīmēt kā nelasītu';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageCopyMessageLink => 'Kopēt ziņojuma saiti';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageId => 'Kopēt ziņojuma ID';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageViewReactions => 'Skatīt reakcijas';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageRemoveAllReactions => 'Noņemt visas reakcijas';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageDebug => 'Debugot ziņojumu';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebugSheetTitle => 'Debugot ziņojumu';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugCopyJson => 'Kopēt JSON';
 
   @override
   String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+      'Ziņojuma JSON kopēts uz starpliktuvē';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => 'Reakcijas';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty => 'Neviens vēl nav reaģējis.';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => 'Ziņot par ziņojumu';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get iarReportMessageTitle => 'Ziņot par ziņojumu';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarThisUserFallback => 'šim lietotājam';
 
   @override
   String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+      'Ziņot par noteikumu pārkāpumu vai atrast rīkus, lai pārvaldītu kontaktu un preferences.';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarPathStepAriaLabel => 'Kas jums nepieciešams?';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarCategoryStepTitle => 'Kāda veida noteikums tika pārkāpts?';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarReasonStepTitle => 'Kāds noteikums tika pārkāpts?';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonSelectHint => 'Atlasiet iemeslu';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarPickAnOptionToast => 'Atlasiet opciju, lai turpinātu.';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickARuleToast => 'Atlasiet pārkāpto noteikumu.';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPathPlatform => 'Ziņot par platformas noteikumu pārkāpumu';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathCommunity => 'Ziņot šīs kopienas moderatoriem';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathPreferenceMessage => 'Man nepatīk šis saturs';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarCategoryTargetedHarmLabel => 'Draudi, uzmākšanās vai kaitējums';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+      'Apsaukāšana, draudi, naida runa, vardarbība, reidi vai pašnāvības veicināšanas saturs.';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategorySafetyMinorsLabel =>
+      'Bērnu drošība vai nepiedienīgs saturs';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+      'Bērni apdraudējumā, nepiedienīgs saturs nepiemērotā vietā vai nevēlama uzvedība.';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategoryPrivacyIdentityLabel =>
+      'Privātums vai identitātes zādzība';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+      'Datu nopludināšana, izsekošana, izlikšanās par kādu citu vai neatbilstošs profils.';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryDeceptionLabel =>
+      'Krāpniecība, ļaunprogrammatūra vai dezinformācija';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+      'Pikšķerēšana, krāpšana, ļaunprātīgi saiti vai nepatiesa informācija, kas var radīt reālu kaitējumu.';
 
   @override
   String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+      'Nelegāla darbība vai kaut kas cits';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+      'Nelegāla tirdzniecība, noziedzīgas darbības atbalstīšana vai skaidrs noteikumu pārkāpums, kas nav minēts iepriekš.';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarReasonHarassmentLabel => 'Uzmākšanās vai draudi';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+      'Apsaukāšana, atkārtots nevēlams kontakts, izsekošana vai mērķtiecīga aizskaršana.';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHateLabel => 'Naida runa';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      'Apsaukāšana, dehumanizējoša valoda vai uzbrukumi aizsargātām grupām.';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonViolenceLabel => 'Vardarbība vai vardarbīgi draudi';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+      'Ticami draudi, grafiska vardarbība vai vardarbības glorificēšana.';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonMatureContentLabel =>
+      'Nepiedienīgs saturs vai uzmākšanās';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+      'Nevēlama uzvedība vai nepiedienīgs saturs nepiemērotā vietā.';
 
   @override
   String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+      'Bērnu drošība vai nepilngadīgo izmantošana';
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+      'Satura veicināšana vai instrukcijas, kas mudina uz pašnāvību vai ēšanas traucējumiem.';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonHarmfulMisinfoLabel => 'Kaitīga dezinformācija';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+      'Nepatiesas apgalvojumi, kas var radīt reālu kaitējumu.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonSpamLabel => 'Spams, krāpniecība vai pikšķerēšana';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+      'Masveida spams, krāpšana, viltotas dāvanas vai konta ļaunprātīga izmantošana.';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonMalwareLabel => 'Ļaunprogrammatūra vai bīstami saiti';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+      'Ļaunprogrammatūra, paroles zādzība vai kaitīgi faili.';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonPrivacyLabel => 'Privātuma pārkāpums';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+      'Datu nopludināšana, atklāta privāta informācija vai izsekošana.';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonImpersonationLabel =>
+      'Identitātes zādzība vai maldinoši mediji';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+      'Izlikšanās par kādu citu, ieskaitot maldinošu AI ģenerētu saturu.';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonIllegalLabel => 'Nelegāla darbība';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+      'Nelegāla tirdzniecība, noziedzīgas darbības atbalstīšana vai nelikumīga darbība.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonSelfHarmLabel => 'Pašnāvība vai paškaitējums';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+      'Pašnāvības vai ēšanas traucējumu veicināšana vai instrukcijas.';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonOtherLabel => 'Cits skaidrs noteikumu pārkāpums';
 
   @override
   String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+      'Izmantojiet tikai tad, ja tas skaidri pārkāpj Fluxer noteikumus un nav piemērots iepriekš.';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return 'Ja iesaistīts nepilngadīgais, izmantojiet \"$childSafetyReason\" vietā.';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      'Ja tas ietver CSAM vai nepilngadīgā izmantošanu, nosūtiet to tagad un neatkārtojiet materiālu.';
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+      'Ja kāds var būt tūlītējās briesmās, ja tas ir droši, sazinieties ar vietējiem neatliekamās palīdzības dienestiem.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+      'Ja tie ir ticami tūlītēji draudi, sazinieties arī ar vietējiem neatliekamās palīdzības dienestiem.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+      'Ja tie ir tūlītēji terorisma draudi, sazinieties arī ar vietējiem neatliekamās palīdzības dienestiem.';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => 'Bloķēt šo lietotāju';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+      'Pārtraukt ziņojumus un draugu pieprasījumus.';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => 'Bloķēt';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => 'Kopēt ziņojuma saiti';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+      'Kopīgot ar kopienas moderatoriem.';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => 'Kopēt';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => 'Aizvērt šo DM';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+      'Neuzliek bloķēšanu. Varat atvērt vēlāk.';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => 'Aizvērt DM';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => 'Pamest kopienu';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+      'Pārtrauciet redzēt tās saturu un dalībniekus.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => 'Pamest';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle =>
+      'DM un uzaicinājumu uz draugiem iestatījumi';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription =>
+      'Mainiet, kas var ar jums sazināties.';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle =>
+      'Zvanu un grupas tērzēšanas iestatījumi';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+      'Mainiet, kas var jums zvanīt vai pievienot jūs.';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => 'Atvērt';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => 'Dzēst šo ziņojumu';
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+      'Noņemiet to no kanāla visiem.';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => 'Dzēst';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => 'Dzēsts';
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+      'Šis ziņojums jau ir izdzēsts.';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => 'Bloķēt šo lietotāju';
 
   @override
   String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+      'Atveriet bloķēšanas dialogu šai kopienai.';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => 'Bloķēt';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => 'Bloķēts';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+      'Šis lietotājs jau ir bloķēts šajā kopienā.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => 'Aizvērt DM';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return 'Aizveriet savu pašreizējo DM ar $name. Tas viņus nebloķēs; varat tos atvērt vēlāk.';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => 'Ziņojums nosūtīts';
 
   @override
   String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+      'Mūsu drošības komanda to izskata. Mēs nosūtīsim jums DM un e-pastu, tiklīdz būsim pieņēmuši lēmumu.';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => 'Jau ziņots';
 
   @override
   String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+      'Jūs jau esat ziņojis par šo ziņojumu. Mūsu drošības komanda to izskata.';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => 'Atpakaļ';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => 'Turpināt';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => 'Nosūtīt ziņojumu';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => 'Gatavs';
 
   @override
   String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+      'Nevarēja nosūtīt ziņojumu. Lūdzu, mēģiniet vēlreiz.';
 
   @override
   String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+      'Jūs ziņojat pārāk ātri. Lūdzu, pagaidiet brīdi un mēģiniet vēlreiz.';
 
   @override
   String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+      'Ziņojums nosūtīts. Mūsu drošības komanda to izskatīs.';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return 'Bloķēt $name? Viņi nevarēs jums sūtīt ziņojumus vai uzaicinājumus uz draugiem. Varat viņus atsbloķēt vēlāk.';
   }
 
   @override
   String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+      'Nevarēja bloķēt šo lietotāju. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => 'DM aizvērts.';
 
   @override
   String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+      'Nevarēja aizvērt šo DM. Lūdzu, mēģiniet vēlreiz.';
 
   @override
   String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+      'Nevarēja pamest šo kopienu. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => 'Slēpt iekļaujumus';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => 'Rādīt iekļaujumus';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => 'Dzēst ziņojumu';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => 'Dzēst ziņojumu';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+      'Vai tiešām vēlaties dzēst šo ziņojumu?';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => 'Vairāk';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => 'Rediģē ziņojumu';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => 'Oriģinālais ziņojums tika dzēsts';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad =>
+      'Oriģinālo ziņojumu neizdevās ielādēt';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia => 'Ziņojumā ir pievienotie mediji';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError => 'Nevarēja ielādēt ziņojumus.';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle =>
+      'Pārrakstīt pieminēšanas preferences?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return '$authorNickname dod priekšroku @pieminēšanai atbildēs. Sūtīt bez pieminēšanas tomēr?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname dod priekšroku atbildēm bez @pieminēšanas. Vai tomēr nosūtīt ar pieminēšanu?';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => 'Ignorēt preferenci';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+      'Noklikšķiniet, lai atspējotu atbildētā lietotāja pingošanu.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+      'Noklikšķiniet, lai iespējotu atbildētā lietotāja pingošanu.';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel =>
+      'Pieminēt atbildēto lietotāju';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => 'Ieslēgts';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => 'Izslēgts';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => 'Atcelt atbildi';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => 'Rediģēt ziņojumu';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => 'Nav izmaiņu, ko saglabāt';
 
   @override
   String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+      'Šis kanāls vēl nav gatavs. Pamēģiniet vēlreiz pēc brīža.';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(rediģēts)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'Šis bija @silent ziņojums.';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'Šodien plkst. $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'Vakar plkst. $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => 'Attēla priekšskatījums';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => 'Aizvērt mediju skatītāju';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'Atvērt pārlūkprogrammā';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => 'Pārsūtīt';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => 'Tuvināt';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => 'Tālināt';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => 'Iepriekšējais pielikums';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => 'Nākamais pielikums';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -4751,80 +4965,84 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls => 'Pārslēgt video vadīklas';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => 'Izslēgt video skaņu';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => 'Ieslēgt video skaņu';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'Atskaņot video';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'Pauze video';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => 'Video atskaņošanas gaita';
+
+  @override
+  String get chatVideoPlaybackFailed => 'Nevarēja atskaņot šo video.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      'Paziņot lietotājiem ar šo lomu, kuriem ir atļauja skatīt šo kanālu.';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => 'Pievienot kopienu';
 
   @override
   String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+      'Izveidojiet jaunu kopienu vai pievienojieties esošai.';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => 'Izveidot kopienu';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => 'Pievienoties kopienai';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => 'Importēt Discord veidni';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => 'Pievienoties kopienai';
 
   @override
   String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+      'Ievadiet ielūguma saiti, lai pievienotos kopienai.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => 'Ielūguma saite';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => 'Pievienoties kopienai';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid =>
+      'Šis ielūgums ir nederīgs vai ir beidzies tā derīguma termiņš.';
 
   @override
   String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+      'Nevarēja pievienoties kopienai. Lūdzu, mēģiniet vēlreiz.';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => 'Iepakojums veiksmīgi instalēts.';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+      'Noņemt visas reakcijas';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      'Vai tiešām vēlaties noņemt visas reakcijas no šī ziņojuma?';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => 'Noņemt ziņojuma piespraudi';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+      'Vai vēlaties atsaukt šo piespraudi?';
 
   @override
   String systemPinMessage(
@@ -4832,68 +5050,69 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+    return '$username piesprauda $messageLink šajā kanālā. Skatīt $allPinsLink.';
   }
 
   @override
-  String get systemPinMessageMessageLink => 'a message';
+  String get systemPinMessageMessageLink => 'ziņojumu';
 
   @override
-  String get systemPinMessageAllPinsLink => 'all pinned messages';
+  String get systemPinMessageAllPinsLink => 'visus piespraustos ziņojumus';
 
   @override
-  String get channelPinsEmptyTitle => 'No pinned messages';
+  String get channelPinsEmptyTitle => 'Nav piespraustu ziņojumu';
 
   @override
-  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
+  String get channelPinsEmptyDescription =>
+      'Šeit parādīsies piespraužamie ziņojumi.';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String get personalNotesTitle => 'Personīgās piezīmes';
 
   @override
   String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+      'Jūsu privātā telpa domām un atgādinājumiem';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return 'Laipni lūgti kanālā $channelName';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return 'Sākumā nekas nebija. Tad parādījās $channelName. Un tas bija labi.';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => 'Sūtiet ziņojumu sev';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => 'Jūsu privātā telpa';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => 'Dzēst personīgās piezīmes';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      'Tas neatgriezeniski izdzēsīs katru ziņojumu un pielikumu jūsu personīgajās piezīmēs. To nevarēs atsaukt.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => 'Dzēst';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return 'Dzēsti $count ziņojumi no personīgajām piezīmēm';
   }
 
   @override
   String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+      'Personīgās piezīmes jau bija tukšas';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed => 'Nevarēja notīrīt personīgās piezīmes';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => 'JŪSU KONTS';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -4905,353 +5124,497 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => 'Profils';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => 'Drošība un pieteikšanās';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => 'Dāvanas un kodi';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => 'Emociju komplekti';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard =>
+      'Privātuma informācijas panelis';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => 'Autorizētās lietotnes';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => 'Bloķētie lietotāji';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => 'Saistītās ierīces';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => 'Savienojumi';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => 'Izskats un stils';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => 'Pieejamība';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => 'Ziņojumi un mediji';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Audio & Video';
+  String get userSettingsNavAudioAndVideo => 'Audio un video';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => 'Skaņas un brīdinājumi';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => 'Valoda un laiks';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => 'Papildu iestatījumi';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => 'Veiktspējas ziņošana';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      'Palīdziet uzlabot Fluxer, kopīgojot anonīmus datus par kļūmēm un veiktspēju.';
 
   @override
   String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+      'Sūtīt ziņojumus par kļūmēm un veiktspēju';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      'Visi ziņotie dati ir anonīmi un tiek sūtīti tikai uz Fluxer pašu uzraudzības pakalpojumu — netiek izmantoti trešo pušu nodrošinātāji.';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => 'Lietotnes';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => 'Lietotnes žurnāli';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => 'Izstrādātāju rīki';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => 'Ierobežojumu konfigurācija';
 
   @override
-  String get userSettingsNavFeatureFlags => 'Feature Flags';
+  String get userSettingsNavFeatureFlags => 'Funkciju karodziņi';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => 'Kas jauns';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => 'Izrakstīties';
 
   @override
-  String get betaWarningTitle => 'Beta software';
+  String get betaWarningTitle => 'Beta programmatūra';
 
   @override
   String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+      'Šī ir beta programmatūra. Vēl ne viss ir pabeigts vai pievienots.';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      'Lūdzu, ziņojiet par visām problēmām, ko atradīsiet, Fluxer Mobile kopienai (pašlaik, lai pievienotos kopienai, ir nepieciešams Plutonium).';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => 'Skatīt avota kodu GitHub';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => 'Skaidrs';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => 'Meklēt';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => 'Draugi';
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+      'Meklēt kanālus, cilvēkus vai kopienas';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => 'Meklēt draugus';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => 'Nav atrasts neviens atbilstošs';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+      'Mēģiniet citu vārdu vai izmantojiet prefiksus @ / # / ! / *, lai filtrētu rezultātus.';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => 'Cilvēki';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => 'Grupas ziņojumi';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => 'Teksta kanāli';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => 'Balss kanāli';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Communities';
+  String get quickSwitcherSectionCommunities => 'Kopienas';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => 'Iestatījumi';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => 'Sākums';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => 'Privātie ziņojumi';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => 'Izlase';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => 'Lietotāja iestatījumi';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => 'Paziņojumi';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => 'Grāmatzīmes';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => 'Mijiedarbības';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => 'Vēl nav draugu';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint => 'Pievienojiet draugu, lai sāktu.';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle =>
+      'Nav draugu, kas atbilstu meklētajam';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => 'Mēģiniet citu vārdu.';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => 'Lietotājs';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => 'Jūs';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
 
   @override
-  String get quickSwitcherSearchAliasDms => 'DMs';
+  String get quickSwitcherSearchAliasDms => 'Privātie ziņojumi';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => 'Ziņojumi';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => 'Izlase';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => 'Atzīmēti';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => 'Saņemtie';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => 'Saglabātie';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => 'Aizvērt';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => 'Pāriet uz apakšu';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => 'Apstiprināt';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => 'Notiek ielāde';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => 'Nav saglabātas izmaiņas';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => 'Atiestatīt';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'Atvērt krāsu atlasītāju';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => 'Atlasīt';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => 'Meklēt';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => 'Nav atrasts neviens variants';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => 'Noraidīt paziņojumu';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'Krāsu atlasītājs';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => 'Paziņot visiem?';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return 'Tiks paziņoti $count dalībnieki. Turpināt?';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return 'Tiks paziņoti $count tiešsaistes dalībnieki. Turpināt?';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => 'Paziņot';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable => 'Šeit nevarat izmantot šo emocijzīmi.';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => 'Instancēšanas URL';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder =>
+      'Ievadiet instancēšanas URL (piemēram, fluxer.app)';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => 'Atiestatīt uz Fluxer';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => 'Savienot';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => 'Notiek savienošana…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => 'Neizdevās savienot ar instanci';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => 'Nesenās instances';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return 'Noņemt $domain no nesenajām instancēm';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => 'Savienot ar instanci';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance => 'Savienot ar citu instanci';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => 'Mainīt';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired =>
+      'Lai pieteiktos, savienojieties ar instanci';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => 'Drīzumā';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => 'Privātie ziņojumi';
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+      'Izpētīt atklājamās kopienas';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get discoveryExplore => 'Izpētīt';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get discoveryExplorePublicCommunities => 'Izpētīt publiskās kopienas';
 
   @override
-  String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+  String get discoveryListingSubheading =>
+      'Vai vēlaties iekļaut savu kopienu šeit? Piesakieties, ja atbilstat prasībām sadaļā Kopienas iestatījumi > Izpēte.';
+
+  @override
+  String get discoverySearchCommunities => 'Meklēt kopienas';
+
+  @override
+  String get discoveryFilterByLanguage => 'Filtrēt pēc valodas';
+
+  @override
+  String get discoveryAllLanguages => 'Visas valodas';
+
+  @override
+  String get discoveryAllCategories => 'Visas';
+
+  @override
+  String get discoveryCategoryGaming => 'Spēles';
+
+  @override
+  String get discoveryCategoryMusic => 'Mūzika';
+
+  @override
+  String get discoveryCategoryEntertainment => 'Izklaide';
+
+  @override
+  String get discoveryCategoryEducation => 'Izglītība';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology => 'Zinātne un tehnoloģijas';
+
+  @override
+  String get discoveryCategoryContentCreator => 'Satura veidotājs';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => 'Anime un manga';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => 'Filmas un TV';
+
+  @override
+  String get discoveryCategoryOther => 'Cits';
+
+  @override
+  String get discoveryNoCommunitiesMatch => 'Nav atbilstošu kopienu.';
+
+  @override
+  String get discoveryJoinCommunity => 'Pievienoties kopienai';
+
+  @override
+  String get discoveryJoined => 'Pievienots';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count tiešsaistē';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString dalībnieki',
+      one: '1 dalībnieks',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get discoveryNoDescription => 'Nav apraksta.';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get discoveryCommunities => 'Kopienas';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get discoveryApps => 'Lietotnes';
+
+  @override
+  String get discoveryJoinErrorGenericTitle =>
+      'Neizdevās pievienoties šai kopienai';
+
+  @override
+  String get discoveryJoinErrorGenericMessage =>
+      'Radās kļūda. Lūdzu, mēģiniet vēlreiz pēc brīža.';
+
+  @override
+  String get discoveryJoinErrorFullTitle => 'Šī kopiena ir pilna';
+
+  @override
+  String get discoveryJoinErrorFullMessage =>
+      'Šī kopiena ir sasniegusi dalībnieku skaita ierobežojumu, tāpēc pašlaik nevarat pievienoties.';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle =>
+      'Esat sasniedzis kopienu limitu';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage =>
+      'Jūs esat maksimālajā kopienu skaitā. Pametiet vienu un mēģiniet vēlreiz.';
+
+  @override
+  String get discoveryJoinErrorBannedTitle =>
+      'Jūs nevarat pievienoties šai kopienai';
+
+  @override
+  String get discoveryJoinErrorBannedMessage =>
+      'Jums ir liegta piekļuve šai kopienai.';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle =>
+      'Šī kopiena vairs nav pieejama';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      'Tā, iespējams, ir izņemta no izpētes vai ir izslēgta jaunu dalībnieku uzņemšana. Atsvaidziniet lapu, un jūs to vairs neredzēsiet.';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle =>
+      'Jūs pārvietojaties pārāk ātri';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage =>
+      'Lūdzu, uzgaidiet brīdi un mēģiniet vēlreiz.';
+
+  @override
+  String get guildNavbarAddCommunity => 'Pievienot kopienu';
+
+  @override
+  String get guildNavbarHelp => 'Palīdzība';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => 'JAUNA ZIŅA';
+
+  @override
+  String guildNavbarCollapseFolder(String folderName) {
+    return 'Sakļaut $folderName';
+  }
+
+  @override
+  String get guildNavbarGroupDm => 'Grupas DM';
+
+  @override
+  String get guildNavbarCreateChannel => 'Izveidot kanālu';
+
+  @override
+  String get guildNavbarChannelType => 'Kanāla tips';
+
+  @override
+  String get guildNavbarTextChannel => 'Teksta kanāls';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Sūtiet ziņojumus, attēlus, GIF un emocijzīmes';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => 'Balss kanāls';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Pavadiet laiku kopā ar balsi, video un ekrāna kopīgošanu';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => 'Saistītais kanāls';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Ātra piekļuve ārējai vietnei vai resursam';
 
   @override
-  String get guildNavbarNameLabel => 'Name';
+  String get guildNavbarNameLabel => 'Nosaukums';
 
   @override
   String get guildNavbarNewChannelHint => 'new-channel';
@@ -5263,541 +5626,545 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => 'Izveidot kategoriju';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => 'Jauna kategorija';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return 'Uzaiciniet draugus uz $communityName';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return 'Saņēmēji tiks novirzīti uz #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => 'Meklēt draugus';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => 'Vēl nav draugu';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => 'Nav rezultātu';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+      'Vai arī nosūtiet uzaicinājuma saiti draugam:';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => 'Uzaicinājuma saite';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => 'Kopēt';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => 'Nokopēts!';
 
   @override
   String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+      'Jūsu uzaicinājuma saite beidzas pēc 7 dienām.';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires =>
+      'Šī uzaicinājuma saite nekad nebeidzas.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return 'Jūsu uzaicinājuma saite beidzas pēc $duration.';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => 'Rediģēt uzaicinājuma saiti';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => 'Uzaicinājuma saišu iestatījumi';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => 'Beidzas pēc';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => 'Maksimālais lietojumu skaits';
 
   @override
-  String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+  String get guildNavbarGrantTemporaryMembership => 'Piešķirt pagaidu dalību';
 
   @override
   String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+      'Dalībnieki tiks noņemti, kad viņi kļūs bezsaistē, ja vien netiks piešķirta loma';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => 'Izveidot jaunu saiti';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => 'Nosūtīts';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => 'Uzaicināt';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => 'Pamest kopienu';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+      'Vai tiešām vēlaties pamest šo kopienu? Jūs vairs nevarēsiet redzēt nevienu ziņojumu.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => 'Pamest kopienu';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+      'Dzēst savus ziņojumus šajā kopienā?';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      'Pastāvīgi izdzēsiet katru ziņojumu, ko esat šeit nosūtījis, visos kanālos. Atcelt nevar.';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm => 'Dzēst manus ziņojumus';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => 'Izdzēsti jūsu ziņojumi';
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Nevarēja izdzēst jūsu ziņojumus';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => 'Noņemt pārrakstīšanu';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return 'Skaņa izslēgta līdz $formattedDate';
   }
 
   @override
   String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+      'Pieejams tikai Fluxer personālam';
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+      'Uzaicinājumi šajā kopienā pašlaik ir apturēti';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => 'nekad';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 minūtes';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 stunda';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 stundas';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12 stundas';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1 diena';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7 dienas';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count sekundes';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => 'Nekad';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => 'Nav ierobežojumu';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1 lietošanas reize';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count lietošanas reizes';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => 'Atzīmēt kā izlasītu';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildPeekMoreOptions => 'Vairāk opciju';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuInviteMembers => 'Uzaicināt dalībniekus';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuCommunitySettings => 'Kopienas iestatījumi';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuEditCommunityProfile => 'Rediģēt kopienas profilu';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuUnmuteCommunity => 'Atbloķēt kopienu';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuMuteCommunity => 'Skaņas izslēgšana kopienai';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuHideMutedChannels => 'Slēpt izslēgtos kanālus';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuReportCommunity => 'Ziņot par kopienu';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuDebugCommunity => 'Kopienas atkļūdošana';
+
+  @override
+  String get guildMenuCopyCommunityId => 'Kopēt kopienas ID';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return 'Līdz $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => 'Vispārīgi';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => 'Lomas un atļaujas';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => 'Pielāgotas emocijzīmes';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => 'Pielāgotās uzlīmes';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => 'Drošība un moderācija';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => 'Darbību žurnāls';
 
   @override
-  String get guildMenuSettingsWebhooks => 'Webhooks';
+  String get guildMenuSettingsWebhooks => 'Webhook';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl => 'Pielāgota uzaicinājuma URL';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Atklāšana';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => 'Dalībnieki';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => 'Uzaicinājuma saites';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => 'Aizliegumi';
 
   @override
   String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+      'Jums nav atļaujas skatīt šo iestatījumu cilni.';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Icon';
+  String get guildSettingsOverviewIconTitle => 'Ikona';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => 'Augšupielādēt attēlu';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Banner';
+  String get guildSettingsOverviewBannerTitle => 'Baneris';
 
   @override
   String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+      'Augšupielādējiet baneri savam serverim.';
 
   @override
-  String get guildSettingsOverviewNameTitle => 'Name';
+  String get guildSettingsOverviewNameTitle => 'Nosaukums';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => 'Mana lieliskā kopiena';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => 'Statistika';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => 'Dalībnieki';
 
   @override
-  String get guildSettingsOverviewOnline => 'Online';
+  String get guildSettingsOverviewOnline => 'Tiešsaistē';
 
   @override
   String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+      'Izmantojiet lomas, lai grupētu dalībniekus un piešķirtu atļaujas.';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => 'Izveidot lomu';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => 'Lomas';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '$staticCount statiskās, $animatedCount animētās emocijzīmju vietas izmantotas';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty => 'Vēl nav pielāgotu emocijzīmju.';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '$count uzlīmes augšupielādētas';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty => 'Vēl nav pielāgotu uzlīmju.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle =>
+      'Dalībnieku verifikācija';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      'Izvēlieties, kas dalībniekiem jābūt, pirms viņi var publicēt vai sūtīt privātus ziņojumus kopienas dalībniekiem.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      'Dalībnieki ar lomām var apiet šīs pārbaudes. Publiskām telpām iesakām ieslēgt verifikāciju.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      'Kopienām, kas norādītas atklāšanā, ir nepieciešams vismaz verificēts e-pasts. Navigācija nav pieejama, ja atklāšana ir ieslēgta.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+      'Nepiedienīgs saturs un satura brīdinājumi';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'Konfigurējiet nepiedienīga satura marķēšanu un izvēles brīdinājumus par saturu dalībniekiem.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => 'Nepiedienīgs saturs';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      'Atzīmējiet šo kopienu kā saturošu nepiedienīgu saturu.';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => 'Nav';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+      'Nav nepieciešama verifikācija.';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => 'Zems';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+      'Nepieciešama verificēta e-pasta adrese.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => 'Vidējs';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      'Nepieciešama verificēta e-pasta adrese un konts, kas ir vismaz 5 minūtes vecs.';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => 'Augsts';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      'Nepieciešams viss no vidējā līmeņa, kā arī dalība kopienā vismaz 10 minūtes.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => 'Ļoti augsts';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+      'Nepieciešams verificēts tālruņa numurs.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+      'Izsekojiet moderatoru darbības visā kopienā.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => 'Vēl nav žurnālu';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+      'Moderācijas darbības un kopienas izmaiņas parādīsies šeit.';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => 'Visi lietotāji';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => 'Visas darbības';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => 'Iemesls netika norādīts.';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => 'Nezināms lietotājs';
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+      'Notika kļūda, ielādējot darbību žurnālu.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+      'Nevar ielādēt darbību žurnālus';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => 'Iemesls';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => 'kāds';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => 'kaut kas';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => 'nezināma vienība';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => 'neko';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => 'Nezināms mērķis';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => 'Kopiena atjaunināta';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => 'Kanāls izveidots';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => 'Kanāls atjaunināts';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => 'Kanāls dzēsts';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate =>
+      'Kanāla atļauja pievienota';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+      'Kanāla atļauja atjaunināta';
 
   @override
-  String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+  String get auditLogActionChannelOverwriteDelete => 'Kanāla atļauja noņemta';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => 'Dalībnieks izmests';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => 'Dalībnieki izdzēsti';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => 'Dalībnieks bloķēts';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => 'Dalībnieks atbloķēts';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => 'Dalībnieks atjaunināts';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => 'Dalībnieka lomas atjauninātas';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => 'Dalībnieks pārvietots';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => 'Dalībnieks atvienots';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => 'Bots pievienots';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => 'Loma izveidota';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => 'Loma atjaunināta';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => 'Lombarža dzēsta';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => 'Ielūgums izveidots';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => 'Ielūgums atjaunināts';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => 'Ielūgums dzēsts';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'Webhook izveidots';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'Webhook atjaunināts';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'Webhook dzēsts';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => 'Emocija izveidota';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => 'Emocija atjaunināta';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => 'Emocija dzēsta';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => 'Uzlīme izveidota';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => 'Uzlīme atjaunināta';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => 'Uzlīme dzēsta';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => 'Ziņojums dzēsts';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => 'Ziņojumi dzēsti';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => 'Ziņojums piesprausts';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => 'Ziņojums atsprausts';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return '$actor atjaunināja kopienas iestatījumus.';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return '$actor izveidoja kanālu $target.';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return '$actor atjaunināja kanālu $target.';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return '$actor dzēsa kanālu $target.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return '$actor pievienoja kanāla atļaujas priekš $target.';
   }
 
   @override
@@ -5806,12 +6173,12 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return '$actor pievienoja kanāla atļaujas priekš $target kanālā $channel.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return '$actor atjaunināja kanāla atļaujas priekš $target.';
   }
 
   @override
@@ -5820,12 +6187,12 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return '$actor atjaunināja kanāla atļaujas priekš $target kanālā $channel.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return '$actor noņēma kanāla atļaujas priekš $target.';
   }
 
   @override
@@ -5834,47 +6201,47 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return '$actor noņēma kanāla atļaujas priekš $target kanālā $channel.';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return '$actor izmeta dalībnieku $target.';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return '$actor bloķēja dalībnieku $target.';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return '$actor atbloķēja dalībnieku $target.';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return '$actor atjaunināja $target.';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return '$actor atjaunināja lomas dalībniekam $target.';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return '$actor izdzēsa neaktīvos dalībniekus.';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return '$actor izdzēsa dalībniekus, kas bija neaktīvi $days dienas.';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return '$actor pārvietoja dalībnieku $target uz citu balss kanālu.';
   }
 
   @override
@@ -5883,37 +6250,37 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return '$actor pārvietoja dalībnieku $target uz kanālu $channel.';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return '$actor atvienoja dalībnieku $target no balss.';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return '$actor pievienoja botu $target.';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return '$actor izveidoja lomu $target.';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return '$actor atjaunināja lomu $target.';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return '$actor dzēsa lomu $target.';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return '$actor izveidoja ielūgumu $target.';
   }
 
   @override
@@ -5922,12 +6289,12 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return '$actor izveidoja ielūgumu $target kanālam $channel.';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return '$actor atjaunināja ielūgumu $target.';
   }
 
   @override
@@ -5936,12 +6303,12 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return '$actor atjaunināja ielūgumu $target kanālam $channel.';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return '$actor dzēsa ielūgumu $target.';
   }
 
   @override
@@ -5950,72 +6317,72 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return '$actor dzēsa ielūgumu $target kanālam $channel.';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return '$actor izveidoja webhook $target.';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor atjaunināja webhook $target.';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor dzēsa webhook $target.';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor pievienoja emocemozi $target.';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor atjaunināja emocemozi $target.';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor izdzēsa emocemozi $target.';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor pievienoja uzlīmi $target.';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor atjaunināja uzlīmi $target.';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor izdzēsa uzlīmi $target.';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor izdzēsa ziņojumu.';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor izdzēsa ziņojumu kanālā $channel.';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor izdzēsa vairākus ziņojumus.';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor izdzēsa $count ziņojumus.';
   }
 
   @override
@@ -6023,7 +6390,7 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor izdzēsa vairākus ziņojumus kanālā $channel.';
   }
 
   @override
@@ -6032,32 +6399,32 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor izdzēsa $count ziņojumus kanālā $channel.';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor piesprauda ziņojumu.';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor piesprauda ziņojumu kanālā $channel.';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor atsprauda ziņojumu.';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor atsprauda ziņojumu kanālā $channel.';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor veica revīzijas darbību attiecībā uz $target.';
   }
 
   @override
@@ -6066,97 +6433,99 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return 'Atjaunināts $field no $oldValue uz $newValue.';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return 'Iestatīts $field uz $newValue.';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return 'Notīrīts $field (bija $oldValue).';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return 'Atjaunināts $field.';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return 'Kopiena pārdēvēta par $name.';
   }
 
   @override
   String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+      'Kopienas ikona atjaunināta.';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return 'Kanāls pārdēvēts par $name.';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => 'Tēma notīrīta.';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return 'Tēma atjaunināta uz $topic.';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent =>
+      'Iespējots saturam pieaugušajiem.';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent =>
+      'Atspējots saturam pieaugušajiem.';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return 'Niks tika iestatīts uz $nickname.';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return 'Noņemts niks $nickname.';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => 'Dalībnieks izslēgts.';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => 'Dalībnieks ieslēgts.';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => 'Dalībnieks nedzirdīgs.';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember => 'Dalībnieks dzirdīgs.';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return 'Pievienotas lomas $roles.';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return 'Noņemtas lomas $roles.';
   }
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return 'Kanāls: $value.';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return 'Ziņojums: $value.';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return 'Uzaicināja $value.';
   }
 
   @override
@@ -6164,8 +6533,8 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: 'Izdzēsti # ziņojumi.',
+      one: 'Izdzēsts # ziņojums.',
     );
     return '$_temp0';
   }
@@ -6175,147 +6544,191 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: 'Noņemti # dalībnieki.',
+      one: 'Noņemts # dalībnieks.',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires =>
+      'Šis uzaicinājums nekad nezaudē derīgumu.';
 
   @override
-  String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+  String get auditLogOptionTemporaryMembership => 'Piešķir pagaidu dalību.';
 
   @override
-  String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+  String get auditLogOptionPermanentMembership => 'Piešķir pastāvīgu dalību.';
 
   @override
-  String get guildSettingsLoadMore => 'Load more';
+  String get guildSettingsLoadMore => 'Ielādēt vairāk';
 
   @override
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
   String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+      'Pārvaldīt tīmekļa pārsteigumus, kas publicē ziņojumus kanālos.';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty =>
+      'Nav konfigurēti tīmekļa pārsteigumi.';
 
   @override
-  String get guildSettingsCopyUrl => 'Copy URL';
+  String get guildSettingsCopyUrl => 'Kopēt URL';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => 'URL kopēts starpliktuvē';
 
   @override
-  String get guildSettingsDeleteWebhook => 'Delete webhook';
+  String get guildSettingsDeleteWebhook => 'Dzēst tīmekļa pārsteigumu';
 
   @override
   String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+      'Iestatiet pielāgotu uzaicinājuma saiti savam serverim.';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => 'Saglabāt';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => 'Lietojums';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count lietošanas reizes';
   }
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+      'Piesakieties, lai tiktu iekļauts servera atklāšanā.';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return 'Nepieciešami vismaz $count dalībnieki, lai pieteiktos.';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => 'Pieteikums';
 
   @override
-  String get guildSettingsDiscoveryStatusTitle => 'Status';
+  String get guildSettingsDiscoveryStatusTitle => 'Statuss';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => 'Kategorija';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => 'Apraksts';
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tags';
+  String get guildSettingsDiscoveryTags => 'Tagi';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => 'spēles, māksla, mūzika';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => 'Iesniegt pieteikumu';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => 'Atcelt';
 
   @override
   String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+      'Meklējiet un pārvaldiet servera dalībniekus.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => 'Meklēt dalībniekus';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count dalībnieki';
   }
 
   @override
   String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+      'Skatiet un atsauciet aktīvās uzaicinājumu saites.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => 'Nav aktīvu uzaicinājumu.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses lietošanas reizes';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return 'Derīgs līdz $date';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription =>
+      'Skatiet un pārvaldiet bloķētos lietotājus.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => 'Meklēt bloķētos';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => 'Nav bloķētu lietotāju.';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => 'Pastāvīgs bloķējums';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return 'Derīgs līdz $date';
   }
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsBanExpiresLabel => 'Derīgs līdz';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsUnban => 'Atbloķēt';
+
+  @override
+  String get guildSettingsBansLoading => 'Notiek bloķēto lietotāju ielāde';
+
+  @override
+  String get guildSettingsBansNoSearchResults =>
+      'Nav atrasti bloķējumi, kas atbilst jūsu meklēšanai.';
+
+  @override
+  String get guildSettingsBanDetailsTitle => 'Bloķēšanas detaļas';
+
+  @override
+  String get guildSettingsBanViewDetails => 'Skatīt detaļas';
+
+  @override
+  String get guildSettingsBannedOn => 'Bloķēts';
+
+  @override
+  String get guildSettingsBannedBy => 'Bloķējis';
+
+  @override
+  String get guildSettingsRevokeBanTitle => 'Atcelt bloķēšanu';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return 'Vai tiešām vēlaties atcelt $displayName bloķēšanu? Viņi varēs atkal pievienoties kopienai.';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return 'Bloķēšana atcelta lietotājam $displayName';
+  }
+
+  @override
+  String get guildSettingsBansLoadError =>
+      'Nevarēja ielādēt bloķētos lietotājus. Mēģiniet vēlreiz.';
+
+  @override
+  String get guildSettingsRevokeBanError =>
+      'Nevarēja atcelt bloķēšanu. Mēģiniet vēlreiz.';
+
+  @override
+  String get guildSettingsCommunitySettings => 'Kopienas iestatījumi';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -6331,376 +6744,382 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+      'Pārvaldiet savas kopienas profilu, kanālus un noklusējuma iestatījumus.';
 
   @override
-  String get guildSettingsOverviewBrandingTitle => 'Branding';
+  String get guildSettingsOverviewBrandingTitle => 'Zīmols';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+      'Atjaunojiet savu ikonu, nosaukumu, baneri un uzaicinājuma fona attēlu';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => 'Augšupielādēt baneri';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => 'Dīkstāves iestatījumi';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+      'Konfigurējiet AFK kanālu un taimautu';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => 'Sistēma un sveicieni';
 
   @override
   String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+      'Izvēlieties sistēmas un sveiciena ziņojumu galamērķi';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle =>
+      'Noklusējuma paziņojumi';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      'Kopienām ar vairāk nekā 250 dalībniekiem tiek piespiedu kārtā iestatīts \"tikai pieminējumi\". Jūsu sākotnējais iestatījums tiek saglabāts un tiks atjaunots, ja kopiena nokritīsies zem 250 dalībniekiem.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => 'Papildu iestatījumi';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+      'Atļaut elastīgus teksta kanālu nosaukumus';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+      'Paslēpt kopienas īpašnieka kroni';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => 'Atsevišķs baneris';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+      'Rāda baneri atsevišķā sadaļā zem kopienas galvenes.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => 'Augšupielādēt ikonu';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => 'Noņemt';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => 'Ielūguma fons';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle =>
+      'Tērzēšanas iegultais fons';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+      'Rādīts ielūgumu ieguljumos tērzēšanā.';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => 'Augšupielādēt fonu';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => 'Nav kopienas banera';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground => 'Nav ielūguma fona';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => 'Priekšskatījums';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+      'Skaties, kā tavs ielūgums izskatās apmeklētājiem.';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle =>
+      'Teksta kanālu nosaukumi';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle =>
+      'Kopienas īpašnieka kronis';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+      'Konfigurējiet, vai kronis tiek rādīts blakus kopienas īpašniekam';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => 'Kartītes izlīdzinājums';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => 'Centrs';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => 'Pa kreisi';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => 'Pa labi';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+      'Attiecas tikai uz platiem ekrāniem.';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => 'Lasīt ziņojumu vēsturi';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return 'Mainīt, ko var redzēt lietotāji bez \"$permission\"';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return 'Izmantojiet īpašu logu, lai iestatītu ziņojumu vēstures atskaites datumu dalībniekiem, kuriem nav \"$permission\" atļaujas.';
   }
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+      'Atvērt ziņojumu vēstures atskaites punktu';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+      'Ziņojumu vēstures atskaites punkts';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+      'Iespējot ziņojumu vēstures atskaites punktu';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => 'Atskaites datums';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      'Dalībnieki bez atļaujas Lasīt ziņojumu vēsturi varēs skatīt ziņojumus, kas nosūtīti pēc šī datuma.';
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+      'Ziņojumu vēstures atskaites punkts atjaunināts';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      'Atļaut lielos burtus un atstarpes teksta kanālu nosaukumos. Izslēgts ierobežo nosaukumus līdz mazajiem burtiem ar domuzīmēm un pasvītrojumiem.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+      'Paslēpj kroņa ikonu blakus kopienas īpašniekam visās vietās.';
 
   @override
   String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+      'Animētām ikonām nepieciešama kopienas funkcija \"Animētās ikonas\".';
 
   @override
   String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+      'Animētiem baneriem nepieciešama kopienas funkcija \"Animētais baneris\".';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'AFK / dīkstāves kanāls';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+      'Pārvietot dalībniekus uz šo kanālu, kad viņi ir AFK.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => 'Nav AFK kanāla';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'AFK taimauts';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 minūte';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 minūtes';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 minūtes';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 minūtes';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 stunda';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds sekundes';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => 'Mērķa kanāls';
 
   @override
   String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+      'Sveiciena un sistēmas ziņojumi parādīsies šeit.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => 'Nav sistēmas kanāla';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages => 'Paslēpt pievienošanās ziņojumus';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+      'Slēpj pievienošanās ziņojumus galamērķa kanālā.';
 
   @override
   String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+      'Noklusējuma paziņojumu iestatījumi';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => 'Visas ziņojumapmaiņas';
 
   @override
   String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+      'Saņemt paziņojumus par visām ziņām';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => 'Tikai pieminējumi';
 
   @override
   String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+      'Saņemt paziņojumus tikai par pieminējumiem';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG, PNG, WebP, AVIF. Maksimālais izmērs: 10 MB. Minimālais izmērs: 960×540 pikseļi (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG, PNG, WebP, AVIF. Maksimālais izmērs: 10 MB. Minimālais izmērs: 960×540 pikseļi (16:9). Tiek rādīts uzaicinājumu ieguljumos tērzēšanā.';
 
   @override
   String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+      'Konfigurējiet verifikācijas, satura filtrēšanas un saturam jutīgu iestatījumus.';
 
   @override
   String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+      'Kopienām, kas ir iekļautas atklāšanā, ir ierobežotas moderācijas iespējas.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => 'Satura filtrēšana';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      'Automātiski pārbaudīt ziņojumus uz nepārprotamu saturu kanālos, kas nav atzīmēti kā saturam jutīgi.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      'Kopienām, kas ir iekļautas atklāšanā, ir jāpārbauda visi dalībnieki. Šo iestatījumu nevar mainīt, kamēr ir iespējota atklāšana.';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => 'Izslēgts';
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+      'Ļaujiet kopienai pašmoderēties';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole =>
+      'Filtrēt dalībniekus bez lomām';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+      'Ieteicams lielākajai daļai kopienu';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => 'Filtrēt visus';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+      'Maksimāla aizsardzība ģimenēm draudzīgām vietām';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => 'Izslēgts';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => 'Ieslēgts';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle =>
+      'Rādīt brīdinājumu par saturu';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+      'Ieslēdz piekrišanas uzvedni pirms jebkura kanāla atvēršanas.';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => 'Pielāgots brīdinājuma teksts';
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+      'Šis satur sensitīvu saturu.';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => '2FA prasība';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      'Pieprasīt divu faktoru autentifikāciju moderatoriem pirms viņi var aizliegt, izslēgt, laiktērpa vai dzēst ziņojumus.';
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+      'Pieprasīt 2FA moderācijas darbībām';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+      'Tikai kopienas īpašnieks var mainīt šo iestatījumu';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      'Iespējojiet 2FA savā kontā, lai mainītu šo iestatījumu';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => 'Meklēt emocijikonas';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => 'Augšupielādēt emocijikonu';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return 'Neanimētas emocijikonas ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return 'Animētas emocijikonas ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => 'Meklēt uzlīmes';
 
   @override
   String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+      'Izveidojiet tīmekļa pārsteigumus no kanāla iestatījumiem. Rediģējiet tos šeit.';
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+      'Jūsu pielāgotā URL nedarbosies, ja vien vismaz viens kanāls nebūs redzams visiem.';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => 'Noņemt';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => 'Aizliegtie lietotāji';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => 'Aicinātājs';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => 'Kanāls';
 
   @override
-  String get guildSettingsInvitesTableCode => 'Code';
+  String get guildSettingsInvitesTableCode => 'Kods';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => 'Lietojumi';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => 'Izveidots';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => 'Jaunākie pirmie';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => 'Filtrēt pēc lietotāja';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => 'Filtrēt pēc darbības';
 }

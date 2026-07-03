@@ -47,6 +47,7 @@ db.Message _emptyRow() {
     pinned: false,
     isMentioned: false,
     mentionedUserIdsJson: '[]',
+    mentionChannelsJson: '[]',
     type: 0,
     flags: 0,
     deliveryState: 1,
@@ -165,6 +166,38 @@ void main() {
       expect(identical(a.mentionedUserIds, b.mentionedUserIds), isTrue);
       expect(a.embeds, isEmpty);
       expect(a.mentionedUserIds, isEmpty);
+    });
+  });
+
+  group('Message mention channels', () {
+    test('round-trips mention channels from row', () {
+      final db.Message row = db.Message(
+        id: '0001',
+        channelId: 'channel-1',
+        authorId: 'author-1',
+        authorName: 'Author',
+        authorIsBot: false,
+        authorIsSystem: false,
+        content: 'see <#100>',
+        timestamp: DateTime.utc(2026),
+        embedsJson: '[]',
+        attachmentsJson: '[]',
+        stickersJson: '[]',
+        reactionsJson: '[]',
+        messageSnapshotsJson: '[]',
+        pinned: false,
+        isMentioned: false,
+        mentionedUserIdsJson: '[]',
+        mentionChannelsJson: '[{"id":"100","name":"rules","type":0}]',
+        type: 0,
+        flags: 0,
+        deliveryState: 1,
+      );
+      final Message parsed = Message.fromRow(row);
+      expect(parsed.mentionChannels, hasLength(1));
+      expect(parsed.mentionChannels.first.id, '100');
+      expect(parsed.mentionChannels.first.name, 'rules');
+      expect(parsed.mentionChannels.first.type, 0);
     });
   });
 }

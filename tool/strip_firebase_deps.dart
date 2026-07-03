@@ -16,6 +16,7 @@ const String _serviceStub =
     'lib/core/push/services/firebase_messaging_push_service.stub.dart';
 const String _entrypointPath = 'lib/core/push/fcm/fcm_entrypoint.dart';
 const String _entrypointStub = 'lib/core/push/fcm/fcm_entrypoint_stub.dart';
+const String _mainManifestPath = 'android/app/src/main/AndroidManifest.xml';
 
 Future<void> main(List<String> args) async {
   final Directory root = _findProjectRoot(Directory.current);
@@ -26,6 +27,7 @@ Future<void> main(List<String> args) async {
   if (_restoreStubSources(root)) {
     changed = true;
   }
+  _verifyMainManifest(root);
   if (!changed) {
     print('No Firebase artifacts to remove.');
     return;
@@ -120,6 +122,20 @@ bool _copyIfDifferent(
   target.writeAsStringSync(stubContent);
   print('Restored $targetRelative');
   return true;
+}
+
+void _verifyMainManifest(Directory root) {
+  final File manifest = File('${root.path}/$_mainManifestPath');
+  if (!manifest.existsSync()) {
+    throw StateError('Missing $_mainManifestPath');
+  }
+  final String content = manifest.readAsStringSync();
+  if (content.contains('com.google.firebase.messaging')) {
+    throw StateError(
+      '$_mainManifestPath must not contain Firebase metadata in OSS builds',
+    );
+  }
+  print('Verified $_mainManifestPath has no Firebase metadata');
 }
 
 Directory _findProjectRoot(Directory start) {

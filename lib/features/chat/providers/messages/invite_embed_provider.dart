@@ -47,5 +47,5 @@ Future<void> acceptInvite({
 }) async {
   final client = ref.read(fluxerClientProvider);
   await client.invites.acceptInvite(inviteCode: code);
-  navigateToContentVia(ref, RoutePaths.guildChannel(guildId, channelId));
+  navigateToContentViaRef(ref, RoutePaths.guildChannel(guildId, channelId));
 }

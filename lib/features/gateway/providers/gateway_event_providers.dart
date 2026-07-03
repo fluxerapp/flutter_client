@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clock/clock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
+import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -15,7 +16,10 @@ String _voiceStateStorageKey(VoiceState voiceState) {
   if (voiceState.connectionId != null) {
     return voiceState.connectionId!;
   }
-  return '_u_${voiceState.userId}_${voiceState.channelId}';
+  return voiceStateSyntheticStorageKey(
+    userId: voiceState.userId,
+    channelId: voiceState.channelId!,
+  );
 }
 
 List<VoiceState> _voiceStatesInGuildChannel(
@@ -228,6 +232,20 @@ class VoiceStatesMap extends _$VoiceStatesMap {
     if (existing == voiceState) {
       return;
     }
+    if (voiceState.connectionId != null &&
+        voiceState.channelId != null &&
+        key !=
+            voiceStateSyntheticStorageKey(
+              userId: voiceState.userId,
+              channelId: voiceState.channelId!,
+            )) {
+      next.remove(
+        voiceStateSyntheticStorageKey(
+          userId: voiceState.userId,
+          channelId: voiceState.channelId!,
+        ),
+      );
+    }
     next[key] = voiceState;
     state = next;
   }
@@ -260,6 +278,14 @@ class VoiceStatesMap extends _$VoiceStatesMap {
         final String key = _voiceStateStorageKey(vs);
         final VoiceState? existing = updated[key];
         if (existing != vs) {
+          if (vs.connectionId != null && vs.channelId != null) {
+            updated.remove(
+              voiceStateSyntheticStorageKey(
+                userId: vs.userId,
+                channelId: vs.channelId!,
+              ),
+            );
+          }
           updated[key] = vs;
           hasChanges = true;
         }

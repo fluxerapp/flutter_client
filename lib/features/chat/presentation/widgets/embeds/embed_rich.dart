@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gallery_media.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -13,15 +15,23 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 /// A rich embed card
 class EmbedRich extends StatelessWidget {
   final Embed embed;
+  final EmbedGalleryIndex galleryIndex;
+  final int embedIndex;
   final MediaDimensionSize dimensionSize;
   final bool revealSpoilers;
   final FluxerSpoilerSyncController? spoilerSyncController;
+  final String? channelId;
+  final String? messageId;
 
   const EmbedRich({
     required this.embed,
+    required this.galleryIndex,
+    required this.embedIndex,
     this.dimensionSize = MediaDimensionSize.small,
     this.revealSpoilers = false,
     this.spoilerSyncController,
+    this.channelId,
+    this.messageId,
     super.key,
   });
 
@@ -35,12 +45,18 @@ class EmbedRich extends StatelessWidget {
         ? ChatVideoSource.fromEmbed(embed)
         : null;
     final bool hasVideo = videoSource != null && videoSource.hasPlayableContent;
-
-    final hasThumbnail =
+    final bool hasImage = embed.image != null;
+    final bool hasThumbnail =
         !hasVideo &&
         embed.thumbnail != null &&
         embed.type != EmbedType.image &&
         embed.type != EmbedType.gifv;
+    final EmbedGalleryDisplay gallery = galleryIndex.resolveDisplay(
+      embedIndex: embedIndex,
+      hasAnyMedia: hasVideo || hasImage || hasThumbnail,
+    );
+    final bool shouldRenderInlineThumbnail =
+        hasThumbnail && !gallery.showGallery;
 
     return Container(
       margin: const EdgeInsets.only(top: 4),
@@ -112,7 +128,20 @@ class EmbedRich extends StatelessWidget {
                         ),
                       ),
                     )
-                  else if (embed.image != null && !hasThumbnail)
+                  else if (gallery.showGallery)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 4),
+                      child: EmbedGalleryMedia(
+                        embed: embed,
+                        galleryImages: gallery.galleryImages,
+                        embedIndex: embedIndex,
+                        dimensionSize: dimensionSize,
+                        revealSpoilers: revealSpoilers,
+                        channelId: channelId,
+                        messageId: messageId,
+                      ),
+                    )
+                  else if (embed.image != null && !shouldRenderInlineThumbnail)
                     Padding(
                       padding: const EdgeInsets.only(top: 4, bottom: 4),
                       child: _EmbedMediaImage(
@@ -131,7 +160,7 @@ class EmbedRich extends StatelessWidget {
                 ],
               ),
             ),
-            if (hasThumbnail) ...[
+            if (shouldRenderInlineThumbnail) ...[
               const SizedBox(width: 12),
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),

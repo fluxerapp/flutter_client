@@ -32,12 +32,14 @@ class ExternalLinkWarningSheet extends StatefulWidget {
     required String url,
     required String hostname,
     required ExternalLinkContinueCallback onContinue,
+    bool useRootNavigator = false,
   }) {
     final l10n = FluxerLocalizations.of(context);
 
     return FluxerBottomSheet.show<void>(
       context,
       title: l10n.externalLinkWarningTitle,
+      useRootNavigator: useRootNavigator,
       builder: (sheetContext, close) => ExternalLinkWarningSheet(
         url: url,
         hostname: hostname,

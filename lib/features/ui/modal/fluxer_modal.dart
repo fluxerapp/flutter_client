@@ -98,7 +98,7 @@ class FluxerModal {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(layout.s4),
+                  padding: EdgeInsets.only(top: layout.s4, bottom: layout.s4),
                   child: FluxerBottomSheetHeader(
                     title: title,
                     subtitle: headerSubtitle,

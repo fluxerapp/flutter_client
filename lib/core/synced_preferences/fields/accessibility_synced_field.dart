@@ -14,14 +14,20 @@ class AccessibilityLocalState {
     required this.channelTypingIndicatorMode,
     required this.showSelectedChannelTypingIndicator,
     required this.showFadedUnreadOnMutedChannels,
+    required this.dmMessagePreviewMode,
     required this.showFavorites,
+    required this.messageGroupSpacing,
+    required this.compactMessageGroupSpacing,
   });
 
   final bool hideKeyboardHints;
   final ChannelTypingIndicatorMode channelTypingIndicatorMode;
   final bool showSelectedChannelTypingIndicator;
   final bool showFadedUnreadOnMutedChannels;
+  final DmMessagePreviewMode dmMessagePreviewMode;
   final bool showFavorites;
+  final double messageGroupSpacing;
+  final double compactMessageGroupSpacing;
 }
 
 class AccessibilitySyncedField
@@ -42,7 +48,10 @@ class AccessibilitySyncedField
       showSelectedChannelTypingIndicator:
           appearance.showSelectedChannelTypingIndicator,
       showFadedUnreadOnMutedChannels: appearance.showFadedUnreadOnMutedChannels,
+      dmMessagePreviewMode: appearance.dmMessagePreviewMode,
       showFavorites: appearance.showFavorites,
+      messageGroupSpacing: appearance.messageGroupSpacing,
+      compactMessageGroupSpacing: appearance.compactMessageGroupSpacing,
     );
   }
 
@@ -72,7 +81,10 @@ class AccessibilitySyncedField
         a.showSelectedChannelTypingIndicator ==
             b.showSelectedChannelTypingIndicator &&
         a.showFadedUnreadOnMutedChannels == b.showFadedUnreadOnMutedChannels &&
-        a.showFavorites == b.showFavorites;
+        a.dmMessagePreviewMode == b.dmMessagePreviewMode &&
+        a.showFavorites == b.showFavorites &&
+        a.messageGroupSpacing == b.messageGroupSpacing &&
+        a.compactMessageGroupSpacing == b.compactMessageGroupSpacing;
   }
 
   @override
@@ -86,7 +98,10 @@ class AccessibilitySyncedField
       showSelectedChannelTypingIndicator:
           local.showSelectedChannelTypingIndicator,
       showFadedUnreadOnMutedChannels: local.showFadedUnreadOnMutedChannels,
+      dmMessagePreviewMode: local.dmMessagePreviewMode,
       showFavorites: local.showFavorites,
+      messageGroupSpacing: local.messageGroupSpacing,
+      compactMessageGroupSpacing: local.compactMessageGroupSpacing,
     );
   }
 
@@ -108,7 +123,14 @@ class AccessibilitySyncedField
       showFadedUnreadOnMutedChannels:
           proto.hasShowFadedUnreadOnMutedChannels() &&
           proto.showFadedUnreadOnMutedChannels,
+      dmMessagePreviewMode: _fromProtoDmPreviewMode(proto.dmMessagePreviewMode),
       showFavorites: !proto.hasShowFavorites() || proto.showFavorites,
+      messageGroupSpacing: proto.hasMessageGroupSpacing()
+          ? proto.messageGroupSpacing
+          : 16,
+      compactMessageGroupSpacing: proto.hasCompactMessageGroupSpacing()
+          ? proto.compactMessageGroupSpacing
+          : 0,
     );
   }
 
@@ -121,7 +143,10 @@ class AccessibilitySyncedField
       showSelectedChannelTypingIndicator:
           local.showSelectedChannelTypingIndicator,
       showFadedUnreadOnMutedChannels: local.showFadedUnreadOnMutedChannels,
+      dmMessagePreviewMode: _toProtoDmPreviewMode(local.dmMessagePreviewMode),
       showFavorites: local.showFavorites,
+      messageGroupSpacing: local.messageGroupSpacing,
+      compactMessageGroupSpacing: local.compactMessageGroupSpacing,
     );
   }
 
@@ -151,6 +176,33 @@ class AccessibilitySyncedField
             .CHANNEL_TYPING_INDICATOR_MODE_INDICATOR_ONLY,
       ChannelTypingIndicatorMode.avatars =>
         pb.ChannelTypingIndicatorMode.CHANNEL_TYPING_INDICATOR_MODE_AVATARS,
+    };
+  }
+
+  static DmMessagePreviewMode _fromProtoDmPreviewMode(
+    pb.DmMessagePreviewMode mode,
+  ) {
+    return switch (mode) {
+      pb.DmMessagePreviewMode.DM_MESSAGE_PREVIEW_MODE_ALL =>
+        DmMessagePreviewMode.all,
+      pb.DmMessagePreviewMode.DM_MESSAGE_PREVIEW_MODE_UNREAD_ONLY =>
+        DmMessagePreviewMode.unreadOnly,
+      pb.DmMessagePreviewMode.DM_MESSAGE_PREVIEW_MODE_NONE =>
+        DmMessagePreviewMode.none,
+      _ => DmMessagePreviewMode.all,
+    };
+  }
+
+  static pb.DmMessagePreviewMode _toProtoDmPreviewMode(
+    DmMessagePreviewMode mode,
+  ) {
+    return switch (mode) {
+      DmMessagePreviewMode.all =>
+        pb.DmMessagePreviewMode.DM_MESSAGE_PREVIEW_MODE_ALL,
+      DmMessagePreviewMode.unreadOnly =>
+        pb.DmMessagePreviewMode.DM_MESSAGE_PREVIEW_MODE_UNREAD_ONLY,
+      DmMessagePreviewMode.none =>
+        pb.DmMessagePreviewMode.DM_MESSAGE_PREVIEW_MODE_NONE,
     };
   }
 }

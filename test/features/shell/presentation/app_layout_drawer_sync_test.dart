@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/router/shell_location_resolver.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -24,7 +25,6 @@ void main() {
       setRevealSide(container, RevealSide.main);
       expect(container.read(currentRevealSideProvider), RevealSide.main);
 
-      // Same location re-syncs — must NOT overwrite the manual state.
       syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.main);
     });
@@ -67,22 +67,13 @@ void main() {
 
     test('logout clears the guard so post-login sync still fires', () {
       final container = _bareContainer();
-      // Establish the logged-in baseline before observing logout → so the
-      // listener actually sees a transition (default state is false).
       container.read(authStateProvider.notifier).setAuthenticated(value: true);
 
       syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
 
-      // Simulate "user swipes drawer closed before logging out".
       setRevealSide(container, RevealSide.main);
-
-      // Logout fires the listener and clears the guard.
       container.read(authStateProvider.notifier).setAuthenticated(value: false);
-
-      // After login, syncForRoute for the same location must re-apply
-      // RevealSide.left even though the location string matches a stale
-      // guard from the previous session.
       syncForRoute(container, '/channels/@me');
       expect(container.read(currentRevealSideProvider), RevealSide.left);
     });
@@ -102,23 +93,16 @@ void main() {
 
       expect(container.read(currentRevealSideProvider), RevealSide.left);
 
-      // User swipes drawer closed to see the FriendsList.
       container.read(currentRevealSideProvider.notifier).set(RevealSide.main);
       await tester.pump();
 
-      // Bottom-nav to Notifications then back to Home.
       router.go('/notifications');
       await tester.pumpAndSettle();
       router.go('/channels/@me');
       await tester.pumpAndSettle();
 
-      expect(
-        container.read(currentRevealSideProvider),
-        RevealSide.main,
-        reason: 'drawer state must survive the tab round-trip',
-      );
+      expect(container.read(currentRevealSideProvider), RevealSide.main);
 
-      // Navigating to a different channels location DOES re-sync.
       router.go('/channels/guild/channel');
       await tester.pumpAndSettle();
       expect(container.read(currentRevealSideProvider), RevealSide.main);
@@ -130,10 +114,6 @@ void main() {
   );
 }
 
-/// A container with no router override. The provider's `build()` reads
-/// `fluxerRouterProvider`, so we still need a router instance — even an
-/// unmounted one. Tests drive state explicitly via `syncForRoute`, not
-/// from router events.
 ProviderContainer _bareContainer() {
   final router = GoRouter(
     initialLocation: '/channels/@me',
@@ -237,9 +217,6 @@ Widget _buildShellApp({
   );
 }
 
-/// Minimal stand-in for `_AppLayoutState` that wires the router's route
-/// listener to [CurrentRevealSide.syncForRoute] without pulling in the
-/// real `AppLayout`'s downstream provider dependencies.
 class _TestShell extends ConsumerStatefulWidget {
   final Widget child;
 
@@ -275,7 +252,9 @@ class _TestShellState extends ConsumerState<_TestShell> {
     }
     ref
         .read(currentRevealSideProvider.notifier)
-        .syncForRoute(config.last.matchedLocation);
+        .syncForRoute(
+          resolveShellLocation(config) ?? resolveTopLocation(config),
+        );
   }
 
   @override

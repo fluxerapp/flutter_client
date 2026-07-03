@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_link_navigator.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/shared/external_links/external_link_warning_sheet.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
 
 /// Opens a URL using the app-wide trusted-domain warning flow.
-Future<void> handleExternalLinkTap(BuildContext context, String url) async {
+Future<void> handleExternalLinkTap(
+  BuildContext context,
+  String url, {
+  bool useRootNavigator = false,
+}) async {
+  if (isInviteLink(url)) {
+    await handleInviteLinkTap(context, url);
+    return;
+  }
+
   final uri = Uri.tryParse(url);
   if (uri == null) {
     return;
@@ -33,6 +43,7 @@ Future<void> handleExternalLinkTap(BuildContext context, String url) async {
     context,
     url: url,
     hostname: uri.host,
+    useRootNavigator: useRootNavigator,
     onContinue: ({required bool trustDomain}) async {
       if (trustDomain) {
         await notifier.addTrustedDomain(uri.host);

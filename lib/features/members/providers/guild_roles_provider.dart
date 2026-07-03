@@ -47,16 +47,21 @@ void prefetchGuildRolesIfMissing({
   );
 }
 
+void clearGuildRolesPrefetchState() {
+  _guildRolesPrefetchCompleted.clear();
+  _guildRolesPrefetchInFlight.clear();
+}
+
 final StreamProviderFamily<Map<String, db.Role>, String>
-guildRolesByIdProvider = StreamProvider.family<Map<String, db.Role>, String>((
-  Ref ref,
-  String guildId,
-) {
-  if (guildId.isEmpty) {
-    return Stream<Map<String, db.Role>>.value(<String, db.Role>{});
-  }
-  final database = ref.watch(fluxerDatabaseProvider);
-  return database.roleDao.watchRoles(guildId).map((List<db.Role> roles) {
-    return <String, db.Role>{for (final db.Role role in roles) role.id: role};
-  });
-});
+guildRolesByIdProvider = StreamProvider.autoDispose
+    .family<Map<String, db.Role>, String>((Ref ref, String guildId) {
+      if (guildId.isEmpty) {
+        return Stream<Map<String, db.Role>>.value(<String, db.Role>{});
+      }
+      final database = ref.watch(fluxerDatabaseProvider);
+      return database.roleDao.watchRoles(guildId).map((List<db.Role> roles) {
+        return <String, db.Role>{
+          for (final db.Role role in roles) role.id: role,
+        };
+      });
+    });

@@ -48,6 +48,7 @@ jobs:
           token: ${{ steps.create-token.outputs.token }}
           ref: ${{ env.BASE_BRANCH }}
           fetch-depth: 0
+          submodules: recursive
 
       - name: Set up Flutter
         # Temp use while waiting for a pr: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2
@@ -60,7 +61,7 @@ jobs:
           GH_TOKEN: ${{ steps.create-token.outputs.token }}
         run: |
           git config user.name "fluxer-ci[bot]"
-          git config user.email "${{ vars.FLUXER_CI_APP_ID }}+fluxer-ci[bot]@users.noreply.github.com"
+          git config user.email "${{ vars.FLUXER_CI_APP_USER_ID }}+fluxer-ci[bot]@users.noreply.github.com"
 
           git fetch origin "$BASE_BRANCH:refs/remotes/origin/$BASE_BRANCH"
 
@@ -83,6 +84,7 @@ jobs:
           fi
 
           flutter gen-l10n
+          dart format lib/l10n/generated
           if ! git diff --quiet -- lib/l10n/generated; then
             git add lib/l10n/generated
             git commit -m "i18n: regenerate localizations"

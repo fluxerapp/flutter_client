@@ -24,6 +24,7 @@ class FluxerMarkdown extends StatelessWidget {
     this.parseCacheKey,
     this.maxLines,
     this.overflow,
+    this.trailingInlineWidget,
     super.key,
   });
 
@@ -35,6 +36,7 @@ class FluxerMarkdown extends StatelessWidget {
   final String? parseCacheKey;
   final int? maxLines;
   final TextOverflow? overflow;
+  final Widget? trailingInlineWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -54,46 +56,65 @@ class FluxerMarkdown extends StatelessWidget {
         style: style,
         isDark: isDark,
         features: features,
+        trailingInlineWidget: trailingInlineWidget,
+      );
+    }
+
+    final segmentWidgets = <Widget>[];
+    for (var i = 0; i < segments.length; i++) {
+      final segment = segments[i];
+      final bool isLastSegment = i == segments.length - 1;
+      final Widget? segmentTrailing =
+          isLastSegment && segment is FluxerTextSegment
+          ? trailingInlineWidget
+          : null;
+      segmentWidgets.add(switch (segment) {
+        FluxerTextSegment(:final text) => _buildAstMarkdown(
+          context: context,
+          text: text,
+          style: style,
+          isDark: isDark,
+          features: features,
+          trailingInlineWidget: segmentTrailing,
+        ),
+        FluxerSubtextSegment(:final text) => _buildAstMarkdown(
+          context: context,
+          text: text,
+          style: style.copyWith(
+            fontSize: (style.fontSize ?? 16) * 0.8125,
+            color: theme.colorScheme.onSurfaceVariant,
+            height: 1.375,
+          ),
+          isDark: isDark,
+          features: features,
+          allowJumboEmoji: false,
+        ),
+        FluxerAlertSegment(:final type, :final body) =>
+          (config.alertBuilder ?? defaultFluxerAlertBuilder)(
+            context,
+            type,
+            _buildAstMarkdown(
+              context: context,
+              text: body,
+              style: style,
+              isDark: isDark,
+              features: features,
+            ),
+            style,
+          ),
+      });
+    }
+
+    if (trailingInlineWidget != null && segments.last is! FluxerTextSegment) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [...segmentWidgets, trailingInlineWidget!],
       );
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: segments.map((segment) {
-        return switch (segment) {
-          FluxerTextSegment(:final text) => _buildAstMarkdown(
-            context: context,
-            text: text,
-            style: style,
-            isDark: isDark,
-            features: features,
-          ),
-          FluxerSubtextSegment(:final text) => _buildAstMarkdown(
-            context: context,
-            text: text,
-            style: style.copyWith(
-              fontSize: (style.fontSize ?? 16) * 0.75,
-              color: theme.colorScheme.onSurfaceVariant,
-              height: 1.35,
-            ),
-            isDark: isDark,
-            features: features,
-          ),
-          FluxerAlertSegment(:final type, :final body) =>
-            (config.alertBuilder ?? defaultFluxerAlertBuilder)(
-              context,
-              type,
-              _buildAstMarkdown(
-                context: context,
-                text: body,
-                style: style,
-                isDark: isDark,
-                features: features,
-              ),
-              style,
-            ),
-        };
-      }).toList(),
+      children: segmentWidgets,
     );
   }
 
@@ -103,6 +124,8 @@ class FluxerMarkdown extends StatelessWidget {
     required TextStyle style,
     required bool isDark,
     required FluxerMarkdownFeatures features,
+    Widget? trailingInlineWidget,
+    bool allowJumboEmoji = true,
   }) {
     if (usesMessageLineParsing(this.context)) {
       return _buildMessageLineMarkdown(
@@ -111,6 +134,8 @@ class FluxerMarkdown extends StatelessWidget {
         style: style,
         isDark: isDark,
         features: features,
+        trailingInlineWidget: trailingInlineWidget,
+        allowJumboEmoji: allowJumboEmoji,
       );
     }
     return _buildBlockMarkdown(
@@ -128,11 +153,19 @@ class FluxerMarkdown extends StatelessWidget {
     required TextStyle style,
     required bool isDark,
     required FluxerMarkdownFeatures features,
+    Widget? trailingInlineWidget,
+    bool allowJumboEmoji = true,
   }) {
     final contentSegments = parseMessageContentStructure(text, features);
     if (contentSegments.isEmpty) {
+      if (trailingInlineWidget != null) {
+        return trailingInlineWidget;
+      }
       return const SizedBox.shrink();
     }
+    final int lastSegmentIndex = contentSegments.length - 1;
+    final bool lastSegmentIsTextFlow =
+        contentSegments[lastSegmentIndex] is MessageTextFlowSegment;
     if (contentSegments.length == 1 &&
         contentSegments.first is MessageTextFlowSegment) {
       return buildFluxerMarkdownTextFlow(
@@ -147,10 +180,18 @@ class FluxerMarkdown extends StatelessWidget {
         parseCacheKey: parseCacheKey,
         maxLines: maxLines,
         overflow: overflow,
+        trailingInlineWidget: trailingInlineWidget,
+        allowJumboEmoji: allowJumboEmoji,
       );
     }
-    final children = contentSegments.map((segment) {
-      return switch (segment) {
+    final children = <Widget>[];
+    for (var i = 0; i < contentSegments.length; i++) {
+      final MessageContentSegment segment = contentSegments[i];
+      final Widget? segmentTrailing =
+          i == lastSegmentIndex && lastSegmentIsTextFlow
+          ? trailingInlineWidget
+          : null;
+      children.add(switch (segment) {
         MessageTextFlowSegment(:final text) => buildFluxerMarkdownTextFlow(
           context: context,
           text: text,
@@ -163,6 +204,8 @@ class FluxerMarkdown extends StatelessWidget {
           parseCacheKey: parseCacheKey,
           maxLines: maxLines,
           overflow: overflow,
+          trailingInlineWidget: segmentTrailing,
+          allowJumboEmoji: allowJumboEmoji,
         ),
         MessageBlockMarkdownSegment(:final text) => _buildBlockMarkdown(
           context: context,
@@ -171,15 +214,21 @@ class FluxerMarkdown extends StatelessWidget {
           isDark: isDark,
           features: features,
         ),
-      };
-    }).toList();
-    if (children.length == 1) {
-      return children.first;
+      });
     }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: children,
-    );
+    final Widget body = children.length == 1
+        ? children.first
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: children,
+          );
+    if (trailingInlineWidget != null && !lastSegmentIsTextFlow) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [body, trailingInlineWidget],
+      );
+    }
+    return body;
   }
 
   Widget _buildBlockMarkdown({

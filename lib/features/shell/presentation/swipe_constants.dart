@@ -15,6 +15,13 @@ const double kDrawerSwipeFlingVelocityPxPerSecond = 600;
 const double kHorizontalSwipeCompletionThresholdMaterial = 0.4;
 const double kHorizontalSwipeCompletionThresholdCupertino = 0.5;
 
+double horizontalSwipeCompletionThreshold() {
+  if (defaultTargetPlatform == TargetPlatform.iOS && !kIsWeb) {
+    return kHorizontalSwipeCompletionThresholdCupertino;
+  }
+  return kHorizontalSwipeCompletionThresholdMaterial;
+}
+
 const double kBackSwipeEdgeMinWidthMaterial = 32;
 const double kBackSwipeEdgeMinWidthCupertino = 20;
 

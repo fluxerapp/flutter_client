@@ -90,7 +90,7 @@ final allGuildEmojisForPickerProvider =
       );
     });
 
-@Riverpod(keepAlive: true)
+@riverpod
 Stream<List<GuildEmojiEntry>> guildEmojisForPicker(Ref ref, String guildId) {
   final db = ref.watch(fluxerDatabaseProvider);
   return db.guildEmojiDao

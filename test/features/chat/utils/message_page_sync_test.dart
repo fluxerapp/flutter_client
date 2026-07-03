@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/client_system_message.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
@@ -78,6 +79,21 @@ void main() {
     );
     expect(actual.any((Message m) => m.id == idD), isTrue);
     expect(actual.any((Message m) => m.id == failedId), isTrue);
+  });
+
+  test('preserves client system messages not in network page', () {
+    final Message clientSystem = createClientSystemMessage(
+      channelId: 'channel-1',
+      content: 'Delivery failed.',
+    );
+    final List<Message> current = [_message(idA), clientSystem];
+    final List<Message> networkPage = [_message(idA)];
+    final List<Message> actual = reconcileMessagesWithNetworkPage(
+      current: current,
+      networkPage: networkPage,
+      syncBaselineOldestId: idA,
+    );
+    expect(actual.any((Message m) => m.id == clientSystem.id), isTrue);
   });
 
   test('drops cached messages below baseline when channel shrinks', () {

@@ -1159,6 +1159,90 @@ abstract class FluxerLocalizations {
   /// **'Invite Unavailable'**
   String get embedInviteUnavailable;
 
+  /// Title of the invite accept modal.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve been invited to join'**
+  String get inviteAcceptTitle;
+
+  /// Primary action to join a community from the invite modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Community'**
+  String get inviteAcceptJoinButton;
+
+  /// Primary action when the user is already a member of the invited community.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Community'**
+  String get inviteAcceptGoToButton;
+
+  /// Disabled action label when community invites are paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites Paused'**
+  String get inviteAcceptInvitesPaused;
+
+  /// Title when an invite link is expired or invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite Invalid'**
+  String get inviteAcceptNotFoundTitle;
+
+  /// Description when an invite link is expired or invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'This invite may be expired or invalid.'**
+  String get inviteAcceptNotFoundDescription;
+
+  /// Primary action to join a group DM from the invite modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Join group'**
+  String get inviteAcceptJoinGroupButton;
+
+  /// Description for a group DM invite in the accept modal.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve been invited to join a group DM by {inviterName}'**
+  String inviteAcceptGroupDmDescription(String inviterName);
+
+  /// Fallback inviter name when the inviter is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'someone'**
+  String get inviteAcceptSomeone;
+
+  /// Label for an emoji pack invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Emoji pack'**
+  String get inviteAcceptEmojiPack;
+
+  /// Label for a sticker pack invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker pack'**
+  String get inviteAcceptStickerPack;
+
+  /// Primary action to install an emoji pack from an invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Install emoji pack'**
+  String get inviteAcceptInstallEmojiPack;
+
+  /// Primary action to install a sticker pack from an invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Install sticker pack'**
+  String get inviteAcceptInstallStickerPack;
+
+  /// Note shown on expression pack invites before accepting.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepting this invite installs the pack automatically.'**
+  String get inviteAcceptPackInstallNote;
+
   /// Fallback name shown in a channel mention pill when the channel is not found.
   ///
   /// In en, this message translates to:
@@ -3643,6 +3727,30 @@ abstract class FluxerLocalizations {
   /// **'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.'**
   String get dangerZoneDeleteCancelSubscription;
 
+  /// Title for the guild ownership warning modal when trying to delete account.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot delete account'**
+  String get dangerZoneDeleteCannotDeleteAccount;
+
+  /// Warning message shown when user owns communities and tries to delete account.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot delete your account while you own communities. Transfer ownership of the following communities first:'**
+  String get dangerZoneDeleteOwnsCommunities;
+
+  /// Shown when user owns more than 3 communities.
+  ///
+  /// In en, this message translates to:
+  /// **'and {count} more'**
+  String dangerZoneDeleteAndXMore(int count);
+
+  /// Instructions for transferring community ownership.
+  ///
+  /// In en, this message translates to:
+  /// **'To transfer ownership, go to {settingsPath} and use the transfer ownership option.'**
+  String dangerZoneDeleteTransferInstructions(String settingsPath);
+
   /// Confirmation description for account delete.
   ///
   /// In en, this message translates to:
@@ -4080,6 +4188,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'You blocked {username}. You won\'t be able to send messages unless you unblock them.'**
   String userProfileOpenBlockedDmDescription(String username);
+
+  /// Button label on the composer barrier shown when messaging a blocked user.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get blockedUserComposerBarrierAction;
 
   /// Primary button label on the open-DM-while-blocked confirmation.
   ///
@@ -6625,6 +6739,126 @@ abstract class FluxerLocalizations {
   /// **'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.'**
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription;
 
+  /// Section title for DM message preview accessibility settings.
+  ///
+  /// In en, this message translates to:
+  /// **'DM message previews'**
+  String get accessibilityDmMessagePreviewGroupTitle;
+
+  /// Section description for DM message preview accessibility settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Control when message previews are shown in the DM list.'**
+  String get accessibilityDmMessagePreviewGroupDescription;
+
+  /// Accessibility label for the DM message preview mode radio group.
+  ///
+  /// In en, this message translates to:
+  /// **'DM message preview mode'**
+  String get accessibilityDmMessagePreviewModeLabel;
+
+  /// Radio option name for showing DM previews for all conversations.
+  ///
+  /// In en, this message translates to:
+  /// **'All messages'**
+  String get accessibilityDmMessagePreviewAllName;
+
+  /// Radio option description for showing DM previews for all conversations.
+  ///
+  /// In en, this message translates to:
+  /// **'Show message previews for all DM conversations'**
+  String get accessibilityDmMessagePreviewAllDescription;
+
+  /// Radio option name for showing DM previews only when unread.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread DMs only'**
+  String get accessibilityDmMessagePreviewUnreadOnlyName;
+
+  /// Radio option description for showing DM previews only when unread.
+  ///
+  /// In en, this message translates to:
+  /// **'Only show message previews for DMs with unread messages'**
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription;
+
+  /// Radio option name for hiding DM message previews.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get accessibilityDmMessagePreviewNoneName;
+
+  /// Radio option description for hiding DM message previews.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t show message previews in the DM list'**
+  String get accessibilityDmMessagePreviewNoneDescription;
+
+  /// DM list row preview text when the most recent message has only attachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent an attachment'**
+  String get dmListSentAnAttachment;
+
+  /// Plaintext DM list preview for a pin system message.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} pinned a message to this channel.'**
+  String systemPreviewPinnedMessage(String username);
+
+  /// Plaintext DM list preview when a member adds another user to a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} added {userName} to the group.'**
+  String systemPreviewAddedToGroup(String username, String userName);
+
+  /// Plaintext DM list preview when a member adds an unresolved user to a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} added someone to the group.'**
+  String systemPreviewAddedSomeoneToGroup(String username);
+
+  /// Plaintext DM list preview when a member leaves a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} has left the group.'**
+  String systemPreviewHasLeftGroup(String username);
+
+  /// Plaintext DM list preview when a member removes another user from a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} removed {userName} from the group.'**
+  String systemPreviewRemovedFromGroup(String username, String userName);
+
+  /// Plaintext DM list preview when a member removes an unresolved user from a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} removed someone from the group.'**
+  String systemPreviewRemovedSomeoneFromGroup(String username);
+
+  /// Plaintext DM list preview when a group DM is renamed.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} changed the channel name to {newName}.'**
+  String systemPreviewChangedChannelNameTo(String username, String newName);
+
+  /// Plaintext DM list preview when a group DM is renamed without a known new name.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} changed the channel name.'**
+  String systemPreviewChangedChannelName(String username);
+
+  /// Plaintext DM list preview when a group DM icon changes.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} changed the channel icon.'**
+  String systemPreviewChangedChannelIcon(String username);
+
+  /// Plaintext DM list preview when a call starts.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} started a call.'**
+  String systemPreviewStartedCall(String username);
+
   /// Title of the multi-device voice join confirmation dialog.
   ///
   /// In en, this message translates to:
@@ -7150,6 +7384,54 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Failed to send message'**
   String get chatMessageFailedToSend;
+
+  /// Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in {settingsPath}.'**
+  String chatSendFailureDmRestricted(String settingsPath);
+
+  /// Fluxerbot system message when an unclaimed account tries to send a DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message could not be delivered. You need to claim your account to send direct messages.'**
+  String get chatSendFailureUnclaimedDm;
+
+  /// Fluxerbot system message when an unclaimed account tries to send a message.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message could not be delivered. You need to claim your account to send messages.'**
+  String get chatSendFailureUnclaimedGeneral;
+
+  /// Fluxerbot system message when message content is blocked by safety systems.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.'**
+  String get chatSendFailureContentBlocked;
+
+  /// Fluxerbot system message when mature emoji or stickers are blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.'**
+  String get chatSendFailureNsfwEmojiSticker;
+
+  /// Footer on ephemeral Fluxerbot client system messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Only you can see this message.'**
+  String get chatClientSystemOnlyYouCanSee;
+
+  /// Action to remove an ephemeral Fluxerbot client system message locally.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get chatClientSystemDismiss;
+
+  /// Section title for communication privacy settings in the privacy dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Communication'**
+  String get privacyDashboardCommunicationSection;
 
   /// Action label for deleting a failed outgoing chat message.
   ///
@@ -8225,6 +8507,12 @@ abstract class FluxerLocalizations {
   /// **'Video progress'**
   String get chatAttachmentVideoProgress;
 
+  /// Shown when embedded or attachment video playback fails in the chat player.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not play this video.'**
+  String get chatVideoPlaybackFailed;
+
   /// Secondary line in the @ mention autocomplete when the row is a mentionable guild role.
   ///
   /// In en, this message translates to:
@@ -9039,6 +9327,222 @@ abstract class FluxerLocalizations {
   /// **'Explore Discoverable Communities'**
   String get guildNavbarExploreDiscoverableCommunities;
 
+  /// Short label in the discovery page header.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get discoveryExplore;
+
+  /// Main heading on the Discovery page.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore public communities'**
+  String get discoveryExplorePublicCommunities;
+
+  /// Subheading on the Discovery page explaining how to apply for listing.
+  ///
+  /// In en, this message translates to:
+  /// **'Want to list your community on here? Apply if you meet the requirements in your community\'s settings > Discovery.'**
+  String get discoveryListingSubheading;
+
+  /// Accessible label and placeholder for the community search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search communities'**
+  String get discoverySearchCommunities;
+
+  /// Label for the language filter on the discovery page.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by language'**
+  String get discoveryFilterByLanguage;
+
+  /// Option label for showing communities in all languages.
+  ///
+  /// In en, this message translates to:
+  /// **'All languages'**
+  String get discoveryAllLanguages;
+
+  /// Label for the all-categories tab on the discovery page.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get discoveryAllCategories;
+
+  /// Discovery category label for gaming communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Gaming'**
+  String get discoveryCategoryGaming;
+
+  /// Discovery category label for music communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get discoveryCategoryMusic;
+
+  /// Discovery category label for entertainment communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get discoveryCategoryEntertainment;
+
+  /// Discovery category label for education communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get discoveryCategoryEducation;
+
+  /// Discovery category label for science and technology communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Science & Technology'**
+  String get discoveryCategoryScienceAndTechnology;
+
+  /// Discovery category label for content creator communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Content Creator'**
+  String get discoveryCategoryContentCreator;
+
+  /// Discovery category label for anime and manga communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Anime & Manga'**
+  String get discoveryCategoryAnimeAndManga;
+
+  /// Discovery category label for movies and TV communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Movies & TV'**
+  String get discoveryCategoryMoviesAndTv;
+
+  /// Discovery category label for communities that do not fit other categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get discoveryCategoryOther;
+
+  /// Empty-state text when no discovery communities match the filters.
+  ///
+  /// In en, this message translates to:
+  /// **'No communities match.'**
+  String get discoveryNoCommunitiesMatch;
+
+  /// Button label to join a discovery community.
+  ///
+  /// In en, this message translates to:
+  /// **'Join community'**
+  String get discoveryJoinCommunity;
+
+  /// Button label when the user is already in a discovery community.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined'**
+  String get discoveryJoined;
+
+  /// Online member count on a discovery guild card.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} online'**
+  String discoveryOnlineCount(String count);
+
+  /// Member count on a discovery guild card.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 member} other{{count} members}}'**
+  String discoveryMemberCount(num count);
+
+  /// Fallback text when a discovery guild has no description.
+  ///
+  /// In en, this message translates to:
+  /// **'No description.'**
+  String get discoveryNoDescription;
+
+  /// Discovery sidebar section label for communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Communities'**
+  String get discoveryCommunities;
+
+  /// Discovery sidebar section label for apps.
+  ///
+  /// In en, this message translates to:
+  /// **'Apps'**
+  String get discoveryApps;
+
+  /// Title of the generic join error dialog on the discovery page.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t join this community'**
+  String get discoveryJoinErrorGenericTitle;
+
+  /// Body of the generic join error dialog on the discovery page.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again in a moment.'**
+  String get discoveryJoinErrorGenericMessage;
+
+  /// Title when a discovery community has reached its member limit.
+  ///
+  /// In en, this message translates to:
+  /// **'This community is full'**
+  String get discoveryJoinErrorFullTitle;
+
+  /// Body when a discovery community has reached its member limit.
+  ///
+  /// In en, this message translates to:
+  /// **'This community has reached its member limit, so you can\'t join right now.'**
+  String get discoveryJoinErrorFullMessage;
+
+  /// Title when the user is in the maximum number of communities.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached the community limit'**
+  String get discoveryJoinErrorMaxGuildsTitle;
+
+  /// Body when the user is in the maximum number of communities.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re in the maximum number of communities. Leave one and try again.'**
+  String get discoveryJoinErrorMaxGuildsMessage;
+
+  /// Title when the user is banned from a discovery community.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t join this community'**
+  String get discoveryJoinErrorBannedTitle;
+
+  /// Body when the user is banned from a discovery community.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been banned from this community.'**
+  String get discoveryJoinErrorBannedMessage;
+
+  /// Title when a discovery community is no longer joinable.
+  ///
+  /// In en, this message translates to:
+  /// **'This community is no longer available'**
+  String get discoveryJoinErrorNotAvailableTitle;
+
+  /// Body when a discovery community is no longer joinable.
+  ///
+  /// In en, this message translates to:
+  /// **'It may have left discovery or turned off new joins. Refresh the page and you won\'t see it again.'**
+  String get discoveryJoinErrorNotAvailableMessage;
+
+  /// Title when joining a discovery community is rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re going too fast'**
+  String get discoveryJoinErrorRateLimitTitle;
+
+  /// Body when joining a discovery community is rate limited.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait a moment and try again.'**
+  String get discoveryJoinErrorRateLimitMessage;
+
   /// Label for the add community button in the guild navbar.
   ///
   /// In en, this message translates to:
@@ -9050,6 +9554,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Help'**
   String get guildNavbarHelp;
+
+  /// Scroll pill shown when unread guilds are off-screen in the guild navbar.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get scrollIndicatorNew;
+
+  /// Scroll pill shown when unread channels are off-screen in the channel sidebar.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW MESSAGE'**
+  String get scrollIndicatorNewMessage;
 
   /// Tooltip when collapsing a guild folder in the navbar.
   ///
@@ -9422,6 +9938,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Mark as Read'**
   String get guildMenuMarkAsRead;
+
+  /// Guild peek menu action to open the full guild options sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'More Options'**
+  String get guildPeekMoreOptions;
 
   /// Guild menu action to open the invite members flow.
   ///
@@ -10770,11 +11292,83 @@ abstract class FluxerLocalizations {
   /// **'Expires {date}'**
   String guildSettingsBanExpires(String date);
 
+  /// Label for ban expiration row.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires'**
+  String get guildSettingsBanExpiresLabel;
+
   /// Button to unban a user.
   ///
   /// In en, this message translates to:
   /// **'Unban'**
   String get guildSettingsUnban;
+
+  /// Loading state for the guild bans list.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading banned users'**
+  String get guildSettingsBansLoading;
+
+  /// Empty state when ban search has no matches.
+  ///
+  /// In en, this message translates to:
+  /// **'No bans found matching your search.'**
+  String get guildSettingsBansNoSearchResults;
+
+  /// Title for the ban details modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Ban details'**
+  String get guildSettingsBanDetailsTitle;
+
+  /// Menu action to open ban details.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get guildSettingsBanViewDetails;
+
+  /// Label for when a user was banned.
+  ///
+  /// In en, this message translates to:
+  /// **'Banned on'**
+  String get guildSettingsBannedOn;
+
+  /// Label for who issued the ban.
+  ///
+  /// In en, this message translates to:
+  /// **'Banned by'**
+  String get guildSettingsBannedBy;
+
+  /// Title for the revoke ban confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoke ban'**
+  String get guildSettingsRevokeBanTitle;
+
+  /// Confirmation message when revoking a ban.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to revoke the ban for {displayName}? They will be able to rejoin the community.'**
+  String guildSettingsRevokeBanDescription(String displayName);
+
+  /// Toast shown after successfully revoking a ban.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoked ban for {displayName}'**
+  String guildSettingsRevokeBanSuccess(String displayName);
+
+  /// Error when loading the guild bans list fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load bans. Try again.'**
+  String get guildSettingsBansLoadError;
+
+  /// Error when revoking a ban fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t revoke ban. Try again.'**
+  String get guildSettingsRevokeBanError;
 
   /// Title for guild settings modal.
   ///

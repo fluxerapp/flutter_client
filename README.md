@@ -16,6 +16,7 @@
     <img src="https://img.shields.io/badge/License-AGPLv3-purple" alt="AGPLv3 License" /></a>
   <a href="https://github.com/fluxerapp/flutter_client/actions/workflows/dart-analyze.yml">
     <img src="https://github.com/fluxerapp/flutter_client/actions/workflows/dart-analyze.yml/badge.svg" alt="Dart analyze" /></a>
+  <a href="https://weblate.fluxer.tools/engage/flutter-client/"><img src="https://weblate.fluxer.tools/widget/flutter-client/svg-badge.svg" alt="Translation status"></a>
 </p>
 
 # Fluxer Flutter Client
@@ -30,18 +31,6 @@ You can follow more about the V1 development and what features are planned/imple
 > Currently the community is locked to Fluxer Plutonium members only. This limit will be lifted after the beta period (the link below will not work yet).
 
 For updates, support, and discussion, [join the Fluxer Mobile community on Fluxer](https://fluxer.gg/fluxer-mobile).
-
-# Self hosted instances
-
-The mobile app supports self hosted instances now! Push notifications are currently only supported for users using the Android OSS build.
-
-For iOS and Android FCM build we will need to setup a relay service for self hosted instances to use. This is something that will be worked on in the future.
-
-SSO (Single Sign-On) login is supported for self-hosted instances that have configured an OIDC/OAuth2 provider. When connecting to an instance with SSO enabled, the app will display the appropriate login options based on the server's configuration. If SSO is enforced, only the SSO login flow will be available. If SSO is optional, both SSO and email/password login can be used.
-
-For mobile SSO, register this redirect URI with your OIDC provider:
-
-`fluxer://auth/sso/callback`
 
 ## Download
 
@@ -117,6 +106,18 @@ Stable, beta, and canary Android release builds on GitHub are signed with this S
 > [!WARNING]
 > During the beta period the only place to report bugs will be in the Fluxer Mobile community (they are mirrored to Github still). Once the beta period finishes you will be able to report issues on Github and the community.
 
+# Self hosted instances
+
+The mobile app supports self hosted instances now! Push notifications are currently only supported for users using the Android OSS build.
+
+For iOS and Android FCM build we will need to setup a relay service for self hosted instances to use. This is something that will be worked on in the future.
+
+SSO (Single Sign-On) login is supported for self-hosted instances that have configured an OIDC/OAuth2 provider. When connecting to an instance with SSO enabled, the app will display the appropriate login options based on the server's configuration. If SSO is enforced, only the SSO login flow will be available. If SSO is optional, both SSO and email/password login can be used.
+
+For mobile SSO, register this redirect URI with your OIDC provider:
+
+`fluxer://auth/sso/callback`
+
 ## Contributing
 
 During the current beta, we are only accepting contributions for bug fixes. To submit a PR, it must be for a linked reported issue.
@@ -131,7 +132,9 @@ By contributing you agree your contribution is licensed under the AGPLv3 togethe
 
 ### Translating
 
-We welcome contributions for app translations. Translations are managed through our own Weblate instance. More information about that will be linked here soon.
+App translations are welcome at any time.
+
+Strings are managed on [Weblate](https://weblate.fluxer.tools/projects/flutter-client/). You can translate in the browser — no repository checkout or pull request is needed. English is the source language.
 
 ### Tech stack
 

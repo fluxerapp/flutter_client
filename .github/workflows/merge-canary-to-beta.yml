@@ -32,7 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           git config user.name "fluxer-ci[bot]"
-          git config user.email "${{ vars.FLUXER_CI_APP_ID }}+fluxer-ci[bot]@users.noreply.github.com"
+          git config user.email "${{ vars.FLUXER_CI_APP_USER_ID }}+fluxer-ci[bot]@users.noreply.github.com"
           git fetch origin canary
           if git merge-base --is-ancestor origin/canary HEAD; then
             echo "::notice::beta already contains canary. Nothing to merge."

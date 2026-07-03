@@ -1,5 +1,6 @@
 const kFluxerMarkdownJumboMaxCount = 6;
-const kFluxerMarkdownEmojiSizeNormal = 22.0;
+const kFluxerMarkdownEmojiSizeMultiplier = 1.5;
+const kFluxerMarkdownEmojiSizeNormal = 24.0;
 const kFluxerMarkdownEmojiSizeJumbo = 48.0;
 
 bool isFluxerMarkdownJumboEmoji(String text) {

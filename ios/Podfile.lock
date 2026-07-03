@@ -2,20 +2,20 @@ PODS:
   - Flutter (1.0.0)
   - flutter_webrtc (1.4.0):
     - Flutter
-    - WebRTC-SDK (= 144.7559.01)
+    - WebRTC-SDK (= 144.7559.09)
   - irondash_engine_context (0.0.1):
     - Flutter
-  - livekit_client (2.8.0):
+  - livekit_client (2.9.0-dev.0):
     - Flutter
     - flutter_webrtc
-    - WebRTC-SDK (= 144.7559.01)
+    - WebRTC-SDK (= 144.7559.09)
   - media_kit_libs_ios_video (1.0.4):
     - Flutter
   - media_kit_video (0.0.1):
     - Flutter
   - super_native_extensions (0.0.1):
     - Flutter
-  - WebRTC-SDK (144.7559.01)
+  - WebRTC-SDK (144.7559.09)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -48,13 +48,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_webrtc: ec91d94b484ad49cf191ef93413f64a40ffd3b4c
+  flutter_webrtc: 3ee86aa10e0313c38c93fdb215dd86e77014f96a
   irondash_engine_context: 8e58ca8e0212ee9d1c7dc6a42121849986c88486
-  livekit_client: 549b62f57d4bae9385f541922b621e7ce84aae4b
+  livekit_client: b47ad395a714c455b517fb38b4436cb07b4b5116
   media_kit_libs_ios_video: 5a18affdb97d1f5d466dc79988b13eff6c5e2854
   media_kit_video: 1746e198cb697d1ffb734b1d05ec429d1fcd1474
   super_native_extensions: b763c02dc3a8fd078389f410bf15149179020cb4
-  WebRTC-SDK: ab9b5319e458c2bfebdc92b3600740da35d5630d
+  WebRTC-SDK: e6006119cd730d6315d875e4a421b6cc8bb88833
 
 PODFILE CHECKSUM: ec6dac94027c1185889cf4747af026cc0e1d478f
 

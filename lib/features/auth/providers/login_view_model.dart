@@ -184,24 +184,24 @@ class LoginViewModel extends _$LoginViewModel {
     );
     final bool isAddingAccount =
         ref.read(addAccountInstanceGuardProvider) != null;
-    if (isAddingAccount) {
-      await ref
-          .read(instanceSelectorProvider.notifier)
-          .commitPendingInstanceForAuth();
-    }
     try {
       final SsoStartResponse startResponse = await ref
           .read(authRepositoryProvider)
           .startSso(redirectUri: 'fluxer://auth/sso/callback');
-      final Uri callbackUri = await SsoAuthService().authenticate(
-        authorizationUrl: startResponse.authorizationUrl,
-      );
+      final Uri callbackUri = await ref
+          .read(ssoAuthServiceProvider)
+          .authenticate(authorizationUrl: startResponse.authorizationUrl);
       final String? code = callbackUri.queryParameters['code'];
       final String? callbackState = callbackUri.queryParameters['state'];
       if (code == null ||
           code.isEmpty ||
           callbackState == null ||
           callbackState.isEmpty) {
+        if (isAddingAccount) {
+          ref
+              .read(addAccountInstanceGuardProvider.notifier)
+              .restoreActiveInstance();
+        }
         state = state.copyWith(
           errorType: LoginError.ssoFailed,
           isStartingSso: false,
@@ -218,6 +218,11 @@ class LoginViewModel extends _$LoginViewModel {
         isStartingSso: false,
       );
     } on SsoAuthCancelledException {
+      if (isAddingAccount) {
+        ref
+            .read(addAccountInstanceGuardProvider.notifier)
+            .restoreActiveInstance();
+      }
       state = state.copyWith(
         errorType: LoginError.ssoCancelled,
         isStartingSso: false,
@@ -568,14 +573,6 @@ class LoginViewModel extends _$LoginViewModel {
       isLoggingIn: true,
     );
 
-    final bool isAddingAccount =
-        ref.read(addAccountInstanceGuardProvider) != null;
-    if (isAddingAccount) {
-      await ref
-          .read(instanceSelectorProvider.notifier)
-          .commitPendingInstanceForAuth();
-    }
-
     try {
       final inviteCode = ref.read(pendingInviteCodeProvider.notifier).consume();
       final result = await ref
@@ -609,7 +606,7 @@ class LoginViewModel extends _$LoginViewModel {
           return false;
       }
     } on AuthFailure catch (error) {
-      if (isAddingAccount) {
+      if (ref.read(addAccountInstanceGuardProvider) != null) {
         ref
             .read(addAccountInstanceGuardProvider.notifier)
             .restoreActiveInstance();
@@ -629,7 +626,7 @@ class LoginViewModel extends _$LoginViewModel {
       );
       return false;
     } on Exception catch (e) {
-      if (isAddingAccount) {
+      if (ref.read(addAccountInstanceGuardProvider) != null) {
         ref
             .read(addAccountInstanceGuardProvider.notifier)
             .restoreActiveInstance();
@@ -644,6 +641,11 @@ class LoginViewModel extends _$LoginViewModel {
   }
 
   Future<bool> _completeLoginSuccess(AuthSession session) async {
+    if (ref.read(addAccountInstanceGuardProvider) != null) {
+      await ref
+          .read(instanceSelectorProvider.notifier)
+          .commitPendingInstanceForAuth();
+    }
     final String? previousUserId = ref.read(currentUserIdProvider);
     if (previousUserId != null &&
         previousUserId != session.userId &&
@@ -689,14 +691,6 @@ class LoginViewModel extends _$LoginViewModel {
       isLoggingIn: true,
     );
 
-    final bool isAddingAccount =
-        ref.read(addAccountInstanceGuardProvider) != null;
-    if (isAddingAccount) {
-      await ref
-          .read(instanceSelectorProvider.notifier)
-          .commitPendingInstanceForAuth();
-    }
-
     try {
       final repo = ref.read(authRepositoryProvider);
       final webauthnService = WebAuthnService(PasskeyAuthenticator());
@@ -725,7 +719,7 @@ class LoginViewModel extends _$LoginViewModel {
           state = state.copyWith(isLoggingIn: false);
       }
     } on AuthFailure catch (error) {
-      if (isAddingAccount) {
+      if (ref.read(addAccountInstanceGuardProvider) != null) {
         ref
             .read(addAccountInstanceGuardProvider.notifier)
             .restoreActiveInstance();
@@ -734,7 +728,7 @@ class LoginViewModel extends _$LoginViewModel {
     } on PasskeyAuthCancelledException {
       state = state.copyWith(isLoggingIn: false);
     } on AuthenticatorException catch (e) {
-      if (isAddingAccount) {
+      if (ref.read(addAccountInstanceGuardProvider) != null) {
         ref
             .read(addAccountInstanceGuardProvider.notifier)
             .restoreActiveInstance();
@@ -747,7 +741,7 @@ class LoginViewModel extends _$LoginViewModel {
         isLoggingIn: false,
       );
     } on Exception catch (e) {
-      if (isAddingAccount) {
+      if (ref.read(addAccountInstanceGuardProvider) != null) {
         ref
             .read(addAccountInstanceGuardProvider.notifier)
             .restoreActiveInstance();

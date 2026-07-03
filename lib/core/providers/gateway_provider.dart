@@ -28,10 +28,12 @@ import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.
 import 'package:fluxer_app/features/members/data/member_cache_evictor.dart';
 import 'package:fluxer_app/features/members/data/member_list_update_batcher.dart';
 import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
+import 'package:fluxer_app/features/members/providers/guild_roles_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/settings/providers/connections_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view_model.dart';
+import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -88,6 +90,8 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
       ref.read(gatewayReadyProvider.notifier).setReady();
       ref.read(guildSyncProvider.notifier).clearAll();
+      clearGuildRolesPrefetchState();
+      clearVoiceParticipantUsersCache();
       ref.read(memberListViewportProvider.notifier).clearSession();
       ref.read(memberListDesiredRangesProvider.notifier).clearAll();
       ref.read(memberListUpdateBatcherProvider).clearAll();

@@ -284,11 +284,9 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
                           width: _kAutocompleteEmojiPreviewSize,
                           height: _kAutocompleteEmojiPreviewSize,
                           child: emojiSurrogates != null
-                              ? Center(
-                                  child: Text(
-                                    emojiSurrogates!,
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
+                              ? UnicodeEmojiWidget(
+                                  emoji: emojiSurrogates!,
+                                  size: _kAutocompleteEmojiPreviewSize,
                                 )
                               : CachedNetworkImage(
                                   imageUrl: emojiImageUrl!,

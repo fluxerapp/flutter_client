@@ -22,6 +22,10 @@ String voiceChannelParticipantsFamilyKey(String guildId, String channelId) {
 final Map<String, database.User> _voiceParticipantUsersCache =
     <String, database.User>{};
 
+void clearVoiceParticipantUsersCache() {
+  _voiceParticipantUsersCache.clear();
+}
+
 Future<Map<String, database.User>> _resolveVoiceParticipantUsers(
   Ref ref,
   Set<String> userIds,

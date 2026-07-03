@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/markdown/fluxer_markdown_adapter.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
@@ -10,11 +11,13 @@ class MessageMarkdown extends StatelessWidget {
     this.selectable = false,
     this.channelId,
     this.messageId,
+    this.mentionChannels = const [],
     this.markdownContext = FluxerMarkdownContext.standardWithJumbo,
     this.revealSpoilers = false,
     this.spoilerSyncController,
     this.maxLines,
     this.overflow,
+    this.trailingInlineWidget,
     super.key,
   });
 
@@ -23,11 +26,13 @@ class MessageMarkdown extends StatelessWidget {
   final bool selectable;
   final String? channelId;
   final String? messageId;
+  final List<MessageChannelMention> mentionChannels;
   final FluxerMarkdownContext markdownContext;
   final bool revealSpoilers;
   final FluxerSpoilerSyncController? spoilerSyncController;
   final int? maxLines;
   final TextOverflow? overflow;
+  final Widget? trailingInlineWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +42,7 @@ class MessageMarkdown extends StatelessWidget {
       config: createFluxerMarkdownConfig(
         context: context,
         channelId: channelId,
+        mentionChannels: mentionChannels,
         revealSpoilers: revealSpoilers,
         spoilerSyncController: spoilerSyncController,
       ),
@@ -45,6 +51,7 @@ class MessageMarkdown extends StatelessWidget {
       context: markdownContext,
       maxLines: maxLines,
       overflow: overflow,
+      trailingInlineWidget: trailingInlineWidget,
     );
   }
 }

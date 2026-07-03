@@ -9,8 +9,8 @@ environment:
 
 dependencies:
   app_badge_plus: ^1.3.0
-  app_links: ^7.1.1
-  audioplayers: ^6.7.1
+  app_links: ^7.2.0
+  audioplayers: ^6.8.1
   cached_network_image_ce: ^4.6.4
   clock: ^1.1.2
   connectivity_plus: ^7.1.1
@@ -20,14 +20,14 @@ dependencies:
   desktop_drop: ^0.7.1
   device_info_plus: ^12.4.0
   dio: ^5.7.0
-  drift: ^2.33.0
+  drift: ^2.34.0
   drift_flutter: ^0.3.0
   file_picker: ^11.0.2
   fixnum: ^1.1.1
   flutter:
     sdk: flutter
   flutter_background: ^1.3.1
-  flutter_callkit_incoming: ^3.1.2
+  flutter_callkit_incoming: ^3.1.3
   flutter_highlight: ^0.7.0
   flutter_inappwebview: ^6.2.0-beta.3
   flutter_local_notifications: ^22.0.0
@@ -38,7 +38,7 @@ dependencies:
   flutter_svg: ^2.2.4
   flutter_thumbhash: ^0.1.0+1
   flutter_web_auth_2: ^5.0.3
-  flutter_webrtc: ^1.4.0
+  flutter_webrtc: ^1.5.2
   fluxer_captcha:
     path: packages/fluxer_captcha
   fluxer_dart:
@@ -53,14 +53,14 @@ dependencies:
   image_picker_android: ^0.8.13
   image_picker_platform_interface: ^2.11.1
   intl: ^0.20.2
-  livekit_client: ^2.8.0
+  livekit_client: ^2.8.1
   lucid_validation: ^1.3.1
   media_kit: ^1.2.6
   media_kit_libs_video: ^1.0.7
   media_kit_video: ^2.0.1
   opentelemetry: ^0.18.11
   package_info_plus: ^9.0.0
-  passkeys: ^2.18.0
+  passkeys: ^2.21.1
   path: ^1.9.1
   path_provider: ^2.1.5
   permission_handler: ^12.0.1
@@ -68,7 +68,7 @@ dependencies:
     git:
       url: https://github.com/Niural/phosphor_flutter
   protobuf: ^6.0.0
-  record: ^7.0.0
+  record: ^7.1.1
   riverpod: ^3.2.1
   riverpod_annotation: ^4.0.2
   scrollview_observer: ^1.27.0
@@ -85,7 +85,9 @@ dependencies:
   visibility_detector: ^0.4.0+2
   web_socket_channel: ^3.0.2
   window_manager: ^0.5.1
-  youtube_explode_dart: ^3.0.5
+  youtube_explode_dart: ^3.1.0
+  gaimon: ^1.4.3
+  flutter_staggered_grid_view: ^0.7.0 # Would like to replace this package at some point (only used on Desktop)
 
 dependency_overrides:
   analyzer: ^10.0.0
@@ -101,6 +103,8 @@ dev_dependencies:
   drift_dev: ^2.31.0
   fake_async: ^1.3.3
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   lint_hard: ^7.1.2
   riverpod_generator: ^4.0.3

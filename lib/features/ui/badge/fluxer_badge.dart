@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 
@@ -7,23 +6,36 @@ class FluxerBadge extends StatelessWidget {
   const FluxerBadge.count({required this.count, this.cutoutColor, super.key})
     : text = null,
       size = 20,
-      isDot = false;
+      isDot = false,
+      isCompact = false;
+
+  const FluxerBadge.compactCount({
+    required this.count,
+    this.cutoutColor,
+    super.key,
+  }) : text = null,
+       size = 14,
+       isDot = false,
+       isCompact = true;
 
   const FluxerBadge.dot({this.size = 8, super.key})
     : count = null,
       text = null,
       cutoutColor = null,
-      isDot = true;
+      isDot = true,
+      isCompact = false;
 
   const FluxerBadge.label({required this.text, this.cutoutColor, super.key})
     : count = null,
       size = 20,
-      isDot = false;
+      isDot = false,
+      isCompact = false;
 
   final int? count;
   final String? text;
   final double size;
   final bool isDot;
+  final bool isCompact;
 
   /// Renders a hard 3px ring outside the badge in this color, creating a
   /// "cutout" notch when the badge is overlaid on an avatar or icon. Set to
@@ -34,6 +46,9 @@ class FluxerBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isDot) {
       return _buildDot(context);
+    }
+    if (isCompact) {
+      return _buildCompactCount(context);
     }
     return _buildPill(context);
   }
@@ -58,7 +73,7 @@ class FluxerBadge extends StatelessWidget {
         color: context.colors.statusDanger,
         borderRadius: BorderRadius.circular(6),
         border: Border.all(
-          color: context.colors.backgroundSecondary,
+          color: cutoutColor ?? context.colors.backgroundSecondary,
           width: 3,
           strokeAlign: BorderSide.strokeAlignOutside,
         ),
@@ -77,10 +92,54 @@ class FluxerBadge extends StatelessWidget {
     );
   }
 
+  Widget _buildCompactCount(BuildContext context) {
+    final String label = _formattedCount;
+    final double diameter = switch (label.length) {
+      1 => 16,
+      2 => 18,
+      _ => 20,
+    };
+    final double fontSize = switch (label.length) {
+      1 => 10,
+      2 => 8,
+      _ => 7,
+    };
+    return ExcludeSemantics(
+      child: Container(
+        width: diameter,
+        height: diameter,
+        decoration: BoxDecoration(
+          color: context.colors.statusDanger,
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: cutoutColor ?? context.colors.backgroundSecondary,
+            width: 2,
+            strokeAlign: BorderSide.strokeAlignOutside,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: TextStyle(
+            color: context.colors.textOnBrandPrimary,
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            height: 1,
+          ),
+        ),
+      ),
+    );
+  }
+
   String get _formattedCount {
     final c = count ?? 0;
     return c > 99 ? '99+' : '$c';
   }
+}
+
+@FluxerWidgetPreview(name: 'Compact Count', group: 'FluxerBadge')
+Widget fluxerBadgeCompactCountPreview() {
+  return const FluxerBadge.compactCount(count: 3);
 }
 
 @FluxerWidgetPreview(name: 'Dot', group: 'FluxerBadge')

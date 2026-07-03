@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/voice/utils/android_screen_share_background.
 import 'package:fluxer_app/features/voice/utils/camera_permission.dart';
 import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
 import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
+import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_dart/export.dart';
@@ -84,8 +85,8 @@ class VoiceSession extends _$VoiceSession {
   Timer? _deferredServerDisconnectTimer;
   String? _pendingServerDisconnectConnectionId;
   int? _boundRoomAttemptId;
-  bool _lobbySelfMute = false;
-  bool _lobbySelfDeaf = false;
+  bool _pendingSelfMute = false;
+  bool _pendingSelfDeaf = false;
   bool _ensuringMicrophone = false;
 
   @override
@@ -136,6 +137,7 @@ class VoiceSession extends _$VoiceSession {
       _pendingRingAfterConnect = false;
       _pendingRingSilently = false;
       _outboundRingRecipients = null;
+      _resetPendingSelfAudioFlags();
       _clearOutgoingCallInitiator(_expectedChannelId);
       _detachLocalParticipantListener();
       unawaited(_disconnectRoomOnly());
@@ -146,6 +148,37 @@ class VoiceSession extends _$VoiceSession {
         clearRoom: true,
       );
     });
+  }
+
+  void _resetPendingSelfAudioFlags() {
+    _pendingSelfMute = false;
+    _pendingSelfDeaf = false;
+  }
+
+  void _syncPendingSelfAudioFlags({
+    required bool selfMute,
+    required bool selfDeaf,
+  }) {
+    _pendingSelfMute = selfMute;
+    _pendingSelfDeaf = selfDeaf;
+  }
+
+  EffectiveAudioState _effectiveAudioStateForSelfConnection() {
+    return effectiveAudioStateFromVoiceState(
+      voiceState: _selfConnectionVoiceState(),
+      fallbackSelfMute: _pendingSelfMute,
+      fallbackSelfDeaf: _pendingSelfDeaf,
+    );
+  }
+
+  Future<void> _reconcileRemoteAudioForSelfConnection({
+    required String reason,
+  }) async {
+    final EffectiveAudioState audio = _effectiveAudioStateForSelfConnection();
+    await _reconcileRemoteAudioSubscriptions(
+      deaf: audio.effectiveDeaf,
+      reason: reason,
+    );
   }
 
   Room? get _room => state.liveKitRoom;
@@ -238,8 +271,8 @@ class VoiceSession extends _$VoiceSession {
         resolvedSelfMute = true;
       }
     }
-    _lobbySelfMute = resolvedSelfMute;
-    _lobbySelfDeaf = resolvedSelfDeaf;
+    _pendingSelfMute = resolvedSelfMute;
+    _pendingSelfDeaf = resolvedSelfDeaf;
     _connectGeneration++;
     _voiceMovePreviousChannelId =
         state.isConnected &&
@@ -535,6 +568,22 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     _cancelDeferredServerDisconnect();
+    _syncPendingSelfAudioFlags(
+      selfMute: voiceState.selfMute,
+      selfDeaf: voiceState.selfDeaf,
+    );
+    if (state.isConnected || state.isConnecting) {
+      unawaited(
+        _reconcileRemoteAudioSubscriptions(
+          deaf: effectiveAudioStateFromVoiceState(
+            voiceState: voiceState,
+            fallbackSelfMute: _pendingSelfMute,
+            fallbackSelfDeaf: _pendingSelfDeaf,
+          ).effectiveDeaf,
+          reason: 'voice_state_update',
+        ),
+      );
+    }
     if (state.isConnected) {
       unawaited(_reconcileLocalAudioPublish(reason: 'voice_state_update'));
     }
@@ -555,6 +604,7 @@ class VoiceSession extends _$VoiceSession {
     _pendingRingAfterConnect = false;
     _pendingRingSilently = false;
     _outboundRingRecipients = null;
+    _resetPendingSelfAudioFlags();
     _detachRoomEventsListener();
     _detachLocalParticipantListener();
     unawaited(_disconnectRoomOnly());
@@ -845,6 +895,7 @@ class VoiceSession extends _$VoiceSession {
     _pendingRingSilently = false;
     _outboundRingRecipients = null;
     _lastLoggedE2eeChannelStatus = null;
+    _resetPendingSelfAudioFlags();
     if (channelId != null) {
       _clearOutgoingCallInitiator(channelId);
     }
@@ -932,6 +983,7 @@ class VoiceSession extends _$VoiceSession {
       _pendingRingAfterConnect = false;
       _pendingRingSilently = false;
       _outboundRingRecipients = null;
+      _resetPendingSelfAudioFlags();
       final String? ch = state.channelId;
       if (ch != null) {
         _clearOutgoingCallInitiator(ch);
@@ -942,11 +994,12 @@ class VoiceSession extends _$VoiceSession {
   }
 
   VoiceState? _selfConnectionVoiceState() {
-    final String? id = state.activeConnectionId;
-    if (id == null) {
-      return null;
-    }
-    return ref.read(voiceStatesMapProvider)[id];
+    return resolveSelfConnectionVoiceState(
+      voiceStates: ref.read(voiceStatesMapProvider),
+      activeConnectionId: state.activeConnectionId,
+      userId: ref.read(currentUserIdProvider),
+      channelId: state.channelId,
+    );
   }
 
   Future<void> toggleSelfMute() async {
@@ -1252,6 +1305,7 @@ class VoiceSession extends _$VoiceSession {
     if (!s.isInVoice || s.channelId == null) {
       return;
     }
+    _syncPendingSelfAudioFlags(selfMute: selfMute, selfDeaf: selfDeaf);
     final String? connectionId = s.activeConnectionId;
     final VoiceState? current = _selfConnectionVoiceState();
     final bool selfStream = current?.selfStream ?? false;
@@ -1270,34 +1324,35 @@ class VoiceSession extends _$VoiceSession {
                 !Platform.isLinux && !Platform.isMacOS && !Platform.isWindows,
           ),
         );
-    final Room? room = _room;
-    final LocalParticipant? lp = room?.localParticipant;
-    if (lp == null || !state.isConnected) {
-      return;
-    }
     final EffectiveAudioState audio = computeEffectiveAudioState(
       selfMute: selfMute,
       selfDeaf: selfDeaf,
       serverMute: (current?.mute ?? false) || (current?.suppress ?? false),
       serverDeaf: current?.deaf ?? false,
     );
-    final bool micOn = audio.micShouldPublish && _canPublishAudioInChannel();
-    try {
-      await lp.setMicrophoneEnabled(micOn);
-    } on Object catch (e) {
-      if (isTrackPublishFailure(e)) {
-        talker.warning('[Voice] setMicrophoneEnabled failed: $e');
-        state = state.copyWith(errorMessage: kVoiceSessionErrorMicPublish);
-      } else {
-        talker.error('[Voice] setMicrophoneEnabled: $e');
+    final Room? room = _room;
+    final LocalParticipant? lp = room?.localParticipant;
+    if (lp != null && state.isConnected) {
+      final bool micOn = audio.micShouldPublish && _canPublishAudioInChannel();
+      try {
+        await lp.setMicrophoneEnabled(micOn);
+      } on Object catch (e) {
+        if (isTrackPublishFailure(e)) {
+          talker.warning('[Voice] setMicrophoneEnabled failed: $e');
+          state = state.copyWith(errorMessage: kVoiceSessionErrorMicPublish);
+        } else {
+          talker.error('[Voice] setMicrophoneEnabled: $e');
+        }
       }
     }
-    unawaited(
-      _reconcileRemoteAudioSubscriptions(
-        deaf: audio.effectiveDeaf,
-        reason: 'self_voice_state',
-      ),
-    );
+    if (room != null && (state.isConnected || state.isConnecting)) {
+      unawaited(
+        _reconcileRemoteAudioSubscriptions(
+          deaf: audio.effectiveDeaf,
+          reason: 'self_voice_state',
+        ),
+      );
+    }
   }
 
   Future<void> _applySelfStreamState({required bool selfStream}) async {
@@ -1479,38 +1534,10 @@ class VoiceSession extends _$VoiceSession {
       _pendingRingAfterConnect = false;
       _pendingRingSilently = false;
     }
-    await _subscribeExistingRemoteAudio(room);
+    await _reconcileRemoteAudioForSelfConnection(reason: 'room_connected');
     unawaited(
       _ensureLocalMicrophone(reason: 'room_connected', attempt: attempt),
     );
-  }
-
-  Future<void> _subscribeExistingRemoteAudio(Room room) async {
-    final VoiceState? selfVs = _selfConnectionVoiceState();
-    final EffectiveAudioState audio = effectiveAudioStateFromVoiceState(
-      voiceState: selfVs,
-      fallbackSelfMute: _lobbySelfMute,
-      fallbackSelfDeaf: _lobbySelfDeaf,
-    );
-    if (audio.effectiveDeaf) {
-      return;
-    }
-    for (final RemoteParticipant participant
-        in room.remoteParticipants.values) {
-      for (final RemoteTrackPublication publication
-          in participant.audioTrackPublications) {
-        if (publication.source == TrackSource.microphone) {
-          try {
-            await publication.subscribe();
-          } on Object catch (e) {
-            talker.warning(
-              '[Voice] Failed to subscribe remote mic '
-              '(participant=${participant.identity}): $e',
-            );
-          }
-        }
-      }
-    }
   }
 
   Future<void> _subscribeRemotePublicationIfNeeded(
@@ -1519,13 +1546,7 @@ class VoiceSession extends _$VoiceSession {
     if (publication.source != TrackSource.microphone) {
       return;
     }
-    final VoiceState? selfVs = _selfConnectionVoiceState();
-    final EffectiveAudioState audio = effectiveAudioStateFromVoiceState(
-      voiceState: selfVs,
-      fallbackSelfMute: _lobbySelfMute,
-      fallbackSelfDeaf: _lobbySelfDeaf,
-    );
-    if (audio.effectiveDeaf) {
+    if (_effectiveAudioStateForSelfConnection().effectiveDeaf) {
       return;
     }
     try {
@@ -1540,7 +1561,10 @@ class VoiceSession extends _$VoiceSession {
     required String reason,
   }) async {
     final Room? room = state.liveKitRoom;
-    if (room == null || !state.isConnected) {
+    if (room == null) {
+      return;
+    }
+    if (!state.isConnected && !state.isConnecting) {
       return;
     }
     for (final RemoteParticipant participant
@@ -1608,12 +1632,7 @@ class VoiceSession extends _$VoiceSession {
       }
       return;
     }
-    final VoiceState? vs = _selfConnectionVoiceState();
-    final EffectiveAudioState audio = effectiveAudioStateFromVoiceState(
-      voiceState: vs,
-      fallbackSelfMute: _lobbySelfMute,
-      fallbackSelfDeaf: _lobbySelfDeaf,
-    );
+    final EffectiveAudioState audio = _effectiveAudioStateForSelfConnection();
     talker.debug(
       '[Voice] Reconcile audio ($reason): micShouldPublish=${audio.micShouldPublish} '
       'effectiveMute=${audio.effectiveMute}',
@@ -1654,7 +1673,7 @@ class VoiceSession extends _$VoiceSession {
     final VoiceState? current = _selfConnectionVoiceState();
     await _applySelfVoiceState(
       selfMute: true,
-      selfDeaf: current?.selfDeaf ?? _lobbySelfDeaf,
+      selfDeaf: current?.selfDeaf ?? _pendingSelfDeaf,
       selfVideo: current?.selfVideo ?? false,
     );
     state = state.copyWith(errorMessage: kVoiceSessionErrorMicPublish);
@@ -1730,7 +1749,9 @@ class VoiceSession extends _$VoiceSession {
           return;
         }
         state = state.copyWith(isReconnecting: false);
-        unawaited(_subscribeExistingRemoteAudio(room));
+        unawaited(
+          _reconcileRemoteAudioForSelfConnection(reason: 'room_reconnected'),
+        );
         unawaited(
           _reconcileLocalAudioPublish(
             reason: 'room_reconnected',

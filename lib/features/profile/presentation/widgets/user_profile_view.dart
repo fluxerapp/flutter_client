@@ -331,8 +331,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     final layout = context.layout;
     final colors = context.colors;
     final bool isBlocked = relationship?.friendStatus == FriendStatus.blocked;
-    return ColoredBox(
-      color: colors.backgroundPrimary,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.backgroundPrimary,
+        borderRadius: BorderRadius.vertical(top: layout.radiusXxl.topLeft),
+      ),
       child: CustomScrollView(
         controller: widget.scrollController,
         slivers: <Widget>[

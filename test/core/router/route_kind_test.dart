@@ -18,5 +18,15 @@ void main() {
     test('returns null for guild members route', () {
       expect(extractChannelId('/channels/guild-1/members'), isNull);
     });
+
+    test('returns null for discover route', () {
+      expect(extractChannelId('/channels/@discover'), isNull);
+    });
+  });
+
+  group('classifyRoute', () {
+    test('classifies discover route', () {
+      expect(classifyRoute('/channels/@discover'), RouteKind.discover);
+    });
   });
 }

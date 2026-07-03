@@ -48,6 +48,28 @@ void main() {
       ).join(' ');
       expect(msg(content).invites, hasLength(10));
     });
+
+    test('ignores invite inside fenced code block', () {
+      expect(msg('```\nhttps://fluxer.gg/abcd\n```').invites, isEmpty);
+    });
+
+    test('ignores invite inside inline code', () {
+      expect(msg('use `fluxer.gg/abcd` here').invites, isEmpty);
+    });
+
+    test('ignores masked invite link inside fenced code block', () {
+      expect(
+        msg('```\n[join](<https://fluxer.gg/abcd>)\n```').invites,
+        isEmpty,
+      );
+    });
+
+    test('still extracts invite outside code block in same message', () {
+      expect(
+        msg('```fluxer.gg/hidden``` join fluxer.gg/plain').invites,
+        <String>['plain'],
+      );
+    });
   });
 
   group('Message.themes', () {
@@ -68,6 +90,13 @@ void main() {
           'https://web.fluxer.app/theme/xy https://web.fluxer.app/theme/xy',
         ).themes,
         <String>['xy'],
+      );
+    });
+
+    test('ignores theme link inside fenced code block', () {
+      expect(
+        msg('```\nhttps://web.fluxer.app/theme/dark1\n```').themes,
+        isEmpty,
       );
     });
   });

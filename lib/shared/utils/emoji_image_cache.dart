@@ -1,14 +1,16 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-class CachedEmojiImage extends StatelessWidget {
+class CachedEmojiImage extends StatefulWidget {
   const CachedEmojiImage({
     required this.emojiId,
     required this.animated,
     required this.requestSize,
     required this.size,
     this.errorBuilder,
+    this.pauseWhenOffscreen = true,
     super.key,
   });
 
@@ -17,27 +19,102 @@ class CachedEmojiImage extends StatelessWidget {
   final int requestSize;
   final double size;
   final WidgetBuilder? errorBuilder;
+  final bool pauseWhenOffscreen;
 
   @override
-  Widget build(BuildContext context) {
-    final url = FluxerMediaUrl.customEmoji(
-      id: emojiId,
-      animated: animated,
-      size: requestSize,
-    );
+  State<CachedEmojiImage> createState() => _CachedEmojiImageState();
+}
 
+class _CachedEmojiImageState extends State<CachedEmojiImage> {
+  late final ValueNotifier<bool> _visibleNotifier;
+  bool _hideScheduled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _visibleNotifier = ValueNotifier<bool>(!widget.pauseWhenOffscreen);
+  }
+
+  @override
+  void dispose() {
+    _hideScheduled = false;
+    _visibleNotifier.dispose();
+    super.dispose();
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) {
+      return;
+    }
+    final bool visible = info.visibleFraction > 0;
+    if (visible) {
+      _hideScheduled = false;
+      if (!_visibleNotifier.value) {
+        _visibleNotifier.value = true;
+      }
+      return;
+    }
+    if (!_visibleNotifier.value || _hideScheduled) {
+      return;
+    }
+    _hideScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _hideScheduled = false;
+      if (_visibleNotifier.value) {
+        _visibleNotifier.value = false;
+      }
+    });
+  }
+
+  bool get _shouldAnimate {
+    if (!widget.animated) {
+      return false;
+    }
+    if (!widget.pauseWhenOffscreen) {
+      return true;
+    }
+    return _visibleNotifier.value;
+  }
+
+  Widget _buildImage(bool shouldAnimate) {
+    final String url = FluxerMediaUrl.customEmoji(
+      id: widget.emojiId,
+      animated: shouldAnimate,
+      size: widget.requestSize,
+    );
     return CachedNetworkImage(
       imageUrl: url,
-      cacheKey: 'emoji_${emojiId}_${animated ? 'a' : 's'}_$requestSize',
-      width: size,
-      height: size,
+      cacheKey:
+          'emoji_${widget.emojiId}_${shouldAnimate ? 'a' : 's'}_${widget.requestSize}',
+      width: widget.size,
+      height: widget.size,
       fadeInDuration: Duration.zero,
       fadeOutDuration: Duration.zero,
       fit: BoxFit.contain,
-      placeholder: (_, _) => SizedBox(width: size, height: size),
-      errorBuilder: errorBuilder != null
-          ? (ctx, _, _) => errorBuilder!(ctx)
-          : (_, _, _) => SizedBox(width: size, height: size),
+      placeholder: (_, _) => SizedBox(width: widget.size, height: widget.size),
+      errorBuilder: widget.errorBuilder != null
+          ? (ctx, _, _) => widget.errorBuilder!(ctx)
+          : (_, _, _) => SizedBox(width: widget.size, height: widget.size),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!widget.animated || !widget.pauseWhenOffscreen) {
+      return _buildImage(_shouldAnimate);
+    }
+    return VisibilityDetector(
+      key: ValueKey<String>('emoji-${widget.emojiId}-${widget.requestSize}'),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: ListenableBuilder(
+        listenable: _visibleNotifier,
+        builder: (BuildContext context, Widget? _) {
+          return _buildImage(_shouldAnimate);
+        },
+      ),
     );
   }
 }

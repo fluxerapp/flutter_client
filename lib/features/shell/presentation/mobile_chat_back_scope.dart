@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
+import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
+import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
@@ -23,36 +24,36 @@ class MobileChatBackScope extends ConsumerWidget {
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, _) {
+      onPopInvokedWithResult: (bool didPop, _) {
         if (didPop) {
           return;
         }
-        if (ref.read(shellHasPopupOverlayProvider)) {
-          popTopShellPopupRoute(context);
-          return;
+        final ShellBackAction action = resolveShellBackAction(
+          hasPopupOverlay: ref.read(shellHasPopupOverlayProvider),
+          hasManualGestureBlock: ref.read(shellManualGestureBlockProvider),
+          hasExpressionPanelOpen: ref.read(expressionPanelProvider),
+          revealSide: ref.read(currentRevealSideProvider),
+          shellLocation: ref.read(shellLocationProvider),
+        );
+        switch (action) {
+          case ShellBackAction.popOverlay:
+            popTopShellPopupRoute(context);
+          case ShellBackAction.blockManualGesture:
+            break;
+          case ShellBackAction.closePanel:
+            ref.read(expressionPanelProvider.notifier).close();
+          case ShellBackAction.closeDrawer:
+            FocusManager.instance.primaryFocus?.unfocus();
+            DrawerNavigationCoordinator.closeDrawer(ref.container);
+          case ShellBackAction.noop:
+            break;
+          case ShellBackAction.returnToFavorites:
+            FocusManager.instance.primaryFocus?.unfocus();
+            returnToFavoritesList(ref);
+          case ShellBackAction.revealDrawer:
+            FocusManager.instance.primaryFocus?.unfocus();
+            DrawerNavigationCoordinator.revealDrawer(ref.container);
         }
-        // Recording overlay is not a popup route; still consume back here.
-        if (ref.read(shellManualGestureBlockProvider)) {
-          return;
-        }
-        if (ref.read(expressionPanelProvider)) {
-          ref.read(expressionPanelProvider.notifier).close();
-          return;
-        }
-        // Reading inside the callback (instead of `ref.watch` in build)
-        // avoids rebuilding the wrapped chat subtree every time the
-        // drawer side flips. Drawer animation is driven by SidebarDrawer.
-        if (ref.read(currentRevealSideProvider) != RevealSide.main) {
-          return;
-        }
-        FocusManager.instance.primaryFocus?.unfocus();
-        final String location = ref.read(currentLocationProvider);
-        if (isFavoritesChannelRoute(location)) {
-          returnToFavoritesList(ref);
-          return;
-        }
-        ref.read(currentRevealSideProvider.notifier).set(RevealSide.left);
-        ref.read(drawerRevealSyncTriggerProvider.notifier).nudge();
       },
       child: child,
     );

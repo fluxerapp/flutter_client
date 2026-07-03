@@ -34,6 +34,26 @@ void main() {
       expect(find.text('99+'), findsOneWidget);
     });
 
+    testWidgets('compact count variant renders as a small circle', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(const FluxerBadge.compactCount(count: 3)),
+      );
+
+      final badge = tester.widget<FluxerBadge>(find.byType(FluxerBadge));
+      expect(badge.isCompact, isTrue);
+      expect(find.text('3'), findsOneWidget);
+    });
+
+    testWidgets('compact count variant caps at 99+', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(const FluxerBadge.compactCount(count: 150)),
+      );
+
+      expect(find.text('99+'), findsOneWidget);
+    });
+
     testWidgets('dot variant renders as small circle', (tester) async {
       await tester.pumpWidget(buildTestApp(const FluxerBadge.dot()));
 

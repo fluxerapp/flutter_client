@@ -52,6 +52,7 @@ import 'package:fluxer_app/features/dm/presentation/widgets/personal_notes_welco
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -460,6 +461,16 @@ class _MessageListState extends ConsumerState<MessageList> {
         _shouldGroup(message, previousMessage);
     final bool isJumpHighlighted = message.id == highlightedMessageId;
     final bool isUnreadBoundary = message.id == visualUnreadId;
+    final double leading = leadingGroupSpacing(
+      isGroupStart: !isGrouped,
+      isNewDay: isNewDay,
+      isUnreadBoundary: isUnreadBoundary,
+      hasPrevious: previousMessage != null,
+      bothSystem:
+          message.isSystemMessage &&
+          (previousMessage?.isSystemMessage ?? false),
+      spacing: renderSettings.messageGroupSpacing,
+    );
     final Object signature = (
       message,
       isNewDay,
@@ -475,6 +486,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       channelCanPinMessage,
       channelCanManageMessages,
       renderSettings,
+      leading,
     );
     return _tileCache.resolve(message.id, signature, () {
       if (message.isSystemMessage) {
@@ -492,6 +504,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           message: message,
           isNewDay: isNewDay,
           visualUnreadId: visualUnreadId,
+          leadingGroupSpacing: leading,
           child: SystemMessage(
             key: ValueKey(message.id),
             message: message,
@@ -510,28 +523,46 @@ class _MessageListState extends ConsumerState<MessageList> {
                     ),
                   )
                 : null,
-            onLongPress: canDelete && isMobile
+            onLongPress: isMobile
                 ? () => unawaited(
                     showSystemMessageActionsSheet(
                       context,
                       ref,
                       message: message,
                       guildId: guildId,
+                      isDmChannel: isDmChannel,
                       canDelete: canDelete,
+                      canAddReactions: channelCanAddReactions,
+                      canManageMessages: channelCanManageMessages,
+                      currentUserId: currentUserId,
                     ),
                   )
                 : null,
-            onSecondaryTapUp: canDelete && !isMobile
+            onSecondaryTapUp: !isMobile
                 ? (_) => unawaited(
                     showSystemMessageActionsSheet(
                       context,
                       ref,
                       message: message,
                       guildId: guildId,
+                      isDmChannel: isDmChannel,
                       canDelete: canDelete,
+                      canAddReactions: channelCanAddReactions,
+                      canManageMessages: channelCanManageMessages,
+                      currentUserId: currentUserId,
                     ),
                   )
                 : null,
+            canAddReactions: channelCanAddReactions,
+            onReaction:
+                (String emoji, {String? emojiId, bool animated = false}) => ref
+                    .read(chatViewModelProvider.notifier)
+                    .toggleReaction(
+                      message.id,
+                      emoji,
+                      emojiId: emojiId,
+                      animated: animated,
+                    ),
           ),
         );
       }
@@ -550,6 +581,7 @@ class _MessageListState extends ConsumerState<MessageList> {
         message: message,
         isNewDay: isNewDay,
         visualUnreadId: visualUnreadId,
+        leadingGroupSpacing: leading,
         child: RepaintBoundary(
           child: MessageItem(
             key: itemKey,
@@ -591,6 +623,9 @@ class _MessageListState extends ConsumerState<MessageList> {
             onDeleteFailed: () => ref
                 .read(chatViewModelProvider.notifier)
                 .deleteFailedMessage(message.id),
+            onDismissClientSystem: () => ref
+                .read(chatViewModelProvider.notifier)
+                .dismissClientSystemMessage(message.id),
             onMarkAsUnread: () => ref
                 .read(chatViewModelProvider.notifier)
                 .markMessageUnread(message.id),
@@ -1077,6 +1112,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     required bool isNewDay,
     required String? visualUnreadId,
     required Widget child,
+    required double leadingGroupSpacing,
   }) {
     final bool isUnreadBoundary = message.id == visualUnreadId;
     if (isNewDay) {
@@ -1092,6 +1128,15 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     if (isUnreadBoundary) {
       return Column(children: [_buildUnreadSeparator(context), child]);
+    }
+    if (leadingGroupSpacing > 0) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: leadingGroupSpacing),
+          child,
+        ],
+      );
     }
     return child;
   }
@@ -1348,6 +1393,9 @@ class _MessageListSettingsLayer extends ConsumerWidget {
         RenderSpoilers.onClick || RenderSpoilers.$unknown => false,
       },
       chatPreferences: ref.watch(chatPreferencesProvider),
+      messageGroupSpacing: ref.watch(
+        appearancePreferencesProvider.select((s) => s.messageGroupSpacing),
+      ),
     );
     return builder(context, settings, (
       canSendMessages: channelMessagePerms.canSendMessages,

@@ -153,7 +153,7 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
   }
 
   bool _isSidebarDrawerLocked() {
-    return isSidebarDrawerLockedForLocation(ref.read(currentLocationProvider));
+    return isSidebarDrawerLockedForLocation(ref.read(shellLocationProvider));
   }
 
   void _onTranslate(double delta) {

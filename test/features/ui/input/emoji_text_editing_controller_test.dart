@@ -2,6 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
 
+List<InlineSpan> _flattenInlineSpans(InlineSpan span) {
+  if (span is TextSpan && span.children != null) {
+    return span.children!.expand(_flattenInlineSpans).toList();
+  }
+  return <InlineSpan>[span];
+}
+
+List<String> _collectTextSpanTexts(InlineSpan root) {
+  final List<String> texts = <String>[];
+  for (final InlineSpan span in _flattenInlineSpans(root)) {
+    if (span is TextSpan && span.text != null && span.text!.isNotEmpty) {
+      texts.add(span.text!);
+    }
+  }
+  return texts;
+}
+
+bool _containsPrivateUseSentinel(String text) {
+  for (final int code in text.runes) {
+    if (code >= 0xE000 && code <= 0xF8FF) {
+      return true;
+    }
+  }
+  return false;
+}
+
 void main() {
   group('EmojiTextEditingController', () {
     late EmojiTextEditingController controller;
@@ -536,6 +562,122 @@ void main() {
         // After buildTextSpan, stale segment should be cleaned
         expect(controller.actualText, ':wave:');
       });
+
+      testWidgets(
+        'keeps emoji chip when composing covers adjacent typed text',
+        (tester) async {
+          controller.loadWithTokens('hello :wave:');
+          controller.value = TextEditingValue(
+            text: controller.text,
+            composing: const TextRange(start: 0, end: 5),
+            selection: const TextSelection.collapsed(offset: 5),
+          );
+          TextSpan? result;
+
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Builder(
+                  builder: (context) {
+                    result = controller.buildTextSpan(
+                      context: context,
+                      withComposing: true,
+                    );
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ),
+          );
+
+          expect(result, isNotNull);
+          final List<InlineSpan> spans = _flattenInlineSpans(result!);
+          expect(spans.whereType<WidgetSpan>().length, 1);
+          for (final String text in _collectTextSpanTexts(result!)) {
+            expect(_containsPrivateUseSentinel(text), isFalse);
+          }
+        },
+      );
+
+      testWidgets('underlines plain text in the composing range', (
+        tester,
+      ) async {
+        controller.text = 'hello world';
+        controller.value = TextEditingValue(
+          text: controller.text,
+          composing: const TextRange(start: 0, end: 5),
+          selection: const TextSelection.collapsed(offset: 5),
+        );
+        TextSpan? result;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Builder(
+                builder: (context) {
+                  result = controller.buildTextSpan(
+                    context: context,
+                    style: const TextStyle(),
+                    withComposing: true,
+                  );
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
+          ),
+        );
+
+        expect(result, isNotNull);
+        final List<TextSpan> textSpans = _flattenInlineSpans(
+          result!,
+        ).whereType<TextSpan>().toList();
+        expect(textSpans.length, 2);
+        expect(textSpans[0].text, 'hello');
+        expect(textSpans[0].style?.decoration, TextDecoration.underline);
+        expect(textSpans[1].text, ' world');
+        expect(textSpans[1].style?.decoration, isNull);
+      });
+
+      testWidgets(
+        'keeps emoji chip when composing range spans sentinel offset',
+        (tester) async {
+          controller.loadWithTokens(':wave:');
+          final int sentinelOffset = controller.text.indexOf(
+            String.fromCharCode(0xE000),
+          );
+          expect(sentinelOffset, 0);
+          controller.value = TextEditingValue(
+            text: controller.text,
+            composing: TextRange(
+              start: sentinelOffset,
+              end: sentinelOffset + 1,
+            ),
+            selection: TextSelection.collapsed(offset: sentinelOffset + 1),
+          );
+          TextSpan? result;
+
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: Builder(
+                  builder: (context) {
+                    result = controller.buildTextSpan(
+                      context: context,
+                      withComposing: true,
+                    );
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ),
+          );
+
+          expect(result, isNotNull);
+          final List<InlineSpan> spans = _flattenInlineSpans(result!);
+          expect(spans.length, 1);
+          expect(spans.single, isA<WidgetSpan>());
+        },
+      );
     });
 
     group('sentinel allocation', () {

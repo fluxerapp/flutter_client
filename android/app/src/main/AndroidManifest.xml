@@ -36,7 +36,8 @@
 
     <application
         android:label="${appLabel}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -101,6 +102,12 @@
                 <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/notifications" />
                 <data android:scheme="https" android:host="web.canary.fluxer.com" android:pathPrefix="/you" />
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="fluxer.gg" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.linusu.flutter_web_auth_2.CallbackActivity"
@@ -121,12 +128,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/fluxer_logo_monochrome" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="fluxer_default_push" />
         <meta-data
             android:name="com.fluxer.BUILD_ENVIRONMENT"
             android:value="${buildEnvironment}" />

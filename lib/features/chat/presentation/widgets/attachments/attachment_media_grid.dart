@@ -249,8 +249,7 @@ class AttachmentMediaGrid extends StatelessWidget {
     required double cellHeight,
   }) {
     final bool isVideo = attachment.isVideo;
-    final bool canOpen =
-        attachment.url.isNotEmpty && (!attachment.isSpoiler || revealSpoilers);
+    final bool canOpen = attachment.url.isNotEmpty;
     final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,

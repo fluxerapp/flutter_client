@@ -41,7 +41,7 @@ void main() {
       await tester.pump();
 
       expect(secondHandled, isTrue);
-      expect(container.read(currentRevealSideProvider), RevealSide.left);
+      expect(container.read(currentRevealSideProvider), RevealSide.main);
       expect(
         router.routerDelegate.currentConfiguration.uri.path,
         '/channels/guild/channel',

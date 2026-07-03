@@ -29,10 +29,35 @@ class LoginForm extends ConsumerStatefulWidget {
 }
 
 class _LoginFormState extends ConsumerState<LoginForm> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _passwordFocusNode = FocusNode();
 
   @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(_syncEmailToViewModel);
+    _passwordController.addListener(_syncPasswordToViewModel);
+  }
+
+  void _syncEmailToViewModel() {
+    ref
+        .read(loginViewModelProvider.notifier)
+        .updateEmail(_emailController.text);
+  }
+
+  void _syncPasswordToViewModel() {
+    ref
+        .read(loginViewModelProvider.notifier)
+        .updatePassword(_passwordController.text);
+  }
+
+  @override
   void dispose() {
+    _emailController.removeListener(_syncEmailToViewModel);
+    _passwordController.removeListener(_syncPasswordToViewModel);
+    _emailController.dispose();
+    _passwordController.dispose();
     _passwordFocusNode.dispose();
     super.dispose();
   }
@@ -65,6 +90,23 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         .ssoConfig;
     final String ssoProviderName = ssoConfig?.displayName ?? 'Single Sign-On';
 
+    ref.listen(loginViewModelProvider.select((state) => state.email), (
+      _,
+      next,
+    ) {
+      if (_emailController.text != next) {
+        _emailController.text = next;
+      }
+    });
+    ref.listen(loginViewModelProvider.select((state) => state.password), (
+      _,
+      next,
+    ) {
+      if (_passwordController.text != next) {
+        _passwordController.text = next;
+      }
+    });
+
     return AbsorbPointer(
       absorbing: vm.isLoggingIn || vm.isStartingSso,
       child: AnimatedOpacity(
@@ -83,9 +125,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               ),
               SizedBox(height: layout.s8),
               FluxerInput(
+                controller: _emailController,
                 label: strings.email,
+                autofocus: true,
                 autofillHints: const [AutofillHints.email],
-                onChanged: notifier.updateEmail,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 onSubmitted: (_) => _passwordFocusNode.requestFocus(),
@@ -93,10 +136,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               ),
               SizedBox(height: layout.s6),
               FluxerInput(
+                controller: _passwordController,
                 label: strings.password,
                 focusNode: _passwordFocusNode,
                 autofillHints: const [AutofillHints.password],
-                onChanged: notifier.updatePassword,
                 obscureText: !vm.isPasswordVisible,
                 keyboardType: TextInputType.visiblePassword,
                 textInputAction: TextInputAction.go,

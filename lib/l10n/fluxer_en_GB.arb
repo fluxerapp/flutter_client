@@ -84,6 +84,40 @@
     "@logInWithPasskey": {
         "description": "Secondary login using a passkey."
     },
+    "continueWithSso": "Continue with {provider}",
+    "@continueWithSso": {
+        "description": "Button label that starts single sign-on.",
+        "placeholders": {
+            "provider": {
+                "type": "String"
+            }
+        }
+    },
+    "ssoRequired": "SSO is required to access this instance.",
+    "@ssoRequired": {
+        "description": "Short sign-in note shown when the instance requires single sign-on."
+    },
+    "organizationSsoProvider": "Sign in with your organisation's single sign-on provider.",
+    "@organizationSsoProvider": {
+        "description": "Description shown when sign-in is restricted to the configured SSO provider."
+    },
+    "failedToStartSso": "Failed to start SSO",
+    "@failedToStartSso": {
+        "description": "Login flow error shown when the single sign-on redirect cannot be started."
+    },
+    "ssoCancelled": "SSO login was cancelled",
+    "@ssoCancelled": {
+        "description": "Shown when the user cancels the single sign-on browser flow."
+    },
+    "preferSso": "Prefer using SSO? Continue with {provider}.",
+    "@preferSso": {
+        "description": "Optional sign-in note when SSO is available but not required.",
+        "placeholders": {
+            "provider": {
+                "type": "String"
+            }
+        }
+    },
     "logInViaBrowser": "Log in via browser",
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
@@ -124,7 +158,7 @@
     "@ipAuthCheckEmail": {
         "description": "Title when IP authorization email has been sent."
     },
-    "ipAuthDescription": "We emailed a link to authorize this login. Please open your inbox for {email}.",
+    "ipAuthDescription": "We emailed a link to authorise this login. Please open your inbox for {email}.",
     "@ipAuthDescription": {
         "description": "Description telling the user to check their email for IP auth.",
         "placeholders": {
@@ -137,9 +171,17 @@
     "@ipAuthConnectionLost": {
         "description": "Title when polling for IP authorization fails."
     },
-    "ipAuthConnectionLostDescription": "We lost the connection while waiting for authorization. Please try again.",
+    "ipAuthConnectionLostDescription": "We lost the connection while waiting for authorisation. Please try again.",
     "@ipAuthConnectionLostDescription": {
         "description": "Description when IP authorization polling fails."
+    },
+    "ipAuthLinkExpired": "Sign-in link expired",
+    "@ipAuthLinkExpired": {
+        "description": "Title shown when the IP authorization ticket has expired and the user must sign in again."
+    },
+    "ipAuthLinkExpiredDescription": "This authorisation link expired. Please sign in again.",
+    "@ipAuthLinkExpiredDescription": {
+        "description": "Body shown when the IP authorization ticket has expired."
     },
     "ipAuthResendEmail": "Resend email",
     "@ipAuthResendEmail": {
@@ -622,6 +664,10 @@
     "@errorUnableToSignIn": {
         "description": "Generic fallback error when login fails unexpectedly."
     },
+    "errorInvalidEmailOrPassword": "Invalid email or password.",
+    "@errorInvalidEmailOrPassword": {
+        "description": "Error shown on the login screen when the email and password combination is incorrect."
+    },
     "errorUnableToSendResetLink": "Unable to send reset link. Please try again.",
     "@errorUnableToSendResetLink": {
         "description": "Generic fallback error when forgot password request fails."
@@ -667,6 +713,67 @@
     "embedInviteUnavailable": "Invite Unavailable",
     "@embedInviteUnavailable": {
         "description": "Disabled button label when an invite is unavailable."
+    },
+    "inviteAcceptTitle": "You've been invited to join",
+    "@inviteAcceptTitle": {
+        "description": "Title of the invite accept modal."
+    },
+    "inviteAcceptJoinButton": "Join Community",
+    "@inviteAcceptJoinButton": {
+        "description": "Primary action to join a community from the invite modal."
+    },
+    "inviteAcceptGoToButton": "Go to Community",
+    "@inviteAcceptGoToButton": {
+        "description": "Primary action when the user is already a member of the invited community."
+    },
+    "inviteAcceptInvitesPaused": "Invites Paused",
+    "@inviteAcceptInvitesPaused": {
+        "description": "Disabled action label when community invites are paused."
+    },
+    "inviteAcceptNotFoundTitle": "Invite Invalid",
+    "@inviteAcceptNotFoundTitle": {
+        "description": "Title when an invite link is expired or invalid."
+    },
+    "inviteAcceptNotFoundDescription": "This invite may be expired or invalid.",
+    "@inviteAcceptNotFoundDescription": {
+        "description": "Description when an invite link is expired or invalid."
+    },
+    "inviteAcceptJoinGroupButton": "Join group",
+    "@inviteAcceptJoinGroupButton": {
+        "description": "Primary action to join a group DM from the invite modal."
+    },
+    "inviteAcceptGroupDmDescription": "You've been invited to join a group DM by {inviterName}",
+    "@inviteAcceptGroupDmDescription": {
+        "description": "Description for a group DM invite in the accept modal.",
+        "placeholders": {
+            "inviterName": {
+                "type": "String"
+            }
+        }
+    },
+    "inviteAcceptSomeone": "someone",
+    "@inviteAcceptSomeone": {
+        "description": "Fallback inviter name when the inviter is unknown."
+    },
+    "inviteAcceptEmojiPack": "Emoji pack",
+    "@inviteAcceptEmojiPack": {
+        "description": "Label for an emoji pack invite."
+    },
+    "inviteAcceptStickerPack": "Sticker pack",
+    "@inviteAcceptStickerPack": {
+        "description": "Label for a sticker pack invite."
+    },
+    "inviteAcceptInstallEmojiPack": "Install emoji pack",
+    "@inviteAcceptInstallEmojiPack": {
+        "description": "Primary action to install an emoji pack from an invite."
+    },
+    "inviteAcceptInstallStickerPack": "Install sticker pack",
+    "@inviteAcceptInstallStickerPack": {
+        "description": "Primary action to install a sticker pack from an invite."
+    },
+    "inviteAcceptPackInstallNote": "Accepting this invite installs the pack automatically.",
+    "@inviteAcceptPackInstallNote": {
+        "description": "Note shown on expression pack invites before accepting."
     },
     "mentionUnknownChannel": "unknown-channel",
     "@mentionUnknownChannel": {
@@ -792,6 +899,10 @@
     "notificationMuteChannel": "Mute Channel",
     "@notificationMuteChannel": {
         "description": "Switch label for muting a channel override."
+    },
+    "notificationUnmuteChannel": "Unmute Channel",
+    "@notificationUnmuteChannel": {
+        "description": "Action label for unmuting a channel from the context menu."
     },
     "notificationNoCategory": "No Category",
     "@notificationNoCategory": {
@@ -975,7 +1086,7 @@
     "@dmPinGroupDm": {
         "description": "DM context menu action to pin a group DM."
     },
-    "dmUnpinGroupDm": "Unpin Group DM",
+    "dmUnpinGroupDm": "Unpin group DM",
     "@dmUnpinGroupDm": {
         "description": "DM context menu action to unpin a group DM."
     },
@@ -987,35 +1098,35 @@
     "@dmUnfavoriteDm": {
         "description": "DM context menu action to unfavorite a DM."
     },
-    "dmFavoriteGroupDm": "Favorite Group DM",
+    "dmFavoriteGroupDm": "Favorite group DM",
     "@dmFavoriteGroupDm": {
         "description": "DM context menu action to favorite a group DM."
     },
-    "dmUnfavoriteGroupDm": "Unfavorite Group DM",
+    "dmUnfavoriteGroupDm": "Unfavorite group DM",
     "@dmUnfavoriteGroupDm": {
         "description": "DM context menu action to unfavorite a group DM."
     },
-    "dmChangeFriendNickname": "Change Friend Nickname",
+    "dmChangeFriendNickname": "Change friend nickname",
     "@dmChangeFriendNickname": {
         "description": "DM context menu action to change friend nickname."
     },
-    "dmRemoveFriend": "Remove Friend",
+    "dmRemoveFriend": "Remove friend",
     "@dmRemoveFriend": {
         "description": "DM context menu action to remove a friend."
     },
-    "dmAddFriend": "Add Friend",
+    "dmAddFriend": "Add friend",
     "@dmAddFriend": {
         "description": "DM context menu action to send a friend request."
     },
-    "dmAcceptFriendRequest": "Accept Friend Request",
+    "dmAcceptFriendRequest": "Accept friend request",
     "@dmAcceptFriendRequest": {
         "description": "DM context menu action to accept a friend request."
     },
-    "dmIgnoreFriendRequest": "Ignore Friend Request",
+    "dmIgnoreFriendRequest": "Ignore friend request",
     "@dmIgnoreFriendRequest": {
         "description": "DM context menu action to ignore a friend request."
     },
-    "dmFriendRequestSent": "Friend Request Sent",
+    "dmFriendRequestSent": "Friend request sent",
     "@dmFriendRequestSent": {
         "description": "DM context menu label when a friend request is pending."
     },
@@ -1023,11 +1134,11 @@
     "@dmUnblock": {
         "description": "DM context menu action to unblock a user."
     },
-    "dmDebugUser": "Debug User",
+    "dmDebugUser": "Debug user",
     "@dmDebugUser": {
         "description": "DM context menu action to debug user data."
     },
-    "dmDebugChannel": "Debug Channel",
+    "dmDebugChannel": "Debug channel",
     "@dmDebugChannel": {
         "description": "DM context menu action to debug channel data."
     },
@@ -1047,7 +1158,7 @@
     "@dmUnmuted": {
         "description": "Toast message when a DM conversation is unmuted."
     },
-    "dmRemoveFriendConfirmTitle": "Remove Friend",
+    "dmRemoveFriendConfirmTitle": "Remove friend",
     "@dmRemoveFriendConfirmTitle": {
         "description": "Title for the remove friend confirmation modal."
     },
@@ -1060,7 +1171,7 @@
             }
         }
     },
-    "dmBlockConfirmTitle": "Block User",
+    "dmBlockConfirmTitle": "Block user",
     "@dmBlockConfirmTitle": {
         "description": "Title for the block user confirmation modal."
     },
@@ -1568,7 +1679,7 @@
     "@validationAllowedChars": {
         "description": "Validation rule for allowed username characters."
     },
-    "discriminatorPremiumTooltip": "Get Plutonium to customize your tag or keep it when changing your username",
+    "discriminatorPremiumTooltip": "Get Plutonium to customise your tag or keep it when changing your username",
     "@discriminatorPremiumTooltip": {
         "description": "Tooltip on disabled discriminator field for non-premium users."
     },
@@ -1622,7 +1733,7 @@
             }
         }
     },
-    "premiumUpsellCustomizeTag": "Customize your 4-digit tag or keep it when changing your username",
+    "premiumUpsellCustomizeTag": "Customise your 4-digit tag or keep it when changing your username",
     "@premiumUpsellCustomizeTag": {
         "description": "Upsell text encouraging non-premium users to get Plutonium for tag customization."
     },
@@ -1651,7 +1762,7 @@
     "@continueAction": {
         "description": "Generic continue button label."
     },
-    "profileCustomizationTitle": "Profile Customization",
+    "profileCustomizationTitle": "Profile Customisation",
     "@profileCustomizationTitle": {
         "description": "Heading for the profile customization settings section."
     },
@@ -1729,15 +1840,15 @@
     "@removeBanner": {
         "description": "Button to remove the current banner."
     },
-    "bannerDescription": "PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)",
+    "bannerDescription": "PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 960×540px (16:9)",
     "@bannerDescription": {
         "description": "Helper text describing banner image requirements."
     },
-    "accentColorLabel": "Accent Color",
+    "accentColorLabel": "Accent Colour",
     "@accentColorLabel": {
         "description": "Label for the accent color picker."
     },
-    "accentColorDescription": "Customizes the border and banner color on your profile",
+    "accentColorDescription": "Customises the border and banner colour on your profile",
     "@accentColorDescription": {
         "description": "Helper text for the accent color picker."
     },
@@ -1841,7 +1952,7 @@
     "@avatarDescriptionNonPremium": {
         "description": "Avatar helper text for non-premium users, mentioning Plutonium requirement for animated avatars."
     },
-    "bannerPlutoniumUpsell": "Customize your profile with a static or animated banner image to make it stand out.",
+    "bannerPlutoniumUpsell": "Customise your profile with a static or animated banner image to make it stand out.",
     "@bannerPlutoniumUpsell": {
         "description": "Upsell text shown in place of banner upload for non-premium users."
     },
@@ -1897,7 +2008,7 @@
     "@communityNicknameLabel": {
         "description": "Label for the community nickname field"
     },
-    "perGuildPremiumUpsellText": "Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.",
+    "perGuildPremiumUpsellText": "Customising your avatar, banner, accent colour, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.",
     "@perGuildPremiumUpsellText": {
         "description": "Upsell text for per-guild premium features"
     },
@@ -2479,6 +2590,32 @@
     "@dangerZoneDeleteCancelSubscription": {
         "description": "Warning about active subscription before deletion."
     },
+    "dangerZoneDeleteCannotDeleteAccount": "Cannot delete account",
+    "@dangerZoneDeleteCannotDeleteAccount": {
+        "description": "Title for the guild ownership warning modal when trying to delete account."
+    },
+    "dangerZoneDeleteOwnsCommunities": "You cannot delete your account while you own communities. Transfer ownership of the following communities first:",
+    "@dangerZoneDeleteOwnsCommunities": {
+        "description": "Warning message shown when user owns communities and tries to delete account."
+    },
+    "dangerZoneDeleteAndXMore": "and {count} more",
+    "@dangerZoneDeleteAndXMore": {
+        "description": "Shown when user owns more than 3 communities.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "dangerZoneDeleteTransferInstructions": "To transfer ownership, go to {settingsPath} and use the transfer ownership option.",
+    "@dangerZoneDeleteTransferInstructions": {
+        "description": "Instructions for transferring community ownership.",
+        "placeholders": {
+            "settingsPath": {
+                "type": "String"
+            }
+        }
+    },
     "dangerZoneDeleteConfirmDescription": "Are you sure you want to delete your account? This action will schedule your account for permanent deletion.",
     "@dangerZoneDeleteConfirmDescription": {
         "description": "Confirmation description for account delete."
@@ -2604,15 +2741,15 @@
     "@authorizedAppsEmptyTitle": {
         "description": "Title shown when the user has no authorized OAuth2 applications."
     },
-    "authorizedAppsEmptyDescription": "You haven't authorized any applications to access your account.",
+    "authorizedAppsEmptyDescription": "You haven't authorised any applications to access your account.",
     "@authorizedAppsEmptyDescription": {
         "description": "Body text shown when the user has no authorized OAuth2 applications."
     },
-    "authorizedAppsLoadError": "Failed to Load Authorized Applications",
+    "authorizedAppsLoadError": "Failed to load authorised applications",
     "@authorizedAppsLoadError": {
         "description": "Error message shown when loading authorized applications fails."
     },
-    "authorizedAppsAuthorizedOn": "Authorized on {date}",
+    "authorizedAppsAuthorizedOn": "Authorised on {date}",
     "@authorizedAppsAuthorizedOn": {
         "description": "Shows when an application was authorized.",
         "placeholders": {
@@ -2686,7 +2823,7 @@
     "@blockedUsersEmptyDescription": {
         "description": "Empty state description for blocked users."
     },
-    "blockedUsersLoadError": "Failed to Load Blocked Users",
+    "blockedUsersLoadError": "Failed to load blocked users",
     "@blockedUsersLoadError": {
         "description": "Error message shown when blocked users fail to load."
     },
@@ -2741,27 +2878,49 @@
     },
     "userProfileStaffBadgeTooltip": "Fluxer Staff",
     "@userProfileStaffBadgeTooltip": {
-        "description": "Tooltip and semantic label for the staff badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
     },
     "userProfileCtpBadgeTooltip": "Fluxer Community Team",
     "@userProfileCtpBadgeTooltip": {
-        "description": "Tooltip and semantic label for the community team badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
     },
     "userProfilePartnerBadgeTooltip": "Fluxer Partner",
     "@userProfilePartnerBadgeTooltip": {
-        "description": "Tooltip and semantic label for the partner badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
     },
     "userProfileBugHunterBadgeTooltip": "Fluxer Bug Hunter",
     "@userProfileBugHunterBadgeTooltip": {
-        "description": "Tooltip and semantic label for the bug hunter badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
     },
     "userProfilePlutoniumBadgeTooltip": "Fluxer Plutonium",
     "@userProfilePlutoniumBadgeTooltip": {
-        "description": "Tooltip and semantic label for the Plutonium badge on a user profile."
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+    },
+    "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium subscriber since {date}",
+    "@userProfilePlutoniumSubscriberSinceTooltip": {
+        "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileVisionaryBadgeTooltip": "Fluxer Visionary",
+    "@userProfileVisionaryBadgeTooltip": {
+        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
+    },
+    "userProfileVisionaryBadgeSinceTooltip": "Fluxer Visionary since {date}",
+    "@userProfileVisionaryBadgeSinceTooltip": {
+        "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
     },
     "userProfileVisionaryIdTooltip": "Visionary ID #{sequence}",
     "@userProfileVisionaryIdTooltip": {
-        "description": "Tooltip for the Visionary ID number shown next to the premium badge on a user profile.",
+        "description": "Short label in the user profile badges popout. Keep it concise. Preserve {sequence}; it is inserted by code.",
         "placeholders": {
             "sequence": {
                 "type": "int"
@@ -2823,6 +2982,10 @@
                 "type": "String"
             }
         }
+    },
+    "blockedUserComposerBarrierAction": "Unblock",
+    "@blockedUserComposerBarrierAction": {
+        "description": "Button label on the composer barrier shown when messaging a blocked user."
     },
     "userProfileOpenDm": "Open DM",
     "@userProfileOpenDm": {
@@ -3261,6 +3424,159 @@
     "@typingIndicatorApocalypse": {
         "description": "Typing indicator shown when 20 or more other users are typing."
     },
+    "systemJoinGladYoureHere": "Glad you're here, {username}!",
+    "@systemJoinGladYoureHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeMakeYourselfAtHome": "Welcome, {username}! Make yourself at home.",
+    "@systemJoinWelcomeMakeYourselfAtHome": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHelloNiceToHaveYouHere": "Hello, {username}! Nice to have you here.",
+    "@systemJoinHelloNiceToHaveYouHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHelloJumpInWheneverYoureReady": "Hello, {username}! Jump in whenever you're ready.",
+    "@systemJoinHelloJumpInWheneverYoureReady": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHeyGreatToSeeYouHere": "Hey {username}, great to see you here!",
+    "@systemJoinHeyGreatToSeeYouHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHeyThereHopeYouEnjoyYourStay": "Hey there, {username}! Hope you enjoy your stay.",
+    "@systemJoinHeyThereHopeYouEnjoyYourStay": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinHeyWelcomeAboard": "Hey, {username}, welcome aboard!",
+    "@systemJoinHeyWelcomeAboard": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinGladYouMadeIt": "Glad you made it, {username}!",
+    "@systemJoinGladYouMadeIt": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeIn": "Welcome in, {username}!",
+    "@systemJoinWelcomeIn": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcome": "Welcome, {username}!",
+    "@systemJoinWelcome": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeWereGladYoureHere": "Welcome, {username}! We're glad you're here.",
+    "@systemJoinWelcomeWereGladYoureHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeHopeYouEnjoyYourTimeHere": "Welcome, {username}! Hope you enjoy your time here.",
+    "@systemJoinWelcomeHopeYouEnjoyYourTimeHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeYourNextConversationStartsHere": "Welcome, {username}! Your next conversation starts here.",
+    "@systemJoinWelcomeYourNextConversationStartsHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinWelcomeWereHappyToHaveYouHere": "Welcome, {username}. We're happy to have you here.",
+    "@systemJoinWelcomeWereHappyToHaveYouHere": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinGreatToSeeYouWelcomeIn": "Great to see you, {username}! Welcome in.",
+    "@systemJoinGreatToSeeYouWelcomeIn": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinYoureHereGoodToHaveYouWithUs": "You're here, {username}! Good to have you with us.",
+    "@systemJoinYoureHereGoodToHaveYouWithUs": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemJoinYouveArrivedLetsGetStarted": "You've arrived, {username}! Let's get started.",
+    "@systemJoinYouveArrivedLetsGetStarted": {
+        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
     "relativeTimeShortNow": "now",
     "@relativeTimeShortNow": {
         "description": "Short-form relative time for events less than a minute ago."
@@ -3314,7 +3630,7 @@
     "@linkedDevicesTitle": {
         "description": "Heading for the Linked Devices settings page."
     },
-    "linkedDevicesDescription": "See all devices that are currently logged into your account. Revoke any sessions that you don't recognize.",
+    "linkedDevicesDescription": "See all devices that are currently logged into your account. Revoke any sessions that you don't recognise.",
     "@linkedDevicesDescription": {
         "description": "Description shown under the Linked Devices heading."
     },
@@ -4120,7 +4436,7 @@
     "@lookAndFeelInterfaceTitle": {
         "description": "Section title for interface customization."
     },
-    "lookAndFeelInterfaceDescription": "Customize interface elements and behaviors.",
+    "lookAndFeelInterfaceDescription": "Customise interface elements and behaviours.",
     "@lookAndFeelInterfaceDescription": {
         "description": "Section description for interface customization."
     },
@@ -4200,7 +4516,7 @@
     "@lookAndFeelShowNekoDescription": {
         "description": "Toggle description for showing Neko in chat."
     },
-    "lookAndFeelVoiceChannelJoinTitle": "Voice channel join behavior",
+    "lookAndFeelVoiceChannelJoinTitle": "Voice channel join behaviour",
     "@lookAndFeelVoiceChannelJoinTitle": {
         "description": "Subsection title under Interface — voice channel join behavior."
     },
@@ -4249,7 +4565,7 @@
     "@lookAndFeelChannelListSectionTitle": {
         "description": "Section title for channel list options."
     },
-    "lookAndFeelChannelListSectionDescription": "Control unread indicator behavior for muted channels in channel lists.",
+    "lookAndFeelChannelListSectionDescription": "Control unread indicator behaviour for muted channels in channel lists.",
     "@lookAndFeelChannelListSectionDescription": {
         "description": "Section description for channel list options."
     },
@@ -4281,7 +4597,7 @@
     "@lookAndFeelFavoritesSectionTitle": {
         "description": "Section title for favorites visibility."
     },
-    "lookAndFeelFavoritesSectionDescription": "Control the visibility of favorites throughout the app.",
+    "lookAndFeelFavoritesSectionDescription": "Control the visibility of favourites throughout the app.",
     "@lookAndFeelFavoritesSectionDescription": {
         "description": "Section description for favorites visibility."
     },
@@ -4289,7 +4605,7 @@
     "@lookAndFeelEnableFavoritesLabel": {
         "description": "Toggle label — enable the Favorites feature."
     },
-    "lookAndFeelEnableFavoritesDescription": "When enabled, you can favorite channels and they'll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.",
+    "lookAndFeelEnableFavoritesDescription": "When enabled, you can favourite channels and they'll appear in the Favorites section. When disabled, all favourite-related UI elements (buttons, menu items) will be hidden. Your existing favourites will be preserved.",
     "@lookAndFeelEnableFavoritesDescription": {
         "description": "Toggle description for the Enable Favorites switch."
     },
@@ -4297,7 +4613,7 @@
     "@favoritesTitle": {
         "description": "Title for the favorites section."
     },
-    "favoritesEmptyTitle": "No favorites yet",
+    "favoritesEmptyTitle": "No favourites yet",
     "@favoritesEmptyTitle": {
         "description": "Empty state title when no channels are favorited."
     },
@@ -4417,7 +4733,7 @@
     "@messagesMediaMediaGroupTitle": {
         "description": "Top-level section title for media settings."
     },
-    "messagesMediaMediaGroupDescription": "Customize media size preferences and buttons.",
+    "messagesMediaMediaGroupDescription": "Customise media size preferences and buttons.",
     "@messagesMediaMediaGroupDescription": {
         "description": "Top-level section description for media settings."
     },
@@ -4425,7 +4741,7 @@
     "@messagesMediaInputGroupTitle": {
         "description": "Top-level section title for message input settings."
     },
-    "messagesMediaInputGroupDescription": "Customize message input settings.",
+    "messagesMediaInputGroupDescription": "Customise message input settings.",
     "@messagesMediaInputGroupDescription": {
         "description": "Top-level section description for message input settings."
     },
@@ -4581,7 +4897,7 @@
     "@messagesMediaSizeComfortableDescription": {
         "description": "Description for the large media size option."
     },
-    "messagesMediaGifsSectionTitle": "GIF Behavior",
+    "messagesMediaGifsSectionTitle": "GIF Behaviour",
     "@messagesMediaGifsSectionTitle": {
         "description": "Section title for GIF behavior."
     },
@@ -4597,7 +4913,7 @@
     "@messagesMediaAutocompleteSectionTitle": {
         "description": "Section title for expression autocomplete settings."
     },
-    "messagesMediaAutocompleteSectionDescription": "Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.",
+    "messagesMediaAutocompleteSectionDescription": "Control what appears in the expression autocomplete when you type colon. Customise what suggestions show up to match your preferences.",
     "@messagesMediaAutocompleteSectionDescription": {
         "description": "Section description for expression autocomplete settings."
     },
@@ -4644,6 +4960,145 @@
     "accessibilityShowFadedUnreadOnMutedChannelsDescription": "Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there's activity.",
     "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
         "description": "Toggle description for showing a faded unread indicator on muted channels."
+    },
+    "accessibilityDmMessagePreviewGroupTitle": "DM message previews",
+    "@accessibilityDmMessagePreviewGroupTitle": {
+        "description": "Section title for DM message preview accessibility settings."
+    },
+    "accessibilityDmMessagePreviewGroupDescription": "Control when message previews are shown in the DM list.",
+    "@accessibilityDmMessagePreviewGroupDescription": {
+        "description": "Section description for DM message preview accessibility settings."
+    },
+    "accessibilityDmMessagePreviewModeLabel": "DM message preview mode",
+    "@accessibilityDmMessagePreviewModeLabel": {
+        "description": "Accessibility label for the DM message preview mode radio group."
+    },
+    "accessibilityDmMessagePreviewAllName": "All messages",
+    "@accessibilityDmMessagePreviewAllName": {
+        "description": "Radio option name for showing DM previews for all conversations."
+    },
+    "accessibilityDmMessagePreviewAllDescription": "Show message previews for all DM conversations",
+    "@accessibilityDmMessagePreviewAllDescription": {
+        "description": "Radio option description for showing DM previews for all conversations."
+    },
+    "accessibilityDmMessagePreviewUnreadOnlyName": "Unread DMs only",
+    "@accessibilityDmMessagePreviewUnreadOnlyName": {
+        "description": "Radio option name for showing DM previews only when unread."
+    },
+    "accessibilityDmMessagePreviewUnreadOnlyDescription": "Only show message previews for DMs with unread messages",
+    "@accessibilityDmMessagePreviewUnreadOnlyDescription": {
+        "description": "Radio option description for showing DM previews only when unread."
+    },
+    "accessibilityDmMessagePreviewNoneName": "None",
+    "@accessibilityDmMessagePreviewNoneName": {
+        "description": "Radio option name for hiding DM message previews."
+    },
+    "accessibilityDmMessagePreviewNoneDescription": "Don't show message previews in the DM list",
+    "@accessibilityDmMessagePreviewNoneDescription": {
+        "description": "Radio option description for hiding DM message previews."
+    },
+    "dmListSentAnAttachment": "Sent an attachment",
+    "@dmListSentAnAttachment": {
+        "description": "DM list row preview text when the most recent message has only attachments."
+    },
+    "systemPreviewPinnedMessage": "{username} pinned a message to this channel.",
+    "@systemPreviewPinnedMessage": {
+        "description": "Plaintext DM list preview for a pin system message.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewAddedToGroup": "{username} added {userName} to the group.",
+    "@systemPreviewAddedToGroup": {
+        "description": "Plaintext DM list preview when a member adds another user to a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewAddedSomeoneToGroup": "{username} added someone to the group.",
+    "@systemPreviewAddedSomeoneToGroup": {
+        "description": "Plaintext DM list preview when a member adds an unresolved user to a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewHasLeftGroup": "{username} has left the group.",
+    "@systemPreviewHasLeftGroup": {
+        "description": "Plaintext DM list preview when a member leaves a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewRemovedFromGroup": "{username} removed {userName} from the group.",
+    "@systemPreviewRemovedFromGroup": {
+        "description": "Plaintext DM list preview when a member removes another user from a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewRemovedSomeoneFromGroup": "{username} removed someone from the group.",
+    "@systemPreviewRemovedSomeoneFromGroup": {
+        "description": "Plaintext DM list preview when a member removes an unresolved user from a group DM.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewChangedChannelNameTo": "{username} changed the channel name to {newName}.",
+    "@systemPreviewChangedChannelNameTo": {
+        "description": "Plaintext DM list preview when a group DM is renamed.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "newName": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewChangedChannelName": "{username} changed the channel name.",
+    "@systemPreviewChangedChannelName": {
+        "description": "Plaintext DM list preview when a group DM is renamed without a known new name.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewChangedChannelIcon": "{username} changed the channel icon.",
+    "@systemPreviewChangedChannelIcon": {
+        "description": "Plaintext DM list preview when a group DM icon changes.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPreviewStartedCall": "{username} started a call.",
+    "@systemPreviewStartedCall": {
+        "description": "Plaintext DM list preview when a call starts.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
     },
     "voiceConnectionConfirmTitle": "Voice Connection Confirmation",
     "@voiceConnectionConfirmTitle": {
@@ -4841,13 +5296,21 @@
     "@voiceWatchStream": {
         "description": "Primary button on a screen-share tile to subscribe to the remote stream."
     },
-    "voiceStopWatching": "Stop Watching",
+    "voiceStopWatching": "Stop watching",
     "@voiceStopWatching": {
         "description": "Control-bar action to unsubscribe from the focused screen-share stream."
     },
     "voiceStopWatchingCurrentStreamTooltip": "Stop watching the current stream",
     "@voiceStopWatchingCurrentStreamTooltip": {
         "description": "Tooltip for the Stop Watching control in the voice bar."
+    },
+    "voiceOwnScreenShareTitle": "You are broadcasting",
+    "@voiceOwnScreenShareTitle": {
+        "description": "Title on the participant's own screen-share tile when they are sharing their screen."
+    },
+    "voiceOwnScreenShareSubtitle": "Your stream is live for participants.",
+    "@voiceOwnScreenShareSubtitle": {
+        "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
     },
     "voiceLiveBadge": "Live",
     "@voiceLiveBadge": {
@@ -5021,15 +5484,52 @@
     "@chatMessageFailedToSend": {
         "description": "Status label shown under a failed outgoing chat message."
     },
-    "chatMessageDeleteFailed": "Delete Failed Message",
+    "chatSendFailureDmRestricted": "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in {settingsPath}.",
+    "@chatSendFailureDmRestricted": {
+        "description": "Fluxerbot system message when a DM cannot be delivered due to privacy restrictions.",
+        "placeholders": {
+            "settingsPath": {
+                "type": "String"
+            }
+        }
+    },
+    "chatSendFailureUnclaimedDm": "Your message could not be delivered. You need to claim your account to send direct messages.",
+    "@chatSendFailureUnclaimedDm": {
+        "description": "Fluxerbot system message when an unclaimed account tries to send a DM."
+    },
+    "chatSendFailureUnclaimedGeneral": "Your message could not be delivered. You need to claim your account to send messages.",
+    "@chatSendFailureUnclaimedGeneral": {
+        "description": "Fluxerbot system message when an unclaimed account tries to send a message."
+    },
+    "chatSendFailureContentBlocked": "Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.",
+    "@chatSendFailureContentBlocked": {
+        "description": "Fluxerbot system message when message content is blocked by safety systems."
+    },
+    "chatSendFailureNsfwEmojiSticker": "Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.",
+    "@chatSendFailureNsfwEmojiSticker": {
+        "description": "Fluxerbot system message when mature emoji or stickers are blocked."
+    },
+    "chatClientSystemOnlyYouCanSee": "Only you can see this message.",
+    "@chatClientSystemOnlyYouCanSee": {
+        "description": "Footer on ephemeral Fluxerbot client system messages."
+    },
+    "chatClientSystemDismiss": "Dismiss",
+    "@chatClientSystemDismiss": {
+        "description": "Action to remove an ephemeral Fluxerbot client system message locally."
+    },
+    "privacyDashboardCommunicationSection": "Communication",
+    "@privacyDashboardCommunicationSection": {
+        "description": "Section title for communication privacy settings in the privacy dashboard."
+    },
+    "chatMessageDeleteFailed": "Delete failed message",
     "@chatMessageDeleteFailed": {
         "description": "Action label for deleting a failed outgoing chat message."
     },
-    "chatMessageAddReaction": "Add Reaction",
+    "chatMessageAddReaction": "Add reaction",
     "@chatMessageAddReaction": {
         "description": "Action label for opening reaction picker for a message."
     },
-    "chatMessageEdit": "Edit Message",
+    "chatMessageEdit": "Edit message",
     "@chatMessageEdit": {
         "description": "Action label for editing a sent message."
     },
@@ -5049,7 +5549,7 @@
     "@forwardSearchHint": {
         "description": "Placeholder for the destination search field in the forward sheet."
     },
-    "forwardDirectMessagesSection": "Direct Messages",
+    "forwardDirectMessagesSection": "Direct messages",
     "@forwardDirectMessagesSection": {
         "description": "Section header for direct-message destinations in the forward sheet."
     },
@@ -5081,7 +5581,7 @@
     "@forwardFailed": {
         "description": "Toast shown when forwarding a message fails."
     },
-    "forwardCommentSlowmodeDisabled": "Comments are unavailable because a selected channel has slowmode enabled.",
+    "forwardCommentSlowmodeDisabled": "Comments are unavailable because a selected channel has slow mode enabled.",
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."
     },
@@ -5105,7 +5605,7 @@
     "@forwardDestinationTimedOut": {
         "description": "Reason shown on a disabled forward destination when the current user is timed out (communication disabled) in the destination guild."
     },
-    "forwardDestinationSlowmodeCoolingDown": "Slowmode - wait {remaining}",
+    "forwardDestinationSlowmodeCoolingDown": "Slow mode - wait {remaining}",
     "@forwardDestinationSlowmodeCoolingDown": {
         "description": "Reason shown on a disabled forward destination currently within its slowmode cool-down window. Preserve {remaining}; it is the formatted MM:SS countdown inserted by code.",
         "placeholders": {
@@ -5114,7 +5614,7 @@
             }
         }
     },
-    "chatMessageCopyText": "Copy Message",
+    "chatMessageCopyText": "Copy message",
     "@chatMessageCopyText": {
         "description": "Action label for copying message text."
     },
@@ -5126,23 +5626,27 @@
     "@chatMessageUnpin": {
         "description": "Action label for unpinning a message."
     },
-    "chatMessageBookmark": "Bookmark Message",
+    "chatMessageUnpinIt": "Unpin it",
+    "@chatMessageUnpinIt": {
+        "description": "Primary button label on the unpin confirmation sheet."
+    },
+    "chatMessageBookmark": "Bookmark message",
     "@chatMessageBookmark": {
         "description": "Action label for bookmarking a message."
     },
-    "chatMessageRemoveBookmark": "Remove Bookmark",
+    "chatMessageRemoveBookmark": "Remove bookmark",
     "@chatMessageRemoveBookmark": {
         "description": "Action label for removing a message bookmark."
     },
-    "chatMessageMarkAsUnread": "Mark as Unread",
+    "chatMessageMarkAsUnread": "Mark as unread",
     "@chatMessageMarkAsUnread": {
         "description": "Action label for marking a message as unread."
     },
-    "chatMessageCopyMessageLink": "Copy Message Link",
+    "chatMessageCopyMessageLink": "Copy message link",
     "@chatMessageCopyMessageLink": {
         "description": "Action label for copying a message's deep link."
     },
-    "chatMessageCopyMessageId": "Copy Message ID",
+    "chatMessageCopyMessageId": "Copy message ID",
     "@chatMessageCopyMessageId": {
         "description": "Action label for copying the message's snowflake ID to the clipboard."
     },
@@ -5154,7 +5658,7 @@
     "@chatMessageRemoveAllReactions": {
         "description": "Danger action label for clearing every reaction from a message; requires MANAGE_MESSAGES."
     },
-    "chatMessageDebug": "Debug Message",
+    "chatMessageDebug": "Debug message",
     "@chatMessageDebug": {
         "description": "Developer-mode action label that opens a JSON viewer for the underlying message data."
     },
@@ -5178,7 +5682,7 @@
     "@chatReactionsSheetEmpty": {
         "description": "Empty state shown in the message reactions sheet when no users have reacted with the currently selected emoji."
     },
-    "chatMessageReport": "Report Message",
+    "chatMessageReport": "Report message",
     "@chatMessageReport": {
         "description": "Action label that opens the report-message sheet so the user can flag the message to moderators."
     },
@@ -5282,7 +5786,7 @@
     "@iarReasonHateLabel": {
         "description": "Rule-reason label for hate speech in the IAR message flow."
     },
-    "iarReasonHateMessageDescription": "Slurs, dehumanizing language, or attacks on protected groups.",
+    "iarReasonHateMessageDescription": "Slurs, dehumanising language, or attacks on protected groups.",
     "@iarReasonHateMessageDescription": {
         "description": "Rule-reason description for hate speech in the IAR message flow."
     },
@@ -5622,11 +6126,19 @@
     },
     "chatReplyOriginalDeleted": "Original message was deleted",
     "@chatReplyOriginalDeleted": {
-        "description": "Placeholder in the inline reply preview when the parent message was deleted."
+        "description": "Label in the channel and chat reply preview. Keep the tone plain and specific."
     },
     "chatReplyOriginalFailedToLoad": "Original message failed to load",
     "@chatReplyOriginalFailedToLoad": {
-        "description": "Placeholder in the inline reply preview when the parent message could not be loaded."
+        "description": "Error message in the channel and chat reply preview."
+    },
+    "chatReplyAttachedMedia": "Message contains attached media",
+    "@chatReplyAttachedMedia": {
+        "description": "Label in the channel and chat reply preview."
+    },
+    "chatMessagesLoadError": "Couldn't load messages.",
+    "@chatMessagesLoadError": {
+        "description": "Shown in the chat message list when the initial message history request fails. The user can retry from the same screen."
     },
     "chatReplyMentionOverrideTitle": "Override mention preference?",
     "@chatReplyMentionOverrideTitle": {
@@ -5696,6 +6208,28 @@
     "@chatMessageEdited": {
         "description": "Message metadata label displayed after edited messages."
     },
+    "chatMessageSilent": "This was a @silent message.",
+    "@chatMessageSilent": {
+        "description": "Tooltip on the bell-slash icon beside a silent message. \"@silent\" is the literal command keyword and must not be translated."
+    },
+    "chatMessageTimestampToday": "Today at {time}",
+    "@chatMessageTimestampToday": {
+        "description": "Inline chat message timestamp when the message was sent today. {time} is locale-formatted.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "chatMessageTimestampYesterday": "Yesterday at {time}",
+    "@chatMessageTimestampYesterday": {
+        "description": "Inline chat message timestamp when the message was sent yesterday. {time} is locale-formatted.",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
     "mediaViewerImagePreview": "Image preview",
     "@mediaViewerImagePreview": {
         "description": "Accessible barrier label for the attachment media viewer dialog."
@@ -5763,6 +6297,10 @@
     "chatAttachmentVideoProgress": "Video progress",
     "@chatAttachmentVideoProgress": {
         "description": "Accessibility label for the seek bar in mobile attachment fullscreen video."
+    },
+    "chatVideoPlaybackFailed": "Could not play this video.",
+    "@chatVideoPlaybackFailed": {
+        "description": "Shown when embedded or attachment video playback fails in the chat player."
     },
     "composerAutocompleteRoleMentionDescription": "Notify users with this role who have permission to view this channel.",
     "@composerAutocompleteRoleMentionDescription": {
@@ -5832,6 +6370,37 @@
     "@chatMessageUnpinConfirmDescription": {
         "description": "Body text for the unpin message confirmation sheet."
     },
+    "systemPinMessage": "{username} pinned {messageLink} to this channel. See {allPinsLink}.",
+    "@systemPinMessage": {
+        "description": "System message when a user pins a message. Keep {username}, {messageLink}, and {allPinsLink} in place; translate the surrounding sentence.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "messageLink": {
+                "type": "String"
+            },
+            "allPinsLink": {
+                "type": "String"
+            }
+        }
+    },
+    "systemPinMessageMessageLink": "a message",
+    "@systemPinMessageMessageLink": {
+        "description": "Link label in the pin system message for jumping to the pinned message."
+    },
+    "systemPinMessageAllPinsLink": "all pinned messages",
+    "@systemPinMessageAllPinsLink": {
+        "description": "Link label in the pin system message for opening all pinned messages."
+    },
+    "channelPinsEmptyTitle": "No pinned messages",
+    "@channelPinsEmptyTitle": {
+        "description": "Title shown when a channel has no pinned messages."
+    },
+    "channelPinsEmptyDescription": "Pinned messages show up here.",
+    "@channelPinsEmptyDescription": {
+        "description": "Description shown when a channel has no pinned messages."
+    },
     "personalNotesTitle": "Personal notes",
     "@personalNotesTitle": {
         "description": "Title for the self-DM personal notes channel in the sidebar and chat header."
@@ -5839,6 +6408,24 @@
     "personalNotesSubtitle": "Your private space for thoughts and reminders",
     "@personalNotesSubtitle": {
         "description": "Subtitle on the personal notes welcome empty state."
+    },
+    "channelWelcomeHeading": "Welcome to {channelName}",
+    "@channelWelcomeHeading": {
+        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelWelcomeDescription": "In the beginning, there was nothing. Then, there was {channelName}. And it was good.",
+    "@channelWelcomeDescription": {
+        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
     },
     "personalNotesComposerHint": "Message yourself",
     "@personalNotesComposerHint": {
@@ -5960,6 +6547,22 @@
     "userSettingsNavAdvanced": "Advanced",
     "@userSettingsNavAdvanced": {
         "description": "User settings navigation item for advanced settings."
+    },
+    "advancedPerformanceReportingTitle": "Performance reporting",
+    "@advancedPerformanceReportingTitle": {
+        "description": "Advanced settings section title for crash and performance reporting."
+    },
+    "advancedPerformanceReportingSectionDescription": "Help improve Fluxer by sharing anonymous crash and performance data.",
+    "@advancedPerformanceReportingSectionDescription": {
+        "description": "Advanced settings section description for crash and performance reporting."
+    },
+    "advancedPerformanceReportingLabel": "Send crash and performance reports",
+    "@advancedPerformanceReportingLabel": {
+        "description": "Toggle label for opting into crash and performance reporting."
+    },
+    "advancedPerformanceReportingDescription": "All reported data is anonymous and is sent only to Fluxer's own monitoring service — no third-party providers are used.",
+    "@advancedPerformanceReportingDescription": {
+        "description": "Toggle description explaining anonymous self-hosted performance reporting."
     },
     "userSettingsNavApplications": "Applications",
     "@userSettingsNavApplications": {
@@ -6141,6 +6744,10 @@
     "@uiClose": {
         "description": "Accessible label for icon-only close buttons."
     },
+    "chatJumpToBottom": "Jump to bottom",
+    "@chatJumpToBottom": {
+        "description": "Accessible label for the chat jump-to-bottom button."
+    },
     "uiConfirm": "Confirm",
     "@uiConfirm": {
         "description": "Generic confirm action label for modals and sheets."
@@ -6157,7 +6764,7 @@
     "@uiReset": {
         "description": "Reset action label for settings save bars."
     },
-    "uiOpenColorPicker": "Open color picker",
+    "uiOpenColorPicker": "Open colour picker",
     "@uiOpenColorPicker": {
         "description": "Accessible label for the color picker trigger button."
     },
@@ -6177,248 +6784,9 @@
     "@uiDismissNotification": {
         "description": "Accessible label for dismissing a toast notification."
     },
-    "uiColorPickerTitle": "Color picker",
+    "uiColorPickerTitle": "Colour picker",
     "@uiColorPickerTitle": {
         "description": "Title for the mobile color picker sheet."
-    },
-    "voiceOwnScreenShareTitle": "You are broadcasting",
-    "@voiceOwnScreenShareTitle": {
-        "description": "Title on the participant's own screen-share tile when they are sharing their screen."
-    },
-    "voiceOwnScreenShareSubtitle": "Your stream is live for participants.",
-    "@voiceOwnScreenShareSubtitle": {
-        "description": "Subtitle on the participant's own screen-share tile confirming the stream is live."
-    },
-    "chatMessagesLoadError": "Couldn't load messages.",
-    "@chatMessagesLoadError": {
-        "description": "Shown in the chat message list when the initial message history request fails. The user can retry from the same screen."
-    },
-    "chatMessageTimestampToday": "Today at {time}",
-    "@chatMessageTimestampToday": {
-        "description": "Inline chat message timestamp when the message was sent today. {time} is locale-formatted.",
-        "placeholders": {
-            "time": {
-                "type": "String"
-            }
-        }
-    },
-    "chatMessageTimestampYesterday": "Yesterday at {time}",
-    "@chatMessageTimestampYesterday": {
-        "description": "Inline chat message timestamp when the message was sent yesterday. {time} is locale-formatted.",
-        "placeholders": {
-            "time": {
-                "type": "String"
-            }
-        }
-    },
-    "channelWelcomeHeading": "Welcome to {channelName}",
-    "@channelWelcomeHeading": {
-        "description": "Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
-    },
-    "channelWelcomeDescription": "In the beginning, there was nothing. Then, there was {channelName}. And it was good.",
-    "@channelWelcomeDescription": {
-        "description": "Whimsical body text on the start-of-channel welcome. {channelName} already includes the leading # (e.g. #general).",
-        "placeholders": {
-            "channelName": {
-                "type": "String"
-            }
-        }
-    },
-    "ipAuthLinkExpired": "Sign-in link expired",
-    "@ipAuthLinkExpired": {
-        "description": "Title shown when the IP authorization ticket has expired and the user must sign in again."
-    },
-    "ipAuthLinkExpiredDescription": "This authorization link expired. Please sign in again.",
-    "@ipAuthLinkExpiredDescription": {
-        "description": "Body shown when the IP authorization ticket has expired."
-    },
-    "errorInvalidEmailOrPassword": "Invalid email or password.",
-    "@errorInvalidEmailOrPassword": {
-        "description": "Error shown on the login screen when the email and password combination is incorrect."
-    },
-    "notificationUnmuteChannel": "Unmute Channel",
-    "@notificationUnmuteChannel": {
-        "description": "Action label for unmuting a channel from the context menu."
-    },
-    "userProfilePlutoniumSubscriberSinceTooltip": "Fluxer Plutonium subscriber since {date}",
-    "@userProfilePlutoniumSubscriberSinceTooltip": {
-        "description": "Badge label with a date in the user profile badges popout. Preserve {date}; it is inserted by code. In English, keep \"subscriber since\" lowercase. Other locales should use natural local capitalization.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "userProfileVisionaryBadgeTooltip": "Fluxer Visionary",
-    "@userProfileVisionaryBadgeTooltip": {
-        "description": "Short badge title in the user profile badges popout. English locales use Title Case for official badge titles; other locales should use natural local capitalization."
-    },
-    "userProfileVisionaryBadgeSinceTooltip": "Fluxer Visionary since {date}",
-    "@userProfileVisionaryBadgeSinceTooltip": {
-        "description": "Badge title with a date in the user profile badges popout. Preserve {date}; it is inserted by code. English locales use Title Case for the badge title part; other locales should use natural local capitalization.",
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinGladYoureHere": "Glad you're here, {username}!",
-    "@systemJoinGladYoureHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeMakeYourselfAtHome": "Welcome, {username}! Make yourself at home.",
-    "@systemJoinWelcomeMakeYourselfAtHome": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHelloNiceToHaveYouHere": "Hello, {username}! Nice to have you here.",
-    "@systemJoinHelloNiceToHaveYouHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHelloJumpInWheneverYoureReady": "Hello, {username}! Jump in whenever you're ready.",
-    "@systemJoinHelloJumpInWheneverYoureReady": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHeyGreatToSeeYouHere": "Hey {username}, great to see you here!",
-    "@systemJoinHeyGreatToSeeYouHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHeyThereHopeYouEnjoyYourStay": "Hey there, {username}! Hope you enjoy your stay.",
-    "@systemJoinHeyThereHopeYouEnjoyYourStay": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinHeyWelcomeAboard": "Hey, {username}, welcome aboard!",
-    "@systemJoinHeyWelcomeAboard": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinGladYouMadeIt": "Glad you made it, {username}!",
-    "@systemJoinGladYouMadeIt": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeIn": "Welcome in, {username}!",
-    "@systemJoinWelcomeIn": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcome": "Welcome, {username}!",
-    "@systemJoinWelcome": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeWereGladYoureHere": "Welcome, {username}! We're glad you're here.",
-    "@systemJoinWelcomeWereGladYoureHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeHopeYouEnjoyYourTimeHere": "Welcome, {username}! Hope you enjoy your time here.",
-    "@systemJoinWelcomeHopeYouEnjoyYourTimeHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeYourNextConversationStartsHere": "Welcome, {username}! Your next conversation starts here.",
-    "@systemJoinWelcomeYourNextConversationStartsHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinWelcomeWereHappyToHaveYouHere": "Welcome, {username}. We're happy to have you here.",
-    "@systemJoinWelcomeWereHappyToHaveYouHere": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinGreatToSeeYouWelcomeIn": "Great to see you, {username}! Welcome in.",
-    "@systemJoinGreatToSeeYouWelcomeIn": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinYoureHereGoodToHaveYouWithUs": "You're here, {username}! Good to have you with us.",
-    "@systemJoinYoureHereGoodToHaveYouWithUs": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
-    },
-    "systemJoinYouveArrivedLetsGetStarted": "You've arrived, {username}! Let's get started.",
-    "@systemJoinYouveArrivedLetsGetStarted": {
-        "description": "Randomly selected welcome message that appears as a system message when a user joins a community. Plural placeholder is the new member username. Tone is friendly and warm; keep variety across these strings..",
-        "placeholders": {
-            "username": {
-                "type": "String"
-            }
-        }
     },
     "mentionConfirmTitle": "Mention everyone?",
     "@mentionConfirmTitle": {
@@ -6503,56 +6871,6 @@
     "@instanceConnectionRequired": {
         "description": "Hint shown when login is blocked until instance discovery succeeds."
     },
-    "continueWithSso": "Continue with {provider}",
-    "@continueWithSso": {
-        "description": "Button label that starts single sign-on.",
-        "placeholders": {
-            "provider": {
-                "type": "String"
-            }
-        }
-    },
-    "ssoRequired": "SSO is required to access this instance.",
-    "@ssoRequired": {
-        "description": "Short sign-in note shown when the instance requires single sign-on."
-    },
-    "organizationSsoProvider": "Sign in with your organization's single sign-on provider.",
-    "@organizationSsoProvider": {
-        "description": "Description shown when sign-in is restricted to the configured SSO provider."
-    },
-    "failedToStartSso": "Failed to start SSO",
-    "@failedToStartSso": {
-        "description": "Login flow error shown when the single sign-on redirect cannot be started."
-    },
-    "ssoCancelled": "SSO login was cancelled",
-    "@ssoCancelled": {
-        "description": "Shown when the user cancels the single sign-on browser flow."
-    },
-    "preferSso": "Prefer using SSO? Continue with {provider}.",
-    "@preferSso": {
-        "description": "Optional sign-in note when SSO is available but not required.",
-        "placeholders": {
-            "provider": {
-                "type": "String"
-            }
-        }
-    },
-    "advancedPerformanceReportingTitle": "Performance reporting",
-    "@advancedPerformanceReportingTitle": {
-        "description": "Advanced settings section title for crash and performance reporting."
-    },
-    "advancedPerformanceReportingSectionDescription": "Help improve Fluxer by sharing anonymous crash and performance data.",
-    "@advancedPerformanceReportingSectionDescription": {
-        "description": "Advanced settings section description for crash and performance reporting."
-    },
-    "advancedPerformanceReportingLabel": "Send crash and performance reports",
-    "@advancedPerformanceReportingLabel": {
-        "description": "Toggle label for opting into crash and performance reporting."
-    },
-    "advancedPerformanceReportingDescription": "All reported data is anonymous and is sent only to Fluxer's own monitoring service — no third-party providers are used.",
-    "@advancedPerformanceReportingDescription": {
-        "description": "Toggle description explaining anonymous self-hosted performance reporting."
-    },
     "comingSoon": "Coming soon",
     "@comingSoon": {
         "description": "Generic toast when a feature is not yet available."
@@ -6565,6 +6883,161 @@
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
+    "discoveryExplore": "Explore",
+    "@discoveryExplore": {
+        "description": "Short label in the discovery page header."
+    },
+    "discoveryExplorePublicCommunities": "Explore public communities",
+    "@discoveryExplorePublicCommunities": {
+        "description": "Main heading on the Discovery page."
+    },
+    "discoveryListingSubheading": "Want to list your community on here? Apply if you meet the requirements in your community's settings > Discovery.",
+    "@discoveryListingSubheading": {
+        "description": "Subheading on the Discovery page explaining how to apply for listing."
+    },
+    "discoverySearchCommunities": "Search communities",
+    "@discoverySearchCommunities": {
+        "description": "Accessible label and placeholder for the community search field."
+    },
+    "discoveryFilterByLanguage": "Filter by language",
+    "@discoveryFilterByLanguage": {
+        "description": "Label for the language filter on the discovery page."
+    },
+    "discoveryAllLanguages": "All languages",
+    "@discoveryAllLanguages": {
+        "description": "Option label for showing communities in all languages."
+    },
+    "discoveryAllCategories": "All",
+    "@discoveryAllCategories": {
+        "description": "Label for the all-categories tab on the discovery page."
+    },
+    "discoveryCategoryGaming": "Gaming",
+    "@discoveryCategoryGaming": {
+        "description": "Discovery category label for gaming communities."
+    },
+    "discoveryCategoryMusic": "Music",
+    "@discoveryCategoryMusic": {
+        "description": "Discovery category label for music communities."
+    },
+    "discoveryCategoryEntertainment": "Entertainment",
+    "@discoveryCategoryEntertainment": {
+        "description": "Discovery category label for entertainment communities."
+    },
+    "discoveryCategoryEducation": "Education",
+    "@discoveryCategoryEducation": {
+        "description": "Discovery category label for education communities."
+    },
+    "discoveryCategoryScienceAndTechnology": "Science & Technology",
+    "@discoveryCategoryScienceAndTechnology": {
+        "description": "Discovery category label for science and technology communities."
+    },
+    "discoveryCategoryContentCreator": "Content Creator",
+    "@discoveryCategoryContentCreator": {
+        "description": "Discovery category label for content creator communities."
+    },
+    "discoveryCategoryAnimeAndManga": "Anime & Manga",
+    "@discoveryCategoryAnimeAndManga": {
+        "description": "Discovery category label for anime and manga communities."
+    },
+    "discoveryCategoryMoviesAndTv": "Movies & TV",
+    "@discoveryCategoryMoviesAndTv": {
+        "description": "Discovery category label for movies and TV communities."
+    },
+    "discoveryCategoryOther": "Other",
+    "@discoveryCategoryOther": {
+        "description": "Discovery category label for communities that do not fit other categories."
+    },
+    "discoveryNoCommunitiesMatch": "No communities match.",
+    "@discoveryNoCommunitiesMatch": {
+        "description": "Empty-state text when no discovery communities match the filters."
+    },
+    "discoveryJoinCommunity": "Join community",
+    "@discoveryJoinCommunity": {
+        "description": "Button label to join a discovery community."
+    },
+    "discoveryJoined": "Joined",
+    "@discoveryJoined": {
+        "description": "Button label when the user is already in a discovery community."
+    },
+    "discoveryOnlineCount": "{count} online",
+    "@discoveryOnlineCount": {
+        "description": "Online member count on a discovery guild card.",
+        "placeholders": {
+            "count": {
+                "type": "String"
+            }
+        }
+    },
+    "discoveryMemberCount": "{count, plural, one{1 member} other{{count} members}}",
+    "@discoveryMemberCount": {
+        "description": "Member count on a discovery guild card.",
+        "placeholders": {
+            "count": {
+                "type": "num",
+                "format": "decimalPattern"
+            }
+        }
+    },
+    "discoveryNoDescription": "No description.",
+    "@discoveryNoDescription": {
+        "description": "Fallback text when a discovery guild has no description."
+    },
+    "discoveryCommunities": "Communities",
+    "@discoveryCommunities": {
+        "description": "Discovery sidebar section label for communities."
+    },
+    "discoveryApps": "Apps",
+    "@discoveryApps": {
+        "description": "Discovery sidebar section label for apps."
+    },
+    "discoveryJoinErrorGenericTitle": "Couldn't join this community",
+    "@discoveryJoinErrorGenericTitle": {
+        "description": "Title of the generic join error dialog on the discovery page."
+    },
+    "discoveryJoinErrorGenericMessage": "Something went wrong. Please try again in a moment.",
+    "@discoveryJoinErrorGenericMessage": {
+        "description": "Body of the generic join error dialog on the discovery page."
+    },
+    "discoveryJoinErrorFullTitle": "This community is full",
+    "@discoveryJoinErrorFullTitle": {
+        "description": "Title when a discovery community has reached its member limit."
+    },
+    "discoveryJoinErrorFullMessage": "This community has reached its member limit, so you can't join right now.",
+    "@discoveryJoinErrorFullMessage": {
+        "description": "Body when a discovery community has reached its member limit."
+    },
+    "discoveryJoinErrorMaxGuildsTitle": "You've reached the community limit",
+    "@discoveryJoinErrorMaxGuildsTitle": {
+        "description": "Title when the user is in the maximum number of communities."
+    },
+    "discoveryJoinErrorMaxGuildsMessage": "You're in the maximum number of communities. Leave one and try again.",
+    "@discoveryJoinErrorMaxGuildsMessage": {
+        "description": "Body when the user is in the maximum number of communities."
+    },
+    "discoveryJoinErrorBannedTitle": "You can't join this community",
+    "@discoveryJoinErrorBannedTitle": {
+        "description": "Title when the user is banned from a discovery community."
+    },
+    "discoveryJoinErrorBannedMessage": "You have been banned from this community.",
+    "@discoveryJoinErrorBannedMessage": {
+        "description": "Body when the user is banned from a discovery community."
+    },
+    "discoveryJoinErrorNotAvailableTitle": "This community is no longer available",
+    "@discoveryJoinErrorNotAvailableTitle": {
+        "description": "Title when a discovery community is no longer joinable."
+    },
+    "discoveryJoinErrorNotAvailableMessage": "It may have left discovery or turned off new joins. Refresh the page and you won't see it again.",
+    "@discoveryJoinErrorNotAvailableMessage": {
+        "description": "Body when a discovery community is no longer joinable."
+    },
+    "discoveryJoinErrorRateLimitTitle": "You're going too fast",
+    "@discoveryJoinErrorRateLimitTitle": {
+        "description": "Title when joining a discovery community is rate limited."
+    },
+    "discoveryJoinErrorRateLimitMessage": "Please wait a moment and try again.",
+    "@discoveryJoinErrorRateLimitMessage": {
+        "description": "Body when joining a discovery community is rate limited."
+    },
     "guildNavbarAddCommunity": "Add a Community",
     "@guildNavbarAddCommunity": {
         "description": "Label for the add community button in the guild navbar."
@@ -6572,6 +7045,14 @@
     "guildNavbarHelp": "Help",
     "@guildNavbarHelp": {
         "description": "Label for the help button in the guild navbar."
+    },
+    "scrollIndicatorNew": "NEW",
+    "@scrollIndicatorNew": {
+        "description": "Scroll pill shown when unread guilds are off-screen in the guild navbar."
+    },
+    "scrollIndicatorNewMessage": "NEW MESSAGE",
+    "@scrollIndicatorNewMessage": {
+        "description": "Scroll pill shown when unread channels are off-screen in the channel sidebar."
     },
     "guildNavbarCollapseFolder": "Collapse {folderName}",
     "@guildNavbarCollapseFolder": {
@@ -6856,6 +7337,10 @@
     "@guildMenuMarkAsRead": {
         "description": "Guild menu action to mark all channels as read."
     },
+    "guildPeekMoreOptions": "More Options",
+    "@guildPeekMoreOptions": {
+        "description": "Guild peek menu action to open the full guild options sheet."
+    },
     "guildMenuInviteMembers": "Invite Members",
     "@guildMenuInviteMembers": {
         "description": "Guild menu action to open the invite members flow."
@@ -6921,7 +7406,7 @@
     "@guildMenuSettingsSafetyModeration": {
         "description": "Community settings tab for safety and moderation."
     },
-    "guildMenuSettingsActivityLog": "Activity Log",
+    "guildMenuSettingsActivityLog": "Activity log",
     "@guildMenuSettingsActivityLog": {
         "description": "Community settings tab for the activity log."
     },
@@ -6948,18 +7433,6 @@
     "guildMenuSettingsBans": "Bans",
     "@guildMenuSettingsBans": {
         "description": "Community settings tab for banned members."
-    },
-    "chatReplyAttachedMedia": "Message contains attached media",
-    "@chatReplyAttachedMedia": {
-        "description": "Label in the channel and chat reply preview."
-    },
-    "chatMessageSilent": "This was a @silent message.",
-    "@chatMessageSilent": {
-        "description": "Tooltip on the bell-slash icon beside a silent message. \"@silent\" is the literal command keyword and must not be translated."
-    },
-    "chatJumpToBottom": "Jump to bottom",
-    "@chatJumpToBottom": {
-        "description": "Accessible label for the chat jump-to-bottom button."
     },
     "guildSettingsNoPermission": "You do not have permission to view this settings tab.",
     "@guildSettingsNoPermission": {
@@ -7062,7 +7535,7 @@
     "@guildSettingsModerationMatureTitle": {
         "description": "Title for mature content settings."
     },
-    "guildSettingsModerationMatureSectionDescription": "Configure mature content labeling and optional content warnings for members.",
+    "guildSettingsModerationMatureSectionDescription": "Configure mature content labelling and optional content warnings for members.",
     "@guildSettingsModerationMatureSectionDescription": {
         "description": "Section description for mature content and content warning settings."
     },
@@ -8259,9 +8732,67 @@
             }
         }
     },
+    "guildSettingsBanExpiresLabel": "Expires",
+    "@guildSettingsBanExpiresLabel": {
+        "description": "Label for ban expiration row."
+    },
     "guildSettingsUnban": "Unban",
     "@guildSettingsUnban": {
         "description": "Button to unban a user."
+    },
+    "guildSettingsBansLoading": "Loading banned users",
+    "@guildSettingsBansLoading": {
+        "description": "Loading state for the guild bans list."
+    },
+    "guildSettingsBansNoSearchResults": "No bans found matching your search.",
+    "@guildSettingsBansNoSearchResults": {
+        "description": "Empty state when ban search has no matches."
+    },
+    "guildSettingsBanDetailsTitle": "Ban details",
+    "@guildSettingsBanDetailsTitle": {
+        "description": "Title for the ban details modal."
+    },
+    "guildSettingsBanViewDetails": "View details",
+    "@guildSettingsBanViewDetails": {
+        "description": "Menu action to open ban details."
+    },
+    "guildSettingsBannedOn": "Banned on",
+    "@guildSettingsBannedOn": {
+        "description": "Label for when a user was banned."
+    },
+    "guildSettingsBannedBy": "Banned by",
+    "@guildSettingsBannedBy": {
+        "description": "Label for who issued the ban."
+    },
+    "guildSettingsRevokeBanTitle": "Revoke ban",
+    "@guildSettingsRevokeBanTitle": {
+        "description": "Title for the revoke ban confirmation."
+    },
+    "guildSettingsRevokeBanDescription": "Are you sure you want to revoke the ban for {displayName}? They will be able to rejoin the community.",
+    "@guildSettingsRevokeBanDescription": {
+        "description": "Confirmation message when revoking a ban.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRevokeBanSuccess": "Revoked ban for {displayName}",
+    "@guildSettingsRevokeBanSuccess": {
+        "description": "Toast shown after successfully revoking a ban.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsBansLoadError": "Couldn't load bans. Try again.",
+    "@guildSettingsBansLoadError": {
+        "description": "Error when loading the guild bans list fails."
+    },
+    "guildSettingsRevokeBanError": "Couldn't revoke ban. Try again.",
+    "@guildSettingsRevokeBanError": {
+        "description": "Error when revoking a ban fails."
     },
     "guildSettingsCommunitySettings": "Community Settings",
     "@guildSettingsCommunitySettings": {

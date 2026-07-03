@@ -23,6 +23,7 @@ import 'package:fluxer_app/features/channels/providers/guild_collapsed_categorie
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -372,6 +373,61 @@ void main() {
     });
   });
 
+  group('GuildSidebar scroll indicator', () {
+    testWidgets('shows NEW MESSAGE when unread channel is off-screen below', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(390, 220);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      const String unreadChannelId = 'c20';
+      final List<Channel> channels = List<Channel>.generate(
+        20,
+        (int index) => _channel('c${index + 1}', 'channel-${index + 1}'),
+      );
+      final Map<String, UnreadState> unread = <String, UnreadState>{
+        for (int index = 1; index <= 20; index++)
+          'c$index': index == 20
+              ? const UnreadState(hasUnread: true, hasUnreadMessages: true)
+              : const UnreadState(),
+      };
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: ChannelListState(
+              guild: const Guild(id: _guildId, name: 'Test Guild'),
+              categories: [
+                ChannelCategory(
+                  id: 'cat1',
+                  name: 'My Category',
+                  channels: channels,
+                ),
+              ],
+              selectedChannelId: 'c1',
+            ),
+            selectedChannelId: 'c1',
+            unread: unread,
+            guildReadState: {
+              _guildId: GuildReadStateEntry.empty.copyWith(hasUnread: true),
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Finder indicator = find.text('NEW MESSAGE');
+      expect(indicator, findsNWidgets(2));
+
+      await tester.tap(indicator.last);
+      await tester.pump(const Duration(milliseconds: 250));
+      await tester.pump(const Duration(milliseconds: 250));
+
+      expect(find.text('channel-20'), findsOneWidget);
+    });
+  });
+
   group('GuildSidebar voice session isolation', () {
     testWidgets(
       'keeps text channels visible when voice session is connecting',
@@ -485,6 +541,7 @@ List<Override> _buildOverrides({
   Set<String> muted = const {},
   bool hideMuted = false,
   Map<String, UnreadState> unread = const {},
+  Map<String, GuildReadStateEntry> guildReadState = const {},
   Map<String, int> permissionBits = const {},
   Map<String, int?> sidebarConnectBits = const {},
   bool developerMode = false,
@@ -531,6 +588,7 @@ List<Override> _buildOverrides({
       channelUnreadProvider(
         entry.key,
       ).overrideWith((ref) => Stream.value(entry.value)),
+    guildReadStateProvider.overrideWithValue(guildReadState),
   ];
 }
 

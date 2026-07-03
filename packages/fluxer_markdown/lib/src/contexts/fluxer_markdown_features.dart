@@ -12,6 +12,7 @@ class FluxerMarkdownFeatures {
     required this.allowHeadings,
     required this.allowJumboEmoji,
     required this.allowLists,
+    required this.allowPlainInlineCode,
     required this.allowRoleMentions,
     required this.allowSubtext,
     required this.allowTables,
@@ -29,6 +30,7 @@ class FluxerMarkdownFeatures {
         allowHeadings: true,
         allowJumboEmoji: true,
         allowLists: true,
+        allowPlainInlineCode: false,
         allowRoleMentions: true,
         allowSubtext: true,
         allowTables: true,
@@ -44,6 +46,7 @@ class FluxerMarkdownFeatures {
           allowHeadings: false,
           allowJumboEmoji: false,
           allowLists: false,
+          allowPlainInlineCode: true,
           allowRoleMentions: true,
           allowSubtext: false,
           allowTables: false,
@@ -58,6 +61,7 @@ class FluxerMarkdownFeatures {
         allowHeadings: false,
         allowJumboEmoji: false,
         allowLists: true,
+        allowPlainInlineCode: false,
         allowRoleMentions: false,
         allowSubtext: false,
         allowTables: false,
@@ -73,6 +77,7 @@ class FluxerMarkdownFeatures {
           allowHeadings: false,
           allowJumboEmoji: false,
           allowLists: true,
+          allowPlainInlineCode: false,
           allowRoleMentions: true,
           allowSubtext: true,
           allowTables: false,
@@ -88,6 +93,7 @@ class FluxerMarkdownFeatures {
           allowHeadings: true,
           allowJumboEmoji: false,
           allowLists: true,
+          allowPlainInlineCode: false,
           allowRoleMentions: true,
           allowSubtext: true,
           allowTables: true,
@@ -104,6 +110,7 @@ class FluxerMarkdownFeatures {
   final bool allowHeadings;
   final bool allowJumboEmoji;
   final bool allowLists;
+  final bool allowPlainInlineCode;
   final bool allowRoleMentions;
   final bool allowSubtext;
   final bool allowTables;
@@ -120,6 +127,7 @@ class FluxerMarkdownFeatures {
       other.allowHeadings == allowHeadings &&
       other.allowJumboEmoji == allowJumboEmoji &&
       other.allowLists == allowLists &&
+      other.allowPlainInlineCode == allowPlainInlineCode &&
       other.allowRoleMentions == allowRoleMentions &&
       other.allowSubtext == allowSubtext &&
       other.allowTables == allowTables &&
@@ -135,6 +143,7 @@ class FluxerMarkdownFeatures {
     allowHeadings,
     allowJumboEmoji,
     allowLists,
+    allowPlainInlineCode,
     allowRoleMentions,
     allowSubtext,
     allowTables,

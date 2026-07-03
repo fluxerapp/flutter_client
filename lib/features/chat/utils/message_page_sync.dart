@@ -15,6 +15,9 @@ bool shouldPreserveLocalMessage({
   required String newestNetworkId,
   required String? syncBaselineOldestId,
 }) {
+  if (message.isClientSystemMessage) {
+    return true;
+  }
   if (message.deliveryState == MessageDeliveryState.sending ||
       message.deliveryState == MessageDeliveryState.failed) {
     return true;

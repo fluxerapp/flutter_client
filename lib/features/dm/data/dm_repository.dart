@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -90,6 +91,14 @@ class DmRepository {
       allRecipientIds.addAll(ids);
     }
     allRecipientIds.addAll(lastMessages.values.map((m) => m.authorId));
+    for (final db.Message message in lastMessages.values) {
+      final String? mentionedUserId = DmConversation.mentionedUserIdFromMessage(
+        message,
+      );
+      if (mentionedUserId != null && mentionedUserId.isNotEmpty) {
+        allRecipientIds.add(mentionedUserId);
+      }
+    }
 
     final users = await _db.userDao.getUsersByIds(allRecipientIds.toList());
     final userMap = {for (final u in users) u.id: u};
@@ -114,6 +123,9 @@ class DmRepository {
         userMap[row.recipientId],
         cachedLastMessage: lastMsg,
         lastMessageAuthor: lastMsg != null ? userMap[lastMsg.authorId] : null,
+        lastMessageMentionedUser: lastMsg == null
+            ? null
+            : userMap[DmConversation.mentionedUserIdFromMessage(lastMsg)],
         groupStatus: isGroup
             ? _computeGroupStatus(recipientIds, userMap)
             : null,
@@ -256,10 +268,45 @@ class DmRepository {
 
   Future<void> pinDm(String channelId) async {
     await _client.users.pinDirectMessageChannel(channelId: channelId);
+    await _pinDmLocally(channelId);
   }
 
   Future<void> unpinDm(String channelId) async {
     await _client.users.unpinDirectMessageChannel(channelId: channelId);
+    await _unpinDmLocally(channelId);
+  }
+
+  Future<void> _pinDmLocally(String channelId) async {
+    final List<String> pinnedIds = (await _db.pinnedDmsDao.getPinnedDms())
+        .map((db.PinnedDmsTableData row) => row.channelId)
+        .toList();
+    if (pinnedIds.contains(channelId)) {
+      return;
+    }
+    pinnedIds.add(channelId);
+    await _replacePinnedDms(pinnedIds);
+  }
+
+  Future<void> _unpinDmLocally(String channelId) async {
+    final List<String> pinnedIds = (await _db.pinnedDmsDao.getPinnedDms())
+        .map((db.PinnedDmsTableData row) => row.channelId)
+        .where((String id) => id != channelId)
+        .toList();
+    await _replacePinnedDms(pinnedIds);
+  }
+
+  Future<void> _replacePinnedDms(List<String> channelIds) async {
+    final List<db.PinnedDmsTableCompanion> companions =
+        <db.PinnedDmsTableCompanion>[];
+    for (var i = 0; i < channelIds.length; i++) {
+      companions.add(
+        db.PinnedDmsTableCompanion(
+          channelId: Value(channelIds[i]),
+          position: Value(i),
+        ),
+      );
+    }
+    await _db.pinnedDmsDao.replaceAll(companions);
   }
 
   Future<void> muteDm(String channelId, {int? durationSeconds}) {

@@ -12,9 +12,12 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/domain/dm_list_message_preview.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
@@ -25,6 +28,7 @@ import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -47,6 +51,8 @@ void main() {
                 recipientId: '200',
                 recipientName: 'Monty',
                 lastMessage: 'Hi there',
+                lastMessageAuthorId: '200',
+                lastMessageAuthorName: 'Monty',
                 lastMessageTime: _recentTime(),
               ),
             ],
@@ -91,6 +97,8 @@ void main() {
                 recipientId: '200',
                 recipientName: 'Pinned Chat',
                 lastMessage: 'Latest message',
+                lastMessageAuthorId: '200',
+                lastMessageAuthorName: 'Pinned Chat',
                 lastMessageTime: _recentTime(),
               ),
             ],
@@ -188,7 +196,8 @@ void main() {
       (tester) async {
         _setMobileSurface(tester);
 
-        final presence = StreamController<Map<String, String>>.broadcast();
+        final presence =
+            StreamController<Map<String, DmListRecipientRowData>>.broadcast();
         addTearDown(presence.close);
 
         await tester.pumpWidget(
@@ -201,6 +210,8 @@ void main() {
                   recipientId: '200',
                   recipientName: 'Alice',
                   lastMessage: 'hey',
+                  lastMessageAuthorId: '200',
+                  lastMessageAuthorName: 'Alice',
                   lastMessageTime: _recentTime(),
                 ),
                 DmConversation(
@@ -209,15 +220,20 @@ void main() {
                   recipientId: '201',
                   recipientName: 'Bob',
                   lastMessage: 'yo',
+                  lastMessageAuthorId: '201',
+                  lastMessageAuthorName: 'Bob',
                   lastMessageTime: _recentTime(),
                 ),
               ],
-              presence: presence.stream,
+              recipientRows: presence.stream,
             ),
           ),
         );
 
-        presence.add(const {'200': 'online', '201': 'online'});
+        presence.add(const {
+          '200': DmListRecipientRowData(status: 'online'),
+          '201': DmListRecipientRowData(status: 'online'),
+        });
         await tester.pumpAndSettle();
 
         FluxerAvatar avatarFor(String name) => tester.widget<FluxerAvatar>(
@@ -237,7 +253,10 @@ void main() {
         final aliceNameBefore = tester.widget<Text>(find.text('Alice'));
         final bobNameBefore = tester.widget<Text>(find.text('Bob'));
 
-        presence.add(const {'200': 'offline', '201': 'online'});
+        presence.add(const {
+          '200': DmListRecipientRowData(status: 'offline'),
+          '201': DmListRecipientRowData(status: 'online'),
+        });
         await tester.pumpAndSettle();
 
         // Correctness: only Alice's avatar status flipped.
@@ -256,6 +275,167 @@ void main() {
         );
       },
     );
+  });
+
+  group('DMList preview', () {
+    testWidgets('renders markdown preview inside IgnorePointer', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            dmMessagePreviewMode: DmMessagePreviewMode.all,
+            conversations: [
+              DmConversation(
+                id: '100',
+                type: 1,
+                recipientId: '200',
+                recipientName: 'Monty',
+                lastMessage: '**Hi there**',
+                lastMessageAuthorId: '200',
+                lastMessageAuthorName: 'Monty',
+                lastMessageTime: _recentTime(),
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MessageMarkdown), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(IgnorePointer),
+          matching: find.byType(MessageMarkdown),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('hides preview when mode is none and shows custom status', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            dmMessagePreviewMode: DmMessagePreviewMode.none,
+            recipientRows: Stream.value(const {
+              '200': DmListRecipientRowData(
+                status: 'online',
+                customStatus: '{"text":"Playing games","emoji_animated":false}',
+              ),
+            }),
+            conversations: [
+              DmConversation(
+                id: '100',
+                type: 1,
+                recipientId: '200',
+                recipientName: 'Monty',
+                lastMessage: 'Hi there',
+                lastMessageAuthorId: '200',
+                lastMessageAuthorName: 'Monty',
+                lastMessageTime: _recentTime(),
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MessageMarkdown), findsNothing);
+      expect(find.text('Playing games'), findsOneWidget);
+    });
+
+    testWidgets('shows preview for unread-only when conversation is unread', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            dmMessagePreviewMode: DmMessagePreviewMode.unreadOnly,
+            conversations: [
+              DmConversation(
+                id: '100',
+                type: 1,
+                recipientId: '200',
+                recipientName: 'Monty',
+                lastMessage: 'Unread preview',
+                lastMessageAuthorId: '200',
+                lastMessageAuthorName: 'Monty',
+                lastMessageTime: _recentTime(),
+                unreadCount: 2,
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MessageMarkdown), findsOneWidget);
+    });
+
+    testWidgets('shows attachment fallback text', (tester) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            dmMessagePreviewMode: DmMessagePreviewMode.all,
+            conversations: [
+              DmConversation(
+                id: '100',
+                type: 1,
+                recipientId: '200',
+                recipientName: 'Monty',
+                lastMessage: '',
+                lastMessageAuthorId: '200',
+                lastMessageAuthorName: 'Monty',
+                lastMessageHasAttachments: true,
+                lastMessageTime: _recentTime(),
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('Sent an attachment'), findsOneWidget);
+    });
+
+    testWidgets('shows system message plaintext for calls', (tester) async {
+      _setMobileSurface(tester);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            dmMessagePreviewMode: DmMessagePreviewMode.all,
+            conversations: [
+              DmConversation(
+                id: '100',
+                type: 1,
+                recipientId: '200',
+                recipientName: 'Monty',
+                lastMessage: 'ignored raw content',
+                lastMessageType: messageTypeCall,
+                lastMessageAuthorId: '200',
+                lastMessageAuthorName: 'Monty',
+                lastMessageTime: _recentTime(),
+              ),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('Monty started a call'), findsOneWidget);
+      expect(find.textContaining('ignored raw content'), findsNothing);
+    });
   });
 }
 
@@ -279,14 +459,20 @@ List<Override> _buildOverrides({
   List<Friend> friendsList = const [],
   Set<String> pinnedIds = const <String>{},
   List<String> pinnedOrder = const <String>[],
-  Stream<Map<String, String>>? presence,
+  Stream<Map<String, DmListRecipientRowData>>? recipientRows,
+  DmMessagePreviewMode dmMessagePreviewMode = DmMessagePreviewMode.all,
 }) {
   final db = FluxerDatabase.forTesting(NativeDatabase.memory());
   addTearDown(db.close);
   return [
     fluxerDatabaseProvider.overrideWithValue(db),
-    dmListPresenceMapProvider.overrideWith(
-      (ref) => presence ?? Stream.value(const <String, String>{}),
+    dmListRecipientRowDataProvider.overrideWith(
+      (ref) =>
+          recipientRows ??
+          Stream.value(const <String, DmListRecipientRowData>{}),
+    ),
+    appearancePreferencesProvider.overrideWith(
+      () => _TestAppearancePreferences(dmMessagePreviewMode),
     ),
     currentUserIdProvider.overrideWithValue('1'),
     dmViewModelProvider.overrideWithValue(
@@ -316,6 +502,19 @@ List<Override> _buildOverrides({
       _VerifiedUserSettingsViewModel.new,
     ),
   ];
+}
+
+class _TestAppearancePreferences extends AppearancePreferences {
+  _TestAppearancePreferences(this._dmMessagePreviewMode);
+
+  final DmMessagePreviewMode _dmMessagePreviewMode;
+
+  @override
+  AppearancePreferencesState build() {
+    return AppearancePreferencesState(
+      dmMessagePreviewMode: _dmMessagePreviewMode,
+    );
+  }
 }
 
 class _EmptyGuildListViewModel extends GuildListViewModel {

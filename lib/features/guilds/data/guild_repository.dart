@@ -57,6 +57,14 @@ class GuildRepository {
     }
   }
 
+  Future<List<Guild>> getOwnedGuilds(String userId) async {
+    final rows = await _db.guildDao.getServers();
+    return rows
+        .map(Guild.fromRow)
+        .where((Guild guild) => guild.ownerId == userId)
+        .toList(growable: false);
+  }
+
   Future<Guild> getServer(String guildId) async {
     try {
       final guild = await _client.guilds.getGuild(guildId: guildId);

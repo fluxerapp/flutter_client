@@ -4,12 +4,9 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
-import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
-import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_avatar.dart';
@@ -29,6 +26,7 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_context_menu.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/reply_preview.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_reply.dart';
@@ -36,14 +34,14 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/forward_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/forwarded_message_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
-import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
-import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
@@ -57,9 +55,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
-import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
-import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -93,8 +89,6 @@ const _kReplyLineEndGap = 6.0;
 
 const _kMessageStickerSize = 160.0;
 const _kMessageStickerRequestSize = 320;
-const _kReactionEmojiSize = 19.0;
-const _kAddReactionIconSize = 19.0;
 const double _kMessageSendingOpacity = 0.5;
 
 /// Immutable bundle of per-list render settings hoisted out of [MessageItem].
@@ -114,6 +108,7 @@ class MessageRenderSettings {
     required this.renderSpoilers,
     required this.revealSpoilers,
     required this.chatPreferences,
+    required this.messageGroupSpacing,
   });
 
   final String? activeGuildId;
@@ -123,6 +118,7 @@ class MessageRenderSettings {
   final RenderSpoilers renderSpoilers;
   final bool revealSpoilers;
   final ChatPreferencesState chatPreferences;
+  final double messageGroupSpacing;
 
   @override
   bool operator ==(Object other) =>
@@ -135,7 +131,8 @@ class MessageRenderSettings {
           inlineAttachmentMedia == other.inlineAttachmentMedia &&
           renderSpoilers == other.renderSpoilers &&
           revealSpoilers == other.revealSpoilers &&
-          chatPreferences == other.chatPreferences;
+          chatPreferences == other.chatPreferences &&
+          messageGroupSpacing == other.messageGroupSpacing;
 
   @override
   int get hashCode => Object.hash(
@@ -146,6 +143,7 @@ class MessageRenderSettings {
     renderSpoilers,
     revealSpoilers,
     chatPreferences,
+    messageGroupSpacing,
   );
 }
 
@@ -173,11 +171,11 @@ class MessageItem extends ConsumerStatefulWidget {
   final bool isDmChannel;
   final VoidCallback? onRetry;
   final VoidCallback? onDeleteFailed;
+  final VoidCallback? onDismissClientSystem;
   final VoidCallback? onMarkAsUnread;
   final VoidCallback? onViewReactions;
   final VoidCallback? onReport;
-  final void Function(String emoji, {String? emojiId, bool animated})?
-  onReaction;
+  final ReactionToggleCallback? onReaction;
   final bool inboxPreviewMode;
   final bool hideMentionHighlight;
   final bool isJumpHighlighted;
@@ -208,6 +206,7 @@ class MessageItem extends ConsumerStatefulWidget {
     this.isDmChannel = false,
     this.onRetry,
     this.onDeleteFailed,
+    this.onDismissClientSystem,
     this.onMarkAsUnread,
     this.onViewReactions,
     this.onReport,
@@ -227,11 +226,8 @@ class MessageItem extends ConsumerStatefulWidget {
 class _MessageItemState extends ConsumerState<MessageItem> {
   final _hovered = ValueNotifier<bool>(false);
   final _reactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
-  final _inlineReactionPickerKey = GlobalKey<FluxerEmojiPickerPopoutState>();
   final _spoilerSyncController = FluxerSpoilerSyncController();
   final _reactionPickerOpen = ValueNotifier<bool>(false);
-  var _isInlineReactionPickerOpen = false;
-  var _isInlineAddReactionHovered = false;
 
   late final Listenable _actionBarVisibility = Listenable.merge([
     _hovered,
@@ -247,26 +243,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   void _addReactionFromPicker(FluxerSelectedEmoji emoji) {
-    if (emoji.isCustom) {
-      widget.onReaction?.call(
-        emoji.name,
-        emojiId: emoji.emojiId,
-        animated: emoji.animated,
-      );
-      return;
+    final onReaction = widget.onReaction;
+    if (onReaction != null) {
+      dispatchSelectedEmojiReaction(emoji, onReaction);
     }
-
-    widget.onReaction?.call(emoji.surrogates);
   }
 
   void _openReactionPickerSheet(BuildContext context, {String? channelId}) {
     unawaited(
-      FluxerEmojiPickerSheet.show(
+      openReactionPickerSheet(
         context,
-        maxHeight: 0.88,
         channelId: channelId,
-        visibleTabs: const [ExpressionPickerTab.emojis],
-        trackEmojiUsageOnSelect: false,
         onEmojiSelected: _addReactionFromPicker,
       ),
     );
@@ -417,82 +404,14 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         widget.message.type == messageTypeReply;
   }
 
-  Future<List<QuickReactionItem>?> _loadQuickReactionItems() async {
-    try {
-      final db = ref.read(fluxerDatabaseProvider);
-      final keys = await db.emojiUsageDao.getQuickReactionMixedKeys(12);
-      final messageGuildId =
-          widget.previewRoleGuildId ?? ref.read(activeGuildIdProvider);
-      // Mirror the emoji picker's eligibility: a custom emoji shows if it's
-      // from this guild, or the user has global access (premium + external
-      // emojis), the only path in DMs, where there's no guild to match.
-      final hasGlobalEmojiAccess =
-          ref.read(
-            instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
-          ) &&
-          channelMessagePermissionsForComposer(
-            ref.read(
-              channelMessagePermissionsProvider(widget.message.channelId),
-            ),
-          ).canUseExternalEmojis;
-
-      final resolved = <QuickReactionItem>[];
-      final seenSurrogates = <String>{};
-      final seenCustomIds = <String>{};
-
-      for (final key in keys) {
-        if (resolved.length >= 4) {
-          break;
-        }
-        if (key.startsWith('unicode:')) {
-          final suffix = key.substring('unicode:'.length);
-          if (suffix.isEmpty) {
-            continue;
-          }
-          final entry =
-              EmojiRegistry.entryByName(suffix) ??
-              EmojiRegistry.entryBySurrogates(suffix);
-          final surrogates = entry?.surrogates ?? suffix;
-          if (!seenSurrogates.add(surrogates)) {
-            continue;
-          }
-          resolved.add(UnicodeQuickReaction(surrogates));
-          continue;
-        }
-        if (key.startsWith('custom:')) {
-          final lastColon = key.lastIndexOf(':');
-          if (lastColon < 'custom:'.length - 1) {
-            continue;
-          }
-          final emojiId = key.substring(lastColon + 1);
-          if (emojiId.isEmpty || !seenCustomIds.add(emojiId)) {
-            continue;
-          }
-          final row = await db.guildEmojiDao.getById(emojiId);
-          if (row == null ||
-              !(hasGlobalEmojiAccess || row.guildId == messageGuildId)) {
-            continue;
-          }
-          resolved.add(CustomQuickReaction(GuildEmojiEntry.fromRow(row)));
-        }
-      }
-
-      for (final fallback in kQuickReactionDefaults) {
-        if (resolved.length >= 4) {
-          break;
-        }
-        if (fallback is UnicodeQuickReaction &&
-            !seenSurrogates.add(fallback.emoji)) {
-          continue;
-        }
-        resolved.add(fallback);
-      }
-
-      return resolved.take(4).toList();
-    } on Object catch (e, st) {
-      talker.error('Failed to load quick reaction items', e, st);
-      return null;
-    }
+  Future<List<QuickReactionItem>?> _loadQuickReactionItems() {
+    final guildId =
+        widget.previewRoleGuildId ?? ref.read(activeGuildIdProvider);
+    return loadQuickReactionItems(
+      ref,
+      channelId: widget.message.channelId,
+      guildId: guildId,
+    );
   }
 
   void _dispatchQuickReaction(QuickReactionItem item) {
@@ -562,6 +481,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   @override
   Widget build(BuildContext context) {
     final msg = widget.message;
+    if (msg.isClientSystemMessage && msg.authorId == fluxerBotUserId) {
+      return _buildClientSystemMessageRow(
+        context,
+        msg,
+        isGrouped: widget.isGrouped,
+      );
+    }
     final isGrouped = widget.isGrouped;
     final isMobile = isMobileLayout(context);
     final isTouch =
@@ -675,8 +601,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
               : EdgeInsets.only(
                   left: hasLeftAccentBar ? 14 : kMessageRowPaddingHorizontal,
                   right: kMessageRowPaddingHorizontal,
-                  top: isGrouped ? 2 : kMessageRowPaddingVertical,
-                  bottom: isGrouped ? 2 : kMessageRowPaddingVertical,
+                  top: 2,
+                  bottom: 2,
                 ),
           child: Stack(
             children: [
@@ -896,23 +822,32 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         ),
       ),
       if (renderEmbeds && !msg.suppressEmbeds)
-        ...msg.embeds.indexed.map((entry) {
-          final int embedIndex = entry.$1;
-          final embed = entry.$2;
-          final spoilerSyncKeys = spoilerSyncKeysForEmbed(embed, spoileredUrls);
-          return wrapPart(
-            _buildEmbed(
-              embed,
-              isSpoiler: spoilerSyncKeys.isNotEmpty,
-              spoilerSyncKeys: spoilerSyncKeys,
-              revealSpoilers: revealSpoilers,
-              dimensionSize: chatPreferences.embedMediaDimensionSize,
-              channelId: msg.channelId,
-              messageId: msg.id,
-              embedIndex: embedIndex,
-            ),
-          );
-        }),
+        ...() {
+          final EmbedGalleryIndex galleryIndex = EmbedGalleryIndex(msg.embeds);
+          return msg.embeds.indexed
+              .where((entry) => !galleryIndex.isDuplicateAt(entry.$1))
+              .map((entry) {
+                final int embedIndex = entry.$1;
+                final embed = entry.$2;
+                final spoilerSyncKeys = spoilerSyncKeysForEmbed(
+                  embed,
+                  spoileredUrls,
+                );
+                return wrapPart(
+                  _buildEmbed(
+                    embed,
+                    galleryIndex: galleryIndex,
+                    isSpoiler: spoilerSyncKeys.isNotEmpty,
+                    spoilerSyncKeys: spoilerSyncKeys,
+                    revealSpoilers: revealSpoilers,
+                    dimensionSize: chatPreferences.embedMediaDimensionSize,
+                    channelId: msg.channelId,
+                    messageId: msg.id,
+                    embedIndex: embedIndex,
+                  ),
+                );
+              });
+        }(),
       if (msg.attachments.isNotEmpty)
         AttachmentListRenderer(
           attachments: msg.attachments,
@@ -939,16 +874,17 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         wrapPart(
           Padding(
             padding: const EdgeInsets.only(top: 4),
-            child: Wrap(
-              spacing: 4,
-              runSpacing: 4,
-              children: [
-                ...msg.reactions.map((r) => _buildReaction(context, r)),
-                if (widget.canAddReactions &&
-                    msg.supportsInteractiveActions &&
-                    !widget.inboxPreviewMode)
-                  _buildInlineAddReaction(context, msg, isMobile),
-              ],
+            child: MessageReactionsBar(
+              reactions: msg.reactions,
+              channelId: msg.channelId,
+              onReactionTap: (emoji, {emojiId, animated = false}) => widget
+                  .onReaction
+                  ?.call(emoji, emojiId: emojiId, animated: animated),
+              showAddReaction:
+                  widget.canAddReactions &&
+                  msg.supportsInteractiveActions &&
+                  !widget.inboxPreviewMode,
+              isMobile: isMobile,
             ),
           ),
         ),
@@ -993,21 +929,25 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     required bool isMobile,
     required bool revealSpoilers,
   }) {
-    final Widget markdown = MessageMarkdown(
+    Widget markdown = MessageMarkdown(
       data: msg.content,
       messageId: msg.id,
       selectable: !isMobile,
       channelId: msg.channelId,
+      mentionChannels: msg.mentionChannels,
       revealSpoilers: revealSpoilers,
       spoilerSyncController: _spoilerSyncController,
+      trailingInlineWidget: msg.isEdited
+          ? _buildEditedLabel(context, msg)
+          : null,
     );
-    if (!msg.isEdited) {
-      return markdown;
+    if (msg.hasFailed && msg.content.trim().isNotEmpty) {
+      markdown = DefaultTextStyle(
+        style: TextStyle(color: context.colors.textDanger),
+        child: markdown,
+      );
     }
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.end,
-      children: [markdown, _buildEditedLabel(context, msg)],
-    );
+    return markdown;
   }
 
   Widget _buildEditedLabel(BuildContext context, Message msg) {
@@ -1172,19 +1112,20 @@ class _MessageItemState extends ConsumerState<MessageItem> {
             padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
             child: FluxerAvatar.user(
               key: ValueKey<String>(
-                messageAuthorAvatarKey(
+                messageAuthorAvatarKeyFromDisplay(
                   authorId: msg.authorId,
-                  avatarHash: msg.authorAvatar,
+                  displayAvatarHash: authorDisplay.avatarHash,
+                  messageAvatarHash: msg.authorAvatar,
                 ),
               ),
               fallbackText: authorDisplay.displayName,
               userId: msg.authorId,
               imageUrl: authorDisplay.avatarUrl,
               avatarColor: authorDisplay.avatarColor,
-              size: kMessageAvatarSize,
-              cacheKey: messageAuthorAvatarKey(
+              cacheKey: messageAuthorAvatarKeyFromDisplay(
                 authorId: msg.authorId,
-                avatarHash: msg.authorAvatar,
+                displayAvatarHash: authorDisplay.avatarHash,
+                messageAvatarHash: msg.authorAvatar,
               ),
             ),
           ),
@@ -1263,8 +1204,141 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     ],
   );
 
+  Widget _buildClientSystemMessageRow(
+    BuildContext context,
+    Message msg, {
+    required bool isGrouped,
+  }) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final TextStyle footerTextStyle = context.textStyles.timestamp.copyWith(
+      color: context.colors.textTertiary,
+    );
+    final TextStyle dismissTextStyle = context.textStyles.timestamp.copyWith(
+      color: context.colors.textLink,
+    );
+    return AnimatedContainer(
+      duration: _kJumpHighlightFadeDuration,
+      curve: _kJumpHighlightFadeCurve,
+      decoration: BoxDecoration(
+        color: _kJumpHighlightBg,
+        border: Border(
+          left: BorderSide(
+            color: context.colors.brandPrimaryLight,
+            width: _kJumpHighlightBarWidth,
+          ),
+        ),
+      ),
+      padding: EdgeInsets.only(
+        left: kMessageRowPaddingHorizontal + _kJumpHighlightBarWidth,
+        right: kMessageRowPaddingHorizontal,
+        top: isGrouped ? 2 : 8,
+        bottom: isGrouped ? 2 : 8,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (!isGrouped)
+            Padding(
+              padding: const EdgeInsets.only(top: kMessageAvatarTopPadding),
+              child: FluxerAvatar.user(
+                fallbackText: msg.authorName,
+                userId: msg.authorId,
+              ),
+            ),
+          if (!isGrouped) const SizedBox(width: kMessageAvatarTextGap),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!isGrouped)
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          msg.authorName,
+                          style: TextStyle(
+                            color: context.colors.textChat,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                      if (messageAuthorShowsUserTag(
+                        authorIsBot: msg.authorIsBot,
+                        authorIsSystem: msg.authorIsSystem,
+                      )) ...[
+                        const SizedBox(width: 6),
+                        FluxerUserTag(
+                          isSystem: messageAuthorUserTagIsSystem(
+                            authorIsSystem: msg.authorIsSystem,
+                          ),
+                        ),
+                      ],
+                      const SizedBox(width: 8),
+                      Text(
+                        formatMessageTimestamp(
+                          msg.timestamp.toLocal(),
+                          l10n,
+                          Localizations.localeOf(context).toString(),
+                        ),
+                        style: context.textStyles.timestamp,
+                      ),
+                    ],
+                  ),
+                if (!isGrouped) const SizedBox(height: 2),
+                MessageMarkdown(
+                  data: msg.content,
+                  messageId: msg.id,
+                  selectable: !isMobileLayout(context),
+                  channelId: msg.channelId,
+                  mentionChannels: msg.mentionChannels,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text.rich(
+                    TextSpan(
+                      style: footerTextStyle,
+                      children: [
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: PhosphorIcon(
+                              PhosphorIconsRegular.eye,
+                              size: 14,
+                              color: footerTextStyle.color,
+                            ),
+                          ),
+                        ),
+                        TextSpan(text: l10n.chatClientSystemOnlyYouCanSee),
+                        const TextSpan(text: ' '),
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: GestureDetector(
+                            onTap: widget.onDismissClientSystem,
+                            child: Text(
+                              l10n.chatClientSystemDismiss,
+                              style: dismissTextStyle,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildEmbed(
     Embed embed, {
+    required EmbedGalleryIndex galleryIndex,
     required bool isSpoiler,
     required List<String> spoilerSyncKeys,
     required bool revealSpoilers,
@@ -1276,9 +1350,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     final child = switch (embed.type) {
       EmbedType.rich => EmbedRich(
         embed: embed,
+        galleryIndex: galleryIndex,
+        embedIndex: embedIndex ?? 0,
         dimensionSize: dimensionSize,
         revealSpoilers: revealSpoilers,
         spoilerSyncController: _spoilerSyncController,
+        channelId: channelId,
+        messageId: messageId,
       ),
       EmbedType.image || EmbedType.gifv => EmbedImage(
         embed: embed,
@@ -1293,9 +1371,13 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       ),
       EmbedType.link => EmbedLink(
         embed: embed,
+        galleryIndex: galleryIndex,
+        embedIndex: embedIndex ?? 0,
         dimensionSize: dimensionSize,
         revealSpoilers: revealSpoilers,
         spoilerSyncController: _spoilerSyncController,
+        channelId: channelId,
+        messageId: messageId,
       ),
       EmbedType.video => EmbedVideo(
         embed: embed,
@@ -1371,175 +1453,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       );
     }
     return Semantics(label: sticker.name, image: true, child: stickerImage);
-  }
-
-  Color _reactionChipBackground(
-    BuildContext context, {
-    required bool hasReacted,
-  }) {
-    final colors = context.colors;
-    if (hasReacted) {
-      return Color.lerp(colors.backgroundSecondary, colors.brandPrimary, 0.36)!;
-    }
-    final isLight = Theme.of(context).brightness == Brightness.light;
-    if (isLight) {
-      return Color.lerp(
-        colors.backgroundSecondary,
-        colors.brandPrimaryLight,
-        0.06,
-      )!;
-    }
-    if (colors.backgroundSecondary == colors.backgroundPrimary) {
-      return colors.backgroundSecondaryAlt;
-    }
-    return colors.backgroundPrimary;
-  }
-
-  Color _reactionChipBorderColor(
-    BuildContext context, {
-    required bool hasReacted,
-  }) {
-    final colors = context.colors;
-    if (hasReacted) {
-      return colors.brandPrimary;
-    }
-    if (Theme.of(context).brightness == Brightness.light) {
-      return Color.lerp(
-        colors.backgroundSecondary,
-        colors.brandPrimaryLight,
-        0.10,
-      )!;
-    }
-    return Colors.transparent;
-  }
-
-  Widget _buildReaction(BuildContext context, Reaction reaction) {
-    final colors = context.colors;
-    final hasReacted = reaction.hasReacted;
-    return GestureDetector(
-      onTap: () => widget.onReaction?.call(
-        reaction.emoji,
-        emojiId: reaction.emojiId,
-        animated: reaction.animated,
-      ),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          decoration: BoxDecoration(
-            color: _reactionChipBackground(context, hasReacted: hasReacted),
-            border: Border.all(
-              color: _reactionChipBorderColor(context, hasReacted: hasReacted),
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (reaction.isCustom)
-                CachedNetworkImage(
-                  imageUrl: FluxerMediaUrl.customEmoji(
-                    id: reaction.emojiId!,
-                    animated: reaction.animated,
-                    size: _kReactionEmojiSize.toInt(),
-                  ),
-                  cacheKey:
-                      'reaction_emoji_'
-                      '${reaction.emojiId}_'
-                      '${reaction.animated ? 'a' : 's'}_'
-                      '${_kReactionEmojiSize.toInt()}',
-                  width: _kReactionEmojiSize,
-                  height: _kReactionEmojiSize,
-                )
-              else
-                UnicodeEmojiWidget(
-                  emoji: reaction.emoji,
-                  size: _kReactionEmojiSize,
-                ),
-              const SizedBox(width: 6),
-              Text(
-                '${reaction.count}',
-                style: TextStyle(
-                  color: hasReacted ? colors.brandPrimary : colors.textTertiary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInlineAddReaction(
-    BuildContext context,
-    Message msg,
-    bool isMobile,
-  ) {
-    if (isMobile) {
-      return _buildInlineAddReactionButton(
-        context,
-        onTap: () =>
-            _openReactionPickerSheet(context, channelId: msg.channelId),
-      );
-    }
-    return FluxerEmojiPickerPopout(
-      key: _inlineReactionPickerKey,
-      closeOnEmojiSelect: true,
-      visibleTabs: const [ExpressionPickerTab.emojis],
-      trackEmojiUsageOnSelect: false,
-      channelId: msg.channelId,
-      onClose: () => setState(() {
-        _isInlineReactionPickerOpen = false;
-      }),
-      onEmojiSelected: _addReactionFromPicker,
-      child: _buildInlineAddReactionButton(
-        context,
-        onTap: () {
-          _inlineReactionPickerKey.currentState?.toggle();
-          setState(() {
-            _isInlineReactionPickerOpen =
-                _inlineReactionPickerKey.currentState?.isOpen ?? false;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget _buildInlineAddReactionButton(
-    BuildContext context, {
-    required VoidCallback? onTap,
-  }) {
-    final colors = context.colors;
-    final isActive = _isInlineReactionPickerOpen || _isInlineAddReactionHovered;
-    return Semantics(
-      label: FluxerLocalizations.of(context).chatMessageAddReaction,
-      button: true,
-      child: MouseRegion(
-        onEnter: (_) => setState(() => _isInlineAddReactionHovered = true),
-        onExit: (_) => setState(() => _isInlineAddReactionHovered = false),
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: onTap,
-          behavior: HitTestBehavior.opaque,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
-              color: isActive
-                  ? colors.backgroundModifierHover
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: PhosphorIcon(
-              PhosphorIconsFill.smiley,
-              size: _kAddReactionIconSize,
-              color: isActive ? colors.textPrimary : colors.textTertiary,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _buildActions(BuildContext context) => Material(

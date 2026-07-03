@@ -6,6 +6,8 @@
 /// this classifier rather than re-deriving route shape from path strings.
 library;
 
+import 'package:fluxer_app/core/router/route_names.dart';
+
 enum RouteKind {
   /// `/channels/@me`, `/channels/@favorites`, `/channels/:guildId` with no
   /// sub-path. On mobile the drawer should be open (sidebar visible).
@@ -22,6 +24,9 @@ enum RouteKind {
   /// on the root navigator.
   dmCall,
 
+  /// `/channels/@discover` — community discovery / explore page.
+  discover,
+
   /// Anything outside the `/channels/` family (`/notifications`, `/you`,
   /// `/bookmarks`, `/mentions`, `/login`, `/loading`, etc.).
   nonChannel,
@@ -35,6 +40,9 @@ final _chatPattern = RegExp(r'^/channels/[^/]+/.+$');
 RouteKind classifyRoute(String location) {
   if (!location.startsWith('/channels/')) {
     return RouteKind.nonChannel;
+  }
+  if (location == RoutePaths.discover) {
+    return RouteKind.discover;
   }
   if (_channelsRootPattern.hasMatch(location)) {
     return RouteKind.channelsRoot;
@@ -52,6 +60,8 @@ RouteKind classifyRoute(String location) {
 }
 
 bool isChannelsRoute(String location) => location.startsWith('/channels/');
+
+bool isDiscoverRoute(String location) => location == RoutePaths.discover;
 
 final _guildIdPattern = RegExp('^/channels/([^@/][^/]*)');
 
@@ -73,6 +83,9 @@ final _guildChannelIdPattern = RegExp('^/channels/[^@/][^/]*/([^/]+)');
 /// DM/favorites match their channel segment; guild channels match anywhere a
 /// `/channels/:guildId/:channelId(/...)` shape exists (message-jump included).
 String? extractChannelId(String location) {
+  if (isDiscoverRoute(location)) {
+    return null;
+  }
   final dmMatch = _dmChannelIdPattern.firstMatch(location);
   if (dmMatch != null) {
     return dmMatch.group(1);

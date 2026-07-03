@@ -77,11 +77,19 @@ class ChannelListViewModel extends _$ChannelListViewModel {
           (channels) {
             final categories = groupChannelsIntoCategories(channels);
             state = state.copyWith(categories: categories);
-            unawaited(
-              ref
-                  .read(channelPermissionCacheProvider.notifier)
-                  .rebuildGuild(guildId),
+            final Map<String, int> cachedBits = ref.read(
+              channelPermissionCacheProvider,
             );
+            final bool allChannelsCached = channels.every(
+              (Channel channel) => cachedBits.containsKey(channel.id),
+            );
+            if (!allChannelsCached) {
+              unawaited(
+                ref
+                    .read(channelPermissionCacheProvider.notifier)
+                    .rebuildGuild(guildId),
+              );
+            }
           },
           onError: (Object error) {
             debugPrint('[ChannelListViewModel] Watch error: $error');

@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_message_preview_row.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
@@ -691,19 +692,12 @@ class _DMListState extends ConsumerState<DMList> {
     final timestampColor = isSelected
         ? context.colors.surfaceInteractiveSelectedColor
         : context.colors.textTertiary;
-
-    String lastMessagePreview = c.lastMessage;
-    if (c.lastMessage.isNotEmpty && c.lastMessageAuthorName != null) {
-      final String? authorId = c.lastMessageAuthorId;
-      final String? authorFriendNickname =
-          authorId != null && authorId.isNotEmpty
-          ? ref.watch(friendNicknameProvider(authorId)).value
-          : null;
-      final prefix = authorId == currentUserId
-          ? 'You'
-          : (authorFriendNickname ?? c.lastMessageAuthorName!);
-      lastMessagePreview = '$prefix: ${c.lastMessage}';
-    }
+    final secondaryStyle = TextStyle(
+      color: secondaryColor,
+      fontSize: 11,
+      fontWeight: FontWeight.w500,
+      height: 16 / 11,
+    );
 
     return Stack(
       clipBehavior: Clip.none,
@@ -731,12 +725,12 @@ class _DMListState extends ConsumerState<DMList> {
                   builder: (context, ref, _) {
                     if (c.isGroup) {
                       final String? status = ref.watch(
-                        dmListPresenceMapProvider.select(
-                          (AsyncValue<Map<String, String>> p) =>
+                        dmListRecipientRowDataProvider.select(
+                          (AsyncValue<Map<String, DmListRecipientRowData>> p) =>
                               groupDmAggregateStatus(
                                 participantIds: c.remoteRecipientIds,
                                 resolveStatus: (String id) =>
-                                    p.value?[id] ?? 'offline',
+                                    p.value?[id]?.status ?? 'offline',
                               ),
                         ),
                       );
@@ -749,9 +743,11 @@ class _DMListState extends ConsumerState<DMList> {
                     final bool showPresence = shouldShowDmRecipientPresence(c);
                     final String? status = showPresence
                         ? ref.watch(
-                            dmListPresenceMapProvider.select(
-                              (AsyncValue<Map<String, String>> p) =>
-                                  p.value?[c.recipientId] ?? 'offline',
+                            dmListRecipientRowDataProvider.select(
+                              (
+                                AsyncValue<Map<String, DmListRecipientRowData>>
+                                p,
+                              ) => p.value?[c.recipientId]?.status ?? 'offline',
                             ),
                           )
                         : null;
@@ -802,32 +798,12 @@ class _DMListState extends ConsumerState<DMList> {
                             ),
                         ],
                       ),
-                      if (c.isGroup)
-                        Text(
-                          FluxerLocalizations.of(
-                            context,
-                          ).dmGroupMemberCount(c.memberCount),
-                          style: TextStyle(
-                            color: secondaryColor,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            height: 14 / 11,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        )
-                      else if (lastMessagePreview.isNotEmpty)
-                        Text(
-                          lastMessagePreview,
-                          style: TextStyle(
-                            color: secondaryColor,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            height: 16 / 11,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
+                      DmListTileSubtext(
+                        conversation: c,
+                        style: secondaryStyle,
+                        hasUnread: hasUnread,
+                        currentUserId: currentUserId,
+                      ),
                     ],
                   ),
                 ),
@@ -1609,12 +1585,16 @@ class _DmBottomSheet extends ConsumerWidget {
     groups.add(
       FluxerMenuGroup(
         children: [
-          FluxerBottomSheetSubmenuItem(
-            label: isMuted
-                ? l10n.dmUnmuteConversation
-                : l10n.dmMuteConversation,
-            onTap: () => _openMuteSheet(context),
-          ),
+          if (isMuted)
+            FluxerBottomSheetMenuItem(
+              label: l10n.dmUnmuteConversation,
+              onTap: () => pop(_DmAction.unmute),
+            )
+          else
+            FluxerBottomSheetSubmenuItem(
+              label: l10n.dmMuteConversation,
+              onTap: () => _openMuteSheet(context),
+            ),
         ],
       ),
     );
@@ -1664,8 +1644,9 @@ class _DmBottomSheet extends ConsumerWidget {
       initialChildSize: convo.isGroup ? 0.45 : 0.7,
       maxChildSize: 0.85,
       builder: (context, scrollController) {
-        final Map<String, String> presenceMap =
-            ref.watch(dmListPresenceMapProvider).value ?? const {};
+        final Map<String, DmListRecipientRowData> recipientRows =
+            ref.watch(dmListRecipientRowDataProvider).value ??
+            const <String, DmListRecipientRowData>{};
         return SafeArea(
           bottom: Platform.isAndroid,
           child: Column(
@@ -1694,7 +1675,8 @@ class _DmBottomSheet extends ConsumerWidget {
                           hash: convo.recipientAvatar,
                         ),
                         status: shouldShowDmRecipientPresence(convo)
-                            ? presenceMap[convo.recipientId] ?? 'offline'
+                            ? recipientRows[convo.recipientId]?.status ??
+                                  'offline'
                             : null,
                         showStatus: shouldShowDmRecipientPresence(convo),
                         size: 48,
@@ -1734,7 +1716,7 @@ class _DmBottomSheet extends ConsumerWidget {
     unawaited(
       FluxerBottomSheet.show<MuteSelection>(
         context,
-        builder: (_, _) => _DmMuteSheet(isMuted: isMuted),
+        builder: (_, _) => const _DmMuteSheet(),
       ).then((selection) {
         if (selection == null) {
           return;
@@ -1760,9 +1742,7 @@ class _DmBottomSheet extends ConsumerWidget {
 }
 
 class _DmMuteSheet extends StatelessWidget {
-  final bool isMuted;
-
-  const _DmMuteSheet({required this.isMuted});
+  const _DmMuteSheet();
 
   @override
   Widget build(BuildContext context) {
@@ -1778,9 +1758,7 @@ class _DmMuteSheet extends StatelessWidget {
           child: Column(
             children: [
               FluxerBottomSheetSubmenuHeader(
-                title: isMuted
-                    ? l10n.dmUnmuteConversation
-                    : l10n.dmMuteConversation,
+                title: l10n.dmMuteConversation,
                 onBack: () => Navigator.of(context).pop(),
               ),
               SizedBox(height: layout.s3),
@@ -1794,7 +1772,6 @@ class _DmMuteSheet extends StatelessWidget {
                     layout.s4,
                   ),
                   child: MuteDurationSheetBody(
-                    isMuted: isMuted,
                     onSelected: (selection) =>
                         Navigator.of(context).pop(selection),
                   ),
@@ -1809,9 +1786,6 @@ class _DmMuteSheet extends StatelessWidget {
 }
 
 _DmAction _dmActionForMuteSelection(MuteSelection selection) {
-  if (!selection.muted) {
-    return _DmAction.unmute;
-  }
   return switch (selection.durationSeconds) {
     900 => _DmAction.mute15Min,
     1800 => _DmAction.mute30Min,

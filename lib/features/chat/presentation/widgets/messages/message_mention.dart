@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show FutureProviderFamily;
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/router/navigate_to_content.dart';
-import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/channels/utils/channel_mention_utils.dart';
+import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/channel_access_denied_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -24,9 +26,15 @@ import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ChannelMention extends ConsumerWidget {
-  const ChannelMention({required this.channelId, this.baseStyle, super.key});
+  const ChannelMention({
+    required this.channelId,
+    this.fallback,
+    this.baseStyle,
+    super.key,
+  });
 
   final String channelId;
+  final MessageChannelMention? fallback;
   final TextStyle? baseStyle;
 
   @override
@@ -37,19 +45,42 @@ class ChannelMention extends ConsumerWidget {
       color: colors.markupMentionText,
       fontWeight: FontWeight.w500,
     );
-
+    final l10n = FluxerLocalizations.of(context);
     final channel = async.value;
-    final name =
-        channel?.name ?? FluxerLocalizations.of(context).mentionUnknownChannel;
-    final type = channel?.type ?? ChannelType.guildText;
-
+    if (channel != null && channel.type == ChannelType.guildCategory) {
+      return Text(
+        '#${channel.name}',
+        style: style,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+      );
+    }
+    if (channel != null && !isClickableChannelMention(channel)) {
+      return _buildUnknownMentionPill(
+        context,
+        style,
+        l10n.mentionUnknownChannel,
+      );
+    }
+    final String name =
+        channel?.name ?? fallback?.name ?? l10n.mentionUnknownChannel;
+    final ChannelType type =
+        channel?.type ??
+        (fallback == null
+            ? ChannelType.guildText
+            : ChannelType.fromWire(fallback!.type));
+    final bool canNavigate =
+        channel != null && isClickableChannelMention(channel);
     return GestureDetector(
-      onTap: channel == null
-          ? null
-          : () => navigateToContent(
-              context,
-              RoutePaths.guildChannel(channel.guildId, channel.id),
-            ),
+      onTap: canNavigate
+          ? () => navigateToGuildChannelContent(
+              context: context,
+              ref: ref,
+              guildId: channel.guildId,
+              channel: channel,
+            )
+          : null,
       child: _MentionPill(
         baseStyle: style,
         child: Row(
@@ -67,6 +98,29 @@ class ChannelMention extends ConsumerWidget {
       ),
     );
   }
+}
+
+Widget _buildUnknownMentionPill(
+  BuildContext context,
+  TextStyle style,
+  String label,
+) {
+  final colors = context.colors;
+  return _MentionPill(
+    baseStyle: style,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ChannelIcon(
+          type: ChannelType.guildText,
+          size: (style.fontSize ?? 14) * 0.9,
+          color: colors.markupMentionText,
+        ),
+        SizedBox(width: _mentionInlineGap(style)),
+        _MentionLabel(label, style: style),
+      ],
+    ),
+  );
 }
 
 class TextMention extends StatelessWidget {
@@ -291,9 +345,13 @@ class ChannelJumpLinkMention extends ConsumerWidget {
 
     if (!link.isDm && channel == null && channelAsync?.isLoading == false) {
       final l10n = FluxerLocalizations.of(context);
+      void onInaccessibleTap() {
+        unawaited(showChannelAccessDeniedSheet(context));
+      }
+
       return _JumpLinkPill(
         baseStyle: style,
-        onTap: onTap,
+        onTap: onInaccessibleTap,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

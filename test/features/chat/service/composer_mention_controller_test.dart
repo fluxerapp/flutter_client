@@ -206,4 +206,26 @@ void main() {
     expect(controller.text.startsWith('12:30:45 '), isTrue);
     expect(controller.toWireText(), '12:30:45 <:smile:9>');
   });
+
+  testWidgets('keeps mention chip visible during IME composing', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await _pumpController(tester);
+
+    controller
+      ..insertUserMentionPlaceholder(
+        matchStart: 0,
+        matchEnd: 0,
+        userId: '123',
+        displayName: 'Alice',
+      )
+      ..value = TextEditingValue(
+        text: 'hi${controller.text.trim()}',
+        composing: const TextRange(start: 0, end: 2),
+        selection: const TextSelection.collapsed(offset: 2),
+      );
+    await tester.pump();
+
+    expect(find.text('@Alice'), findsOneWidget);
+  });
 }

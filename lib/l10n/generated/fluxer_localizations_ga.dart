@@ -9,146 +9,149 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   FluxerLocalizationsGa([String locale = 'ga']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => 'Rinneamar botán!';
 
   @override
   String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+      'Tá rud éigin cearr leis na freastalaithe.\nBa chóir é a shocrú i soicind!';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => 'Ag athnascadh…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => 'Ceangailte';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return 'Theip ar thosú: $error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => 'Déan iarracht arís';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => 'Caillteadh nasc';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => 'Féach ar leathanach stádais';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => 'Fadhbanna nasc?';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => 'Leathanach stádais';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => 'Léigh eachtra';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => 'Stair eachtraí';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => 'Fáilte ar ais';
 
   @override
-  String get email => 'Email';
+  String get email => 'Ríomhphost';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => 'Seoladh ríomhphoist bailí le do thoil.';
 
   @override
-  String get password => 'Password';
+  String get password => 'Focal faire';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => 'An ndearna tú dearmad ar do phasfhocal?';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => 'Logáil isteach';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => 'Logáil isteach le heochair phas';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return 'Lean ar aghaidh le $provider';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired =>
+      'Tá SSO ag teastáil chun rochtain a fháil ar an instans seo.';
 
   @override
   String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+      'Sínigh isteach le soláthraí singil-sínithe d’eagraíochta.';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => 'Theip ar SSO a thosú';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'Cuireadh isteach SSO ar ceal';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return 'Ar fearr leat úsáid a bhaint as SSO? Lean ar aghaidh le $provider.';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => 'Logáil isteach tríd an mbrabhálaí';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => 'An bhfuil cuntas uait? ';
 
   @override
-  String get register => 'Register';
+  String get register => 'Cláraigh';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => 'Deimhnigh gur duine thú';
 
   @override
   String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+      'Caithfimid a chinntiú nach bhfuil tú i do róbat. Comhlánaigh an fíorú thíos le do thoil.';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha =>
+      'Fadhbanna? Bain triail as hCaptcha ina ionad sin';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile =>
+      'Bain triail as Turnstile ina ionad sin';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Cealaigh';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => 'Seiceáil do ríomhphost';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return 'Sheolamar ríomhphost le nasc chun an logáil isteach seo a údarú. Oscail do bhosca isteach le haghaidh $email.';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => 'Caillteadh nasc';
 
   @override
   String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+      'Chaill muid an nasc agus muid ag fanacht le húdarú. Bain triail eile as le do thoil.';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => 'D\'éag an nasc sínithe isteach';
 
   @override
   String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+      'D\'éag an nasc údaraithe seo. Sínigh isteach arís le do thoil.';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => 'Seol ríomhphost arís';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => 'Seolta arís';
 
   @override
   String ipAuthResendCountdown(int seconds) {
@@ -156,949 +159,1003 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   }
 
   @override
-  String get back => 'Back';
+  String get back => 'Ar ais';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => 'Dheimhniú dhá fhachtóir';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => 'Roghnaigh modh fíoraithe';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => 'Aip Údaraithe';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => 'Eochair Slándála / Eochair Phas';
 
   @override
   String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+      'Cuir isteach an cód 6-dhigití ó d’aip údaraithe nó ceann de do chóid chúltaca.';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => 'Cód';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => 'Bain triail as modh eile';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey =>
+      ' Bain triail as eochair slándála / pasfhocal mar mhalairt';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => 'Roghnaigh cuntas';
 
   @override
   String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+      'Roghnaigh cuntas chun leanúint ar aghaidh, nó cuir ceann eile leis.';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => 'Cuir cuntas leis';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => 'Bain';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return 'Bain $username';
   }
 
   @override
   String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+      'Bainfidh sé seo an seisiún sábháilte don chuntas seo.';
 
   @override
   String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+      'Bainfidh sé seo an t-aon chuntas sábháilte ar an ngléas seo.';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => 'Éagtha';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return 'D\'éag an seisiún do $identifier. Logáil isteach arís le do thoil.';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => 'Bainistigh cuntais';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed =>
+      'Níorbh fhéidir cuntais a athrú. Bain triail eile as.';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => 'Athraigh cuntais';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => 'Socraigh stádas';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => 'Stádas ar líne';
 
   @override
-  String get statusOnline => 'Online';
+  String get statusOnline => 'Ar líne';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => 'Dífhostaithe';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => 'Ná cuir isteach';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => 'Dofheicthe';
 
   @override
-  String get statusOffline => 'Offline';
+  String get statusOffline => 'As líne';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => 'Go dtí go n-athróidh mé é';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => 'Ná glan';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => 'Ar feadh 10 soicind';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 soicind';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 nóiméad';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 nóiméad';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 uair an chloig';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 uair an chloig';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 uair an chloig';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 n-uaire';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 uair an chloig';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 lá';
 
   @override
-  String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+  String get statusDndDescription => 'Ní bhfaighidh tú fógraí ar an deasc';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => 'Beidh tú le feiceáil as líne';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => 'Socraigh stádas saincheaptha';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => 'Stádas saincheaptha';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => 'Glan stádas saincheaptha';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => 'Cad atá ar siúl?';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => 'Roghnaigh emoji';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => 'Glan tar éis';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => 'Sábháil';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => 'Cuntas gníomhach';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => 'Sínigh amach';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => 'Cuntas Ar Fionraí Go Buan';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => 'Cuntas Ar Fionraí';
 
   @override
   String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+      'Tá do chuntas ar fionraí go buan mar gheall ar shárú ar ár dTéarmaí Seirbhíse.';
 
   @override
   String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+      'Tá do chuntas ar fionraí go sealadach. Beidh tú in ann rochtain a fháil ar do chuntas nuair a bheidh an tréimhse fionraí thart.';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => 'Eisíodh';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => 'Críochnaíonn';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => 'Ré';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedPermanent => 'Buan';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => 'Cúis';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => 'Spriocdháta Achomhairc';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return 'Tá do chuntas sceidealta le scriosadh ar $date.';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => 'Seiceáil le haghaidh Nuashonruithe';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return 'Seiceáil arís i ${seconds}s';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => 'Ar ais go dtí Logáil Isteach';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => 'Achomharc';
 
   @override
   String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+      'Mínigh cén fáth ar chóir athbhreithniú a dhéanamh ar do phionós (íosmhéid 50 carachtar)...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => 'Seol Achomharc';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => 'Ag Feitheamh ar Athbhreithniú';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => 'Achomharc Glactha';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => 'Achomharc Diúltaithe';
 
   @override
   String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+      'Glacadh le d\'achomharc agus cuireadh do chuntas ar ais.';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => 'Sínigh Isteach i Do Chuntas';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => 'Dearmad ar do phasfhocal?';
 
   @override
   String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+      'Iontrálann do sheoladh ríomhphoist agus seolfaimid nasc chugat chun do phasfhocal a athshocrú.';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => 'Seol nasc athshocraithe';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => 'Seiceáil do ríomhphost';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      'Tá treoracha athshocraithe phasfhocail seolta againn chuig do sheoladh ríomhphoist. Seiceáil do bhosca isteach agus lean an nasc chun do phasfhocal a athshocrú.';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => 'Fill ar logáil isteach';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => 'Socrú pasfhocal nua';
 
   @override
   String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+      'Iontrálann do phasfhocal nua thíos chun an próiseas athshocraithe a chríochnú.';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => 'Pasfhocal nua';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => 'Deimhnigh pasfhocal nua';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => 'Athshocraigh pasfhocal';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => 'Ní mheaitseálann na pasfhocail.';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => 'Cruthaigh cuntas';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => 'Ainm Taispeána (Roghnach)';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint =>
+      'Cad ba chóir a thabhairt ar dhaoine ort?';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => 'Úsáideoir (Roghnach)';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint =>
+      'Fág folamh le haghaidh úsáideoir randamach';
 
   @override
   String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+      'Cuirfear clib 4-dhigit leis go huathoibríoch chun uathúlacht a chinntiú';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => 'Dáta breithe';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => 'Mí';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => 'Lá';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => 'Bliain';
 
   @override
   String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+      'Aontaím leis na Téarmaí Seirbhíse agus an Polasaí Príobháideachta';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => 'Aontaím leis na ';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => 'Téarmaí Seirbhíse';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => ' agus ';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => 'Polasaí Príobháideachta';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => 'Deimhnigh Pasfhocal';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => 'Cruthaigh cuntas';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => 'An bhfuil cuntas agat cheana féin? ';
 
   @override
   String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+      'Ní bhfuarthas aon phasfhocal don aip seo. Logáil isteach le ríomhphost agus pasfhocal ina ionad sin.';
 
   @override
   String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+      'Ní thacaítear le pasfhocail ar an bhfeiste seo.';
 
   @override
   String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+      'Níl pasfhocail cumraithe don aip seo. Logáil isteach le ríomhphost agus pasfhocal ina ionad sin.';
 
   @override
   String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+      'Tháinig deireadh le hamú pasfhocal. Bain triail eile as le do thoil.';
 
   @override
   String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+      'Níl pasfhocail ar fáil don aip seo. Logáil isteach le ríomhphost agus pasfhocal ina ionad sin.';
 
   @override
-  String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+  String get passkeyFailed => 'The paschlíochán teip. Bain triail eile as.';
 
   @override
   String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+      'Ní féidir cuntas a chruthú. Bain triail eile as.';
 
   @override
   String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+      'Ní féidir logáil isteach faoi láthair. Bain triail eile as.';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword =>
+      'Ríomhphost nó pasfhocal neamhbhailí.';
 
   @override
   String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+      'Ní féidir nasc athshocraithe a sheoladh. Bain triail eile as.';
 
   @override
   String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+      'Ní féidir an focal faire a athshocrú. Bain triail eile as.';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => 'Ceangail leis an bpobal';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => 'Téigh go dtí an pobal';
 
   @override
   String embedInviteOnline(String count) {
-    return '$count Online';
+    return '$count Ar líne';
   }
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count Ball';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => 'Cuireadh Anaithnid';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle =>
+      'Bain triail as cuireadh nua a iarraidh.';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => 'Cuireadh ar fáil';
+
+  @override
+  String get inviteAcceptTitle => 'Tá cuireadh faighte agat chun teacht';
+
+  @override
+  String get inviteAcceptJoinButton => 'Ceangail leis an bpobal';
+
+  @override
+  String get inviteAcceptGoToButton => 'Téigh go dtí an pobal';
+
+  @override
+  String get inviteAcceptInvitesPaused => 'Cuirí ar fionraí';
+
+  @override
+  String get inviteAcceptNotFoundTitle => 'Cuireadh neamhbhailí';
+
+  @override
+  String get inviteAcceptNotFoundDescription =>
+      'D\'fhéadfadh an cuireadh seo a bheith imithe in éag nó neamhbhailí.';
+
+  @override
+  String get inviteAcceptJoinGroupButton => 'Ceangail leis an ngrúpa';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return 'Tá cuireadh faighte agat chun grúpa comhrá príobháideach a cheangal le $inviterName';
+  }
+
+  @override
+  String get inviteAcceptSomeone => 'duine éigin';
+
+  @override
+  String get inviteAcceptEmojiPack => 'Pacáiste Greamáin';
+
+  @override
+  String get inviteAcceptStickerPack => 'Pacáiste Greamáin';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => 'Suiteáil an pacáiste greamáin';
+
+  @override
+  String get inviteAcceptInstallStickerPack => 'Suiteáil an pacáiste greamáin';
+
+  @override
+  String get inviteAcceptPackInstallNote =>
+      'Suiteálfar an pacáiste go huathoibríoch nuair a ghlacann tú leis an gcuireadh seo.';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => 'Diúltaíodh rochtain ar an gcainéal';
 
   @override
   String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+      'Níl rochtain agat ar an gcainéal inar seoladh an teachtaireacht seo.';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => 'Gan rochtain';
 
   @override
-  String get okay => 'Okay';
+  String get okay => 'Ceart go leor';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => 'Téama comhroinnte';
 
   @override
   String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+      'Ní thacaíonn an cliant seo le téamaí saincheaptha.';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => 'Téamaí ar fáil';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => 'Socruithe Príobháideachta';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => 'Teachtaireachtaí Príobháideacha';
 
   @override
   String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+      'Ceadaigh teachtaireachtaí príobháideacha ó bhaill eile sa phobal seo';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => 'Teachtaireachtaí Príobháideacha Bot';
 
   @override
   String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+      'Ceadaigh do bhotaí ón bpobal seo teachtaireachtaí príobháideacha a sheoladh chugat';
 
   @override
   String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+      'Tá cosc curtha ag riarthóirí an phobail ar theachtaireachtaí príobháideacha a fháil ó bhaill a bhfuil aithne acu orthu sa phobal seo amháin.';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => 'Dífhabhtú Pobail';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => 'Cóipeáladh chuig an ngearrthaisce';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => 'Socruithe Fógraí';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return 'Balbhaigh $guildName';
   }
 
   @override
   String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+      'Má bhalbhaíonn tú pobal, ní bheidh táscairí gan léamh ná fógraí le feiceáil mura luaitear thú.';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings => 'Socruithe Fógraí Pobail';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => 'Gach Teachtaireacht';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => 'Luaigh Amháin';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => 'Ní dhéanfar aon rud';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => 'S বায়ú @gach duine agus @anseo';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles => 'Cealaigh Gach Lua @Ról';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => 'Fógraí Brú Ar Soghluaiste';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => 'Sáruithe Fógra';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => 'Roghnaigh cainéal nó catagóir';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => 'Nod@anna Amháin';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => 'Balbhaigh Cainéal';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => 'Díbalbhain Cainéal';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => 'Gan Catagóir';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => 'Marcáil mar Léite';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => 'Balbhaigh DM';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => 'Díbalbhain DM';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => 'Greamán DM';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => 'Díghreamán DM';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => 'Taispeáin I gcónaí sa Bharra Taoibh';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => 'Bain as Taispeántas I gcónaí';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => 'Dún DM';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => 'Dún DM';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return 'An bhfuil tú cinnte gur mian leat do DM le $username a dhúnadh? Is féidir leat é a athoscailt i gcónaí níos déanaí.';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => 'Cóipeáil ID Cainéal';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => 'Cóipeáladh ID Cainéal';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => 'Cóipeáil ID Úsáideora';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => 'Cóipeáladh ID Úsáideora';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => 'Féach Próifíl';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => 'Tosaigh Glao Guth';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => 'Glao guth isteach';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => 'Glac';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => 'Diúltaigh';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => 'Glao isteach';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => 'Déan neamhaird';
 
   @override
   String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+      'Ní féidir an glao seo a thosú faoi láthair. Bain triail eile as i gceann nóiméid.';
 
   @override
   String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+      'Níorbh fhéidir ceangal leis an nglao seo. Seiceáil do nasc agus bain triail eile as.';
 
   @override
   String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+      'Níorbh fhéidir an glao seo a nascadh. Seiceáil do nasc agus bain triail eile as.';
 
   @override
   String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+      'Níorbh fhéidir an glao seo a nuashonrú ar an bhfreastalaí. Seiceáil do nasc agus bain triail eile as.';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => 'Cuir Nóta Leis';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => 'Cuir Grúpa in Eagar';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => 'Tairg Comhaltas';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => 'Cuir Bloc';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => 'Fág Grúpa';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => 'Níl comhaltais ar fáil';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count Comhaltaí';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => 'Ar feadh 15 nóiméad';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => 'Ar feadh 30 nóiméad';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => 'Ar feadh 1 uair';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => 'Ar feadh 3 huaire';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => 'Ar feadh 4 huaire';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => 'Ar feadh 8 n-uaire';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => 'Ar feadh 24 uair';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => 'Ar feadh 3 lá';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => 'Go dtí go n-athróidh mé ar ais é';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => 'Greamán Grúpa DM';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => 'Díbhlocáil DM Grúpa';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => 'Nóta DM';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => 'Bain Nóta DM';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => 'Nóta DM Grúpa';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => 'Bain Nóta DM Grúpa';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => 'Athraigh Leasainm Cara';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => 'Bain Cara';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => 'Cuir Cara leis';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => 'Glac le hiarratas cara';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => 'Déan neamhaird d\'iarratas cara';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => 'Seoladh iarratas cara';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => 'Díbhlocáil';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => 'Deaschódáil Úsáideoir';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => 'Deaschódáil Cainéal';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => 'DM faoi ghlas';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => 'DM gan ghlas';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => 'DM balbhaithe';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => 'DM díbhailbhaithe';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => 'Bain Cara';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'An bhfuil tú cinnte gur mian leat $username a bhaint mar chara?';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => 'Blocáil Úsáideoir';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return 'An bhfuil tú cinnte gur mian leat $username a bhlocáil? Ní bheidh siad in ann teachtaireacht a chur chugat nó iarratais cara a sheoladh chugat.';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => 'Seoladh iarratas cara';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed => 'Teip ar iarratas cara a sheoladh';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed => 'Teip ar iarratas cara a ghlacadh';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => 'Teip ar chara a bhaint';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => 'Teip ar úsáideoir a bhlocáil';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed => 'Teip ar úsáideoir a dhíbhlocáil';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed =>
+      'Teip ar iarratas cara a dhéanamh neamhaird';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => 'Cuir cairde leis';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => 'Cuir cara leis';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => 'Ainm úsáideora#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => 'Ainm úsáideora an chara';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => 'Seol iarratas';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound =>
+      'Ní bhfuarthas aon úsáideoir leis an ainm úsáideora sin.';
 
   @override
   String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+      'Cuir isteach ainm úsáideora bailí (Ainm úsáideora#0000).';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => 'Seoladh iarratas cara';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => 'Faigh do chuntas';
 
   @override
   String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+      'Faigh do chuntas chun iarratais cara a sheoladh.';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => 'Fíoraigh do ríomhphost';
 
   @override
   String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+      'Ní mór duit do sheoladh ríomhphoist a fhíorú sula mbeidh tú in ann iarratais cara a sheoladh.';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => 'Fíoraigh ríomhphost';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return 'Iarratais cara ag teacht isteach ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return 'Iarratais cara ag dul amach ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => 'Iarratas cara ag teacht isteach';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => 'Seoladh iarratas cara';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => 'Féach ar phróifíl';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => 'Glac leis';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => 'Déan neamhaird';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => 'Glac le hiarratas cara';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => 'Déan neamhaird d\'iarratas cara';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return 'An nglacfar an t-iarratas cara ó $userName?';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return 'An ndéanfar neamhaird den iarratas cara ó $displayName?';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => 'Cealaigh iarratas';
 
   @override
   String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+      'Níorbh fhéidir an t-iarratas cara a chealú. Bain triail eile as.';
 
   @override
   String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+      'Níl siad ag glacadh le hiarratais cara faoi láthair.';
 
   @override
   String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+      'Díbhlocáil iad ar dtús chun iarratas cara a sheoladh.';
 
   @override
   String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+      'Ní féidir leat iarratas cara a sheoladh chugat féin.';
 
   @override
   String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+      'Tá sibh i bhur gcairde cheana féin leis an úsáideoir seo.';
 
   @override
   String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+      'Críochnaigh clárú chun iarratais cara a sheoladh.';
 
   @override
   String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+      'Níorbh fhéidir an t-iarratas cara a sheoladh. Bain triail eile as.';
 
   @override
   String get userTagBot => 'BOT';
 
   @override
-  String get userTagSystem => 'System';
+  String get userTagSystem => 'Córas';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => 'Faigh an emoji de do bhrionglóidí';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty => 'Ní thagann aon emojis le do chuardach';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => 'Emoji réamhshocraithe';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => 'Úsáidtear go minic';
 
   @override
-  String get emojiTabGifs => 'GIFs';
+  String get emojiTabGifs => 'GIFanna';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => 'Meáin';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => 'Greamáin';
 
   @override
   String get emojiTabEmojis => 'Emojis';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => 'Cuardaigh GIFanna';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => 'Cuardaigh KLIPY';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => 'Cuardaigh Tenor';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => 'Roghanna Móra';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => 'GIFanna Treallach';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => 'Gan Torthaí Cuardaigh';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription =>
+      'Bain triail as téarma cuardaigh eile';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => 'Níorbh fhéidir GIFanna a luchtú';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody =>
+      'Seiceáil do nasc agus bain triail eile as.';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => 'Daoine & Gáirí';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => 'Ainmhithe & Nádúr';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => 'Bia & Deoch';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => 'Gníomhaíochtaí';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => 'Taisteal & Áiteanna';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => 'Rudaí';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => 'Siombailí';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => 'Bratacha';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return 'Díghlasáil $emojiCount ó $communityCount le Plutonium.';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => 'Faigh Plutonium';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => 'Ná taispeáin seo arís';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count emojis saincheaptha',
+      one: '1 emoji saincheaptha',
     );
     return '$_temp0';
   }
@@ -1108,927 +1165,958 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count pobail',
+      one: '1 pobal',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => 'Rabhadh Nasc Seachtrach';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => 'Tá tú ar tí Fluxer a fhágáil';
 
   @override
   String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+      'Is féidir le naisc sheachtracha a bheith contúirteach. Bí cúramach le do thoil.';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => 'URL ceann scríbe:';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => 'Naisc Sheachtracha';
 
   @override
   String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+      'Cumraigh conas a láimhseáiltear rabhaillí nasc seachtrach.';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => 'Bí muinín i gcónaí as ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix =>
+      ' — scipeáil an rabhadh seo an chéad uair eile';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => 'Tabhair Cuairt ar Láithreán';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => 'Iontaobhas le gach nasc seachtrach';
 
   @override
   String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+      'Bain paraiméadair rianaithe ó URLanna';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      'Bain paraiméadair rianaithe (cosúil le utm_source, fbclid, gclid) go huathoibríoch ó URLanna i dteachtaireachtaí a sheolann tú. Glanann sé an nasc sula sroicheann sé aon duine eile.';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle =>
+      'Iontaobhas le gach nasc seachtrach?';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      'Cuirfidh sé seo muinín i ngach nasc seachtrach agus scipeálfaidh sé an rabhadh do gach fearann. Cuirfear do chuid fearann iontaofa reatha ar ceal. Tá sé seo níos lú slán.';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => 'Iontaobhas Le Gach Ceann';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle =>
+      'Stop ag cur muinín i ngach nasc?';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      'Taispeánfar rabhaillí naisc sheachtraigh arís. Beidh ort fearainn iontaofa a chur leis ina n-aonair.';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction =>
+      'Díchumasaigh Iontaobhas Le Gach Ceann';
 
   @override
   String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+      'Tá muinín ag gach nasc seachtrach. Ní thaispeánfar rabhaillí.';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return 'Tá $count fearann iontaofa agat. Cuir níos mó leis trí tic a chur sa bhosca nuair a thugann tú cuairt ar naisc sheachtracha.';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      'Nuair a bheidh sé cumasaithe, ní thaispeánfar aon rabhaillí naisc sheachtraigh. Tá sé seo níos lú slán.';
 
   @override
   String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+      'Tá comhad na híomhá ró-mhór. Roghnaigh comhad níos lú ná 10 MB.';
 
   @override
   String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+      'Teastaíonn Plutonium ó avatars beoite';
 
   @override
   String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+      'Teastaíonn Plutonium ó bhratacha beoite';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported => 'Ní thacaítear le AVIF beoite';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      'Ní thacaítear le comhaid AVIF beoite a ghearradh agus a rothlú go fóill. Má leanann tú ar aghaidh, uaslódálfar é ina fhoirm bhunaidh.';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => 'Uaslódáil Mar Atá';
 
   @override
   String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+      'Ní thacaítear le híomhánna beoite a ghearradh go fóill. Úsáidfear an t-uaslódáil bunaidh.';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => 'Gearr Avatar';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => 'Gearr Bratach';
 
   @override
-  String get skip => 'Skip';
+  String get skip => 'Scip';
 
   @override
-  String get crop => 'Crop';
+  String get crop => 'Gearr';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => 'Athraigh Do FluxerTag';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      'Ní féidir le hainmneacha úsáideoirí ach litreacha (a-z, A-Z), uimhreacha (0-9), agus poncanna (underscore) a bheith iontu. Tá ainmneacha úsáideoirí neamh-íogair ó thaobh cás de.';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      'Ní féidir le hainmneacha úsáideoirí ach litreacha (a-z, A-Z), uimhreacha (0-9), agus poncanna (underscore) a bheith iontu. Tá ainmneacha úsáideoirí neamh-íogair ó thaobh cás de. Is féidir leat aon chlib 4-dhigit atá ar fáil a roghnú ó #0000 go #9999.';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      'Ní féidir le hainmneacha úsáideoirí ach litreacha (a-z, A-Z), uimhreacha (0-9), agus poncanna (underscore) a bheith iontu. Tá ainmneacha úsáideoirí neamh-íogair ó thaobh cás de. Is féidir leat aon chlib 4-dhigit atá ar fáil a roghnú ó #0001 go #9999.';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return 'Idir $min agus $max carachtar';
   }
 
   @override
   String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+      'Litreacha (a-z, A-Z), uimhreacha (0-9), agus poncanna (_) amháin';
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      'Faigh Plutonium chun do chlib a shaincheapadh nó coinnigh é nuair a athraíonn tú d\'ainm úsáideora';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'FluxerTag Tógtha Cheana Féin';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'Tá an FluxerTag $username#$discriminator tógtha cheana féin. Má leanann tú ar aghaidh, déanfar do dhíograitheoir a athrollú go huathoibríoch.';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => 'Is Sealadach an Chlib Saincheaptha';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return 'Níl do chlib 4-dhigit saincheaptha ar fáil ach fad is atá do shíntiús Plutonium gníomhach. Nuair a thiocfaidh deireadh le do shíntiús ar $date, fillfidh do chlib ar uimhir randamach tar éis tréimhse grásta 3 lá.';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      'Níl do chlib 4-dhigit saincheaptha ar fáil ach fad is atá do shíntiús Plutonium gníomhach. Nuair a thiocfaidh deireadh le do shíntiús, fillfidh do chlib ar uimhir randamach tar éis tréimhse grásta 3 lá.';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => 'Tuigim, Lean Ar Aghaidh';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      'Má shábhálann tú an FluxerTag seo, fillfidh do chlib 4-dhigit saincheaptha ar uimhir randamach nuair a bheidh deireadh le do shíntiús Plutonium. Má theipeann ar do shíntiús athnuachan, beidh tréimhse grásta 3 lá agat sula n-athróidh an chlib.';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return 'Tá do chlib 4-dhigit saincheaptha (#$discriminator) gníomhach fad is atá do shíntiús Plutonium gníomhach. Má chríochnaíonn do shíntiús nó má theipeann air athnuachan tar éis tréimhse grásta 3 lá, fillfidh do chlib ar uimhir randamach.';
   }
 
   @override
   String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+      'Saincheap do chlib 4-dhigit nó coinnigh é nuair a athraíonn tú d\'ainm úsáideora';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return 'Tiocfaidh do thriail Plutonium chun deiridh ar $date. Uasghrádaigh chun do chlib saincheaptha a choinneáil agus chun comhartha ar do phróifíl a thuilleamh.';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      'Tá tú ar thriail Plutonium. Uasghrádaigh chun do chlib saincheaptha a choinneáil agus chun comhartha ar do phróifíl a thuilleamh.';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'FluxerTag Nuashonraithe';
 
   @override
   String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+      'Teip ar FluxerTag a nuashonrú. Bain triail as arís.';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => 'Lean Ar Aghaidh';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => 'Saincheapadh Próifíle';
 
   @override
   String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+      'Cuir cuma do phróifíle in eagar agus féach réamhamharc beo';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => 'Ainm Úsáideora';
 
   @override
   String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+      'Éiligh do chuntas chun do FluxerTag a athrú';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => 'Athraigh FluxerTag';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return 'Saincheap do 4-dhigit tag (#$discriminator) mar is mian leat le Plutonium';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint =>
+      'Athraigh d\'ainm úsáideora agus do 4-dhigit tag';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return 'Tá do 4-dhigit tag féin (#$discriminator) ceangailte le do shíntiús Plutonium agus fillfidh sé ar thag randamach má théann sé in éag.';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => 'Ainm Taispeána';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => 'Forainmneacha';
 
   @override
   String get avatarLabel => 'Avatar';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => 'Athraigh Avatar';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => 'Bain Avatar';
 
   @override
   String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, GIF. Uasmhéid 10MB. Molta: 512×512px';
 
   @override
-  String get bannerLabel => 'Banner';
+  String get bannerLabel => 'Bratach';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => 'Athraigh Bratach';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => 'Bain Bratach';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG, JPEG, WebP, GIF. Uasmhéid 10MB. Íosmhéid: 960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => 'Dath Aiceanta';
 
   @override
   String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+      'Saincheapann sé an teorainn agus dath na brataí ar do phróifíl';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => 'Fúm féin';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText =>
+      'Is féidir leat naisc, emoji, agus Markdown a úsáid.';
 
   @override
   String get emojiPickerTitle => 'Emoji';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle => 'Príobháideacht Bhaiste Plutonium';
 
   @override
   String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+      'Rialú conas a thaispeántar do bhaiste Plutonium do dhaoine eile';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel => 'Folaigh baiste Plutonium go hiomlán';
 
   @override
   String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+      'Folaigh do bhaiste Plutonium go hiomlán ó úsáideoirí eile';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => 'Folaigh dáta ceannaigh Plutonium';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return 'Folaigh dáta ceannaigh Plutonium ($date)';
   }
 
   @override
   String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+      'Bain an t-am ar cheannaigh tú Plutonium den chéad uair ó do bhaiste';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription => 'Maslaigh Visionary mar shíntiús';
 
   @override
   String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+      'Taispeáin do Visionary mar shíntiús rialta ina ionad sin';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => 'Folaigh baiste ID Visionary';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return 'Folaigh baiste ID Visionary (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription => 'Bain do bhaiste ID Visionary';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return 'Tá tú ar thriail Plutonium — tosóidh do shíntiús ar $date';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      'Cuirfear tús go huathoibríoch le do shíntiús nuair a chríochnóidh do thriail. Ní gá aon ghníomh.';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return 'Tá tú ar thriail Plutonium a chríochnaíonn ar $date';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile => 'Tá tú ar thriail Plutonium';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG, PNG, WebP. Uasmhéid 10MB. Molta: 512×512px. Teastaíonn Plutonium le haghaidh avatars beoite (GIF).';
 
   @override
   String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+      'Saincheap do phróifíl le híomhá bratach statach nó beoite chun í a dhéanamh seasamh amach.';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => 'Faigh Plutonium';
 
   @override
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
   String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+      'Níl ceannacháin in-app ar fáil ar an ardán seo fós. Fan go dlúth — ag teacht go luath!';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => 'Réamhamharc';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => 'Teachtaireacht';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'Ball Fluxer Ó';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => 'Cuntas Neamh-éilithe';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      'Níl do chuntas éilithe fós. Gan ríomhphost agus pasfhocal, d’fhéadfá rochtain a chailleadh. Éiligh do chuntas anois chun é a dhaingniú.';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => 'Éiligh Cuntas';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => 'Cineál Próifíle';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => 'Próifíl Dhomhanda';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      'Tá tú ag cur in eagar do phróifíl in aghaidh an phobail. Ní bheidh an phróifíl seo infheicthe ach sa phobal seo agus beidh sí ag sárú do phróifíl dhomhanda.';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => 'Leasainm an Phobail';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      'Éilíonn Míotóireacht do phróifíl, do bhratach, do dhath accent, agus do bheathaisnéis do phobail aonair. Is saor in aisce do gach duine ainm comharthaíochta an phobail agus forainmneacha.';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => 'Úsáid Próifíl Dhomhanda';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => 'Úsáid Íomhá Saincheaptha';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => 'Ná Taispeáin';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => 'Próifíl nuashonraithe';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => 'Cuir Próifíl in Eagar';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => 'Nóta';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '(infheicthe duitse amháin)';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => 'Níl nóta ar bith fós.';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => 'Deimhnigh D\'Aitheantas';
 
   @override
   String get sudoDescription =>
-      'This action requires verification to continue.';
+      'Éilíonn an gníomh seo dearbhú chun leanúint ar aghaidh.';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => 'Cód Fíordheimhnitheora';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => 'Focal Scoir';
 
   @override
-  String get sudoMethodTotp => 'Authenticator';
+  String get sudoMethodTotp => 'Fíordheimhnitheoir';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed =>
+      'Theip ar an bhfíorú. Bain triail eile as le do thoil.';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => 'Cuntas';
 
   @override
   String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+      'Bainistigh do ríomhphost, focal scoir, agus socruithe cuntais';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => 'Slándáil';
 
   @override
   String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+      'Cosain do chuntas le fíordheimhniú dhá fhachtóir agus le pasghnéithe';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => 'Socruithe Ríomhphoist';
 
   @override
   String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+      'Bainistigh an seoladh ríomhphoist a úsáideann tú chun logáil isteach i Fluxer';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => 'Seoladh Ríomhphoist';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => 'Níl seoladh ríomhphoist socraithe';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => 'Athraigh Ríomhphost';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => 'Cuir Ríomhphost leis';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => 'Nocht';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => 'Folaigh';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => 'Focal Scoir';
 
   @override
   String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+      'Athraigh do phasfhocal chun do chuntas a choinneáil slán';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => 'Focal Scoir Reatha';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return 'Athraíodh an uair dheireanach: $date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged =>
+      'Athraíodh an uair dheireanach: Riamh';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => 'Níl focal scoir socraithe';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => 'Athraigh Focal Scoir';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => 'Socraigh Focal Scoir';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => 'Athraigh Focal Scoir';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      'Seolfaimid cód fíoraithe chuig do sheoladh ríomhphoist chun d\'aitheantas a dheimhniú sula n-athrófar do phasfhocal.';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => 'Tosaigh';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => 'Deimhnigh Do Ríomhphost';
 
   @override
   String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+      'Iontráil an cód fíoraithe a seoladh chuig do sheoladh ríomhphoist.';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => 'Cód Fíoraithe';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => 'Deimhnigh';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => 'Socraigh Focal Scoir Nua';
 
   @override
   String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+      'Iontráil do phasfhocal nua thíos.';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => 'Focal Scoir Nua';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => 'Deimhnigh Focal Scoir Nua';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => 'Athraigh Focal Scoir';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => 'Athraíodh an focal scoir';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch =>
+      'Ní mheaitseálann na focail scoir';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => 'Cód neamhbhailí nó éagtha';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => 'Athraigh Ríomhphost';
 
   @override
   String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+      'Seolfaimid cóid fíoraithe chun d\'aitheantas a dheimhniú sula n-athrófar do sheoladh ríomhphoist.';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => 'Tosaigh';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => 'Deimhnigh Ríomhphost Reatha';
 
   @override
   String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+      'Iontráil an cód fíoraithe a seoladh chuig do sheoladh ríomhphoist reatha.';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => 'Iontráil Ríomhphost Nua';
 
   @override
   String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+      'Iontráil an seoladh ríomhphoist nua ar mhaith leat a úsáid.';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => 'Ríomhphost Nua';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => 'Seol Cód Fíoraithe';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => 'Deimhnigh Ríomhphost Nua';
 
   @override
   String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+      'Iontráil an cód fíoraithe a seoladh chuig do sheoladh ríomhphoist nua.';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => 'Athraithe Ríomhphost';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => 'Cód neamhbhailí nó caite';
 
   @override
-  String get resend => 'Resend';
+  String get resend => 'Seol Arís';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return 'Seol Arís (${seconds}s)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => 'Cód Fíoraithe';
 
   @override
-  String get verify => 'Verify';
+  String get verify => 'Deimhnigh';
 
   @override
-  String get enable => 'Enable';
+  String get enable => 'Cumasaigh';
 
   @override
-  String get disable => 'Disable';
+  String get disable => 'Díchumasaigh';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Scrios';
 
   @override
-  String get save => 'Save';
+  String get save => 'Sábháil';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => 'Dá-Fhachtóir Fíordheimhniú';
 
   @override
   String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+      'Cuir sraith bhreise slándála le do chuntas';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => 'Aip Fíordheimhnithe';
 
   @override
   String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+      'Tá fíordheimhniú dhá fhachtóir cumasaithe';
 
   @override
   String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+      'Úsáid aip fíordheimhnithe chun cóid a ghiniúint le haghaidh fíordheimhnithe dhá fhachtóir';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => 'Códanna Cúltaca';
 
   @override
   String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+      'Féach ar agus bainistigh do chóid chúltaca chun aisghabháil cuntais';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => 'Féach ar Chóid';
 
   @override
-  String get securityPasskeysSectionTitle => 'Passkeys';
+  String get securityPasskeysSectionTitle => 'Eochracha Pas';
 
   @override
   String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+      'Úsáid eochracha pas chun logáil isteach gan phasfhocal agus fíordheimhniú dhá fhachtóir';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => 'Eochracha Pas Cláraithe';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => 'Níl aon eochracha pas cláraithe';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: 'eochracha pas',
+      one: 'eochair phas',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$count $_temp0 cláraithe (uasmhéid 10)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => 'Cuir Eochair Phas Leis';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return 'Curtha leis: $date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return 'Úsáideadh an uair dheireanach: $date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => 'Athainmnigh';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => 'Scrios Eochair Phas';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return 'An bhfuil tú cinnte gur mhaith leat an eochair phas \"$name\" a scriosadh?';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => 'Ainmnigh Eochair Phas';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => 'Ainm Eochair Phas';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint =>
+      'm.sh., YubiKey, iPhone, Ríomhaire Oibre';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => 'Uimhir Ghutháin';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription =>
+      'Bainistigh d\'uimhir ghutháin.';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => 'Uimhir Ghutháin';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => 'Níl aon uimhir ghutháin curtha leis.';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => 'Cuir Fón Leis';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => 'Bain';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => 'Bain Uimhir Ghutháin';
 
   @override
   String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+      'An bhfuil tú cinnte gur mian leat d\'uimhir ghutháin a bhaint?';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => 'Baineadh an uimhir ghutháin';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => 'Gnéithe Slándála';
 
   @override
   String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+      'Éiligh do chuntas chun rochtain a fháil ar ghnéithe slándála mar fíordheimhniú dhá fhachtóir agus pasfhreagair. ';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      'Caithfidh tú do sheoladh ríomhphoist a fhíorú sula féidir leat fíordheimhniú dhá fhachtóir, pasfhreagair, nó fíordheimhniú SMS a shocrú.';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => 'Socrúchán Aip Fíordheimhnithe';
 
   @override
   String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+      'Scan an cód QR le d\'aip fíordheimhnithe chun cóid a ghiniúint le haghaidh fíordheimhnithe dhá fhachtóir.';
 
   @override
-  String get totpEnableCodeLabel => 'Code';
+  String get totpEnableCodeLabel => 'Cód';
 
   @override
   String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+      'Cuir isteach an cód 6-dhigit ón d\'aip fíordheimhnithe';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess =>
+      'Tá fíordheimhniú dhá fhachtóir curtha ar bun';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => 'Bain Aip Fíordheimhnithe';
 
   @override
   String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+      'Cuir isteach an cód 6-dhigit ón d\'aip fíordheimhnithe chun fíordheimhniú dhá fhachtóir a dhíchumasú.';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => 'Díchumasaíodh fíordheimhniú dhá fhachtóir';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => 'Códanna Cúltaca';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      'Má chailleann tú rochtain ar d\'aip fíordheimhnithe agus mura bhfuil na cóid seo agat, beidh tú faoi ghlas go buan ón d\'chuntas. Íoslódáil nó cóipeáil iad anois agus stóráil iad in áit shábháilte.';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => 'Íoslódáil';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => 'Cóipeáil';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied =>
+      'Cóipeáladh cóid chúltaca chuig an ghearrthaisce';
 
   @override
   String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+      'Tá mo chóid chúltaca íoslódáilte nó cóipeáilte agam agus stóráilte agam in áit shábháilte.';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => 'Críochnaithe';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => 'Féach ar Chódanna Cúltaca';
 
   @override
   String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+      'D\'fhéadfadh go mbeadh gá le fíordheimhniú sula bhfeicfear do chóid chúltaca.';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => 'Cuir Uimhir Ghutháin Leis';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => 'Uimhir Ghutháin';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => 'Cuir isteach d\'uimhir ghutháin';
 
   @override
   String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+      'Cuir isteach d\'uimhir ghutháin. Seolfaimid cód fíoraithe chugat trí SMS.';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => 'Seol Cód';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => 'Fíoraigh Uimhir Ghutháin';
 
   @override
   String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+      'Cuir isteach an cód fíoraithe a seoladh chuig d\'uimhir ghutháin.';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => 'Cuireadh uimhir ghutháin leis';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => 'Crios Contúirte';
 
   @override
   String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+      'Gníomhartha dochreidte agus millteach';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => 'Díchumasaigh Cuntas';
 
   @override
   String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+      'Díchumasaigh do chuntas go sealadach. Is féidir leat é a athghníomhachtú níos déanaí trí logáil isteach arís.';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      'Má dhíchumasaíonn tú do chuntas, logálfar amach thú ó gach seisiún. Is féidir leat do chuntas a athghníomhachtú am ar bith trí logáil isteach arís.';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => 'Scrios Cuntas';
 
   @override
   String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+      'Scrios do chuntas agus na sonraí go léir a bhaineann leis go buan. Ní féidir an gníomh seo a aisiompú.';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      'Cealaigh d\' síntiús Plutonium gníomhach i socruithe Plutonium sula scriosann tú do chuntas.';
+
+  @override
+  String get dangerZoneDeleteCannotDeleteAccount =>
+      'Ní féidir cuntas a scriosadh';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      'Ní féidir leat do chuntas a scriosadh agus tú i do úinéir ar phobail. Aistrigh úinéireacht na bpobail seo a leanas ar dtús:';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return 'agus $count níos mó';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return 'Chun úinéireacht a aistriú, téigh go dtí $settingsPath agus bain úsáid as an rogha úinéireacht a aistriú.';
+  }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      'An bhfuil tú cinnte gur mian leat do chuntas a scriosadh? Sceidealófar do chuntas le haghaidh scriosadh buan.';
 
   @override
   String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+      'Is féidir leat an próiseas scriosadh a chur ar ceal laistigh de 14 lá';
 
   @override
   String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+      'Tar éis 14 lá, scriosfar do chuntas go buan';
 
   @override
   String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+      'Nuair a bheidh an scriosadh próiseáilte, ní bheidh tú in ann rochtain ar do chuntas a aisghabháil';
 
   @override
   String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+      'Ní bheidh tú in ann do theachtaireachtaí seolta a scriosadh tar éis do chuntas a scriosadh';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      'Más mian leat do shonraí a onnmhairiú nó do theachtaireachtaí a scriosadh ar dtús, tabhair cuairt ar an rannán Painéal Príobháideachta i Socruithe Úsáideora sula leanann tú ar aghaidh.';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => 'Éiligh Do Chuntas';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      'Éiligh do chuntas trí ríomhphost agus pasfhocal a chur leis. Seolfaimid cód fíoraithe chun do ríomhphost a dheimhniú sula gcríochnófar é.';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => 'Ríomhphost';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => 'Focal faire';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => 'Seol Cód';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      'Iontráláil an cód a sheolaimid chuig do ríomhphost chun é a fhíorú. Socrófar do phasfhocal nuair a dheimhnítear an cód.';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => 'Éirí leis an gcuntas a éileamh';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => 'Eolas tábhachtach:';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => 'Tharla earráid';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => 'Cód neamhbhailí';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: '$count bliain ó shin',
+      one: '1 bhliain ó shin',
     );
     return '$_temp0';
   }
@@ -2038,8 +2126,8 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: '$count míonna ó shin',
+      one: '1 mhí ó shin',
     );
     return '$_temp0';
   }
@@ -2049,8 +2137,8 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: '$count laethanta ó shin',
+      one: '1 lá ó shin',
     );
     return '$_temp0';
   }
@@ -2060,8 +2148,8 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count uaireanta an chloig ó shin',
+      one: '1 uair an chloig ó shin',
     );
     return '$_temp0';
   }
@@ -2071,575 +2159,582 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count nóiméid ó shin',
+      one: '1 nóiméad ó shin',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => 'díreach anois';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => 'Feidhmchláir Údaraithe';
 
   @override
   String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+      'Tá rochtain ar do chuntas Fluxer tugtha do na feidhmchláir seo.';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => 'Gan Feidhmchláir Údaraithe';
 
   @override
   String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+      'Níor údaraiú tú d\'aon fheidhmchlár rochtain a fháil ar do chuntas.';
 
   @override
   String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+      'Teip ar Feidhmchláir Údaraithe a luchtú';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return 'Údaraithe ar $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => 'Ceadanna tugtha';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => 'Cealaigh';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => 'Ceartaigh rochtain feidhmchláir';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return 'An bhfuil tú cinnte gur mhaith leat rochtain a chealú do $appName? Ní bheidh rochtain ar do chuntas ag an bhfeidhmchlár seo a thuilleadh.';
   }
 
   @override
   String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+      'Rochtain ar do bhunfhaisnéis próifíle (ainm úsáideora, avatar, etc.)';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => 'Féach ar do sheoladh ríomhphoist';
 
   @override
   String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+      'Féach ar na pobail a bhfuil tú i do bhall díobh';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections => 'Féach ar do chuntais nasctha';
 
   @override
-  String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+  String get authorizedAppsScopeBot => 'Cuir bot le pobal le ceadanna iarrtha';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin =>
+      'Rochtain ar chríochphointí riaracháin';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => 'Ag feitheamh le scriosadh';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => 'Úsáideoirí Blocáilte';
 
   @override
   String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+      'Ní féidir le húsáideoirí blocáilte iarratais cairde a sheoladh chugat nó teachtaireacht a chur chugat go díreach.';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => 'Gan Úsáideoirí Blocáilte';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription =>
+      'Níor bhlocáil tú aon duine go fóill.';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError => 'Teip ar Úsáideoirí Blocáilte a luchtú';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => 'Díbhlocáil';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => 'Díbhlocáil Úsáideoir';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'An bhfuil tú cinnte gur mhaith leat $username a dhíbhlocáil?';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => 'Cóipeáil FluxerTag';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => 'Cóipeáil ID Úsáideora';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => 'Níorbh fhéidir próifíl a luchtú';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => 'Athriail';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => 'Teachtaireacht';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => 'Glao Gutháin';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => 'Glao Físe';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => 'Cuir Próifíl in Eagar';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'Foireann Fluxer';
 
   @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
+  String get userProfileCtpBadgeTooltip => 'Foireann Pobail Fluxer';
 
   @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer Partner';
+  String get userProfilePartnerBadgeTooltip => 'Comhpháirtí Fluxer';
 
   @override
-  String get userProfileBugHunterBadgeTooltip => 'Fluxer Bug Hunter';
+  String get userProfileBugHunterBadgeTooltip => 'Sealgair Bugaí Fluxer';
 
   @override
-  String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
+  String get userProfilePlutoniumBadgeTooltip => 'Plútóniam Fluxer';
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'Liostáil Plútóniam Fluxer ó $date';
   }
 
   @override
-  String get userProfileVisionaryBadgeTooltip => 'Fluxer Visionary';
+  String get userProfileVisionaryBadgeTooltip => 'Físghníomhaí Fluxer';
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'Físghníomhaí ó $date';
   }
 
   @override
   String userProfileVisionaryIdTooltip(int sequence) {
-    return 'Visionary ID #$sequence';
+    return 'ID Físghníomhaí #$sequence';
   }
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return 'Cairde Comónta ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return 'Pobail Chomónta ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => 'Cairde Comónta';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => 'Pobail Chomónta';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends => 'Ní bhfuarthas aon gcairde comónta.';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities =>
+      'Ní bhfuarthas aon phobail chomónta.';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return 'Leasainm: $nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => 'Oscail DM';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return 'Chuir tú bac ar $username. Ní bheidh tú in ann teachtaireachtaí a sheoladh mura ndíghlasálann tú iad.';
   }
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get blockedUserComposerBarrierAction => 'Díghlasáil';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileOpenDm => 'Oscail DM';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteTitle => 'Nóta';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteVisibility => '(infheicthe duit amháin)';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteSave => 'Sábháil';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteDelete => 'Scrios';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileNoteEmpty => 'Cliceáil chun nóta a chur leis';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileMemberSince => 'Ball Ó';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileAboutMe => 'Fúmsa';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUsername => 'Cóipeáil Ainm Úsáideora';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileCopyUserId => 'Cóipeáil ID Úsáideora';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewMainProfile => 'Féach Príomhphróifíl';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileViewCommunityProfile => 'Féach Próifíl Pobail';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileBlockUser => 'Cuir bac ar úsáideoir';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileUnblockUser => 'Díghlasáil úsáideoir';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileRemoveFriend => 'Bain cara';
+
+  @override
+  String get userProfileBlockConfirmTitle => 'Cuir bac ar úsáideoir';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return 'An bhfuil tú cinnte gur mian leat bac a chur ar $username?';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => 'Díghlasáil úsáideoir';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return 'An bhfuil tú cinnte gur mian leat $username a dhíghlasáil?';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => 'Bain cara';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return 'An bhfuil tú cinnte gur mian leat $username a bhaint mar chara?';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => 'Theip ar DM a oscailt';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote => 'Theip ar nóta a shábháil';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed =>
+      'Theip ar an ngníomh, bain triail eile as';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => 'Athraigh leasainm';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => 'Caith amach';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => 'Díbhe';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => 'Cuir ar fionraí';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => 'Bain fionraí';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => 'Aistrigh úinéireacht';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => 'Tuairiscigh ar úsáideoir';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => 'Tuairiscigh ar theachtaireacht';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return 'Caith amach $username?';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return 'An bhfuil tú cinnte gur mian leat $username a chaitheamh amach? Is féidir leo filleadh le cuireadh nua.';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => 'Bain an t-am teoranta?';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return 'Má bhaintear an t-am teoranta, beidh $username in ann teachtaireachtaí a sheoladh, imoibriú, agus cainéil gutha a nascadh arís.';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => 'Aistriú úinéireachta?';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return 'Aistriú úinéireacht an phobail seo chuig $username? Tá sé seo do-aisiompaithe agus caillfidh tú gach pribhléid úinéara.';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return 'Díbirt $username';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => 'Ré an dibhearta';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel => 'Ré saincheaptha (soicindí)';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return 'Aon luach ó $min go $max soicindí';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel =>
+      'Scrios stair teachtaireachtaí';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => 'Ná scrios aon cheann';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => '24 uair an chloig roimhe seo';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => '7 lá roimhe seo';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => 'Cúis (roghnach)';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => 'Cuir isteach cúis leis an dibhearta';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => 'Díbirt ball';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return 'Am teoranta do $username';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => 'Ré an ama teoranta';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => 'Am teoranta don bhall';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => 'Leasainm';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => 'Cuir isteach leasainm';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => 'Sábháil';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return 'Chaith $username amach';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return 'Díbearadh $username';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return 'Am teoranta do $username';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return 'Baineadh an t-am teoranta do $username';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => 'Nuashonraíodh an leasainm';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => 'Aistríodh an úinéireacht';
 
   @override
-  String get durationPermanent => 'Permanent';
+  String get durationPermanent => 'Buan';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 soicind';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 nóiméad';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 nóiméad';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 uair an chloig';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 uair an chloig';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 lá';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 lá';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 lá';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 seachtain';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 sheachtain';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 mhí';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => 'Saincheaptha…';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => 'Tuairiscigh ar úsáideoir';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => 'Próifíl mhí-oiriúnach';
 
   @override
   String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+      'Tá ábhar míchuí i bpróifíl an úsáideora seo';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return 'Tá $name ag scríobh...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return 'Tá $name1 agus $name2 ag scríobh...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return 'Tá $name1, $name2 agus $name3 ag scríobh...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => 'Tá roinnt daoine ag scríobh...';
 
   @override
   String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+      'Tá dornán de laochra méarchláir ag bailiú...';
 
   @override
   String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+      'Tá siansa de mhéara ag cnagadh ar siúl...';
 
   @override
-  String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+  String get typingIndicatorFiesta => 'Is féasta scríofa iomlán é seo anseo';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse =>
+      'Aifreann scríofa, is aifreann scríofa é seo';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return 'Is mór an sásamh duit a bheith anseo, $username!';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return 'Fáilte, $username! Mothaigh ar do shuaimhneas.';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return 'Dia duit, $username! Is mór an sásamh duit a bheith anseo.';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return 'Dia duit, $username! Léim isteach nuair a bhíonn tú réidh.';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return 'Hey $username, is mór an sásamh thú a fheiceáil anseo!';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return 'Hey a chara, $username! Tá súil agam go mbainfidh tú sult as do chuairt.';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return 'Hey, $username, fáilte ar bord!';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return 'Is mór an sásamh gur tháinig tú, $username!';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return 'Fáilte isteach, $username!';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return 'Fáilte, $username!';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return 'Fáilte, $username! Is mór an sásamh linn thú a bheith anseo.';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return 'Fáilte, $username! Tá súil agam go mbainfidh tú sult as d\'am anseo.';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return 'Fáilte, $username! Tosaíonn do chéad chomhrá eile anseo.';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return 'Fáilte, $username. Is mór an sásamh linn thú a bheith anseo.';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return 'Is mór an sásamh thú a fheiceáil, $username! Fáilte isteach.';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return 'Tá tú anseo, $username! Is maith an rud thú a bheith linn.';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return 'Tá tú tagtha, $username! Tosaimis.';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => 'anois';
 
   @override
   String relativeTimeShortMinutes(int count) {
@@ -2679,8 +2774,8 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}mo',
-      one: '1mo',
+      other: '${count}mh',
+      one: '1mh',
     );
     return '$_temp0';
   }
@@ -2690,50 +2785,50 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}y',
-      one: '1y',
+      other: '${count}b',
+      one: '1b',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => 'Mo Gléasanna';
 
   @override
   String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+      'Féach ar gach gléas atá logáilte isteach i do chuntas faoi láthair. Cealaigh aon seisiúin nach n-aithníonn tú.';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => 'Ghléas Reatha';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => 'Ghléasanna Eile';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => 'Téigh isteach i Mód Roghnaithe';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => 'Fág Mód Roghnaithe';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => 'Roghnaigh Gach Ceann';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => 'Glan Roghnú';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => 'Cealaigh gléas';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => 'Sínigh amach gach gléas eile';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Sínigh amach $count gléasanna',
+      one: 'Sínigh amach 1 ghléas',
     );
     return '$_temp0';
   }
@@ -2743,14 +2838,15 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: 'Sínigh amach $count gléasanna',
+      one: 'Sínigh amach 1 ghléas',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle =>
+      'Sínigh amach gach gléas eile';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
@@ -2758,183 +2854,186 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
+          'Sínfidh sé seo na gléasanna roghnaithe amach as do chuntas. Beidh ort logáil isteach arís ar na gléasanna sin.',
       one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+          'Sínfidh sé seo an gléas roghnaithe amach as do chuntas. Beidh ort logáil isteach arís ar an ngléas sin.',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      'Dícheanglófar na gléasanna roghnaithe ó do chuntas. Beidh ort logáil isteach arís ar na gléasanna sin.';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => 'Lean ar aghaidh';
 
   @override
   String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+      'Beidh ort logáil isteach arís ar gach gléas a dícheanglófar';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => 'Earráid Líonra';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      'Tá fadhb againn ag nascadh leis an leanúnachas spás-ama. Seiceáil do nasc agus bain triail eile as.';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: 'Gléasanna dícheangailte',
+      one: 'Gléas dícheangailte',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError =>
+      'Níorbh fhéidir dícheangal. Bain triail eile as.';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => 'OS Anaithnid';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => 'Ardán Anaithnid';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return '$duration modh mall';
   }
 
   @override
   String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+      'Tá tú i mód mall. Fan sula seolann tú teachtaireacht eile.';
 
   @override
   String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+      'Tá mód mall cumasaithe, ach tá tú díolmhaithe.';
 
   @override
   String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+      'Ní féidir teachtaireachtaí a sheoladh sa chainéal seo.';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return 'Fógraí córais ó fhoireann $productName. Ní féidir leat freagairt anseo.';
   }
 
   @override
   String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+      'Tá teachtaireachtaí ar sos go sealadach sa phobal seo.';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      'Tá tú ar sos. Tá teachtaireachtaí, imoibrithe, agus guth ar sos go dtí go dtí go rachaidh an t-am sos as feidhm.';
 
   @override
   String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+      'Caithfidh tú d\'fhógra a éileamh chun teachtaireachtaí a sheoladh sa phobal seo.';
 
   @override
   String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+      'Caithfidh tú do ríomhphost a fhíorú chun teachtaireachtaí a sheoladh sa phobal seo.';
 
   @override
   String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+      'Tá do chuntas ró-nua chun teachtaireachtaí a sheoladh sa phobal seo.';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      'Níor bhall den phobal seo thú le fada go leor chun teachtaireachtaí a sheoladh.';
 
   @override
   String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+      'Caithfidh tú uimhir ghutháin a fhíorú chun teachtaireachtaí a sheoladh sa phobal seo.';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => 'Fíoraigh ríomhphost';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => 'Fíoraigh fón';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return 'An iomarca comhad ceangailte (uasmhéid $max)';
   }
 
   @override
   String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+      'Sáraíonn ceann amháin nó níos mó de na comhaid an teorainn mhéide';
 
   @override
   String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+      'Tá na comhaid seo ró-mhór le seoladh le chéile';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload => 'Scáip comhaid chun iad a uaslódáil';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend =>
+      'Scáip comhaid chun iad a sheoladh anois';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => 'Seol teachtaireacht gutha';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => 'Teachtaireacht gutha';
 
   @override
   String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+      'Coinnigh chun taifeadadh. Tarraing suas chun glasáil, nó scaoil chun seoladh.';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => 'Scrios teachtaireacht gutha';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => 'Seol teachtaireacht gutha';
 
   @override
   String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+      'Ní féidir tosú ag taifeadadh. Ceadaigh rochtain ar an micreafón.';
 
   @override
   String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+      'Ní thacaítear le taifeadadh gutha ar an bhfeiste seo.';
 
   @override
   String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+      'Fág an glao gutha chun teachtaireacht gutha a thaifeadadh.';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed =>
+      'Theip ar thaifeadadh. Bain triail eile as.';
 
   @override
   String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+      'Teip cur ar theachtaireacht gutha. Bain triail eile as.';
 
   @override
   String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+      'Labhair anois. Brúigh Stop nuair a bheidh tú críochnaithe — is féidir leat a ghearradh ina dhiaidh sin.';
 
   @override
   String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+      'Tarraing na hanlaí chun a ghearradh, ansin brúigh Seol.';
 
   @override
   String get voiceMessageStop => 'Stop';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => 'Tosaigh ag taifeadadh';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => 'Seinn';
 
   @override
-  String get voiceMessagePause => 'Pause';
+  String get voiceMessagePause => 'Sos';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -2943,44 +3042,44 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return 'Ní mór go mbeadh an rogha ar a laghad ${secondsString}s.';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => 'Cuir ceangaltán in eagar';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => 'Ainm comhaid';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => 'Cur síos';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => 'Nóta alt roghnach';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => 'Marcáil mar spoiler';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => 'Bain ceangaltán';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => 'Íosluchtaigh';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => ' Chuaigh ceangaltán in éag';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => 'Gailearaí';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => 'Ceamara';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => 'Brabhsáil comhaid';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip => 'Greamaigh íomhá ón ghearrthaisce';
 
   @override
   String get chatAttachmentSpoiler => 'Spoiler';
@@ -2989,200 +3088,201 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => 'Nocht spoiler';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => 'Nocht';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => 'Cliceáil chun nochtadh';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => 'Ábhar aibí';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => 'Pobail aibí';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => 'Catagóirí aibí';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => 'Cainéil aibí';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => 'Rabhadh ábhair pobail';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle => 'Rabhadh ábhair catagóire';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => 'Rabhadh ábhair cainéil';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => 'Tá ábhar íogair anseo.';
 
   @override
   String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Tá an pobal seo marcáilte le haghaidh ábhar aibí agus d\'fhéadfadh ábhar a bheith ann nach bhfuil oiriúnach do roinnt úsáideoirí.';
 
   @override
   String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Tá an catagóir seo marcáilte le haghaidh ábhar aibí agus d\'fhéadfadh ábhar a bheith ann nach bhfuil oiriúnach do roinnt úsáideoirí.';
 
   @override
   String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Tá an cainéal seo marcáilte le haghaidh ábhar aibí agus d\'fhéadfadh ábhar a bheith ann nach bhfuil oiriúnach do roinnt úsáideoirí.';
 
   @override
   String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+      'Tá an cainéal guth seo marcáilte le haghaidh ábhar aibí agus d\'fhéadfadh ábhar a bheith ann nach bhfuil oiriúnach do roinnt úsáideoirí.';
 
   @override
   String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+      'Tá an cainéal nasc seo marcáilte le haghaidh ábhar aibí agus d\'fhéadfadh sé ábhar a oscailt nach bhfuil oiriúnach do roinnt úsáideoirí.';
 
   @override
   String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+      'Níl an pobal aibí seo ar fáil do do chuntas.';
 
   @override
   String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+      'Níl an catagóir aibí seo ar fáil do do chuntas.';
 
   @override
   String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+      'Níl an cainéal aibí seo ar fáil do do chuntas.';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => 'Lean ar aghaidh';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => 'Tuigim';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => 'Oscail nasc';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => 'Ábhar íogair';
 
   @override
   String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+      'Rialú conas a scagtar meáin aibí nó íogair i gcomhthéacsanna éagsúla';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel =>
+      'Teachtaireachtaí príobháideacha ó chairde';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel =>
+      'Teachtaireachtaí príobháideacha ó dhaoine eile';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => 'Teachtaireachtaí i gcainéil pobail';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => 'Taispeáin';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => 'Cealaigh';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => 'Cuir bac air';
 
   @override
   String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+      'Cealaigh meáin go dtí go gcríochnóidh an scanadh sábháilteachta';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      'Nuair a bhíonn sé cumasaithe, cealaítear íomhánna agus físeáin go dtí go gcríochnóidh an scanadh sábháilteachta ábhair.';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+      'Tá an socrú seo ar siúl i gcónaí do do chuntas.';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => 'Athshocraigh';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => 'Sábháil';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count comhad',
+      one: '1 comhad',
     );
-    return 'Uploading $_temp0';
+    return 'Ag uaslódáil $_temp0';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => 'Cealaigh uaslódáil';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return 'Éagfaidh ar $date';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return 'Éagfaidh idir $start agus $end';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => 'Naisc';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      'Ceangail cuntais agus fearainn sheachtracha le do phróifíl Fluxer. Beidh naisc fhíoraithe le feiceáil ar do phróifíl do dhaoine eile.';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => 'Gan naisc fós';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      'Ceangail do chuntas Bluesky nó fíoraigh úinéireacht fearainn chun iad a thaispeáint ar do phróifíl.';
 
   @override
   String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+      'Fíoraigh úinéireacht fearainn chun é a thaispeáint ar do phróifíl.';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
 
   @override
-  String get connectionsAddDomain => 'Domain';
+  String get connectionsAddDomain => 'Fearann';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => 'Cuir nasc Bluesky leis';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => 'Cuir nasc fearainn leis';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => 'Cuir in eagar';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => 'Bain';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => 'Tá an nasc seo fíoraithe.';
 
   @override
-  String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+  String get connectionUnverifiedLabel => 'Níl an nasc seo fíoraithe.';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => 'Cuir Nasc leis';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => 'Cineál Nasc';
 
   @override
-  String get connectionHandleLabel => 'Handle';
+  String get connectionHandleLabel => 'Láimhseálaí';
 
   @override
-  String get connectionDomainLabel => 'Domain';
+  String get connectionDomainLabel => 'Fearann';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -3191,284 +3291,287 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => 'Tá an nasc seo agat cheana féin.';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => 'Ceangail le Bluesky';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => 'Ar Aghaidh';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => 'Deimhnigh Nasc';
 
   @override
   String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+      'Úsáid an taifead thíos chun úinéireacht an fhearainn a chruthú.';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'Taifead TXT DNS';
 
   @override
-  String get connectionDnsHostLabel => 'Host';
+  String get connectionDnsHostLabel => 'Óstach';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => 'Luach';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => 'Cóipeáil óstach';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => 'Cóipeáil luach';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => 'Cóipeáladh!';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => 'Freastal ar an gcomhad comhartha';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      'Íosluchtaigh **fluxer-verification** agus cuir sa bhfillteán **.well-known** é ionas gur féidir linn an fearann a bhailídiú.';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => 'Íosluchtaigh fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return 'Tá an comhartha fíoraithe sa chomhad a ghnóthóidh muid ó **$dnsUrl**.';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => 'Sábháil fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => 'Deimhnigh';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => 'Ar Ais';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => 'Cuir Nasc in Eagar';
 
   @override
   String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+      'Roghnaigh cé is féidir an nasc seo a fheiceáil ar do phróifíl.';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => 'Gach Duine';
 
   @override
   String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+      'Lig do dhuine ar bith an nasc seo a fheiceáil ar do phróifíl';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => 'Cairde';
 
   @override
   String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+      'Lig do do chairde an nasc seo a fheiceáil';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => 'Baill Pobail';
 
   @override
   String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+      'Lig do bhaill ó phobail a bhfuil tú iontu an nasc seo a fheiceáil';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => 'Bain Nasc';
 
   @override
   String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+      'An bhfuil tú cinnte gur mhaith leat an nasc seo a bhaint? Ní féidir an gníomh seo a chur ar ceal.';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => 'Bain';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError => 'Theip ar naisc a luchtú';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError => 'Theip ar ord a nuashonrú';
 
   @override
   String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+      'Níorbh fhéidir an dearbhú a thosú. Bain triail eile as.';
 
   @override
   String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+      'Níorbh fhéidir a dhearbhú. Seiceáil do thaifead DNS agus bain triail eile as.';
 
   @override
   String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+      'Níorbh fhéidir údarú Bluesky a thosú.';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed => 'Níorbh fhéidir an nasc a nuashonrú';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed => 'Níorbh fhéidir an nasc a bhaint';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => 'Sábháladh fluxer-verification';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast =>
+      'Níorbh fhéidir an comhad a shábháil';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => 'Cuir isteach láimhseálaí Bluesky.';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => 'Cuir isteach fearann.';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => 'Cuma & Mothú';
 
   @override
-  String get lookAndFeelThemeSectionTitle => 'Theme';
+  String get lookAndFeelThemeSectionTitle => 'Téama';
 
   @override
   String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+      'Roghnaigh idir cuma dorcha, guail, nó éadrom.';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => 'Téama Dorcha';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => 'Téama Guail';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => 'Téama Éadrom';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => 'Téama Córais';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+      'Sioncrónaigh téama ar fud gléasanna';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      'Nuair a bheidh sé cumasaithe, sioncrónófar athruithe téama chuig do ghléasanna go léir. Nuair a bheidh sé díchumasaithe, úsáidfidh an gléas seo a shocruithe téama féin.';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      'Díchumasaíonn téama an chórais sioncrónú go huathoibríoch chun do rogha córais ar an ngléas seo a rianú.';
 
   @override
   String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+      'Níorbh fhéidir an téama a shioncrónú le do chuntas. Bain triail eile as le do thoil.';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => 'Scálú Cló Comhrá';
 
   @override
   String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+      'Coigeartaigh an méid cló sa limistéar comhrá.';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => 'Comhéadan';
 
   @override
   String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+      'Saincheap eilimintí agus iompraíochtaí an chomhéadain.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+      'Táscairí clóscríofa liosta cainéal';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      'Roghnaigh conas a thaispeánfar táscairí clóscríofa i liosta na gcainéal nuair a bhíonn duine ag clóscríobh i gcainéal.';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+      'Táscaire Clóscríofa + Avatars';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      'Taispeáin táscaire clóscríofa le avatars úsáideoirí i liosta na gcainéal';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+      'Táscaire Clóscríofa Amháin';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      'Taispeáin an táscaire clóscríofa gan avatars';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Folaigh';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      'Ná taispeáin táscairí clóscríofa i liosta na gcainéal';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      'Taispeáin clóscríobh ar an gcainéal roghnaithe';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      'Nuair a dhíchumasaítear (réamhshocraithe), ní bheidh táscairí clóscríofa le feiceáil ar an gcainéal atá á fheiceáil agat faoi láthair.';
 
   @override
-  String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
+  String get lookAndFeelTypingIndicatorPreviewChannelName => 'ginearálta';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => 'Leideanna Méarchláir';
 
   @override
   String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+      'Rialú an dtaispeánfar leideanna aicearraí méarchláir laistigh de leidí uirlisí.';
 
   @override
   String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+      'Folaigh leideanna méarchláir i leidí uirlisí';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      'Nuair a bheidh sé cumasaithe, folaítear na suaitheantais aicearraí i leidí uirlisí.';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => 'Ilghnéitheach';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription =>
+      'Roghanna comhéadain ilghnéitheacha.';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => 'Taispeáin Neko';
 
   @override
   String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+      'Nuair a bheidh sé cumasaithe, feictear Neko in aice leis an mbarra ionchuir comhrá.';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle =>
+      'Iompraíocht dul isteach cainéal gutha';
 
   @override
   String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+      'Rialú conas a théann tú isteach i gcainéil gutha i bpobail.';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+      'Ceanglais cliceáil faoi dhó chun cainéil gutha a iontráil';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      'Nuair a bheidh sé cumasaithe, beidh ort cliceáil faoi dhó ar chainéil gutha chun iad a iontráil. Nuair a dhíchumasaítear (réamhshocraithe), cliceáil amháin a iontrálfaidh an cainéal láithreach.';
 
   @override
   String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+      'Léimeann an sionnach donn tapa thar an madra leisciúil.';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => 'Líne taoisigh pobail';
 
   @override
   String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+      'Cumraigh conas a thaispeánann an líne taoisigh pobail teachtaireachtaí díreacha.';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
@@ -3476,372 +3579,461 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
+          '$count pobal neamh-infhaighte go sealadach mar gheall ar mhainneachtain caipín sreafa.',
       one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+          'Tá 1 phobal neamh-infhaighte go sealadach mar gheall ar mhainneachtain caipín sreafa.',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel => 'Comhbhrúigh DManna I bhFillteán';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      'Nuair a bheidh sé cumasaithe, comhbhrúitear DManna gan léamh sa líne taoisigh pobail isteach i bhfillteán ar an gcnaipe Fluxer. Cliceáil ar an gcnaipe Fluxer agus tú ar an leathanach DManna chun an fillteán a leathnú nó a chomhbhrú.';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => 'Liosta Cainéal';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      'Rialú iompraíocht táscaire gan léamh do chainéil chiúine i liostaí cainéal.';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+      'Taispeáin táscaire gan léamh ar chainéil chiúine';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      'Nuair a bheidh sé cumasaithe, taispeánann cainéil chiúine barra gan léamh faded ar an taobh clé. Feictear luaite go fóill beag beann ar an socrú seo.';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => 'Gníomhach Anois';
 
   @override
   String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+      'Rialú conas a thagann Gníomhach Anois chun cinn ar fud an aip.';
 
   @override
   String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+      'Taispeáin Gníomhach Anois ar an scáileán baile';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      'Taispeáin Gníomhach Anois ar an scáileán baile chun cairde atá gníomhach i nguth a thabhairt suas. Feicfidh tú réamhamharc, an comhthéacs cainéal, cé atá ann cheana féin, agus bealach tapa chun isteach.';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => 'Roghanna is fearr leat';
 
   @override
   String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+      'Rialú infheictheacht na roghanna is fearr leat ar fud an aip.';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel =>
+      'Cumasaigh Roghanna is fearr leat';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      'Nuair a bheidh sé cumasaithe, is féidir leat cainéil a roghnú mar rogha is fearr leat agus beidh siad le feiceáil sa rannóg Roghanna is fearr leat. Nuair a dhíchumasaítear, folaítear na heilimintí UI go léir a bhaineann le roghanna is fearr leat (cnaipe, míreanna roghchláir). Coimeádfar do roghanna is fearr leat atá ann cheana féin.';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => 'Roghanna is fearr leat';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => 'Níl roghanna is fearr leat fós';
 
   @override
   String get favoritesEmptyDescription =>
       'Star channels from the chat header to keep them here.';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => 'Fáilte go dtí na roghnaithe';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      'Do spás pearsanta chun rochtain thapa a fháil ar chainéil, DManna, agus grúpaí is breá leat. Brúigh an réalta ar aon chainéal chun é a chur leis anseo.';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip => 'Ní leat é? Díchumasaigh é am ar bith.';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => 'Díchumasaigh roghnaithe';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => 'Curtha le Roghanna';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => 'Bainte ó Roghanna';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => 'Folaíodh roghnaithe';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => 'Balbhaigh roghnaithe';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => 'Díbalbhaigh roghnaithe';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => 'Roghchlár roghnaithe';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => 'Cruthaigh catagóir';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => 'Ainm catagóire';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => 'Folaigh cainéil bhalbhaithe';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => 'Taispeáin cainéil bhalbhaithe';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => 'Sainigh leasainm';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => 'Leasainm';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => 'Sábháil leasainm';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => 'Aistrigh go catagóir';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => 'Gan catagóiriú';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => 'Eile';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => 'Bain ó Roghanna';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => 'Cuir le Roghanna';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => 'Folaigh roghnaithe';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      'Folaighfidh sé seo na heilimintí UI go léir a bhaineann le roghnaithe, lena n-áirítear cnaipí agus míreanna roghchláir. Coimeádfar do roghnaithe reatha agus is féidir iad a chumasú arís am ar bith ó Socruithe > Casta > Cuma.';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => 'Teachtaireacht Dhíreach';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => 'Taispeántas';
 
   @override
   String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+      'Rialú ar an gcaoi a dtaispeántar teachtaireachtaí, meáin, agus ábhar eile.';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => 'Meáin';
 
   @override
   String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+      'Saincheap roghanna méid meán agus cnaipí.';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => 'Ionchur';
 
   @override
   String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+      'Saincheap socruithe ionchuir teachtaireachtaí.';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => 'Barra Taobh';
 
   @override
   String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+      'Cumraigh an chaoi a dtaispeántar barra taobh an phobail.';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+      'Folaigh cainéil bhalbhaithe de réir réamhshocraithe';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      'Folaigh go huathoibríoch cainéil bhalbhaithe sa bharra taobh nuair a théann tú isteach i bpobail nua';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+      'Folaigh cainéil bhalbhaithe de réir réamhshocraithe?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      'Foilseofar cainéil bhalbhaithe go huathoibríoch sna pobail nua a dtabharfaidh tú cuairt orthu. Ar mhaith leat an socrú seo a chur i bhfeidhm ar do chuid pobal go léir freisin?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      'Stop ag folaigh cainéil bhalbhaithe de réir réamhshocraithe?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      'Ní bheidh cainéil bhalbhaithe folaigh go huathoibríoch sna pobail nua a dtabharfaidh tú cuairt orthu. Ar mhaith leat cainéil bhalbhaithe a thaispeáint i do chuid pobal go léir freisin?';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+      'Cuir i bhfeidhm ar gach pobal';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+      'Taispeáin i ngach pobal';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+      'Pobail nua amháin';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => 'Taispeántas Meán';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      'Rialú ar an gcaoi a dtaispeántar íomhánna, físeáin agus meáin eile. Déantar gach meán a athmhéadú agus a thiontú. Ní bheidh comhaid an-mhóra nach féidir a chomhbhrú isteach i réamhamharc leabaithe, beag beann ar na socruithe seo.';
 
   @override
   String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+      'Nuair a chuirtear mar naisc le comhrá';
 
   @override
   String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+      'Nuair a uaslódáiltear go díreach chuig Fluxer';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => 'Réamhamhairc Nasc';
 
   @override
   String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+      'Rialú ar an gcaoi a ndéantar naisc suíomh Gréasáin a réamhamharc sa chomhrá';
 
   @override
   String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+      'Taispeáin leabaithe agus réamhamharc naisc suíomh Gréasáin';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => 'Iarmhairtí';
 
   @override
   String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+      'Cumraigh iarmhairtí emoji ar theachtaireachtaí';
 
   @override
   String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+      'Taispeáin iarmhairtí emoji ar theachtaireachtaí';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => 'Ábhar Spoiléir';
 
   @override
   String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+      'Rialú ar an gcaoi a dtaispeántar ábhar spoiléir';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => 'Taispeáin ábhar spoiléir';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => 'Ar chliceáil';
 
   @override
   String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+      'Taispeáin ábhar spoiléir nuair a chliceáiltear air';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName => 'I gcainéil a mhodraím';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      'Taispeáin ábhar spoiléir i gcónaí i gcainéil ina bhfuil an cead \"Bainistigh Teachtaireachtaí\" agat';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => 'I gcónaí';
 
   @override
   String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+      'Taispeáin ábhar spoiléir i gcónaí';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => 'Roghanna Méid Meán';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      'Saincheap an méid taispeána uasta do mheáin leabaithe agus ceangailte. Úsáideann méideanna níos lú níos lú spáis scáileáin, cé go dtaispeánann méideanna níos mó níos mó sonraí.';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => 'Meáin ó naisc (leabaithe)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel => 'Ceanglóirí uaslódáilte';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => 'Dlúth (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => 'Méid meán níos lú';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => 'Compordach (550x400)';
 
   @override
   String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+      'Méid meán níos mó le níos mó sonraí';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'Iompar GIF';
 
   @override
   String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+      'Rialú ar an gcaoi a gcuirtear GIFanna isteach sa chomhrá';
 
   @override
   String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+      'Seol GIFanna go huathoibríoch nuair a roghnaítear iad';
 
   @override
   String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+      'Uathchríochnú léirithe (uathchríochnú déchlóis)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      'Rialú ar an méid a thagann suas san uathchríochnú léirithe nuair a chlóscríobhann tú déchlóis. Saincheap na moltaí a thagann suas chun freagairt do roghanna.';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      'Taispeáin emojis réamhshocraithe in uathchríochnú léirithe';
 
   @override
   String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+      'Taispeáin emojis saincheaptha in uathchríochnú léirithe';
 
   @override
   String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+      'Taispeáin greamáin in uathchríochnú léirithe';
 
   @override
   String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+      'Taispeáin meáin shábháilte in uathchríochnú léirithe';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle =>
+      'Eagarthóireacht Teachtaireachta';
 
   @override
   String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+      'Rialú ar an méid a tharlaíonn do dhréacht eagarthóireachta nuair a chuireann tú ar ceal é.';
 
   @override
   String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+      'Sábháil dréacht eagarthóireachta ar chealú';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => 'Táscairí gan léamh';
 
   @override
   String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+      'Rialú ar an gcaoi a dtaispeántar táscairí teachtaireachtaí gan léamh.';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      'Taispeáin táscaire doiléir gan léamh ar chainéil balbhaithe';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      'Taispeáin táscaire doiléir gan léamh in aice le teachtaireachtaí príobháideacha agus cainéil balbhaithe ionas gur féidir leat a fheiceáil fós go gasta nuair a bhíonn gníomhaíocht ann.';
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get accessibilityDmMessagePreviewGroupTitle =>
+      'Réamhamhairc teachtaireachtaí DM';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      'Rialú ar an uair a thaispeántar réamhamhairc teachtaireachtaí i liosta DM.';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel =>
+      'Mód réamhamhairc teachtaireachtaí DM';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => 'Gach teachtaireacht';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription =>
+      'Taispeáin réamhamhairc teachtaireachtaí do gach comhrá DM';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName =>
+      'DManna gan léamh amháin';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      'Taispeáin réamhamhairc teachtaireachtaí do DManna le teachtaireachtaí gan léamh amháin';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => 'Ní dhéanfar aon cheann';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription =>
+      'Ná taispeáin réamhamhairc teachtaireachtaí i liosta DM';
+
+  @override
+  String get dmListSentAnAttachment => 'Sheol ceanglóir';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return 'Chuir $username teachtaireacht suas chuig an gcainéal seo.';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return 'Chuir $username $userName leis an ngrúpa.';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return 'Chuir $username duine éigin leis an ngrúpa.';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return 'D\'fhág $username an grúpa.';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username a bhain sé $userName as an ngrúpa.';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username a bhain sé duine éigin as an ngrúpa.';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username d\'athraigh sé ainm an chainéil go $newName.';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username d\'athraigh sé ainm an chainéil.';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username d\'athraigh sé deilbhín an chainéil.';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username thosaigh sé glao.';
+  }
+
+  @override
+  String get voiceConnectionConfirmTitle => 'Deimhniú Ceangail Guth';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
@@ -3849,92 +4041,93 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
       count,
       locale: localeName,
       other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
+          'Tá tú ceangailte cheana féin leis an gcainéal guth seo ó $count ghléas eile. Cad ba mhaith leat a dhéanamh?',
       one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+          'Tá tú ceangailte cheana féin leis an gcainéal guth seo ó 1 ghléas eile. Cad ba mhaith leat a dhéanamh?',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => 'Aistrigh go Gléas Seo';
 
   @override
   String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+      'Ceangail Díreach (Coinnigh Naisc Eile)';
 
   @override
   String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+      'Ná déan rud ar bith, níl mé ag iarraidh ceangal';
 
   @override
   String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+      'Is cainéal guth é seo. Ceangail chun tosú ag caint!';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => 'Ceangail le Cainéal Guth';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => 'Ceangail le Guth';
 
   @override
   String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+      'Níl cead agat an cainéal guth seo a nascadh';
 
   @override
   String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Tá micreafón, ceamara, agus ábhar comhroinnte scáileáin criptithe ó cheann go ceann.';
 
   @override
   String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+      'Tá micreafón, ceamara, agus ábhar comhroinnte scáileáin criptithe ó cheann go ceann.';
 
   @override
   String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+      'Níl criptiú ó cheann go ceann ar fáil mar go bhfuil rannpháirtí nach dtacaítear leis sa chainéal guth seo.';
 
   @override
   String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+      'Níl criptiú ó cheann go ceann ar fáil mar go bhfuil rannpháirtí nach dtacaítear leis sa ghlao seo.';
 
   @override
   String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+      'Ní mór an cliant seo a nuashonrú sula nascann tú leis an nglao criptithe seo.';
 
   @override
   String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+      'Níorbh fhéidir do mhicreafón a thosú. Tá tú fós sa ghlao.';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => 'Ag ceangal…';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => 'Ceangailte';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => 'Earráid';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => 'Gléas soghluaiste';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => 'Gléas deisce';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted => 'Balbhaithe ag an bpobal';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => 'Balbhaithe';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened =>
+      'Bodharaithe ag an bpobal';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => 'Bodharaithe';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return 'Nasc: $connectionId';
   }
 
   @override
@@ -3942,77 +4135,77 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count rannpháirtí',
+      one: '1 rannpháirtí',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => 'Fág';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => 'Balbh';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => 'Díbhá';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => 'Bodhar';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => 'Díbhodhar';
 
   @override
-  String get voiceControlVideo => 'Video';
+  String get voiceControlVideo => 'Físeán';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => 'Comhroinnt scáileáin';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText => 'Ag comhroinnt do scáileáin.';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => 'Níos mó';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => 'Dícheangail';
 
   @override
-  String get voiceControlChat => 'Chat';
+  String get voiceControlChat => 'Comhrá';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => 'Taispeáin comhrá';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# teachtaireacht nár léadh',
+      one: '# teachtaireacht nár léadh',
     );
-    return 'Show chat with $_temp0';
+    return 'Taispeáin comhrá le $_temp0';
   }
 
   @override
   String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+      'Tá cead ceamara ag teastáil le haghaidh físe.';
 
   @override
   String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+      'Níorbh fhéidir comhroinnt scáileáin a thosú. Bain triail eile as.';
 
   @override
   String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+      'Diúltaíodh cead comhroinnte scáileáin.';
 
   @override
   String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+      'Níl comhroinnt scáileáin ar fáil ar an ngléas seo.';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => 'Féach ar Sruth';
 
   @override
   String get voiceStopWatching => 'Stop Watching';
@@ -4159,591 +4352,629 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   String get chatMessageFailedToSend => 'Failed to send message';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return 'Your message could not be delivered. This is usually because you don\'t share a community with the recipient or the recipient is only accepting direct messages from friends. You may also need to adjust your own direct message privacy settings in $settingsPath.';
+  }
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatSendFailureUnclaimedDm =>
+      'Your message could not be delivered. You need to claim your account to send direct messages.';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatSendFailureUnclaimedGeneral =>
+      'Your message could not be delivered. You need to claim your account to send messages.';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatSendFailureContentBlocked =>
+      'Your message could not be delivered because it was flagged by our safety systems. If you believe this is a mistake, please contact support.';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatSendFailureNsfwEmojiSticker =>
+      'Your message could not be delivered because it contains mature emoji or stickers that are not allowed in this context.';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get chatClientSystemOnlyYouCanSee => 'Only you can see this message.';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get chatClientSystemDismiss => 'Dismiss';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get privacyDashboardCommunicationSection => 'Cumarsáid';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get chatMessageDeleteFailed => 'Teip ar Scriosadh Teachtaireachta';
+
+  @override
+  String get chatMessageAddReaction => 'Cuir Imoibriú Leis';
+
+  @override
+  String get chatMessageEdit => 'Cuir Teachtaireacht in Eagar';
+
+  @override
+  String get chatMessageReply => 'Freagair';
+
+  @override
+  String get chatMessageForward => 'Ar Aghaidh';
+
+  @override
+  String get forwardMessageTitle => 'Ar aghaidh teachtaireacht';
+
+  @override
+  String get forwardSearchHint => 'Cuardaigh cainéil nó DManna';
+
+  @override
+  String get forwardDirectMessagesSection => 'Teachtaireachtaí Díreacha';
+
+  @override
+  String get forwardCommentHint => 'Cuir trácht leis (roghnach)';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return 'Seol ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => 'Ní bhfuarthas aon chainéal';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => 'Ar aghaidh teachtaireacht';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => 'Theip ar theachtaireacht a chur ar aghaidh';
 
   @override
   String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+      'Níl tráchtanna ar fáil mar go bhfuil mallmhuirear gníomhach ar chainéal roghnaithe.';
 
   @override
   String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+      'Ní féidir leat teachtaireachtaí a sheoladh anseo';
 
   @override
   String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+      'Ní féidir leat naisc a leabú anseo';
 
   @override
   String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+      'Ní féidir leat comhaid a cheangail anseo';
 
   @override
   String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+      'Tá seoladh teachtaireachtaí díchumasaithe sa phobal seo';
 
   @override
-  String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+  String get forwardDestinationTimedOut => 'Tá tú ar sos sa phobal seo';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return 'Mallsaoireacht - fan $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => 'Cóipeáil Teachtaireacht';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => 'Greamóidh teachtaireacht';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => 'Díghreamóidh teachtaireacht';
 
   @override
-  String get chatMessageUnpinIt => 'Unpin it';
+  String get chatMessageUnpinIt => 'Díghreamóidh é';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageBookmark => 'Cuir Teachtaireacht in Áirithe';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageRemoveBookmark => 'Bain Áirithint';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageMarkAsUnread => 'Marcáil mar Neamhléite';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageCopyMessageLink => 'Cóipeáil Nasc Teachtaireachta';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageId => 'Cóipeáil ID Teachtaireachta';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageViewReactions => 'Féach ar imoibrithe';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageRemoveAllReactions => 'Bain gach imoibriú';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageDebug => 'Teachtaireacht Dífhabhtaithe';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebugSheetTitle => 'Teachtaireacht dífhabhtaithe';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugCopyJson => 'Cóipeáil JSON';
 
   @override
   String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+      'Cóipeáladh JSON teachtaireachta chuig an gearrthaisce';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => 'Imoibrithe';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty =>
+      'Níor fhreagair éinne leis seo go fóill.';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => 'Tuairiscigh Teachtaireacht';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get iarReportMessageTitle => 'Tuairiscigh teachtaireacht';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarThisUserFallback => 'an t-úsáideoir seo';
 
   @override
   String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+      'Tuairiscigh sárú rialach, nó faigh uirlisí chun teagmháil agus roghanna a bhainistiú.';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarPathStepAriaLabel => 'Cad a theastaíonn uait?';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarCategoryStepTitle => 'Cén cineál rialach a briseadh?';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarReasonStepTitle => 'Cén riail a briseadh?';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonSelectHint => 'Roghnaigh cúis';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarPickAnOptionToast =>
+      'Roghnaigh rogha chun leanúint ar aghaidh.';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickARuleToast => 'Roghnaigh an riail a briseadh.';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPathPlatform => 'Tuairiscigh sárú rialacháin ardáin';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathCommunity => 'Tuairiscigh do mhodhnóirí an phobail seo';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathPreferenceMessage => 'Ní thaitníonn an t-ábhar seo liom';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarCategoryTargetedHarmLabel => 'Bagraí, ciapadh, nó dochar';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+      'Bulaíocht, bagairtí, fuath, foréigean, ruathair, nó ábhar a spreagann féindhochar.';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategorySafetyMinorsLabel =>
+      'Sábháilteacht leanaí nó ábhar aibí';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+      'Leanaí i mbaol, ábhar aibí san áit mhícheart, nó iompar nach dteastaíonn.';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategoryPrivacyIdentityLabel => 'Príobháideacht nó d’aithint';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+      'Doxáil, faireachán, ligean ort gur duine eile thú, nó próifíl mhíchuí.';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryDeceptionLabel => 'Scamanna, malware, nó drochíde';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+      'Fisín, calaois, naisc dhainséaracha, nó éilimh bhréagacha a d’fhéadfadh dochar sa saol fíor a dhéanamh.';
 
   @override
   String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+      'Gníomhaíocht neamhdhleathach nó rud éigin eile';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+      'Díolacháin neamhdhleathacha, comhchealú coireachta, nó sárú soiléir rialacha nach n-oirfeadh thuas.';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarReasonHarassmentLabel => 'Ciapadh nó bagairtí';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+      'Bulaíocht, teagmháil athchleachtach nach dteastaíonn, faireachán, nó ionsaí dírithe.';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHateLabel => 'Caint fhuatha';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      'Mí-úsáid, teanga dhí-dhaonnaithe, nó ionsaithe ar ghrúpaí cosanta.';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonViolenceLabel => 'Foréigean nó bagairtí foréigneacha';
 
   @override
   String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+      'Bagraí inchreidte, foréigean grafach, nó glóiriú foréigin.';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonMatureContentLabel => 'Ábhar aibí nó ciapadh';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+      'Iompar nach dteastaíonn nó ábhar aibí san áit mhícheart.';
 
   @override
   String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+      'Sábháilteacht leanaí nó saothrú mionaoiseach';
 
   @override
   String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+      'Ábhar grooming nó saothrú leanaí.';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonHarmfulMisinfoLabel => 'Drochíde dhainséarach';
 
   @override
   String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+      'Éilimh bhréagacha a d’fhéadfadh dochar sa saol fíor a dhéanamh.';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonSpamLabel => 'Spam, scamanna, nó fisín';
 
   @override
   String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+      'Spam ollmhór, calaois, bronntanais bhréagacha, nó mí-úsáid cuntais.';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonMalwareLabel => 'Malware nó naisc dhainséaracha';
 
   @override
   String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+      'Malware, goid creidiúna, nó comhaid dhainséaracha.';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonPrivacyLabel => 'Sárú príobháideachta';
 
   @override
   String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+      'Doxáil, faisnéis phríobháideach nochta, nó faireachán.';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonImpersonationLabel =>
+      'D’aithint nó meáin mheabhlaireachta';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+      'Ag ligean ort gur duine eile thú, lena n-áirítear ábhar giniúna AI meabhlach.';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonIllegalLabel => 'Gníomhaíocht neamhdhleathach';
 
   @override
   String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+      'Díolacháin neamhdhleathacha, comhchealú coireachta, nó gníomhaíocht neamhdhleathach.';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonSelfHarmLabel => 'Féindhochar nó féinmharú';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+      'Cur chun cinn nó treoracha ag spreagadh féindhochair nó neamhoird itheacháin.';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonOtherLabel => 'Sárú soiléir rialacha eile';
 
   @override
   String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+      'Ná húsáid ach amháin má sháraíonn sé rialacha Fluxer go soiléir agus mura n-oirfeadh sé thuas.';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return 'Má tá mionaoiseach i gceist, bain úsáid as \"$childSafetyReason\" ina ionad.';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      'Má bhaineann sé seo le CSAM nó saothrú mionaoisigh, seol é anois agus ná athsheol an t-ábhar.';
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+      'Má tá duine i mbaol láithreach, déan teagmháil le seirbhísí éigeandála áitiúla más féidir leat é sin a dhéanamh go sábháilte.';
 
   @override
   String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+      'Má tá bagairt fhoréigin inchreidte ann, déan teagmháil le seirbhísí éigeandála áitiúla freisin.';
 
   @override
   String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+      'Má tá bagairt sceimhlitheoireachta láithreach ann, déan teagmháil le seirbhísí éigeandála áitiúla freisin.';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => 'Cuir bac ar an úsáideoir seo';
 
   @override
   String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+      'Stop teachtaireachtaí agus iarrataí cairde.';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => 'Cuir bac ar';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => 'Cóipeáil nasc teachtaireachta';
 
   @override
   String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+      'Comhroinn le modhnóirí pobail.';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => 'Cóipeáil';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => 'Dún an DM seo';
 
   @override
   String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+      'Ní chuireann sé bac. Is féidir leat é a athoscailt níos déanaí.';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => 'Dún DM';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => 'Fág an pobal';
 
   @override
   String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+      'Stop ag féachaint ar a bhfuil ann agus ar a chuid ball.';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => 'Fág';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle => 'Socruithe DM & iarrataí cara';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription =>
+      'Athraigh cé atá in ann teagmháil a dhéanamh leat.';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle => 'Socruithe glaonna & comhrá grúpa';
 
   @override
   String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+      'Athraigh cé atá in ann glaoch ort nó tú a chur leis.';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => 'Oscail';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => 'Scrios an teachtaireacht seo';
 
   @override
   String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+      'Bain é ón gcainéal do chách.';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => 'Scrios';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => 'Scriosta';
 
   @override
   String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+      'Scriosadh an teachtaireacht seo cheana féin.';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => 'Toirmisc an t-úsáideoir seo';
 
   @override
   String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+      'Oscail an dialóg toirmisc don phobal seo.';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => 'Toirmisc';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => 'Toirmisc';
 
   @override
   String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+      'Tá an t-úsáideoir seo toirmisc cheana féin ón bpobal.';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => 'Dún DM';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return 'Dún do DM reatha le $name. Ní chuireann sé seo cosc orthu; is féidir leat athoscailt níos déanaí.';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => 'Tuairisc seolta';
 
   @override
   String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+      'Tá ár bhfoireann slándála á hathbhreithniú. Seolfaimid DM agus ríomhphost chugat nuair a bheidh breithiúnas bainte amach againn.';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => 'Tuairiscíodh cheana féin';
 
   @override
   String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+      'Tá an teachtaireacht seo tuairiscithe agat cheana féin. Tá ár bhfoireann slándála á hathbhreithniú.';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => 'Ar ais';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => 'Ar aghaidh';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => 'Seol tuairisc';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => 'Críochnaithe';
 
   @override
   String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+      'Níorbh fhéidir an tuairisc a sheoladh. Bain triail eile as le do thoil.';
 
   @override
   String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+      'Tá tú ag tuairisciú ró-ghasta. Fan nóiméad agus bain triail eile as le do thoil.';
 
   @override
   String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+      'Tuairisc seolta. Déanfaidh ár bhfoireann slándála athbhreithniú uirthi.';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return 'Bloc $name? Ní bheidh siad in ann teachtaireacht a chur chugat nó iarrataí cara a sheoladh chugat. Is féidir leat iad a dhíbhlocáil níos déanaí.';
   }
 
   @override
   String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+      'Níorbh fhéidir an t-úsáideoir seo a bhlocáil. Bain triail eile as le do thoil.';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => 'DM dúnta.';
 
   @override
   String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+      'Níorbh fhéidir an DM seo a dhúnadh. Bain triail eile as le do thoil.';
 
   @override
   String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+      'Níorbh fhéidir an pobal seo a fhágáil. Bain triail eile as le do thoil.';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => 'Ceilt Nascphointí';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => 'Taispeáin Nascphointí';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => 'Scrios Teachtaireacht';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => 'Scrios Teachtaireacht';
 
   @override
   String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+      'An bhfuil tú cinnte gur mhaith leat an teachtaireacht seo a scriosadh?';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => 'Tuilleadh';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => 'Ag cur in eagar teachtaireacht';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => 'Scriosadh an teachtaireacht bhunaidh';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad =>
+      'Theip ar an teachtaireacht bhunaidh a luchtú';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia =>
+      'Tá meáin cheangailte leis an teachtaireacht';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError =>
+      'Níorbh fhéidir teachtaireachtaí a luchtú.';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle => 'Sárú ar rogha lua?';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return 'Is fearr le $authorNickname @lua ar fhreagraí. An seoladh gan an lua mar sin féin?';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname is móide freagraí gan @luaigh. Seol le luaigh ar aon nós?';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => 'Déan neamhaird den rogha';
 
   @override
   String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+      'Cliceáil chun an duine a bhfuil tú ag freagairt dó a dhíchumasú.';
 
   @override
   String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+      'Cliceáil chun an duine a bhfuil tú ag freagairt dó a chumasú.';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel =>
+      'Luaigh úsáideoir freagraithe';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => 'Ar';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => 'As';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => 'Cealaigh freagra';
 
   @override
   String get chatEditMessageHint => 'Edit message';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => 'Níor athraíodh rud ar bith le sábháil';
 
   @override
   String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+      'Níl an cainéal seo réidh fós. Bain triail eile as ar ball.';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(eagarthóireacht)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => 'Bhí seo ina @silent teachtaireacht.';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return 'Inniu ag $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return 'Inné ag $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => 'Réamhamharc ar íomhá';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => 'Dún amharcóir meán';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => 'Oscail sa bhrabhálaí';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => 'Ar aghaidh';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => 'Zúmáil isteach';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => 'Zúmáil amach';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => 'Comhad iattac séimhéad';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => 'Comhad iattac seo chugainn';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -4751,80 +4982,84 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls => 'Athraigh rialuithe físe';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => 'Balbhaigh físeán';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => 'Díbalbhaigh físeán';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => 'Seinn físeán';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => 'Cuir físeán ar sos';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => 'Dul chun cinn físe';
+
+  @override
+  String get chatVideoPlaybackFailed =>
+      'Níorbh fhéidir an físeán seo a sheinm.';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      'Cuir in iúl d\'úsáideoirí leis an ról seo a bhfuil cead acu an cainéal seo a fheiceáil.';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => 'Cuir pobal leis';
 
   @override
   String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+      'Cruthaigh pobal nua nó bí le pobal atá ann cheana.';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => 'Cruthaigh pobal';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => 'Bí le pobal';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => 'Iompórtáil teimpléad Discord';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => 'Bí le pobal';
 
   @override
   String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+      'Iontráil an nasc cuireadh chun pobal a bhaint amach.';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => 'Nasc cuireadh';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => 'Bí le pobal';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid =>
+      'Tá an cuireadh seo neamhbhailí nó tá sé imithe in éag.';
 
   @override
   String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+      'Níorbh fhéidir leis an bpobal a bhaint amach. Bain triail eile as.';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => 'Suiteáladh an pacáiste go rathúil.';
 
   @override
-  String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+  String get chatMessageRemoveAllReactionsConfirmTitle => 'Bain Gachimoibriú';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      'An bhfuil tú cinnte gur mhaith leat gach imoibriú ón teachtaireacht seo a bhaint?';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => 'Díphionnaigh teachtaireacht';
 
   @override
   String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+      'Seol an biorán seo ar ais in am?';
 
   @override
   String systemPinMessage(
@@ -4832,68 +5067,70 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+    return '$username ancaire $messageLink chuig an gcainéal seo. Féach $allPinsLink.';
   }
 
   @override
-  String get systemPinMessageMessageLink => 'a message';
+  String get systemPinMessageMessageLink => 'teachtaireacht';
 
   @override
-  String get systemPinMessageAllPinsLink => 'all pinned messages';
+  String get systemPinMessageAllPinsLink => 'gach teachtaireacht ancaire';
 
   @override
-  String get channelPinsEmptyTitle => 'No pinned messages';
+  String get channelPinsEmptyTitle => 'Níl teachtaireachtaí greamaithe';
 
   @override
-  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
+  String get channelPinsEmptyDescription =>
+      'Taispeánfar teachtaireachtaí greamaithe anseo.';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String get personalNotesTitle => 'Nótaí pearsanta';
 
   @override
   String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+      'Do spás príobháideach le haghaidh smaointe agus meabhrúchán';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return 'Fáilte go $channelName';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return 'Ar an tús, ní raibh tada ann. Ansin, bhí $channelName. Agus bhí sé go maith.';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => 'Seol teachtaireacht chugat féin';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => 'Do spás príobháideach';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => 'Scrios nótaí pearsanta';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      'Scriosfaidh sé seo go buan gach teachtaireacht agus gabháltas i do nótaí pearsanta. Ní féidir é seo a chur ar ceal.';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => 'Scrios';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return 'Scriosadh $count teachtaireacht ó nótaí pearsanta';
   }
 
   @override
   String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+      'Bhí nótaí pearsanta folamh cheana féin';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed =>
+      'Níorbh fhéidir nótaí pearsanta a ghlanadh';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => 'DO CHUNTAS';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -4905,185 +5142,186 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => 'Próifíl';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => 'Slándáil & Logáil Isteach';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => 'Bronntanais & Códanna';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => 'Pacáistí Léirithe';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard => 'Painéal Príobháideachta';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => 'Aipeanna Údaraithe';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => 'Úsáideoirí Blocáilte';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => 'Gairis Nasctha';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => 'Naisc';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => 'Cuma & Mothú';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => 'Inrochtaineacht';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => 'Teachtaireachtaí & Meáin';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Audio & Video';
+  String get userSettingsNavAudioAndVideo => 'Fuaim & Físeán';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => 'Fuaimeanna & Aláraim';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => 'Teanga & Am';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => 'Ardroghanna';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => 'Tuairisciú feidhmíochta';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      'Cuidigh le Fluxer a fheabhsú trí shonraí timpiste agus feidhmíochta anaithnid a roinnt.';
 
   @override
   String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+      'Seol tuairiscí timpiste agus feidhmíochta';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      'Tá gach sonraí tuairiscithe anaithnid agus ní sheoltar ach chuig seirbhís monatóireachta Fluxer féin — ní úsáidtear aon soláthraithe tríú páirtí.';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => 'Aipeanna';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => 'Logaí Aipe';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => 'Uirlisí Forbróra';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => 'Cumraíocht Teorainneacha';
 
   @override
-  String get userSettingsNavFeatureFlags => 'Feature Flags';
+  String get userSettingsNavFeatureFlags => 'Bratacha Gné';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => 'Cad atá Nua';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => 'Logáil Amach';
 
   @override
-  String get betaWarningTitle => 'Beta software';
+  String get betaWarningTitle => 'Bogearraí béite';
 
   @override
   String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+      'Is bogearraí béite é seo. Níl gach rud críochnaithe nó curtha leis fós.';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      'Tabhair tuairisc ar aon fhadhbanna a aimsíonn tú chuig pobal Fluxer Mobile (caithfidh Plutonium a bheith agat chun a bheith in ann an pobal a nascadh faoi láthair).';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => 'Féach foinse ar GitHub';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => 'Tuigeadh é';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => 'Cuardach';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => 'Cairde';
 
   @override
   String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+      'Cuardaigh canálacha, daoine, nó pobail';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => 'Cuardaigh cairde';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => 'Ní bhfuarthas aon mheaitseáil';
 
   @override
   String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+      'Bain triail as ainm eile nó bain úsáid as na réimíreanna @ / # / ! / * chun torthaí a scagadh.';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => 'Daoine';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => 'Teachtaireachtaí Grúpa';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => 'Cainéil téacs';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => 'Cainéil gutha';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Communities';
+  String get quickSwitcherSectionCommunities => 'Pobail';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => 'Socruithe';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => 'Baile';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => 'Teachtaireachtaí Díreacha';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => 'Roghanna';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => 'Socruithe Úsáideora';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => 'Fógraí';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => 'Nodlai';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => 'Luaitear';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => 'Gan cairde fós';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint => 'Cuir cara leis chun tosú.';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle =>
+      'Ní mheaitseálann aon chairde sin';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => 'Bain triail as ainm eile.';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => 'Úsáideoir';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => 'Tusa';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
@@ -5092,166 +5330,309 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   String get quickSwitcherSearchAliasDms => 'DMs';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => 'Teachtaireachtaí';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => 'Rogh.';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => 'Nodlai';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => 'Bosca isteach';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => 'Sábháilte';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => 'Dún';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => 'Léim go dtí an bun';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => 'Deimhnigh';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => 'Ag luchtú';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => 'Athruithe neamhshábháilte';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => 'Athshocraigh';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => 'Oscail an roghnóir dathanna';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => 'Roghnaigh';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => 'Cuardaigh';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => 'Ní bhfuarthas aon roghanna';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => 'Díbhe an fógra';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => 'Roghnóir dathanna';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => 'Luaigh gach duine?';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return 'Cuirfidh sé seo $count ball in iúl. Lean ar aghaidh?';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return 'Cuirfidh sé seo $count ball ar líne in iúl. Lean ar aghaidh?';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => 'Luaigh';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable =>
+      'Ní féidir leat an emoji sin a úsáid anseo.';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => 'URL an Chórais';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder =>
+      'Iontráil URL an chórais (m.sh. fluxer.app)';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => 'Athshocraigh go Fluxer';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => 'Ceangail';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => 'Ag ceangal…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => 'Teip ar an nasc leis an instans';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => 'Insteansanna le déanaí';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return 'Bain $domain ó insteansanna le déanaí';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => 'Ceangail leis an instans';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance => 'Ceangail le hinsteans eile';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => 'Athraigh';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired =>
+      'Ceangail leis an instans chun logáil isteach';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => 'Ag teacht go luath';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => 'Teachtaireachtaí Díreacha';
 
   @override
   String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+      'Aimsigh Pobail Infheicthe';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get discoveryExplore => 'Aimsigh';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get discoveryExplorePublicCommunities => 'Aimsigh pobail phoiblí';
 
   @override
-  String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+  String get discoveryListingSubheading =>
+      'Ar mhaith leat do phobal a liostáil anseo? Déan iarratas má chomhlíonann tú na riachtanais i socruithe do phobail > Aimsigh.';
+
+  @override
+  String get discoverySearchCommunities => 'Cuardaigh pobail';
+
+  @override
+  String get discoveryFilterByLanguage => 'Scagaire de réir teanga';
+
+  @override
+  String get discoveryAllLanguages => 'Gach teanga';
+
+  @override
+  String get discoveryAllCategories => 'Gach ceann';
+
+  @override
+  String get discoveryCategoryGaming => 'Cearrbhachas';
+
+  @override
+  String get discoveryCategoryMusic => 'Ceol';
+
+  @override
+  String get discoveryCategoryEntertainment => 'Siamsaíocht';
+
+  @override
+  String get discoveryCategoryEducation => 'Oideachas';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology =>
+      'Eolaíocht & Teicneolaíocht';
+
+  @override
+  String get discoveryCategoryContentCreator => 'Cruthaitheoir Ábhar';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => 'Anime & Manga';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => 'Scannáin & Teilifís';
+
+  @override
+  String get discoveryCategoryOther => 'Eile';
+
+  @override
+  String get discoveryNoCommunitiesMatch => 'Ní thagann aon phobail leis.';
+
+  @override
+  String get discoveryJoinCommunity => 'Bí i bpobal';
+
+  @override
+  String get discoveryJoined => 'Bainteach';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count ar líne';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString ball',
+      one: '1 ball',
+    );
+    return '$_temp0';
+  }
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get discoveryNoDescription => 'Gan cur síos.';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get discoveryCommunities => 'Pobail';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get discoveryApps => 'Aipeanna';
+
+  @override
+  String get discoveryJoinErrorGenericTitle =>
+      'Níorbh fhéidir leis an bpobal seo a bheith páirteach';
+
+  @override
+  String get discoveryJoinErrorGenericMessage =>
+      'Tharla rud éigin mícheart. Bain triail eile as i gceann nóiméid.';
+
+  @override
+  String get discoveryJoinErrorFullTitle => 'Tá an pobal seo lán';
+
+  @override
+  String get discoveryJoinErrorFullMessage =>
+      'Tá an pobal seo tar éis a theorainn ball a bhaint amach, mar sin ní féidir leat a bheith páirteach faoi láthair.';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle =>
+      'Tá an teorainn pobail bainte amach agat';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage =>
+      'Tá tú sa líon uasta pobal. Fág ceann amháin agus bain triail eile as.';
+
+  @override
+  String get discoveryJoinErrorBannedTitle =>
+      'Ní féidir leat a bheith páirteach sa phobal seo';
+
+  @override
+  String get discoveryJoinErrorBannedMessage =>
+      'Tá cosc curtha ort ón bpobal seo.';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle =>
+      'Níl an pobal seo ar fáil a thuilleadh';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      'D\'fhéadfadh sé gur fhág sé an aimsíocht nó gur mhúin sé pobail nua isteach. Athnuaigh an leathanach agus ní fheicfidh tú arís é.';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle => 'Tá tú ag dul ró-ghasta';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage =>
+      'Fan nóiméad agus bain triail eile as.';
+
+  @override
+  String get guildNavbarAddCommunity => 'Cuir Pobal leis';
+
+  @override
+  String get guildNavbarHelp => 'Cabhair';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => 'TEACHTAIREACHT NUA';
+
+  @override
+  String guildNavbarCollapseFolder(String folderName) {
+    return 'Dún $folderName';
+  }
+
+  @override
+  String get guildNavbarGroupDm => 'Grúpa DM';
+
+  @override
+  String get guildNavbarCreateChannel => 'Cruthaigh Caint';
+
+  @override
+  String get guildNavbarChannelType => 'Cineál Cainte';
+
+  @override
+  String get guildNavbarTextChannel => 'Caint Téacs';
 
   @override
   String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+      'Seol teachtaireachtaí, íomhánna, GIFanna, agus emoji';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => 'Caint Guth';
 
   @override
   String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+      'Caith am le chéile le guth, físeán, agus scáileánscáileán';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => 'Nasc Caint';
 
   @override
   String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+      'Rochtain thapa ar shuíomh gréasáin nó acmhainn sheachtrach';
 
   @override
-  String get guildNavbarNameLabel => 'Name';
+  String get guildNavbarNameLabel => 'Ainm';
 
   @override
   String get guildNavbarNewChannelHint => 'new-channel';
@@ -5263,541 +5644,547 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => 'Cruthaigh Catagóir';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => 'Catagóir Nua';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return 'Téigh cuireadh chuig cairde chuig $communityName';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return 'Tógfar faighteoirí chuig #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => 'Cuardaigh cairde';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => 'Gan cairde fós';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => 'Gan torthaí';
 
   @override
   String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+      'Nó, seol nasc cuireadh chuig cara:';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => 'Nasc cuireadh';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => 'Cóipeáil';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => 'Cóipeáladh!';
 
   @override
   String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+      'Díreach 7 lá a mhairfidh do nasc cuireadh.';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires =>
+      'Ní dhéanfaidh an nasc cuireadh seo dul in éag riamh.';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return 'Díreach $duration a mhairfidh do nasc cuireadh.';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => 'Cuir nasc cuireadh in eagar';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => 'Socruithe nasc cuireadh';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => 'Díreach Tar éis';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => 'Uasmhéid Úsáidí';
 
   @override
   String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+      'Deonaigh Ballraíocht Shealadach';
 
   @override
   String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+      'Bainfear baill nuair a théann siad as líne mura sannfar ról';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => 'Cruthaigh Nasc Nua';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => 'Seolta';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => 'Cuir cuireadh';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => 'Fág an Pobail';
 
   @override
   String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+      'An bhfuil tú cinnte gur mhaith leat an pobal seo a fhágáil? Ní bheidh tú in ann teachtaireachtaí ar bith a fheiceáil a thuilleadh.';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => 'Fág an Pobail';
 
   @override
   String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+      'Scrios do theachtaireachtaí sa phobail seo?';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      'Scrios go buan gach teachtaireacht a sheol tú anseo, ar gach caint. Ní féidir é a chur ar ceal.';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm =>
+      'Scrios Mo Theachtaireachtaí';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => 'Scriosadh do theachtaireachtaí';
 
   @override
   String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+      'Níorbh fhéidir do theachtaireachtaí a scriosadh';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => 'Bain an sárú';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return 'Caomhnaithe go dtí $formattedDate';
   }
 
   @override
   String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+      'Naisc le foireann Fluxer amháin';
 
   @override
   String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+      'Tá cuireadh ar fionraí faoi láthair sa phobail seo';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => 'riamh';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 nóiméad';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 uair an chloig';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 uair an chloig';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12 uair an chloig';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1 lá';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7 lá';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count soicind';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => 'Riamh';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => 'Gan teorainn';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1 úsáid';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count úsáidí';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => 'Marcáil mar Léite';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildPeekMoreOptions => 'Tuilleadh Roghanna';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuInviteMembers => 'Téalainn Baill';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuCommunitySettings => 'Socruithe Pobail';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuEditCommunityProfile =>
+      'Cuir Próifíl an Phobail in Eagar';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuUnmuteCommunity => 'Dí-bhain an tost ón bPobal';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuMuteCommunity => 'Caith tost ar an bPobal';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuHideMutedChannels => 'Folaigh Cainséil Bhainiste';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuReportCommunity => 'Tuarascáil ar an bPobal';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuDebugCommunity => 'Dífhabhtáil an Pobail';
+
+  @override
+  String get guildMenuCopyCommunityId => 'Cóipeáil ID an Phobail';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return 'Go dtí $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => 'Ginearálta';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => 'Róil & Ceadanna';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => 'Emóji Saincheaptha';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => 'Greamáin Saincheaptha';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => 'Sábháilteacht & Muiríneacht';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => 'Log Gníomhaíochta';
 
   @override
   String get guildMenuSettingsWebhooks => 'Webhooks';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl => 'URL Cuireadh Saincheaptha';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => 'Fionnachtain';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => 'Baill';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => 'Naisc Cuireadh';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => 'Toirmisc';
 
   @override
   String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+      'Níl cead agat an cluaisín socruithe seo a fheiceáil.';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Icon';
+  String get guildSettingsOverviewIconTitle => 'Deilbhín';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => 'Uaslódáil Íomhá';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Banner';
+  String get guildSettingsOverviewBannerTitle => 'Bratach';
 
   @override
   String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+      'Uaslódáil bratach do do fhreastalaí.';
 
   @override
-  String get guildSettingsOverviewNameTitle => 'Name';
+  String get guildSettingsOverviewNameTitle => 'Ainm';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => 'Mo phobal iontach';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => 'Staitisticí';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => 'Baill';
 
   @override
-  String get guildSettingsOverviewOnline => 'Online';
+  String get guildSettingsOverviewOnline => 'Ar Líne';
 
   @override
   String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+      'Úsáid róil chun baill a ghrúpáil agus chun ceadanna a shannadh.';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => 'Cruthaigh Ról';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => 'Róil';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '$staticCount emóji statach, $animatedCount emóji beoite á n-úsáid';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty => 'Níl emóji saincheaptha ar bith fós.';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '$count greamáin uaslódáilte';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty =>
+      'Níl greamáin saincheaptha ar bith fós.';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle => 'Fíorú ball';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      'Roghnaigh cad ba chóir a bheith ag baill sula mbeidh siad in ann baill pobail a phostáil nó a sheoladh teachtaireachtaí príobháideacha dóibh.';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      'Is féidir le baill a bhfuil róil acu na seiceálacha seo a sheachbhóthar. Maidir le spásanna poiblí, molaimid dearbhú a chumasú.';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      'Teastaíonn ríomhphost deimhnithe ar a laghad ó phobail atá liostaithe i Discovery. Ní féidir \'Aon cheann\' a roghnú agus Discovery cumasaithe.';
 
   @override
   String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+      'Ábhar aibí & foláirimh ábhair';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      'Cumraigh lipéadú ábhair aibí agus foláirimh ábhair roghnacha do bhaill.';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => 'Ábhar aibí';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      'Marcáil an pobal seo mar ábhar aibí.';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => 'Aon cheann';
 
   @override
   String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+      'Ní theastaíonn aon dearbhú.';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => 'Íseal';
 
   @override
   String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+      'Teastaíonn seoladh ríomhphoist deimhnithe.';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => 'Meánach';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      'Teastaíonn seoladh ríomhphoist deimhnithe, agus cuntas atá 5 nóiméad d\'aois ar a laghad.';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => 'Ard';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      'Teastaíonn gach rud sa mheánach, móide a bheith i do bhall den phobal ar feadh 10 nóiméad ar a laghad.';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => 'An-ard';
 
   @override
   String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+      'Teastaíonn uimhir ghutháin deimhnithe.';
 
   @override
   String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+      'Rianaigh gníomhartha modhnóirí ar fud an phobail.';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => 'Níl logaí fós';
 
   @override
   String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+      'Beidh gníomhartha modhnóireachta agus athruithe pobail le feiceáil anseo.';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => 'Gach úsáideoir';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => 'Gach gníomh';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => 'Níor tugadh aon chúis.';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => 'Úsáideoir anaithnid';
 
   @override
   String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+      'Tharla rud éigin mícheart agus an loga gníomhaíochta á luchtú.';
 
   @override
   String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+      'Ní féidir logaí gníomhaíochta a luchtú';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => 'Cúis';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => 'duine éigin';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => 'rud éigin';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => 'eintiteas anaithnid';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => 'rud ar bith';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => 'Sprioc anaithnid';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => 'Pobal nuashonraithe';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => 'Cainéal cruthaithe';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => 'Cainéal nuashonraithe';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => 'Cainéal scriosta';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate => 'Sárú cainéil curtha leis';
 
   @override
   String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+      'Sárú cainéil nuashonraithe';
 
   @override
-  String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+  String get auditLogActionChannelOverwriteDelete => 'Sárú cainéil bainte';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => 'Ball caite amach';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => 'Baill scuabtha';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => 'Ball toirmiscthe';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => 'Ball dí-toirmiscthe';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => 'Ball nuashonraithe';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => 'Róil bhaill nuashonraithe';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => 'Ball bogtha';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => 'Ball dícheangailte';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => 'Bot curtha leis';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => 'Ról cruthaithe';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => 'Ról nuashonraithe';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => 'Ról scriosta';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => 'Cuireadh cruthaithe';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => 'Cuireadh nuashonraithe';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => 'Cuireadh scriosta';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'Webhook cruthaithe';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'Webhook nuashonraithe';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'Webhook scriosta';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => 'Emoji cruthaithe';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => 'Emoji nuashonraithe';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => 'Emoji scriosta';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => 'Greamán cruthaithe';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => 'Greamán nuashonraithe';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => 'Greamán scriosta';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => 'Teachtaireacht scriosta';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => 'Teachtaireachtaí scriosta';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => 'Teachtaireacht socraithe';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => 'Teachtaireacht díshocraithe';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return '$actor rinne socruithe an phobail a nuashonrú.';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return '$actor chruthaigh an cainéal $target.';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return '$actor rinne an cainéal $target a nuashonrú.';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return '$actor scrios an cainéal $target.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return '$actor chuir ceadanna cainéil leis do $target.';
   }
 
   @override
@@ -5806,12 +6193,12 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return '$actor chuir ceadanna cainéil leis do $target sa chainéal $channel.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return '$actor rinne ceadanna cainéil a nuashonrú do $target.';
   }
 
   @override
@@ -5820,12 +6207,12 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return '$actor rinne ceadanna cainéil a nuashonrú do $target sa chainéal $channel.';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return '$actor a díchuimhnigh $target cearta cainéil.';
   }
 
   @override
@@ -5834,47 +6221,47 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return '$actor a díchuimhnigh $target cearta cainéil i $channel.';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return '$actor a chaith amach $target.';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return '$actor a choisc $target.';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return '$actor a scaoil $target ón gcoisc.';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return '$actor a nuashonraigh $target.';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return '$actor a nuashonraigh róil do $target.';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return '$actor a ghlanadh baill éighníomhacha.';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return '$actor a ghlanadh baill éighníomhacha ar feadh $days lá.';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return '$actor a bhog $target chuig cainéal gutha eile.';
   }
 
   @override
@@ -5883,37 +6270,37 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return '$actor a bhog $target chuig $channel.';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return '$actor a dhínasc $target ón nguth.';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return '$actor a chuir an bot $target leis.';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return '$actor a chruthaigh an ról $target.';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return '$actor a nuashonraigh an ról $target.';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return '$actor a scrios an ról $target.';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return '$actor a chruthaigh an cuireadh $target.';
   }
 
   @override
@@ -5922,12 +6309,12 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return '$actor a chruthaigh an cuireadh $target do $channel.';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return '$actor a nuashonraigh an cuireadh $target.';
   }
 
   @override
@@ -5936,12 +6323,12 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return '$actor a nuashonraigh an cuireadh $target do $channel.';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return '$actor a scrios an cuireadh $target.';
   }
 
   @override
@@ -5950,22 +6337,22 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return '$actor a scrios an cuireadh $target do $channel.';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return '$actor a chruthaigh an webhook $target.';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor a nuashonraigh an webhook $target.';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor a scrios an webhook $target.';
   }
 
   @override
@@ -6216,106 +6603,150 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
 
   @override
   String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+      'Socraigh nasc cuireadh saincheaptha do do fhreastalaí.';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => 'Sábháil';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => 'Úsáid';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count úsáidí';
   }
 
   @override
   String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+      'Déan iarratas chun a bheith liostaithe i bhfionnachtain freastalaí.';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return 'Teastaíonn ar a laghad $count ball chun iarratas a dhéanamh.';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => 'Iarratas';
 
   @override
-  String get guildSettingsDiscoveryStatusTitle => 'Status';
+  String get guildSettingsDiscoveryStatusTitle => 'Stádas';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => 'Catagóir';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => 'Cur síos';
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tags';
+  String get guildSettingsDiscoveryTags => 'Clibeanna';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => 'cluichí, ealaín, ceol';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => 'Cuir Iarratas isteach';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => 'Tarraing siar';
 
   @override
   String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+      'Cuardaigh agus bainistigh baill an fhreastalaí.';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => 'Cuardaigh baill';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count baill';
   }
 
   @override
   String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+      'Féach agus cealaigh naisc cuireadh gníomhacha.';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => 'Níl cuireadh gníomhach ann.';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses úsáidí';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return 'Éagann $date';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription =>
+      'Féach agus bainistigh úsáideoirí toirmiscthe.';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => 'Cuardaigh toirmisc';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => 'Níl úsáideoir toirmiscthe ann.';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => 'Toirmeasc buan';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return 'Éagann $date';
   }
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsBanExpiresLabel => 'Éagann';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsUnban => 'Dí-toirmisc';
+
+  @override
+  String get guildSettingsBansLoading => 'Ag luchtú úsáideoirí toirmiscthe';
+
+  @override
+  String get guildSettingsBansNoSearchResults =>
+      'Ní bhfuarthas aon toirmisc a mheaitseálann do chuardach.';
+
+  @override
+  String get guildSettingsBanDetailsTitle => 'Sonraí toirmisc';
+
+  @override
+  String get guildSettingsBanViewDetails => 'Féach sonraí';
+
+  @override
+  String get guildSettingsBannedOn => 'Toirmisceadh ar';
+
+  @override
+  String get guildSettingsBannedBy => 'Toirmisceadh ag';
+
+  @override
+  String get guildSettingsRevokeBanTitle => 'Cealaigh toirmeasc';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return 'An bhfuil tú cinnte gur mhaith leat an toirmeasc a chealú do $displayName? Beidh siad in ann filleadh ar an bpobal.';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return 'Cealaíodh toirmeasc do $displayName';
+  }
+
+  @override
+  String get guildSettingsBansLoadError =>
+      'Níorbh fhéidir na toirmisc a luchtú. Bain triail eile as.';
+
+  @override
+  String get guildSettingsRevokeBanError =>
+      'Níorbh fhéidir an toirmeasc a chealú. Bain triail eile as.';
+
+  @override
+  String get guildSettingsCommunitySettings => 'Socruithe Pobail';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -6331,376 +6762,379 @@ class FluxerLocalizationsGa extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+      'Bainistigh próifíl, cainéil, agus socruithe réamhshocraithe do phobail.';
 
   @override
   String get guildSettingsOverviewBrandingTitle => 'Branding';
 
   @override
   String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+      'Nuashonraigh d\'íocón, d\'ainm, do bhratach, agus cúlra cuireadh';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => 'Uaslódáil bratach';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => 'Socruithe neamhghníomhacha';
 
   @override
   String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+      'Cumraigh cainéal AFK agus am teoranta';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => 'Córas & fáilte';
 
   @override
   String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+      'Roghnaigh ceann scríbe do theachtaireachtaí córais agus fáilte';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle =>
+      'Fógraí réamhshocraithe';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      'Tá pobail le breis agus 250 duine faoi cheangal leis an socrú \"luaitear amháin\". Coimeádtar do shocrú bunaidh agus cuirfear ar ais é má thiteann an pobal faoi bhun 250 ball.';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => 'Ardráiteacha';
 
   @override
   String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+      'Ceadaigh ainmneacha cainéal téacs solúbtha';
 
   @override
   String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+      'Folaigh coróin úinéir an phobail';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => 'Meirgí scoite';
 
   @override
   String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+      'Taispeánann an meirgí ina rannán féin faoin gceannchlár pobail.';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => 'Uaslódáil deilbhín';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => 'Bain';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => 'Cúlra cuireadh';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle => 'Cúlra leabaithe comhrá';
 
   @override
   String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+      'Taispeántar i leabaithe cuireadh sa chomhrá.';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => 'Uaslódáil cúlra';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => 'Gan meirgí pobail';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground => 'Gan cúlra cuireadh';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => 'Réamhamharc';
 
   @override
   String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+      'Féach conas a bhreathnaíonn do chuireadh do chuairteoirí.';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle =>
+      'Ainmneacha cainéal téacs';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle => 'Coróin úinéir an phobail';
 
   @override
   String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+      'Cumraigh an bhfuil an deilbhín corónach le feiceáil in aice le húinéir an phobail';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => 'Ailínithe cárta';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => 'Lár';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => 'Clé';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => 'Deas';
 
   @override
   String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+      'Ní bhaineann sé seo ach le scáileáin leathana.';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => 'Léigh stair teachtaireachtaí';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return 'Athraigh cad is féidir le húsáideoirí gan \"$permission\" a fheiceáil';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return 'Úsáid modúl tiomnaithe chun dáta tairsigh stair teachtaireachtaí a shocrú do bhaill nach bhfuil an cead $permission acu.';
   }
 
   @override
   String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+      'Oscail tairseach stair teachtaireachtaí';
 
   @override
   String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+      'Tairseach stair teachtaireachtaí';
 
   @override
   String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+      'Cumasaigh tairseach stair teachtaireachtaí';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => 'Dáta tairsigh';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      'Is féidir le baill nach bhfuil Stair Teachtaireachtaí Léite acu teachtaireachtaí a cuireadh tar éis an dáta seo a fheiceáil.';
 
   @override
   String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+      'Nuashonraíodh tairseach stair teachtaireachtaí';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      'Ceadaigh litreacha móra agus spásanna in ainmneacha cainéal téacs. Teorannaíonn as gach rud go litreacha beaga le hyphens agus underscores.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+      'Folaíonn sé an deilbhín corónach in aice le húinéir an phobail ar fud gach dromchla.';
 
   @override
   String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+      'Teastaíonn gné Pobail Deilbhíní Beoite le haghaidh deilbhíní beoite.';
 
   @override
   String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+      'Teastaíonn gné Meirgí Beoite Pobail le haghaidh meirgí beoite.';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'Cainéal AFK / díomhaoin';
 
   @override
   String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+      'Bog baill chuig an gcainéal seo nuair a bhíonn siad AFK.';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => 'Gan cainéal AFK';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'Am múchta AFK';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 nóiméad';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 nóiméad';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 nóiméad';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 nóiméad';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 uair an chloig';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds soicind';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => 'Cainéal cinn scríbe';
 
   @override
   String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+      'Beidh teachtaireachtaí fáilte agus córais le feiceáil anseo.';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => 'Gan cainéal córais';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages =>
+      'Folaigh teachtaireachtaí isteach';
 
   @override
   String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+      'Cuireann sé bac ar theachtaireachtaí isteach sa chainéal ceann scríbe.';
 
   @override
   String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+      'Socruithe fógra réamhshocraithe';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => 'Gach teachtaireacht';
 
   @override
   String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+      'Fógraigh ar gach teachtaireacht';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => 'Luaigh amháin';
 
   @override
   String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+      'Fógraigh ar luaigh amháin';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG, PNG, WebP, AVIF. Uasmhéid 10MB. Íosmhéid: 960×540px (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG, PNG, WebP, AVIF. Uasmhéid 10MB. Íosmhéid: 960×540px (16:9). Taispeántar i naisc cuireadh sa chomhrá.';
 
   @override
   String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+      'Cumraigh socruithe fíoraithe, scagadh ábhair, agus ábhar aibí.';
 
   @override
   String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+      'Tá roghanna srianta maidir le smacht ar phobail atá liostaithe i Discovery.';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => 'Scagadh ábhair';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      'Scag teachtaireachtaí go huathoibríoch le haghaidh ábhar follasach i gcainéil nach bhfuil marcáilte le haghaidh ábhar aibí.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      'Tá sé de cheangal ar phobail atá liostaithe i Discovery gach ball a scanadh. Ní féidir an socrú seo a athrú fad is atá Discovery cumasaithe.';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => 'As';
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+      'Lig don phobal féin-rialáil';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole => 'Scag baill gan róil';
 
   @override
   String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+      'Molta don chuid is mó de na pobail';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => 'Scag gach duine';
 
   @override
   String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+      'Uasmhéid cosanta do spásanna atá oiriúnach don teaghlach';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => 'As';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => 'Ar';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle => 'Taispeáin rabhadh ábhair';
 
   @override
   String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+      'Casann sé pras toilithe sula dtéann tú isteach in aon chainéal.';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => 'Téacs rabhaidh saincheaptha';
 
   @override
   String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+      'Tá ábhar íogair anseo.';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => 'Riachtanas 2FA';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      'Ceanglais dhá fhachtóir fíordheimhnithe do mhodhnóirí sula féidir leo teachtaireachtaí a thoirmeasc, a chiceáil, a chur ar fionraí, nó a bhaint.';
 
   @override
   String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+      'Ceanglais 2FA d\'ghníomhartha modhnóireachta';
 
   @override
   String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+      'Ní féidir ach le húinéir an phobail an socrú seo a athrú';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      'Cumasaigh 2FA ar do chuntas chun an socrú seo a athrú';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => 'Aimsigh emojis';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => 'Uaslódáil Emoji';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return 'Emoji neamhghníomhach ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return 'Emoji gníomhach ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => 'Aimsigh greamáin';
 
   @override
   String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+      'Cruthaigh webhooks ó shocruithe cainéil. Cuir iad in eagar anseo.';
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+      'Ní oibreoidh do vanity URL mura mbeidh ar a laghad cainéal amháin infheicthe do chách.';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => 'Bain';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => 'Úsáideoirí toirmiscthe';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => 'Tairgeoir';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => 'Cainéal';
 
   @override
-  String get guildSettingsInvitesTableCode => 'Code';
+  String get guildSettingsInvitesTableCode => 'Cód';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => 'Úsáidí';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => 'Cruthaithe';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => 'An ceann is nuaí ar dtús';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => 'Scagaigh de réir úsáideora';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => 'Scagaigh de réir gnímh';
 }

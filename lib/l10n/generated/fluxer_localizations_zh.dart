@@ -9,1096 +9,1092 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   FluxerLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => '我们出错了！';
 
   @override
-  String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+  String get reconnectingBody => '服务器出现问题。\n很快就会修复！';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => '正在重新连接…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => '已连接';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return '启动失败：$error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => '重试';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => '连接已丢失';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => '查看状态页';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => '连接有问题？';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => '状态页';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => '阅读事件详情';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => '事件历史';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => '欢迎回来';
 
   @override
-  String get email => 'Email';
+  String get email => '邮箱';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => '请输入有效的邮箱地址。';
 
   @override
-  String get password => 'Password';
+  String get password => '密码';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => '忘记密码？';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => '登录';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => '使用密匙登录';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return '使用 $provider 继续';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired => '需要 SSO 才能访问此实例。';
 
   @override
-  String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+  String get organizationSsoProvider => '使用您组织的单点登录提供商登录。';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => '启动 SSO 失败';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'SSO 登录已取消';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return '倾向于使用 SSO？使用 $provider 继续。';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => '通过浏览器登录';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => '需要账号？ ';
 
   @override
-  String get register => 'Register';
+  String get register => '注册';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => '验证您是人类';
 
   @override
-  String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+  String get captchaDescription => '我们需要确保您不是机器人。请完成以下验证。';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha => '有问题？尝试 hCaptcha';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile => '尝试 Turnstile';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => '取消';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => '查看您的邮箱';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return '我们已发送一封邮件到 $email 以授权此次登录。请打开您的收件箱。';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => '连接已丢失';
 
   @override
-  String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+  String get ipAuthConnectionLostDescription => '等待授权时连接丢失。请重试。';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => '登录链接已过期';
 
   @override
-  String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+  String get ipAuthLinkExpiredDescription => '此授权链接已过期。请重新登录。';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => '重新发送邮件';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => '已重发';
 
   @override
   String ipAuthResendCountdown(int seconds) {
-    return '${seconds}s';
+    return '$seconds秒';
   }
 
   @override
-  String get back => 'Back';
+  String get back => '返回';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => '两步验证';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => '选择一种验证方式';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => '身份验证器应用';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => '安全密钥 / 密匙';
 
   @override
-  String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+  String get mfaTotpDescription => '请输入您的身份验证器应用中的 6 位数字代码或您的备用代码之一。';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => '代码';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => '尝试其他方式';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey => '尝试使用安全密钥/通行密钥';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => '选择一个账户';
 
   @override
-  String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+  String get accountSelectorDescription => '选择一个账户继续，或添加另一个账户。';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => '添加账户';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => '移除';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return '移除 $username';
   }
 
   @override
-  String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+  String get accountRemoveDescription => '这将移除此账户的已保存会话。';
 
   @override
-  String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+  String get accountRemoveOnlyDescription => '这将移除此设备上唯一已保存的账户。';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => '已过期';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return '$identifier 的会话已过期。请重新登录。';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => '管理账户';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed => '无法切换账户。请重试。';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => '切换账户';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => '设置状态';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => '在线状态';
 
   @override
-  String get statusOnline => 'Online';
+  String get statusOnline => '在线';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => '空闲';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => '请勿打扰';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => '隐身';
 
   @override
-  String get statusOffline => 'Offline';
+  String get statusOffline => '离线';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => '直到我更改它';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => '不清除';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => '10 秒';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 秒';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 分钟';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 分钟';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 小时';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 小时';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 小时';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 小时';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 小时';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 天';
 
   @override
-  String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+  String get statusDndDescription => '您将不会在桌面上收到通知';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => '您将显示为离线';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => '设置自定义状态';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => '自定义状态';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => '清除自定义状态';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => '有什么新鲜事？';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => '选择一个表情符号';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => '清除后';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => '保存';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => '当前账户';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => '退出登录';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => '账户永久封禁';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => '账户暂停';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+  String get suspendedPermanentDescription => '您的账户因违反我们的服务条款而被永久封禁。';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+  String get suspendedTemporaryDescription => '您的账户已被暂时封禁。封禁期结束后，您将能够访问您的账户。';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => '生效时间';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => '结束时间';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => '封禁时长';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedPermanent => '永久';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => '原因';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => '申诉截止日期';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return '您的账户定于 $date 删除。';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => '检查更新';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return '请 $seconds 秒后再试';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => '返回登录';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => '申诉';
 
   @override
-  String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+  String get suspendedAppealHint => '说明您认为应重新考虑此次封禁的原因（至少 50 个字符）...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => '提交申诉';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => '审核中';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => '申诉已接受';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => '申诉已拒绝';
 
   @override
-  String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+  String get suspendedAppealAcceptedDescription => '您的申诉已被接受，您的账户已恢复。';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => '登录您的账户';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => '忘记密码？';
 
   @override
-  String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+  String get forgotPasswordDescription => '请输入您的电子邮件地址，我们将向您发送重置密码的链接。';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => '发送重置链接';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => '检查您的电子邮件';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      '我们已将密码重置说明发送到您的电子邮件地址。请检查您的收件箱并点击链接重置密码。';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => '返回登录';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => '设置新密码';
 
   @override
-  String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+  String get resetPasswordDescription => '在下方输入您的新密码以完成重置过程。';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => '新密码';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => '确认新密码';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => '重置密码';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => '两次输入的密码不匹配。';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => '创建账户';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => '显示名称（可选）';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => '别人应该怎么称呼您？';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => '用户名（可选）';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint => '留空则使用随机用户名';
 
   @override
-  String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+  String get registerUsernameTagHint => '系统将自动添加一个 4 位数的标签以确保唯一性';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => '出生日期';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => '月份';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => '日期';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => '年份';
 
   @override
-  String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+  String get registerConsent => '我同意服务条款和隐私政策';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => '我同意';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => '服务条款';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => '和';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => '隐私政策';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => '确认密码';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => '创建账户';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => '已有账户？';
 
   @override
-  String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+  String get passkeyNoCredentials => '此应用未找到任何通行密钥。请改用电子邮件和密码登录。';
 
   @override
-  String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+  String get passkeyDeviceNotSupported => '此设备不支持通行密钥。';
 
   @override
-  String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+  String get passkeyDomainNotAssociated => '此应用的通行密钥未配置。请改用电子邮件和密码登录。';
 
   @override
-  String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+  String get passkeyTimeout => '通行密钥认证超时。请重试。';
 
   @override
-  String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+  String get passkeyNotAvailable => '此应用无法使用通行密钥。请改用电子邮件和密码登录。';
 
   @override
-  String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+  String get passkeyFailed => '密匙认证失败。请重试。';
 
   @override
-  String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+  String get errorUnableToCreateAccount => '无法创建账户。请重试。';
 
   @override
-  String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+  String get errorUnableToSignIn => '暂时无法登录。请重试。';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword => '电子邮件或密码无效。';
 
   @override
-  String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+  String get errorUnableToSendResetLink => '无法发送重置链接。请重试。';
 
   @override
-  String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+  String get errorUnableToResetPassword => '无法重置密码。请重试。';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => '加入社区';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => '前往社区';
 
   @override
   String embedInviteOnline(String count) {
-    return '$count Online';
+    return '$count 人在线';
   }
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count 位成员';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => '无效的邀请';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle => '尝试请求新邀请。';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => '邀请不可用';
+
+  @override
+  String get inviteAcceptTitle => '您已被邀请加入';
+
+  @override
+  String get inviteAcceptJoinButton => '加入社区';
+
+  @override
+  String get inviteAcceptGoToButton => '前往社区';
+
+  @override
+  String get inviteAcceptInvitesPaused => '邀请已暂停';
+
+  @override
+  String get inviteAcceptNotFoundTitle => '邀请无效';
+
+  @override
+  String get inviteAcceptNotFoundDescription => '此邀请可能已过期或无效。';
+
+  @override
+  String get inviteAcceptJoinGroupButton => '加入群组';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return '$inviterName 已邀请您加入群组 DM';
+  }
+
+  @override
+  String get inviteAcceptSomeone => '某人';
+
+  @override
+  String get inviteAcceptEmojiPack => '表情包';
+
+  @override
+  String get inviteAcceptStickerPack => '贴纸包';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => '安装表情包';
+
+  @override
+  String get inviteAcceptInstallStickerPack => '安装贴纸包';
+
+  @override
+  String get inviteAcceptPackInstallNote => '接受此邀请将自动安装表情包。';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => '无权访问频道';
 
   @override
-  String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+  String get channelAccessDeniedDescription => '您无权访问发送此消息的频道。';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => '无权访问';
 
   @override
-  String get okay => 'Okay';
+  String get okay => '好的';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => '共享主题';
 
   @override
-  String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+  String get embedThemeSubtitle => '此客户端不支持自定义主题。';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => '主题不可用';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => '隐私设置';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => '直接消息';
 
   @override
-  String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+  String get privacyDirectMessagesDescription => '允许此社区中的其他成员发送直接消息';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => '机器人直接消息';
 
   @override
-  String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+  String get privacyBotDirectMessagesDescription => '允许此社区中的机器人向您发送直接消息';
 
   @override
-  String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+  String get privacyMutualDmsDisabled => '社区管理员已禁用仅从此社区中的互相关联成员接收直接消息。';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => '社区调试';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => '已复制到剪贴板';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => '通知设置';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return '静音 $guildName';
   }
 
   @override
-  String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+  String get notificationMuteDescription => '静音社区可防止出现未读指示器和通知，除非您被提及';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings => '社区通知设置';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => '所有消息';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => '仅提及';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => '无';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => '屏蔽 @everyone 和 @here';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles => '屏蔽所有角色@提及';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => '移动推送通知';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => '通知覆盖设置';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => '选择频道或类别';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => '仅@提及';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => '静音频道';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => '取消静音频道';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => '无类别';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => '标记为已读';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => '静音私信';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => '取消静音私信';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => '固定私信';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => '取消固定私信';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => '始终显示在侧边栏';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => '从“始终显示”中移除';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => '关闭私信';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => '关闭私信';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return '确定要关闭与 $username 的私信吗？之后可以随时重新打开。';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => '复制频道ID';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => '频道ID已复制';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => '复制用户ID';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => '用户ID已复制';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => '查看个人资料';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => '发起语音通话';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => '来电';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => '接听';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => '拒绝';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => '来电';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => '忽略';
 
   @override
-  String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+  String get directVoiceCallNotEligible => '目前无法发起此通话。请稍后重试。';
 
   @override
-  String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+  String get voiceJoinCallFailed => '无法连接到此通话。请检查您的连接并重试。';
 
   @override
-  String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+  String get voiceJoinIncomingCallFailed => '无法加入此通话。请检查您的连接并重试。';
 
   @override
-  String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+  String get incomingVoiceRingingUpdateFailed => '无法更新服务器上的此通话。请检查您的连接并重试。';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => '添加备注';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => '编辑群组';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => '邀请加入社群';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => '屏蔽';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => '离开群组';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => '没有可用的社群';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count 位成员';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => '15分钟';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => '30分钟';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => '1小时';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => '3小时';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => '4小时';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => '8小时';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => '24小时';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => '3天';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => '直到我重新开启';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => '固定群组私信';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => '取消置顶群聊';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => '收藏私信';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => '取消收藏私信';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => '收藏群聊';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => '取消收藏群聊';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => '更改好友昵称';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => '移除好友';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => '添加好友';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => '接受好友请求';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => '忽略好友请求';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => '好友请求已发送';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => '解除屏蔽';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => '调试用户';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => '调试频道';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => '已置顶私信';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => '已取消置顶私信';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => '已静音私信';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => '已取消静音私信';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => '移除好友';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return '确定要将 $username 移除好友吗？';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => '屏蔽用户';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return '确定要屏蔽 $username 吗？对方将无法给你发消息或发送好友请求。';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => '好友请求已发送';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed => '发送好友请求失败';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed => '接受好友请求失败';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => '移除好友失败';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => '屏蔽用户失败';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed => '解除屏蔽用户失败';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed => '忽略好友请求失败';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => '添加好友';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => '添加好友';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => '用户名#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => '好友的用户名';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => '发送请求';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound => '未找到该用户名的用户。';
 
   @override
-  String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+  String get addFriendInvalidUsername => '请输入有效的用户名（用户名#0000）。';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => '好友请求已发送';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => '认领您的账号';
 
   @override
-  String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+  String get addFriendClaimDescription => '请先认领您的账号才能发送好友请求。';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => '验证您的邮箱';
 
   @override
-  String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+  String get addFriendVerifyDescription => '您需要先验证您的邮箱地址才能发送好友请求。';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => '验证邮箱';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return '收到的好友请求（$count）';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return '发出的好友请求（$count）';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => '收到的好友请求';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => '好友请求已发送';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => '查看个人资料';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => '接受';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => '忽略';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => '接受好友请求';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => '忽略好友请求';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return '接受来自 $userName 的好友请求吗？';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return '忽略来自 $displayName 的好友请求吗？';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => '取消请求';
 
   @override
-  String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+  String get addFriendCancelRequestFailed => '无法取消好友请求。请重试。';
 
   @override
-  String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+  String get addFriendNotAcceptingRequests => '对方目前不接受好友请求。';
 
   @override
-  String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+  String get addFriendUnblockFirst => '请先解除屏蔽才能发送好友请求。';
 
   @override
-  String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+  String get addFriendCannotSendToSelf => '您无法发送好友请求给自己。';
 
   @override
-  String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+  String get addFriendAlreadyFriends => '您已是该用户的好友。';
 
   @override
-  String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+  String get addFriendClaimToSend => '完成注册即可发送好友请求。';
 
   @override
-  String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+  String get addFriendSendFailedGeneric => '无法发送好友请求。请重试。';
 
   @override
   String get userTagBot => 'BOT';
 
   @override
-  String get userTagSystem => 'System';
+  String get userTagSystem => '系统';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => '查找您想要的表情符号';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty => '没有表情符号匹配您的搜索';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => '默认表情';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => '常用';
 
   @override
-  String get emojiTabGifs => 'GIFs';
+  String get emojiTabGifs => 'GIF';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => '媒体';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => '贴纸';
 
   @override
-  String get emojiTabEmojis => 'Emojis';
+  String get emojiTabEmojis => '表情';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => '搜索 GIF';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => '搜索 KLIPY';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => '搜索 Tenor';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => '收藏';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => '热门 GIF';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => '无搜索结果';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription => '尝试其他搜索词';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => '无法加载 GIF';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody => '检查您的网络连接并重试。';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => '人物';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => '动物与自然';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => '美食与饮品';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => '活动';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => '旅行与地点';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => '物品';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => '符号';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => '国旗';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return '通过 Plutonium 解锁 $communityCount 个社群中的 $emojiCount 个表情符号。';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => '获取 Plutonium';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => '不再显示';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count 个自定义表情符号',
+      one: '1 个自定义表情符号',
     );
     return '$_temp0';
   }
@@ -1108,927 +1104,890 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count 个社群',
+      one: '1 个社群',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => '外部链接警告';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => '您即将离开 Fluxer';
 
   @override
-  String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+  String get externalLinkWarningDescription => '外部链接可能存在风险。请小心。';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => '目标网址：';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => '外部链接';
 
   @override
-  String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+  String get externalLinksSectionDescription => '配置外部链接警告的处理方式。';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => '始终信任 ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix => ' — 下次跳过此警告';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => '访问网站';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => '信任所有外部链接';
 
   @override
-  String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+  String get externalLinkStripTrackingLabel => '从网址中移除跟踪参数';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      '自动移除您发送的消息中网址的跟踪参数（如 utm_source, fbclid, gclid）。在链接发送给他人之前进行清理。';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle => '信任所有外部链接？';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      '这将信任所有外部链接，并跳过所有域名的警告。您现有的受信任域名将被替换。这不太安全。';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => '全部信任';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle => '停止信任所有链接？';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      '将再次显示外部链接警告。您需要单独添加受信任的域名。';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction => '禁用全部信任';
 
   @override
-  String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+  String get externalLinkTrustedAllDescription => '所有外部链接均已信任。将不显示警告。';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return '您已信任 $count 个域名。访问外部链接时勾选复选框可添加更多域名。';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      '启用后，将不显示任何外部链接警告。这不太安全。';
 
   @override
-  String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+  String get imageFileTooLarge => '图片文件过大。请选择小于 10 MB 的文件。';
 
   @override
-  String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+  String get animatedAvatarsRequirePlutonium => '动态头像需要 Plutonium';
 
   @override
-  String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+  String get animatedBannersRequirePlutonium => '动态横幅需要 Plutonium';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported => '不支持动态 AVIF';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      '目前不支持裁剪和旋转动态 AVIF 文件。如果继续，将以原始形式上传。';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => '按原样上传';
 
   @override
-  String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+  String get croppingAnimatedNotSupported => '目前不支持裁剪动态图片。将使用原始上传文件。';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => '裁剪头像';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => '裁剪横幅';
 
   @override
-  String get skip => 'Skip';
+  String get skip => '跳过';
 
   @override
-  String get crop => 'Crop';
+  String get crop => '裁剪';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => '更改您的 FluxerTag';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      '用户名只能包含字母（a-z, A-Z）、数字（0-9）和下划线。用户名不区分大小写。';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      '用户名只能包含字母（a-z, A-Z）、数字（0-9）和下划线。用户名不区分大小写。您可以选择 #0000 到 #9999 之间的任意可用 4 位数字标签。';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      '用户名只能包含字母（a-z, A-Z）、数字（0-9）和下划线。用户名不区分大小写。您可以选择 #0001 到 #9999 之间的任意可用 4 位数字标签。';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return '介于 $min 和 $max 个字符之间';
   }
 
   @override
-  String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+  String get validationAllowedChars => '仅限字母（a-z, A-Z）、数字（0-9）和下划线（_）';
 
   @override
-  String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+  String get discriminatorPremiumTooltip => '获取 Plutonium 以自定义您的标签或在更改用户名时保留它';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'FluxerTag 已被占用';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'FluxerTag $username#$discriminator 已被占用。继续将自动重新分配您的数字标签。';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => '自定义标签是临时的';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return '您的自定义 4 位数字标签仅在您的 Plutonium 订阅有效期间可用。当您的订阅于 $date 到期后，您的标签将在 3 天宽限期后恢复为随机分配的数字。';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      '您的自定义 4 位数字标签仅在您的 Plutonium 订阅有效期间可用。当您的订阅到期后，您的标签将在 3 天宽限期后恢复为随机分配的数字。';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => '我明白了，继续';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      '如果您保存此 FluxerTag，您的自定义 4 位数字标签将在您的 Plutonium 订阅结束时恢复为随机数字。如果您的订阅未能续订，您将有 3 天宽限期，之后标签才会更改。';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return '您的自定义 4 位数字标签（#$discriminator）在您的 Plutonium 订阅有效期间处于激活状态。如果您的订阅在 3 天宽限期后结束或未能续订，您的标签将恢复为随机数字。';
   }
 
   @override
-  String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+  String get premiumUpsellCustomizeTag => '自定义您的 4 位数字标签或在更改用户名时保留它';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return '您的 Plutonium 试用版将于 $date 到期。升级以保留您的自定义标签并在您的个人资料上获得徽章。';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      '您正在使用 Plutonium 试用版。升级以保留您的自定义标签并在您的个人资料上获得徽章。';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'FluxerTag 已更新';
 
   @override
-  String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+  String get fluxerTagUpdateFailed => '更新 FluxerTag 失败。请重试。';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => '继续';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => '个人资料自定义';
 
   @override
-  String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+  String get profileCustomizationDescription => '编辑您的个人资料外观并查看实时预览';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => '用户名';
 
   @override
-  String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+  String get claimAccountToChangeFluxerTag => '认领您的账户以更改您的 FluxerTag';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => '更改 FluxerTag';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return '使用 Plutonium 自定义你的 4 位数字标签 (#$discriminator)';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint => '更改你的用户名和 4 位数字标签';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return '你的自定义标签 (#$discriminator) 与你的 Plutonium 订阅绑定，如果订阅过期，它将恢复为随机标签。';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => '显示名称';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => '代词';
 
   @override
-  String get avatarLabel => 'Avatar';
+  String get avatarLabel => '头像';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => '更改头像';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => '移除头像';
 
   @override
-  String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+  String get avatarDescription => 'PNG、JPEG、WebP、GIF。最大 10MB。推荐：512×512px';
 
   @override
-  String get bannerLabel => 'Banner';
+  String get bannerLabel => '横幅';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => '更改横幅';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => '移除横幅';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG、JPEG、WebP、GIF。最大 10MB。最小：960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => '强调色';
 
   @override
-  String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+  String get accentColorDescription => '自定义个人资料的边框和横幅颜色';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => '关于我';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText => '你可以使用链接、表情符号和 Markdown。';
 
   @override
-  String get emojiPickerTitle => 'Emoji';
+  String get emojiPickerTitle => '表情符号';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle => 'Plutonium 徽章隐私';
 
   @override
-  String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+  String get plutoniumBadgePrivacyDescription => '控制他人如何看到你的 Plutonium 徽章';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel => '完全隐藏 Plutonium 徽章';
 
   @override
-  String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+  String get hidePlutoniumBadgeDescription => '从其他用户那里完全隐藏你的 Plutonium 徽章';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => '隐藏 Plutonium 购买日期';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return '隐藏 Plutonium 购买日期 ($date)';
   }
 
   @override
-  String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+  String get hidePurchaseDateDescription => '从你的徽章中移除 Plutonium 的首次购买日期';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription => '将 Visionary 显示为订阅';
 
   @override
-  String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+  String get maskVisionaryDescription => '将你的 Visionary 显示为常规订阅';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => '隐藏 Visionary ID 徽章';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return '隐藏 Visionary ID 徽章 (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription => '移除你的 Visionary ID 徽章';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return '你正在试用 Plutonium — 你的订阅将于 $date 开始';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      '试用期结束后，你的订阅将自动开始。无需操作。';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return '你正在试用 Plutonium，将于 $date 到期';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile => '你正在试用 Plutonium';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG、PNG、WebP。最大 10MB。推荐：512×512px。动态头像 (GIF) 需要 Plutonium。';
 
   @override
-  String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+  String get bannerPlutoniumUpsell => '使用静态或动态横幅图片自定义你的个人资料，使其脱颖而出。';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => '获取 Plutonium';
 
   @override
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+  String get plutoniumNotAvailableBody => '应用内购买在此平台暂不可用。敬请期待 — 即将推出！';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => '预览';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => '消息';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'Fluxer 会员自';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => '未认领的账户';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      '你的账户尚未认领。没有电子邮件和密码，你可能会丢失访问权限。立即认领你的账户以确保其安全。';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => '认领账户';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => '个人资料类型';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => '全局个人资料';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      '你正在编辑你的每个社区的个人资料。此个人资料仅在此社区可见，并将覆盖你的全局个人资料。';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => '社区昵称';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      '为单个社群自定义头像、横幅、强调色和个人简介需要 Plutonium。社群昵称和代词对所有人免费。';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => '使用全局资料';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => '使用自定义图片';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => '不显示';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => '个人资料已更新';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => '编辑个人资料';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => '备注';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '（仅你可见）';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => '暂无备注。';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => '验证你的身份';
 
   @override
-  String get sudoDescription =>
-      'This action requires verification to continue.';
+  String get sudoDescription => '此操作需要验证才能继续。';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => '验证器代码';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => '密码';
 
   @override
-  String get sudoMethodTotp => 'Authenticator';
+  String get sudoMethodTotp => '验证器';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed => '验证失败。请重试。';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => '账号';
 
   @override
-  String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+  String get securityAccountDescription => '管理你的电子邮件、密码和账号设置';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => '安全';
 
   @override
-  String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+  String get securitySectionDescription => '使用双重验证和通行密钥保护你的账号';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => '电子邮件设置';
 
   @override
-  String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+  String get securityLoginEmailSectionDescription => '管理你用于登录 Fluxer 的电子邮件地址';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => '电子邮件地址';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => '未设置电子邮件地址';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => '更改电子邮件';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => '添加电子邮件';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => '显示';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => '隐藏';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => '密码';
 
   @override
-  String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+  String get securityLoginPasswordSectionDescription => '更改你的密码以确保账号安全';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => '当前密码';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return '上次更改：$date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => '上次更改：从不';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => '未设置密码';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => '更改密码';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => '设置密码';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => '更改密码';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      '在更改密码前，我们会向你的电子邮件地址发送验证码以确认你的身份。';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => '开始';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => '验证你的电子邮件';
 
   @override
-  String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+  String get passwordChangeVerifyDescription => '输入发送到你电子邮件地址的验证码。';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => '验证码';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => '验证';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => '设置新密码';
 
   @override
-  String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+  String get passwordChangeNewPasswordDescription => '在下方输入你的新密码。';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => '新密码';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => '确认新密码';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => '更改密码';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => '密码已更改';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch => '两次输入的密码不匹配';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => '验证码无效或已过期';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => '更改邮箱';
 
   @override
-  String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+  String get emailChangeIntroDescription => '在更改您的邮箱地址前，我们会发送验证码以验证您的身份。';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => '开始';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => '验证当前邮箱';
 
   @override
-  String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+  String get emailChangeVerifyOriginalDescription => '请输入发送到您当前邮箱的验证码。';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => '输入新邮箱';
 
   @override
-  String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+  String get emailChangeNewEmailDescription => '请输入您想使用的新邮箱地址。';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => '新邮箱';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => '发送验证码';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => '验证新邮箱';
 
   @override
-  String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+  String get emailChangeVerifyNewDescription => '请输入发送到您新邮箱的验证码。';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => '邮箱已更改';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => '验证码无效或已过期';
 
   @override
-  String get resend => 'Resend';
+  String get resend => '重发';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return '重发 ($seconds秒)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => '验证码';
 
   @override
-  String get verify => 'Verify';
+  String get verify => '验证';
 
   @override
-  String get enable => 'Enable';
+  String get enable => '启用';
 
   @override
-  String get disable => 'Disable';
+  String get disable => '禁用';
 
   @override
-  String get delete => 'Delete';
+  String get delete => '删除';
 
   @override
-  String get save => 'Save';
+  String get save => '保存';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => '两步验证';
 
   @override
-  String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+  String get securityTfaSectionDescription => '为您的账户添加额外的安全层';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => '验证器应用';
 
   @override
-  String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+  String get securityTfaAuthenticatorEnabled => '两步验证已启用';
 
   @override
-  String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+  String get securityTfaAuthenticatorDisabled => '使用验证器应用生成两步验证码';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => '备用码';
 
   @override
-  String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+  String get securityTfaBackupCodesDescription => '查看和管理您的账户恢复备用码';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => '查看备用码';
 
   @override
-  String get securityPasskeysSectionTitle => 'Passkeys';
+  String get securityPasskeysSectionTitle => '通行密钥';
 
   @override
-  String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+  String get securityPasskeysSectionDescription => '使用通行密钥进行无密码登录和两步验证';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => '已注册的通行密钥';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => '未注册通行密钥';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: '密钥',
+      one: '密钥',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '已注册 $count 个 $_temp0 (最多 10 个)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => '添加通行密钥';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return '添加于：$date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return '上次使用：$date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => '重命名';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => '删除通行密钥';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return '您确定要删除通行密钥“$name”吗？';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => '通行密钥名称';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => '通行密钥名称';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint => '例如：YubiKey、iPhone、工作电脑';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => '手机号码';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription => '管理您的手机号码';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => '手机号码';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => '未添加手机号码。';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => '添加手机号码';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => '移除';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => '移除手机号码';
 
   @override
-  String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+  String get securityPhoneRemoveDescription => '确定要移除您的手机号码吗？';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => '手机号码已移除';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => '安全功能';
 
   @override
-  String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+  String get securityClaimDescription => '认领您的账号，即可使用双重验证和通行密钥等安全功能。';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      '您必须先验证您的电子邮件地址，才能设置双重验证、通行密钥或短信验证。';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => '设置身份验证器应用';
 
   @override
-  String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+  String get totpEnableDescription => '使用您的身份验证器应用扫描二维码，以生成双重验证码。';
 
   @override
-  String get totpEnableCodeLabel => 'Code';
+  String get totpEnableCodeLabel => '验证码';
 
   @override
-  String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+  String get totpEnableCodeHint => '输入身份验证器应用中的 6 位数验证码';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess => '双重验证已启用';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => '移除身份验证器应用';
 
   @override
-  String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+  String get totpDisableDescription => '输入身份验证器应用中的 6 位数验证码，以禁用双重验证。';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => '双重验证已禁用';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => '备用验证码';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      '如果您丢失了身份验证器应用的使用权限，并且没有这些备用验证码，您将永久无法登录您的账号。请立即下载或复制它们，并妥善保管。';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => '下载';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => '复制';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied => '备用验证码已复制到剪贴板';
 
   @override
-  String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+  String get backupCodesAcknowledge => '我已下载或复制我的备用验证码并妥善保管。';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => '完成';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => '查看备用验证码';
 
   @override
-  String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+  String get backupCodesViewDescription => '查看备用验证码前可能需要进行验证。';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => '添加手机号码';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => '手机号码';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => '输入您的手机号码';
 
   @override
-  String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+  String get phoneAddFooter => '请输入您的手机号码。我们将通过短信向您发送验证码。';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => '发送验证码';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => '验证手机号码';
 
   @override
-  String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+  String get phoneVerifyDescription => '输入发送到您手机号码的验证码。';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => '手机号码已添加';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => '危险区域';
 
   @override
-  String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+  String get dangerZoneSectionDescription => '不可逆转且具有破坏性的操作';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => '禁用账号';
 
   @override
-  String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+  String get dangerZoneDisableDescription => '暂时禁用您的账号。之后可以通过重新登录来重新激活。';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      '禁用您的账号将使您退出所有会话。您可以通过再次登录随时重新启用您的账号。';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => '删除账号';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+  String get dangerZoneDeleteDescription => '永久删除您的账号及所有相关数据。此操作无法撤销。';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      '在删除账号前，请在 Plutonium 设置中取消您的有效 Plutonium 订阅。';
+
+  @override
+  String get dangerZoneDeleteCannotDeleteAccount => '无法删除账号';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      '您不能在拥有社群的情况下删除账号。请先转移以下社群的所有权：';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return '及另外 $count 个';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return '要转移所有权，请前往 $settingsPath 并使用转移所有权选项。';
+  }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      '您确定要删除您的账号吗？此操作将安排您的账号进行永久删除。';
 
   @override
-  String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+  String get dangerZoneDeleteBullet1 => '您可以在 14 天内取消删除流程';
 
   @override
-  String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+  String get dangerZoneDeleteBullet2 => '14 天后，您的账号将被永久删除';
 
   @override
-  String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+  String get dangerZoneDeleteBullet3 => '删除处理完成后，您将无法恢复对您账号的访问权限';
 
   @override
-  String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+  String get dangerZoneDeleteBullet4 => '删除账号后，您将无法删除您发送的消息';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      '如果您想先导出数据或删除消息，请在继续操作前访问用户设置中的隐私中心。';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => '认领您的账号';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      '通过添加电子邮件和密码来认领您的账号。在完成之前，我们将发送验证码来确认您的电子邮件。';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => '邮箱';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => '密码';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => '发送验证码';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      '输入我们发送到您邮箱的验证码以完成验证。验证成功后，您将可以设置密码。';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => '账户已成功认领';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => '重要信息：';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => '发生错误';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => '验证码无效';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: '$count年前',
+      one: '1年前',
     );
     return '$_temp0';
   }
@@ -2038,8 +1997,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: '$count个月前',
+      one: '1个月前',
     );
     return '$_temp0';
   }
@@ -2049,8 +2008,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: '$count天前',
+      one: '1天前',
     );
     return '$_temp0';
   }
@@ -2060,8 +2019,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count小时前',
+      one: '1小时前',
     );
     return '$_temp0';
   }
@@ -2071,135 +2030,128 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count分钟前',
+      one: '1分钟前',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => '刚刚';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => '已授权的应用';
 
   @override
-  String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+  String get authorizedAppsDescription => '以下应用已被授予访问您的Fluxer账户的权限。';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => '无已授权的应用';
 
   @override
-  String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+  String get authorizedAppsEmptyDescription => '您尚未授权任何应用访问您的账户。';
 
   @override
-  String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+  String get authorizedAppsLoadError => '无法加载已授权的应用';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return '授权于 $date';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => '已授予的权限';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => '撤销';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => '撤销应用访问权限';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return '您确定要撤销对 $appName 的访问权限吗？该应用将无法再访问您的账户。';
   }
 
   @override
-  String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+  String get authorizedAppsScopeIdentify => '访问您的基本个人资料信息（用户名、头像等）';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => '查看您的电子邮件地址';
 
   @override
-  String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+  String get authorizedAppsScopeGuilds => '查看您所在的社群';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections => '查看您已连接的账户';
 
   @override
-  String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+  String get authorizedAppsScopeBot => '添加具有所需权限的机器人到社群';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin => '访问管理端点';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => '待删除';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => '已屏蔽的用户';
 
   @override
-  String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+  String get blockedUsersDescription => '被屏蔽的用户无法向您发送好友请求或直接给您发消息。';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => '无已屏蔽的用户';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription => '您尚未屏蔽任何人。';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError => '无法加载已屏蔽的用户';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => '解除屏蔽';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => '解除屏蔽用户';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return '您确定要解除对 $username 的屏蔽吗？';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => '复制FluxerTag';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => '复制用户ID';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => '无法加载个人资料';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => '重试';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => '发送消息';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => '语音通话';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => '视频通话';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => '编辑个人资料';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'Fluxer 员工';
 
   @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
+  String get userProfileCtpBadgeTooltip => 'Fluxer 社区团队';
 
   @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer Partner';
+  String get userProfilePartnerBadgeTooltip => 'Fluxer 合作伙伴';
 
   @override
   String get userProfileBugHunterBadgeTooltip => 'Fluxer Bug Hunter';
@@ -2209,7 +2161,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'Fluxer Plutonium 订阅者，始于 $date';
   }
 
   @override
@@ -2217,7 +2169,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'Fluxer Visionary，始于 $date';
   }
 
   @override
@@ -2227,427 +2179,426 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return '共同好友 ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return '共同社群 ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => '共同好友';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => '共同社群';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends => '未找到共同好友。';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities => '未找到共同社群。';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return '昵称：$nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => '打开私信';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return '您已屏蔽 $username。除非您解除屏蔽，否则您将无法发送消息。';
   }
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get blockedUserComposerBarrierAction => '解除屏蔽';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileOpenDm => '打开私信';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteTitle => '备注';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteVisibility => '（仅您可见）';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteSave => '保存';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteDelete => '删除';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileNoteEmpty => '点击添加备注';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileMemberSince => '加入时间';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileAboutMe => '关于我';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUsername => '复制用户名';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileCopyUserId => '复制用户 ID';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewMainProfile => '查看主页';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileViewCommunityProfile => '查看社群资料';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileBlockUser => '屏蔽用户';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileUnblockUser => '解除屏蔽';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileRemoveFriend => '删除好友';
+
+  @override
+  String get userProfileBlockConfirmTitle => '屏蔽用户';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return '您确定要屏蔽 $username 吗？';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => '解除屏蔽';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return '您确定要解除屏蔽 $username 吗？';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => '删除好友';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return '您确定要将 $username 从好友列表中删除吗？';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => '无法打开私信';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote => '无法保存备注';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed => '操作失败，请重试';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => '更改昵称';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => '踢出';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => '封禁';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => '禁言';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => '解除禁言';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => '转让所有权';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => '举报用户';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => '举报消息';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return '踢出 $username？';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return '您确定要踢出 $username 吗？他们可以重新加入。';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => '解除禁言？';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return '解除禁言后，$username 将可以再次发送消息、添加表情和加入语音频道。';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => '转移所有权？';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return '将此社区的所有权转移给 $username？此操作不可撤销，您将失去所有管理员权限。';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return '封禁 $username';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => '封禁时长';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel => '自定义时长（秒）';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return '任意值，从 $min 到 $max 秒';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel => '删除消息记录';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => '不删除任何消息';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => '过去 24 小时';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => '过去 7 天';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => '原因（选填）';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => '输入封禁原因';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => '封禁成员';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return '禁言 $username';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => '禁言时长';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => '禁言成员';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => '昵称';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => '输入昵称';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => '保存';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return '$username 已被踢出';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return '$username 已被封禁';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return '$username 已被禁言';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return '已解除对 $username 的禁言';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => '昵称已更新';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => '所有权已转移';
 
   @override
-  String get durationPermanent => 'Permanent';
+  String get durationPermanent => '永久';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 秒';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 分钟';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 分钟';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 小时';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 小时';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 天';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 天';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 天';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 周';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 周';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 个月';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => '自定义…';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => '举报用户';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => '不当的个人资料';
 
   @override
-  String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+  String get iarReasonInappropriateProfileDescription => '该用户的个人资料包含不当内容';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return '$name 正在输入...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return '$name1 和 $name2 正在输入...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return '$name1、$name2 和 $name3 正在输入...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => '多人正在输入...';
 
   @override
-  String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+  String get typingIndicatorHandful => '一群键盘侠正在集结...';
 
   @override
-  String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+  String get typingIndicatorSymphony => '一场键盘敲击交响曲正在上演...';
 
   @override
-  String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+  String get typingIndicatorFiesta => '这里正在进行一场激烈的打字狂欢！';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => '哇，这是打字末日';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return '欢迎你，$username！很高兴你来到这里！';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return '欢迎你，$username！请随意。';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return '你好，$username！很高兴你来到这里。';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return '你好，$username！随时可以加入。';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return '嘿 $username，很高兴你来到这里！';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return '嘿，$username！希望你在这里玩得开心。';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return '嘿，$username，欢迎加入！';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return '很高兴你来了，$username！';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return '欢迎加入，$username！';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return '欢迎你，$username！';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return '欢迎你，$username！很高兴你来到这里。';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return '欢迎你，$username！希望你在这里玩得开心。';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return '欢迎你，$username！你的下一场对话从这里开始。';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return '欢迎你，$username。很高兴你来到这里。';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return '很高兴见到你，$username！欢迎加入。';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return '你来了，$username！很高兴有你加入我们。';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return '你已到达，$username！我们开始吧。';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => '现在';
 
   @override
   String relativeTimeShortMinutes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}m',
-      one: '1m',
+      other: '$count分钟',
+      one: '1分钟',
     );
     return '$_temp0';
   }
@@ -2657,8 +2608,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}h',
-      one: '1h',
+      other: '$count小时',
+      one: '1小时',
     );
     return '$_temp0';
   }
@@ -2668,8 +2619,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}d',
-      one: '1d',
+      other: '$count天',
+      one: '1天',
     );
     return '$_temp0';
   }
@@ -2679,8 +2630,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}mo',
-      one: '1mo',
+      other: '$count个月',
+      one: '1个月',
     );
     return '$_temp0';
   }
@@ -2690,50 +2641,49 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}y',
-      one: '1y',
+      other: '$count年',
+      one: '1年',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => '我的设备';
 
   @override
-  String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+  String get linkedDevicesDescription => '查看当前登录到您账户的所有设备。撤销任何您不认识的会话。';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => '当前设备';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => '其他设备';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => '进入选择模式';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => '退出选择模式';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => '全选';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => '清除选择';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => '撤销设备';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => '退出所有其他设备';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: '退出 $count 台设备',
+      one: '退出 1 台设备',
     );
     return '$_temp0';
   }
@@ -2743,198 +2693,176 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: '退出 $count 台设备',
+      one: '退出 1 台设备',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle => '退出所有其他设备';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
-      one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+      other: '这将使选定的设备退出您的账户。您需要在此类设备上重新登录。',
+      one: '这将使选定的设备退出您的账户。您需要在此设备上重新登录。',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      '这将使选定的设备退出您的账户。您需要在此类设备上重新登录。';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => '继续';
 
   @override
-  String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+  String get linkedDevicesLogoutDisclaimer => '您将不得不在所有已退出登录的设备上重新登录';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => '网络错误';
 
   @override
-  String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+  String get linkedDevicesLoadErrorDescription => '我们遇到了连接时空连续体的麻烦。请检查您的连接并重试。';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: '设备已撤销',
+      one: '设备已撤销',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError => '无法退出登录。请重试。';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => '未知操作系统';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => '未知平台';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return '$duration 慢速模式';
   }
 
   @override
-  String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+  String get slowmodeTooltipActive => '您处于慢速模式。请等待后再发送下一条消息。';
 
   @override
-  String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+  String get slowmodeTooltipImmune => '慢速模式已启用，但您不受影响。';
 
   @override
-  String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+  String get channelNoSendPermissionHint => '你无法在此频道发送消息。';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return '$productName 员工发送的系统公告。你无法在此回复。';
   }
 
   @override
-  String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+  String get channelComposerBarrierGuildSendDisabled => '此社区的消息已暂时暂停。';
 
   @override
-  String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+  String get channelComposerBarrierTimedOut => '你已被禁言。消息、反应和语音功能将在禁言期结束后恢复。';
 
   @override
-  String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+  String get channelComposerBarrierUnclaimedAccount => '你需要认领你的账号才能在此社区发送消息。';
 
   @override
-  String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+  String get channelComposerBarrierUnverifiedEmail => '你需要验证你的邮箱才能在此社区发送消息。';
 
   @override
-  String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+  String get channelComposerBarrierAccountTooNew => '你的账号太新，无法在此社区发送消息。';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      '你加入此社区的时间不够长，无法发送消息。';
 
   @override
-  String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+  String get channelComposerBarrierNoPhoneNumber => '你需要验证手机号才能在此社区发送消息。';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => '验证邮箱';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => '验证手机';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return '附件过多（最多 $max 个）';
   }
 
   @override
-  String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+  String get chatAttachmentFileTooLarge => '一个或多个文件超出大小限制';
 
   @override
-  String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+  String get chatAttachmentPayloadTooLarge => '这些文件太大，无法一起发送';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload => '拖放文件以上传';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend => '拖放文件立即发送';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => '发送语音消息';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => '语音消息';
 
   @override
-  String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+  String get voiceMessageHoldHint => '按住录制。向上拖动可锁定，松开即可发送。';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => '丢弃语音消息';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => '发送语音消息';
 
   @override
-  String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+  String get voiceMessageMicPermissionDenied => '无法开始录制。请允许麦克风访问。';
 
   @override
-  String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+  String get voiceMessageRecordingNotSupported => '此设备不支持语音录制。';
 
   @override
-  String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+  String get voiceMessageMicInUse => '请离开语音通话以录制语音消息。';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed => '录制失败。请重试。';
 
   @override
-  String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+  String get voiceMessageSendFailed => '无法发送语音消息。请重试。';
 
   @override
-  String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+  String get voiceMessageRecordingHint => '现在说话。完成后按停止 — 之后可以修剪。';
 
   @override
-  String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+  String get voiceMessageReviewHint => '拖动句柄进行修剪，然后按发送。';
 
   @override
-  String get voiceMessageStop => 'Stop';
+  String get voiceMessageStop => '停止';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => '开始录制';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => '播放';
 
   @override
-  String get voiceMessagePause => 'Pause';
+  String get voiceMessagePause => '暂停';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -2943,246 +2871,234 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return '选择内容必须至少为 $secondsString 秒。';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => '编辑附件';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => '文件名';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => '描述';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => '可选的替代文本';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => '标记为剧透';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => '移除附件';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => '下载';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => '附件已过期';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => '图库';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => '相机';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => '浏览文件';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip => '从剪贴板粘贴图片';
 
   @override
-  String get chatAttachmentSpoiler => 'Spoiler';
+  String get chatAttachmentSpoiler => '剧透';
 
   @override
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => '显示剧透';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => '显示';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => '点击显示';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => '不适宜内容';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => '成熟社群';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => '成熟分类';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => '成熟频道';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => '社群内容警告';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle => '分类内容警告';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => '频道内容警告';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => '此内容包含敏感信息。';
 
   @override
-  String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+  String get matureCommunityBody => '此社群已标记为包含成人内容，可能包含不适合某些用户的内容。';
 
   @override
-  String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+  String get matureCategoryBody => '此分类已标记为包含成人内容，可能包含不适合某些用户的内容。';
 
   @override
-  String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+  String get matureChannelBody => '此频道已标记为包含成人内容，可能包含不适合某些用户的内容。';
 
   @override
-  String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+  String get matureVoiceChannelBody => '此语音频道已标记为包含成人内容，可能包含不适合某些用户的内容。';
 
   @override
-  String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+  String get matureLinkChannelBody => '此链接频道已标记为包含成人内容，可能会打开不适合某些用户的内容。';
 
   @override
-  String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+  String get matureCommunityUnavailableBody => '您的账号无法访问此成熟社群。';
 
   @override
-  String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+  String get matureCategoryUnavailableBody => '您的账号无法访问此成熟分类。';
 
   @override
-  String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+  String get matureChannelUnavailableBody => '您的账号无法访问此成熟频道。';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => '继续';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => '我明白了';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => '打开链接';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => '敏感内容';
 
   @override
-  String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+  String get sensitiveContentSectionDescription => '控制在不同情境下如何过滤成人或敏感媒体';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel => '好友私信';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel => '他人私信';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => '社群频道消息';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => '显示';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => '模糊';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => '屏蔽';
 
   @override
-  String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+  String get sensitiveContentBlurUnscannedLabel => '安全扫描完成前模糊媒体';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      '启用后，图片和视频在内容安全扫描完成前将保持模糊状态。';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+      '此设置对您的账号始终处于开启状态。';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => '重置';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => '保存';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count 个文件',
+      one: '1 个文件',
     );
-    return 'Uploading $_temp0';
+    return '正在上传 $_temp0';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => '取消上传';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return '将于 $date 过期';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return '将于 $start 和 $end 之间过期';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => '连接';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      '将外部账号和域名链接到您的 Fluxer 个人资料。已验证的连接将显示在您的个人资料上供他人查看。';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => '暂无连接';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      '链接您的 Bluesky 账号或验证域名所有权，即可在您的个人资料上显示。';
 
   @override
-  String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+  String get connectionsEmptyDescriptionDomainOnly => '验证域名所有权，即可在您的个人资料上显示。';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
 
   @override
-  String get connectionsAddDomain => 'Domain';
+  String get connectionsAddDomain => '域名';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => '添加 Bluesky 连接';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => '添加域名连接';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => '编辑';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => '移除';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => '此连接已验证。';
 
   @override
-  String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+  String get connectionUnverifiedLabel => '此连接未经验证。';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => '添加连接';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => '连接类型';
 
   @override
-  String get connectionHandleLabel => 'Handle';
+  String get connectionHandleLabel => '用户名';
 
   @override
-  String get connectionDomainLabel => 'Domain';
+  String get connectionDomainLabel => '域名';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -3191,750 +3107,758 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => '您已添加此连接。';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => '通过 Bluesky 连接';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => '继续';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => '验证连接';
 
   @override
-  String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+  String get connectionVerifyInstructions => '使用下方的记录来证明域名所有权。';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'DNS TXT 记录';
 
   @override
-  String get connectionDnsHostLabel => 'Host';
+  String get connectionDnsHostLabel => '主机';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => '值';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => '复制主机';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => '复制值';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => '已复制！';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => '提供令牌文件';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      '下载 **fluxer-verification** 并将其放置在您的 **.well-known** 文件夹中，以便我们验证域名。';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => '下载 fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return '该文件包含我们将从 **$dnsUrl** 获取的验证令牌。';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => '保存 fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => '验证';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => '返回';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => '编辑连接';
 
   @override
-  String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+  String get connectionEditDescription => '选择谁可以在您的个人资料中看到此连接。';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => '所有人';
 
   @override
-  String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+  String get connectionVisibilityEveryoneDesc => '允许任何人查看您个人资料中的此连接';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => '好友';
 
   @override
-  String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+  String get connectionVisibilityFriendsDesc => '允许您的好友查看此连接';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => '社区成员';
 
   @override
-  String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+  String get connectionVisibilityCommunityMembersDesc => '允许您所在社区的成员查看此连接';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => '移除连接';
 
   @override
-  String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+  String get connectionRemoveDescription => '您确定要移除此连接吗？此操作无法撤销。';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => '移除';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError => '加载连接失败';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError => '更新顺序失败';
 
   @override
-  String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+  String get connectionInitiateFailed => '无法开始验证。请重试。';
 
   @override
-  String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+  String get connectionVerifyFailed => '无法验证。请检查您的 DNS 记录后重试。';
 
   @override
-  String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+  String get connectionBlueskyAuthorizeFailed => '无法启动 Bluesky 授权。';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed => '无法更新连接';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed => '无法移除连接';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => '已保存 fluxer-verification';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast => '无法保存文件';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => '请输入 Bluesky 用户名。';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => '请输入域名。';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => '外观';
 
   @override
-  String get lookAndFeelThemeSectionTitle => 'Theme';
+  String get lookAndFeelThemeSectionTitle => '主题';
 
   @override
-  String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+  String get lookAndFeelThemeSectionDescription => '在深色、煤黑色或浅色外观之间进行选择。';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => '深色主题';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => '煤黑色主题';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => '浅色主题';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => '系统主题';
 
   @override
-  String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+  String get lookAndFeelSyncThemeAcrossDevicesLabel => '跨设备同步主题';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      '启用后，主题更改将同步到您的所有设备。禁用后，此设备将使用自己的主题设置。';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      '系统主题会自动禁用同步，以跟踪此设备上的系统偏好设置。';
 
   @override
-  String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+  String get lookAndFeelThemeSyncFailed => '无法将主题同步到您的帐户。请重试。';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => '聊天字体缩放';
 
   @override
-  String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+  String get lookAndFeelChatFontScalingDescription => '调整聊天区域的字体大小。';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => '界面';
 
   @override
-  String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+  String get lookAndFeelInterfaceDescription => '自定义界面元素和行为。';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+  String get lookAndFeelChannelTypingIndicatorsTitle => '频道列表输入指示器';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      '选择在有人在频道中输入时，输入指示器如何在频道列表中显示。';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+  String get lookAndFeelChannelTypingIndicatorAvatarsName => '输入指示器 + 头像';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      '在频道列表中显示带有用户头像的输入指示器';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+  String get lookAndFeelChannelTypingIndicatorOnlyName => '仅输入指示器';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      '仅显示输入指示器，不显示头像';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => '隐藏';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      '不在频道列表中显示输入指示器';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      '在选定频道显示输入状态';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      '禁用时（默认），输入指示器不会显示在您当前正在查看的频道中。';
 
   @override
   String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => '键盘提示';
 
   @override
-  String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+  String get lookAndFeelKeyboardHintsDescription => '控制键盘快捷键提示是否显示在工具提示中。';
 
   @override
-  String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+  String get lookAndFeelHideKeyboardHintsLabel => '隐藏工具提示中的键盘提示';
 
   @override
-  String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+  String get lookAndFeelHideKeyboardHintsDescription => '启用后，工具提示中的快捷键徽章将被隐藏。';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => '杂项';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription => '杂项界面选项。';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => '显示 Neko';
 
   @override
-  String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+  String get lookAndFeelShowNekoDescription => '启用后，Neko 会出现在聊天输入栏附近。';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle => '语音频道加入行为';
 
   @override
-  String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+  String get lookAndFeelVoiceChannelJoinDescription => '控制您在社区中加入语音频道的方式。';
 
   @override
-  String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+  String get lookAndFeelRequireDoubleClickJoinLabel => '加入语音频道需要双击';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      '启用后，您需要双击语音频道才能加入。禁用时（默认），单击即可立即加入频道。';
 
   @override
-  String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+  String get lookAndFeelChatFontPreviewSample => '敏捷的棕色狐狸跳过懒惰的狗。';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => '服务器边栏';
 
   @override
-  String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+  String get lookAndFeelGuildSidebarDescription => '配置服务器边栏如何显示直接消息。';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
-      one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+      other: '$count 个社区暂时不可用，因为通量电容器发生故障。',
+      one: '由于通量电容器故障，1 个社区暂时不可用。',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel => '将私信折叠到文件夹';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      '启用后，服务器边栏中的未读私信将折叠到 Fluxer 按钮文件夹中。在私信页面上单击 Fluxer 按钮可展开或折叠文件夹。';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => '频道列表';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      '控制静音频道在频道列表中的未读指示器行为。';
 
   @override
-  String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+  String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel => '在静音频道显示未读指示器';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      '启用后，静音频道左侧会显示一个淡化的未读指示器。提及消息无论此设置如何都会显示。';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => '当前活跃';
 
   @override
-  String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+  String get lookAndFeelActiveNowSectionDescription => '控制当前活跃在应用中的显示方式。';
 
   @override
-  String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+  String get lookAndFeelShowActiveNowLabel => '在主屏幕上显示当前活跃';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      '在主屏幕上显示当前活跃，以展示在语音频道中活跃的好友。您将看到预览、频道上下文、已在频道中的人以及快速加入的方式。';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => '收藏夹';
 
   @override
-  String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+  String get lookAndFeelFavoritesSectionDescription => '控制收藏夹在应用中的可见性。';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel => '启用收藏夹';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      '启用后，您可以收藏频道，它们将显示在收藏夹部分。禁用后，所有与收藏夹相关的 UI 元素（按钮、菜单项）都将隐藏。您现有的收藏夹将得到保留。';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => '收藏夹';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => '暂无收藏';
 
   @override
-  String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+  String get favoritesEmptyDescription => '将频道添加到星标，即可在此处找到它们。';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => '欢迎使用星标频道';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      '您快速访问喜爱频道、私信和群组的专属空间。在任意频道上按星标即可将其添加至此。';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip => '不想要了？随时关闭。';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => '关闭星标频道';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => '已添加到星标';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => '已从星标移除';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => '星标频道已隐藏';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => '静音星标频道';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => '取消静音星标频道';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => '星标频道菜单';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => '创建分类';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => '分类名称';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => '隐藏静音频道';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => '显示静音频道';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => '设置昵称';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => '昵称';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => '保存昵称';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => '移至分类';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => '未分类';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => '其他';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => '从星标移除';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => '添加到星标';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => '隐藏星标频道';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      '这将隐藏所有与星标频道相关的界面元素，包括按钮和菜单项。您现有的星标频道将得到保留，并可随时在“设置”>“高级”>“外观”中重新启用。';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => '私信';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => '显示';
 
   @override
-  String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+  String get messagesMediaDisplayGroupDescription => '控制消息、媒体和其他内容的显示方式。';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => '媒体';
 
   @override
-  String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+  String get messagesMediaMediaGroupDescription => '自定义媒体大小偏好设置和按钮。';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => '输入';
 
   @override
-  String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+  String get messagesMediaInputGroupDescription => '自定义消息输入设置。';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => '侧边栏';
 
   @override
-  String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+  String get messagesMediaSidebarGroupDescription => '配置社区侧边栏的显示方式。';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+  String get messagesMediaDefaultHideMutedChannelsLabel => '默认隐藏静音频道';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      '加入新社区时，自动在侧边栏隐藏静音频道';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+  String get messagesMediaDefaultHideMutedChannelsEnableTitle => '默认隐藏静音频道？';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      '您加入的新社区将自动隐藏静音频道。是否也希望将此设置应用于您所有现有的社区？';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+  String get messagesMediaDefaultHideMutedChannelsDisableTitle => '停止默认隐藏静音频道？';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      '您加入的新社区将不再自动隐藏静音频道。是否也希望在您所有现有的社区中显示静音频道？';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+  String get messagesMediaDefaultHideMutedChannelsApplyAllAction => '应用于所有社区';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+  String get messagesMediaDefaultHideMutedChannelsShowAllAction => '在所有社区中显示';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+  String get messagesMediaDefaultHideMutedChannelsNewOnlyAction => '仅新社区';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => '媒体显示';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      '控制图片、视频和其他媒体的显示方式。所有媒体都会被调整大小和转换。无法压缩到预览的超大文件将不会嵌入，无论这些设置如何。';
 
   @override
-  String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+  String get messagesMediaDisplayInlineEmbedLabel => '作为链接发布到聊天时';
 
   @override
-  String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+  String get messagesMediaDisplayInlineAttachmentLabel => '直接上传到 Fluxer 时';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => '链接预览';
 
   @override
-  String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+  String get messagesMediaLinkPreviewsSectionDescription => '控制网站链接在聊天中的预览方式';
 
   @override
-  String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+  String get messagesMediaLinkPreviewsToggleLabel => '显示嵌入内容并预览网站链接';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => '表情回应';
 
   @override
-  String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+  String get messagesMediaReactionsSectionDescription => '配置消息的表情回应';
 
   @override
-  String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+  String get messagesMediaReactionsToggleLabel => '在消息上显示表情回应';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => '剧透内容';
 
   @override
-  String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+  String get messagesMediaSpoilersSectionDescription => '控制剧透内容的显示方式';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => '显示剧透内容';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => '点击时';
 
   @override
-  String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+  String get messagesMediaSpoilersOnClickDescription => '点击时显示剧透内容';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName => '在我管理的频道中';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      '在你拥有“管理消息”权限的频道中始终显示剧透内容';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => '始终';
 
   @override
-  String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+  String get messagesMediaSpoilersAlwaysDescription => '始终显示剧透内容';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => '媒体大小偏好';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      '自定义嵌入式和附件媒体的最大显示尺寸。较小的尺寸占用更少的屏幕空间，而较大的尺寸则显示更多细节。';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => '链接中的媒体（嵌入式）';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel => '上传的附件';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => '紧凑型 (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => '较小的媒体尺寸';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => '舒适型 (550x400)';
 
   @override
-  String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+  String get messagesMediaSizeComfortableDescription => '较大的媒体尺寸，细节更丰富';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'GIF 行为';
 
   @override
-  String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+  String get messagesMediaGifsSectionDescription => '控制 GIF 如何插入聊天';
 
   @override
-  String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+  String get messagesMediaGifsAutoSendLabel => '选择 GIF 后自动发送';
 
   @override
-  String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+  String get messagesMediaAutocompleteSectionTitle => '表情自动补全（冒号补全）';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      '控制输入冒号时表情自动补全中显示的内容。自定义显示的建议以匹配你的偏好。';
 
   @override
-  String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+  String get messagesMediaAutocompleteDefaultEmojisLabel => '在表情自动补全中显示默认表情';
 
   @override
-  String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+  String get messagesMediaAutocompleteCustomEmojisLabel => '在表情自动补全中显示自定义表情';
 
   @override
-  String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+  String get messagesMediaAutocompleteStickersLabel => '在表情自动补全中显示贴纸';
 
   @override
-  String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+  String get messagesMediaAutocompleteSavedMediaLabel => '在表情自动补全中显示已保存的媒体';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle => '消息编辑';
 
   @override
-  String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+  String get messagesMediaEditingSectionDescription => '控制取消时对编辑草稿的处理方式。';
 
   @override
-  String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+  String get messagesMediaEditingPreserveDraftLabel => '取消时保留编辑草稿';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => '未读指示器';
 
   @override
-  String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+  String get accessibilityUnreadGroupDescription => '控制未读消息指示器的显示方式。';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      '在静音频道上显示淡化未读指示器';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      '在静音的私信和频道旁边显示一个变暗的未读指示器，这样你仍然可以一目了然地看到是否有活动。';
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get accessibilityDmMessagePreviewGroupTitle => '私信消息预览';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      '控制私信列表中显示消息预览的时间。';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel => '私信消息预览模式';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => '所有消息';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription => '显示所有私信对话的消息预览';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName => '仅未读私信';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      '仅显示有未读消息的私信的消息预览';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => '无';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription => '不在私信列表中显示消息预览';
+
+  @override
+  String get dmListSentAnAttachment => '发送了附件';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return '$username 将一条消息固定到了此频道。';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return '$username 将 $userName 添加到了群组。';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return '$username 添加了某人到群组。';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return '$username 已离开群组。';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username 将 $userName 移出了群聊。';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username 移出了群聊中的某人。';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username 将频道名称改为了 $newName。';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username 更改了频道名称。';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username 更改了频道图标。';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username 发起了通话。';
+  }
+
+  @override
+  String get voiceConnectionConfirmTitle => '语音连接确认';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
-      one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+      other: '您已从其他 $count 个设备连接到此语音频道。您想怎么做？',
+      one: '您已从其他 1 个设备连接到此语音频道。您想怎么做？',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => '切换到此设备';
 
   @override
-  String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+  String get voiceConnectionConfirmJustJoin => '仅加入（保留其他连接）';
 
   @override
-  String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+  String get voiceConnectionConfirmDoNothing => '什么都不做，我不想加入';
 
   @override
-  String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+  String get voiceChannelEmptyDescription => '这是一个语音频道。连接后即可开始交谈！';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => '加入语音频道';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => '连接到语音';
 
   @override
-  String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+  String get voiceChannelNoConnectPermission => '您没有加入此语音频道的权限';
 
   @override
-  String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+  String get voiceChannelE2eeEncrypted => '麦克风、摄像头和屏幕共享内容均已进行端到端加密。';
 
   @override
-  String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+  String get voiceCallE2eeEncrypted => '麦克风、摄像头和屏幕共享内容均已进行端到端加密。';
 
   @override
-  String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+  String get voiceChannelE2eeBroken => '由于此语音频道中存在不支持的参与者，端到端加密不可用。';
 
   @override
-  String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+  String get voiceCallE2eeBroken => '由于此通话中存在不支持的参与者，端到端加密不可用。';
 
   @override
-  String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+  String get voiceE2eeUpdateRequired => '加入此加密通话前必须更新此客户端。';
 
   @override
-  String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+  String get voiceMicPublishFailedStayConnected => '无法启动您的麦克风。您仍在该通话中。';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => '正在连接…';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => '已连接';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => '错误';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => '移动设备';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => '桌面设备';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted => '频道静音';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => '已静音';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened => '频道禁言';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => '已禁言';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return '连接：$connectionId';
   }
 
   @override
@@ -3942,209 +3866,198 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count 位参与者',
+      one: '1 位参与者',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => '离开';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => '静音';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => '取消静音';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => '禁言';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => '取消禁言';
 
   @override
-  String get voiceControlVideo => 'Video';
+  String get voiceControlVideo => '视频';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => '屏幕共享';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText => '正在共享您的屏幕。';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => '更多';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => '断开连接';
 
   @override
-  String get voiceControlChat => 'Chat';
+  String get voiceControlChat => '聊天';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => '显示聊天';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# 条未读消息',
+      one: '# 条未读消息',
     );
-    return 'Show chat with $_temp0';
+    return '显示聊天（$_temp0）';
   }
 
   @override
-  String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+  String get voiceCameraPermissionRequired => '视频需要摄像头权限。';
 
   @override
-  String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+  String get voiceErrorScreenShareToggle => '无法开始屏幕共享。请重试。';
 
   @override
-  String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+  String get voiceErrorScreenSharePermissionDenied => '屏幕共享权限被拒绝。';
 
   @override
-  String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+  String get voiceErrorScreenShareUnsupported => '此设备不支持屏幕共享。';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => '观看直播';
 
   @override
-  String get voiceStopWatching => 'Stop Watching';
+  String get voiceStopWatching => '停止观看';
 
   @override
-  String get voiceStopWatchingCurrentStreamTooltip =>
-      'Stop watching the current stream';
+  String get voiceStopWatchingCurrentStreamTooltip => '停止观看当前流';
 
   @override
-  String get voiceOwnScreenShareTitle => 'You are broadcasting';
+  String get voiceOwnScreenShareTitle => '你正在直播';
 
   @override
-  String get voiceOwnScreenShareSubtitle =>
-      'Your stream is live for participants.';
+  String get voiceOwnScreenShareSubtitle => '你的流对参与者直播中。';
 
   @override
-  String get voiceLiveBadge => 'Live';
+  String get voiceLiveBadge => '直播中';
 
   @override
-  String get dmVoiceViewCall => 'View call';
+  String get dmVoiceViewCall => '查看通话';
 
   @override
-  String get dmVoiceCallFullScreen => 'Full screen';
+  String get dmVoiceCallFullScreen => '全屏';
 
   @override
-  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+  String get dmVoiceCallFullScreenTooltip => '全屏打开通话';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Connecting…';
+  String get dmVoiceStripStatusConnecting => '正在连接…';
 
   @override
-  String get dmVoiceStripStatusInCall => 'In call';
+  String get dmVoiceStripStatusInCall => '通话中';
 
   @override
-  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+  String get dmVoiceEmbeddedFallbackTitle => '语音通话';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Connecting…';
+  String get dmVoiceCallBarConnecting => '正在连接…';
 
   @override
-  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+  String get dmVoiceCallBarDirectPrimary => '直接通话';
 
   @override
-  String get dmVoiceCallBarGroupPrimary => 'Group call';
+  String get dmVoiceCallBarGroupPrimary => '群组通话';
 
   @override
-  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+  String get dmVoiceCallBarIssueFallback => '语音问题';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Voice';
+  String get dmVoiceFullscreenTitle => '语音';
 
   @override
-  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
+  String get voiceCallBarGuildConnectedFallback => '语音已连接';
 
   @override
-  String get notificationsPageTitle => 'Notifications';
+  String get notificationsPageTitle => '通知';
 
   @override
-  String get notificationsFilterUnreads => 'Unreads';
+  String get notificationsFilterUnreads => '未读';
 
   @override
-  String get notificationsFilterMentions => 'Mentions';
+  String get notificationsFilterMentions => '提及';
 
   @override
-  String get notificationsBookmarksTooltip => 'Bookmarks';
+  String get notificationsBookmarksTooltip => '书签';
 
   @override
-  String get notificationsMentionFilterTooltip => 'Filter mentions';
+  String get notificationsMentionFilterTooltip => '过滤提及';
 
   @override
-  String get notificationsMentionFiltersTitle => 'Mention filters';
+  String get notificationsMentionFiltersTitle => '提及过滤';
 
   @override
-  String get notificationsMentionIncludeEveryone =>
-      'Include @everyone and @here mentions';
+  String get notificationsMentionIncludeEveryone => '包含 @everyone 和 @here 提及';
 
   @override
-  String get notificationsMentionIncludeRoles => 'Include role mentions';
+  String get notificationsMentionIncludeRoles => '包含角色提及';
 
   @override
-  String get notificationsMentionIncludeGuilds =>
-      'Include all community mentions';
+  String get notificationsMentionIncludeGuilds => '包含所有社群提及';
 
   @override
-  String get notificationsNoUnreadTitle => 'No Unread Messages';
+  String get notificationsNoUnreadTitle => '没有未读消息';
 
   @override
-  String get notificationsNoUnreadBody => 'You\'re all caught up.';
+  String get notificationsNoUnreadBody => '你已全部同步。';
 
   @override
-  String get notificationsNoMentionsTitle => 'No Recent Mentions';
+  String get notificationsNoMentionsTitle => '没有近期提及';
 
   @override
-  String get notificationsNoMentionsBody =>
-      'All @mentions of you will appear here for 7 days.';
+  String get notificationsNoMentionsBody => '所有提及你的 @提及将在 7 天后出现在此处。';
 
   @override
-  String get notificationsMentionsEndTitle => 'You\'ve reached the end';
+  String get notificationsMentionsEndTitle => '已到达末尾';
 
   @override
-  String get notificationsMentionsEndBody =>
-      'You\'ve seen all your recent mentions. Don\'t fret, more will appear here soon.';
+  String get notificationsMentionsEndBody => '你已查看所有近期提及。别担心，很快就会有更多提及出现在这里。';
 
   @override
-  String get notificationsJump => 'Jump';
+  String get notificationsJump => '跳转';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Remove mention';
+  String get notificationsRemoveMentionTooltip => '移除提及';
 
   @override
-  String get notificationsViewAllUnread => 'View all unread';
+  String get notificationsViewAllUnread => '查看所有未读';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead => '标记为已读';
 
   @override
-  String get notificationsExpand => 'Expand';
+  String get notificationsExpand => '展开';
 
   @override
-  String get notificationsCollapse => 'Collapse';
+  String get notificationsCollapse => '折叠';
 
   @override
-  String get notificationsMessageUnavailable =>
-      'This message couldn\'t be loaded.';
+  String get notificationsMessageUnavailable => '无法加载此消息。';
 
   @override
   String characterCounterRemaining(int remaining) {
-    return '$remaining characters left';
+    return '$remaining 个字符剩余';
   }
 
   @override
-  String get characterCounterTooLong => 'Message is too long';
+  String get characterCounterTooLong => '消息太长';
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -4152,598 +4065,586 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String productName,
     int premiumMaxLength,
   ) {
-    return '$remaining characters left. Get $productName to write up to $premiumMaxLength characters.';
+    return '$remaining 个字符剩余。获取 $productName 可输入最多 $premiumMaxLength 个字符。';
   }
 
   @override
-  String get chatMessageFailedToSend => 'Failed to send message';
+  String get chatMessageFailedToSend => '消息发送失败';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return '无法送达你的消息。这通常是因为你与收件人未共享同一社群，或者收件人仅接受好友的直接消息。你可能还需要在 $settingsPath 中调整你自己的直接消息隐私设置。';
+  }
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatSendFailureUnclaimedDm => '无法送达你的消息。你需要认领你的账户才能发送直接消息。';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatSendFailureUnclaimedGeneral => '无法送达你的消息。你需要认领你的账户才能发送消息。';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatSendFailureContentBlocked =>
+      '你的消息因被我们的安全系统标记而无法送达。如果你认为这是一个错误，请联系支持。';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatSendFailureNsfwEmojiSticker =>
+      '你的消息因包含在此上下文中不允许的成人表情符号或贴纸而无法送达。';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get chatClientSystemOnlyYouCanSee => '只有你能看到此消息。';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get chatClientSystemDismiss => '关闭';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get privacyDashboardCommunicationSection => '通讯';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get chatMessageDeleteFailed => '删除失败的消息';
+
+  @override
+  String get chatMessageAddReaction => '添加反应';
+
+  @override
+  String get chatMessageEdit => '编辑消息';
+
+  @override
+  String get chatMessageReply => '回复';
+
+  @override
+  String get chatMessageForward => '转发';
+
+  @override
+  String get forwardMessageTitle => '转发消息';
+
+  @override
+  String get forwardSearchHint => '搜索频道或私信';
+
+  @override
+  String get forwardDirectMessagesSection => '私信';
+
+  @override
+  String get forwardCommentHint => '添加评论（可选）';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return '发送 ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => '未找到频道';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => '消息已转发';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => '转发消息失败';
 
   @override
-  String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+  String get forwardCommentSlowmodeDisabled => '由于所选频道启用了慢速模式，评论不可用。';
 
   @override
-  String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+  String get forwardDestinationNoSendPermission => '您无法在此发送消息';
 
   @override
-  String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+  String get forwardDestinationNoEmbedPermission => '您无法在此嵌入链接';
 
   @override
-  String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+  String get forwardDestinationNoAttachPermission => '您无法在此附加文件';
 
   @override
-  String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+  String get forwardDestinationGuildSendDisabled => '此社区已禁用发送消息';
 
   @override
-  String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+  String get forwardDestinationTimedOut => '您在此社区被禁言';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return '慢速模式 - 请等待 $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => '复制消息';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => '固定消息';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => '取消固定消息';
 
   @override
-  String get chatMessageUnpinIt => 'Unpin it';
+  String get chatMessageUnpinIt => '取消固定';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageBookmark => '收藏消息';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageRemoveBookmark => '移除收藏';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageMarkAsUnread => '标记为未读';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageCopyMessageLink => '复制消息链接';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageId => '复制消息ID';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageViewReactions => '查看反应';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageRemoveAllReactions => '移除所有反应';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageDebug => '调试消息';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebugSheetTitle => '调试消息';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugCopyJson => '复制 JSON';
 
   @override
-  String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+  String get chatMessageDebugJsonCopiedToast => '消息 JSON 已复制到剪贴板';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatReactionsSheetTitle => '反应';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetEmpty => '尚无人对此做出反应。';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatMessageReport => '举报消息';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get iarReportMessageTitle => '举报消息';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarThisUserFallback => '此用户';
 
   @override
-  String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+  String get iarModalDescription => '举报违规行为，或查找管理联系人及偏好的工具。';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarPathStepAriaLabel => '您需要什么？';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarCategoryStepTitle => '违反了哪类规则？';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarReasonStepTitle => '违反了哪条规则？';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonSelectHint => '选择一个原因';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarPickAnOptionToast => '请选择一个选项以继续。';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickARuleToast => '请选择被违反的规则。';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPathPlatform => '举报平台规则违规';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathCommunity => '举报给此社区版主';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathPreferenceMessage => '我おこのコンテンツは好きではありません';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarCategoryTargetedHarmLabel => '脅迫、嫌がらせ、または危害';
 
   @override
   String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+      'いじめ、脅迫、ヘイトスピーチ、暴力、荒らし、または自傷行為を助長するコンテンツ。';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategorySafetyMinorsLabel => '児童の安全または成人向けコンテンツ';
 
   @override
   String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+      '未成年者が危険にさらされている、不適切な場所での成人向けコンテンツ、または望まない行為。';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategoryPrivacyIdentityLabel => 'プライバシーまたはなりすまし';
 
   @override
   String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+      '個人情報の暴露、ストーキング、他人のふり、または不適切なプロフィール。';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryDeceptionLabel => '詐欺、マルウェア、または誤情報';
 
   @override
   String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+      'フィッシング、詐欺、悪意のあるリンク、または現実世界での危害を引き起こす可能性のある虚偽の主張。';
 
   @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+  String get iarCategoryIllegalOtherLabel => '違法行為またはその他の問題';
 
   @override
   String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+      '違法な販売、犯罪行為の助長、または上記に当てはまらない明確な規約違反。';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarReasonHarassmentLabel => '嫌がらせまたは脅迫';
 
   @override
   String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+      'いじめ、繰り返しの迷惑行為、ストーキング、または標的を絞った虐待。';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHateLabel => 'ヘイトスピーチ';
 
   @override
   String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+      '差別用語、非人間的な言葉遣い、または保護されたグループへの攻撃。';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonViolenceLabel => '暴力または暴力的な脅迫';
 
   @override
-  String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+  String get iarReasonViolenceDescription => '信憑性のある脅迫、過激な暴力、または暴力の賛美。';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonMatureContentLabel => '成人向けコンテンツまたは嫌がらせ';
 
   @override
   String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+      '望まない行為または不適切な場所での成人向けコンテンツ。';
 
   @override
-  String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+  String get iarReasonChildSafetyLabel => '児童の安全または未成年者の搾取';
 
   @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+  String get iarReasonChildSafetyMessageDescription => 'グルーミングまたは児童搾取コンテンツ。';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonHarmfulMisinfoLabel => '有害な誤情報';
 
   @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+  String get iarReasonHarmfulMisinfoDescription => '現実世界での危害を引き起こす可能性のある虚偽の主張。';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonSpamLabel => 'スパム、詐欺、またはフィッシング';
 
   @override
-  String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+  String get iarReasonSpamMessageDescription => '大量スパム、詐欺、偽の景品、またはアカウントの悪用。';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonMalwareLabel => 'マルウェアまたは危険なリンク';
 
   @override
-  String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+  String get iarReasonMalwareDescription => 'マルウェア、認証情報窃盗、または有害なファイル。';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonPrivacyLabel => 'プライバシー侵害';
 
   @override
-  String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+  String get iarReasonPrivacyDescription => '個人情報の暴露、プライベート情報の公開、またはストーキング。';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonImpersonationLabel => 'なりすましまたは詐欺的メディア';
 
   @override
   String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+      '他人のふりをすること、AI生成の詐欺的コンテンツを含む。';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonIllegalLabel => '違法行為';
 
   @override
-  String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+  String get iarReasonIllegalDescription => '違法な販売、犯罪行為の助長、または違法行為。';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonSelfHarmLabel => '自傷行為または自殺';
 
   @override
   String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+      '自傷行為または摂食障害を助長するコンテンツまたは指示。';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonOtherLabel => 'その他の明確な規約違反';
 
   @override
   String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+      'Fluxerの規約に明確に違反し、上記に当てはまらない場合のみ使用してください。';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return '未成年者が関与している場合は、「$childSafetyReason」を使用してください。';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      'CSAMまたは未成年者の搾取が関与している場合は、すぐに送信してください。素材の再共有はしないでください。';
 
   @override
   String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+      '誰かが差し迫った危険にさらされている可能性がある場合は、安全にできる場合は現地の緊急サービスに連絡してください。';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+  String get iarSafetyNoteViolence => '差し迫った脅迫がある場合は、現地の緊急サービスにも連絡してください。';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+  String get iarSafetyNoteTerrorism => '差し迫ったテロの脅威がある場合は、現地の緊急サービスにも連絡してください。';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => 'このユーザーをブロック';
 
   @override
-  String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+  String get iarActionBlockUserDescription => 'メッセージと友達リクエストを停止します。';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => 'ブロック';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => 'メッセージリンクをコピー';
 
   @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+  String get iarActionCopyMessageLinkDescription => 'コミュニティモデレーターと共有します。';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => 'コピー';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => 'このDMを閉じる';
 
   @override
-  String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+  String get iarActionCloseDmDescription => 'ブロックはしません。後で再開できます。';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => '关闭私信';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => '退出社群';
 
   @override
-  String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+  String get iarActionLeaveCommunityDescription => '停止查看其内容和成员。';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => '退出';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle => '私信和好友请求设置';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription => '更改谁可以联系你。';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle => '通话和群聊设置';
 
   @override
-  String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+  String get iarActionCallSettingsDescription => '更改谁可以给你打电话或将你拉入群聊。';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => '打开';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => '删除此消息';
 
   @override
-  String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+  String get iarActionDeleteMessageDescription => '从频道中移除，所有人均不可见。';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => '删除';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => '已删除';
 
   @override
-  String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+  String get iarActionDeleteMessageDeletedTooltip => '此消息已被删除。';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => '封禁此用户';
 
   @override
-  String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+  String get iarActionBanUserDescription => '为此社群打开封禁对话框。';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => '封禁';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => '已封禁';
 
   @override
-  String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+  String get iarActionBanUserBannedTooltip => '此用户已被封禁。';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => '关闭私信';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return '关闭你与 $name 的当前私信。这不会拉黑对方；你之后可以重新开启。';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => '举报已发送';
 
   @override
-  String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+  String get iarSuccessBody => '我们的安全团队正在审核。一旦做出裁决，我们会通过私信和电子邮件通知你。';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => '已举报';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+  String get iarAlreadyReportedBody => '你已举报此消息。我们的安全团队正在审核。';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => '返回';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => '继续';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => '发送举报';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => '完成';
 
   @override
-  String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+  String get iarCouldntSendToast => '无法发送举报。请重试。';
 
   @override
-  String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+  String get iarRateLimitedToast => '你举报得太快了。请稍等片刻再试。';
 
   @override
-  String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+  String get iarReportSentToast => '举报已发送。我们的安全团队将进行审核。';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return '封禁 $name？他们将无法给你发消息或发送好友请求。之后你可以取消封禁。';
   }
 
   @override
-  String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+  String get iarBlockUserFailedToast => '无法封禁此用户。请重试。';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => '私信已关闭。';
 
   @override
-  String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+  String get iarCloseDmFailedToast => '无法关闭此私信。请重试。';
 
   @override
-  String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+  String get iarLeaveCommunityFailedToast => '无法退出此社群。请重试。';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => '隐藏链接预览';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => '显示链接预览';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => '删除消息';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => '删除消息';
 
   @override
-  String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+  String get chatMessageDeleteConfirmDescription => '你确定要删除此消息吗？';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => '更多';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => '正在编辑消息';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => '原消息已被删除';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad => '原消息加载失败';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia => '消息包含附件媒体';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError => '无法加载消息。';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle => '覆盖提及偏好设置？';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return '$authorNickname 偏好在回复时被 @提及。仍要发送而不提及吗？';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname 偏好不提及的回复。仍要发送提及吗？';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => '忽略偏好';
 
   @override
-  String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+  String get chatReplyMentionDisableTooltip => '点击以禁用提及你正在回复的用户';
 
   @override
-  String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+  String get chatReplyMentionEnableTooltip => '点击以启用提及你正在回复的用户';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel => '提及已回复用户';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => '开启';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => '关闭';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => '取消回复';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => '编辑消息';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => '未保存任何更改';
 
   @override
-  String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+  String get chatChannelNotReady => '此频道尚未准备就绪。请稍后再试。';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '（已编辑）';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => '这是一条 @silent 消息。';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return '今天 $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return '昨天 $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => '图片预览';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => '关闭媒体查看器';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => '在浏览器中打开';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => '转发';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => '放大';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => '缩小';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => '上一个附件';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => '下一个附件';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -4751,80 +4652,78 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls => '切换视频控件';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => '静音视频';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => '取消静音视频';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => '播放视频';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => '暂停视频';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => '视频进度';
+
+  @override
+  String get chatVideoPlaybackFailed => '无法播放此视频。';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      '通知具有此角色的用户，他们有权查看此频道。';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => '添加社区';
 
   @override
-  String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+  String get addGuildModalLandingDescription => '创建新社区或加入现有社区。';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => '创建社区';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => '加入社区';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => '导入 Discord 模板';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => '加入社区';
 
   @override
-  String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+  String get addGuildJoinDescription => '输入邀请链接以加入社区。';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => '邀请链接';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => '加入社区';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid => '此邀请无效或已过期。';
 
   @override
-  String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+  String get addGuildJoinFailed => '无法加入社区。请重试。';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => '表情包已成功安装。';
 
   @override
-  String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+  String get chatMessageRemoveAllReactionsConfirmTitle => '移除所有反应';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      '您确定要移除此消息的所有反应吗？';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => '取消固定消息';
 
   @override
-  String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+  String get chatMessageUnpinConfirmDescription => '将此固定消息送回过去？';
 
   @override
   String systemPinMessage(
@@ -4832,68 +4731,66 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String messageLink,
     String allPinsLink,
   ) {
-    return '$username pinned $messageLink to this channel. See $allPinsLink.';
+    return '$username 在此频道固定了 $messageLink。查看 $allPinsLink。';
   }
 
   @override
-  String get systemPinMessageMessageLink => 'a message';
+  String get systemPinMessageMessageLink => '一条消息';
 
   @override
-  String get systemPinMessageAllPinsLink => 'all pinned messages';
+  String get systemPinMessageAllPinsLink => '所有固定消息';
 
   @override
-  String get channelPinsEmptyTitle => 'No pinned messages';
+  String get channelPinsEmptyTitle => '无置顶消息';
 
   @override
-  String get channelPinsEmptyDescription => 'Pinned messages show up here.';
+  String get channelPinsEmptyDescription => '置顶消息会显示在这里。';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String get personalNotesTitle => '个人笔记';
 
   @override
-  String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+  String get personalNotesSubtitle => '你的私人空间，用于记录想法和提醒';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return '欢迎来到 $channelName';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return '起初，万物皆空。然后，有了 $channelName。一切都变得美好。';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => '给自己发消息';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => '你的私人空间';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => '清除个人笔记';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      '这将永久删除你个人笔记中的所有消息和附件。此操作无法撤销。';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => '清除';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return '已从个人笔记中清除 $count 条消息';
   }
 
   @override
-  String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+  String get purgePersonalNotesAlreadyEmpty => '个人笔记已为空';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed => '无法清除个人笔记';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => '你的账户';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -4905,353 +4802,474 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => '个人资料';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => '安全与登录';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => '礼物与兑换码';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => '表情包';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard => '隐私仪表盘';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => '已授权的应用';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => '已屏蔽用户';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => '已关联设备';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => '连接';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => '外观';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => '辅助功能';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => '消息与媒体';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Audio & Video';
+  String get userSettingsNavAudioAndVideo => '音频与视频';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => '声音与提醒';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => '语言与时间';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => '高级';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => '性能报告';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      '通过分享匿名的崩溃和性能数据来帮助改进 Fluxer。';
 
   @override
-  String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+  String get advancedPerformanceReportingLabel => '发送崩溃和性能报告';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      '所有报告的数据都是匿名的，并且仅发送到 Fluxer 自有的监控服务——不使用任何第三方提供商。';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => '应用';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => '应用日志';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => '开发者工具';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => '限制配置';
 
   @override
-  String get userSettingsNavFeatureFlags => 'Feature Flags';
+  String get userSettingsNavFeatureFlags => '功能标志';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => '新内容';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => '退出登录';
 
   @override
-  String get betaWarningTitle => 'Beta software';
+  String get betaWarningTitle => 'Beta 版软件';
 
   @override
-  String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+  String get betaWarningMessage => '这是 Beta 版软件。并非所有功能都已完成或添加。';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      '请将你发现的任何问题报告给 Fluxer 移动社区（目前你必须拥有 Plutonium 才能加入该社区）。';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => '在 GitHub 上查看源代码';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => '知道了';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => '搜索';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => '好友';
 
   @override
-  String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+  String get quickSwitcherSearchPlaceholder => '搜索频道、用户或社区';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => '搜索好友';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => '未找到匹配项';
 
   @override
-  String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+  String get quickSwitcherEmptyHint => '尝试输入其他名称，或使用 @ / # / ! / * 前缀筛选结果。';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => '用户';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => '群聊';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => '文本频道';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => '语音频道';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Communities';
+  String get quickSwitcherSectionCommunities => '社区';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => '设置';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => '主页';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => '私信';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => '收藏夹';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => '用户设置';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => '通知';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => '书签';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => '提及';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => '暂无好友';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint => '添加好友开始吧。';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle => '没有好友匹配搜索';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => '尝试输入其他名称。';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => '用户';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => '你';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
 
   @override
-  String get quickSwitcherSearchAliasDms => 'DMs';
+  String get quickSwitcherSearchAliasDms => '私信';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => '消息';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => '收藏';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => '星标';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => '收件箱';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => '已保存';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => '关闭';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => '跳至底部';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => '确认';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => '正在加载';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => '未保存的更改';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => '重置';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => '打开颜色选择器';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => '选择';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => '搜索';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => '未找到选项';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => '关闭通知';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => '颜色选择器';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => '提及所有人？';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return '这将通知 $count 位成员。继续？';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return '这将通知 $count 位在线成员。继续？';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => '提及';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable => '您无法在此处使用此表情符号。';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => '实例 URL';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder => '输入实例 URL（例如 fluxer.app）';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => '重置为 Fluxer';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => '连接';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => '正在连接…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => '无法连接到实例';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => '最近的实例';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return '从最近的实例中移除 $domain';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => '连接到实例';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance => '连接到其他实例';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => '更改';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired => '连接到实例后才能登录';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => '即将推出';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => '私信';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+  String get guildNavbarExploreDiscoverableCommunities => '探索可发现的社区';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get discoveryExplore => '探索';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get discoveryExplorePublicCommunities => '探索公开社区';
+
+  @override
+  String get discoveryListingSubheading => '想在此列出您的社区？如果符合社区设置 > 发现中的要求，请申请。';
+
+  @override
+  String get discoverySearchCommunities => '搜索社区';
+
+  @override
+  String get discoveryFilterByLanguage => '按语言筛选';
+
+  @override
+  String get discoveryAllLanguages => '所有语言';
+
+  @override
+  String get discoveryAllCategories => '全部';
+
+  @override
+  String get discoveryCategoryGaming => '游戏';
+
+  @override
+  String get discoveryCategoryMusic => '音乐';
+
+  @override
+  String get discoveryCategoryEntertainment => '娱乐';
+
+  @override
+  String get discoveryCategoryEducation => '教育';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology => '科学与技术';
+
+  @override
+  String get discoveryCategoryContentCreator => '内容创作者';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => '动漫与漫画';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => '电影与电视';
+
+  @override
+  String get discoveryCategoryOther => '其他';
+
+  @override
+  String get discoveryNoCommunitiesMatch => '没有社区匹配。';
+
+  @override
+  String get discoveryJoinCommunity => '加入社区';
+
+  @override
+  String get discoveryJoined => '已加入';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count 人在线';
+  }
+
+  @override
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 位成员',
+      one: '1 位成员',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get discoveryNoDescription => '无描述。';
+
+  @override
+  String get discoveryCommunities => '社区';
+
+  @override
+  String get discoveryApps => '应用';
+
+  @override
+  String get discoveryJoinErrorGenericTitle => '无法加入此社区';
+
+  @override
+  String get discoveryJoinErrorGenericMessage => '出现问题。请稍后重试。';
+
+  @override
+  String get discoveryJoinErrorFullTitle => '此社区已满';
+
+  @override
+  String get discoveryJoinErrorFullMessage => '此社区已达到成员上限，您暂时无法加入。';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle => '您已达到社区数量上限';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage => '您已加入的社区数量已达上限。请离开一个社区后再试。';
+
+  @override
+  String get discoveryJoinErrorBannedTitle => '您无法加入此社区';
+
+  @override
+  String get discoveryJoinErrorBannedMessage => '您已被禁止加入此社区。';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle => '此社区不再可用';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      '它可能已退出发现或关闭了新成员加入。刷新页面后将不再显示。';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle => '您操作太快了';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage => '请稍等片刻再试。';
+
+  @override
+  String get guildNavbarAddCommunity => '添加社区';
+
+  @override
+  String get guildNavbarHelp => '帮助';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => '新消息';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+    return '$folderName 已折叠';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String get guildNavbarGroupDm => '群聊';
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get guildNavbarCreateChannel => '创建频道';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get guildNavbarChannelType => '频道类型';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get guildNavbarTextChannel => '文本频道';
 
   @override
-  String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+  String get guildNavbarTextChannelDescription => '发送消息、图片、GIF 和表情';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => '语音频道';
 
   @override
-  String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+  String get guildNavbarVoiceChannelDescription => '通过语音、视频和屏幕共享一起畅聊';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => '链接频道';
 
   @override
-  String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+  String get guildNavbarLinkChannelDescription => '快速访问外部网站或资源';
 
   @override
-  String get guildNavbarNameLabel => 'Name';
+  String get guildNavbarNameLabel => '名称';
 
   @override
   String get guildNavbarNewChannelHint => 'new-channel';
@@ -5263,541 +5281,522 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => '创建分类';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => '新分类';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return '邀请好友加入 $communityName';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return '接收者将进入 #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => '搜索好友';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => '还没有好友';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => '无结果';
 
   @override
-  String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+  String get guildNavbarInviteLinkPrompt => '或者，向好友发送邀请链接：';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => '邀请链接';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => '复制';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => '已复制！';
 
   @override
-  String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+  String get guildNavbarInviteExpiresSevenDays => '您的邀请链接将在 7 天后过期。';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires => '此邀请链接永不过期。';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return '您的邀请链接将在 $duration 后过期。';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => '编辑邀请链接';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => '邀请链接设置';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => '过期时间';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => '最大使用次数';
 
   @override
-  String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+  String get guildNavbarGrantTemporaryMembership => '授予临时会员资格';
 
   @override
-  String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+  String get guildNavbarTemporaryMembershipDescription => '除非分配了角色，否则会员下线时将被移除';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => '创建新链接';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => '已发送';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => '邀请';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => '离开社群';
 
   @override
-  String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+  String get guildNavbarLeaveCommunityDescription => '确定要离开此社群吗？您将无法再看到任何消息。';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => '离开社群';
 
   @override
-  String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+  String get guildNavbarDeleteMyMessagesTitle => '删除在此社群中的消息？';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      '永久删除您在此处、所有频道中发送的每条消息。无法撤销。';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm => '删除我的消息';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => '已删除您的消息';
 
   @override
-  String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+  String get guildNavbarCouldNotDeleteYourMessages => '无法删除您的消息';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => '移除覆盖设置';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return '静音至 $formattedDate';
   }
 
   @override
-  String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+  String get guildNavbarStaffOnlyAccessible => '仅限 Fluxer 员工访问';
 
   @override
-  String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+  String get guildNavbarInvitesPaused => '此社群的邀请当前已暂停';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => '永不';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 分钟';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 小时';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 小时';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12小时';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1天';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7天';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count秒';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => '从不';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => '无限制';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1次';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count次';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => '标记为已读';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildPeekMoreOptions => '更多选项';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuInviteMembers => '邀请成员';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuCommunitySettings => '社区设置';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuEditCommunityProfile => '编辑社区资料';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuUnmuteCommunity => '取消静音社区';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuMuteCommunity => '静音社区';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuHideMutedChannels => '隐藏已静音频道';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuReportCommunity => '举报社区';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuDebugCommunity => '调试社区';
+
+  @override
+  String get guildMenuCopyCommunityId => '复制社区ID';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return '直到 $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => '概览';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => '角色和权限';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => '自定义表情';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => '自定义贴纸';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => '安全与审核';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => '活动日志';
 
   @override
-  String get guildMenuSettingsWebhooks => 'Webhooks';
+  String get guildMenuSettingsWebhooks => 'Webhook';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl => '自定义邀请链接';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => '发现';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => '成员';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => '邀请链接';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => '封禁';
 
   @override
-  String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+  String get guildSettingsNoPermission => '您没有权限查看此设置标签页。';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Icon';
+  String get guildSettingsOverviewIconTitle => '图标';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => '上传图片';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Banner';
+  String get guildSettingsOverviewBannerTitle => '横幅';
 
   @override
-  String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+  String get guildSettingsOverviewBannerHint => '为您的服务器上传一张横幅。';
 
   @override
-  String get guildSettingsOverviewNameTitle => 'Name';
+  String get guildSettingsOverviewNameTitle => '名称';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => '我的超棒社区';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => '统计';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => '成员';
 
   @override
-  String get guildSettingsOverviewOnline => 'Online';
+  String get guildSettingsOverviewOnline => '在线';
 
   @override
-  String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+  String get guildSettingsRolesDescription => '使用角色对成员进行分组并分配权限。';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => '创建角色';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => '角色';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '已用 $staticCount 个静态表情，$animatedCount 个动态表情';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty => '暂无自定义表情。';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '已上传 $count 个贴纸';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty => '暂无自定义贴纸。';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle => '成员验证';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      '选择成员在可以发布消息或向社区成员发送私信前必须满足的条件。';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      '拥有特定角色的成员可以绕过这些检查。对于公开的社区，我们建议启用验证。';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      '列在“发现”中的社区至少需要已验证的电子邮件。启用“发现”时无法选择“无”。';
 
   @override
-  String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+  String get guildSettingsModerationMatureTitle => '不适宜内容和内容警告';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      '配置不适宜内容的标签和成员可选的内容警告。';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => '不适宜内容';
 
   @override
   String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+      '将此社区标记为包含不适宜内容。';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => '无';
 
   @override
-  String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+  String get guildSettingsVerificationNoneDescription => '无需验证。';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => '低';
 
   @override
-  String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+  String get guildSettingsVerificationLowDescription => '需要已验证的电子邮件地址。';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => '中';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      '需要已验证的电子邮件地址，并且账户已创建至少 5 分钟。';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => '高';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      '需要满足中等验证的所有条件，并且已成为社区成员至少 10 分钟。';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => '非常高';
 
   @override
-  String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+  String get guildSettingsVerificationHighestDescription => '需要已验证的电话号码。';
 
   @override
-  String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+  String get guildSettingsAuditLogDescription => '跟踪社区内的版主操作。';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => '暂无日志';
 
   @override
-  String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+  String get guildSettingsAuditLogEmptyDescription => '版主操作和社区更改将显示在此处。';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => '所有用户';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => '所有操作';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => '未提供原因。';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => '未知用户';
 
   @override
-  String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+  String get guildSettingsAuditLogLoadError => '加载活动日志时出错。';
 
   @override
-  String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+  String get guildSettingsAuditLogLoadErrorTitle => '无法加载活动日志';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => '原因';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => '某人';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => '某事';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => '未知实体';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => '无';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => '未知目标';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => '社区已更新';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => '频道已创建';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => '频道已更新';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => '频道已删除';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate => '频道覆盖已添加';
 
   @override
-  String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+  String get auditLogActionChannelOverwriteUpdate => '频道覆盖已更新';
 
   @override
-  String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+  String get auditLogActionChannelOverwriteDelete => '频道覆盖已移除';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => '成员已被踢出';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => '成员已被清理';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => '成员已被禁止';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => '成员已解除禁止';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => '成员已更新';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => '成员角色已更新';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => '成员已被移动';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => '成员已断开连接';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => '机器人已添加';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => '角色已创建';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => '角色已更新';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => '角色已删除';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => '邀请已创建';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => '邀请已更新';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => '邀请已删除';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'Webhook 已创建';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'Webhook 已更新';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'Webhook 已删除';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => '表情符号已创建';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => '表情符号已更新';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => '表情符号已删除';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => '贴纸已创建';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => '贴纸已更新';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => '贴纸已删除';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => '消息已删除';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => '消息已删除';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => '消息已置顶';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => '消息已取消置顶';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return '$actor 更新了社区设置。';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return '$actor 创建了频道 $target。';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return '$actor 更新了频道 $target。';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return '$actor 删除频道 $target。';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return '$actor 为 $target 添加了频道权限。';
   }
 
   @override
@@ -5806,12 +5805,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return '$actor 在频道 $channel 中为 $target 添加了频道权限。';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return '$actor 更新了 $target 的频道权限。';
   }
 
   @override
@@ -5820,12 +5819,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return '$actor 在频道 $channel 中更新了 $target 的频道权限。';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return '$actor 移除了 $target 的频道权限。';
   }
 
   @override
@@ -5834,47 +5833,47 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return '$actor 在频道 $channel 中移除了 $target 的频道权限。';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return '$actor 将 $target 踢出。';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return '$actor 封禁了 $target。';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return '$actor 解除了对 $target 的封禁。';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return '$actor 更新了 $target。';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return '$actor 更新了 $target 的角色。';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return '$actor 清理了不活跃成员。';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return '$actor 清理了不活跃 $days 天的成员。';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return '$actor 将 $target 移动到另一个语音频道。';
   }
 
   @override
@@ -5883,37 +5882,37 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return '$actor 将 $target 移动到 $channel。';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return '$actor 将 $target 从语音断开连接。';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return '$actor 添加了机器人 $target。';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return '$actor 创建了角色 $target。';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return '$actor 更新了角色 $target。';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return '$actor 删除角色 $target。';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return '$actor 创建了邀请 $target。';
   }
 
   @override
@@ -5922,12 +5921,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return '$actor 为频道 $channel 创建了邀请 $target。';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return '$actor 更新了邀请 $target。';
   }
 
   @override
@@ -5936,12 +5935,12 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return '$actor 为频道 $channel 更新了邀请 $target。';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return '$actor 删除邀请 $target。';
   }
 
   @override
@@ -5950,72 +5949,72 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return '$actor 为频道 $channel 删除邀请 $target。';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return '$actor 创建了 Webhook $target。';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor 更新了 Webhook $target。';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor 删除 Webhook $target。';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor 添加了表情符号 $target。';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor 更新了表情符号 $target。';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor 删除了表情符号 $target。';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor 添加了贴纸 $target。';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor 更新了贴纸 $target。';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor 删除了贴纸 $target。';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor 删除了一条消息。';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor 在 $channel 中删除了一条消息。';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor 删除多条消息。';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor 删除 $count 条消息。';
   }
 
   @override
@@ -6023,7 +6022,7 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor 在 $channel 中删除多条消息。';
   }
 
   @override
@@ -6032,32 +6031,32 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor 在 $channel 中删除 $count 条消息。';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor 钉选了一条消息。';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor 在 $channel 中钉选了一条消息。';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor 取消了消息的钉选。';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor 在 $channel 中取消了消息的钉选。';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor 对 $target 执行了审计操作。';
   }
 
   @override
@@ -6066,97 +6065,96 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return '将 $field 从 $oldValue 更新为 $newValue。';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return '将 $field 设置为 $newValue。';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return '已清除 $field（原值为 $oldValue）。';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return '已更新 $field。';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return '将社区重命名为 $name。';
   }
 
   @override
-  String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+  String get auditLogChangeUpdatedCommunityIcon => '已更新社区图标。';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return '将频道重命名为 $name。';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => '已清除主题。';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return '已将主题更新为 $topic。';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent => '已启用不适宜内容。';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent => '已禁用不适宜内容。';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return '将昵称设置为 $nickname。';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return '已移除昵称 $nickname。';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => '已将成员静音。';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => '已取消成员静音。';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => '已将成员设为听障。';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember => '已取消成员的听障设置。';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return '添加了 $roles。';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return '移除了 $roles。';
   }
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return '频道：$value。';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return '消息：$value。';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return '邀请者：$value。';
   }
 
   @override
@@ -6164,8 +6162,8 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: '删除了 # 条消息。',
+      one: '删除了 # 条消息。',
     );
     return '$_temp0';
   }
@@ -6175,147 +6173,180 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: '移除了 # 名成员。',
+      one: '移除了 # 名成员。',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires => '此邀请永不过期。';
 
   @override
-  String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+  String get auditLogOptionTemporaryMembership => '授予临时成员资格。';
 
   @override
-  String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+  String get auditLogOptionPermanentMembership => '授予永久成员资格。';
 
   @override
-  String get guildSettingsLoadMore => 'Load more';
+  String get guildSettingsLoadMore => '加载更多';
 
   @override
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
-  String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+  String get guildSettingsWebhooksDescription => '管理发布消息到频道的 Webhook。';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty => '未配置 Webhook。';
 
   @override
-  String get guildSettingsCopyUrl => 'Copy URL';
+  String get guildSettingsCopyUrl => '复制 URL';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => 'URL 已复制到剪贴板';
 
   @override
-  String get guildSettingsDeleteWebhook => 'Delete webhook';
+  String get guildSettingsDeleteWebhook => '删除 Webhook';
 
   @override
-  String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+  String get guildSettingsVanityUrlDescription => '设置服务器的自定义邀请链接。';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => '保存';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => '使用情况';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count 次使用';
   }
 
   @override
-  String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+  String get guildSettingsDiscoveryDescription => '申请在服务器发现中列出。';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return '申请需要至少 $count 名成员。';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => '申请';
 
   @override
-  String get guildSettingsDiscoveryStatusTitle => 'Status';
+  String get guildSettingsDiscoveryStatusTitle => '状态';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => '类别';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => '描述';
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tags';
+  String get guildSettingsDiscoveryTags => '标签';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => '游戏、艺术、音乐';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => '提交申请';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => '撤回';
 
   @override
-  String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+  String get guildSettingsMembersDescription => '搜索和管理服务器成员。';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => '搜索成员';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count 名成员';
   }
 
   @override
-  String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+  String get guildSettingsInvitesDescription => '查看和撤销活动的邀请链接。';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => '没有活动邀请。';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses 次使用';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return '将于 $date 过期';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription => '查看和管理被封禁的用户。';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => '搜索封禁';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => '没有被封禁的用户。';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => '永久封禁';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return '将于 $date 过期';
   }
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsBanExpiresLabel => '过期';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsUnban => '解除封禁';
+
+  @override
+  String get guildSettingsBansLoading => '正在加载被封禁的用户';
+
+  @override
+  String get guildSettingsBansNoSearchResults => '未找到符合您搜索条件的封禁。';
+
+  @override
+  String get guildSettingsBanDetailsTitle => '封禁详情';
+
+  @override
+  String get guildSettingsBanViewDetails => '查看详情';
+
+  @override
+  String get guildSettingsBannedOn => '封禁于';
+
+  @override
+  String get guildSettingsBannedBy => '封禁者';
+
+  @override
+  String get guildSettingsRevokeBanTitle => '撤销封禁';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return '您确定要撤销对 $displayName 的封禁吗？他们将能够重新加入社区。';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return '已撤销对 $displayName 的封禁';
+  }
+
+  @override
+  String get guildSettingsBansLoadError => '无法加载封禁。请重试。';
+
+  @override
+  String get guildSettingsRevokeBanError => '无法撤销封禁。请重试。';
+
+  @override
+  String get guildSettingsCommunitySettings => '社区设置';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -6330,379 +6361,345 @@ class FluxerLocalizationsZh extends FluxerLocalizations {
   String get guildSettingsCategoryPeople => 'PEOPLE';
 
   @override
-  String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+  String get guildSettingsOverviewDescription => '管理您的社区资料、频道和默认设置。';
 
   @override
-  String get guildSettingsOverviewBrandingTitle => 'Branding';
+  String get guildSettingsOverviewBrandingTitle => '品牌';
 
   @override
-  String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+  String get guildSettingsOverviewBrandingDescription => '更新您的图标、名称、横幅和邀请背景';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => '上传横幅';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => '闲置设置';
 
   @override
-  String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+  String get guildSettingsOverviewIdleDescription => '配置挂起频道和超时';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => '系统与欢迎';
 
   @override
-  String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+  String get guildSettingsOverviewSystemDescription => '选择系统和欢迎消息的目的地';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle => '默认通知';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      '超过 250 人的社区将被强制设置为“仅提及”设置。您的原始设置将被保留，并在社区成员少于 250 人时恢复。';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => '高级设置';
 
   @override
-  String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+  String get guildSettingsOverviewFlexibleNames => '允许自定义文本频道名称';
 
   @override
-  String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+  String get guildSettingsOverviewHideOwnerCrown => '隐藏社群管理员皇冠';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => '独立横幅';
 
   @override
-  String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+  String get guildSettingsOverviewDetachedBannerHint => '在社群标题下方单独显示横幅。';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => '上传图标';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => '移除';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => '邀请背景';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle => '聊天嵌入背景';
 
   @override
-  String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+  String get guildSettingsOverviewEmbedSplashHint => '显示在聊天中的邀请嵌入中。';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => '上传背景';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => '无社群横幅';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground => '无邀请背景';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => '预览';
 
   @override
-  String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+  String get guildSettingsOverviewInvitePreviewHint => '查看你的邀请对访客的显示效果。';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle => '文本频道名称';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle => '社群管理员皇冠';
 
   @override
-  String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+  String get guildSettingsOverviewOwnerCrownDescription => '配置是否在社群管理员旁边显示皇冠图标';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => '卡片对齐';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => '居中';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => '左对齐';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => '右对齐';
 
   @override
-  String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+  String get guildSettingsSplashAlignmentHint => '仅在宽屏上生效。';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => '读取消息历史';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return '更改无“$permission”权限的用户可查看的内容';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return '使用专用弹窗设置无“$permission”权限成员的消息历史记录阈值日期。';
   }
 
   @override
-  String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+  String get guildSettingsOverviewMessageHistoryOpen => '打开消息历史记录阈值设置';
 
   @override
-  String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+  String get guildSettingsMessageHistoryThresholdTitle => '消息历史记录阈值';
 
   @override
-  String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+  String get guildSettingsMessageHistoryThresholdEnable => '启用消息历史记录阈值';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => '阈值日期';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      '无“读取消息历史”权限的成员可查看此日期之后发送的消息。';
 
   @override
-  String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+  String get guildSettingsMessageHistoryThresholdUpdated => '消息历史记录阈值已更新';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      '允许文本频道名称包含大写字母和空格。关闭后，名称将仅限于小写字母、连字符和下划线。';
 
   @override
-  String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+  String get guildSettingsOverviewHideOwnerCrownHint => '隐藏社群管理员旁边的皇冠图标。';
 
   @override
-  String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+  String get guildSettingsAnimatedIconRequiresFeature => '动态图标需要“动态图标”社群功能。';
 
   @override
-  String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+  String get guildSettingsAnimatedBannerRequiresFeature => '动态横幅需要“动态横幅”社群功能。';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'AFK / 闲置频道';
 
   @override
-  String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+  String get guildSettingsAfkChannelHint => '成员 AFK 时将他们移至此频道。';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => '无 AFK 频道';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'AFK 超时';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 分钟';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 分钟';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 分钟';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 分钟';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 小时';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds 秒';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => '系统消息频道';
 
   @override
-  String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+  String get guildSettingsSystemChannelHint => '欢迎和系统消息将显示在此处。';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => '无系统消息频道';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages => '隐藏加入消息';
 
   @override
-  String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+  String get guildSettingsHideJoinMessagesHint => '隐藏加入消息，仅在目标频道中显示。';
 
   @override
-  String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+  String get guildSettingsDefaultNotifications => '默认通知设置';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => '所有消息';
 
   @override
-  String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+  String get guildSettingsNotificationsAllDescription => '通知所有消息';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => '仅提及';
 
   @override
-  String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+  String get guildSettingsNotificationsMentionsDescription => '仅通知提及';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG、PNG、WebP、AVIF。最大 10MB。最小：960×540px (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG、PNG、WebP、AVIF。最大 10MB。最小：960×540px (16:9)。在聊天中的邀请卡片中显示。';
 
   @override
-  String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+  String get guildSettingsModerationDescription => '配置验证、内容过滤和不适宜内容设置。';
 
   @override
-  String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+  String get guildSettingsModerationDiscoveryNotice => '已在发现中列出的社群具有受限的审核选项。';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => '内容过滤';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      '自动筛查未标记为不适宜内容频道的成员消息。';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      '已在发现中列出的社群必须扫描所有成员。启用发现功能时，此设置无法更改。';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => '关闭';
 
   @override
-  String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+  String get guildSettingsContentFilterOffDescription => '允许社群自行管理';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole => '过滤无角色成员';
 
   @override
-  String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+  String get guildSettingsContentFilterNoRoleDescription => '建议大多数社群使用';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => '过滤所有人';
 
   @override
-  String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+  String get guildSettingsContentFilterAllDescription => '为家庭友好空间提供最大程度的保护';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => '关闭';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => '开启';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle => '显示内容警告';
 
   @override
-  String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+  String get guildSettingsContentWarningToggleDescription => '在进入任何频道前，切换同意提示。';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => '自定义警告文本';
 
   @override
-  String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+  String get guildSettingsContentWarningTextPlaceholder => '此内容包含敏感信息。';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => '双重验证要求';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      '要求版主在能够禁言、踢出、暂时禁言或删除消息前进行双重验证。';
 
   @override
-  String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+  String get guildSettingsModeration2faSwitchLabel => '要求版主操作进行双重验证';
 
   @override
-  String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+  String get guildSettingsModeration2faOwnerOnlyTooltip => '只有社群所有者可以更改此设置';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      '请先在您的账户上启用双重验证，才能更改此设置';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => '搜索表情符号';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => '上传表情符号';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return '静态表情符号 ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return '动态表情符号 ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => '搜索贴纸';
 
   @override
-  String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+  String get guildSettingsWebhooksInfo => '从频道设置创建 webhook。在此处编辑。';
 
   @override
   String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+      '除非至少有一个频道对所有人可见，否则您的自定义 URL 将无法正常工作。';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => '移除';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => '被封禁用户';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => '邀请者';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => '频道';
 
   @override
-  String get guildSettingsInvitesTableCode => 'Code';
+  String get guildSettingsInvitesTableCode => '代码';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => '使用次数';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => '创建时间';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => '最新优先';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => '按用户筛选';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => '按操作筛选';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -6710,1096 +6707,1092 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   FluxerLocalizationsZhHant() : super('zh_Hant');
 
   @override
-  String get reconnectingTitle => 'We fluxed up!';
+  String get reconnectingTitle => '我們出錯了！';
 
   @override
-  String get reconnectingBody =>
-      'Something is wrong with the servers.\nShould be fixed in a second!';
+  String get reconnectingBody => '伺服器似乎出了點問題。\n應該很快就會修好！';
 
   @override
-  String get gatewayReconnectingToast => 'Reconnecting…';
+  String get gatewayReconnectingToast => '正在重新連線…';
 
   @override
-  String get gatewayConnectedToast => 'Connected';
+  String get gatewayConnectedToast => '已連線';
 
   @override
   String splashStartupFailed(String error) {
-    return 'Failed to start: $error';
+    return '啟動失敗：$error';
   }
 
   @override
-  String get retry => 'Retry';
+  String get retry => '重試';
 
   @override
   String get connectingCaps => 'CONNECTING';
 
   @override
-  String get splashConnectionLost => 'Connection lost';
+  String get splashConnectionLost => '連線中斷';
 
   @override
-  String get splashViewOnStatusPage => 'View on status page';
+  String get splashViewOnStatusPage => '前往狀態頁';
 
   @override
-  String get splashConnectionIssuesPrompt => 'Connection issues?';
+  String get splashConnectionIssuesPrompt => '連線有問題嗎？';
 
   @override
-  String get splashStatusPageLink => 'Status page';
+  String get splashStatusPageLink => '狀態頁';
 
   @override
-  String get splashReadIncident => 'Read incident';
+  String get splashReadIncident => '閱讀事件詳情';
 
   @override
-  String get splashIncidentHistory => 'Incident history';
+  String get splashIncidentHistory => '事件記錄';
 
   @override
-  String get welcomeBack => 'Welcome back';
+  String get welcomeBack => '歡迎回來';
 
   @override
-  String get email => 'Email';
+  String get email => '電子郵件';
 
   @override
-  String get emailInvalid => 'Please enter a valid email address.';
+  String get emailInvalid => '請輸入有效的電子郵件地址。';
 
   @override
-  String get password => 'Password';
+  String get password => '密碼';
 
   @override
-  String get forgotPassword => 'Forgot your password?';
+  String get forgotPassword => '忘記密碼了嗎？';
 
   @override
-  String get logIn => 'Log in';
+  String get logIn => '登入';
 
   @override
-  String get logInWithPasskey => 'Log in with a passkey';
+  String get logInWithPasskey => '使用通行金鑰登入';
 
   @override
   String continueWithSso(String provider) {
-    return 'Continue with $provider';
+    return '透過 $provider 繼續';
   }
 
   @override
-  String get ssoRequired => 'SSO is required to access this instance.';
+  String get ssoRequired => '必須使用 SSO 才能存取此執行個體。';
 
   @override
-  String get organizationSsoProvider =>
-      'Sign in with your organization\'s single sign-on provider.';
+  String get organizationSsoProvider => '使用您組織的單一登入提供者登入。';
 
   @override
-  String get failedToStartSso => 'Failed to start SSO';
+  String get failedToStartSso => '無法啟動 SSO';
 
   @override
-  String get ssoCancelled => 'SSO login was cancelled';
+  String get ssoCancelled => 'SSO 登入已取消';
 
   @override
   String preferSso(String provider) {
-    return 'Prefer using SSO? Continue with $provider.';
+    return '偏好使用 SSO？透過 $provider 繼續。';
   }
 
   @override
-  String get logInViaBrowser => 'Log in via browser';
+  String get logInViaBrowser => '透過瀏覽器登入';
 
   @override
-  String get needAccountPrompt => 'Need an account? ';
+  String get needAccountPrompt => '需要帳號？ ';
 
   @override
-  String get register => 'Register';
+  String get register => '註冊';
 
   @override
   String get orDivider => 'OR';
 
   @override
-  String get captchaTitle => 'Verify you\'re human';
+  String get captchaTitle => '請驗證您是人類';
 
   @override
-  String get captchaDescription =>
-      'We need to make sure you\'re not a bot. Please complete the verification below.';
+  String get captchaDescription => '我們需要確認您不是機器人。請完成下方的驗證。';
 
   @override
-  String get captchaSwitchToHcaptcha => 'Having issues? Try hCaptcha instead';
+  String get captchaSwitchToHcaptcha => '有問題嗎？試試 hCaptcha';
 
   @override
-  String get captchaSwitchToTurnstile => 'Try Turnstile instead';
+  String get captchaSwitchToTurnstile => '試試 Turnstile';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => '取消';
 
   @override
-  String get ipAuthCheckEmail => 'Check your email';
+  String get ipAuthCheckEmail => '檢查您的電子郵件';
 
   @override
   String ipAuthDescription(String email) {
-    return 'We emailed a link to authorize this login. Please open your inbox for $email.';
+    return '我們已寄送一封授權此登入的連結到您的電子郵件。請開啟您的收件匣以查看 $email。';
   }
 
   @override
-  String get ipAuthConnectionLost => 'Connection lost';
+  String get ipAuthConnectionLost => '連線中斷';
 
   @override
-  String get ipAuthConnectionLostDescription =>
-      'We lost the connection while waiting for authorization. Please try again.';
+  String get ipAuthConnectionLostDescription => '等待授權時連線中斷。請再試一次。';
 
   @override
-  String get ipAuthLinkExpired => 'Sign-in link expired';
+  String get ipAuthLinkExpired => '登入連結已過期';
 
   @override
-  String get ipAuthLinkExpiredDescription =>
-      'This authorization link expired. Please sign in again.';
+  String get ipAuthLinkExpiredDescription => '此授權連結已過期。請重新登入。';
 
   @override
-  String get ipAuthResendEmail => 'Resend email';
+  String get ipAuthResendEmail => '重寄電子郵件';
 
   @override
-  String get ipAuthResent => 'Resent';
+  String get ipAuthResent => '已重寄';
 
   @override
   String ipAuthResendCountdown(int seconds) {
-    return '${seconds}s';
+    return '$seconds 秒';
   }
 
   @override
-  String get back => 'Back';
+  String get back => '上一頁';
 
   @override
-  String get mfaTitle => 'Two-factor authentication';
+  String get mfaTitle => '雙重要素驗證';
 
   @override
-  String get mfaChooseMethod => 'Choose a verification method';
+  String get mfaChooseMethod => '選擇驗證方式';
 
   @override
-  String get mfaMethodTotp => 'Authenticator App';
+  String get mfaMethodTotp => '驗證器應用程式';
 
   @override
-  String get mfaMethodWebauthn => 'Security Key / Passkey';
+  String get mfaMethodWebauthn => '安全金鑰 / 通行金鑰';
 
   @override
-  String get mfaTotpDescription =>
-      'Enter the 6-digit code from your authenticator app or one of your backup codes.';
+  String get mfaTotpDescription => '輸入您的驗證器應用程式提供的 6 位數驗證碼或其中一個備份代碼。';
 
   @override
-  String get mfaCodeLabel => 'Code';
+  String get mfaCodeLabel => '驗證碼';
 
   @override
-  String get mfaTryAnotherMethod => 'Try another method';
+  String get mfaTryAnotherMethod => '嘗試其他方式';
 
   @override
-  String get mfaUseSecurityKey => 'Try security key / passkey instead';
+  String get mfaUseSecurityKey => '改用安全金鑰/通行金鑰';
 
   @override
-  String get accountSelectorTitle => 'Choose an account';
+  String get accountSelectorTitle => '選擇帳號';
 
   @override
-  String get accountSelectorDescription =>
-      'Select an account to continue, or add a different one.';
+  String get accountSelectorDescription => '選擇帳號以繼續，或新增其他帳號。';
 
   @override
-  String get accountAdd => 'Add an account';
+  String get accountAdd => '新增帳號';
 
   @override
-  String get accountRemove => 'Remove';
+  String get accountRemove => '移除';
 
   @override
   String accountRemoveTitle(String username) {
-    return 'Remove $username';
+    return '移除 $username';
   }
 
   @override
-  String get accountRemoveDescription =>
-      'This will remove the saved session for this account.';
+  String get accountRemoveDescription => '這將移除此帳號的已儲存的連線。';
 
   @override
-  String get accountRemoveOnlyDescription =>
-      'This will remove the only saved account on this device.';
+  String get accountRemoveOnlyDescription => '這將移除此裝置上唯一已儲存的帳號。';
 
   @override
-  String get accountExpired => 'Expired';
+  String get accountExpired => '已過期';
 
   @override
   String accountSessionExpired(String identifier) {
-    return 'Session expired for $identifier. Please log in again.';
+    return '對 $identifier 的連線已過期。請重新登入。';
   }
 
   @override
-  String get accountManageTitle => 'Manage accounts';
+  String get accountManageTitle => '管理帳號';
 
   @override
-  String get accountSwitchFailed => 'Couldn\'t switch accounts. Try again.';
+  String get accountSwitchFailed => '無法切換帳號。請再試一次。';
 
   @override
-  String get profileTabMenuSwitchAccounts => 'Switch accounts';
+  String get profileTabMenuSwitchAccounts => '切換帳號';
 
   @override
-  String get statusChangeSheetTitle => 'Set status';
+  String get statusChangeSheetTitle => '設定狀態';
 
   @override
-  String get statusOnlineStatusSection => 'Online status';
+  String get statusOnlineStatusSection => '上線狀態';
 
   @override
-  String get statusOnline => 'Online';
+  String get statusOnline => '上線';
 
   @override
-  String get statusIdle => 'Idle';
+  String get statusIdle => '閒置';
 
   @override
-  String get statusDnd => 'Do not disturb';
+  String get statusDnd => '請勿打擾';
 
   @override
-  String get statusInvisible => 'Invisible';
+  String get statusInvisible => '隱形';
 
   @override
-  String get statusOffline => 'Offline';
+  String get statusOffline => '離線';
 
   @override
-  String get statusUntilIChangeIt => 'Until I change it';
+  String get statusUntilIChangeIt => '直到我變更為止';
 
   @override
-  String get statusDontClear => 'Don\'t clear';
+  String get statusDontClear => '不要清除';
 
   @override
-  String get statusFor10Seconds => 'For 10 seconds';
+  String get statusFor10Seconds => '10 秒';
 
   @override
-  String get statusClearAfter10Seconds => '10 seconds';
+  String get statusClearAfter10Seconds => '10 秒';
 
   @override
-  String get statusClearAfter15Minutes => '15 minutes';
+  String get statusClearAfter15Minutes => '15 分鐘';
 
   @override
-  String get statusClearAfter30Minutes => '30 minutes';
+  String get statusClearAfter30Minutes => '30 分鐘';
 
   @override
-  String get statusClearAfter1Hour => '1 hour';
+  String get statusClearAfter1Hour => '1 小時';
 
   @override
-  String get statusClearAfter3Hours => '3 hours';
+  String get statusClearAfter3Hours => '3 小時';
 
   @override
-  String get statusClearAfter4Hours => '4 hours';
+  String get statusClearAfter4Hours => '4 小時';
 
   @override
-  String get statusClearAfter8Hours => '8 hours';
+  String get statusClearAfter8Hours => '8 小時';
 
   @override
-  String get statusClearAfter24Hours => '24 hours';
+  String get statusClearAfter24Hours => '24 小時';
 
   @override
-  String get statusClearAfter3Days => '3 days';
+  String get statusClearAfter3Days => '3 天';
 
   @override
-  String get statusDndDescription =>
-      'You won\'t receive notifications on desktop';
+  String get statusDndDescription => '您將不會收到桌面通知';
 
   @override
-  String get statusInvisibleDescription => 'You\'ll appear offline';
+  String get statusInvisibleDescription => '您將顯示為離線';
 
   @override
-  String get customStatusSetTitle => 'Set custom status';
+  String get customStatusSetTitle => '設定自訂狀態';
 
   @override
-  String get customStatusCurrentHint => 'Custom status';
+  String get customStatusCurrentHint => '自訂狀態';
 
   @override
-  String get customStatusClear => 'Clear custom status';
+  String get customStatusClear => '清除自訂狀態';
 
   @override
-  String get customStatusPlaceholder => 'What\'s happening?';
+  String get customStatusPlaceholder => '發生什麼事了？';
 
   @override
-  String get customStatusChooseEmoji => 'Choose an emoji';
+  String get customStatusChooseEmoji => '選擇表情符號';
 
   @override
-  String get customStatusClearAfter => 'Clear after';
+  String get customStatusClearAfter => '清除時間';
 
   @override
-  String get customStatusSave => 'Save';
+  String get customStatusSave => '儲存';
 
   @override
-  String get accountActive => 'Active account';
+  String get accountActive => '作用中帳號';
 
   @override
-  String get signOut => 'Sign out';
+  String get signOut => '登出';
 
   @override
-  String get suspendedPermanentTitle => 'Account Permanently Suspended';
+  String get suspendedPermanentTitle => '帳號永久停權';
 
   @override
-  String get suspendedTemporaryTitle => 'Account Suspended';
+  String get suspendedTemporaryTitle => '帳號停權';
 
   @override
-  String get suspendedPermanentDescription =>
-      'Your account has been permanently suspended for violating our Terms of Service.';
+  String get suspendedPermanentDescription => '您的帳號因違反我們的服務條款已被永久停權。';
 
   @override
-  String get suspendedTemporaryDescription =>
-      'Your account has been temporarily suspended. You will be able to access your account once the suspension period ends.';
+  String get suspendedTemporaryDescription => '您的帳號已被暫時停權。停權期間結束後，您將可以存取您的帳號。';
 
   @override
-  String get suspendedIssuedAt => 'Issued';
+  String get suspendedIssuedAt => '生效日期';
 
   @override
-  String get suspendedEndsAt => 'Ends';
+  String get suspendedEndsAt => '結束日期';
 
   @override
-  String get suspendedDuration => 'Duration';
+  String get suspendedDuration => '停權期間';
 
   @override
-  String get suspendedPermanent => 'Permanent';
+  String get suspendedPermanent => '永久';
 
   @override
-  String get suspendedReason => 'Reason';
+  String get suspendedReason => '原因';
 
   @override
-  String get suspendedAppealDeadline => 'Appeal Deadline';
+  String get suspendedAppealDeadline => '申訴截止日期';
 
   @override
   String suspendedDeletionWarning(String date) {
-    return 'Your account is scheduled for deletion on $date.';
+    return '您的帳戶預計於 $date 刪除。';
   }
 
   @override
-  String get suspendedRecheck => 'Check for Updates';
+  String get suspendedRecheck => '檢查更新';
 
   @override
   String suspendedRecheckCooldown(int seconds) {
-    return 'Check again in ${seconds}s';
+    return '請在 $seconds 秒後再試';
   }
 
   @override
-  String get suspendedBackToLogin => 'Back to Login';
+  String get suspendedBackToLogin => '返回登入';
 
   @override
-  String get suspendedAppealTitle => 'Appeal';
+  String get suspendedAppealTitle => '申訴';
 
   @override
-  String get suspendedAppealHint =>
-      'Explain why your suspension should be reconsidered (minimum 50 characters)...';
+  String get suspendedAppealHint => '請說明為何應重新考慮您的停權（至少 50 個字元）...';
 
   @override
-  String get suspendedAppealSubmit => 'Submit Appeal';
+  String get suspendedAppealSubmit => '提交申訴';
 
   @override
-  String get suspendedAppealPending => 'Pending Review';
+  String get suspendedAppealPending => '審核中';
 
   @override
-  String get suspendedAppealAccepted => 'Appeal Accepted';
+  String get suspendedAppealAccepted => '申訴已接受';
 
   @override
-  String get suspendedAppealRejected => 'Appeal Rejected';
+  String get suspendedAppealRejected => '申訴已駁回';
 
   @override
-  String get suspendedAppealAcceptedDescription =>
-      'Your appeal has been accepted and your account has been reinstated.';
+  String get suspendedAppealAcceptedDescription => '您的申訴已獲接受，帳戶已恢復。';
 
   @override
-  String get suspendedSignIn => 'Sign In to Your Account';
+  String get suspendedSignIn => '登入您的帳戶';
 
   @override
-  String get forgotPasswordTitle => 'Forgot your password?';
+  String get forgotPasswordTitle => '忘記密碼？';
 
   @override
-  String get forgotPasswordDescription =>
-      'Enter your email address and we\'ll send you a link to reset your password.';
+  String get forgotPasswordDescription => '請輸入您的電子郵件地址，我們將寄送重設密碼連結給您。';
 
   @override
-  String get forgotPasswordSubmit => 'Send reset link';
+  String get forgotPasswordSubmit => '寄送重設連結';
 
   @override
-  String get forgotPasswordSentTitle => 'Check your email';
+  String get forgotPasswordSentTitle => '請檢查您的電子郵件';
 
   @override
   String get forgotPasswordSentDescription =>
-      'We\'ve sent password reset instructions to your email address. Please check your inbox and follow the link to reset your password.';
+      '我們已將重設密碼說明寄至您的電子郵件地址。請檢查您的收件匣並點擊連結以重設密碼。';
 
   @override
-  String get forgotPasswordBackToLogin => 'Return to login';
+  String get forgotPasswordBackToLogin => '返回登入';
 
   @override
-  String get resetPasswordTitle => 'Set new password';
+  String get resetPasswordTitle => '設定新密碼';
 
   @override
-  String get resetPasswordDescription =>
-      'Enter your new password below to complete the reset process.';
+  String get resetPasswordDescription => '請在下方輸入您的新密碼以完成重設程序。';
 
   @override
-  String get resetPasswordNewPassword => 'New password';
+  String get resetPasswordNewPassword => '新密碼';
 
   @override
-  String get resetPasswordConfirm => 'Confirm new password';
+  String get resetPasswordConfirm => '確認新密碼';
 
   @override
-  String get resetPasswordSubmit => 'Reset password';
+  String get resetPasswordSubmit => '重設密碼';
 
   @override
-  String get resetPasswordMismatch => 'Passwords do not match.';
+  String get resetPasswordMismatch => '密碼不符。';
 
   @override
-  String get registerTitle => 'Create an account';
+  String get registerTitle => '建立帳戶';
 
   @override
-  String get registerDisplayName => 'Display Name (Optional)';
+  String get registerDisplayName => '顯示名稱（選填）';
 
   @override
-  String get registerDisplayNameHint => 'What should people call you?';
+  String get registerDisplayNameHint => '大家該如何稱呼您？';
 
   @override
-  String get registerUsername => 'Username (Optional)';
+  String get registerUsername => '使用者名稱（選填）';
 
   @override
-  String get registerUsernameHint => 'Leave blank for a random username';
+  String get registerUsernameHint => '留空以使用隨機名稱';
 
   @override
-  String get registerUsernameTagHint =>
-      'A 4-digit tag will be added automatically to ensure uniqueness';
+  String get registerUsernameTagHint => '系統將自動加上 4 位數字標籤以確保唯一性';
 
   @override
-  String get registerDateOfBirth => 'Date of birth';
+  String get registerDateOfBirth => '出生日期';
 
   @override
-  String get registerMonth => 'Month';
+  String get registerMonth => '月份';
 
   @override
-  String get registerDay => 'Day';
+  String get registerDay => '日期';
 
   @override
-  String get registerYear => 'Year';
+  String get registerYear => '年份';
 
   @override
-  String get registerConsent =>
-      'I agree to the Terms of Service and Privacy Policy';
+  String get registerConsent => '我同意服務條款與隱私權政策';
 
   @override
-  String get registerConsentPrefix => 'I agree to the ';
+  String get registerConsentPrefix => '我同意';
 
   @override
-  String get registerConsentTerms => 'Terms of Service';
+  String get registerConsentTerms => '服務條款';
 
   @override
-  String get registerConsentAnd => ' and ';
+  String get registerConsentAnd => '與';
 
   @override
-  String get registerConsentPrivacy => 'Privacy Policy';
+  String get registerConsentPrivacy => '隱私權政策';
 
   @override
-  String get registerConfirmPassword => 'Confirm Password';
+  String get registerConfirmPassword => '確認密碼';
 
   @override
-  String get registerSubmit => 'Create account';
+  String get registerSubmit => '建立帳戶';
 
   @override
-  String get registerHaveAccount => 'Already have an account? ';
+  String get registerHaveAccount => '已經有帳戶了？ ';
 
   @override
-  String get passkeyNoCredentials =>
-      'No passkeys found for this app. Log in with email and password instead.';
+  String get passkeyNoCredentials => '此應用程式找不到任何通行金鑰。請改用電子郵件和密碼登入。';
 
   @override
-  String get passkeyDeviceNotSupported =>
-      'Passkeys are not supported on this device.';
+  String get passkeyDeviceNotSupported => '此裝置不支援通行金鑰。';
 
   @override
-  String get passkeyDomainNotAssociated =>
-      'Passkeys are not configured for this app. Log in with email and password instead.';
+  String get passkeyDomainNotAssociated => '此應用程式未設定通行金鑰。請改用電子郵件和密碼登入。';
 
   @override
-  String get passkeyTimeout =>
-      'Passkey authentication timed out. Please try again.';
+  String get passkeyTimeout => '通行金鑰驗證逾時。請再試一次。';
 
   @override
-  String get passkeyNotAvailable =>
-      'Passkeys are not available for this app. Log in with email and password instead.';
+  String get passkeyNotAvailable => '此應用程式無法使用通行金鑰。請改用電子郵件和密碼登入。';
 
   @override
-  String get passkeyFailed =>
-      'Passkey authentication failed. Please try again.';
+  String get passkeyFailed => '通行密鑰驗證失敗。請再試一次。';
 
   @override
-  String get errorUnableToCreateAccount =>
-      'Unable to create account. Please try again.';
+  String get errorUnableToCreateAccount => '無法建立帳號。請再試一次。';
 
   @override
-  String get errorUnableToSignIn =>
-      'Unable to sign in right now. Please try again.';
+  String get errorUnableToSignIn => '目前無法登入。請再試一次。';
 
   @override
-  String get errorInvalidEmailOrPassword => 'Invalid email or password.';
+  String get errorInvalidEmailOrPassword => '電子郵件或密碼無效。';
 
   @override
-  String get errorUnableToSendResetLink =>
-      'Unable to send reset link. Please try again.';
+  String get errorUnableToSendResetLink => '無法傳送重設連結。請再試一次。';
 
   @override
-  String get errorUnableToResetPassword =>
-      'Unable to reset password. Please try again.';
+  String get errorUnableToResetPassword => '無法重設密碼。請再試一次。';
 
   @override
-  String get embedInviteJoin => 'Join Community';
+  String get embedInviteJoin => '加入社群';
 
   @override
-  String get embedInviteGoTo => 'Go to Community';
+  String get embedInviteGoTo => '前往社群';
 
   @override
   String embedInviteOnline(String count) {
-    return '$count Online';
+    return '$count 人在線上';
   }
 
   @override
   String embedInviteMembers(String count) {
-    return '$count Members';
+    return '$count 位成員';
   }
 
   @override
-  String get embedInviteUnknownTitle => 'Unknown Invite';
+  String get embedInviteUnknownTitle => '無效的邀請';
 
   @override
-  String get embedInviteUnknownSubtitle => 'Try asking for a new invite.';
+  String get embedInviteUnknownSubtitle => '請嘗試索取新的邀請。';
 
   @override
-  String get embedInviteUnavailable => 'Invite Unavailable';
+  String get embedInviteUnavailable => '邀請無法使用';
+
+  @override
+  String get inviteAcceptTitle => '您受邀加入';
+
+  @override
+  String get inviteAcceptJoinButton => '加入社群';
+
+  @override
+  String get inviteAcceptGoToButton => '前往社群';
+
+  @override
+  String get inviteAcceptInvitesPaused => '邀請已暫停';
+
+  @override
+  String get inviteAcceptNotFoundTitle => '邀請無效';
+
+  @override
+  String get inviteAcceptNotFoundDescription => '此邀請可能已過期或無效。';
+
+  @override
+  String get inviteAcceptJoinGroupButton => '加入群組';
+
+  @override
+  String inviteAcceptGroupDmDescription(String inviterName) {
+    return '$inviterName 已邀請您加入群組私訊';
+  }
+
+  @override
+  String get inviteAcceptSomeone => '某人';
+
+  @override
+  String get inviteAcceptEmojiPack => '表情符號包';
+
+  @override
+  String get inviteAcceptStickerPack => '貼圖包';
+
+  @override
+  String get inviteAcceptInstallEmojiPack => '安裝表情符號包';
+
+  @override
+  String get inviteAcceptInstallStickerPack => '安裝貼圖包';
+
+  @override
+  String get inviteAcceptPackInstallNote => '接受此邀請將自動安裝套件。';
 
   @override
   String get mentionUnknownChannel => 'unknown-channel';
 
   @override
-  String get channelAccessDeniedTitle => 'Channel Access Denied';
+  String get channelAccessDeniedTitle => '頻道存取遭拒';
 
   @override
-  String get channelAccessDeniedDescription =>
-      'You do not have access to the channel where this message was sent.';
+  String get channelAccessDeniedDescription => '您沒有權限存取傳送此訊息的頻道。';
 
   @override
-  String get messageJumpLinkNoAccess => 'No access';
+  String get messageJumpLinkNoAccess => '無權限';
 
   @override
-  String get okay => 'Okay';
+  String get okay => '好的';
 
   @override
-  String get embedThemeTitle => 'Shared theme';
+  String get embedThemeTitle => '已分享的主題';
 
   @override
-  String get embedThemeSubtitle =>
-      'This client doesn\'t support custom themes.';
+  String get embedThemeSubtitle => '此用戶端不支援自訂主題。';
 
   @override
-  String get embedThemeUnavailableButton => 'Themes unavailable';
+  String get embedThemeUnavailableButton => '主題無法使用';
 
   @override
-  String get privacySettings => 'Privacy Settings';
+  String get privacySettings => '隱私設定';
 
   @override
-  String get privacyDirectMessages => 'Direct Messages';
+  String get privacyDirectMessages => '私訊';
 
   @override
-  String get privacyDirectMessagesDescription =>
-      'Allow direct messages from other members in this community';
+  String get privacyDirectMessagesDescription => '允許此社群中的其他成員傳送私訊給您';
 
   @override
-  String get privacyBotDirectMessages => 'Bot Direct Messages';
+  String get privacyBotDirectMessages => '機器人私訊';
 
   @override
-  String get privacyBotDirectMessagesDescription =>
-      'Allow bots from this community to send you direct messages';
+  String get privacyBotDirectMessagesDescription => '允許此社群的機器人傳送私訊給您';
 
   @override
-  String get privacyMutualDmsDisabled =>
-      'The community admins have disabled receiving direct messages solely from mutual members in this community.';
+  String get privacyMutualDmsDisabled => '社群管理員已停用僅接收此社群中互相為成員的私訊。';
 
   @override
-  String get communityDebug => 'Community Debug';
+  String get communityDebug => '社群偵錯';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get copiedToClipboard => '已複製到剪貼簿';
 
   @override
-  String get notificationSettings => 'Notification Settings';
+  String get notificationSettings => '通知設定';
 
   @override
   String notificationMuteGuild(String guildName) {
-    return 'Mute $guildName';
+    return '將 $guildName 設為靜音';
   }
 
   @override
-  String get notificationMuteDescription =>
-      'Muting a community prevents unread indicators and notifications from appearing unless you are mentioned';
+  String get notificationMuteDescription => '將社群設為靜音後，除非您被提及，否則將不會顯示未讀指示器和通知';
 
   @override
-  String get notificationCommunitySettings => 'Community Notification Settings';
+  String get notificationCommunitySettings => '社群通知設定';
 
   @override
-  String get notificationAllMessages => 'All Messages';
+  String get notificationAllMessages => '所有訊息';
 
   @override
-  String get notificationOnlyMentions => 'Only Mentions';
+  String get notificationOnlyMentions => '僅提及';
 
   @override
-  String get notificationNothing => 'Nothing';
+  String get notificationNothing => '無';
 
   @override
-  String get notificationSuppressEveryone => 'Suppress @everyone and @here';
+  String get notificationSuppressEveryone => '隱藏 @everyone 和 @here';
 
   @override
-  String get notificationSuppressRoles => 'Suppress All Role @mentions';
+  String get notificationSuppressRoles => '禁止所有角色提及';
 
   @override
-  String get notificationMobilePush => 'Mobile Push Notifications';
+  String get notificationMobilePush => '行動推播通知';
 
   @override
-  String get notificationOverrides => 'Notification Overrides';
+  String get notificationOverrides => '通知覆寫';
 
   @override
-  String get notificationSelectChannel => 'Select a channel or category';
+  String get notificationSelectChannel => '選擇頻道或分類';
 
   @override
-  String get notificationOnlyAtMentions => 'Only @mentions';
+  String get notificationOnlyAtMentions => '僅提及時通知';
 
   @override
-  String get notificationMuteChannel => 'Mute Channel';
+  String get notificationMuteChannel => '靜音頻道';
 
   @override
-  String get notificationUnmuteChannel => 'Unmute Channel';
+  String get notificationUnmuteChannel => '取消靜音頻道';
 
   @override
-  String get notificationNoCategory => 'No Category';
+  String get notificationNoCategory => '無分類';
 
   @override
-  String get dmMarkAsRead => 'Mark as Read';
+  String get dmMarkAsRead => '標示為已讀';
 
   @override
-  String get dmMuteConversation => 'Mute DM';
+  String get dmMuteConversation => '靜音私訊';
 
   @override
-  String get dmUnmuteConversation => 'Unmute DM';
+  String get dmUnmuteConversation => '取消靜音私訊';
 
   @override
-  String get dmPinDm => 'Pin DM';
+  String get dmPinDm => '釘選私訊';
 
   @override
-  String get dmUnpinDm => 'Unpin DM';
+  String get dmUnpinDm => '取消釘選私訊';
 
   @override
-  String get dmAlwaysShowInSidebar => 'Always Show in Sidebar';
+  String get dmAlwaysShowInSidebar => '一律顯示於側邊欄';
 
   @override
-  String get dmRemoveFromAlwaysShown => 'Remove from Always Shown';
+  String get dmRemoveFromAlwaysShown => '從一律顯示移除';
 
   @override
-  String get dmCloseDm => 'Close DM';
+  String get dmCloseDm => '關閉私訊';
 
   @override
-  String get dmCloseDmConfirmTitle => 'Close DM';
+  String get dmCloseDmConfirmTitle => '關閉私訊';
 
   @override
   String dmCloseDmConfirmDescription(String username) {
-    return 'Are you sure you want to close your DM with $username? You can always reopen it later.';
+    return '確定要關閉與 $username 的私訊嗎？之後隨時可以重新開啟。';
   }
 
   @override
-  String get dmCopyChannelId => 'Copy Channel ID';
+  String get dmCopyChannelId => '複製頻道 ID';
 
   @override
-  String get dmChannelIdCopied => 'Channel ID copied';
+  String get dmChannelIdCopied => '頻道 ID 已複製';
 
   @override
-  String get dmCopyUserId => 'Copy User ID';
+  String get dmCopyUserId => '複製使用者 ID';
 
   @override
-  String get dmUserIdCopied => 'User ID copied';
+  String get dmUserIdCopied => '使用者 ID 已複製';
 
   @override
-  String get dmViewProfile => 'View Profile';
+  String get dmViewProfile => '檢視個人檔案';
 
   @override
-  String get dmVoiceCall => 'Start Voice Call';
+  String get dmVoiceCall => '開始語音通話';
 
   @override
-  String get incomingVoiceCallTitle => 'Incoming voice call';
+  String get incomingVoiceCallTitle => '收到語音通話';
 
   @override
-  String get incomingVoiceCallAccept => 'Accept';
+  String get incomingVoiceCallAccept => '接聽';
 
   @override
-  String get incomingVoiceCallDecline => 'Reject';
+  String get incomingVoiceCallDecline => '拒絕';
 
   @override
-  String get incomingVoiceCallLabel => 'Incoming call';
+  String get incomingVoiceCallLabel => '來電';
 
   @override
-  String get incomingVoiceCallIgnore => 'Ignore';
+  String get incomingVoiceCallIgnore => '忽略';
 
   @override
-  String get directVoiceCallNotEligible =>
-      'This call can\'t be started right now. Try again in a moment.';
+  String get directVoiceCallNotEligible => '目前無法撥打此通話。請稍後再試。';
 
   @override
-  String get voiceJoinCallFailed =>
-      'Couldn\'t connect to this call. Check your connection and try again.';
+  String get voiceJoinCallFailed => '無法連線至此通話。請檢查您的連線並再試一次。';
 
   @override
-  String get voiceJoinIncomingCallFailed =>
-      'Couldn\'t join this call. Check your connection and try again.';
+  String get voiceJoinIncomingCallFailed => '無法加入此通話。請檢查您的連線並再試一次。';
 
   @override
-  String get incomingVoiceRingingUpdateFailed =>
-      'Couldn\'t update this call on the server. Check your connection and try again.';
+  String get incomingVoiceRingingUpdateFailed => '無法更新伺服器上的此通話。請檢查您的連線並再試一次。';
 
   @override
-  String get dmAddNote => 'Add Note';
+  String get dmAddNote => '新增備註';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => '編輯群組';
 
   @override
-  String get dmInviteToCommunity => 'Invite to Community';
+  String get dmInviteToCommunity => '邀請加入社群';
 
   @override
-  String get dmBlock => 'Block';
+  String get dmBlock => '封鎖';
 
   @override
-  String get dmLeaveGroup => 'Leave Group';
+  String get dmLeaveGroup => '離開群組';
 
   @override
-  String get dmNoCommunitiesAvailable => 'No communities available';
+  String get dmNoCommunitiesAvailable => '沒有可用的社群';
 
   @override
   String dmGroupMemberCount(int count) {
-    return '$count Members';
+    return '$count 位成員';
   }
 
   @override
-  String get dmMuteFor15Min => 'For 15 minutes';
+  String get dmMuteFor15Min => '15 分鐘';
 
   @override
-  String get dmMuteFor30Min => 'For 30 minutes';
+  String get dmMuteFor30Min => '30 分鐘';
 
   @override
-  String get dmMuteFor1Hour => 'For 1 hour';
+  String get dmMuteFor1Hour => '1 小時';
 
   @override
-  String get dmMuteFor3Hours => 'For 3 hours';
+  String get dmMuteFor3Hours => '3 小時';
 
   @override
-  String get dmMuteFor4Hours => 'For 4 hours';
+  String get dmMuteFor4Hours => '4 小時';
 
   @override
-  String get dmMuteFor8Hours => 'For 8 hours';
+  String get dmMuteFor8Hours => '8 小時';
 
   @override
-  String get dmMuteFor24Hours => 'For 24 hours';
+  String get dmMuteFor24Hours => '24 小時';
 
   @override
-  String get dmMuteFor3Days => 'For 3 days';
+  String get dmMuteFor3Days => '3 天';
 
   @override
-  String get dmMuteForever => 'Until I turn it back on';
+  String get dmMuteForever => '直到我再次開啟';
 
   @override
-  String get dmPinGroupDm => 'Pin Group DM';
+  String get dmPinGroupDm => '釘選群組私訊';
 
   @override
-  String get dmUnpinGroupDm => 'Unpin Group DM';
+  String get dmUnpinGroupDm => '取消釘選群組私訊';
 
   @override
-  String get dmFavoriteDm => 'Favorite DM';
+  String get dmFavoriteDm => '收藏私訊';
 
   @override
-  String get dmUnfavoriteDm => 'Unfavorite DM';
+  String get dmUnfavoriteDm => '取消收藏私訊';
 
   @override
-  String get dmFavoriteGroupDm => 'Favorite Group DM';
+  String get dmFavoriteGroupDm => '收藏群組私訊';
 
   @override
-  String get dmUnfavoriteGroupDm => 'Unfavorite Group DM';
+  String get dmUnfavoriteGroupDm => '取消收藏群組私訊';
 
   @override
-  String get dmChangeFriendNickname => 'Change Friend Nickname';
+  String get dmChangeFriendNickname => '更改朋友暱稱';
 
   @override
-  String get dmRemoveFriend => 'Remove Friend';
+  String get dmRemoveFriend => '移除朋友';
 
   @override
-  String get dmAddFriend => 'Add Friend';
+  String get dmAddFriend => '新增朋友';
 
   @override
-  String get dmAcceptFriendRequest => 'Accept Friend Request';
+  String get dmAcceptFriendRequest => '接受朋友要求';
 
   @override
-  String get dmIgnoreFriendRequest => 'Ignore Friend Request';
+  String get dmIgnoreFriendRequest => '忽略朋友要求';
 
   @override
-  String get dmFriendRequestSent => 'Friend Request Sent';
+  String get dmFriendRequestSent => '朋友要求已送出';
 
   @override
-  String get dmUnblock => 'Unblock';
+  String get dmUnblock => '解除封鎖';
 
   @override
-  String get dmDebugUser => 'Debug User';
+  String get dmDebugUser => '偵錯使用者';
 
   @override
-  String get dmDebugChannel => 'Debug Channel';
+  String get dmDebugChannel => '偵錯頻道';
 
   @override
-  String get dmPinned => 'Pinned DM';
+  String get dmPinned => '已釘選私訊';
 
   @override
-  String get dmUnpinned => 'Unpinned DM';
+  String get dmUnpinned => '已取消釘選私訊';
 
   @override
-  String get dmMuted => 'Muted DM';
+  String get dmMuted => '已將私訊設為靜音';
 
   @override
-  String get dmUnmuted => 'Unmuted DM';
+  String get dmUnmuted => '已取消私訊靜音';
 
   @override
-  String get dmRemoveFriendConfirmTitle => 'Remove Friend';
+  String get dmRemoveFriendConfirmTitle => '移除朋友';
 
   @override
   String dmRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return '確定要將 $username 移除為朋友嗎？';
   }
 
   @override
-  String get dmBlockConfirmTitle => 'Block User';
+  String get dmBlockConfirmTitle => '封鎖使用者';
 
   @override
   String dmBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username? They won\'t be able to message you or send you friend requests.';
+    return '確定要封鎖 $username 嗎？對方將無法傳送訊息或朋友要求給你。';
   }
 
   @override
-  String get dmFriendRequestSentToast => 'Friend request sent';
+  String get dmFriendRequestSentToast => '朋友要求已送出';
 
   @override
-  String get dmFriendRequestFailed => 'Failed to send friend request';
+  String get dmFriendRequestFailed => '傳送朋友要求失敗';
 
   @override
-  String get dmAcceptFriendRequestFailed => 'Failed to accept friend request';
+  String get dmAcceptFriendRequestFailed => '接受朋友要求失敗';
 
   @override
-  String get dmRemoveFriendFailed => 'Failed to remove friend';
+  String get dmRemoveFriendFailed => '移除朋友失敗';
 
   @override
-  String get dmBlockFailed => 'Failed to block user';
+  String get dmBlockFailed => '封鎖使用者失敗';
 
   @override
-  String get dmUnblockFailed => 'Failed to unblock user';
+  String get dmUnblockFailed => '解除封鎖使用者失敗';
 
   @override
-  String get dmIgnoreFriendRequestFailed => 'Failed to ignore friend request';
+  String get dmIgnoreFriendRequestFailed => '忽略朋友要求失敗';
 
   @override
-  String get dmAddFriends => 'Add friends';
+  String get dmAddFriends => '新增朋友';
 
   @override
-  String get addFriendSheetTitle => 'Add friend';
+  String get addFriendSheetTitle => '新增朋友';
 
   @override
-  String get addFriendUsernameHint => 'Username#0000';
+  String get addFriendUsernameHint => '使用者名稱#0000';
 
   @override
-  String get addFriendUsernameLabel => 'Friend\'s username';
+  String get addFriendUsernameLabel => '朋友的使用者名稱';
 
   @override
-  String get addFriendSendRequest => 'Send request';
+  String get addFriendSendRequest => '傳送要求';
 
   @override
-  String get addFriendNoUserFound => 'No user found with that username.';
+  String get addFriendNoUserFound => '找不到具有該使用者名稱的使用者。';
 
   @override
-  String get addFriendInvalidUsername =>
-      'Enter a valid username (Username#0000).';
+  String get addFriendInvalidUsername => '請輸入有效的使用者名稱 (使用者名稱#0000)。';
 
   @override
-  String get addFriendOutgoingSuccess => 'Friend request sent';
+  String get addFriendOutgoingSuccess => '朋友要求已送出';
 
   @override
-  String get addFriendClaimTitle => 'Claim your account';
+  String get addFriendClaimTitle => '領取您的帳號';
 
   @override
-  String get addFriendClaimDescription =>
-      'Claim your account to send friend requests.';
+  String get addFriendClaimDescription => '請領取您的帳號才能傳送朋友要求。';
 
   @override
-  String get addFriendVerifyTitle => 'Verify your email';
+  String get addFriendVerifyTitle => '驗證您的電子郵件';
 
   @override
-  String get addFriendVerifyDescription =>
-      'You need to verify your email address before you can send friend requests.';
+  String get addFriendVerifyDescription => '您需要驗證您的電子郵件地址，才能傳送朋友要求。';
 
   @override
-  String get addFriendVerifyEmail => 'Verify email';
+  String get addFriendVerifyEmail => '驗證電子郵件';
 
   @override
   String addFriendIncomingRequests(int count) {
-    return 'Incoming friend requests ($count)';
+    return '收到的朋友要求 ($count)';
   }
 
   @override
   String addFriendOutgoingRequests(int count) {
-    return 'Outgoing friend requests ($count)';
+    return '送出的朋友要求 ($count)';
   }
 
   @override
-  String get addFriendIncomingStatus => 'Incoming friend request';
+  String get addFriendIncomingStatus => '收到的朋友要求';
 
   @override
-  String get addFriendOutgoingStatus => 'Friend request sent';
+  String get addFriendOutgoingStatus => '朋友要求已送出';
 
   @override
-  String get addFriendViewProfile => 'View profile';
+  String get addFriendViewProfile => '檢視個人檔案';
 
   @override
-  String get addFriendAccept => 'Accept';
+  String get addFriendAccept => '接受';
 
   @override
-  String get addFriendIgnore => 'Ignore';
+  String get addFriendIgnore => '忽略';
 
   @override
-  String get addFriendAcceptTitle => 'Accept friend request';
+  String get addFriendAcceptTitle => '接受朋友要求';
 
   @override
-  String get addFriendIgnoreTitle => 'Ignore friend request';
+  String get addFriendIgnoreTitle => '忽略好友要求';
 
   @override
   String addFriendAcceptConfirmDescription(String userName) {
-    return 'Accept the friend request from $userName?';
+    return '接受來自 $userName 的好友要求嗎？';
   }
 
   @override
   String addFriendIgnoreConfirmDescription(String displayName) {
-    return 'Ignore the friend request from $displayName?';
+    return '忽略來自 $displayName 的好友要求嗎？';
   }
 
   @override
-  String get addFriendCancelRequest => 'Cancel request';
+  String get addFriendCancelRequest => '取消要求';
 
   @override
-  String get addFriendCancelRequestFailed =>
-      'Couldn\'t cancel the friend request. Try again.';
+  String get addFriendCancelRequestFailed => '無法取消好友要求。請再試一次。';
 
   @override
-  String get addFriendNotAcceptingRequests =>
-      'They\'re not accepting friend requests right now.';
+  String get addFriendNotAcceptingRequests => '對方目前不接受好友要求。';
 
   @override
-  String get addFriendUnblockFirst =>
-      'Unblock them first to send a friend request.';
+  String get addFriendUnblockFirst => '請先解除封鎖才能傳送好友要求。';
 
   @override
-  String get addFriendCannotSendToSelf =>
-      'You can\'t send a friend request to yourself.';
+  String get addFriendCannotSendToSelf => '您無法傳送好友要求給自己。';
 
   @override
-  String get addFriendAlreadyFriends =>
-      'You\'re already friends with this user.';
+  String get addFriendAlreadyFriends => '你們已經是好友了。';
 
   @override
-  String get addFriendClaimToSend =>
-      'Finish signing up to send friend requests.';
+  String get addFriendClaimToSend => '完成註冊即可傳送好友要求。';
 
   @override
-  String get addFriendSendFailedGeneric =>
-      'Couldn\'t send the friend request. Try again.';
+  String get addFriendSendFailedGeneric => '無法傳送好友要求。請再試一次。';
 
   @override
   String get userTagBot => 'BOT';
 
   @override
-  String get userTagSystem => 'System';
+  String get userTagSystem => '系統';
 
   @override
-  String get emojiSearchPlaceholder => 'Find the emoji of your dreams';
+  String get emojiSearchPlaceholder => '尋找你夢寐以求的表情符號';
 
   @override
-  String get emojiSearchEmpty => 'No emojis match your search';
+  String get emojiSearchEmpty => '沒有表情符號符合您的搜尋。';
 
   @override
-  String get emojiAutocompleteDefaultLabel => 'Default emoji';
+  String get emojiAutocompleteDefaultLabel => '預設表情符號';
 
   @override
-  String get emojiFrequentlyUsed => 'Frequently Used';
+  String get emojiFrequentlyUsed => '常用';
 
   @override
-  String get emojiTabGifs => 'GIFs';
+  String get emojiTabGifs => 'GIF';
 
   @override
-  String get emojiTabMedia => 'Media';
+  String get emojiTabMedia => '媒體';
 
   @override
-  String get emojiTabStickers => 'Stickers';
+  String get emojiTabStickers => '貼圖';
 
   @override
-  String get emojiTabEmojis => 'Emojis';
+  String get emojiTabEmojis => '表情符號';
 
   @override
-  String get gifPickerSearch => 'Search GIFs';
+  String get gifPickerSearch => '搜尋 GIF';
 
   @override
-  String get gifPickerSearchKlipy => 'Search KLIPY';
+  String get gifPickerSearchKlipy => '搜尋 KLIPY';
 
   @override
-  String get gifPickerSearchTenor => 'Search Tenor';
+  String get gifPickerSearchTenor => '搜尋 Tenor';
 
   @override
   String get gifPickerPoweredByKlipy => 'KLIPY';
 
   @override
-  String get gifPickerFavorites => 'Favorites';
+  String get gifPickerFavorites => '我的最愛';
 
   @override
-  String get gifPickerTrending => 'Trending GIFs';
+  String get gifPickerTrending => '熱門 GIF';
 
   @override
-  String get gifPickerNoResultsTitle => 'No Search Results';
+  String get gifPickerNoResultsTitle => '無搜尋結果';
 
   @override
-  String get gifPickerNoResultsDescription => 'Try another search term';
+  String get gifPickerNoResultsDescription => '請嘗試其他搜尋字詞';
 
   @override
-  String get gifPickerLoadFailedTitle => 'Couldn\'t load GIFs';
+  String get gifPickerLoadFailedTitle => '無法載入 GIF';
 
   @override
-  String get gifPickerLoadFailedBody => 'Check your connection and try again.';
+  String get gifPickerLoadFailedBody => '請檢查您的連線並重試。';
 
   @override
-  String get emojiCategoryPeople => 'People';
+  String get emojiCategoryPeople => '人物';
 
   @override
-  String get emojiCategoryNature => 'Nature';
+  String get emojiCategoryNature => '自然';
 
   @override
-  String get emojiCategoryFood => 'Food & Drink';
+  String get emojiCategoryFood => '食物與飲品';
 
   @override
-  String get emojiCategoryActivity => 'Activities';
+  String get emojiCategoryActivity => '活動';
 
   @override
-  String get emojiCategoryTravel => 'Travel & Places';
+  String get emojiCategoryTravel => '旅遊與地點';
 
   @override
-  String get emojiCategoryObjects => 'Objects';
+  String get emojiCategoryObjects => '物品';
 
   @override
-  String get emojiCategorySymbols => 'Symbols';
+  String get emojiCategorySymbols => '符號';
 
   @override
-  String get emojiCategoryFlags => 'Flags';
+  String get emojiCategoryFlags => '旗幟';
 
   @override
   String emojiPlutoniumUpsellText(String emojiCount, String communityCount) {
-    return 'Unlock $emojiCount from $communityCount with Plutonium.';
+    return '使用 Plutonium 解鎖 $communityCount 個社群中的 $emojiCount 個表情符號。';
   }
 
   @override
-  String get emojiPlutoniumUpsellButton => 'Get Plutonium';
+  String get emojiPlutoniumUpsellButton => '取得 Plutonium';
 
   @override
-  String get emojiPlutoniumUpsellDismiss => 'Don\'t show this again';
+  String get emojiPlutoniumUpsellDismiss => '不要再顯示此訊息';
 
   @override
   String emojiPlutoniumUpsellCustomEmoji(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count custom emojis',
-      one: '1 custom emoji',
+      other: '$count 個自訂表情符號',
+      one: '1 個自訂表情符號',
     );
     return '$_temp0';
   }
@@ -7809,927 +7802,891 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count communities',
-      one: '1 community',
+      other: '$count 個社群',
+      one: '1 個社群',
     );
     return '$_temp0';
   }
 
   @override
-  String get externalLinkWarningTitle => 'External Link Warning';
+  String get externalLinkWarningTitle => '外部連結警告';
 
   @override
-  String get externalLinkWarningLeaving => 'You are about to leave Fluxer';
+  String get externalLinkWarningLeaving => '您即將離開 Fluxer';
 
   @override
-  String get externalLinkWarningDescription =>
-      'External links can be dangerous. Please be careful.';
+  String get externalLinkWarningDescription => '外部連結可能很危險。請小心。';
 
   @override
-  String get externalLinkWarningDestinationUrl => 'Destination URL:';
+  String get externalLinkWarningDestinationUrl => '目標網址：';
 
   @override
-  String get externalLinksSectionTitle => 'External Links';
+  String get externalLinksSectionTitle => '外部連結';
 
   @override
-  String get externalLinksSectionDescription =>
-      'Configure how external link warnings are handled.';
+  String get externalLinksSectionDescription => '設定外部連結警告的處理方式。';
 
   @override
-  String get externalLinkWarningTrustPrefix => 'Always trust ';
+  String get externalLinkWarningTrustPrefix => '永遠信任 ';
 
   @override
-  String get externalLinkWarningTrustSuffix => ' — skip this warning next time';
+  String get externalLinkWarningTrustSuffix => ' — 下次略過此警告';
 
   @override
-  String get externalLinkVisitSite => 'Visit Site';
+  String get externalLinkVisitSite => '前往網站';
 
   @override
-  String get externalLinkTrustAllLabel => 'Trust all external links';
+  String get externalLinkTrustAllLabel => '信任所有外部連結';
 
   @override
-  String get externalLinkStripTrackingLabel =>
-      'Strip tracking parameters from URLs';
+  String get externalLinkStripTrackingLabel => '從網址移除追蹤參數';
 
   @override
   String get externalLinkStripTrackingDescription =>
-      'Automatically remove tracking parameters (like utm_source, fbclid, gclid) from URLs in messages you send. Cleans the link before it reaches anyone else.';
+      '自動移除您傳送訊息中網址的追蹤參數（例如 utm_source、fbclid、gclid）。在連結傳送給任何人之前進行清理。';
 
   @override
-  String get externalLinkTrustAllConfirmTitle => 'Trust all external links?';
+  String get externalLinkTrustAllConfirmTitle => '信任所有外部連結？';
 
   @override
   String get externalLinkTrustAllConfirmDescription =>
-      'This will trust all external links and skip the warning for every domain. Your existing trusted domains will be replaced. This is less secure.';
+      '這將信任所有外部連結並略過所有網域的警告。您現有的信任網域將被取代。這樣較不安全。';
 
   @override
-  String get externalLinkTrustAllConfirmAction => 'Trust All';
+  String get externalLinkTrustAllConfirmAction => '全部信任';
 
   @override
-  String get externalLinkStopTrustingAllTitle => 'Stop trusting all links?';
+  String get externalLinkStopTrustingAllTitle => '停止信任所有連結？';
 
   @override
   String get externalLinkStopTrustingAllDescription =>
-      'External link warnings will be shown again. You will need to add trusted domains individually.';
+      '將會再次顯示外部連結警告。您需要個別新增信任的網域。';
 
   @override
-  String get externalLinkStopTrustingAllAction => 'Disable Trust All';
+  String get externalLinkStopTrustingAllAction => '停用全部信任';
 
   @override
-  String get externalLinkTrustedAllDescription =>
-      'All external links are trusted. Warnings will not be shown.';
+  String get externalLinkTrustedAllDescription => '所有外部連結皆已信任。將不會顯示警告。';
 
   @override
   String externalLinkTrustedDomainsDescription(int count) {
-    return 'You have $count trusted domain(s). Add more by checking the box when visiting external links.';
+    return '您已信任 $count 個網域。透過在造訪外部連結時勾選方塊來新增更多網域。';
   }
 
   @override
   String get externalLinkTrustAllDisabledDescription =>
-      'When enabled, no external link warnings will be shown. This is less secure.';
+      '啟用時，將不會顯示任何外部連結警告。這樣較不安全。';
 
   @override
-  String get imageFileTooLarge =>
-      'Image file is too large. Please choose a file smaller than 10 MB.';
+  String get imageFileTooLarge => '圖片檔案過大。請選擇小於 10 MB 的檔案。';
 
   @override
-  String get animatedAvatarsRequirePlutonium =>
-      'Animated avatars require Plutonium';
+  String get animatedAvatarsRequirePlutonium => '動態頭像需要 Plutonium';
 
   @override
-  String get animatedBannersRequirePlutonium =>
-      'Animated banners require Plutonium';
+  String get animatedBannersRequirePlutonium => '動態橫幅需要 Plutonium';
 
   @override
-  String get animatedAvifNotSupported => 'Animated AVIF Not Supported';
+  String get animatedAvifNotSupported => '不支援動態 AVIF';
 
   @override
   String get animatedAvifNotSupportedBody =>
-      'Cropping and rotating animated AVIF files isn\'t supported yet. If you proceed, it will be uploaded in its original form.';
+      '目前不支援裁切和旋轉動態 AVIF 檔案。若您繼續，將以原始格式上傳。';
 
   @override
-  String get uploadAsIs => 'Upload As-Is';
+  String get uploadAsIs => '維持原狀上傳';
 
   @override
-  String get croppingAnimatedNotSupported =>
-      'Cropping animated images isn\'t supported yet. The original upload will be used.';
+  String get croppingAnimatedNotSupported => '目前不支援裁切動態圖片。將使用原始上傳的檔案。';
 
   @override
-  String get cropAvatar => 'Crop Avatar';
+  String get cropAvatar => '裁切頭像';
 
   @override
-  String get cropBanner => 'Crop Banner';
+  String get cropBanner => '裁切橫幅';
 
   @override
-  String get skip => 'Skip';
+  String get skip => '略過';
 
   @override
-  String get crop => 'Crop';
+  String get crop => '裁切';
 
   @override
-  String get changeYourFluxerTag => 'Change Your FluxerTag';
+  String get changeYourFluxerTag => '變更您的 FluxerTag';
 
   @override
   String get fluxerTagInputLabel => 'FluxerTag';
 
   @override
   String get fluxerTagDescriptionBase =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive.';
+      '使用者名稱只能包含字母 (a-z, A-Z)、數字 (0-9) 和底線。使用者名稱不區分大小寫。';
 
   @override
   String get fluxerTagDescriptionVisionary =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999.';
+      '使用者名稱只能包含字母 (a-z, A-Z)、數字 (0-9) 和底線。使用者名稱不區分大小寫。您可以選擇 #0000 到 #9999 之間的任何可用 4 位數字標籤。';
 
   @override
   String get fluxerTagDescriptionPremium =>
-      'Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999.';
+      '使用者名稱只能包含字母 (a-z, A-Z)、數字 (0-9) 和底線。使用者名稱不區分大小寫。您可以選擇 #0001 到 #9999 之間的任何可用 4 位數字標籤。';
 
   @override
   String validationLengthRange(int min, int max) {
-    return 'Between $min and $max characters';
+    return '介於 $min 到 $max 個字元之間';
   }
 
   @override
-  String get validationAllowedChars =>
-      'Letters (a-z, A-Z), numbers (0-9), and underscores (_) only';
+  String get validationAllowedChars => '僅限字母 (a-z, A-Z)、數字 (0-9) 和底線 (_)';
 
   @override
   String get discriminatorPremiumTooltip =>
-      'Get Plutonium to customize your tag or keep it when changing your username';
+      '取得 Plutonium 以自訂您的標籤，或在變更使用者名稱時保留它';
 
   @override
-  String get fluxerTagAlreadyTaken => 'FluxerTag Already Taken';
+  String get fluxerTagAlreadyTaken => 'FluxerTag 已被佔用';
 
   @override
   String fluxerTagAlreadyTakenBody(String username, String discriminator) {
-    return 'The FluxerTag $username#$discriminator is already taken. Continuing will reroll your discriminator automatically.';
+    return 'FluxerTag $username#$discriminator 已被佔用。繼續將會自動重新分配您的標籤。';
   }
 
   @override
-  String get customTagIsTemporary => 'Custom Tag Is Temporary';
+  String get customTagIsTemporary => '自訂標籤是暫時的';
 
   @override
   String customTagTemporaryBodyWithDate(String date) {
-    return 'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires on $date, your tag will revert to a randomly assigned number after a 3-day grace period.';
+    return '您的自訂 4 位數字標籤僅在您的 Plutonium 訂閱有效期間內可用。當您的訂閱於 $date 到期後，您的標籤將在 3 天寬限期後恢復為隨機分配的號碼。';
   }
 
   @override
   String get customTagTemporaryBody =>
-      'Your custom 4-digit tag is only available while your Plutonium subscription is active. When your subscription expires, your tag will revert to a randomly assigned number after a 3-day grace period.';
+      '您的自訂 4 位數字標籤僅在您的 Plutonium 訂閱有效期間內可用。當您的訂閱到期後，您的標籤將在 3 天寬限期後恢復為隨機分配的號碼。';
 
   @override
-  String get iUnderstandContinue => 'I Understand, Continue';
+  String get iUnderstandContinue => '我了解，繼續';
 
   @override
   String get premiumWarningPendingDiscriminator =>
-      'If you save this FluxerTag, your custom 4-digit tag will revert to a random number when your Plutonium subscription ends. If your subscription fails to renew, you\'ll have a 3-day grace period before the tag changes.';
+      '如果您儲存此 FluxerTag，您的自訂 4 位數字標籤將在您的 Plutonium 訂閱結束時恢復為隨機號碼。如果您的訂閱未能續訂，您將有 3 天寬限期，之後標籤才會變更。';
 
   @override
   String premiumWarningActiveDiscriminator(String discriminator) {
-    return 'Your custom 4-digit tag (#$discriminator) is active while your Plutonium subscription is active. If your subscription ends or fails to renew after a 3-day grace period, your tag will revert to a random number.';
+    return '您的自訂 4 位數字標籤 (#$discriminator) 在您的 Plutonium 訂閱有效期間內有效。如果您的訂閱結束或在 3 天寬限期後未能續訂，您的標籤將恢復為隨機號碼。';
   }
 
   @override
-  String get premiumUpsellCustomizeTag =>
-      'Customize your 4-digit tag or keep it when changing your username';
+  String get premiumUpsellCustomizeTag => '自訂您的 4 位數字標籤，或在變更使用者名稱時保留它';
 
   @override
   String premiumTrialExpiresOn(String date) {
-    return 'Your Plutonium trial expires on $date. Upgrade to keep your custom tag and earn a badge on your profile.';
+    return '您的 Plutonium 試用將於 $date 到期。升級即可保留您的自訂標籤並在個人資料中獲得徽章。';
   }
 
   @override
   String get premiumTrialActive =>
-      'You\'re on a Plutonium trial. Upgrade to keep your custom tag and earn a badge on your profile.';
+      '您目前處於 Plutonium 試用期。升級即可保留您的自訂標籤並在個人資料中獲得徽章。';
 
   @override
-  String get fluxerTagUpdated => 'FluxerTag updated';
+  String get fluxerTagUpdated => 'FluxerTag 已更新';
 
   @override
-  String get fluxerTagUpdateFailed =>
-      'Failed to update FluxerTag. Please try again.';
+  String get fluxerTagUpdateFailed => '更新 FluxerTag 失敗。請再試一次。';
 
   @override
-  String get continueAction => 'Continue';
+  String get continueAction => '繼續';
 
   @override
-  String get profileCustomizationTitle => 'Profile Customization';
+  String get profileCustomizationTitle => '個人資料自訂';
 
   @override
-  String get profileCustomizationDescription =>
-      'Edit your profile appearance and see a live preview';
+  String get profileCustomizationDescription => '編輯您的個人資料外觀並預覽';
 
   @override
-  String get usernameLabel => 'Username';
+  String get usernameLabel => '使用者名稱';
 
   @override
-  String get claimAccountToChangeFluxerTag =>
-      'Claim your account to change your FluxerTag';
+  String get claimAccountToChangeFluxerTag => '請認領您的帳戶以變更您的 FluxerTag';
 
   @override
-  String get changeFluxerTag => 'Change FluxerTag';
+  String get changeFluxerTag => '更改 FluxerTag';
 
   @override
   String customizeTagWithPlutoniumTooltip(String discriminator) {
-    return 'Customize your 4-digit tag (#$discriminator) to your liking with Plutonium';
+    return '使用 Plutonium 自訂您的 4 位數字標籤 (#$discriminator)';
   }
 
   @override
-  String get changeUsernameAndTagHint => 'Change your username and 4-digit tag';
+  String get changeUsernameAndTagHint => '更改您的使用者名稱和 4 位數字標籤';
 
   @override
   String customTagSubscriptionWarning(String discriminator) {
-    return 'Your custom tag (#$discriminator) is tied to your Plutonium subscription and will revert to a random tag if it expires.';
+    return '您的自訂標籤 (#$discriminator) 與您的 Plutonium 訂閱綁定，若訂閱過期將會還原為隨機標籤。';
   }
 
   @override
-  String get displayNameLabel => 'Display Name';
+  String get displayNameLabel => '顯示名稱';
 
   @override
-  String get pronounsLabel => 'Pronouns';
+  String get pronounsLabel => '代名詞';
 
   @override
-  String get avatarLabel => 'Avatar';
+  String get avatarLabel => '頭像';
 
   @override
-  String get changeAvatar => 'Change Avatar';
+  String get changeAvatar => '更改頭像';
 
   @override
-  String get removeAvatar => 'Remove Avatar';
+  String get removeAvatar => '移除頭像';
 
   @override
-  String get avatarDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Recommended: 512×512px';
+  String get avatarDescription => 'PNG、JPEG、WebP、GIF。上限 10MB。建議：512×512px';
 
   @override
-  String get bannerLabel => 'Banner';
+  String get bannerLabel => '橫幅';
 
   @override
-  String get changeBanner => 'Change Banner';
+  String get changeBanner => '更改橫幅';
 
   @override
-  String get removeBanner => 'Remove Banner';
+  String get removeBanner => '移除橫幅';
 
   @override
   String get bannerDescription =>
-      'PNG, JPEG, WebP, GIF. Max 10MB. Minimum: 680×240px (17:6)';
+      'PNG、JPEG、WebP、GIF。上限 10MB。最小：960×540px (16:9)';
 
   @override
-  String get accentColorLabel => 'Accent Color';
+  String get accentColorLabel => '強調色';
 
   @override
-  String get accentColorDescription =>
-      'Customizes the border and banner color on your profile';
+  String get accentColorDescription => '自訂個人檔案中的邊框和橫幅顏色';
 
   @override
-  String get aboutMeLabel => 'About Me';
+  String get aboutMeLabel => '關於我';
 
   @override
-  String get aboutMeHelperText => 'You can use links, emoji, and Markdown.';
+  String get aboutMeHelperText => '您可以使用連結、表情符號和 Markdown。';
 
   @override
-  String get emojiPickerTitle => 'Emoji';
+  String get emojiPickerTitle => '表情符號';
 
   @override
-  String get plutoniumBadgePrivacyTitle => 'Plutonium Badge Privacy';
+  String get plutoniumBadgePrivacyTitle => 'Plutonium 徽章隱私設定';
 
   @override
-  String get plutoniumBadgePrivacyDescription =>
-      'Control how your Plutonium badge is displayed to others';
+  String get plutoniumBadgePrivacyDescription => '控制他人如何顯示您的 Plutonium 徽章';
 
   @override
-  String get hidePlutoniumBadgeLabel => 'Hide Plutonium badge entirely';
+  String get hidePlutoniumBadgeLabel => '完全隱藏 Plutonium 徽章';
 
   @override
-  String get hidePlutoniumBadgeDescription =>
-      'Completely hide your Plutonium badge from other users';
+  String get hidePlutoniumBadgeDescription => '完全向其他使用者隱藏您的 Plutonium 徽章';
 
   @override
-  String get hidePlutoniumPurchaseDate => 'Hide Plutonium purchase date';
+  String get hidePlutoniumPurchaseDate => '隱藏 Plutonium 購買日期';
 
   @override
   String hidePlutoniumPurchaseDateWithDate(String date) {
-    return 'Hide Plutonium purchase date ($date)';
+    return '隱藏 Plutonium 購買日期 ($date)';
   }
 
   @override
-  String get hidePurchaseDateDescription =>
-      'Remove when you first bought Plutonium from your badge';
+  String get hidePurchaseDateDescription => '從您的徽章中移除首次購買 Plutonium 的日期';
 
   @override
-  String get maskVisionaryAsSubscription => 'Mask Visionary as subscription';
+  String get maskVisionaryAsSubscription => '將 Visionary 顯示為訂閱';
 
   @override
-  String get maskVisionaryDescription =>
-      'Show your Visionary as a regular subscription instead';
+  String get maskVisionaryDescription => '將您的 Visionary 顯示為一般訂閱';
 
   @override
-  String get hideVisionaryIdBadge => 'Hide Visionary ID badge';
+  String get hideVisionaryIdBadge => '隱藏 Visionary ID 徽章';
 
   @override
   String hideVisionaryIdBadgeWithSequence(int sequence) {
-    return 'Hide Visionary ID badge (#$sequence)';
+    return '隱藏 Visionary ID 徽章 (#$sequence)';
   }
 
   @override
-  String get hideVisionaryIdDescription => 'Remove your Visionary ID badge';
+  String get hideVisionaryIdDescription => '移除您的 Visionary ID 徽章';
 
   @override
   String premiumTrialSubscriptionStarts(String date) {
-    return 'You\'re on a Plutonium trial — your subscription starts on $date';
+    return '您目前處於 Plutonium 試用期 — 您的訂閱將於 $date 開始';
   }
 
   @override
   String get premiumTrialSubscriptionStartsDescription =>
-      'Your subscription will automatically begin when your trial ends. No action needed.';
+      '您的試用期結束後，訂閱將自動開始。無需任何操作。';
 
   @override
   String premiumTrialExpiresOnProfile(String date) {
-    return 'You\'re on a Plutonium trial that expires on $date';
+    return '您目前處於 Plutonium 試用期，將於 $date 到期';
   }
 
   @override
-  String get premiumTrialActiveProfile => 'You\'re on a Plutonium trial';
+  String get premiumTrialActiveProfile => '您目前處於 Plutonium 試用期';
 
   @override
   String get avatarDescriptionNonPremium =>
-      'JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require Plutonium.';
+      'JPEG、PNG、WebP。上限 10MB。建議：512×512px。動態頭像 (GIF) 需要 Plutonium。';
 
   @override
-  String get bannerPlutoniumUpsell =>
-      'Customize your profile with a static or animated banner image to make it stand out.';
+  String get bannerPlutoniumUpsell => '使用靜態或動態橫幅圖片自訂您的個人檔案，讓它脫穎而出。';
 
   @override
-  String get getPlutonium => 'Get Plutonium';
+  String get getPlutonium => '取得 Plutonium';
 
   @override
   String get plutoniumNotAvailableTitle => 'Plutonium';
 
   @override
-  String get plutoniumNotAvailableBody =>
-      'In-app purchases are not available on this platform yet. Stay tuned — coming soon!';
+  String get plutoniumNotAvailableBody => '應用程式內購買在此平台尚未開放。敬請期待 — 即將推出！';
 
   @override
-  String get profilePreviewLabel => 'Preview';
+  String get profilePreviewLabel => '預覽';
 
   @override
-  String get profilePreviewMessage => 'Message';
+  String get profilePreviewMessage => '訊息';
 
   @override
-  String get profilePreviewMemberSince => 'Fluxer Member Since';
+  String get profilePreviewMemberSince => 'Fluxer 會員自';
 
   @override
-  String get unclaimedAccountTitle => 'Unclaimed Account';
+  String get unclaimedAccountTitle => '未認領帳戶';
 
   @override
   String get unclaimedAccountDescription =>
-      'Your account is not yet claimed. Without an email and password, you could lose access. Claim your account now to secure it.';
+      '您的帳戶尚未認領。若沒有電子郵件和密碼，您可能會失去存取權。立即認領您的帳戶以確保其安全。';
 
   @override
-  String get claimAccount => 'Claim Account';
+  String get claimAccount => '認領帳戶';
 
   @override
-  String get profileTypeLabel => 'Profile Type';
+  String get profileTypeLabel => '個人檔案類型';
 
   @override
-  String get profileTypeGlobal => 'Global Profile';
+  String get profileTypeGlobal => '全域個人檔案';
 
   @override
   String get profileTypeGuildDescription =>
-      'You are editing your per-community profile. This profile will only be visible in this community and will override your global profile.';
+      '您正在編輯每社群的個人檔案。此個人檔案僅在此社群中可見，並將覆蓋您的全域個人檔案。';
 
   @override
-  String get communityNicknameLabel => 'Community Nickname';
+  String get communityNicknameLabel => '社群暱稱';
 
   @override
   String get perGuildPremiumUpsellText =>
-      'Customizing your avatar, banner, accent color, and bio for individual communities requires Plutonium. Community nickname and pronouns are free for everyone.';
+      '個人化社群的個人頭像、橫幅、強調色和個人簡介需要 Plutonium。社群暱稱和代名詞對所有人免費。';
 
   @override
-  String get avatarModeInherit => 'Use Global Profile';
+  String get avatarModeInherit => '使用全域個人資料';
 
   @override
-  String get avatarModeCustom => 'Use Custom Image';
+  String get avatarModeCustom => '使用自訂圖片';
 
   @override
-  String get avatarModeUnset => 'Don\'t Show';
+  String get avatarModeUnset => '不顯示';
 
   @override
-  String get profileSavedToast => 'Profile updated';
+  String get profileSavedToast => '個人資料已更新';
 
   @override
-  String get profileEditButton => 'Edit Profile';
+  String get profileEditButton => '編輯個人資料';
 
   @override
-  String get profileNoteLabel => 'Note';
+  String get profileNoteLabel => '備註';
 
   @override
-  String get profileNoteVisibility => '(only visible to you)';
+  String get profileNoteVisibility => '(僅您可見)';
 
   @override
-  String get profileNoteEmpty => 'No note yet.';
+  String get profileNoteEmpty => '尚未新增備註。';
 
   @override
-  String get sudoTitle => 'Verify Your Identity';
+  String get sudoTitle => '驗證您的身分';
 
   @override
-  String get sudoDescription =>
-      'This action requires verification to continue.';
+  String get sudoDescription => '此操作需要驗證才能繼續。';
 
   @override
-  String get sudoAuthenticatorCode => 'Authenticator Code';
+  String get sudoAuthenticatorCode => '驗證器代碼';
 
   @override
-  String get sudoMethodPassword => 'Password';
+  String get sudoMethodPassword => '密碼';
 
   @override
-  String get sudoMethodTotp => 'Authenticator';
+  String get sudoMethodTotp => '驗證器';
 
   @override
-  String get sudoVerificationFailed => 'Verification failed. Please try again.';
+  String get sudoVerificationFailed => '驗證失敗。請再試一次。';
 
   @override
-  String get securityAccountTitle => 'Account';
+  String get securityAccountTitle => '帳號';
 
   @override
-  String get securityAccountDescription =>
-      'Manage your email, password, and account settings';
+  String get securityAccountDescription => '管理您的電子郵件、密碼和帳號設定';
 
   @override
-  String get securitySectionTitle => 'Security';
+  String get securitySectionTitle => '安全性';
 
   @override
-  String get securitySectionDescription =>
-      'Protect your account with two-factor authentication and passkeys';
+  String get securitySectionDescription => '使用雙重驗證和通行金鑰保護您的帳號';
 
   @override
-  String get securityLoginEmailSectionTitle => 'Email Settings';
+  String get securityLoginEmailSectionTitle => '電子郵件設定';
 
   @override
-  String get securityLoginEmailSectionDescription =>
-      'Manage the email address you use to sign in to Fluxer';
+  String get securityLoginEmailSectionDescription => '管理您用來登入 Fluxer 的電子郵件地址';
 
   @override
-  String get securityLoginEmailAddressLabel => 'Email Address';
+  String get securityLoginEmailAddressLabel => '電子郵件地址';
 
   @override
-  String get securityLoginNoEmailSet => 'No email address set';
+  String get securityLoginNoEmailSet => '尚未設定電子郵件地址';
 
   @override
-  String get securityLoginChangeEmail => 'Change Email';
+  String get securityLoginChangeEmail => '變更電子郵件';
 
   @override
-  String get securityLoginAddEmail => 'Add Email';
+  String get securityLoginAddEmail => '新增電子郵件';
 
   @override
-  String get securityLoginReveal => 'Reveal';
+  String get securityLoginReveal => '顯示';
 
   @override
-  String get securityLoginHide => 'Hide';
+  String get securityLoginHide => '隱藏';
 
   @override
-  String get securityLoginPasswordSectionTitle => 'Password';
+  String get securityLoginPasswordSectionTitle => '密碼';
 
   @override
-  String get securityLoginPasswordSectionDescription =>
-      'Change your password to keep your account secure';
+  String get securityLoginPasswordSectionDescription => '變更您的密碼以確保帳號安全';
 
   @override
-  String get securityLoginCurrentPasswordLabel => 'Current Password';
+  String get securityLoginCurrentPasswordLabel => '目前密碼';
 
   @override
   String securityLoginPasswordLastChanged(String date) {
-    return 'Last changed: $date';
+    return '上次變更：$date';
   }
 
   @override
-  String get securityLoginPasswordNeverChanged => 'Last changed: Never';
+  String get securityLoginPasswordNeverChanged => '上次變更：從未';
 
   @override
-  String get securityLoginNoPasswordSet => 'No password set';
+  String get securityLoginNoPasswordSet => '尚未設定密碼';
 
   @override
-  String get securityLoginChangePassword => 'Change Password';
+  String get securityLoginChangePassword => '變更密碼';
 
   @override
-  String get securityLoginSetPassword => 'Set Password';
+  String get securityLoginSetPassword => '設定密碼';
 
   @override
-  String get passwordChangeTitle => 'Change Password';
+  String get passwordChangeTitle => '變更密碼';
 
   @override
   String get passwordChangeIntroDescription =>
-      'We\'ll send a verification code to your email address to confirm your identity before changing your password.';
+      '在變更密碼前，我們會將驗證碼傳送至您的電子郵件地址以確認您的身分。';
 
   @override
-  String get passwordChangeStart => 'Start';
+  String get passwordChangeStart => '開始';
 
   @override
-  String get passwordChangeVerifyTitle => 'Verify Your Email';
+  String get passwordChangeVerifyTitle => '驗證您的電子郵件';
 
   @override
-  String get passwordChangeVerifyDescription =>
-      'Enter the verification code sent to your email address.';
+  String get passwordChangeVerifyDescription => '輸入傳送至您電子郵件地址的驗證碼。';
 
   @override
-  String get passwordChangeVerificationCode => 'Verification Code';
+  String get passwordChangeVerificationCode => '驗證碼';
 
   @override
-  String get passwordChangeVerify => 'Verify';
+  String get passwordChangeVerify => '驗證';
 
   @override
-  String get passwordChangeNewPasswordTitle => 'Set New Password';
+  String get passwordChangeNewPasswordTitle => '設定新密碼';
 
   @override
-  String get passwordChangeNewPasswordDescription =>
-      'Enter your new password below.';
+  String get passwordChangeNewPasswordDescription => '在下方輸入您的新密碼。';
 
   @override
-  String get passwordChangeNewPassword => 'New Password';
+  String get passwordChangeNewPassword => '新密碼';
 
   @override
-  String get passwordChangeConfirmPassword => 'Confirm New Password';
+  String get passwordChangeConfirmPassword => '確認新密碼';
 
   @override
-  String get passwordChangeSubmit => 'Change Password';
+  String get passwordChangeSubmit => '變更密碼';
 
   @override
-  String get passwordChangeSuccess => 'Password changed';
+  String get passwordChangeSuccess => '密碼已變更';
 
   @override
-  String get passwordChangePasswordsDoNotMatch => 'Passwords do not match';
+  String get passwordChangePasswordsDoNotMatch => '密碼不相符';
 
   @override
-  String get passwordChangeInvalidCode => 'Invalid or expired code';
+  String get passwordChangeInvalidCode => '驗證碼無效或已過期';
 
   @override
-  String get emailChangeTitle => 'Change Email';
+  String get emailChangeTitle => '更改電子郵件';
 
   @override
-  String get emailChangeIntroDescription =>
-      'We\'ll send verification codes to verify your identity before changing your email address.';
+  String get emailChangeIntroDescription => '在更改您的電子郵件地址之前，我們會發送驗證碼來驗證您的身份。';
 
   @override
-  String get emailChangeStart => 'Start';
+  String get emailChangeStart => '開始';
 
   @override
-  String get emailChangeVerifyOriginalTitle => 'Verify Current Email';
+  String get emailChangeVerifyOriginalTitle => '驗證目前電子郵件';
 
   @override
-  String get emailChangeVerifyOriginalDescription =>
-      'Enter the verification code sent to your current email address.';
+  String get emailChangeVerifyOriginalDescription => '請輸入已發送到您目前電子郵件地址的驗證碼。';
 
   @override
-  String get emailChangeNewEmailTitle => 'Enter New Email';
+  String get emailChangeNewEmailTitle => '輸入新電子郵件';
 
   @override
-  String get emailChangeNewEmailDescription =>
-      'Enter the new email address you\'d like to use.';
+  String get emailChangeNewEmailDescription => '請輸入您想使用的電子郵件地址。';
 
   @override
-  String get emailChangeNewEmailLabel => 'New Email';
+  String get emailChangeNewEmailLabel => '新電子郵件';
 
   @override
-  String get emailChangeNewEmailSubmit => 'Send Verification Code';
+  String get emailChangeNewEmailSubmit => '發送驗證碼';
 
   @override
-  String get emailChangeVerifyNewTitle => 'Verify New Email';
+  String get emailChangeVerifyNewTitle => '驗證新電子郵件';
 
   @override
-  String get emailChangeVerifyNewDescription =>
-      'Enter the verification code sent to your new email address.';
+  String get emailChangeVerifyNewDescription => '請輸入已發送到您新電子郵件地址的驗證碼。';
 
   @override
-  String get emailChangeSuccess => 'Email changed';
+  String get emailChangeSuccess => '電子郵件已更改';
 
   @override
-  String get emailChangeInvalidCode => 'Invalid or expired code';
+  String get emailChangeInvalidCode => '驗證碼無效或已過期';
 
   @override
-  String get resend => 'Resend';
+  String get resend => '重寄';
 
   @override
   String resendCountdown(int seconds) {
-    return 'Resend (${seconds}s)';
+    return '重寄 ($seconds秒)';
   }
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verificationCode => '驗證碼';
 
   @override
-  String get verify => 'Verify';
+  String get verify => '驗證';
 
   @override
-  String get enable => 'Enable';
+  String get enable => '啟用';
 
   @override
-  String get disable => 'Disable';
+  String get disable => '停用';
 
   @override
-  String get delete => 'Delete';
+  String get delete => '刪除';
 
   @override
-  String get save => 'Save';
+  String get save => '儲存';
 
   @override
-  String get securityTfaSectionTitle => 'Two-Factor Authentication';
+  String get securityTfaSectionTitle => '雙重驗證';
 
   @override
-  String get securityTfaSectionDescription =>
-      'Add an extra layer of security to your account';
+  String get securityTfaSectionDescription => '為您的帳戶增加一層額外的安全性';
 
   @override
-  String get securityTfaAuthenticatorApp => 'Authenticator App';
+  String get securityTfaAuthenticatorApp => '驗證器應用程式';
 
   @override
-  String get securityTfaAuthenticatorEnabled =>
-      'Two-factor authentication is enabled';
+  String get securityTfaAuthenticatorEnabled => '已啟用雙重驗證';
 
   @override
-  String get securityTfaAuthenticatorDisabled =>
-      'Use an authenticator app to generate codes for two-factor authentication';
+  String get securityTfaAuthenticatorDisabled => '使用驗證器應用程式產生雙重驗證碼';
 
   @override
-  String get securityTfaBackupCodes => 'Backup Codes';
+  String get securityTfaBackupCodes => '備份碼';
 
   @override
-  String get securityTfaBackupCodesDescription =>
-      'View and manage your backup codes for account recovery';
+  String get securityTfaBackupCodesDescription => '查看並管理您的備份碼以復原帳號';
 
   @override
-  String get securityTfaViewCodes => 'View Codes';
+  String get securityTfaViewCodes => '查看碼';
 
   @override
-  String get securityPasskeysSectionTitle => 'Passkeys';
+  String get securityPasskeysSectionTitle => '通行金鑰';
 
   @override
-  String get securityPasskeysSectionDescription =>
-      'Use passkeys for passwordless sign-in and two-factor authentication';
+  String get securityPasskeysSectionDescription => '使用通行金鑰進行無密碼登入和雙重驗證';
 
   @override
-  String get securityPasskeysRegistered => 'Registered Passkeys';
+  String get securityPasskeysRegistered => '已註冊的通行金鑰';
 
   @override
-  String get securityPasskeysNone => 'No passkeys registered';
+  String get securityPasskeysNone => '未註冊任何通行金鑰';
 
   @override
   String securityPasskeysCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'passkeys',
-      one: 'passkey',
+      other: '已註冊 # 個通行金鑰',
+      one: '已註冊 1 個通行金鑰',
     );
-    return '$count $_temp0 registered (max 10)';
+    return '$_temp0 (最多 10 個)';
   }
 
   @override
-  String get securityPasskeysAdd => 'Add Passkey';
+  String get securityPasskeysAdd => '新增通行金鑰';
 
   @override
   String securityPasskeysAdded(String date) {
-    return 'Added: $date';
+    return '新增於：$date';
   }
 
   @override
   String securityPasskeysLastUsed(String date) {
-    return 'Last used: $date';
+    return '上次使用：$date';
   }
 
   @override
-  String get securityPasskeysRename => 'Rename';
+  String get securityPasskeysRename => '重新命名';
 
   @override
-  String get securityPasskeysDeleteTitle => 'Delete Passkey';
+  String get securityPasskeysDeleteTitle => '刪除密碼金鑰';
 
   @override
   String securityPasskeysDeleteDescription(String name) {
-    return 'Are you sure you want to delete the passkey \"$name\"?';
+    return '確定要刪除密碼金鑰「$name」嗎？';
   }
 
   @override
-  String get securityPasskeyNameTitle => 'Name Passkey';
+  String get securityPasskeyNameTitle => '為密碼金鑰命名';
 
   @override
-  String get securityPasskeyNameLabel => 'Passkey Name';
+  String get securityPasskeyNameLabel => '密碼金鑰名稱';
 
   @override
-  String get securityPasskeyNameHint => 'e.g., YubiKey, iPhone, Work Computer';
+  String get securityPasskeyNameHint => '例如：YubiKey、iPhone、工作電腦';
 
   @override
-  String get securityPhoneSectionTitle => 'Phone Number';
+  String get securityPhoneSectionTitle => '電話號碼';
 
   @override
-  String get securityPhoneSectionDescription => 'Manage your phone number.';
+  String get securityPhoneSectionDescription => '管理您的電話號碼。';
 
   @override
-  String get securityPhoneLabel => 'Phone Number';
+  String get securityPhoneLabel => '電話號碼';
 
   @override
-  String get securityPhoneNone => 'No phone number added.';
+  String get securityPhoneNone => '尚未新增電話號碼。';
 
   @override
-  String get securityPhoneAdd => 'Add Phone';
+  String get securityPhoneAdd => '新增電話';
 
   @override
-  String get securityPhoneRemove => 'Remove';
+  String get securityPhoneRemove => '移除';
 
   @override
-  String get securityPhoneRemoveTitle => 'Remove Phone Number';
+  String get securityPhoneRemoveTitle => '移除電話號碼';
 
   @override
-  String get securityPhoneRemoveDescription =>
-      'Are you sure you want to remove your phone number?';
+  String get securityPhoneRemoveDescription => '確定要移除您的電話號碼嗎？';
 
   @override
-  String get securityPhoneRemoved => 'Phone number removed';
+  String get securityPhoneRemoved => '電話號碼已移除';
 
   @override
-  String get securityClaimTitle => 'Security Features';
+  String get securityClaimTitle => '安全功能';
 
   @override
-  String get securityClaimDescription =>
-      'Claim your account to access security features like two-factor authentication and passkeys.';
+  String get securityClaimDescription => '領取您的帳號，以存取雙重驗證和通行金鑰等安全功能。';
 
   @override
   String get securityVerifyEmailRequired =>
-      'You must verify your email address before you can set up two-factor authentication, passkeys, or SMS verification.';
+      '您必須先驗證您的電子郵件地址，才能設定雙重驗證、通行金鑰或簡訊驗證。';
 
   @override
-  String get totpEnableTitle => 'Setup Authenticator App';
+  String get totpEnableTitle => '設定驗證器應用程式';
 
   @override
-  String get totpEnableDescription =>
-      'Scan the QR code with your authenticator app to generate codes for two-factor authentication.';
+  String get totpEnableDescription => '使用您的驗證器應用程式掃描 QR code，以產生雙重驗證碼。';
 
   @override
-  String get totpEnableCodeLabel => 'Code';
+  String get totpEnableCodeLabel => '驗證碼';
 
   @override
-  String get totpEnableCodeHint =>
-      'Enter the 6-digit code from your authenticator app';
+  String get totpEnableCodeHint => '輸入驗證器應用程式中的 6 位數驗證碼';
 
   @override
-  String get totpEnableSuccess => 'Two-factor authentication has been enabled';
+  String get totpEnableSuccess => '已啟用雙重驗證';
 
   @override
-  String get totpDisableTitle => 'Remove Authenticator App';
+  String get totpDisableTitle => '移除驗證器應用程式';
 
   @override
-  String get totpDisableDescription =>
-      'Enter the 6-digit code from your authenticator app to disable two-factor authentication.';
+  String get totpDisableDescription => '輸入驗證器應用程式中的 6 位數驗證碼，以停用雙重驗證。';
 
   @override
-  String get totpDisableSuccess => 'Two-factor authentication disabled';
+  String get totpDisableSuccess => '已停用雙重驗證';
 
   @override
-  String get backupCodesTitle => 'Backup Codes';
+  String get backupCodesTitle => '備份碼';
 
   @override
   String get backupCodesWarning =>
-      'If you lose access to your authenticator app and don\'t have these codes, you will be permanently locked out of your account. Download or copy them now and store them somewhere safe.';
+      '如果您遺失了驗證器應用程式的存取權且沒有這些備份碼，您將永遠無法登入您的帳號。請立即下載或複製這些備份碼，並將它們存放在安全的地方。';
 
   @override
-  String get backupCodesDownload => 'Download';
+  String get backupCodesDownload => '下載';
 
   @override
-  String get backupCodesCopy => 'Copy';
+  String get backupCodesCopy => '複製';
 
   @override
-  String get backupCodesCopied => 'Backup codes copied to clipboard';
+  String get backupCodesCopied => '備份碼已複製到剪貼簿';
 
   @override
-  String get backupCodesAcknowledge =>
-      'I have downloaded or copied my backup codes and stored them in a safe place.';
+  String get backupCodesAcknowledge => '我已下載或複製我的備份碼，並將它們存放在安全的地方。';
 
   @override
-  String get backupCodesDone => 'Done';
+  String get backupCodesDone => '完成';
 
   @override
-  String get backupCodesViewTitle => 'View Backup Codes';
+  String get backupCodesViewTitle => '檢視備份碼';
 
   @override
-  String get backupCodesViewDescription =>
-      'Verification may be required before viewing your backup codes.';
+  String get backupCodesViewDescription => '在檢視您的備份碼之前，可能需要進行驗證。';
 
   @override
-  String get phoneAddTitle => 'Add Phone Number';
+  String get phoneAddTitle => '新增電話號碼';
 
   @override
-  String get phoneAddLabel => 'Phone Number';
+  String get phoneAddLabel => '電話號碼';
 
   @override
-  String get phoneAddHint => 'Enter your phone number';
+  String get phoneAddHint => '輸入您的電話號碼';
 
   @override
-  String get phoneAddFooter =>
-      'Enter your phone number. We\'ll send you a verification code via SMS.';
+  String get phoneAddFooter => '輸入您的電話號碼。我們會透過簡訊傳送驗證碼給您。';
 
   @override
-  String get phoneAddSendCode => 'Send Code';
+  String get phoneAddSendCode => '傳送驗證碼';
 
   @override
-  String get phoneVerifyTitle => 'Verify Phone Number';
+  String get phoneVerifyTitle => '驗證電話號碼';
 
   @override
-  String get phoneVerifyDescription =>
-      'Enter the verification code sent to your phone number.';
+  String get phoneVerifyDescription => '輸入傳送至您電話號碼的驗證碼。';
 
   @override
-  String get phoneAddSuccess => 'Phone number added';
+  String get phoneAddSuccess => '電話號碼已新增';
 
   @override
-  String get dangerZoneSectionTitle => 'Danger Zone';
+  String get dangerZoneSectionTitle => '危險區域';
 
   @override
-  String get dangerZoneSectionDescription =>
-      'Irreversible and destructive actions';
+  String get dangerZoneSectionDescription => '無法復原且具破壞性的動作';
 
   @override
-  String get dangerZoneDisableTitle => 'Disable Account';
+  String get dangerZoneDisableTitle => '停用帳號';
 
   @override
-  String get dangerZoneDisableDescription =>
-      'Temporarily disable your account. You can reactivate it later by signing back in.';
+  String get dangerZoneDisableDescription => '暫時停用您的帳號。之後您可以透過重新登入來重新啟用。';
 
   @override
   String get dangerZoneDisableConfirmDescription =>
-      'Disabling your account will log you out of all sessions. You can re-enable your account at any time by logging in again.';
+      '停用您的帳號將會登出所有裝置。您可以隨時透過再次登入來重新啟用您的帳號。';
 
   @override
-  String get dangerZoneDeleteTitle => 'Delete Account';
+  String get dangerZoneDeleteTitle => '刪除帳號';
 
   @override
-  String get dangerZoneDeleteDescription =>
-      'Permanently delete your account and all associated data. This action cannot be undone.';
+  String get dangerZoneDeleteDescription => '永久刪除您的帳號及所有相關資料。此動作無法復原。';
 
   @override
   String get dangerZoneDeleteCancelSubscription =>
-      'Cancel your active Plutonium subscription in Plutonium settings before deleting your account.';
+      '刪除帳號前，請先在 Plutonium 設定中取消您的 Plutonium 付費方案。';
+
+  @override
+  String get dangerZoneDeleteCannotDeleteAccount => '無法刪除帳號';
+
+  @override
+  String get dangerZoneDeleteOwnsCommunities =>
+      '您無法在擁有社群的情況下刪除帳號。請先轉移以下社群的所有權：';
+
+  @override
+  String dangerZoneDeleteAndXMore(int count) {
+    return '及另外 $count 個';
+  }
+
+  @override
+  String dangerZoneDeleteTransferInstructions(String settingsPath) {
+    return '若要轉移所有權，請前往 $settingsPath 並使用轉移所有權選項。';
+  }
 
   @override
   String get dangerZoneDeleteConfirmDescription =>
-      'Are you sure you want to delete your account? This action will schedule your account for permanent deletion.';
+      '確定要刪除您的帳號嗎？此動作將會排定您的帳號進行永久刪除。';
 
   @override
-  String get dangerZoneDeleteBullet1 =>
-      'You can cancel the deletion process within 14 days';
+  String get dangerZoneDeleteBullet1 => '您可以在 14 天內取消刪除程序';
 
   @override
-  String get dangerZoneDeleteBullet2 =>
-      'After 14 days, your account will be permanently deleted';
+  String get dangerZoneDeleteBullet2 => '14 天後，您的帳號將會被永久刪除';
 
   @override
-  String get dangerZoneDeleteBullet3 =>
-      'Once deletion is processed, you cannot recover access to your account';
+  String get dangerZoneDeleteBullet3 => '刪除程序一旦完成，您將無法復原帳號存取權';
 
   @override
-  String get dangerZoneDeleteBullet4 =>
-      'You will not be able to delete your sent messages after your account is deleted';
+  String get dangerZoneDeleteBullet4 => '刪除帳號後，您將無法刪除您已傳送的訊息';
 
   @override
   String get dangerZoneDeleteDisclaimer =>
-      'If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding.';
+      '如果您想匯出資料或先刪除您的訊息，請在繼續之前前往使用者設定中的隱私權儀表板。';
 
   @override
-  String get claimAccountTitle => 'Claim Your Account';
+  String get claimAccountTitle => '領取您的帳號';
 
   @override
   String get claimAccountDescription =>
-      'Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing.';
+      '透過新增電子郵件和密碼來領取您的帳號。我們將傳送驗證碼以確認您的電子郵件，然後完成設定。';
 
   @override
-  String get claimAccountEmailLabel => 'Email';
+  String get claimAccountEmailLabel => '電子郵件';
 
   @override
-  String get claimAccountPasswordLabel => 'Password';
+  String get claimAccountPasswordLabel => '密碼';
 
   @override
-  String get claimAccountSendCode => 'Send Code';
+  String get claimAccountSendCode => '傳送驗證碼';
 
   @override
   String get claimAccountVerifyDescription =>
-      'Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.';
+      '輸入我們寄到你電子郵件的驗證碼以進行驗證。驗證碼確認後，你將可以設定密碼。';
 
   @override
-  String get claimAccountSuccess => 'Account claimed successfully';
+  String get claimAccountSuccess => '帳號已成功領取';
 
   @override
-  String get importantInformation => 'Important information:';
+  String get importantInformation => '重要資訊：';
 
   @override
-  String get genericError => 'An error occurred';
+  String get genericError => '發生錯誤';
 
   @override
-  String get invalidCode => 'Invalid code';
+  String get invalidCode => '無效的驗證碼';
 
   @override
   String relativeTimeYears(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count years ago',
-      one: '1 year ago',
+      other: '$count年前',
+      one: '1年前',
     );
     return '$_temp0';
   }
@@ -8739,8 +8696,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count months ago',
-      one: '1 month ago',
+      other: '$count個月前',
+      one: '1個月前',
     );
     return '$_temp0';
   }
@@ -8750,8 +8707,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count days ago',
-      one: '1 day ago',
+      other: '$count天前',
+      one: '1天前',
     );
     return '$_temp0';
   }
@@ -8761,8 +8718,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count hours ago',
-      one: '1 hour ago',
+      other: '$count小時前',
+      one: '1小時前',
     );
     return '$_temp0';
   }
@@ -8772,145 +8729,138 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count minutes ago',
-      one: '1 minute ago',
+      other: '$count分鐘前',
+      one: '1分鐘前',
     );
     return '$_temp0';
   }
 
   @override
-  String get relativeTimeJustNow => 'just now';
+  String get relativeTimeJustNow => '剛剛';
 
   @override
-  String get authorizedAppsTitle => 'Authorized Applications';
+  String get authorizedAppsTitle => '已授權的應用程式';
 
   @override
-  String get authorizedAppsDescription =>
-      'These applications have been granted access to your Fluxer account.';
+  String get authorizedAppsDescription => '這些應用程式已被授權存取你的 Fluxer 帳號。';
 
   @override
-  String get authorizedAppsEmptyTitle => 'No Authorized Applications';
+  String get authorizedAppsEmptyTitle => '沒有已授權的應用程式';
 
   @override
-  String get authorizedAppsEmptyDescription =>
-      'You haven\'t authorized any applications to access your account.';
+  String get authorizedAppsEmptyDescription => '你尚未授權任何應用程式存取你的帳號。';
 
   @override
-  String get authorizedAppsLoadError =>
-      'Failed to Load Authorized Applications';
+  String get authorizedAppsLoadError => '無法載入已授權的應用程式';
 
   @override
   String authorizedAppsAuthorizedOn(String date) {
-    return 'Authorized on $date';
+    return '於 $date 授權';
   }
 
   @override
-  String get authorizedAppsPermissionsGranted => 'Permissions granted';
+  String get authorizedAppsPermissionsGranted => '已授權的權限';
 
   @override
-  String get authorizedAppsRevoke => 'Revoke';
+  String get authorizedAppsRevoke => '撤銷';
 
   @override
-  String get authorizedAppsRevokeTitle => 'Revoke application access';
+  String get authorizedAppsRevokeTitle => '撤銷應用程式存取權';
 
   @override
   String authorizedAppsRevokeDescription(String appName) {
-    return 'Are you sure you want to revoke access for $appName? This application will no longer have access to your account.';
+    return '確定要撤銷 $appName 的存取權嗎？此應用程式將無法再存取你的帳號。';
   }
 
   @override
-  String get authorizedAppsScopeIdentify =>
-      'Access your basic profile information (username, avatar, etc.)';
+  String get authorizedAppsScopeIdentify => '存取你的基本個人資料資訊（使用者名稱、頭像等）';
 
   @override
-  String get authorizedAppsScopeEmail => 'View your email address';
+  String get authorizedAppsScopeEmail => '檢視你的電子郵件地址';
 
   @override
-  String get authorizedAppsScopeGuilds =>
-      'View the communities you are a member of';
+  String get authorizedAppsScopeGuilds => '檢視你所屬的社群';
 
   @override
-  String get authorizedAppsScopeConnections => 'View your connected accounts';
+  String get authorizedAppsScopeConnections => '檢視你已連結的帳號';
 
   @override
-  String get authorizedAppsScopeBot =>
-      'Add a bot to a community with requested permissions';
+  String get authorizedAppsScopeBot => '以要求的權限將機器人新增至社群';
 
   @override
-  String get authorizedAppsScopeAdmin => 'Access administrative endpoints';
+  String get authorizedAppsScopeAdmin => '存取管理員端點';
 
   @override
-  String get privacyPendingDeletionTitle => 'Pending Deletion';
+  String get privacyPendingDeletionTitle => '待刪除';
 
   @override
-  String get blockedUsersTitle => 'Blocked Users';
+  String get blockedUsersTitle => '已封鎖的使用者';
 
   @override
-  String get blockedUsersDescription =>
-      'Blocked users can\'t send you friend requests or message you directly.';
+  String get blockedUsersDescription => '被封鎖的使用者無法傳送好友邀請或直接傳訊給你。';
 
   @override
-  String get blockedUsersEmptyTitle => 'No Blocked Users';
+  String get blockedUsersEmptyTitle => '沒有已封鎖的使用者';
 
   @override
-  String get blockedUsersEmptyDescription => 'You haven\'t blocked anyone yet.';
+  String get blockedUsersEmptyDescription => '你尚未封鎖任何人。';
 
   @override
-  String get blockedUsersLoadError => 'Failed to Load Blocked Users';
+  String get blockedUsersLoadError => '無法載入已封鎖的使用者';
 
   @override
-  String get blockedUsersUnblock => 'Unblock';
+  String get blockedUsersUnblock => '解除封鎖';
 
   @override
-  String get blockedUsersUnblockTitle => 'Unblock User';
+  String get blockedUsersUnblockTitle => '解除封鎖使用者';
 
   @override
   String blockedUsersUnblockDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return '確定要解除封鎖 $username 嗎？';
   }
 
   @override
-  String get blockedUsersCopyTag => 'Copy FluxerTag';
+  String get blockedUsersCopyTag => '複製 FluxerTag';
 
   @override
-  String get blockedUsersCopyId => 'Copy User ID';
+  String get blockedUsersCopyId => '複製使用者 ID';
 
   @override
-  String get userProfileLoadError => 'Couldn\'t load profile';
+  String get userProfileLoadError => '無法載入個人資料';
 
   @override
-  String get userProfileRetry => 'Retry';
+  String get userProfileRetry => '重試';
 
   @override
-  String get userProfileMessage => 'Message';
+  String get userProfileMessage => '傳訊';
 
   @override
-  String get userProfileVoiceCall => 'Voice Call';
+  String get userProfileVoiceCall => '語音通話';
 
   @override
-  String get userProfileVideoCall => 'Video Call';
+  String get userProfileVideoCall => '視訊通話';
 
   @override
-  String get userProfileEditProfile => 'Edit Profile';
+  String get userProfileEditProfile => '編輯個人資料';
 
   @override
-  String get userProfileStaffBadgeTooltip => 'Fluxer Staff';
+  String get userProfileStaffBadgeTooltip => 'Fluxer 團隊成員';
 
   @override
-  String get userProfileCtpBadgeTooltip => 'Fluxer Community Team';
+  String get userProfileCtpBadgeTooltip => 'Fluxer 社群團隊';
 
   @override
-  String get userProfilePartnerBadgeTooltip => 'Fluxer Partner';
+  String get userProfilePartnerBadgeTooltip => 'Fluxer 合作夥伴';
 
   @override
-  String get userProfileBugHunterBadgeTooltip => 'Fluxer Bug Hunter';
+  String get userProfileBugHunterBadgeTooltip => 'Fluxer 蟲蟲獵人';
 
   @override
   String get userProfilePlutoniumBadgeTooltip => 'Fluxer Plutonium';
 
   @override
   String userProfilePlutoniumSubscriberSinceTooltip(String date) {
-    return 'Fluxer Plutonium subscriber since $date';
+    return 'Fluxer Plutonium 訂閱者自 $date 起';
   }
 
   @override
@@ -8918,7 +8868,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String userProfileVisionaryBadgeSinceTooltip(String date) {
-    return 'Fluxer Visionary since $date';
+    return 'Fluxer Visionary 自 $date 起';
   }
 
   @override
@@ -8928,427 +8878,426 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
 
   @override
   String userProfileMutualFriends(int count) {
-    return 'Mutual Friends ($count)';
+    return '共同好友 ($count)';
   }
 
   @override
   String userProfileMutualCommunities(int count) {
-    return 'Mutual Communities ($count)';
+    return '共同社群 ($count)';
   }
 
   @override
-  String get userProfileMutualFriendsTitle => 'Mutual Friends';
+  String get userProfileMutualFriendsTitle => '共同好友';
 
   @override
-  String get userProfileMutualCommunitiesTitle => 'Mutual Communities';
+  String get userProfileMutualCommunitiesTitle => '共同社群';
 
   @override
-  String get userProfileNoMutualFriends => 'No mutual friends found.';
+  String get userProfileNoMutualFriends => '找不到共同好友。';
 
   @override
-  String get userProfileNoMutualCommunities => 'No mutual communities found.';
+  String get userProfileNoMutualCommunities => '找不到共同社群。';
 
   @override
   String userProfileMutualCommunityNickname(String nickname) {
-    return 'Nickname: $nickname';
+    return '暱稱：$nickname';
   }
 
   @override
-  String get userProfileOpenBlockedDmTitle => 'Open DM';
+  String get userProfileOpenBlockedDmTitle => '開啟私訊';
 
   @override
   String userProfileOpenBlockedDmDescription(String username) {
-    return 'You blocked $username. You won\'t be able to send messages unless you unblock them.';
+    return '你已封鎖 $username。除非解除封鎖，否則你無法傳送訊息。';
   }
 
   @override
-  String get userProfileOpenDm => 'Open DM';
+  String get blockedUserComposerBarrierAction => '解除封鎖';
 
   @override
-  String get userProfileNoteTitle => 'Note';
+  String get userProfileOpenDm => '開啟私訊';
 
   @override
-  String get userProfileNoteVisibility => '(only visible to you)';
+  String get userProfileNoteTitle => '備註';
 
   @override
-  String get userProfileNoteSave => 'Save';
+  String get userProfileNoteVisibility => '（僅你可見）';
 
   @override
-  String get userProfileNoteDelete => 'Delete';
+  String get userProfileNoteSave => '儲存';
 
   @override
-  String get userProfileNoteEmpty => 'Click to add a note';
+  String get userProfileNoteDelete => '刪除';
 
   @override
-  String get userProfileMemberSince => 'Member Since';
+  String get userProfileNoteEmpty => '點擊新增備註';
 
   @override
-  String get userProfileAboutMe => 'About Me';
+  String get userProfileMemberSince => '成為會員以來';
 
   @override
-  String get userProfileCopyUsername => 'Copy Username';
+  String get userProfileAboutMe => '關於我';
 
   @override
-  String get userProfileCopyUserId => 'Copy User ID';
+  String get userProfileCopyUsername => '複製使用者名稱';
 
   @override
-  String get userProfileViewMainProfile => 'View Main Profile';
+  String get userProfileCopyUserId => '複製使用者 ID';
 
   @override
-  String get userProfileViewCommunityProfile => 'View Community Profile';
+  String get userProfileViewMainProfile => '檢視主要個人檔案';
 
   @override
-  String get userProfileBlockUser => 'Block User';
+  String get userProfileViewCommunityProfile => '檢視社群個人檔案';
 
   @override
-  String get userProfileUnblockUser => 'Unblock User';
+  String get userProfileBlockUser => '封鎖使用者';
 
   @override
-  String get userProfileRemoveFriend => 'Remove Friend';
+  String get userProfileUnblockUser => '解除封鎖使用者';
 
   @override
-  String get userProfileBlockConfirmTitle => 'Block User';
+  String get userProfileRemoveFriend => '移除好友';
+
+  @override
+  String get userProfileBlockConfirmTitle => '封鎖使用者';
 
   @override
   String userProfileBlockConfirmDescription(String username) {
-    return 'Are you sure you want to block $username?';
+    return '確定要封鎖 $username 嗎？';
   }
 
   @override
-  String get userProfileUnblockConfirmTitle => 'Unblock User';
+  String get userProfileUnblockConfirmTitle => '解除封鎖使用者';
 
   @override
   String userProfileUnblockConfirmDescription(String username) {
-    return 'Are you sure you want to unblock $username?';
+    return '確定要解除封鎖 $username 嗎？';
   }
 
   @override
-  String get userProfileRemoveFriendConfirmTitle => 'Remove Friend';
+  String get userProfileRemoveFriendConfirmTitle => '移除好友';
 
   @override
   String userProfileRemoveFriendConfirmDescription(String username) {
-    return 'Are you sure you want to remove $username as a friend?';
+    return '確定要將 $username 移除好友嗎？';
   }
 
   @override
-  String get userProfileFailedOpenDm => 'Failed to open DM';
+  String get userProfileFailedOpenDm => '無法開啟私訊';
 
   @override
-  String get userProfileFailedSaveNote => 'Failed to save note';
+  String get userProfileFailedSaveNote => '無法儲存備註';
 
   @override
-  String get userProfileActionFailed => 'Action failed, please try again';
+  String get userProfileActionFailed => '動作失敗，請再試一次';
 
   @override
-  String get userProfileChangeNickname => 'Change nickname';
+  String get userProfileChangeNickname => '更改暱稱';
 
   @override
-  String get userProfileKick => 'Kick';
+  String get userProfileKick => '踢出';
 
   @override
-  String get userProfileBan => 'Ban';
+  String get userProfileBan => '封鎖';
 
   @override
-  String get userProfileTimeout => 'Timeout';
+  String get userProfileTimeout => '暫停發言';
 
   @override
-  String get userProfileRemoveTimeout => 'Remove timeout';
+  String get userProfileRemoveTimeout => '移除暫停發言';
 
   @override
-  String get userProfileTransferOwnership => 'Transfer ownership';
+  String get userProfileTransferOwnership => '轉移所有權';
 
   @override
-  String get userProfileReportUser => 'Report user';
+  String get userProfileReportUser => '檢舉使用者';
 
   @override
-  String get userProfileReportMessage => 'Report message';
+  String get userProfileReportMessage => '檢舉訊息';
 
   @override
   String userProfileKickConfirmTitle(String username) {
-    return 'Kick $username?';
+    return '踢出 $username？';
   }
 
   @override
   String userProfileKickConfirmDescription(String username) {
-    return 'Are you sure you want to kick $username? They can rejoin with a new invite.';
+    return '確定要踢出 $username 嗎？他們可以透過新的邀請重新加入。';
   }
 
   @override
-  String get userProfileRemoveTimeoutConfirmTitle => 'Remove timeout?';
+  String get userProfileRemoveTimeoutConfirmTitle => '移除禁言？';
 
   @override
   String userProfileRemoveTimeoutConfirmDescription(String username) {
-    return 'Removing the timeout will allow $username to send messages, react, and join voice channels again.';
+    return '移除禁言後，$username 將能再次傳送訊息、回應和加入語音頻道。';
   }
 
   @override
-  String get userProfileTransferConfirmTitle => 'Transfer ownership?';
+  String get userProfileTransferConfirmTitle => '轉移擁有權？';
 
   @override
   String userProfileTransferConfirmDescription(String username) {
-    return 'Transfer ownership of this community to $username? This is irreversible and you will lose all owner privileges.';
+    return '將此社群的擁有權轉移給 $username？此操作無法復原，您將失去所有擁有者權限。';
   }
 
   @override
   String userProfileBanSheetTitle(String username) {
-    return 'Ban $username';
+    return '封鎖 $username';
   }
 
   @override
-  String get userProfileBanDurationLabel => 'Ban duration';
+  String get userProfileBanDurationLabel => '封鎖期間';
 
   @override
-  String get userProfileBanCustomSecondsLabel => 'Custom duration (seconds)';
+  String get userProfileBanCustomSecondsLabel => '自訂期間（秒）';
 
   @override
   String userProfileBanCustomSecondsHelper(int min, int max) {
-    return 'Any value from $min to $max seconds';
+    return '任何介於 $min 到 $max 秒之間的數值';
   }
 
   @override
-  String get userProfileBanDeleteHistoryLabel => 'Delete message history';
+  String get userProfileBanDeleteHistoryLabel => '刪除訊息紀錄';
 
   @override
-  String get userProfileBanDeleteNone => 'Don\'t delete any';
+  String get userProfileBanDeleteNone => '不刪除任何訊息';
 
   @override
-  String get userProfileBanDelete24h => 'Previous 24 hours';
+  String get userProfileBanDelete24h => '過去 24 小時';
 
   @override
-  String get userProfileBanDelete7d => 'Previous 7 days';
+  String get userProfileBanDelete7d => '過去 7 天';
 
   @override
-  String get userProfileBanReasonLabel => 'Reason (optional)';
+  String get userProfileBanReasonLabel => '原因（選填）';
 
   @override
-  String get userProfileBanReasonHint => 'Enter a reason for the ban';
+  String get userProfileBanReasonHint => '輸入封鎖原因';
 
   @override
-  String get userProfileBanSubmit => 'Ban member';
+  String get userProfileBanSubmit => '封鎖成員';
 
   @override
   String userProfileTimeoutSheetTitle(String username) {
-    return 'Timeout $username';
+    return '禁言 $username';
   }
 
   @override
-  String get userProfileTimeoutDurationLabel => 'Timeout duration';
+  String get userProfileTimeoutDurationLabel => '禁言期間';
 
   @override
-  String get userProfileTimeoutSubmit => 'Time out member';
+  String get userProfileTimeoutSubmit => '禁言成員';
 
   @override
-  String get userProfileNicknameLabel => 'Nickname';
+  String get userProfileNicknameLabel => '暱稱';
 
   @override
-  String get userProfileNicknameHint => 'Enter a nickname';
+  String get userProfileNicknameHint => '輸入暱稱';
 
   @override
-  String get userProfileNicknameSave => 'Save';
+  String get userProfileNicknameSave => '儲存';
 
   @override
   String userProfileKickSuccess(String username) {
-    return 'Kicked $username';
+    return '$username 已被踢出';
   }
 
   @override
   String userProfileBanSuccess(String username) {
-    return 'Banned $username';
+    return '$username 已被封鎖';
   }
 
   @override
   String userProfileTimeoutSuccess(String username) {
-    return 'Timed out $username';
+    return '$username 已被禁言';
   }
 
   @override
   String userProfileRemoveTimeoutSuccess(String username) {
-    return 'Removed timeout for $username';
+    return '已移除 $username 的禁言';
   }
 
   @override
-  String get userProfileNicknameSuccess => 'Nickname updated';
+  String get userProfileNicknameSuccess => '暱稱已更新';
 
   @override
-  String get userProfileTransferSuccess => 'Ownership transferred';
+  String get userProfileTransferSuccess => '擁有權已轉移';
 
   @override
-  String get durationPermanent => 'Permanent';
+  String get durationPermanent => '永久';
 
   @override
-  String get duration60Seconds => '60 seconds';
+  String get duration60Seconds => '60 秒';
 
   @override
-  String get duration5Minutes => '5 minutes';
+  String get duration5Minutes => '5 分鐘';
 
   @override
-  String get duration10Minutes => '10 minutes';
+  String get duration10Minutes => '10 分鐘';
 
   @override
-  String get duration1Hour => '1 hour';
+  String get duration1Hour => '1 小時';
 
   @override
-  String get duration12Hours => '12 hours';
+  String get duration12Hours => '12 小時';
 
   @override
-  String get duration1Day => '1 day';
+  String get duration1Day => '1 天';
 
   @override
-  String get duration3Days => '3 days';
+  String get duration3Days => '3 天';
 
   @override
-  String get duration5Days => '5 days';
+  String get duration5Days => '5 天';
 
   @override
-  String get duration1Week => '1 week';
+  String get duration1Week => '1 週';
 
   @override
-  String get duration2Weeks => '2 weeks';
+  String get duration2Weeks => '2 週';
 
   @override
-  String get duration1Month => '1 month';
+  String get duration1Month => '1 個月';
 
   @override
-  String get durationCustom => 'Custom…';
+  String get durationCustom => '自訂...';
 
   @override
-  String get iarReportUserTitle => 'Report user';
+  String get iarReportUserTitle => '檢舉使用者';
 
   @override
-  String get iarReasonInappropriateProfile => 'Inappropriate profile';
+  String get iarReasonInappropriateProfile => '不當個人檔案';
 
   @override
-  String get iarReasonInappropriateProfileDescription =>
-      'This user\'s profile contains inappropriate content';
+  String get iarReasonInappropriateProfileDescription => '此使用者的個人檔案包含不當內容';
 
   @override
   String typingIndicatorOne(String name) {
-    return '$name is typing...';
+    return '$name 正在輸入...';
   }
 
   @override
   String typingIndicatorTwo(String name1, String name2) {
-    return '$name1 and $name2 are typing...';
+    return '$name1 和 $name2 正在輸入...';
   }
 
   @override
   String typingIndicatorThree(String name1, String name2, String name3) {
-    return '$name1, $name2 and $name3 are typing...';
+    return '$name1、$name2 和 $name3 正在輸入...';
   }
 
   @override
-  String get typingIndicatorMultiple => 'Several people are typing...';
+  String get typingIndicatorMultiple => '多人正在輸入...';
 
   @override
-  String get typingIndicatorHandful =>
-      'A handful of keyboard warriors are assembling...';
+  String get typingIndicatorHandful => '一群鍵盤戰士正在集結...';
 
   @override
-  String get typingIndicatorSymphony =>
-      'A symphony of clacking keys is underway...';
+  String get typingIndicatorSymphony => '一場按鍵交響樂正在上演...';
 
   @override
-  String get typingIndicatorFiesta =>
-      'It\'s a full-blown typing fiesta in here';
+  String get typingIndicatorFiesta => '這裡正展開一場熱鬧的輸入派對';
 
   @override
-  String get typingIndicatorApocalypse => 'Whoa, it\'s a typing apocalypse';
+  String get typingIndicatorApocalypse => '哇，這是一場打字末日';
 
   @override
   String systemJoinGladYoureHere(String username) {
-    return 'Glad you\'re here, $username!';
+    return '很高興你來了，$username！';
   }
 
   @override
   String systemJoinWelcomeMakeYourselfAtHome(String username) {
-    return 'Welcome, $username! Make yourself at home.';
+    return '歡迎你，$username！請自在些。';
   }
 
   @override
   String systemJoinHelloNiceToHaveYouHere(String username) {
-    return 'Hello, $username! Nice to have you here.';
+    return '哈囉，$username！很高興你來到這裡。';
   }
 
   @override
   String systemJoinHelloJumpInWheneverYoureReady(String username) {
-    return 'Hello, $username! Jump in whenever you\'re ready.';
+    return '哈囉，$username！隨時都可以加入對話。';
   }
 
   @override
   String systemJoinHeyGreatToSeeYouHere(String username) {
-    return 'Hey $username, great to see you here!';
+    return '嘿 $username，很高興在這裡見到你！';
   }
 
   @override
   String systemJoinHeyThereHopeYouEnjoyYourStay(String username) {
-    return 'Hey there, $username! Hope you enjoy your stay.';
+    return '嘿，$username！希望你在此一切愉快。';
   }
 
   @override
   String systemJoinHeyWelcomeAboard(String username) {
-    return 'Hey, $username, welcome aboard!';
+    return '嘿，$username，歡迎加入！';
   }
 
   @override
   String systemJoinGladYouMadeIt(String username) {
-    return 'Glad you made it, $username!';
+    return '很高興你來了，$username！';
   }
 
   @override
   String systemJoinWelcomeIn(String username) {
-    return 'Welcome in, $username!';
+    return '歡迎加入，$username！';
   }
 
   @override
   String systemJoinWelcome(String username) {
-    return 'Welcome, $username!';
+    return '歡迎，$username！';
   }
 
   @override
   String systemJoinWelcomeWereGladYoureHere(String username) {
-    return 'Welcome, $username! We\'re glad you\'re here.';
+    return '歡迎，$username！我們很高興你來了。';
   }
 
   @override
   String systemJoinWelcomeHopeYouEnjoyYourTimeHere(String username) {
-    return 'Welcome, $username! Hope you enjoy your time here.';
+    return '歡迎，$username！希望你在此過得愉快。';
   }
 
   @override
   String systemJoinWelcomeYourNextConversationStartsHere(String username) {
-    return 'Welcome, $username! Your next conversation starts here.';
+    return '歡迎，$username！你的下一段對話從這裡開始。';
   }
 
   @override
   String systemJoinWelcomeWereHappyToHaveYouHere(String username) {
-    return 'Welcome, $username. We\'re happy to have you here.';
+    return '歡迎，$username。我們很高興你來了。';
   }
 
   @override
   String systemJoinGreatToSeeYouWelcomeIn(String username) {
-    return 'Great to see you, $username! Welcome in.';
+    return '很高興見到你，$username！歡迎加入。';
   }
 
   @override
   String systemJoinYoureHereGoodToHaveYouWithUs(String username) {
-    return 'You\'re here, $username! Good to have you with us.';
+    return '你來了，$username！很高興有你加入我們。';
   }
 
   @override
   String systemJoinYouveArrivedLetsGetStarted(String username) {
-    return 'You\'ve arrived, $username! Let\'s get started.';
+    return '你來了，$username！我們開始吧。';
   }
 
   @override
-  String get relativeTimeShortNow => 'now';
+  String get relativeTimeShortNow => '剛才';
 
   @override
   String relativeTimeShortMinutes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}m',
-      one: '1m',
+      other: '$count分',
+      one: '1分',
     );
     return '$_temp0';
   }
@@ -9358,8 +9307,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}h',
-      one: '1h',
+      other: '$count小時',
+      one: '1小時',
     );
     return '$_temp0';
   }
@@ -9369,8 +9318,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}d',
-      one: '1d',
+      other: '$count天',
+      one: '1天',
     );
     return '$_temp0';
   }
@@ -9380,8 +9329,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}mo',
-      one: '1mo',
+      other: '$count個月',
+      one: '1個月',
     );
     return '$_temp0';
   }
@@ -9391,50 +9340,49 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '${count}y',
-      one: '1y',
+      other: '$count年',
+      one: '1年',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesTitle => 'My Devices';
+  String get linkedDevicesTitle => '我的裝置';
 
   @override
-  String get linkedDevicesDescription =>
-      'See all devices that are currently logged into your account. Revoke any sessions that you don\'t recognize.';
+  String get linkedDevicesDescription => '查看目前登入您帳戶的所有裝置。撤銷任何您不認識的連線。';
 
   @override
-  String get linkedDevicesCurrentDevice => 'Current Device';
+  String get linkedDevicesCurrentDevice => '目前裝置';
 
   @override
-  String get linkedDevicesOtherDevices => 'Other Devices';
+  String get linkedDevicesOtherDevices => '其他裝置';
 
   @override
-  String get linkedDevicesEnterSelection => 'Enter Selection Mode';
+  String get linkedDevicesEnterSelection => '進入選取模式';
 
   @override
-  String get linkedDevicesExitSelection => 'Exit Selection Mode';
+  String get linkedDevicesExitSelection => '退出選取模式';
 
   @override
-  String get linkedDevicesSelectAll => 'Select All';
+  String get linkedDevicesSelectAll => '全選';
 
   @override
-  String get linkedDevicesClearSelection => 'Clear Selection';
+  String get linkedDevicesClearSelection => '清除選取';
 
   @override
-  String get linkedDevicesRevokeTooltip => 'Revoke device';
+  String get linkedDevicesRevokeTooltip => '撤銷裝置';
 
   @override
-  String get linkedDevicesSignOutAll => 'Sign out all other devices';
+  String get linkedDevicesSignOutAll => '登出所有其他裝置';
 
   @override
   String linkedDevicesSignOutN(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: '登出 $count 個裝置',
+      one: '登出 1 個裝置',
     );
     return '$_temp0';
   }
@@ -9444,198 +9392,178 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Sign out $count devices',
-      one: 'Sign out 1 device',
+      other: '登出 $count 個裝置',
+      one: '登出 1 個裝置',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesSignOutAllSheetTitle => 'Sign out all other devices';
+  String get linkedDevicesSignOutAllSheetTitle => '登出所有其他裝置';
 
   @override
   String linkedDevicesSignOutSheetDescription(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'This will log out the selected devices from your account. You will need to log in again on those devices.',
-      one:
-          'This will log out the selected device from your account. You will need to log in again on that device.',
+      other: '這將會登出您帳戶中的選定裝置。您需要在那些裝置上重新登入。',
+      one: '這將會登出您帳戶中的選定裝置。您需要在該裝置上重新登入。',
     );
     return '$_temp0';
   }
 
   @override
   String get linkedDevicesSignOutAllSheetDescription =>
-      'This will log out the selected devices from your account. You will need to log in again on those devices.';
+      '這將會登出您帳戶中的選定裝置。您需要在那些裝置上重新登入。';
 
   @override
-  String get linkedDevicesSignOutConfirm => 'Continue';
+  String get linkedDevicesSignOutConfirm => '繼續';
 
   @override
-  String get linkedDevicesLogoutDisclaimer =>
-      'You\'ll have to log back in on all logged out devices';
+  String get linkedDevicesLogoutDisclaimer => '您必須在所有已登出的裝置上重新登入';
 
   @override
-  String get linkedDevicesLoadErrorTitle => 'Network Error';
+  String get linkedDevicesLoadErrorTitle => '網路錯誤';
 
   @override
   String get linkedDevicesLoadErrorDescription =>
-      'We\'re having trouble connecting to the space-time continuum. Please check your connection and try again.';
+      '我們遇到連線問題，無法存取時空連續體。請檢查您的連線並再試一次。';
 
   @override
   String linkedDevicesRevokeSuccess(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Device revoked',
-      one: 'Device revoked',
+      other: '裝置已撤銷',
+      one: '裝置已撤銷',
     );
     return '$_temp0';
   }
 
   @override
-  String get linkedDevicesRevokeError => 'Couldn\'t sign out. Try again.';
+  String get linkedDevicesRevokeError => '無法登出。請再試一次。';
 
   @override
-  String get linkedDevicesUnknownOs => 'Unknown OS';
+  String get linkedDevicesUnknownOs => '不明的作業系統';
 
   @override
-  String get linkedDevicesUnknownPlatform => 'Unknown Platform';
+  String get linkedDevicesUnknownPlatform => '不明的平台';
 
   @override
   String slowmodeLabel(String duration) {
-    return '$duration slowmode';
+    return '$duration 慢速模式';
   }
 
   @override
-  String get slowmodeTooltipActive =>
-      'You are in slowmode. Please wait before sending another message.';
+  String get slowmodeTooltipActive => '您目前處於慢速模式。請稍後再傳送訊息。';
 
   @override
-  String get slowmodeTooltipImmune =>
-      'Slowmode is enabled, but you are immune.';
+  String get slowmodeTooltipImmune => '慢速模式已啟用，但您不受影響。';
 
   @override
-  String get channelNoSendPermissionHint =>
-      'You can\'t send messages in this channel.';
+  String get channelNoSendPermissionHint => '您無法在此頻道中傳送訊息。';
 
   @override
   String systemDmComposerBarrier(String productName) {
-    return 'System announcements from $productName staff. You can\'t reply here.';
+    return '$productName 員工的系統公告。您無法在此回覆。';
   }
 
   @override
-  String get channelComposerBarrierGuildSendDisabled =>
-      'Messaging is temporarily paused in this community.';
+  String get channelComposerBarrierGuildSendDisabled => '此社群的訊息傳送已暫停。';
 
   @override
   String get channelComposerBarrierTimedOut =>
-      'You\'re timed out. Messaging, reactions, and voice are paused until the timeout expires.';
+      '您已被暫時禁止發言。訊息、表情符號回應和語音功能將暫停，直到禁言時間結束。';
 
   @override
-  String get channelComposerBarrierUnclaimedAccount =>
-      'You need to claim your account to send messages in this community.';
+  String get channelComposerBarrierUnclaimedAccount => '您需要領取您的帳號才能在此社群中傳送訊息。';
 
   @override
-  String get channelComposerBarrierUnverifiedEmail =>
-      'You need to verify your email to send messages in this community.';
+  String get channelComposerBarrierUnverifiedEmail => '您需要驗證您的電子郵件才能在此社群中傳送訊息。';
 
   @override
-  String get channelComposerBarrierAccountTooNew =>
-      'Your account is too new to send messages in this community.';
+  String get channelComposerBarrierAccountTooNew => '您的帳號太新，無法在此社群中傳送訊息。';
 
   @override
   String get channelComposerBarrierNotMemberLongEnough =>
-      'You haven\'t been a member of this community long enough to send messages.';
+      '您加入此社群的時間不夠長，無法傳送訊息。';
 
   @override
-  String get channelComposerBarrierNoPhoneNumber =>
-      'You need to verify a phone number to send messages in this community.';
+  String get channelComposerBarrierNoPhoneNumber => '您需要驗證手機號碼才能在此社群中傳送訊息。';
 
   @override
-  String get channelComposerBarrierVerifyEmail => 'Verify email';
+  String get channelComposerBarrierVerifyEmail => '驗證電子郵件';
 
   @override
-  String get channelComposerBarrierVerifyPhone => 'Verify phone';
+  String get channelComposerBarrierVerifyPhone => '驗證手機';
 
   @override
   String chatAttachmentTooMany(int max) {
-    return 'Too many attachments (max $max)';
+    return '附件太多（最多 $max 個）';
   }
 
   @override
-  String get chatAttachmentFileTooLarge =>
-      'One or more files exceed the size limit';
+  String get chatAttachmentFileTooLarge => '一個或多個檔案超過大小限制';
 
   @override
-  String get chatAttachmentPayloadTooLarge =>
-      'Those files are too large to send together';
+  String get chatAttachmentPayloadTooLarge => '這些檔案太大，無法一起傳送';
 
   @override
-  String get chatAttachmentDropToUpload => 'Drop files to upload';
+  String get chatAttachmentDropToUpload => '拖曳檔案以上傳';
 
   @override
-  String get chatAttachmentDropToSend => 'Drop files to send now';
+  String get chatAttachmentDropToSend => '拖曳檔案立即傳送';
 
   @override
-  String get chatAttachmentSendVoiceMessage => 'Send voice message';
+  String get chatAttachmentSendVoiceMessage => '傳送語音訊息';
 
   @override
-  String get voiceMessageTitle => 'Voice message';
+  String get voiceMessageTitle => '語音訊息';
 
   @override
-  String get voiceMessageHoldHint =>
-      'Hold to record. Drag up to lock, or release to send.';
+  String get voiceMessageHoldHint => '按住以錄製。向上拖曳以鎖定，或放開以傳送。';
 
   @override
-  String get voiceMessageDiscard => 'Discard voice message';
+  String get voiceMessageDiscard => '捨棄語音訊息';
 
   @override
-  String get voiceMessageSend => 'Send voice message';
+  String get voiceMessageSend => '傳送語音訊息';
 
   @override
-  String get voiceMessageMicPermissionDenied =>
-      'Unable to start recording. Allow microphone access.';
+  String get voiceMessageMicPermissionDenied => '無法開始錄製。請允許麥克風存取權。';
 
   @override
-  String get voiceMessageRecordingNotSupported =>
-      'Voice recording is not supported on this device.';
+  String get voiceMessageRecordingNotSupported => '此裝置不支援語音錄製。';
 
   @override
-  String get voiceMessageMicInUse =>
-      'Leave the voice call to record a voice message.';
+  String get voiceMessageMicInUse => '請離開語音通話才能錄製語音訊息。';
 
   @override
-  String get voiceMessageRecordingFailed => 'Recording failed. Try again.';
+  String get voiceMessageRecordingFailed => '錄製失敗。請再試一次。';
 
   @override
-  String get voiceMessageSendFailed =>
-      'Unable to send voice message. Try again.';
+  String get voiceMessageSendFailed => '無法傳送語音訊息。請再試一次。';
 
   @override
-  String get voiceMessageRecordingHint =>
-      'Speak now. Press Stop when you are done — you can trim afterwards.';
+  String get voiceMessageRecordingHint => '請開始說話。完成後請按停止 — 您之後可以進行修剪。';
 
   @override
-  String get voiceMessageReviewHint =>
-      'Drag the handles to trim, then press Send.';
+  String get voiceMessageReviewHint => '拖曳控點進行修剪，然後按傳送。';
 
   @override
-  String get voiceMessageStop => 'Stop';
+  String get voiceMessageStop => '停止';
 
   @override
-  String get voiceMessageStartRecording => 'Start recording';
+  String get voiceMessageStartRecording => '開始錄製';
 
   @override
   String get voiceMessageRerecord => 'Re-record';
 
   @override
-  String get voiceMessagePlay => 'Play';
+  String get voiceMessagePlay => '播放';
 
   @override
-  String get voiceMessagePause => 'Pause';
+  String get voiceMessagePause => '暫停';
 
   @override
   String voiceMessageSelectionTooShort(num seconds) {
@@ -9644,246 +9572,233 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     );
     final String secondsString = secondsNumberFormat.format(seconds);
 
-    return 'Selection must be at least ${secondsString}s.';
+    return '選取內容必須至少為 $secondsString 秒。';
   }
 
   @override
-  String get chatAttachmentEditTitle => 'Edit attachment';
+  String get chatAttachmentEditTitle => '編輯附件';
 
   @override
-  String get chatAttachmentFilenameLabel => 'Filename';
+  String get chatAttachmentFilenameLabel => '檔案名稱';
 
   @override
-  String get chatAttachmentDescriptionLabel => 'Description';
+  String get chatAttachmentDescriptionLabel => '說明';
 
   @override
-  String get chatAttachmentDescriptionHint => 'Optional alt text';
+  String get chatAttachmentDescriptionHint => '選用的替代文字';
 
   @override
-  String get chatAttachmentSpoilerLabel => 'Mark as spoiler';
+  String get chatAttachmentSpoilerLabel => '標示為劇透';
 
   @override
-  String get chatAttachmentRemove => 'Remove attachment';
+  String get chatAttachmentRemove => '移除附件';
 
   @override
-  String get chatAttachmentDownload => 'Download';
+  String get chatAttachmentDownload => '下載';
 
   @override
-  String get chatAttachmentExpiredTooltip => 'Attachment expired';
+  String get chatAttachmentExpiredTooltip => '附件已過期';
 
   @override
-  String get chatAttachmentSourceGallery => 'Gallery';
+  String get chatAttachmentSourceGallery => '相簿';
 
   @override
-  String get chatAttachmentSourceCamera => 'Camera';
+  String get chatAttachmentSourceCamera => '相機';
 
   @override
-  String get chatAttachmentSourceBrowse => 'Browse files';
+  String get chatAttachmentSourceBrowse => '瀏覽檔案';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Paste image from clipboard';
+  String get chatAttachmentPasteTooltip => '從剪貼簿貼上圖片';
 
   @override
-  String get chatAttachmentSpoiler => 'Spoiler';
+  String get chatAttachmentSpoiler => '劇透';
 
   @override
   String get chatMediaSpoilerOverlayLabel => 'SPOILER';
 
   @override
-  String get chatMediaSpoilerRevealLabel => 'Reveal spoiler';
+  String get chatMediaSpoilerRevealLabel => '顯示劇透';
 
   @override
-  String get matureMediaRevealButton => 'Reveal';
+  String get matureMediaRevealButton => '顯示';
 
   @override
-  String get matureMediaRevealHint => 'Click to reveal';
+  String get matureMediaRevealHint => '點擊以顯示';
 
   @override
-  String get matureContentTitle => 'Mature content';
+  String get matureContentTitle => '成人內容';
 
   @override
-  String get matureCommunityTitle => 'Mature community';
+  String get matureCommunityTitle => '成熟社群';
 
   @override
-  String get matureCategoryTitle => 'Mature category';
+  String get matureCategoryTitle => '成熟分類';
 
   @override
-  String get matureChannelTitle => 'Mature channel';
+  String get matureChannelTitle => '成熟頻道';
 
   @override
-  String get communityContentWarningTitle => 'Community content warning';
+  String get communityContentWarningTitle => '社群內容警告';
 
   @override
-  String get categoryContentWarningTitle => 'Category content warning';
+  String get categoryContentWarningTitle => '分類內容警告';
 
   @override
-  String get channelContentWarningTitle => 'Channel content warning';
+  String get channelContentWarningTitle => '頻道內容警告';
 
   @override
-  String get defaultContentWarningBody => 'This contains sensitive content.';
+  String get defaultContentWarningBody => '此內容包含敏感資訊。';
 
   @override
-  String get matureCommunityBody =>
-      'This community is marked for mature content and may contain material that may be inappropriate for some users.';
+  String get matureCommunityBody => '此社群已標記為包含成人內容，可能包含對某些使用者不適宜的素材。';
 
   @override
-  String get matureCategoryBody =>
-      'This category is marked for mature content and may contain material that may be inappropriate for some users.';
+  String get matureCategoryBody => '此分類已標記為包含成人內容，可能包含對某些使用者不適宜的素材。';
 
   @override
-  String get matureChannelBody =>
-      'This channel is marked for mature content and may contain material that may be inappropriate for some users.';
+  String get matureChannelBody => '此頻道已標記為包含成人內容，可能包含對某些使用者不適宜的素材。';
 
   @override
-  String get matureVoiceChannelBody =>
-      'This voice channel is marked for mature content and may contain material that may be inappropriate for some users.';
+  String get matureVoiceChannelBody => '此語音頻道已標記為包含成人內容，可能包含對某些使用者不適宜的素材。';
 
   @override
-  String get matureLinkChannelBody =>
-      'This link channel is marked for mature content and may open material that may be inappropriate for some users.';
+  String get matureLinkChannelBody => '此連結頻道已標記為包含成人內容，可能會開啟對某些使用者不適宜的素材。';
 
   @override
-  String get matureCommunityUnavailableBody =>
-      'This mature community is not available to your account.';
+  String get matureCommunityUnavailableBody => '您的帳號無法存取此成熟社群。';
 
   @override
-  String get matureCategoryUnavailableBody =>
-      'This mature category is not available to your account.';
+  String get matureCategoryUnavailableBody => '您的帳號無法存取此成熟分類。';
 
   @override
-  String get matureChannelUnavailableBody =>
-      'This mature channel is not available to your account.';
+  String get matureChannelUnavailableBody => '您的帳號無法存取此成熟頻道。';
 
   @override
-  String get matureContentProceedButton => 'Proceed';
+  String get matureContentProceedButton => '繼續';
 
   @override
-  String get matureContentUnderstandButton => 'I understand';
+  String get matureContentUnderstandButton => '我了解';
 
   @override
-  String get matureContentOpenLinkButton => 'Open link';
+  String get matureContentOpenLinkButton => '開啟連結';
 
   @override
-  String get sensitiveContentSectionTitle => 'Sensitive content';
+  String get sensitiveContentSectionTitle => '敏感內容';
 
   @override
-  String get sensitiveContentSectionDescription =>
-      'Control how mature or sensitive media is filtered in different contexts';
+  String get sensitiveContentSectionDescription => '控制在不同情境下如何篩選成人或敏感媒體';
 
   @override
-  String get sensitiveContentFriendDmLabel => 'Direct messages from friends';
+  String get sensitiveContentFriendDmLabel => '朋友的私訊';
 
   @override
-  String get sensitiveContentNonFriendDmLabel => 'Direct messages from others';
+  String get sensitiveContentNonFriendDmLabel => '其他人的私訊';
 
   @override
-  String get sensitiveContentGuildLabel => 'Messages in community channels';
+  String get sensitiveContentGuildLabel => '社群頻道的訊息';
 
   @override
-  String get sensitiveContentFilterShow => 'Show';
+  String get sensitiveContentFilterShow => '顯示';
 
   @override
-  String get sensitiveContentFilterBlur => 'Blur';
+  String get sensitiveContentFilterBlur => '模糊';
 
   @override
-  String get sensitiveContentFilterBlock => 'Block';
+  String get sensitiveContentFilterBlock => '封鎖';
 
   @override
-  String get sensitiveContentBlurUnscannedLabel =>
-      'Blur media until safety scan completes';
+  String get sensitiveContentBlurUnscannedLabel => '掃描完成前模糊媒體';
 
   @override
   String get sensitiveContentBlurUnscannedDescriptionAdult =>
-      'When enabled, images and videos are blurred until the content safety scan finishes.';
+      '啟用後，圖片和影片將會模糊處理，直到內容安全掃描完成。';
 
   @override
-  String get sensitiveContentBlurUnscannedDescriptionMinor =>
-      'This setting is always on for your account.';
+  String get sensitiveContentBlurUnscannedDescriptionMinor => '此設定對您的帳號一律保持啟用。';
 
   @override
-  String get sensitiveContentResetButton => 'Reset';
+  String get sensitiveContentResetButton => '重設';
 
   @override
-  String get sensitiveContentSaveButton => 'Save';
+  String get sensitiveContentSaveButton => '儲存';
 
   @override
   String chatUploadingAttachmentsSummary(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count files',
-      one: '1 file',
+      other: '$count 個檔案',
+      one: '1 個檔案',
     );
-    return 'Uploading $_temp0';
+    return '正在上傳 $_temp0';
   }
 
   @override
-  String get chatCancelUpload => 'Cancel upload';
+  String get chatCancelUpload => '取消上傳';
 
   @override
   String chatAttachmentExpiresOn(String date) {
-    return 'Expires on $date';
+    return '將於 $date 到期';
   }
 
   @override
   String chatAttachmentExpiresBetween(String start, String end) {
-    return 'Expires between $start and $end';
+    return '將於 $start 和 $end 之間到期';
   }
 
   @override
-  String get connectionsTitle => 'Connections';
+  String get connectionsTitle => '連線';
 
   @override
   String get connectionsDescription =>
-      'Link external accounts and domains to your Fluxer profile. Verified connections will be displayed on your profile for others to see.';
+      '連結外部帳號和網域至您的 Fluxer 個人檔案。已驗證的連線將顯示在您的個人檔案上供他人查看。';
 
   @override
-  String get connectionsEmptyTitle => 'No connections yet';
+  String get connectionsEmptyTitle => '尚未有連線';
 
   @override
   String get connectionsEmptyDescriptionBluesky =>
-      'Link your Bluesky account or verify domain ownership to display them on your profile.';
+      '連結您的 Bluesky 帳號或驗證網域所有權，即可在您的個人檔案上顯示。';
 
   @override
-  String get connectionsEmptyDescriptionDomainOnly =>
-      'Verify domain ownership to display it on your profile.';
+  String get connectionsEmptyDescriptionDomainOnly => '驗證網域所有權，即可在您的個人檔案上顯示。';
 
   @override
   String get connectionsAddBluesky => 'Bluesky';
 
   @override
-  String get connectionsAddDomain => 'Domain';
+  String get connectionsAddDomain => '網域';
 
   @override
-  String get connectionsAddBlueskyAriaLabel => 'Add Bluesky connection';
+  String get connectionsAddBlueskyAriaLabel => '新增 Bluesky 連線';
 
   @override
-  String get connectionsAddDomainAriaLabel => 'Add domain connection';
+  String get connectionsAddDomainAriaLabel => '新增網域連線';
 
   @override
-  String get connectionEdit => 'Edit';
+  String get connectionEdit => '編輯';
 
   @override
-  String get connectionRemove => 'Remove';
+  String get connectionRemove => '移除';
 
   @override
-  String get connectionVerifiedLabel => 'This connection has been verified.';
+  String get connectionVerifiedLabel => '此連線已驗證。';
 
   @override
-  String get connectionUnverifiedLabel =>
-      'This connection has not been verified.';
+  String get connectionUnverifiedLabel => '此連線尚未驗證。';
 
   @override
-  String get connectionAddTitle => 'Add Connection';
+  String get connectionAddTitle => '新增連線';
 
   @override
-  String get connectionTypeLabel => 'Connection Type';
+  String get connectionTypeLabel => '連線類型';
 
   @override
-  String get connectionHandleLabel => 'Handle';
+  String get connectionHandleLabel => '帳號名稱';
 
   @override
-  String get connectionDomainLabel => 'Domain';
+  String get connectionDomainLabel => '網域';
 
   @override
   String get connectionHandlePlaceholder => 'username.bsky.social';
@@ -9892,750 +9807,761 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get connectionDomainPlaceholder => 'example.com';
 
   @override
-  String get connectionAlreadyExists => 'You already have this connection.';
+  String get connectionAlreadyExists => '您已擁有此連線。';
 
   @override
-  String get connectionConnectBluesky => 'Connect with Bluesky';
+  String get connectionConnectBluesky => '透過 Bluesky 連線';
 
   @override
-  String get connectionContinue => 'Continue';
+  String get connectionContinue => '繼續';
 
   @override
-  String get connectionVerifyTitle => 'Verify Connection';
+  String get connectionVerifyTitle => '驗證連線';
 
   @override
-  String get connectionVerifyInstructions =>
-      'Use the record below to prove domain ownership.';
+  String get connectionVerifyInstructions => '使用下方的紀錄來證明網域擁有權。';
 
   @override
-  String get connectionDnsRecordTitle => 'DNS TXT record';
+  String get connectionDnsRecordTitle => 'DNS TXT 紀錄';
 
   @override
-  String get connectionDnsHostLabel => 'Host';
+  String get connectionDnsHostLabel => '主機';
 
   @override
-  String get connectionDnsValueLabel => 'Value';
+  String get connectionDnsValueLabel => '值';
 
   @override
-  String get connectionCopyHost => 'Copy host';
+  String get connectionCopyHost => '複製主機';
 
   @override
-  String get connectionCopyValue => 'Copy value';
+  String get connectionCopyValue => '複製值';
 
   @override
-  String get connectionCopied => 'Copied!';
+  String get connectionCopied => '已複製！';
 
   @override
-  String get connectionTokenFileTitle => 'Serve the token file';
+  String get connectionTokenFileTitle => '提供權杖檔案';
 
   @override
   String get connectionTokenFileDescription =>
-      'Download **fluxer-verification** and place it in your **.well-known** folder so we can validate the domain.';
+      '下載 **fluxer-verification** 並將其放置在您的 **.well-known** 資料夾中，以便我們驗證網域。';
 
   @override
-  String get connectionTokenFileDownload => 'Download fluxer-verification';
+  String get connectionTokenFileDownload => '下載 fluxer-verification';
 
   @override
   String connectionTokenFileMeta(String dnsUrl) {
-    return 'The file contains the verification token we will fetch from **$dnsUrl**.';
+    return '檔案包含我們將從 **$dnsUrl** 擷取的驗證權杖。';
   }
 
   @override
-  String get connectionSaveTokenDialogTitle => 'Save fluxer-verification';
+  String get connectionSaveTokenDialogTitle => '儲存 fluxer-verification';
 
   @override
-  String get connectionVerifyButton => 'Verify';
+  String get connectionVerifyButton => '驗證';
 
   @override
-  String get connectionBack => 'Back';
+  String get connectionBack => '上一頁';
 
   @override
-  String get connectionEditTitle => 'Edit Connection';
+  String get connectionEditTitle => '編輯連線';
 
   @override
-  String get connectionEditDescription =>
-      'Choose who can see this connection on your profile.';
+  String get connectionEditDescription => '選擇誰可以在您的個人檔案中看到此連線。';
 
   @override
-  String get connectionVisibilityEveryone => 'Everyone';
+  String get connectionVisibilityEveryone => '所有人';
 
   @override
-  String get connectionVisibilityEveryoneDesc =>
-      'Allow anyone to see this connection on your profile';
+  String get connectionVisibilityEveryoneDesc => '允許任何人查看您個人檔案中的此連線';
 
   @override
-  String get connectionVisibilityFriends => 'Friends';
+  String get connectionVisibilityFriends => '朋友';
 
   @override
-  String get connectionVisibilityFriendsDesc =>
-      'Allow your friends to see this connection';
+  String get connectionVisibilityFriendsDesc => '允許您的朋友查看此連線';
 
   @override
-  String get connectionVisibilityCommunityMembers => 'Community Members';
+  String get connectionVisibilityCommunityMembers => '社群成員';
 
   @override
-  String get connectionVisibilityCommunityMembersDesc =>
-      'Allow members from communities you\'re in to see this connection';
+  String get connectionVisibilityCommunityMembersDesc => '允許您所屬社群的成員查看此連線';
 
   @override
-  String get connectionRemoveTitle => 'Remove Connection';
+  String get connectionRemoveTitle => '移除連線';
 
   @override
-  String get connectionRemoveDescription =>
-      'Are you sure you want to remove this connection? This action cannot be undone.';
+  String get connectionRemoveDescription => '確定要移除此連線嗎？此動作無法復原。';
 
   @override
-  String get connectionRemoveConfirm => 'Remove';
+  String get connectionRemoveConfirm => '移除';
 
   @override
-  String get connectionsLoadError => 'Failed to load connections';
+  String get connectionsLoadError => '無法載入連線';
 
   @override
-  String get connectionsReorderError => 'Failed to update order';
+  String get connectionsReorderError => '無法更新順序';
 
   @override
-  String get connectionInitiateFailed =>
-      'Couldn\'t start verification. Try again.';
+  String get connectionInitiateFailed => '無法開始驗證。請再試一次。';
 
   @override
-  String get connectionVerifyFailed =>
-      'Couldn\'t verify. Check your DNS record and try again.';
+  String get connectionVerifyFailed => '無法驗證。請檢查您的 DNS 紀錄並再試一次。';
 
   @override
-  String get connectionBlueskyAuthorizeFailed =>
-      'Couldn\'t start Bluesky authorization.';
+  String get connectionBlueskyAuthorizeFailed => '無法開始 Bluesky 授權。';
 
   @override
-  String get connectionUpdateFailed => 'Couldn\'t update connection';
+  String get connectionUpdateFailed => '無法更新連線';
 
   @override
-  String get connectionRemoveFailed => 'Couldn\'t remove connection';
+  String get connectionRemoveFailed => '無法移除連線';
 
   @override
-  String get connectionTokenSavedToast => 'Saved fluxer-verification';
+  String get connectionTokenSavedToast => '已儲存 fluxer-verification';
 
   @override
-  String get connectionTokenSaveFailedToast => 'Couldn\'t save file';
+  String get connectionTokenSaveFailedToast => '無法儲存檔案';
 
   @override
-  String get connectionEnterHandle => 'Enter a Bluesky handle.';
+  String get connectionEnterHandle => '請輸入 Bluesky 帳號名稱。';
 
   @override
-  String get connectionEnterDomain => 'Enter a domain.';
+  String get connectionEnterDomain => '請輸入網域。';
 
   @override
-  String get lookAndFeelTitle => 'Look & Feel';
+  String get lookAndFeelTitle => '外觀';
 
   @override
-  String get lookAndFeelThemeSectionTitle => 'Theme';
+  String get lookAndFeelThemeSectionTitle => '佈景主題';
 
   @override
-  String get lookAndFeelThemeSectionDescription =>
-      'Choose between dark, coal, or light appearance.';
+  String get lookAndFeelThemeSectionDescription => '在深色、煤炭黑或淺色外觀之間選擇。';
 
   @override
-  String get lookAndFeelThemeDark => 'Dark Theme';
+  String get lookAndFeelThemeDark => '深色佈景主題';
 
   @override
-  String get lookAndFeelThemeCoal => 'Coal Theme';
+  String get lookAndFeelThemeCoal => '煤炭黑佈景主題';
 
   @override
-  String get lookAndFeelThemeLight => 'Light Theme';
+  String get lookAndFeelThemeLight => '淺色佈景主題';
 
   @override
-  String get lookAndFeelThemeSystem => 'System Theme';
+  String get lookAndFeelThemeSystem => '系統佈景主題';
 
   @override
-  String get lookAndFeelSyncThemeAcrossDevicesLabel =>
-      'Sync theme across devices';
+  String get lookAndFeelSyncThemeAcrossDevicesLabel => '跨裝置同步佈景主題';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesDescription =>
-      'When enabled, theme changes will sync to all your devices. When disabled, this device will use its own theme setting.';
+      '啟用後，主題變更將同步到您的所有裝置。停用後，此裝置將使用自己的佈景主題設定。';
 
   @override
   String get lookAndFeelSyncThemeAcrossDevicesSystemDescription =>
-      'System theme automatically disables sync to track your system\'s preference on this device.';
+      '系統主題會自動停用同步，以追蹤此裝置上的系統偏好設定。';
 
   @override
-  String get lookAndFeelThemeSyncFailed =>
-      'Couldn\'t sync theme to your account. Please try again.';
+  String get lookAndFeelThemeSyncFailed => '無法將佈景主題同步到您的帳戶。請再試一次。';
 
   @override
-  String get lookAndFeelChatFontScalingTitle => 'Chat Font Scaling';
+  String get lookAndFeelChatFontScalingTitle => '聊天字體縮放';
 
   @override
-  String get lookAndFeelChatFontScalingDescription =>
-      'Adjust the font size in the chat area.';
+  String get lookAndFeelChatFontScalingDescription => '調整聊天區域的字體大小。';
 
   @override
-  String get lookAndFeelInterfaceTitle => 'Interface';
+  String get lookAndFeelInterfaceTitle => '介面';
 
   @override
-  String get lookAndFeelInterfaceDescription =>
-      'Customize interface elements and behaviors.';
+  String get lookAndFeelInterfaceDescription => '自訂介面元素和行為。';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorsTitle =>
-      'Channel list typing indicators';
+  String get lookAndFeelChannelTypingIndicatorsTitle => '頻道列表輸入指示器';
 
   @override
   String get lookAndFeelChannelTypingIndicatorsDescription =>
-      'Choose how typing indicators appear in the channel list when someone is typing in a channel.';
+      '選擇當有人在頻道中輸入時，輸入指示器如何在頻道列表中顯示。';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorAvatarsName =>
-      'Typing Indicator + Avatars';
+  String get lookAndFeelChannelTypingIndicatorAvatarsName => '輸入指示器 + 個人頭像';
 
   @override
   String get lookAndFeelChannelTypingIndicatorAvatarsDescription =>
-      'Show typing indicator with user avatars in the channel list';
+      '在頻道列表中顯示帶有使用者個人頭像的輸入指示器';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorOnlyName =>
-      'Typing Indicator Only';
+  String get lookAndFeelChannelTypingIndicatorOnlyName => '僅輸入指示器';
 
   @override
   String get lookAndFeelChannelTypingIndicatorOnlyDescription =>
-      'Show just the typing indicator without avatars';
+      '僅顯示輸入指示器，不顯示個人頭像';
 
   @override
-  String get lookAndFeelChannelTypingIndicatorHiddenName => 'Hidden';
+  String get lookAndFeelChannelTypingIndicatorHiddenName => '隱藏';
 
   @override
   String get lookAndFeelChannelTypingIndicatorHiddenDescription =>
-      'Don\'t show typing indicators in the channel list';
+      '不在頻道列表中顯示輸入指示器';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorLabel =>
-      'Show typing on selected channel';
+      '顯示目前頻道的輸入狀態';
 
   @override
   String get lookAndFeelShowSelectedChannelTypingIndicatorDescription =>
-      'When disabled (default), typing indicators won\'t appear on the channel you\'re currently viewing.';
+      '停用時（預設），輸入指示器不會出現在您目前檢視的頻道。';
 
   @override
   String get lookAndFeelTypingIndicatorPreviewChannelName => 'general';
 
   @override
-  String get lookAndFeelKeyboardHintsTitle => 'Keyboard Hints';
+  String get lookAndFeelKeyboardHintsTitle => '鍵盤提示';
 
   @override
-  String get lookAndFeelKeyboardHintsDescription =>
-      'Control whether keyboard shortcut hints appear inside tooltips.';
+  String get lookAndFeelKeyboardHintsDescription => '控制鍵盤快速鍵提示是否顯示在工具提示中。';
 
   @override
-  String get lookAndFeelHideKeyboardHintsLabel =>
-      'Hide keyboard hints in tooltips';
+  String get lookAndFeelHideKeyboardHintsLabel => '在工具提示中隱藏鍵盤提示';
 
   @override
   String get lookAndFeelHideKeyboardHintsDescription =>
-      'When enabled, shortcut badges are hidden in tooltip popups.';
+      '啟用時，工具提示彈出視窗中會隱藏快速鍵徽章。';
 
   @override
-  String get lookAndFeelNekoTitle => 'Miscellaneous';
+  String get lookAndFeelNekoTitle => '其他';
 
   @override
-  String get lookAndFeelNekoDescription => 'Miscellaneous interface options.';
+  String get lookAndFeelNekoDescription => '其他介面選項。';
 
   @override
-  String get lookAndFeelShowNekoLabel => 'Show Neko';
+  String get lookAndFeelShowNekoLabel => '顯示 Neko';
 
   @override
-  String get lookAndFeelShowNekoDescription =>
-      'When enabled, Neko appears near the chat input bar.';
+  String get lookAndFeelShowNekoDescription => '啟用時，Neko 會出現在聊天輸入列附近。';
 
   @override
-  String get lookAndFeelVoiceChannelJoinTitle => 'Voice channel join behavior';
+  String get lookAndFeelVoiceChannelJoinTitle => '語音頻道加入行為';
 
   @override
-  String get lookAndFeelVoiceChannelJoinDescription =>
-      'Control how you join voice channels in communities.';
+  String get lookAndFeelVoiceChannelJoinDescription => '控制您在社群中加入語音頻道的方式。';
 
   @override
-  String get lookAndFeelRequireDoubleClickJoinLabel =>
-      'Require double-click to join voice channels';
+  String get lookAndFeelRequireDoubleClickJoinLabel => '需要按兩下才能加入語音頻道';
 
   @override
   String get lookAndFeelRequireDoubleClickJoinDescription =>
-      'When enabled, you\'ll need to double-click on voice channels to join them. When disabled (default), single-clicking will join the channel immediately.';
+      '啟用時，您需要按兩下語音頻道才能加入。停用時（預設），按一下即可立即加入頻道。';
 
   @override
-  String get lookAndFeelChatFontPreviewSample =>
-      'The quick brown fox jumps over the lazy dog.';
+  String get lookAndFeelChatFontPreviewSample => '敏捷的棕色狐狸跳過懶惰的狗。';
 
   @override
-  String get lookAndFeelGuildSidebarTitle => 'Guild sidebar';
+  String get lookAndFeelGuildSidebarTitle => '伺服器側邊欄';
 
   @override
-  String get lookAndFeelGuildSidebarDescription =>
-      'Configure how the guild sidebar displays direct messages.';
+  String get lookAndFeelGuildSidebarDescription => '設定伺服器側邊欄如何顯示私訊。';
 
   @override
   String guildUnavailableOutageTooltip(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          '$count communities are temporarily unavailable due to a flux capacitor malfunction.',
-      one:
-          '1 community is temporarily unavailable due to a flux capacitor malfunction.',
+      other: '由於 flux capacitor 故障，有 $count 個社群暫時無法使用。',
+      one: '由於 flux capacitor 故障，有 1 個社群暫時無法使用。',
     );
     return '$_temp0';
   }
 
   @override
-  String get lookAndFeelCollapseDMsLabel => 'Collapse DMs Into Folder';
+  String get lookAndFeelCollapseDMsLabel => '將私訊摺疊到資料夾';
 
   @override
   String get lookAndFeelCollapseDMsDescription =>
-      'When enabled, unread DMs in the guild sidebar are collapsed into a folder on the Fluxer button. Click the Fluxer button while on the DMs page to expand or collapse the folder.';
+      '啟用時，伺服器側邊欄中的未讀私訊會摺疊到 Fluxer 按鈕資料夾中。在私訊頁面上按一下 Fluxer 按鈕即可展開或摺疊資料夾。';
 
   @override
-  String get lookAndFeelChannelListSectionTitle => 'Channel List';
+  String get lookAndFeelChannelListSectionTitle => '頻道列表';
 
   @override
   String get lookAndFeelChannelListSectionDescription =>
-      'Control unread indicator behavior for muted channels in channel lists.';
+      '控制靜音頻道在頻道列表中的未讀指示器行為。';
 
   @override
-  String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel =>
-      'Show unread indicator on muted channels';
+  String get lookAndFeelShowFadedUnreadOnMutedChannelsLabel => '在靜音頻道上顯示未讀指示器';
 
   @override
   String get lookAndFeelShowFadedUnreadOnMutedChannelsDescription =>
-      'When enabled, muted channels show a faded unread indicator on the left side. Mentions still appear regardless of this setting.';
+      '啟用時，靜音頻道左側會顯示淡化的未讀指示器。提及訊息仍會顯示，不受此設定影響。';
 
   @override
-  String get lookAndFeelActiveNowSectionTitle => 'Active Now';
+  String get lookAndFeelActiveNowSectionTitle => '目前活躍';
 
   @override
-  String get lookAndFeelActiveNowSectionDescription =>
-      'Control how Active Now surfaces across the app.';
+  String get lookAndFeelActiveNowSectionDescription => '控制目前活躍在應用程式中的顯示方式。';
 
   @override
-  String get lookAndFeelShowActiveNowLabel =>
-      'Show Active Now on the home screen';
+  String get lookAndFeelShowActiveNowLabel => '在首頁顯示目前活躍';
 
   @override
   String get lookAndFeelShowActiveNowDescription =>
-      'Show Active Now on the home screen to surface friends active in voice. You\'ll see a preview, the channel context, who\'s already there, and a quick way to join in.';
+      '在首頁顯示目前活躍，以顯示正在語音頻道中的朋友。您將看到預覽、頻道內容、已在線上的人員，以及快速加入的方式。';
 
   @override
-  String get lookAndFeelFavoritesSectionTitle => 'Favorites';
+  String get lookAndFeelFavoritesSectionTitle => '我的最愛';
 
   @override
-  String get lookAndFeelFavoritesSectionDescription =>
-      'Control the visibility of favorites throughout the app.';
+  String get lookAndFeelFavoritesSectionDescription => '控制我的最愛在應用程式中的可見性。';
 
   @override
-  String get lookAndFeelEnableFavoritesLabel => 'Enable Favorites';
+  String get lookAndFeelEnableFavoritesLabel => '啟用我的最愛';
 
   @override
   String get lookAndFeelEnableFavoritesDescription =>
-      'When enabled, you can favorite channels and they\'ll appear in the Favorites section. When disabled, all favorite-related UI elements (buttons, menu items) will be hidden. Your existing favorites will be preserved.';
+      '啟用後，您可以將頻道加入我的最愛，它們將出現在我的最愛區段。停用後，所有與我的最愛相關的 UI 元素（按鈕、選單項目）將會隱藏。您現有的我的最愛將會保留。';
 
   @override
-  String get favoritesTitle => 'Favorites';
+  String get favoritesTitle => '我的最愛';
 
   @override
-  String get favoritesEmptyTitle => 'No favorites yet';
+  String get favoritesEmptyTitle => '尚未有我的最愛';
 
   @override
-  String get favoritesEmptyDescription =>
-      'Star channels from the chat header to keep them here.';
+  String get favoritesEmptyDescription => '將頻道從聊天標頭加上星號，即可將其保留在此處。';
 
   @override
-  String get favoritesWelcomeTitle => 'Welcome to favorites';
+  String get favoritesWelcomeTitle => '歡迎使用我的最愛';
 
   @override
   String get favoritesWelcomeDescription =>
-      'Your personal space for quick access to channels, DMs, and groups you love. Press the star on any channel to add it here.';
+      '您快速存取喜愛頻道、私訊和群組的專屬空間。按下任何頻道的星號即可將其加入。';
 
   @override
-  String get favoritesWelcomeTip => 'Not for you? Turn it off anytime.';
+  String get favoritesWelcomeTip => '不喜歡嗎？隨時關閉。';
 
   @override
-  String get favoritesDisableButton => 'Disable favorites';
+  String get favoritesDisableButton => '關閉我的最愛';
 
   @override
-  String get favoritesAddedToast => 'Added to Favorites';
+  String get favoritesAddedToast => '已加入我的最愛';
 
   @override
-  String get favoritesRemovedToast => 'Removed from Favorites';
+  String get favoritesRemovedToast => '已從我的最愛移除';
 
   @override
-  String get favoritesHiddenToast => 'Favorites hidden';
+  String get favoritesHiddenToast => '我的最愛已隱藏';
 
   @override
-  String get favoritesMute => 'Mute favorites';
+  String get favoritesMute => '噤我的最愛';
 
   @override
-  String get favoritesUnmute => 'Unmute favorites';
+  String get favoritesUnmute => '取消噤我的最愛';
 
   @override
-  String get favoritesHeaderMenu => 'Favorites menu';
+  String get favoritesHeaderMenu => '我的最愛選單';
 
   @override
-  String get favoritesCreateCategory => 'Create category';
+  String get favoritesCreateCategory => '建立分類';
 
   @override
-  String get favoritesCategoryNameLabel => 'Category name';
+  String get favoritesCategoryNameLabel => '分類名稱';
 
   @override
-  String get favoritesHideMutedChannels => 'Hide muted channels';
+  String get favoritesHideMutedChannels => '隱藏已噤頻道';
 
   @override
-  String get favoritesShowMutedChannels => 'Show muted channels';
+  String get favoritesShowMutedChannels => '顯示已噤頻道';
 
   @override
-  String get favoritesSetNickname => 'Set nickname';
+  String get favoritesSetNickname => '設定暱稱';
 
   @override
-  String get favoritesNicknameLabel => 'Nickname';
+  String get favoritesNicknameLabel => '暱稱';
 
   @override
-  String get favoritesSaveNickname => 'Save nickname';
+  String get favoritesSaveNickname => '儲存暱稱';
 
   @override
-  String get favoritesMoveToCategory => 'Move to category';
+  String get favoritesMoveToCategory => '移至分類';
 
   @override
-  String get favoritesUncategorized => 'Uncategorized';
+  String get favoritesUncategorized => '未分類';
 
   @override
-  String get favoritesOtherCategory => 'Other';
+  String get favoritesOtherCategory => '其他';
 
   @override
-  String get favoritesRemoveFromFavorites => 'Remove from Favorites';
+  String get favoritesRemoveFromFavorites => '從我的最愛移除';
 
   @override
-  String get favoritesAddToFavorites => 'Add to Favorites';
+  String get favoritesAddToFavorites => '加入我的最愛';
 
   @override
-  String get favoritesHideConfirmTitle => 'Hide favorites';
+  String get favoritesHideConfirmTitle => '隱藏我的最愛';
 
   @override
   String get favoritesHideConfirmDescription =>
-      'This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from Settings > Advanced > Appearance.';
+      '這將隱藏所有與我的最愛相關的 UI 元素，包括按鈕和選單項目。您現有的我的最愛將會保留，並可隨時從「設定」>「進階」>「外觀」重新啟用。';
 
   @override
-  String get favoritesDirectMessageSubtitle => 'Direct Message';
+  String get favoritesDirectMessageSubtitle => '私人訊息';
 
   @override
-  String get messagesMediaDisplayGroupTitle => 'Display';
+  String get messagesMediaDisplayGroupTitle => '顯示';
 
   @override
-  String get messagesMediaDisplayGroupDescription =>
-      'Control how messages, media, and other content are displayed.';
+  String get messagesMediaDisplayGroupDescription => '控制訊息、媒體和其他內容的顯示方式。';
 
   @override
-  String get messagesMediaMediaGroupTitle => 'Media';
+  String get messagesMediaMediaGroupTitle => '媒體';
 
   @override
-  String get messagesMediaMediaGroupDescription =>
-      'Customize media size preferences and buttons.';
+  String get messagesMediaMediaGroupDescription => '自訂媒體大小偏好設定和按鈕。';
 
   @override
-  String get messagesMediaInputGroupTitle => 'Input';
+  String get messagesMediaInputGroupTitle => '輸入';
 
   @override
-  String get messagesMediaInputGroupDescription =>
-      'Customize message input settings.';
+  String get messagesMediaInputGroupDescription => '自訂訊息輸入設定。';
 
   @override
-  String get messagesMediaSidebarGroupTitle => 'Sidebar';
+  String get messagesMediaSidebarGroupTitle => '側邊欄';
 
   @override
-  String get messagesMediaSidebarGroupDescription =>
-      'Configure how the community sidebar is displayed.';
+  String get messagesMediaSidebarGroupDescription => '設定社群側邊欄的顯示方式。';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsLabel =>
-      'Hide muted channels by default';
+  String get messagesMediaDefaultHideMutedChannelsLabel => '預設隱藏已噤頻道';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDescription =>
-      'Automatically hide muted channels in the sidebar when you join new communities';
+      '加入新社群時，側邊欄中自動隱藏已噤頻道';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsEnableTitle =>
-      'Hide muted channels by default?';
+  String get messagesMediaDefaultHideMutedChannelsEnableTitle => '預設隱藏已噤頻道嗎？';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsEnableDescription =>
-      'New communities you join will automatically have muted channels hidden. Would you also like to apply this setting to all your existing communities?';
+      '您加入的新社群將自動隱藏已噤頻道。您是否也想將此設定套用到您所有現有的社群？';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableTitle =>
-      'Stop hiding muted channels by default?';
+      '停止預設隱藏已噤頻道嗎？';
 
   @override
   String get messagesMediaDefaultHideMutedChannelsDisableDescription =>
-      'New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?';
+      '您加入的新社群將不再自動隱藏已噤頻道。您是否也想顯示您所有現有社群中的已噤頻道？';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsApplyAllAction =>
-      'Apply to all communities';
+  String get messagesMediaDefaultHideMutedChannelsApplyAllAction => '套用到所有社群';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsShowAllAction =>
-      'Show in all communities';
+  String get messagesMediaDefaultHideMutedChannelsShowAllAction => '顯示於所有社群';
 
   @override
-  String get messagesMediaDefaultHideMutedChannelsNewOnlyAction =>
-      'New communities only';
+  String get messagesMediaDefaultHideMutedChannelsNewOnlyAction => '僅限新社群';
 
   @override
-  String get messagesMediaDisplaySectionTitle => 'Media Display';
+  String get messagesMediaDisplaySectionTitle => '媒體顯示';
 
   @override
   String get messagesMediaDisplaySectionDescription =>
-      'Control how images, videos and other media are shown. All media is resized and converted. Extremely large files that cannot be compressed into a preview will not embed regardless of these settings.';
+      '控制圖片、影片和其他媒體的顯示方式。所有媒體都會調整大小並轉換。無法壓縮成預覽的極大檔案，無論這些設定為何，都不會嵌入。';
 
   @override
-  String get messagesMediaDisplayInlineEmbedLabel =>
-      'When posted as links to chat';
+  String get messagesMediaDisplayInlineEmbedLabel => '當以連結形式張貼到聊天時';
 
   @override
-  String get messagesMediaDisplayInlineAttachmentLabel =>
-      'When uploaded directly to Fluxer';
+  String get messagesMediaDisplayInlineAttachmentLabel => '當直接上傳到 Fluxer 時';
 
   @override
-  String get messagesMediaLinkPreviewsSectionTitle => 'Link Previews';
+  String get messagesMediaLinkPreviewsSectionTitle => '連結預覽';
 
   @override
-  String get messagesMediaLinkPreviewsSectionDescription =>
-      'Control how website links are previewed in chat';
+  String get messagesMediaLinkPreviewsSectionDescription => '控制網站連結在聊天中的預覽方式';
 
   @override
-  String get messagesMediaLinkPreviewsToggleLabel =>
-      'Show embeds and preview website links';
+  String get messagesMediaLinkPreviewsToggleLabel => '顯示嵌入內容並預覽網站連結';
 
   @override
-  String get messagesMediaReactionsSectionTitle => 'Reactions';
+  String get messagesMediaReactionsSectionTitle => '表情符號回應';
 
   @override
-  String get messagesMediaReactionsSectionDescription =>
-      'Configure emoji reactions on messages';
+  String get messagesMediaReactionsSectionDescription => '設定訊息的表情符號回應';
 
   @override
-  String get messagesMediaReactionsToggleLabel =>
-      'Show emoji reactions on messages';
+  String get messagesMediaReactionsToggleLabel => '在訊息上顯示表情符號回應';
 
   @override
-  String get messagesMediaSpoilersSectionTitle => 'Spoiler Content';
+  String get messagesMediaSpoilersSectionTitle => '劇透內容';
 
   @override
-  String get messagesMediaSpoilersSectionDescription =>
-      'Control how spoiler content is displayed';
+  String get messagesMediaSpoilersSectionDescription => '控制劇透內容的顯示方式';
 
   @override
-  String get messagesMediaSpoilersRadioLabel => 'Show spoiler content';
+  String get messagesMediaSpoilersRadioLabel => '顯示劇透內容';
 
   @override
-  String get messagesMediaSpoilersOnClickName => 'On click';
+  String get messagesMediaSpoilersOnClickName => '點擊時';
 
   @override
-  String get messagesMediaSpoilersOnClickDescription =>
-      'Show spoiler content when clicked';
+  String get messagesMediaSpoilersOnClickDescription => '點擊時顯示劇透內容';
 
   @override
-  String get messagesMediaSpoilersIfModeratorName => 'In channels I moderate';
+  String get messagesMediaSpoilersIfModeratorName => '在我管理的頻道中';
 
   @override
   String get messagesMediaSpoilersIfModeratorDescription =>
-      'Always show spoiler content in channels where you have the \"Manage Messages\" permission';
+      '在你擁有「管理訊息」權限的頻道中一律顯示劇透內容';
 
   @override
-  String get messagesMediaSpoilersAlwaysName => 'Always';
+  String get messagesMediaSpoilersAlwaysName => '一律顯示';
 
   @override
-  String get messagesMediaSpoilersAlwaysDescription =>
-      'Always show spoiler content';
+  String get messagesMediaSpoilersAlwaysDescription => '一律顯示劇透內容';
 
   @override
-  String get messagesMediaSizeSectionTitle => 'Media Size Preferences';
+  String get messagesMediaSizeSectionTitle => '媒體尺寸偏好設定';
 
   @override
   String get messagesMediaSizeSectionDescription =>
-      'Customize the maximum display size for embedded and attached media. Smaller sizes use less screen space, while larger sizes show more detail.';
+      '自訂嵌入式和附加媒體的最大顯示尺寸。較小的尺寸佔用較少的螢幕空間，而較大的尺寸則顯示更多細節。';
 
   @override
-  String get messagesMediaSizeEmbedLabel => 'Media from links (embeds)';
+  String get messagesMediaSizeEmbedLabel => '來自連結的媒體 (嵌入式)';
 
   @override
-  String get messagesMediaSizeAttachmentLabel => 'Uploaded attachments';
+  String get messagesMediaSizeAttachmentLabel => '上傳的附件';
 
   @override
-  String get messagesMediaSizeCompactName => 'Compact (400x300)';
+  String get messagesMediaSizeCompactName => '壓縮 (400x300)';
 
   @override
-  String get messagesMediaSizeCompactDescription => 'Smaller media size';
+  String get messagesMediaSizeCompactDescription => '較小的媒體尺寸';
 
   @override
-  String get messagesMediaSizeComfortableName => 'Comfortable (550x400)';
+  String get messagesMediaSizeComfortableName => '舒適 (550x400)';
 
   @override
-  String get messagesMediaSizeComfortableDescription =>
-      'Larger media size with more detail';
+  String get messagesMediaSizeComfortableDescription => '較大的媒體尺寸，更多細節';
 
   @override
-  String get messagesMediaGifsSectionTitle => 'GIF Behavior';
+  String get messagesMediaGifsSectionTitle => 'GIF 行為';
 
   @override
-  String get messagesMediaGifsSectionDescription =>
-      'Control how GIFs are inserted into chat';
+  String get messagesMediaGifsSectionDescription => '控制 GIF 如何插入聊天中';
 
   @override
-  String get messagesMediaGifsAutoSendLabel =>
-      'Automatically send GIFs when selected';
+  String get messagesMediaGifsAutoSendLabel => '選取 GIF 後自動傳送';
 
   @override
-  String get messagesMediaAutocompleteSectionTitle =>
-      'Expression autocomplete (colon autocomplete)';
+  String get messagesMediaAutocompleteSectionTitle => '表情符號自動完成 (冒號自動完成)';
 
   @override
   String get messagesMediaAutocompleteSectionDescription =>
-      'Control what appears in the expression autocomplete when you type colon. Customize what suggestions show up to match your preferences.';
+      '控制輸入冒號時表情符號自動完成中出現的內容。自訂顯示哪些建議以符合你的偏好設定。';
 
   @override
   String get messagesMediaAutocompleteDefaultEmojisLabel =>
-      'Show default emojis in expression autocomplete';
+      '在表情符號自動完成中顯示預設表情符號';
 
   @override
-  String get messagesMediaAutocompleteCustomEmojisLabel =>
-      'Show custom emojis in expression autocomplete';
+  String get messagesMediaAutocompleteCustomEmojisLabel => '在表情符號自動完成中顯示自訂表情符號';
 
   @override
-  String get messagesMediaAutocompleteStickersLabel =>
-      'Show stickers in expression autocomplete';
+  String get messagesMediaAutocompleteStickersLabel => '在表情符號自動完成中顯示貼圖';
 
   @override
-  String get messagesMediaAutocompleteSavedMediaLabel =>
-      'Show saved media in expression autocomplete';
+  String get messagesMediaAutocompleteSavedMediaLabel => '在表情符號自動完成中顯示已儲存的媒體';
 
   @override
-  String get messagesMediaEditingSectionTitle => 'Message Editing';
+  String get messagesMediaEditingSectionTitle => '訊息編輯';
 
   @override
-  String get messagesMediaEditingSectionDescription =>
-      'Control what happens to your edit draft when you cancel.';
+  String get messagesMediaEditingSectionDescription => '控制取消編輯時草稿的處理方式。';
 
   @override
-  String get messagesMediaEditingPreserveDraftLabel =>
-      'Preserve edit draft on cancel';
+  String get messagesMediaEditingPreserveDraftLabel => '取消時保留編輯草稿';
 
   @override
-  String get accessibilityUnreadGroupTitle => 'Unread indicators';
+  String get accessibilityUnreadGroupTitle => '未讀指示';
 
   @override
-  String get accessibilityUnreadGroupDescription =>
-      'Control how unread message indicators are displayed.';
+  String get accessibilityUnreadGroupDescription => '控制未讀訊息指示的顯示方式。';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsLabel =>
-      'Show faded unread indicator on muted channels';
+      '在靜音頻道上顯示淡化未讀指示';
 
   @override
   String get accessibilityShowFadedUnreadOnMutedChannelsDescription =>
-      'Display a dimmed unread indicator next to muted direct messages and channels so you can still see at a glance when there\'s activity.';
+      '在靜音的私訊和頻道旁邊顯示變暗的未讀指示，讓你仍能一目了然地看到是否有活動。';
 
   @override
-  String get voiceConnectionConfirmTitle => 'Voice Connection Confirmation';
+  String get accessibilityDmMessagePreviewGroupTitle => '私訊訊息預覽';
+
+  @override
+  String get accessibilityDmMessagePreviewGroupDescription =>
+      '控制私訊列表中顯示訊息預覽的時間。';
+
+  @override
+  String get accessibilityDmMessagePreviewModeLabel => '私訊訊息預覽模式';
+
+  @override
+  String get accessibilityDmMessagePreviewAllName => '所有訊息';
+
+  @override
+  String get accessibilityDmMessagePreviewAllDescription => '顯示所有私訊對話的訊息預覽';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyName => '僅未讀私訊';
+
+  @override
+  String get accessibilityDmMessagePreviewUnreadOnlyDescription =>
+      '僅顯示有未讀訊息的私訊的訊息預覽';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneName => '無';
+
+  @override
+  String get accessibilityDmMessagePreviewNoneDescription => '不在私訊列表中顯示訊息預覽';
+
+  @override
+  String get dmListSentAnAttachment => '傳送了附件';
+
+  @override
+  String systemPreviewPinnedMessage(String username) {
+    return '$username 將訊息釘選到此頻道。';
+  }
+
+  @override
+  String systemPreviewAddedToGroup(String username, String userName) {
+    return '$username 將 $userName 加入群組。';
+  }
+
+  @override
+  String systemPreviewAddedSomeoneToGroup(String username) {
+    return '$username 加入了某人到群組。';
+  }
+
+  @override
+  String systemPreviewHasLeftGroup(String username) {
+    return '$username 已離開群組。';
+  }
+
+  @override
+  String systemPreviewRemovedFromGroup(String username, String userName) {
+    return '$username 將 $userName 從群組中移除。';
+  }
+
+  @override
+  String systemPreviewRemovedSomeoneFromGroup(String username) {
+    return '$username 從群組中移除了某人。';
+  }
+
+  @override
+  String systemPreviewChangedChannelNameTo(String username, String newName) {
+    return '$username 將頻道名稱更改為 $newName。';
+  }
+
+  @override
+  String systemPreviewChangedChannelName(String username) {
+    return '$username 更改了頻道名稱。';
+  }
+
+  @override
+  String systemPreviewChangedChannelIcon(String username) {
+    return '$username 更改了頻道圖示。';
+  }
+
+  @override
+  String systemPreviewStartedCall(String username) {
+    return '$username 發起了通話。';
+  }
+
+  @override
+  String get voiceConnectionConfirmTitle => '語音連線確認';
 
   @override
   String voiceConnectionConfirmDescription(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'You\'re already connected to this voice channel from $count other devices. What would you like to do?',
-      one:
-          'You\'re already connected to this voice channel from 1 other device. What would you like to do?',
+      other: '您已從 $count 個其他裝置連線到此語音頻道。您想怎麼做？',
+      one: '您已從 1 個其他裝置連線到此語音頻道。您想怎麼做？',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceConnectionConfirmSwitch => 'Switch to This Device';
+  String get voiceConnectionConfirmSwitch => '切換到此裝置';
 
   @override
-  String get voiceConnectionConfirmJustJoin =>
-      'Just Join (Keep Other Connections)';
+  String get voiceConnectionConfirmJustJoin => '僅加入（保留其他連線）';
 
   @override
-  String get voiceConnectionConfirmDoNothing =>
-      'Do nothing, I don\'t want to join';
+  String get voiceConnectionConfirmDoNothing => '不做任何事，我不想加入';
 
   @override
-  String get voiceChannelEmptyDescription =>
-      'This is a voice channel. Connect to start talking!';
+  String get voiceChannelEmptyDescription => '這是語音頻道。連線即可開始交談！';
 
   @override
-  String get voiceChannelJoin => 'Join Voice Channel';
+  String get voiceChannelJoin => '加入語音頻道';
 
   @override
-  String get voiceChannelJoinConnect => 'Connect to Voice';
+  String get voiceChannelJoinConnect => '連線到語音';
 
   @override
-  String get voiceChannelNoConnectPermission =>
-      'You don\'t have permission to join this voice channel';
+  String get voiceChannelNoConnectPermission => '您沒有加入此語音頻道的權限';
 
   @override
-  String get voiceChannelE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+  String get voiceChannelE2eeEncrypted => '麥克風、相機和螢幕分享內容均為端對端加密。';
 
   @override
-  String get voiceCallE2eeEncrypted =>
-      'Microphone, camera, and screen share content are end-to-end encrypted.';
+  String get voiceCallE2eeEncrypted => '麥克風、相機和螢幕分享內容均為端對端加密。';
 
   @override
-  String get voiceChannelE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this voice channel.';
+  String get voiceChannelE2eeBroken => '由於有不支援的參與者在此語音頻道中，無法使用端對端加密。';
 
   @override
-  String get voiceCallE2eeBroken =>
-      'End-to-end encryption is unavailable because an unsupported participant is in this call.';
+  String get voiceCallE2eeBroken => '由於有不支援的參與者在此通話中，無法使用端對端加密。';
 
   @override
-  String get voiceE2eeUpdateRequired =>
-      'This client must be updated before joining this encrypted call.';
+  String get voiceE2eeUpdateRequired => '加入此加密通話前必須更新此用戶端。';
 
   @override
-  String get voiceMicPublishFailedStayConnected =>
-      'Couldn\'t start your microphone. You\'re still in the call.';
+  String get voiceMicPublishFailedStayConnected => '無法啟動您的麥克風。您仍在通話中。';
 
   @override
-  String get voiceChannelStatusConnecting => 'Connecting…';
+  String get voiceChannelStatusConnecting => '正在連線中…';
 
   @override
-  String get voiceChannelStatusConnected => 'Connected';
+  String get voiceChannelStatusConnected => '已連線';
 
   @override
-  String get voiceChannelStatusError => 'Error';
+  String get voiceChannelStatusError => '錯誤';
 
   @override
-  String get voiceParticipantTooltipMobileDevice => 'Mobile device';
+  String get voiceParticipantTooltipMobileDevice => '行動裝置';
 
   @override
-  String get voiceParticipantTooltipDesktopDevice => 'Desktop device';
+  String get voiceParticipantTooltipDesktopDevice => '桌面裝置';
 
   @override
-  String get voiceParticipantTooltipCommunityMuted => 'Community muted';
+  String get voiceParticipantTooltipCommunityMuted => '社群靜音';
 
   @override
-  String get voiceParticipantTooltipMuted => 'Muted';
+  String get voiceParticipantTooltipMuted => '已靜音';
 
   @override
-  String get voiceParticipantTooltipCommunityDeafened => 'Community deafened';
+  String get voiceParticipantTooltipCommunityDeafened => '社群禁聲';
 
   @override
-  String get voiceParticipantTooltipDeafened => 'Deafened';
+  String get voiceParticipantTooltipDeafened => '已禁聲';
 
   @override
   String voiceParticipantTooltipConnection(String connectionId) {
-    return 'Connection: $connectionId';
+    return '連線：$connectionId';
   }
 
   @override
@@ -10643,209 +10569,198 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count participants',
-      one: '1 participant',
+      other: '$count 位參與者',
+      one: '1 位參與者',
     );
     return '$_temp0';
   }
 
   @override
-  String get voiceChannelLeave => 'Leave';
+  String get voiceChannelLeave => '離開';
 
   @override
-  String get voiceControlMute => 'Mute';
+  String get voiceControlMute => '靜音';
 
   @override
-  String get voiceControlUnmute => 'Unmute';
+  String get voiceControlUnmute => '取消靜音';
 
   @override
-  String get voiceControlDeafen => 'Deafen';
+  String get voiceControlDeafen => '禁聲';
 
   @override
-  String get voiceControlUndeafen => 'Undeafen';
+  String get voiceControlUndeafen => '取消禁聲';
 
   @override
-  String get voiceControlVideo => 'Video';
+  String get voiceControlVideo => '視訊';
 
   @override
-  String get voiceControlScreenShare => 'Screen share';
+  String get voiceControlScreenShare => '螢幕分享';
 
   @override
-  String get voiceScreenShareNotificationText => 'Sharing your screen.';
+  String get voiceScreenShareNotificationText => '正在分享您的螢幕。';
 
   @override
-  String get voiceControlMore => 'More';
+  String get voiceControlMore => '更多';
 
   @override
-  String get voiceControlDisconnect => 'Disconnect';
+  String get voiceControlDisconnect => '中斷連線';
 
   @override
-  String get voiceControlChat => 'Chat';
+  String get voiceControlChat => '聊天';
 
   @override
-  String get voiceTextChatShow => 'Show chat';
+  String get voiceTextChatShow => '顯示聊天';
 
   @override
   String voiceTextChatShowUnread(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '# unread messages',
-      one: '# unread message',
+      other: '# 則未讀訊息',
+      one: '# 則未讀訊息',
     );
-    return 'Show chat with $_temp0';
+    return '顯示聊天（有 $_temp0）';
   }
 
   @override
-  String get voiceCameraPermissionRequired =>
-      'Camera permission is required for video.';
+  String get voiceCameraPermissionRequired => '視訊需要相機權限。';
 
   @override
-  String get voiceErrorScreenShareToggle =>
-      'Couldn\'t start screen sharing. Please try again.';
+  String get voiceErrorScreenShareToggle => '無法開始螢幕分享。請再試一次。';
 
   @override
-  String get voiceErrorScreenSharePermissionDenied =>
-      'Screen-sharing permission was denied.';
+  String get voiceErrorScreenSharePermissionDenied => '已拒絕螢幕分享權限。';
 
   @override
-  String get voiceErrorScreenShareUnsupported =>
-      'Screen sharing isn\'t available on this device.';
+  String get voiceErrorScreenShareUnsupported => '此裝置不支援螢幕分享。';
 
   @override
-  String get voiceWatchStream => 'Watch Stream';
+  String get voiceWatchStream => '觀看串流';
 
   @override
-  String get voiceStopWatching => 'Stop Watching';
+  String get voiceStopWatching => '停止觀看';
 
   @override
-  String get voiceStopWatchingCurrentStreamTooltip =>
-      'Stop watching the current stream';
+  String get voiceStopWatchingCurrentStreamTooltip => '停止觀看目前的串流';
 
   @override
-  String get voiceOwnScreenShareTitle => 'You are broadcasting';
+  String get voiceOwnScreenShareTitle => '您正在廣播';
 
   @override
-  String get voiceOwnScreenShareSubtitle =>
-      'Your stream is live for participants.';
+  String get voiceOwnScreenShareSubtitle => '您的串流對參與者直播中。';
 
   @override
-  String get voiceLiveBadge => 'Live';
+  String get voiceLiveBadge => '直播中';
 
   @override
-  String get dmVoiceViewCall => 'View call';
+  String get dmVoiceViewCall => '檢視通話';
 
   @override
-  String get dmVoiceCallFullScreen => 'Full screen';
+  String get dmVoiceCallFullScreen => '全螢幕';
 
   @override
-  String get dmVoiceCallFullScreenTooltip => 'Open call in full screen';
+  String get dmVoiceCallFullScreenTooltip => '全螢幕開啟通話';
 
   @override
-  String get dmVoiceStripStatusConnecting => 'Connecting…';
+  String get dmVoiceStripStatusConnecting => '正在連線中…';
 
   @override
-  String get dmVoiceStripStatusInCall => 'In call';
+  String get dmVoiceStripStatusInCall => '通話中';
 
   @override
-  String get dmVoiceEmbeddedFallbackTitle => 'Voice call';
+  String get dmVoiceEmbeddedFallbackTitle => '語音通話';
 
   @override
-  String get dmVoiceCallBarConnecting => 'Connecting…';
+  String get dmVoiceCallBarConnecting => '正在連線中…';
 
   @override
-  String get dmVoiceCallBarDirectPrimary => 'Direct call';
+  String get dmVoiceCallBarDirectPrimary => '直接通話';
 
   @override
-  String get dmVoiceCallBarGroupPrimary => 'Group call';
+  String get dmVoiceCallBarGroupPrimary => '群組通話';
 
   @override
-  String get dmVoiceCallBarIssueFallback => 'Voice issue';
+  String get dmVoiceCallBarIssueFallback => '語音問題';
 
   @override
-  String get dmVoiceFullscreenTitle => 'Voice';
+  String get dmVoiceFullscreenTitle => '語音';
 
   @override
-  String get voiceCallBarGuildConnectedFallback => 'Voice connected';
+  String get voiceCallBarGuildConnectedFallback => '語音已連線';
 
   @override
-  String get notificationsPageTitle => 'Notifications';
+  String get notificationsPageTitle => '通知';
 
   @override
-  String get notificationsFilterUnreads => 'Unreads';
+  String get notificationsFilterUnreads => '未讀';
 
   @override
-  String get notificationsFilterMentions => 'Mentions';
+  String get notificationsFilterMentions => '提及';
 
   @override
-  String get notificationsBookmarksTooltip => 'Bookmarks';
+  String get notificationsBookmarksTooltip => '書籤';
 
   @override
-  String get notificationsMentionFilterTooltip => 'Filter mentions';
+  String get notificationsMentionFilterTooltip => '篩選提及';
 
   @override
-  String get notificationsMentionFiltersTitle => 'Mention filters';
+  String get notificationsMentionFiltersTitle => '提及篩選器';
 
   @override
-  String get notificationsMentionIncludeEveryone =>
-      'Include @everyone and @here mentions';
+  String get notificationsMentionIncludeEveryone => '包含 @everyone 和 @here 提及';
 
   @override
-  String get notificationsMentionIncludeRoles => 'Include role mentions';
+  String get notificationsMentionIncludeRoles => '包含角色提及';
 
   @override
-  String get notificationsMentionIncludeGuilds =>
-      'Include all community mentions';
+  String get notificationsMentionIncludeGuilds => '包含所有社群提及';
 
   @override
-  String get notificationsNoUnreadTitle => 'No Unread Messages';
+  String get notificationsNoUnreadTitle => '沒有未讀訊息';
 
   @override
-  String get notificationsNoUnreadBody => 'You\'re all caught up.';
+  String get notificationsNoUnreadBody => '您已全部讀完。';
 
   @override
-  String get notificationsNoMentionsTitle => 'No Recent Mentions';
+  String get notificationsNoMentionsTitle => '沒有近期提及';
 
   @override
-  String get notificationsNoMentionsBody =>
-      'All @mentions of you will appear here for 7 days.';
+  String get notificationsNoMentionsBody => '所有提及您的訊息將在此顯示 7 天。';
 
   @override
-  String get notificationsMentionsEndTitle => 'You\'ve reached the end';
+  String get notificationsMentionsEndTitle => '您已到達結尾';
 
   @override
-  String get notificationsMentionsEndBody =>
-      'You\'ve seen all your recent mentions. Don\'t fret, more will appear here soon.';
+  String get notificationsMentionsEndBody => '您已看過所有近期提及。別擔心，很快就會有更多出現。';
 
   @override
-  String get notificationsJump => 'Jump';
+  String get notificationsJump => '跳至';
 
   @override
-  String get notificationsRemoveMentionTooltip => 'Remove mention';
+  String get notificationsRemoveMentionTooltip => '移除提及';
 
   @override
-  String get notificationsViewAllUnread => 'View all unread';
+  String get notificationsViewAllUnread => '檢視所有未讀';
 
   @override
-  String get notificationsMarkAsRead => 'Mark as read';
+  String get notificationsMarkAsRead => '標示為已讀';
 
   @override
-  String get notificationsExpand => 'Expand';
+  String get notificationsExpand => '展開';
 
   @override
-  String get notificationsCollapse => 'Collapse';
+  String get notificationsCollapse => '摺疊';
 
   @override
-  String get notificationsMessageUnavailable =>
-      'This message couldn\'t be loaded.';
+  String get notificationsMessageUnavailable => '無法載入此訊息。';
 
   @override
   String characterCounterRemaining(int remaining) {
-    return '$remaining characters left';
+    return '$remaining 個字元剩餘';
   }
 
   @override
-  String get characterCounterTooLong => 'Message is too long';
+  String get characterCounterTooLong => '訊息太長';
 
   @override
   String characterCounterRemainingPlutoniumUpsell(
@@ -10853,595 +10768,574 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String productName,
     int premiumMaxLength,
   ) {
-    return '$remaining characters left. Get $productName to write up to $premiumMaxLength characters.';
+    return '$remaining 個字元剩餘。購買 $productName 可撰寫最多 $premiumMaxLength 個字元。';
   }
 
   @override
-  String get chatMessageFailedToSend => 'Failed to send message';
+  String get chatMessageFailedToSend => '訊息傳送失敗';
 
   @override
-  String get chatMessageDeleteFailed => 'Delete Failed Message';
+  String chatSendFailureDmRestricted(String settingsPath) {
+    return '您的訊息無法送達。這通常是因為您與收件者沒有共同的社群，或是收件者僅接受朋友的直接訊息。您可能也需要在 $settingsPath 中調整您自己的直接訊息隱私設定。';
+  }
 
   @override
-  String get chatMessageAddReaction => 'Add Reaction';
+  String get chatSendFailureUnclaimedDm => '您的訊息無法送達。您需要領取您的帳戶才能傳送直接訊息。';
 
   @override
-  String get chatMessageEdit => 'Edit Message';
+  String get chatSendFailureUnclaimedGeneral => '您的訊息無法送達。您需要領取您的帳戶才能傳送訊息。';
 
   @override
-  String get chatMessageReply => 'Reply';
+  String get chatSendFailureContentBlocked =>
+      '您的訊息因被我們的安全系統標記而無法送達。如果您認為這是錯誤，請聯絡支援團隊。';
 
   @override
-  String get chatMessageForward => 'Forward';
+  String get chatSendFailureNsfwEmojiSticker =>
+      '您的訊息無法送達，因為其中包含在此情境不允許的成人表情符號或貼圖。';
 
   @override
-  String get forwardMessageTitle => 'Forward message';
+  String get chatClientSystemOnlyYouCanSee => '只有您能看到此訊息。';
 
   @override
-  String get forwardSearchHint => 'Search channels or DMs';
+  String get chatClientSystemDismiss => '關閉';
 
   @override
-  String get forwardDirectMessagesSection => 'Direct Messages';
+  String get privacyDashboardCommunicationSection => '通訊';
 
   @override
-  String get forwardCommentHint => 'Add a comment (optional)';
+  String get chatMessageDeleteFailed => '刪除失敗訊息';
+
+  @override
+  String get chatMessageAddReaction => '新增反應';
+
+  @override
+  String get chatMessageEdit => '編輯訊息';
+
+  @override
+  String get chatMessageReply => '回覆';
+
+  @override
+  String get chatMessageForward => '轉寄';
+
+  @override
+  String get forwardMessageTitle => '轉寄訊息';
+
+  @override
+  String get forwardSearchHint => '搜尋頻道或私訊';
+
+  @override
+  String get forwardDirectMessagesSection => '私訊';
+
+  @override
+  String get forwardCommentHint => '新增備註（選填）';
 
   @override
   String forwardSendButton(int count, int limit) {
-    return 'Send ($count/$limit)';
+    return '傳送 ($count/$limit)';
   }
 
   @override
-  String get forwardEmptyState => 'No channels found';
+  String get forwardEmptyState => '找不到頻道';
 
   @override
-  String get forwardSuccessToast => 'Message forwarded';
+  String get forwardSuccessToast => '訊息已轉寄';
 
   @override
-  String get forwardFailed => 'Failed to forward message';
+  String get forwardFailed => '無法轉寄訊息';
 
   @override
-  String get forwardCommentSlowmodeDisabled =>
-      'Comments are unavailable because a selected channel has slowmode enabled.';
+  String get forwardCommentSlowmodeDisabled => '由於選取的頻道已啟用慢速模式，備註功能無法使用。';
 
   @override
-  String get forwardDestinationNoSendPermission =>
-      'You can\'t send messages here';
+  String get forwardDestinationNoSendPermission => '您無法在此傳送訊息';
 
   @override
-  String get forwardDestinationNoEmbedPermission =>
-      'You can\'t embed links here';
+  String get forwardDestinationNoEmbedPermission => '您無法在此嵌入連結';
 
   @override
-  String get forwardDestinationNoAttachPermission =>
-      'You can\'t attach files here';
+  String get forwardDestinationNoAttachPermission => '您無法在此附加檔案';
 
   @override
-  String get forwardDestinationGuildSendDisabled =>
-      'Sending messages is disabled in this community';
+  String get forwardDestinationGuildSendDisabled => '此社群已停用訊息傳送';
 
   @override
-  String get forwardDestinationTimedOut =>
-      'You\'re on timeout in this community';
+  String get forwardDestinationTimedOut => '您在此社群中被暫時禁言';
 
   @override
   String forwardDestinationSlowmodeCoolingDown(String remaining) {
-    return 'Slowmode - wait $remaining';
+    return '慢速模式 - 請稍候 $remaining';
   }
 
   @override
-  String get chatMessageCopyText => 'Copy Message';
+  String get chatMessageCopyText => '複製訊息';
 
   @override
-  String get chatMessagePin => 'Pin message';
+  String get chatMessagePin => '釘選訊息';
 
   @override
-  String get chatMessageUnpin => 'Unpin message';
+  String get chatMessageUnpin => '取消釘選訊息';
 
   @override
-  String get chatMessageBookmark => 'Bookmark Message';
+  String get chatMessageUnpinIt => '取消釘選';
 
   @override
-  String get chatMessageRemoveBookmark => 'Remove Bookmark';
+  String get chatMessageBookmark => '加入書籤';
 
   @override
-  String get chatMessageMarkAsUnread => 'Mark as Unread';
+  String get chatMessageRemoveBookmark => '移除書籤';
 
   @override
-  String get chatMessageCopyMessageLink => 'Copy Message Link';
+  String get chatMessageMarkAsUnread => '標示為未讀';
 
   @override
-  String get chatMessageCopyMessageId => 'Copy Message ID';
+  String get chatMessageCopyMessageLink => '複製訊息連結';
 
   @override
-  String get chatMessageViewReactions => 'View reactions';
+  String get chatMessageCopyMessageId => '複製訊息 ID';
 
   @override
-  String get chatMessageRemoveAllReactions => 'Remove all reactions';
+  String get chatMessageViewReactions => '檢視反應';
 
   @override
-  String get chatMessageDebug => 'Debug Message';
+  String get chatMessageRemoveAllReactions => '移除所有反應';
 
   @override
-  String get chatMessageDebugSheetTitle => 'Debug message';
+  String get chatMessageDebug => '偵錯訊息';
 
   @override
-  String get chatMessageDebugCopyJson => 'Copy JSON';
+  String get chatMessageDebugSheetTitle => '偵錯訊息';
 
   @override
-  String get chatMessageDebugJsonCopiedToast =>
-      'Message JSON copied to clipboard';
+  String get chatMessageDebugCopyJson => '複製 JSON';
 
   @override
-  String get chatReactionsSheetTitle => 'Reactions';
+  String get chatMessageDebugJsonCopiedToast => '訊息 JSON 已複製到剪貼簿';
 
   @override
-  String get chatReactionsSheetEmpty => 'Nobody has reacted with this yet.';
+  String get chatReactionsSheetTitle => '反應';
 
   @override
-  String get chatMessageReport => 'Report Message';
+  String get chatReactionsSheetEmpty => '目前沒有人對此做出反應。';
 
   @override
-  String get iarReportMessageTitle => 'Report message';
+  String get chatMessageReport => '檢舉訊息';
 
   @override
-  String get iarThisUserFallback => 'this user';
+  String get iarReportMessageTitle => '檢舉訊息';
 
   @override
-  String get iarModalDescription =>
-      'Report a rule violation, or find tools to manage contact and preferences.';
+  String get iarThisUserFallback => '此使用者';
 
   @override
-  String get iarPathStepAriaLabel => 'What do you need?';
+  String get iarModalDescription => '檢舉違規行為，或尋找管理聯絡人與偏好的工具。';
 
   @override
-  String get iarCategoryStepTitle => 'What kind of rule was broken?';
+  String get iarPathStepAriaLabel => '您需要什麼？';
 
   @override
-  String get iarReasonStepTitle => 'Which rule was broken?';
+  String get iarCategoryStepTitle => '違反了哪種規則？';
 
   @override
-  String get iarReasonSelectHint => 'Select a reason';
+  String get iarReasonStepTitle => '違反了哪個規則？';
 
   @override
-  String get iarPickAnOptionToast => 'Pick an option to continue.';
+  String get iarReasonSelectHint => '選擇原因';
 
   @override
-  String get iarPickARuleToast => 'Pick the rule that was broken.';
+  String get iarPickAnOptionToast => '請選擇一個選項以繼續。';
 
   @override
-  String get iarPathPlatform => 'Report a platform rule violation';
+  String get iarPickARuleToast => '請選擇違反的規則。';
 
   @override
-  String get iarPathCommunity => 'Report to the moderators of this community';
+  String get iarPathPlatform => '檢舉平台規則違規';
 
   @override
-  String get iarPathPreferenceMessage => 'I don\'t like this content';
+  String get iarPathCommunity => '向此社群管理員檢舉';
 
   @override
-  String get iarCategoryTargetedHarmLabel => 'Threats, harassment, or harm';
+  String get iarPathPreferenceMessage => '我不喜歡這個內容';
 
   @override
-  String get iarCategoryTargetedHarmDescription =>
-      'Bullying, threats, hate, violence, raids, or content that pushes self-harm.';
+  String get iarCategoryTargetedHarmLabel => '威脅、騷擾或傷害';
 
   @override
-  String get iarCategorySafetyMinorsLabel => 'Child safety or mature content';
+  String get iarCategoryTargetedHarmDescription => '霸凌、威脅、仇恨言論、暴力、騷擾或推廣自殘的內容。';
 
   @override
-  String get iarCategorySafetyMinorsDescription =>
-      'Minors at risk, mature content in the wrong place, or unwanted conduct.';
+  String get iarCategorySafetyMinorsLabel => '兒童安全或成人內容';
 
   @override
-  String get iarCategoryPrivacyIdentityLabel => 'Privacy or impersonation';
+  String get iarCategorySafetyMinorsDescription => '未成年人處於風險中、不適當的成人內容或不當行為。';
 
   @override
-  String get iarCategoryPrivacyIdentityDescription =>
-      'Doxxing, stalking, pretending to be someone, or an inappropriate profile.';
+  String get iarCategoryPrivacyIdentityLabel => '隱私或冒充';
 
   @override
-  String get iarCategoryDeceptionLabel => 'Scams, malware, or misinformation';
+  String get iarCategoryPrivacyIdentityDescription => '洩漏個資、跟蹤、冒充他人或不當的個人資料。';
 
   @override
-  String get iarCategoryDeceptionDescription =>
-      'Phishing, fraud, malicious links, or false claims likely to cause real-world harm.';
+  String get iarCategoryDeceptionLabel => '詐騙、惡意軟體或錯誤資訊';
 
   @override
-  String get iarCategoryIllegalOtherLabel =>
-      'Illegal activity or something else';
+  String get iarCategoryDeceptionDescription => '網路釣魚、詐騙、惡意連結或可能造成現實世界傷害的虛假聲明。';
 
   @override
-  String get iarCategoryIllegalOtherDescription =>
-      'Illegal sales, criminal facilitation, or a clear rule violation that doesn\'t fit above.';
+  String get iarCategoryIllegalOtherLabel => '非法活動或其他';
 
   @override
-  String get iarReasonHarassmentLabel => 'Harassment or threats';
+  String get iarCategoryIllegalOtherDescription => '非法銷售、協助犯罪或明顯違反規定但未歸類於以上項目。';
 
   @override
-  String get iarReasonHarassmentMessageDescription =>
-      'Bullying, repeated unwanted contact, stalking, or targeted abuse.';
+  String get iarReasonHarassmentLabel => '騷擾或威脅';
 
   @override
-  String get iarReasonHateLabel => 'Hate speech';
+  String get iarReasonHarassmentMessageDescription => '霸凌、重複的騷擾訊息、跟蹤或針對性的辱罵。';
 
   @override
-  String get iarReasonHateMessageDescription =>
-      'Slurs, dehumanizing language, or attacks on protected groups.';
+  String get iarReasonHateLabel => '仇恨言論';
 
   @override
-  String get iarReasonViolenceLabel => 'Violence or violent threats';
+  String get iarReasonHateMessageDescription => '歧視性稱呼、非人化語言或針對特定群體的攻擊。';
 
   @override
-  String get iarReasonViolenceDescription =>
-      'Credible threats, graphic violence, or glorification of violence.';
+  String get iarReasonViolenceLabel => '暴力或暴力威脅';
 
   @override
-  String get iarReasonMatureContentLabel => 'Mature content or harassment';
+  String get iarReasonViolenceDescription => '可信的威脅、血腥暴力或頌揚暴力。';
 
   @override
-  String get iarReasonMatureContentMessageDescription =>
-      'Unwanted conduct or mature content in the wrong place.';
+  String get iarReasonMatureContentLabel => '成人內容或騷擾';
 
   @override
-  String get iarReasonChildSafetyLabel =>
-      'Child safety or exploitation of minors';
+  String get iarReasonMatureContentMessageDescription => '不當的行為或不適當的成人內容。';
 
   @override
-  String get iarReasonChildSafetyMessageDescription =>
-      'Grooming or child-exploitation content.';
+  String get iarReasonChildSafetyLabel => '兒童安全或剝削未成年人';
 
   @override
-  String get iarReasonHarmfulMisinfoLabel => 'Harmful misinformation';
+  String get iarReasonChildSafetyMessageDescription => '誘騙或剝削兒童的內容。';
 
   @override
-  String get iarReasonHarmfulMisinfoDescription =>
-      'False claims likely to cause real-world harm.';
+  String get iarReasonHarmfulMisinfoLabel => '有害的錯誤資訊';
 
   @override
-  String get iarReasonSpamLabel => 'Spam, scams, or phishing';
+  String get iarReasonHarmfulMisinfoDescription => '可能造成現實世界傷害的虛假聲明。';
 
   @override
-  String get iarReasonSpamMessageDescription =>
-      'Mass spam, fraud, fake giveaways, or account abuse.';
+  String get iarReasonSpamLabel => '垃圾訊息、詐騙或網路釣魚';
 
   @override
-  String get iarReasonMalwareLabel => 'Malware or dangerous links';
+  String get iarReasonSpamMessageDescription => '大量垃圾訊息、詐騙、假贈品或帳號濫用。';
 
   @override
-  String get iarReasonMalwareDescription =>
-      'Malware, credential theft, or harmful files.';
+  String get iarReasonMalwareLabel => '惡意軟體或危險連結';
 
   @override
-  String get iarReasonPrivacyLabel => 'Privacy violation';
+  String get iarReasonMalwareDescription => '惡意軟體、竊取帳號資訊或有害檔案。';
 
   @override
-  String get iarReasonPrivacyDescription =>
-      'Doxxing, exposed private info, or stalking.';
+  String get iarReasonPrivacyLabel => '侵犯隱私';
 
   @override
-  String get iarReasonImpersonationLabel => 'Impersonation or deceptive media';
+  String get iarReasonPrivacyDescription => '洩漏個資、公開私人資訊或跟蹤。';
 
   @override
-  String get iarReasonImpersonationMessageDescription =>
-      'Pretending to be someone else, including deceptive AI-generated content.';
+  String get iarReasonImpersonationLabel => '冒充或欺騙性媒體';
 
   @override
-  String get iarReasonIllegalLabel => 'Illegal activity';
+  String get iarReasonImpersonationMessageDescription => '冒充他人，包括欺騙性的 AI 生成內容。';
 
   @override
-  String get iarReasonIllegalDescription =>
-      'Illegal sales, criminal facilitation, or unlawful activity.';
+  String get iarReasonIllegalLabel => '非法活動';
 
   @override
-  String get iarReasonSelfHarmLabel => 'Self-harm or suicide';
+  String get iarReasonIllegalDescription => '非法銷售、協助犯罪或非法活動。';
 
   @override
-  String get iarReasonSelfHarmMessageDescription =>
-      'Promotion or instructions encouraging self-harm or eating disorders.';
+  String get iarReasonSelfHarmLabel => '自殘或自殺';
 
   @override
-  String get iarReasonOtherLabel => 'Another clear rule violation';
+  String get iarReasonSelfHarmMessageDescription => '推廣或指導鼓勵自殘或飲食失調。';
 
   @override
-  String get iarReasonOtherDescription =>
-      'Use only if it clearly breaks Fluxer\'s rules and doesn\'t fit above.';
+  String get iarReasonOtherLabel => '其他明顯的違規行為';
+
+  @override
+  String get iarReasonOtherDescription => '僅在內容明顯違反 Fluxer 規定且不符合以上任何類別時使用。';
 
   @override
   String iarUseChildSafetyInstead(String childSafetyReason) {
-    return 'If a minor is involved, use \"$childSafetyReason\" instead.';
+    return '若涉及未成年人，請改用「$childSafetyReason」。';
   }
 
   @override
   String get iarSafetyNoteChildSafety =>
-      'If this involves CSAM or exploitation of a minor, send it now and don\'t reshare the material.';
+      '若涉及兒童性犯罪圖像 (CSAM) 或剝削未成年人，請立即檢舉，請勿再次分享相關內容。';
 
   @override
-  String get iarSafetyNoteSelfHarm =>
-      'If someone may be in immediate danger, contact local emergency services if you can do so safely.';
+  String get iarSafetyNoteSelfHarm => '若有人可能處於立即危險中，請在安全的情況下聯繫當地緊急服務。';
 
   @override
-  String get iarSafetyNoteViolence =>
-      'If this is a credible imminent threat, contact local emergency services too.';
+  String get iarSafetyNoteViolence => '若這是可信的迫在眉睫的威脅，也請聯繫當地緊急服務。';
 
   @override
-  String get iarSafetyNoteTerrorism =>
-      'If this is an imminent terrorist threat, contact local emergency services too.';
+  String get iarSafetyNoteTerrorism => '若這是迫在眉睫的恐怖主義威脅，也請聯繫當地緊急服務。';
 
   @override
-  String get iarActionBlockUserTitle => 'Block this user';
+  String get iarActionBlockUserTitle => '封鎖此用戶';
 
   @override
-  String get iarActionBlockUserDescription =>
-      'Stop messages and friend requests.';
+  String get iarActionBlockUserDescription => '停止接收訊息和好友邀請。';
 
   @override
-  String get iarActionBlockUserButton => 'Block';
+  String get iarActionBlockUserButton => '封鎖';
 
   @override
-  String get iarActionCopyMessageLinkTitle => 'Copy message link';
+  String get iarActionCopyMessageLinkTitle => '複製訊息連結';
 
   @override
-  String get iarActionCopyMessageLinkDescription =>
-      'Share with community mods.';
+  String get iarActionCopyMessageLinkDescription => '與社群管理員分享。';
 
   @override
-  String get iarActionCopyMessageLinkButton => 'Copy';
+  String get iarActionCopyMessageLinkButton => '複製';
 
   @override
-  String get iarActionCloseDmTitle => 'Close this DM';
+  String get iarActionCloseDmTitle => '關閉此私訊';
 
   @override
-  String get iarActionCloseDmDescription =>
-      'Doesn\'t block. You can reopen later.';
+  String get iarActionCloseDmDescription => '不會封鎖。之後仍可重新開啟。';
 
   @override
-  String get iarActionCloseDmButton => 'Close DM';
+  String get iarActionCloseDmButton => '關閉私訊';
 
   @override
-  String get iarActionLeaveCommunityTitle => 'Leave the community';
+  String get iarActionLeaveCommunityTitle => '離開社群';
 
   @override
-  String get iarActionLeaveCommunityDescription =>
-      'Stop seeing its content and members.';
+  String get iarActionLeaveCommunityDescription => '停止查看其內容和成員。';
 
   @override
-  String get iarActionLeaveCommunityButton => 'Leave';
+  String get iarActionLeaveCommunityButton => '離開';
 
   @override
-  String get iarActionDmSettingsTitle => 'DM & friend request settings';
+  String get iarActionDmSettingsTitle => '私訊與交友邀請設定';
 
   @override
-  String get iarActionDmSettingsDescription => 'Change who can reach you.';
+  String get iarActionDmSettingsDescription => '變更誰可以聯絡你。';
 
   @override
-  String get iarActionCallSettingsTitle => 'Call & group chat settings';
+  String get iarActionCallSettingsTitle => '通話與群組聊天設定';
 
   @override
-  String get iarActionCallSettingsDescription =>
-      'Change who can call or add you.';
+  String get iarActionCallSettingsDescription => '變更誰可以撥打電話給你或將你加入。';
 
   @override
-  String get iarActionOpenButton => 'Open';
+  String get iarActionOpenButton => '開啟';
 
   @override
-  String get iarActionDeleteMessageTitle => 'Delete this message';
+  String get iarActionDeleteMessageTitle => '刪除此訊息';
 
   @override
-  String get iarActionDeleteMessageDescription =>
-      'Remove it from the channel for everyone.';
+  String get iarActionDeleteMessageDescription => '從頻道中移除，對所有人隱藏。';
 
   @override
-  String get iarActionDeleteMessageButton => 'Delete';
+  String get iarActionDeleteMessageButton => '刪除';
 
   @override
-  String get iarActionDeleteMessageDeletedButton => 'Deleted';
+  String get iarActionDeleteMessageDeletedButton => '已刪除';
 
   @override
-  String get iarActionDeleteMessageDeletedTooltip =>
-      'This message has already been deleted.';
+  String get iarActionDeleteMessageDeletedTooltip => '此訊息已刪除。';
 
   @override
-  String get iarActionBanUserTitle => 'Ban this user';
+  String get iarActionBanUserTitle => '封鎖此使用者';
 
   @override
-  String get iarActionBanUserDescription =>
-      'Open the ban dialog for this community.';
+  String get iarActionBanUserDescription => '開啟此社群的封鎖使用者對話方塊。';
 
   @override
-  String get iarActionBanUserButton => 'Ban';
+  String get iarActionBanUserButton => '封鎖';
 
   @override
-  String get iarActionBanUserBannedButton => 'Banned';
+  String get iarActionBanUserBannedButton => '已封鎖';
 
   @override
-  String get iarActionBanUserBannedTooltip =>
-      'This user is already banned from the community.';
+  String get iarActionBanUserBannedTooltip => '此使用者已遭封鎖，無法加入此社群。';
 
   @override
-  String get iarCloseDmConfirmTitle => 'Close DM';
+  String get iarCloseDmConfirmTitle => '關閉私訊';
 
   @override
   String iarCloseDmConfirmDescription(String name) {
-    return 'Close your current DM with $name. This doesn\'t block them; you can reopen later.';
+    return '關閉你與 $name 的目前私訊。這不會封鎖對方；你之後可以重新開啟。';
   }
 
   @override
-  String get iarSuccessTitle => 'Report sent';
+  String get iarSuccessTitle => '已送出檢舉';
 
   @override
-  String get iarSuccessBody =>
-      'Our safety team is reviewing it. We\'ll send you a DM and email once we\'ve reached a verdict.';
+  String get iarSuccessBody => '我們的安全團隊正在審查。一旦有結果，我們會透過私訊和電子郵件通知你。';
 
   @override
-  String get iarAlreadyReportedTitle => 'Already reported';
+  String get iarAlreadyReportedTitle => '已檢舉';
 
   @override
-  String get iarAlreadyReportedBody =>
-      'You\'ve already reported this message. Our safety team is reviewing it.';
+  String get iarAlreadyReportedBody => '你已檢舉此訊息。我們的安全團隊正在審查。';
 
   @override
-  String get iarBackButton => 'Back';
+  String get iarBackButton => '上一頁';
 
   @override
-  String get iarContinueButton => 'Continue';
+  String get iarContinueButton => '繼續';
 
   @override
-  String get iarSendReportButton => 'Send report';
+  String get iarSendReportButton => '送出檢舉';
 
   @override
-  String get iarDoneButton => 'Done';
+  String get iarDoneButton => '完成';
 
   @override
-  String get iarCouldntSendToast =>
-      'Couldn\'t send the report. Please try again.';
+  String get iarCouldntSendToast => '無法送出檢舉。請再試一次。';
 
   @override
-  String get iarRateLimitedToast =>
-      'You\'re reporting too quickly. Please wait a moment and try again.';
+  String get iarRateLimitedToast => '你檢舉的頻率太快。請稍候再試。';
 
   @override
-  String get iarReportSentToast =>
-      'Report sent. Our safety team will review it.';
+  String get iarReportSentToast => '已送出檢舉。我們的安全團隊會進行審查。';
 
   @override
   String iarBlockUserConfirmDescription(String name) {
-    return 'Block $name? They won\'t be able to message you or send you friend requests. You can unblock them later.';
+    return '要封鎖 $name 嗎？對方將無法傳送訊息給你或傳送交友邀請。你之後可以解除封鎖。';
   }
 
   @override
-  String get iarBlockUserFailedToast =>
-      'Couldn\'t block this user. Please try again.';
+  String get iarBlockUserFailedToast => '無法封鎖此使用者。請再試一次。';
 
   @override
-  String get iarCloseDmSuccessToast => 'DM closed.';
+  String get iarCloseDmSuccessToast => '已關閉私訊。';
 
   @override
-  String get iarCloseDmFailedToast =>
-      'Couldn\'t close this DM. Please try again.';
+  String get iarCloseDmFailedToast => '無法關閉此私訊。請再試一次。';
 
   @override
-  String get iarLeaveCommunityFailedToast =>
-      'Couldn\'t leave this community. Please try again.';
+  String get iarLeaveCommunityFailedToast => '無法離開此社群。請再試一次。';
 
   @override
-  String get chatMessageSuppressEmbeds => 'Suppress Embeds';
+  String get chatMessageSuppressEmbeds => '隱藏嵌入內容';
 
   @override
-  String get chatMessageUnsuppressEmbeds => 'Unsuppress Embeds';
+  String get chatMessageUnsuppressEmbeds => '顯示嵌入內容';
 
   @override
-  String get chatMessageDelete => 'Delete Message';
+  String get chatMessageDelete => '刪除訊息';
 
   @override
-  String get chatMessageDeleteConfirmTitle => 'Delete Message';
+  String get chatMessageDeleteConfirmTitle => '刪除訊息';
 
   @override
-  String get chatMessageDeleteConfirmDescription =>
-      'Are you sure you want to delete this message?';
+  String get chatMessageDeleteConfirmDescription => '確定要刪除此訊息嗎？';
 
   @override
-  String get chatMessageMore => 'More';
+  String get chatMessageMore => '更多';
 
   @override
-  String get chatEditingMessage => 'Editing message';
+  String get chatEditingMessage => '正在編輯訊息';
 
   @override
-  String get chatReplyOriginalDeleted => 'Original message was deleted';
+  String get chatReplyOriginalDeleted => '原始訊息已刪除';
 
   @override
-  String get chatReplyOriginalFailedToLoad => 'Original message failed to load';
+  String get chatReplyOriginalFailedToLoad => '無法載入原始訊息';
 
   @override
-  String get chatReplyAttachedMedia => 'Message contains attached media';
+  String get chatReplyAttachedMedia => '訊息包含附加媒體';
 
   @override
-  String get chatMessagesLoadError => 'Couldn\'t load messages.';
+  String get chatMessagesLoadError => '無法載入訊息。';
 
   @override
-  String get chatReplyMentionOverrideTitle => 'Override mention preference?';
+  String get chatReplyMentionOverrideTitle => '覆寫提及偏好設定？';
 
   @override
   String chatReplyMentionPrefersMentionBody(String authorNickname) {
-    return '$authorNickname prefers to be @mentioned on replies. Send without the mention anyway?';
+    return '$authorNickname 偏好在回覆時被提及。仍要傳送而不提及嗎？';
   }
 
   @override
   String chatReplyMentionPrefersNoMentionBody(String authorNickname) {
-    return '$authorNickname prefers replies without an @mention. Send with the mention anyway?';
+    return '$authorNickname 偏好不透過提及來回覆。仍要透過提及傳送嗎？';
   }
 
   @override
-  String get chatReplyMentionIgnorePreference => 'Ignore preference';
+  String get chatReplyMentionIgnorePreference => '忽略偏好設定';
 
   @override
-  String get chatReplyMentionDisableTooltip =>
-      'Click to disable pinging the user you\'re replying to.';
+  String get chatReplyMentionDisableTooltip => '點擊以停用提及您正在回覆的使用者。';
 
   @override
-  String get chatReplyMentionEnableTooltip =>
-      'Click to enable pinging the user you\'re replying to.';
+  String get chatReplyMentionEnableTooltip => '點擊以啟用提及您正在回覆的使用者。';
 
   @override
-  String get chatReplyMentionAccessibilityLabel => 'Mention replied user';
+  String get chatReplyMentionAccessibilityLabel => '提及回覆的使用者';
 
   @override
-  String get chatReplyMentionOn => 'On';
+  String get chatReplyMentionOn => '開啟';
 
   @override
-  String get chatReplyMentionOff => 'Off';
+  String get chatReplyMentionOff => '關閉';
 
   @override
-  String get chatReplyCancel => 'Cancel reply';
+  String get chatReplyCancel => '取消回覆';
 
   @override
-  String get chatEditMessageHint => 'Edit message';
+  String get chatEditMessageHint => '編輯訊息';
 
   @override
-  String get chatEditNoChanges => 'No changes to save';
+  String get chatEditNoChanges => '沒有要儲存的變更';
 
   @override
-  String get chatChannelNotReady =>
-      'This channel is not ready yet. Try again in a moment.';
+  String get chatChannelNotReady => '此頻道尚未準備就緒。請稍後再試。';
 
   @override
-  String get chatMessageEdited => '(edited)';
+  String get chatMessageEdited => '(已編輯)';
 
   @override
-  String get chatMessageSilent => 'This was a @silent message.';
+  String get chatMessageSilent => '這是 @silent 訊息。';
 
   @override
   String chatMessageTimestampToday(String time) {
-    return 'Today at $time';
+    return '今天 $time';
   }
 
   @override
   String chatMessageTimestampYesterday(String time) {
-    return 'Yesterday at $time';
+    return '昨天 $time';
   }
 
   @override
-  String get mediaViewerImagePreview => 'Image preview';
+  String get mediaViewerImagePreview => '圖片預覽';
 
   @override
-  String get mediaViewerClose => 'Close media viewer';
+  String get mediaViewerClose => '關閉媒體檢視器';
 
   @override
-  String get mediaViewerOpenInBrowser => 'Open in browser';
+  String get mediaViewerOpenInBrowser => '在瀏覽器中開啟';
 
   @override
-  String get mediaViewerForward => 'Forward';
+  String get mediaViewerForward => '轉寄';
 
   @override
-  String get mediaViewerZoomIn => 'Zoom in';
+  String get mediaViewerZoomIn => '放大';
 
   @override
-  String get mediaViewerZoomOut => 'Zoom out';
+  String get mediaViewerZoomOut => '縮小';
 
   @override
-  String get mediaViewerPreviousAttachment => 'Previous attachment';
+  String get mediaViewerPreviousAttachment => '上一則附件';
 
   @override
-  String get mediaViewerNextAttachment => 'Next attachment';
+  String get mediaViewerNextAttachment => '下一則附件';
 
   @override
   String mediaViewerAttachmentIndex(int current, int total) {
@@ -11449,128 +11343,145 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   }
 
   @override
-  String get chatAttachmentVideoToggleControls => 'Toggle video controls';
+  String get chatAttachmentVideoToggleControls => '切換影片控制項';
 
   @override
-  String get chatAttachmentVideoMute => 'Mute video';
+  String get chatAttachmentVideoMute => '將影片設為靜音';
 
   @override
-  String get chatAttachmentVideoUnmute => 'Unmute video';
+  String get chatAttachmentVideoUnmute => '取消影片靜音';
 
   @override
-  String get chatAttachmentVideoPlay => 'Play video';
+  String get chatAttachmentVideoPlay => '播放影片';
 
   @override
-  String get chatAttachmentVideoPause => 'Pause video';
+  String get chatAttachmentVideoPause => '暫停影片';
 
   @override
-  String get chatAttachmentVideoProgress => 'Video progress';
+  String get chatAttachmentVideoProgress => '影片進度';
+
+  @override
+  String get chatVideoPlaybackFailed => '無法播放此影片。';
 
   @override
   String get composerAutocompleteRoleMentionDescription =>
-      'Notify users with this role who have permission to view this channel.';
+      '通知具有此角色的使用者，他們有權檢視此頻道。';
 
   @override
-  String get addGuildModalTitle => 'Add a community';
+  String get addGuildModalTitle => '新增社群';
 
   @override
-  String get addGuildModalLandingDescription =>
-      'Create a new community or join an existing one.';
+  String get addGuildModalLandingDescription => '建立新社群或加入現有社群。';
 
   @override
-  String get addGuildCreateCommunity => 'Create community';
+  String get addGuildCreateCommunity => '建立社群';
 
   @override
-  String get addGuildJoinCommunity => 'Join community';
+  String get addGuildJoinCommunity => '加入社群';
 
   @override
-  String get addGuildImportDiscordTemplate => 'Import Discord template';
+  String get addGuildImportDiscordTemplate => '匯入 Discord 範本';
 
   @override
-  String get addGuildJoinTitle => 'Join a community';
+  String get addGuildJoinTitle => '加入社群';
 
   @override
-  String get addGuildJoinDescription =>
-      'Enter the invite link to join a community.';
+  String get addGuildJoinDescription => '輸入邀請連結以加入社群。';
 
   @override
-  String get addGuildInviteLinkLabel => 'Invite link';
+  String get addGuildInviteLinkLabel => '邀請連結';
 
   @override
-  String get addGuildJoinSubmit => 'Join community';
+  String get addGuildJoinSubmit => '加入社群';
 
   @override
-  String get addGuildInviteInvalid => 'This invite is invalid or has expired.';
+  String get addGuildInviteInvalid => '此邀請無效或已過期。';
 
   @override
-  String get addGuildJoinFailed =>
-      'Could not join community. Please try again.';
+  String get addGuildJoinFailed => '無法加入社群。請再試一次。';
 
   @override
-  String get addGuildPackInstalled => 'Pack installed successfully.';
+  String get addGuildPackInstalled => '套件已成功安裝。';
 
   @override
-  String get chatMessageRemoveAllReactionsConfirmTitle =>
-      'Remove All Reactions';
+  String get chatMessageRemoveAllReactionsConfirmTitle => '移除所有反應';
 
   @override
   String get chatMessageRemoveAllReactionsConfirmDescription =>
-      'Are you sure you want to remove all reactions from this message?';
+      '確定要移除此訊息的所有反應嗎？';
 
   @override
-  String get chatMessageUnpinConfirmTitle => 'Unpin message';
+  String get chatMessageUnpinConfirmTitle => '取消釘選訊息';
 
   @override
-  String get chatMessageUnpinConfirmDescription =>
-      'Send this pin back in time?';
+  String get chatMessageUnpinConfirmDescription => '將此釘選訊息送回過去？';
 
   @override
-  String get personalNotesTitle => 'Personal notes';
+  String systemPinMessage(
+    String username,
+    String messageLink,
+    String allPinsLink,
+  ) {
+    return '$username 釘選了 $messageLink 到此頻道。請參閱 $allPinsLink。';
+  }
 
   @override
-  String get personalNotesSubtitle =>
-      'Your private space for thoughts and reminders';
+  String get systemPinMessageMessageLink => '一則訊息';
+
+  @override
+  String get systemPinMessageAllPinsLink => '所有釘選訊息';
+
+  @override
+  String get channelPinsEmptyTitle => '沒有釘選訊息';
+
+  @override
+  String get channelPinsEmptyDescription => '釘選的訊息會顯示在這裡。';
+
+  @override
+  String get personalNotesTitle => '個人筆記';
+
+  @override
+  String get personalNotesSubtitle => '你的專屬空間，用於記錄想法和提醒';
 
   @override
   String channelWelcomeHeading(String channelName) {
-    return 'Welcome to $channelName';
+    return '歡迎來到 $channelName';
   }
 
   @override
   String channelWelcomeDescription(String channelName) {
-    return 'In the beginning, there was nothing. Then, there was $channelName. And it was good.';
+    return '起初，萬物皆空。然後，有了 $channelName。一切都變得美好。';
   }
 
   @override
-  String get personalNotesComposerHint => 'Message yourself';
+  String get personalNotesComposerHint => '傳訊息給自己';
 
   @override
-  String get personalNotesPrivateSpace => 'Your private space';
+  String get personalNotesPrivateSpace => '你的私人空間';
 
   @override
-  String get purgePersonalNotes => 'Purge personal notes';
+  String get purgePersonalNotes => '清除個人筆記';
 
   @override
   String get purgePersonalNotesConfirmDescription =>
-      'This will permanently delete every message and attachment in your personal notes. This cannot be undone.';
+      '這將永久刪除你個人筆記中的所有訊息和附件。此操作無法復原。';
 
   @override
-  String get purgePersonalNotesConfirmButton => 'Purge';
+  String get purgePersonalNotesConfirmButton => '清除';
 
   @override
   String purgePersonalNotesSuccess(int count) {
-    return 'Purged $count messages from personal notes';
+    return '已從個人筆記中清除 $count 則訊息';
   }
 
   @override
-  String get purgePersonalNotesAlreadyEmpty =>
-      'Personal notes were already empty';
+  String get purgePersonalNotesAlreadyEmpty => '個人筆記已是空的';
 
   @override
-  String get purgePersonalNotesFailed => 'Could not clear personal notes';
+  String get purgePersonalNotesFailed => '無法清除個人筆記';
 
   @override
-  String get userSettingsGroupYourAccount => 'YOUR ACCOUNT';
+  String get userSettingsGroupYourAccount => '你的帳戶';
 
   @override
   String get userSettingsGroupApplication => 'APPLICATION';
@@ -11582,353 +11493,475 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get userSettingsGroupStaffOnly => 'STAFF-ONLY';
 
   @override
-  String get userSettingsNavProfile => 'Profile';
+  String get userSettingsNavProfile => '個人資料';
 
   @override
-  String get userSettingsNavSecurityLogin => 'Security & Login';
+  String get userSettingsNavSecurityLogin => '安全性與登入';
 
   @override
   String get userSettingsNavFluxerPlutonium => 'Fluxer Plutonium';
 
   @override
-  String get userSettingsNavGiftsAndCodes => 'Gifts & Codes';
+  String get userSettingsNavGiftsAndCodes => '禮物與代碼';
 
   @override
-  String get userSettingsNavExpressionPacks => 'Expression Packs';
+  String get userSettingsNavExpressionPacks => '表情符號包';
 
   @override
-  String get userSettingsNavPrivacyDashboard => 'Privacy Dashboard';
+  String get userSettingsNavPrivacyDashboard => '隱私權儀表板';
 
   @override
-  String get userSettingsNavAuthorizedApps => 'Authorized Apps';
+  String get userSettingsNavAuthorizedApps => '已授權的應用程式';
 
   @override
-  String get userSettingsNavBlockedUsers => 'Blocked Users';
+  String get userSettingsNavBlockedUsers => '封鎖的使用者';
 
   @override
-  String get userSettingsNavLinkedDevices => 'Linked Devices';
+  String get userSettingsNavLinkedDevices => '已連結的裝置';
 
   @override
-  String get userSettingsNavConnections => 'Connections';
+  String get userSettingsNavConnections => '連線';
 
   @override
-  String get userSettingsNavLookAndFeel => 'Look & Feel';
+  String get userSettingsNavLookAndFeel => '外觀';
 
   @override
-  String get userSettingsNavAccessibility => 'Accessibility';
+  String get userSettingsNavAccessibility => '輔助功能';
 
   @override
-  String get userSettingsNavMessagesAndMedia => 'Messages & Media';
+  String get userSettingsNavMessagesAndMedia => '訊息與媒體';
 
   @override
-  String get userSettingsNavAudioAndVideo => 'Audio & Video';
+  String get userSettingsNavAudioAndVideo => '音訊與視訊';
 
   @override
-  String get userSettingsNavSoundsAndAlerts => 'Sounds & Alerts';
+  String get userSettingsNavSoundsAndAlerts => '聲音與通知';
 
   @override
-  String get userSettingsNavLanguageAndTime => 'Language & Time';
+  String get userSettingsNavLanguageAndTime => '語言與時間';
 
   @override
-  String get userSettingsNavAdvanced => 'Advanced';
+  String get userSettingsNavAdvanced => '進階';
 
   @override
-  String get advancedPerformanceReportingTitle => 'Performance reporting';
+  String get advancedPerformanceReportingTitle => '效能報告';
 
   @override
   String get advancedPerformanceReportingSectionDescription =>
-      'Help improve Fluxer by sharing anonymous crash and performance data.';
+      '透過分享匿名的當機和效能資料，協助改進 Fluxer。';
 
   @override
-  String get advancedPerformanceReportingLabel =>
-      'Send crash and performance reports';
+  String get advancedPerformanceReportingLabel => '傳送當機和效能報告';
 
   @override
   String get advancedPerformanceReportingDescription =>
-      'All reported data is anonymous and is sent only to Fluxer\'s own monitoring service — no third-party providers are used.';
+      '所有回報的資料均為匿名，且僅傳送至 Fluxer 自有的監控服務 — 不會使用任何第三方供應商。';
 
   @override
-  String get userSettingsNavApplications => 'Applications';
+  String get userSettingsNavApplications => '應用程式';
 
   @override
-  String get userSettingsNavAppLogs => 'App Logs';
+  String get userSettingsNavAppLogs => '應用程式記錄';
 
   @override
-  String get userSettingsNavDeveloperTools => 'Developer Tools';
+  String get userSettingsNavDeveloperTools => '開發人員工具';
 
   @override
-  String get userSettingsNavLimitsConfig => 'Limits Config';
+  String get userSettingsNavLimitsConfig => '限制設定';
 
   @override
-  String get userSettingsNavFeatureFlags => 'Feature Flags';
+  String get userSettingsNavFeatureFlags => '功能旗標';
 
   @override
-  String get userSettingsNavWhatsNew => 'What\'s New';
+  String get userSettingsNavWhatsNew => '新功能';
 
   @override
-  String get userSettingsNavLogOut => 'Log Out';
+  String get userSettingsNavLogOut => '登出';
 
   @override
-  String get betaWarningTitle => 'Beta software';
+  String get betaWarningTitle => '測試版軟體';
 
   @override
-  String get betaWarningMessage =>
-      'This is beta software. Not everything is finished or added yet.';
+  String get betaWarningMessage => '這是測試版軟體。尚未完成或加入所有功能。';
 
   @override
   String get betaWarningReportIssues =>
-      'Please report any issues you find to the Fluxer Mobile community (you must have Plutonium to be able to join the community currently).';
+      '請將您發現的任何問題回報給 Fluxer Mobile 社群 (目前必須擁有 Plutonium 才能加入社群)。';
 
   @override
-  String get betaWarningRepoLink => 'View source on GitHub';
+  String get betaWarningRepoLink => '在 GitHub 上檢視原始碼';
 
   @override
-  String get betaWarningGotIt => 'Got it';
+  String get betaWarningGotIt => '知道了';
 
   @override
-  String get quickSwitcherTabSearch => 'Search';
+  String get quickSwitcherTabSearch => '搜尋';
 
   @override
-  String get quickSwitcherTabFriends => 'Friends';
+  String get quickSwitcherTabFriends => '朋友';
 
   @override
-  String get quickSwitcherSearchPlaceholder =>
-      'Search for channels, people, or communities';
+  String get quickSwitcherSearchPlaceholder => '搜尋頻道、人員或社群';
 
   @override
-  String get quickSwitcherSearchFriends => 'Search friends';
+  String get quickSwitcherSearchFriends => '搜尋朋友';
 
   @override
-  String get quickSwitcherNoMatchesFound => 'No matches found';
+  String get quickSwitcherNoMatchesFound => '找不到相符項目';
 
   @override
-  String get quickSwitcherEmptyHint =>
-      'Try a different name or use @ / # / ! / * prefixes to filter results.';
+  String get quickSwitcherEmptyHint => '嘗試輸入不同的名稱，或使用 @ / # / ! / * 前綴篩選結果。';
 
   @override
-  String get quickSwitcherSectionPeople => 'People';
+  String get quickSwitcherSectionPeople => '人員';
 
   @override
-  String get quickSwitcherSectionGroupMessages => 'Group messages';
+  String get quickSwitcherSectionGroupMessages => '群組訊息';
 
   @override
-  String get quickSwitcherSectionTextChannels => 'Text channels';
+  String get quickSwitcherSectionTextChannels => '文字頻道';
 
   @override
-  String get quickSwitcherSectionVoiceChannels => 'Voice channels';
+  String get quickSwitcherSectionVoiceChannels => '語音頻道';
 
   @override
-  String get quickSwitcherSectionCommunities => 'Communities';
+  String get quickSwitcherSectionCommunities => '社群';
 
   @override
-  String get quickSwitcherSectionSettings => 'Settings';
+  String get quickSwitcherSectionSettings => '設定';
 
   @override
-  String get quickSwitcherHomeLabel => 'Home';
+  String get quickSwitcherHomeLabel => '首頁';
 
   @override
-  String get quickSwitcherDirectMessagesLabel => 'Direct Messages';
+  String get quickSwitcherDirectMessagesLabel => '私訊';
 
   @override
-  String get quickSwitcherFavoritesLabel => 'Favorites';
+  String get quickSwitcherFavoritesLabel => '我的最愛';
 
   @override
-  String get quickSwitcherUserSettingsLabel => 'User Settings';
+  String get quickSwitcherUserSettingsLabel => '使用者設定';
 
   @override
-  String get quickSwitcherNotificationsLabel => 'Notifications';
+  String get quickSwitcherNotificationsLabel => '通知';
 
   @override
-  String get quickSwitcherBookmarksLabel => 'Bookmarks';
+  String get quickSwitcherBookmarksLabel => '書籤';
 
   @override
-  String get quickSwitcherMentionsLabel => 'Mentions';
+  String get quickSwitcherMentionsLabel => '提及';
 
   @override
-  String get quickSwitcherFriendsEmptyTitle => 'No friends yet';
+  String get quickSwitcherFriendsEmptyTitle => '尚未有朋友';
 
   @override
-  String get quickSwitcherFriendsEmptyHint => 'Add a friend to get started.';
+  String get quickSwitcherFriendsEmptyHint => '新增朋友開始使用。';
 
   @override
-  String get quickSwitcherFriendsNoMatchTitle => 'No friends match that search';
+  String get quickSwitcherFriendsNoMatchTitle => '沒有朋友符合搜尋條件';
 
   @override
-  String get quickSwitcherFriendsNoMatchHint => 'Try a different name.';
+  String get quickSwitcherFriendsNoMatchHint => '嘗試輸入不同的名稱。';
 
   @override
-  String get quickSwitcherSearchAliasUser => 'User';
+  String get quickSwitcherSearchAliasUser => '使用者';
 
   @override
-  String get quickSwitcherSearchAliasYou => 'You';
+  String get quickSwitcherSearchAliasYou => '你';
 
   @override
   String get quickSwitcherSearchAliasDm => 'DM';
 
   @override
-  String get quickSwitcherSearchAliasDms => 'DMs';
+  String get quickSwitcherSearchAliasDms => '私訊';
 
   @override
-  String get quickSwitcherSearchAliasMessages => 'Messages';
+  String get quickSwitcherSearchAliasMessages => '訊息';
 
   @override
-  String get quickSwitcherSearchAliasFav => 'Fav';
+  String get quickSwitcherSearchAliasFav => '最愛';
 
   @override
-  String get quickSwitcherSearchAliasStarred => 'Starred';
+  String get quickSwitcherSearchAliasStarred => '已加星號';
 
   @override
-  String get quickSwitcherSearchAliasInbox => 'Inbox';
+  String get quickSwitcherSearchAliasInbox => '收件匣';
 
   @override
-  String get quickSwitcherSearchAliasSaved => 'Saved';
+  String get quickSwitcherSearchAliasSaved => '已儲存';
 
   @override
-  String get uiClose => 'Close';
+  String get uiClose => '關閉';
 
   @override
-  String get chatJumpToBottom => 'Jump to bottom';
+  String get chatJumpToBottom => '跳至底部';
 
   @override
-  String get uiConfirm => 'Confirm';
+  String get uiConfirm => '確認';
 
   @override
-  String get uiLoading => 'Loading';
+  String get uiLoading => '載入中';
 
   @override
-  String get uiUnsavedChanges => 'Unsaved changes';
+  String get uiUnsavedChanges => '未儲存的變更';
 
   @override
-  String get uiReset => 'Reset';
+  String get uiReset => '重設';
 
   @override
-  String get uiOpenColorPicker => 'Open color picker';
+  String get uiOpenColorPicker => '開啟色彩選擇器';
 
   @override
-  String get uiSelectPlaceholder => 'Select';
+  String get uiSelectPlaceholder => '選擇';
 
   @override
-  String get uiSearchPlaceholder => 'Search';
+  String get uiSearchPlaceholder => '搜尋';
 
   @override
-  String get uiNoOptionsFound => 'No options found';
+  String get uiNoOptionsFound => '找不到選項';
 
   @override
-  String get uiDismissNotification => 'Dismiss notification';
+  String get uiDismissNotification => '關閉通知';
 
   @override
-  String get uiColorPickerTitle => 'Color picker';
+  String get uiColorPickerTitle => '色彩選擇器';
 
   @override
-  String get mentionConfirmTitle => 'Mention everyone?';
+  String get mentionConfirmTitle => '提及所有人嗎？';
 
   @override
   String mentionConfirmEveryoneBody(int count) {
-    return 'This will notify $count members. Continue?';
+    return '這將會通知 $count 位成員。是否繼續？';
   }
 
   @override
   String mentionConfirmHereBody(int count) {
-    return 'This will notify $count online members. Continue?';
+    return '這將會通知 $count 位線上成員。是否繼續？';
   }
 
   @override
-  String get mentionConfirmButton => 'Mention';
+  String get mentionConfirmButton => '提及';
 
   @override
-  String get composerEmojiUnavailable => 'You can\'t use that emoji here.';
+  String get composerEmojiUnavailable => '您無法在此處使用該表情符號。';
 
   @override
-  String get instanceUrlLabel => 'Instance URL';
+  String get instanceUrlLabel => '伺服器網址';
 
   @override
-  String get instanceUrlPlaceholder => 'Enter instance URL (e.g. fluxer.app)';
+  String get instanceUrlPlaceholder => '輸入伺服器網址 (例如 fluxer.app)';
 
   @override
-  String get resetToDefaultInstance => 'Reset to Fluxer';
+  String get resetToDefaultInstance => '重設為 Fluxer';
 
   @override
-  String get instanceConnect => 'Connect';
+  String get instanceConnect => '連線';
 
   @override
-  String get instanceConnecting => 'Connecting…';
+  String get instanceConnecting => '正在連線…';
 
   @override
-  String get instanceConnectFailed => 'Failed to connect to instance';
+  String get instanceConnectFailed => '無法連線到此伺服器';
 
   @override
-  String get recentInstances => 'Recent instances';
+  String get recentInstances => '近期伺服器';
 
   @override
   String removeRecentInstance(String domain) {
-    return 'Remove $domain from recent instances';
+    return '從近期伺服器移除 $domain';
   }
 
   @override
-  String get instanceSheetTitle => 'Connect to instance';
+  String get instanceSheetTitle => '連線到伺服器';
 
   @override
-  String get connectToDifferentInstance => 'Connect to a different instance';
+  String get connectToDifferentInstance => '連線到其他伺服器';
 
   @override
-  String get changeInstance => 'Change';
+  String get changeInstance => '變更';
 
   @override
-  String get instanceConnectionRequired => 'Connect to the instance to sign in';
+  String get instanceConnectionRequired => '請先連線到伺服器才能登入';
 
   @override
-  String get comingSoon => 'Coming soon';
+  String get comingSoon => '即將推出';
 
   @override
-  String get guildNavbarDirectMessages => 'Direct Messages';
+  String get guildNavbarDirectMessages => '私訊';
 
   @override
-  String get guildNavbarExploreDiscoverableCommunities =>
-      'Explore Discoverable Communities';
+  String get guildNavbarExploreDiscoverableCommunities => '探索可發現的社群';
 
   @override
-  String get guildNavbarAddCommunity => 'Add a Community';
+  String get discoveryExplore => '探索';
 
   @override
-  String get guildNavbarHelp => 'Help';
+  String get discoveryExplorePublicCommunities => '探索公開社群';
+
+  @override
+  String get discoveryListingSubheading =>
+      '想在此列出你的社群嗎？如果符合資格，請在你的社群設定 > 探索中申請。';
+
+  @override
+  String get discoverySearchCommunities => '搜尋社群';
+
+  @override
+  String get discoveryFilterByLanguage => '依語言篩選';
+
+  @override
+  String get discoveryAllLanguages => '所有語言';
+
+  @override
+  String get discoveryAllCategories => '全部';
+
+  @override
+  String get discoveryCategoryGaming => '遊戲';
+
+  @override
+  String get discoveryCategoryMusic => '音樂';
+
+  @override
+  String get discoveryCategoryEntertainment => '娛樂';
+
+  @override
+  String get discoveryCategoryEducation => '教育';
+
+  @override
+  String get discoveryCategoryScienceAndTechnology => '科學與科技';
+
+  @override
+  String get discoveryCategoryContentCreator => '內容創作者';
+
+  @override
+  String get discoveryCategoryAnimeAndManga => '動漫與漫畫';
+
+  @override
+  String get discoveryCategoryMoviesAndTv => '電影與電視';
+
+  @override
+  String get discoveryCategoryOther => '其他';
+
+  @override
+  String get discoveryNoCommunitiesMatch => '沒有社群符合條件。';
+
+  @override
+  String get discoveryJoinCommunity => '加入社群';
+
+  @override
+  String get discoveryJoined => '已加入';
+
+  @override
+  String discoveryOnlineCount(String count) {
+    return '$count 人在線上';
+  }
+
+  @override
+  String discoveryMemberCount(num count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString 位成員',
+      one: '1 位成員',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get discoveryNoDescription => '無說明。';
+
+  @override
+  String get discoveryCommunities => '社群';
+
+  @override
+  String get discoveryApps => '應用程式';
+
+  @override
+  String get discoveryJoinErrorGenericTitle => '無法加入此社群';
+
+  @override
+  String get discoveryJoinErrorGenericMessage => '發生錯誤。請稍後再試。';
+
+  @override
+  String get discoveryJoinErrorFullTitle => '此社群已滿';
+
+  @override
+  String get discoveryJoinErrorFullMessage => '此社群已達到成員上限，目前無法加入。';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsTitle => '你已達到社群上限';
+
+  @override
+  String get discoveryJoinErrorMaxGuildsMessage => '你已加入最多數量的社群。請離開一個再試一次。';
+
+  @override
+  String get discoveryJoinErrorBannedTitle => '你無法加入此社群';
+
+  @override
+  String get discoveryJoinErrorBannedMessage => '你已被禁止加入此社群。';
+
+  @override
+  String get discoveryJoinErrorNotAvailableTitle => '此社群已不再提供';
+
+  @override
+  String get discoveryJoinErrorNotAvailableMessage =>
+      '它可能已離開探索或關閉新成員加入。重新整理頁面後將不會再看到它。';
+
+  @override
+  String get discoveryJoinErrorRateLimitTitle => '你操作太快了';
+
+  @override
+  String get discoveryJoinErrorRateLimitMessage => '請稍候片刻再試。';
+
+  @override
+  String get guildNavbarAddCommunity => '新增社群';
+
+  @override
+  String get guildNavbarHelp => '說明';
+
+  @override
+  String get scrollIndicatorNew => 'NEW';
+
+  @override
+  String get scrollIndicatorNewMessage => '新訊息';
 
   @override
   String guildNavbarCollapseFolder(String folderName) {
-    return 'Collapse $folderName';
+    return '$folderName 文件夹';
   }
 
   @override
-  String get guildNavbarGroupDm => 'Group DM';
+  String get guildNavbarGroupDm => '群组私讯';
 
   @override
-  String get guildNavbarCreateChannel => 'Create Channel';
+  String get guildNavbarCreateChannel => '建立频道';
 
   @override
-  String get guildNavbarChannelType => 'Channel Type';
+  String get guildNavbarChannelType => '频道类型';
 
   @override
-  String get guildNavbarTextChannel => 'Text Channel';
+  String get guildNavbarTextChannel => '文字频道';
 
   @override
-  String get guildNavbarTextChannelDescription =>
-      'Send messages, images, GIFs, and emoji';
+  String get guildNavbarTextChannelDescription => '发送讯息、图片、GIF 和表情符号';
 
   @override
-  String get guildNavbarVoiceChannel => 'Voice Channel';
+  String get guildNavbarVoiceChannel => '语音频道';
 
   @override
-  String get guildNavbarVoiceChannelDescription =>
-      'Hang out together with voice, video, and screen share';
+  String get guildNavbarVoiceChannelDescription => '透过语音、视讯和画面分享一起闲聊';
 
   @override
-  String get guildNavbarLinkChannel => 'Link Channel';
+  String get guildNavbarLinkChannel => '连结频道';
 
   @override
-  String get guildNavbarLinkChannelDescription =>
-      'Quick access to an external website or resource';
+  String get guildNavbarLinkChannelDescription => '快速存取外部网站或资源';
 
   @override
-  String get guildNavbarNameLabel => 'Name';
+  String get guildNavbarNameLabel => '名称';
 
   @override
   String get guildNavbarNewChannelHint => 'new-channel';
@@ -11940,541 +11973,521 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get guildNavbarUrlHint => 'https://example.com';
 
   @override
-  String get guildNavbarCreateCategory => 'Create Category';
+  String get guildNavbarCreateCategory => '建立分类';
 
   @override
-  String get guildNavbarNewCategoryHint => 'New Category';
+  String get guildNavbarNewCategoryHint => '新分类';
 
   @override
   String guildNavbarInviteFriendsTo(String communityName) {
-    return 'Invite friends to $communityName';
+    return '邀请朋友加入 $communityName';
   }
 
   @override
   String guildNavbarInviteRecipientsChannel(String channelName) {
-    return 'Recipients will be taken to #$channelName';
+    return '收件者将进入 #$channelName';
   }
 
   @override
-  String get guildNavbarSearchFriends => 'Search friends';
+  String get guildNavbarSearchFriends => '搜寻朋友';
 
   @override
-  String get guildNavbarNoFriendsYet => 'No friends yet';
+  String get guildNavbarNoFriendsYet => '还没有朋友';
 
   @override
-  String get guildNavbarNoResults => 'No results';
+  String get guildNavbarNoResults => '没有结果';
 
   @override
-  String get guildNavbarInviteLinkPrompt =>
-      'Or, send an invite link to a friend:';
+  String get guildNavbarInviteLinkPrompt => '或者，将邀请连结寄给朋友：';
 
   @override
-  String get guildNavbarInviteLink => 'Invite link';
+  String get guildNavbarInviteLink => '邀请连结';
 
   @override
-  String get guildNavbarCopy => 'Copy';
+  String get guildNavbarCopy => '复制';
 
   @override
-  String get guildNavbarCopied => 'Copied!';
+  String get guildNavbarCopied => '已复制！';
 
   @override
-  String get guildNavbarInviteExpiresSevenDays =>
-      'Your invite link expires in 7 days.';
+  String get guildNavbarInviteExpiresSevenDays => '您的邀请连结将在 7 天后到期。';
 
   @override
-  String get guildNavbarInviteNeverExpires => 'This invite link never expires.';
+  String get guildNavbarInviteNeverExpires => '此邀请连结永不过期。';
 
   @override
   String guildNavbarInviteExpiresIn(String duration) {
-    return 'Your invite link expires in $duration.';
+    return '您的邀请连结将在 $duration 后到期。';
   }
 
   @override
-  String get guildNavbarEditInviteLink => 'Edit invite link';
+  String get guildNavbarEditInviteLink => '编辑邀请连结';
 
   @override
-  String get guildNavbarInviteLinkSettings => 'Invite link settings';
+  String get guildNavbarInviteLinkSettings => '邀请连结设定';
 
   @override
-  String get guildNavbarExpireAfter => 'Expire After';
+  String get guildNavbarExpireAfter => '到期时间';
 
   @override
-  String get guildNavbarMaxUses => 'Max Number of Uses';
+  String get guildNavbarMaxUses => '最多使用次数';
 
   @override
-  String get guildNavbarGrantTemporaryMembership =>
-      'Grant Temporary Membership';
+  String get guildNavbarGrantTemporaryMembership => '授予临时会员资格';
 
   @override
-  String get guildNavbarTemporaryMembershipDescription =>
-      'Members will be removed when they go offline unless a role is assigned';
+  String get guildNavbarTemporaryMembershipDescription => '除非分配角色，否则会员离线时将被移除';
 
   @override
-  String get guildNavbarCreateNewLink => 'Create New Link';
+  String get guildNavbarCreateNewLink => '建立新连结';
 
   @override
-  String get guildNavbarSent => 'Sent';
+  String get guildNavbarSent => '已寄送';
 
   @override
-  String get guildNavbarInvite => 'Invite';
+  String get guildNavbarInvite => '邀请';
 
   @override
-  String get guildNavbarLeaveCommunityTitle => 'Leave Community';
+  String get guildNavbarLeaveCommunityTitle => '离开社群';
 
   @override
-  String get guildNavbarLeaveCommunityDescription =>
-      'Are you sure you want to leave this community? You will no longer be able to see any messages.';
+  String get guildNavbarLeaveCommunityDescription => '确定要离开这个社群吗？您将无法再看到任何讯息。';
 
   @override
-  String get guildNavbarLeaveCommunityConfirm => 'Leave Community';
+  String get guildNavbarLeaveCommunityConfirm => '离开社群';
 
   @override
-  String get guildNavbarDeleteMyMessagesTitle =>
-      'Delete your messages in this community?';
+  String get guildNavbarDeleteMyMessagesTitle => '删除您在此社群中的讯息？';
 
   @override
   String get guildNavbarDeleteMyMessagesDescription =>
-      'Permanently delete every message you\'ve sent here, across every channel. Cannot be undone.';
+      '永久删除您在此处、所有频道中发送的每则讯息。无法复原。';
 
   @override
-  String get guildNavbarDeleteMyMessagesConfirm => 'Delete My Messages';
+  String get guildNavbarDeleteMyMessagesConfirm => '删除我的讯息';
 
   @override
-  String get guildNavbarDeletedYourMessages => 'Deleted your messages';
+  String get guildNavbarDeletedYourMessages => '已删除您的讯息';
 
   @override
-  String get guildNavbarCouldNotDeleteYourMessages =>
-      'Couldn\'t delete your messages';
+  String get guildNavbarCouldNotDeleteYourMessages => '无法删除您的讯息';
 
   @override
-  String get guildNavbarRemoveOverride => 'Remove override';
+  String get guildNavbarRemoveOverride => '移除覆盖设定';
 
   @override
   String guildNavbarMutedUntil(String formattedDate) {
-    return 'Muted until $formattedDate';
+    return '静音至 $formattedDate';
   }
 
   @override
-  String get guildNavbarStaffOnlyAccessible =>
-      'Only accessible to Fluxer staff';
+  String get guildNavbarStaffOnlyAccessible => '仅限 Fluxer 员工存取';
 
   @override
-  String get guildNavbarInvitesPaused =>
-      'Invites are currently paused in this community';
+  String get guildNavbarInvitesPaused => '此社群的邀请目前已暂停';
 
   @override
-  String get guildNavbarDurationNever => 'never';
+  String get guildNavbarDurationNever => '永不';
 
   @override
-  String get guildNavbarDuration30Minutes => '30 minutes';
+  String get guildNavbarDuration30Minutes => '30 分钟';
 
   @override
-  String get guildNavbarDuration1Hour => '1 hour';
+  String get guildNavbarDuration1Hour => '1 小时';
 
   @override
-  String get guildNavbarDuration6Hours => '6 hours';
+  String get guildNavbarDuration6Hours => '6 小时';
 
   @override
-  String get guildNavbarDuration12Hours => '12 hours';
+  String get guildNavbarDuration12Hours => '12 小時';
 
   @override
-  String get guildNavbarDuration1Day => '1 day';
+  String get guildNavbarDuration1Day => '1 天';
 
   @override
-  String get guildNavbarDuration7Days => '7 days';
+  String get guildNavbarDuration7Days => '7 天';
 
   @override
   String guildNavbarDurationSeconds(int count) {
-    return '$count seconds';
+    return '$count 秒';
   }
 
   @override
-  String get guildNavbarNever => 'Never';
+  String get guildNavbarNever => '永不';
 
   @override
-  String get guildNavbarNoLimit => 'No limit';
+  String get guildNavbarNoLimit => '無上限';
 
   @override
-  String get guildNavbarOneUse => '1 use';
+  String get guildNavbarOneUse => '1 次';
 
   @override
   String guildNavbarUses(int count) {
-    return '$count uses';
+    return '$count 次';
   }
 
   @override
-  String get guildMenuMarkAsRead => 'Mark as Read';
+  String get guildMenuMarkAsRead => '標示為已讀';
 
   @override
-  String get guildMenuInviteMembers => 'Invite Members';
+  String get guildPeekMoreOptions => '更多選項';
 
   @override
-  String get guildMenuCommunitySettings => 'Community Settings';
+  String get guildMenuInviteMembers => '邀請成員';
 
   @override
-  String get guildMenuEditCommunityProfile => 'Edit Community Profile';
+  String get guildMenuCommunitySettings => '社群設定';
 
   @override
-  String get guildMenuUnmuteCommunity => 'Unmute Community';
+  String get guildMenuEditCommunityProfile => '編輯社群個人資料';
 
   @override
-  String get guildMenuMuteCommunity => 'Mute Community';
+  String get guildMenuUnmuteCommunity => '解除社群靜音';
 
   @override
-  String get guildMenuHideMutedChannels => 'Hide Muted Channels';
+  String get guildMenuMuteCommunity => '靜音社群';
 
   @override
-  String get guildMenuReportCommunity => 'Report Community';
+  String get guildMenuHideMutedChannels => '隱藏已靜音的頻道';
 
   @override
-  String get guildMenuDebugCommunity => 'Debug Community';
+  String get guildMenuReportCommunity => '檢舉社群';
 
   @override
-  String get guildMenuCopyCommunityId => 'Copy Community ID';
+  String get guildMenuDebugCommunity => '偵錯社群';
+
+  @override
+  String get guildMenuCopyCommunityId => '複製社群 ID';
 
   @override
   String guildMenuMutedUntil(String formattedTime) {
-    return 'Until $formattedTime';
+    return '直到 $formattedTime';
   }
 
   @override
-  String get guildMenuSettingsGeneral => 'General';
+  String get guildMenuSettingsGeneral => '一般';
 
   @override
-  String get guildMenuSettingsRoles => 'Roles & Permissions';
+  String get guildMenuSettingsRoles => '角色與權限';
 
   @override
-  String get guildMenuSettingsEmoji => 'Custom Emoji';
+  String get guildMenuSettingsEmoji => '自訂表情符號';
 
   @override
-  String get guildMenuSettingsStickers => 'Custom Stickers';
+  String get guildMenuSettingsStickers => '自訂貼圖';
 
   @override
-  String get guildMenuSettingsSafetyModeration => 'Safety & Moderation';
+  String get guildMenuSettingsSafetyModeration => '安全與管理';
 
   @override
-  String get guildMenuSettingsActivityLog => 'Activity Log';
+  String get guildMenuSettingsActivityLog => '活動紀錄';
 
   @override
-  String get guildMenuSettingsWebhooks => 'Webhooks';
+  String get guildMenuSettingsWebhooks => 'Webhook';
 
   @override
-  String get guildMenuSettingsCustomInviteUrl => 'Custom Invite URL';
+  String get guildMenuSettingsCustomInviteUrl => '自訂邀請網址';
 
   @override
-  String get guildMenuSettingsDiscovery => 'Discovery';
+  String get guildMenuSettingsDiscovery => '探索';
 
   @override
-  String get guildMenuSettingsMembers => 'Members';
+  String get guildMenuSettingsMembers => '成員';
 
   @override
-  String get guildMenuSettingsInviteLinks => 'Invite Links';
+  String get guildMenuSettingsInviteLinks => '邀請連結';
 
   @override
-  String get guildMenuSettingsBans => 'Bans';
+  String get guildMenuSettingsBans => '封鎖名單';
 
   @override
-  String get guildSettingsNoPermission =>
-      'You do not have permission to view this settings tab.';
+  String get guildSettingsNoPermission => '您沒有權限檢視此設定分頁。';
 
   @override
-  String get guildSettingsOverviewIconTitle => 'Icon';
+  String get guildSettingsOverviewIconTitle => '圖示';
 
   @override
-  String get guildSettingsUploadImage => 'Upload Image';
+  String get guildSettingsUploadImage => '上傳圖片';
 
   @override
-  String get guildSettingsOverviewBannerTitle => 'Banner';
+  String get guildSettingsOverviewBannerTitle => '橫幅';
 
   @override
-  String get guildSettingsOverviewBannerHint =>
-      'Upload a banner for your server.';
+  String get guildSettingsOverviewBannerHint => '為您的伺服器上傳橫幅。';
 
   @override
-  String get guildSettingsOverviewNameTitle => 'Name';
+  String get guildSettingsOverviewNameTitle => '名稱';
 
   @override
-  String get guildSettingsOverviewNameHint => 'My awesome community';
+  String get guildSettingsOverviewNameHint => '我的超讚社群';
 
   @override
-  String get guildSettingsOverviewStatsTitle => 'Statistics';
+  String get guildSettingsOverviewStatsTitle => '統計資料';
 
   @override
-  String get guildSettingsOverviewMembers => 'Members';
+  String get guildSettingsOverviewMembers => '成員';
 
   @override
-  String get guildSettingsOverviewOnline => 'Online';
+  String get guildSettingsOverviewOnline => '線上';
 
   @override
-  String get guildSettingsRolesDescription =>
-      'Use roles to group members and assign permissions.';
+  String get guildSettingsRolesDescription => '使用角色來分組成員並指派權限。';
 
   @override
-  String get guildSettingsCreateRole => 'Create Role';
+  String get guildSettingsCreateRole => '建立角色';
 
   @override
-  String get guildSettingsRolesListTitle => 'Roles';
+  String get guildSettingsRolesListTitle => '角色';
 
   @override
   String guildSettingsEmojiSlotInfo(int staticCount, int animatedCount) {
-    return '$staticCount static, $animatedCount animated emoji slots used';
+    return '已使用 $staticCount 個靜態表情符號、$animatedCount 個動態表情符號';
   }
 
   @override
-  String get guildSettingsEmojiEmpty => 'No custom emoji yet.';
+  String get guildSettingsEmojiEmpty => '尚未有自訂表情符號。';
 
   @override
   String guildSettingsStickersSlotInfo(int count) {
-    return '$count stickers uploaded';
+    return '已上傳 $count 個貼圖';
   }
 
   @override
-  String get guildSettingsStickersEmpty => 'No custom stickers yet.';
+  String get guildSettingsStickersEmpty => '尚未有自訂貼圖。';
 
   @override
-  String get guildSettingsModerationVerificationTitle => 'Member verification';
+  String get guildSettingsModerationVerificationTitle => '成員驗證';
 
   @override
   String get guildSettingsModerationVerificationDescription =>
-      'Choose what members must have before they can post or DM community members.';
+      '選擇成員在能夠發佈訊息或傳送私訊給社群成員前必須具備的條件。';
 
   @override
   String get guildSettingsModerationVerificationRolesBypass =>
-      'Members with roles can bypass these checks. For public spaces, we recommend enabling verification.';
+      '擁有特定身份組的成員可以略過這些檢查。對於公開空間，我們建議啟用驗證。';
 
   @override
   String get guildSettingsModerationVerificationDiscoveryNote =>
-      'Communities listed in Discovery require at least verified email. None cannot be selected while Discovery is enabled.';
+      '列在「探索」中的社群需要至少驗證過的電子郵件。啟用「探索」時無法選擇「無」。';
 
   @override
-  String get guildSettingsModerationMatureTitle =>
-      'Mature content & content warnings';
+  String get guildSettingsModerationMatureTitle => '成人內容與內容警告';
 
   @override
   String get guildSettingsModerationMatureSectionDescription =>
-      'Configure mature content labeling and optional content warnings for members.';
+      '設定成人內容標記與成員可選的內容警告。';
 
   @override
-  String get guildSettingsModerationMatureToggle => 'Mature content';
+  String get guildSettingsModerationMatureToggle => '成人內容';
 
   @override
-  String get guildSettingsModerationMatureToggleDescription =>
-      'Mark this community as containing mature content.';
+  String get guildSettingsModerationMatureToggleDescription => '將此社群標記為包含成人內容。';
 
   @override
-  String get guildSettingsVerificationNone => 'None';
+  String get guildSettingsVerificationNone => '無';
 
   @override
-  String get guildSettingsVerificationNoneDescription =>
-      'No verification is required.';
+  String get guildSettingsVerificationNoneDescription => '無需驗證。';
 
   @override
-  String get guildSettingsVerificationLow => 'Low';
+  String get guildSettingsVerificationLow => '低';
 
   @override
-  String get guildSettingsVerificationLowDescription =>
-      'Requires a verified email address.';
+  String get guildSettingsVerificationLowDescription => '需要已驗證的電子郵件地址。';
 
   @override
-  String get guildSettingsVerificationMedium => 'Medium';
+  String get guildSettingsVerificationMedium => '中';
 
   @override
   String get guildSettingsVerificationMediumDescription =>
-      'Requires a verified email address, and an account that\'s at least 5 minutes old.';
+      '需要已驗證的電子郵件地址，且帳號至少已建立 5 分鐘。';
 
   @override
-  String get guildSettingsVerificationHigh => 'High';
+  String get guildSettingsVerificationHigh => '高';
 
   @override
   String get guildSettingsVerificationHighDescription =>
-      'Requires everything in medium, plus being a member of the community for at least 10 minutes.';
+      '需要中等級別的所有條件，外加已加入社群至少 10 分鐘。';
 
   @override
-  String get guildSettingsVerificationHighest => 'Very high';
+  String get guildSettingsVerificationHighest => '非常高';
 
   @override
-  String get guildSettingsVerificationHighestDescription =>
-      'Requires a verified phone number.';
+  String get guildSettingsVerificationHighestDescription => '需要已驗證的手機號碼。';
 
   @override
-  String get guildSettingsAuditLogDescription =>
-      'Track moderator actions across the community.';
+  String get guildSettingsAuditLogDescription => '追蹤管理員在整個社群中的操作。';
 
   @override
-  String get guildSettingsAuditLogEmpty => 'No logs yet';
+  String get guildSettingsAuditLogEmpty => '尚無紀錄';
 
   @override
-  String get guildSettingsAuditLogEmptyDescription =>
-      'Moderation actions and community changes will appear here.';
+  String get guildSettingsAuditLogEmptyDescription => '管理操作與社群變更將顯示在此處。';
 
   @override
-  String get guildSettingsAuditLogFilterAllUsers => 'All users';
+  String get guildSettingsAuditLogFilterAllUsers => '所有使用者';
 
   @override
-  String get guildSettingsAuditLogFilterAllActions => 'All actions';
+  String get guildSettingsAuditLogFilterAllActions => '所有動作';
 
   @override
-  String get guildSettingsAuditLogNoReason => 'No reason was provided.';
+  String get guildSettingsAuditLogNoReason => '未提供原因。';
 
   @override
-  String get guildSettingsAuditLogUnknownUser => 'Unknown user';
+  String get guildSettingsAuditLogUnknownUser => '未知使用者';
 
   @override
-  String get guildSettingsAuditLogLoadError =>
-      'Something went wrong while loading the activity log.';
+  String get guildSettingsAuditLogLoadError => '載入活動紀錄時發生錯誤。';
 
   @override
-  String get guildSettingsAuditLogLoadErrorTitle =>
-      'Unable to load activity logs';
+  String get guildSettingsAuditLogLoadErrorTitle => '無法載入活動紀錄';
 
   @override
-  String get guildSettingsAuditLogReason => 'Reason';
+  String get guildSettingsAuditLogReason => '原因';
 
   @override
-  String get guildSettingsAuditLogSomeone => 'someone';
+  String get guildSettingsAuditLogSomeone => '某人';
 
   @override
-  String get guildSettingsAuditLogSomething => 'something';
+  String get guildSettingsAuditLogSomething => '某事';
 
   @override
-  String get guildSettingsAuditLogUnknownEntity => 'unknown entity';
+  String get guildSettingsAuditLogUnknownEntity => '未知實體';
 
   @override
-  String get guildSettingsAuditLogNothing => 'nothing';
+  String get guildSettingsAuditLogNothing => '無';
 
   @override
-  String get guildSettingsAuditLogUnknownTarget => 'Unknown target';
+  String get guildSettingsAuditLogUnknownTarget => '未知目標';
 
   @override
-  String get auditLogActionGuildUpdate => 'Community updated';
+  String get auditLogActionGuildUpdate => '社群已更新';
 
   @override
-  String get auditLogActionChannelCreate => 'Channel created';
+  String get auditLogActionChannelCreate => '頻道已建立';
 
   @override
-  String get auditLogActionChannelUpdate => 'Channel updated';
+  String get auditLogActionChannelUpdate => '頻道已更新';
 
   @override
-  String get auditLogActionChannelDelete => 'Channel deleted';
+  String get auditLogActionChannelDelete => '頻道已刪除';
 
   @override
-  String get auditLogActionChannelOverwriteCreate => 'Channel overwrite added';
+  String get auditLogActionChannelOverwriteCreate => '頻道權限已新增';
 
   @override
-  String get auditLogActionChannelOverwriteUpdate =>
-      'Channel overwrite updated';
+  String get auditLogActionChannelOverwriteUpdate => '頻道權限已更新';
 
   @override
-  String get auditLogActionChannelOverwriteDelete =>
-      'Channel overwrite removed';
+  String get auditLogActionChannelOverwriteDelete => '頻道權限已移除';
 
   @override
-  String get auditLogActionMemberKick => 'Member kicked';
+  String get auditLogActionMemberKick => '成員已被踢出';
 
   @override
-  String get auditLogActionMemberPrune => 'Members pruned';
+  String get auditLogActionMemberPrune => '成員已被清除';
 
   @override
-  String get auditLogActionMemberBanAdd => 'Member banned';
+  String get auditLogActionMemberBanAdd => '成員已被封鎖';
 
   @override
-  String get auditLogActionMemberBanRemove => 'Member unbanned';
+  String get auditLogActionMemberBanRemove => '成員已解除封鎖';
 
   @override
-  String get auditLogActionMemberUpdate => 'Member updated';
+  String get auditLogActionMemberUpdate => '成員已更新';
 
   @override
-  String get auditLogActionMemberRoleUpdate => 'Member roles updated';
+  String get auditLogActionMemberRoleUpdate => '成員身份組已更新';
 
   @override
-  String get auditLogActionMemberMove => 'Member moved';
+  String get auditLogActionMemberMove => '成員已移動';
 
   @override
-  String get auditLogActionMemberDisconnect => 'Member disconnected';
+  String get auditLogActionMemberDisconnect => '成員已中斷連線';
 
   @override
-  String get auditLogActionBotAdd => 'Bot added';
+  String get auditLogActionBotAdd => '機器人已新增';
 
   @override
-  String get auditLogActionRoleCreate => 'Role created';
+  String get auditLogActionRoleCreate => '身份組已建立';
 
   @override
-  String get auditLogActionRoleUpdate => 'Role updated';
+  String get auditLogActionRoleUpdate => '身份組已更新';
 
   @override
-  String get auditLogActionRoleDelete => 'Role deleted';
+  String get auditLogActionRoleDelete => '角色已刪除';
 
   @override
-  String get auditLogActionInviteCreate => 'Invite created';
+  String get auditLogActionInviteCreate => '邀請已建立';
 
   @override
-  String get auditLogActionInviteUpdate => 'Invite updated';
+  String get auditLogActionInviteUpdate => '邀請已更新';
 
   @override
-  String get auditLogActionInviteDelete => 'Invite deleted';
+  String get auditLogActionInviteDelete => '邀請已刪除';
 
   @override
-  String get auditLogActionWebhookCreate => 'Webhook created';
+  String get auditLogActionWebhookCreate => 'Webhook 已建立';
 
   @override
-  String get auditLogActionWebhookUpdate => 'Webhook updated';
+  String get auditLogActionWebhookUpdate => 'Webhook 已更新';
 
   @override
-  String get auditLogActionWebhookDelete => 'Webhook deleted';
+  String get auditLogActionWebhookDelete => 'Webhook 已刪除';
 
   @override
-  String get auditLogActionEmojiCreate => 'Emoji created';
+  String get auditLogActionEmojiCreate => '表情符號已建立';
 
   @override
-  String get auditLogActionEmojiUpdate => 'Emoji updated';
+  String get auditLogActionEmojiUpdate => '表情符號已更新';
 
   @override
-  String get auditLogActionEmojiDelete => 'Emoji deleted';
+  String get auditLogActionEmojiDelete => '表情符號已刪除';
 
   @override
-  String get auditLogActionStickerCreate => 'Sticker created';
+  String get auditLogActionStickerCreate => '貼圖已建立';
 
   @override
-  String get auditLogActionStickerUpdate => 'Sticker updated';
+  String get auditLogActionStickerUpdate => '貼圖已更新';
 
   @override
-  String get auditLogActionStickerDelete => 'Sticker deleted';
+  String get auditLogActionStickerDelete => '貼圖已刪除';
 
   @override
-  String get auditLogActionMessageDelete => 'Message deleted';
+  String get auditLogActionMessageDelete => '訊息已刪除';
 
   @override
-  String get auditLogActionMessageBulkDelete => 'Messages deleted';
+  String get auditLogActionMessageBulkDelete => '訊息已刪除';
 
   @override
-  String get auditLogActionMessagePin => 'Message pinned';
+  String get auditLogActionMessagePin => '訊息已釘選';
 
   @override
-  String get auditLogActionMessageUnpin => 'Message unpinned';
+  String get auditLogActionMessageUnpin => '訊息已取消釘選';
 
   @override
   String auditLogSummaryGuildUpdate(String actor) {
-    return '$actor updated the community settings.';
+    return '$actor 更新了社群設定。';
   }
 
   @override
   String auditLogSummaryChannelCreate(String actor, String target) {
-    return '$actor created the channel $target.';
+    return '$actor 建立了頻道 $target。';
   }
 
   @override
   String auditLogSummaryChannelUpdate(String actor, String target) {
-    return '$actor updated the channel $target.';
+    return '$actor 更新了頻道 $target。';
   }
 
   @override
   String auditLogSummaryChannelDelete(String actor, String target) {
-    return '$actor deleted the channel $target.';
+    return '$actor 刪除了頻道 $target。';
   }
 
   @override
   String auditLogSummaryChannelOverwriteCreate(String actor, String target) {
-    return '$actor added channel permissions for $target.';
+    return '$actor 為 $target 新增了頻道權限。';
   }
 
   @override
@@ -12483,12 +12496,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String target,
     String channel,
   ) {
-    return '$actor added channel permissions for $target in $channel.';
+    return '$actor 在 $channel 為 $target 新增了頻道權限。';
   }
 
   @override
   String auditLogSummaryChannelOverwriteUpdate(String actor, String target) {
-    return '$actor updated channel permissions for $target.';
+    return '$actor 更新了 $target 的頻道權限。';
   }
 
   @override
@@ -12497,12 +12510,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String target,
     String channel,
   ) {
-    return '$actor updated channel permissions for $target in $channel.';
+    return '$actor 在 $channel 更新了 $target 的頻道權限。';
   }
 
   @override
   String auditLogSummaryChannelOverwriteDelete(String actor, String target) {
-    return '$actor removed channel permissions for $target.';
+    return '$actor 移除了 $target 的頻道權限。';
   }
 
   @override
@@ -12511,47 +12524,47 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String target,
     String channel,
   ) {
-    return '$actor removed channel permissions for $target in $channel.';
+    return '$actor 在 $channel 移除了 $target 的頻道權限。';
   }
 
   @override
   String auditLogSummaryMemberKick(String actor, String target) {
-    return '$actor kicked $target.';
+    return '$actor 將 $target 踢出。';
   }
 
   @override
   String auditLogSummaryMemberBanAdd(String actor, String target) {
-    return '$actor banned $target.';
+    return '$actor 禁止 $target 進入。';
   }
 
   @override
   String auditLogSummaryMemberBanRemove(String actor, String target) {
-    return '$actor unbanned $target.';
+    return '$actor 解除了對 $target 的禁止。';
   }
 
   @override
   String auditLogSummaryMemberUpdate(String actor, String target) {
-    return '$actor updated $target.';
+    return '$actor 更新了 $target。';
   }
 
   @override
   String auditLogSummaryMemberRoleUpdate(String actor, String target) {
-    return '$actor updated roles for $target.';
+    return '$actor 更新了 $target 的角色。';
   }
 
   @override
   String auditLogSummaryMemberPrune(String actor) {
-    return '$actor pruned inactive members.';
+    return '$actor 清除了不活躍的成員。';
   }
 
   @override
   String auditLogSummaryMemberPruneDays(String actor, int days) {
-    return '$actor pruned members inactive for $days days.';
+    return '$actor 清除了不活躍達 $days 天的成員。';
   }
 
   @override
   String auditLogSummaryMemberMove(String actor, String target) {
-    return '$actor moved $target to another voice channel.';
+    return '$actor 將 $target 移動到另一個語音頻道。';
   }
 
   @override
@@ -12560,37 +12573,37 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String target,
     String channel,
   ) {
-    return '$actor moved $target to $channel.';
+    return '$actor 將 $target 移動到 $channel。';
   }
 
   @override
   String auditLogSummaryMemberDisconnect(String actor, String target) {
-    return '$actor disconnected $target from voice.';
+    return '$actor 將 $target 從語音斷開連接。';
   }
 
   @override
   String auditLogSummaryBotAdd(String actor, String target) {
-    return '$actor added the bot $target.';
+    return '$actor 新增了機器人 $target。';
   }
 
   @override
   String auditLogSummaryRoleCreate(String actor, String target) {
-    return '$actor created the role $target.';
+    return '$actor 建立了角色 $target。';
   }
 
   @override
   String auditLogSummaryRoleUpdate(String actor, String target) {
-    return '$actor updated the role $target.';
+    return '$actor 更新了角色 $target。';
   }
 
   @override
   String auditLogSummaryRoleDelete(String actor, String target) {
-    return '$actor deleted the role $target.';
+    return '$actor 刪除了角色 $target。';
   }
 
   @override
   String auditLogSummaryInviteCreate(String actor, String target) {
-    return '$actor created the invite $target.';
+    return '$actor 建立了邀請 $target。';
   }
 
   @override
@@ -12599,12 +12612,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String target,
     String channel,
   ) {
-    return '$actor created the invite $target for $channel.';
+    return '$actor 為 $channel 建立了邀請 $target。';
   }
 
   @override
   String auditLogSummaryInviteUpdate(String actor, String target) {
-    return '$actor updated the invite $target.';
+    return '$actor 更新了邀請 $target。';
   }
 
   @override
@@ -12613,12 +12626,12 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String target,
     String channel,
   ) {
-    return '$actor updated the invite $target for $channel.';
+    return '$actor 為 $channel 更新了邀請 $target。';
   }
 
   @override
   String auditLogSummaryInviteDelete(String actor, String target) {
-    return '$actor deleted the invite $target.';
+    return '$actor 刪除了邀請 $target。';
   }
 
   @override
@@ -12627,72 +12640,72 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String target,
     String channel,
   ) {
-    return '$actor deleted the invite $target for $channel.';
+    return '$actor 為 $channel 刪除了邀請 $target。';
   }
 
   @override
   String auditLogSummaryWebhookCreate(String actor, String target) {
-    return '$actor created the webhook $target.';
+    return '$actor 建立了 Webhook $target。';
   }
 
   @override
   String auditLogSummaryWebhookUpdate(String actor, String target) {
-    return '$actor updated the webhook $target.';
+    return '$actor 更新了 Webhook $target。';
   }
 
   @override
   String auditLogSummaryWebhookDelete(String actor, String target) {
-    return '$actor deleted the webhook $target.';
+    return '$actor 刪除了 Webhook $target。';
   }
 
   @override
   String auditLogSummaryEmojiCreate(String actor, String target) {
-    return '$actor added the emoji $target.';
+    return '$actor 新增了表情符號 $target。';
   }
 
   @override
   String auditLogSummaryEmojiUpdate(String actor, String target) {
-    return '$actor updated the emoji $target.';
+    return '$actor 更新了表情符號 $target。';
   }
 
   @override
   String auditLogSummaryEmojiDelete(String actor, String target) {
-    return '$actor deleted the emoji $target.';
+    return '$actor 刪除了表情符號 $target。';
   }
 
   @override
   String auditLogSummaryStickerCreate(String actor, String target) {
-    return '$actor added the sticker $target.';
+    return '$actor 新貼了貼圖 $target。';
   }
 
   @override
   String auditLogSummaryStickerUpdate(String actor, String target) {
-    return '$actor updated the sticker $target.';
+    return '$actor 更新了貼圖 $target。';
   }
 
   @override
   String auditLogSummaryStickerDelete(String actor, String target) {
-    return '$actor deleted the sticker $target.';
+    return '$actor 刪除了貼圖 $target。';
   }
 
   @override
   String auditLogSummaryMessageDelete(String actor) {
-    return '$actor deleted a message.';
+    return '$actor 刪除了一則訊息。';
   }
 
   @override
   String auditLogSummaryMessageDeleteInChannel(String actor, String channel) {
-    return '$actor deleted a message in $channel.';
+    return '$actor 在 $channel 中刪除了一則訊息。';
   }
 
   @override
   String auditLogSummaryMessageBulkDelete(String actor) {
-    return '$actor deleted multiple messages.';
+    return '$actor 刪除了多則訊息。';
   }
 
   @override
   String auditLogSummaryMessageBulkDeleteCount(String actor, int count) {
-    return '$actor deleted $count messages.';
+    return '$actor 刪除了 $count 則訊息。';
   }
 
   @override
@@ -12700,7 +12713,7 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String actor,
     String channel,
   ) {
-    return '$actor deleted multiple messages in $channel.';
+    return '$actor 在 $channel 中刪除了多則訊息。';
   }
 
   @override
@@ -12709,32 +12722,32 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     int count,
     String channel,
   ) {
-    return '$actor deleted $count messages in $channel.';
+    return '$actor 在 $channel 中刪除了 $count 則訊息。';
   }
 
   @override
   String auditLogSummaryMessagePin(String actor) {
-    return '$actor pinned a message.';
+    return '$actor 釘選了一則訊息。';
   }
 
   @override
   String auditLogSummaryMessagePinInChannel(String actor, String channel) {
-    return '$actor pinned a message in $channel.';
+    return '$actor 在 $channel 中釘選了一則訊息。';
   }
 
   @override
   String auditLogSummaryMessageUnpin(String actor) {
-    return '$actor unpinned a message.';
+    return '$actor 取消釘選了一則訊息。';
   }
 
   @override
   String auditLogSummaryMessageUnpinInChannel(String actor, String channel) {
-    return '$actor unpinned a message in $channel.';
+    return '$actor 在 $channel 中取消釘選了一則訊息。';
   }
 
   @override
   String auditLogSummaryDefault(String actor, String target) {
-    return '$actor performed an audit action on $target.';
+    return '$actor 對 $target 執行了稽核動作。';
   }
 
   @override
@@ -12743,97 +12756,96 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String oldValue,
     String newValue,
   ) {
-    return 'Updated $field from $oldValue to $newValue.';
+    return '將 $field 從 $oldValue 更新為 $newValue。';
   }
 
   @override
   String auditLogChangeSetTo(String field, String newValue) {
-    return 'Set $field to $newValue.';
+    return '將 $field 設定為 $newValue。';
   }
 
   @override
   String auditLogChangeCleared(String field, String oldValue) {
-    return 'Cleared $field (was $oldValue).';
+    return '已清除 $field (原為 $oldValue)。';
   }
 
   @override
   String auditLogChangeUpdated(String field) {
-    return 'Updated $field.';
+    return '已更新 $field。';
   }
 
   @override
   String auditLogChangeRenamedCommunity(String name) {
-    return 'Renamed the community to $name.';
+    return '將社群重新命名為 $name。';
   }
 
   @override
-  String get auditLogChangeUpdatedCommunityIcon =>
-      'Updated the community icon.';
+  String get auditLogChangeUpdatedCommunityIcon => '已更新社群圖示。';
 
   @override
   String auditLogChangeRenamedChannel(String name) {
-    return 'Renamed the channel to $name.';
+    return '將頻道重新命名為 $name。';
   }
 
   @override
-  String get auditLogChangeClearedTopic => 'Cleared the topic.';
+  String get auditLogChangeClearedTopic => '已清除主題。';
 
   @override
   String auditLogChangeUpdatedTopic(String topic) {
-    return 'Updated the topic to $topic.';
+    return '已將主題更新為 $topic。';
   }
 
   @override
-  String get auditLogChangeEnabledMatureContent => 'Enabled mature content.';
+  String get auditLogChangeEnabledMatureContent => '已啟用成人內容。';
 
   @override
-  String get auditLogChangeDisabledMatureContent => 'Disabled mature content.';
+  String get auditLogChangeDisabledMatureContent => '已停用成人內容。';
 
   @override
   String auditLogChangeSetNickname(String nickname) {
-    return 'Set nickname to $nickname.';
+    return '將暱稱設定為 $nickname。';
   }
 
   @override
   String auditLogChangeRemovedNickname(String nickname) {
-    return 'Removed nickname $nickname.';
+    return '已移除暱稱 $nickname。';
   }
 
   @override
-  String get auditLogChangeMutedMember => 'Muted the member.';
+  String get auditLogChangeMutedMember => '已將成員設為靜音。';
 
   @override
-  String get auditLogChangeUnmutedMember => 'Unmuted the member.';
+  String get auditLogChangeUnmutedMember => '已解除成員靜音。';
 
   @override
-  String get auditLogChangeDeafenedMember => 'Deafened the member.';
+  String get auditLogChangeDeafenedMember => '已將成員設為聽障。';
 
   @override
-  String get auditLogChangeUndeafenedMember => 'Undeafened the member.';
+  String get auditLogChangeUndeafenedMember => '已解除成員聽障。';
 
   @override
   String auditLogChangeAddedRoles(String roles) {
-    return 'Added $roles.';
+    return '已新增 $roles。';
   }
 
   @override
   String auditLogChangeRemovedRoles(String roles) {
-    return 'Removed $roles.';
+    return '已移除 $roles。';
   }
 
   @override
   String auditLogOptionChannel(String value) {
-    return 'Channel: $value.';
+    return '頻道：$value。';
   }
 
   @override
   String auditLogOptionMessage(String value) {
-    return 'Message: $value.';
+    return '訊息：$value。';
   }
 
   @override
   String auditLogOptionInvitedBy(String value) {
-    return 'Invited by $value.';
+    return '邀請者：$value。';
   }
 
   @override
@@ -12841,8 +12853,8 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Deleted # messages.',
-      one: 'Deleted # message.',
+      other: '刪除 # 則訊息。',
+      one: '刪除 # 則訊息。',
     );
     return '$_temp0';
   }
@@ -12852,147 +12864,180 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed # members.',
-      one: 'Removed # member.',
+      other: '移除 # 位成員。',
+      one: '移除 # 位成員。',
     );
     return '$_temp0';
   }
 
   @override
-  String get auditLogOptionInviteNeverExpires => 'This invite never expires.';
+  String get auditLogOptionInviteNeverExpires => '此邀請永不過期。';
 
   @override
-  String get auditLogOptionTemporaryMembership =>
-      'Grants temporary membership.';
+  String get auditLogOptionTemporaryMembership => '授予臨時會員資格。';
 
   @override
-  String get auditLogOptionPermanentMembership =>
-      'Grants permanent membership.';
+  String get auditLogOptionPermanentMembership => '授予永久會員資格。';
 
   @override
-  String get guildSettingsLoadMore => 'Load more';
+  String get guildSettingsLoadMore => '載入更多';
 
   @override
   String get guildSettingsLoadingMore => 'Loading...';
 
   @override
-  String get guildSettingsWebhooksDescription =>
-      'Manage webhooks that post messages to channels.';
+  String get guildSettingsWebhooksDescription => '管理將訊息發佈到頻道的網頁掛鉤。';
 
   @override
-  String get guildSettingsWebhooksEmpty => 'No webhooks configured.';
+  String get guildSettingsWebhooksEmpty => '尚未設定任何網頁掛鉤。';
 
   @override
-  String get guildSettingsCopyUrl => 'Copy URL';
+  String get guildSettingsCopyUrl => '複製網址';
 
   @override
-  String get guildSettingsCopiedUrl => 'URL copied to clipboard';
+  String get guildSettingsCopiedUrl => '網址已複製到剪貼簿';
 
   @override
-  String get guildSettingsDeleteWebhook => 'Delete webhook';
+  String get guildSettingsDeleteWebhook => '刪除網頁掛鉤';
 
   @override
-  String get guildSettingsVanityUrlDescription =>
-      'Set a custom invite link for your server.';
+  String get guildSettingsVanityUrlDescription => '設定伺服器的自訂邀請連結。';
 
   @override
   String get guildSettingsVanityUrlHint => 'my-server';
 
   @override
-  String get guildSettingsSave => 'Save';
+  String get guildSettingsSave => '儲存';
 
   @override
-  String get guildSettingsVanityUrlUsageTitle => 'Usage';
+  String get guildSettingsVanityUrlUsageTitle => '使用狀況';
 
   @override
   String guildSettingsVanityUrlUses(int count) {
-    return '$count uses';
+    return '$count 次使用';
   }
 
   @override
-  String get guildSettingsDiscoveryDescription =>
-      'Apply to be listed in server discovery.';
+  String get guildSettingsDiscoveryDescription => '申請列在伺服器探索中。';
 
   @override
   String guildSettingsDiscoveryNotEligible(int count) {
-    return 'Requires at least $count members to apply.';
+    return '申請至少需要 $count 位成員。';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Application';
+  String get guildSettingsDiscoveryFormTitle => '申請';
 
   @override
-  String get guildSettingsDiscoveryStatusTitle => 'Status';
+  String get guildSettingsDiscoveryStatusTitle => '狀態';
 
   @override
-  String get guildSettingsDiscoveryCategory => 'Category';
+  String get guildSettingsDiscoveryCategory => '類別';
 
   @override
-  String get guildSettingsDiscoveryDescriptionField => 'Description';
+  String get guildSettingsDiscoveryDescriptionField => '說明';
 
   @override
-  String get guildSettingsDiscoveryTags => 'Tags';
+  String get guildSettingsDiscoveryTags => '標籤';
 
   @override
-  String get guildSettingsDiscoveryTagsHint => 'gaming, art, music';
+  String get guildSettingsDiscoveryTagsHint => '遊戲、藝術、音樂';
 
   @override
-  String get guildSettingsDiscoveryApply => 'Submit Application';
+  String get guildSettingsDiscoveryApply => '提交申請';
 
   @override
-  String get guildSettingsDiscoveryWithdraw => 'Withdraw';
+  String get guildSettingsDiscoveryWithdraw => '撤回';
 
   @override
-  String get guildSettingsMembersDescription =>
-      'Search and manage server members.';
+  String get guildSettingsMembersDescription => '搜尋並管理伺服器成員。';
 
   @override
-  String get guildSettingsMembersSearchHint => 'Search members';
+  String get guildSettingsMembersSearchHint => '搜尋成員';
 
   @override
   String guildSettingsMembersResultsTitle(int count) {
-    return '$count members';
+    return '$count 位成員';
   }
 
   @override
-  String get guildSettingsInvitesDescription =>
-      'View and revoke active invite links.';
+  String get guildSettingsInvitesDescription => '檢視並撤銷有效的邀請連結。';
 
   @override
-  String get guildSettingsInvitesEmpty => 'No active invites.';
+  String get guildSettingsInvitesEmpty => '沒有作用中的邀請。';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {
-    return '$uses / $maxUses uses';
+    return '$uses / $maxUses 次使用';
   }
 
   @override
   String guildSettingsInviteExpires(String date) {
-    return 'Expires $date';
+    return '將於 $date 到期';
   }
 
   @override
-  String get guildSettingsBansDescription => 'View and manage banned users.';
+  String get guildSettingsBansDescription => '檢視並管理被封鎖的使用者。';
 
   @override
-  String get guildSettingsBansSearchHint => 'Search bans';
+  String get guildSettingsBansSearchHint => '搜尋封鎖';
 
   @override
-  String get guildSettingsBansEmpty => 'No banned users.';
+  String get guildSettingsBansEmpty => '沒有被封鎖的使用者。';
 
   @override
-  String get guildSettingsBanPermanent => 'Permanent ban';
+  String get guildSettingsBanPermanent => '永久封鎖';
 
   @override
   String guildSettingsBanExpires(String date) {
-    return 'Expires $date';
+    return '將於 $date 到期';
   }
 
   @override
-  String get guildSettingsUnban => 'Unban';
+  String get guildSettingsBanExpiresLabel => '到期';
 
   @override
-  String get guildSettingsCommunitySettings => 'Community Settings';
+  String get guildSettingsUnban => '解除封鎖';
+
+  @override
+  String get guildSettingsBansLoading => '正在載入被封鎖的使用者';
+
+  @override
+  String get guildSettingsBansNoSearchResults => '找不到符合您搜尋條件的封鎖。';
+
+  @override
+  String get guildSettingsBanDetailsTitle => '封鎖詳細資訊';
+
+  @override
+  String get guildSettingsBanViewDetails => '檢視詳細資訊';
+
+  @override
+  String get guildSettingsBannedOn => '封鎖日期';
+
+  @override
+  String get guildSettingsBannedBy => '封鎖者';
+
+  @override
+  String get guildSettingsRevokeBanTitle => '撤銷封鎖';
+
+  @override
+  String guildSettingsRevokeBanDescription(String displayName) {
+    return '確定要撤銷對 $displayName 的封鎖嗎？他們將能夠重新加入社群。';
+  }
+
+  @override
+  String guildSettingsRevokeBanSuccess(String displayName) {
+    return '已撤銷對 $displayName 的封鎖';
+  }
+
+  @override
+  String get guildSettingsBansLoadError => '無法載入封鎖。請再試一次。';
+
+  @override
+  String get guildSettingsRevokeBanError => '無法撤銷封鎖。請再試一次。';
+
+  @override
+  String get guildSettingsCommunitySettings => '社群設定';
 
   @override
   String get guildSettingsCategoryExpressions => 'EXPRESSIONS';
@@ -13007,377 +13052,343 @@ class FluxerLocalizationsZhHant extends FluxerLocalizationsZh {
   String get guildSettingsCategoryPeople => 'PEOPLE';
 
   @override
-  String get guildSettingsOverviewDescription =>
-      'Manage your community\'s profile, channels, and default settings.';
+  String get guildSettingsOverviewDescription => '管理您的社群個人資料、頻道和預設設定。';
 
   @override
-  String get guildSettingsOverviewBrandingTitle => 'Branding';
+  String get guildSettingsOverviewBrandingTitle => '品牌';
 
   @override
-  String get guildSettingsOverviewBrandingDescription =>
-      'Update your icon, name, banner, and invite background';
+  String get guildSettingsOverviewBrandingDescription => '更新您的圖示、名稱、橫幅和邀請背景';
 
   @override
-  String get guildSettingsOverviewBannerUpload => 'Upload banner';
+  String get guildSettingsOverviewBannerUpload => '上傳橫幅';
 
   @override
-  String get guildSettingsOverviewIdleTitle => 'Idle settings';
+  String get guildSettingsOverviewIdleTitle => '閒置設定';
 
   @override
-  String get guildSettingsOverviewIdleDescription =>
-      'Configure AFK channel and timeout';
+  String get guildSettingsOverviewIdleDescription => '設定 AFK 頻道和逾時';
 
   @override
-  String get guildSettingsOverviewSystemTitle => 'System & welcome';
+  String get guildSettingsOverviewSystemTitle => '系統與歡迎訊息';
 
   @override
-  String get guildSettingsOverviewSystemDescription =>
-      'Choose destination for system and welcome messages';
+  String get guildSettingsOverviewSystemDescription => '選擇系統和歡迎訊息的目的地';
 
   @override
-  String get guildSettingsOverviewNotificationsTitle => 'Default notifications';
+  String get guildSettingsOverviewNotificationsTitle => '預設通知';
 
   @override
   String get guildSettingsOverviewNotificationsLargeGuild =>
-      'Communities with over 250 people are forced onto the \"mentions only\" setting. Your original setting is preserved and will be restored if the community drops below 250 members.';
+      '超過 250 人的社群會被強制設為「僅提及」設定。您的原始設定將會保留，並在社群人數低於 250 人時恢復。';
 
   @override
-  String get guildSettingsOverviewAdvancedTitle => 'Advanced';
+  String get guildSettingsOverviewAdvancedTitle => '進階';
 
   @override
-  String get guildSettingsOverviewFlexibleNames =>
-      'Allow flexible text channel names';
+  String get guildSettingsOverviewFlexibleNames => '允許彈性的文字頻道名稱';
 
   @override
-  String get guildSettingsOverviewHideOwnerCrown =>
-      'Hide community owner crown';
+  String get guildSettingsOverviewHideOwnerCrown => '隱藏社群擁有者皇冠';
 
   @override
-  String get guildSettingsOverviewDetachedBanner => 'Detached banner';
+  String get guildSettingsOverviewDetachedBanner => '獨立顯示橫幅';
 
   @override
-  String get guildSettingsOverviewDetachedBannerHint =>
-      'Shows the banner in its own section below the community header.';
+  String get guildSettingsOverviewDetachedBannerHint => '在社群標頭下方以獨立區塊顯示橫幅。';
 
   @override
-  String get guildSettingsOverviewUploadIcon => 'Upload icon';
+  String get guildSettingsOverviewUploadIcon => '上傳圖示';
 
   @override
-  String get guildSettingsOverviewRemoveImage => 'Remove';
+  String get guildSettingsOverviewRemoveImage => '移除';
 
   @override
-  String get guildSettingsOverviewSplashTitle => 'Invite background';
+  String get guildSettingsOverviewSplashTitle => '邀請背景';
 
   @override
-  String get guildSettingsOverviewEmbedSplashTitle => 'Chat embed background';
+  String get guildSettingsOverviewEmbedSplashTitle => '聊天嵌入背景';
 
   @override
-  String get guildSettingsOverviewEmbedSplashHint =>
-      'Shown in invite embeds in chat.';
+  String get guildSettingsOverviewEmbedSplashHint => '顯示在聊天中的邀請嵌入。';
 
   @override
-  String get guildSettingsOverviewUploadBackground => 'Upload background';
+  String get guildSettingsOverviewUploadBackground => '上傳背景';
 
   @override
-  String get guildSettingsOverviewNoCommunityBanner => 'No community banner';
+  String get guildSettingsOverviewNoCommunityBanner => '無社群橫幅';
 
   @override
-  String get guildSettingsOverviewNoInviteBackground => 'No invite background';
+  String get guildSettingsOverviewNoInviteBackground => '無邀請背景';
 
   @override
-  String get guildSettingsOverviewInvitePreviewTitle => 'Preview';
+  String get guildSettingsOverviewInvitePreviewTitle => '預覽';
 
   @override
-  String get guildSettingsOverviewInvitePreviewHint =>
-      'See how your invite looks to visitors.';
+  String get guildSettingsOverviewInvitePreviewHint => '查看你的邀請對訪客的樣子。';
 
   @override
-  String get guildSettingsOverviewTextChannelNamesTitle => 'Text channel names';
+  String get guildSettingsOverviewTextChannelNamesTitle => '文字頻道名稱';
 
   @override
-  String get guildSettingsOverviewOwnerCrownTitle => 'Community owner crown';
+  String get guildSettingsOverviewOwnerCrownTitle => '社群擁有者皇冠';
 
   @override
-  String get guildSettingsOverviewOwnerCrownDescription =>
-      'Configure whether the crown icon is shown next to the community owner';
+  String get guildSettingsOverviewOwnerCrownDescription => '設定是否在社群擁有者旁邊顯示皇冠圖示';
 
   @override
-  String get guildSettingsSplashCardAlignment => 'Card alignment';
+  String get guildSettingsSplashCardAlignment => '卡片對齊';
 
   @override
-  String get guildSettingsSplashAlignmentCenter => 'Center';
+  String get guildSettingsSplashAlignmentCenter => '置中';
 
   @override
-  String get guildSettingsSplashAlignmentLeft => 'Left';
+  String get guildSettingsSplashAlignmentLeft => '靠左';
 
   @override
-  String get guildSettingsSplashAlignmentRight => 'Right';
+  String get guildSettingsSplashAlignmentRight => '靠右';
 
   @override
-  String get guildSettingsSplashAlignmentHint =>
-      'Only applies on wide screens.';
+  String get guildSettingsSplashAlignmentHint => '僅適用於寬螢幕。';
 
   @override
-  String get permissionReadMessageHistory => 'Read message history';
+  String get permissionReadMessageHistory => '讀取訊息歷史';
 
   @override
   String guildSettingsOverviewMessageHistoryTitle(String permission) {
-    return 'Change what users without \"$permission\" can see';
+    return '變更未擁有「$permission」權限的使用者可見內容';
   }
 
   @override
   String guildSettingsOverviewMessageHistoryDescription(String permission) {
-    return 'Use a dedicated modal to set a message history threshold date for members who don\'t have the $permission permission.';
+    return '使用專用彈出視窗，為沒有「$permission」權限的成員設定訊息歷史記錄的門檻日期。';
   }
 
   @override
-  String get guildSettingsOverviewMessageHistoryOpen =>
-      'Open message history threshold';
+  String get guildSettingsOverviewMessageHistoryOpen => '開啟訊息歷史記錄門檻';
 
   @override
-  String get guildSettingsMessageHistoryThresholdTitle =>
-      'Message history threshold';
+  String get guildSettingsMessageHistoryThresholdTitle => '訊息歷史記錄門檻';
 
   @override
-  String get guildSettingsMessageHistoryThresholdEnable =>
-      'Enable message history threshold';
+  String get guildSettingsMessageHistoryThresholdEnable => '啟用訊息歷史記錄門檻';
 
   @override
-  String get guildSettingsMessageHistoryThresholdDate => 'Threshold date';
+  String get guildSettingsMessageHistoryThresholdDate => '門檻日期';
 
   @override
   String get guildSettingsMessageHistoryThresholdDateHint =>
-      'Members without Read Message History can view messages sent after this date.';
+      '沒有「讀取訊息歷史」權限的成員可查看此日期之後傳送的訊息。';
 
   @override
-  String get guildSettingsMessageHistoryThresholdUpdated =>
-      'Message history threshold updated';
+  String get guildSettingsMessageHistoryThresholdUpdated => '訊息歷史記錄門檻已更新';
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Allow capital letters and spaces in text channel names. Off restricts names to lowercase with hyphens and underscores.';
+      '允許在文字頻道名稱中使用大寫字母和空格。關閉時，名稱僅限小寫並使用連字號和底線。';
 
   @override
-  String get guildSettingsOverviewHideOwnerCrownHint =>
-      'Hides the crown icon next to the community owner across all surfaces.';
+  String get guildSettingsOverviewHideOwnerCrownHint => '隱藏社群擁有者旁邊的皇冠圖示。';
 
   @override
-  String get guildSettingsAnimatedIconRequiresFeature =>
-      'Animated icons require the Animated Icon community feature.';
+  String get guildSettingsAnimatedIconRequiresFeature => '動畫圖示需要「動畫圖示」社群功能。';
 
   @override
-  String get guildSettingsAnimatedBannerRequiresFeature =>
-      'Animated banners require the Animated Banner community feature.';
+  String get guildSettingsAnimatedBannerRequiresFeature => '動畫橫幅需要「動畫橫幅」社群功能。';
 
   @override
-  String get guildSettingsAfkChannel => 'AFK / idle channel';
+  String get guildSettingsAfkChannel => 'AFK / 閒置頻道';
 
   @override
-  String get guildSettingsAfkChannelHint =>
-      'Move members to this channel when they\'re AFK.';
+  String get guildSettingsAfkChannelHint => '當成員處於 AFK 狀態時，將他們移至此頻道。';
 
   @override
-  String get guildSettingsNoAfkChannel => 'No AFK channel';
+  String get guildSettingsNoAfkChannel => '無 AFK 頻道';
 
   @override
-  String get guildSettingsAfkTimeout => 'AFK timeout';
+  String get guildSettingsAfkTimeout => 'AFK 超時';
 
   @override
-  String get guildSettingsAfkTimeout1Min => '1 minute';
+  String get guildSettingsAfkTimeout1Min => '1 分鐘';
 
   @override
-  String get guildSettingsAfkTimeout5Min => '5 minutes';
+  String get guildSettingsAfkTimeout5Min => '5 分鐘';
 
   @override
-  String get guildSettingsAfkTimeout15Min => '15 minutes';
+  String get guildSettingsAfkTimeout15Min => '15 分鐘';
 
   @override
-  String get guildSettingsAfkTimeout30Min => '30 minutes';
+  String get guildSettingsAfkTimeout30Min => '30 分鐘';
 
   @override
-  String get guildSettingsAfkTimeout1Hour => '1 hour';
+  String get guildSettingsAfkTimeout1Hour => '1 小時';
 
   @override
   String guildSettingsAfkTimeoutSeconds(int seconds) {
-    return '$seconds seconds';
+    return '$seconds 秒';
   }
 
   @override
-  String get guildSettingsSystemChannel => 'Destination channel';
+  String get guildSettingsSystemChannel => '目的地頻道';
 
   @override
-  String get guildSettingsSystemChannelHint =>
-      'Welcome and system messages will appear here.';
+  String get guildSettingsSystemChannelHint => '歡迎訊息和系統訊息將顯示在此。';
 
   @override
-  String get guildSettingsNoSystemChannel => 'No system channel';
+  String get guildSettingsNoSystemChannel => '無系統頻道';
 
   @override
-  String get guildSettingsHideJoinMessages => 'Hide join messages';
+  String get guildSettingsHideJoinMessages => '隱藏加入訊息';
 
   @override
-  String get guildSettingsHideJoinMessagesHint =>
-      'Suppresses join messages in the destination channel.';
+  String get guildSettingsHideJoinMessagesHint => '隱藏目標頻道的加入訊息。';
 
   @override
-  String get guildSettingsDefaultNotifications =>
-      'Default notification settings';
+  String get guildSettingsDefaultNotifications => '預設通知設定';
 
   @override
-  String get guildSettingsNotificationsAll => 'All messages';
+  String get guildSettingsNotificationsAll => '所有訊息';
 
   @override
-  String get guildSettingsNotificationsAllDescription =>
-      'Notify on all messages';
+  String get guildSettingsNotificationsAllDescription => '通知所有訊息';
 
   @override
-  String get guildSettingsNotificationsMentions => 'Mentions only';
+  String get guildSettingsNotificationsMentions => '僅提及';
 
   @override
-  String get guildSettingsNotificationsMentionsDescription =>
-      'Notify only on mentions';
+  String get guildSettingsNotificationsMentionsDescription => '僅通知提及';
 
   @override
   String get guildSettingsOverviewSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9)';
+      'JPEG、PNG、WebP、AVIF。上限 10MB。最低：960×540px (16:9)';
 
   @override
   String get guildSettingsOverviewEmbedSplashUploadHint =>
-      'JPEG, PNG, WebP, AVIF. Max 10MB. Minimum: 960×540px (16:9). Shown in invite embeds in chat.';
+      'JPEG、PNG、WebP、AVIF。上限 10MB。最低：960×540px (16:9)。顯示於聊天中的邀請嵌入內容。';
 
   @override
-  String get guildSettingsModerationDescription =>
-      'Configure verification, content filtering, and mature content settings.';
+  String get guildSettingsModerationDescription => '設定驗證、內容篩選及成人內容設定。';
 
   @override
   String get guildSettingsModerationDiscoveryNotice =>
-      'Discovery-listed communities have restricted moderation options.';
+      '列於 Discovery 中的社群有受限的內容管理選項。';
 
   @override
-  String get guildSettingsModerationContentFilterTitle => 'Content filtering';
+  String get guildSettingsModerationContentFilterTitle => '內容篩選';
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Automatically screen messages for explicit content in channels not marked for mature content.';
+      '自動篩選未標示為成人內容頻道的訊息中的露骨內容。';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
-      'Communities listed in Discovery are required to scan all members. This setting cannot be changed while Discovery is enabled.';
+      '列於 Discovery 中的社群必須掃描所有成員。啟用 Discovery 時無法變更此設定。';
 
   @override
-  String get guildSettingsContentFilterOff => 'Off';
+  String get guildSettingsContentFilterOff => '關閉';
 
   @override
-  String get guildSettingsContentFilterOffDescription =>
-      'Let the community self-moderate';
+  String get guildSettingsContentFilterOffDescription => '讓社群自行管理';
 
   @override
-  String get guildSettingsContentFilterNoRole => 'Filter members without roles';
+  String get guildSettingsContentFilterNoRole => '篩選沒有角色的成員';
 
   @override
-  String get guildSettingsContentFilterNoRoleDescription =>
-      'Suggested for most communities';
+  String get guildSettingsContentFilterNoRoleDescription => '建議用於大多數社群';
 
   @override
-  String get guildSettingsContentFilterAll => 'Filter everyone';
+  String get guildSettingsContentFilterAll => '篩選所有人';
 
   @override
-  String get guildSettingsContentFilterAllDescription =>
-      'Maximum protection for family-friendly spaces';
+  String get guildSettingsContentFilterAllDescription => '為適合全家觀看的空間提供最高等級的保護';
 
   @override
-  String get guildSettingsModerationMatureOff => 'Off';
+  String get guildSettingsModerationMatureOff => '關閉';
 
   @override
-  String get guildSettingsModerationMatureOn => 'On';
+  String get guildSettingsModerationMatureOn => '開啟';
 
   @override
-  String get guildSettingsContentWarningToggle => 'Show a content warning';
+  String get guildSettingsContentWarningToggle => '顯示內容警告';
 
   @override
-  String get guildSettingsContentWarningToggleDescription =>
-      'Toggles a consent prompt before entering any channel.';
+  String get guildSettingsContentWarningToggleDescription => '在進入任何頻道前切換同意提示';
 
   @override
-  String get guildSettingsContentWarningText => 'Custom warning text';
+  String get guildSettingsContentWarningText => '自訂警告文字';
 
   @override
-  String get guildSettingsContentWarningTextPlaceholder =>
-      'This contains sensitive content.';
+  String get guildSettingsContentWarningTextPlaceholder => '此內容包含敏感資訊。';
 
   @override
-  String get guildSettingsModeration2faTitle => '2FA requirement';
+  String get guildSettingsModeration2faTitle => '2FA 要求';
 
   @override
   String get guildSettingsModeration2faDescription =>
-      'Require two-factor authentication for moderators before they can ban, kick, timeout, or remove messages.';
+      '要求管理員在封鎖、踢出、暫停或移除訊息前啟用雙重驗證。';
 
   @override
-  String get guildSettingsModeration2faSwitchLabel =>
-      'Require 2FA for moderation actions';
+  String get guildSettingsModeration2faSwitchLabel => '要求管理動作啟用 2FA';
 
   @override
-  String get guildSettingsModeration2faOwnerOnlyTooltip =>
-      'Only the community owner can change this setting';
+  String get guildSettingsModeration2faOwnerOnlyTooltip => '僅社群擁有者可變更此設定';
 
   @override
   String get guildSettingsModeration2faEnableFirstTooltip =>
-      'Enable 2FA on your account to change this setting';
+      '請先啟用您帳戶的 2FA 以變更此設定';
 
   @override
-  String get guildSettingsEmojiSearchHint => 'Search emojis';
+  String get guildSettingsEmojiSearchHint => '搜尋表情符號';
 
   @override
-  String get guildSettingsEmojiUploadTitle => 'Upload Emoji';
+  String get guildSettingsEmojiUploadTitle => '上傳表情符號';
 
   @override
   String guildSettingsNonAnimatedEmoji(int count) {
-    return 'Non-animated emoji ($count)';
+    return '非動態表情符號 ($count)';
   }
 
   @override
   String guildSettingsAnimatedEmoji(int count) {
-    return 'Animated emoji ($count)';
+    return '動態表情符號 ($count)';
   }
 
   @override
-  String get guildSettingsStickersSearchHint => 'Search stickers';
+  String get guildSettingsStickersSearchHint => '搜尋貼圖';
 
   @override
-  String get guildSettingsWebhooksInfo =>
-      'Create webhooks from Channel settings. Edit them here.';
+  String get guildSettingsWebhooksInfo => '從頻道設定建立網頁掛鉤。在此編輯。';
 
   @override
-  String get guildSettingsVanityUrlWarning =>
-      'Your vanity URL won\'t work unless at least one channel is visible to everyone.';
+  String get guildSettingsVanityUrlWarning => '除非至少有一個頻道對所有人可見，否則您的自訂網址將無法運作。';
 
   @override
-  String get guildSettingsVanityUrlRemove => 'Remove';
+  String get guildSettingsVanityUrlRemove => '移除';
 
   @override
-  String get guildSettingsBannedUsersTitle => 'Banned users';
+  String get guildSettingsBannedUsersTitle => '被封鎖的使用者';
 
   @override
-  String get guildSettingsInvitesTableInviter => 'Inviter';
+  String get guildSettingsInvitesTableInviter => '邀請者';
 
   @override
-  String get guildSettingsInvitesTableChannel => 'Channel';
+  String get guildSettingsInvitesTableChannel => '頻道';
 
   @override
-  String get guildSettingsInvitesTableCode => 'Code';
+  String get guildSettingsInvitesTableCode => '代碼';
 
   @override
-  String get guildSettingsInvitesTableUses => 'Uses';
+  String get guildSettingsInvitesTableUses => '使用次數';
 
   @override
-  String get guildSettingsInvitesTableCreated => 'Created';
+  String get guildSettingsInvitesTableCreated => '建立時間';
 
   @override
-  String get guildSettingsMembersSortNewest => 'Newest first';
+  String get guildSettingsMembersSortNewest => '最新優先';
 
   @override
-  String get guildSettingsAuditLogFilterUser => 'Filter by user';
+  String get guildSettingsAuditLogFilterUser => '依使用者篩選';
 
   @override
-  String get guildSettingsAuditLogFilterAction => 'Filter by action';
+  String get guildSettingsAuditLogFilterAction => '依動作篩選';
 }

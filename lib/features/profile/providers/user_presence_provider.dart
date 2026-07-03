@@ -6,7 +6,7 @@ import 'package:fluxer_app/core/providers/database_provider.dart';
 // would require a `package:riverpod/src/...` import. Type is obvious from the
 // right-hand side.
 // ignore: specify_nonobvious_property_types
-final userPresenceProvider = StreamProvider.family<User?, String>((
+final userPresenceProvider = StreamProvider.autoDispose.family<User?, String>((
   ref,
   userId,
 ) {

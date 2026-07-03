@@ -2,8 +2,10 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gallery_media.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
+import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
@@ -11,15 +13,23 @@ import 'package:fluxer_markdown/fluxer_markdown.dart';
 /// A link preview card.
 class EmbedLink extends StatelessWidget {
   final Embed embed;
+  final EmbedGalleryIndex galleryIndex;
+  final int embedIndex;
   final MediaDimensionSize dimensionSize;
   final bool revealSpoilers;
   final FluxerSpoilerSyncController? spoilerSyncController;
+  final String? channelId;
+  final String? messageId;
 
   const EmbedLink({
     required this.embed,
+    required this.galleryIndex,
+    required this.embedIndex,
     this.dimensionSize = MediaDimensionSize.small,
     this.revealSpoilers = false,
     this.spoilerSyncController,
+    this.channelId,
+    this.messageId,
     super.key,
   });
 
@@ -30,6 +40,11 @@ class EmbedLink extends StatelessWidget {
         : context.colors.backgroundSecondaryAlt;
 
     final dimensions = mediaDimensionsForSize(dimensionSize);
+    final EmbedGalleryDisplay gallery = galleryIndex.resolveDisplay(
+      embedIndex: embedIndex,
+      hasAnyMedia:
+          embed.thumbnail != null || embed.image != null || embed.video != null,
+    );
 
     return Container(
       margin: const EdgeInsets.only(top: 4),
@@ -74,7 +89,20 @@ class EmbedLink extends StatelessWidget {
                   spoilerSyncController: spoilerSyncController,
                 ),
               ),
-            if (embed.thumbnail != null)
+            if (gallery.showGallery)
+              Padding(
+                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                child: EmbedGalleryMedia(
+                  embed: embed,
+                  galleryImages: gallery.galleryImages,
+                  embedIndex: embedIndex,
+                  dimensionSize: dimensionSize,
+                  revealSpoilers: revealSpoilers,
+                  channelId: channelId,
+                  messageId: messageId,
+                ),
+              )
+            else if (embed.thumbnail != null)
               Padding(
                 padding: const EdgeInsets.only(top: 4, bottom: 4),
                 child: ClipRRect(

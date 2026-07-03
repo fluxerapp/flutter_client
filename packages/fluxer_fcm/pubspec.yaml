@@ -8,8 +8,8 @@ environment:
   flutter: ">=3.24.0"
 
 dependencies:
-  firebase_core: ^4.9.0
-  firebase_messaging: ^16.2.2
+  firebase_core: ^4.11.0
+  firebase_messaging: ^16.4.1
   flutter:
     sdk: flutter
   flutter_local_notifications: ^22.0.0

@@ -6,8 +6,8 @@ const List<String> kOfficialInviteUrlBases = <String>[
   'https://canary.fluxer.app/invite',
   'https://web.fluxer.app/invite',
   'https://web.canary.fluxer.app/invite',
-  'https://fluxer.gg',
   'https://fluxer.gg/invite',
+  'https://fluxer.gg',
 ];
 
 final RegExp _bareInviteCodePattern = RegExp(r'^[a-zA-Z0-9\-]{2,32}$');
@@ -31,7 +31,9 @@ String? parseInviteCode(
     ...kOfficialInviteUrlBases,
     ...inviteUrlBases,
   };
-  for (final String base in bases) {
+  final List<String> sortedBases = bases.toList()
+    ..sort((String a, String b) => b.length.compareTo(a.length));
+  for (final String base in sortedBases) {
     final String? code = _extractCodeFromBase(trimmed, base);
     if (code != null) {
       return code;

@@ -308,31 +308,21 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
   }
 
   Future<void> _openMuteSheet({required bool isMuted}) async {
-    final guildId = widget.dm != null ? '@me' : widget.channel?.guildId;
-    final channelId = widget.dm?.id ?? widget.channel?.id;
-    ChannelOverridesMuteConfig? muteConfig;
-    if (guildId != null && channelId != null) {
-      muteConfig = await _readChannelOverrideMuteConfig(
-        ref,
-        guildId: guildId,
-        channelId: channelId,
-      );
-    }
-    if (!mounted) {
+    if (isMuted) {
+      await _setMute(isMuted: false);
       return;
     }
+    final l10n = FluxerLocalizations.of(context);
     final selection = await showMuteDurationSheet(
       context,
-      isMuted: isMuted,
-      muteConfig: muteConfig,
+      muteTitle: widget.dm != null
+          ? l10n.dmMuteConversation
+          : l10n.notificationMuteChannel,
     );
     if (selection == null || !mounted) {
       return;
     }
-    await _setMute(
-      isMuted: selection.muted,
-      durationSeconds: selection.durationSeconds,
-    );
+    await _setMute(isMuted: true, durationSeconds: selection.durationSeconds);
   }
 
   Future<void> _setMute({required bool isMuted, int? durationSeconds}) async {
@@ -3274,30 +3264,6 @@ Future<bool> _canUnpinMessage(
         hasPermission(bits, Permission.manageMessages);
   } on Object {
     return false;
-  }
-}
-
-Future<ChannelOverridesMuteConfig?> _readChannelOverrideMuteConfig(
-  WidgetRef ref, {
-  required String guildId,
-  required String channelId,
-}) async {
-  final database = ref.read(fluxerDatabaseProvider);
-  final row = await database.userGuildSettingsDao.getByGuildId(guildId);
-  if (row == null) {
-    return null;
-  }
-  try {
-    final settings = UserGuildSettingsResponse.fromJson(
-      jsonDecode(row.data) as Map<String, dynamic>,
-    );
-    final override = settings.channelOverrides?[channelId];
-    if (override?.muted != true) {
-      return null;
-    }
-    return override?.muteConfig;
-  } on Object {
-    return null;
   }
 }
 

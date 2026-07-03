@@ -8,7 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_ch
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/upload_drop_overlay.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
-import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
+import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 
 const double _kChatSheetMaxHeight = 0.92;
@@ -53,7 +53,7 @@ Future<void> showVoiceChannelChatSheet(
         }
         reconcileShellPopupOverlayForContainer(container);
         container.read(expressionPanelProvider.notifier).close();
-        container.read(drawerRevealSyncTriggerProvider.notifier).nudge();
+        DrawerNavigationCoordinator.nudgeDrawerSync(container);
       }),
     );
   });

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 void main() {
@@ -79,5 +80,41 @@ void main() {
       container.read(voiceStatesInChannelProvider('g1', 'A')),
       hasLength(2),
     );
+  });
+
+  test('update removes stale synthetic key when connectionId arrives', () {
+    final ProviderContainer container = makeContainer();
+    const String userId = 'u1';
+    const String channelId = 'A';
+    const String guildId = 'g1';
+    final String syntheticKey = voiceStateSyntheticStorageKey(
+      userId: userId,
+      channelId: channelId,
+    );
+    container
+        .read(voiceStatesMapProvider.notifier)
+        .update(
+          VoiceState(userId: userId, channelId: channelId, guildId: guildId),
+        );
+    expect(
+      container.read(voiceStatesMapProvider).containsKey(syntheticKey),
+      isTrue,
+    );
+
+    container
+        .read(voiceStatesMapProvider.notifier)
+        .update(
+          VoiceState(
+            userId: userId,
+            channelId: channelId,
+            guildId: guildId,
+            connectionId: 'conn-2',
+            selfDeaf: true,
+          ),
+        );
+
+    final Map<String, VoiceState> map = container.read(voiceStatesMapProvider);
+    expect(map.containsKey(syntheticKey), isFalse);
+    expect(map['conn-2']?.selfDeaf, isTrue);
   });
 }

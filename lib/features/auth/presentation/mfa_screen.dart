@@ -63,12 +63,7 @@ class MfaScreen extends ConsumerWidget {
         else if (vm.selectedMethod == MfaMethod.webauthn)
           _WebauthnEntry(vm: vm, notifier: notifier, l10n: l10n)
         else
-          _CodeEntry(
-            challenge: challenge,
-            vm: vm,
-            notifier: notifier,
-            l10n: l10n,
-          ),
+          _CodeEntry(challenge: challenge, l10n: l10n),
         if (errorText != null) ...[
           SizedBox(height: layout.s3),
           Text(
@@ -183,60 +178,96 @@ class _WebauthnEntry extends StatelessWidget {
   }
 }
 
-class _CodeEntry extends StatelessWidget {
+class _CodeEntry extends ConsumerStatefulWidget {
   final MfaChallenge challenge;
-  final MfaViewState vm;
-  final MfaViewModel notifier;
   final FluxerLocalizations l10n;
 
-  const _CodeEntry({
-    required this.challenge,
-    required this.vm,
-    required this.notifier,
-    required this.l10n,
-  });
+  const _CodeEntry({required this.challenge, required this.l10n});
+
+  @override
+  ConsumerState<_CodeEntry> createState() => _CodeEntryState();
+}
+
+class _CodeEntryState extends ConsumerState<_CodeEntry> {
+  late final TextEditingController _codeController;
+
+  @override
+  void initState() {
+    super.initState();
+    _codeController = TextEditingController();
+    _codeController.addListener(_syncCodeToViewModel);
+  }
+
+  void _syncCodeToViewModel() {
+    ref
+        .read(mfaViewModelProvider(widget.challenge).notifier)
+        .updateCode(_codeController.text);
+  }
+
+  @override
+  void dispose() {
+    _codeController
+      ..removeListener(_syncCodeToViewModel)
+      ..dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final vm = ref.watch(mfaViewModelProvider(widget.challenge));
+    final notifier = ref.read(mfaViewModelProvider(widget.challenge).notifier);
     final layout = context.layout;
     final textStyles = context.textStyles;
     final colors = context.colors;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: Text(
-            l10n.mfaTotpDescription,
-            style: textStyles.bodySmall.copyWith(
-              color: colors.textPrimaryMuted,
+    ref.listen(
+      mfaViewModelProvider(widget.challenge).select((state) => state.code),
+      (_, next) {
+        if (_codeController.text != next) {
+          _codeController.text = next;
+        }
+      },
+    );
+
+    return AutofillGroup(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Text(
+              widget.l10n.mfaTotpDescription,
+              style: textStyles.bodySmall.copyWith(
+                color: colors.textPrimaryMuted,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
-        SizedBox(height: layout.s4),
-        FluxerInput(
-          label: l10n.mfaCodeLabel,
-          onChanged: notifier.updateCode,
-          keyboardType: TextInputType.text,
-          autocorrect: false,
-          enableSuggestions: false,
-          textInputAction: TextInputAction.go,
-          autofillHints: const [AutofillHints.oneTimeCode],
-          onSubmitted: (_) {
-            if (vm.canSubmitCode) {
-              unawaited(notifier.submitCode());
-            }
-          },
-        ),
-        SizedBox(height: layout.s4),
-        FluxerButton.primary(
-          onPressed: vm.canSubmitCode ? notifier.submitCode : null,
-          label: l10n.logIn,
-          isLoading: vm.isSubmitting,
-        ),
-      ],
+          SizedBox(height: layout.s4),
+          FluxerInput(
+            controller: _codeController,
+            label: widget.l10n.mfaCodeLabel,
+            autofocus: true,
+            maxLength: 10,
+            keyboardType: TextInputType.text,
+            autocorrect: false,
+            enableSuggestions: false,
+            textInputAction: TextInputAction.go,
+            autofillHints: const [AutofillHints.oneTimeCode],
+            onSubmitted: (_) {
+              if (vm.canSubmitCode) {
+                unawaited(notifier.submitCode());
+              }
+            },
+          ),
+          SizedBox(height: layout.s4),
+          FluxerButton.primary(
+            onPressed: vm.canSubmitCode ? notifier.submitCode : null,
+            label: widget.l10n.logIn,
+            isLoading: vm.isSubmitting,
+          ),
+        ],
+      ),
     );
   }
 }

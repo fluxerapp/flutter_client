@@ -1,16 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/instance/instance_config_snapshot.dart';
+import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/features/auth/data/auth_repository.dart';
+import 'package:fluxer_app/features/auth/data/sso_auth_service.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/login_error.dart';
 import 'package:fluxer_app/features/auth/domain/login_result.dart';
+import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
+import 'package:fluxer_dart/export.dart';
+
+const InstanceConfigSnapshot _originalInstance = InstanceConfigSnapshot(
+  apiBaseUrl: 'https://a.example/api',
+  gatewayUrl: 'wss://a.example/gateway',
+  displayDomain: 'a.example',
+);
 
 class _FakeAuthRepository implements AuthRepository {
-  _FakeAuthRepository(this.failure);
+  _FakeAuthRepository({this.failure});
 
-  final AuthFailure failure;
+  final AuthFailure? failure;
 
   @override
   Future<LoginResult> login({
@@ -18,17 +29,43 @@ class _FakeAuthRepository implements AuthRepository {
     required String password,
     String? inviteCode,
   }) {
-    return Future<LoginResult>.error(failure);
+    return Future<LoginResult>.error(
+      failure ??
+          const AuthFailure(
+            'Invalid email or password.',
+            kind: AuthFailureKind.invalidCredentials,
+          ),
+    );
+  }
+
+  @override
+  Future<SsoStartResponse> startSso({String? redirectTo, String? redirectUri}) {
+    return Future<SsoStartResponse>.value(
+      const SsoStartResponse(
+        authorizationUrl: 'https://example.com/sso',
+        state: 'state',
+        redirectUri: 'fluxer://auth/sso/callback',
+      ),
+    );
   }
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+class _CancellingSsoAuthService extends SsoAuthService {
+  @override
+  Future<Uri> authenticate({required String authorizationUrl}) async {
+    throw const SsoAuthCancelledException();
+  }
+}
+
 ProviderContainer _containerFor(AuthFailure failure) {
   final container = ProviderContainer(
     overrides: [
-      authRepositoryProvider.overrideWithValue(_FakeAuthRepository(failure)),
+      authRepositoryProvider.overrideWithValue(
+        _FakeAuthRepository(failure: failure),
+      ),
     ],
   );
   addTearDown(container.dispose);
@@ -127,5 +164,31 @@ void main() {
     expect(state.fieldErrors['email'], 'Enter a valid email.');
     expect(state.errorType, isNull);
     expect(state.errorMessage, isNull);
+  });
+
+  test('SSO cancel during add-account restores the active instance', () async {
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        authRepositoryProvider.overrideWithValue(_FakeAuthRepository()),
+        ssoAuthServiceProvider.overrideWithValue(_CancellingSsoAuthService()),
+      ],
+    );
+    addTearDown(container.dispose);
+    const InstanceConfigSnapshot alteredInstance = InstanceConfigSnapshot(
+      apiBaseUrl: 'https://b.example/api',
+      gatewayUrl: 'wss://b.example/gateway',
+      displayDomain: 'b.example',
+    );
+    container
+        .read(activeInstanceProvider.notifier)
+        .applySnapshot(alteredInstance);
+    container
+        .read(addAccountInstanceGuardProvider.notifier)
+        .arm(_originalInstance);
+    await container.read(loginViewModelProvider.notifier).startSsoLogin();
+    final LoginViewState state = container.read(loginViewModelProvider);
+    expect(state.isStartingSso, isFalse);
+    expect(state.errorType, LoginError.ssoCancelled);
+    expect(container.read(activeInstanceProvider), _originalInstance);
   });
 }

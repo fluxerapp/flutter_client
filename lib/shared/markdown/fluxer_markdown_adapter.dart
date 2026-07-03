@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
+import 'package:fluxer_app/features/channels/utils/channel_mention_utils.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_alert.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_mention.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/features/guilds/utils/invite_link_navigator.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
@@ -28,6 +31,7 @@ String? _normalizeSpoilerSyncUrl(String url) {
 FluxerMarkdownConfig createFluxerMarkdownConfig({
   BuildContext? context,
   String? channelId,
+  List<MessageChannelMention> mentionChannels = const [],
   bool revealSpoilers = false,
   FluxerSpoilerSyncController? spoilerSyncController,
 }) {
@@ -47,7 +51,11 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
       return UserMention(userId: id, channelId: channelId, baseStyle: style);
     },
     channelMentionBuilder: (context, id, style) {
-      return ChannelMention(channelId: id, baseStyle: style);
+      return ChannelMention(
+        channelId: id,
+        fallback: findChannelMentionFallback(mentionChannels, id),
+        baseStyle: style,
+      );
     },
     roleMentionBuilder: (context, id, style) {
       return RoleMention(roleId: id, baseStyle: style);
@@ -72,6 +80,14 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
           context: context,
           link: jump,
         );
+        return;
+      }
+
+      if (isInviteLink(href)) {
+        if (!context.mounted) {
+          return;
+        }
+        await handleInviteLinkTap(context, href);
         return;
       }
 

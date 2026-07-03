@@ -343,8 +343,6 @@ class FluxerBottomSheetHeader extends StatelessWidget {
                       textAlign: alignStart
                           ? TextAlign.start
                           : TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
                     if (subtitle != null) ...[
                       const SizedBox(height: 2),

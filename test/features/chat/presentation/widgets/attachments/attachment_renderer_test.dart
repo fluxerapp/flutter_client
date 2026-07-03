@@ -231,6 +231,43 @@ void main() {
   });
 
   testWidgets(
+    'opens attachment media viewer when spoilered grid tile is revealed and tapped',
+    (tester) async {
+      final List<Attachment> attachments = <Attachment>[
+        _buildAttachment(
+          filename: 'image-1.png',
+          url: 'https://cdn.example/image-1.png',
+          width: 640,
+          height: 360,
+        ),
+        _buildAttachment(
+          filename: 'secret.png',
+          url: 'https://cdn.example/secret.png',
+          width: 640,
+          height: 360,
+          flags: attachmentFlagIsSpoiler,
+        ),
+      ];
+      await tester.pumpWidget(
+        _buildTestApp(
+          child: AttachmentListRenderer(
+            attachments: attachments,
+            inlineAttachmentMedia: true,
+            dimensionSize: MediaDimensionSize.small,
+            revealSpoilers: false,
+          ),
+        ),
+      );
+      expect(find.byType(AttachmentMediaGrid), findsOneWidget);
+      await tester.tap(find.text('SPOILER'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(CachedNetworkImage).at(1));
+      await tester.pump();
+      expect(find.byType(AttachmentMediaViewerShell), findsOneWidget);
+    },
+  );
+
+  testWidgets(
     'renders mixed attachments with one grid and remaining media widgets',
     (tester) async {
       final List<Attachment> attachments = <Attachment>[

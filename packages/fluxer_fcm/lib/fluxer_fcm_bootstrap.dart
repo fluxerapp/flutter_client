@@ -1,7 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_fcm/fcm_background_handler.dart';
+import 'package:fluxer_fcm/fcm_push_message.dart';
+import 'package:fluxer_fcm/fcm_background_display_hooks.dart';
+import 'package:fluxer_fcm/fcm_background_notification_tap_hooks.dart';
+import 'package:fluxer_fcm/fcm_system_notification_cancel_hooks.dart';
 import 'package:fluxer_fcm/firebase_options.dart';
+import 'package:fluxer_fcm/fcm_tap_payload_cache_hooks.dart';
 import 'package:fluxer_fcm/fluxer_fcm_push_service.dart';
 
 typedef FcmTapPayloadEnricher =
@@ -20,19 +26,29 @@ typedef FcmTapPayloadCacheSaver =
 typedef FcmTapPayloadCachePredicate =
     bool Function(Map<String, String> payload);
 
+typedef FcmBackgroundNotificationTapHandler =
+    void Function(String? payloadJson);
+
+typedef FcmBackgroundDisplayPredicate = bool Function(FcmPushMessage message);
+
 class FluxerFcmBootstrap {
   FluxerFcmBootstrap._();
-
-  static FcmTapPayloadCachePredicate? _shouldSaveTapPayloadCache;
-  static FcmTapPayloadCacheSaver? _saveTapPayloadCache;
 
   static void configure({
     required FcmTapPayloadEnricher enrichTapPayload,
     required FcmTapPayloadCachePredicate shouldSaveTapPayloadCache,
     required FcmTapPayloadCacheSaver saveTapPayloadCache,
+    FcmBackgroundNotificationTapHandler? onBackgroundNotificationTap,
+    FcmNativeSystemNotificationCancelHandler? cancelFcmSystemDuplicates,
+    FcmBackgroundDisplayPredicate? shouldDisplayBackgroundLocalNotification,
   }) {
-    _shouldSaveTapPayloadCache = shouldSaveTapPayloadCache;
-    _saveTapPayloadCache = saveTapPayloadCache;
+    FcmTapPayloadCacheHooks.shouldSave = shouldSaveTapPayloadCache;
+    FcmTapPayloadCacheHooks.save = saveTapPayloadCache;
+    FcmBackgroundNotificationTapHooks.onTap = onBackgroundNotificationTap;
+    FcmSystemNotificationCancelHooks.cancelDuplicates =
+        cancelFcmSystemDuplicates;
+    FcmBackgroundDisplayHooks.shouldDisplay =
+        shouldDisplayBackgroundLocalNotification;
     FluxerFcmPushService.instance.tapPayloadEnricher =
         (RemoteMessage message, Map<String, String> mappedPayload) {
           return enrichTapPayload(
@@ -47,28 +63,51 @@ class FluxerFcmBootstrap {
   }
 
   static bool shouldSaveTapPayloadCache(Map<String, String> payload) {
-    return _shouldSaveTapPayloadCache?.call(payload) ?? false;
+    return FcmTapPayloadCacheHooks.shouldSaveTapPayloadCache(payload);
   }
 
   static Future<void> saveTapPayloadCache({
     required Map<String, String> payload,
     String? gcmMessageId,
   }) async {
-    final FcmTapPayloadCacheSaver? saver = _saveTapPayloadCache;
-    if (saver == null) {
-      return;
-    }
-    await saver(payload: payload, gcmMessageId: gcmMessageId);
+    await FcmTapPayloadCacheHooks.saveTapPayloadCache(
+      payload: payload,
+      gcmMessageId: gcmMessageId,
+    );
   }
 
-  static Future<void> bootstrapIfNeeded() async {
-    FirebaseMessaging.onBackgroundMessage(fcmBackgroundMessageHandler);
+  static Future<void> bootstrapIfNeeded({
+    required Future<void> Function(RemoteMessage message) onBackgroundMessage,
+  }) async {
+    try {
+      FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
+    } on Object catch (error, stackTrace) {
+      if (kDebugMode) {
+        debugPrint(
+          '[FluxerFcmBootstrap] background handler registration failed: '
+          '$error\n$stackTrace',
+        );
+      }
+      rethrow;
+    }
   }
 
   static Future<void> bootstrapAfterRunApp() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    await FluxerFcmPushService.instance.initialize();
+    try {
+      if (Firebase.apps.isEmpty) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+      }
+      await FluxerFcmPushService.instance.initialize();
+    } on Object catch (error, stackTrace) {
+      if (kDebugMode) {
+        debugPrint(
+          '[FluxerFcmBootstrap] bootstrapAfterRunApp failed: '
+          '$error\n$stackTrace',
+        );
+      }
+      rethrow;
+    }
   }
 }

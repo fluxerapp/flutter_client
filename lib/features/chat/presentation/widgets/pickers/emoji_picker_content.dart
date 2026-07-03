@@ -1013,13 +1013,10 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
   Widget _buildCustomEmojiCell(GuildEmojiEntry emoji, FluxerColorTheme colors) {
     final usesHover = emojiPickerUsesHoverTracking(isMobile: widget.isMobile);
-    // Picker only renders the first frame, so always request the static WebP.
-    // Animated WebPs carry per-frame metadata that makes _initEncoded
-    // substantially heavier even when only the first frame is consumed.
     final image = CachedEmojiImage(
       key: ValueKey(emoji.id),
       emojiId: emoji.id,
-      animated: false,
+      animated: emoji.animated,
       requestSize: _kCustomEmojiRequestSize,
       size: _kEmojiSize,
       errorBuilder: (ctx) => SizedBox(
@@ -1188,7 +1185,8 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
               children: [
                 CachedEmojiImage(
                   emojiId: customEmoji.id,
-                  animated: false,
+                  animated: customEmoji.animated,
+                  pauseWhenOffscreen: false,
                   requestSize: _kCustomEmojiRequestSize,
                   size: 32,
                 ),

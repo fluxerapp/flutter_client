@@ -971,6 +971,55 @@ void main() {
     expect(adapter.ackedMessageIds, isEmpty);
   });
 
+  test(
+    'opening a DM clears unread after its newest message was deleted',
+    () async {
+      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+      final priorId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final deletedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.dmChannelDao.upsertDmChannels([
+        DmChannelsCompanion.insert(
+          id: 'dm-1',
+          recipientId: '12345',
+          lastMessageId: Value(deletedId),
+          lastMessageTime: Value(dateTimeFromUserSnowflakeOrNull(deletedId)!),
+          unreadCount: const Value(1),
+        ),
+      ]);
+      await db.messageDao.upsertMessage(
+        _cachedMessage(id: priorId, channelId: 'dm-1', authorId: '12345'),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('dm-1'),
+          lastMessageId: Value(priorId),
+          mentionCount: const Value(1),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        messagesByChannel: {
+          'dm-1': [
+            _messageJson(id: priorId, channelId: 'dm-1', authorId: '12345'),
+          ],
+        },
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('dm-1');
+      notifier.setReadViewportActive(isActive: true);
+      await _flushAsync();
+
+      final readState = await db.readStateDao.getReadState('dm-1');
+      final dm = await db.dmChannelDao.getDmChannelById('dm-1');
+      expect(adapter.ackedMessageIds, contains(deletedId));
+      expect(readState?.mentionCount, 0);
+      expect(dm?.unreadCount, 0);
+    },
+  );
+
   test('auto ack waits while chat auto ack is disallowed', () async {
     final db = FluxerDatabase.forTesting(NativeDatabase.memory());
     addTearDown(db.close);

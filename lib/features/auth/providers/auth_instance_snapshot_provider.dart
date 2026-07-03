@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_instance_snapshot_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 InstanceConfigSnapshot authInstanceSnapshot(Ref ref) {
   final InstanceSelectorState? selector = ref
       .watch(instanceSelectorProvider)
