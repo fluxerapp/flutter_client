@@ -193,6 +193,12 @@ abstract class FluxerLocalizations {
   /// **'Connected'**
   String get gatewayConnectedToast;
 
+  /// Toast shown when the stored session is rejected by the server and the user is signed out to the login screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired. Please sign in again.'**
+  String get sessionExpiredToast;
+
   /// Error message on the splash screen when app startup fails.
   ///
   /// In en, this message translates to:
@@ -4242,6 +4248,48 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'About Me'**
   String get userProfileAboutMe;
+
+  /// Profile section title for a user's local time.
+  ///
+  /// In en, this message translates to:
+  /// **'Local time'**
+  String get userProfileLocalTime;
+
+  /// Profile timezone difference when the target matches the viewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Same time as you'**
+  String get userProfileSameTimeAsYou;
+
+  /// Profile timezone difference when the target is ahead of the viewer.
+  ///
+  /// In en, this message translates to:
+  /// **'{duration} ahead of you'**
+  String userProfileTimeAheadOfYou(String duration);
+
+  /// Profile timezone difference when the target is behind the viewer.
+  ///
+  /// In en, this message translates to:
+  /// **'{duration} behind you'**
+  String userProfileTimeBehindYou(String duration);
+
+  /// Duration phrase in the profile timezone section.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, =1{1 hour} other{{hours} hours}} {minutes, plural, =1{1 minute} other{{minutes} minutes}}'**
+  String userProfileTimezoneDurationHoursMinutes(int hours, int minutes);
+
+  /// Hours-only duration phrase in the profile timezone section.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, =1{1 hour} other{{hours} hours}}'**
+  String userProfileTimezoneDurationHours(int hours);
+
+  /// Minutes-only duration phrase in the profile timezone section.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =1{1 minute} other{{minutes} minutes}}'**
+  String userProfileTimezoneDurationMinutes(int minutes);
 
   /// Three-dot menu item: copy username#discriminator to clipboard.
   ///
@@ -8840,6 +8888,60 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Language & Time'**
   String get userSettingsNavLanguageAndTime;
+
+  /// Settings section title for time format preference.
+  ///
+  /// In en, this message translates to:
+  /// **'Time format'**
+  String get languageAndTimeTimeFormatSectionTitle;
+
+  /// Accessibility label for the time format radio group.
+  ///
+  /// In en, this message translates to:
+  /// **'Time format selection'**
+  String get languageAndTimeTimeFormatSelectionLabel;
+
+  /// Time format option that detects format from locale.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get languageAndTimeTimeFormatAuto;
+
+  /// Time format option for 12-hour AM/PM display.
+  ///
+  /// In en, this message translates to:
+  /// **'12-hour'**
+  String get languageAndTimeTimeFormat12Hour;
+
+  /// Time format option for 24-hour display.
+  ///
+  /// In en, this message translates to:
+  /// **'24-hour'**
+  String get languageAndTimeTimeFormat24Hour;
+
+  /// Auto time format description using the app interface language.
+  ///
+  /// In en, this message translates to:
+  /// **'App language: {format}'**
+  String languageAndTimeTimeFormatAppLanguage(String format);
+
+  /// Auto time format description using the device system locale.
+  ///
+  /// In en, this message translates to:
+  /// **'System locale: {format}'**
+  String languageAndTimeTimeFormatSystemLocale(String format);
+
+  /// Toggle to use device system locale when auto-detecting time format.
+  ///
+  /// In en, this message translates to:
+  /// **'Use system locale for time format'**
+  String get languageAndTimeUseSystemLocaleForTimeFormat;
+
+  /// Toast shown when saving the time format preference fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update time format'**
+  String get languageAndTimeTimeFormatSyncFailed;
 
   /// User settings navigation item for advanced settings.
   ///

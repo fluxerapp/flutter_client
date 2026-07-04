@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -48,13 +49,14 @@ Future<VoiceJoinEligibility> voiceJoinEligibility(
   if (channelRow.guildId.isEmpty) {
     return const VoiceJoinEligibility(canJoin: true);
   }
-  final int? permissionBits = ref.watch(
-    channelPermissionCacheProvider,
-  )[channelId];
+  final int? cacheBits = ref.watch(channelPermissionCacheProvider)[channelId];
+  final int? localBits = await ref.watch(
+    channelLocalGuildChannelPermissionBitsProvider(channelId).future,
+  );
   final bool canJoin = canJoinGuildVoiceChannelFromBits(
     guildId: channelRow.guildId,
     channelType: channelType,
-    permissionBits: permissionBits,
+    permissionBits: localBits ?? cacheBits,
   );
   return VoiceJoinEligibility(canJoin: canJoin);
 }

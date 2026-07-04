@@ -25,6 +25,19 @@ class UserSettingsSyncService {
     }
   }
 
+  Future<void> pushTimeFormat(TimeFormatTypes timeFormat) async {
+    final client = _ref.read(fluxerClientProvider);
+    try {
+      await client.users.updateCurrentUserSettings(
+        body: UserSettingsUpdateRequest(timeFormat: timeFormat),
+      );
+      talker.debug('[UserSettingsSync] Pushed timeFormat=${timeFormat.json}');
+    } on Object catch (e, st) {
+      talker.error('[UserSettingsSync] Push failed', e, st);
+      rethrow;
+    }
+  }
+
   Future<UserSettingsResponse> fetchCurrentSettings() async {
     final client = _ref.read(fluxerClientProvider);
     try {

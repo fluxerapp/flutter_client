@@ -37,6 +37,7 @@ ChatUnreadSummary computeChatUnreadSummary({
   required String? currentUserId,
   required String? channelLastMessageId,
   required bool hasMoreNewerMessages,
+  required bool hasMoreOlderMessages,
 }) {
   if (ackLastMessageId == null || ackLastMessageId.isEmpty) {
     return const ChatUnreadSummary(
@@ -71,6 +72,10 @@ ChatUnreadSummary computeChatUnreadSummary({
   final displayUnreadCount = loadedUnreadCount > mentionCount
       ? loadedUnreadCount
       : mentionCount;
+  // Web parity: the ack boundary is "known" when a loaded message is at or
+  // before the ack, or when the window reaches the channel start. Without it
+  // the first loaded message is NOT the true first unread, so no divider.
+  final bool boundaryKnown = hasLoadedAckBoundary || !hasMoreOlderMessages;
   final bool hasUnreadBeyondLoadedTail =
       displayUnreadCount > 0 &&
       channelLastMessageId != null &&
@@ -81,10 +86,10 @@ ChatUnreadSummary computeChatUnreadSummary({
   final bool hasEstimatedTailFromPagination =
       displayUnreadCount > 0 && hasMoreNewerMessages;
   final bool hasEstimatedFromMissingBoundary =
-      displayUnreadCount > 0 && !hasLoadedAckBoundary;
+      displayUnreadCount > 0 && !boundaryKnown;
 
   return ChatUnreadSummary(
-    oldestUnreadMessageId: oldestUnread,
+    oldestUnreadMessageId: boundaryKnown ? oldestUnread : null,
     loadedUnreadCount: loadedUnreadCount,
     displayUnreadCount: displayUnreadCount,
     isEstimated:

@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_lo
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_entry_card.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_filter_row.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_audit_log_provider.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -65,6 +66,7 @@ class _GuildAuditLogWidgetState extends ConsumerState<GuildAuditLogWidget> {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String locale = Localizations.localeOf(context).toString();
+    final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
     final Map<String, String> channelNames = _buildChannelNames();
     final Map<String, Channel> channelsById = _buildChannelsById();
     final Map<String, String> roleNames = _buildRoleNames();
@@ -119,6 +121,7 @@ class _GuildAuditLogWidgetState extends ConsumerState<GuildAuditLogWidget> {
               }),
               l10n: l10n,
               locale: locale,
+              use12Hour: use12Hour,
               channelNames: channelNames,
               channelsById: channelsById,
               roleNames: roleNames,

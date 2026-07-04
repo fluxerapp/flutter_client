@@ -82,6 +82,15 @@ class ReverseChatHarnessState extends State<ReverseChatHarness> {
   void jumpToBottom() =>
       scrollController.jumpTo(scrollController.position.minScrollExtent);
 
+  /// Mirrors `_anchorToUnreadDivider`'s jump: alignment 1 plus a
+  /// full-viewport offset pins the item's top edge (where the NEW divider
+  /// renders) `_kUnreadAnchorTopInset` (8px) below the viewport's top edge.
+  Future<void> anchorToUnread(int renderIndex) => observerController.jumpTo(
+    index: renderIndex,
+    alignment: 1,
+    offset: (_) => scrollController.position.viewportDimension - 8,
+  );
+
   @override
   Widget build(BuildContext context) {
     final ScrollPhysics chatPhysics = ScrollConfiguration.of(context)
@@ -234,5 +243,38 @@ void main() {
       );
       expect(find.byKey(const ValueKey<int>(49)), findsOneWidget);
     });
+  });
+
+  group('unread divider open anchor', () {
+    testWidgets(
+      'anchor jump pins the target item top 8px below the viewport top',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          const MaterialApp(home: ReverseChatHarness(initialCount: 40)),
+        );
+        await tester.pumpAndSettle();
+        final ReverseChatHarnessState state = _stateOf(tester);
+
+        // Render index 25 == item 14 (dataIndex = 40 - 1 - 25), sitting
+        // 1500px above the bottom-pinned start — far outside the initial
+        // viewport and its cache extent, so the jump must estimate.
+        final Finder target = find.byKey(const ValueKey<int>(14));
+        expect(target, findsNothing);
+
+        final Future<void> jump = state.anchorToUnread(25);
+        await tester.pumpAndSettle();
+        await jump;
+        await tester.pumpAndSettle();
+
+        // alignment 1 + (viewport - 8) offset places the item's TOP edge
+        // 8px below the list's top edge, keeping the divider visible.
+        final double listTop = tester.getRect(find.byType(ListView)).top;
+        expect(target, findsOneWidget);
+        expect(
+          tester.getRect(target).top,
+          moreOrLessEquals(listTop + 8, epsilon: 2),
+        );
+      },
+    );
   });
 }

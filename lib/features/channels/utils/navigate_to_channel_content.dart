@@ -211,22 +211,21 @@ Future<void> openGuildChannelContent({
         :final initialSelfMute,
         :final initialSelfDeaf,
       ):
-        recordAndNavigate();
-        unawaited(
-          joinVoiceChannelWithConfirmation(
-            ref: ref,
-            context: context,
-            guildId: guildId,
-            channelId: channel.id,
-            initialSelfMute: initialSelfMute,
-            initialSelfDeaf: initialSelfDeaf,
-          ),
+        await joinVoiceChannelWithConfirmation(
+          ref: ref,
+          context: context,
+          guildId: guildId,
+          channelId: channel.id,
+          initialSelfMute: initialSelfMute,
+          initialSelfDeaf: initialSelfDeaf,
         );
+        if (context.mounted) {
+          recordAndNavigate();
+        }
     }
     return;
   }
 
-  recordAndNavigate();
   if (channel.type == ChannelType.guildVoice && !isInCurrentVoiceChannel) {
     final bool canJoinVoice = canJoinGuildVoiceChannelFromBits(
       guildId: guildId,
@@ -234,16 +233,20 @@ Future<void> openGuildChannelContent({
       permissionBits: localConnectBits ?? permissionBits,
     );
     if (canJoinVoice) {
-      unawaited(
-        joinVoiceChannelWithConfirmation(
-          ref: ref,
-          context: context,
-          guildId: guildId,
-          channelId: channel.id,
-        ),
+      await joinVoiceChannelWithConfirmation(
+        ref: ref,
+        context: context,
+        guildId: guildId,
+        channelId: channel.id,
       );
+      if (context.mounted) {
+        recordAndNavigate();
+      }
+      return;
     }
   }
+
+  recordAndNavigate();
 }
 
 Future<Channel?> loadGuildChannelById(WidgetRef ref, String channelId) async {

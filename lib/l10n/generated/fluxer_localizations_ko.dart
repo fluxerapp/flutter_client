@@ -21,6 +21,10 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get gatewayConnectedToast => '연결됨';
 
   @override
+  String get sessionExpiredToast =>
+      'Your session has expired. Please sign in again.';
+
+  @override
   String splashStartupFailed(String error) {
     return '시작 실패: $error';
   }
@@ -2269,6 +2273,61 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get userProfileAboutMe => '자기소개';
+
+  @override
+  String get userProfileLocalTime => 'Local time';
+
+  @override
+  String get userProfileSameTimeAsYou => 'Same time as you';
+
+  @override
+  String userProfileTimeAheadOfYou(String duration) {
+    return '$duration ahead of you';
+  }
+
+  @override
+  String userProfileTimeBehindYou(String duration) {
+    return '$duration behind you';
+  }
+
+  @override
+  String userProfileTimezoneDurationHoursMinutes(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours',
+      one: '1 hour',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return '$_temp0 $_temp1';
+  }
+
+  @override
+  String userProfileTimezoneDurationHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours',
+      one: '1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String userProfileTimezoneDurationMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get userProfileCopyUsername => '사용자 이름 복사';
@@ -4931,6 +4990,39 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get userSettingsNavLanguageAndTime => '언어 및 시간';
+
+  @override
+  String get languageAndTimeTimeFormatSectionTitle => 'Time format';
+
+  @override
+  String get languageAndTimeTimeFormatSelectionLabel => 'Time format selection';
+
+  @override
+  String get languageAndTimeTimeFormatAuto => 'Auto';
+
+  @override
+  String get languageAndTimeTimeFormat12Hour => '12-hour';
+
+  @override
+  String get languageAndTimeTimeFormat24Hour => '24-hour';
+
+  @override
+  String languageAndTimeTimeFormatAppLanguage(String format) {
+    return 'App language: $format';
+  }
+
+  @override
+  String languageAndTimeTimeFormatSystemLocale(String format) {
+    return 'System locale: $format';
+  }
+
+  @override
+  String get languageAndTimeUseSystemLocaleForTimeFormat =>
+      'Use system locale for time format';
+
+  @override
+  String get languageAndTimeTimeFormatSyncFailed =>
+      'Failed to update time format';
 
   @override
   String get userSettingsNavAdvanced => '고급';

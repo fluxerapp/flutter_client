@@ -24,6 +24,7 @@ class GuildAuditLogEntryCard extends StatelessWidget {
     required this.onToggle,
     required this.l10n,
     required this.locale,
+    required this.use12Hour,
     required this.channelNames,
     required this.channelsById,
     required this.roleNames,
@@ -40,6 +41,7 @@ class GuildAuditLogEntryCard extends StatelessWidget {
   final VoidCallback onToggle;
   final FluxerLocalizations l10n;
   final String locale;
+  final bool use12Hour;
   final Map<String, String> channelNames;
   final Map<String, Channel> channelsById;
   final Map<String, String> roleNames;
@@ -66,7 +68,12 @@ class GuildAuditLogEntryCard extends StatelessWidget {
     final DateTime? createdAt = entry.createdAt;
     final String timestamp = createdAt == null
         ? ''
-        : GuildAuditLogUtils.formatAuditLogTimestamp(createdAt, l10n, locale);
+        : GuildAuditLogUtils.formatAuditLogTimestamp(
+            createdAt,
+            l10n,
+            locale,
+            use12Hour: use12Hour,
+          );
     final List<String> changeLines = _buildChangeLines();
     final List<String> optionLines = _buildOptionLines(changeLines);
     final String? rawReason = entry.reason?.trim();

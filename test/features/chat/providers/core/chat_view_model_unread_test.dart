@@ -1662,6 +1662,350 @@ void main() {
       );
     },
   );
+
+  group('pre-ack sticky snapshot', () {
+    test(
+      'ack snapshots first unread before advancing a late-synced read state',
+      () async {
+        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+        addTearDown(db.close);
+        final oldestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+        final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+        final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+        final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-1',
+            guildId: 'guild-1',
+            name: 'general',
+            lastMessageId: Value(latestId),
+          ),
+        );
+        final adapter = _ChatAdapter(
+          initialMessages: [
+            _messageJson(
+              id: latestId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+            _messageJson(
+              id: firstUnreadId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+            _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+            _messageJson(
+              id: oldestId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+          ],
+        );
+        final container = _container(db, adapter);
+        addTearDown(container.dispose);
+
+        // No read-state row exists while the page loads, so the load-time
+        // recording in _onMessagesLoaded cannot capture the divider. Only the
+        // pre-ack snapshot inside ackCurrentChannel can.
+        final notifier = container.read(chatViewModelProvider.notifier);
+        await notifier.switchChannel('channel-1');
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).stickyUnreadMessageId,
+          null,
+        );
+
+        // The read state syncs in after the channel opened, then the user
+        // reaches the bottom and the auto ack fires.
+        await db.readStateDao.upsertReadState(
+          ReadStatesCompanion(
+            channelId: const Value('channel-1'),
+            lastMessageId: Value(ackId),
+            mentionCount: const Value(0),
+          ),
+        );
+        notifier
+          ..setReadViewportActive(isActive: true)
+          ..updateReadViewport(isNearBottom: true);
+        await _flushAsync();
+
+        final readState = await db.readStateDao.getReadState('channel-1');
+        expect(readState?.lastMessageId, latestId);
+        expect(
+          container.read(chatViewModelProvider).stickyUnreadMessageId,
+          firstUnreadId,
+        );
+      },
+    );
+
+    test(
+      'first ack consumes the one-shot arm so later acks add no divider',
+      () async {
+        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+        addTearDown(db.close);
+        final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+        final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+        final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+        final incomingId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 14));
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-1',
+            guildId: 'guild-1',
+            name: 'general',
+            lastMessageId: Value(latestId),
+          ),
+        );
+        await db.readStateDao.upsertReadState(
+          ReadStatesCompanion(
+            channelId: const Value('channel-1'),
+            lastMessageId: Value(ackId),
+            mentionCount: const Value(0),
+          ),
+        );
+        final adapter = _ChatAdapter(
+          initialMessages: [
+            _messageJson(
+              id: latestId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+            _messageJson(
+              id: firstUnreadId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+            _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+          ],
+        );
+        final container = _container(db, adapter);
+        addTearDown(container.dispose);
+
+        final notifier = container.read(chatViewModelProvider.notifier);
+        await notifier.switchChannel('channel-1');
+        notifier
+          ..setReadViewportActive(isActive: true)
+          ..updateReadViewport(isNearBottom: true);
+        await _flushAsync();
+
+        var readState = await db.readStateDao.getReadState('channel-1');
+        expect(readState?.lastMessageId, latestId);
+        expect(
+          container.read(chatViewModelProvider).stickyUnreadMessageId,
+          firstUnreadId,
+        );
+
+        // The divider is consumed after being shown.
+        notifier.clearStickyUnread();
+
+        // Persist the incoming message the way the gateway DB writer would,
+        // so the follow-up local ack can advance to it.
+        await db.messageDao.upsertMessage(
+          _cachedMessage(
+            id: incomingId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        );
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-1',
+            guildId: 'guild-1',
+            name: 'general',
+            lastMessageId: Value(incomingId),
+          ),
+        );
+
+        // A new message arrives while the user sits at the bottom. The
+        // follow-up ack runs once the 1s min-interval gate reopens (wall
+        // clock, so poll instead of advancing fake time).
+        container
+            .read(messageRealtimeBusProvider)
+            .emit(
+              MessageCreated(
+                MessageCreateEvent(
+                  message: MessageResponseSchema.fromJson(
+                    _messageJson(
+                      id: incomingId,
+                      channelId: 'channel-1',
+                      authorId: 'other',
+                    ),
+                  ),
+                ),
+              ),
+            );
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).messages.map((m) => m.id),
+          contains(incomingId),
+        );
+
+        for (var i = 0; i < 50; i++) {
+          await Future<void>.delayed(const Duration(milliseconds: 100));
+          readState = await db.readStateDao.getReadState('channel-1');
+          if (readState?.lastMessageId == incomingId) {
+            break;
+          }
+        }
+        expect(readState?.lastMessageId, incomingId);
+        expect(
+          container.read(chatViewModelProvider).stickyUnreadMessageId,
+          null,
+        );
+      },
+    );
+
+    test('ack does not snapshot a divider on a fully read channel', () async {
+      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+      final previousId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(latestId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(latestId),
+          mentionCount: const Value(0),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: [
+          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(
+            id: previousId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        ],
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+      notifier
+        ..setReadViewportActive(isActive: true)
+        ..updateReadViewport(isNearBottom: true);
+      await _flushAsync();
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(readState?.lastMessageId, latestId);
+      expect(container.read(chatViewModelProvider).stickyUnreadMessageId, null);
+    });
+
+    test(
+      'markCurrentChannelRead disarms the snapshot for subsequent acks',
+      () async {
+        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+        addTearDown(db.close);
+        final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+        final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+        final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+        final incomingId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 14));
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-1',
+            guildId: 'guild-1',
+            name: 'general',
+            lastMessageId: Value(latestId),
+          ),
+        );
+        await db.readStateDao.upsertReadState(
+          ReadStatesCompanion(
+            channelId: const Value('channel-1'),
+            lastMessageId: Value(ackId),
+            mentionCount: const Value(0),
+          ),
+        );
+        final adapter = _ChatAdapter(
+          initialMessages: [
+            _messageJson(
+              id: latestId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+            _messageJson(
+              id: firstUnreadId,
+              channelId: 'channel-1',
+              authorId: 'other',
+            ),
+            _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+          ],
+        );
+        final container = _container(db, adapter);
+        addTearDown(container.dispose);
+
+        final notifier = container.read(chatViewModelProvider.notifier);
+        await notifier.switchChannel('channel-1');
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).stickyUnreadMessageId,
+          firstUnreadId,
+        );
+
+        await notifier.markCurrentChannelRead();
+        await _flushAsync();
+        expect(
+          container.read(chatViewModelProvider).stickyUnreadMessageId,
+          null,
+        );
+
+        // Persist the incoming message the way the gateway DB writer would,
+        // so the follow-up local ack can advance to it.
+        await db.messageDao.upsertMessage(
+          _cachedMessage(
+            id: incomingId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        );
+        await db.channelDao.upsertChannel(
+          ChannelsCompanion.insert(
+            id: 'channel-1',
+            guildId: 'guild-1',
+            name: 'general',
+            lastMessageId: Value(incomingId),
+          ),
+        );
+        // A new unread arrives before the first viewport-driven ack of this
+        // open. The disarmed snapshot must not resurrect the divider.
+        container
+            .read(messageRealtimeBusProvider)
+            .emit(
+              MessageCreated(
+                MessageCreateEvent(
+                  message: MessageResponseSchema.fromJson(
+                    _messageJson(
+                      id: incomingId,
+                      channelId: 'channel-1',
+                      authorId: 'other',
+                    ),
+                  ),
+                ),
+              ),
+            );
+        await _flushAsync();
+        notifier
+          ..setReadViewportActive(isActive: true)
+          ..updateReadViewport(isNearBottom: true);
+        await _flushAsync();
+
+        final readState = await db.readStateDao.getReadState('channel-1');
+        expect(readState?.lastMessageId, incomingId);
+        expect(
+          container.read(chatViewModelProvider).stickyUnreadMessageId,
+          null,
+        );
+      },
+    );
+  });
 }
 
 ProviderContainer _container(

@@ -16,6 +16,7 @@ class AccessibilityLocalState {
     required this.showFadedUnreadOnMutedChannels,
     required this.dmMessagePreviewMode,
     required this.showFavorites,
+    required this.useSystemLocaleForTimeFormat,
     required this.messageGroupSpacing,
     required this.compactMessageGroupSpacing,
   });
@@ -26,6 +27,7 @@ class AccessibilityLocalState {
   final bool showFadedUnreadOnMutedChannels;
   final DmMessagePreviewMode dmMessagePreviewMode;
   final bool showFavorites;
+  final bool useSystemLocaleForTimeFormat;
   final double messageGroupSpacing;
   final double compactMessageGroupSpacing;
 }
@@ -50,6 +52,7 @@ class AccessibilitySyncedField
       showFadedUnreadOnMutedChannels: appearance.showFadedUnreadOnMutedChannels,
       dmMessagePreviewMode: appearance.dmMessagePreviewMode,
       showFavorites: appearance.showFavorites,
+      useSystemLocaleForTimeFormat: appearance.useSystemLocaleForTimeFormat,
       messageGroupSpacing: appearance.messageGroupSpacing,
       compactMessageGroupSpacing: appearance.compactMessageGroupSpacing,
     );
@@ -83,6 +86,7 @@ class AccessibilitySyncedField
         a.showFadedUnreadOnMutedChannels == b.showFadedUnreadOnMutedChannels &&
         a.dmMessagePreviewMode == b.dmMessagePreviewMode &&
         a.showFavorites == b.showFavorites &&
+        a.useSystemLocaleForTimeFormat == b.useSystemLocaleForTimeFormat &&
         a.messageGroupSpacing == b.messageGroupSpacing &&
         a.compactMessageGroupSpacing == b.compactMessageGroupSpacing;
   }
@@ -100,6 +104,7 @@ class AccessibilitySyncedField
       showFadedUnreadOnMutedChannels: local.showFadedUnreadOnMutedChannels,
       dmMessagePreviewMode: local.dmMessagePreviewMode,
       showFavorites: local.showFavorites,
+      useSystemLocaleForTimeFormat: local.useSystemLocaleForTimeFormat,
       messageGroupSpacing: local.messageGroupSpacing,
       compactMessageGroupSpacing: local.compactMessageGroupSpacing,
     );
@@ -125,6 +130,9 @@ class AccessibilitySyncedField
           proto.showFadedUnreadOnMutedChannels,
       dmMessagePreviewMode: _fromProtoDmPreviewMode(proto.dmMessagePreviewMode),
       showFavorites: !proto.hasShowFavorites() || proto.showFavorites,
+      useSystemLocaleForTimeFormat:
+          proto.hasUseBrowserLocaleForTimeFormat() &&
+          proto.useBrowserLocaleForTimeFormat,
       messageGroupSpacing: proto.hasMessageGroupSpacing()
           ? proto.messageGroupSpacing
           : 16,
@@ -145,6 +153,7 @@ class AccessibilitySyncedField
       showFadedUnreadOnMutedChannels: local.showFadedUnreadOnMutedChannels,
       dmMessagePreviewMode: _toProtoDmPreviewMode(local.dmMessagePreviewMode),
       showFavorites: local.showFavorites,
+      useBrowserLocaleForTimeFormat: local.useSystemLocaleForTimeFormat,
       messageGroupSpacing: local.messageGroupSpacing,
       compactMessageGroupSpacing: local.compactMessageGroupSpacing,
     );

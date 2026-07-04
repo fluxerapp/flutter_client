@@ -44,6 +44,7 @@ import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provi
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -1175,6 +1176,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                       msg.timestamp.toLocal(),
                       FluxerLocalizations.of(context),
                       Localizations.localeOf(context).toString(),
+                      use12Hour: ref.watch(use12HourTimeFormatProvider),
                     ),
                     style: context.textStyles.timestamp,
                   ),
@@ -1210,6 +1212,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     required bool isGrouped,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
     final TextStyle footerTextStyle = context.textStyles.timestamp.copyWith(
       color: context.colors.textTertiary,
     );
@@ -1282,6 +1285,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                           msg.timestamp.toLocal(),
                           l10n,
                           Localizations.localeOf(context).toString(),
+                          use12Hour: use12Hour,
                         ),
                         style: context.textStyles.timestamp,
                       ),

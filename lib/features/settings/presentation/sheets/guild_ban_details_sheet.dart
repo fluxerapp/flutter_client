@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/utils/guild_audit_log_utils.dart';
 import 'package:fluxer_app/features/settings/utils/guild_bans_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -130,6 +131,7 @@ class _GuildBanDetailsBodyState extends ConsumerState<_GuildBanDetailsBody> {
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String locale = Localizations.localeOf(context).toString();
+    final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
     final bool isMobile = isMobileLayout(context);
     final ban = widget.entry.ban;
     final user = ban.user;
@@ -145,6 +147,7 @@ class _GuildBanDetailsBodyState extends ConsumerState<_GuildBanDetailsBody> {
       ban.bannedAt,
       l10n,
       locale,
+      use12Hour: use12Hour,
     );
     final String reason = (ban.reason?.trim().isNotEmpty ?? false)
         ? ban.reason!.trim()
@@ -213,6 +216,7 @@ class _GuildBanDetailsBodyState extends ConsumerState<_GuildBanDetailsBody> {
                 ban.expiresAt!,
                 l10n,
                 locale,
+                use12Hour: use12Hour,
               ),
             ),
           ],

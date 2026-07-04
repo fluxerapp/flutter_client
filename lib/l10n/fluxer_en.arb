@@ -16,6 +16,10 @@
   "@gatewayConnectedToast": {
     "description": "Toast shown when the gateway connection is restored."
   },
+  "sessionExpiredToast": "Your session has expired. Please sign in again.",
+  "@sessionExpiredToast": {
+    "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+  },
   "splashStartupFailed": "Failed to start: {error}",
   "@splashStartupFailed": {
     "description": "Error message on the splash screen when app startup fails.",
@@ -3019,6 +3023,62 @@
   "userProfileAboutMe": "About Me",
   "@userProfileAboutMe": {
     "description": "Header of the bio section in the bio card."
+  },
+  "userProfileLocalTime": "Local time",
+  "@userProfileLocalTime": {
+    "description": "Profile section title for a user's local time."
+  },
+  "userProfileSameTimeAsYou": "Same time as you",
+  "@userProfileSameTimeAsYou": {
+    "description": "Profile timezone difference when the target matches the viewer."
+  },
+  "userProfileTimeAheadOfYou": "{duration} ahead of you",
+  "@userProfileTimeAheadOfYou": {
+    "description": "Profile timezone difference when the target is ahead of the viewer.",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "userProfileTimeBehindYou": "{duration} behind you",
+  "@userProfileTimeBehindYou": {
+    "description": "Profile timezone difference when the target is behind the viewer.",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 hour} other{{hours} hours}} {minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+  "@userProfileTimezoneDurationHoursMinutes": {
+    "description": "Duration phrase in the profile timezone section.",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "userProfileTimezoneDurationHours": "{hours, plural, =1{1 hour} other{{hours} hours}}",
+  "@userProfileTimezoneDurationHours": {
+    "description": "Hours-only duration phrase in the profile timezone section.",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "userProfileTimezoneDurationMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+  "@userProfileTimezoneDurationMinutes": {
+    "description": "Minutes-only duration phrase in the profile timezone section.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
   },
   "userProfileCopyUsername": "Copy Username",
   "@userProfileCopyUsername": {
@@ -6544,6 +6604,52 @@
   "userSettingsNavLanguageAndTime": "Language & Time",
   "@userSettingsNavLanguageAndTime": {
     "description": "User settings navigation item for language and time settings."
+  },
+  "languageAndTimeTimeFormatSectionTitle": "Time format",
+  "@languageAndTimeTimeFormatSectionTitle": {
+    "description": "Settings section title for time format preference."
+  },
+  "languageAndTimeTimeFormatSelectionLabel": "Time format selection",
+  "@languageAndTimeTimeFormatSelectionLabel": {
+    "description": "Accessibility label for the time format radio group."
+  },
+  "languageAndTimeTimeFormatAuto": "Auto",
+  "@languageAndTimeTimeFormatAuto": {
+    "description": "Time format option that detects format from locale."
+  },
+  "languageAndTimeTimeFormat12Hour": "12-hour",
+  "@languageAndTimeTimeFormat12Hour": {
+    "description": "Time format option for 12-hour AM/PM display."
+  },
+  "languageAndTimeTimeFormat24Hour": "24-hour",
+  "@languageAndTimeTimeFormat24Hour": {
+    "description": "Time format option for 24-hour display."
+  },
+  "languageAndTimeTimeFormatAppLanguage": "App language: {format}",
+  "@languageAndTimeTimeFormatAppLanguage": {
+    "description": "Auto time format description using the app interface language.",
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "languageAndTimeTimeFormatSystemLocale": "System locale: {format}",
+  "@languageAndTimeTimeFormatSystemLocale": {
+    "description": "Auto time format description using the device system locale.",
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "languageAndTimeUseSystemLocaleForTimeFormat": "Use system locale for time format",
+  "@languageAndTimeUseSystemLocaleForTimeFormat": {
+    "description": "Toggle to use device system locale when auto-detecting time format."
+  },
+  "languageAndTimeTimeFormatSyncFailed": "Failed to update time format",
+  "@languageAndTimeTimeFormatSyncFailed": {
+    "description": "Toast shown when saving the time format preference fails."
   },
   "userSettingsNavAdvanced": "Advanced",
   "@userSettingsNavAdvanced": {

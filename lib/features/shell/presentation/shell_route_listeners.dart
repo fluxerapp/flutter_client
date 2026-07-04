@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
@@ -56,17 +55,22 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       String? previous,
       String? next,
     ) {
-      if (previous != null && previous != next) {
-        unawaited(evictInactiveGuildPermissionState(ref.container, previous));
-      }
-      if (next != null) {
-        final guilds = ref.read(guildListViewModelProvider).guilds;
-        final guild = guilds.where((g) => g.id == next).firstOrNull;
-        ref
-            .read(channelListViewModelProvider.notifier)
-            .loadChannels(next, guild: guild);
-        ref.read(guildSyncProvider.notifier).syncIfNeeded(next);
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        if (previous != null && previous != next) {
+          unawaited(evictInactiveGuildPermissionState(ref.container, previous));
+        }
+        if (next != null) {
+          final guilds = ref.read(guildListViewModelProvider).guilds;
+          final guild = guilds.where((g) => g.id == next).firstOrNull;
+          ref
+              .read(channelListViewModelProvider.notifier)
+              .loadChannels(next, guild: guild);
+          ref.read(guildSyncProvider.notifier).syncIfNeeded(next);
+        }
+      });
     });
     ref.listenManual<String?>(activeChannelIdProvider, (
       String? previous,
@@ -75,16 +79,21 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
       if (previous == null || previous == next) {
         return;
       }
-      final String? guildId = ref.read(activeGuildIdProvider);
-      if (guildId == null) {
-        return;
-      }
-      ref
-          .read(memberListViewportProvider.notifier)
-          .clearChannel(guildId: guildId, channelId: previous);
-      ref
-          .read(memberListDesiredRangesProvider.notifier)
-          .clearChannel(guildId: guildId, channelId: previous);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        final String? guildId = ref.read(activeGuildIdProvider);
+        if (guildId == null) {
+          return;
+        }
+        ref
+            .read(memberListViewportProvider.notifier)
+            .clearChannel(guildId: guildId, channelId: previous);
+        ref
+            .read(memberListDesiredRangesProvider.notifier)
+            .clearChannel(guildId: guildId, channelId: previous);
+      });
     });
     if (PushProviderGuard.isUnifiedPush) {
       ref.listenManual<bool>(unifiedPushDistributorSetupProvider, (
@@ -94,12 +103,17 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         if (!next) {
           return;
         }
-        final BuildContext? rootContext = rootNavigatorKey.currentContext;
-        if (rootContext == null || !rootContext.mounted) {
-          return;
-        }
-        ref.read(unifiedPushDistributorSetupProvider.notifier).clearRequest();
-        unawaited(showUnifiedPushDistributorSetup(rootContext));
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) {
+            return;
+          }
+          final BuildContext? rootContext = rootNavigatorKey.currentContext;
+          if (rootContext == null || !rootContext.mounted) {
+            return;
+          }
+          ref.read(unifiedPushDistributorSetupProvider.notifier).clearRequest();
+          unawaited(showUnifiedPushDistributorSetup(rootContext));
+        });
       });
     }
   }

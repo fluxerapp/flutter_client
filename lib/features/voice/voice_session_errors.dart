@@ -26,6 +26,12 @@ const String kVoiceSessionErrorMicPublish = 'VOICE_ERR_MIC_PUBLISH';
 const String kVoiceSessionErrorNoConnectPermission =
     'VOICE_ERR_NO_CONNECT_PERM';
 
+/// Microphone permission was denied before a voice join could start.
+const String kVoiceSessionErrorMicPermission = 'VOICE_ERR_MIC_PERM';
+
+/// LiveKit/WebRTC transport failed (ICE, network, or media connect timeout).
+const String kVoiceSessionErrorTransportFailed = 'VOICE_ERR_TRANSPORT';
+
 /// Maps a stored `VoiceSessionState.errorMessage` to a localized
 /// human-readable string.
 String resolveVoiceSessionErrorMessage(
@@ -47,6 +53,10 @@ String resolveVoiceSessionErrorMessage(
       return l10n.voiceMicPublishFailedStayConnected;
     case kVoiceSessionErrorNoConnectPermission:
       return l10n.voiceChannelNoConnectPermission;
+    case kVoiceSessionErrorMicPermission:
+      return l10n.voiceMessageMicPermissionDenied;
+    case kVoiceSessionErrorTransportFailed:
+      return l10n.voiceJoinCallFailed;
     default:
       return message;
   }

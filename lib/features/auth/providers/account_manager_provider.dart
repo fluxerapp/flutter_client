@@ -150,6 +150,34 @@ class AccountManager extends _$AccountManager {
     ref.read(authStateProvider.notifier).setAuthenticated(value: false);
   }
 
+  /// Probes the active session after a fatal gateway close. On a rejected
+  /// token (401) it clears the session, signs out to login (account kept for
+  /// re-login), and returns true. Network failures leave the session intact.
+  Future<bool> expireSessionIfInvalid() async {
+    final String? token = ref.read(fluxerAuthTokenProvider);
+    if (token == null || token.isEmpty) {
+      return false;
+    }
+    bool isValid;
+    try {
+      isValid = await _validateToken(token);
+    } on Exception {
+      return false;
+    }
+    if (isValid) {
+      return false;
+    }
+    final String? userId = ref.read(currentUserIdProvider);
+    if (userId != null && userId.isNotEmpty) {
+      await ref.read(fluxerDatabaseProvider).authSessionDao.markInvalid(userId);
+    }
+    ref.read(syncedPreferencesStoreProvider).reset();
+    await loadAccounts();
+    ref.read(fluxerAuthTokenProvider.notifier).setToken(null);
+    ref.read(authStateProvider.notifier).setAuthenticated(value: false);
+    return true;
+  }
+
   /// Removes a non-current stored account (invalidates its server session
   /// using the account's own token, then deletes locally).
   Future<void> removeAccount(String userId) async {

@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_r
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -79,6 +80,7 @@ class SystemMessage extends ConsumerWidget {
       message.timestamp.toLocal(),
       FluxerLocalizations.of(context),
       Localizations.localeOf(context).toString(),
+      use12Hour: ref.watch(use12HourTimeFormatProvider),
     );
     final TextStyle timestampStyle = TextStyle(
       color: context.colors.textTertiaryMuted,

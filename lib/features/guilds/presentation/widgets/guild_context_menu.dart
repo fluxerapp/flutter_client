@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_context_menu_item.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
@@ -32,12 +34,18 @@ Future<GuildAction?> showGuildContextMenu(
 
   final local = overlay.globalToLocal(position);
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+  final String locale = Localizations.localeOf(context).toString();
+  final bool use12Hour = ProviderScope.containerOf(
+    context,
+  ).read(use12HourTimeFormatProvider);
   final groups = buildGuildMenuGroups(
     l10n: l10n,
     hasUnread: hasUnread,
     isMuted: isMuted,
     isOwner: isOwner,
     permissions: permissions,
+    locale: locale,
+    use12Hour: use12Hour,
     muteEndTime: muteEndTime,
     hideMutedChannels: hideMutedChannels,
     developerMode: developerMode,

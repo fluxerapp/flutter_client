@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/offline_account_switcher_link.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -44,6 +45,12 @@ class _ReconnectingScreenState extends ConsumerState<ReconnectingScreen> {
 
   Future<void> _retryConnection() async {
     if (_retryInFlight) {
+      return;
+    }
+    // A session-expiry sign-out nulls the token and invalidates the gateway
+    // connection provider — reading it would throw. The router is already
+    // redirecting to /login at that point.
+    if (!ref.read(authStateProvider)) {
       return;
     }
     _retryInFlight = true;

@@ -14,6 +14,7 @@ void main() {
       currentUserId: 'me',
       channelLastMessageId: '120',
       hasMoreNewerMessages: false,
+      hasMoreOlderMessages: false,
     );
 
     expect(summary.oldestUnreadMessageId, '110');
@@ -34,6 +35,7 @@ void main() {
       currentUserId: 'me',
       channelLastMessageId: '120',
       hasMoreNewerMessages: false,
+      hasMoreOlderMessages: false,
     );
 
     expect(summary.oldestUnreadMessageId, '110');
@@ -53,12 +55,33 @@ void main() {
       currentUserId: 'me',
       channelLastMessageId: '210',
       hasMoreNewerMessages: false,
+      hasMoreOlderMessages: true,
+    );
+
+    expect(summary.oldestUnreadMessageId, isNull);
+    expect(summary.loadedUnreadCount, 2);
+    expect(summary.displayUnreadCount, 2);
+    expect(summary.isEstimated, isTrue);
+  });
+
+  test('window reaching the channel start is a known unread boundary', () {
+    final summary = computeChatUnreadSummary(
+      messages: const [
+        ChatUnreadMessageRef(id: '200', authorId: 'other'),
+        ChatUnreadMessageRef(id: '210', authorId: 'other'),
+      ],
+      ackLastMessageId: '100',
+      mentionCount: 0,
+      currentUserId: 'me',
+      channelLastMessageId: '210',
+      hasMoreNewerMessages: false,
+      hasMoreOlderMessages: false,
     );
 
     expect(summary.oldestUnreadMessageId, '200');
     expect(summary.loadedUnreadCount, 2);
     expect(summary.displayUnreadCount, 2);
-    expect(summary.isEstimated, isTrue);
+    expect(summary.isEstimated, isFalse);
   });
 
   test('uses mention count as display lower bound', () {
@@ -69,6 +92,7 @@ void main() {
       currentUserId: 'me',
       channelLastMessageId: '200',
       hasMoreNewerMessages: false,
+      hasMoreOlderMessages: true,
     );
 
     expect(summary.loadedUnreadCount, 1);
@@ -84,6 +108,7 @@ void main() {
       currentUserId: 'me',
       channelLastMessageId: '200',
       hasMoreNewerMessages: false,
+      hasMoreOlderMessages: false,
     );
 
     expect(summary.oldestUnreadMessageId, isNull);
@@ -113,6 +138,7 @@ void main() {
         currentUserId: 'me',
         channelLastMessageId: '200',
         hasMoreNewerMessages: false,
+        hasMoreOlderMessages: false,
       );
 
       expect(summary.displayUnreadCount, 2);

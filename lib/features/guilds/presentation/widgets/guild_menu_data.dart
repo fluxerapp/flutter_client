@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:intl/intl.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum GuildAction {
@@ -91,7 +92,12 @@ class GuildMenuCheckbox extends GuildMenuEntry {
 
 typedef GuildMenuGroup = List<GuildMenuEntry>;
 
-String? _formatMuteHint(FluxerLocalizations l10n, DateTime? muteEndTime) {
+String? _formatMuteHint(
+  FluxerLocalizations l10n,
+  DateTime? muteEndTime, {
+  required String locale,
+  required bool use12Hour,
+}) {
   if (muteEndTime == null) {
     return l10n.voiceParticipantTooltipMuted;
   }
@@ -99,7 +105,9 @@ String? _formatMuteHint(FluxerLocalizations l10n, DateTime? muteEndTime) {
   if (muteEndTime.isBefore(now)) {
     return null;
   }
-  return l10n.guildMenuMutedUntil(DateFormat.jm().format(muteEndTime));
+  return l10n.guildMenuMutedUntil(
+    formatUserTime(muteEndTime.toLocal(), locale, use12Hour: use12Hour),
+  );
 }
 
 List<GuildMenuGroup> buildGuildMenuGroups({
@@ -108,6 +116,8 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   required bool isMuted,
   required bool isOwner,
   required int permissions,
+  required String locale,
+  required bool use12Hour,
   DateTime? muteEndTime,
   bool hideMutedChannels = false,
   bool developerMode = false,
@@ -174,7 +184,12 @@ List<GuildMenuGroup> buildGuildMenuGroups({
           label: l10n.guildMenuUnmuteCommunity,
           icon: PhosphorIconsFill.bellSlash,
           action: GuildAction.unmute,
-          hint: _formatMuteHint(l10n, muteEndTime),
+          hint: _formatMuteHint(
+            l10n,
+            muteEndTime,
+            locale: locale,
+            use12Hour: use12Hour,
+          ),
         )
       else
         GuildMenuSubmenu(

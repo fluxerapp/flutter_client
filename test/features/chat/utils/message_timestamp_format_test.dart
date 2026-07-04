@@ -27,6 +27,7 @@ void main() {
         timestamp,
         l10n,
         locale,
+        use12Hour: true,
         now: now,
       );
       expect(
@@ -41,6 +42,7 @@ void main() {
         timestamp,
         l10n,
         locale,
+        use12Hour: true,
         now: now,
       );
       expect(
@@ -57,6 +59,7 @@ void main() {
         timestamp,
         l10n,
         locale,
+        use12Hour: true,
         now: now,
       );
       final String expected = DateFormat.yMd(locale).add_jm().format(timestamp);
@@ -70,6 +73,7 @@ void main() {
         timestamp,
         l10n,
         locale,
+        use12Hour: true,
         now: reference,
       );
       expect(
@@ -87,6 +91,7 @@ void main() {
         timestamp,
         l10n,
         germanLocale,
+        use12Hour: true,
         now: now,
       );
       final String expected = DateFormat.yMd(

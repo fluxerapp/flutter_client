@@ -27,6 +27,8 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/system_message_actions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/channel_welcome_section.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -101,6 +103,9 @@ const _kMonthNames = [
   'December',
 ];
 
+/// Inset keeping the NEW divider visible when anchoring it to the top edge.
+const double _kUnreadAnchorTopInset = 8;
+
 /// The scrollable list of messages in the chat area: a single `reverse: true`
 /// [ListView] anchored by a [ChatScrollObserver] (older messages prepend
 /// above the viewport; newer ones hold position unless at the live tail).
@@ -124,6 +129,7 @@ class _MessageListState extends ConsumerState<MessageList> {
   final MessageTileCache _tileCache = MessageTileCache();
   late final ChatViewModel _chatViewModel;
   String? _pendingScrollTarget;
+  bool _initialUnreadAnchorPending = true;
   String? _lastChannelId;
   List<Message>? _lastAnchorMessages;
   ChatUnreadSummary? _cachedUnreadSummary;
@@ -252,6 +258,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     _lastAnchorMessages = null;
     _useCompactScrollCache = true;
     _lastMessageCount = 0;
+    _initialUnreadAnchorPending = true;
   }
 
   void _scheduleScrollCacheExpansion(int messageCount) {
@@ -319,6 +326,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     required String? currentUserId,
     required String? channelLastMessageId,
     required bool hasMoreNewerMessages,
+    required bool hasMoreOlderMessages,
   }) {
     final Object key = (
       messages,
@@ -327,6 +335,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       currentUserId,
       channelLastMessageId,
       hasMoreNewerMessages,
+      hasMoreOlderMessages,
     );
     final ChatUnreadSummary? cached = _cachedUnreadSummary;
     if (cached != null && _unreadSummaryKey == key) {
@@ -342,6 +351,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       currentUserId: currentUserId,
       channelLastMessageId: channelLastMessageId,
       hasMoreNewerMessages: hasMoreNewerMessages,
+      hasMoreOlderMessages: hasMoreOlderMessages,
     );
     _unreadSummaryKey = key;
     _cachedUnreadSummary = summary;
@@ -383,9 +393,13 @@ class _MessageListState extends ConsumerState<MessageList> {
     });
   }
 
-  void _onUnreadBarTap() {
+  void _onUnreadBarMarkRead() {
     _onScrollToBottom();
     unawaited(_chatViewModel.markCurrentChannelRead());
+  }
+
+  void _onUnreadBarJump() {
+    unawaited(_chatViewModel.jumpToFirstUnread());
   }
 
   void _confirmJumpHighlightScroll(String messageId) {
@@ -397,7 +411,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
   }
 
-  Future<void> _jumpToMessage(String messageId, {double alignment = 0.5}) {
+  Future<void> _jumpToMessage(String messageId) {
     final Completer<void> completer = Completer<void>();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
@@ -413,14 +427,50 @@ class _MessageListState extends ConsumerState<MessageList> {
         }
         final int renderIndex = messages.length - 1 - dataIndex;
         _confirmJumpHighlightScroll(messageId);
-        // Bound the wait so a stalled observer animation can't strand the
-        // jump and freeze edge-loading until reopen.
+        // alignment is child-relative: 0.5 puts the message's midpoint at the
+        // viewport's leading edge, so shift by half the viewport to center it.
+        // Bound the wait so a stalled jump can't freeze edge-loading.
         await _observerController
-            .animateTo(
+            .jumpTo(
               index: renderIndex,
-              alignment: alignment,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
+              alignment: 0.5,
+              offset: (_) => _scrollController.position.viewportDimension * 0.5,
+            )
+            .timeout(const Duration(seconds: 2), onTimeout: () {});
+      } finally {
+        if (!completer.isCompleted) {
+          completer.complete();
+        }
+      }
+    });
+    return completer.future;
+  }
+
+  Future<void> _anchorToUnreadDivider(String messageId) {
+    final Completer<void> completer = Completer<void>();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        if (!mounted || !_scrollController.hasClients) {
+          return;
+        }
+        final List<Message> messages = ref.read(chatViewModelProvider).messages;
+        final int dataIndex = messages.indexWhere(
+          (Message m) => m.id == messageId,
+        );
+        if (dataIndex == -1) {
+          return;
+        }
+        final int renderIndex = messages.length - 1 - dataIndex;
+        // alignment 1 + a full-viewport offset pins the item's top edge (the
+        // NEW divider renders inside the tile, above the message) at the
+        // viewport top, minus a small inset so the divider stays visible.
+        await _observerController
+            .jumpTo(
+              index: renderIndex,
+              alignment: 1,
+              offset: (_) =>
+                  _scrollController.position.viewportDimension -
+                  _kUnreadAnchorTopInset,
             )
             .timeout(const Duration(seconds: 2), onTimeout: () {});
       } finally {
@@ -876,9 +926,10 @@ class _MessageListState extends ConsumerState<MessageList> {
         : ref
               .read(channelPermissionCacheProvider.notifier)
               .getChannelBits(channelId);
-    final drift_db.ReadState? readState = channelId.isEmpty
-        ? null
-        : ref.watch(_messageListReadStateProvider(channelId)).asData?.value;
+    final AsyncValue<drift_db.ReadState?> readStateAsync = channelId.isEmpty
+        ? const AsyncValue<drift_db.ReadState?>.data(null)
+        : ref.watch(_messageListReadStateProvider(channelId));
+    final drift_db.ReadState? readState = readStateAsync.asData?.value;
     final ChatUnreadSummary unreadSummary = _unreadSummaryFor(
       messages: messages,
       ackLastMessageId: readState?.lastMessageId,
@@ -886,6 +937,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       currentUserId: currentUserId,
       channelLastMessageId: _channelLastMessageIdFor(channelId),
       hasMoreNewerMessages: hasMoreNewerMessages,
+      hasMoreOlderMessages: hasMoreMessages,
     );
     final String? oldestUnreadId = unreadSummary.oldestUnreadMessageId;
     final String? visualUnreadId = resolveVisualUnreadId(
@@ -897,6 +949,22 @@ class _MessageListState extends ConsumerState<MessageList> {
       oldestUnreadId: oldestUnreadId,
       currentUserId: currentUserId,
     );
+    // Web-parity open anchor: place the NEW divider at the viewport top the
+    // first time an unread channel renders (deep-link targets win instead).
+    // Keys off the visual divider id, not the ack-based unread count, so a
+    // racing auto-ack cannot suppress the initial scroll.
+    if (_initialUnreadAnchorPending &&
+        !isLoading &&
+        messages.isNotEmpty &&
+        readStateAsync.hasValue &&
+        widget.targetMessageId == null &&
+        _pendingScrollTarget == null) {
+      _initialUnreadAnchorPending = false;
+      final String? anchorId = visualUnreadId;
+      if (anchorId != null && messages.any((Message m) => m.id == anchorId)) {
+        unawaited(_anchorToUnreadDivider(anchorId));
+      }
+    }
     final int unreadCount = unreadSummary.displayUnreadCount;
     final bool showUnreadBarEligible = shouldShowUnreadBar(
       hasUnread: unreadCount > 0,
@@ -1072,7 +1140,8 @@ class _MessageListState extends ConsumerState<MessageList> {
                       count: unreadCount,
                       isEstimated: unreadSummary.isEstimated,
                       since: unreadSince,
-                      onTap: _onUnreadBarTap,
+                      onJumpToUnread: _onUnreadBarJump,
+                      onMarkRead: _onUnreadBarMarkRead,
                     ),
                   ),
               ],
@@ -1240,7 +1309,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     required int count,
     required bool isEstimated,
     required DateTime? since,
-    required VoidCallback onTap,
+    required VoidCallback onJumpToUnread,
+    required VoidCallback onMarkRead,
   }) {
     final String displayCount = unreadCountLabel(
       count,
@@ -1249,40 +1319,53 @@ class _MessageListState extends ConsumerState<MessageList> {
     final String messageLabel = count == 1 && !isEstimated
         ? '1 new message'
         : '$displayCount new';
+    final bool use12Hour = ref.watch(use12HourTimeFormatProvider);
+    final String locale = Localizations.localeOf(context).toString();
     final String sinceLabel = since == null
         ? ''
-        : ' since ${_formatTime(since)}';
+        : ' since ${_formatTime(since, locale: locale, use12Hour: use12Hour)}';
     return Material(
       color: context.colors.brandPrimary,
       elevation: 3,
       shadowColor: Colors.black.withValues(alpha: 0.22),
       borderRadius: BorderRadius.circular(8),
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
-          child: Row(
-            children: [
-              PhosphorIcon(
-                PhosphorIconsRegular.envelopeOpen,
-                color: context.colors.textOnBrandPrimary,
-                size: 18,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  '$messageLabel$sinceLabel',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: context.textStyles.smallText.copyWith(
-                    color: context.colors.textOnBrandPrimary,
-                    fontWeight: FontWeight.w700,
-                  ),
+      child: Row(
+        children: [
+          Expanded(
+            child: InkWell(
+              onTap: onJumpToUnread,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 9, 8, 9),
+                child: Row(
+                  children: [
+                    PhosphorIcon(
+                      PhosphorIconsRegular.envelopeOpen,
+                      color: context.colors.textOnBrandPrimary,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        '$messageLabel$sinceLabel',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.textStyles.smallText.copyWith(
+                          color: context.colors.textOnBrandPrimary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 8),
-              Text(
+            ),
+          ),
+          InkWell(
+            onTap: onMarkRead,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 9, 12, 9),
+              child: Text(
                 'Mark Read',
                 maxLines: 1,
                 style: context.textStyles.smallText.copyWith(
@@ -1290,23 +1373,19 @@ class _MessageListState extends ConsumerState<MessageList> {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  String _formatTime(DateTime date) {
-    final DateTime local = date.toLocal();
-    final int hour = local.hour == 0
-        ? 12
-        : local.hour > 12
-        ? local.hour - 12
-        : local.hour;
-    final String minute = local.minute.toString().padLeft(2, '0');
-    final String period = local.hour >= 12 ? 'PM' : 'AM';
-    return '$hour:$minute $period';
+  String _formatTime(
+    DateTime date, {
+    required String locale,
+    required bool use12Hour,
+  }) {
+    return formatUserTime(date.toLocal(), locale, use12Hour: use12Hour);
   }
 
   Widget _buildDateSeparator(BuildContext context, DateTime date) {

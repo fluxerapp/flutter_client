@@ -1,7 +1,14 @@
 import 'package:fluxer_dart/export.dart' as sdk;
 
+// Image renditions only — picker previews go through the media proxy's image
+// pipeline (`format=webp&animated=true`), which cannot decode webm/mp4. Webp
+// is animated and lighter than gif, so the whole webp family outranks gif.
 const _kPreferredGifPreviewFormats = <String>[
+  'mediumwebp',
   'webp',
+  'tinywebp',
+  'nanowebp',
+  'mediumgif',
   'gif',
   'tinygif',
   'nanogif',

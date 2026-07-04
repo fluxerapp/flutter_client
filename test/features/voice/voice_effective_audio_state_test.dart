@@ -69,5 +69,20 @@ void main() {
         isTrue,
       );
     });
+
+    test('detects failed to publish track without exception type', () {
+      expect(isTrackPublishFailure('Failed to publish track'), isTrue);
+    });
+
+    test('ignores unrelated errors', () {
+      expect(
+        isTrackPublishFailure(
+          Exception(
+            '[MediaConnectException] Timed out waiting for PeerConnection',
+          ),
+        ),
+        isFalse,
+      );
+    });
   });
 }

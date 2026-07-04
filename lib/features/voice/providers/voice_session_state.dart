@@ -44,16 +44,22 @@ class VoiceSessionState {
     bool clearError = false,
     bool clearRoom = false,
     bool clearE2eeKey = false,
+    bool clearChannel = false,
+    bool clearActiveConnectionId = false,
   }) {
     return VoiceSessionState(
       isConnecting: isConnecting ?? this.isConnecting,
       isConnected: isConnected ?? this.isConnected,
       isReconnecting: isReconnecting ?? this.isReconnecting,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      guildId: guildId ?? this.guildId,
-      channelId: channelId ?? this.channelId,
-      voiceServerEndpoint: voiceServerEndpoint ?? this.voiceServerEndpoint,
-      activeConnectionId: activeConnectionId ?? this.activeConnectionId,
+      guildId: clearChannel ? null : (guildId ?? this.guildId),
+      channelId: clearChannel ? null : (channelId ?? this.channelId),
+      voiceServerEndpoint: clearActiveConnectionId
+          ? null
+          : (voiceServerEndpoint ?? this.voiceServerEndpoint),
+      activeConnectionId: clearActiveConnectionId
+          ? null
+          : (activeConnectionId ?? this.activeConnectionId),
       liveKitRoom: clearRoom ? null : (liveKitRoom ?? this.liveKitRoom),
       e2eeKey: (clearRoom || clearE2eeKey) ? null : (e2eeKey ?? this.e2eeKey),
     );

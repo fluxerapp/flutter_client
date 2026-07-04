@@ -189,6 +189,7 @@ class ChatViewModel extends _$ChatViewModel {
     minInterval: _kReadAckMinInterval,
   );
   Timer? _readAckRetryTimer;
+  bool _stickySnapshotArmed = false;
   Timer? _draftSaveTimer;
   Timer? _jumpHighlightTimer;
   final Set<String> _loadedUnreadBoundaryKeys = <String>{};
@@ -675,6 +676,9 @@ class ChatViewModel extends _$ChatViewModel {
         _readViewportHeight = 0;
       }
       _syncActiveReadChannel(channelId: channelId);
+      if (loadMessages) {
+        _stickySnapshotArmed = true;
+      }
       final String previousChannelId = state.channelId;
       final bool isChannelChange =
           previousChannelId.isNotEmpty && previousChannelId != channelId;
@@ -1026,8 +1030,8 @@ class ChatViewModel extends _$ChatViewModel {
         .readStateDao
         .getReadState(channelId);
     final unreadId = _firstUnreadForCurrentMessages(readState: readState);
-    // Anchor the new-messages divider without scrolling to it: the list stays
-    // at the latest (web parity) and the read-viewport ack advances read state.
+    // Record the sticky divider anchor only. MessageList scrolls the divider
+    // to the viewport top on first render of an unread channel (web parity).
     if (unreadId != null) {
       if (state.channelId == channelId) {
         state = state.copyWith(stickyUnreadMessageId: unreadId);
@@ -1391,6 +1395,19 @@ class ChatViewModel extends _$ChatViewModel {
       if (!force) {
         await _ensureUnreadBoundaryLoaded(channelId, readState: readState);
       }
+      // Web parity (ackWithStickyUnread): once per channel open, snapshot the
+      // first unread as the sticky divider before the ack erases the boundary.
+      if (_stickySnapshotArmed && state.channelId == channelId) {
+        _stickySnapshotArmed = false;
+        if (!force && state.stickyUnreadMessageId == null) {
+          final String? unreadId = _firstUnreadForCurrentMessages(
+            readState: readState,
+          );
+          if (unreadId != null) {
+            state = state.copyWith(stickyUnreadMessageId: unreadId);
+          }
+        }
+      }
       final repository = ref.read(readStateRepositoryProvider);
       final ackedMessageId = await repository.applyLocalAckLatest(channelId);
       if (ackedMessageId != null) {
@@ -1474,12 +1491,24 @@ class ChatViewModel extends _$ChatViewModel {
     if (state.messages.isEmpty) {
       return null;
     }
+    final String? ack = readState?.lastMessageId;
+    if (ack == null || ack.isEmpty) {
+      return null;
+    }
+    // Web parity: without the ack boundary in the window (or the channel
+    // start), the first loaded message is not the true first unread.
+    final bool boundaryLoaded =
+        !state.hasMoreMessages ||
+        state.messages.any((Message m) => compareSnowflakeIds(m.id, ack) <= 0);
+    if (!boundaryLoaded) {
+      return null;
+    }
     final currentUserId = ref.read(currentUserIdProvider);
     return oldestUnreadMessageId(
       messageIds: state.messages
           .where((message) => !_isOwnMessage(message, currentUserId))
           .map((message) => message.id),
-      ackLastMessageId: readState?.lastMessageId,
+      ackLastMessageId: ack,
     );
   }
 
@@ -1599,6 +1628,7 @@ class ChatViewModel extends _$ChatViewModel {
     ref.read(ackBatcherProvider).cancel(channelId);
     _readAckGate.clearManualUnread(channelId);
     clearStickyUnread();
+    _stickySnapshotArmed = false;
     try {
       await ref.read(readStateRepositoryProvider).ackLatest(channelId);
     } on Exception catch (e) {
@@ -2537,6 +2567,45 @@ class ChatViewModel extends _$ChatViewModel {
       if (state.channelId == channelId) {
         state = state.copyWith(isSyncingMessages: false);
       }
+    }
+  }
+
+  /// Web-parity "jump to first unread": target the first unread in the loaded
+  /// window, else fetch a page around the ack id and land on the first unread
+  /// there (nearest newer loaded message when the ack message is missing).
+  Future<void> jumpToFirstUnread() async {
+    final String channelId = state.channelId;
+    if (channelId.isEmpty) {
+      return;
+    }
+    final readState = await ref
+        .read(fluxerDatabaseProvider)
+        .readStateDao
+        .getReadState(channelId);
+    final String? inWindow = _firstUnreadForCurrentMessages(
+      readState: readState,
+    );
+    if (inWindow != null) {
+      highlightJumpMessage(inWindow);
+      scrollToMessage(inWindow);
+      return;
+    }
+    final String? ack = readState?.lastMessageId;
+    if (ack == null || ack.isEmpty) {
+      return;
+    }
+    await goToRepliedMessage(channelId: channelId, messageId: ack);
+    if (state.channelId != channelId ||
+        state.messages.any((Message m) => m.id == ack)) {
+      return;
+    }
+    final String? nearestNewer = oldestUnreadMessageId(
+      messageIds: state.messages.map((Message m) => m.id),
+      ackLastMessageId: ack,
+    );
+    if (nearestNewer != null) {
+      highlightJumpMessage(nearestNewer);
+      scrollToMessage(nearestNewer);
     }
   }
 

@@ -1,7 +1,7 @@
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_entry.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
-import 'package:intl/intl.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
 class GuildAuditLogUtils {
   GuildAuditLogUtils._();
@@ -13,10 +13,11 @@ class GuildAuditLogUtils {
   static String formatAuditLogTimestamp(
     DateTime timestamp,
     FluxerLocalizations l10n,
-    String locale,
-  ) {
+    String locale, {
+    required bool use12Hour,
+  }) {
     final DateTime local = timestamp.toLocal();
-    return DateFormat.yMMMd(locale).add_jm().format(local);
+    return formatUserMediumDateTime(local, locale, use12Hour: use12Hour);
   }
 
   static String maybeUrlDecodeReason(String raw) {

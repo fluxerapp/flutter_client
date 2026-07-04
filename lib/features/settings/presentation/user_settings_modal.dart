@@ -29,6 +29,7 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_authorize
 import 'package:fluxer_app/features/settings/presentation/widgets/user_blocked_users.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_connections.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_linked_devices.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_language_and_time.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_feel.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_messages_media.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_privacy_dashboard.dart';
@@ -560,13 +561,16 @@ Widget _buildUserSettingsSectionContent({
       return scrollController == null
           ? const UserAdvancedSettings()
           : UserAdvancedSettings(scrollController: scrollController);
+    case UserSettingsSection.languageAndTime:
+      return scrollController == null
+          ? const UserLanguageAndTime()
+          : UserLanguageAndTime(scrollController: scrollController);
     // case UserSettingsSection.fluxerPlutonium:
     // case UserSettingsSection.giftsAndCodes:
     case UserSettingsSection.expressionPacks:
     case UserSettingsSection.audioAndVideo:
     case UserSettingsSection.keybinds:
     case UserSettingsSection.soundsAndAlerts:
-    case UserSettingsSection.languageAndTime:
     case UserSettingsSection.applications:
     case UserSettingsSection.developerTools:
     case UserSettingsSection.limitsConfig:

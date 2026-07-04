@@ -117,4 +117,35 @@ void main() {
     expect(map.containsKey(syntheticKey), isFalse);
     expect(map['conn-2']?.selfDeaf, isTrue);
   });
+
+  test('update removes leave state stored under synthetic key', () {
+    final ProviderContainer container = makeContainer();
+    const String userId = 'self';
+    const String channelId = 'A';
+    const String connectionId = 'conn-synthetic';
+    container
+        .read(voiceStatesMapProvider.notifier)
+        .update(
+          VoiceState(
+            userId: userId,
+            channelId: channelId,
+            guildId: 'g1',
+            connectionId: connectionId,
+          ),
+        );
+    expect(container.read(voiceStatesMapProvider), isNotEmpty);
+
+    container
+        .read(voiceStatesMapProvider.notifier)
+        .update(
+          VoiceState(
+            userId: userId,
+            channelId: null,
+            guildId: 'g1',
+            connectionId: connectionId,
+          ),
+        );
+
+    expect(container.read(voiceStatesMapProvider), isEmpty);
+  });
 }

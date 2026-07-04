@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provi
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
+import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -89,14 +90,12 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
         findChannelById(listState, widget.channelId) ??
         ref.watch(channelByIdProvider(widget.channelId)).value;
     final String name = channel?.name ?? '';
-    final (bool inThisChannel, bool _, bool isConnected) = ref.watch(
+    final (bool inThisChannel, bool isConnecting, bool isConnected) = ref.watch(
       voiceSessionProvider.select(
         (VoiceSessionState s) => (
-          s.isInVoice &&
-              s.channelId == widget.channelId &&
-              s.guildId == widget.guildId,
-          s.isConnecting,
-          s.isConnected,
+          s.isInVoice && s.channelId == widget.channelId,
+          s.isConnecting && s.channelId == widget.channelId,
+          s.isConnected && s.channelId == widget.channelId,
         ),
       ),
     );
@@ -176,6 +175,15 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
       voiceJoinEligibilityProvider(widget.channelId),
     );
     final bool canJoinVoice = joinEligibilityAsync.value?.canJoin ?? true;
+    final bool joinInProgress = ref.watch(
+      voiceSessionProvider.select(
+        (VoiceSessionState s) =>
+            s.isConnecting && s.channelId == widget.channelId,
+      ),
+    );
+    final String? joinError = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState s) => s.errorMessage),
+    );
     return ColoredBox(
       color: context.colors.backgroundSecondaryLighter,
       child: SafeArea(
@@ -208,11 +216,17 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                   ),
                 ),
                 const SizedBox(height: 16),
+                if (joinError != null) ...<Widget>[
+                  _VoiceJoinErrorBanner(message: joinError),
+                  const SizedBox(height: 12),
+                ],
                 VoiceChannelJoinButton(
                   disabledTooltip: canJoinVoice
-                      ? null
+                      ? (joinInProgress
+                            ? l10n.voiceChannelStatusConnecting
+                            : null)
                       : l10n.voiceChannelNoConnectPermission,
-                  onPressed: canJoinVoice
+                  onPressed: canJoinVoice && !joinInProgress
                       ? () {
                           unawaited(
                             joinVoiceChannelWithConfirmation(
@@ -261,6 +275,9 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     required bool isMobile,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? joinError = ref.watch(
+      voiceSessionProvider.select((VoiceSessionState s) => s.errorMessage),
+    );
     return ColoredBox(
       color: context.colors.chatBackground,
       child: SafeArea(
@@ -290,6 +307,10 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                       ],
                       const FluxerLoadingSpinner(),
                       const SizedBox(height: 12),
+                      if (joinError != null) ...<Widget>[
+                        _VoiceJoinErrorBanner(message: joinError),
+                        const SizedBox(height: 12),
+                      ],
                       Text(
                         l10n.voiceChannelStatusConnecting,
                         textAlign: TextAlign.center,
@@ -356,6 +377,49 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
             ),
           ),
       ],
+    );
+  }
+}
+
+class _VoiceJoinErrorBanner extends StatelessWidget {
+  const _VoiceJoinErrorBanner({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String resolved = resolveVoiceSessionErrorMessage(message, l10n);
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: context.colors.statusDanger.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: context.colors.statusDanger.withValues(alpha: 0.35),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          PhosphorIcon(
+            PhosphorIconsFill.warningCircle,
+            size: 18,
+            color: context.colors.statusDanger,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              resolved,
+              style: context.textStyles.bodySmall.copyWith(
+                color: context.colors.textPrimary,
+                height: 1.35,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

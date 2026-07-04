@@ -22,6 +22,7 @@ import 'package:fluxer_app/features/voice/utils/android_screen_share_background.
 import 'package:fluxer_app/features/voice/utils/camera_permission.dart';
 import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
 import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
+import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
@@ -45,13 +46,14 @@ const Duration _kScreenSharePublicationWaitInterval = Duration(
   milliseconds: 200,
 );
 const Timeouts _kE2eeConnectTimeouts = Timeouts(
-  connection: Duration(seconds: 10),
+  connection: Duration(seconds: 20),
   debounce: Duration(milliseconds: 20),
-  publish: Duration(seconds: 20),
-  subscribe: Duration(seconds: 10),
-  peerConnection: Duration(seconds: 10),
-  iceRestart: Duration(seconds: 10),
+  publish: Duration(seconds: 30),
+  subscribe: Duration(seconds: 15),
+  peerConnection: Duration(seconds: 30),
+  iceRestart: Duration(seconds: 15),
 );
+const Duration _kLiveKitConnectWatchdogDuration = Duration(seconds: 35);
 
 String? _normalizeVoiceGuildId(String? value) {
   if (value == null || value.isEmpty) {
@@ -67,6 +69,8 @@ class VoiceSession extends _$VoiceSession {
   String? _expectedChannelId;
   Timer? _connectWatchdogTimer;
   int _connectWatchdogArmedGeneration = 0;
+  Timer? _liveKitConnectWatchdogTimer;
+  int _liveKitConnectWatchdogArmedGeneration = 0;
   DateTime? _lastConnectRequestAt;
   bool _pendingRingAfterConnect = false;
   bool _pendingRingSilently = false;
@@ -94,6 +98,7 @@ class VoiceSession extends _$VoiceSession {
     ref
       ..onDispose(() {
         _cancelConnectWatchdog();
+        _cancelLiveKitConnectWatchdog();
         _cancelDeferredServerDisconnect();
         _detachLocalParticipantListener();
         unawaited(_disconnectRoomOnly());
@@ -110,6 +115,139 @@ class VoiceSession extends _$VoiceSession {
   void _cancelConnectWatchdog() {
     _connectWatchdogTimer?.cancel();
     _connectWatchdogTimer = null;
+  }
+
+  void _cancelLiveKitConnectWatchdog() {
+    _liveKitConnectWatchdogTimer?.cancel();
+    _liveKitConnectWatchdogTimer = null;
+  }
+
+  void _armLiveKitConnectWatchdog(int generation) {
+    _cancelLiveKitConnectWatchdog();
+    _liveKitConnectWatchdogArmedGeneration = generation;
+    _liveKitConnectWatchdogTimer = Timer(_kLiveKitConnectWatchdogDuration, () {
+      if (_liveKitConnectWatchdogArmedGeneration != generation) {
+        return;
+      }
+      if (_connectGeneration != generation) {
+        return;
+      }
+      if (!state.isConnecting || state.isConnected) {
+        return;
+      }
+      talker.warning(
+        '[Voice] LiveKit connect timed out after '
+        '${_kLiveKitConnectWatchdogDuration.inSeconds}s '
+        '(generation=$generation, channelId=${state.channelId}).',
+      );
+      unawaited(
+        _handleLiveKitConnectFailure(
+          generation: generation,
+          errorMessage: kVoiceSessionErrorTransportFailed,
+          reason: 'livekit_watchdog',
+        ),
+      );
+    });
+  }
+
+  bool _isRoomConnected() {
+    final Room? room = state.liveKitRoom;
+    return room != null && room.connectionState == ConnectionState.connected;
+  }
+
+  bool _hasLiveKitRoom() => state.liveKitRoom != null;
+
+  bool _hasLiveConnectionToChannel(String channelId) {
+    return voiceSessionHasLiveConnection(
+      state: state,
+      channelId: channelId,
+      hasLiveKitRoom: _hasLiveKitRoom(),
+      isRoomConnected: _isRoomConnected(),
+    );
+  }
+
+  bool _shouldSkipDuplicateJoin(String channelId) {
+    return shouldSkipVoiceChannelJoin(
+      state: state,
+      channelId: channelId,
+      hasLiveKitRoom: _hasLiveKitRoom(),
+      isRoomConnected: _isRoomConnected(),
+      expectedChannelId: _expectedChannelId,
+      liveKitConnectInFlight: _connectLiveKitInFlight != null,
+    );
+  }
+
+  Future<void> _clearStaleVoiceSessionIfNeeded(String channelId) async {
+    if (!shouldClearStaleVoiceSession(
+      state: state,
+      channelId: channelId,
+      hasLiveKitRoom: _hasLiveKitRoom(),
+      isRoomConnected: _isRoomConnected(),
+      expectedChannelId: _expectedChannelId,
+      liveKitConnectInFlight: _connectLiveKitInFlight != null,
+    )) {
+      return;
+    }
+    talker.warning(
+      '[Voice] Clearing stale voice session before reconnect '
+      '(channelId=$channelId, isConnected=${state.isConnected}, '
+      'isConnecting=${state.isConnecting}, '
+      'room=${state.liveKitRoom?.connectionState.name ?? 'null'}).',
+    );
+    await leaveVoice(endCall: false);
+  }
+
+  Future<void> _handleLiveKitConnectFailure({
+    required int generation,
+    required String errorMessage,
+    required String reason,
+  }) async {
+    if (generation != _connectGeneration) {
+      return;
+    }
+    _cancelLiveKitConnectWatchdog();
+    _cancelConnectWatchdog();
+    _connectGeneration++;
+    _expectedGuildId = null;
+    _expectedChannelId = null;
+    _pendingRingAfterConnect = false;
+    _pendingRingSilently = false;
+    _outboundRingRecipients = null;
+    _resetPendingSelfAudioFlags();
+    final String? channelId = state.channelId;
+    final String? guildId = state.guildId;
+    final String? connectionId = state.activeConnectionId;
+    if (channelId != null) {
+      _clearOutgoingCallInitiator(channelId);
+    }
+    _detachRoomEventsListener();
+    _detachLocalParticipantListener();
+    _intentionalLiveKitTeardown = true;
+    final Room? roomToDisconnect = state.liveKitRoom;
+    if (roomToDisconnect != null) {
+      _sendVoiceDisconnectState(guildId: guildId, connectionId: connectionId);
+      try {
+        await roomToDisconnect.disconnect();
+      } on Object catch (e) {
+        talker.warning('[Voice] failed to disconnect after $reason: $e');
+      }
+      try {
+        await roomToDisconnect.dispose();
+      } on Object catch (e) {
+        talker.warning('[Voice] failed to dispose room after $reason: $e');
+      }
+    }
+    _intentionalLiveKitTeardown = false;
+    state = state.copyWith(
+      isConnecting: false,
+      isConnected: false,
+      isReconnecting: false,
+      errorMessage: errorMessage,
+      clearRoom: true,
+      clearChannel: true,
+      clearActiveConnectionId: true,
+      clearE2eeKey: true,
+    );
   }
 
   void _armConnectWatchdog(int generation) {
@@ -146,6 +284,8 @@ class VoiceSession extends _$VoiceSession {
         isConnected: false,
         errorMessage: 'Voice connection timed out.',
         clearRoom: true,
+        clearChannel: true,
+        clearActiveConnectionId: true,
       );
     });
   }
@@ -199,14 +339,31 @@ class VoiceSession extends _$VoiceSession {
     bool initialSelfVideo = false,
   }) async {
     _startWithVideoAfterConnect = false;
-    if (state.isConnected && state.channelId == channelId) {
+    talker.info(
+      '[Voice] Join requested (guildId=$guildId, channelId=$channelId, '
+      'startOutgoingCall=$startOutgoingCall).',
+    );
+    if (_shouldSkipDuplicateJoin(channelId)) {
+      if (_hasLiveConnectionToChannel(channelId)) {
+        talker.info(
+          '[Voice] Join skipped: already connected to channelId=$channelId.',
+        );
+      } else {
+        talker.info(
+          '[Voice] Join skipped: join already in progress for '
+          'channelId=$channelId.',
+        );
+      }
       return;
     }
+    await _clearStaleVoiceSessionIfNeeded(channelId);
     final bool micOk = await requestMicrophonePermissionForVoice();
     if (!micOk) {
-      state = state.copyWith(
-        errorMessage: 'Microphone permission is required for voice.',
+      talker.warning(
+        '[Voice] Join aborted: microphone permission denied '
+        '(channelId=$channelId).',
       );
+      state = state.copyWith(errorMessage: kVoiceSessionErrorMicPermission);
       return;
     }
     if (guildId != null) {
@@ -229,6 +386,10 @@ class VoiceSession extends _$VoiceSession {
             localConnectBits ?? permissionBits!,
             Permission.connect,
           )) {
+        talker.warning(
+          '[Voice] Join aborted: missing Connect permission '
+          '(channelId=$channelId, guildId=$guildId).',
+        );
         state = state.copyWith(
           errorMessage: kVoiceSessionErrorNoConnectPermission,
         );
@@ -320,6 +481,10 @@ class VoiceSession extends _$VoiceSession {
         isMobile: !Platform.isLinux && !Platform.isMacOS && !Platform.isWindows,
       ),
     );
+    talker.info(
+      '[Voice] Voice join opcode sent (channelId=$channelId, '
+      'guildId=$_expectedGuildId, generation=$_connectGeneration).',
+    );
     if (!joinSent) {
       talker.warning(
         '[Voice] Voice join opcode dropped (gateway disconnected between '
@@ -340,6 +505,9 @@ class VoiceSession extends _$VoiceSession {
         errorMessage:
             'Lost connection before joining voice. Please try again in a '
             'moment.',
+        clearChannel: true,
+        clearActiveConnectionId: true,
+        clearRoom: true,
       );
       return;
     }
@@ -404,13 +572,23 @@ class VoiceSession extends _$VoiceSession {
       );
       return;
     }
-    if (!state.isConnected &&
-        state.isConnecting &&
-        event.connectionId.isNotEmpty &&
-        state.activeConnectionId != null &&
-        event.connectionId == state.activeConnectionId &&
-        state.voiceServerEndpoint != null &&
-        state.voiceServerEndpoint == event.endpoint) {
+    if (shouldIgnoreVoiceServerUpdateWhenConnected(
+      state: state,
+      resolvedChannelId: resolvedChannelId,
+      hasLiveKitRoom: _hasLiveKitRoom(),
+      isRoomConnected: _isRoomConnected(),
+    )) {
+      talker.info(
+        '[Voice] Ignoring VOICE_SERVER_UPDATE: already connected to '
+        'channelId=$resolvedChannelId.',
+      );
+      return;
+    }
+    if (isDuplicateVoiceServerUpdateInFlight(
+      state: state,
+      connectionId: event.connectionId,
+      endpoint: event.endpoint,
+    )) {
       talker.debug('[Voice] Ignoring duplicate VOICE_SERVER_UPDATE in-flight.');
       return;
     }
@@ -422,6 +600,7 @@ class VoiceSession extends _$VoiceSession {
       'e2eeKey=$hasE2eeKey).',
     );
     _cancelConnectWatchdog();
+    _cancelLiveKitConnectWatchdog();
     final int attempt = _connectGeneration;
     unawaited(
       _connectLiveKit(
@@ -615,6 +794,8 @@ class VoiceSession extends _$VoiceSession {
       errorMessage: kVoiceSessionErrorE2eeRequired,
       clearRoom: true,
       clearE2eeKey: true,
+      clearChannel: true,
+      clearActiveConnectionId: true,
     );
   }
 
@@ -652,6 +833,13 @@ class VoiceSession extends _$VoiceSession {
   }) async {
     final String? moveFromChannelId = _voiceMovePreviousChannelId;
     _voiceMovePreviousChannelId = null;
+    if (_hasLiveConnectionToChannel(resolvedChannelId)) {
+      talker.info(
+        '[Voice] Skipping LiveKit reconnect: already connected to '
+        'channelId=$resolvedChannelId.',
+      );
+      return;
+    }
     await _disconnectRoomOnly();
     if (attempt != _connectGeneration) {
       return;
@@ -722,7 +910,13 @@ class VoiceSession extends _$VoiceSession {
       autoSubscribe: false,
       timeouts: useE2ee ? _kE2eeConnectTimeouts : Timeouts.defaultTimeouts,
     );
+    _armLiveKitConnectWatchdog(attempt);
     try {
+      try {
+        await room.prepareConnection(event.endpoint, event.token);
+      } on Object catch (e) {
+        talker.debug('[Voice] prepareConnection failed (non-fatal): $e');
+      }
       await room.connect(
         event.endpoint,
         event.token,
@@ -759,6 +953,7 @@ class VoiceSession extends _$VoiceSession {
         return;
       }
       if (room.connectionState == ConnectionState.connected) {
+        _cancelLiveKitConnectWatchdog();
         await _onLiveKitRoomConnected(
           room: room,
           attempt: attempt,
@@ -779,19 +974,12 @@ class VoiceSession extends _$VoiceSession {
           'Check logs above for key setup or LiveKit E2EE errors.',
         );
       }
-      _detachRoomEventsListener();
-      _detachLocalParticipantListener();
       if (attempt == _connectGeneration) {
         _startWithVideoAfterConnect = false;
-        _cancelConnectWatchdog();
-        _outboundRingRecipients = null;
-        _clearOutgoingCallInitiator(resolvedChannelId);
-        state = state.copyWith(
-          isConnecting: false,
-          isConnected: false,
-          isReconnecting: false,
-          errorMessage: 'Could not connect to voice.',
-          clearRoom: true,
+        await _handleLiveKitConnectFailure(
+          generation: attempt,
+          errorMessage: kVoiceSessionErrorTransportFailed,
+          reason: 'livekit_connect',
         );
       }
     }
@@ -877,6 +1065,7 @@ class VoiceSession extends _$VoiceSession {
 
   Future<void> leaveVoice({bool endCall = true}) async {
     _cancelConnectWatchdog();
+    _cancelLiveKitConnectWatchdog();
     _cancelDeferredServerDisconnect();
     _startWithVideoAfterConnect = false;
     unawaited(
@@ -1506,6 +1695,7 @@ class VoiceSession extends _$VoiceSession {
     if (!_isLatestRoomAttempt(attempt)) {
       return;
     }
+    _cancelLiveKitConnectWatchdog();
     if (state.isConnected && state.channelId == resolvedChannelId) {
       unawaited(
         _reconcileLocalAudioPublish(reason: 'room_connected_duplicate'),
@@ -1614,7 +1804,10 @@ class VoiceSession extends _$VoiceSession {
   }) async {
     final Room? room = state.liveKitRoom;
     final LocalParticipant? lp = room?.localParticipant;
-    if (room == null || lp == null || !state.isConnected) {
+    if (room == null ||
+        lp == null ||
+        !state.isConnected ||
+        room.connectionState != ConnectionState.connected) {
       return;
     }
     if (attempt != null && !_isLatestRoomAttempt(attempt)) {

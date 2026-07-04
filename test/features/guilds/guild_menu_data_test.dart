@@ -72,6 +72,8 @@ void main() {
           isMuted: false,
           isOwner: false,
           permissions: Permission.manageGuild.value,
+          locale: 'en_US',
+          use12Hour: true,
         );
 
         expect(findCommunitySettingsSubmenu(groups), isNotNull);
@@ -85,6 +87,8 @@ void main() {
         isMuted: false,
         isOwner: false,
         permissions: Permission.viewChannel.value,
+        locale: 'en_US',
+        use12Hour: true,
       );
 
       expect(findCommunitySettingsSubmenu(groups), isNull);
@@ -97,6 +101,8 @@ void main() {
         isMuted: false,
         isOwner: false,
         permissions: Permission.createExpressions.value,
+        locale: 'en_US',
+        use12Hour: true,
       );
 
       expect(findCommunitySettingsSubmenu(groups), isNotNull);

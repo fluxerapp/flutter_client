@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
@@ -127,6 +128,39 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
     ref.read(guildSyncProvider.notifier).clearAll();
   }
 
+  // A fatal close is usually a rejected token (4004). Probe the session over
+  // REST. On 401 sign out to login so a dead session stops looping on the
+  // failure screen. Other outcomes keep it.
+  var sessionExpiryProbeInFlight = false;
+  Future<void> handlePossibleSessionExpiry() async {
+    if (sessionExpiryProbeInFlight ||
+        !ref.read(authStateProvider) ||
+        ref.read(accountManagerProvider).isSwitching) {
+      return;
+    }
+    sessionExpiryProbeInFlight = true;
+    try {
+      final bool expired = await ref
+          .read(accountManagerProvider.notifier)
+          .expireSessionIfInvalid();
+      if (!expired) {
+        return;
+      }
+      talker.warning('[Gateway] Session expired — signing out to login');
+      // The probe got an HTTP verdict, so the server is reachable. Clearing
+      // the failure state keeps the next login from bouncing to /reconnecting.
+      markOnline();
+      final FluxerLocalizations l10n = lookupFluxerLocalizationsWithFallback(
+        PlatformDispatcher.instance.locale,
+      );
+      ref
+          .read(toastProvider.notifier)
+          .show(FluxerToast(message: l10n.sessionExpiredToast));
+    } finally {
+      sessionExpiryProbeInFlight = false;
+    }
+  }
+
   Duration failureTimeoutForCurrentReconnect() {
     if (ref.read(gatewayResumeReconnectInFlightProvider)) {
       return kGatewayResumeReconnectFailureTimeout;
@@ -191,6 +225,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
       case GatewayState.failed:
         talker.error('[Gateway] Fatal gateway close');
         markFailed();
+        unawaited(handlePossibleSessionExpiry());
     }
   });
 

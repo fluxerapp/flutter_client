@@ -24,6 +24,7 @@ import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_prov
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
@@ -95,6 +96,77 @@ void main() {
         findsOneWidget,
       );
       expect(find.text('Connecting…'), findsNothing);
+    });
+
+    testWidgets('shows join error banner when session has errorMessage', (
+      WidgetTester tester,
+    ) async {
+      final _MutableVoiceSession session = _MutableVoiceSession();
+      await _pumpPage(tester, voiceSession: session);
+      session.setSession(
+        const VoiceSessionState(errorMessage: kVoiceSessionErrorMicPermission),
+      );
+      await tester.pump();
+      expect(find.byType(VoiceChannelJoinButton), findsOneWidget);
+      expect(
+        find.textContaining('microphone', findRichText: true),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('still shows join UI when connecting to a different channel', (
+      WidgetTester tester,
+    ) async {
+      final _MutableVoiceSession session = _MutableVoiceSession();
+      await _pumpPage(tester, voiceSession: session);
+      session.setSession(
+        const VoiceSessionState(
+          isConnecting: true,
+          channelId: 'other-voice-channel',
+        ),
+      );
+      await tester.pump();
+
+      final VoiceChannelJoinButton joinButton = tester.widget(
+        find.byType(VoiceChannelJoinButton),
+      );
+      expect(joinButton.onPressed, isNotNull);
+    });
+
+    testWidgets(
+      'shows connecting UI when guild id differs but channel matches',
+      (WidgetTester tester) async {
+        final _MutableVoiceSession session = _MutableVoiceSession();
+        await _pumpPage(tester, voiceSession: session);
+        session.setSession(
+          const VoiceSessionState(
+            isConnecting: true,
+            guildId: null,
+            channelId: _channelId,
+          ),
+        );
+        await tester.pump();
+
+        expect(find.text('Connecting…'), findsOneWidget);
+        expect(find.byType(VoiceChannelJoinButton), findsNothing);
+      },
+    );
+
+    testWidgets('shows transport failure banner on empty state', (
+      WidgetTester tester,
+    ) async {
+      final _MutableVoiceSession session = _MutableVoiceSession();
+      await _pumpPage(tester, voiceSession: session);
+      session.setSession(
+        const VoiceSessionState(
+          errorMessage: kVoiceSessionErrorTransportFailed,
+        ),
+      );
+      await tester.pump();
+      expect(
+        find.textContaining('connect', findRichText: true),
+        findsOneWidget,
+      );
     });
   });
 }

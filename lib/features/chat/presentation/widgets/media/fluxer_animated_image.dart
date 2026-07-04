@@ -1,5 +1,6 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 
 /// Renders an animated image through Flutter's native image pipeline,
 /// showing [animatedUrl] while [playing] and [staticUrl] otherwise.
@@ -33,12 +34,21 @@ class FluxerAnimatedImage extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final double devicePixelRatio = MediaQuery.devicePixelRatioOf(context);
-        final int? cacheWidth = constraints.maxWidth.isFinite
-            ? (constraints.maxWidth * devicePixelRatio).round()
-            : null;
-        final int? cacheHeight = constraints.maxHeight.isFinite
-            ? (constraints.maxHeight * devicePixelRatio).round()
-            : null;
+        // Cap one decode axis only. Both axes would trigger
+        // ResizeImagePolicy.exact and stretch the bitmap to the cell shape.
+        final ({int? width, int? height}) cacheSize = fit == BoxFit.contain
+            ? containDecodeCacheSize(
+                cellWidth: constraints.maxWidth,
+                cellHeight: constraints.maxHeight,
+                devicePixelRatio: devicePixelRatio,
+              )
+            : coverDecodeCacheSize(
+                cellWidth: constraints.maxWidth,
+                cellHeight: constraints.maxHeight,
+                devicePixelRatio: devicePixelRatio,
+              );
+        final int? cacheWidth = cacheSize.width;
+        final int? cacheHeight = cacheSize.height;
         final Widget fallback = placeholder ?? const SizedBox.shrink();
         return SizedBox(
           width: constraints.maxWidth.isFinite ? constraints.maxWidth : null,

@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_connections_section.dart';
+import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -22,6 +23,7 @@ class UserProfileBioCard extends StatelessWidget {
     this.guildMemberSince,
     this.guildName,
     this.guildIconUrl,
+    this.timezoneOffset,
     super.key,
   });
 
@@ -33,6 +35,7 @@ class UserProfileBioCard extends StatelessWidget {
   final DateTime? guildMemberSince;
   final String? guildName;
   final String? guildIconUrl;
+  final int? timezoneOffset;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +78,10 @@ class UserProfileBioCard extends StatelessWidget {
                   height: 1.35,
                 ),
               ),
+              SizedBox(height: layout.s4),
+            ],
+            if (timezoneOffset != null) ...[
+              UserProfileTimezoneSection(timezoneOffset: timezoneOffset!),
               SizedBox(height: layout.s4),
             ],
             if (memberSince != null) ...[

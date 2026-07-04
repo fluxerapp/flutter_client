@@ -320,6 +320,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     required bool isCurrentUser,
     required bool hasGuildProfile,
     required bool isShowingGlobalProfile,
+    int? timezoneOffset,
     ProfileMenuCapabilities menuCaps = ProfileMenuCapabilities.none,
     String? guildMemberNick,
     DateTime? guildMemberTimeoutUntil,
@@ -566,6 +567,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     guildIconUrl: guildIconUrl,
                     memberRoles: memberRoles,
                     connections: connections,
+                    timezoneOffset: timezoneOffset,
                   ),
                   SizedBox(height: layout.s4),
                   if (!isCurrentUser) ...[
@@ -674,6 +676,9 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
       final AsyncValue<List<ConnectionResponse>> connectionsAsync = ref.watch(
         currentUserProfileConnectionsProvider,
       );
+      final AsyncValue<int?> timezoneOffsetAsync = ref.watch(
+        currentUserProfileTimezoneOffsetProvider,
+      );
       final AsyncValue<CurrentUserCachedProfile?> cachedAsync = ref.watch(
         currentUserCachedProfileProvider,
       );
@@ -743,6 +748,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             isCurrentUser: ownUserId == profile.id,
             hasGuildProfile: false,
             isShowingGlobalProfile: false,
+            timezoneOffset: timezoneOffsetAsync.value,
           );
         },
       );
@@ -933,6 +939,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
             isBot: response.user.bot ?? false,
             isSystem: response.user.system ?? false,
           ),
+          timezoneOffset: response.timezoneOffset,
         );
       },
     );

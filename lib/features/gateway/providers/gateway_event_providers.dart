@@ -205,10 +205,19 @@ class VoiceStatesMap extends _$VoiceStatesMap {
     if (voiceState.channelId == null) {
       final String? connectionId = voiceState.connectionId;
       if (connectionId != null) {
-        if (!next.containsKey(connectionId)) {
+        final List<String> keysToRemove = next.entries
+            .where(
+              (MapEntry<String, VoiceState> e) =>
+                  e.key == connectionId || e.value.connectionId == connectionId,
+            )
+            .map((MapEntry<String, VoiceState> e) => e.key)
+            .toList();
+        if (keysToRemove.isEmpty) {
           return;
         }
-        next.remove(connectionId);
+        for (final String k in keysToRemove) {
+          next.remove(k);
+        }
       } else {
         final List<String> keysToRemove = next.entries
             .where(
@@ -256,9 +265,19 @@ class VoiceStatesMap extends _$VoiceStatesMap {
     for (final VoiceState vs in voiceStates) {
       if (vs.channelId == null) {
         if (vs.connectionId != null) {
-          if (updated.containsKey(vs.connectionId)) {
-            updated.remove(vs.connectionId);
+          final List<String> keysToRemove = updated.entries
+              .where(
+                (MapEntry<String, VoiceState> e) =>
+                    e.key == vs.connectionId ||
+                    e.value.connectionId == vs.connectionId,
+              )
+              .map((MapEntry<String, VoiceState> e) => e.key)
+              .toList();
+          if (keysToRemove.isNotEmpty) {
             hasChanges = true;
+            for (final String k in keysToRemove) {
+              updated.remove(k);
+            }
           }
         } else {
           final List<String> keysToRemove = updated.entries

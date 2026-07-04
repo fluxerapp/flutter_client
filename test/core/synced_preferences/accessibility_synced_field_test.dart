@@ -16,6 +16,7 @@ void main() {
         showFadedUnreadOnMutedChannels: false,
         dmMessagePreviewMode: DmMessagePreviewMode.unreadOnly,
         showFavorites: false,
+        useSystemLocaleForTimeFormat: true,
         messageGroupSpacing: 24,
         compactMessageGroupSpacing: 4,
       );
@@ -30,6 +31,7 @@ void main() {
       expect(restored.showFadedUnreadOnMutedChannels, isFalse);
       expect(restored.dmMessagePreviewMode, DmMessagePreviewMode.unreadOnly);
       expect(restored.showFavorites, isFalse);
+      expect(restored.useSystemLocaleForTimeFormat, isTrue);
       expect(restored.messageGroupSpacing, 24);
       expect(restored.compactMessageGroupSpacing, 4);
     });

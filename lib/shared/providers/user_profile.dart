@@ -144,6 +144,25 @@ final currentUserProfileConnectionsProvider =
       }
     });
 
+// ignore: specify_nonobvious_property_types
+final currentUserProfileTimezoneOffsetProvider =
+    FutureProvider.autoDispose<int?>((ref) async {
+      final String userId = ref.watch(
+        userSettingsViewModelProvider.select((state) => state.userId),
+      );
+      if (userId.isEmpty) {
+        return null;
+      }
+      final FluxerClient client = ref.read(fluxerClientProvider);
+      try {
+        final UserProfileFullResponse profile = await client.users
+            .getUserProfile(targetId: userId);
+        return profile.timezoneOffset;
+      } on Object {
+        return null;
+      }
+    });
+
 final StreamProvider<CurrentUserCachedProfile?>
 currentUserCachedProfileProvider = StreamProvider<CurrentUserCachedProfile?>((
   ref,

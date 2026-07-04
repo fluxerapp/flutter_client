@@ -37,7 +37,7 @@ void main() {
     );
   });
 
-  test('prefers WebP image media over video media for GIF previews', () {
+  test('prefers animated webp renditions over gif and video media', () {
     const media = {
       'webm': sdk.GifMediaFormat(
         src: 'https://media.tenor.com/excited-ah.webm',
@@ -106,6 +106,48 @@ void main() {
     expect(preview.src, 'https://media.tenor.com/excited-ah.gif');
     expect(preview.width, 220);
     expect(preview.height, 157);
+  });
+
+  test('picks KLIPY size-prefixed image renditions over the video source', () {
+    const media = {
+      'webm': sdk.GifMediaFormat(
+        src: 'https://static.klipy.com/excited-ah-hd.webm',
+        proxySrc: 'https://cdn.example/excited-ah-hd.webm',
+        width: 498,
+        height: 498,
+      ),
+      'mp4': sdk.GifMediaFormat(
+        src: 'https://static.klipy.com/excited-ah-hd.mp4',
+        proxySrc: 'https://cdn.example/excited-ah-hd.mp4',
+        width: 498,
+        height: 498,
+      ),
+      'mediumwebp': sdk.GifMediaFormat(
+        src: 'https://static.klipy.com/excited-ah-md.webp',
+        proxySrc: 'https://cdn.example/excited-ah-md.webp',
+        width: 320,
+        height: 228,
+      ),
+      'nanogif': sdk.GifMediaFormat(
+        src: 'https://static.klipy.com/excited-ah-xs.gif',
+        proxySrc: 'https://cdn.example/excited-ah-xs.gif',
+        width: 90,
+        height: 64,
+      ),
+    };
+
+    final preview = gifPreviewMediaForPicker(
+      src: 'https://static.klipy.com/excited-ah-hd.webm',
+      proxySrc: 'https://cdn.example/excited-ah-hd.webm',
+      width: 498,
+      height: 498,
+      media: media,
+    );
+
+    expect(preview.src, 'https://static.klipy.com/excited-ah-md.webp');
+    expect(preview.proxySrc, 'https://cdn.example/excited-ah-md.webp');
+    expect(preview.width, 320);
+    expect(preview.height, 228);
   });
 
   test('resolved GIF entries fall back to top-level media when needed', () {

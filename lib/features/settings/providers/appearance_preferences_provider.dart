@@ -41,6 +41,7 @@ class AppearancePreferencesState {
     this.showActiveNow = true,
     this.showFavorites = true,
     this.hideKeyboardHints = false,
+    this.useSystemLocaleForTimeFormat = false,
     this.messageGroupSpacing = 16,
     this.compactMessageGroupSpacing = 0,
   });
@@ -54,6 +55,7 @@ class AppearancePreferencesState {
   final bool showActiveNow;
   final bool showFavorites;
   final bool hideKeyboardHints;
+  final bool useSystemLocaleForTimeFormat;
   final double messageGroupSpacing;
   final double compactMessageGroupSpacing;
 
@@ -67,6 +69,7 @@ class AppearancePreferencesState {
     bool? showActiveNow,
     bool? showFavorites,
     bool? hideKeyboardHints,
+    bool? useSystemLocaleForTimeFormat,
     double? messageGroupSpacing,
     double? compactMessageGroupSpacing,
   }) {
@@ -84,6 +87,8 @@ class AppearancePreferencesState {
       showActiveNow: showActiveNow ?? this.showActiveNow,
       showFavorites: showFavorites ?? this.showFavorites,
       hideKeyboardHints: hideKeyboardHints ?? this.hideKeyboardHints,
+      useSystemLocaleForTimeFormat:
+          useSystemLocaleForTimeFormat ?? this.useSystemLocaleForTimeFormat,
       messageGroupSpacing: messageGroupSpacing ?? this.messageGroupSpacing,
       compactMessageGroupSpacing:
           compactMessageGroupSpacing ?? this.compactMessageGroupSpacing,
@@ -137,6 +142,7 @@ class AppearancePreferences extends _$AppearancePreferences {
         showFadedUnreadOnMutedChannels: value.showFadedUnreadOnMutedChannels,
         dmMessagePreviewMode: value.dmMessagePreviewMode,
         showFavorites: value.showFavorites,
+        useSystemLocaleForTimeFormat: value.useSystemLocaleForTimeFormat,
         messageGroupSpacing: value.messageGroupSpacing,
         compactMessageGroupSpacing: value.compactMessageGroupSpacing,
       );
@@ -219,6 +225,12 @@ class AppearancePreferences extends _$AppearancePreferences {
 
   Future<void> setHideKeyboardHints({required bool value}) async {
     state = state.copyWith(hideKeyboardHints: value);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
+  Future<void> setUseSystemLocaleForTimeFormat({required bool value}) async {
+    state = state.copyWith(useSystemLocaleForTimeFormat: value);
     await _persist();
     _markAccessibilityDirty();
   }
