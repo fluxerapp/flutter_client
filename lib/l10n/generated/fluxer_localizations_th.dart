@@ -575,6 +575,16 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'คำเชิญนี้อาจหมดอายุหรือไม่ถูกต้อง';
 
   @override
+  String get invalidDeepLinkTitle => 'Link couldn\'t be opened';
+
+  @override
+  String get invalidDeepLinkDescription =>
+      'This link may be broken, only available on the web, or you might not have access. Check the link and try again.';
+
+  @override
+  String get invalidDeepLinkGoHomeButton => 'Go to home';
+
+  @override
   String get inviteAcceptJoinGroupButton => 'เข้าร่วมกลุ่ม';
 
   @override
@@ -842,6 +852,14 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get dmUnpinGroupDm => 'ยกเลิกปักหมุด DM กลุ่ม';
 
   @override
+  String get dmUnnamedGroup => 'Unnamed group';
+
+  @override
+  String dmOwnersGroup(String resolvedName) {
+    return '$resolvedName\'s group';
+  }
+
+  @override
   String get dmFavoriteDm => 'รายการโปรด DM';
 
   @override
@@ -879,6 +897,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get dmDebugChannel => 'ดีบักช่อง';
+
+  @override
+  String get dmDebugCategory => 'Debug Category';
 
   @override
   String get dmPinned => 'DM ที่ปักหมุด';
@@ -3941,6 +3962,13 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
       'เก็บร่างการแก้ไขไว้เมื่อยกเลิก';
 
   @override
+  String get accessibilitySaturationTitle => 'Saturation';
+
+  @override
+  String get accessibilitySaturationDescription =>
+      'Adjust how vivid theme colors appear across the app.';
+
+  @override
   String get accessibilityUnreadGroupTitle =>
       'ตัวบ่งชี้ข้อความที่ยังไม่ได้อ่าน';
 
@@ -4039,6 +4067,80 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   @override
   String systemPreviewStartedCall(String username) {
     return '$username เริ่มการโทร';
+  }
+
+  @override
+  String get systemCallJoinTheCall => 'Join the call';
+
+  @override
+  String systemCallStartedThatLasted(String username, String duration) {
+    return '$username started a call that lasted $duration.';
+  }
+
+  @override
+  String systemCallMissedWithDuration(String username, String duration) {
+    return 'You missed a call from $username that lasted $duration.';
+  }
+
+  @override
+  String systemCallMissed(String username) {
+    return 'You missed a call from $username.';
+  }
+
+  @override
+  String get systemCallDurationFewSeconds => 'a few seconds';
+
+  @override
+  String get systemCallDurationMinute => 'a minute';
+
+  @override
+  String get systemCallDurationOneYear => '1 year';
+
+  @override
+  String get systemCallDurationOneMonth => '1 month';
+
+  @override
+  String get systemCallDurationOneWeek => '1 week';
+
+  @override
+  String get systemCallDurationOneDay => '1 day';
+
+  @override
+  String get systemCallDurationOneHour => '1 hour';
+
+  @override
+  String systemCallDurationYears(String count) {
+    return '$count years';
+  }
+
+  @override
+  String systemCallDurationMonths(String count) {
+    return '$count months';
+  }
+
+  @override
+  String systemCallDurationWeeks(String count) {
+    return '$count weeks';
+  }
+
+  @override
+  String systemCallDurationDays(String count) {
+    return '$count days';
+  }
+
+  @override
+  String systemCallDurationHours(String count) {
+    return '$count hours';
+  }
+
+  @override
+  String systemCallDurationMinutes(String count) {
+    return '$count minutes';
+  }
+
+  @override
+  String systemUnknownMessage(String productName) {
+    return 'Update $productName to view this message.';
   }
 
   @override
@@ -4167,6 +4269,9 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get voiceControlVideo => 'วิดีโอ';
+
+  @override
+  String get voiceControlFlipCamera => 'Flip camera';
 
   @override
   String get voiceControlScreenShare => 'แชร์หน้าจอ';
@@ -5035,6 +5140,64 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get addGuildJoinFailed => 'ไม่สามารถเข้าร่วมชุมชนได้ โปรดลองอีกครั้ง';
 
   @override
+  String get addGuildCreateTitle => 'Create a community';
+
+  @override
+  String get addGuildCreateDescription =>
+      'Create a community for you and your friends to chat.';
+
+  @override
+  String get addGuildCreateNameLabel => 'Community name';
+
+  @override
+  String get addGuildCreateSubmit => 'Create community';
+
+  @override
+  String get addGuildCreateFailed =>
+      'Could not create community. Please try again.';
+
+  @override
+  String get addGuildCreateClaimTitle => 'Claim your account';
+
+  @override
+  String get addGuildCreateClaimDescription =>
+      'You need to claim your account before you can create a community.';
+
+  @override
+  String get addGuildCreateVerifyTitle => 'Verify your email';
+
+  @override
+  String get addGuildCreateVerifyDescription =>
+      'You need to verify your email address before you can create a community.';
+
+  @override
+  String get addGuildCreateAnimatedIconUnsupported =>
+      'Animated icons are not supported when creating a new community. Use a static image.';
+
+  @override
+  String get addGuildCreateGuidelinesBefore =>
+      'By creating a community, you agree to follow and uphold the ';
+
+  @override
+  String addGuildCreateGuidelinesLink(String productName) {
+    return '$productName community guidelines';
+  }
+
+  @override
+  String get addGuildCreateSingleCommunityBlocked =>
+      'This instance is a single community, so additional communities cannot be created.';
+
+  @override
+  String get addGuildCreateChangeIcon => 'Change icon';
+
+  @override
+  String get addGuildCreateIconLabel => 'Community icon';
+
+  @override
+  String get addGuildCreateIconHint =>
+      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px';
+
+  @override
   String get addGuildPackInstalled => 'ติดตั้งแพ็กสำเร็จแล้ว';
 
   @override
@@ -5073,11 +5236,390 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get channelPinsEmptyDescription => 'ข้อความปักหมุดจะแสดงที่นี่';
 
   @override
+  String get channelDetailsFallbackTitle => 'Details';
+
+  @override
+  String channelDetailsGroupDmSubtitle(int count) {
+    return 'Group DM · $count members';
+  }
+
+  @override
+  String channelDetailsCloseDmDescription(String name) {
+    return 'Close your conversation with $name?';
+  }
+
+  @override
+  String channelDetailsLeaveGroupDescription(String name) {
+    return 'Leave $name?';
+  }
+
+  @override
+  String get channelDetailsChannelSettingsTitle => 'Channel Settings';
+
+  @override
+  String get channelDetailsGroupSettingsTitle => 'Group Settings';
+
+  @override
+  String get channelDetailsDmSettingsTitle => 'DM Settings';
+
+  @override
+  String get channelDetailsInvitePeople => 'Invite People';
+
+  @override
+  String get channelDetailsCopyLink => 'Copy Link';
+
+  @override
+  String get channelDetailsAddFriendsToGroup => 'Add Friends to Group';
+
+  @override
+  String get channelDetailsGroupInvites => 'Group Invites';
+
+  @override
+  String get channelDetailsEditChannel => 'Edit Channel';
+
+  @override
+  String get channelDetailsDeleteChannel => 'Delete Channel';
+
+  @override
+  String get channelDetailsSystemMessage => 'System message';
+
+  @override
+  String get channelDetailsTextChannel => 'Text channel';
+
+  @override
+  String get channelDetailsVoiceChannel => 'Voice channel';
+
+  @override
+  String get channelDetailsCategory => 'Category';
+
+  @override
+  String get channelDetailsLinkChannel => 'Link channel';
+
+  @override
+  String get channelDetailsGenericChannel => 'Channel';
+
+  @override
+  String get channelDetailsMutedConversation => 'Muted conversation';
+
+  @override
+  String get channelDetailsUnmutedConversation => 'Unmuted conversation';
+
+  @override
+  String get channelDetailsMutedChannel => 'Muted channel';
+
+  @override
+  String get channelDetailsUnmutedChannel => 'Unmuted channel';
+
+  @override
+  String get channelDetailsNotificationSettingsUpdated =>
+      'Notification settings updated';
+
+  @override
+  String get channelDetailsTabMembers => 'Members';
+
+  @override
+  String get channelDetailsTabPins => 'Pins';
+
+  @override
+  String get channelDetailsActionMute => 'Mute';
+
+  @override
+  String get channelDetailsActionUnmute => 'Unmute';
+
+  @override
+  String get channelDetailsActionSearch => 'Search';
+
+  @override
+  String get channelDetailsActionMore => 'More';
+
+  @override
+  String get channelDetailsMembersEmptyTitle => 'No members to show';
+
+  @override
+  String get channelDetailsMembersEmptyBody =>
+      'Members will appear here once the community data is loaded.';
+
+  @override
+  String get channelDetailsPinsLoadFailedTitle => 'Pins could not be loaded';
+
+  @override
+  String get channelDetailsPinsGuildEndHint =>
+      'Members with the \"Pin Messages\" permission can pin messages for everyone to see.';
+
+  @override
+  String get channelDetailsPinsDmEndHint =>
+      'You can pin messages in this conversation for everyone to see.';
+
+  @override
+  String get channelDetailsPinsEndReached => 'You\'ve reached the end';
+
+  @override
+  String get channelDetailsSearchTitle => 'Search';
+
+  @override
+  String get channelDetailsSearchHint => 'Search Messages';
+
+  @override
+  String get channelDetailsSearchFilterFrom => 'From';
+
+  @override
+  String get channelDetailsSearchFilterHas => 'Has';
+
+  @override
+  String get channelDetailsSearchFilterSort => 'Sort';
+
+  @override
+  String channelDetailsSearchResultCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Results',
+      one: '1 Result',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get channelDetailsSearchFilterByUser => 'Filter by user';
+
+  @override
+  String get channelDetailsSearchFilterByContent => 'Filter by content';
+
+  @override
+  String get channelDetailsSearchSortBy => 'Sort results by';
+
+  @override
+  String get channelDetailsSearchIn => 'Search In';
+
+  @override
+  String get channelDetailsSearchEmptyTitle => 'Search this conversation';
+
+  @override
+  String get channelDetailsSearchEmptyBody =>
+      'Enter text, an author, or a content filter to find messages.';
+
+  @override
+  String get channelDetailsSearchIndexingTitle => 'Messages are indexing';
+
+  @override
+  String get channelDetailsSearchIndexingBody =>
+      'Try again shortly once search finishes indexing this scope.';
+
+  @override
+  String get channelDetailsSearchNoResultsTitle => 'No results';
+
+  @override
+  String get channelDetailsSearchNoResultsBody =>
+      'Try different search terms or filters.';
+
+  @override
+  String get channelDetailsMembersOnline => 'Online';
+
+  @override
+  String get channelDetailsMembersOffline => 'Offline';
+
+  @override
+  String get channelDetailsMemberYou => 'You';
+
+  @override
+  String get channelDetailsSearchUsersHint => 'Search users';
+
+  @override
+  String get channelDetailsSearchUsersTypeToSearch => 'Type to search members';
+
+  @override
+  String get channelDetailsSearchUsersEmpty => 'No users found';
+
+  @override
+  String get channelDetailsSearchUsersNoAvailable => 'No users available';
+
+  @override
+  String get channelDetailsDone => 'Done';
+
+  @override
+  String get channelDetailsHasFilterPrompt => 'Show messages that contain:';
+
+  @override
+  String get channelDetailsRetry => 'Retry';
+
+  @override
+  String get channelDetailsPinnedMessageTitle => 'Pinned Message';
+
+  @override
+  String get channelDetailsSearchResultTitle => 'Search Result';
+
+  @override
+  String get channelDetailsJumpToMessage => 'Jump to Message';
+
+  @override
+  String get channelDetailsUnpinMessage => 'Unpin Message';
+
+  @override
+  String get channelDetailsCopyMessageLink => 'Copy Message Link';
+
+  @override
+  String get channelDetailsCopyMessageId => 'Copy Message ID';
+
+  @override
+  String get channelDetailsMessageUnpinned => 'Message unpinned';
+
+  @override
+  String get channelDetailsSearchScopeCurrentCommunity => 'Current Community';
+
+  @override
+  String get channelDetailsSearchScopeCurrentDm => 'Current DM';
+
+  @override
+  String get channelDetailsSearchScopeAllCommunities => 'All Communities';
+
+  @override
+  String get channelDetailsSearchScopeAllDmsOnlyGuild => 'All DMs Only';
+
+  @override
+  String get channelDetailsSearchScopeAllDms => 'All DMs';
+
+  @override
+  String get channelDetailsSearchScopeOpenDmsOnlyGuild => 'Open DMs Only';
+
+  @override
+  String get channelDetailsSearchScopeOpenDms => 'Open DMs';
+
+  @override
+  String get channelDetailsSearchScopeAllDmsAndCommunities =>
+      'All DMs + Communities';
+
+  @override
+  String get channelDetailsSearchScopeOpenDmsAndCommunities =>
+      'Open DMs + Communities';
+
+  @override
+  String get channelDetailsSearchScopeCurrentCommunityDescription =>
+      'Search only in the current Community';
+
+  @override
+  String get channelDetailsSearchScopeCurrentDmDescription =>
+      'Search only in the current DM';
+
+  @override
+  String get channelDetailsSearchScopeAllCommunitiesDescription =>
+      'Across all Communities you\'re currently in';
+
+  @override
+  String get channelDetailsSearchScopeAllDmsOnlyGuildDescription =>
+      'Across all DMs you\'ve ever been in only';
+
+  @override
+  String get channelDetailsSearchScopeAllDmsDescription =>
+      'Across all DMs you\'ve ever been in';
+
+  @override
+  String get channelDetailsSearchScopeOpenDmsOnlyGuildDescription =>
+      'Across all DMs you currently have open only';
+
+  @override
+  String get channelDetailsSearchScopeOpenDmsDescription =>
+      'Across all DMs you currently have open';
+
+  @override
+  String get channelDetailsSearchScopeAllDmsAndCommunitiesDescription =>
+      'Across all DMs you\'ve ever been in + all Communities you\'re currently in';
+
+  @override
+  String get channelDetailsSearchScopeOpenDmsAndCommunitiesDescription =>
+      'Across all DMs you currently have open + all Communities you\'re currently in';
+
+  @override
+  String get channelDetailsSearchSortNewest => 'Newest First';
+
+  @override
+  String get channelDetailsSearchSortOldest => 'Oldest First';
+
+  @override
+  String get channelDetailsSearchSortRelevance => 'Most Relevant';
+
+  @override
+  String get channelDetailsSearchSortNewestDescription =>
+      'Show most recent messages first';
+
+  @override
+  String get channelDetailsSearchSortOldestDescription =>
+      'Show oldest messages first';
+
+  @override
+  String get channelDetailsSearchSortRelevanceDescription =>
+      'Show most relevant messages first';
+
+  @override
+  String get channelDetailsSearchContentImage => 'Image Upload';
+
+  @override
+  String get channelDetailsSearchContentVideo => 'Video Upload';
+
+  @override
+  String get channelDetailsSearchContentAudio => 'Audio Upload';
+
+  @override
+  String get channelDetailsSearchContentFile => 'File Upload';
+
+  @override
+  String get channelDetailsSearchContentLink => 'Link';
+
+  @override
+  String get channelDetailsSearchContentEmbed => 'Link Preview or Embed';
+
+  @override
+  String get channelDetailsSearchContentSticker => 'Sticker';
+
+  @override
+  String get channelDetailsSearchContentImageDescription =>
+      'Uploaded image files only';
+
+  @override
+  String get channelDetailsSearchContentVideoDescription =>
+      'Uploaded video files only';
+
+  @override
+  String get channelDetailsSearchContentAudioDescription =>
+      'Uploaded audio files only';
+
+  @override
+  String get channelDetailsSearchContentFileDescription =>
+      'Any uploaded attachment';
+
+  @override
+  String get channelDetailsSearchContentLinkDescription =>
+      'Typed URL in the message text';
+
+  @override
+  String get channelDetailsSearchContentEmbedDescription =>
+      'Resolved previews and rich embeds, not uploads';
+
+  @override
+  String get channelDetailsSearchContentStickerDescription =>
+      'Sticker attached to the message';
+
+  @override
+  String channelDetailsSearchContentTypesCount(int count) {
+    return '$count types';
+  }
+
+  @override
   String get personalNotesTitle => 'บันทึกส่วนตัว';
 
   @override
   String get personalNotesSubtitle =>
       'พื้นที่ส่วนตัวของคุณสำหรับความคิดและสิ่งเตือนใจ';
+
+  @override
+  String groupDmWelcome(String displayName) {
+    return 'Welcome to $displayName. Add friends to get the group going.';
+  }
+
+  @override
+  String get groupDmWelcomeEditGroup => 'Edit group';
+
+  @override
+  String get groupDmWelcomeAddFriends => 'Add friends to group';
 
   @override
   String channelWelcomeHeading(String channelName) {
@@ -5171,13 +5713,195 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
   String get userSettingsNavAudioAndVideo => 'เสียงและวิดีโอ';
 
   @override
+  String get audioAndVideoAudioSectionTitle => 'Audio';
+
+  @override
+  String get audioAndVideoAudioSectionDescription =>
+      'Configure your microphone, speakers, and voice processing.';
+
+  @override
+  String get audioAndVideoVideoSectionTitle => 'Video';
+
+  @override
+  String get audioAndVideoVideoSectionDescription =>
+      'Configure your camera and screen sharing quality.';
+
+  @override
+  String get audioAndVideoInCallBehaviorSectionTitle => 'In-call behavior';
+
+  @override
+  String get audioAndVideoInCallBehaviorSectionDescription =>
+      'Control confirmation prompts during voice and video calls.';
+
+  @override
+  String get audioAndVideoInputDeviceLabel => 'Input device';
+
+  @override
+  String get audioAndVideoOutputDeviceLabel => 'Output device';
+
+  @override
+  String get audioAndVideoDefaultDeviceLabel => 'Default';
+
+  @override
+  String get audioAndVideoUseSpeakerLabel => 'Use speaker';
+
+  @override
+  String get audioAndVideoUseSpeakerDescription =>
+      'When off, audio plays through the earpiece or connected headphones.';
+
+  @override
+  String get audioAndVideoInputVolumeLabel => 'Input volume';
+
+  @override
+  String get audioAndVideoOutputVolumeLabel => 'Output volume';
+
+  @override
+  String get audioAndVideoVoiceProcessingSectionTitle => 'Voice processing';
+
+  @override
+  String get audioAndVideoFocusedVoiceLabel => 'Focused voice';
+
+  @override
+  String get audioAndVideoFocusedVoiceDescription =>
+      'Recommended. Cleans up your mic for clear speech.';
+
+  @override
+  String get audioAndVideoDirectInputLabel => 'Direct input';
+
+  @override
+  String get audioAndVideoDirectInputDescription =>
+      'Sends your audio untouched. Best if you\'re using external audio software.';
+
+  @override
+  String get audioAndVideoCustomProfileLabel => 'Custom';
+
+  @override
+  String get audioAndVideoCustomProfileDescription =>
+      'Adjust each setting yourself: noise suppression, echo cancellation, and gain.';
+
+  @override
+  String get audioAndVideoNoiseSuppressionSectionTitle => 'Noise suppression';
+
+  @override
+  String get audioAndVideoNoiseSuppressionEnhancedLabel => 'Enhanced';
+
+  @override
+  String get audioAndVideoNoiseSuppressionStandardLabel => 'Standard';
+
+  @override
+  String get audioAndVideoNoiseSuppressionNoneLabel => 'None';
+
+  @override
+  String get audioAndVideoEchoCancellationLabel => 'Echo cancellation';
+
+  @override
+  String get audioAndVideoAutomaticGainControlLabel => 'Automatic gain control';
+
+  @override
+  String get audioAndVideoAutomaticGainControlDescription =>
+      'Evens out your mic volume. Off when enhanced suppression is on.';
+
+  @override
+  String get audioAndVideoMicTestSectionTitle => 'Mic test';
+
+  @override
+  String get audioAndVideoMicTestSectionDescription =>
+      'Listen to how you sound with your current settings.';
+
+  @override
+  String get audioAndVideoMicTestStartLabel => 'Start mic test';
+
+  @override
+  String get audioAndVideoMicTestStopLabel => 'Stop mic test';
+
+  @override
+  String audioAndVideoMicTestPermissionRequired(String productName) {
+    return '$productName needs microphone access to test your input.';
+  }
+
+  @override
+  String get audioAndVideoCameraLabel => 'Camera';
+
+  @override
+  String get audioAndVideoMirrorCameraLabel => 'Mirror camera';
+
+  @override
+  String get audioAndVideoCameraQualitySectionTitle => 'Camera quality';
+
+  @override
+  String get audioAndVideoCameraQuality480pLabel => '480p';
+
+  @override
+  String get audioAndVideoCameraQuality720pLabel => '720p';
+
+  @override
+  String get audioAndVideoCameraQuality1080pLabel => '1080p';
+
+  @override
+  String get audioAndVideoScreenShareQualitySectionTitle =>
+      'Screen share quality';
+
+  @override
+  String get audioAndVideoFrameRateSectionTitle => 'Frame rate';
+
+  @override
+  String get audioAndVideoFrameRate15Label => '15 FPS';
+
+  @override
+  String get audioAndVideoFrameRate30Label => '30 FPS';
+
+  @override
+  String get audioAndVideoFrameRate60Label => '60 FPS';
+
+  @override
+  String audioAndVideoHigherQualityRequiresPremium(String premiumProductName) {
+    return '1080p and 60 FPS require $premiumProductName.';
+  }
+
+  @override
+  String get audioAndVideoInstanceVideoQualityLimit =>
+      'This instance currently allows screen share up to 720p at 30 FPS.';
+
+  @override
+  String audioAndVideoMicrophonePermissionRequired(String productName) {
+    return '$productName needs microphone access to list your devices.';
+  }
+
+  @override
+  String audioAndVideoCameraPermissionRequired(String productName) {
+    return '$productName needs camera access to list your devices.';
+  }
+
+  @override
+  String get audioAndVideoSkipHideOwnCameraConfirmLabel =>
+      'Don\'t ask when hiding my camera';
+
+  @override
+  String get audioAndVideoSkipHideOwnScreenshareConfirmLabel =>
+      'Don\'t ask when hiding my screen share';
+
+  @override
   String get userSettingsNavSoundsAndAlerts => 'เสียงและการแจ้งเตือน';
 
   @override
   String get userSettingsNavLanguageAndTime => 'ภาษาและเวลา';
 
   @override
+  String get languageAndTimeLanguageSectionTitle => 'Interface language';
+
+  @override
+  String get languageAndTimeLanguageSectionDescription =>
+      'Choose the language used throughout the app';
+
+  @override
+  String get languageAndTimeOpenLanguageSettings => 'Open language settings';
+
+  @override
   String get languageAndTimeTimeFormatSectionTitle => 'Time format';
+
+  @override
+  String get languageAndTimeTimeFormatSectionDescription =>
+      'Choose how times are displayed throughout the app';
 
   @override
   String get languageAndTimeTimeFormatSelectionLabel => 'Time format selection';
@@ -7132,4 +7856,104 @@ class FluxerLocalizationsTh extends FluxerLocalizations {
 
   @override
   String get guildSettingsAuditLogFilterAction => 'กรองตามการดำเนินการ';
+
+  @override
+  String get createDm => 'Create DM';
+
+  @override
+  String get createGroupDm => 'Create group DM';
+
+  @override
+  String get createDmNewMessage => 'New message';
+
+  @override
+  String get createDmSelectFriends => 'Select friends';
+
+  @override
+  String get createDmChooseFriendsSubtitle => 'Choose friends to message.';
+
+  @override
+  String get createDmSearchFriends => 'Search friends';
+
+  @override
+  String get createDmNoFriendsFound => 'No friends found';
+
+  @override
+  String get createDmNoFriendsYet => 'You have no friends yet';
+
+  @override
+  String get createDmClaimToStartDms => 'Claim your account to start DMs.';
+
+  @override
+  String get createDmVerifyToStartDms => 'Verify your email to start DMs.';
+
+  @override
+  String get createDmVerifyYourEmail => 'Verify your email';
+
+  @override
+  String get createDmNewGroup => 'New group';
+
+  @override
+  String createDmCreateGroupWithRecipient(String userName) {
+    return 'Create a new group with $userName';
+  }
+
+  @override
+  String get createDmConfirmNewGroup => 'Confirm new group';
+
+  @override
+  String get createDmCreateNewGroup => 'Create new group';
+
+  @override
+  String createDmRemoveFriend(String displayName) {
+    return 'Remove $displayName';
+  }
+
+  @override
+  String get createDmDuplicateGroupDescription =>
+      'You already have a group with these users. Do you really want to create a new one? That\'s fine too!';
+
+  @override
+  String get createDmNoActivityYet => 'No activity yet';
+
+  @override
+  String get createDmSomeUsersCantBeAdded => 'Some users can\'t be added';
+
+  @override
+  String get createDmCreateWithoutThem => 'Create without them';
+
+  @override
+  String get createDmUnaddableIntro =>
+      'The following people can\'t be added to this group DM:';
+
+  @override
+  String createDmUnaddableProceed(int count) {
+    return 'Create the group DM with the remaining $count recipient(s) and skip the others?';
+  }
+
+  @override
+  String get createDmUnaddableNoneRemaining =>
+      'No remaining recipients to create a group DM with.';
+
+  @override
+  String get createDmUnaddableUserNotFound => 'User not found';
+
+  @override
+  String get createDmUnaddableBlocked => 'You can\'t message this user';
+
+  @override
+  String get createDmUnaddableNotFriends => 'Not on your friends list';
+
+  @override
+  String get createDmUnaddableGroupDisabled =>
+      'Doesn\'t allow being added to group DMs';
+
+  @override
+  String get createDmFailed => 'Couldn\'t create the conversation. Try again.';
+
+  @override
+  String get dmListMessagesTitle => 'Messages';
+
+  @override
+  String get dmListDirectMessagesTitle => 'Direct Messages';
 }

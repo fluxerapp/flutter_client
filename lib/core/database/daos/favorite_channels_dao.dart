@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/favorite_categories.dart';
@@ -19,11 +20,13 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
             (t) => OrderingTerm.asc(t.parentId),
             (t) => OrderingTerm.asc(t.position),
           ]))
-          .watch();
+          .watch()
+          .suppressDriftCancellation;
 
-  Stream<FavoriteChannel?> watchChannel(String channelId) => (select(
-    favoriteChannels,
-  )..where((t) => t.channelId.equals(channelId))).watchSingleOrNull();
+  Stream<FavoriteChannel?> watchChannel(String channelId) =>
+      (select(favoriteChannels)..where((t) => t.channelId.equals(channelId)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<FavoriteChannel?> getChannel(String channelId) => (select(
     favoriteChannels,
@@ -118,9 +121,11 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
     });
   }
 
-  Stream<List<FavoriteCategory>> watchCategories() => (select(
-    favoriteCategories,
-  )..orderBy([(t) => OrderingTerm.asc(t.position)])).watch();
+  Stream<List<FavoriteCategory>> watchCategories() =>
+      (select(favoriteCategories)
+            ..orderBy([(t) => OrderingTerm.asc(t.position)]))
+          .watch()
+          .suppressDriftCancellation;
 
   Future<List<FavoriteCategory>> getCategories() => (select(
     favoriteCategories,
@@ -169,7 +174,7 @@ class FavoriteChannelsDao extends DatabaseAccessor<FluxerDatabase>
     await _ensureSettings();
     yield* (select(
       favoriteSettings,
-    )..where((t) => t.id.equals(1))).watchSingle();
+    )..where((t) => t.id.equals(1))).watchSingle().suppressDriftCancellation;
   }
 
   Future<FavoriteSetting> getSettings() async {

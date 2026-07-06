@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
@@ -14,8 +14,7 @@ String _snowflakeForUtc(DateTime utc) {
 
 void main() {
   test('unread DM provider derives unread channels from read states', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.dmChannelDao.upsertDmChannels([
       DmChannelsCompanion.insert(
         id: 'dm-1',
@@ -52,8 +51,7 @@ void main() {
   test(
     'unread DM provider separates unread presence from mention badges',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final dmId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 1));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 2));
@@ -96,8 +94,7 @@ void main() {
   test(
     'unread DM provider preserves channel order when only data updates',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.dmChannelDao.upsertDmChannels([
         DmChannelsCompanion.insert(
           id: 'dm-older',
@@ -172,8 +169,7 @@ void main() {
   test(
     'unread DM provider keeps unread when channel pointer is newer than cache',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final dmId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 1));
       final pointerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 2));
@@ -221,8 +217,7 @@ void main() {
   test(
     'dmNavbarMembershipToken ignores mention churn, tracks membership',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.dmChannelDao.upsertDmChannels([
         DmChannelsCompanion.insert(
           id: 'dm-1',
@@ -265,8 +260,7 @@ void main() {
   );
 
   test('guild read-state churn does not re-emit the DM list', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.dmChannelDao.upsertDmChannels([
       DmChannelsCompanion.insert(
         id: 'dm-1',

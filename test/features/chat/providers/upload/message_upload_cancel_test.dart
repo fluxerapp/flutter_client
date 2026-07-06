@@ -5,9 +5,9 @@ import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
@@ -170,8 +170,7 @@ void main() {
       'does not post message when multi-attachment upload is cancelled',
       () async {
         final Completer<void> uploadBlock = Completer<void>();
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-        addTearDown(db.close);
+        final db = openTestDatabase();
         await db.channelDao.upsertChannel(
           ChannelsCompanion.insert(id: 'channel-1', guildId: '', name: 'dm'),
         );

@@ -8,6 +8,7 @@ class DmChannels extends Table {
   TextColumn get icon => text().nullable()();
   IntColumn get recipientCount => integer().withDefault(const Constant(2))();
   TextColumn get recipientIds => text().withDefault(const Constant('[]'))();
+  TextColumn get nicksJson => text().withDefault(const Constant('{}'))();
   TextColumn get lastMessage => text().withDefault(const Constant(''))();
   TextColumn get lastMessageId => text().nullable()();
   TextColumn get lastMessageAuthorId => text().nullable()();

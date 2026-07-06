@@ -1,16 +1,17 @@
 import 'package:drift/drift.dart' hide isNotNull, isNull;
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_dart/export.dart';
+
+import '../../../helpers/open_test_database.dart';
 
 const String _guildId = 'guild';
 const String _channelId = 'channel';
 const String _categoryId = 'category';
 
 Future<Channel> _channel({String id = _channelId, String? parentId}) async {
-  final FluxerDatabase db = FluxerDatabase.forTesting(NativeDatabase.memory());
+  final FluxerDatabase db = openTestDatabase();
   await db.channelDao.upsertChannel(
     ChannelsCompanion.insert(
       id: id,

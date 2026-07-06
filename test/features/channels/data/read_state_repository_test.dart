@@ -4,8 +4,8 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -39,8 +39,7 @@ void main() {
         ..httpClientAdapter = _AckAdapter(
           expectedPath: '/v1/channels/channel-1/messages/$lastMessageId/ack',
         );
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -75,8 +74,7 @@ void main() {
         ..httpClientAdapter = _AckAdapter(
           expectedPath: '/v1/channels/channel-1/messages/$newestId/ack',
         );
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -117,8 +115,7 @@ void main() {
             ],
           },
         );
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.channelDao.upsertChannels([
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -171,8 +168,7 @@ void main() {
       ..httpClientAdapter = _AckAdapter(
         expectedPath: '/v1/channels/dm-1/messages/$messageId/ack',
       );
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.dmChannelDao.upsertDmChannels([
       DmChannelsCompanion.insert(
         id: 'dm-1',
@@ -198,8 +194,7 @@ void main() {
       ..httpClientAdapter = const _AckAdapter(
         expectedPath: '/v1/channels/channel-1/pins/ack',
       );
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     const latestPin = '2026-05-06T12:00:00.000Z';
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
@@ -225,8 +220,7 @@ void main() {
   test('cleanupStaleReadStates deletes remote and local stale rows', () async {
     final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
       ..httpClientAdapter = _RecordingAdapter();
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',
@@ -267,8 +261,7 @@ void main() {
         expectedPath: '/v1/channels/channel-1/messages/$firstId/ack',
         expectedBody: <String, Object?>{'mention_count': 1, 'manual': true},
       );
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.messageDao.upsertMessages([
       _message(id: firstId, channelId: 'channel-1', authorId: 'other'),
       _message(id: secondId, channelId: 'channel-1', authorId: 'other'),
@@ -299,8 +292,7 @@ void main() {
       ..httpClientAdapter = _AckAdapter(
         expectedPath: '/v1/channels/channel-1/messages/$firstId/ack',
       );
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.messageDao.upsertMessages([
       _message(id: firstId, channelId: 'channel-1', authorId: 'other'),
       _message(id: secondId, channelId: 'channel-1', authorId: 'other'),
@@ -325,8 +317,7 @@ void main() {
       final m2 = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final m3 = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
       final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -382,8 +373,7 @@ void main() {
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final m1 = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.readStateDao.upsertReadState(
         ReadStatesCompanion(
           channelId: const Value('channel-1'),
@@ -421,8 +411,7 @@ void main() {
       ..httpClientAdapter = _AckAdapter(
         expectedPath: '/v1/channels/channel-1/messages/$secondId/ack',
       );
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',
@@ -452,8 +441,7 @@ void main() {
       'mentions', () async {
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',
@@ -497,8 +485,7 @@ void main() {
     final m1 = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final m2 = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.readStateDao.upsertReadState(
       ReadStatesCompanion(
         channelId: const Value('channel-1'),
@@ -539,8 +526,7 @@ void main() {
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',

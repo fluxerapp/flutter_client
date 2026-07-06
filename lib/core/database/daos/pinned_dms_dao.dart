@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/pinned_dms.dart';
 
@@ -13,9 +14,10 @@ class PinnedDmsDao extends DatabaseAccessor<FluxerDatabase>
     pinnedDmsTable,
   )..orderBy([(t) => OrderingTerm.asc(t.position)])).get();
 
-  Stream<List<PinnedDmsTableData>> watchPinnedDms() => (select(
-    pinnedDmsTable,
-  )..orderBy([(t) => OrderingTerm.asc(t.position)])).watch();
+  Stream<List<PinnedDmsTableData>> watchPinnedDms() =>
+      (select(pinnedDmsTable)..orderBy([(t) => OrderingTerm.asc(t.position)]))
+          .watch()
+          .suppressDriftCancellation;
 
   Future<void> replaceAll(List<PinnedDmsTableCompanion> entries) async {
     await transaction(() async {

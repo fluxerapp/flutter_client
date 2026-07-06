@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/user_settings.dart';
 
@@ -13,9 +14,10 @@ class UserSettingsDao extends DatabaseAccessor<FluxerDatabase>
     userSettingsTable,
   )..where((t) => t.userId.equals(userId))).getSingleOrNull();
 
-  Stream<UserSettingsTableData?> watchSettings(String userId) => (select(
-    userSettingsTable,
-  )..where((t) => t.userId.equals(userId))).watchSingleOrNull();
+  Stream<UserSettingsTableData?> watchSettings(String userId) =>
+      (select(userSettingsTable)..where((t) => t.userId.equals(userId)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<void> upsertSettings(UserSettingsTableCompanion entry) =>
       into(userSettingsTable).insertOnConflictUpdate(entry);

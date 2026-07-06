@@ -4,17 +4,23 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/gateway/gateway_ready_guild_parser.dart';
+import 'package:fluxer_app/core/gateway/message_mention_context_cache.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_decisions.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
-import 'package:fluxer_app/features/channels/data/read_state_write_coalescer.dart';
+import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
+import 'package:fluxer_app/features/chat/data/message_write_batcher.dart';
+import 'package:fluxer_app/features/chat/data/reaction_delta_utils.dart';
+import 'package:fluxer_app/features/chat/data/reaction_write_batcher.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
+import 'package:fluxer_app/features/notifications/data/mention_feed_write_batcher.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -38,7 +44,7 @@ typedef InviteCreateCallback = void Function(Map<String, dynamic> data);
 typedef InviteDeleteCallback = void Function(String code);
 typedef ReadyCallback = void Function();
 typedef GuildCallback = void Function(String guildId);
-typedef MessageCreateCallback = void Function(MessageCreateEvent event);
+typedef MessageCreateCallback = void Function(MessageCreateDispatch dispatch);
 typedef MessageUpdateCallback = void Function(MessageUpdateEvent event);
 typedef MessageDeleteCallback = void Function(MessageDeleteEvent event);
 typedef MessageDeleteBulkCallback = void Function(MessageDeleteBulkEvent event);
@@ -84,7 +90,11 @@ class GatewayEventHandler {
   GatewayEventHandler({
     required this.database,
     this.readStateRepository,
-    this.readStateWriteCoalescer,
+    this.readStateWriteBatcher,
+    this.messageMentionContextCache,
+    this.messageWriteBatcher,
+    this.mentionFeedWriteBatcher,
+    this.reactionWriteBatcher,
     this.currentUserId,
     this.isAutoAckActive,
     this.onReady,
@@ -126,7 +136,11 @@ class GatewayEventHandler {
 
   final db.FluxerDatabase database;
   final ReadStateRepository? readStateRepository;
-  final ReadStateWriteCoalescer? readStateWriteCoalescer;
+  final ReadStateWriteBatcher? readStateWriteBatcher;
+  final MessageMentionContextCache? messageMentionContextCache;
+  final MessageWriteBatcher? messageWriteBatcher;
+  final MentionFeedWriteBatcher? mentionFeedWriteBatcher;
+  final ReactionWriteBatcher? reactionWriteBatcher;
   final String? currentUserId;
   final bool Function(String channelId)? isAutoAckActive;
   final ReadyCallback? onReady;
@@ -225,6 +239,7 @@ class GatewayEventHandler {
         _handleMemberUpsert(event.guildId, event.member);
         if (event.member.user.id == currentUserId) {
           onGuildPermissionsChanged?.call(event.guildId);
+          messageMentionContextCache?.invalidateGuild(event.guildId);
         }
       case GuildMemberRemoveEvent():
         _logGatewayDebug(
@@ -621,7 +636,7 @@ class GatewayEventHandler {
 
     // Drop unread writes queued against the previous session. The snapshot
     // applied below is authoritative.
-    readStateWriteCoalescer?.clearAll();
+    readStateWriteBatcher?.clearAll();
     await database.transaction(() async {
       if (shouldFullWipe) {
         await database.userDao.clearAll();
@@ -1019,6 +1034,7 @@ class GatewayEventHandler {
         data: Value(jsonEncode(merged)),
       ),
     );
+    messageMentionContextCache?.invalidateGuild(guildId);
   }
 
   String _userGuildSettingsStorageId(
@@ -1203,34 +1219,61 @@ class GatewayEventHandler {
   }
 
   Future<void> _handleMessageCreate(MessageCreateEvent event) async {
-    final mentionsCurrentUser = await resolveMessageMentionsUser(
-      database,
-      currentUserId: currentUserId,
-      channelId: event.message.channelId,
+    final String channelId = event.message.channelId;
+    final MessageMentionContextCache? mentionCache = messageMentionContextCache;
+    late final MessageMentionContext mentionCtx;
+    late final ChannelResolution channelResolution;
+    if (mentionCache != null) {
+      mentionCtx = await mentionCache.resolve(
+        currentUserId: currentUserId,
+        channelId: channelId,
+        authorId: event.message.author.id,
+        mentionedUserIds: event.message.mentions.map((u) => u.id).toList(),
+        mentionEveryone: event.message.mentionEveryone,
+        mentionRoleIds: event.message.mentionRoles,
+      );
+      channelResolution = await mentionCache.resolveChannel(channelId);
+    } else {
+      final db.Channel? priorChannel = await database.channelDao.getChannelById(
+        channelId,
+      );
+      final db.DmChannel? priorDm = priorChannel == null
+          ? await database.dmChannelDao.getDmChannelById(channelId)
+          : null;
+      channelResolution = priorChannel != null
+          ? ChannelResolution.guild(
+              channelId: channelId,
+              guildStorageId: priorChannel.guildId,
+              guildChannel: priorChannel,
+            )
+          : ChannelResolution.private(
+              channelId: channelId,
+              guildStorageId: '@me',
+              dmChannel: priorDm,
+            );
+      mentionCtx = await buildMessageMentionContext(
+        database,
+        currentUserId: currentUserId,
+        channelId: channelId,
+      );
+    }
+    final bool mentionsCurrentUser = messageMentionsUser(
+      mentionCtx,
       authorId: event.message.author.id,
       mentionedUserIds: event.message.mentions.map((u) => u.id).toList(),
       mentionEveryone: event.message.mentionEveryone,
       mentionRoleIds: event.message.mentionRoles,
     );
+    final bool isDm = !channelResolution.isGuild;
+    final String? previousChannelLastMessageId = channelResolution.isGuild
+        ? channelResolution.guildChannel?.lastMessageId
+        : channelResolution.dmChannel?.lastMessageId;
     final msg = Message.fromSdk(
       event.message,
       currentUserId: currentUserId,
     ).copyWith(isMentioned: mentionsCurrentUser);
 
     onTypingClear?.call(msg.channelId, msg.authorId);
-
-    // Capture the channel's last-message id before advancing it, so read-state
-    // seeding can use it as the ack baseline for never-acked guild channels
-    // (mirrors previousLastMessageId in the web ReadStateIncomingMessageMachine).
-    final priorChannel = await database.channelDao.getChannelById(
-      msg.channelId,
-    );
-    final priorDm = priorChannel == null
-        ? await database.dmChannelDao.getDmChannelById(msg.channelId)
-        : null;
-    final isDm = priorDm != null;
-    final previousChannelLastMessageId =
-        priorChannel?.lastMessageId ?? priorDm?.lastMessageId;
 
     if (event.message.webhookId == null) {
       unawaited(
@@ -1239,43 +1282,114 @@ class GatewayEventHandler {
       unawaited(upsertMentionUsersFromSdk(database, event.message.mentions));
     }
 
-    await database.messageDao.upsertMessage(msg.toCompanion());
+    final ReadStateIncomingMessageDecision decision =
+        await _readStateDecisionForCreatedMessage(
+          msg,
+          isDm: isDm,
+          mentionsCurrentUser: mentionsCurrentUser,
+          previousChannelLastMessageId: previousChannelLastMessageId,
+          mentionCtx: mentionCtx,
+        );
+    final bool acknowledgedByGateway =
+        decision.kind == ReadStateIncomingMessageKind.ackCurrentUserMessage ||
+        decision.kind == ReadStateIncomingMessageKind.ackAutomaticMessage ||
+        decision.kind == ReadStateIncomingMessageKind.ackBlockedMessage;
 
-    await database.channelDao.updateLastMessageId(msg.channelId, msg.id);
-
-    // No-op for guild channels. Only DM rows have a last-message column.
-    await database.dmChannelDao.updateLastMessage(
-      msg.channelId,
-      msg.id,
-      msg.content,
-      msg.authorId,
-      msg.timestamp,
-    );
-
-    await _updateReadStateForCreatedMessage(
+    await _applyReadStateDecisionForCreatedMessage(
       msg,
       isDm: isDm,
       mentionsCurrentUser: mentionsCurrentUser,
       previousChannelLastMessageId: previousChannelLastMessageId,
+      decision: decision,
     );
 
-    // The mention inbox mirrors the web MentionFeed: record every mention
-    // regardless of whether the read state was auto-acked while actively viewed.
-    if (mentionsCurrentUser && !isDm) {
-      await database.notificationDao.prependMentionRow(
-        messageId: msg.id,
-        channelId: msg.channelId,
-      );
+    if (mentionsCurrentUser && !isDm && !acknowledgedByGateway) {
+      if (mentionFeedWriteBatcher != null) {
+        mentionFeedWriteBatcher!.enqueue(
+          messageId: msg.id,
+          channelId: msg.channelId,
+        );
+      } else {
+        await database.notificationDao.prependMentionRow(
+          messageId: msg.id,
+          channelId: msg.channelId,
+        );
+      }
     }
 
-    onMessageCreate?.call(event);
+    final UserNotificationSettings notificationLevel =
+        channelResolution.isGuild && channelResolution.guildChannel != null
+        ? resolveMessageNotifications(
+            channel: channelResolution.guildChannel!,
+            guildSettings: await _guildSettingsForStorage(
+              channelResolution.guildStorageId,
+            ),
+          )
+        : resolvePrivateMessageNotifications(
+            guildSettings: await _guildSettingsForStorage('@me'),
+            channelId: channelId,
+          );
+
+    onMessageCreate?.call(
+      MessageCreateDispatch(
+        event: event,
+        snapshot: MessagePersistSnapshot(
+          mentionsCurrentUser: mentionsCurrentUser,
+          isDm: isDm,
+          guildStorageId: channelResolution.guildStorageId,
+          acknowledgedByGateway: acknowledgedByGateway,
+          notificationLevel: notificationLevel,
+        ),
+      ),
+    );
+
+    if (messageWriteBatcher != null) {
+      messageWriteBatcher!.enqueueMessage(
+        companion: msg.toCompanion(),
+        channelId: msg.channelId,
+        messageId: msg.id,
+        dmUpdate: isDm
+            ? DmLastMessageUpdate(
+                messageId: msg.id,
+                content: msg.content,
+                authorId: msg.authorId,
+                timestamp: msg.timestamp,
+              )
+            : null,
+      );
+    } else {
+      await database.messageDao.upsertMessage(msg.toCompanion());
+      await database.channelDao.updateLastMessageId(msg.channelId, msg.id);
+      if (isDm) {
+        await database.dmChannelDao.updateLastMessage(
+          msg.channelId,
+          msg.id,
+          msg.content,
+          msg.authorId,
+          msg.timestamp,
+        );
+      }
+    }
   }
 
-  Future<void> _updateReadStateForCreatedMessage(
+  Future<UserGuildSettingsResponse?> _guildSettingsForStorage(
+    String guildStorageId,
+  ) async {
+    final row = await database.userGuildSettingsDao.getByGuildId(
+      guildStorageId,
+    );
+    if (row == null) {
+      return null;
+    }
+    return decodeUserGuildSettings(row.data);
+  }
+
+  Future<ReadStateIncomingMessageDecision> _readStateDecisionForCreatedMessage(
     Message msg, {
     required bool isDm,
     required bool mentionsCurrentUser,
     required String? previousChannelLastMessageId,
+    required MessageMentionContext mentionCtx,
   }) async {
     final isOwnMessage = msg.authorId == currentUserId;
     final readState = await database.readStateDao.getReadState(msg.channelId);
@@ -1283,18 +1397,17 @@ class GatewayEventHandler {
     final readStateKnown = ackMessageId != null;
     final manual = readState?.manual ?? false;
     final authorBlocked =
-        !isOwnMessage && await database.relationshipDao.isBlocked(msg.authorId);
+        !isOwnMessage && mentionCtx.blockedUserIds.contains(msg.authorId);
     final hadUnread =
         readStateKnown &&
         compareSnowflakeIds(ackMessageId, previousChannelLastMessageId) < 0;
     final hadUnreadOrMentions =
         (readState?.mentionCount ?? 0) > 0 ||
         hadUnread ||
-        (readStateWriteCoalescer?.hasPending(msg.channelId) ?? false);
+        (readStateWriteBatcher?.hasPending(msg.channelId) ?? false);
     final autoAckActive =
         !manual && (isAutoAckActive?.call(msg.channelId) ?? false);
-
-    final decision = resolveReadStateIncomingMessageDecision(
+    return resolveReadStateIncomingMessageDecision(
       ReadStateIncomingMessageInput(
         isCurrentUserAuthor: isOwnMessage,
         automaticAckEnabled: autoAckActive,
@@ -1307,42 +1420,53 @@ class GatewayEventHandler {
         previousLastMessageId: previousChannelLastMessageId,
       ),
     );
+  }
 
+  Future<void> _applyReadStateDecisionForCreatedMessage(
+    Message msg, {
+    required bool isDm,
+    required bool mentionsCurrentUser,
+    required String? previousChannelLastMessageId,
+    required ReadStateIncomingMessageDecision decision,
+  }) async {
     switch (decision.kind) {
       case ReadStateIncomingMessageKind.ackCurrentUserMessage:
-        await _ackReadStateForCreatedMessage(
+        await _enqueueOrAckReadState(
           channelId: msg.channelId,
           messageId: msg.id,
           isDm: isDm,
-          existing: readState,
           clearSticky: true,
+          markDmRead: true,
         );
         onOwnMessageCreated?.call(msg.channelId);
         return;
       case ReadStateIncomingMessageKind.ackAutomaticMessage:
       case ReadStateIncomingMessageKind.ackBlockedMessage:
-        await _ackReadStateForCreatedMessage(
+        await _enqueueOrAckReadState(
           channelId: msg.channelId,
           messageId: msg.id,
           isDm: isDm,
-          existing: readState,
           clearSticky: false,
+          markDmRead: isDm,
         );
         return;
       case ReadStateIncomingMessageKind.ignoreBlockedMessage:
       case ReadStateIncomingMessageKind.coveredByAck:
         return;
       case ReadStateIncomingMessageKind.recordUnread:
-        if (readStateWriteCoalescer != null) {
+        final readState = await database.readStateDao.getReadState(
+          msg.channelId,
+        );
+        if (readStateWriteBatcher != null) {
           final shouldMention = isDm
               ? !await _isDmMuted(msg.channelId)
               : mentionsCurrentUser;
-          final seedAckCandidate =
+          final String? seedAckCandidate =
               (decision.initializeUnknownReadState && !isDm)
               ? (previousChannelLastMessageId ??
                     snowflakeAtPreviousMillisecond(msg.id))
               : null;
-          readStateWriteCoalescer!.enqueueUnread(
+          readStateWriteBatcher!.enqueueUnread(
             channelId: msg.channelId,
             messageId: msg.id,
             shouldMention: shouldMention,
@@ -1361,6 +1485,33 @@ class GatewayEventHandler {
         }
         return;
     }
+  }
+
+  Future<void> _enqueueOrAckReadState({
+    required String channelId,
+    required String messageId,
+    required bool isDm,
+    required bool clearSticky,
+    required bool markDmRead,
+  }) async {
+    if (readStateWriteBatcher != null) {
+      readStateWriteBatcher!.enqueueAck(
+        channelId: channelId,
+        messageId: messageId,
+        isDm: isDm,
+        clearSticky: clearSticky,
+        markDmRead: markDmRead,
+      );
+      return;
+    }
+    final existing = await database.readStateDao.getReadState(channelId);
+    await _ackReadStateForCreatedMessage(
+      channelId: channelId,
+      messageId: messageId,
+      isDm: isDm,
+      existing: existing,
+      clearSticky: clearSticky,
+    );
   }
 
   Future<void> _ackReadStateForCreatedMessage({
@@ -1564,6 +1715,7 @@ class GatewayEventHandler {
       unawaited(
         database.channelDao.upsertChannel(channelFromSdk(channel, guildId)),
       );
+      _invalidateMentionCacheForChannel(channel.id, guildId: guildId);
       onChannelPermissionChanged?.call(channel.id);
       return;
     }
@@ -1572,6 +1724,7 @@ class GatewayEventHandler {
     if (companion == null) {
       return;
     }
+    _invalidateMentionCacheForChannel(channel.id);
     for (final r in dmRecipientUsersFromChannelResponse(channel)) {
       unawaited(database.userDao.upsertUser(userFromPartialSdk(r)));
     }
@@ -1579,10 +1732,14 @@ class GatewayEventHandler {
   }
 
   void _handleChannelDelete(ChannelDeleteEvent event) {
+    _invalidateMentionCacheForChannel(
+      event.channel.id,
+      guildId: event.channel.guildId,
+    );
     unawaited(database.messageDao.deleteMessagesForChannel(event.channel.id));
     unawaited(database.channelDao.deleteChannel(event.channel.id));
     unawaited(database.dmChannelDao.deleteDmChannel(event.channel.id));
-    readStateWriteCoalescer?.discard(event.channel.id);
+    readStateWriteBatcher?.discard(event.channel.id);
     unawaited(database.readStateDao.deleteReadState(event.channel.id));
   }
 
@@ -1798,9 +1955,7 @@ class GatewayEventHandler {
           since: Value(relationship.since),
         ),
       ]);
-      // Flush pending unreads so the absolute mention recompute counts each
-      // message once and sees channels whose mentions were only pending.
-      await readStateWriteCoalescer?.flushAll();
+      await readStateWriteBatcher?.flushAll();
       await readStateRepository?.recomputeMentionsForUnreadOrMentionedChannels(
         currentUserId: currentUserId,
       );
@@ -1810,9 +1965,7 @@ class GatewayEventHandler {
   void _handleRelationshipRemove(RelationshipRemoveEvent event) {
     unawaited(() async {
       await database.relationshipDao.deleteRelationship(event.userId);
-      // Flush pending unreads so the absolute mention recompute counts each
-      // message once and sees channels whose mentions were only pending.
-      await readStateWriteCoalescer?.flushAll();
+      await readStateWriteBatcher?.flushAll();
       await readStateRepository?.recomputeMentionsForUnreadOrMentionedChannels(
         currentUserId: currentUserId,
       );
@@ -1820,9 +1973,10 @@ class GatewayEventHandler {
   }
 
   Future<void> _handleReactionAdd(MessageReactionAddEvent event) async {
-    await _modifyReaction(
-      event.messageId,
-      event.emoji,
+    await _enqueueReactionChange(
+      messageId: event.messageId,
+      channelId: event.channelId,
+      emoji: event.emoji,
       isAdd: true,
       userId: event.userId,
     );
@@ -1830,13 +1984,36 @@ class GatewayEventHandler {
   }
 
   Future<void> _handleReactionRemove(MessageReactionRemoveEvent event) async {
-    await _modifyReaction(
-      event.messageId,
-      event.emoji,
+    await _enqueueReactionChange(
+      messageId: event.messageId,
+      channelId: event.channelId,
+      emoji: event.emoji,
       isAdd: false,
       userId: event.userId,
     );
     onMessageReactionChange?.call(event.channelId, event.messageId);
+  }
+
+  Future<void> _enqueueReactionChange({
+    required String messageId,
+    required String channelId,
+    required ReactionEmoji emoji,
+    required bool isAdd,
+    String? userId,
+  }) async {
+    final bool isCurrentUser =
+        userId != null && currentUserId != null && userId == currentUserId;
+    if (reactionWriteBatcher != null) {
+      reactionWriteBatcher!.enqueue(
+        messageId: messageId,
+        channelId: channelId,
+        emoji: emoji,
+        isAdd: isAdd,
+        isCurrentUser: isCurrentUser,
+      );
+      return;
+    }
+    await _modifyReaction(messageId, emoji, isAdd: isAdd, userId: userId);
   }
 
   void _handleReactionRemoveAll(MessageReactionRemoveAllEvent event) {
@@ -1870,11 +2047,11 @@ class GatewayEventHandler {
       return;
     }
 
-    final reactions = _decodeReactions(msg.reactionsJson);
+    final reactions = decodeMessageReactionsJson(msg.reactionsJson);
     final isCurrentUser =
         userId != null && currentUserId != null && userId == currentUserId;
 
-    if (!_applyReactionDelta(
+    if (!applyMessageReactionDelta(
       reactions,
       emoji,
       isAdd: isAdd,
@@ -1884,62 +2061,6 @@ class GatewayEventHandler {
     }
 
     await database.messageDao.updateReactions(messageId, jsonEncode(reactions));
-  }
-
-  /// Applies a single reaction add/remove for [emoji] to the decoded
-  /// [reactions] list in place.
-  ///
-  /// Returns `false` when a redundant self add/remove is skipped (the list is
-  /// left unchanged so the caller can avoid an unnecessary write). Otherwise
-  /// returns `true`.
-  bool _applyReactionDelta(
-    List<Map<String, dynamic>> reactions,
-    ReactionEmoji emoji, {
-    required bool isAdd,
-    required bool isCurrentUser,
-  }) {
-    final idx = reactions.indexWhere(
-      (r) =>
-          (r['emoji'] as String?) == emoji.name &&
-          (r['emojiId'] as String?) == emoji.id,
-    );
-
-    if (isAdd) {
-      if (idx != -1) {
-        final existing = reactions[idx];
-        if (isCurrentUser && (existing['hasReacted'] as bool? ?? false)) {
-          return false;
-        }
-        reactions[idx]['count'] = ((existing['count'] as int?) ?? 0) + 1;
-        if (isCurrentUser) {
-          reactions[idx]['hasReacted'] = true;
-        }
-      } else {
-        reactions.add(<String, dynamic>{
-          'emoji': emoji.name,
-          'emojiId': emoji.id,
-          'animated': emoji.animated,
-          'count': 1,
-          'hasReacted': isCurrentUser,
-        });
-      }
-    } else if (idx != -1) {
-      final existing = reactions[idx];
-      if (isCurrentUser && !(existing['hasReacted'] as bool? ?? false)) {
-        return false;
-      }
-      final count = ((existing['count'] as int?) ?? 1) - 1;
-      if (count <= 0) {
-        reactions.removeAt(idx);
-      } else {
-        reactions[idx]['count'] = count;
-        if (isCurrentUser) {
-          reactions[idx]['hasReacted'] = false;
-        }
-      }
-    }
-
-    return true;
   }
 
   Future<void> _removeEmojiReaction(
@@ -1952,7 +2073,7 @@ class GatewayEventHandler {
       return;
     }
 
-    final reactions = _decodeReactions(msg.reactionsJson)
+    final reactions = decodeMessageReactionsJson(msg.reactionsJson)
       ..removeWhere(
         (r) =>
             (r['emoji'] as String?) == emojiName &&
@@ -1990,10 +2111,8 @@ class GatewayEventHandler {
       return;
     }
 
-    // The server ack writes an authoritative absolute mention/unread count.
-    // Materialize any pending coalesced increments first so the flush cannot
-    // replay them on top of it.
-    await readStateWriteCoalescer?.flush(event.channelId);
+    // Server ack is authoritative; flush pending increments first.
+    await readStateWriteBatcher?.flush(event.channelId);
     await _writeServerAck(
       channelId: event.channelId,
       messageId: event.messageId,
@@ -2046,13 +2165,13 @@ class GatewayEventHandler {
       if (msg == null) {
         return;
       }
-      final reactions = _decodeReactions(msg.reactionsJson);
+      final reactions = decodeMessageReactionsJson(msg.reactionsJson);
       for (final r in event.reactions) {
         final emoji = r['emoji'] as Map<String, dynamic>?;
         if (emoji == null) {
           continue;
         }
-        _applyReactionDelta(
+        applyMessageReactionDelta(
           reactions,
           ReactionEmoji(
             name: emoji['name'] as String? ?? '',
@@ -2146,11 +2265,10 @@ class GatewayEventHandler {
     );
   }
 
-  List<Map<String, dynamic>> _decodeReactions(String json) {
-    try {
-      return (jsonDecode(json) as List<dynamic>).cast<Map<String, dynamic>>();
-    } on Object {
-      return [];
+  void _invalidateMentionCacheForChannel(String channelId, {String? guildId}) {
+    messageMentionContextCache?.invalidateChannel(channelId);
+    if (guildId != null) {
+      messageMentionContextCache?.invalidateGuild(guildId);
     }
   }
 }

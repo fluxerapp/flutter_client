@@ -47,9 +47,6 @@ DmListMessagePreview? resolveDmListMessagePreview({
   required String? currentUserId,
   required String? authorFriendNickname,
 }) {
-  if (conversation.isGroup) {
-    return null;
-  }
   if (!_isUserAuthoredMessage(conversation.lastMessageType)) {
     final String? authorName = conversation.lastMessageAuthorName;
     if (authorName == null || authorName.isEmpty) {

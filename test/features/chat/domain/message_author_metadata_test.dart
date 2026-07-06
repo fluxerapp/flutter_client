@@ -1,15 +1,12 @@
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart' as domain;
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 
 void main() {
   test('persists author metadata through the messages table', () async {
-    final FluxerDatabase database = FluxerDatabase.forTesting(
-      NativeDatabase.memory(),
-    );
-    addTearDown(database.close);
+    final FluxerDatabase database = openTestDatabase();
     final domain.Message message = domain.Message(
       id: '100',
       channelId: '200',

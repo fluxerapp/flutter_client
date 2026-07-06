@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/user_notes.dart';
 
@@ -13,9 +14,11 @@ class UserNotesDao extends DatabaseAccessor<FluxerDatabase>
     userNotesTable,
   )..where((t) => t.targetUserId.equals(targetUserId))).getSingleOrNull();
 
-  Stream<UserNotesTableData?> watchNote(String targetUserId) => (select(
-    userNotesTable,
-  )..where((t) => t.targetUserId.equals(targetUserId))).watchSingleOrNull();
+  Stream<UserNotesTableData?> watchNote(String targetUserId) =>
+      (select(userNotesTable)
+            ..where((t) => t.targetUserId.equals(targetUserId)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<void> upsertNote(UserNotesTableCompanion entry) =>
       into(userNotesTable).insertOnConflictUpdate(entry);

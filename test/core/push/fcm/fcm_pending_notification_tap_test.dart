@@ -47,14 +47,10 @@ void main() {
     const String payloadJson = '{"url":"/channels/@me/dm-1/msg-9"}';
     await FcmPendingNotificationTap.save(payloadJson);
     final List<String?> handledPayloads = <String?>[];
-    await FcmPendingNotificationTap.flushToHandler((String? payload) {
-      handledPayloads.add(payload);
-    });
+    await FcmPendingNotificationTap.flushToHandler(handledPayloads.add);
     expect(handledPayloads, <String?>[payloadJson]);
     final List<String?> secondFlush = <String?>[];
-    await FcmPendingNotificationTap.flushToHandler((String? payload) {
-      secondFlush.add(payload);
-    });
+    await FcmPendingNotificationTap.flushToHandler(secondFlush.add);
     expect(secondFlush, isEmpty);
   });
 

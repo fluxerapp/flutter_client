@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/messages.dart';
@@ -14,7 +15,8 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
       (select(messages)
             ..where((m) => m.channelId.equals(channelId))
             ..orderBy([(m) => OrderingTerm.asc(m.timestamp)]))
-          .watch();
+          .watch()
+          .suppressDriftCancellation;
 
   Future<List<Message>> getMessages(
     String channelId, {
@@ -71,7 +73,8 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
             ..where((m) => m.channelId.equals(channelId))
             ..orderBy([(m) => OrderingTerm.desc(m.timestamp)])
             ..limit(1))
-          .watchSingleOrNull();
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<List<Message>> getMessagesAfter(
     String channelId,

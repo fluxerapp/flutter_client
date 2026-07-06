@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart' hide isNotNull, isNull;
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
@@ -37,10 +37,7 @@ void main() {
     });
 
     test('returns null while guild membership is not cacheable', () async {
-      final FluxerDatabase db = FluxerDatabase.forTesting(
-        NativeDatabase.memory(),
-      );
-      addTearDown(db.close);
+      final FluxerDatabase db = openTestDatabase();
       const String guildId = 'guild_1';
       const String channelId = 'voice_1';
       const String userId = 'user_1';
@@ -80,10 +77,7 @@ void main() {
     test(
       'returns cached denied connect bits for restricted voice channel',
       () async {
-        final FluxerDatabase db = FluxerDatabase.forTesting(
-          NativeDatabase.memory(),
-        );
-        addTearDown(db.close);
+        final FluxerDatabase db = openTestDatabase();
         const String guildId = 'guild_1';
         const String channelId = 'voice_1';
         const String userId = 'user_1';

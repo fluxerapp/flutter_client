@@ -1,8 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/pre_reconnecting_location_provider.dart';
 import 'package:fluxer_app/core/router/root_overlay_return_location_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   test('remember and take restores shell location', () {

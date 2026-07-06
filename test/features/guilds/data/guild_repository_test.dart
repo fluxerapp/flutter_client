@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_dart/export.dart';
@@ -12,11 +12,9 @@ void main() {
     late GuildRepository repository;
 
     setUp(() {
-      db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      db = openTestDatabase();
       repository = GuildRepository(FluxerClient(Dio()), db);
     });
-
-    tearDown(() => db.close());
 
     test('returns only guilds owned by the user', () async {
       await db.guildDao.upsertServers([

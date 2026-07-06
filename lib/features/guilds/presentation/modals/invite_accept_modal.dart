@@ -30,7 +30,6 @@ Future<void> showInviteAcceptModal(
   return showDialog<void>(
     context: context,
     barrierColor: Colors.black.withValues(alpha: 0.35),
-    barrierDismissible: true,
     builder: (BuildContext dialogContext) {
       return _InviteAcceptModalDialog(code: code);
     },
@@ -47,8 +46,8 @@ class _InviteAcceptModalDialog extends ConsumerWidget {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final double horizontalInset = isMobileLayout(context) ? 12 : 24;
     final double verticalInset = isMobileLayout(context) ? 12 : 24;
-    final double maxWidth = 1040;
-    final double maxHeight = 780;
+    const double maxWidth = 1040;
+    const double maxHeight = 780;
     final double width = (mediaQuery.size.width - horizontalInset * 2).clamp(
       280,
       maxWidth,
@@ -100,7 +99,11 @@ class _InviteAcceptCloseButton extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: IconButton(
         onPressed: onPressed,
-        icon: PhosphorIcon(PhosphorIconsBold.x, color: Colors.white, size: 18),
+        icon: const PhosphorIcon(
+          PhosphorIconsBold.x,
+          color: Colors.white,
+          size: 18,
+        ),
         tooltip: FluxerLocalizations.of(context).uiClose,
       ),
     );
@@ -173,18 +176,18 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
       inviteAcceptProvider(widget.code),
     );
     return async.when(
-      loading: () => _InviteAcceptBackground(
+      loading: () => const _InviteAcceptBackground(
         splashUrl: null,
-        child: const Center(child: FluxerLoadingSpinner()),
+        child: Center(child: FluxerLoadingSpinner()),
       ),
       error: (_, _) => _InviteAcceptBackground(
         splashUrl: null,
         child: _InviteAcceptCard(child: _InviteAcceptError(l10n: l10n)),
       ),
       data: (InviteAcceptState state) => switch (state) {
-        InviteAcceptLoading() => _InviteAcceptBackground(
+        InviteAcceptLoading() => const _InviteAcceptBackground(
           splashUrl: null,
-          child: const Center(child: FluxerLoadingSpinner()),
+          child: Center(child: FluxerLoadingSpinner()),
         ),
         InviteAcceptNotFound() => _InviteAcceptBackground(
           splashUrl: null,

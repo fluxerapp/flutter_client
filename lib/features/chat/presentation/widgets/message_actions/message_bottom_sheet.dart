@@ -259,7 +259,7 @@ class _MessageBottomSheetBody extends ConsumerWidget {
       ),
       if (developerMode)
         FluxerBottomSheetMenuItem(
-          icon: PhosphorIconsRegular.bug,
+          icon: PhosphorIconsFill.bug,
           label: l10n.chatMessageDebug,
           onTap: () => _pop(context, MessageAction.debugMessage),
         ),

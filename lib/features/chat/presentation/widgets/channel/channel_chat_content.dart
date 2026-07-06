@@ -122,9 +122,9 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   @override
   Widget build(BuildContext context) {
     final bool isMobile = isMobileLayout(context);
-    final bool shouldLoadMessages = isMobile
-        ? ref.watch(channelChatShouldLoadMessagesProvider(widget.channelId))
-        : true;
+    final bool shouldLoadMessages =
+        !isMobile ||
+        ref.watch(channelChatShouldLoadMessagesProvider(widget.channelId));
     ref
       ..listen<String?>(activeChannelIdProvider, (_, _) {
         _scheduleSyncChannelIfNeeded();

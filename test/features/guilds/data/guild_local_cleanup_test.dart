@@ -1,14 +1,13 @@
 import 'package:drift/drift.dart' show Value;
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/guilds/data/guild_local_cleanup.dart';
 
 void main() {
   group('removeGuildFromLocalDb', () {
     test('deletes guild and related rows', () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       const guildId = 'guild-1';
       await db.guildDao.upsertServer(
@@ -38,8 +37,7 @@ void main() {
 
   group('removeGuildsNotInLocalDb', () {
     test('removes only guilds missing from keep set', () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       await db.guildDao.upsertServer(
         ServersCompanion.insert(id: 'keep', name: 'Keep'),

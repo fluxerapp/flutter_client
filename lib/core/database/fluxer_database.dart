@@ -1,9 +1,4 @@
-import 'dart:io';
-
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:drift_flutter/drift_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/daos/auth_session_dao.dart';
 import 'package:fluxer_app/core/database/daos/channel_dao.dart';
 import 'package:fluxer_app/core/database/daos/composer_draft_dao.dart';
@@ -32,6 +27,7 @@ import 'package:fluxer_app/core/database/daos/user_guild_settings_dao.dart';
 import 'package:fluxer_app/core/database/daos/user_notes_dao.dart';
 import 'package:fluxer_app/core/database/daos/user_preferences_dao.dart';
 import 'package:fluxer_app/core/database/daos/user_settings_dao.dart';
+import 'package:fluxer_app/core/database/sqlite_connection.dart';
 import 'package:fluxer_app/core/database/tables/auth_sessions.dart';
 import 'package:fluxer_app/core/database/tables/channels.dart';
 import 'package:fluxer_app/core/database/tables/composer_drafts.dart';
@@ -65,8 +61,6 @@ import 'package:fluxer_app/core/database/tables/user_notes.dart';
 import 'package:fluxer_app/core/database/tables/user_preferences.dart';
 import 'package:fluxer_app/core/database/tables/user_settings.dart';
 import 'package:fluxer_app/core/database/tables/users.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 
 part 'fluxer_database.g.dart';
 
@@ -143,7 +137,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 67;
+  int get schemaVersion => 71;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -647,6 +641,58 @@ class FluxerDatabase extends _$FluxerDatabase {
           await m.addColumn(messages, messages.mentionChannelsJson);
         }
       }
+      if (from < 68) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'voice_settings_json',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.voiceSettingsJson,
+          );
+        }
+      }
+      if (from < 69) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'saturation_factor',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.saturationFactor,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'custom_theme_css',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.customThemeCss,
+          );
+        }
+      }
+      if (from < 70) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'call_json',
+        )) {
+          await m.addColumn(messages, messages.callJson);
+        }
+      }
+      if (from < 71) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'dm_channels',
+          columnName: 'nicks_json',
+        )) {
+          await m.addColumn(dmChannels, dmChannels.nicksJson);
+        }
+      }
     },
   );
 
@@ -700,14 +746,4 @@ Future<bool> _tableHasColumn(
   return rows.any((QueryRow row) => row.read<String>('name') == columnName);
 }
 
-QueryExecutor _openConnection() {
-  if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
-    return LazyDatabase(() async {
-      final dir = await getApplicationDocumentsDirectory();
-      final file = File(p.join(dir.path, 'fluxer_app', 'fluxer.db'));
-      await file.parent.create(recursive: true);
-      return NativeDatabase.createInBackground(file);
-    });
-  }
-  return driftDatabase(name: 'fluxer');
-}
+QueryExecutor _openConnection() => openFluxerSqliteConnection();

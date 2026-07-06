@@ -181,7 +181,7 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     final int insertIndex;
     if (targetIsSourceFolder) {
       insertIndex = _insertIndexForSourceFolderTarget(
-        folderIndex: sourceLocation!.folderIndex,
+        folderIndex: sourceLocation.folderIndex,
         guildCountBeforeMove: guildCountInSourceFolderBefore!,
         insertAfter: insertAfter,
         items: items,

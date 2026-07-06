@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/saved_messages.dart';
@@ -10,12 +11,14 @@ class SavedMessageDao extends DatabaseAccessor<FluxerDatabase>
     with _$SavedMessageDaoMixin {
   SavedMessageDao(super.attachedDatabase);
 
-  Stream<List<SavedMessage>> watchAll() => select(savedMessages).watch();
+  Stream<List<SavedMessage>> watchAll() =>
+      select(savedMessages).watch().suppressDriftCancellation;
 
   Stream<bool> watchIsSaved(String messageId) =>
       (select(savedMessages)..where((s) => s.messageId.equals(messageId)))
           .watch()
-          .map((rows) => rows.isNotEmpty);
+          .map((rows) => rows.isNotEmpty)
+          .suppressDriftCancellation;
 
   Future<bool> isSaved(String messageId) async {
     final row = await (select(

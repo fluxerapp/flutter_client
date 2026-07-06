@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/channels/providers/channel_list_view_model.d
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
@@ -81,9 +82,10 @@ VoiceCallKitDisplayInfo resolveVoiceCallKitDisplayInfo({
   final DmConversation? dm = _resolveDmConversation(ref, channelId);
   if (dm != null) {
     if (dm.isGroup) {
+      final String groupName = resolveGroupDmDisplayName(dm: dm, l10n: l10n);
       return VoiceCallKitDisplayInfo(
-        nameCaller: dm.displayName,
-        handle: dm.displayName,
+        nameCaller: groupName,
+        handle: groupName,
         isDm: true,
       );
     }

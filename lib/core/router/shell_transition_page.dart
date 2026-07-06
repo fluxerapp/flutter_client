@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
-import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_transition_policy.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:go_router/go_router.dart';
@@ -60,7 +59,7 @@ CustomTransitionPage<void> shellSlideTransitionPage({
           final Animation<Offset> outgoing =
               Tween<Offset>(
                 begin: Offset.zero,
-                end: Offset(
+                end: const Offset(
                   -ShellTransitionPolicy.channelOutgoingParallaxFactor,
                   0,
                 ),

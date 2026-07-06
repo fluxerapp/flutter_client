@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_dart/export.dart';
@@ -14,7 +14,7 @@ void main() {
     List<String> memberRoles = const ['role-1'],
     List<String> blockedUserIds = const [],
   }) async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+    final db = openTestDatabase();
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',
@@ -130,49 +130,41 @@ void main() {
   group('resolveMessageMentionsUser (db-backed)', () {
     test('role mention with a matching, unsuppressed role mentions', () async {
       final db = await seededGuildDb();
-      addTearDown(db.close);
       expect(await resolve(db, mentionRoleIds: const ['role-1']), isTrue);
     });
 
     test('role mention is suppressed by suppressRoles', () async {
       final db = await seededGuildDb(suppressRoles: true);
-      addTearDown(db.close);
       expect(await resolve(db, mentionRoleIds: const ['role-1']), isFalse);
     });
 
     test('role mention without the role is not a mention', () async {
       final db = await seededGuildDb(memberRoles: const ['role-2']);
-      addTearDown(db.close);
       expect(await resolve(db, mentionRoleIds: const ['role-1']), isFalse);
     });
 
     test('@everyone mentions when not suppressed', () async {
       final db = await seededGuildDb();
-      addTearDown(db.close);
       expect(await resolve(db, mentionEveryone: true), isTrue);
     });
 
     test('@everyone is suppressed by suppressEveryone', () async {
       final db = await seededGuildDb(suppressEveryone: true);
-      addTearDown(db.close);
       expect(await resolve(db, mentionEveryone: true), isFalse);
     });
 
     test('blocked author suppresses an @everyone mention', () async {
       final db = await seededGuildDb(blockedUserIds: const ['other']);
-      addTearDown(db.close);
       expect(await resolve(db, mentionEveryone: true), isFalse);
     });
 
     test('direct mention is a mention even without a role match', () async {
       final db = await seededGuildDb(memberRoles: const ['role-2']);
-      addTearDown(db.close);
       expect(await resolve(db, mentionedUserIds: const ['me']), isTrue);
     });
 
     test('missing channel (DM) falls back to @everyone passthrough', () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       expect(
         await resolve(db, channelId: 'dm-1', mentionEveryone: true),
         isTrue,

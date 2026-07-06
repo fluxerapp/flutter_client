@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
@@ -17,6 +18,7 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 class DmNavbarItem extends ConsumerStatefulWidget {
   final String channelId;
@@ -100,7 +102,12 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
         ? null
         : ref.watch(userPresenceProvider(widget.recipientId)).value;
     final String displayName = isGroup
-        ? widget.displayName
+        ? groupDm?.displayNameWith(
+                null,
+                l10n: FluxerLocalizations.of(context),
+                currentUserId: ref.watch(currentUserIdProvider),
+              ) ??
+              widget.displayName
         : ref.watch(friendNicknameProvider(widget.recipientId)).value ??
               widget.displayName;
     final avatarImageUrl = isGroup

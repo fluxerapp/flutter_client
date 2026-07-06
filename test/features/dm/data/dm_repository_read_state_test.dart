@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -42,8 +42,7 @@ void main() {
   test(
     'watchDmChannels derives unread count from read state mention count',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.userDao.upsertUser(
         UsersCompanion.insert(id: 'other', username: 'Other'),
       );
@@ -72,8 +71,7 @@ void main() {
   test(
     'watchDmChannels derives unread when ack is behind latest DM message',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 1));
       await db.userDao.upsertUser(
@@ -113,8 +111,7 @@ void main() {
 
   test('watchDmChannels derives unread from DM latest message id without read '
       'state', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final dmId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 1));
     await db.userDao.upsertUser(
@@ -139,8 +136,7 @@ void main() {
   test(
     'watchDmChannels derives unread from DM latest message id with null ack',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final dmId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 1));
       await db.userDao.upsertUser(
@@ -173,8 +169,7 @@ void main() {
   test(
     'watchDmChannels derives unread from DM latest message id without cache',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 1));
       await db.userDao.upsertUser(
@@ -207,8 +202,7 @@ void main() {
   test(
     'watchDmChannels prefers channel pointer when cached message is stale',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final pointerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 2));
       await db.userDao.upsertUser(
@@ -246,8 +240,7 @@ void main() {
   );
 
   test('watchDmChannels reacts to read state changes', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.userDao.upsertUser(
       UsersCompanion.insert(id: 'other', username: 'Other'),
     );

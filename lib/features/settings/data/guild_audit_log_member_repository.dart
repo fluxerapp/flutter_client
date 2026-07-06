@@ -70,12 +70,10 @@ class GuildAuditLogMemberRepository {
         db.UsersCompanion.insert(
           id: user.id,
           username: user.username,
-          discriminator: const Value.absent(),
           globalName: Value(user.globalName),
           avatar: Value(user.avatarHash),
           avatarColor: Value(user.avatarColor),
           bot: Value(user.isBot),
-          system: const Value.absent(),
           memberSince: Value(dateTimeFromUserSnowflakeOrNull(user.id)),
         ),
       );

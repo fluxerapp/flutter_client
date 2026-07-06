@@ -9,6 +9,11 @@ PODS:
     - Flutter
     - flutter_webrtc
     - WebRTC-SDK (= 144.7559.09)
+  - livekit_noise_filter (0.0.1):
+    - Flutter
+    - flutter_webrtc
+    - LiveKitKrispNoiseFilter (= 0.0.7)
+  - LiveKitKrispNoiseFilter (0.0.7)
   - media_kit_libs_ios_video (1.0.4):
     - Flutter
   - media_kit_video (0.0.1):
@@ -22,12 +27,14 @@ DEPENDENCIES:
   - flutter_webrtc (from `.symlinks/plugins/flutter_webrtc/ios`)
   - irondash_engine_context (from `.symlinks/plugins/irondash_engine_context/ios`)
   - livekit_client (from `.symlinks/plugins/livekit_client/ios`)
+  - livekit_noise_filter (from `.symlinks/plugins/livekit_noise_filter/ios`)
   - media_kit_libs_ios_video (from `.symlinks/plugins/media_kit_libs_ios_video/ios`)
   - media_kit_video (from `.symlinks/plugins/media_kit_video/ios`)
   - super_native_extensions (from `.symlinks/plugins/super_native_extensions/ios`)
 
 SPEC REPOS:
   trunk:
+    - LiveKitKrispNoiseFilter
     - WebRTC-SDK
 
 EXTERNAL SOURCES:
@@ -39,6 +46,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/irondash_engine_context/ios"
   livekit_client:
     :path: ".symlinks/plugins/livekit_client/ios"
+  livekit_noise_filter:
+    :path: ".symlinks/plugins/livekit_noise_filter/ios"
   media_kit_libs_ios_video:
     :path: ".symlinks/plugins/media_kit_libs_ios_video/ios"
   media_kit_video:
@@ -51,6 +60,8 @@ SPEC CHECKSUMS:
   flutter_webrtc: 3ee86aa10e0313c38c93fdb215dd86e77014f96a
   irondash_engine_context: 8e58ca8e0212ee9d1c7dc6a42121849986c88486
   livekit_client: b47ad395a714c455b517fb38b4436cb07b4b5116
+  livekit_noise_filter: a26aeb1c1eae6db0a023fd2f6ea3ff108c3ecbb0
+  LiveKitKrispNoiseFilter: efe418ceca28163ace0ff222bd2cc02384645d84
   media_kit_libs_ios_video: 5a18affdb97d1f5d466dc79988b13eff6c5e2854
   media_kit_video: 1746e198cb697d1ffb734b1d05ec429d1fcd1474
   super_native_extensions: b763c02dc3a8fd078389f410bf15149179020cb4

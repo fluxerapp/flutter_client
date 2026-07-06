@@ -1,8 +1,8 @@
-import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/presentation/sheets/system_message_acti
 import 'package:fluxer_app/features/chat/providers/messages/saved_message_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
 
 const String _messageId = 'm1';
 
@@ -89,8 +90,7 @@ void main() {
   testWidgets(
     'pinned-message system menu shows system actions and hides user-only ones',
     (tester) async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final message = _systemMessage(type: messageTypeChannelPinnedMessage);
       await tester.pumpWidget(
         _app(
@@ -129,8 +129,7 @@ void main() {
   );
 
   testWidgets('Copy Message copies the system message content', (tester) async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final message = _systemMessage(
       type: messageTypeChannelNameChange,
       content: 'renamed-channel',
@@ -175,6 +174,9 @@ void main() {
     await tester.tap(find.text('Copy Message'));
     await tester.pumpAndSettle();
 
-    expect(clipboardWrites, ['renamed-channel']);
+    final l10n = FluxerLocalizationsEn();
+    expect(clipboardWrites, [
+      l10n.systemPreviewChangedChannelNameTo('Author', 'renamed-channel'),
+    ]);
   });
 }

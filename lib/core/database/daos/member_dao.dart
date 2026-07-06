@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/member_cache_access.dart';
@@ -18,7 +19,8 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
   Stream<Member?> watchMemberByUserId(String userId, String guildId) =>
       (select(members)
             ..where((m) => m.userId.equals(userId) & m.guildId.equals(guildId)))
-          .watchSingleOrNull();
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<List<Member>> getMembers(String guildId) =>
       (select(members)..where((m) => m.guildId.equals(guildId))).get();
@@ -52,11 +54,13 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
         )
         .watchSingle()
         .map((QueryRow row) => row.read<int>('member_count'))
-        .distinct();
+        .distinct()
+        .suppressDriftCancellation;
   }
 
-  Stream<List<Member>> watchMembers(String guildId) =>
-      (select(members)..where((m) => m.guildId.equals(guildId))).watch();
+  Stream<List<Member>> watchMembers(String guildId) => (select(
+    members,
+  )..where((m) => m.guildId.equals(guildId))).watch().suppressDriftCancellation;
 
   Future<void> upsertMember(MembersCompanion member) async {
     await into(members).insertOnConflictUpdate(member);

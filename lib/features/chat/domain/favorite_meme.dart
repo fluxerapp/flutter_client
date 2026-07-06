@@ -50,7 +50,7 @@ class FavoriteMeme {
       filename: meme.filename,
       contentType: meme.contentType,
       contentHash: meme.contentHash,
-      size: meme.size.toInt(),
+      size: meme.size,
       width: meme.width,
       height: meme.height,
       duration: meme.duration?.toDouble(),

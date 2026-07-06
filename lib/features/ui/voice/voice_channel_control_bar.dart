@@ -61,7 +61,6 @@ class VoiceChannelControlBar extends ConsumerWidget {
     final bool canScreenShare = ref
         .watch(screenShareCapabilityProvider)
         .maybeWhen(data: (bool value) => value, orElse: () => false);
-
     return SafeArea(
       top: false,
       child: Padding(

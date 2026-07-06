@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 import 'dart:ui' show PlatformDispatcher;
 
+import 'package:app_settings/app_settings.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -92,6 +95,10 @@ class UserLanguageAndTime extends ConsumerWidget {
       use12Hour: false,
     );
 
+    // TODO: Add desktop language picker
+    final bool showLanguageSection =
+        !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+
     return SingleChildScrollView(
       controller: scrollController,
       padding: EdgeInsets.all(layout.s4),
@@ -100,6 +107,7 @@ class UserLanguageAndTime extends ConsumerWidget {
         children: [
           FluxerSettingsSection(
             title: l10n.languageAndTimeTimeFormatSectionTitle,
+            description: l10n.languageAndTimeTimeFormatSectionDescription,
             isFirst: true,
             children: [
               Semantics(
@@ -138,6 +146,19 @@ class UserLanguageAndTime extends ConsumerWidget {
               ],
             ],
           ),
+          if (showLanguageSection)
+            FluxerSettingsSection(
+              title: l10n.languageAndTimeLanguageSectionTitle,
+              description: l10n.languageAndTimeLanguageSectionDescription,
+              children: [
+                FluxerButton.primary(
+                  label: l10n.languageAndTimeOpenLanguageSettings,
+                  onPressedAsync: () => AppSettings.openAppSettings(
+                    type: AppSettingsType.appLocale,
+                  ),
+                ),
+              ],
+            ),
         ],
       ),
     );

@@ -5,6 +5,8 @@ enum FluxerSfxClip {
   undeaf('assets/sounds/undeaf.mp3'),
   incomingRing('assets/sounds/incoming-ring.mp3'),
   message('assets/sounds/message.mp3'),
+  directMessage('assets/sounds/message.mp3'),
+  sameChannelMessage('assets/sounds/in-channel-notification.ogg'),
   mute('assets/sounds/mute.mp3'),
   unmute('assets/sounds/unmute.mp3'),
   pttActive('assets/sounds/ptt-active.mp3'),

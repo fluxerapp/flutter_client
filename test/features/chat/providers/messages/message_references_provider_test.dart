@@ -1,6 +1,6 @@
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -114,10 +114,11 @@ void main() {
   });
 
   group('MessageReferencesNotifier', () {
+    late FluxerDatabase database;
     late ProviderContainer container;
 
     setUp(() {
-      final database = FluxerDatabase.forTesting(NativeDatabase.memory());
+      database = openTestDatabase();
       container = ProviderContainer(
         overrides: [fluxerDatabaseProvider.overrideWithValue(database)],
       );

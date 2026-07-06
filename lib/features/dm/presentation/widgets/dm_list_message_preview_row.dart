@@ -10,47 +10,13 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
 
-class DmListTileSubtext extends StatelessWidget {
+class DmListTileSubtext extends ConsumerWidget {
   const DmListTileSubtext({
     required this.conversation,
     required this.style,
     required this.hasUnread,
     required this.currentUserId,
     super.key,
-  });
-
-  final DmConversation conversation;
-  final TextStyle style;
-  final bool hasUnread;
-  final String? currentUserId;
-
-  @override
-  Widget build(BuildContext context) {
-    if (conversation.isGroup) {
-      return Text(
-        FluxerLocalizations.of(
-          context,
-        ).dmGroupMemberCount(conversation.memberCount),
-        style: style.copyWith(height: 14 / 11),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-      );
-    }
-    return _DmListDirectSubtext(
-      conversation: conversation,
-      style: style,
-      hasUnread: hasUnread,
-      currentUserId: currentUserId,
-    );
-  }
-}
-
-class _DmListDirectSubtext extends ConsumerWidget {
-  const _DmListDirectSubtext({
-    required this.conversation,
-    required this.style,
-    required this.hasUnread,
-    required this.currentUserId,
   });
 
   final DmConversation conversation;
@@ -92,6 +58,16 @@ class _DmListDirectSubtext extends ConsumerWidget {
           ).dmListSentAnAttachment,
         );
       }
+    }
+    if (conversation.isGroup) {
+      return Text(
+        FluxerLocalizations.of(
+          context,
+        ).dmGroupMemberCount(conversation.memberCount),
+        style: style.copyWith(height: 14 / 11),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+      );
     }
     final String? customStatus = ref.watch(
       dmListRecipientRowDataProvider.select(

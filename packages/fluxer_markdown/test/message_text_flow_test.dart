@@ -690,9 +690,9 @@ void main() {
             'This is a very long first line that exceeds phone width\nshort';
         const double maxWidth = 200;
         await tester.pumpWidget(
-          MaterialApp(
+          const MaterialApp(
             home: MediaQuery(
-              data: const MediaQueryData(textScaler: TextScaler.noScaling),
+              data: MediaQueryData(textScaler: TextScaler.noScaling),
               child: Scaffold(
                 body: Center(
                   child: SizedBox(
@@ -701,7 +701,7 @@ void main() {
                       data: input,
                       config: _testMarkdownConfig,
                       baseStyle: baseStyle,
-                      trailingInlineWidget: const Text(
+                      trailingInlineWidget: Text(
                         '(edited)',
                         style: TextStyle(fontSize: 10, height: 1.2),
                       ),

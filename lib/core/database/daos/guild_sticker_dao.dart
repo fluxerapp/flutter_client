@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/guild_stickers.dart';
@@ -10,12 +11,14 @@ class GuildStickerDao extends DatabaseAccessor<FluxerDatabase>
     with _$GuildStickerDaoMixin {
   GuildStickerDao(super.attachedDatabase);
 
-  Stream<List<GuildSticker>> watchAll() => select(guildStickers).watch();
+  Stream<List<GuildSticker>> watchAll() =>
+      select(guildStickers).watch().suppressDriftCancellation;
 
   Future<List<GuildSticker>> getAll() => select(guildStickers).get();
 
-  Stream<List<GuildSticker>> watchByGuild(String guildId) =>
-      (select(guildStickers)..where((s) => s.guildId.equals(guildId))).watch();
+  Stream<List<GuildSticker>> watchByGuild(String guildId) => (select(
+    guildStickers,
+  )..where((s) => s.guildId.equals(guildId))).watch().suppressDriftCancellation;
 
   Future<List<GuildSticker>> getByGuild(String guildId) =>
       (select(guildStickers)..where((s) => s.guildId.equals(guildId))).get();

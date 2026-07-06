@@ -40,6 +40,7 @@ class Messages extends Table {
   IntColumn get deliveryState => integer().withDefault(const Constant(1))();
   TextColumn get clientNonce => text().nullable()();
   TextColumn get sendError => text().nullable()();
+  TextColumn get callJson => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

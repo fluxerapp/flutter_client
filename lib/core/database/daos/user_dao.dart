@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/users.dart';
@@ -20,13 +21,17 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
   }
 
   Stream<User?> watchUserById(String id) =>
-      (select(users)..where((u) => u.id.equals(id))).watchSingleOrNull();
+      (select(users)..where((u) => u.id.equals(id)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Stream<List<User>> watchUsersByIds(List<String> ids) {
     if (ids.isEmpty) {
       return Stream<List<User>>.value(const <User>[]);
     }
-    return (select(users)..where((u) => u.id.isIn(ids))).watch();
+    return (select(
+      users,
+    )..where((u) => u.id.isIn(ids))).watch().suppressDriftCancellation;
   }
 
   Future<void> upsertUser(UsersCompanion user) =>

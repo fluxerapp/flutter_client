@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -21,6 +19,8 @@ class FluxerGuildIconAvatar extends StatelessWidget {
     this.imageUrl,
     this.isUnavailable = false,
     this.isCircle = false,
+    this.initialsColor,
+    this.initialsFontWeight = FontWeight.w600,
     this.size = 36,
     super.key,
   });
@@ -29,6 +29,8 @@ class FluxerGuildIconAvatar extends StatelessWidget {
   final String? imageUrl;
   final bool isUnavailable;
   final bool isCircle;
+  final Color? initialsColor;
+  final FontWeight initialsFontWeight;
   final double size;
 
   @override
@@ -62,14 +64,25 @@ class FluxerGuildIconAvatar extends StatelessWidget {
       );
     }
     final String? url = imageUrl;
+    final Color fallbackColor = initialsColor ?? colors.textTertiary;
     if (url == null) {
-      return _LetterFallback(name: name, color: colors.textPrimary, size: size);
+      return _LetterFallback(
+        name: name,
+        color: fallbackColor,
+        fontWeight: initialsFontWeight,
+        size: size,
+      );
     }
     return CachedNetworkImage(
       imageUrl: url,
       fit: BoxFit.cover,
       errorBuilder: (BuildContext _, Object _, StackTrace? _) =>
-          _LetterFallback(name: name, color: colors.textPrimary, size: size),
+          _LetterFallback(
+            name: name,
+            color: fallbackColor,
+            fontWeight: initialsFontWeight,
+            size: size,
+          ),
     );
   }
 }
@@ -78,11 +91,13 @@ class _LetterFallback extends StatelessWidget {
   const _LetterFallback({
     required this.name,
     required this.color,
+    required this.fontWeight,
     required this.size,
   });
 
   final String name;
   final Color color;
+  final FontWeight fontWeight;
   final double size;
 
   @override
@@ -92,7 +107,7 @@ class _LetterFallback extends StatelessWidget {
         abbreviateGuildName(name),
         style: TextStyle(
           fontSize: _guildInitialsFontSize(guildNameInitialsLength(name), size),
-          fontWeight: FontWeight.w700,
+          fontWeight: fontWeight,
           color: color,
           height: 1,
         ),
@@ -103,10 +118,10 @@ class _LetterFallback extends StatelessWidget {
 
 double _guildInitialsFontSize(int length, double size) {
   if (length <= 2) {
-    return min(13, size * 0.55);
+    return (size * 0.275).clamp(10, 22);
   }
   if (length <= kGuildIconInitialsMaxLength) {
-    return min(11, size * 0.45);
+    return (size * 0.225).clamp(9, 18);
   }
-  return min(9, size * 0.35);
+  return (size * 0.1875).clamp(8, 15);
 }

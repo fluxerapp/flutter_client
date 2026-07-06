@@ -30,7 +30,7 @@ void main() {
       container
           .read(voiceStatesMapProvider.notifier)
           .update(
-            VoiceState(
+            const VoiceState(
               userId: 'self',
               channelId: 'voice-1',
               guildId: 'g1',
@@ -42,9 +42,8 @@ void main() {
       container
           .read(voiceStatesMapProvider.notifier)
           .update(
-            VoiceState(
+            const VoiceState(
               userId: 'self',
-              channelId: null,
               guildId: 'g1',
               connectionId: connectionId,
             ),
@@ -65,7 +64,7 @@ void main() {
       container
           .read(voiceStatesMapProvider.notifier)
           .update(
-            VoiceState(
+            const VoiceState(
               userId: userId,
               channelId: channelId,
               guildId: 'g1',
@@ -84,9 +83,8 @@ void main() {
       container
           .read(voiceStatesMapProvider.notifier)
           .update(
-            VoiceState(
+            const VoiceState(
               userId: userId,
-              channelId: null,
               guildId: 'g1',
               connectionId: connectionId,
             ),
@@ -116,9 +114,8 @@ void main() {
       container
           .read(voiceStatesMapProvider.notifier)
           .update(
-            VoiceState(
+            const VoiceState(
               userId: 'self',
-              channelId: null,
               guildId: 'g1',
               connectionId: 'conn-mobile',
             ),

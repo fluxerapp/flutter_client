@@ -94,7 +94,11 @@ void main() {
     container
         .read(voiceStatesMapProvider.notifier)
         .update(
-          VoiceState(userId: userId, channelId: channelId, guildId: guildId),
+          const VoiceState(
+            userId: userId,
+            channelId: channelId,
+            guildId: guildId,
+          ),
         );
     expect(
       container.read(voiceStatesMapProvider).containsKey(syntheticKey),
@@ -104,7 +108,7 @@ void main() {
     container
         .read(voiceStatesMapProvider.notifier)
         .update(
-          VoiceState(
+          const VoiceState(
             userId: userId,
             channelId: channelId,
             guildId: guildId,
@@ -126,7 +130,7 @@ void main() {
     container
         .read(voiceStatesMapProvider.notifier)
         .update(
-          VoiceState(
+          const VoiceState(
             userId: userId,
             channelId: channelId,
             guildId: 'g1',
@@ -138,9 +142,8 @@ void main() {
     container
         .read(voiceStatesMapProvider.notifier)
         .update(
-          VoiceState(
+          const VoiceState(
             userId: userId,
-            channelId: null,
             guildId: 'g1',
             connectionId: connectionId,
           ),

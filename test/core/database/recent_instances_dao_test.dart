@@ -1,15 +1,12 @@
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 
 void main() {
   test(
     'touchRecentInstance keeps at most five entries ordered by recency',
     () async {
-      final FluxerDatabase db = FluxerDatabase.forTesting(
-        NativeDatabase.memory(),
-      );
-      addTearDown(db.close);
+      final FluxerDatabase db = openTestDatabase();
       final dao = db.recentInstancesDao;
 
       for (int index = 0; index < 6; index++) {
@@ -31,10 +28,7 @@ void main() {
   );
 
   test('removeRecentInstance deletes a stored domain', () async {
-    final FluxerDatabase db = FluxerDatabase.forTesting(
-      NativeDatabase.memory(),
-    );
-    addTearDown(db.close);
+    final FluxerDatabase db = openTestDatabase();
     final dao = db.recentInstancesDao;
 
     await dao.touchRecentInstance(domain: 'chat.example.com', name: 'Chat');
@@ -47,10 +41,7 @@ void main() {
   test(
     'touchRecentInstance updates name and lastUsed for existing domain',
     () async {
-      final FluxerDatabase db = FluxerDatabase.forTesting(
-        NativeDatabase.memory(),
-      );
-      addTearDown(db.close);
+      final FluxerDatabase db = openTestDatabase();
       final dao = db.recentInstancesDao;
 
       await dao.touchRecentInstance(domain: 'Chat.Example.com');

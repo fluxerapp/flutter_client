@@ -89,22 +89,23 @@ class UnreadScrollIndicatorController {
       if (severity == null) {
         continue;
       }
-      final RenderObject? renderObject = entry.value.currentContext
-          ?.findRenderObject();
-      if (renderObject is! RenderBox || !renderObject.attached) {
+      final RenderBox? itemBox = _laidOutBox(entry.value.currentContext);
+      if (itemBox == null) {
         continue;
       }
-      final BuildContext scrollableContext =
-          scrollPosition.context.storageContext;
-      final RenderBox scrollableRenderObject =
-          scrollableContext.findRenderObject()! as RenderBox;
+      final RenderBox? scrollableRenderObject = _laidOutBox(
+        scrollPosition.context.storageContext,
+      );
+      if (scrollableRenderObject == null) {
+        return;
+      }
       final double scrollableTop = scrollableRenderObject
           .localToGlobal(Offset.zero)
           .dy;
       final double scrollableBottom =
           scrollableTop + scrollPosition.viewportDimension;
-      final double itemTop = renderObject.localToGlobal(Offset.zero).dy;
-      final double itemBottom = itemTop + renderObject.size.height;
+      final double itemTop = itemBox.localToGlobal(Offset.zero).dy;
+      final double itemBottom = itemTop + itemBox.size.height;
       if (itemBottom < scrollableTop) {
         final double distance = scrollableTop - itemBottom;
         if (_shouldReplaceCandidate(
@@ -163,6 +164,28 @@ class UnreadScrollIndicatorController {
         curve: Curves.easeOut,
       ),
     );
+  }
+
+  static RenderBox? _laidOutBox(BuildContext? context) {
+    final RenderObject? renderObject = context?.findRenderObject();
+    if (renderObject is! RenderBox || !_isLaidOut(renderObject)) {
+      return null;
+    }
+    return renderObject;
+  }
+
+  static bool _isLaidOut(RenderObject renderObject) {
+    RenderObject? current = renderObject;
+    while (current != null) {
+      if (!current.attached) {
+        return false;
+      }
+      if (current is RenderBox && !current.hasSize) {
+        return false;
+      }
+      current = current.parent;
+    }
+    return true;
   }
 
   static bool _shouldReplaceCandidate({

@@ -142,9 +142,7 @@ class _NekoSpriteState extends ConsumerState<NekoSprite> {
     if (currentUserId == null || message.author.id == currentUserId) {
       return;
     }
-    final bool isMentioned =
-        message.mentionEveryone ||
-        message.mentions.any((UserPartialResponse u) => u.id == currentUserId);
+    final bool isMentioned = event.snapshot.mentionsCurrentUser;
     if (!isMentioned) {
       return;
     }

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -98,8 +98,7 @@ void main() {
   test(
     'caches the pending 0 when the current user member row is not loaded',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await _seedEveryoneRole(db, permissions: Permission.viewChannel.value);
 
       final container = _container(db);
@@ -122,8 +121,7 @@ void main() {
   test(
     'refreshPermissions replaces the cached pending 0 once membership loads',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await _seedEveryoneRole(db, permissions: Permission.viewChannel.value);
 
       final container = _container(db);
@@ -146,8 +144,7 @@ void main() {
   );
 
   test('caches a genuine 0 when the member has no permissions', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await _seedEveryoneRole(db, permissions: 0);
     await _seedMember(db);
 
@@ -165,8 +162,7 @@ void main() {
   });
 
   test('does not cache an unknown guild so it can resolve later', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     final container = _container(db);
     addTearDown(container.dispose);

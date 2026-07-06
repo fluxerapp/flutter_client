@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -13,13 +14,15 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
-  return MaterialApp(
-    theme: buildFluxerTheme(
-      colorTheme: colorTheme,
-      textTheme: FluxerTextTheme.fromColors(colorTheme),
-      layoutTheme: FluxerLayoutTheme.scaled(),
+  return ProviderScope(
+    child: MaterialApp(
+      theme: buildFluxerTheme(
+        colorTheme: colorTheme,
+        textTheme: FluxerTextTheme.fromColors(colorTheme),
+        layoutTheme: FluxerLayoutTheme.scaled(),
+      ),
+      home: Scaffold(body: child),
     ),
-    home: Scaffold(body: child),
   );
 }
 

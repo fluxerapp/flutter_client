@@ -8,12 +8,16 @@ class FluxerMarkdownFeatures {
     required this.allowBlockquotes,
     required this.allowChannelMentions,
     required this.allowCodeBlocks,
+    required this.allowCommandMentions,
     required this.allowEveryoneMentions,
+    required this.allowGuildNavigations,
     required this.allowHeadings,
     required this.allowJumboEmoji,
     required this.allowLists,
+    required this.allowMultilineBlockquotes,
     required this.allowPlainInlineCode,
     required this.allowRoleMentions,
+    required this.allowSpoilers,
     required this.allowSubtext,
     required this.allowTables,
     required this.allowUserMentions,
@@ -26,12 +30,16 @@ class FluxerMarkdownFeatures {
         allowBlockquotes: true,
         allowChannelMentions: true,
         allowCodeBlocks: true,
+        allowCommandMentions: true,
         allowEveryoneMentions: true,
+        allowGuildNavigations: true,
         allowHeadings: true,
         allowJumboEmoji: true,
         allowLists: true,
+        allowMultilineBlockquotes: true,
         allowPlainInlineCode: false,
         allowRoleMentions: true,
+        allowSpoilers: true,
         allowSubtext: true,
         allowTables: true,
         allowUserMentions: true,
@@ -42,12 +50,16 @@ class FluxerMarkdownFeatures {
           allowBlockquotes: false,
           allowChannelMentions: true,
           allowCodeBlocks: false,
+          allowCommandMentions: true,
           allowEveryoneMentions: true,
+          allowGuildNavigations: true,
           allowHeadings: false,
           allowJumboEmoji: false,
           allowLists: false,
+          allowMultilineBlockquotes: false,
           allowPlainInlineCode: true,
           allowRoleMentions: true,
+          allowSpoilers: true,
           allowSubtext: false,
           allowTables: false,
           allowUserMentions: true,
@@ -57,12 +69,16 @@ class FluxerMarkdownFeatures {
         allowBlockquotes: true,
         allowChannelMentions: true,
         allowCodeBlocks: false,
+        allowCommandMentions: true,
         allowEveryoneMentions: false,
+        allowGuildNavigations: true,
         allowHeadings: false,
         allowJumboEmoji: false,
         allowLists: true,
+        allowMultilineBlockquotes: true,
         allowPlainInlineCode: false,
         allowRoleMentions: false,
+        allowSpoilers: true,
         allowSubtext: false,
         allowTables: false,
         allowUserMentions: true,
@@ -73,12 +89,16 @@ class FluxerMarkdownFeatures {
           allowBlockquotes: true,
           allowChannelMentions: true,
           allowCodeBlocks: true,
+          allowCommandMentions: true,
           allowEveryoneMentions: true,
+          allowGuildNavigations: true,
           allowHeadings: false,
           allowJumboEmoji: false,
           allowLists: true,
+          allowMultilineBlockquotes: true,
           allowPlainInlineCode: false,
           allowRoleMentions: true,
+          allowSpoilers: true,
           allowSubtext: true,
           allowTables: false,
           allowUserMentions: true,
@@ -89,12 +109,16 @@ class FluxerMarkdownFeatures {
           allowBlockquotes: true,
           allowChannelMentions: true,
           allowCodeBlocks: true,
+          allowCommandMentions: true,
           allowEveryoneMentions: true,
+          allowGuildNavigations: true,
           allowHeadings: true,
           allowJumboEmoji: false,
           allowLists: true,
+          allowMultilineBlockquotes: true,
           allowPlainInlineCode: false,
           allowRoleMentions: true,
+          allowSpoilers: true,
           allowSubtext: true,
           allowTables: true,
           allowUserMentions: true,
@@ -106,12 +130,16 @@ class FluxerMarkdownFeatures {
   final bool allowBlockquotes;
   final bool allowChannelMentions;
   final bool allowCodeBlocks;
+  final bool allowCommandMentions;
   final bool allowEveryoneMentions;
+  final bool allowGuildNavigations;
   final bool allowHeadings;
   final bool allowJumboEmoji;
   final bool allowLists;
+  final bool allowMultilineBlockquotes;
   final bool allowPlainInlineCode;
   final bool allowRoleMentions;
+  final bool allowSpoilers;
   final bool allowSubtext;
   final bool allowTables;
   final bool allowUserMentions;
@@ -123,12 +151,16 @@ class FluxerMarkdownFeatures {
       other.allowBlockquotes == allowBlockquotes &&
       other.allowChannelMentions == allowChannelMentions &&
       other.allowCodeBlocks == allowCodeBlocks &&
+      other.allowCommandMentions == allowCommandMentions &&
       other.allowEveryoneMentions == allowEveryoneMentions &&
+      other.allowGuildNavigations == allowGuildNavigations &&
       other.allowHeadings == allowHeadings &&
       other.allowJumboEmoji == allowJumboEmoji &&
       other.allowLists == allowLists &&
+      other.allowMultilineBlockquotes == allowMultilineBlockquotes &&
       other.allowPlainInlineCode == allowPlainInlineCode &&
       other.allowRoleMentions == allowRoleMentions &&
+      other.allowSpoilers == allowSpoilers &&
       other.allowSubtext == allowSubtext &&
       other.allowTables == allowTables &&
       other.allowUserMentions == allowUserMentions;
@@ -139,12 +171,16 @@ class FluxerMarkdownFeatures {
     allowBlockquotes,
     allowChannelMentions,
     allowCodeBlocks,
+    allowCommandMentions,
     allowEveryoneMentions,
+    allowGuildNavigations,
     allowHeadings,
     allowJumboEmoji,
     allowLists,
+    allowMultilineBlockquotes,
     allowPlainInlineCode,
     allowRoleMentions,
+    allowSpoilers,
     allowSubtext,
     allowTables,
     allowUserMentions,

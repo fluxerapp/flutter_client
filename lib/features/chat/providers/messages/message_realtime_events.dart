@@ -1,13 +1,38 @@
+import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+
+class MessagePersistSnapshot {
+  const MessagePersistSnapshot({
+    required this.mentionsCurrentUser,
+    required this.isDm,
+    required this.guildStorageId,
+    required this.acknowledgedByGateway,
+    this.notificationLevel,
+  });
+
+  final bool mentionsCurrentUser;
+  final bool isDm;
+  final String? guildStorageId;
+  final bool acknowledgedByGateway;
+  final UserNotificationSettings? notificationLevel;
+}
+
+class MessageCreateDispatch {
+  const MessageCreateDispatch({required this.event, required this.snapshot});
+
+  final MessageCreateEvent event;
+  final MessagePersistSnapshot snapshot;
+}
 
 sealed class MessageRealtimeEvent {
   const MessageRealtimeEvent();
 }
 
 class MessageCreated extends MessageRealtimeEvent {
-  final MessageCreateEvent event;
+  const MessageCreated({required this.event, required this.snapshot});
 
-  const MessageCreated(this.event);
+  final MessageCreateEvent event;
+  final MessagePersistSnapshot snapshot;
 }
 
 class MessageUpdated extends MessageRealtimeEvent {

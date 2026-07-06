@@ -1,7 +1,7 @@
-import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -66,10 +66,7 @@ Widget _host(ProviderContainer container, {required Widget child}) {
 
 void main() {
   testWidgets('DM members tab shows the one-to-one recipient', (tester) async {
-    final FluxerDatabase database = FluxerDatabase.forTesting(
-      NativeDatabase.memory(),
-    );
-    addTearDown(database.close);
+    final FluxerDatabase database = openTestDatabase();
     final ProviderContainer container = _container(
       database,
       currentUserId: '1000000000000000001',
@@ -115,10 +112,7 @@ void main() {
   testWidgets(
     'disposing a guild-channel sheet clears member-list state without using ref',
     (tester) async {
-      final FluxerDatabase database = FluxerDatabase.forTesting(
-        NativeDatabase.memory(),
-      );
-      addTearDown(database.close);
+      final FluxerDatabase database = openTestDatabase();
       final ProviderContainer container = _container(database);
       addTearDown(container.dispose);
       final ScrollController scrollController = ScrollController();

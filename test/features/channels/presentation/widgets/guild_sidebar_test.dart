@@ -1,8 +1,8 @@
-import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
@@ -200,6 +200,7 @@ void main() {
       expect(find.text('Mute Category'), findsOneWidget);
       expect(find.text('Copy Category ID'), findsOneWidget);
       expect(find.text('Mark Category as Read'), findsOneWidget);
+      expect(find.text('Debug Category'), findsNothing);
 
       // Order must mirror the web category menu: Mark as Read -> Mute -> Copy ID.
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
@@ -250,6 +251,27 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Debug Channel'), findsOneWidget);
+    });
+
+    testWidgets('category menu shows Debug Category in developer mode', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+            developerMode: true,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.longPress(find.text('My Category'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Debug Category'), findsOneWidget);
     });
 
     testWidgets('link channel menu shows Open Link', (tester) async {
@@ -428,6 +450,82 @@ void main() {
     });
   });
 
+  group('GuildSidebar scroll persistence', () {
+    testWidgets('restores channel list scroll after widget recreation', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(390, 220);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final List<Channel> channels = List<Channel>.generate(
+        20,
+        (int index) => _channel('c${index + 1}', 'channel-${index + 1}'),
+      );
+      final Map<String, UnreadState> unread = <String, UnreadState>{
+        for (int index = 1; index <= 20; index++)
+          'c$index': index == 20
+              ? const UnreadState(hasUnread: true, hasUnreadMessages: true)
+              : const UnreadState(),
+      };
+      final List<Override> overrides = _buildOverrides(
+        channelListState: ChannelListState(
+          guild: const Guild(id: _guildId, name: 'Test Guild'),
+          categories: [
+            ChannelCategory(
+              id: 'cat1',
+              name: 'My Category',
+              channels: channels,
+            ),
+          ],
+          selectedChannelId: 'c1',
+        ),
+        selectedChannelId: 'c1',
+        unread: unread,
+      );
+      final ProviderContainer container = ProviderContainer(
+        overrides: overrides,
+      );
+      addTearDown(container.dispose);
+      final colorTheme = buildDarkColorTheme();
+      Future<void> pumpSidebar() async {
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: MaterialApp(
+              localizationsDelegates:
+                  FluxerLocalizations.localizationsDelegates,
+              supportedLocales: FluxerLocalizations.supportedLocales,
+              theme: buildFluxerTheme(
+                colorTheme: colorTheme,
+                textTheme: FluxerTextTheme.fromColors(colorTheme),
+                layoutTheme: FluxerLayoutTheme.scaled(),
+              ),
+              home: const Scaffold(body: GuildSidebar()),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+      }
+
+      await pumpSidebar();
+      await tester.scrollUntilVisible(
+        find.text('channel-20'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('channel-20'), findsOneWidget);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+      await pumpSidebar();
+
+      expect(find.text('channel-20'), findsOneWidget);
+    });
+  });
+
   group('GuildSidebar voice session isolation', () {
     testWidgets(
       'keeps text channels visible when voice session is connecting',
@@ -547,8 +645,7 @@ List<Override> _buildOverrides({
   bool developerMode = false,
   VoiceSession Function()? voiceSessionFactory,
 }) {
-  final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-  addTearDown(db.close);
+  final db = openTestDatabase();
   return [
     fluxerDatabaseProvider.overrideWithValue(db),
     currentUserIdProvider.overrideWithValue('me'),

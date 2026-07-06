@@ -87,7 +87,7 @@ class DiscoveryLanguageAppBarAction extends ConsumerWidget {
     final String? language = ref.watch(discoveryControllerProvider).language;
     final String compactLabel = discoveryLanguageCompactLabel(language);
     final bool hasFilter = language != null;
-    final VoidCallback openPicker = () => showDiscoveryLanguagePicker(
+    void openPicker() => showDiscoveryLanguagePicker(
       context: context,
       value: language,
       onChanged: ref.read(discoveryControllerProvider.notifier).setLanguage,
@@ -96,7 +96,10 @@ class DiscoveryLanguageAppBarAction extends ConsumerWidget {
       return IconButton(
         onPressed: openPicker,
         tooltip: l10n.discoveryFilterByLanguage,
-        icon: PhosphorIcon(PhosphorIconsRegular.globe, color: Colors.white),
+        icon: const PhosphorIcon(
+          PhosphorIconsRegular.globe,
+          color: Colors.white,
+        ),
       );
     }
     return TextButton(
@@ -110,7 +113,7 @@ class DiscoveryLanguageAppBarAction extends ConsumerWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          PhosphorIcon(PhosphorIconsBold.funnel, size: 16),
+          const PhosphorIcon(PhosphorIconsBold.funnel, size: 16),
           SizedBox(width: layout.s1),
           Text(
             compactLabel,
@@ -120,7 +123,7 @@ class DiscoveryLanguageAppBarAction extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 2),
-          PhosphorIcon(PhosphorIconsBold.caretDown, size: 12),
+          const PhosphorIcon(PhosphorIconsBold.caretDown, size: 12),
         ],
       ),
     );

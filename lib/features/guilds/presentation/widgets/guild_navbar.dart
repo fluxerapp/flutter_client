@@ -20,7 +20,6 @@ import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
-import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -54,9 +53,11 @@ import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/guilds/presentation/'
     'widgets/guild_scroll_indicator.dart';
+import 'package:fluxer_app/features/guilds/providers/add_guild_enabled_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_navbar_scroll_store_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_permissions_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_ready_provider.dart';
@@ -67,6 +68,7 @@ import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/shell/navigation/root_overlay_navigation.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
@@ -116,13 +118,21 @@ class GuildNavbar extends ConsumerStatefulWidget {
 }
 
 class _GuildNavbarState extends ConsumerState<GuildNavbar> {
-  final _scrollController = ScrollController();
+  late final ScrollController _scrollController;
   final Map<String, GlobalKey> _itemKeys = <String, GlobalKey>{};
   late final UnreadScrollIndicatorController _scrollIndicator;
+  bool _restoring = false;
+  bool _needsScrollClamp = false;
+  GuildNavbarScrollStore? _scrollStore;
 
   @override
   void initState() {
     super.initState();
+    _scrollStore = ref.read(guildNavbarScrollStoreProvider);
+    final double savedOffset = _scrollStore?.offset ?? 0;
+    _needsScrollClamp = savedOffset > 0;
+    _scrollController = ScrollController(initialScrollOffset: savedOffset)
+      ..addListener(_persistScroll);
     _scrollIndicator = UnreadScrollIndicatorController(
       scrollController: _scrollController,
       itemKeys: _itemKeys,
@@ -135,7 +145,48 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         return;
       }
       _prefetchGuildPermissions(ref.read(organizedGuildListProvider));
+      _clampScrollOffset();
       _scrollIndicator.scheduleUpdate();
+    });
+  }
+
+  void _persistScroll() {
+    if (_restoring) {
+      return;
+    }
+    if (_scrollStore != null && _scrollController.hasClients) {
+      _scrollStore!.setOffset(_scrollController.offset);
+    }
+  }
+
+  void _clampScrollOffset() {
+    if (!_needsScrollClamp || !_scrollController.hasClients) {
+      return;
+    }
+    final double maxExtent = _scrollController.position.maxScrollExtent;
+    if (maxExtent <= 0) {
+      return;
+    }
+    final double saved = _scrollStore?.offset ?? 0;
+    final double target = saved.clamp(0, maxExtent);
+    if ((_scrollController.offset - target).abs() > 0.5) {
+      _restoring = true;
+      _scrollController.jumpTo(target);
+      _restoring = false;
+    }
+    _needsScrollClamp = false;
+    _scrollIndicator.scheduleUpdate();
+  }
+
+  void _scheduleScrollClamp() {
+    if (!_needsScrollClamp) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _clampScrollOffset();
     });
   }
 
@@ -162,6 +213,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     required bool dmItemsVisible,
     required int pendingUnavailableCount,
     required List<GuildNavbarItem> organizedItems,
+    required bool showAddCommunity,
   }) {
     final List<_NavbarListEntry> entries = <_NavbarListEntry>[
       const _NavbarListEntry(kind: _NavbarListEntryKind.directMessages),
@@ -212,15 +264,22 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       ..add(const _NavbarListEntry(kind: _NavbarListEntryKind.divider))
       ..add(
         const _NavbarListEntry(kind: _NavbarListEntryKind.exploreCommunities),
-      )
-      ..add(const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity))
-      ..add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
+      );
+    if (showAddCommunity) {
+      entries.add(
+        const _NavbarListEntry(kind: _NavbarListEntryKind.addCommunity),
+      );
+    }
+    entries.add(const _NavbarListEntry(kind: _NavbarListEntryKind.help));
     return entries;
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _persistScroll();
+    _scrollController
+      ..removeListener(_persistScroll)
+      ..dispose();
     _scrollIndicator.detach();
     super.dispose();
   }
@@ -243,6 +302,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
 
   @override
   Widget build(BuildContext context) {
+    _scrollStore = ref.read(guildNavbarScrollStoreProvider);
     final organizedItems = ref.watch(organizedGuildListProvider);
     final guilds = ref.watch(
       guildListViewModelProvider.select((s) => s.guilds),
@@ -283,11 +343,15 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         if (previous != next) {
           _prefetchGuildPermissions(next);
         }
+        if (_needsScrollClamp && next.isNotEmpty) {
+          _scheduleScrollClamp();
+        }
       })
       ..listen(guildReadStateProvider, (_, _) {
         _scrollIndicator.scheduleUpdate();
       });
 
+    final bool showAddCommunity = ref.watch(addGuildEnabledProvider);
     final double topPadding = max<double>(MediaQuery.paddingOf(context).top, 4);
     final List<_NavbarListEntry> navbarEntries = _buildNavbarEntries(
       showFavorites: showFavorites,
@@ -296,6 +360,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       dmItemsVisible: dmItemsVisible,
       pendingUnavailableCount: pendingUnavailableCount,
       organizedItems: organizedItems,
+      showAddCommunity: showAddCommunity,
     );
     final guildListView = ListView.builder(
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
@@ -467,7 +532,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         return _DashedGuildIcon(
           label: l10n.guildNavbarAddCommunity,
           icon: PhosphorIconsRegular.plus,
-          onTap: () => unawaited(showAddGuildModal(context)),
+          onTap: () => unawaited(showAddGuildModal(context, ref)),
         );
       case _NavbarListEntryKind.help:
         return _DashedGuildIcon(

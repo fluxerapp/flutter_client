@@ -67,6 +67,7 @@ export 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 export 'package:fluxer_app/features/ui/toggle_switch/fluxer_switch_control.dart';
 export 'package:fluxer_app/features/ui/toggle_switch/fluxer_toggle_switch.dart';
 export 'package:fluxer_app/features/ui/tooltip/fluxer_tooltip.dart';
+export 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
 export 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 export 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 export 'package:fluxer_app/features/ui/voice/voice_channel_leave_button.dart';

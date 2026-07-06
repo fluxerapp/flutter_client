@@ -29,11 +29,11 @@ ThemeData buildFluxerTheme({
     colorScheme: ColorScheme(
       brightness: brightness,
       primary: colorTheme.brandPrimary,
-      onPrimary: colorTheme.textOnBrandPrimary,
+      onPrimary: colorTheme.brandPrimaryFill,
       secondary: colorTheme.brandSecondary,
-      onSecondary: colorTheme.textOnBrandPrimary,
+      onSecondary: colorTheme.brandPrimaryFill,
       error: colorTheme.accentDanger,
-      onError: colorTheme.textOnBrandPrimary,
+      onError: colorTheme.brandPrimaryFill,
       surface: colorTheme.backgroundPrimary,
       onSurface: colorTheme.textPrimary,
       surfaceContainerHighest: colorTheme.backgroundTertiary,
@@ -66,7 +66,7 @@ ThemeData buildFluxerTheme({
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: colorTheme.brandPrimary,
-        foregroundColor: colorTheme.textOnBrandPrimary,
+        foregroundColor: colorTheme.brandPrimaryFill,
         disabledBackgroundColor: colorTheme.brandPrimary.withValues(alpha: 0.5),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         minimumSize: const Size(96, 44),
@@ -395,7 +395,7 @@ ThemeData buildFluxerTheme({
     // FAB — brand-primary
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: colorTheme.brandPrimary,
-      foregroundColor: colorTheme.textOnBrandPrimary,
+      foregroundColor: colorTheme.brandPrimaryFill,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: layoutTheme.radiusXl),
     ),
@@ -514,7 +514,7 @@ ThemeData buildFluxerTheme({
         }),
         foregroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return colorTheme.textOnBrandPrimary;
+            return colorTheme.brandPrimaryFill;
           }
           return colorTheme.textSecondary;
         }),
@@ -553,7 +553,7 @@ ThemeData buildFluxerTheme({
       headerForegroundColor: colorTheme.textPrimary,
       dayForegroundColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
-          return colorTheme.textOnBrandPrimary;
+          return colorTheme.brandPrimaryFill;
         }
         return colorTheme.textPrimary;
       }),

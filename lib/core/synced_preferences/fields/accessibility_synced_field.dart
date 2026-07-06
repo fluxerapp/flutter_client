@@ -5,6 +5,8 @@ import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/prefere
     as pb;
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as prefs;
+import 'package:fluxer_app/core/theme/custom_theme_css.dart';
+import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
@@ -19,6 +21,10 @@ class AccessibilityLocalState {
     required this.useSystemLocaleForTimeFormat,
     required this.messageGroupSpacing,
     required this.compactMessageGroupSpacing,
+    required this.saturationFactor,
+    required this.customThemeCss,
+    this.hasSaturationFactorInProto = true,
+    this.hasCustomThemeCssInProto = true,
   });
 
   final bool hideKeyboardHints;
@@ -30,6 +36,10 @@ class AccessibilityLocalState {
   final bool useSystemLocaleForTimeFormat;
   final double messageGroupSpacing;
   final double compactMessageGroupSpacing;
+  final double saturationFactor;
+  final String? customThemeCss;
+  final bool hasSaturationFactorInProto;
+  final bool hasCustomThemeCssInProto;
 }
 
 class AccessibilitySyncedField
@@ -44,6 +54,7 @@ class AccessibilitySyncedField
   @override
   AccessibilityLocalState readLocal() {
     final appearance = _ref.read(appearancePreferencesProvider);
+    final theme = _ref.read(themePreferenceProvider);
     return AccessibilityLocalState(
       hideKeyboardHints: appearance.hideKeyboardHints,
       channelTypingIndicatorMode: appearance.channelTypingIndicatorMode,
@@ -55,13 +66,25 @@ class AccessibilitySyncedField
       useSystemLocaleForTimeFormat: appearance.useSystemLocaleForTimeFormat,
       messageGroupSpacing: appearance.messageGroupSpacing,
       compactMessageGroupSpacing: appearance.compactMessageGroupSpacing,
+      saturationFactor: theme.saturationFactor,
+      customThemeCss: theme.customThemeCss,
     );
   }
 
   @override
   Future<void> applyRemote(AccessibilityLocalState value) async {
-    final notifier = _ref.read(appearancePreferencesProvider.notifier);
-    await notifier.applySyncedAccessibility(value);
+    final appearanceNotifier = _ref.read(
+      appearancePreferencesProvider.notifier,
+    );
+    final themeNotifier = _ref.read(themePreferenceProvider.notifier);
+    await appearanceNotifier.applySyncedAccessibility(value);
+    await themeNotifier.applySyncedThemeCustomization(
+      saturationFactor: value.saturationFactor,
+      customThemeCss: value.customThemeCss,
+      updateSaturationFactor: value.hasSaturationFactorInProto,
+      updateCustomThemeCss:
+          value.hasCustomThemeCssInProto && value.customThemeCss != null,
+    );
   }
 
   @override
@@ -88,7 +111,10 @@ class AccessibilitySyncedField
         a.showFavorites == b.showFavorites &&
         a.useSystemLocaleForTimeFormat == b.useSystemLocaleForTimeFormat &&
         a.messageGroupSpacing == b.messageGroupSpacing &&
-        a.compactMessageGroupSpacing == b.compactMessageGroupSpacing;
+        a.compactMessageGroupSpacing == b.compactMessageGroupSpacing &&
+        a.saturationFactor == b.saturationFactor &&
+        normalizeCustomThemeCss(a.customThemeCss) ==
+            normalizeCustomThemeCss(b.customThemeCss);
   }
 
   @override
@@ -107,7 +133,28 @@ class AccessibilitySyncedField
       useSystemLocaleForTimeFormat: local.useSystemLocaleForTimeFormat,
       messageGroupSpacing: local.messageGroupSpacing,
       compactMessageGroupSpacing: local.compactMessageGroupSpacing,
+      saturationFactor: remote.hasSaturationFactorInProto
+          ? remote.saturationFactor
+          : local.saturationFactor,
+      customThemeCss:
+          remote.hasCustomThemeCssInProto && remote.customThemeCss != null
+          ? remote.customThemeCss
+          : local.customThemeCss,
+      hasSaturationFactorInProto:
+          remote.hasSaturationFactorInProto || local.hasSaturationFactorInProto,
+      hasCustomThemeCssInProto:
+          remote.hasCustomThemeCssInProto || local.hasCustomThemeCssInProto,
     );
+  }
+
+  @override
+  bool hasInboundUpdatesWhileProtected(
+    AccessibilityLocalState local,
+    AccessibilityLocalState remote,
+  ) {
+    return local.saturationFactor != remote.saturationFactor ||
+        normalizeCustomThemeCss(local.customThemeCss) !=
+            normalizeCustomThemeCss(remote.customThemeCss);
   }
 
   @override
@@ -139,11 +186,47 @@ class AccessibilitySyncedField
       compactMessageGroupSpacing: proto.hasCompactMessageGroupSpacing()
           ? proto.compactMessageGroupSpacing
           : 0,
+      saturationFactor: proto.hasSaturationFactor()
+          ? clampSaturationFactor(proto.saturationFactor)
+          : 1,
+      customThemeCss: proto.hasCustomThemeCss()
+          ? normalizeCustomThemeCss(proto.customThemeCss)
+          : null,
+      hasSaturationFactorInProto: proto.hasSaturationFactor(),
+      hasCustomThemeCssInProto: proto.hasCustomThemeCss(),
+    );
+  }
+
+  static AccessibilityLocalState preserveWireThemeForPush({
+    required AccessibilityLocalState local,
+    required String? wireCustomThemeCss,
+  }) {
+    if (normalizeCustomThemeCss(local.customThemeCss) != null) {
+      return local;
+    }
+    final String? effectiveCss = normalizeCustomThemeCss(wireCustomThemeCss);
+    if (effectiveCss == null) {
+      return local;
+    }
+    return AccessibilityLocalState(
+      hideKeyboardHints: local.hideKeyboardHints,
+      channelTypingIndicatorMode: local.channelTypingIndicatorMode,
+      showSelectedChannelTypingIndicator:
+          local.showSelectedChannelTypingIndicator,
+      showFadedUnreadOnMutedChannels: local.showFadedUnreadOnMutedChannels,
+      dmMessagePreviewMode: local.dmMessagePreviewMode,
+      showFavorites: local.showFavorites,
+      useSystemLocaleForTimeFormat: local.useSystemLocaleForTimeFormat,
+      messageGroupSpacing: local.messageGroupSpacing,
+      compactMessageGroupSpacing: local.compactMessageGroupSpacing,
+      saturationFactor: local.saturationFactor,
+      customThemeCss: effectiveCss,
     );
   }
 
   static pb.AccessibilitySettings toProto(AccessibilityLocalState local) {
-    return pb.AccessibilitySettings(
+    final String? effectiveCss = normalizeCustomThemeCss(local.customThemeCss);
+    final pb.AccessibilitySettings settings = pb.AccessibilitySettings(
       hideKeyboardHints: local.hideKeyboardHints,
       channelTypingIndicatorMode: _toProtoTypingMode(
         local.channelTypingIndicatorMode,
@@ -156,7 +239,12 @@ class AccessibilitySyncedField
       useBrowserLocaleForTimeFormat: local.useSystemLocaleForTimeFormat,
       messageGroupSpacing: local.messageGroupSpacing,
       compactMessageGroupSpacing: local.compactMessageGroupSpacing,
+      saturationFactor: local.saturationFactor,
     );
+    if (effectiveCss != null) {
+      settings.customThemeCss = effectiveCss;
+    }
+    return settings;
   }
 
   static ChannelTypingIndicatorMode _fromProtoTypingMode(

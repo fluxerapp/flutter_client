@@ -1,6 +1,48 @@
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:markdown/markdown.dart' as md;
 
+final RegExp blankMarkdownLinkLabelPattern = RegExp(r'^\s*$');
+
+bool hasApostropheInMaskedLinkAuthority(String url) {
+  final Uri? uri = Uri.tryParse(url);
+  if (uri == null || !uri.hasAuthority) {
+    return false;
+  }
+  return uri.host.contains("'");
+}
+
+class FluxerInlineCodeSyntax extends md.InlineSyntax {
+  FluxerInlineCodeSyntax() : super(r'`([^`\n]+)`');
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final String? content = match.group(1);
+    if (content == null || content.isEmpty) {
+      return false;
+    }
+    parser.addNode(md.Element.text('code', content));
+    return true;
+  }
+}
+
+bool _hasVisibleMarkdownContent(String value) {
+  return value.trim().isNotEmpty &&
+      value.runes.any(
+        (int codeUnit) =>
+            codeUnit != 0x200E &&
+            !<int>{0x20, 0x09, 0x0A, 0x0D}.contains(codeUnit),
+      );
+}
+
+String? _specialShortcodeText(String name) {
+  return switch (name) {
+    'tm' => '™',
+    'copyright' => '©',
+    'registered' => '®',
+    _ => null,
+  };
+}
+
 class FluxerUnderlineSyntax extends md.InlineSyntax {
   FluxerUnderlineSyntax() : super('(?<!_)__(?!_)(.+?)(?<!_)__(?!_)');
 
@@ -9,7 +51,7 @@ class FluxerUnderlineSyntax extends md.InlineSyntax {
   @override
   bool onMatch(md.InlineParser parser, Match match) {
     final content = match[1];
-    if (content == null || content.isEmpty) {
+    if (content == null || !_hasVisibleMarkdownContent(content)) {
       return false;
     }
     parser.addNode(md.Element.text(tag, content));
@@ -25,7 +67,7 @@ class FluxerSpoilerSyntax extends md.InlineSyntax {
   @override
   bool onMatch(md.InlineParser parser, Match match) {
     final content = match[1];
-    if (content == null || content.isEmpty) {
+    if (content == null || !_hasVisibleMarkdownContent(content)) {
       return false;
     }
     final children = parser.document.parseInline(content);
@@ -86,6 +128,11 @@ class FluxerUnicodeEmojiSyntax extends md.InlineSyntax {
     final name = match[1];
     if (name == null || name.isEmpty) {
       return false;
+    }
+    final String? special = _specialShortcodeText(name);
+    if (special != null) {
+      parser.addNode(md.Text(special));
+      return true;
     }
     final surrogate = resolver(name);
     if (surrogate == null) {
@@ -227,6 +274,93 @@ class FluxerRoleMentionSyntax extends md.InlineSyntax {
       return false;
     }
     parser.addNode(md.Element.text(tag, id));
+    return true;
+  }
+}
+
+class FluxerAppLinkSyntax extends md.InlineSyntax {
+  FluxerAppLinkSyntax() : super(r'fluxer:(?://)?[^\s<>\[\]()]+');
+
+  static const tag = 'a';
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final String url = match[0]!;
+    final md.Element element = md.Element.text(tag, url)
+      ..attributes['href'] = url;
+    parser.addNode(element);
+    return true;
+  }
+}
+
+class FluxerBracketedAppLinkSyntax extends md.InlineSyntax {
+  FluxerBracketedAppLinkSyntax() : super(r'<(fluxer:(?://)?[^\s<>]+)>');
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final String? url = match[1];
+    if (url == null || url.isEmpty) {
+      return false;
+    }
+    final md.Element element = md.Element.text('a', url)
+      ..attributes['href'] = url;
+    parser.addNode(element);
+    return true;
+  }
+}
+
+class FluxerCommandMentionSyntax extends md.InlineSyntax {
+  FluxerCommandMentionSyntax()
+    : super(r'</([a-zA-Z0-9_-]+(?: [a-zA-Z0-9_-]+){0,2}):(\d+)>');
+
+  static const tag = 'mention-command';
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final String? command = match[1];
+    final String? id = match[2];
+    if (command == null || id == null || command.isEmpty) {
+      return false;
+    }
+    final List<String> segments = command.split(' ');
+    if (segments.isEmpty || segments.length > 3) {
+      return false;
+    }
+    final md.Element element = md.Element(tag, <md.Node>[md.Text(command)])
+      ..attributes['id'] = id
+      ..attributes['segments'] = segments.join('\u{1F}');
+    parser.addNode(element);
+    return true;
+  }
+}
+
+class FluxerGuildNavigationSyntax extends md.InlineSyntax {
+  FluxerGuildNavigationSyntax()
+    : super(r'<id:(customize|browse|guide|linked-roles)(?::(\d+))?>');
+
+  static const tag = 'mention-guild-nav';
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final String? navTypeRaw = match[1];
+    final String? navId = match[2];
+    if (navTypeRaw == null) {
+      return false;
+    }
+    final FluxerGuildNavigationType? navType = parseFluxerGuildNavigationType(
+      navTypeRaw,
+    );
+    if (navType == null) {
+      return false;
+    }
+    if (navType != FluxerGuildNavigationType.linkedRoles && navId != null) {
+      return false;
+    }
+    final md.Element element = md.Element.text(tag, navTypeRaw);
+    if (navId != null) {
+      element.attributes['nav-id'] = navId;
+    }
+    parser.addNode(element);
     return true;
   }
 }

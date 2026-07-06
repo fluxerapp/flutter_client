@@ -1,4 +1,3 @@
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
@@ -12,13 +11,14 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
+import '../../../helpers/open_test_database.dart';
+
 void main() {
   ProviderContainer buildContainer() {
+    final FluxerDatabase database = openTestDatabase();
     final container = ProviderContainer(
       overrides: [
-        fluxerDatabaseProvider.overrideWithValue(
-          FluxerDatabase.forTesting(NativeDatabase.memory()),
-        ),
+        fluxerDatabaseProvider.overrideWithValue(database),
         userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
         activeChannelIdProvider.overrideWith((ref) => null),
       ],

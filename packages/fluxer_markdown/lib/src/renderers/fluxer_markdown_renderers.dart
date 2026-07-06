@@ -16,6 +16,7 @@ import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/inline_parse_chunks.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
+import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
@@ -186,6 +187,45 @@ Widget buildFluxerMarkdownTextFlow({
     return body;
   }
   return SelectionArea(child: body);
+}
+
+Widget buildFluxerBlockSpoiler({
+  required BuildContext context,
+  required String text,
+  required TextStyle baseStyle,
+  required FluxerMarkdownConfig config,
+  required FluxerMarkdownFeatures features,
+  required md.Document inlineDocument,
+  required bool selectable,
+  required bool isDark,
+  String? parseCacheKey,
+}) {
+  final Widget body = buildFluxerMarkdownTextFlow(
+    context: context,
+    text: text,
+    baseStyle: baseStyle,
+    config: config,
+    features: features,
+    inlineDocument: inlineDocument,
+    selectable: selectable,
+    isDark: isDark,
+    parseCacheKey: parseCacheKey,
+  );
+  return _FluxerSpoilerSpan(
+    initiallyRevealed: config.spoilersInitiallyRevealed,
+    spoilerBackgroundColor: config.spoilerBackgroundColor,
+    spoilerSyncController: config.spoilerSyncController,
+    syncKeys: const <String>[],
+    child: body,
+  );
+}
+
+bool _hasApostropheInLinkAuthority(String href) {
+  final Uri? uri = Uri.tryParse(href);
+  if (uri == null || !uri.hasAuthority) {
+    return false;
+  }
+  return uri.host.contains("'");
 }
 
 class _MarkdownBlockRenderer {
@@ -660,6 +700,10 @@ class _MarkdownInlineRenderer {
         );
       case FluxerEveryoneMentionSyntax.tag:
         return _buildEveryoneMention(node, effectiveStyle);
+      case FluxerCommandMentionSyntax.tag:
+        return _buildCommandMention(node, effectiveStyle);
+      case FluxerGuildNavigationSyntax.tag:
+        return _buildGuildNavigationMention(node, effectiveStyle);
       case FluxerTimestampSyntax.tag:
         final timestampText = _formatTimestampText(node);
         if (timestampText == null) {
@@ -722,6 +766,9 @@ class _MarkdownInlineRenderer {
     final href = element.attributes['href'] ?? element.textContent;
     final text = element.textContent;
     if (_blankMarkdownLinkLabelPattern.hasMatch(text)) {
+      return TextSpan(text: '[$text]($href)', style: style);
+    }
+    if (_hasApostropheInLinkAuthority(href)) {
       return TextSpan(text: '[$text]($href)', style: style);
     }
     final linkColor = config.linkColor ?? Theme.of(context).colorScheme.primary;
@@ -802,6 +849,54 @@ class _MarkdownInlineRenderer {
 
     return TextSpan(
       text: element.textContent,
+      style: style.copyWith(fontWeight: FontWeight.w500),
+    );
+  }
+
+  InlineSpan _buildCommandMention(md.Element element, TextStyle style) {
+    final String command = element.textContent;
+    final String? applicationId = element.attributes['id'];
+    if (config.commandMentionBuilder != null && applicationId != null) {
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: config.commandMentionBuilder!(
+          context,
+          command,
+          applicationId,
+          style,
+        ),
+      );
+    }
+    final List<String> segments = command.split(' ');
+    final String label = '/${segments.join(' ')}';
+    return TextSpan(
+      text: label,
+      style: style.copyWith(fontWeight: FontWeight.w500),
+    );
+  }
+
+  InlineSpan _buildGuildNavigationMention(md.Element element, TextStyle style) {
+    final String navTypeRaw = element.textContent;
+    final FluxerGuildNavigationType? navType = parseFluxerGuildNavigationType(
+      navTypeRaw,
+    );
+    final String? navigationId = element.attributes['nav-id'];
+    if (config.guildNavigationMentionBuilder != null && navType != null) {
+      return WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: config.guildNavigationMentionBuilder!(
+          context,
+          navType,
+          navigationId,
+          style,
+        ),
+      );
+    }
+    final String label = navigationId == null
+        ? '<id:$navTypeRaw>'
+        : '<id:$navTypeRaw:$navigationId>';
+    return TextSpan(
+      text: label,
       style: style.copyWith(fontWeight: FontWeight.w500),
     );
   }
@@ -1072,7 +1167,7 @@ class _FluxerSpoilerSpanState extends State<_FluxerSpoilerSpan>
 }
 
 bool _isLatexLanguage(String language) {
-  return language == 'latex' || language == 'tex';
+  return language == 'latex' || language == 'tex' || language == 'katex';
 }
 
 class FluxerCodeBlockWidget extends StatelessWidget {
@@ -1117,6 +1212,33 @@ class FluxerCodeBlockWidget extends StatelessWidget {
           code: code,
           baseStyle: baseStyle,
           bgColor: bgColor,
+        ),
+      );
+    }
+
+    if (rawLang == 'ansi') {
+      return _FluxerCodeBlockWithCopy(
+        code: code,
+        onCopyCode: onCopyCode,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
+          padding: _kPadding,
+          child: RichText(
+            text: TextSpan(
+              style: baseStyle.copyWith(
+                fontFamily: 'monospace',
+                fontSize: (baseStyle.fontSize ?? 16) * 0.85,
+              ),
+              children: parseAnsiTextSpans(
+                code,
+                baseStyle.copyWith(
+                  fontFamily: 'monospace',
+                  fontSize: (baseStyle.fontSize ?? 16) * 0.85,
+                ),
+              ),
+            ),
+          ),
         ),
       );
     }

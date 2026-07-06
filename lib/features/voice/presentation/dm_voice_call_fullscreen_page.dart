@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
@@ -92,6 +93,12 @@ class _DmVoiceCallFullscreenPageState
           style: context.textStyles.channelName,
           overflow: TextOverflow.ellipsis,
         ),
+        actions: const <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 8),
+            child: FlipCameraButton(),
+          ),
+        ],
       ),
       body: inThisChannel
           ? _LocalCameraOrientationSync(

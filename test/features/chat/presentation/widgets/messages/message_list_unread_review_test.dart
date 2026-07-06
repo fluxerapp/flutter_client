@@ -113,21 +113,21 @@ void main() {
     });
   });
 
-  group('isAtLeastOneViewportFromBottom', () {
-    test('is false below one viewport', () {
+  group('isBeyondJumpToBottomThreshold', () {
+    test('is false just below half a viewport', () {
       expect(
-        isAtLeastOneViewportFromBottom(
-          distanceFromBottom: 399,
+        isBeyondJumpToBottomThreshold(
+          distanceFromBottom: 199,
           viewportHeight: 400,
         ),
         isFalse,
       );
     });
 
-    test('is true at one viewport', () {
+    test('is true at half a viewport', () {
       expect(
-        isAtLeastOneViewportFromBottom(
-          distanceFromBottom: 400,
+        isBeyondJumpToBottomThreshold(
+          distanceFromBottom: 200,
           viewportHeight: 400,
         ),
         isTrue,
@@ -178,13 +178,13 @@ void main() {
       );
     });
 
-    test('returns false within one viewport of bottom on latest page', () {
+    test('returns false within half a viewport of bottom on latest page', () {
       expect(
         shouldShowJumpToBottomButton(
           hasMessages: true,
           isLoading: false,
           isActiveReadChannel: true,
-          distanceFromBottom: 200,
+          distanceFromBottom: 199,
           viewportHeight: 400,
           hasMoreNewerMessages: false,
         ),
@@ -192,13 +192,13 @@ void main() {
       );
     });
 
-    test('returns true when scrolled up at least one viewport', () {
+    test('returns true when scrolled up at least half a viewport', () {
       expect(
         shouldShowJumpToBottomButton(
           hasMessages: true,
           isLoading: false,
           isActiveReadChannel: true,
-          distanceFromBottom: 400,
+          distanceFromBottom: 200,
           viewportHeight: 400,
           hasMoreNewerMessages: false,
         ),
@@ -217,6 +217,31 @@ void main() {
           hasMoreNewerMessages: true,
         ),
         isTrue,
+      );
+    });
+  });
+
+  group('isNearTrailingEdge', () {
+    test('is true below the threshold', () {
+      expect(isNearTrailingEdge(distanceFromTrailingEdge: 47), isTrue);
+    });
+
+    test('is true at the threshold', () {
+      expect(isNearTrailingEdge(distanceFromTrailingEdge: 48), isTrue);
+    });
+
+    test('is false above the threshold', () {
+      expect(isNearTrailingEdge(distanceFromTrailingEdge: 49), isFalse);
+    });
+
+    test('uses the supplied threshold', () {
+      expect(
+        isNearTrailingEdge(distanceFromTrailingEdge: 12, threshold: 12),
+        isTrue,
+      );
+      expect(
+        isNearTrailingEdge(distanceFromTrailingEdge: 13, threshold: 12),
+        isFalse,
       );
     });
   });

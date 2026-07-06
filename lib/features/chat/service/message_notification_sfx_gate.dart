@@ -1,7 +1,8 @@
-import 'dart:convert';
-
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
+import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_dart/export.dart';
 
 Future<bool> executeReadSystemFocusModeEnabled() async => false;
@@ -41,144 +42,50 @@ class MessageNotificationSfxDeduper {
   }
 }
 
-class MessageNotificationSfxResolution {
-  const MessageNotificationSfxResolution({
+enum MessageNotificationSfxClipKind {
+  message,
+  directMessage,
+  sameChannelMessage,
+}
+
+extension MessageNotificationSfxClipKindX on MessageNotificationSfxClipKind {
+  String get soundSettingsKey => switch (this) {
+    MessageNotificationSfxClipKind.message => 'message',
+    MessageNotificationSfxClipKind.directMessage => 'direct-message',
+    MessageNotificationSfxClipKind.sameChannelMessage => 'same-channel-message',
+  };
+}
+
+class MessageNotificationSfxPlayRequest {
+  const MessageNotificationSfxPlayRequest({
     required this.messageId,
     required this.channelId,
+    required this.clipKind,
   });
 
   final String messageId;
   final String channelId;
+  final MessageNotificationSfxClipKind clipKind;
 }
 
-UserGuildSettingsResponse _defaultUserGuildSettings() {
-  return const UserGuildSettingsResponse(
-    guildId: null,
-    messageNotifications: UserNotificationSettings.allMessages,
-    muted: false,
-    muteConfig: null,
-    mobilePush: true,
-    suppressEveryone: false,
-    suppressRoles: false,
-    hideMutedChannels: false,
-    channelOverrides: null,
-    version: 0,
-  );
-}
-
-bool _muteEndActive(String? endTimeStr) {
-  if (endTimeStr == null) {
-    return true;
+UserGuildSettingsResponse? _decodeGuildSettings(String? data) {
+  if (data == null) {
+    return null;
   }
-  final DateTime? end = DateTime.tryParse(endTimeStr);
-  if (end == null) {
-    return true;
-  }
-  return !end.isBefore(DateTime.now());
-}
-
-bool _guildMuteActive(UserGuildSettingsResponse gs) {
-  if (!gs.muted) {
-    return false;
-  }
-  return _muteEndActive(gs.muteConfig?.endTime);
-}
-
-bool _channelOverrideMuteActive(ChannelOverrides? o) {
-  if (o == null || !o.muted) {
-    return false;
-  }
-  return _muteEndActive(o.muteConfig?.endTime);
-}
-
-UserNotificationSettings _resolveNotificationLevel({
-  required UserGuildSettingsResponse gs,
-  required String channelId,
-  String? categoryId,
-}) {
-  final Map<String, ChannelOverrides>? map = gs.channelOverrides;
-  final ChannelOverrides? channelOv = map?[channelId];
-  if (channelOv != null &&
-      channelOv.messageNotifications != UserNotificationSettings.inherit) {
-    return channelOv.messageNotifications;
-  }
-  if (categoryId != null) {
-    final ChannelOverrides? catOv = map?[categoryId];
-    if (catOv != null &&
-        catOv.messageNotifications != UserNotificationSettings.inherit) {
-      return catOv.messageNotifications;
-    }
-  }
-  return gs.messageNotifications;
-}
-
-bool _shouldSuppressAll({
-  required UserGuildSettingsResponse gs,
-  required String channelId,
-  String? categoryId,
-}) {
-  if (_guildMuteActive(gs)) {
-    return true;
-  }
-  final Map<String, ChannelOverrides>? map = gs.channelOverrides;
-  if (_channelOverrideMuteActive(map?[channelId])) {
-    return true;
-  }
-  if (categoryId != null && _channelOverrideMuteActive(map?[categoryId])) {
-    return true;
-  }
-  final UserNotificationSettings resolved = _resolveNotificationLevel(
-    gs: gs,
-    channelId: channelId,
-    categoryId: categoryId,
-  );
-  return resolved == UserNotificationSettings.noMessages;
-}
-
-bool _computeIsMentioned({
-  required MessageResponseSchema message,
-  required String currentUserId,
-  required UserGuildSettingsResponse gs,
-}) {
-  if (message.mentions.any((UserPartialResponse u) => u.id == currentUserId)) {
-    return true;
-  }
-  if (message.mentionEveryone) {
-    if (gs.suppressEveryone) {
-      return false;
-    }
-    return true;
-  }
-  return false;
-}
-
-bool _shouldNotifyFromLevel({
-  required UserNotificationSettings resolved,
-  required bool isMentioned,
-}) {
-  if (resolved == UserNotificationSettings.allMessages) {
-    return true;
-  }
-  if (resolved == UserNotificationSettings.onlyMentions) {
-    return isMentioned;
-  }
-  if (resolved == UserNotificationSettings.noMessages) {
-    return false;
-  }
-  if (resolved == UserNotificationSettings.inherit) {
-    return isMentioned;
-  }
-  return isMentioned;
+  return decodeUserGuildSettings(data);
 }
 
 class FluxerMessageNotificationSfxEvaluator {
-  static Future<MessageNotificationSfxResolution?> evaluate({
+  static Future<MessageNotificationSfxPlayRequest?> evaluate({
     required FluxerDatabase database,
     required MessageResponseSchema message,
     required String currentUserId,
     required Set<String> blockedUserIds,
     required bool selfIsDnd,
     required MessageNotificationSfxDeduper deduper,
+    required bool foreground,
+    required bool viewingChannel,
+    required bool hasObscuringOverlay,
   }) {
     return const FluxerMessageNotificationSfxEvaluator().resolve(
       database: database,
@@ -187,109 +94,334 @@ class FluxerMessageNotificationSfxEvaluator {
       blockedUserIds: blockedUserIds,
       selfIsDnd: selfIsDnd,
       deduper: deduper,
+      foreground: foreground,
+      viewingChannel: viewingChannel,
+      hasObscuringOverlay: hasObscuringOverlay,
+    );
+  }
+
+  static Future<MessageNotificationSfxPlayRequest?> evaluateFromSnapshot({
+    required MessageResponseSchema message,
+    required MessagePersistSnapshot snapshot,
+    required String currentUserId,
+    required Set<String> blockedUserIds,
+    required bool selfIsDnd,
+    required MessageNotificationSfxDeduper deduper,
+    required bool foreground,
+    required bool viewingChannel,
+    required bool hasObscuringOverlay,
+  }) {
+    return const FluxerMessageNotificationSfxEvaluator().resolveFromSnapshot(
+      message: message,
+      snapshot: snapshot,
+      currentUserId: currentUserId,
+      blockedUserIds: blockedUserIds,
+      selfIsDnd: selfIsDnd,
+      deduper: deduper,
+      foreground: foreground,
+      viewingChannel: viewingChannel,
+      hasObscuringOverlay: hasObscuringOverlay,
     );
   }
 
   const FluxerMessageNotificationSfxEvaluator();
 
-  Future<MessageNotificationSfxResolution?> resolve({
+  Future<MessageNotificationSfxPlayRequest?> resolveFromSnapshot({
+    required MessageResponseSchema message,
+    required MessagePersistSnapshot snapshot,
+    required String currentUserId,
+    required Set<String> blockedUserIds,
+    required bool selfIsDnd,
+    required MessageNotificationSfxDeduper deduper,
+    required bool foreground,
+    required bool viewingChannel,
+    required bool hasObscuringOverlay,
+  }) async {
+    if (!_passesBasicAuthorChecks(
+      message: message,
+      currentUserId: currentUserId,
+      blockedUserIds: blockedUserIds,
+    )) {
+      return null;
+    }
+    final bool isFocusedViewingChannel =
+        foreground && viewingChannel && !hasObscuringOverlay;
+    if (isFocusedViewingChannel) {
+      if (!deduper.claim(message.id)) {
+        return null;
+      }
+      return MessageNotificationSfxPlayRequest(
+        messageId: message.id,
+        channelId: message.channelId,
+        clipKind: MessageNotificationSfxClipKind.sameChannelMessage,
+      );
+    }
+    if (!deduper.claim(message.id)) {
+      return null;
+    }
+    if (selfIsDnd) {
+      deduper.release(message.id);
+      return null;
+    }
+    if ((message.flags & messageFlagSuppressNotifications) != 0) {
+      deduper.release(message.id);
+      return null;
+    }
+    final UserNotificationSettings? level = snapshot.notificationLevel;
+    if (snapshot.isDm) {
+      if (!shouldNotifyMessageBasedOnSettings(
+        level: level ?? UserNotificationSettings.allMessages,
+        isMentioned: snapshot.mentionsCurrentUser,
+        isPrivateChannel: true,
+        isPrivateChannelMuted: false,
+      )) {
+        deduper.release(message.id);
+        return null;
+      }
+      return MessageNotificationSfxPlayRequest(
+        messageId: message.id,
+        channelId: message.channelId,
+        clipKind: MessageNotificationSfxClipKind.directMessage,
+      );
+    }
+    if (!shouldNotifyMessageBasedOnSettings(
+      level: level ?? UserNotificationSettings.allMessages,
+      isMentioned: snapshot.mentionsCurrentUser,
+      isPrivateChannel: false,
+      isPrivateChannelMuted: false,
+    )) {
+      deduper.release(message.id);
+      return null;
+    }
+    return MessageNotificationSfxPlayRequest(
+      messageId: message.id,
+      channelId: message.channelId,
+      clipKind: MessageNotificationSfxClipKind.message,
+    );
+  }
+
+  Future<MessageNotificationSfxPlayRequest?> resolve({
     required FluxerDatabase database,
     required MessageResponseSchema message,
     required String currentUserId,
     required Set<String> blockedUserIds,
     required bool selfIsDnd,
     required MessageNotificationSfxDeduper deduper,
+    required bool foreground,
+    required bool viewingChannel,
+    required bool hasObscuringOverlay,
   }) async {
-    final String messageId = message.id;
-    if (!deduper.claim(messageId)) {
+    final ChannelResolution? channel = await _resolveChannel(
+      database: database,
+      channelId: message.channelId,
+    );
+    if (channel == null) {
       return null;
     }
-    if (message.author.id == currentUserId) {
-      deduper.release(messageId);
+    if (!_passesBasicAuthorChecks(
+      message: message,
+      currentUserId: currentUserId,
+      blockedUserIds: blockedUserIds,
+    )) {
       return null;
     }
-    if (blockedUserIds.contains(message.author.id)) {
-      deduper.release(messageId);
+    final bool isFocusedViewingChannel =
+        foreground && viewingChannel && !hasObscuringOverlay;
+    if (isFocusedViewingChannel) {
+      if (!deduper.claim(message.id)) {
+        return null;
+      }
+      return MessageNotificationSfxPlayRequest(
+        messageId: message.id,
+        channelId: message.channelId,
+        clipKind: MessageNotificationSfxClipKind.sameChannelMessage,
+      );
+    }
+    if (!deduper.claim(message.id)) {
       return null;
     }
     if (selfIsDnd) {
-      deduper.release(messageId);
+      deduper.release(message.id);
       return null;
     }
     if ((message.flags & messageFlagSuppressNotifications) != 0) {
-      deduper.release(messageId);
+      deduper.release(message.id);
       return null;
     }
-    final Channel? guildChannel = await database.channelDao.getChannelById(
-      message.channelId,
+    final DateTime now = DateTime.now();
+    final UserGuildSettingsResponse? guildSettings = await _loadGuildSettings(
+      database: database,
+      guildStorageId: channel.guildStorageId,
     );
-    final DmChannel? dmRow = guildChannel == null
-        ? await database.dmChannelDao.getDmChannelById(message.channelId)
-        : null;
-    if (guildChannel == null && dmRow == null) {
-      deduper.release(messageId);
+    if (channel.isPrivate) {
+      if (allowNoMessagesForPrivateChannel(
+        guildSettings: guildSettings,
+        channelId: channel.channelId,
+        now: now,
+      )) {
+        deduper.release(message.id);
+        return null;
+      }
+      final bool isMentioned = await resolveMessageMentionsUser(
+        database,
+        currentUserId: currentUserId,
+        channelId: message.channelId,
+        authorId: message.author.id,
+        mentionedUserIds: message.mentions
+            .map((UserPartialResponse u) => u.id)
+            .toList(),
+        mentionEveryone: message.mentionEveryone,
+        mentionRoleIds: message.mentionRoles,
+      );
+      final bool isPrivateMuted = isChannelOverrideMuted(
+        guildSettings?.channelOverrides?[channel.channelId],
+        now: now,
+      );
+      final UserNotificationSettings level = resolvePrivateMessageNotifications(
+        guildSettings: guildSettings,
+        channelId: channel.channelId,
+      );
+      if (!shouldNotifyMessageBasedOnSettings(
+        level: level,
+        isMentioned: isMentioned,
+        isPrivateChannel: true,
+        isPrivateChannelMuted: isPrivateMuted,
+      )) {
+        deduper.release(message.id);
+        return null;
+      }
+      return MessageNotificationSfxPlayRequest(
+        messageId: message.id,
+        channelId: message.channelId,
+        clipKind: MessageNotificationSfxClipKind.directMessage,
+      );
+    }
+    final Channel guildChannel = channel.guildChannel!;
+    if (allowNoMessagesForGuildChannel(
+      channel: guildChannel,
+      guildSettings: guildSettings,
+      now: now,
+    )) {
+      deduper.release(message.id);
       return null;
     }
-    final settingsRow = guildChannel != null
-        ? await database.userGuildSettingsDao.getByGuildId(guildChannel.guildId)
-        : await database.userGuildSettingsDao.getByGuildId('@me');
-    final UserGuildSettingsResponse gs = settingsRow == null
-        ? _defaultUserGuildSettings()
-        : UserGuildSettingsResponse.fromJson(
-            jsonDecode(settingsRow.data) as Map<String, dynamic>,
-          );
-    final String? categoryId = guildChannel?.parentId;
-    if (guildChannel != null) {
-      if (_shouldSuppressAll(
-        gs: gs,
-        channelId: guildChannel.id,
-        categoryId: categoryId,
-      )) {
-        deduper.release(messageId);
-        return null;
-      }
-      final UserNotificationSettings resolved = _resolveNotificationLevel(
-        gs: gs,
-        channelId: guildChannel.id,
-        categoryId: categoryId,
-      );
-      final bool isMentioned = _computeIsMentioned(
-        message: message,
-        currentUserId: currentUserId,
-        gs: gs,
-      );
-      if (!_shouldNotifyFromLevel(
-        resolved: resolved,
-        isMentioned: isMentioned,
-      )) {
-        deduper.release(messageId);
-        return null;
-      }
-    } else {
-      if (_shouldSuppressAll(gs: gs, channelId: dmRow!.id)) {
-        deduper.release(messageId);
-        return null;
-      }
-      final UserNotificationSettings resolved = _resolveNotificationLevel(
-        gs: gs,
-        channelId: dmRow.id,
-      );
-      final bool isMentioned = _computeIsMentioned(
-        message: message,
-        currentUserId: currentUserId,
-        gs: gs,
-      );
-      if (!_shouldNotifyFromLevel(
-        resolved: resolved,
-        isMentioned: isMentioned,
-      )) {
-        deduper.release(messageId);
-        return null;
-      }
+    final bool isMentioned = await resolveMessageMentionsUser(
+      database,
+      currentUserId: currentUserId,
+      channelId: message.channelId,
+      authorId: message.author.id,
+      mentionedUserIds: message.mentions
+          .map((UserPartialResponse u) => u.id)
+          .toList(),
+      mentionEveryone: message.mentionEveryone,
+      mentionRoleIds: message.mentionRoles,
+    );
+    final UserNotificationSettings level = resolveMessageNotifications(
+      channel: guildChannel,
+      guildSettings: guildSettings,
+    );
+    if (!shouldNotifyMessageBasedOnSettings(
+      level: level,
+      isMentioned: isMentioned,
+      isPrivateChannel: false,
+      isPrivateChannelMuted: false,
+    )) {
+      deduper.release(message.id);
+      return null;
     }
-    return MessageNotificationSfxResolution(
+    return MessageNotificationSfxPlayRequest(
       messageId: message.id,
       channelId: message.channelId,
+      clipKind: MessageNotificationSfxClipKind.message,
     );
   }
+
+  bool _passesBasicAuthorChecks({
+    required MessageResponseSchema message,
+    required String currentUserId,
+    required Set<String> blockedUserIds,
+  }) {
+    if (message.author.id == currentUserId) {
+      return false;
+    }
+    if (blockedUserIds.contains(message.author.id)) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<ChannelResolution?> _resolveChannel({
+    required FluxerDatabase database,
+    required String channelId,
+  }) async {
+    final Channel? guildChannel = await database.channelDao.getChannelById(
+      channelId,
+    );
+    if (guildChannel != null) {
+      return ChannelResolution.guild(
+        channelId: channelId,
+        guildStorageId: guildChannel.guildId,
+        guildChannel: guildChannel,
+      );
+    }
+    final DmChannel? dmRow = await database.dmChannelDao.getDmChannelById(
+      channelId,
+    );
+    if (dmRow == null) {
+      return null;
+    }
+    return ChannelResolution.private(
+      channelId: channelId,
+      guildStorageId: '@me',
+    );
+  }
+
+  Future<UserGuildSettingsResponse?> _loadGuildSettings({
+    required FluxerDatabase database,
+    required String guildStorageId,
+  }) async {
+    final row = await database.userGuildSettingsDao.getByGuildId(
+      guildStorageId,
+    );
+    return _decodeGuildSettings(row?.data);
+  }
+}
+
+class ChannelResolution {
+  const ChannelResolution._({
+    required this.channelId,
+    required this.guildStorageId,
+    required this.isPrivate,
+    required this.guildChannel,
+  });
+
+  factory ChannelResolution.guild({
+    required String channelId,
+    required String guildStorageId,
+    required Channel guildChannel,
+  }) {
+    return ChannelResolution._(
+      channelId: channelId,
+      guildStorageId: guildStorageId,
+      isPrivate: false,
+      guildChannel: guildChannel,
+    );
+  }
+
+  factory ChannelResolution.private({
+    required String channelId,
+    required String guildStorageId,
+  }) {
+    return ChannelResolution._(
+      channelId: channelId,
+      guildStorageId: guildStorageId,
+      isPrivate: true,
+      guildChannel: null,
+    );
+  }
+
+  final String channelId;
+  final String guildStorageId;
+  final bool isPrivate;
+  final Channel? guildChannel;
 }

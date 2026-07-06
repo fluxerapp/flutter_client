@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/system_message.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
@@ -22,6 +26,28 @@ const List<int> _systemMessageTypes = <int>[
   messageTypeChannelPinnedMessage,
   messageTypeUserJoin,
 ];
+
+class _FakeVoiceSession extends VoiceSession {
+  @override
+  VoiceSessionState build() => const VoiceSessionState();
+}
+
+class _FakeUserSettings extends UserSettingsViewModel {
+  @override
+  UserSettingsViewState build() => const UserSettingsViewState(
+    userId: 'viewer',
+    username: 'viewer',
+    displayName: 'viewer',
+    discriminator: '0001',
+    avatar: null,
+    avatarColor: null,
+    memberSince: null,
+    status: 'online',
+    messageDisplayCompact: false,
+    developerMode: false,
+    trustedDomains: <String>[],
+  );
+}
 
 class _RenderReactionsOff extends UserSettingsViewModel {
   @override
@@ -41,17 +67,39 @@ class _RenderReactionsOff extends UserSettingsViewModel {
   );
 }
 
-Message _systemMessage(int type, {List<Reaction> reactions = const []}) =>
-    Message(
-      id: '1',
-      channelId: 'c1',
-      authorId: 'u1',
-      authorName: 'Sample User',
-      content: '',
-      timestamp: DateTime(2026),
-      type: type,
-      reactions: reactions,
-    );
+AsyncValue<GuildUserDisplay?> _mentionedUserDisplay(String userId) {
+  return AsyncValue.data(
+    GuildUserDisplay(
+      displayName: userId,
+      avatarUrl: null,
+      avatarColor: null,
+      accountDisplayName: userId,
+    ),
+  );
+}
+
+Message _systemMessage(
+  int type, {
+  List<Reaction> reactions = const [],
+  String content = '',
+  List<String> mentionedUserIds = const [],
+  MessageCall? call,
+}) => Message(
+  id: '1',
+  channelId: 'c1',
+  authorId: 'u1',
+  authorName: 'Sample User',
+  content: content,
+  timestamp: DateTime(2026),
+  type: type,
+  reactions: reactions,
+  mentionedUserIds: mentionedUserIds,
+  call: call,
+);
+
+const MessageCall _sampleCall = MessageCall(
+  participants: <String>['u1', 'viewer'],
+);
 
 Future<void> _pumpSystemMessage(
   WidgetTester tester, {
@@ -64,6 +112,12 @@ Future<void> _pumpSystemMessage(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        voiceSessionProvider.overrideWith(_FakeVoiceSession.new),
+        channelByIdProvider('c1').overrideWith(
+          (ref) => Stream<Channel?>.value(
+            const Channel(id: 'c1', guildId: 'g1', name: 'general'),
+          ),
+        ),
         guildUserDisplayProvider(('u1', 'g1')).overrideWith(
           (ref) => const AsyncValue.data(
             GuildUserDisplay(
@@ -74,9 +128,20 @@ Future<void> _pumpSystemMessage(
             ),
           ),
         ),
+        for (final String userId in message.mentionedUserIds) ...[
+          guildUserDisplayProvider((
+            userId,
+            'g1',
+          )).overrideWith((ref) => _mentionedUserDisplay(userId)),
+          guildUserDisplayFromDbProvider((
+            userId,
+            null,
+          )).overrideWith((ref) => _mentionedUserDisplay(userId)),
+        ],
         memberRoleColorProvider(('u1', 'g1')).overrideWith((ref) => roleColor),
-        if (userSettingsOverride != null)
-          userSettingsViewModelProvider.overrideWith(userSettingsOverride),
+        userSettingsViewModelProvider.overrideWith(
+          userSettingsOverride ?? _FakeUserSettings.new,
+        ),
       ],
       child: MaterialApp(
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
@@ -94,6 +159,11 @@ Future<void> _pumpSystemMessage(
     ),
   );
   await tester.pumpAndSettle();
+}
+
+Future<void> _disposeSystemMessage(WidgetTester tester) async {
+  await tester.pumpWidget(const SizedBox.shrink());
+  await tester.pump(const Duration(milliseconds: 1));
 }
 
 void main() {
@@ -124,13 +194,69 @@ void main() {
       ) async {
         await _pumpSystemMessage(
           tester,
-          message: _systemMessage(type, reactions: const [reaction]),
+          message: _systemMessage(
+            type,
+            reactions: const [reaction],
+            call: type == messageTypeCall ? _sampleCall : null,
+          ),
         );
 
         expect(find.byType(MessageReactionsBar), findsOneWidget);
         expect(find.text('3'), findsOneWidget);
       });
     }
+
+    testWidgets('renders localized recipient add text', (tester) async {
+      await _pumpSystemMessage(
+        tester,
+        message: _systemMessage(
+          messageTypeRecipientAdd,
+          mentionedUserIds: const <String>['u2'],
+        ),
+      );
+
+      expect(find.textContaining('Sample User added u2'), findsOneWidget);
+      await _disposeSystemMessage(tester);
+    });
+
+    testWidgets('renders localized channel rename with new name', (
+      tester,
+    ) async {
+      await _pumpSystemMessage(
+        tester,
+        message: _systemMessage(
+          messageTypeChannelNameChange,
+          content: 'New Group Name',
+        ),
+      );
+
+      expect(
+        find.textContaining('changed the channel name to New Group Name'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('hides call system message without call payload', (
+      tester,
+    ) async {
+      await _pumpSystemMessage(
+        tester,
+        message: _systemMessage(messageTypeCall),
+      );
+
+      expect(find.byType(SystemMessage), findsOneWidget);
+      expect(find.textContaining('started a call'), findsNothing);
+    });
+
+    testWidgets('renders ongoing call with join action', (tester) async {
+      await _pumpSystemMessage(
+        tester,
+        message: _systemMessage(messageTypeCall, call: _sampleCall),
+      );
+
+      expect(find.textContaining('started a call.'), findsOneWidget);
+      expect(find.text('Join the call'), findsOneWidget);
+    });
 
     testWidgets('renders no reaction view when the message has none', (
       tester,

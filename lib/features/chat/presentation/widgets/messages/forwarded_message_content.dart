@@ -21,6 +21,8 @@ import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
+import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
@@ -324,10 +326,13 @@ class _ForwardedSourceButtonState
     }
 
     if (isDmGroupType(dmChannel.type)) {
+      final conversation = await ref
+          .read(dmRepositoryProvider)
+          .conversationFromChannelRow(dmChannel);
       return _ForwardedSourceData.groupDm(
         channelId: widget.reference.channelId,
         messageId: widget.reference.messageId,
-        name: dmChannel.name ?? 'Group DM',
+        name: resolveGroupDmDisplayName(dm: conversation),
       );
     }
 

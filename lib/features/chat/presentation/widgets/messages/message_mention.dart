@@ -16,6 +16,8 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_access_denied_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
+import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
@@ -23,6 +25,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ChannelMention extends ConsumerWidget {
@@ -146,6 +149,53 @@ class TextMention extends StatelessWidget {
         softWrap: false,
       ),
     );
+  }
+}
+
+class CommandMention extends StatelessWidget {
+  const CommandMention({
+    required this.command,
+    required this.applicationId,
+    this.baseStyle,
+    super.key,
+  });
+
+  final String command;
+  final String applicationId;
+  final TextStyle? baseStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> segments = command.split(' ');
+    final String label = '/${segments.join(' ')}';
+    return TextMention(label: label, baseStyle: baseStyle);
+  }
+}
+
+class GuildNavigationMention extends StatelessWidget {
+  const GuildNavigationMention({
+    required this.type,
+    this.navigationId,
+    this.baseStyle,
+    super.key,
+  });
+
+  final FluxerGuildNavigationType type;
+  final String? navigationId;
+  final TextStyle? baseStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    final String label = switch (type) {
+      FluxerGuildNavigationType.customize => '<id:customize>',
+      FluxerGuildNavigationType.browse => '<id:browse>',
+      FluxerGuildNavigationType.guide => '<id:guide>',
+      FluxerGuildNavigationType.linkedRoles =>
+        navigationId == null
+            ? '<id:linked-roles>'
+            : '<id:linked-roles:$navigationId>',
+    };
+    return TextMention(label: label, baseStyle: baseStyle);
   }
 }
 
@@ -285,7 +335,10 @@ final FutureProviderFamily<String?, String> _dmNameByChannelIdProvider =
         return null;
       }
       if (isDmGroupType(row.type)) {
-        return row.name ?? 'Group DM';
+        final conversation = await ref
+            .read(dmRepositoryProvider)
+            .conversationFromChannelRow(row);
+        return resolveGroupDmDisplayName(dm: conversation);
       }
       final user = await db.userDao.getUserById(row.recipientId);
       if (user == null) {

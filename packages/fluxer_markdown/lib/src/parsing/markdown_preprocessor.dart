@@ -1,7 +1,9 @@
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/fenced_code_block_utils.dart';
+import 'package:fluxer_markdown/src/parsing/fluxer_text_unescape.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
+import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 
 sealed class FluxerMarkdownSegment {}
 
@@ -18,6 +20,11 @@ final class FluxerAlertSegment extends FluxerMarkdownSegment {
 
 final class FluxerSubtextSegment extends FluxerMarkdownSegment {
   FluxerSubtextSegment(this.text);
+  final String text;
+}
+
+final class FluxerBlockSpoilerSegment extends FluxerMarkdownSegment {
+  FluxerBlockSpoilerSegment(this.text);
   final String text;
 }
 
@@ -46,6 +53,8 @@ String _preprocessFluxerMarkdownUncached(
   for (final line in lines) {
     var next = _normalizeSpacedInlineMarkdown(line);
     next = _preserveAsciiArtBackslashUnderscores(next);
+    next = _neutralizeInvalidMaskedLinks(next);
+    next = _escapeEmptyInlineFormatting(next);
 
     if (!features.allowSubtext && next.startsWith('-# ')) {
       next = '\\$next';
@@ -57,7 +66,14 @@ String _preprocessFluxerMarkdownUncached(
         RegExp(r'^\s{0,3}([-+*]|\d+\.)\s').hasMatch(next)) {
       next = '\\$next';
     }
+    if (features.allowLists && RegExp(r'^\s{0,3}\d+\\\.\s').hasMatch(next)) {
+      next = next.replaceFirst(r'\', r'\\');
+    }
     if (!features.allowBlockquotes && RegExp(r'^\s{0,3}>').hasMatch(next)) {
+      next = '\\$next';
+    }
+    if (!features.allowMultilineBlockquotes &&
+        RegExp(r'^\s{0,3}>>>').hasMatch(next)) {
       next = '\\$next';
     }
     if (!features.allowTables && next.contains('|')) {
@@ -67,10 +83,41 @@ String _preprocessFluxerMarkdownUncached(
       next = '\\$next';
     }
 
-    output.add(next);
+    output.add(unescapeFluxerMarkdownLine(next));
   }
 
   return output.join('\n');
+}
+
+String _neutralizeInvalidMaskedLinks(String line) {
+  return line.replaceAllMapped(RegExp(r'\[([^\]]*)\]\(([^)]+)\)'), (
+    Match match,
+  ) {
+    final String text = match.group(1) ?? '';
+    final String url = match.group(2) ?? '';
+    if (blankMarkdownLinkLabelPattern.hasMatch(text) ||
+        hasApostropheInMaskedLinkAuthority(url)) {
+      final String escapedUrl = url.replaceAll(':', r'\:');
+      return r'\[' + text + r'\]\(' + escapedUrl + r'\)';
+    }
+    return match.group(0)!;
+  });
+}
+
+String _escapeEmptyInlineFormatting(String text) {
+  const Map<String, String> replacements = <String, String>{
+    '` `': r'\` \`',
+    '`` ``': r'\`\` \`\`',
+    '** **': r'\*\* \*\*',
+    '__ __': r'\_\_ \_\_',
+    '~~ ~~': r'\~\~ \~\~',
+    '|| ||': r'\|\| \|\|',
+  };
+  var current = text;
+  for (final MapEntry<String, String> entry in replacements.entries) {
+    current = current.replaceAll(entry.key, entry.value);
+  }
+  return current;
 }
 
 String _preserveAsciiArtBackslashUnderscores(String text) {
@@ -111,6 +158,59 @@ String _trimInlineMarkerSpacing(String text, String marker) {
     }
     return '$prefix$marker$content$marker';
   });
+}
+
+bool _hasVisibleContent(String value) {
+  for (final int codeUnit in value.runes) {
+    if (codeUnit != 0x20 &&
+        codeUnit != 0x09 &&
+        codeUnit != 0x0A &&
+        codeUnit != 0x0D &&
+        codeUnit != 0x200E) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool isBlockSpoilerStart(String line) {
+  final String trimmed = line.trimLeft();
+  if (!trimmed.startsWith('||')) {
+    return false;
+  }
+  return !trimmed.substring(2).contains('||');
+}
+
+int? parseBlockSpoilerEnd(List<String> lines, int startIndex) {
+  for (var index = startIndex + 1; index < lines.length; index++) {
+    final String line = lines[index];
+    final int closeIndex = line.indexOf('||');
+    if (closeIndex != -1) {
+      return index;
+    }
+  }
+  return null;
+}
+
+String parseBlockSpoilerBody(List<String> lines, int startIndex, int endIndex) {
+  final List<String> bodyLines = <String>[];
+  final String firstLine = lines[startIndex];
+  final int firstStart = firstLine.indexOf('||');
+  if (firstStart != -1) {
+    final String firstContent = firstLine.substring(firstStart + 2);
+    if (firstContent.isNotEmpty) {
+      bodyLines.add(firstContent);
+    }
+  }
+  for (var index = startIndex + 1; index < endIndex; index++) {
+    bodyLines.add(lines[index]);
+  }
+  final String lastLine = lines[endIndex];
+  final int closeIndex = lastLine.indexOf('||');
+  if (closeIndex > 0) {
+    bodyLines.add(lastLine.substring(0, closeIndex));
+  }
+  return bodyLines.join('\n').trim();
 }
 
 final MarkdownParseCache<
@@ -162,23 +262,52 @@ List<FluxerMarkdownSegment> _parseFluxerMarkdownSegmentsUncached(
       continue;
     }
 
+    if (features.allowSpoilers && isBlockSpoilerStart(line)) {
+      final int? endIndex = parseBlockSpoilerEnd(lines, i);
+      if (endIndex != null) {
+        final pending = mdBuffer.toString().trim();
+        if (pending.isNotEmpty) {
+          segments.add(FluxerTextSegment(pending));
+          mdBuffer.clear();
+        }
+        final String body = parseBlockSpoilerBody(lines, i, endIndex);
+        if (_hasVisibleContent(body)) {
+          segments.add(FluxerBlockSpoilerSegment(body));
+        } else {
+          mdBuffer.writeln(lines.sublist(i, endIndex + 1).join('\n'));
+        }
+        i = endIndex + 1;
+        continue;
+      }
+    }
+
     if (features.allowSubtext) {
       final subtextMatch = subtextRe.firstMatch(line);
       if (subtextMatch != null) {
+        final String body = (subtextMatch.group(1) ?? '').trim();
+        if (!_hasVisibleContent(body)) {
+          mdBuffer.writeln(line);
+          i++;
+          continue;
+        }
         final pending = mdBuffer.toString().trim();
         if (pending.isNotEmpty) {
           segments.add(FluxerTextSegment(pending));
           mdBuffer.clear();
         }
 
-        final bodyLines = <String>[subtextMatch.group(1) ?? ''];
+        final bodyLines = <String>[body];
         i++;
         while (i < lines.length) {
           final nextSubtextMatch = subtextRe.firstMatch(lines[i]);
           if (nextSubtextMatch == null) {
             break;
           }
-          bodyLines.add(nextSubtextMatch.group(1) ?? '');
+          final String nextBody = (nextSubtextMatch.group(1) ?? '').trim();
+          if (!_hasVisibleContent(nextBody)) {
+            break;
+          }
+          bodyLines.add(nextBody);
           i++;
         }
 

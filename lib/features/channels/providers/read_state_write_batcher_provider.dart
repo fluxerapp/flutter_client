@@ -3,33 +3,30 @@ import 'dart:async';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
-import 'package:fluxer_app/features/channels/data/read_state_write_coalescer.dart';
+import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'read_state_write_coalescer_provider.g.dart';
+part 'read_state_write_batcher_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-ReadStateWriteCoalescer readStateWriteCoalescer(Ref ref) {
-  final coalescer = ReadStateWriteCoalescer(
+ReadStateWriteBatcher readStateWriteBatcher(Ref ref) {
+  final batcher = ReadStateWriteBatcher(
     database: ref.watch(fluxerDatabaseProvider),
   );
 
-  // Persist pending unreads before the app is backgrounded (and can be killed).
   ref
     ..listen<bool>(appUiForegroundProvider, (prev, next) {
       if ((prev ?? false) && !next) {
-        unawaited(coalescer.flushAll());
+        unawaited(batcher.flushAll());
       }
     })
-    // Persist pending unreads when the gateway drops, before the next READY
-    // snapshot (which clears pending) arrives.
     ..listen<bool>(gatewayReadyProvider, (prev, next) {
       if ((prev ?? false) && !next) {
-        unawaited(coalescer.flushAll());
+        unawaited(batcher.flushAll());
       }
     })
     ..onDispose(() {
-      unawaited(coalescer.dispose());
+      unawaited(batcher.dispose());
     });
-  return coalescer;
+  return batcher;
 }

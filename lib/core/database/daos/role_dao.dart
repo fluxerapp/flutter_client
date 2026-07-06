@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/roles.dart';
@@ -19,7 +20,8 @@ class RoleDao extends DatabaseAccessor<FluxerDatabase> with _$RoleDaoMixin {
       (select(roles)
             ..where((r) => r.guildId.equals(guildId))
             ..orderBy([(r) => OrderingTerm.desc(r.position)]))
-          .watch();
+          .watch()
+          .suppressDriftCancellation;
 
   Future<Role?> getRoleById(String id) =>
       (select(roles)..where((r) => r.id.equals(id))).getSingleOrNull();

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
 
 void main() {
   DmConversation convo({required int type}) {
@@ -25,11 +26,33 @@ void main() {
     });
 
     test(
-      'does not expose the friend nickname for a group direct message channel',
+      'resolves participant names for unnamed group DMs when l10n is provided',
       () {
-        expect(convo(type: 3).displayNameWith('Nick'), 'Group');
+        final DmConversation group = DmConversation(
+          id: '1',
+          type: 3,
+          recipientId: '2',
+          recipientName: 'Global Name',
+          lastMessage: '',
+          lastMessageTime: DateTime(2020),
+          groupMembers: const <GroupMemberInfo>[
+            GroupMemberInfo(id: '2', name: 'Alice'),
+          ],
+        );
+        expect(
+          group.displayNameWith(
+            'Nick',
+            l10n: FluxerLocalizationsEn(),
+            currentUserId: '1',
+          ),
+          'Alice',
+        );
       },
     );
+
+    test('uses custom group name when set regardless of friend nickname', () {
+      expect(convo(type: 3).displayNameWith('Nick'), 'Group');
+    });
 
     test('does not expose the friend nickname for personal notes', () {
       expect(convo(type: 999).displayNameWith('Nick'), 'Personal Notes');

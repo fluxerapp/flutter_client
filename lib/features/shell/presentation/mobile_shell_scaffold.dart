@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/router/shell_location_resolver.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_layout_mode.dart';
 import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_channel_drawer_shell.dart';
@@ -40,7 +40,7 @@ class MobileShellScaffold extends ConsumerWidget {
       currentIndex: navigationShell.currentIndex,
       onBranchSelected: (int index) {
         if (index == 0 && navigationShell.currentIndex != 0) {
-          DrawerNavigationCoordinator.activateHomeTab(ref.container);
+          navigationShell.goBranch(shellHomeBranchIndex);
           return;
         }
         navigationShell.goBranch(

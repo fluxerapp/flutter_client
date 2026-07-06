@@ -1,3 +1,8 @@
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart'
+    show MessageItem;
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/system_message.dart'
+    show SystemMessage;
+
 /// Horizontal layout shared by [MessageItem] and [SystemMessage].
 const double kMessageAvatarSize = 40;
 const double kMessageAvatarTextGap = 16;

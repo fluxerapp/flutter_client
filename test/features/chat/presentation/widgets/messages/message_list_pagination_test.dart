@@ -2,138 +2,137 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_pagination.dart';
 
 void main() {
-  group('shouldLoadOlderAtEdge', () {
-    test('loads when within the margin of the top edge', () {
+  const double viewportHeight = 800;
+
+  bool shouldRequest(
+    MessageEdgeLoadTrigger trigger, {
+    MessageLoadEdge edge = MessageLoadEdge.older,
+    double? distanceFromEdge,
+    bool hasMore = true,
+    bool isLoading = false,
+    bool isUserDrivenScroll = true,
+    bool hasActiveJumpTarget = false,
+  }) {
+    return trigger.shouldRequest(
+      edge: edge,
+      distanceFromEdge:
+          distanceFromEdge ?? messageListLoadEnterMargin(viewportHeight) - 1,
+      viewportHeight: viewportHeight,
+      hasMore: hasMore,
+      isLoading: isLoading,
+      isUserDrivenScroll: isUserDrivenScroll,
+      hasActiveJumpTarget: hasActiveJumpTarget,
+    );
+  }
+
+  group('MessageEdgeLoadTrigger', () {
+    test('requests the first user-driven in-threshold sample', () {
+      final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+
+      expect(shouldRequest(trigger), isTrue);
+    });
+
+    test(
+      'requires fresh progress toward the same edge before requesting again',
+      () {
+        final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+        final double enterMargin = messageListLoadEnterMargin(viewportHeight);
+        final double progressDelta = messageListLoadProgressDelta(
+          viewportHeight,
+        );
+
+        expect(shouldRequest(trigger, distanceFromEdge: enterMargin), isTrue);
+        expect(
+          shouldRequest(
+            trigger,
+            distanceFromEdge: enterMargin - progressDelta + 1,
+          ),
+          isFalse,
+        );
+        expect(
+          shouldRequest(trigger, distanceFromEdge: enterMargin - progressDelta),
+          isTrue,
+        );
+      },
+    );
+
+    test('skips in-threshold samples that are not user-driven', () {
+      final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+
+      expect(shouldRequest(trigger, isUserDrivenScroll: false), isFalse);
+    });
+
+    test('skips while an anchor or jump target is active', () {
+      final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+
+      expect(shouldRequest(trigger, hasActiveJumpTarget: true), isFalse);
+    });
+
+    test('skips while the same edge is already loading', () {
+      final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+
+      expect(shouldRequest(trigger, isLoading: true), isFalse);
+    });
+
+    test('skips when the edge has no more messages', () {
+      final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+
+      expect(shouldRequest(trigger, hasMore: false), isFalse);
+    });
+
+    test('rearms after moving far enough away from an edge', () {
+      final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+      final double enterMargin = messageListLoadEnterMargin(viewportHeight);
+      final double rearmMargin = messageListLoadRearmMargin(viewportHeight);
+
+      expect(shouldRequest(trigger, distanceFromEdge: 0), isTrue);
       expect(
-        shouldLoadOlderAtEdge(
-          pixels: 5000 - kMessageListLoadMargin + 1,
-          maxScrollExtent: 5000,
-          hasMoreMessages: true,
-          isLoadingMore: false,
+        shouldRequest(trigger, distanceFromEdge: rearmMargin + 1),
+        isFalse,
+      );
+      expect(shouldRequest(trigger, distanceFromEdge: enterMargin), isTrue);
+    });
+
+    test('tracks older and newer progress independently', () {
+      final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+      final double enterMargin = messageListLoadEnterMargin(viewportHeight);
+      final double progressDelta = messageListLoadProgressDelta(viewportHeight);
+      final double notEnoughOlderProgress = enterMargin - progressDelta + 1;
+
+      expect(shouldRequest(trigger, distanceFromEdge: enterMargin), isTrue);
+      expect(
+        shouldRequest(trigger, distanceFromEdge: notEnoughOlderProgress),
+        isFalse,
+      );
+      expect(
+        shouldRequest(
+          trigger,
+          edge: MessageLoadEdge.newer,
+          distanceFromEdge: notEnoughOlderProgress,
         ),
         isTrue,
-      );
-    });
-
-    test('does not load when outside the margin', () {
-      expect(
-        shouldLoadOlderAtEdge(
-          pixels: 5000 - kMessageListLoadMargin - 1,
-          maxScrollExtent: 5000,
-          hasMoreMessages: true,
-          isLoadingMore: false,
-        ),
-        isFalse,
-      );
-    });
-
-    test('loads exactly at the margin boundary', () {
-      expect(
-        shouldLoadOlderAtEdge(
-          pixels: 5000 - kMessageListLoadMargin,
-          maxScrollExtent: 5000,
-          hasMoreMessages: true,
-          isLoadingMore: false,
-        ),
-        isTrue,
-      );
-    });
-
-    test('short-circuits when there are no more older messages', () {
-      expect(
-        shouldLoadOlderAtEdge(
-          pixels: 5000,
-          maxScrollExtent: 5000,
-          hasMoreMessages: false,
-          isLoadingMore: false,
-        ),
-        isFalse,
-      );
-    });
-
-    test('short-circuits while a load is already in flight', () {
-      expect(
-        shouldLoadOlderAtEdge(
-          pixels: 5000,
-          maxScrollExtent: 5000,
-          hasMoreMessages: true,
-          isLoadingMore: true,
-        ),
-        isFalse,
       );
     });
   });
 
-  group('shouldLoadNewerAtEdge', () {
-    test('loads when within the margin of the bottom edge', () {
-      expect(
-        shouldLoadNewerAtEdge(
-          pixels: kMessageListLoadMargin - 1,
-          minScrollExtent: 0,
-          hasMoreNewerMessages: true,
-          isLoadingNewer: false,
-        ),
-        isTrue,
-      );
+  group('message list load thresholds', () {
+    test('clamp enter margin at the low and high viewport bounds', () {
+      expect(messageListLoadEnterMargin(200), 480);
+      expect(messageListLoadEnterMargin(800), 720);
+      expect(messageListLoadEnterMargin(2000), 900);
     });
 
-    test('does not load when outside the margin', () {
-      expect(
-        shouldLoadNewerAtEdge(
-          pixels: kMessageListLoadMargin + 1,
-          minScrollExtent: 0,
-          hasMoreNewerMessages: true,
-          isLoadingNewer: false,
-        ),
-        isFalse,
-      );
+    test('clamp progress delta at the low and high viewport bounds', () {
+      expect(messageListLoadProgressDelta(200), 80);
+      expect(messageListLoadProgressDelta(800), 120);
+      expect(messageListLoadProgressDelta(2000), 160);
     });
 
-    test('loads exactly at the margin boundary', () {
+    test('places the rearm margin beyond the enter margin', () {
+      expect(messageListLoadRearmMargin(800), 1120);
       expect(
-        shouldLoadNewerAtEdge(
-          pixels: kMessageListLoadMargin,
-          minScrollExtent: 0,
-          hasMoreNewerMessages: true,
-          isLoadingNewer: false,
-        ),
-        isTrue,
-      );
-    });
-
-    test('respects a negative minScrollExtent offset', () {
-      expect(
-        shouldLoadNewerAtEdge(
-          pixels: -300 + kMessageListLoadMargin,
-          minScrollExtent: -300,
-          hasMoreNewerMessages: true,
-          isLoadingNewer: false,
-        ),
-        isTrue,
-      );
-    });
-
-    test('short-circuits when there are no more newer messages', () {
-      expect(
-        shouldLoadNewerAtEdge(
-          pixels: 0,
-          minScrollExtent: 0,
-          hasMoreNewerMessages: false,
-          isLoadingNewer: false,
-        ),
-        isFalse,
-      );
-    });
-
-    test('short-circuits while a load is already in flight', () {
-      expect(
-        shouldLoadNewerAtEdge(
-          pixels: 0,
-          minScrollExtent: 0,
-          hasMoreNewerMessages: true,
-          isLoadingNewer: true,
-        ),
-        isFalse,
+        messageListLoadRearmMargin(800),
+        greaterThan(messageListLoadEnterMargin(800)),
       );
     });
   });

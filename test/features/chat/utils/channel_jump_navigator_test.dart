@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart' show Value;
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
@@ -113,7 +113,7 @@ void main() {
     late ProviderContainer container;
 
     setUp(() {
-      database = FluxerDatabase.forTesting(NativeDatabase.memory());
+      database = openTestDatabase();
       container = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(database),
@@ -122,9 +122,8 @@ void main() {
       );
     });
 
-    tearDown(() async {
+    tearDown(() {
       container.dispose();
-      await database.close();
     });
 
     test(

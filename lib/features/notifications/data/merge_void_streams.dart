@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
+
 Stream<void> mergeVoidStreams(List<Stream<dynamic>> streams) {
   final List<StreamSubscription<dynamic>> subscriptions = [];
   late final StreamController<void> controller;
@@ -13,7 +15,19 @@ Stream<void> mergeVoidStreams(List<Stream<dynamic>> streams) {
 
       pulse();
       for (final Stream<dynamic> stream in streams) {
-        subscriptions.add(stream.listen((_) => pulse()));
+        subscriptions.add(
+          stream.listen(
+            (_) => pulse(),
+            onError: (Object error, StackTrace stackTrace) {
+              if (isDriftCancellation(error)) {
+                return;
+              }
+              if (!controller.isClosed) {
+                controller.addError(error, stackTrace);
+              }
+            },
+          ),
+        );
       }
     },
     onCancel: () async {

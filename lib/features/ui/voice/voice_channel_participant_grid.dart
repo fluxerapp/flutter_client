@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/voice/fluxer_live_badge.dart';
@@ -834,6 +835,9 @@ class _VoiceParticipantCard extends ConsumerWidget {
                 isFilmstrip: isFilmstrip,
                 streamPreviewUrl: streamPreviewUrl,
                 authToken: authToken,
+                mirrorCamera: ref
+                    .watch(voiceSettingsProvider)
+                    .shouldMirrorOwnCamera,
               ),
               if (tileSource == VoiceParticipantTileSource.screenShare &&
                   !isOwnScreenShareTile &&

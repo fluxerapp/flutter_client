@@ -127,6 +127,35 @@ void main() {
         'Monty started a call',
       );
     });
+
+    test('returns system preview for group DM recipient add', () {
+      final DmListMessagePreview? preview = resolveDmListMessagePreview(
+        l10n: l10n,
+        conversation: DmConversation(
+          id: '100',
+          type: 3,
+          recipientId: '0',
+          recipientName: 'Group',
+          name: 'Test Group',
+          lastMessage: '',
+          lastMessageType: messageTypeRecipientAdd,
+          lastMessageAuthorId: '200',
+          lastMessageAuthorName: 'Monty',
+          lastMessageMentionedUserId: '300',
+          lastMessageMentionedUserName: 'Alex',
+          lastMessageTime: DateTime(2026),
+          recipientCount: 3,
+        ),
+        currentUserId: '1',
+        authorFriendNickname: null,
+      );
+
+      expect(preview, isA<DmListSystemMessagePreview>());
+      expect(
+        (preview! as DmListSystemMessagePreview).text,
+        'Monty added Alex to the group',
+      );
+    });
   });
 
   group('stringifySystemMessageForDmListPreview', () {

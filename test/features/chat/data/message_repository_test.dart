@@ -3,8 +3,8 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -92,8 +92,7 @@ void main() {
 
   test('loadMessagePage coalesces concurrent identical requests and refetches '
       'distinct ones', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final adapter = _CountingAdapter();
     final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
       ..httpClientAdapter = adapter;
@@ -120,8 +119,7 @@ void main() {
   });
 
   test('backfilled role-mention message persists a rich isMentioned', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',

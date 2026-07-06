@@ -16,7 +16,6 @@ import 'package:fluxer_app/features/channels/utils/link_channel_navigator.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_access_denied_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/mature_content/utils/channel_gate_navigator.dart';
-import 'package:fluxer_app/core/router/navigate_to_content.dart';
 
 /// Builds the in-app route for a resolved channel jump target.
 String buildChannelJumpRoutePath({

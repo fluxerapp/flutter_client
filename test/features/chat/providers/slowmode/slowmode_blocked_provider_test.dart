@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart' as domain;
@@ -13,8 +13,7 @@ void main() {
   test(
     'disposing slowmode check while channel is loading does not throw',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final errors = <Object>[];
       final channelController = StreamController<domain.Channel?>.broadcast();
       addTearDown(channelController.close);

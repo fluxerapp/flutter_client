@@ -1,5 +1,5 @@
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -25,8 +25,7 @@ void main() {
   final String idD = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 13));
 
   Future<FluxerDatabase> seed(List<String> ids) async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     for (final id in ids) {
       await db.messageDao.upsertMessage(_msg(id).toCompanion());
     }

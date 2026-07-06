@@ -20,6 +20,20 @@ String? encodePermissionOverwritesJson(List<ChannelOverwriteResponse>? list) {
   ]);
 }
 
+List<ChannelOverwriteResponse>? decodePermissionOverwritesJson(String? json) {
+  if (json == null || json.isEmpty) {
+    return null;
+  }
+  final decoded = jsonDecode(json);
+  if (decoded is! List) {
+    return null;
+  }
+  return decoded
+      .whereType<Map<String, Object?>>()
+      .map(ChannelOverwriteResponse.fromJson)
+      .toList();
+}
+
 /// Converts SDK [GuildResponse] to a Drift companion for upserting.
 db.ServersCompanion guildFromSdk(
   GuildResponse sdk, {
@@ -100,6 +114,33 @@ db.ChannelsCompanion channelFromSdk(ChannelResponse sdk, String guildId) {
       encodePermissionOverwritesJson(sdk.permissionOverwrites),
     ),
     userLimit: Value(sdk.userLimit),
+  );
+}
+
+ChannelResponse channelResponseFromRow(db.Channel row) {
+  final lastPinTimestamp = row.lastPinTimestamp;
+  return ChannelResponse(
+    id: row.id,
+    type: row.type,
+    guildId: row.guildId,
+    name: row.name,
+    topic: row.topic,
+    url: row.url,
+    position: row.position,
+    parentId: row.parentId,
+    lastMessageId: row.lastMessageId,
+    lastPinTimestamp: lastPinTimestamp == null
+        ? null
+        : DateTime.tryParse(lastPinTimestamp),
+    permissionOverwrites: decodePermissionOverwritesJson(
+      row.permissionOverwritesJson,
+    ),
+    nsfw: row.nsfw,
+    nsfwOverride: row.nsfwOverride,
+    contentWarningLevel: ContentWarningLevel.fromJson(row.contentWarningLevel),
+    contentWarningText: row.contentWarningText,
+    rateLimitPerUser: row.rateLimitPerUser,
+    userLimit: row.userLimit,
   );
 }
 

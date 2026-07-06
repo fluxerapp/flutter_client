@@ -5,8 +5,13 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AddGuildLandingView extends StatelessWidget {
-  const AddGuildLandingView({required this.onJoinTap, super.key});
+  const AddGuildLandingView({
+    required this.onCreateTap,
+    required this.onJoinTap,
+    super.key,
+  });
 
+  final VoidCallback onCreateTap;
   final VoidCallback onJoinTap;
 
   @override
@@ -31,8 +36,7 @@ class AddGuildLandingView extends StatelessWidget {
               child: AddGuildActionButton(
                 icon: PhosphorIconsRegular.house,
                 label: l10n.addGuildCreateCommunity,
-                isDisabled: true,
-                onTap: null,
+                onTap: onCreateTap,
               ),
             ),
             const SizedBox(width: 12),

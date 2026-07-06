@@ -259,80 +259,44 @@ platform :ios do
   end
 
   def wait_for_processed_build(api_key:, app_identifier:, app_version:, build_number:, groups:, changelog:)
-    maximum_wait_attempts = 40
-    attempt_index = 0
-
     jwt = Spaceship::ConnectAPI::Token.from(hash: api_key)
     Spaceship::ConnectAPI.token = jwt
 
-    begin
-      loop do
-        attempt_index += 1
+    app = Spaceship::ConnectAPI::App.find(app_identifier)
+    build = FastlaneCore::BuildWatcher.wait_for_build_processing_to_be_complete(
+      app_id: app.id,
+      app_version: app_version,
+      build_version: build_number.to_s,
+      platform: Spaceship::ConnectAPI::Platform::IOS,
+      timeout_duration: 1200,
+      wait_for_build_beta_detail_processing: true,
+      return_spaceship_testflight_build: false
+    )
 
-        if attempt_index > maximum_wait_attempts
-          UI.important("Build #{build_number} processing timeout. Build was uploaded but distribution requires manual action.")
-          return
-        end
-
-        begin
-          app = Spaceship::ConnectAPI::App.find(app_identifier)
-          builds = Spaceship::ConnectAPI::Build.all(
-            app_id: app.id,
-            version: app_version,
-            build_number: build_number.to_s,
-            platform: Spaceship::ConnectAPI::Platform::IOS,
-            limit: 1
-          )
-          build = builds.first
-
-          if build.nil?
-            UI.message("Build #{app_version} (#{build_number}) not found yet, waiting... (attempt #{attempt_index}/#{maximum_wait_attempts})")
-            sleep(30)
-            next
-          end
-
-          case build.processing_state
-          when "VALID"
-            UI.success("Build #{app_version} (#{build_number}) is ready for distribution")
-            distribute_to_groups(build: build, app: app, groups: groups, changelog: changelog)
-            return
-          when "INVALID"
-            UI.error("Build #{app_version} (#{build_number}) processing failed (INVALID)")
-            raise "Build processing failed"
-          else
-            UI.message("Build #{app_version} (#{build_number}) is #{build.processing_state}, waiting... (attempt #{attempt_index}/#{maximum_wait_attempts})")
-            sleep(30)
-          end
-        rescue => poll_err
-          if poll_err.message.include?("timeout") || poll_err.message.include?("connection")
-            UI.important("Polling error: #{poll_err.message}, will retry...")
-            sleep(30)
-          else
-            raise poll_err
-          end
-        end
-      end
-    rescue => err
-      UI.important("Distribution step failed: #{err.message}")
-      UI.important("Build #{build_number} was uploaded successfully to TestFlight")
-      UI.important("Manual distribution to groups may be required: #{groups.join(', ')}")
-    end
+    distribute_to_groups(build: build, app: app, groups: groups, changelog: changelog)
   end
 
   def distribute_to_groups(build:, app:, groups:, changelog:)
-    beta_groups = groups.map { |name| app.get_beta_groups(filter: { name: name }).first }.compact
+    build = ensure_export_compliance(build: build)
+    beta_groups = app.get_beta_groups.select { |group| groups.include?(group.name) }
+    missing_group_names = groups - beta_groups.map(&:name)
+
+    if missing_group_names.any?
+      UI.important("Beta groups not found on #{app.bundle_id}: #{missing_group_names.join(', ')}")
+    end
 
     if beta_groups.empty?
-      UI.important("No beta groups found for distribution")
-      return
+      UI.user_error!("No beta groups found for distribution on #{app.bundle_id}. Expected: #{groups.join(', ')}")
     end
 
     update_build_changelog(build: build, changelog: changelog)
+    reject_build_waiting_for_beta_review(build: build)
 
     if build.ready_for_beta_submission?
       build.post_beta_app_review_submission
     else
-      UI.message("Build #{build.app_version} (#{build.version}) does not require beta review submission")
+      external_state = build.build_beta_detail&.external_build_state || "unknown"
+      UI.message("Build #{build.app_version} (#{build.version}) is not ready for beta submission (external state: #{external_state})")
     end
 
     build.add_beta_groups(beta_groups: beta_groups)
@@ -342,9 +306,42 @@ platform :ios do
         attributes: { autoNotifyEnabled: true }
       )
     else
-      UI.important("Unable to enable tester auto notifications because build beta details were not returned")
+      UI.user_error!("Unable to enable tester notifications because build beta details were not returned")
     end
     UI.success("Distributed to groups: #{beta_groups.map(&:name).join(', ')}")
+  end
+
+  def ensure_export_compliance(build:)
+    return build unless build.uses_non_exempt_encryption.nil?
+
+    Spaceship::ConnectAPI.patch_builds(
+      build_id: build.id,
+      attributes: { usesNonExemptEncryption: false }
+    )
+    UI.important("Export compliance was unset; waiting for App Store Connect to finish processing again...")
+
+    loop do
+      refreshed_build = Spaceship::ConnectAPI::Build.get(build_id: build.id)
+      return refreshed_build unless refreshed_build.missing_export_compliance?
+
+      UI.message("Waiting for build #{build.id} to finish export compliance processing")
+      sleep(5)
+    end
+  end
+
+  def reject_build_waiting_for_beta_review(build:)
+    waiting_for_review_build = build.app.get_builds(
+      filter: {
+        "betaAppReviewSubmission.betaReviewState" => "WAITING_FOR_REVIEW,IN_REVIEW",
+        "expired" => false,
+        "preReleaseVersion.version" => build.pre_release_version.version
+      },
+      includes: "betaAppReviewSubmission,preReleaseVersion"
+    ).first
+    return if waiting_for_review_build.nil?
+
+    UI.important("Another build is already in beta review. Expiring #{waiting_for_review_build.app_version} (#{waiting_for_review_build.version}) before submitting the new build.")
+    waiting_for_review_build.expire!
   end
 
   def update_build_changelog(build:, changelog:)

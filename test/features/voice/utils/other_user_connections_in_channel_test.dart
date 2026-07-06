@@ -59,7 +59,6 @@ void main() {
         guildId: 'g1',
         channelId: 'voice-1',
         currentUserId: 'self',
-        localConnectionId: null,
       );
 
       expect(others, isEmpty);
@@ -80,7 +79,6 @@ void main() {
         guildId: 'g1',
         channelId: 'voice-1',
         currentUserId: 'self',
-        localConnectionId: null,
       );
 
       expect(others, isEmpty);

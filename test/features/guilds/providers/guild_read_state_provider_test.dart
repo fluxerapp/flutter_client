@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart' show Value;
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
@@ -110,8 +110,7 @@ void main() {
   test(
     'seeds initial map with hasUnread for channels with new messages',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       final lastMessageId = _recentSnowflake();
       await _seedGuild(
@@ -154,8 +153,7 @@ void main() {
   );
 
   test('incremental update bumps sentinel only for affected guild', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     final lastA = _recentSnowflake();
     final lastB = _recentSnowflake(ago: const Duration(minutes: 30));
@@ -214,8 +212,7 @@ void main() {
   });
 
   test('voice channels contribute plain unread like text channels', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     final lastVoice = _recentSnowflake();
     await _seedGuild(
@@ -250,8 +247,7 @@ void main() {
   });
 
   test('category channels do not contribute to guild unread', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     final lastMessageId = _recentSnowflake();
     await _seedGuild(
@@ -293,8 +289,7 @@ void main() {
   });
 
   test('recomputes guild unread when a newer cached message arrives', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     final readMessageId = _recentSnowflake();
     final newerMessageId = _recentSnowflake(ago: const Duration(minutes: 30));
@@ -360,8 +355,7 @@ void main() {
   test(
     'shows unread for orphaned channel pointer via read state fallback',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       final lastMessageId = _recentSnowflake();
       final ackId = snowflakeAtPreviousMillisecond(lastMessageId);
@@ -415,8 +409,7 @@ void main() {
   test(
     'guildReadStateReadyProvider is false until initial seed completes',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       final lastMessageId = _recentSnowflake();
       await _seedGuild(
@@ -459,8 +452,7 @@ void main() {
   test(
     'initial seed publishes unread once without stream-driven pre-seed recompute',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       final lastMessageId = _recentSnowflake();
       await _seedGuild(
@@ -505,8 +497,7 @@ void main() {
   );
 
   test('settings stream update after seed keeps stable unread state', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     final lastMessageId = _recentSnowflake();
     await _seedGuild(
@@ -559,8 +550,7 @@ void main() {
   });
 
   test('buffers read state updates emitted during initial seed', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final ackId = _recentSnowflake(ago: const Duration(hours: 2));
     final latestId = _recentSnowflake();
     await _seedGuild(
@@ -633,7 +623,7 @@ void main() {
         );
       }
 
-      final db2 = FluxerDatabase.forTesting(NativeDatabase.memory());
+      final db2 = openTestDatabase();
       await _seedGuild(db2, 'g', channels: channels);
       await seedReadStates(db2, c2Mentions: 1);
       final container2 = _container(db2);
@@ -649,8 +639,7 @@ void main() {
       container2.dispose();
       await db2.close();
 
-      final db1 = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db1.close);
+      final db1 = openTestDatabase();
       await _seedGuild(db1, 'g', channels: channels);
       await seedReadStates(db1, c2Mentions: 0);
       final container1 = _container(db1);
@@ -683,8 +672,7 @@ void main() {
   );
 
   test('a message edit leaves guild unread untouched', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     final lastId = _recentSnowflake();
     await _seedGuild(
@@ -727,8 +715,7 @@ void main() {
   test(
     'resume re-seed keeps a channel read after the ack lands during recovery',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       final lastMessageId = _recentSnowflake();
       await _seedGuild(
@@ -789,8 +776,7 @@ void main() {
   test(
     'recovery bump does not reseed unread, but DB writes still update',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       final lastMessageId = _recentSnowflake();
       await _seedGuild(

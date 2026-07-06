@@ -383,6 +383,10 @@ class _FluxerSliderState extends State<FluxerSlider> {
                   ),
                 );
 
+                final fittedMarkerLabel = Flexible(
+                  child: FittedBox(fit: BoxFit.scaleDown, child: markerLabel),
+                );
+
                 return Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -401,8 +405,8 @@ class _FluxerSliderState extends State<FluxerSlider> {
                           children:
                               widget.markerPosition ==
                                   FluxerSliderMarkerPosition.above
-                              ? [markerLabel, dash]
-                              : [dash, markerLabel],
+                              ? [fittedMarkerLabel, dash]
+                              : [dash, fittedMarkerLabel],
                         ),
                       ),
                     ),

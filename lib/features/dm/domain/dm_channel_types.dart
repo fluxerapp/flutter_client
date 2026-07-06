@@ -24,7 +24,7 @@ bool isBotOrSystemDmRecipient(DmConversation dm) =>
     !dm.isGroup && (dm.isBot || dm.isSystem);
 
 bool canStartDmCall(DmConversation dm) =>
-    !dm.isGroup && !dm.isPersonalNotes && !isBotOrSystemDmRecipient(dm);
+    !dm.isPersonalNotes && (dm.isGroup || !isBotOrSystemDmRecipient(dm));
 
 bool canCallUser({required bool isBot, required bool isSystem}) =>
     !isBot && !isSystem;
@@ -110,6 +110,7 @@ db.DmChannelsCompanion? dmChannelCompanionFromChannelResponse(
     icon: Value(channel.icon),
     recipientCount: Value(recipients.length + 1),
     recipientIds: Value(jsonEncode(recipients.map((r) => r.id).toList())),
+    nicksJson: Value(encodeDmChannelNicksJson(channel.nicks)),
     lastMessageId: Value(channel.lastMessageId),
     lastMessageTime: Value(
       channel.lastMessageId != null
@@ -118,6 +119,28 @@ db.DmChannelsCompanion? dmChannelCompanionFromChannelResponse(
     ),
     unreadCount: Value(unreadCount),
   );
+}
+
+String encodeDmChannelNicksJson(Map<String, String>? nicks) {
+  if (nicks == null || nicks.isEmpty) {
+    return '{}';
+  }
+  return jsonEncode(nicks);
+}
+
+Map<String, String> parseDmChannelNicksJson(String json) {
+  if (json.isEmpty || json == '{}') {
+    return const <String, String>{};
+  }
+  try {
+    final Map<String, dynamic> raw = jsonDecode(json) as Map<String, dynamic>;
+    return <String, String>{
+      for (final MapEntry<String, dynamic> entry in raw.entries)
+        if (entry.value != null) entry.key: entry.value.toString(),
+    };
+  } on Object {
+    return const <String, String>{};
+  }
 }
 
 List<UserPartialResponse> dmRecipientUsersFromChannelResponse(

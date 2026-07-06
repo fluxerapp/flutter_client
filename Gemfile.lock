@@ -1,3 +1,16 @@
+GIT
+  remote: https://github.com/CocoaPods/Xcodeproj.git
+  revision: c12d2ae619ae42f947a6b07d865f69948c752df5
+  ref: c12d2ae619ae42f947a6b07d865f69948c752df5
+  specs:
+    xcodeproj (1.27.0)
+      CFPropertyList (>= 2.3.3, < 4.0)
+      atomos (~> 0.1.3)
+      claide (>= 1.0.2, < 2.0)
+      colored2 (~> 3.1)
+      nanaimo (~> 0.4.0)
+      rexml (>= 3.3.6, < 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -303,13 +316,6 @@ GEM
     uber (0.1.0)
     unicode-display_width (2.6.0)
     word_wrap (1.0.0)
-    xcodeproj (1.27.0)
-      CFPropertyList (>= 2.3.3, < 4.0)
-      atomos (~> 0.1.3)
-      claide (>= 1.0.2, < 2.0)
-      colored2 (~> 3.1)
-      nanaimo (~> 0.4.0)
-      rexml (>= 3.3.6, < 4.0)
     xcpretty (0.4.1)
       rouge (~> 3.28.0)
     xcpretty-travis-formatter (1.0.1)
@@ -332,6 +338,7 @@ DEPENDENCIES
   cocoapods
   fastlane
   multi_json
+  xcodeproj (~> 1.27)!
 
 CHECKSUMS
   CFPropertyList (3.0.8) sha256=2c99d0d980536d3d7ab252f7bd59ac8be50fbdd1ff487c98c949bb66bb114261
@@ -465,7 +472,7 @@ CHECKSUMS
   uber (0.1.0) sha256=5beeb407ff807b5db994f82fa9ee07cfceaa561dad8af20be880bc67eba935dc
   unicode-display_width (2.6.0) sha256=12279874bba6d5e4d2728cef814b19197dbb10d7a7837a869bab65da943b7f5a
   word_wrap (1.0.0) sha256=f556d4224c812e371000f12a6ee8102e0daa724a314c3f246afaad76d82accc7
-  xcodeproj (1.27.0) sha256=8cc7a73b4505c227deab044dce118ede787041c702bc47636856a2e566f854d3
+  xcodeproj (1.27.0)
   xcpretty (0.4.1) sha256=b14c50e721f6589ee3d6f5353e2c2cfcd8541fa1ea16d6c602807dd7327f3892
   xcpretty-travis-formatter (1.0.1) sha256=aacc332f17cb7b2cba222994e2adc74223db88724fe76341483ad3098e232f93
 

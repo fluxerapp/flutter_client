@@ -1,0 +1,248 @@
+enum VoiceProcessingMode {
+  voice,
+  studio,
+  custom;
+
+  static VoiceProcessingMode fromJson(String? value) {
+    return VoiceProcessingMode.values.firstWhere(
+      (VoiceProcessingMode mode) => mode.name == value,
+      orElse: () => VoiceProcessingMode.voice,
+    );
+  }
+}
+
+enum NoiseSuppressionTier {
+  enhanced,
+  standard,
+  none;
+
+  static NoiseSuppressionTier fromJson(String? value) {
+    return NoiseSuppressionTier.values.firstWhere(
+      (NoiseSuppressionTier tier) => tier.name == value,
+      orElse: () => NoiseSuppressionTier.enhanced,
+    );
+  }
+}
+
+enum CameraResolution {
+  low,
+  medium,
+  high;
+
+  static CameraResolution fromJson(String? value) {
+    return CameraResolution.values.firstWhere(
+      (CameraResolution resolution) => resolution.name == value,
+      orElse: () => CameraResolution.medium,
+    );
+  }
+}
+
+enum ScreenshareResolution {
+  low480p,
+  medium,
+  high;
+
+  static ScreenshareResolution fromJson(String? value) {
+    if (value == 'low_480p') {
+      return ScreenshareResolution.low480p;
+    }
+    return ScreenshareResolution.values.firstWhere(
+      (ScreenshareResolution resolution) => resolution.name == value,
+      orElse: () => ScreenshareResolution.medium,
+    );
+  }
+
+  String toJson() {
+    if (this == ScreenshareResolution.low480p) {
+      return 'low_480p';
+    }
+    return name;
+  }
+}
+
+enum VoiceCameraFacing {
+  front,
+  back;
+
+  static VoiceCameraFacing fromJson(String? value) {
+    return VoiceCameraFacing.values.firstWhere(
+      (VoiceCameraFacing facing) => facing.name == value,
+      orElse: () => VoiceCameraFacing.front,
+    );
+  }
+
+  VoiceCameraFacing switched() {
+    return this == VoiceCameraFacing.front
+        ? VoiceCameraFacing.back
+        : VoiceCameraFacing.front;
+  }
+}
+
+const String kDefaultVoiceDeviceId = 'default';
+const int kDefaultVoiceVolumePercent = 100;
+const int kMinVoiceVolumePercent = 0;
+const int kMaxVoiceVolumePercent = 200;
+const int kDefaultVideoFrameRate = 30;
+
+class VoiceSettingsState {
+  const VoiceSettingsState({
+    this.inputDeviceId = kDefaultVoiceDeviceId,
+    this.outputDeviceId = kDefaultVoiceDeviceId,
+    this.videoDeviceId = kDefaultVoiceDeviceId,
+    this.inputVolume = kDefaultVoiceVolumePercent,
+    this.outputVolume = kDefaultVoiceVolumePercent,
+    this.voiceProcessingMode = VoiceProcessingMode.voice,
+    this.noiseSuppressionTier = NoiseSuppressionTier.enhanced,
+    this.echoCancellation = true,
+    this.noiseSuppression = true,
+    this.autoGainControl = true,
+    this.preferSpeakerOutput = false,
+    this.cameraResolution = CameraResolution.medium,
+    this.cameraFacing = VoiceCameraFacing.front,
+    this.mirrorCamera = true,
+    this.screenshareResolution = ScreenshareResolution.medium,
+    this.videoFrameRate = kDefaultVideoFrameRate,
+  });
+
+  final String inputDeviceId;
+  final String outputDeviceId;
+  final String videoDeviceId;
+  final int inputVolume;
+  final int outputVolume;
+  final VoiceProcessingMode voiceProcessingMode;
+  final NoiseSuppressionTier noiseSuppressionTier;
+  final bool echoCancellation;
+  final bool noiseSuppression;
+  final bool autoGainControl;
+  final bool preferSpeakerOutput;
+  final CameraResolution cameraResolution;
+  final VoiceCameraFacing cameraFacing;
+  final bool mirrorCamera;
+  final ScreenshareResolution screenshareResolution;
+  final int videoFrameRate;
+
+  bool get shouldMirrorOwnCamera =>
+      mirrorCamera && cameraFacing == VoiceCameraFacing.front;
+
+  VoiceSettingsState copyWith({
+    String? inputDeviceId,
+    String? outputDeviceId,
+    String? videoDeviceId,
+    int? inputVolume,
+    int? outputVolume,
+    VoiceProcessingMode? voiceProcessingMode,
+    NoiseSuppressionTier? noiseSuppressionTier,
+    bool? echoCancellation,
+    bool? noiseSuppression,
+    bool? autoGainControl,
+    bool? preferSpeakerOutput,
+    CameraResolution? cameraResolution,
+    VoiceCameraFacing? cameraFacing,
+    bool? mirrorCamera,
+    ScreenshareResolution? screenshareResolution,
+    int? videoFrameRate,
+  }) {
+    return VoiceSettingsState(
+      inputDeviceId: inputDeviceId ?? this.inputDeviceId,
+      outputDeviceId: outputDeviceId ?? this.outputDeviceId,
+      videoDeviceId: videoDeviceId ?? this.videoDeviceId,
+      inputVolume: inputVolume ?? this.inputVolume,
+      outputVolume: outputVolume ?? this.outputVolume,
+      voiceProcessingMode: voiceProcessingMode ?? this.voiceProcessingMode,
+      noiseSuppressionTier: noiseSuppressionTier ?? this.noiseSuppressionTier,
+      echoCancellation: echoCancellation ?? this.echoCancellation,
+      noiseSuppression: noiseSuppression ?? this.noiseSuppression,
+      autoGainControl: autoGainControl ?? this.autoGainControl,
+      preferSpeakerOutput: preferSpeakerOutput ?? this.preferSpeakerOutput,
+      cameraResolution: cameraResolution ?? this.cameraResolution,
+      cameraFacing: cameraFacing ?? this.cameraFacing,
+      mirrorCamera: mirrorCamera ?? this.mirrorCamera,
+      screenshareResolution:
+          screenshareResolution ?? this.screenshareResolution,
+      videoFrameRate: videoFrameRate ?? this.videoFrameRate,
+    );
+  }
+
+  Map<String, Object?> toJson() {
+    return <String, Object?>{
+      'inputDeviceId': inputDeviceId,
+      'outputDeviceId': outputDeviceId,
+      'videoDeviceId': videoDeviceId,
+      'inputVolume': inputVolume,
+      'outputVolume': outputVolume,
+      'voiceProcessingMode': voiceProcessingMode.name,
+      'noiseSuppressionTier': noiseSuppressionTier.name,
+      'echoCancellation': echoCancellation,
+      'noiseSuppression': noiseSuppression,
+      'autoGainControl': autoGainControl,
+      'preferSpeakerOutput': preferSpeakerOutput,
+      'cameraResolution': cameraResolution.name,
+      'cameraFacing': cameraFacing.name,
+      'mirrorCamera': mirrorCamera,
+      'screenshareResolution': screenshareResolution.toJson(),
+      'videoFrameRate': videoFrameRate,
+    };
+  }
+
+  factory VoiceSettingsState.fromJson(Map<String, Object?> json) {
+    return VoiceSettingsState(
+      inputDeviceId: json['inputDeviceId'] as String? ?? kDefaultVoiceDeviceId,
+      outputDeviceId:
+          json['outputDeviceId'] as String? ?? kDefaultVoiceDeviceId,
+      videoDeviceId: json['videoDeviceId'] as String? ?? kDefaultVoiceDeviceId,
+      inputVolume: _clampVolume(json['inputVolume']),
+      outputVolume: _clampVolume(json['outputVolume']),
+      voiceProcessingMode: VoiceProcessingMode.fromJson(
+        json['voiceProcessingMode'] as String?,
+      ),
+      noiseSuppressionTier: _resolveNoiseSuppressionTier(json),
+      echoCancellation: json['echoCancellation'] as bool? ?? true,
+      noiseSuppression: json['noiseSuppression'] as bool? ?? true,
+      autoGainControl: json['autoGainControl'] as bool? ?? true,
+      preferSpeakerOutput: json['preferSpeakerOutput'] as bool? ?? false,
+      cameraResolution: CameraResolution.fromJson(
+        json['cameraResolution'] as String?,
+      ),
+      cameraFacing: VoiceCameraFacing.fromJson(json['cameraFacing'] as String?),
+      mirrorCamera: json['mirrorCamera'] as bool? ?? true,
+      screenshareResolution: ScreenshareResolution.fromJson(
+        json['screenshareResolution'] as String?,
+      ),
+      videoFrameRate: _clampFrameRate(json['videoFrameRate']),
+    );
+  }
+}
+
+NoiseSuppressionTier _resolveNoiseSuppressionTier(Map<String, Object?> json) {
+  final String? tier = json['noiseSuppressionTier'] as String?;
+  if (tier != null) {
+    return NoiseSuppressionTier.fromJson(tier);
+  }
+  final bool deepFilter =
+      json['deepFilterNoiseSuppression'] as bool? ??
+      json['deepFilterNoiseSuppressionPrefV2'] as bool? ??
+      true;
+  if (deepFilter) {
+    return NoiseSuppressionTier.enhanced;
+  }
+  final bool standardNs = json['noiseSuppression'] as bool? ?? true;
+  return standardNs ? NoiseSuppressionTier.standard : NoiseSuppressionTier.none;
+}
+
+int _clampVolume(Object? value) {
+  if (value is! num) {
+    return kDefaultVoiceVolumePercent;
+  }
+  return value.round().clamp(kMinVoiceVolumePercent, kMaxVoiceVolumePercent);
+}
+
+int _clampFrameRate(Object? value) {
+  if (value is! num) {
+    return kDefaultVideoFrameRate;
+  }
+  return value.round().clamp(15, 60);
+}
+
+int clampVoiceVolumePercent(int value) {
+  return value.clamp(kMinVoiceVolumePercent, kMaxVoiceVolumePercent);
+}

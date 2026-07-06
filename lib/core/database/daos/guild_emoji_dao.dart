@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/guild_emojis.dart';
@@ -19,7 +20,8 @@ class GuildEmojiDao extends DatabaseAccessor<FluxerDatabase>
                 mode: OrderingMode.desc,
               ),
             ]))
-          .watch();
+          .watch()
+          .suppressDriftCancellation;
 
   Stream<List<GuildEmoji>> watchAll() =>
       (select(guildEmojis)..orderBy([
@@ -28,7 +30,8 @@ class GuildEmojiDao extends DatabaseAccessor<FluxerDatabase>
               mode: OrderingMode.desc,
             ),
           ]))
-          .watch();
+          .watch()
+          .suppressDriftCancellation;
 
   Future<List<GuildEmoji>> getAll() => select(guildEmojis).get();
 

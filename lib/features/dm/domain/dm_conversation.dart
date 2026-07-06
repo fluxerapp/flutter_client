@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 
 class GroupMemberInfo {
@@ -39,6 +41,9 @@ class DmConversation {
   final String? groupStatus;
   final List<GroupMemberInfo> groupMembers;
 
+  /// Per-user nickname overrides for this group DM (from channel.nicks).
+  final Map<String, String> channelNicks;
+
   /// Recipients persisted for this DM/channel (excluding the current account at
   /// call time — filter with the current user ID before ringing).
   final List<String> remoteRecipientIds;
@@ -69,6 +74,7 @@ class DmConversation {
     this.isSystem = false,
     this.groupStatus,
     this.groupMembers = const [],
+    this.channelNicks = const {},
     this.remoteRecipientIds = const [],
   });
 
@@ -86,8 +92,24 @@ class DmConversation {
     return recipientName;
   }
 
-  String displayNameWith(String? friendNickname) {
-    if (isGroup || isPersonalNotes) {
+  String displayNameWith(
+    String? friendNickname, {
+    FluxerLocalizations? l10n,
+    String? currentUserId,
+    String? currentUserDisplayName,
+  }) {
+    if (isPersonalNotes) {
+      return displayName;
+    }
+    if (isGroup) {
+      if (l10n != null) {
+        return resolveGroupDmDisplayName(
+          dm: this,
+          l10n: l10n,
+          currentUserId: currentUserId,
+          currentUserDisplayName: currentUserDisplayName,
+        );
+      }
       return displayName;
     }
     return resolveDisplayName(
@@ -119,6 +141,7 @@ class DmConversation {
     db.User? lastMessageMentionedUser,
     String? groupStatus,
     List<GroupMemberInfo> groupMembers = const [],
+    Map<String, String> channelNicks = const {},
     List<String> remoteRecipientIds = const [],
     int? unreadCount,
   }) {
@@ -151,6 +174,7 @@ class DmConversation {
       unreadCount: unreadCount ?? row.unreadCount,
       groupStatus: groupStatus,
       groupMembers: groupMembers,
+      channelNicks: channelNicks,
       remoteRecipientIds: remoteRecipientIds,
     );
   }

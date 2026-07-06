@@ -58,7 +58,6 @@ class GuildSettingsDataRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return FluxerTappable(
       onTap: onTap,
-      semanticLabel: null,
       builder: (BuildContext context, Set<WidgetState> states) {
         return Container(
           padding: EdgeInsets.symmetric(vertical: context.layout.s3),
@@ -71,7 +70,7 @@ class GuildSettingsDataRow extends StatelessWidget {
             children: <Widget>[
               for (int i = 0; i < cells.length; i++)
                 Expanded(flex: i == 0 ? 2 : 1, child: cells[i]),
-              if (trailing != null) trailing!,
+              ?trailing,
             ],
           ),
         );

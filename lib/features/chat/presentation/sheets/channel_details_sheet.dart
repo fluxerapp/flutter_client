@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_s
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
+import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/data/channel_pins_repository.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -32,7 +33,9 @@ import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
+import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
@@ -95,7 +98,7 @@ Future<void> showChannelSearchSheet(
 }) {
   return FluxerBottomSheet.showScrollable<void>(
     context,
-    title: 'Search',
+    title: FluxerLocalizations.of(context).channelDetailsSearchTitle,
     maxHeight: 0.96,
     builder: (sheetContext, scrollController, close) => ChannelSearchSheet(
       channelId: channelId,
@@ -261,7 +264,11 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
         nickname: channel?.name ?? dm?.displayName,
       );
     }
-    _toast(isFavorite ? 'Removed from Favorites' : 'Added to Favorites');
+    _toast(
+      isFavorite
+          ? FluxerLocalizations.of(context).favoritesRemovedToast
+          : FluxerLocalizations.of(context).favoritesAddedToast,
+    );
   }
 
   Future<void> _toggleDmPin({required bool isPinned}) async {
@@ -272,16 +279,16 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     final repository = ref.read(dmRepositoryProvider);
     if (isPinned) {
       await repository.unpinDm(dm.id);
-      _toast('Unpinned DM');
+      _toast(FluxerLocalizations.of(context).dmUnpinned);
     } else {
       await repository.pinDm(dm.id);
-      _toast('Pinned DM');
+      _toast(FluxerLocalizations.of(context).dmPinned);
     }
   }
 
   Future<void> _copy(String value) async {
     await Clipboard.setData(ClipboardData(text: value));
-    _toast('Copied to clipboard');
+    _toast(FluxerLocalizations.of(context).copiedToClipboard);
   }
 
   Future<void> _confirmCloseDm() async {
@@ -292,13 +299,20 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     final String? friendNickname = dm.isGroup
         ? null
         : ref.read(friendNicknameProvider(dm.recipientId)).value;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    final String resolvedName = dm.displayNameWith(
+      friendNickname,
+      l10n: l10n,
+      currentUserId: currentUserId,
+    );
     await FluxerConfirmModal.show(
       context,
-      title: dm.isGroup ? 'Leave Group' : 'Close DM',
+      title: dm.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDmConfirmTitle,
       description: dm.isGroup
-          ? 'Leave ${dm.displayName}?'
-          : 'Close your conversation with ${dm.displayNameWith(friendNickname)}?',
-      confirmLabel: dm.isGroup ? 'Leave Group' : 'Close DM',
+          ? l10n.channelDetailsLeaveGroupDescription(resolvedName)
+          : l10n.channelDetailsCloseDmDescription(resolvedName),
+      confirmLabel: dm.isGroup ? l10n.dmLeaveGroup : l10n.dmCloseDm,
       isDanger: true,
       onConfirm: () {
         unawaited(ref.read(dmViewModelProvider.notifier).closeDmChannel(dm.id));
@@ -326,6 +340,7 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
   }
 
   Future<void> _setMute({required bool isMuted, int? durationSeconds}) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final dm = widget.dm;
     final channel = widget.channel;
     if (dm != null) {
@@ -333,10 +348,10 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
         await ref
             .read(dmRepositoryProvider)
             .muteDm(dm.id, durationSeconds: durationSeconds);
-        _toast('Muted conversation');
+        _toast(l10n.channelDetailsMutedConversation);
       } else {
         await ref.read(dmRepositoryProvider).unmuteDm(dm.id);
-        _toast('Unmuted conversation');
+        _toast(l10n.channelDetailsUnmutedConversation);
       }
       return;
     }
@@ -349,7 +364,11 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
             muted: isMuted,
             durationSeconds: durationSeconds,
           );
-      _toast(isMuted ? 'Muted channel' : 'Unmuted channel');
+      _toast(
+        isMuted
+            ? l10n.channelDetailsMutedChannel
+            : l10n.channelDetailsUnmutedChannel,
+      );
     }
   }
 
@@ -365,7 +384,9 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
           channelId: channel.id,
           messageNotifications: setting,
         );
-    _toast('Notification settings updated');
+    _toast(
+      FluxerLocalizations.of(context).channelDetailsNotificationSettingsUpdated,
+    );
   }
 
   void _toast(
@@ -379,6 +400,7 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final targetChannelId = widget.channel?.id ?? widget.dm?.id;
     final hasPins = targetChannelId != null;
     final showFavorites = ref.watch(
@@ -411,9 +433,15 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
                   ? 1
                   : 0);
     final tabs = <FluxerTab>[
-      const FluxerTab(label: 'Members', icon: PhosphorIconsFill.users),
+      FluxerTab(
+        label: l10n.channelDetailsTabMembers,
+        icon: PhosphorIconsFill.users,
+      ),
       if (hasPins)
-        const FluxerTab(label: 'Pins', icon: PhosphorIconsFill.pushPin),
+        FluxerTab(
+          label: l10n.channelDetailsTabPins,
+          icon: PhosphorIconsFill.pushPin,
+        ),
     ];
     final selectedIndex = _selectedIndex.clamp(0, tabs.length - 1);
     if (widget.channel != null) {
@@ -438,7 +466,9 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
               Expanded(
                 child: FluxerActionButton(
                   icon: PhosphorIconsFill.bellSlash,
-                  label: isMuted ? 'Unmute' : 'Mute',
+                  label: isMuted
+                      ? l10n.channelDetailsActionUnmute
+                      : l10n.channelDetailsActionMute,
                   isActive: isMuted,
                   onTap: () => _openMuteSheet(isMuted: isMuted),
                 ),
@@ -448,7 +478,7 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
                 Expanded(
                   child: FluxerActionButton(
                     icon: PhosphorIconsBold.magnifyingGlass,
-                    label: 'Search',
+                    label: l10n.channelDetailsActionSearch,
                     onTap: _openSearch,
                   ),
                 ),
@@ -457,7 +487,7 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
               Expanded(
                 child: FluxerActionButton(
                   icon: PhosphorIconsBold.dotsThreeVertical,
-                  label: 'More',
+                  label: l10n.channelDetailsActionMore,
                   onTap: () {
                     final bits = widget.channel == null
                         ? 0
@@ -570,12 +600,18 @@ class _DetailsIdentityHeader extends ConsumerWidget {
         dmConvo != null && !dmConvo.isGroup && !dmConvo.isPersonalNotes
         ? ref.watch(friendNicknameProvider(dmConvo.recipientId)).value
         : null;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final String? currentUserId = ref.watch(currentUserIdProvider);
     final title =
         channelEntity?.name ??
-        dmConvo?.displayNameWith(friendNickname) ??
-        'Details';
+        dmConvo?.displayNameWith(
+          friendNickname,
+          l10n: l10n,
+          currentUserId: currentUserId,
+        ) ??
+        l10n.channelDetailsFallbackTitle;
     final subtitle = _detailsSubtitle(
-      l10n: FluxerLocalizations.of(context),
+      l10n: l10n,
       channel: channelEntity,
       dm: dm,
     );
@@ -704,7 +740,10 @@ class _DetailsAvatar extends ConsumerWidget {
           builder: (context, snapshot) {
             final user = snapshot.data;
             return FluxerAvatar.user(
-              fallbackText: user?.globalName ?? user?.username ?? 'You',
+              fallbackText:
+                  user?.globalName ??
+                  user?.username ??
+                  FluxerLocalizations.of(context).channelDetailsMemberYou,
               userId: currentUserId,
               imageUrl: user?.avatar == null
                   ? null
@@ -792,7 +831,15 @@ class _MembersTab extends ConsumerWidget {
           if (canShowNewGroupCta)
             _NewGroupCtaRow(
               recipientHandle: dm!.recipientUsername ?? dm!.recipientName,
-              onTap: () => _stubComingSoon(context, ref),
+              onTap: () => unawaited(
+                CreateDmFlow.show(
+                  context,
+                  options: CreateDmOptions(
+                    initialSelectedUserIds: dm!.remoteRecipientIds,
+                    duplicateExcludeChannelId: dm!.id,
+                  ),
+                ),
+              ),
             ),
           _DmMemberGroups(dm: dm!, currentUserId: currentUserId),
         ],
@@ -800,10 +847,11 @@ class _MembersTab extends ConsumerWidget {
     }
 
     if (guildId == null || channelId == null) {
-      return const _EmptySheetState(
+      final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+      return _EmptySheetState(
         icon: PhosphorIconsBold.users,
-        title: 'No members to show',
-        body: 'Members will appear here once the community data is loaded.',
+        title: l10n.channelDetailsMembersEmptyTitle,
+        body: l10n.channelDetailsMembersEmptyBody,
       );
     }
     return GuildMembersTabContent(
@@ -833,7 +881,9 @@ class _PinsTab extends ConsumerWidget {
     return pins.when(
       loading: () => const Center(child: FluxerLoadingSpinner()),
       error: (error, stack) => _ErrorSheetState(
-        title: 'Pins could not be loaded',
+        title: FluxerLocalizations.of(
+          context,
+        ).channelDetailsPinsLoadFailedTitle,
         onRetry: () => ref.invalidate(channelPinsProvider(channelId)),
       ),
       data: (state) {
@@ -841,10 +891,10 @@ class _PinsTab extends ConsumerWidget {
           return const _PinsEmptyState();
         }
 
+        final FluxerLocalizations l10n = FluxerLocalizations.of(context);
         final endStateDescription = guildId != null
-            ? 'Members with the "Pin Messages" permission can pin messages '
-                  'for everyone to see.'
-            : 'You can pin messages in this conversation for everyone to see.';
+            ? l10n.channelDetailsPinsGuildEndHint
+            : l10n.channelDetailsPinsDmEndHint;
 
         return ListView.builder(
           controller: scrollController,
@@ -956,7 +1006,7 @@ class _PinsEndState extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "You've reached the end",
+              FluxerLocalizations.of(context).channelDetailsPinsEndReached,
               style: context.textStyles.heading.copyWith(
                 color: context.colors.textPrimary,
               ),
@@ -1126,6 +1176,7 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final state = ref.watch(
       channelSearchProvider(widget.channelId, widget.guildId),
     );
@@ -1134,7 +1185,7 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
     final hasAuthorFilter = _selectedAuthorIds.isNotEmpty;
     final scopeIsCustom = state.query.scope != MessageSearchScopeFilter.current;
     final hasContentFilter = state.query.contentTypes.isNotEmpty;
-    final hasChipValue = _hasChipValue(state.query.contentTypes);
+    final hasChipValue = _hasChipValue(l10n, state.query.contentTypes);
     final showResultCount =
         state.hasSearched && !state.isSearching && state.total > 0;
     final showClear = hasContent || _hasActiveFilters;
@@ -1148,7 +1199,7 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
               FluxerInput(
                 controller: _textController,
                 focusNode: _focusNode,
-                hint: 'Search Messages',
+                hint: l10n.channelDetailsSearchHint,
                 prefixIcon: const PhosphorIcon(
                   PhosphorIconsBold.magnifyingGlass,
                 ),
@@ -1165,7 +1216,7 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
                 runSpacing: 8,
                 children: [
                   _SearchFilterChip(
-                    label: 'From',
+                    label: l10n.channelDetailsSearchFilterFrom,
                     value: _authorChipValue,
                     icon: PhosphorIconsBold.user,
                     isActive: hasAuthorFilter,
@@ -1173,7 +1224,7 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
                     onRemove: hasAuthorFilter ? _clearAuthorSelection : null,
                   ),
                   _SearchFilterChip(
-                    label: 'Has',
+                    label: l10n.channelDetailsSearchFilterHas,
                     value: hasChipValue,
                     icon: PhosphorIconsBold.funnel,
                     isActive: hasContentFilter,
@@ -1185,13 +1236,14 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
                         : null,
                   ),
                   _SearchFilterChip(
-                    label: 'Sort',
-                    value: _sortLabel(state.query.sort),
+                    label: l10n.channelDetailsSearchFilterSort,
+                    value: _sortLabel(l10n, state.query.sort),
                     icon: PhosphorIconsBold.sortAscending,
                     onTap: _openSortSheet,
                   ),
                   _SearchFilterChip(
                     label: _scopeLabel(
+                      l10n,
                       state.query.scope,
                       isGuildChannel: widget.guildId != null,
                     ),
@@ -1205,14 +1257,14 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
               SizedBox(
                 width: double.infinity,
                 child: FluxerButton.primary(
-                  label: 'Search',
+                  label: l10n.channelDetailsActionSearch,
                   onPressed: _canSearch ? _runSearch : null,
                 ),
               ),
               if (showResultCount) ...[
                 const SizedBox(height: 8),
                 Text(
-                  '${state.total} ${state.total == 1 ? 'Result' : 'Results'}',
+                  l10n.channelDetailsSearchResultCount(state.total),
                   style: context.textStyles.bodySmall.copyWith(
                     color: colors.textSecondary,
                   ),
@@ -1249,14 +1301,17 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
     );
   }
 
-  String? _hasChipValue(Set<MessageSearchContentFilter> contentTypes) {
+  String? _hasChipValue(
+    FluxerLocalizations l10n,
+    Set<MessageSearchContentFilter> contentTypes,
+  ) {
     if (contentTypes.isEmpty) {
       return null;
     }
     if (contentTypes.length == 1) {
-      return _contentLabel(contentTypes.first);
+      return _contentLabel(l10n, contentTypes.first);
     }
-    return '${contentTypes.length} types';
+    return l10n.channelDetailsSearchContentTypesCount(contentTypes.length);
   }
 
   Future<void> _openFromSheet() async {
@@ -1264,10 +1319,11 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
     if (!mounted) {
       return;
     }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<_PickerUser>? selected =
         await FluxerBottomSheet.showScrollable<List<_PickerUser>>(
           context,
-          title: 'Filter by user',
+          title: l10n.channelDetailsSearchFilterByUser,
           initialChildSize: 0.85,
           minChildSize: 0.5,
           builder: (sheetContext, scrollController, close) {
@@ -1298,10 +1354,11 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
     final state = ref.read(
       channelSearchProvider(widget.channelId, widget.guildId),
     );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final selected =
         await FluxerBottomSheet.showScrollable<Set<MessageSearchContentFilter>>(
           context,
-          title: 'Filter by content',
+          title: l10n.channelDetailsSearchFilterByContent,
           initialChildSize: 0.85,
           minChildSize: 0.5,
           builder: (sheetContext, scrollController, close) => _HasFilterSheet(
@@ -1319,9 +1376,10 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
     final state = ref.read(
       channelSearchProvider(widget.channelId, widget.guildId),
     );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final selected = await FluxerBottomSheet.show<MessageSearchSortFilter>(
       context,
-      title: 'Sort results by',
+      title: l10n.channelDetailsSearchSortBy,
       builder: (sheetContext, close) => FluxerBottomSheetContent(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1330,8 +1388,8 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
             for (final value in MessageSearchSortFilter.values) ...[
               _SearchOptionCard(
                 icon: _sortIcon(value),
-                label: _sortLabel(value),
-                description: _sortDescription(value),
+                label: _sortLabel(l10n, value),
+                description: _sortDescription(l10n, value),
                 isSelected: state.query.sort == value,
                 onTap: () => Navigator.of(sheetContext).pop(value),
               ),
@@ -1352,9 +1410,10 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
     );
     final isGuildChannel = widget.guildId != null;
     final options = _scopeOptionsFor(isGuildChannel: isGuildChannel);
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final selected = await FluxerBottomSheet.show<MessageSearchScopeFilter>(
       context,
-      title: 'Search In',
+      title: l10n.channelDetailsSearchIn,
       builder: (sheetContext, close) => FluxerBottomSheetContent(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1363,8 +1422,9 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
             for (final value in options) ...[
               _SearchOptionCard(
                 icon: _scopeIcon(value),
-                label: _scopeLabel(value, isGuildChannel: isGuildChannel),
+                label: _scopeLabel(l10n, value, isGuildChannel: isGuildChannel),
                 description: _scopeDescription(
+                  l10n,
                   value,
                   isGuildChannel: isGuildChannel,
                 ),
@@ -1383,11 +1443,12 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
   }
 
   Widget _buildResults(BuildContext context, ChannelSearchState state) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (!state.hasSearched) {
-      return const _EmptySheetState(
+      return _EmptySheetState(
         icon: PhosphorIconsBold.magnifyingGlass,
-        title: 'Search this conversation',
-        body: 'Enter text, an author, or a content filter to find messages.',
+        title: l10n.channelDetailsSearchEmptyTitle,
+        body: l10n.channelDetailsSearchEmptyBody,
       );
     }
     if (state.isSearching) {
@@ -1397,17 +1458,17 @@ class _ChannelSearchSheetState extends ConsumerState<ChannelSearchSheet> {
       return _ErrorSheetState(title: state.errorMessage!, onRetry: _runSearch);
     }
     if (state.indexing) {
-      return const _EmptySheetState(
+      return _EmptySheetState(
         icon: PhosphorIconsBold.clockCounterClockwise,
-        title: 'Messages are indexing',
-        body: 'Try again shortly once search finishes indexing this scope.',
+        title: l10n.channelDetailsSearchIndexingTitle,
+        body: l10n.channelDetailsSearchIndexingBody,
       );
     }
     if (state.results.isEmpty) {
-      return const _EmptySheetState(
+      return _EmptySheetState(
         icon: PhosphorIconsBold.magnifyingGlass,
-        title: 'No results',
-        body: 'Try different search terms or filters.',
+        title: l10n.channelDetailsSearchNoResultsTitle,
+        body: l10n.channelDetailsSearchNoResultsBody,
       );
     }
 
@@ -1523,11 +1584,13 @@ class _DmMemberGroups extends ConsumerWidget {
     final Map<String, String?> friendNicknameById = friendNicknamesById(
       ref.watch(friendsListProvider).value ?? const <Friend>[],
     );
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<_DmParticipant> participants = _buildDmParticipants(
       dm: dm,
       currentUserId: userId,
       currentUser: currentUser,
       friendNicknameById: friendNicknameById,
+      youLabel: l10n.channelDetailsMemberYou,
     );
     final Map<String, db.User?> presenceById = <String, db.User?>{
       for (final _DmParticipant participant in participants)
@@ -1542,8 +1605,8 @@ class _DmMemberGroups extends ConsumerWidget {
           resolveUserId: (_DmParticipant p) => p.id,
           resolveDisplayName: (_DmParticipant p) => p.name,
           resolveStatus: resolveStatus,
-          onlineHeader: 'Online',
-          offlineHeader: 'Offline',
+          onlineHeader: l10n.channelDetailsMembersOnline,
+          offlineHeader: l10n.channelDetailsMembersOffline,
         );
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -1585,6 +1648,7 @@ List<_DmParticipant> _buildDmParticipants({
   required String currentUserId,
   required db.User? currentUser,
   required Map<String, String?> friendNicknameById,
+  required String youLabel,
 }) {
   final List<_DmParticipant> participants = <_DmParticipant>[];
   final Set<String> addedIds = <String>{};
@@ -1592,6 +1656,14 @@ List<_DmParticipant> _buildDmParticipants({
   String withFriendNickname(String userId, String fallback) {
     final String? nickname = friendNicknameById[userId]?.trim();
     return nickname != null && nickname.isNotEmpty ? nickname : fallback;
+  }
+
+  String withMemberDisplayName(String userId, String fallback) {
+    final String? channelNick = dm.channelNicks[userId]?.trim();
+    if (channelNick != null && channelNick.isNotEmpty) {
+      return channelNick;
+    }
+    return withFriendNickname(userId, fallback);
   }
 
   void add(_DmParticipant participant) {
@@ -1604,7 +1676,7 @@ List<_DmParticipant> _buildDmParticipants({
   add(
     _DmParticipant(
       id: currentUserId,
-      name: currentUser?.globalName ?? currentUser?.username ?? 'You',
+      name: currentUser?.globalName ?? currentUser?.username ?? youLabel,
       avatar: currentUser?.avatar,
       avatarColor: currentUser?.avatarColor,
       isBot: currentUser?.bot ?? false,
@@ -1623,7 +1695,7 @@ List<_DmParticipant> _buildDmParticipants({
       add(
         _DmParticipant(
           id: member.id,
-          name: withFriendNickname(
+          name: withMemberDisplayName(
             member.id,
             name.isEmpty ? member.id : member.name,
           ),
@@ -1712,7 +1784,10 @@ class _SimpleMemberRow extends StatelessWidget {
           : null,
       onTap: onTap,
       titleAdornments: [
-        if (isCurrentUser) const _MemberTag(label: 'You'),
+        if (isCurrentUser)
+          _MemberTag(
+            label: FluxerLocalizations.of(context).channelDetailsMemberYou,
+          ),
         if (isBot || isSystem) FluxerUserTag(isSystem: isSystem),
       ],
     );
@@ -1752,6 +1827,7 @@ class _NewGroupCtaRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 24),
       child: Material(
@@ -1786,14 +1862,14 @@ class _NewGroupCtaRow extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'New Group',
+                        l10n.createDmNewGroup,
                         style: context.textStyles.username.copyWith(
                           color: colors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        'Create a new group with $recipientHandle',
+                        l10n.createDmCreateGroupWithRecipient(recipientHandle),
                         style: context.textStyles.bodySmall.copyWith(
                           color: colors.textTertiary,
                         ),
@@ -2301,6 +2377,7 @@ class _GuildUserSearchFilterSheetState
 
   @override
   Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -2308,7 +2385,7 @@ class _GuildUserSearchFilterSheetState
         children: <Widget>[
           FluxerInput(
             controller: _searchController,
-            hint: 'Search users',
+            hint: l10n.channelDetailsSearchUsersHint,
             prefixIcon: const PhosphorIcon(PhosphorIconsBold.magnifyingGlass),
             suffixIcon: _searchTerm.isNotEmpty
                 ? const PhosphorIcon(PhosphorIconsBold.x)
@@ -2326,7 +2403,7 @@ class _GuildUserSearchFilterSheetState
             child: _searchTerm.trim().isEmpty
                 ? Center(
                     child: Text(
-                      'Type to search members',
+                      l10n.channelDetailsSearchUsersTypeToSearch,
                       style: context.textStyles.bodySmall.copyWith(
                         color: colors.textSecondary,
                       ),
@@ -2337,7 +2414,7 @@ class _GuildUserSearchFilterSheetState
                 : _results.isEmpty
                 ? Center(
                     child: Text(
-                      'No users found',
+                      l10n.channelDetailsSearchUsersEmpty,
                       style: context.textStyles.bodySmall.copyWith(
                         color: colors.textSecondary,
                       ),
@@ -2365,7 +2442,7 @@ class _GuildUserSearchFilterSheetState
           SizedBox(
             width: double.infinity,
             child: FluxerButton.primary(
-              label: 'Done',
+              label: l10n.channelDetailsDone,
               onPressed: () => widget.onDone(_selectionForResult()),
             ),
           ),
@@ -2454,6 +2531,7 @@ class _UserFilterSheetState extends State<_UserFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
     final filtered = _filteredUsers;
 
@@ -2463,7 +2541,7 @@ class _UserFilterSheetState extends State<_UserFilterSheet> {
         children: [
           FluxerInput(
             controller: _searchController,
-            hint: 'Search users',
+            hint: l10n.channelDetailsSearchUsersHint,
             prefixIcon: const PhosphorIcon(PhosphorIconsBold.magnifyingGlass),
             suffixIcon: _searchTerm.isNotEmpty
                 ? const PhosphorIcon(PhosphorIconsBold.x)
@@ -2481,8 +2559,8 @@ class _UserFilterSheetState extends State<_UserFilterSheet> {
                 ? Center(
                     child: Text(
                       _searchTerm.isNotEmpty
-                          ? 'No users found'
-                          : 'No users available',
+                          ? l10n.channelDetailsSearchUsersEmpty
+                          : l10n.channelDetailsSearchUsersNoAvailable,
                       style: context.textStyles.bodySmall.copyWith(
                         color: colors.textSecondary,
                       ),
@@ -2508,7 +2586,7 @@ class _UserFilterSheetState extends State<_UserFilterSheet> {
           SizedBox(
             width: double.infinity,
             child: FluxerButton.primary(
-              label: 'Done',
+              label: l10n.channelDetailsDone,
               onPressed: () => widget.onDone(_selectionForResult()),
             ),
           ),
@@ -2642,6 +2720,7 @@ class _HasFilterSheetState extends State<_HasFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final colors = context.colors;
 
     return Padding(
@@ -2653,7 +2732,7 @@ class _HasFilterSheetState extends State<_HasFilterSheet> {
             child: Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
-                'Show messages that contain:',
+                l10n.channelDetailsHasFilterPrompt,
                 style: context.textStyles.bodySmall.copyWith(
                   color: colors.textSecondary,
                 ),
@@ -2670,8 +2749,8 @@ class _HasFilterSheetState extends State<_HasFilterSheet> {
                 final value = MessageSearchContentFilter.values[index];
                 return _SearchOptionCard(
                   icon: _contentIcon(value),
-                  label: _contentLabel(value),
-                  description: _contentDescription(value),
+                  label: _contentLabel(l10n, value),
+                  description: _contentDescription(l10n, value),
                   isSelected: _selected.contains(value),
                   onTap: () => _toggle(value),
                 );
@@ -2682,7 +2761,7 @@ class _HasFilterSheetState extends State<_HasFilterSheet> {
           SizedBox(
             width: double.infinity,
             child: FluxerButton.primary(
-              label: 'Done',
+              label: l10n.channelDetailsDone,
               onPressed: () => widget.onDone(_selected),
             ),
           ),
@@ -2755,7 +2834,10 @@ class _ErrorSheetState extends StatelessWidget {
             const SizedBox(height: 12),
             Text(title, style: context.textStyles.channelName),
             const SizedBox(height: 12),
-            FluxerButton.secondary(label: 'Retry', onPressed: onRetry),
+            FluxerButton.secondary(
+              label: FluxerLocalizations.of(context).channelDetailsRetry,
+              onPressed: onRetry,
+            ),
           ],
         ),
       ),
@@ -2784,7 +2866,7 @@ class _InlineRetry extends StatelessWidget {
             ),
           ),
           FluxerButton.secondary(
-            label: 'Retry',
+            label: FluxerLocalizations.of(context).channelDetailsRetry,
             size: FluxerButtonSize.small,
             onPressed: onRetry,
           ),
@@ -2799,7 +2881,7 @@ enum _PinnedMessageAction { jump, unpin, copyMessageId, copyMessageLink }
 void _stubComingSoon(BuildContext context, WidgetRef ref) {
   ref
       .read(toastProvider.notifier)
-      .show(const FluxerToast(message: 'Coming soon'));
+      .show(FluxerToast(message: FluxerLocalizations.of(context).comingSoon));
 }
 
 Future<void> _showDetailsMoreSheet(
@@ -2821,10 +2903,13 @@ Future<void> _showDetailsMoreSheet(
   required Future<void> Function(String value) onCopy,
   required Future<void> Function() onCloseDm,
 }) {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final channelId = channel?.id ?? dm?.id;
   final title = dm == null
-      ? 'Channel Settings'
-      : (dm.isGroup ? 'Group Settings' : 'DM Settings');
+      ? l10n.channelDetailsChannelSettingsTitle
+      : (dm.isGroup
+            ? l10n.channelDetailsGroupSettingsTitle
+            : l10n.channelDetailsDmSettingsTitle);
   final isDM = dm != null && !dm.isGroup && !dm.isPersonalNotes;
   final isGroupDM = dm != null && dm.isGroup;
   return FluxerBottomSheet.show<void>(
@@ -2847,27 +2932,29 @@ Future<void> _showDetailsMoreSheet(
       final commonItems = <Widget>[
         if (showFavorite)
           FluxerBottomSheetMenuItem(
-            label: isFavorite ? 'Remove from Favorites' : 'Add to Favorites',
+            label: isFavorite
+                ? l10n.favoritesRemoveFromFavorites
+                : l10n.favoritesAddToFavorites,
             icon: isFavorite ? PhosphorIconsFill.star : PhosphorIconsBold.star,
             onTap: () => run(() => onToggleFavorite(isFavorite: isFavorite)),
           ),
         if (hasUnread)
           FluxerBottomSheetMenuItem(
-            label: 'Mark as Read',
+            label: l10n.dmMarkAsRead,
             icon: PhosphorIconsBold.checkCircle,
             onTap: () => run(onMarkRead),
           ),
         if (dm != null && !dm.isPersonalNotes)
           FluxerBottomSheetMenuItem(
             label: dm.isGroup
-                ? (isDmPinned ? 'Unpin Group DM' : 'Pin Group DM')
-                : (isDmPinned ? 'Unpin DM' : 'Pin DM'),
+                ? (isDmPinned ? l10n.dmUnpinGroupDm : l10n.dmPinGroupDm)
+                : (isDmPinned ? l10n.dmUnpinDm : l10n.dmPinDm),
             icon: PhosphorIconsBold.pushPin,
             onTap: () => run(() => onToggleDmPin(isPinned: isDmPinned)),
           ),
         if (canCreateInvite)
           FluxerBottomSheetMenuItem(
-            label: 'Invite People',
+            label: l10n.channelDetailsInvitePeople,
             icon: PhosphorIconsBold.userPlus,
             onTap: () {
               close();
@@ -2876,14 +2963,14 @@ Future<void> _showDetailsMoreSheet(
           ),
         if (channel != null)
           FluxerBottomSheetMenuItem(
-            label: 'Copy Link',
+            label: l10n.channelDetailsCopyLink,
             icon: PhosphorIconsBold.link,
             onTap: () =>
                 run(() => onCopy(channelLink(channel.id, channel.guildId))),
           ),
         if (channel != null)
           FluxerBottomSheetSubmenuItem(
-            label: 'Notification Settings',
+            label: l10n.notificationSettings,
             icon: PhosphorIconsBold.bellRinging,
             onTap: () {
               close();
@@ -2901,7 +2988,7 @@ Future<void> _showDetailsMoreSheet(
       final miscItems = <Widget>[
         if (developerMode && channelId != null)
           FluxerBottomSheetMenuItem(
-            label: 'Debug Channel',
+            label: l10n.dmDebugChannel,
             icon: PhosphorIconsBold.bug,
             onTap: () {
               close();
@@ -2912,7 +2999,7 @@ Future<void> _showDetailsMoreSheet(
           ),
         if (developerMode && isDM)
           FluxerBottomSheetMenuItem(
-            label: 'Debug User',
+            label: l10n.dmDebugUser,
             icon: PhosphorIconsBold.bug,
             onTap: () {
               close();
@@ -2923,13 +3010,13 @@ Future<void> _showDetailsMoreSheet(
           ),
         if (isDM)
           FluxerBottomSheetMenuItem(
-            label: 'Copy User ID',
+            label: l10n.dmCopyUserId,
             icon: PhosphorIconsRegular.snowflake,
             onTap: () => run(() => onCopy(dm.recipientId)),
           ),
         if (channelId != null)
           FluxerBottomSheetMenuItem(
-            label: 'Copy Channel ID',
+            label: l10n.dmCopyChannelId,
             icon: PhosphorIconsRegular.snowflake,
             onTap: () => run(() => onCopy(channelId)),
           ),
@@ -2941,7 +3028,7 @@ Future<void> _showDetailsMoreSheet(
           FluxerMenuGroup(
             children: [
               FluxerBottomSheetMenuItem(
-                label: 'Edit Group',
+                label: l10n.dmEditGroup,
                 icon: PhosphorIconsBold.pencilSimple,
                 onTap: () {
                   close();
@@ -2949,7 +3036,7 @@ Future<void> _showDetailsMoreSheet(
                 },
               ),
               FluxerBottomSheetMenuItem(
-                label: 'Add Friends to Group',
+                label: l10n.channelDetailsAddFriendsToGroup,
                 icon: PhosphorIconsBold.userPlus,
                 onTap: () {
                   close();
@@ -2957,7 +3044,7 @@ Future<void> _showDetailsMoreSheet(
                 },
               ),
               FluxerBottomSheetMenuItem(
-                label: 'Group Invites',
+                label: l10n.channelDetailsGroupInvites,
                 icon: PhosphorIconsBold.envelope,
                 onTap: () {
                   close();
@@ -2970,7 +3057,7 @@ Future<void> _showDetailsMoreSheet(
           FluxerMenuGroup(
             children: [
               FluxerBottomSheetMenuItem(
-                label: 'Edit Channel',
+                label: l10n.channelDetailsEditChannel,
                 icon: PhosphorIconsBold.pencilSimple,
                 onTap: () {
                   close();
@@ -2978,7 +3065,7 @@ Future<void> _showDetailsMoreSheet(
                 },
               ),
               FluxerBottomSheetMenuItem(
-                label: 'Delete Channel',
+                label: l10n.channelDetailsDeleteChannel,
                 icon: PhosphorIconsBold.trash,
                 isDanger: true,
                 onTap: () {
@@ -2992,7 +3079,7 @@ Future<void> _showDetailsMoreSheet(
           FluxerMenuGroup(
             children: [
               FluxerBottomSheetMenuItem(
-                label: isGroupDM ? 'Leave Group' : 'Close DM',
+                label: isGroupDM ? l10n.dmLeaveGroup : l10n.dmCloseDm,
                 icon: PhosphorIconsBold.xCircle,
                 isDanger: true,
                 onTap: () => run(onCloseDm),
@@ -3013,27 +3100,12 @@ Future<void> _showDebugChannelSheet(
   BuildContext context, {
   required WidgetRef ref,
   required String channelId,
-}) async {
-  try {
-    final client = ref.read(fluxerClientProvider);
-    final channel = await client.channels.getChannel(channelId: channelId);
-    if (!context.mounted) {
-      return;
-    }
-    await showDebugBottomSheet(
-      context,
-      title: FluxerLocalizations.of(context).dmDebugChannel,
-      data: channel.toJson(),
-      onCopied: (message) => ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(message: message, variant: FluxerToastVariant.success),
-          ),
-    );
-  } on Exception catch (_) {
-    // Ignore — failed to fetch channel.
-  }
-}
+}) => showChannelDebugSheet(
+  context,
+  ref: ref,
+  channelId: channelId,
+  title: FluxerLocalizations.of(context).dmDebugChannel,
+);
 
 Future<void> _showDebugUserSheet(
   BuildContext context, {
@@ -3077,9 +3149,10 @@ Future<void> _showPinnedMessageActions(
   if (!context.mounted) {
     return;
   }
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final action = await FluxerBottomSheet.show<_PinnedMessageAction>(
     context,
-    title: 'Pinned Message',
+    title: l10n.channelDetailsPinnedMessageTitle,
     variant: FluxerBottomSheetVariant.menu,
     builder: (sheetContext, _) {
       void pop(_PinnedMessageAction action) {
@@ -3090,24 +3163,24 @@ Future<void> _showPinnedMessageActions(
         child: FluxerMenuGroup(
           children: [
             FluxerBottomSheetMenuItem(
-              label: 'Jump to Message',
+              label: l10n.channelDetailsJumpToMessage,
               icon: PhosphorIconsBold.arrowSquareOut,
               onTap: () => pop(_PinnedMessageAction.jump),
             ),
             if (canUnpin)
               FluxerBottomSheetMenuItem(
-                label: 'Unpin Message',
+                label: l10n.channelDetailsUnpinMessage,
                 icon: PhosphorIconsBold.pushPinSlash,
                 isDanger: true,
                 onTap: () => pop(_PinnedMessageAction.unpin),
               ),
             FluxerBottomSheetMenuItem(
-              label: 'Copy Message Link',
+              label: l10n.channelDetailsCopyMessageLink,
               icon: PhosphorIconsBold.link,
               onTap: () => pop(_PinnedMessageAction.copyMessageLink),
             ),
             FluxerBottomSheetMenuItem(
-              label: 'Copy Message ID',
+              label: l10n.channelDetailsCopyMessageId,
               icon: PhosphorIconsRegular.snowflake,
               onTap: () => pop(_PinnedMessageAction.copyMessageId),
             ),
@@ -3128,8 +3201,8 @@ Future<void> _showPinnedMessageActions(
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Message unpinned',
+            FluxerToast(
+              message: l10n.channelDetailsMessageUnpinned,
               variant: FluxerToastVariant.success,
             ),
           );
@@ -3138,8 +3211,8 @@ Future<void> _showPinnedMessageActions(
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Copied to clipboard',
+            FluxerToast(
+              message: l10n.copiedToClipboard,
               variant: FluxerToastVariant.success,
             ),
           );
@@ -3156,8 +3229,8 @@ Future<void> _showPinnedMessageActions(
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Copied to clipboard',
+            FluxerToast(
+              message: l10n.copiedToClipboard,
               variant: FluxerToastVariant.success,
             ),
           );
@@ -3170,9 +3243,10 @@ Future<void> _showSearchMessageActions(
   required MessageSearchResultEntry entry,
   required VoidCallback close,
 }) async {
+  final FluxerLocalizations l10n = FluxerLocalizations.of(context);
   final action = await FluxerBottomSheet.show<_PinnedMessageAction>(
     context,
-    title: 'Search Result',
+    title: l10n.channelDetailsSearchResultTitle,
     variant: FluxerBottomSheetVariant.menu,
     builder: (sheetContext, _) {
       void pop(_PinnedMessageAction action) {
@@ -3183,17 +3257,17 @@ Future<void> _showSearchMessageActions(
         child: FluxerMenuGroup(
           children: [
             FluxerBottomSheetMenuItem(
-              label: 'Jump to Message',
+              label: l10n.channelDetailsJumpToMessage,
               icon: PhosphorIconsBold.arrowSquareOut,
               onTap: () => pop(_PinnedMessageAction.jump),
             ),
             FluxerBottomSheetMenuItem(
-              label: 'Copy Message Link',
+              label: l10n.channelDetailsCopyMessageLink,
               icon: PhosphorIconsBold.link,
               onTap: () => pop(_PinnedMessageAction.copyMessageLink),
             ),
             FluxerBottomSheetMenuItem(
-              label: 'Copy Message ID',
+              label: l10n.channelDetailsCopyMessageId,
               icon: PhosphorIconsRegular.snowflake,
               onTap: () => pop(_PinnedMessageAction.copyMessageId),
             ),
@@ -3220,8 +3294,8 @@ Future<void> _showSearchMessageActions(
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Copied to clipboard',
+            FluxerToast(
+              message: l10n.copiedToClipboard,
               variant: FluxerToastVariant.success,
             ),
           );
@@ -3238,8 +3312,8 @@ Future<void> _showSearchMessageActions(
       ref
           .read(toastProvider.notifier)
           .show(
-            const FluxerToast(
-              message: 'Copied to clipboard',
+            FluxerToast(
+              message: l10n.copiedToClipboard,
               variant: FluxerToastVariant.success,
             ),
           );
@@ -3277,19 +3351,20 @@ String? _detailsSubtitle({
       return l10n.personalNotesPrivateSpace;
     }
     if (dm.isGroup) {
-      return 'Group DM · ${dm.memberCount} members';
+      return l10n.channelDetailsGroupDmSubtitle(dm.memberCount);
     }
-    return dm.recipientTag ?? (dm.isSystem ? 'System message' : null);
+    return dm.recipientTag ??
+        (dm.isSystem ? l10n.channelDetailsSystemMessage : null);
   }
   if (channel != null) {
     return switch (channel.type) {
-      ChannelType.guildText => 'Text channel',
-      ChannelType.guildVoice => 'Voice channel',
-      ChannelType.guildCategory => 'Category',
-      ChannelType.guildLink => 'Link channel',
+      ChannelType.guildText => l10n.channelDetailsTextChannel,
+      ChannelType.guildVoice => l10n.channelDetailsVoiceChannel,
+      ChannelType.guildCategory => l10n.channelDetailsCategory,
+      ChannelType.guildLink => l10n.channelDetailsLinkChannel,
       ChannelType.dm ||
       ChannelType.groupDm ||
-      ChannelType.dmPersonalNotes => 'Channel',
+      ChannelType.dmPersonalNotes => l10n.channelDetailsGenericChannel,
     };
   }
   return null;
@@ -3351,43 +3426,53 @@ List<MessageSearchScopeFilter> _scopeOptionsFor({
 }
 
 String _scopeLabel(
+  FluxerLocalizations l10n,
   MessageSearchScopeFilter value, {
   required bool isGuildChannel,
 }) => switch (value) {
   MessageSearchScopeFilter.current =>
-    isGuildChannel ? 'Current Community' : 'Current DM',
-  MessageSearchScopeFilter.allGuilds => 'All Communities',
+    isGuildChannel
+        ? l10n.channelDetailsSearchScopeCurrentCommunity
+        : l10n.channelDetailsSearchScopeCurrentDm,
+  MessageSearchScopeFilter.allGuilds =>
+    l10n.channelDetailsSearchScopeAllCommunities,
   MessageSearchScopeFilter.allDms =>
-    isGuildChannel ? 'All DMs Only' : 'All DMs',
+    isGuildChannel
+        ? l10n.channelDetailsSearchScopeAllDmsOnlyGuild
+        : l10n.channelDetailsSearchScopeAllDms,
   MessageSearchScopeFilter.openDms =>
-    isGuildChannel ? 'Open DMs Only' : 'Open DMs',
-  MessageSearchScopeFilter.all => 'All DMs + Communities',
-  MessageSearchScopeFilter.openDmsAndAllGuilds => 'Open DMs + Communities',
+    isGuildChannel
+        ? l10n.channelDetailsSearchScopeOpenDmsOnlyGuild
+        : l10n.channelDetailsSearchScopeOpenDms,
+  MessageSearchScopeFilter.all =>
+    l10n.channelDetailsSearchScopeAllDmsAndCommunities,
+  MessageSearchScopeFilter.openDmsAndAllGuilds =>
+    l10n.channelDetailsSearchScopeOpenDmsAndCommunities,
 };
 
 String _scopeDescription(
+  FluxerLocalizations l10n,
   MessageSearchScopeFilter value, {
   required bool isGuildChannel,
 }) => switch (value) {
   MessageSearchScopeFilter.current =>
     isGuildChannel
-        ? 'Search only in the current Community'
-        : 'Search only in the current DM',
+        ? l10n.channelDetailsSearchScopeCurrentCommunityDescription
+        : l10n.channelDetailsSearchScopeCurrentDmDescription,
   MessageSearchScopeFilter.allGuilds =>
-    "Across all Communities you're currently in",
+    l10n.channelDetailsSearchScopeAllCommunitiesDescription,
   MessageSearchScopeFilter.allDms =>
     isGuildChannel
-        ? "Across all DMs you've ever been in only"
-        : "Across all DMs you've ever been in",
+        ? l10n.channelDetailsSearchScopeAllDmsOnlyGuildDescription
+        : l10n.channelDetailsSearchScopeAllDmsDescription,
   MessageSearchScopeFilter.openDms =>
     isGuildChannel
-        ? 'Across all DMs you currently have open only'
-        : 'Across all DMs you currently have open',
+        ? l10n.channelDetailsSearchScopeOpenDmsOnlyGuildDescription
+        : l10n.channelDetailsSearchScopeOpenDmsDescription,
   MessageSearchScopeFilter.all =>
-    "Across all DMs you've ever been in + all Communities you're currently in",
+    l10n.channelDetailsSearchScopeAllDmsAndCommunitiesDescription,
   MessageSearchScopeFilter.openDmsAndAllGuilds =>
-    'Across all DMs you currently have open + all Communities '
-        "you're currently in",
+    l10n.channelDetailsSearchScopeOpenDmsAndCommunitiesDescription,
 };
 
 IconData _scopeIcon(MessageSearchScopeFilter value) => switch (value) {
@@ -3399,16 +3484,24 @@ IconData _scopeIcon(MessageSearchScopeFilter value) => switch (value) {
   MessageSearchScopeFilter.openDmsAndAllGuilds => PhosphorIconsRegular.users,
 };
 
-String _sortLabel(MessageSearchSortFilter value) => switch (value) {
-  MessageSearchSortFilter.newest => 'Newest First',
-  MessageSearchSortFilter.oldest => 'Oldest First',
-  MessageSearchSortFilter.relevance => 'Most Relevant',
-};
+String _sortLabel(FluxerLocalizations l10n, MessageSearchSortFilter value) =>
+    switch (value) {
+      MessageSearchSortFilter.newest => l10n.channelDetailsSearchSortNewest,
+      MessageSearchSortFilter.oldest => l10n.channelDetailsSearchSortOldest,
+      MessageSearchSortFilter.relevance =>
+        l10n.channelDetailsSearchSortRelevance,
+    };
 
-String _sortDescription(MessageSearchSortFilter value) => switch (value) {
-  MessageSearchSortFilter.newest => 'Show most recent messages first',
-  MessageSearchSortFilter.oldest => 'Show oldest messages first',
-  MessageSearchSortFilter.relevance => 'Show most relevant messages first',
+String _sortDescription(
+  FluxerLocalizations l10n,
+  MessageSearchSortFilter value,
+) => switch (value) {
+  MessageSearchSortFilter.newest =>
+    l10n.channelDetailsSearchSortNewestDescription,
+  MessageSearchSortFilter.oldest =>
+    l10n.channelDetailsSearchSortOldestDescription,
+  MessageSearchSortFilter.relevance =>
+    l10n.channelDetailsSearchSortRelevanceDescription,
 };
 
 IconData _sortIcon(MessageSearchSortFilter value) => switch (value) {
@@ -3417,25 +3510,37 @@ IconData _sortIcon(MessageSearchSortFilter value) => switch (value) {
   MessageSearchSortFilter.relevance => PhosphorIconsRegular.sparkle,
 };
 
-String _contentLabel(MessageSearchContentFilter value) => switch (value) {
-  MessageSearchContentFilter.image => 'Image Upload',
-  MessageSearchContentFilter.video => 'Video Upload',
-  MessageSearchContentFilter.audio => 'Audio Upload',
-  MessageSearchContentFilter.file => 'File Upload',
-  MessageSearchContentFilter.link => 'Link',
-  MessageSearchContentFilter.embed => 'Link Preview or Embed',
-  MessageSearchContentFilter.sticker => 'Sticker',
+String _contentLabel(
+  FluxerLocalizations l10n,
+  MessageSearchContentFilter value,
+) => switch (value) {
+  MessageSearchContentFilter.image => l10n.channelDetailsSearchContentImage,
+  MessageSearchContentFilter.video => l10n.channelDetailsSearchContentVideo,
+  MessageSearchContentFilter.audio => l10n.channelDetailsSearchContentAudio,
+  MessageSearchContentFilter.file => l10n.channelDetailsSearchContentFile,
+  MessageSearchContentFilter.link => l10n.channelDetailsSearchContentLink,
+  MessageSearchContentFilter.embed => l10n.channelDetailsSearchContentEmbed,
+  MessageSearchContentFilter.sticker => l10n.channelDetailsSearchContentSticker,
 };
 
-String _contentDescription(MessageSearchContentFilter value) => switch (value) {
-  MessageSearchContentFilter.image => 'Uploaded image files only',
-  MessageSearchContentFilter.video => 'Uploaded video files only',
-  MessageSearchContentFilter.audio => 'Uploaded audio files only',
-  MessageSearchContentFilter.file => 'Any uploaded attachment',
-  MessageSearchContentFilter.link => 'Typed URL in the message text',
+String _contentDescription(
+  FluxerLocalizations l10n,
+  MessageSearchContentFilter value,
+) => switch (value) {
+  MessageSearchContentFilter.image =>
+    l10n.channelDetailsSearchContentImageDescription,
+  MessageSearchContentFilter.video =>
+    l10n.channelDetailsSearchContentVideoDescription,
+  MessageSearchContentFilter.audio =>
+    l10n.channelDetailsSearchContentAudioDescription,
+  MessageSearchContentFilter.file =>
+    l10n.channelDetailsSearchContentFileDescription,
+  MessageSearchContentFilter.link =>
+    l10n.channelDetailsSearchContentLinkDescription,
   MessageSearchContentFilter.embed =>
-    'Resolved previews and rich embeds, not uploads',
-  MessageSearchContentFilter.sticker => 'Sticker attached to the message',
+    l10n.channelDetailsSearchContentEmbedDescription,
+  MessageSearchContentFilter.sticker =>
+    l10n.channelDetailsSearchContentStickerDescription,
 };
 
 IconData _contentIcon(MessageSearchContentFilter value) => switch (value) {

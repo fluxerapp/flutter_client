@@ -37,6 +37,7 @@
     <application
         android:label="${appLabel}"
         android:icon="@mipmap/ic_launcher"
+        android:localeConfig="@xml/locales_config"
         android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"

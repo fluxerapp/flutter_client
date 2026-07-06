@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
@@ -29,11 +28,6 @@ abstract final class DrawerNavigationCoordinator {
   static void closeDrawer(ProviderContainer container) {
     container.read(currentRevealSideProvider.notifier).set(RevealSide.main);
     container.read(drawerRevealSyncTriggerProvider.notifier).nudge();
-  }
-
-  static void activateHomeTab(ProviderContainer container) {
-    container.read(currentRevealSideProvider.notifier).resetForHomeTabReturn();
-    container.read(fluxerRouterProvider).go(RoutePaths.me);
   }
 
   static void nudgeDrawerSync(ProviderContainer container) {

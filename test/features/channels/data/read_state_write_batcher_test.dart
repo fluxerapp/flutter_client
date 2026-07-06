@@ -1,26 +1,25 @@
 import 'package:drift/drift.dart' hide isNull;
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
-import 'package:fluxer_app/features/channels/data/read_state_write_coalescer.dart';
+import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
 
 void main() {
   late FluxerDatabase db;
-  late ReadStateWriteCoalescer coalescer;
+  late ReadStateWriteBatcher batcher;
 
   setUp(() {
-    db = FluxerDatabase.forTesting(NativeDatabase.memory());
+    db = openTestDatabase();
     // A long window keeps the debounce timer from firing on its own; tests
     // flush deterministically with flushAll().
-    coalescer = ReadStateWriteCoalescer(
+    batcher = ReadStateWriteBatcher(
       database: db,
       window: const Duration(hours: 1),
     );
   });
 
   tearDown(() async {
-    coalescer.clearAll();
-    await db.close();
+    batcher.clearAll();
   });
 
   void enqueue(
@@ -30,7 +29,7 @@ void main() {
     bool isDm = false,
     String? seed,
   }) {
-    coalescer.enqueueUnread(
+    batcher.enqueueUnread(
       channelId: channelId,
       messageId: messageId,
       shouldMention: mention,
@@ -45,11 +44,9 @@ void main() {
     enqueue(channelId, '200', mention: true, seed: '100');
     enqueue(channelId, '300', mention: true, seed: '100');
 
-    await coalescer.flushAll();
+    await batcher.flushAll();
 
     final readState = await db.readStateDao.getReadState(channelId);
-    // Two interleaved increments would race to 1 on the per-event path; the
-    // coalescer accumulates both against one working copy.
     expect(readState?.mentionCount, 2);
     // Seeded once from the first never-acked message.
     expect(readState?.lastMessageId, '100');
@@ -73,7 +70,7 @@ void main() {
       enqueue(channelId, '500', mention: false);
       enqueue(channelId, '600', mention: true);
 
-      await coalescer.flushAll();
+      await batcher.flushAll();
 
       final readState = await db.readStateDao.getReadState(channelId);
       expect(readState?.mentionCount, 3);
@@ -98,7 +95,7 @@ void main() {
     // Above the ack -> still unread -> counted.
     enqueue(channelId, '700', mention: true);
 
-    await coalescer.flushAll();
+    await batcher.flushAll();
 
     final readState = await db.readStateDao.getReadState(channelId);
     expect(readState?.mentionCount, 1);
@@ -119,7 +116,7 @@ void main() {
     enqueue(channelId, '300', mention: true, isDm: true);
     enqueue(channelId, '400', mention: true, isDm: true);
 
-    await coalescer.flushAll();
+    await batcher.flushAll();
 
     final dm = await db.dmChannelDao.getDmChannelById(channelId);
     expect(dm?.unreadCount, 3);
@@ -132,12 +129,12 @@ void main() {
   test('discard drops pending increments without writing', () async {
     const channelId = 'guild-channel-4';
     enqueue(channelId, '200', mention: true, seed: '100');
-    expect(coalescer.hasPending(channelId), isTrue);
+    expect(batcher.hasPending(channelId), isTrue);
 
-    coalescer.discard(channelId);
-    expect(coalescer.hasPending(channelId), isFalse);
+    batcher.discard(channelId);
+    expect(batcher.hasPending(channelId), isFalse);
 
-    await coalescer.flushAll();
+    await batcher.flushAll();
 
     final readState = await db.readStateDao.getReadState(channelId);
     expect(readState, isNull);

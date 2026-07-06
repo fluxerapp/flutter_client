@@ -32,7 +32,7 @@ void listenChatViewModelErrors(WidgetRef ref) {
   );
 }
 
-/// Shared message list, composer, and overlay chrome for channel chat surfaces.
+/// Shared message list, composer, and overlays for channel chat surfaces.
 class ChannelChatPanel extends ConsumerStatefulWidget {
   const ChannelChatPanel({
     required this.displayChannelId,
@@ -117,15 +117,23 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         behavior: HitTestBehavior.translucent,
                         onPointerDown: (_) =>
                             FocusManager.instance.primaryFocus?.unfocus(),
-                        child: !widget.loadMessages
-                            ? const SizedBox.expand()
-                            : RepaintBoundary(
-                                child: MessageList(
-                                  key: ValueKey<String>(listChannelId),
-                                  expectedChannelId: listChannelId,
-                                  targetMessageId: widget.targetMessageId,
-                                ),
+                        // Kept mounted while hidden (drawer revealed) so the
+                        // scroll position and message window survive the
+                        // reveal round-trip. `visible` suspends read acks.
+                        child: Offstage(
+                          offstage: !widget.loadMessages,
+                          child: TickerMode(
+                            enabled: widget.loadMessages,
+                            child: RepaintBoundary(
+                              child: MessageList(
+                                key: ValueKey<String>(listChannelId),
+                                expectedChannelId: listChannelId,
+                                targetMessageId: widget.targetMessageId,
+                                visible: widget.loadMessages,
                               ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Positioned(

@@ -3,6 +3,3 @@ contact_links:
   - name: Feature requests
     url: https://github.com/orgs/fluxerapp/discussions
     about: Suggest an improvement or new capability.
-  - name: Security vulnerability report
-    url: https://fluxer.app/security
-    about: Please report security issues privately using our security policy.

@@ -277,3 +277,74 @@ bool _shouldShowUnreadInboxStateAtLevel(
   }
   return hasUnread || hasMentions;
 }
+
+UserNotificationSettings resolvePrivateMessageNotifications({
+  required UserGuildSettingsResponse? guildSettings,
+  required String channelId,
+}) {
+  final overrides = guildSettings?.channelOverrides ?? const {};
+  final direct = _explicitLevel(overrides[channelId]?.messageNotifications);
+  if (direct != null) {
+    return direct;
+  }
+  return guildSettings?.messageNotifications ??
+      UserNotificationSettings.allMessages;
+}
+
+bool allowNoMessagesForGuildChannel({
+  required db.Channel channel,
+  required UserGuildSettingsResponse? guildSettings,
+  required DateTime now,
+}) {
+  if (isGuildOrCategoryOrChannelMuted(
+    channel: channel,
+    guildSettings: guildSettings,
+    now: now,
+  )) {
+    return true;
+  }
+  return resolveMessageNotifications(
+        channel: channel,
+        guildSettings: guildSettings,
+      ) ==
+      UserNotificationSettings.noMessages;
+}
+
+bool allowNoMessagesForPrivateChannel({
+  required UserGuildSettingsResponse? guildSettings,
+  required String channelId,
+  required DateTime now,
+}) {
+  if (isChannelOverrideMuted(
+    guildSettings?.channelOverrides?[channelId],
+    now: now,
+  )) {
+    return true;
+  }
+  return resolvePrivateMessageNotifications(
+        guildSettings: guildSettings,
+        channelId: channelId,
+      ) ==
+      UserNotificationSettings.noMessages;
+}
+
+bool shouldNotifyMessageBasedOnSettings({
+  required UserNotificationSettings level,
+  required bool isMentioned,
+  required bool isPrivateChannel,
+  required bool isPrivateChannelMuted,
+}) {
+  if (level == UserNotificationSettings.noMessages) {
+    return false;
+  }
+  if (level == UserNotificationSettings.allMessages) {
+    return true;
+  }
+  if (isMentioned) {
+    return true;
+  }
+  if (isPrivateChannel && !isPrivateChannelMuted) {
+    return true;
+  }
+  return false;
+}

@@ -456,7 +456,7 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
                 spacing: context.layout.s2,
                 runSpacing: context.layout.s2,
                 children: <Widget>[
-                  FluxerButton.secondary(
+                  FluxerButton.primary(
                     onPressed: () => _handleImageUpload(
                       guild: guild,
                       aspectRatio: 1,
@@ -563,7 +563,7 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
       spacing: context.layout.s2,
       runSpacing: context.layout.s2,
       children: <Widget>[
-        FluxerButton.secondary(
+        FluxerButton.primary(
           onPressed: onUpload,
           label: uploadLabel,
           size: FluxerButtonSize.small,
@@ -611,14 +611,39 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
   }
 
   Widget _buildIconPreview(BuildContext context, Guild guild) {
+    const double size = 80;
     final String? dataUri = _pendingIconUri;
-    if (dataUri != null) {
-      return ClipOval(child: _buildDataUriImage(dataUri, size: 80));
-    }
-    return FluxerAvatar.guild(
-      fallbackText: guild.name,
-      imageUrl: _iconCleared ? null : guild.iconUrl,
-      size: 80,
+    final Widget icon = dataUri != null
+        ? _buildDataUriImage(dataUri, size: size)
+        : FluxerGuildIconAvatar(
+            name: guild.name,
+            imageUrl: _iconCleared ? null : guild.iconUrl,
+            isCircle: true,
+            size: size,
+          );
+    return _buildGuildSettingsIconPreview(context, size: size, child: icon);
+  }
+
+  Widget _buildGuildSettingsIconPreview(
+    BuildContext context, {
+    required double size,
+    required Widget child,
+  }) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.12),
+            offset: const Offset(0, 1),
+            blurRadius: 2,
+          ),
+        ],
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: child,
     );
   }
 

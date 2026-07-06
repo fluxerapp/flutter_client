@@ -1,7 +1,6 @@
-import 'package:drift/drift.dart' hide isNotNull, isNull;
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Channel;
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dart';
@@ -70,10 +69,7 @@ void main() {
       const String channelA1 = 'channel_a1';
       const String channelA2 = 'channel_a2';
       const String userId = 'user_1';
-      final FluxerDatabase db = FluxerDatabase.forTesting(
-        NativeDatabase.memory(),
-      );
-      addTearDown(db.close);
+      final FluxerDatabase db = openTestDatabase();
       await _seedGuildWithChannels(
         db: db,
         guildId: guildId,
@@ -86,7 +82,7 @@ void main() {
           fluxerDatabaseProvider.overrideWithValue(db),
           guildListViewModelProvider.overrideWith(
             () => _GuildListViewModelWithGuilds(<Guild>[
-              Guild(id: guildId, name: 'Guild A'),
+              const Guild(id: guildId, name: 'Guild A'),
             ]),
           ),
           userSettingsViewModelProvider.overrideWith(
@@ -120,10 +116,7 @@ void main() {
       const String channelB1 = 'channel_b1';
       const String userId = 'user_1';
 
-      final FluxerDatabase db = FluxerDatabase.forTesting(
-        NativeDatabase.memory(),
-      );
-      addTearDown(db.close);
+      final FluxerDatabase db = openTestDatabase();
       await _seedGuildWithChannels(
         db: db,
         guildId: guildA,
@@ -142,8 +135,8 @@ void main() {
           fluxerDatabaseProvider.overrideWithValue(db),
           guildListViewModelProvider.overrideWith(
             () => _GuildListViewModelWithGuilds(<Guild>[
-              Guild(id: guildA, name: 'Guild A'),
-              Guild(id: guildB, name: 'Guild B'),
+              const Guild(id: guildA, name: 'Guild A'),
+              const Guild(id: guildB, name: 'Guild B'),
             ]),
           ),
           userSettingsViewModelProvider.overrideWith(
@@ -175,10 +168,7 @@ void main() {
       const String guildId = 'guild_a';
       const String channelId = 'channel_a1';
       const String userId = 'user_1';
-      final FluxerDatabase db = FluxerDatabase.forTesting(
-        NativeDatabase.memory(),
-      );
-      addTearDown(db.close);
+      final FluxerDatabase db = openTestDatabase();
       await _seedGuildWithChannels(
         db: db,
         guildId: guildId,
@@ -191,7 +181,7 @@ void main() {
           fluxerDatabaseProvider.overrideWithValue(db),
           guildListViewModelProvider.overrideWith(
             () => _GuildListViewModelWithGuilds(<Guild>[
-              Guild(id: guildId, name: 'Guild A'),
+              const Guild(id: guildId, name: 'Guild A'),
             ]),
           ),
           userSettingsViewModelProvider.overrideWith(

@@ -1,7 +1,6 @@
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
-import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -79,12 +78,6 @@ class CurrentRevealSide extends _$CurrentRevealSide {
   // ignore: use_setters_to_change_properties
   void set(RevealSide side) {
     state = side;
-  }
-
-  void resetForHomeTabReturn() {
-    _lastAppliedFor = RoutePaths.me;
-    state = RevealSide.main;
-    ref.read(drawerRevealSyncTriggerProvider.notifier).nudge();
   }
 }
 

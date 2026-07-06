@@ -49,7 +49,6 @@ void main() {
         shouldSuppressPeekForDrag(
           pointerDownPosition: start,
           currentPosition: const Offset(15, 25),
-          threshold: 12,
         ),
         isFalse,
       );
@@ -57,7 +56,6 @@ void main() {
         shouldSuppressPeekForDrag(
           pointerDownPosition: start,
           currentPosition: const Offset(10, 33),
-          threshold: 12,
         ),
         isTrue,
       );

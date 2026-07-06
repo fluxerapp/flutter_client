@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/chat/data/channel_pins_repository.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -74,8 +74,7 @@ void main() {
     () async {
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.readStateDao.upsertReadState(
         ReadStatesCompanion(
           channelId: const Value('channel-1'),
@@ -110,8 +109,7 @@ void main() {
     () async {
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final pinId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.readStateDao.upsertReadState(
         ReadStatesCompanion(
           channelId: const Value('channel-1'),

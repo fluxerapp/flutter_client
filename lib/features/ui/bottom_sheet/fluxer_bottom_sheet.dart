@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
@@ -32,6 +34,17 @@ enum FluxerBottomSheetVariant { content, menu }
 class FluxerBottomSheet {
   FluxerBottomSheet._();
 
+  static Future<T?> _showWithOverlayTracking<T>(
+    BuildContext context,
+    Future<T?> Function() showSheet,
+  ) {
+    final ProviderContainer container = ProviderScope.containerOf(context);
+    container.read(obscuringOverlayTrackerProvider.notifier).push();
+    return showSheet().whenComplete(() {
+      container.read(obscuringOverlayTrackerProvider.notifier).pop();
+    });
+  }
+
   static Future<T?> show<T>(
     BuildContext context, {
     required FluxerBottomSheetBuilder builder,
@@ -51,82 +64,85 @@ class FluxerBottomSheet {
   }) {
     final layout = context.layout;
 
-    return showModalBottomSheet<T>(
-      context: context,
-      useRootNavigator: useRootNavigator,
-      isScrollControlled: true,
-      enableDrag: enableDrag,
-      isDismissible: isDismissible,
-      elevation: 0,
-      builder: (sheetContext) {
-        void close() =>
-            Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+    return _showWithOverlayTracking<T>(
+      context,
+      () => showModalBottomSheet<T>(
+        context: context,
+        useRootNavigator: useRootNavigator,
+        isScrollControlled: true,
+        enableDrag: enableDrag,
+        isDismissible: isDismissible,
+        elevation: 0,
+        builder: (sheetContext) {
+          void close() =>
+              Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
 
-        final mediaQuery = MediaQuery.of(sheetContext);
-        final bottomPadding = mediaQuery.viewPadding.bottom;
-        final topPadding = mediaQuery.viewPadding.top;
-        final bottomInset = mediaQuery.viewInsets.bottom;
-        final hasHeader =
-            title != null ||
-            subtitle != null ||
-            leading != null ||
-            trailing != null ||
-            onBack != null;
+          final mediaQuery = MediaQuery.of(sheetContext);
+          final bottomPadding = mediaQuery.viewPadding.bottom;
+          final topPadding = mediaQuery.viewPadding.top;
+          final bottomInset = mediaQuery.viewInsets.bottom;
+          final hasHeader =
+              title != null ||
+              subtitle != null ||
+              leading != null ||
+              trailing != null ||
+              onBack != null;
 
-        final content = AnimatedPadding(
-          duration: sheetContext.motion.normal,
-          curve: sheetContext.motion.curve,
-          padding: EdgeInsets.only(bottom: bottomInset),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: maxHeight != null
-                  ? (mediaQuery.size.height - topPadding - layout.s4) *
-                        maxHeight
-                  : mediaQuery.size.height - topPadding - layout.s4,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: layout.s2),
-                if (showDragHandle) ...[
-                  const FluxerBottomSheetDragHandle(),
+          final content = AnimatedPadding(
+            duration: sheetContext.motion.normal,
+            curve: sheetContext.motion.curve,
+            padding: EdgeInsets.only(bottom: bottomInset),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: maxHeight != null
+                    ? (mediaQuery.size.height - topPadding - layout.s4) *
+                          maxHeight
+                    : mediaQuery.size.height - topPadding - layout.s4,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
                   SizedBox(height: layout.s2),
+                  if (showDragHandle) ...[
+                    const FluxerBottomSheetDragHandle(),
+                    SizedBox(height: layout.s2),
+                  ],
+                  if (hasHeader) ...[
+                    FluxerBottomSheetHeader(
+                      title: title ?? '',
+                      subtitle: subtitle,
+                      leading: leading,
+                      trailing: trailing,
+                      onBack: onBack,
+                    ),
+                    SizedBox(
+                      height: variant == FluxerBottomSheetVariant.menu
+                          ? layout.s3
+                          : layout.s2,
+                    ),
+                  ],
+                  Flexible(child: builder(sheetContext, close)),
+                  if (reserveBottomInset)
+                    SizedBox(
+                      height: bottomPadding > 0 ? bottomPadding : layout.s4,
+                    ),
                 ],
-                if (hasHeader) ...[
-                  FluxerBottomSheetHeader(
-                    title: title ?? '',
-                    subtitle: subtitle,
-                    leading: leading,
-                    trailing: trailing,
-                    onBack: onBack,
-                  ),
-                  SizedBox(
-                    height: variant == FluxerBottomSheetVariant.menu
-                        ? layout.s3
-                        : layout.s2,
-                  ),
-                ],
-                Flexible(child: builder(sheetContext, close)),
-                if (reserveBottomInset)
-                  SizedBox(
-                    height: bottomPadding > 0 ? bottomPadding : layout.s4,
-                  ),
-              ],
+              ),
             ),
-          ),
-        );
+          );
 
-        if (canDismissNotifier == null) {
-          return content;
-        }
+          if (canDismissNotifier == null) {
+            return content;
+          }
 
-        return ValueListenableBuilder<bool>(
-          valueListenable: canDismissNotifier,
-          builder: (context, canDismiss, child) =>
-              PopScope(canPop: canDismiss, child: child!),
-          child: content,
-        );
-      },
+          return ValueListenableBuilder<bool>(
+            valueListenable: canDismissNotifier,
+            builder: (context, canDismiss, child) =>
+                PopScope(canPop: canDismiss, child: child!),
+            child: content,
+          );
+        },
+      ),
     );
   }
 
@@ -155,87 +171,94 @@ class FluxerBottomSheet {
   }) {
     final layout = context.layout;
 
-    return showModalBottomSheet<T>(
-      context: context,
-      useRootNavigator: useRootNavigator,
-      isScrollControlled: true,
-      enableDrag: false,
-      isDismissible: isDismissible,
-      elevation: 0,
-      builder: (sheetContext) {
-        void close() =>
-            Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
+    return _showWithOverlayTracking<T>(
+      context,
+      () => showModalBottomSheet<T>(
+        context: context,
+        useRootNavigator: useRootNavigator,
+        isScrollControlled: true,
+        enableDrag: false,
+        isDismissible: isDismissible,
+        elevation: 0,
+        builder: (sheetContext) {
+          void close() =>
+              Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
 
-        final mediaQuery = MediaQuery.of(sheetContext);
-        final bottomPadding = mediaQuery.viewPadding.bottom;
-        final bottomInset = mediaQuery.viewInsets.bottom;
-        final hasHeader =
-            title != null ||
-            subtitle != null ||
-            leading != null ||
-            trailing != null ||
-            onBack != null;
+          final mediaQuery = MediaQuery.of(sheetContext);
+          final bottomPadding = mediaQuery.viewPadding.bottom;
+          final bottomInset = mediaQuery.viewInsets.bottom;
+          final hasHeader =
+              title != null ||
+              subtitle != null ||
+              leading != null ||
+              trailing != null ||
+              onBack != null;
 
-        Widget buildContent(ScrollController scrollController) {
-          return AnimatedPadding(
-            duration: sheetContext.motion.normal,
-            curve: sheetContext.motion.curve,
-            padding: EdgeInsets.only(bottom: bottomInset),
-            child: Column(
-              children: [
-                if (!disableTopPadding) SizedBox(height: layout.s2),
-                if (showDragHandle) ...[
-                  const FluxerBottomSheetDragHandle(),
-                  SizedBox(height: layout.s2),
-                ],
-                if (hasHeader) ...[
-                  FluxerBottomSheetHeader(
-                    title: title ?? '',
-                    subtitle: subtitle,
-                    leading: leading,
-                    trailing: trailing,
-                    onBack: onBack,
+          Widget buildContent(ScrollController scrollController) {
+            return AnimatedPadding(
+              duration: sheetContext.motion.normal,
+              curve: sheetContext.motion.curve,
+              padding: EdgeInsets.only(bottom: bottomInset),
+              child: Column(
+                children: [
+                  if (!disableTopPadding) SizedBox(height: layout.s2),
+                  if (showDragHandle) ...[
+                    const FluxerBottomSheetDragHandle(),
+                    SizedBox(height: layout.s2),
+                  ],
+                  if (hasHeader) ...[
+                    FluxerBottomSheetHeader(
+                      title: title ?? '',
+                      subtitle: subtitle,
+                      leading: leading,
+                      trailing: trailing,
+                      onBack: onBack,
+                    ),
+                    SizedBox(height: layout.s2),
+                  ],
+                  Expanded(
+                    child: builder(sheetContext, scrollController, close),
                   ),
-                  SizedBox(height: layout.s2),
+                  SizedBox(
+                    height: bottomPadding > 0 ? bottomPadding : layout.s4,
+                  ),
                 ],
-                Expanded(child: builder(sheetContext, scrollController, close)),
-                SizedBox(height: bottomPadding > 0 ? bottomPadding : layout.s4),
-              ],
+              ),
+            );
+          }
+
+          final sheet = ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: maxHeight != null
+                  ? (mediaQuery.size.height -
+                            mediaQuery.viewPadding.top -
+                            layout.s4) *
+                        maxHeight
+                  : mediaQuery.size.height -
+                        mediaQuery.viewPadding.top -
+                        layout.s4,
+            ),
+            child: DraggableScrollableSheet(
+              expand: false,
+              initialChildSize: initialChildSize,
+              minChildSize: minChildSize,
+              maxChildSize: maxChildSize,
+              builder: (_, scrollController) => buildContent(scrollController),
             ),
           );
-        }
 
-        final sheet = ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: maxHeight != null
-                ? (mediaQuery.size.height -
-                          mediaQuery.viewPadding.top -
-                          layout.s4) *
-                      maxHeight
-                : mediaQuery.size.height -
-                      mediaQuery.viewPadding.top -
-                      layout.s4,
-          ),
-          child: DraggableScrollableSheet(
-            expand: false,
-            initialChildSize: initialChildSize,
-            minChildSize: minChildSize,
-            maxChildSize: maxChildSize,
-            builder: (_, scrollController) => buildContent(scrollController),
-          ),
-        );
+          if (canDismissNotifier == null) {
+            return sheet;
+          }
 
-        if (canDismissNotifier == null) {
-          return sheet;
-        }
-
-        return ValueListenableBuilder<bool>(
-          valueListenable: canDismissNotifier,
-          builder: (context, canDismiss, child) =>
-              PopScope(canPop: canDismiss, child: child!),
-          child: sheet,
-        );
-      },
+          return ValueListenableBuilder<bool>(
+            valueListenable: canDismissNotifier,
+            builder: (context, canDismiss, child) =>
+                PopScope(canPop: canDismiss, child: child!),
+            child: sheet,
+          );
+        },
+      ),
     );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -34,7 +34,7 @@ void main() {
     late Dio dio;
 
     setUp(() {
-      db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      db = openTestDatabase();
       dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
       dio.interceptors.add(
         InterceptorsWrapper(
@@ -64,10 +64,6 @@ void main() {
               },
         ),
       );
-    });
-
-    tearDown(() async {
-      await db.close();
     });
 
     test('updates pinned_dms locally after pin API succeeds', () async {

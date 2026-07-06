@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -17,6 +18,7 @@ class UserAccessibility extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appearance = ref.watch(appearancePreferencesProvider);
     final appearanceNotifier = ref.read(appearancePreferencesProvider.notifier);
+    final themePref = ref.watch(themePreferenceProvider);
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
 
@@ -27,9 +29,55 @@ class UserAccessibility extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FluxerSettingsSection(
+            title: l10n.accessibilitySaturationTitle,
+            description: l10n.accessibilitySaturationDescription,
+            isFirst: true,
+            children: [
+              FluxerSlider(
+                defaultValue: themePref.saturationFactor * 100,
+                factoryDefaultValue: 100,
+                markers: const <double>[
+                  0,
+                  10,
+                  20,
+                  30,
+                  40,
+                  50,
+                  60,
+                  70,
+                  80,
+                  90,
+                  100,
+                ],
+                onMarkerRender: (value) {
+                  final textStyles = context.textStyles;
+                  final colors = context.colors;
+                  final isFactoryDefault = value == 100;
+                  return FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      '${value.round()}%',
+                      style: textStyles.smallText.copyWith(
+                        color: isFactoryDefault
+                            ? colors.textPositive
+                            : colors.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
+                onValueRender: (value) => Text('${value.round()}%'),
+                onValueChange: (value) => unawaited(
+                  ref
+                      .read(themePreferenceProvider.notifier)
+                      .setSaturationFactor(value / 100),
+                ),
+              ),
+            ],
+          ),
+          FluxerSettingsSection(
             title: l10n.accessibilityUnreadGroupTitle,
             description: l10n.accessibilityUnreadGroupDescription,
-            isFirst: true,
             children: [
               FluxerSettingsSwitchItem(
                 label: l10n.accessibilityShowFadedUnreadOnMutedChannelsLabel,

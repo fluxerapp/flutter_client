@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:fluxer_dart/models/user_settings_response_guild_folders.dart';
 
 class _FakeUsersApi implements UsersApi {
   @override

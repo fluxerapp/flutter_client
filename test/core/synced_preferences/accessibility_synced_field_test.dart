@@ -19,6 +19,8 @@ void main() {
         useSystemLocaleForTimeFormat: true,
         messageGroupSpacing: 24,
         compactMessageGroupSpacing: 4,
+        saturationFactor: 0.8,
+        customThemeCss: ':root { --background-primary: #010203; }',
       );
       final proto = AccessibilitySyncedField.toProto(local);
       final restored = AccessibilitySyncedField.fromProto(proto);
@@ -34,6 +36,8 @@ void main() {
       expect(restored.useSystemLocaleForTimeFormat, isTrue);
       expect(restored.messageGroupSpacing, 24);
       expect(restored.compactMessageGroupSpacing, 4);
+      expect(restored.saturationFactor, 0.8);
+      expect(restored.customThemeCss, local.customThemeCss);
     });
 
     test('maps proto channel typing indicator modes', () {
@@ -59,6 +63,15 @@ void main() {
       );
       expect(restored.messageGroupSpacing, 16);
       expect(restored.compactMessageGroupSpacing, 0);
+      expect(restored.saturationFactor, 1);
+      expect(restored.customThemeCss, isNull);
+    });
+
+    test('normalizes empty custom theme css to null on read', () {
+      final restored = AccessibilitySyncedField.fromProto(
+        accessibility_pb.AccessibilitySettings(customThemeCss: '   '),
+      );
+      expect(restored.customThemeCss, isNull);
     });
   });
 }

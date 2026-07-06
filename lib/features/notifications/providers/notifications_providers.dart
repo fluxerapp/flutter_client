@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/notifications/data/merge_void_streams.dart';
@@ -25,9 +29,12 @@ NotificationsRepository notificationsRepository(Ref ref) {
 Stream<List<UnreadInboxEntry>> unreadInboxChannelList(Ref ref) {
   final FluxerDatabase db = ref.watch(fluxerDatabaseProvider);
   final String? currentUserId = ref.watch(currentUserIdProvider);
+  final ChannelLastMessageIndex lastMessageIndex = ref.watch(
+    channelLastMessageIndexProvider,
+  );
   final Stream<void> tick = mergeVoidStreams(<Stream<dynamic>>[
     db.readStateDao.watchReadStates(),
-    db.channelDao.watchAllChannels(),
+    lastMessageIndex.flushStream,
     db.dmChannelDao.watchDmChannels(),
     db.guildDao.watchServers(),
     db.userGuildSettingsDao.watchAll(),

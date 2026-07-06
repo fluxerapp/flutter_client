@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/rtc_regions.dart';
 
@@ -12,7 +13,7 @@ class RtcRegionsDao extends DatabaseAccessor<FluxerDatabase>
   Future<List<RtcRegionsTableData>> getAll() => select(rtcRegionsTable).get();
 
   Stream<List<RtcRegionsTableData>> watchAll() =>
-      select(rtcRegionsTable).watch();
+      select(rtcRegionsTable).watch().suppressDriftCancellation;
 
   Future<void> replaceAll(List<RtcRegionsTableCompanion> entries) async {
     await transaction(() async {

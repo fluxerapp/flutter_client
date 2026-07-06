@@ -1,11 +1,10 @@
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 
 void main() {
   test('upsertDraft stores and reads text with reply id', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     await db.composerDraftDao.upsertDraft(
       channelId: 'channel-1',
@@ -19,8 +18,7 @@ void main() {
   });
 
   test('upsertDraft updates existing draft for channel', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     await db.composerDraftDao.upsertDraft(
       channelId: 'channel-1',
@@ -38,8 +36,7 @@ void main() {
   });
 
   test('deleteDraft removes draft for channel', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     await db.composerDraftDao.upsertDraft(
       channelId: 'channel-1',
@@ -52,8 +49,7 @@ void main() {
   });
 
   test('clearAll removes all drafts', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     await db.composerDraftDao.upsertDraft(
       channelId: 'channel-1',

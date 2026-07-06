@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/servers.dart';
@@ -14,7 +15,8 @@ class GuildDao extends DatabaseAccessor<FluxerDatabase> with _$GuildDaoMixin {
             (s) => OrderingTerm.asc(s.position),
             (s) => OrderingTerm.asc(s.name),
           ]))
-          .watch();
+          .watch()
+          .suppressDriftCancellation;
 
   Future<List<Server>> getServers() =>
       (select(servers)..orderBy([
@@ -27,7 +29,9 @@ class GuildDao extends DatabaseAccessor<FluxerDatabase> with _$GuildDaoMixin {
       (select(servers)..where((s) => s.id.equals(id))).getSingleOrNull();
 
   Stream<Server?> watchServerById(String id) =>
-      (select(servers)..where((s) => s.id.equals(id))).watchSingleOrNull();
+      (select(servers)..where((s) => s.id.equals(id)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<void> upsertServer(ServersCompanion server) =>
       into(servers).insertOnConflictUpdate(server);

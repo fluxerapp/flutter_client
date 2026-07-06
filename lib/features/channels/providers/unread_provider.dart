@@ -37,10 +37,13 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     ..watch(effectiveGuildChannelPermissionBitsProvider(channelId));
   final controller = StreamController<UnreadState>();
   var disposed = false;
+  var recomputeScheduled = false;
   StreamSubscription<Object?>? memberSub;
   String? watchedMemberGuildId;
   StreamSubscription<Object?>? settingsSub;
   String? watchedSettingsGuildId;
+
+  late void Function() scheduleRecompute;
 
   Future<void> recompute() async {
     if (disposed) {
@@ -76,7 +79,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
         watchedMemberGuildId = channel.guildId;
         memberSub = db.memberDao
             .watchMemberByUserId(currentUserId, channel.guildId)
-            .listen((_) => unawaited(recompute()));
+            .listen((_) => scheduleRecompute());
       }
       if (channel.guildId.isNotEmpty &&
           watchedSettingsGuildId != channel.guildId) {
@@ -84,7 +87,7 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
         watchedSettingsGuildId = channel.guildId;
         settingsSub = db.userGuildSettingsDao
             .watchByGuildId(channel.guildId)
-            .listen((_) => unawaited(recompute()));
+            .listen((_) => scheduleRecompute());
       }
     }
 
@@ -134,17 +137,30 @@ Stream<UnreadState> channelUnread(Ref ref, String channelId) {
     }
   }
 
+  scheduleRecompute = () {
+    if (disposed || recomputeScheduled) {
+      return;
+    }
+    recomputeScheduled = true;
+    scheduleMicrotask(() {
+      recomputeScheduled = false;
+      if (!disposed) {
+        unawaited(recompute());
+      }
+    });
+  };
+
   final channelSub = db.channelDao
       .watchChannelById(channelId)
-      .listen((_) => unawaited(recompute()));
+      .listen((_) => scheduleRecompute());
   final readStateSub = db.readStateDao
       .watchReadState(channelId)
-      .listen((_) => unawaited(recompute()));
+      .listen((_) => scheduleRecompute());
   final messageSub = db.messageDao
       .watchLastMessage(channelId)
-      .listen((_) => unawaited(recompute()));
+      .listen((_) => scheduleRecompute());
 
-  unawaited(recompute());
+  scheduleRecompute();
 
   ref.onDispose(() {
     disposed = true;

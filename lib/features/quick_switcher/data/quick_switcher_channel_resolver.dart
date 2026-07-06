@@ -36,7 +36,7 @@ class QuickSwitcherChannelResolver {
     }
     if (conversation.isGroup) {
       return candidateToQuickSwitcherResult(
-        quickSwitcherGroupDmCandidate(conversation),
+        quickSwitcherGroupDmCandidate(conversation, l10n: l10n),
         l10n,
         viewContext: viewContext,
       );

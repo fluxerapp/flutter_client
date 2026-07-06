@@ -7,18 +7,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_create_view.dart';
 import 'package:fluxer_app/features/guilds/presentation/modals/add_guild_landing_view.dart';
+import 'package:fluxer_app/features/guilds/providers/add_guild_enabled_provider.dart';
+import 'package:fluxer_app/features/guilds/services/create_community_service.dart';
 import 'package:fluxer_app/features/guilds/services/join_community_service.dart';
 import 'package:fluxer_app/features/guilds/utils/invite_link_parser.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-enum _AddGuildModalView { landing, join }
+enum _AddGuildModalView { landing, create, join }
 
-Future<void> showAddGuildModal(BuildContext context) {
+Future<void> showAddGuildModal(BuildContext context, WidgetRef ref) {
+  if (!ref.read(addGuildEnabledProvider)) {
+    return Future<void>.value();
+  }
   return showDialog<void>(
     context: context,
     barrierColor: Colors.transparent,
@@ -39,7 +46,11 @@ class _AddGuildModalDialog extends ConsumerStatefulWidget {
 class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
   _AddGuildModalView _view = _AddGuildModalView.landing;
   final TextEditingController _inviteController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final GlobalKey<AddGuildCreateViewState> _createViewKey =
+      GlobalKey<AddGuildCreateViewState>();
   String? _inviteErrorText;
+  String? _createErrorText;
   bool _isSubmitting = false;
   String _invitePlaceholder = '';
   List<String> _instanceInviteUrlBases = const <String>[];
@@ -48,6 +59,7 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
   void initState() {
     super.initState();
     _inviteController.addListener(_onInviteInputChanged);
+    _nameController.addListener(_onNameInputChanged);
     unawaited(_loadInvitePlaceholder());
   }
 
@@ -55,6 +67,9 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
   void dispose() {
     _inviteController
       ..removeListener(_onInviteInputChanged)
+      ..dispose();
+    _nameController
+      ..removeListener(_onNameInputChanged)
       ..dispose();
     super.dispose();
   }
@@ -65,6 +80,21 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
         _inviteErrorText = null;
       }
     });
+  }
+
+  void _onNameInputChanged() {
+    setState(() {
+      if (_createErrorText != null) {
+        _createErrorText = null;
+      }
+    });
+  }
+
+  bool _canSubmitCreate(UserSettingsViewState settings) {
+    final bool showingForm = settings.hasVerifiedEmail && settings.verified;
+    return showingForm &&
+        !_isSubmitting &&
+        _nameController.text.trim().isNotEmpty;
   }
 
   Future<void> _loadInvitePlaceholder() async {
@@ -103,6 +133,21 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
     Navigator.of(context).pop();
   }
 
+  void _goToLanding() {
+    setState(() {
+      _view = _AddGuildModalView.landing;
+      _inviteErrorText = null;
+      _createErrorText = null;
+    });
+  }
+
+  void _goToCreate() {
+    setState(() {
+      _view = _AddGuildModalView.create;
+      _createErrorText = null;
+    });
+  }
+
   void _goToJoin() {
     setState(() {
       _view = _AddGuildModalView.join;
@@ -112,6 +157,7 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
 
   String _title(FluxerLocalizations l10n) => switch (_view) {
     _AddGuildModalView.landing => l10n.addGuildModalTitle,
+    _AddGuildModalView.create => l10n.addGuildCreateTitle,
     _AddGuildModalView.join => l10n.addGuildJoinTitle,
   };
 
@@ -162,9 +208,67 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
     }
   }
 
+  Future<void> _submitCreate() async {
+    final UserSettingsViewState settings = ref.read(
+      userSettingsViewModelProvider,
+    );
+    if (!_canSubmitCreate(settings)) {
+      return;
+    }
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    setState(() {
+      _isSubmitting = true;
+      _createErrorText = null;
+    });
+    try {
+      await createCommunity(
+        context: context,
+        ref: ref,
+        name: _nameController.text,
+        l10n: l10n,
+        iconDataUri: _createViewKey.currentState?.iconDataUri,
+      );
+      if (!mounted) {
+        return;
+      }
+      _close();
+    } on CreateCommunityException catch (e) {
+      if (!mounted) {
+        return;
+      }
+      if (e.kind == CreateCommunityFailureKind.apiError &&
+          e.message == l10n.addGuildCreateClaimDescription) {
+        setState(() => _createErrorText = null);
+        return;
+      }
+      if (e.kind == CreateCommunityFailureKind.maxGuilds ||
+          e.kind == CreateCommunityFailureKind.singleCommunity) {
+        showCreateCommunityFailureToast(ref: ref, error: e, l10n: l10n);
+        setState(() => _createErrorText = null);
+        return;
+      }
+      setState(() => _createErrorText = e.message);
+    } on Object {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _createErrorText = l10n.addGuildCreateFailed);
+    } finally {
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final UserSettingsViewState userSettings = ref.watch(
+      userSettingsViewModelProvider,
+    );
+    final bool showingCreateForm =
+        userSettings.hasVerifiedEmail && userSettings.verified;
+    final bool canSubmitCreate = _canSubmitCreate(userSettings);
     final layout = context.layout;
     final dialogTheme = DialogTheme.of(context);
     final themeShape = dialogTheme.shape as RoundedRectangleBorder?;
@@ -181,7 +285,16 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
       ),
     );
     final Widget body = switch (_view) {
-      _AddGuildModalView.landing => AddGuildLandingView(onJoinTap: _goToJoin),
+      _AddGuildModalView.landing => AddGuildLandingView(
+        onCreateTap: _goToCreate,
+        onJoinTap: _goToJoin,
+      ),
+      _AddGuildModalView.create => AddGuildCreateView(
+        key: _createViewKey,
+        nameController: _nameController,
+        errorText: _createErrorText,
+        enabled: !_isSubmitting,
+      ),
       _AddGuildModalView.join => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -208,6 +321,20 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
     };
     final List<Widget> footerActions = switch (_view) {
       _AddGuildModalView.landing => const <Widget>[],
+      _AddGuildModalView.create => <Widget>[
+        FluxerButton.secondary(
+          onPressed: _isSubmitting ? null : _goToLanding,
+          label: l10n.back,
+        ),
+        if (showingCreateForm)
+          FluxerButton.primary(
+            onPressed: canSubmitCreate
+                ? () => unawaited(_submitCreate())
+                : null,
+            isLoading: _isSubmitting,
+            label: l10n.addGuildCreateSubmit,
+          ),
+      ],
       _AddGuildModalView.join => <Widget>[
         FluxerButton.primary(
           onPressed: _canSubmitJoin ? () => unawaited(_submitJoin()) : null,
@@ -243,11 +370,19 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
             ),
             if (footerActions.isNotEmpty)
               FluxerBottomSheetFooter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: footerActions,
-                ),
+                child: footerActions.length == 1
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: footerActions,
+                      )
+                    : Row(
+                        children: <Widget>[
+                          Expanded(child: footerActions.first),
+                          SizedBox(width: layout.s2),
+                          Expanded(child: footerActions.last),
+                        ],
+                      ),
               ),
           ],
         ),

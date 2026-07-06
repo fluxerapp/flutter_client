@@ -1,7 +1,7 @@
-import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -112,8 +112,7 @@ void main() {
 
   testWidgets('bio emoji autocomplete interleaves a custom emoji and labels '
       'its guild', (tester) async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     await _pumpBioField(
       tester,
@@ -140,8 +139,7 @@ void main() {
   testWidgets('selecting a suggestion inserts it and closes the menu', (
     tester,
   ) async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     var applied = 0;
 
     final controller = await _pumpBioField(
@@ -178,8 +176,7 @@ void main() {
   });
 
   testWidgets('disallowed triggers produce no menu', (tester) async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     await _pumpBioField(tester, db: db);
 
@@ -195,8 +192,7 @@ void main() {
 
   testWidgets('suggestions panel spans the full composer width, not just the '
       'text input flanked by buttons', (tester) async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
 
     await _pumpBioField(
       tester,
@@ -235,8 +231,7 @@ void main() {
   testWidgets(
     'inStack mode publishes suggestions to panel host without overlay',
     (tester) async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final host = ComposerAutocompletePanelHost(null);
       addTearDown(host.dispose);
       final scrollController = ScrollController();

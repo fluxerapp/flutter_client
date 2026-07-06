@@ -3,10 +3,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:fake_async/fake_async.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
@@ -16,11 +17,12 @@ import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_auto_ack_allowed_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
-import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+
+import '../../../../helpers/message_realtime_test_helpers.dart';
 
 String _snowflakeForUtc(DateTime utc) {
   final int internal = (utc.millisecondsSinceEpoch - kSnowflakeEpochMs) << 22;
@@ -67,11 +69,12 @@ MessagesCompanion _cachedMessage({
 );
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   test(
     'switchChannel honors loadMessages false when target is provided',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final adapter = _ChatAdapter();
       final container = _container(db, adapter);
       addTearDown(container.dispose);
@@ -92,8 +95,7 @@ void main() {
   );
 
   test('switchChannel loads target messages when changing channels', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',
@@ -132,8 +134,7 @@ void main() {
   });
 
   test('auto ack does not run while channel messages are loading', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
@@ -160,8 +161,7 @@ void main() {
   test(
     'cache hit shows messages immediately without loading spinner state',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       await db.messageDao.upsertMessage(
         _cachedMessage(id: cachedId, channelId: 'channel-1', authorId: 'other'),
@@ -214,8 +214,7 @@ void main() {
   test(
     'auto ack does not run while cache-first messages are syncing',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       await db.messageDao.upsertMessage(
         _cachedMessage(id: latestId, channelId: 'channel-1', authorId: 'other'),
@@ -257,8 +256,7 @@ void main() {
   );
 
   test('unread channel skips cache-first and shows loading spinner', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10));
     final unreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 11));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 17, 12));
@@ -308,8 +306,7 @@ void main() {
   });
 
   test('stale cache does not suppress unread channel load detection', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 12));
     await db.messageDao.upsertMessage(
@@ -354,8 +351,7 @@ void main() {
   test(
     'cache-first sync removes deleted messages from memory and drift',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final anchorId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 10));
       final deletedId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 11));
       final keptId = _snowflakeForUtc(DateTime.utc(2026, 5, 16, 12));
@@ -416,8 +412,7 @@ void main() {
   );
 
   test('cache miss keeps loading state until network returns', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
@@ -453,8 +448,7 @@ void main() {
   });
 
   test('stale channel fetch does not overwrite active channel state', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final channel1CachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
     final channel1NetworkId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final channel2CachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 20));
@@ -544,10 +538,9 @@ void main() {
   });
 
   test(
-    'opening unread channel sets sticky divider without auto-scrolling',
+    'opening unread channel fetches around ack and sets sticky divider without auto-scrolling',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final unreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
@@ -591,7 +584,7 @@ void main() {
         unreadId,
         latestId,
       ]);
-      expect(adapter.aroundQueries, isEmpty);
+      expect(adapter.aroundQueries, [ackId]);
       final readState = await db.readStateDao.getReadState('channel-1');
       expect(readState?.lastMessageId, ackId);
       expect(adapter.ackedMessageIds, isEmpty);
@@ -599,8 +592,7 @@ void main() {
   );
 
   test('auto ack preserves sticky unread divider after ack advances', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final unreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
@@ -645,8 +637,7 @@ void main() {
   });
 
   test('server ack echo does not clear sticky unread divider', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final unreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
@@ -695,8 +686,7 @@ void main() {
   });
 
   test('manual external ack clears sticky unread divider', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final unreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
@@ -743,8 +733,7 @@ void main() {
   test(
     'auto ack does not preserve sticky unread divider for own messages',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final ownId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       await db.channelDao.upsertChannel(
@@ -784,65 +773,56 @@ void main() {
     },
   );
 
-  test(
-    'unread channel loads the latest page instead of around the ack',
-    () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
-      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
-      final boundaryId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
-      final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
-      await db.channelDao.upsertChannel(
-        ChannelsCompanion.insert(
-          id: 'channel-1',
-          guildId: 'guild-1',
-          name: 'general',
-          lastMessageId: Value(latestId),
-        ),
-      );
-      await db.readStateDao.upsertReadState(
-        ReadStatesCompanion(
-          channelId: const Value('channel-1'),
-          lastMessageId: Value(ackId),
-          mentionCount: const Value(0),
-          manual: const Value(true),
-        ),
-      );
-      final adapter = _ChatAdapter(
-        initialMessages: [
-          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
-          _messageJson(
-            id: boundaryId,
-            channelId: 'channel-1',
-            authorId: 'other',
-          ),
-          _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
-        ],
-      );
-      final container = _container(db, adapter);
-      addTearDown(container.dispose);
+  test('unread channel loads a page around the ack', () async {
+    final db = openTestDatabase();
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
+    final boundaryId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+    final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(latestId),
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(0),
+        manual: const Value(true),
+      ),
+    );
+    final adapter = _ChatAdapter(
+      initialMessages: [
+        _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+        _messageJson(id: boundaryId, channelId: 'channel-1', authorId: 'other'),
+        _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+      ],
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
 
-      final notifier = container.read(chatViewModelProvider.notifier);
-      await notifier.switchChannel('channel-1');
-      notifier.setReadViewportActive(isActive: true);
-      await _flushAsync();
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    notifier.setReadViewportActive(isActive: true);
+    await _flushAsync();
 
-      expect(adapter.aroundQueries, isEmpty);
-      expect(adapter.afterQueries, isEmpty);
-      final state = container.read(chatViewModelProvider);
-      expect(state.messages.map((message) => message.id), [
-        ackId,
-        boundaryId,
-        latestId,
-      ]);
-      expect(state.stickyUnreadMessageId, boundaryId);
-      expect(state.hasMoreNewerMessages, isFalse);
-    },
-  );
+    expect(adapter.aroundQueries, [ackId]);
+    expect(adapter.afterQueries, isEmpty);
+    final state = container.read(chatViewModelProvider);
+    expect(state.messages.map((message) => message.id), [
+      ackId,
+      boundaryId,
+      latestId,
+    ]);
+    expect(state.stickyUnreadMessageId, boundaryId);
+    expect(state.hasMoreNewerMessages, isFalse);
+  });
 
-  test('unread channel with large gap loads the latest page', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+  test('unread channel with large gap fetches around the ack', () async {
+    final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 10));
     final unreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 11));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 30, 12));
@@ -875,7 +855,7 @@ void main() {
     await notifier.switchChannel('channel-1');
     await _flushAsync();
 
-    expect(adapter.aroundQueries, isEmpty);
+    expect(adapter.aroundQueries, [ackId]);
     expect(adapter.afterQueries, isEmpty);
     final state = container.read(chatViewModelProvider);
     expect(state.messages.map((message) => message.id), [latestId]);
@@ -883,10 +863,344 @@ void main() {
   });
 
   test(
+    'deep unread open loads around ack window and preserves older pagination',
+    () async {
+      final db = openTestDatabase();
+      final olderOlderId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 8));
+      final olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 9));
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 10));
+      final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 11));
+      final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(latestId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(0),
+          manual: const Value(true),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: [
+          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+        ],
+        aroundMessages: [
+          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(
+            id: firstUnreadId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+          _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: olderId, channelId: 'channel-1', authorId: 'other'),
+        ],
+        messagesBefore: [
+          _messageJson(
+            id: olderOlderId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        ],
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      expect(adapter.aroundQueries, [ackId]);
+      expect(adapter.afterQueries, isEmpty);
+      var state = container.read(chatViewModelProvider);
+      expect(state.messages.map((message) => message.id), [
+        olderId,
+        ackId,
+        firstUnreadId,
+        latestId,
+      ]);
+      expect(state.stickyUnreadMessageId, firstUnreadId);
+      expect(state.hasMoreMessages, isTrue);
+      expect(state.hasMoreNewerMessages, isFalse);
+
+      await notifier.loadMore();
+      await _flushAsync();
+
+      expect(adapter.beforeQueries, [olderId]);
+      state = container.read(chatViewModelProvider);
+      expect(state.messages.map((message) => message.id), [
+        olderOlderId,
+        olderId,
+        ackId,
+        firstUnreadId,
+        latestId,
+      ]);
+      expect(state.hasMoreMessages, isFalse);
+    },
+  );
+
+  test('same-channel reveal round-trip keeps the loaded window without '
+      'refetching', () async {
+    final db = openTestDatabase();
+    final olderOlderId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 8));
+    final olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 9));
+    final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 10));
+    final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 11));
+    final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(latestId),
+      ),
+    );
+    await db.readStateDao.upsertReadState(
+      ReadStatesCompanion(
+        channelId: const Value('channel-1'),
+        lastMessageId: Value(ackId),
+        mentionCount: const Value(0),
+        manual: const Value(true),
+      ),
+    );
+    final adapter = _ChatAdapter(
+      initialMessages: [
+        _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+      ],
+      aroundMessages: [
+        _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+        _messageJson(
+          id: firstUnreadId,
+          channelId: 'channel-1',
+          authorId: 'other',
+        ),
+        _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+        _messageJson(id: olderId, channelId: 'channel-1', authorId: 'other'),
+      ],
+      messagesBefore: [
+        _messageJson(
+          id: olderOlderId,
+          channelId: 'channel-1',
+          authorId: 'other',
+        ),
+      ],
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
+    await notifier.loadMore();
+    await _flushAsync();
+
+    final expectedWindow = [
+      olderOlderId,
+      olderId,
+      ackId,
+      firstUnreadId,
+      latestId,
+    ];
+    var state = container.read(chatViewModelProvider);
+    expect(state.messages.map((message) => message.id), expectedWindow);
+    final windowBeforeReveal = state.messages;
+    final requestsBeforeReveal = adapter.messageRequestUris.length;
+
+    // Mobile drawer reveal round-trip: re-enters the same channel with
+    // loadMessages true and no target message.
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
+
+    state = container.read(chatViewModelProvider);
+    expect(
+      identical(state.messages, windowBeforeReveal),
+      isTrue,
+      reason: 'same-channel re-entry must not rebuild the message window',
+    );
+    expect(state.messages.map((message) => message.id), expectedWindow);
+    expect(state.isLoading, isFalse);
+    expect(state.isSyncingMessages, isFalse);
+    expect(adapter.messageRequestUris.length, requestsBeforeReveal);
+  });
+
+  test(
+    'channel change still loads fresh despite a loaded same-channel window',
+    () async {
+      final db = openTestDatabase();
+      final olderOlderId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 8));
+      final olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 9));
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 10));
+      final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 11));
+      final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 12));
+      final channelTwoMessageId = _snowflakeForUtc(
+        DateTime.utc(2026, 5, 2, 12),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(latestId),
+        ),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-2',
+          guildId: 'guild-1',
+          name: 'other',
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(0),
+          manual: const Value(true),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: [
+          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+        ],
+        messagesByChannel: <String, List<Map<String, Object?>>>{
+          'channel-2': <Map<String, Object?>>[
+            _messageJson(
+              id: channelTwoMessageId,
+              channelId: 'channel-2',
+              authorId: 'other',
+            ),
+          ],
+        },
+        aroundMessages: [
+          _messageJson(id: latestId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(
+            id: firstUnreadId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+          _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: olderId, channelId: 'channel-1', authorId: 'other'),
+        ],
+        messagesBefore: [
+          _messageJson(
+            id: olderOlderId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        ],
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+      await notifier.loadMore();
+      await _flushAsync();
+
+      var state = container.read(chatViewModelProvider);
+      expect(state.messages.map((message) => message.id), [
+        olderOlderId,
+        olderId,
+        ackId,
+        firstUnreadId,
+        latestId,
+      ]);
+      final requestsBeforeSwitch = adapter.messageRequestUris.length;
+
+      // The same-channel reveal guard must not swallow genuine channel
+      // changes: switching away has to fetch the other channel's window.
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+
+      state = container.read(chatViewModelProvider);
+      expect(state.channelId, 'channel-2');
+      expect(state.messages.map((message) => message.id), [
+        channelTwoMessageId,
+      ]);
+      expect(state.isLoading, isFalse);
+      expect(state.isSyncingMessages, isFalse);
+      expect(
+        adapter.messageRequestUris.length,
+        greaterThan(requestsBeforeSwitch),
+      );
+      expect(adapter.messageRequestUris.last.path, contains('channel-2'));
+    },
+  );
+
+  test(
+    'deep unread open keeps newer tail unloaded when around page stops before latest',
+    () async {
+      final db = openTestDatabase();
+      final olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 9));
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 10));
+      final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 11));
+      final secondUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 1, 12));
+      final tailId = _snowflakeForUtc(DateTime.utc(2026, 5, 3, 12));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(tailId),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(0),
+          manual: const Value(true),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        aroundMessages: [
+          _messageJson(
+            id: secondUnreadId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+          _messageJson(
+            id: firstUnreadId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+          _messageJson(id: ackId, channelId: 'channel-1', authorId: 'other'),
+          _messageJson(id: olderId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      expect(adapter.aroundQueries, [ackId]);
+      expect(adapter.afterQueries, isEmpty);
+      final state = container.read(chatViewModelProvider);
+      expect(state.messages.map((message) => message.id), [
+        olderId,
+        ackId,
+        firstUnreadId,
+        secondUnreadId,
+      ]);
+      expect(state.stickyUnreadMessageId, firstUnreadId);
+      expect(state.hasMoreMessages, isTrue);
+      expect(state.hasMoreNewerMessages, isTrue);
+    },
+  );
+
+  test(
     'boundary fetch is skipped when ack is older than the loaded window',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final unreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
@@ -933,8 +1247,7 @@ void main() {
   );
 
   test('auto ack waits while app UI is not foreground', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     await db.channelDao.upsertChannel(
@@ -974,8 +1287,7 @@ void main() {
   test(
     'opening a DM clears unread after its newest message was deleted',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final priorId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final deletedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       await db.dmChannelDao.upsertDmChannels([
@@ -1021,8 +1333,7 @@ void main() {
   );
 
   test('auto ack waits while chat auto ack is disallowed', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     await db.channelDao.upsertChannel(
@@ -1062,8 +1373,7 @@ void main() {
   });
 
   test('auto ack retries HTTP failure after applying local ack', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
     final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
     await db.channelDao.upsertChannel(
@@ -1106,8 +1416,7 @@ void main() {
   test(
     'mark message unread applies local manual ack before HTTP completes',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final previousId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final targetId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       await db.channelDao.upsertChannel(
@@ -1148,8 +1457,7 @@ void main() {
   test(
     'mark current channel read clears sticky unread and forces ack',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final unreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
@@ -1196,8 +1504,7 @@ void main() {
   test(
     'manual read state suppresses auto ack until explicitly marked read',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       await db.channelDao.upsertChannel(
@@ -1246,8 +1553,7 @@ void main() {
   );
 
   test('sending a message clears sticky unread divider', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final priorId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 9));
     final stickyId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
     await db.channelDao.upsertChannel(
@@ -1288,12 +1594,11 @@ void main() {
 
   group('highlightJumpMessage', () {
     test('sets highlightedMessageId immediately', () {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+      final db = openTestDatabase();
       final adapter = _ChatAdapter();
       final container = _container(db, adapter);
       addTearDown(() {
         container.dispose();
-        unawaited(db.close());
       });
       container
           .read(chatViewModelProvider.notifier)
@@ -1306,7 +1611,7 @@ void main() {
 
     test('persists highlight until scroll is confirmed on slow loads', () {
       fakeAsync((FakeAsync async) {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+        final db = openTestDatabase();
         final adapter = _ChatAdapter();
         final container = _container(db, adapter);
         container
@@ -1318,13 +1623,12 @@ void main() {
           'message-1',
         );
         container.dispose();
-        unawaited(db.close());
       });
     });
 
     test('clears highlightedMessageId 2 seconds after scroll is confirmed', () {
       fakeAsync((FakeAsync async) {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+        final db = openTestDatabase();
         final adapter = _ChatAdapter();
         final container = _container(db, adapter);
         final notifier = container.read(chatViewModelProvider.notifier)
@@ -1342,13 +1646,12 @@ void main() {
           null,
         );
         container.dispose();
-        unawaited(db.close());
       });
     });
 
     test('replaces highlight when jumping to a new message', () {
       fakeAsync((FakeAsync async) {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
+        final db = openTestDatabase();
         final adapter = _ChatAdapter();
         final container = _container(db, adapter);
         container.read(chatViewModelProvider.notifier)
@@ -1366,15 +1669,13 @@ void main() {
           null,
         );
         container.dispose();
-        unawaited(db.close());
       });
     });
 
     test(
       'switchChannel with targetMessageId highlights the target message',
       () async {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-        addTearDown(db.close);
+        final db = openTestDatabase();
         await db.channelDao.upsertChannel(
           ChannelsCompanion.insert(
             id: 'channel-1',
@@ -1418,8 +1719,7 @@ void main() {
     test(
       'switchChannel with same targetMessageId skips reload when target is loaded',
       () async {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-        addTearDown(db.close);
+        final db = openTestDatabase();
         await db.channelDao.upsertChannel(
           ChannelsCompanion.insert(
             id: 'channel-1',
@@ -1458,8 +1758,7 @@ void main() {
     );
 
     test('switchChannel without target clears jump highlight', () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -1488,8 +1787,7 @@ void main() {
   });
 
   test('refreshAfterSessionRecovery is no-op without open channel', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     final adapter = _ChatAdapter();
     final container = _container(db, adapter);
     addTearDown(container.dispose);
@@ -1504,8 +1802,7 @@ void main() {
 
   group('read-ack gate reorder', () {
     test('rapid viewport ticks ack the latest message exactly once', () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
       await db.channelDao.upsertChannel(
@@ -1549,8 +1846,7 @@ void main() {
     test(
       'manual read state is never auto-acked under rapid viewport ticks',
       () async {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-        addTearDown(db.close);
+        final db = openTestDatabase();
         final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
         final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
         await db.channelDao.upsertChannel(
@@ -1602,8 +1898,7 @@ void main() {
   test(
     'live message received while scrolled into history is dropped',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       final incomingId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
@@ -1636,7 +1931,7 @@ void main() {
       container
           .read(messageRealtimeBusProvider)
           .emit(
-            MessageCreated(
+            testMessageCreated(
               MessageCreateEvent(
                 message: MessageResponseSchema.fromJson(
                   _messageJson(
@@ -1667,8 +1962,7 @@ void main() {
     test(
       'ack snapshots first unread before advancing a late-synced read state',
       () async {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-        addTearDown(db.close);
+        final db = openTestDatabase();
         final oldestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 10));
         final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
         final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
@@ -1741,8 +2035,7 @@ void main() {
     test(
       'first ack consumes the one-shot arm so later acks add no divider',
       () async {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-        addTearDown(db.close);
+        final db = openTestDatabase();
         final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
         final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
         final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
@@ -1821,7 +2114,7 @@ void main() {
         container
             .read(messageRealtimeBusProvider)
             .emit(
-              MessageCreated(
+              testMessageCreated(
                 MessageCreateEvent(
                   message: MessageResponseSchema.fromJson(
                     _messageJson(
@@ -1855,8 +2148,7 @@ void main() {
     );
 
     test('ack does not snapshot a divider on a fully read channel', () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       final previousId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
       final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
       await db.channelDao.upsertChannel(
@@ -1903,8 +2195,7 @@ void main() {
     test(
       'markCurrentChannelRead disarms the snapshot for subsequent acks',
       () async {
-        final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-        addTearDown(db.close);
+        final db = openTestDatabase();
         final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
         final firstUnreadId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
         final latestId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
@@ -1979,7 +2270,7 @@ void main() {
         container
             .read(messageRealtimeBusProvider)
             .emit(
-              MessageCreated(
+              testMessageCreated(
                 MessageCreateEvent(
                   message: MessageResponseSchema.fromJson(
                     _messageJson(
@@ -2041,6 +2332,11 @@ Future<void> _flushAsync() async {
   for (var i = 0; i < 8; i++) {
     await pumpEventQueue();
   }
+  SchedulerBinding.instance.handleBeginFrame(Duration.zero);
+  SchedulerBinding.instance.handleDrawFrame();
+  for (var i = 0; i < 8; i++) {
+    await pumpEventQueue();
+  }
 }
 
 class _ChatAdapter implements HttpClientAdapter {
@@ -2048,13 +2344,18 @@ class _ChatAdapter implements HttpClientAdapter {
     this.initialMessages = const [],
     this.messagesByChannel = const {},
     this.messagesAfterAck = const [],
+    this.messagesBefore = const [],
+    this.aroundMessages,
   });
 
   final List<Map<String, Object?>> initialMessages;
   final Map<String, List<Map<String, Object?>>> messagesByChannel;
   final List<Map<String, Object?>> messagesAfterAck;
+  final List<Map<String, Object?>> messagesBefore;
+  final List<Map<String, Object?>>? aroundMessages;
   final List<Uri> messageRequestUris = [];
   final List<String> afterQueries = [];
+  final List<String> beforeQueries = [];
   final List<String> aroundQueries = [];
   final List<String> ackedMessageIds = [];
   bool holdMessageFetch = false;
@@ -2093,9 +2394,13 @@ class _ChatAdapter implements HttpClientAdapter {
       final channelId = channelMessagesMatch.group(1)!;
       messageRequestUris.add(options.uri);
       final after = options.uri.queryParameters['after'];
+      final before = options.uri.queryParameters['before'];
       final around = options.uri.queryParameters['around'];
       if (after != null) {
         afterQueries.add(after);
+      }
+      if (before != null) {
+        beforeQueries.add(before);
       }
       if (around != null) {
         aroundQueries.add(around);
@@ -2106,9 +2411,12 @@ class _ChatAdapter implements HttpClientAdapter {
       }
       final List<Map<String, Object?>> messages;
       if (around != null) {
-        messages = messagesByChannel[channelId] ?? initialMessages;
+        messages =
+            aroundMessages ?? messagesByChannel[channelId] ?? initialMessages;
       } else if (after != null) {
         messages = messagesAfterAck;
+      } else if (before != null) {
+        messages = messagesBefore;
       } else {
         messages = messagesByChannel[channelId] ?? initialMessages;
       }

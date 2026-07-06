@@ -3,15 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-
-import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
-import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_context_menu_item.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
+import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 const _kSubmenuGap = 4.0;
 
@@ -249,7 +248,7 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
             ),
           ),
         ),
-        if (submenuPanel != null) submenuPanel,
+        ?submenuPanel,
       ],
     );
   }

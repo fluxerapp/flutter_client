@@ -249,7 +249,7 @@ class _ContextMenuPage extends StatelessWidget {
       const _MenuDivider(),
       _MenuItem(
         label: 'Debug Message',
-        icon: PhosphorIconsRegular.wrench,
+        icon: PhosphorIconsFill.bug,
         onTap: () {},
       ),
       _MenuItem(

@@ -1,5 +1,6 @@
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -29,7 +30,13 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
       <QuickSwitcherChannelCandidate>[];
   for (final DmConversation convo in input.conversations) {
     if (convo.isGroup) {
-      groupDms.add(quickSwitcherGroupDmCandidate(convo));
+      groupDms.add(
+        quickSwitcherGroupDmCandidate(
+          convo,
+          l10n: input.l10n,
+          currentUserId: input.currentUserId,
+        ),
+      );
       continue;
     }
     if (convo.isPersonalNotes) {
@@ -199,8 +206,15 @@ QuickSwitcherCandidateSets buildQuickSwitcherCandidateSets(
 }
 
 QuickSwitcherGroupDmCandidate quickSwitcherGroupDmCandidate(
-  DmConversation convo,
-) {
+  DmConversation convo, {
+  required FluxerLocalizations l10n,
+  String? currentUserId,
+}) {
+  final String title = resolveGroupDmDisplayName(
+    dm: convo,
+    l10n: l10n,
+    currentUserId: currentUserId,
+  );
   final List<String> participantNames = convo.groupMembers
       .map((GroupMemberInfo member) => member.name)
       .toList();
@@ -209,13 +223,13 @@ QuickSwitcherGroupDmCandidate quickSwitcherGroupDmCandidate(
       : '${convo.memberCount} members';
   return QuickSwitcherGroupDmCandidate(
     id: convo.id,
-    title: convo.displayName,
+    title: title,
     subtitle: subtitle,
     channelId: convo.id,
     icon: convo.icon,
     groupStatus: convo.groupStatus,
     groupMembers: convo.groupMembers,
-    searchValues: <String>[convo.displayName, ...participantNames, convo.id],
+    searchValues: <String>[title, ...participantNames, convo.id],
     sortWeight: convo.lastMessageTime.millisecondsSinceEpoch,
   );
 }

@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -125,15 +125,14 @@ void main() {
     late SyncedPreferencesStore syncStore;
 
     setUp(() {
-      database = db.FluxerDatabase.forTesting(NativeDatabase.memory());
+      database = openTestDatabase();
       usersApi = _FakeUsersApi();
       container = _createContainer(database: database, usersApi: usersApi);
       syncStore = container.read(syncedPreferencesStoreProvider);
     });
 
-    tearDown(() async {
+    tearDown(() {
       container.dispose();
-      await database.close();
     });
 
     test('defers push until settings hydration completes', () async {

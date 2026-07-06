@@ -18,8 +18,6 @@ class GuildAuditLogEntryCard extends StatelessWidget {
     required this.entry,
     required this.actorName,
     required this.actorAvatarUrl,
-    this.actorAvatarColor,
-    this.actorUserId,
     required this.isExpanded,
     required this.onToggle,
     required this.l10n,
@@ -29,6 +27,8 @@ class GuildAuditLogEntryCard extends StatelessWidget {
     required this.channelsById,
     required this.roleNames,
     required this.userNames,
+    this.actorAvatarColor,
+    this.actorUserId,
     super.key,
   });
 

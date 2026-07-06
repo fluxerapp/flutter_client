@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
-import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_confirm_modal.dart';
@@ -62,9 +61,9 @@ BuildContext? _modalContext(BuildContext? context) {
 
 Future<void> joinVoiceChannelWithConfirmation({
   required WidgetRef ref,
-  BuildContext? context,
   required String? guildId,
   required String channelId,
+  BuildContext? context,
   bool startOutgoingCall = false,
   bool ringSilently = false,
   List<String>? outboundRingRecipients,

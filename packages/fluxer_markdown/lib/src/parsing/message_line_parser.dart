@@ -2,6 +2,7 @@ import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/fenced_code_block_utils.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
+import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 
 sealed class MessageContentSegment {}
 
@@ -12,6 +13,11 @@ final class MessageTextFlowSegment extends MessageContentSegment {
 
 final class MessageBlockMarkdownSegment extends MessageContentSegment {
   MessageBlockMarkdownSegment(this.text);
+  final String text;
+}
+
+final class MessageBlockSpoilerSegment extends MessageContentSegment {
+  MessageBlockSpoilerSegment(this.text);
   final String text;
 }
 
@@ -89,6 +95,25 @@ List<MessageContentSegment> _parseMessageContentStructureUncached(
       i += blankCount;
       previousWasHeading = false;
       continue;
+    }
+    if (features.allowSpoilers && isBlockSpoilerStart(trimmedLeft)) {
+      final int? endIndex = parseBlockSpoilerEnd(lines, i);
+      if (endIndex != null) {
+        _flushTextFlow(textFlowBuffer, segments);
+        final String body = parseBlockSpoilerBody(lines, i, endIndex);
+        if (_hasVisibleSpoilerContent(body)) {
+          segments.add(MessageBlockSpoilerSegment(body));
+        } else {
+          segments.add(
+            MessageBlockMarkdownSegment(
+              lines.sublist(i, endIndex + 1).join('\n'),
+            ),
+          );
+        }
+        previousWasHeading = false;
+        i = endIndex + 1;
+        continue;
+      }
     }
     if (_isBlockStart(trimmedLeft, features)) {
       _flushTextFlow(textFlowBuffer, segments);
@@ -209,8 +234,22 @@ bool _isHeadingStart(String trimmedLeft, FluxerMarkdownFeatures features) {
 }
 
 bool _isBlockquoteStart(String trimmedLeft, FluxerMarkdownFeatures features) {
-  return trimmedLeft.startsWith('>>> ') ||
+  return (features.allowMultilineBlockquotes &&
+          trimmedLeft.startsWith('>>> ')) ||
       (features.allowBlockquotes && trimmedLeft.startsWith('> '));
+}
+
+bool _hasVisibleSpoilerContent(String value) {
+  for (final int codeUnit in value.runes) {
+    if (codeUnit != 0x20 &&
+        codeUnit != 0x09 &&
+        codeUnit != 0x0A &&
+        codeUnit != 0x0D &&
+        codeUnit != 0x200E) {
+      return true;
+    }
+  }
+  return false;
 }
 
 int _findBlockEnd(
@@ -222,7 +261,7 @@ int _findBlockEnd(
   if (features.allowCodeBlocks && trimmedLeft.startsWith('```')) {
     return _findCodeBlockEnd(lines, startIndex);
   }
-  if (trimmedLeft.startsWith('>>> ')) {
+  if (trimmedLeft.startsWith('>>> ') && features.allowMultilineBlockquotes) {
     return lines.length;
   }
   if (features.allowBlockquotes && trimmedLeft.startsWith('> ')) {

@@ -19,7 +19,9 @@ import 'package:fluxer_app/features/chat/providers/core/chat_back_button_unread_
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
+import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/favorites/domain/favorite_guild_id.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
@@ -37,6 +39,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
+import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -293,6 +296,12 @@ class ChannelHeader extends ConsumerWidget {
               iconSize: 20,
               onPressed: () => _openSearch(context, channel: channel),
             ),
+          if (channel != null &&
+              channel.type == ChannelType.guildVoice &&
+              isMobileVoiceCameraPlatform()) ...<Widget>[
+            const SizedBox(width: 8),
+            const FlipCameraButton(),
+          ],
         ],
       ),
     );
@@ -392,6 +401,25 @@ class ChannelHeader extends ConsumerWidget {
           ],
           const Spacer(),
           if (showMessageActions) ...[
+            if (dm != null &&
+                !dm.isGroup &&
+                !isPersonalNotes &&
+                !dm.isBot &&
+                !dm.isSystem)
+              _topBarIcon(
+                context,
+                PhosphorIconsFill.userPlus,
+                l10n.createGroupDm,
+                onTap: () => unawaited(
+                  CreateDmFlow.show(
+                    context,
+                    options: CreateDmOptions(
+                      initialSelectedUserIds: dm.remoteRecipientIds,
+                      duplicateExcludeChannelId: dm.id,
+                    ),
+                  ),
+                ),
+              ),
             if (_shouldShowFavoriteStar(ref, channel: channel, dm: dm))
               _buildFavoriteStar(context, ref, channel: channel, dm: dm),
             if (channel != null)
@@ -685,6 +713,7 @@ class ChannelHeader extends ConsumerWidget {
       dm: dm,
       isPersonalNotes: isPersonalNotes,
       friendNickname: friendNickname,
+      currentUserId: ref.watch(currentUserIdProvider),
     );
   }
 
@@ -694,6 +723,7 @@ class ChannelHeader extends ConsumerWidget {
     required DmConversation? dm,
     required bool isPersonalNotes,
     String? friendNickname,
+    String? currentUserId,
   }) {
     if (channel != null) {
       return channel.name;
@@ -702,7 +732,11 @@ class ChannelHeader extends ConsumerWidget {
       return l10n.personalNotesTitle;
     }
     if (dm != null) {
-      return dm.displayNameWith(friendNickname);
+      return dm.displayNameWith(
+        friendNickname,
+        l10n: l10n,
+        currentUserId: currentUserId,
+      );
     }
     return '';
   }

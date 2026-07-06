@@ -14,9 +14,12 @@ import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/qu
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
+import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 
 Future<void> showSystemMessageActionsSheet(
   BuildContext context,
@@ -94,7 +97,29 @@ Future<void> showSystemMessageActionsSheet(
         ),
       );
     case MessageAction.copyText:
-      unawaited(Clipboard.setData(ClipboardData(text: message.content)));
+      final String? mentionedUserName = message.mentionedUserIds.isEmpty
+          ? null
+          : watchMentionUserDisplayName(
+              ref: ref,
+              userId: message.mentionedUserIds.first,
+              channelId: message.channelId,
+            );
+      final String authorName = watchMessageAuthorDisplay(
+        ref: ref,
+        message: message,
+        guildId: guildId,
+        currentUserId: currentUserId,
+      ).displayName;
+      final String? systemText = stringifySystemMessage(
+        l10n: FluxerLocalizations.of(context),
+        message: message,
+        authorName: authorName,
+        mentionedUserName: mentionedUserName,
+        currentUserId: currentUserId,
+      );
+      unawaited(
+        Clipboard.setData(ClipboardData(text: systemText ?? message.content)),
+      );
     case MessageAction.copyMessageId:
       unawaited(Clipboard.setData(ClipboardData(text: message.id)));
     case MessageAction.debugMessage:

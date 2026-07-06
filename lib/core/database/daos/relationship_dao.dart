@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/relationships.dart';
@@ -22,13 +23,14 @@ class RelationshipDao extends DatabaseAccessor<FluxerDatabase>
   }
 
   Stream<List<Relationship>> watchRelationships() =>
-      select(relationships).watch();
+      select(relationships).watch().suppressDriftCancellation;
 
   Stream<Relationship?> watchRelationship(String userId) =>
       (select(relationships)
             ..where((r) => r.userId.equals(userId))
             ..limit(1))
-          .watchSingleOrNull();
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<Relationship?> getRelationship(String userId) =>
       (select(relationships)

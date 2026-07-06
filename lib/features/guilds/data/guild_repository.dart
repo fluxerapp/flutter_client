@@ -80,4 +80,24 @@ class GuildRepository {
       throw Exception(e.response?.statusMessage ?? 'Failed to fetch server');
     }
   }
+
+  Future<GuildResponse> createGuild({
+    required String name,
+    String? iconDataUri,
+  }) async {
+    final GuildCreateRequest body = GuildCreateRequest(
+      name: name.trim(),
+      icon: iconDataUri,
+    );
+    final GuildResponse guild = await _client.guilds.createGuild(body: body);
+    final List<String> guildOrder = await _fetchGuildOrder();
+    final int position = guildOrder.indexOf(guild.id);
+    await _db.guildDao.upsertServer(
+      guildFromSdk(
+        guild,
+        position: position >= 0 ? position : guildOrder.length,
+      ),
+    );
+    return guild;
+  }
 }

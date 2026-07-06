@@ -1,7 +1,14 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/core/synced_preferences/synced_theme_hydration.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/core/theme/custom_theme_css.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -9,6 +16,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_mode.dart';
 import 'package:fluxer_app/core/theme/themes/coal.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/core/theme/themes/light.dart';
+import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,22 +25,87 @@ part 'theme_preference_provider.g.dart';
 
 const _kInflightSentinel = Object();
 
+class _BuiltColorThemes {
+  const _BuiltColorThemes({
+    required this.dark,
+    required this.light,
+    required this.coal,
+  });
+
+  final FluxerColorTheme dark;
+  final FluxerColorTheme light;
+  final FluxerColorTheme coal;
+}
+
+_BuiltColorThemes _buildColorThemes({
+  required double saturationFactor,
+  required String? customThemeCss,
+}) {
+  FluxerColorTheme themed(
+    FluxerThemeMode mode,
+    FluxerColorTheme Function({double saturationFactor}) builder,
+  ) => applyCustomThemeCss(
+    builder(saturationFactor: saturationFactor),
+    css: customThemeCss,
+    saturationFactor: saturationFactor,
+    mode: mode,
+  );
+  return _BuiltColorThemes(
+    dark: themed(FluxerThemeMode.dark, buildDarkColorTheme),
+    light: themed(FluxerThemeMode.light, buildLightColorTheme),
+    coal: themed(FluxerThemeMode.coal, buildCoalColorTheme),
+  );
+}
+
 class ThemePreferenceState {
-  ThemePreferenceState({
-    this.mode = FluxerThemeMode.dark,
-    this.scaleFactor = 1.0,
-    this.chatFontSize = 16,
-    this.syncAcrossDevices = true,
-    this.inflightTheme,
-  }) : darkColorTheme = buildDarkColorTheme(),
-       lightColorTheme = buildLightColorTheme(),
-       coalColorTheme = buildCoalColorTheme(),
-       layoutTheme = FluxerLayoutTheme.scaled(scaleFactor: scaleFactor);
+  factory ThemePreferenceState({
+    FluxerThemeMode mode = FluxerThemeMode.dark,
+    double scaleFactor = 1.0,
+    int chatFontSize = 16,
+    bool syncAcrossDevices = true,
+    double saturationFactor = 1.0,
+    String? customThemeCss,
+    FluxerThemeMode? inflightTheme,
+  }) {
+    final _BuiltColorThemes themes = _buildColorThemes(
+      saturationFactor: clampSaturationFactor(saturationFactor),
+      customThemeCss: normalizeCustomThemeCss(customThemeCss),
+    );
+    return ThemePreferenceState._(
+      mode: mode,
+      scaleFactor: scaleFactor,
+      chatFontSize: chatFontSize,
+      syncAcrossDevices: syncAcrossDevices,
+      saturationFactor: clampSaturationFactor(saturationFactor),
+      customThemeCss: normalizeCustomThemeCss(customThemeCss),
+      inflightTheme: inflightTheme,
+      darkColorTheme: themes.dark,
+      lightColorTheme: themes.light,
+      coalColorTheme: themes.coal,
+      layoutTheme: FluxerLayoutTheme.scaled(scaleFactor: scaleFactor),
+    );
+  }
+
+  ThemePreferenceState._({
+    required this.mode,
+    required this.scaleFactor,
+    required this.chatFontSize,
+    required this.syncAcrossDevices,
+    required this.saturationFactor,
+    required this.customThemeCss,
+    required this.inflightTheme,
+    required this.darkColorTheme,
+    required this.lightColorTheme,
+    required this.coalColorTheme,
+    required this.layoutTheme,
+  });
 
   final FluxerThemeMode mode;
   final double scaleFactor;
   final int chatFontSize;
   final bool syncAcrossDevices;
+  final double saturationFactor;
+  final String? customThemeCss;
 
   /// Non-null while a server PATCH for this theme is in flight. UI uses this
   /// to disable swatches and surface a spinner on the targeted swatch.
@@ -65,16 +138,47 @@ class ThemePreferenceState {
     double? scaleFactor,
     int? chatFontSize,
     bool? syncAcrossDevices,
+    double? saturationFactor,
+    String? customThemeCss,
+    bool clearCustomThemeCss = false,
     Object? inflightTheme = _kInflightSentinel,
   }) {
-    return ThemePreferenceState(
+    final double nextSaturationFactor = saturationFactor == null
+        ? this.saturationFactor
+        : clampSaturationFactor(saturationFactor);
+    final String? nextCustomThemeCss = clearCustomThemeCss
+        ? null
+        : normalizeCustomThemeCss(customThemeCss ?? this.customThemeCss);
+    final double nextScaleFactor = scaleFactor ?? this.scaleFactor;
+    final bool themesChanged =
+        nextSaturationFactor != this.saturationFactor ||
+        nextCustomThemeCss != this.customThemeCss;
+    final _BuiltColorThemes themes = themesChanged
+        ? _buildColorThemes(
+            saturationFactor: nextSaturationFactor,
+            customThemeCss: nextCustomThemeCss,
+          )
+        : _BuiltColorThemes(
+            dark: darkColorTheme,
+            light: lightColorTheme,
+            coal: coalColorTheme,
+          );
+    return ThemePreferenceState._(
       mode: mode ?? this.mode,
-      scaleFactor: scaleFactor ?? this.scaleFactor,
+      scaleFactor: nextScaleFactor,
       chatFontSize: chatFontSize ?? this.chatFontSize,
       syncAcrossDevices: syncAcrossDevices ?? this.syncAcrossDevices,
+      saturationFactor: nextSaturationFactor,
+      customThemeCss: nextCustomThemeCss,
       inflightTheme: identical(inflightTheme, _kInflightSentinel)
           ? this.inflightTheme
           : inflightTheme as FluxerThemeMode?,
+      darkColorTheme: themes.dark,
+      lightColorTheme: themes.light,
+      coalColorTheme: themes.coal,
+      layoutTheme: nextScaleFactor == this.scaleFactor
+          ? layoutTheme
+          : FluxerLayoutTheme.scaled(scaleFactor: nextScaleFactor),
     );
   }
 }
@@ -82,9 +186,25 @@ class ThemePreferenceState {
 @Riverpod(keepAlive: true)
 class ThemePreference extends _$ThemePreference {
   String? _userId;
+  bool _isApplyingRemote = false;
 
   @override
-  ThemePreferenceState build() => ThemePreferenceState();
+  ThemePreferenceState build() {
+    ref.listen<AsyncValue<UserSettingsResponse?>>(
+      userSettingsStatusStreamProvider,
+      (
+        AsyncValue<UserSettingsResponse?>? previous,
+        AsyncValue<UserSettingsResponse?> next,
+      ) {
+        final UserSettingsResponse? settings = next.value;
+        if (settings == null || _userId == null) {
+          return;
+        }
+        unawaited(_applyRemoteUserSettings(settings));
+      },
+    );
+    return ThemePreferenceState();
+  }
 
   Future<void> load(String userId) async {
     _userId = userId;
@@ -100,24 +220,61 @@ class ThemePreference extends _$ThemePreference {
         scaleFactor: prefs.scaleFactor,
         chatFontSize: prefs.chatFontSize,
         syncAcrossDevices: prefs.syncAcrossDevices,
+        saturationFactor: prefs.saturationFactor,
+        customThemeCss: prefs.customThemeCss.isEmpty
+            ? null
+            : prefs.customThemeCss,
       );
     } else {
       state = ThemePreferenceState();
     }
-    await _hydrateThemeFromApiIfNeeded();
+    await _applyCachedUserSettings(userId);
+    await _hydrateThemeFromServerOnLoad();
   }
 
-  Future<void> _hydrateThemeFromApiIfNeeded() async {
-    if (!state.syncAcrossDevices || state.mode == FluxerThemeMode.system) {
+  Future<void> _applyCachedUserSettings(String userId) async {
+    final row = await ref
+        .read(fluxerDatabaseProvider)
+        .userSettingsDao
+        .getSettings(userId);
+    if (row == null) {
       return;
     }
+    try {
+      final Object? decoded = jsonDecode(row.data);
+      if (decoded is! Map<String, dynamic>) {
+        return;
+      }
+      await _applyRemoteUserSettings(UserSettingsResponse.fromJson(decoded));
+    } on Object catch (e, st) {
+      talker.warning('[ThemePreference] Cached settings apply failed', e, st);
+    }
+  }
+
+  Future<void> _hydrateThemeFromServerOnLoad() async {
     try {
       final UserSettingsResponse settings = await ref
           .read(userSettingsSyncProvider)
           .fetchCurrentSettings();
-      await applyServerSettings(settings);
+      await _applyRemoteUserSettings(settings);
     } on Object catch (e, st) {
       talker.warning('[ThemePreference] Server theme fetch failed', e, st);
+    }
+  }
+
+  Future<void> _applyRemoteUserSettings(UserSettingsResponse settings) async {
+    await ref
+        .read(syncedPreferencesStoreProvider)
+        .hydrateFromUserSettings(
+          settings,
+          themeCustomizationApplier: applySyncedThemeCustomization,
+        );
+    await applySyncedThemeFromUserSettings(
+      settings,
+      applySyncedThemeCustomization,
+    );
+    if (state.syncAcrossDevices && state.mode != FluxerThemeMode.system) {
+      await applyServerSettings(settings);
     }
   }
 
@@ -162,6 +319,36 @@ class ThemePreference extends _$ThemePreference {
   Future<void> setChatFontSize(int size) async {
     state = state.copyWith(chatFontSize: size);
     await _persist();
+  }
+
+  Future<void> setSaturationFactor(double value) async {
+    final double clamped = clampSaturationFactor(value);
+    if (state.saturationFactor == clamped) {
+      return;
+    }
+    state = state.copyWith(saturationFactor: clamped);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
+  Future<void> applySyncedThemeCustomization({
+    double? saturationFactor,
+    String? customThemeCss,
+    bool updateSaturationFactor = true,
+    bool updateCustomThemeCss = true,
+    bool clearCustomThemeCss = false,
+  }) async {
+    _isApplyingRemote = true;
+    try {
+      state = state.copyWith(
+        saturationFactor: updateSaturationFactor ? saturationFactor : null,
+        customThemeCss: updateCustomThemeCss ? customThemeCss : null,
+        clearCustomThemeCss: updateCustomThemeCss && clearCustomThemeCss,
+      );
+      await _persist();
+    } finally {
+      _isApplyingRemote = false;
+    }
   }
 
   /// Toggles cross-device theme sync. Toggling ON pushes the current theme
@@ -224,6 +411,15 @@ class ThemePreference extends _$ThemePreference {
     await _persist();
   }
 
+  void _markAccessibilityDirty() {
+    if (_isApplyingRemote) {
+      return;
+    }
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.accessibility);
+  }
+
   Future<void> _persist() async {
     final userId = _userId;
     if (userId == null) {
@@ -238,6 +434,8 @@ class ThemePreference extends _$ThemePreference {
           scaleFactor: Value(state.scaleFactor),
           chatFontSize: Value(state.chatFontSize),
           syncAcrossDevices: Value(state.syncAcrossDevices),
+          saturationFactor: Value(state.saturationFactor),
+          customThemeCss: Value(state.customThemeCss ?? ''),
         ),
       );
     } on Object catch (e, st) {

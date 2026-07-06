@@ -1,26 +1,30 @@
 import 'dart:async';
 
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/gateway/gateway_event_dispatcher.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
+import 'package:fluxer_app/core/synced_preferences/synced_theme_hydration.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
-import 'package:fluxer_app/features/channels/providers/read_state_write_coalescer_provider.dart';
+import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/active_read_channel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_availability_provider.dart';
@@ -36,6 +40,7 @@ import 'package:fluxer_app/features/settings/providers/webauthn_credentials_view
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -72,13 +77,21 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
 
   final currentUserId = ref.read(currentUserIdProvider);
   final messageBus = ref.watch(messageRealtimeBusProvider);
+  final mentionCache = ref.watch(messageMentionContextCacheProvider);
+  ref.listen<Set<String>>(blockedUserIdsProvider, (_, Set<String> next) {
+    mentionCache.updateBlockedUserIds(next);
+  }, fireImmediately: true);
   final handler = GatewayEventHandler(
     database: db,
     readStateRepository: ReadStateRepository(
       ref.watch(fluxerClientProvider),
       db,
     ),
-    readStateWriteCoalescer: ref.read(readStateWriteCoalescerProvider),
+    readStateWriteBatcher: ref.read(readStateWriteBatcherProvider),
+    messageMentionContextCache: mentionCache,
+    messageWriteBatcher: ref.read(messageWriteBatcherProvider),
+    mentionFeedWriteBatcher: ref.read(mentionFeedWriteBatcherProvider),
+    reactionWriteBatcher: ref.read(reactionWriteBatcherProvider),
     currentUserId: currentUserId,
     isAutoAckActive: (channelId) =>
         ref.read(activeReadChannelProvider.notifier).isAutoAckActive(channelId),
@@ -237,7 +250,9 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
         ..invalidate(effectiveGuildChannelPermissionBitsProvider)
         ..invalidate(channelLocalGuildChannelPermissionBitsProvider);
     },
-    onMessageCreate: (event) => messageBus.emit(MessageCreated(event)),
+    onMessageCreate: (MessageCreateDispatch dispatch) => messageBus.emit(
+      MessageCreated(event: dispatch.event, snapshot: dispatch.snapshot),
+    ),
     onMessageUpdate: (event) => messageBus.emit(MessageUpdated(event)),
     onMessageDelete: (event) => messageBus.emit(MessageDeleted(event)),
     onMessageDeleteBulk: (event) => messageBus.emit(MessagesDeletedBulk(event)),
@@ -271,16 +286,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
       ref.read(syncedPreferencesStoreProvider).markSessionChanging();
     },
     onUserSettingsHydrate: (settings) {
-      unawaited(
-        ref
-            .read(themePreferenceProvider.notifier)
-            .applyServerSettings(settings),
-      );
-      unawaited(
-        ref
-            .read(syncedPreferencesStoreProvider)
-            .hydrateFromUserSettings(settings),
-      );
+      unawaited(_handleUserSettingsHydrate(ref, settings));
     },
     onUnavailableGuildsReady: (rawGuilds) {
       ref.read(guildAvailabilityProvider.notifier).loadFromReady(rawGuilds);
@@ -329,8 +335,13 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     },
   );
 
+  final dispatcher = GatewayEventDispatcher(
+    onEvent: handler.handle,
+    onFlushWriteBatchers: ref.read(gatewayWriteBatcherFlushAllProvider),
+  );
+
   final subscription = connection.events.listen(
-    handler.handle,
+    dispatcher.dispatch,
     onError: (Object error) {
       talker.error('[Gateway] Event stream error: $error');
     },
@@ -338,7 +349,26 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
 
   ref.onDispose(() {
     unawaited(subscription.cancel());
+    unawaited(dispatcher.dispose());
     handler.dispose();
   });
   return subscription;
+}
+
+Future<void> _handleUserSettingsHydrate(
+  Ref ref,
+  UserSettingsResponse settings,
+) async {
+  final notifier = ref.read(themePreferenceProvider.notifier);
+  await ref
+      .read(syncedPreferencesStoreProvider)
+      .hydrateFromUserSettings(
+        settings,
+        themeCustomizationApplier: notifier.applySyncedThemeCustomization,
+      );
+  await applySyncedThemeFromUserSettings(
+    settings,
+    notifier.applySyncedThemeCustomization,
+  );
+  await notifier.applyServerSettings(settings);
 }

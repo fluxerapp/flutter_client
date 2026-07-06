@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/providers/gateway_performance_providers.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -103,11 +105,17 @@ class GuildReadState extends _$GuildReadState {
   final Map<String, UserGuildSettingsResponse?> _guildSettings =
       <String, UserGuildSettingsResponse?>{};
   final Map<String, String> _guildSettingsRaw = <String, String>{};
+  final Set<String> _pendingTrustIndex = <String>{};
+  StreamSubscription<Map<String, String>>? _lastMessageIndexSub;
 
   @override
   Map<String, GuildReadStateEntry> build() {
     final db = ref.watch(fluxerDatabaseProvider);
     final currentUserId = ref.watch(currentUserIdProvider);
+
+    final ChannelLastMessageIndex lastMessageIndex = ref.watch(
+      channelLastMessageIndexProvider,
+    );
 
     final readStateSub = db.readStateDao.watchReadStates().listen((rows) {
       final next = <String, ReadState>{for (final r in rows) r.channelId: r};
@@ -120,11 +128,37 @@ class GuildReadState extends _$GuildReadState {
 
     final channelSub = db.channelDao.watchAllChannels().listen((channels) {
       final next = <String, Channel>{for (final c in channels) c.id: c};
-      final touched = _diffChannels(_channelSnapshot, next);
+      final touched = _diffChannels(
+        _channelSnapshot,
+        next,
+        ignoreLastMessageOnly: true,
+      );
+      final staleLastMessageIds = _diffStaleLastMessageIds(
+        _channelSnapshot,
+        next,
+        lastMessageIndex,
+      );
       _channelSnapshot = next;
-      if (touched.isNotEmpty) {
-        _enqueueChannels(touched, db, currentUserId, refreshLatest: true);
+      final allTouched = <String>{...touched, ...staleLastMessageIds};
+      if (allTouched.isNotEmpty) {
+        _enqueueChannels(allTouched, db, currentUserId, refreshLatest: true);
       }
+    });
+
+    _lastMessageIndexSub = lastMessageIndex.flushStream.listen((
+      Map<String, String> updates,
+    ) {
+      if (updates.isEmpty) {
+        return;
+      }
+      _pendingTrustIndex.addAll(updates.keys);
+      _enqueueChannels(
+        updates.keys,
+        db,
+        currentUserId,
+        refreshLatest: false,
+        trustIndex: true,
+      );
     });
 
     final settingsSub = db.userGuildSettingsDao.watchAll().listen((rows) {
@@ -161,6 +195,7 @@ class GuildReadState extends _$GuildReadState {
     ref.onDispose(() {
       unawaited(readStateSub.cancel());
       unawaited(channelSub.cancel());
+      unawaited(_lastMessageIndexSub?.cancel());
       unawaited(settingsSub.cancel());
       unawaited(guildSub.cancel());
       _clearCaches();
@@ -188,6 +223,9 @@ class GuildReadState extends _$GuildReadState {
     final allReadStates = await db.readStateDao.getReadStates();
     final allSettings = await db.userGuildSettingsDao.getAll();
     _channelSnapshot = {for (final c in allChannels) c.id: c};
+    ref.read(channelLastMessageIndexProvider).seedAll(<String, String?>{
+      for (final Channel c in allChannels) c.id: c.lastMessageId,
+    });
     _readStateSnapshot = {for (final r in allReadStates) r.channelId: r};
     _updateGuildSettings(allSettings);
     final now = DateTime.now();
@@ -231,6 +269,7 @@ class GuildReadState extends _$GuildReadState {
     FluxerDatabase db,
     String? currentUserId, {
     required bool refreshLatest,
+    bool trustIndex = false,
   }) {
     if (!_isInitialSeedComplete) {
       _pendingSeedChannelIds.addAll(channelIds);
@@ -239,7 +278,9 @@ class GuildReadState extends _$GuildReadState {
     var added = false;
     for (final id in channelIds) {
       _pendingChannelIds.add(id);
-      if (refreshLatest || !_latestMessageIdByChannel.containsKey(id)) {
+      if (trustIndex) {
+        _pendingTrustIndex.add(id);
+      } else if (refreshLatest || !_latestMessageIdByChannel.containsKey(id)) {
         _pendingLatestRefresh.add(id);
       }
       added = true;
@@ -261,18 +302,41 @@ class GuildReadState extends _$GuildReadState {
     if (_pendingLatestRefresh.isNotEmpty) {
       final latestIds = _pendingLatestRefresh.toList();
       _pendingLatestRefresh.clear();
+      final ChannelLastMessageIndex lastMessageIndex = ref.read(
+        channelLastMessageIndexProvider,
+      );
       for (final id in latestIds) {
         final channel = _channelSnapshot[id];
         if (channel != null && isGuildTextBasedChannel(channel.type)) {
-          _latestMessageIdByChannel[id] =
-              await resolveLatestMessageIdForChannel(
-                db,
-                id,
-                channelLastMessageId: channel.lastMessageId,
-              );
+          if (_pendingTrustIndex.remove(id)) {
+            _latestMessageIdByChannel[id] =
+                lastMessageIndex.lastMessageIdFor(id) ?? channel.lastMessageId;
+          } else {
+            _latestMessageIdByChannel[id] =
+                await resolveLatestMessageIdForChannel(
+                  db,
+                  id,
+                  channelLastMessageId: channel.lastMessageId,
+                );
+          }
         } else {
           _latestMessageIdByChannel.remove(id);
         }
+      }
+    }
+    final pendingTrust = _pendingTrustIndex.toSet();
+    _pendingTrustIndex.clear();
+    for (final id in pendingTrust) {
+      if (_latestMessageIdByChannel.containsKey(id)) {
+        continue;
+      }
+      final channel = _channelSnapshot[id];
+      if (channel != null && isGuildTextBasedChannel(channel.type)) {
+        final ChannelLastMessageIndex lastMessageIndex = ref.read(
+          channelLastMessageIndexProvider,
+        );
+        _latestMessageIdByChannel[id] =
+            lastMessageIndex.lastMessageIdFor(id) ?? channel.lastMessageId;
       }
     }
     final pending = _pendingChannelIds.toList();
@@ -457,6 +521,7 @@ class GuildReadState extends _$GuildReadState {
     _guildSettingsRaw.clear();
     _pendingChannelIds.clear();
     _pendingLatestRefresh.clear();
+    _pendingTrustIndex.clear();
   }
 
   _Contribution _computeChannelContribution({
@@ -531,14 +596,42 @@ bool _readStateEquals(ReadState a, ReadState b) =>
     a.manual == b.manual &&
     a.stickyUnreadMessageId == b.stickyUnreadMessageId;
 
-Set<String> _diffChannels(
+Set<String> _diffStaleLastMessageIds(
   Map<String, Channel> previous,
   Map<String, Channel> next,
+  ChannelLastMessageIndex lastMessageIndex,
 ) {
   final changed = <String>{};
   for (final entry in next.entries) {
+    final Channel? old = previous[entry.key];
+    if (old == null || old.lastMessageId == entry.value.lastMessageId) {
+      continue;
+    }
+    if (lastMessageIndex.lastMessageIdFor(entry.key) !=
+        entry.value.lastMessageId) {
+      changed.add(entry.key);
+    }
+  }
+  return changed;
+}
+
+Set<String> _diffChannels(
+  Map<String, Channel> previous,
+  Map<String, Channel> next, {
+  bool ignoreLastMessageOnly = false,
+}) {
+  final changed = <String>{};
+  for (final entry in next.entries) {
     final old = previous[entry.key];
-    if (old == null || !_channelEquals(old, entry.value)) {
+    if (old == null) {
+      changed.add(entry.key);
+      continue;
+    }
+    if (ignoreLastMessageOnly &&
+        _channelEqualsExceptLastMessage(old, entry.value)) {
+      continue;
+    }
+    if (!_channelEquals(old, entry.value)) {
       changed.add(entry.key);
     }
   }
@@ -549,6 +642,13 @@ Set<String> _diffChannels(
   }
   return changed;
 }
+
+bool _channelEqualsExceptLastMessage(Channel a, Channel b) =>
+    a.guildId == b.guildId &&
+    a.lastPinTimestamp == b.lastPinTimestamp &&
+    a.type == b.type &&
+    a.parentId == b.parentId &&
+    a.position == b.position;
 
 bool _channelEquals(Channel a, Channel b) =>
     a.guildId == b.guildId &&

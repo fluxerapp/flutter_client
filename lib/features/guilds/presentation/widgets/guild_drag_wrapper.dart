@@ -176,6 +176,11 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
   }
 
   void _registerDragTarget() {
+    // Post-frame from initState can outlive the element on same-frame
+    // unmounts (guild switch rebuilding the sidebar).
+    if (!mounted) {
+      return;
+    }
     ref
         .read(guildDragProvider.notifier)
         .registerDragTarget(

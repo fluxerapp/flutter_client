@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/dm_channels.dart';
@@ -12,9 +13,11 @@ class DmChannelDao extends DatabaseAccessor<FluxerDatabase>
     with _$DmChannelDaoMixin {
   DmChannelDao(super.attachedDatabase);
 
-  Stream<List<DmChannel>> watchDmChannels() => (select(
-    dmChannels,
-  )..orderBy([(d) => OrderingTerm.desc(d.lastMessageTime)])).watch();
+  Stream<List<DmChannel>> watchDmChannels() =>
+      (select(dmChannels)
+            ..orderBy([(d) => OrderingTerm.desc(d.lastMessageTime)]))
+          .watch()
+          .suppressDriftCancellation;
 
   Future<List<DmChannel>> getDmChannels() => (select(
     dmChannels,

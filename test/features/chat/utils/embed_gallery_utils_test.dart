@@ -124,7 +124,7 @@ void main() {
 
   group('buildGalleryAttachments', () {
     test('builds synthetic attachments for grid rendering', () {
-      final Embed embed = Embed(
+      const Embed embed = Embed(
         type: EmbedType.link,
         url: _postUrl,
         title: 'Gallery post',

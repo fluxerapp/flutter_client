@@ -32,6 +32,7 @@ import 'package:fluxer_app/features/channels/providers/guild_sidebar_scroll_stor
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/channels/utils/channel_scroll_indicator_severity.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
@@ -52,7 +53,6 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
-import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
@@ -66,62 +66,6 @@ class GuildSidebar extends ConsumerStatefulWidget {
 }
 
 class _GuildSidebarState extends ConsumerState<GuildSidebar> {
-  late final ScrollController _scrollController;
-  late final UnreadScrollIndicatorController _scrollIndicator;
-  final Map<String, GlobalKey> _channelKeys = <String, GlobalKey>{};
-  String? _restoredGuildId;
-  bool _restoring = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController()..addListener(_persistScroll);
-    _scrollIndicator = UnreadScrollIndicatorController(
-      scrollController: _scrollController,
-      itemKeys: _channelKeys,
-      resolveSeverity: _resolveChannelScrollSeverity,
-      isMounted: () => mounted,
-    )..attach();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        _scrollIndicator.scheduleUpdate();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController
-      ..removeListener(_persistScroll)
-      ..dispose();
-    _scrollIndicator.detach();
-    super.dispose();
-  }
-
-  ScrollIndicatorSeverity? _resolveChannelScrollSeverity(String channelId) {
-    final String? guildId = ref.read(activeGuildIdProvider);
-    if (guildId == null) {
-      return null;
-    }
-    return channelScrollIndicatorSeverity(
-      ref: ref,
-      guildId: guildId,
-      channelId: channelId,
-    );
-  }
-
-  void _persistScroll() {
-    if (_restoring) {
-      return;
-    }
-    final String? guildId = ref.read(activeGuildIdProvider);
-    if (guildId != null && _scrollController.hasClients) {
-      ref
-          .read(guildSidebarScrollStoreProvider)
-          .setOffset(guildId, _scrollController.offset);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final Guild? guild = ref.watch(
@@ -131,41 +75,6 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
     final List<GuildSidebarEntry> sidebarEntries = ref.watch(
       guildSidebarEntriesProvider,
     );
-
-    if (guildId == null) {
-      _restoredGuildId = null;
-    } else if (guildId != _restoredGuildId) {
-      _channelKeys.clear();
-      _restoredGuildId = guildId;
-      _restoring = true;
-      final double saved =
-          ref.read(guildSidebarScrollStoreProvider).offsetFor(guildId) ?? 0;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) {
-          return;
-        }
-        if (_scrollController.hasClients) {
-          _scrollController.jumpTo(
-            saved.clamp(0, _scrollController.position.maxScrollExtent),
-          );
-        }
-        _restoring = false;
-        _scrollIndicator.scheduleUpdate();
-      });
-    }
-
-    if (guildId != null) {
-      ref
-        ..listen(guildReadStateProvider.select((s) => s[guildId]), (_, _) {
-          _scrollIndicator.scheduleUpdate();
-        })
-        ..listen<List<GuildSidebarEntry>>(guildSidebarEntriesProvider, (
-          List<GuildSidebarEntry>? previous,
-          List<GuildSidebarEntry> next,
-        ) {
-          _scrollIndicator.scheduleUpdate();
-        });
-    }
 
     return Container(
       width: 240,
@@ -178,12 +87,14 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         children: [
           _buildServerHeader(context, guild),
           Expanded(
-            child: _buildChannelList(
-              context,
-              guild: guild,
-              guildId: guildId,
-              sidebarEntries: sidebarEntries,
-            ),
+            child: guild == null || guildId == null
+                ? const SizedBox.shrink()
+                : _GuildSidebarChannelList(
+                    key: ValueKey<String>(guildId),
+                    guildId: guildId,
+                    guild: guild,
+                    sidebarEntries: sidebarEntries,
+                  ),
           ),
         ],
       ),
@@ -315,31 +226,145 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
       child: headerContent,
     );
   }
+}
 
-  Widget _buildChannelList(
-    BuildContext context, {
-    required Guild? guild,
-    required String? guildId,
-    required List<GuildSidebarEntry> sidebarEntries,
-  }) {
-    if (guild == null || guildId == null) {
-      return const SizedBox.shrink();
+class _GuildSidebarChannelList extends ConsumerStatefulWidget {
+  const _GuildSidebarChannelList({
+    required this.guildId,
+    required this.guild,
+    required this.sidebarEntries,
+    super.key,
+  });
+
+  final String guildId;
+  final Guild guild;
+  final List<GuildSidebarEntry> sidebarEntries;
+
+  @override
+  ConsumerState<_GuildSidebarChannelList> createState() =>
+      _GuildSidebarChannelListState();
+}
+
+class _GuildSidebarChannelListState
+    extends ConsumerState<_GuildSidebarChannelList> {
+  late final ScrollController _scrollController;
+  late final UnreadScrollIndicatorController _scrollIndicator;
+  final Map<String, GlobalKey> _channelKeys = <String, GlobalKey>{};
+  bool _restoring = false;
+  bool _needsScrollClamp = false;
+  GuildSidebarScrollStore? _scrollStore;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollStore = ref.read(guildSidebarScrollStoreProvider);
+    final double savedOffset = _scrollStore?.offsetFor(widget.guildId) ?? 0;
+    _needsScrollClamp = savedOffset > 0;
+    _scrollController = ScrollController(initialScrollOffset: savedOffset)
+      ..addListener(_persistScroll);
+    _scrollIndicator = UnreadScrollIndicatorController(
+      scrollController: _scrollController,
+      itemKeys: _channelKeys,
+      resolveSeverity: _resolveChannelScrollSeverity,
+      isMounted: () => mounted,
+    )..attach();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _clampScrollOffset();
+        _scrollIndicator.scheduleUpdate();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _persistScroll();
+    _scrollController
+      ..removeListener(_persistScroll)
+      ..dispose();
+    _scrollIndicator.detach();
+    super.dispose();
+  }
+
+  ScrollIndicatorSeverity? _resolveChannelScrollSeverity(String channelId) {
+    return channelScrollIndicatorSeverity(
+      ref: ref,
+      guildId: widget.guildId,
+      channelId: channelId,
+    );
+  }
+
+  void _persistScroll() {
+    if (_restoring) {
+      return;
     }
+    if (_scrollStore != null && _scrollController.hasClients) {
+      _scrollStore!.setOffset(widget.guildId, _scrollController.offset);
+    }
+  }
+
+  void _clampScrollOffset() {
+    if (!_needsScrollClamp || !_scrollController.hasClients) {
+      return;
+    }
+    final double maxExtent = _scrollController.position.maxScrollExtent;
+    if (maxExtent <= 0) {
+      return;
+    }
+    final double saved = _scrollStore?.offsetFor(widget.guildId) ?? 0;
+    final double target = saved.clamp(0, maxExtent);
+    if ((_scrollController.offset - target).abs() > 0.5) {
+      _restoring = true;
+      _scrollController.jumpTo(target);
+      _restoring = false;
+    }
+    _needsScrollClamp = false;
+    _scrollIndicator.scheduleUpdate();
+  }
+
+  void _scheduleScrollClamp() {
+    if (!_needsScrollClamp) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _clampScrollOffset();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _scrollStore = ref.read(guildSidebarScrollStoreProvider);
+    ref
+      ..listen(guildReadStateProvider.select((s) => s[widget.guildId]), (_, _) {
+        _scrollIndicator.scheduleUpdate();
+      })
+      ..listen<List<GuildSidebarEntry>>(guildSidebarEntriesProvider, (
+        List<GuildSidebarEntry>? previous,
+        List<GuildSidebarEntry> next,
+      ) {
+        _scrollIndicator.scheduleUpdate();
+        if (_needsScrollClamp && next.isNotEmpty) {
+          _scheduleScrollClamp();
+        }
+      });
     final String? selectedId = ref.watch(activeChannelIdProvider);
     final Widget channelListView = ListView.builder(
       controller: _scrollController,
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
       padding: const EdgeInsets.only(top: 12),
-      itemCount: sidebarEntries.length,
+      itemCount: widget.sidebarEntries.length,
       itemBuilder: (BuildContext context, int index) {
-        final GuildSidebarEntry entry = sidebarEntries[index];
+        final GuildSidebarEntry entry = widget.sidebarEntries[index];
         switch (entry.kind) {
           case GuildSidebarEntryKind.categoryHeader:
             return _CategoryHeader(
               key: ValueKey<String>('cat:${entry.category!.id}'),
               category: entry.category!,
               isCollapsed: entry.isCategoryCollapsed,
-              guildId: guildId,
+              guildId: widget.guildId,
             );
           case GuildSidebarEntryKind.channel:
             final String channelId = entry.channel!.id;
@@ -348,8 +373,8 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
               tileKey: _channelKeys.putIfAbsent(channelId, GlobalKey.new),
               channel: entry.channel!,
               isSelected: channelId == selectedId,
-              guildId: guildId,
-              guild: guild,
+              guildId: widget.guildId,
+              guild: widget.guild,
             );
           case GuildSidebarEntryKind.voiceParticipants:
             return VoiceChannelParticipantsList(
@@ -702,8 +727,8 @@ class _ChannelTile extends ConsumerWidget {
           ),
         if (developerMode)
           FluxerMenuItem(
-            label: 'Debug Channel',
-            icon: PhosphorIconsRegular.bug,
+            label: FluxerLocalizations.of(menuContext).dmDebugChannel,
+            icon: PhosphorIconsFill.bugBeetle,
             onPressed: () {
               close();
               unawaited(_showDebugChannelSheet(menuContext, ref));
@@ -731,35 +756,13 @@ class _ChannelTile extends ConsumerWidget {
     );
   }
 
-  Future<void> _showDebugChannelSheet(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    try {
-      final channelResponse = await ref
-          .read(fluxerClientProvider)
-          .channels
-          .getChannel(channelId: channel.id);
-      if (!context.mounted) {
-        return;
-      }
-      await showDebugBottomSheet(
+  Future<void> _showDebugChannelSheet(BuildContext context, WidgetRef ref) =>
+      showChannelDebugSheet(
         context,
+        ref: ref,
+        channelId: channel.id,
         title: FluxerLocalizations.of(context).dmDebugChannel,
-        data: channelResponse.toJson(),
-        onCopied: (message) => ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: message,
-                variant: FluxerToastVariant.success,
-              ),
-            ),
       );
-    } on Exception catch (_) {
-      // Ignore — failed to fetch channel for debug view.
-    }
-  }
 
   Future<void> _confirmDeleteChannel(
     BuildContext context,
@@ -930,6 +933,9 @@ class _CategoryHeader extends ConsumerWidget {
     final bool isMuted = mutedIds.contains(category.id);
     final muteConfig = await _loadChannelMuteConfig(ref, guildId, category.id);
     final String? mutedHint = isMuted ? formatMutedHintText(muteConfig) : null;
+    final bool developerMode = ref
+        .read(userSettingsViewModelProvider)
+        .developerMode;
     if (!context.mounted) {
       return;
     }
@@ -963,6 +969,15 @@ class _CategoryHeader extends ConsumerWidget {
             );
           },
         ),
+        if (developerMode)
+          FluxerMenuItem(
+            label: FluxerLocalizations.of(menuContext).dmDebugCategory,
+            icon: PhosphorIconsFill.bugBeetle,
+            onPressed: () {
+              close();
+              unawaited(_showDebugCategorySheet(menuContext, ref));
+            },
+          ),
         FluxerMenuItem(
           label: 'Copy Category ID',
           icon: PhosphorIconsRegular.copy,
@@ -974,6 +989,14 @@ class _CategoryHeader extends ConsumerWidget {
       ],
     );
   }
+
+  Future<void> _showDebugCategorySheet(BuildContext context, WidgetRef ref) =>
+      showChannelDebugSheet(
+        context,
+        ref: ref,
+        channelId: category.id,
+        title: FluxerLocalizations.of(context).dmDebugCategory,
+      );
 
   Future<void> _openCategoryMuteSheet(
     BuildContext context,

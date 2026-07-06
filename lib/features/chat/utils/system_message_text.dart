@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/utils/call_duration_format.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
 const String kSystemMessageUsernamePlaceholder = '{username}';
+const String kSystemMessageMentionedUsernamePlaceholder = '{userName}';
+const String kSystemMessageNewNamePlaceholder = '{newName}';
 const String kSystemMessageMessageLinkPlaceholder = '{messageLink}';
 const String kSystemMessageAllPinsLinkPlaceholder = '{allPinsLink}';
+const String kSystemMessageDurationPlaceholder = '{duration}';
+const String kFluxerProductName = 'Fluxer';
 
 typedef GuildJoinMessageBuilder = String Function(String username);
 
@@ -79,6 +84,317 @@ String resolveGuildJoinMessage(
   return builders[index](username);
 }
 
+String? stringifySystemMessage({
+  required FluxerLocalizations l10n,
+  required Message message,
+  required String authorName,
+  String? mentionedUserName,
+  String? currentUserId,
+}) {
+  switch (message.type) {
+    case messageTypeUserJoin:
+      return resolveGuildJoinMessage(
+        l10n,
+        messageId: message.id,
+        username: authorName,
+      );
+    case messageTypeChannelPinnedMessage:
+      return l10n.systemPreviewPinnedMessage(authorName);
+    case messageTypeRecipientAdd:
+      if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
+        return l10n.systemPreviewAddedToGroup(authorName, mentionedUserName);
+      }
+      return l10n.systemPreviewAddedSomeoneToGroup(authorName);
+    case messageTypeRecipientRemove:
+      final String? mentionedUserId = message.mentionedUserIds.isEmpty
+          ? null
+          : message.mentionedUserIds.first;
+      final bool isSelfRemove =
+          mentionedUserId != null && mentionedUserId == message.authorId;
+      if (isSelfRemove) {
+        return l10n.systemPreviewHasLeftGroup(authorName);
+      }
+      if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
+        return l10n.systemPreviewRemovedFromGroup(
+          authorName,
+          mentionedUserName,
+        );
+      }
+      return l10n.systemPreviewRemovedSomeoneFromGroup(authorName);
+    case messageTypeChannelNameChange:
+      final String newName = message.content.trim();
+      if (newName.isNotEmpty) {
+        return l10n.systemPreviewChangedChannelNameTo(authorName, newName);
+      }
+      return l10n.systemPreviewChangedChannelName(authorName);
+    case messageTypeChannelIconChange:
+      return l10n.systemPreviewChangedChannelIcon(authorName);
+    case messageTypeCall:
+      return l10n.systemPreviewStartedCall(authorName);
+    default:
+      if (message.isSystemMessage) {
+        return l10n.systemUnknownMessage(kFluxerProductName);
+      }
+      return null;
+  }
+}
+
+String? stringifySystemMessageForDmListPreview({
+  required FluxerLocalizations l10n,
+  required int messageType,
+  required String messageId,
+  required String content,
+  required String authorName,
+  String? mentionedUserName,
+  String? mentionedUserId,
+  String? authorId,
+}) {
+  final String? text = stringifySystemMessage(
+    l10n: l10n,
+    message: Message(
+      id: messageId,
+      channelId: '',
+      authorId: authorId ?? '',
+      authorName: authorName,
+      content: content,
+      timestamp: DateTime.fromMillisecondsSinceEpoch(0),
+      type: messageType,
+      mentionedUserIds: mentionedUserId == null || mentionedUserId.isEmpty
+          ? const <String>[]
+          : <String>[mentionedUserId],
+    ),
+    authorName: authorName,
+    mentionedUserName: mentionedUserName,
+    currentUserId: authorId,
+  );
+  if (text == null) {
+    return null;
+  }
+  return _stripTrailingPeriod(text);
+}
+
+List<InlineSpan> buildSystemMessageTextSpans({
+  required FluxerLocalizations l10n,
+  required Message message,
+  required String authorName,
+  required TextStyle textStyle,
+  required TextStyle usernameStyle,
+  String? mentionedUserName,
+  TextStyle? newNameStyle,
+  TextStyle? linkStyle,
+  VoidCallback? onMessageLinkTap,
+  VoidCallback? onAllPinsLinkTap,
+  VoidCallback? onJoinCallTap,
+  String? currentUserId,
+}) {
+  if (message.type == messageTypeUserJoin) {
+    return _guildJoinTextSpans(
+      l10n,
+      messageId: message.id,
+      authorName: authorName,
+      textStyle: textStyle,
+      usernameStyle: usernameStyle,
+    );
+  }
+  if (message.type == messageTypeChannelPinnedMessage) {
+    return buildPinMessageTextSpans(
+      l10n: l10n,
+      authorName: authorName,
+      textStyle: textStyle,
+      usernameStyle: usernameStyle,
+      linkStyle: linkStyle ?? usernameStyle,
+      onMessageLinkTap: onMessageLinkTap,
+      onAllPinsLinkTap: onAllPinsLinkTap,
+    );
+  }
+  if (message.type == messageTypeCall) {
+    return _callMessageTextSpans(
+      l10n: l10n,
+      message: message,
+      authorName: authorName,
+      textStyle: textStyle,
+      usernameStyle: usernameStyle,
+      linkStyle: linkStyle ?? usernameStyle,
+      onJoinCallTap: onJoinCallTap,
+      currentUserId: currentUserId,
+    );
+  }
+  final String? template = _systemMessageTemplate(
+    l10n: l10n,
+    message: message,
+    authorName: authorName,
+    mentionedUserName: mentionedUserName,
+  );
+  if (template == null) {
+    return <InlineSpan>[TextSpan(text: message.content, style: textStyle)];
+  }
+  return expandSystemMessageTemplate(
+    template,
+    authorName: authorName,
+    mentionedUserName: mentionedUserName,
+    newName: message.content.trim().isEmpty ? null : message.content.trim(),
+    textStyle: textStyle,
+    usernameStyle: usernameStyle,
+    newNameStyle: newNameStyle ?? usernameStyle,
+  );
+}
+
+String? _systemMessageTemplate({
+  required FluxerLocalizations l10n,
+  required Message message,
+  required String authorName,
+  String? mentionedUserName,
+}) {
+  switch (message.type) {
+    case messageTypeRecipientAdd:
+      if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
+        return l10n.systemPreviewAddedToGroup(
+          kSystemMessageUsernamePlaceholder,
+          kSystemMessageMentionedUsernamePlaceholder,
+        );
+      }
+      return l10n.systemPreviewAddedSomeoneToGroup(
+        kSystemMessageUsernamePlaceholder,
+      );
+    case messageTypeRecipientRemove:
+      final String? mentionedUserId = message.mentionedUserIds.isEmpty
+          ? null
+          : message.mentionedUserIds.first;
+      final bool isSelfRemove =
+          mentionedUserId != null && mentionedUserId == message.authorId;
+      if (isSelfRemove) {
+        return l10n.systemPreviewHasLeftGroup(
+          kSystemMessageUsernamePlaceholder,
+        );
+      }
+      if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
+        return l10n.systemPreviewRemovedFromGroup(
+          kSystemMessageUsernamePlaceholder,
+          kSystemMessageMentionedUsernamePlaceholder,
+        );
+      }
+      return l10n.systemPreviewRemovedSomeoneFromGroup(
+        kSystemMessageUsernamePlaceholder,
+      );
+    case messageTypeChannelNameChange:
+      final String newName = message.content.trim();
+      if (newName.isNotEmpty) {
+        return l10n.systemPreviewChangedChannelNameTo(
+          kSystemMessageUsernamePlaceholder,
+          kSystemMessageNewNamePlaceholder,
+        );
+      }
+      return l10n.systemPreviewChangedChannelName(
+        kSystemMessageUsernamePlaceholder,
+      );
+    case messageTypeChannelIconChange:
+      return l10n.systemPreviewChangedChannelIcon(
+        kSystemMessageUsernamePlaceholder,
+      );
+    default:
+      if (message.isSystemMessage && !isKnownSystemMessageType(message.type)) {
+        return l10n.systemUnknownMessage(kFluxerProductName);
+      }
+      return null;
+  }
+}
+
+List<InlineSpan> _guildJoinTextSpans(
+  FluxerLocalizations l10n, {
+  required String messageId,
+  required String authorName,
+  required TextStyle textStyle,
+  required TextStyle usernameStyle,
+}) {
+  final template = resolveGuildJoinMessageTemplate(l10n, messageId: messageId);
+  return expandSystemMessageTemplate(
+    template,
+    authorName: authorName,
+    textStyle: textStyle,
+    usernameStyle: usernameStyle,
+  );
+}
+
+List<InlineSpan> _callMessageTextSpans({
+  required FluxerLocalizations l10n,
+  required Message message,
+  required String authorName,
+  required TextStyle textStyle,
+  required TextStyle usernameStyle,
+  required TextStyle linkStyle,
+  VoidCallback? onJoinCallTap,
+  String? currentUserId,
+}) {
+  final MessageCall? call = message.call;
+  if (call == null) {
+    return const <InlineSpan>[];
+  }
+  final bool callEnded = call.isEnded;
+  final bool includesCurrentUser =
+      currentUserId != null && call.participants.contains(currentUserId);
+  final bool authorIsCurrentUser =
+      currentUserId != null && message.authorId == currentUserId;
+  final bool isMissedCall =
+      callEnded && !includesCurrentUser && !authorIsCurrentUser;
+  final String durationText = callEnded && call.endedTimestamp != null
+      ? formatCallDuration(
+          l10n: l10n,
+          durationSeconds: call.endedTimestamp!
+              .difference(message.timestamp)
+              .inSeconds
+              .clamp(0, 1 << 30)
+              .toDouble(),
+        )
+      : l10n.systemCallDurationFewSeconds;
+  if (!callEnded) {
+    final List<InlineSpan> spans = expandSystemMessageTemplate(
+      l10n.systemPreviewStartedCall(kSystemMessageUsernamePlaceholder),
+      authorName: authorName,
+      textStyle: textStyle,
+      usernameStyle: usernameStyle,
+    );
+    if (onJoinCallTap != null) {
+      spans.add(const TextSpan(text: ' '));
+      spans.add(
+        _systemMessageActionSpan(
+          label: l10n.systemCallJoinTheCall,
+          style: linkStyle,
+          onTap: onJoinCallTap,
+        ),
+      );
+    }
+    return spans;
+  }
+  if (isMissedCall) {
+    if (durationText.isNotEmpty) {
+      return expandSystemMessageTemplate(
+        l10n.systemCallMissedWithDuration(
+          kSystemMessageUsernamePlaceholder,
+          durationText,
+        ),
+        authorName: authorName,
+        textStyle: textStyle,
+        usernameStyle: usernameStyle,
+      );
+    }
+    return expandSystemMessageTemplate(
+      l10n.systemCallMissed(kSystemMessageUsernamePlaceholder),
+      authorName: authorName,
+      textStyle: textStyle,
+      usernameStyle: usernameStyle,
+    );
+  }
+  return expandSystemMessageTemplate(
+    l10n.systemCallStartedThatLasted(
+      kSystemMessageUsernamePlaceholder,
+      durationText,
+    ),
+    authorName: authorName,
+    textStyle: textStyle,
+    usernameStyle: usernameStyle,
+  );
+}
+
 List<InlineSpan> buildPinMessageTextSpans({
   required FluxerLocalizations l10n,
   required String authorName,
@@ -99,6 +415,85 @@ List<InlineSpan> buildPinMessageTextSpans({
     onMessageLinkTap: onMessageLinkTap,
     onAllPinsLinkTap: onAllPinsLinkTap,
   );
+}
+
+enum _SystemMessagePlaceholder { username, mentionedUsername, newName }
+
+List<InlineSpan> expandSystemMessageTemplate(
+  String input, {
+  required String authorName,
+  required TextStyle textStyle,
+  required TextStyle usernameStyle,
+  String? mentionedUserName,
+  String? newName,
+  TextStyle? newNameStyle,
+}) {
+  if (input.isEmpty) {
+    return <InlineSpan>[];
+  }
+  final int usernameIndex = input.indexOf(kSystemMessageUsernamePlaceholder);
+  final int mentionedUsernameIndex = input.indexOf(
+    kSystemMessageMentionedUsernamePlaceholder,
+  );
+  final int newNameIndex = input.indexOf(kSystemMessageNewNamePlaceholder);
+  final List<(int, _SystemMessagePlaceholder)>
+  markers = <(int, _SystemMessagePlaceholder)>[
+    if (usernameIndex >= 0) (usernameIndex, _SystemMessagePlaceholder.username),
+    if (mentionedUsernameIndex >= 0)
+      (mentionedUsernameIndex, _SystemMessagePlaceholder.mentionedUsername),
+    if (newNameIndex >= 0) (newNameIndex, _SystemMessagePlaceholder.newName),
+  ]..sort((a, b) => a.$1.compareTo(b.$1));
+  if (markers.isEmpty) {
+    return <InlineSpan>[TextSpan(text: input, style: textStyle)];
+  }
+  final (int index, _SystemMessagePlaceholder placeholder) = markers.first;
+  final String before = input.substring(0, index);
+  final String after = switch (placeholder) {
+    _SystemMessagePlaceholder.username => input.substring(
+      index + kSystemMessageUsernamePlaceholder.length,
+    ),
+    _SystemMessagePlaceholder.mentionedUsername => input.substring(
+      index + kSystemMessageMentionedUsernamePlaceholder.length,
+    ),
+    _SystemMessagePlaceholder.newName => input.substring(
+      index + kSystemMessageNewNamePlaceholder.length,
+    ),
+  };
+  final InlineSpan replacement = switch (placeholder) {
+    _SystemMessagePlaceholder.username => TextSpan(
+      text: authorName,
+      style: usernameStyle,
+    ),
+    _SystemMessagePlaceholder.mentionedUsername => TextSpan(
+      text: mentionedUserName ?? 'someone',
+      style: usernameStyle,
+    ),
+    _SystemMessagePlaceholder.newName => TextSpan(
+      text: newName ?? '',
+      style: newNameStyle ?? usernameStyle,
+    ),
+  };
+  return <InlineSpan>[
+    ...expandSystemMessageTemplate(
+      before,
+      authorName: authorName,
+      mentionedUserName: mentionedUserName,
+      newName: newName,
+      textStyle: textStyle,
+      usernameStyle: usernameStyle,
+      newNameStyle: newNameStyle,
+    ),
+    replacement,
+    ...expandSystemMessageTemplate(
+      after,
+      authorName: authorName,
+      mentionedUserName: mentionedUserName,
+      newName: newName,
+      textStyle: textStyle,
+      usernameStyle: usernameStyle,
+      newNameStyle: newNameStyle,
+    ),
+  ];
 }
 
 enum _PinMessagePlaceholder { username, messageLink, allPinsLink }
@@ -150,14 +545,14 @@ List<InlineSpan> _expandPinMessageTemplate(
       text: authorName,
       style: usernameStyle,
     ),
-    _PinMessagePlaceholder.messageLink => _pinMessageLinkSpan(
-      linkText: messageLinkLabel,
-      linkStyle: linkStyle,
+    _PinMessagePlaceholder.messageLink => _systemMessageActionSpan(
+      label: messageLinkLabel,
+      style: linkStyle,
       onTap: onMessageLinkTap,
     ),
-    _PinMessagePlaceholder.allPinsLink => _pinMessageLinkSpan(
-      linkText: allPinsLinkLabel,
-      linkStyle: linkStyle,
+    _PinMessagePlaceholder.allPinsLink => _systemMessageActionSpan(
+      label: allPinsLinkLabel,
+      style: linkStyle,
       onTap: onAllPinsLinkTap,
     ),
   };
@@ -188,13 +583,13 @@ List<InlineSpan> _expandPinMessageTemplate(
   ];
 }
 
-InlineSpan _pinMessageLinkSpan({
-  required String linkText,
-  required TextStyle linkStyle,
+InlineSpan _systemMessageActionSpan({
+  required String label,
+  required TextStyle style,
   VoidCallback? onTap,
 }) {
   if (onTap == null) {
-    return TextSpan(text: linkText, style: linkStyle);
+    return TextSpan(text: label, style: style);
   }
   return WidgetSpan(
     alignment: PlaceholderAlignment.baseline,
@@ -202,76 +597,9 @@ InlineSpan _pinMessageLinkSpan({
     child: GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.translucent,
-      child: Text(linkText, style: linkStyle),
+      child: Text(label, style: style),
     ),
   );
-}
-
-String? stringifySystemMessageForDmListPreview({
-  required FluxerLocalizations l10n,
-  required int messageType,
-  required String messageId,
-  required String content,
-  required String authorName,
-  String? mentionedUserName,
-  String? mentionedUserId,
-  String? authorId,
-}) {
-  switch (messageType) {
-    case messageTypeUserJoin:
-      return _stripTrailingPeriod(
-        resolveGuildJoinMessage(
-          l10n,
-          messageId: messageId,
-          username: authorName,
-        ),
-      );
-    case messageTypeChannelPinnedMessage:
-      return _stripTrailingPeriod(l10n.systemPreviewPinnedMessage(authorName));
-    case messageTypeRecipientAdd:
-      if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
-        return _stripTrailingPeriod(
-          l10n.systemPreviewAddedToGroup(authorName, mentionedUserName),
-        );
-      }
-      return _stripTrailingPeriod(
-        l10n.systemPreviewAddedSomeoneToGroup(authorName),
-      );
-    case messageTypeRecipientRemove:
-      final bool isSelfRemove =
-          mentionedUserId != null &&
-          authorId != null &&
-          mentionedUserId == authorId;
-      if (isSelfRemove) {
-        return _stripTrailingPeriod(l10n.systemPreviewHasLeftGroup(authorName));
-      }
-      if (mentionedUserName != null && mentionedUserName.isNotEmpty) {
-        return _stripTrailingPeriod(
-          l10n.systemPreviewRemovedFromGroup(authorName, mentionedUserName),
-        );
-      }
-      return _stripTrailingPeriod(
-        l10n.systemPreviewRemovedSomeoneFromGroup(authorName),
-      );
-    case messageTypeChannelNameChange:
-      final String newName = content.trim();
-      if (newName.isNotEmpty) {
-        return _stripTrailingPeriod(
-          l10n.systemPreviewChangedChannelNameTo(authorName, newName),
-        );
-      }
-      return _stripTrailingPeriod(
-        l10n.systemPreviewChangedChannelName(authorName),
-      );
-    case messageTypeChannelIconChange:
-      return _stripTrailingPeriod(
-        l10n.systemPreviewChangedChannelIcon(authorName),
-      );
-    case messageTypeCall:
-      return _stripTrailingPeriod(l10n.systemPreviewStartedCall(authorName));
-    default:
-      return null;
-  }
 }
 
 String _stripTrailingPeriod(String text) {

@@ -13,11 +13,15 @@ import 'package:fluxer_app/core/synced_preferences/fields/guild_folders_synced_f
 import 'package:fluxer_app/core/synced_preferences/fields/member_list_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/privacy_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/sidebar_synced_field.dart';
+import 'package:fluxer_app/core/synced_preferences/fields/sound_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/unread_channels_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/fields/voice_prompts_synced_field.dart';
 import 'package:fluxer_app/core/synced_preferences/generated/fluxer/user/preferences/v1/preferences.pb.dart'
     as pb;
+import 'package:fluxer_app/core/synced_preferences/synced_theme_hydration.dart';
 import 'package:fluxer_app/core/talker.dart';
+import 'package:fluxer_app/core/theme/custom_theme_css.dart';
+import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,6 +35,7 @@ const int _kRateLimitMaxAttempts = 6;
 @Riverpod(keepAlive: true)
 SyncedPreferencesStore syncedPreferencesStore(Ref ref) {
   final store = SyncedPreferencesStore(ref)..registerDefaultAdapters();
+  ref.onDispose(store.dispose);
   return store;
 }
 
@@ -64,6 +69,7 @@ class SyncedPreferencesStore {
     registerAdapter(MemberListSyncedField(_ref));
     registerAdapter(UnreadChannelsSyncedField(_ref));
     registerAdapter(VoicePromptsSyncedField(_ref));
+    registerAdapter(SoundSyncedField(_ref));
     registerAdapter(GuildFoldersSyncedField(_ref));
   }
 
@@ -71,9 +77,14 @@ class SyncedPreferencesStore {
     _adapters[adapter.field] = adapter as SyncedFieldAdapter<Object?>;
   }
 
+  void dispose() {
+    _cancelScheduledWork();
+    _pushGeneration++;
+    _pendingPush = false;
+  }
+
   void reset() {
-    _pushTimer?.cancel();
-    _rateLimitTimer?.cancel();
+    _cancelScheduledWork();
     _wireBlob = '';
     _lastKnownGoodWire = '';
     _local = SyncedPreferencesEngine.createEmpty();
@@ -104,11 +115,17 @@ class SyncedPreferencesStore {
     }
     _pushTimer?.cancel();
     _pushTimer = Timer(_kSyncDebounce, () {
+      if (!_ref.mounted) {
+        return;
+      }
       unawaited(_flushPush());
     });
   }
 
-  Future<void> hydrateFromUserSettings(UserSettingsResponse settings) async {
+  Future<void> hydrateFromUserSettings(
+    UserSettingsResponse settings, {
+    SyncedThemeCustomizationApplier? themeCustomizationApplier,
+  }) async {
     final encoded = settings.syncedPreferences;
     _wireBlob = encoded;
     final decodeStatus = await _decodeIncoming(encoded);
@@ -146,8 +163,39 @@ class SyncedPreferencesStore {
       wasFirstHydrate: wasFirstHydrate,
       protectedFields: protectedFields,
     );
+    await _applyMergedAccessibilityTheme(
+      themeCustomizationApplier: themeCustomizationApplier,
+    );
     _hasHydrated = true;
     _flushPendingPush();
+  }
+
+  Future<void> _applyMergedAccessibilityTheme({
+    SyncedThemeCustomizationApplier? themeCustomizationApplier,
+  }) async {
+    final SyncedThemeCustomizationApplier apply =
+        themeCustomizationApplier ??
+        _ref
+            .read(themePreferenceProvider.notifier)
+            .applySyncedThemeCustomization;
+    if (_local.hasAccessibility()) {
+      final accessibility = _local.accessibility;
+      final String? mergedCss = accessibility.hasCustomThemeCss()
+          ? normalizeCustomThemeCss(accessibility.customThemeCss)
+          : null;
+      if (mergedCss != null || accessibility.hasSaturationFactor()) {
+        await applyThemeCustomizationFromAccessibilityProto(
+          accessibility,
+          apply,
+        );
+        return;
+      }
+    }
+    final String? wireCss = normalizeCustomThemeCss(readWireCustomThemeCss());
+    if (wireCss == null) {
+      return;
+    }
+    await apply(customThemeCss: wireCss, updateSaturationFactor: false);
   }
 
   Future<void> _reconcileRegisteredFields({
@@ -228,6 +276,22 @@ class SyncedPreferencesStore {
 
   bool encodedIsEmpty() => _wireBlob.isEmpty;
 
+  String? readWireCustomThemeCss() {
+    if (_wireBlob.isEmpty) {
+      return null;
+    }
+    try {
+      final synced = SyncedPreferencesEngine.decodeLenient(_wireBlob);
+      if (!synced.hasAccessibility() ||
+          !synced.accessibility.hasCustomThemeCss()) {
+        return null;
+      }
+      return synced.accessibility.customThemeCss;
+    } on Object {
+      return null;
+    }
+  }
+
   Future<_DecodeStatus> _decodeIncoming(String encoded) async {
     if (encoded.isEmpty) {
       return _DecodeStatus.empty;
@@ -291,6 +355,9 @@ class SyncedPreferencesStore {
   }
 
   Future<void> _flushPush() async {
+    if (!_ref.mounted) {
+      return;
+    }
     if (_isApplyingRemote) {
       _pendingPush = true;
       return;
@@ -303,6 +370,9 @@ class SyncedPreferencesStore {
     _isPushInFlight = true;
     try {
       final changedFields = await _changedRegisteredFields();
+      if (!_ref.mounted) {
+        return;
+      }
       if (changedFields.isEmpty) {
         _dirtyFields.clear();
         _pendingPush = false;
@@ -319,8 +389,17 @@ class SyncedPreferencesStore {
         ..clear()
         ..addAll(fieldsInRequest);
       _inFlightSnapshot = await _buildLocalSnapshot();
+      if (!_ref.mounted) {
+        return;
+      }
       final encoded = await _encodeLocalSnapshot(_inFlightSnapshot!);
+      if (!_ref.mounted || encoded.isEmpty) {
+        return;
+      }
       for (final field in fieldsInRequest) {
+        if (!_ref.mounted) {
+          return;
+        }
         final adapter = _adapters[field];
         if (adapter == null) {
           continue;
@@ -333,13 +412,16 @@ class SyncedPreferencesStore {
           return;
         }
       }
-      if (generation != _pushGeneration) {
+      if (generation != _pushGeneration || !_ref.mounted) {
         return;
       }
       final client = _ref.read(fluxerClientProvider);
       await client.users.updateCurrentUserSettings(
         body: UserSettingsUpdateRequest(syncedPreferences: encoded),
       );
+      if (!_ref.mounted) {
+        return;
+      }
       _wireBlob = encoded;
       _lastKnownGoodWire = encoded;
       _wire = SyncedPreferencesEngine.decode(encoded);
@@ -367,7 +449,9 @@ class SyncedPreferencesStore {
       _isPushInFlight = false;
       _inFlightFields.clear();
       _inFlightSnapshot = null;
-      _flushPendingPush();
+      if (_ref.mounted) {
+        _flushPendingPush();
+      }
     }
   }
 
@@ -377,6 +461,9 @@ class SyncedPreferencesStore {
         : SyncedPreferencesEngine.decodeLenient(_wireBlob);
     final changed = <SyncedPreferenceField>[];
     for (final entry in _adapters.entries) {
+      if (!_ref.mounted) {
+        return changed;
+      }
       final adapter = entry.value;
       final local = await adapter.readLocalValue();
       final remote = adapter.readFromProto(wire);
@@ -398,8 +485,11 @@ class SyncedPreferencesStore {
         ? SyncedPreferencesEngine.createEmpty()
         : SyncedPreferencesEngine.decodeLenient(_wireBlob);
     for (final entry in _adapters.entries) {
+      if (!_ref.mounted) {
+        return snapshot;
+      }
       final adapter = entry.value;
-      final local = await adapter.readLocalValue();
+      final Object? local = await _readLocalForPush(adapter);
       snapshot = _applyAdapterToProto(snapshot, adapter, local);
     }
     _local = snapshot;
@@ -409,8 +499,11 @@ class SyncedPreferencesStore {
   Future<String> _encodeLocalSnapshot(pb.SyncedPreferences snapshot) async {
     final fieldMessages = <int, Uint8List>{};
     for (final entry in _adapters.entries) {
+      if (!_ref.mounted) {
+        return '';
+      }
       final adapter = entry.value;
-      final local = await adapter.readLocalValue();
+      final Object? local = await _readLocalForPush(adapter);
       fieldMessages[adapter.fieldNumber] = adapter
           .toProtoMessage(local)
           .writeToBuffer();
@@ -430,6 +523,18 @@ class SyncedPreferencesStore {
       currentWire: currentWire,
       fieldNumber: adapter.fieldNumber,
       fieldMessageBytes: adapter.toProtoMessage(local).writeToBuffer(),
+    );
+  }
+
+  Future<Object?> _readLocalForPush(SyncedFieldAdapter<Object?> adapter) async {
+    final Object? local = await adapter.readLocalValue();
+    if (adapter is! AccessibilitySyncedField ||
+        local is! AccessibilityLocalState) {
+      return local;
+    }
+    return AccessibilitySyncedField.preserveWireThemeForPush(
+      local: local,
+      wireCustomThemeCss: readWireCustomThemeCss(),
     );
   }
 
@@ -524,6 +629,9 @@ class SyncedPreferencesStore {
     _pendingPush = true;
     _pushTimer?.cancel();
     _pushTimer = Timer(_kSyncDebounce, () {
+      if (!_ref.mounted) {
+        return;
+      }
       unawaited(_flushPush());
     });
   }
@@ -542,8 +650,18 @@ class SyncedPreferencesStore {
           (1 << (_rateLimitAttempts - 1).clamp(0, 4)),
     );
     _rateLimitTimer = Timer(delay, () {
+      if (!_ref.mounted) {
+        return;
+      }
       unawaited(_flushPush());
     });
+  }
+
+  void _cancelScheduledWork() {
+    _pushTimer?.cancel();
+    _pushTimer = null;
+    _rateLimitTimer?.cancel();
+    _rateLimitTimer = null;
   }
 
   bool _isRateLimitError(Object error) {

@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  app_settings:
+    dependency: "direct main"
+    description:
+      name: app_settings
+      sha256: "64d50e666fd96ae90301bf71205f05019286f940ad6f5fed3d1be19c6af7546a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   archive:
     dependency: transitive
     description:
@@ -1305,6 +1313,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.9.0-dev.0"
+  livekit_noise_filter:
+    dependency: "direct main"
+    description:
+      name: livekit_noise_filter
+      sha256: "540f4f6a6c26600199aa940f4ee31ebab579cd98bdad16fb8199e0d5f6d04730"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   logger:
     dependency: transitive
     description:
@@ -2208,7 +2224,7 @@ packages:
     source: hosted
     version: "0.7.0+eol"
   sqlite3:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: sqlite3
       sha256: "37356bcb56ce0d9404d602c41e4bdb7765e7e9732a3e47adb3d98c556a6abdad"

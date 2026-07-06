@@ -12,12 +12,16 @@ import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-const Color _kGuildJoinIconColor = Color(0xFF22C55E);
+const Color _kSystemMessageOnlineIconColor = Color(0xFF22C55E);
+const Color _kSystemMessageRemoveIconColor = Color(0xFFEF4444);
+const double _kSystemMessageIconOpacity = 0.6;
 const Duration _kSystemMessageLongPressDuration = Duration(milliseconds: 500);
 const double _kSystemMessageLongPressMoveTolerance = 18;
 
@@ -47,7 +51,11 @@ class SystemMessage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (message.type == messageTypeCall && message.call == null) {
+      return const SizedBox.shrink();
+    }
     final String? resolvedGuildId = guildId;
+    final String? currentUserId = ref.watch(currentUserIdProvider);
     final Color? authorRoleColor = resolvedGuildId == null
         ? null
         : ref
@@ -59,8 +67,15 @@ class SystemMessage extends ConsumerWidget {
       ref: ref,
       message: message,
       guildId: resolvedGuildId,
-      currentUserId: ref.watch(currentUserIdProvider),
+      currentUserId: currentUserId,
     ).displayName;
+    final String? mentionedUserName = message.mentionedUserIds.isEmpty
+        ? null
+        : watchMentionUserDisplayName(
+            ref: ref,
+            userId: message.mentionedUserIds.first,
+            channelId: message.channelId,
+          );
     final textStyle = TextStyle(
       color: context.colors.textTertiaryMuted,
       fontSize: kSystemMessageBodyFontSize,
@@ -70,11 +85,38 @@ class SystemMessage extends ConsumerWidget {
       fontWeight: FontWeight.bold,
       fontSize: kSystemMessageBodyFontSize,
     );
-    final (icon, textSpans) = _iconAndTextSpans(
-      context,
+    final linkStyle = TextStyle(
+      color: context.colors.textPrimary,
+      fontSize: kSystemMessageBodyFontSize,
+      fontWeight: FontWeight.w500,
+    );
+    final newNameStyle = TextStyle(
+      color: context.colors.textPrimary,
+      fontSize: kSystemMessageBodyFontSize,
+      fontWeight: FontWeight.w500,
+    );
+    final (IconData icon, Color iconColor, bool flipIcon) = _iconAndColor(
+      message: message,
+      currentUserId: currentUserId,
+      mutedColor: context.colors.textTertiaryMuted,
+    );
+    final List<InlineSpan> textSpans = buildSystemMessageTextSpans(
+      l10n: FluxerLocalizations.of(context),
+      message: message,
       authorName: authorName,
+      mentionedUserName: mentionedUserName,
       textStyle: textStyle,
       usernameStyle: usernameStyle,
+      newNameStyle: newNameStyle,
+      linkStyle: linkStyle,
+      onMessageLinkTap: onJumpToPinnedMessage,
+      onAllPinsLinkTap: onViewAllPins,
+      onJoinCallTap: _joinCallTapHandler(
+        ref: ref,
+        context: context,
+        guildId: resolvedGuildId,
+      ),
+      currentUserId: currentUserId,
     );
     final String timestampText = formatMessageTimestamp(
       message.timestamp.toLocal(),
@@ -117,13 +159,17 @@ class SystemMessage extends ConsumerWidget {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: Opacity(
-                      opacity: 0.6,
-                      child: PhosphorIcon(
-                        icon,
-                        size: kSystemMessageIconSize,
-                        color: message.type == messageTypeUserJoin
-                            ? _kGuildJoinIconColor
-                            : context.colors.textTertiaryMuted,
+                      opacity: _kSystemMessageIconOpacity,
+                      child: Transform(
+                        alignment: Alignment.center,
+                        transform: flipIcon
+                            ? (Matrix4.identity()..scaleByDouble(-1, 1, 1, 1))
+                            : Matrix4.identity(),
+                        child: PhosphorIcon(
+                          icon,
+                          size: kSystemMessageIconSize,
+                          color: iconColor,
+                        ),
                       ),
                     ),
                   ),
@@ -177,102 +223,87 @@ class SystemMessage extends ConsumerWidget {
     return content;
   }
 
-  (IconData, List<InlineSpan>) _iconAndTextSpans(
-    BuildContext context, {
-    required String authorName,
-    required TextStyle textStyle,
-    required TextStyle usernameStyle,
+  VoidCallback? _joinCallTapHandler({
+    required WidgetRef ref,
+    required BuildContext context,
+    required String? guildId,
   }) {
-    if (message.type == messageTypeUserJoin) {
-      return (
-        PhosphorIconsBold.arrowRight,
-        _guildJoinTextSpans(
-          FluxerLocalizations.of(context),
-          authorName: authorName,
-          textStyle: textStyle,
-          usernameStyle: usernameStyle,
+    final MessageCall? call = message.call;
+    if (call == null || call.isEnded) {
+      return null;
+    }
+    final voice = ref.watch(voiceSessionProvider);
+    final bool isConnectedToChannel =
+        voice.isInVoice && voice.channelId == message.channelId;
+    if (isConnectedToChannel) {
+      return null;
+    }
+    return () {
+      unawaited(
+        joinVoiceChannelWithConfirmation(
+          ref: ref,
+          guildId: guildId,
+          channelId: message.channelId,
+          context: context,
         ),
       );
-    }
-    if (message.type == messageTypeChannelPinnedMessage) {
-      return (
-        PhosphorIconsFill.pushPin,
-        _pinMessageTextSpans(
-          context,
-          authorName: authorName,
-          textStyle: textStyle,
-          usernameStyle: usernameStyle,
-        ),
-      );
-    }
-    final (icon, text) = _iconAndText();
-    return (
-      icon,
-      <InlineSpan>[
-        TextSpan(text: authorName, style: usernameStyle),
-        TextSpan(text: ' $text', style: textStyle),
-      ],
-    );
+    };
   }
 
-  List<InlineSpan> _pinMessageTextSpans(
-    BuildContext context, {
-    required String authorName,
-    required TextStyle textStyle,
-    required TextStyle usernameStyle,
+  (IconData, Color, bool) _iconAndColor({
+    required Message message,
+    required String? currentUserId,
+    required Color mutedColor,
   }) {
-    final l10n = FluxerLocalizations.of(context);
-    final linkStyle = TextStyle(
-      color: context.colors.textPrimary,
-      fontSize: kSystemMessageBodyFontSize,
-      fontWeight: FontWeight.w500,
-    );
-    return buildPinMessageTextSpans(
-      l10n: l10n,
-      authorName: authorName,
-      textStyle: textStyle,
-      usernameStyle: usernameStyle,
-      linkStyle: linkStyle,
-      onMessageLinkTap: onJumpToPinnedMessage,
-      onAllPinsLinkTap: onViewAllPins,
-    );
-  }
-
-  List<InlineSpan> _guildJoinTextSpans(
-    FluxerLocalizations l10n, {
-    required String authorName,
-    required TextStyle textStyle,
-    required TextStyle usernameStyle,
-  }) {
-    final template = resolveGuildJoinMessageTemplate(
-      l10n,
-      messageId: message.id,
-    );
-    final parts = template.split(kSystemMessageUsernamePlaceholder);
-    if (parts.length == 1) {
-      return <InlineSpan>[TextSpan(text: template, style: textStyle)];
-    }
-    return <InlineSpan>[
-      for (var i = 0; i < parts.length; i++) ...[
-        if (parts[i].isNotEmpty) TextSpan(text: parts[i], style: textStyle),
-        if (i < parts.length - 1)
-          TextSpan(text: authorName, style: usernameStyle),
-      ],
-    ];
-  }
-
-  (IconData, String) _iconAndText() {
     switch (message.type) {
+      case messageTypeUserJoin:
+        return (
+          PhosphorIconsBold.arrowRight,
+          _kSystemMessageOnlineIconColor,
+          false,
+        );
+      case messageTypeChannelPinnedMessage:
+        return (PhosphorIconsFill.pushPin, mutedColor, false);
+      case messageTypeRecipientAdd:
+        return (
+          PhosphorIconsBold.userPlus,
+          _kSystemMessageOnlineIconColor,
+          false,
+        );
       case messageTypeRecipientRemove:
-        return (PhosphorIconsFill.info, message.content);
+        return (
+          PhosphorIconsBold.userMinus,
+          _kSystemMessageRemoveIconColor,
+          false,
+        );
       case messageTypeCall:
-        return (PhosphorIconsFill.phone, 'started a call.');
+        final MessageCall? call = message.call;
+        if (call == null) {
+          return (PhosphorIconsFill.phone, mutedColor, false);
+        }
+        if (!call.isEnded) {
+          return (
+            PhosphorIconsFill.phone,
+            _kSystemMessageOnlineIconColor,
+            false,
+          );
+        }
+        final bool includesCurrentUser =
+            currentUserId != null && call.participants.contains(currentUserId);
+        final bool authorIsCurrentUser =
+            currentUserId != null && message.authorId == currentUserId;
+        final bool isMissedCall =
+            call.isEnded && !includesCurrentUser && !authorIsCurrentUser;
+        if (isMissedCall) {
+          return (PhosphorIconsFill.phone, mutedColor, true);
+        }
+        return (PhosphorIconsFill.phone, _kSystemMessageOnlineIconColor, false);
       case messageTypeChannelNameChange:
-        return (PhosphorIconsFill.textAa, 'changed the channel name.');
+        return (PhosphorIconsBold.pencilSimple, mutedColor, false);
       case messageTypeChannelIconChange:
-        return (PhosphorIconsFill.image, 'changed the channel icon.');
+        return (PhosphorIconsBold.imageSquare, mutedColor, false);
       default:
-        return (PhosphorIconsFill.info, message.content);
+        return (PhosphorIconsFill.info, mutedColor, false);
     }
   }
 }

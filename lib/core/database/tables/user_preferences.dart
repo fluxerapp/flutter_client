@@ -57,6 +57,9 @@ class UserPreferencesTable extends Table {
       text().withDefault(const Constant('[]'))();
   TextColumn get matureContentAgreedGuildIdsJson =>
       text().withDefault(const Constant('[]'))();
+  TextColumn get voiceSettingsJson => text().withDefault(const Constant(''))();
+  RealColumn get saturationFactor => real().withDefault(const Constant(1))();
+  TextColumn get customThemeCss => text().withDefault(const Constant(''))();
 
   @override
   String get tableName => 'user_preferences';

@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/dm_folder_settings.dart';
@@ -14,9 +15,10 @@ class DmFolderSettingsDao extends DatabaseAccessor<FluxerDatabase>
     dmFolderSettingsTable,
   )..where((t) => t.id.equals(0))).getSingleOrNull();
 
-  Stream<DmFolderSettingsTableData?> watchSettings() => (select(
-    dmFolderSettingsTable,
-  )..where((t) => t.id.equals(0))).watchSingleOrNull();
+  Stream<DmFolderSettingsTableData?> watchSettings() =>
+      (select(dmFolderSettingsTable)..where((t) => t.id.equals(0)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<void> upsertSettings(DmFolderSettingsTableCompanion companion) =>
       into(dmFolderSettingsTable).insertOnConflictUpdate(companion);

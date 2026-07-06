@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/sudo_dialog.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -51,16 +52,18 @@ class _MfaMethodsAdapter implements HttpClientAdapter {
 
 Widget _app(GlobalKey<NavigatorState> navigatorKey) {
   final colorTheme = buildDarkColorTheme();
-  return MaterialApp(
-    navigatorKey: navigatorKey,
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-    supportedLocales: FluxerLocalizations.supportedLocales,
-    theme: buildFluxerTheme(
-      colorTheme: colorTheme,
-      textTheme: FluxerTextTheme.fromColors(colorTheme),
-      layoutTheme: FluxerLayoutTheme.scaled(),
+  return ProviderScope(
+    child: MaterialApp(
+      navigatorKey: navigatorKey,
+      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      supportedLocales: FluxerLocalizations.supportedLocales,
+      theme: buildFluxerTheme(
+        colorTheme: colorTheme,
+        textTheme: FluxerTextTheme.fromColors(colorTheme),
+        layoutTheme: FluxerLayoutTheme.scaled(),
+      ),
+      home: const Scaffold(body: SizedBox.shrink()),
     ),
-    home: const Scaffold(body: SizedBox.shrink()),
   );
 }
 

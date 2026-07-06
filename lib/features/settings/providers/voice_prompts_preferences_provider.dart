@@ -1,3 +1,5 @@
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preference_field.dart';
+import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_store.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_prompts_preferences_provider.g.dart';
@@ -37,9 +39,15 @@ class VoicePromptsPreferences extends _$VoicePromptsPreferences {
 
   Future<void> setSkipHideOwnCameraConfirm({required bool value}) async {
     state = state.copyWith(skipHideOwnCameraConfirm: value);
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.voicePrompts);
   }
 
   Future<void> setSkipHideOwnScreenshareConfirm({required bool value}) async {
     state = state.copyWith(skipHideOwnScreenshareConfirm: value);
+    ref
+        .read(syncedPreferencesStoreProvider)
+        .markDirty(SyncedPreferenceField.voicePrompts);
   }
 }

@@ -110,7 +110,6 @@ class GuildAuditLog extends _$GuildAuditLog {
         .read(guildSettingsRepositoryProvider)
         .listAuditLogs(
           guildId: guildId,
-          limit: _kAuditLogPageSize,
           before: before,
           userId: _selectedUserId,
           actionType: _selectedActionType,

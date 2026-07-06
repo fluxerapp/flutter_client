@@ -140,6 +140,23 @@ class UserPreferencesDao extends DatabaseAccessor<FluxerDatabase>
     ),
   );
 
+  Future<String?> getVoiceSettingsJson(String userId) async {
+    final UserPreferencesTableData? prefs = await getPreferences(userId);
+    final String? json = prefs?.voiceSettingsJson;
+    if (json == null || json.isEmpty) {
+      return null;
+    }
+    return json;
+  }
+
+  Future<void> setVoiceSettingsJson(String userId, String json) =>
+      savePreferences(
+        UserPreferencesTableCompanion(
+          userId: Value(userId),
+          voiceSettingsJson: Value(json),
+        ),
+      );
+
   Future<void> clearAll() => delete(userPreferencesTable).go();
 }
 

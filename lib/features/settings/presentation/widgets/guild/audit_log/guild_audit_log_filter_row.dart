@@ -72,7 +72,6 @@ class GuildAuditLogFilterRow extends ConsumerWidget {
       label: l10n.guildSettingsAuditLogFilterUser,
       value: state.selectedUserId ?? kGuildAuditLogAllUsersFilterValue,
       items: userItems,
-      enableSearch: true,
       scrollableSheet: true,
       stretch: isMobile,
       onChanged: (String value) {
@@ -89,7 +88,6 @@ class GuildAuditLogFilterRow extends ConsumerWidget {
           state.selectedActionType?.json?.toString() ??
           kGuildAuditLogAllActionsFilterValue,
       items: actionItems,
-      enableSearch: true,
       scrollableSheet: true,
       stretch: isMobile,
       onChanged: (String value) {

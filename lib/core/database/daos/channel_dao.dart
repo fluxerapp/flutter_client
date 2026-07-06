@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/channels.dart';
@@ -15,9 +16,11 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
       (select(channels)
             ..where((c) => c.guildId.equals(guildId))
             ..orderBy([(c) => OrderingTerm.asc(c.position)]))
-          .watch();
+          .watch()
+          .suppressDriftCancellation;
 
-  Stream<List<Channel>> watchAllChannels() => select(channels).watch();
+  Stream<List<Channel>> watchAllChannels() =>
+      select(channels).watch().suppressDriftCancellation;
 
   Future<List<Channel>> getAllChannels() => select(channels).get();
 
@@ -51,7 +54,9 @@ class ChannelDao extends DatabaseAccessor<FluxerDatabase>
   }
 
   Stream<Channel?> watchChannelById(String id) =>
-      (select(channels)..where((c) => c.id.equals(id))).watchSingleOrNull();
+      (select(channels)..where((c) => c.id.equals(id)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<void> upsertChannel(ChannelsCompanion channel) async {
     final channelId = channel.id.value;

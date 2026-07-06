@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
@@ -73,8 +73,7 @@ void main() {
   test(
     'loadMore prepends older messages without trimming the newest',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       await db.channelDao.upsertChannel(
         ChannelsCompanion.insert(
           id: 'channel-1',
@@ -129,8 +128,7 @@ void main() {
   test(
     'trimToNewestWindow is a no-op while newer history is unloaded',
     () async {
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
       // The channel's newest message is far ahead of what we load, so the loaded
       // window sits in history with hasMoreNewerMessages == true.
       await db.channelDao.upsertChannel(
@@ -164,8 +162,7 @@ void main() {
   );
 
   test('loadMore drops a stale older page after a channel switch', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
         id: 'channel-1',
@@ -225,8 +222,7 @@ void main() {
   });
 
   test('refreshAfterSessionRecovery preserves a scrolled-up window', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     // Newest message far ahead so the loaded window stays in history.
     await db.channelDao.upsertChannel(
       ChannelsCompanion.insert(
@@ -326,7 +322,7 @@ class _PaginatingAdapter implements HttpClientAdapter {
       final channelId = match.group(1)!;
       final all = messagesByChannel[channelId] ?? const [];
       final before = options.uri.queryParameters['before'];
-      final after = options.uri.queryParameters['after'];
+      final around = options.uri.queryParameters['around'];
       if (before != null && holdBeforeFetch) {
         _beforeCompleter ??= Completer<void>();
         await _beforeCompleter!.future;
@@ -339,11 +335,16 @@ class _PaginatingAdapter implements HttpClientAdapter {
         page = older.length <= pageLimit
             ? older
             : older.sublist(older.length - pageLimit);
-      } else if (after != null) {
-        final newer = all
-            .where((m) => _compare(m['id']! as String, after) > 0)
-            .toList();
-        page = newer.length <= pageLimit ? newer : newer.sublist(0, pageLimit);
+      } else if (around != null) {
+        final aroundIndex = all.indexWhere((m) => m['id'] == around);
+        if (aroundIndex == -1) {
+          page = const [];
+        } else {
+          final halfLimit = pageLimit ~/ 2;
+          final end = (aroundIndex + halfLimit + 1).clamp(0, all.length);
+          final start = (end - pageLimit).clamp(0, all.length);
+          page = all.sublist(start, end);
+        }
       } else {
         page = all.length <= pageLimit
             ? all

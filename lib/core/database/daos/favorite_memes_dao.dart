@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/favorite_memes.dart';
 
@@ -13,7 +14,7 @@ class FavoriteMemesDao extends DatabaseAccessor<FluxerDatabase>
       select(favoriteMemesTable).get();
 
   Stream<List<FavoriteMemesTableData>> watchAll() =>
-      select(favoriteMemesTable).watch();
+      select(favoriteMemesTable).watch().suppressDriftCancellation;
 
   Future<void> upsert(FavoriteMemesTableCompanion entry) =>
       into(favoriteMemesTable).insertOnConflictUpdate(entry);

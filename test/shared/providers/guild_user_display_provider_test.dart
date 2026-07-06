@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -13,8 +13,7 @@ void main() {
     () async {
       // No user/member is seeded, so the build reaches the background member
       // fetch path that previously used `ref` after the provider was disposed.
-      final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-      addTearDown(db.close);
+      final db = openTestDatabase();
 
       final errors = <Object>[];
       await runZonedGuarded(() async {
@@ -39,8 +38,7 @@ void main() {
 
   test('guildUserDisplayProvider re-emits when the watched user row '
       'changes', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.userDao.upsertUser(
       UsersCompanion.insert(id: 'user-1', username: 'alice'),
     );
@@ -70,8 +68,7 @@ void main() {
 
   test('guildUserDisplayProvider dedupes presence-only changes but '
       'notifies on display changes', () async {
-    final db = FluxerDatabase.forTesting(NativeDatabase.memory());
-    addTearDown(db.close);
+    final db = openTestDatabase();
     await db.userDao.upsertUser(
       UsersCompanion.insert(id: 'user-1', username: 'alice'),
     );

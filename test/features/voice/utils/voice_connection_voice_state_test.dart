@@ -35,7 +35,6 @@ void main() {
           userId: 'u1',
           channelId: 'c1',
           connectionId: 'conn-desktop',
-          selfDeaf: false,
         ),
       };
 
@@ -54,7 +53,6 @@ void main() {
       final VoiceState synthetic = _voiceState(
         userId: 'u1',
         channelId: 'c1',
-        connectionId: null,
         selfDeaf: true,
       );
       final String syntheticKey = voiceStateSyntheticStorageKey(
@@ -84,15 +82,8 @@ void main() {
       );
       final Map<String, VoiceState> map = <String, VoiceState>{
         'conn-2': byConnection,
-        voiceStateSyntheticStorageKey(
-          userId: 'u1',
-          channelId: 'c1',
-        ): _voiceState(
-          userId: 'u1',
-          channelId: 'c1',
-          connectionId: null,
-          selfDeaf: false,
-        ),
+        voiceStateSyntheticStorageKey(userId: 'u1', channelId: 'c1'):
+            _voiceState(userId: 'u1', channelId: 'c1'),
       };
 
       final VoiceState? resolved = resolveSelfConnectionVoiceState(
@@ -137,7 +128,6 @@ void main() {
           userId: 'u1',
           channelId: 'c1',
           connectionId: 'conn-desktop',
-          selfDeaf: false,
         ),
         'conn-mobile': _voiceState(
           userId: 'u1',

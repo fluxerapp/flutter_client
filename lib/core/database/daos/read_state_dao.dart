@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/database/tables/read_states.dart';
@@ -16,11 +17,13 @@ class ReadStateDao extends DatabaseAccessor<FluxerDatabase>
 
   Future<List<ReadState>> getReadStates() => select(readStates).get();
 
-  Stream<List<ReadState>> watchReadStates() => select(readStates).watch();
+  Stream<List<ReadState>> watchReadStates() =>
+      select(readStates).watch().suppressDriftCancellation;
 
-  Stream<ReadState?> watchReadState(String channelId) => (select(
-    readStates,
-  )..where((r) => r.channelId.equals(channelId))).watchSingleOrNull();
+  Stream<ReadState?> watchReadState(String channelId) =>
+      (select(readStates)..where((r) => r.channelId.equals(channelId)))
+          .watchSingleOrNull()
+          .suppressDriftCancellation;
 
   Future<void> upsertReadState(ReadStatesCompanion state) =>
       into(readStates).insertOnConflictUpdate(state);
@@ -93,7 +96,9 @@ class ReadStateDao extends DatabaseAccessor<FluxerDatabase>
   }
 
   Stream<List<ReadState>> watchReadStatesForChannels(List<String> channelIds) =>
-      (select(readStates)..where((r) => r.channelId.isIn(channelIds))).watch();
+      (select(readStates)..where((r) => r.channelId.isIn(channelIds)))
+          .watch()
+          .suppressDriftCancellation;
 
   Future<void> clearAll() => delete(readStates).go();
 }

@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 class GuildOwnershipWarningSheet extends StatelessWidget {
-  const GuildOwnershipWarningSheet({super.key, required this.ownedGuilds});
+  const GuildOwnershipWarningSheet({required this.ownedGuilds, super.key});
 
   final List<Guild> ownedGuilds;
 

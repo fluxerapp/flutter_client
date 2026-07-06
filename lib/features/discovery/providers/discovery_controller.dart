@@ -156,7 +156,6 @@ class DiscoveryController extends _$DiscoveryController {
         category: state.categoryId,
         language: state.language,
         offset: offset,
-        limit: discoveryPageSize,
       );
       if (token != _searchToken) {
         return;

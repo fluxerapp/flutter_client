@@ -1201,6 +1201,24 @@ abstract class FluxerLocalizations {
   /// **'This invite may be expired or invalid.'**
   String get inviteAcceptNotFoundDescription;
 
+  /// Title when a deep link or route cannot be opened in the app.
+  ///
+  /// In en, this message translates to:
+  /// **'Link couldn\'t be opened'**
+  String get invalidDeepLinkTitle;
+
+  /// Explanation shown when a deep link or route cannot be opened in the app.
+  ///
+  /// In en, this message translates to:
+  /// **'This link may be broken, only available on the web, or you might not have access. Check the link and try again.'**
+  String get invalidDeepLinkDescription;
+
+  /// Primary action on the invalid deep link screen to return to the home tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to home'**
+  String get invalidDeepLinkGoHomeButton;
+
   /// Primary action to join a group DM from the invite modal.
   ///
   /// In en, this message translates to:
@@ -1699,6 +1717,18 @@ abstract class FluxerLocalizations {
   /// **'Unpin Group DM'**
   String get dmUnpinGroupDm;
 
+  /// Fallback title for a group DM without a custom name.
+  ///
+  /// In en, this message translates to:
+  /// **'Unnamed group'**
+  String get dmUnnamedGroup;
+
+  /// Fallback title when the current user is the only participant in a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'{resolvedName}\'s group'**
+  String dmOwnersGroup(String resolvedName);
+
   /// DM context menu action to favorite a DM.
   ///
   /// In en, this message translates to:
@@ -1776,6 +1806,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Debug Channel'**
   String get dmDebugChannel;
+
+  /// Category context menu action to debug category data.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug Category'**
+  String get dmDebugCategory;
 
   /// Toast message when a DM is pinned.
   ///
@@ -6763,6 +6799,18 @@ abstract class FluxerLocalizations {
   /// **'Preserve edit draft on cancel'**
   String get messagesMediaEditingPreserveDraftLabel;
 
+  /// Section title for the theme saturation slider on the accessibility settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturation'**
+  String get accessibilitySaturationTitle;
+
+  /// Section description for the theme saturation slider on the accessibility settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust how vivid theme colors appear across the app.'**
+  String get accessibilitySaturationDescription;
+
   /// Section title for unread-indicator accessibility settings.
   ///
   /// In en, this message translates to:
@@ -6906,6 +6954,114 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'{username} started a call.'**
   String systemPreviewStartedCall(String username);
+
+  /// Call-to-action button label on an in-progress call system message.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the call'**
+  String get systemCallJoinTheCall;
+
+  /// System message when a call has ended and the viewer participated.
+  ///
+  /// In en, this message translates to:
+  /// **'{username} started a call that lasted {duration}.'**
+  String systemCallStartedThatLasted(String username, String duration);
+
+  /// System message when the viewer missed a call that had a measurable duration.
+  ///
+  /// In en, this message translates to:
+  /// **'You missed a call from {username} that lasted {duration}.'**
+  String systemCallMissedWithDuration(String username, String duration);
+
+  /// System message when the viewer missed a call.
+  ///
+  /// In en, this message translates to:
+  /// **'You missed a call from {username}.'**
+  String systemCallMissed(String username);
+
+  /// Duration label for a very short elapsed call.
+  ///
+  /// In en, this message translates to:
+  /// **'a few seconds'**
+  String get systemCallDurationFewSeconds;
+
+  /// Duration label when a call lasted about one minute.
+  ///
+  /// In en, this message translates to:
+  /// **'a minute'**
+  String get systemCallDurationMinute;
+
+  /// Duration label when a call lasted about one year.
+  ///
+  /// In en, this message translates to:
+  /// **'1 year'**
+  String get systemCallDurationOneYear;
+
+  /// Duration label when a call lasted about one month.
+  ///
+  /// In en, this message translates to:
+  /// **'1 month'**
+  String get systemCallDurationOneMonth;
+
+  /// Duration label when a call lasted about one week.
+  ///
+  /// In en, this message translates to:
+  /// **'1 week'**
+  String get systemCallDurationOneWeek;
+
+  /// Duration label when a call lasted about one day.
+  ///
+  /// In en, this message translates to:
+  /// **'1 day'**
+  String get systemCallDurationOneDay;
+
+  /// Duration label when a call lasted about one hour.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get systemCallDurationOneHour;
+
+  /// Duration label for multiple years in a call duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} years'**
+  String systemCallDurationYears(String count);
+
+  /// Duration label for multiple months in a call duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} months'**
+  String systemCallDurationMonths(String count);
+
+  /// Duration label for multiple weeks in a call duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} weeks'**
+  String systemCallDurationWeeks(String count);
+
+  /// Duration label for multiple days in a call duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days'**
+  String systemCallDurationDays(String count);
+
+  /// Duration label for multiple hours in a call duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} hours'**
+  String systemCallDurationHours(String count);
+
+  /// Duration label for multiple minutes in a call duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} minutes'**
+  String systemCallDurationMinutes(String count);
+
+  /// Fallback system message when the client does not recognize the message type.
+  ///
+  /// In en, this message translates to:
+  /// **'Update {productName} to view this message.'**
+  String systemUnknownMessage(String productName);
 
   /// Title of the multi-device voice join confirmation dialog.
   ///
@@ -7098,6 +7254,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Video'**
   String get voiceControlVideo;
+
+  /// Tooltip: switch between front and back camera while video is on.
+  ///
+  /// In en, this message translates to:
+  /// **'Flip camera'**
+  String get voiceControlFlipCamera;
 
   /// Tooltip: share screen in the voice call control bar (when supported).
   ///
@@ -8633,6 +8795,102 @@ abstract class FluxerLocalizations {
   /// **'Could not join community. Please try again.'**
   String get addGuildJoinFailed;
 
+  /// Title of the create-community sub-view in the add community modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a community'**
+  String get addGuildCreateTitle;
+
+  /// Body text on the create-community sub-view.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a community for you and your friends to chat.'**
+  String get addGuildCreateDescription;
+
+  /// Label for the community name input on the create sub-view.
+  ///
+  /// In en, this message translates to:
+  /// **'Community name'**
+  String get addGuildCreateNameLabel;
+
+  /// Primary button label to submit the create-community form.
+  ///
+  /// In en, this message translates to:
+  /// **'Create community'**
+  String get addGuildCreateSubmit;
+
+  /// Generic error when creating a community fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not create community. Please try again.'**
+  String get addGuildCreateFailed;
+
+  /// Gate title when the user must claim their account before creating a community.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account'**
+  String get addGuildCreateClaimTitle;
+
+  /// Gate description when the user must claim their account before creating a community.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to claim your account before you can create a community.'**
+  String get addGuildCreateClaimDescription;
+
+  /// Gate title when the user must verify email before creating a community.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get addGuildCreateVerifyTitle;
+
+  /// Gate description when the user must verify email before creating a community.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to verify your email address before you can create a community.'**
+  String get addGuildCreateVerifyDescription;
+
+  /// Error when the user picks an animated image for a new community icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Animated icons are not supported when creating a new community. Use a static image.'**
+  String get addGuildCreateAnimatedIconUnsupported;
+
+  /// Text before the community guidelines link on the create sub-view.
+  ///
+  /// In en, this message translates to:
+  /// **'By creating a community, you agree to follow and uphold the '**
+  String get addGuildCreateGuidelinesBefore;
+
+  /// Link label for community guidelines on the create sub-view.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} community guidelines'**
+  String addGuildCreateGuidelinesLink(String productName);
+
+  /// Error when creation is blocked because the instance only allows one community.
+  ///
+  /// In en, this message translates to:
+  /// **'This instance is a single community, so additional communities cannot be created.'**
+  String get addGuildCreateSingleCommunityBlocked;
+
+  /// Button label to replace the selected community icon.
+  ///
+  /// In en, this message translates to:
+  /// **'Change icon'**
+  String get addGuildCreateChangeIcon;
+
+  /// Label for the optional community icon field on the create sub-view.
+  ///
+  /// In en, this message translates to:
+  /// **'Community icon'**
+  String get addGuildCreateIconLabel;
+
+  /// Helper text under the community icon upload buttons listing accepted formats and size guidance.
+  ///
+  /// In en, this message translates to:
+  /// **'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px'**
+  String get addGuildCreateIconHint;
+
   /// Toast shown after accepting an emoji or sticker pack invite.
   ///
   /// In en, this message translates to:
@@ -8697,6 +8955,654 @@ abstract class FluxerLocalizations {
   /// **'Pinned messages show up here.'**
   String get channelPinsEmptyDescription;
 
+  /// Fallback title in channel details when no channel or DM name is available.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get channelDetailsFallbackTitle;
+
+  /// Subtitle in channel details for a group DM showing member count.
+  ///
+  /// In en, this message translates to:
+  /// **'Group DM · {count} members'**
+  String channelDetailsGroupDmSubtitle(int count);
+
+  /// Confirmation body when closing a 1:1 DM from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Close your conversation with {name}?'**
+  String channelDetailsCloseDmDescription(String name);
+
+  /// Confirmation body when leaving a group DM from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave {name}?'**
+  String channelDetailsLeaveGroupDescription(String name);
+
+  /// Title for the channel details overflow menu on guild channels.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel Settings'**
+  String get channelDetailsChannelSettingsTitle;
+
+  /// Title for the channel details overflow menu on group DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'Group Settings'**
+  String get channelDetailsGroupSettingsTitle;
+
+  /// Title for the channel details overflow menu on 1:1 DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'DM Settings'**
+  String get channelDetailsDmSettingsTitle;
+
+  /// Channel details menu action to invite people.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite People'**
+  String get channelDetailsInvitePeople;
+
+  /// Channel details menu action to copy a channel link.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Link'**
+  String get channelDetailsCopyLink;
+
+  /// Group DM menu action to add friends to the group.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Friends to Group'**
+  String get channelDetailsAddFriendsToGroup;
+
+  /// Group DM menu action to view group invites.
+  ///
+  /// In en, this message translates to:
+  /// **'Group Invites'**
+  String get channelDetailsGroupInvites;
+
+  /// Channel details menu action to edit a guild channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Channel'**
+  String get channelDetailsEditChannel;
+
+  /// Channel details menu action to delete a guild channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Channel'**
+  String get channelDetailsDeleteChannel;
+
+  /// Subtitle in channel details for a system DM recipient.
+  ///
+  /// In en, this message translates to:
+  /// **'System message'**
+  String get channelDetailsSystemMessage;
+
+  /// Channel type subtitle for text channels.
+  ///
+  /// In en, this message translates to:
+  /// **'Text channel'**
+  String get channelDetailsTextChannel;
+
+  /// Channel type subtitle for voice channels.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice channel'**
+  String get channelDetailsVoiceChannel;
+
+  /// Channel type subtitle for categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get channelDetailsCategory;
+
+  /// Channel type subtitle for link channels.
+  ///
+  /// In en, this message translates to:
+  /// **'Link channel'**
+  String get channelDetailsLinkChannel;
+
+  /// Generic channel type subtitle fallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel'**
+  String get channelDetailsGenericChannel;
+
+  /// Toast after muting a DM conversation from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted conversation'**
+  String get channelDetailsMutedConversation;
+
+  /// Toast after unmuting a DM conversation from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmuted conversation'**
+  String get channelDetailsUnmutedConversation;
+
+  /// Toast after muting a guild channel from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Muted channel'**
+  String get channelDetailsMutedChannel;
+
+  /// Toast after unmuting a guild channel from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmuted channel'**
+  String get channelDetailsUnmutedChannel;
+
+  /// Toast after updating notification settings from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings updated'**
+  String get channelDetailsNotificationSettingsUpdated;
+
+  /// Members tab label in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get channelDetailsTabMembers;
+
+  /// Pins tab label in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Pins'**
+  String get channelDetailsTabPins;
+
+  /// Mute action button label in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get channelDetailsActionMute;
+
+  /// Unmute action button label in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute'**
+  String get channelDetailsActionUnmute;
+
+  /// Search action button label in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get channelDetailsActionSearch;
+
+  /// More action button label in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get channelDetailsActionMore;
+
+  /// Empty state title when channel details has no members loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'No members to show'**
+  String get channelDetailsMembersEmptyTitle;
+
+  /// Empty state body when channel details has no members loaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Members will appear here once the community data is loaded.'**
+  String get channelDetailsMembersEmptyBody;
+
+  /// Error title when pinned messages fail to load in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Pins could not be loaded'**
+  String get channelDetailsPinsLoadFailedTitle;
+
+  /// Footer hint at the end of the pins list in guild channels.
+  ///
+  /// In en, this message translates to:
+  /// **'Members with the \"Pin Messages\" permission can pin messages for everyone to see.'**
+  String get channelDetailsPinsGuildEndHint;
+
+  /// Footer hint at the end of the pins list in DM channels.
+  ///
+  /// In en, this message translates to:
+  /// **'You can pin messages in this conversation for everyone to see.'**
+  String get channelDetailsPinsDmEndHint;
+
+  /// Footer label when the user has scrolled through all pinned messages.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached the end'**
+  String get channelDetailsPinsEndReached;
+
+  /// Title for the channel search bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get channelDetailsSearchTitle;
+
+  /// Search field hint in channel details message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Messages'**
+  String get channelDetailsSearchHint;
+
+  /// Author filter chip label in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get channelDetailsSearchFilterFrom;
+
+  /// Content filter chip label in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Has'**
+  String get channelDetailsSearchFilterHas;
+
+  /// Sort filter chip label in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get channelDetailsSearchFilterSort;
+
+  /// Result count label in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 Result} other{{count} Results}}'**
+  String channelDetailsSearchResultCount(int count);
+
+  /// Title for the author filter sheet in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by user'**
+  String get channelDetailsSearchFilterByUser;
+
+  /// Title for the content filter sheet in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by content'**
+  String get channelDetailsSearchFilterByContent;
+
+  /// Title for the sort filter sheet in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort results by'**
+  String get channelDetailsSearchSortBy;
+
+  /// Title for the search scope filter sheet in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search In'**
+  String get channelDetailsSearchIn;
+
+  /// Empty state title before the user runs a channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search this conversation'**
+  String get channelDetailsSearchEmptyTitle;
+
+  /// Empty state body before the user runs a channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter text, an author, or a content filter to find messages.'**
+  String get channelDetailsSearchEmptyBody;
+
+  /// Title when channel message search is still indexing.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages are indexing'**
+  String get channelDetailsSearchIndexingTitle;
+
+  /// Body when channel message search is still indexing.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again shortly once search finishes indexing this scope.'**
+  String get channelDetailsSearchIndexingBody;
+
+  /// Title when a channel message search returns no results.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get channelDetailsSearchNoResultsTitle;
+
+  /// Body when a channel message search returns no results.
+  ///
+  /// In en, this message translates to:
+  /// **'Try different search terms or filters.'**
+  String get channelDetailsSearchNoResultsBody;
+
+  /// Online members section header in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get channelDetailsMembersOnline;
+
+  /// Offline members section header in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get channelDetailsMembersOffline;
+
+  /// Label for the current user in the channel details member list.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get channelDetailsMemberYou;
+
+  /// Search field hint in channel details user picker sheets.
+  ///
+  /// In en, this message translates to:
+  /// **'Search users'**
+  String get channelDetailsSearchUsersHint;
+
+  /// Prompt shown before the user types in the member search picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Type to search members'**
+  String get channelDetailsSearchUsersTypeToSearch;
+
+  /// Empty state when member search returns no results.
+  ///
+  /// In en, this message translates to:
+  /// **'No users found'**
+  String get channelDetailsSearchUsersEmpty;
+
+  /// Empty state when no users are available in the member picker.
+  ///
+  /// In en, this message translates to:
+  /// **'No users available'**
+  String get channelDetailsSearchUsersNoAvailable;
+
+  /// Done button label in channel details picker sheets.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get channelDetailsDone;
+
+  /// Prompt above content filter options in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'Show messages that contain:'**
+  String get channelDetailsHasFilterPrompt;
+
+  /// Retry button label in channel details error states.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get channelDetailsRetry;
+
+  /// Title for the pinned message action sheet in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned Message'**
+  String get channelDetailsPinnedMessageTitle;
+
+  /// Title for the search result action sheet in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Result'**
+  String get channelDetailsSearchResultTitle;
+
+  /// Action to jump to a message from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to Message'**
+  String get channelDetailsJumpToMessage;
+
+  /// Action to unpin a message from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpin Message'**
+  String get channelDetailsUnpinMessage;
+
+  /// Action to copy a message link from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Message Link'**
+  String get channelDetailsCopyMessageLink;
+
+  /// Action to copy a message ID from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Message ID'**
+  String get channelDetailsCopyMessageId;
+
+  /// Toast after unpinning a message from channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Message unpinned'**
+  String get channelDetailsMessageUnpinned;
+
+  /// Search scope label for the current community.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Community'**
+  String get channelDetailsSearchScopeCurrentCommunity;
+
+  /// Search scope label for the current DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Current DM'**
+  String get channelDetailsSearchScopeCurrentDm;
+
+  /// Search scope label for all communities.
+  ///
+  /// In en, this message translates to:
+  /// **'All Communities'**
+  String get channelDetailsSearchScopeAllCommunities;
+
+  /// Search scope label for all DMs when searching from a guild channel.
+  ///
+  /// In en, this message translates to:
+  /// **'All DMs Only'**
+  String get channelDetailsSearchScopeAllDmsOnlyGuild;
+
+  /// Search scope label for all DMs when searching from a DM.
+  ///
+  /// In en, this message translates to:
+  /// **'All DMs'**
+  String get channelDetailsSearchScopeAllDms;
+
+  /// Search scope label for open DMs when searching from a guild channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open DMs Only'**
+  String get channelDetailsSearchScopeOpenDmsOnlyGuild;
+
+  /// Search scope label for open DMs when searching from a DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Open DMs'**
+  String get channelDetailsSearchScopeOpenDms;
+
+  /// Search scope label for all DMs and communities.
+  ///
+  /// In en, this message translates to:
+  /// **'All DMs + Communities'**
+  String get channelDetailsSearchScopeAllDmsAndCommunities;
+
+  /// Search scope label for open DMs and communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Open DMs + Communities'**
+  String get channelDetailsSearchScopeOpenDmsAndCommunities;
+
+  /// Description for the current community search scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Search only in the current Community'**
+  String get channelDetailsSearchScopeCurrentCommunityDescription;
+
+  /// Description for the current DM search scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Search only in the current DM'**
+  String get channelDetailsSearchScopeCurrentDmDescription;
+
+  /// Description for the all communities search scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Across all Communities you\'re currently in'**
+  String get channelDetailsSearchScopeAllCommunitiesDescription;
+
+  /// Description for all DMs scope when searching from a guild channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Across all DMs you\'ve ever been in only'**
+  String get channelDetailsSearchScopeAllDmsOnlyGuildDescription;
+
+  /// Description for all DMs scope when searching from a DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Across all DMs you\'ve ever been in'**
+  String get channelDetailsSearchScopeAllDmsDescription;
+
+  /// Description for open DMs scope when searching from a guild channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Across all DMs you currently have open only'**
+  String get channelDetailsSearchScopeOpenDmsOnlyGuildDescription;
+
+  /// Description for open DMs scope when searching from a DM.
+  ///
+  /// In en, this message translates to:
+  /// **'Across all DMs you currently have open'**
+  String get channelDetailsSearchScopeOpenDmsDescription;
+
+  /// Description for the all DMs and communities search scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Across all DMs you\'ve ever been in + all Communities you\'re currently in'**
+  String get channelDetailsSearchScopeAllDmsAndCommunitiesDescription;
+
+  /// Description for the open DMs and communities search scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Across all DMs you currently have open + all Communities you\'re currently in'**
+  String get channelDetailsSearchScopeOpenDmsAndCommunitiesDescription;
+
+  /// Sort option label for newest messages first.
+  ///
+  /// In en, this message translates to:
+  /// **'Newest First'**
+  String get channelDetailsSearchSortNewest;
+
+  /// Sort option label for oldest messages first.
+  ///
+  /// In en, this message translates to:
+  /// **'Oldest First'**
+  String get channelDetailsSearchSortOldest;
+
+  /// Sort option label for most relevant messages first.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Relevant'**
+  String get channelDetailsSearchSortRelevance;
+
+  /// Description for the newest-first sort option.
+  ///
+  /// In en, this message translates to:
+  /// **'Show most recent messages first'**
+  String get channelDetailsSearchSortNewestDescription;
+
+  /// Description for the oldest-first sort option.
+  ///
+  /// In en, this message translates to:
+  /// **'Show oldest messages first'**
+  String get channelDetailsSearchSortOldestDescription;
+
+  /// Description for the relevance sort option.
+  ///
+  /// In en, this message translates to:
+  /// **'Show most relevant messages first'**
+  String get channelDetailsSearchSortRelevanceDescription;
+
+  /// Content filter label for uploaded images.
+  ///
+  /// In en, this message translates to:
+  /// **'Image Upload'**
+  String get channelDetailsSearchContentImage;
+
+  /// Content filter label for uploaded videos.
+  ///
+  /// In en, this message translates to:
+  /// **'Video Upload'**
+  String get channelDetailsSearchContentVideo;
+
+  /// Content filter label for uploaded audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio Upload'**
+  String get channelDetailsSearchContentAudio;
+
+  /// Content filter label for uploaded files.
+  ///
+  /// In en, this message translates to:
+  /// **'File Upload'**
+  String get channelDetailsSearchContentFile;
+
+  /// Content filter label for typed links.
+  ///
+  /// In en, this message translates to:
+  /// **'Link'**
+  String get channelDetailsSearchContentLink;
+
+  /// Content filter label for link previews and embeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Link Preview or Embed'**
+  String get channelDetailsSearchContentEmbed;
+
+  /// Content filter label for stickers.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker'**
+  String get channelDetailsSearchContentSticker;
+
+  /// Description for the image content filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded image files only'**
+  String get channelDetailsSearchContentImageDescription;
+
+  /// Description for the video content filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded video files only'**
+  String get channelDetailsSearchContentVideoDescription;
+
+  /// Description for the audio content filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded audio files only'**
+  String get channelDetailsSearchContentAudioDescription;
+
+  /// Description for the file content filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Any uploaded attachment'**
+  String get channelDetailsSearchContentFileDescription;
+
+  /// Description for the link content filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Typed URL in the message text'**
+  String get channelDetailsSearchContentLinkDescription;
+
+  /// Description for the embed content filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved previews and rich embeds, not uploads'**
+  String get channelDetailsSearchContentEmbedDescription;
+
+  /// Description for the sticker content filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker attached to the message'**
+  String get channelDetailsSearchContentStickerDescription;
+
+  /// Chip label when multiple content filters are selected in channel message search.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} types'**
+  String channelDetailsSearchContentTypesCount(int count);
+
   /// Title for the self-DM personal notes channel in the sidebar and chat header.
   ///
   /// In en, this message translates to:
@@ -8708,6 +9614,24 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Your private space for thoughts and reminders'**
   String get personalNotesSubtitle;
+
+  /// Welcome copy on the group DM hero at the start of chat history. {displayName} is rendered bold in the UI.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to {displayName}. Add friends to get the group going.'**
+  String groupDmWelcome(String displayName);
+
+  /// Secondary action on the group DM welcome hero.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit group'**
+  String get groupDmWelcomeEditGroup;
+
+  /// Primary action on the group DM welcome hero.
+  ///
+  /// In en, this message translates to:
+  /// **'Add friends to group'**
+  String get groupDmWelcomeAddFriends;
 
   /// Heading on the start-of-channel welcome shown at the top of a guild channel's loaded message history and as its empty state. {channelName} already includes the leading # (e.g. #general).
   ///
@@ -8877,6 +9801,300 @@ abstract class FluxerLocalizations {
   /// **'Audio & Video'**
   String get userSettingsNavAudioAndVideo;
 
+  /// Settings section title for audio settings in the voice and video tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get audioAndVideoAudioSectionTitle;
+
+  /// Settings section description for audio settings in the voice and video tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure your microphone, speakers, and voice processing.'**
+  String get audioAndVideoAudioSectionDescription;
+
+  /// Settings section title for video settings in the voice and video tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get audioAndVideoVideoSectionTitle;
+
+  /// Settings section description for video settings in the voice and video tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure your camera and screen sharing quality.'**
+  String get audioAndVideoVideoSectionDescription;
+
+  /// Settings section title for in-call behavior prompts.
+  ///
+  /// In en, this message translates to:
+  /// **'In-call behavior'**
+  String get audioAndVideoInCallBehaviorSectionTitle;
+
+  /// Settings section description for in-call behavior prompts.
+  ///
+  /// In en, this message translates to:
+  /// **'Control confirmation prompts during voice and video calls.'**
+  String get audioAndVideoInCallBehaviorSectionDescription;
+
+  /// Label for microphone input device selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Input device'**
+  String get audioAndVideoInputDeviceLabel;
+
+  /// Label for speaker output device selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Output device'**
+  String get audioAndVideoOutputDeviceLabel;
+
+  /// Label for the system default audio or video device.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get audioAndVideoDefaultDeviceLabel;
+
+  /// Switch label to route voice call audio through the device speaker.
+  ///
+  /// In en, this message translates to:
+  /// **'Use speaker'**
+  String get audioAndVideoUseSpeakerLabel;
+
+  /// Description for the speaker output toggle on mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'When off, audio plays through the earpiece or connected headphones.'**
+  String get audioAndVideoUseSpeakerDescription;
+
+  /// Label for microphone input volume slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Input volume'**
+  String get audioAndVideoInputVolumeLabel;
+
+  /// Label for speaker output volume slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Output volume'**
+  String get audioAndVideoOutputVolumeLabel;
+
+  /// Subsection title for voice processing profile selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice processing'**
+  String get audioAndVideoVoiceProcessingSectionTitle;
+
+  /// Voice processing profile optimized for speech.
+  ///
+  /// In en, this message translates to:
+  /// **'Focused voice'**
+  String get audioAndVideoFocusedVoiceLabel;
+
+  /// Description for the focused voice processing profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended. Cleans up your mic for clear speech.'**
+  String get audioAndVideoFocusedVoiceDescription;
+
+  /// Voice processing profile that sends unprocessed audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct input'**
+  String get audioAndVideoDirectInputLabel;
+
+  /// Description for the direct input voice processing profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Sends your audio untouched. Best if you\'re using external audio software.'**
+  String get audioAndVideoDirectInputDescription;
+
+  /// Voice processing profile with manual controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get audioAndVideoCustomProfileLabel;
+
+  /// Description for the custom voice processing profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust each setting yourself: noise suppression, echo cancellation, and gain.'**
+  String get audioAndVideoCustomProfileDescription;
+
+  /// Subsection title for noise suppression tier selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Noise suppression'**
+  String get audioAndVideoNoiseSuppressionSectionTitle;
+
+  /// Enhanced noise suppression option using AI filtering.
+  ///
+  /// In en, this message translates to:
+  /// **'Enhanced'**
+  String get audioAndVideoNoiseSuppressionEnhancedLabel;
+
+  /// Standard browser or platform noise suppression option.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get audioAndVideoNoiseSuppressionStandardLabel;
+
+  /// No noise suppression option.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get audioAndVideoNoiseSuppressionNoneLabel;
+
+  /// Toggle label for echo cancellation.
+  ///
+  /// In en, this message translates to:
+  /// **'Echo cancellation'**
+  String get audioAndVideoEchoCancellationLabel;
+
+  /// Toggle label for automatic gain control.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic gain control'**
+  String get audioAndVideoAutomaticGainControlLabel;
+
+  /// Description for automatic gain control toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Evens out your mic volume. Off when enhanced suppression is on.'**
+  String get audioAndVideoAutomaticGainControlDescription;
+
+  /// Subsection title for microphone test controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Mic test'**
+  String get audioAndVideoMicTestSectionTitle;
+
+  /// Subsection description for microphone test controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to how you sound with your current settings.'**
+  String get audioAndVideoMicTestSectionDescription;
+
+  /// Button label to start the microphone test.
+  ///
+  /// In en, this message translates to:
+  /// **'Start mic test'**
+  String get audioAndVideoMicTestStartLabel;
+
+  /// Button label to stop the microphone test.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop mic test'**
+  String get audioAndVideoMicTestStopLabel;
+
+  /// Shown when microphone permission is required for the mic test.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs microphone access to test your input.'**
+  String audioAndVideoMicTestPermissionRequired(String productName);
+
+  /// Label for camera device selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get audioAndVideoCameraLabel;
+
+  /// Switch label for flipping the local camera preview horizontally.
+  ///
+  /// In en, this message translates to:
+  /// **'Mirror camera'**
+  String get audioAndVideoMirrorCameraLabel;
+
+  /// Subsection title for camera resolution selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera quality'**
+  String get audioAndVideoCameraQualitySectionTitle;
+
+  /// Camera quality option for 480p resolution.
+  ///
+  /// In en, this message translates to:
+  /// **'480p'**
+  String get audioAndVideoCameraQuality480pLabel;
+
+  /// Camera quality option for 720p resolution.
+  ///
+  /// In en, this message translates to:
+  /// **'720p'**
+  String get audioAndVideoCameraQuality720pLabel;
+
+  /// Camera quality option for 1080p resolution.
+  ///
+  /// In en, this message translates to:
+  /// **'1080p'**
+  String get audioAndVideoCameraQuality1080pLabel;
+
+  /// Subsection title for screen share resolution selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share quality'**
+  String get audioAndVideoScreenShareQualitySectionTitle;
+
+  /// Subsection title for screen share frame rate selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Frame rate'**
+  String get audioAndVideoFrameRateSectionTitle;
+
+  /// Screen share frame rate option for 15 FPS.
+  ///
+  /// In en, this message translates to:
+  /// **'15 FPS'**
+  String get audioAndVideoFrameRate15Label;
+
+  /// Screen share frame rate option for 30 FPS.
+  ///
+  /// In en, this message translates to:
+  /// **'30 FPS'**
+  String get audioAndVideoFrameRate30Label;
+
+  /// Screen share frame rate option for 60 FPS.
+  ///
+  /// In en, this message translates to:
+  /// **'60 FPS'**
+  String get audioAndVideoFrameRate60Label;
+
+  /// Note shown when higher video quality options require premium.
+  ///
+  /// In en, this message translates to:
+  /// **'1080p and 60 FPS require {premiumProductName}.'**
+  String audioAndVideoHigherQualityRequiresPremium(String premiumProductName);
+
+  /// Note shown when instance limits block higher screen share quality.
+  ///
+  /// In en, this message translates to:
+  /// **'This instance currently allows screen share up to 720p at 30 FPS.'**
+  String get audioAndVideoInstanceVideoQualityLimit;
+
+  /// Shown when microphone permission is required to enumerate audio input devices.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs microphone access to list your devices.'**
+  String audioAndVideoMicrophonePermissionRequired(String productName);
+
+  /// Shown when camera permission is required to enumerate video devices.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} needs camera access to list your devices.'**
+  String audioAndVideoCameraPermissionRequired(String productName);
+
+  /// Toggle to skip confirmation when hiding own camera during a call.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t ask when hiding my camera'**
+  String get audioAndVideoSkipHideOwnCameraConfirmLabel;
+
+  /// Toggle to skip confirmation when hiding own screen share during a call.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t ask when hiding my screen share'**
+  String get audioAndVideoSkipHideOwnScreenshareConfirmLabel;
+
   /// User settings navigation item for sounds and alert settings.
   ///
   /// In en, this message translates to:
@@ -8889,11 +10107,35 @@ abstract class FluxerLocalizations {
   /// **'Language & Time'**
   String get userSettingsNavLanguageAndTime;
 
+  /// Settings section title for interface language preference.
+  ///
+  /// In en, this message translates to:
+  /// **'Interface language'**
+  String get languageAndTimeLanguageSectionTitle;
+
+  /// Settings section description for interface language preference.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the language used throughout the app'**
+  String get languageAndTimeLanguageSectionDescription;
+
+  /// Button that opens the system per-app language settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open language settings'**
+  String get languageAndTimeOpenLanguageSettings;
+
   /// Settings section title for time format preference.
   ///
   /// In en, this message translates to:
   /// **'Time format'**
   String get languageAndTimeTimeFormatSectionTitle;
+
+  /// Settings section description for time format preference.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how times are displayed throughout the app'**
+  String get languageAndTimeTimeFormatSectionDescription;
 
   /// Accessibility label for the time format radio group.
   ///
@@ -12143,6 +13385,186 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Filter by action'**
   String get guildSettingsAuditLogFilterAction;
+
+  /// Button to create a direct message with selected friends.
+  ///
+  /// In en, this message translates to:
+  /// **'Create DM'**
+  String get createDm;
+
+  /// Button to create a group direct message.
+  ///
+  /// In en, this message translates to:
+  /// **'Create group DM'**
+  String get createGroupDm;
+
+  /// Accessibility label for the mobile compose FAB in the DM list.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get createDmNewMessage;
+
+  /// Title for the create DM modal or bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Select friends'**
+  String get createDmSelectFriends;
+
+  /// Subtitle in the create DM flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose friends to message.'**
+  String get createDmChooseFriendsSubtitle;
+
+  /// Search input placeholder in the friend selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Search friends'**
+  String get createDmSearchFriends;
+
+  /// Empty state when friend search has no matches.
+  ///
+  /// In en, this message translates to:
+  /// **'No friends found'**
+  String get createDmNoFriendsFound;
+
+  /// Empty state when the user has no friends.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no friends yet'**
+  String get createDmNoFriendsYet;
+
+  /// Blocked state when an unclaimed account cannot start DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim your account to start DMs.'**
+  String get createDmClaimToStartDms;
+
+  /// Blocked state when an unverified account cannot start DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email to start DMs.'**
+  String get createDmVerifyToStartDms;
+
+  /// Title when email verification is required to start DMs.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get createDmVerifyYourEmail;
+
+  /// Row title to create a group from an existing 1:1 DM.
+  ///
+  /// In en, this message translates to:
+  /// **'New group'**
+  String get createDmNewGroup;
+
+  /// Subtitle for the new group row in channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new group with {userName}'**
+  String createDmCreateGroupWithRecipient(String userName);
+
+  /// Title for duplicate group confirmation modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new group'**
+  String get createDmConfirmNewGroup;
+
+  /// Confirm button to create a new group despite duplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'Create new group'**
+  String get createDmCreateNewGroup;
+
+  /// Accessibility label for removing a selected friend pill.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {displayName}'**
+  String createDmRemoveFriend(String displayName);
+
+  /// Body text in the duplicate group confirmation modal.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have a group with these users. Do you really want to create a new one? That\'s fine too!'**
+  String get createDmDuplicateGroupDescription;
+
+  /// Fallback label for duplicate group list items with no recent activity.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity yet'**
+  String get createDmNoActivityYet;
+
+  /// Title for unaddable recipients confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Some users can\'t be added'**
+  String get createDmSomeUsersCantBeAdded;
+
+  /// Confirm button to create group DM excluding unaddable users.
+  ///
+  /// In en, this message translates to:
+  /// **'Create without them'**
+  String get createDmCreateWithoutThem;
+
+  /// Intro text listing users who cannot be added to a group DM.
+  ///
+  /// In en, this message translates to:
+  /// **'The following people can\'t be added to this group DM:'**
+  String get createDmUnaddableIntro;
+
+  /// Prompt to proceed with addable recipients only.
+  ///
+  /// In en, this message translates to:
+  /// **'Create the group DM with the remaining {count} recipient(s) and skip the others?'**
+  String createDmUnaddableProceed(int count);
+
+  /// Shown when every selected recipient is unaddable.
+  ///
+  /// In en, this message translates to:
+  /// **'No remaining recipients to create a group DM with.'**
+  String get createDmUnaddableNoneRemaining;
+
+  /// Reason when an unaddable recipient is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found'**
+  String get createDmUnaddableUserNotFound;
+
+  /// Reason when an unaddable recipient is blocked or DMs are disallowed.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t message this user'**
+  String get createDmUnaddableBlocked;
+
+  /// Reason when a recipient is not a friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on your friends list'**
+  String get createDmUnaddableNotFriends;
+
+  /// Reason when a user disabled group DM additions.
+  ///
+  /// In en, this message translates to:
+  /// **'Doesn\'t allow being added to group DMs'**
+  String get createDmUnaddableGroupDisabled;
+
+  /// Generic error when DM or group DM creation fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t create the conversation. Try again.'**
+  String get createDmFailed;
+
+  /// Mobile header title for the DM list.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get dmListMessagesTitle;
+
+  /// Desktop section header for the DM conversation list.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Messages'**
+  String get dmListDirectMessagesTitle;
 }
 
 class _FluxerLocalizationsDelegate

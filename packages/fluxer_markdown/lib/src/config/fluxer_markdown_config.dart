@@ -1,5 +1,17 @@
 import 'package:flutter/widgets.dart';
 
+enum FluxerGuildNavigationType { customize, browse, guide, linkedRoles }
+
+FluxerGuildNavigationType? parseFluxerGuildNavigationType(String raw) {
+  return switch (raw) {
+    'customize' => FluxerGuildNavigationType.customize,
+    'browse' => FluxerGuildNavigationType.browse,
+    'guide' => FluxerGuildNavigationType.guide,
+    'linked-roles' => FluxerGuildNavigationType.linkedRoles,
+    _ => null,
+  };
+}
+
 enum FluxerAlertType { note, tip, important, warning, caution }
 
 FluxerAlertType? tryParseFluxerAlertType(String raw) {
@@ -25,6 +37,20 @@ typedef FluxerMentionBuilder =
     Widget Function(BuildContext context, String id, TextStyle style);
 typedef FluxerEveryoneMentionBuilder =
     Widget Function(BuildContext context, String label, TextStyle style);
+typedef FluxerCommandMentionBuilder =
+    Widget Function(
+      BuildContext context,
+      String command,
+      String applicationId,
+      TextStyle style,
+    );
+typedef FluxerGuildNavigationMentionBuilder =
+    Widget Function(
+      BuildContext context,
+      FluxerGuildNavigationType type,
+      String? navigationId,
+      TextStyle style,
+    );
 typedef FluxerLinkWidgetBuilder =
     Widget? Function(BuildContext context, String href, TextStyle style);
 typedef FluxerLinkTapHandler =
@@ -83,6 +109,8 @@ class FluxerMarkdownConfig {
     this.channelMentionBuilder,
     this.roleMentionBuilder,
     this.everyoneMentionBuilder,
+    this.commandMentionBuilder,
+    this.guildNavigationMentionBuilder,
     this.linkWidgetBuilder,
     this.onTapLink,
     this.alertBuilder,
@@ -107,6 +135,8 @@ class FluxerMarkdownConfig {
   final FluxerMentionBuilder? channelMentionBuilder;
   final FluxerMentionBuilder? roleMentionBuilder;
   final FluxerEveryoneMentionBuilder? everyoneMentionBuilder;
+  final FluxerCommandMentionBuilder? commandMentionBuilder;
+  final FluxerGuildNavigationMentionBuilder? guildNavigationMentionBuilder;
   final FluxerLinkWidgetBuilder? linkWidgetBuilder;
   final FluxerLinkTapHandler? onTapLink;
   final FluxerAlertBuilder? alertBuilder;

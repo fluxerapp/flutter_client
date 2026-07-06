@@ -32,7 +32,7 @@ enum FluxerButtonVariant {
   };
 
   Color textColor(FluxerColorTheme colors) => switch (this) {
-    primary => colors.textOnBrandPrimary,
+    primary => colors.brandPrimaryFill,
     secondary => colors.buttonSecondaryText,
     dangerPrimary => colors.buttonDangerText,
     dangerSecondary => colors.buttonDangerOutlineText,

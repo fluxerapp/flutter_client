@@ -6,6 +6,7 @@ import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
 import 'package:fluxer_markdown/src/parsing/message_line_parser.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
+import 'package:fluxer_markdown/src/syntaxes/fluxer_fenced_code_block_syntax.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:markdown/markdown.dart' as md;
@@ -102,6 +103,17 @@ class FluxerMarkdown extends StatelessWidget {
             ),
             style,
           ),
+        FluxerBlockSpoilerSegment(:final text) => buildFluxerBlockSpoiler(
+          context: context,
+          text: text,
+          baseStyle: style,
+          config: config,
+          features: features,
+          inlineDocument: _createInlineDocument(features),
+          selectable: selectable,
+          isDark: isDark,
+          parseCacheKey: parseCacheKey,
+        ),
       });
     }
 
@@ -214,6 +226,17 @@ class FluxerMarkdown extends StatelessWidget {
           isDark: isDark,
           features: features,
         ),
+        MessageBlockSpoilerSegment(:final text) => buildFluxerBlockSpoiler(
+          context: context,
+          text: text,
+          baseStyle: style,
+          config: config,
+          features: features,
+          inlineDocument: _createInlineDocument(features),
+          selectable: selectable,
+          isDark: isDark,
+          parseCacheKey: parseCacheKey,
+        ),
       });
     }
     final Widget body = children.length == 1
@@ -270,7 +293,7 @@ class FluxerMarkdown extends StatelessWidget {
     return md.Document(
       encodeHtml: false,
       blockSyntaxes: [
-        if (features.allowCodeBlocks) const md.FencedCodeBlockSyntax(),
+        if (features.allowCodeBlocks) const FluxerFencedCodeBlockSyntax(),
         if (features.allowTables) const md.TableSyntax(),
       ],
       inlineSyntaxes: _inlineSyntaxes(features),
@@ -284,14 +307,18 @@ class FluxerMarkdown extends StatelessWidget {
         FluxerJumpLinkSyntax(config.internalLinkPattern!),
         FluxerBracketedJumpLinkSyntax(config.internalLinkPattern!),
       ],
+      FluxerAppLinkSyntax(),
+      FluxerBracketedAppLinkSyntax(),
       FluxerUnderlineSyntax(),
       md.StrikethroughSyntax(),
       if (features.allowUserMentions) FluxerUserMentionSyntax(),
       if (features.allowChannelMentions) FluxerChannelMentionSyntax(),
       if (features.allowRoleMentions) FluxerRoleMentionSyntax(),
       if (features.allowEveryoneMentions) FluxerEveryoneMentionSyntax(),
+      if (features.allowCommandMentions) FluxerCommandMentionSyntax(),
+      if (features.allowGuildNavigations) FluxerGuildNavigationSyntax(),
       FluxerTimestampSyntax(),
-      FluxerSpoilerSyntax(),
+      if (features.allowSpoilers) FluxerSpoilerSyntax(),
       FluxerUnicodeEmojiToneSyntax(config.resolveEmojiShortcode),
       FluxerUnicodeEmojiSyntax(config.resolveEmojiShortcode),
       FluxerCustomEmojiSyntax(),

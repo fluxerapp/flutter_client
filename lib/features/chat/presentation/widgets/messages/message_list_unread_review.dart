@@ -3,6 +3,8 @@ library;
 
 const double kMessageListReadBottomThreshold = 48;
 
+const double kJumpToBottomViewportFraction = 0.5;
+
 bool isNearScrollExtentEnd({
   required double pixels,
   required double minScrollExtent,
@@ -23,6 +25,13 @@ bool isLiveNearBottom({
   );
 }
 
+bool isNearTrailingEdge({
+  required double distanceFromTrailingEdge,
+  double threshold = kMessageListReadBottomThreshold,
+}) {
+  return distanceFromTrailingEdge <= threshold;
+}
+
 double distanceFromScrollExtentEnd({
   required double pixels,
   required double minScrollExtent,
@@ -30,11 +39,12 @@ double distanceFromScrollExtentEnd({
   return (pixels - minScrollExtent).clamp(0, double.infinity);
 }
 
-bool isAtLeastOneViewportFromBottom({
+bool isBeyondJumpToBottomThreshold({
   required double distanceFromBottom,
   required double viewportHeight,
 }) {
-  return viewportHeight > 0 && distanceFromBottom >= viewportHeight;
+  return viewportHeight > 0 &&
+      distanceFromBottom >= viewportHeight * kJumpToBottomViewportFraction;
 }
 
 /// Visibility of the top "new messages" bar: driven by the unread count and
@@ -74,7 +84,7 @@ bool shouldShowJumpToBottomButton({
   if (hasMoreNewerMessages) {
     return true;
   }
-  return isAtLeastOneViewportFromBottom(
+  return isBeyondJumpToBottomThreshold(
     distanceFromBottom: distanceFromBottom,
     viewportHeight: viewportHeight,
   );

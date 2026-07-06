@@ -1,16 +1,11 @@
-import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 
-FluxerDatabase _openTestDatabase() {
-  return FluxerDatabase.forTesting(NativeDatabase.memory());
-}
-
 void main() {
   test('PresenceUpdateBatcher applies current user immediately', () async {
-    final FluxerDatabase database = _openTestDatabase();
-    addTearDown(database.close);
+    final FluxerDatabase database = openTestDatabase();
     final PresenceUpdateBatcher batcher = PresenceUpdateBatcher(
       database: database,
       currentUserId: 'self',
@@ -27,8 +22,7 @@ void main() {
   });
 
   test('PresenceUpdateBatcher coalesces other users into one batch', () async {
-    final FluxerDatabase database = _openTestDatabase();
-    addTearDown(database.close);
+    final FluxerDatabase database = openTestDatabase();
     final PresenceUpdateBatcher batcher = PresenceUpdateBatcher(
       database: database,
       currentUserId: 'self',

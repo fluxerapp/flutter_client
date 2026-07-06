@@ -19,7 +19,7 @@ void main() {
 
   group('formatProfileLocalTime', () {
     test('formats wall clock from UTC offset', () {
-      final DateTime now = DateTime.utc(2024, 6, 15, 18, 0);
+      final DateTime now = DateTime.utc(2024, 6, 15, 18);
       final String formatted = formatProfileLocalTime(
         now: now,
         offsetMinutes: -300,

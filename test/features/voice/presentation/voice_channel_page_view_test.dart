@@ -1,7 +1,7 @@
-import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -139,11 +139,7 @@ void main() {
         final _MutableVoiceSession session = _MutableVoiceSession();
         await _pumpPage(tester, voiceSession: session);
         session.setSession(
-          const VoiceSessionState(
-            isConnecting: true,
-            guildId: null,
-            channelId: _channelId,
-          ),
+          const VoiceSessionState(isConnecting: true, channelId: _channelId),
         );
         await tester.pump();
 
@@ -180,8 +176,7 @@ Future<void> _pumpPage(
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
 
-  final FluxerDatabase db = FluxerDatabase.forTesting(NativeDatabase.memory());
-  addTearDown(db.close);
+  final FluxerDatabase db = openTestDatabase();
   final _MutableVoiceSession session = voiceSession ?? _MutableVoiceSession();
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
   await tester.pumpWidget(

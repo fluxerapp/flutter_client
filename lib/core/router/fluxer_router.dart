@@ -10,42 +10,42 @@ import 'package:fluxer_app/core/router/pre_reconnecting_location_provider.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 import 'package:fluxer_app/core/router/shell_popup_route_observer.dart';
+import 'package:fluxer_app/core/router/shell_transition_page.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/login_screen.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/channel_layout.dart';
-import 'package:fluxer_app/features/discovery/presentation/discovery_desktop_shell.dart';
-import 'package:fluxer_app/features/discovery/presentation/discovery_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
+import 'package:fluxer_app/features/discovery/presentation/discovery_desktop_shell.dart';
+import 'package:fluxer_app/features/discovery/presentation/discovery_layout.dart';
 import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
 import 'package:fluxer_app/features/favorites/presentation/favorites_layout.dart';
 import 'package:fluxer_app/features/guilds/presentation/pages/invite_accept_page.dart';
 import 'package:fluxer_app/features/notifications/presentation/notifications_page.dart';
 import 'package:fluxer_app/features/profile/presentation/profile_page.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
+import 'package:fluxer_app/features/settings/presentation/guild_settings_modal.dart'
+    deferred as guild_settings;
 import 'package:fluxer_app/features/settings/presentation/pages/guild/guild_settings_nav_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_audit_log_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_bans_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_moderation_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_overview_page.dart';
 import 'package:fluxer_app/features/shell/presentation/app_layout.dart';
-import 'package:fluxer_app/core/router/shell_transition_page.dart';
+import 'package:fluxer_app/features/shell/presentation/invalid_deep_link_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/navigation/shell_transition_policy.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/stub_screen.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
+    deferred as dm_voice_call;
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
-    deferred as dm_voice_call;
-import 'package:fluxer_app/features/settings/presentation/guild_settings_modal.dart'
-    deferred as guild_settings;
 
 export 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 
@@ -159,6 +159,9 @@ GoRouter fluxerRouter(Ref ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: '/login',
+    errorBuilder: (BuildContext context, GoRouterState state) {
+      return InvalidDeepLinkScreen(uri: state.uri);
+    },
     refreshListenable: refreshNotifier,
     observers: [
       ChannelPersistenceObserver(db),
@@ -393,7 +396,6 @@ GoRouter fluxerRouter(Ref ref) {
             shellFadeTransitionPage(
               key: state.pageKey,
               child: AppLayout(navigationShell: navigationShell),
-              duration: ShellTransitionPolicy.shellEntryDuration,
             ),
         branches: [
           // Branch 0: Home

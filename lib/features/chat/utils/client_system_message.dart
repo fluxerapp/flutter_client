@@ -18,6 +18,5 @@ Message createClientSystemMessage({
     timestamp: DateTime.now(),
     type: messageTypeClientSystem,
     clientNonce: messageId,
-    deliveryState: MessageDeliveryState.sent,
   );
 }
