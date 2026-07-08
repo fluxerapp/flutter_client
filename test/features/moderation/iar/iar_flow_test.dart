@@ -285,4 +285,113 @@ void main() {
       expect(userReportReasons.toSet().intersection(excluded), isEmpty);
     });
   });
+
+  group('iarReasonToGuildCategory', () {
+    const expected = <IarRuleReason, ReportGuildRequestCategoryCategory>{
+      IarRuleReason.harassment: ReportGuildRequestCategoryCategory.harassment,
+      IarRuleReason.hate: ReportGuildRequestCategoryCategory.hateSpeech,
+      IarRuleReason.violence: ReportGuildRequestCategoryCategory.other,
+      IarRuleReason.terrorismExtremism:
+          ReportGuildRequestCategoryCategory.extremistCommunity,
+      IarRuleReason.matureContent: ReportGuildRequestCategoryCategory.other,
+      IarRuleReason.childSafety: ReportGuildRequestCategoryCategory.childSafety,
+      IarRuleReason.harmfulMisinformation:
+          ReportGuildRequestCategoryCategory.other,
+      IarRuleReason.illegalActivity:
+          ReportGuildRequestCategoryCategory.illegalActivity,
+      IarRuleReason.spamScams: ReportGuildRequestCategoryCategory.spam,
+      IarRuleReason.malware:
+          ReportGuildRequestCategoryCategory.malwareDistribution,
+      IarRuleReason.privacy: ReportGuildRequestCategoryCategory.harassment,
+      IarRuleReason.impersonation: ReportGuildRequestCategoryCategory.other,
+      IarRuleReason.inappropriateProfile:
+          ReportGuildRequestCategoryCategory.other,
+      IarRuleReason.raidCoordination:
+          ReportGuildRequestCategoryCategory.raidCoordination,
+      IarRuleReason.selfHarm: ReportGuildRequestCategoryCategory.other,
+      IarRuleReason.other: ReportGuildRequestCategoryCategory.other,
+    };
+
+    test('maps every reason to the web guild category', () {
+      for (final reason in IarRuleReason.values) {
+        expect(
+          iarReasonToGuildCategory(reason),
+          equals(expected[reason]),
+          reason: '$reason',
+        );
+      }
+    });
+
+    test(r'never maps to the $unknown sentinel', () {
+      for (final reason in IarRuleReason.values) {
+        expect(
+          iarReasonToGuildCategory(reason),
+          isNot(equals(ReportGuildRequestCategoryCategory.$unknown)),
+          reason: '$reason maps to \$unknown',
+        );
+      }
+    });
+  });
+
+  group('guildReportReasons', () {
+    const expectedOrder = [
+      IarRuleReason.harassment,
+      IarRuleReason.hate,
+      IarRuleReason.terrorismExtremism,
+      IarRuleReason.matureContent,
+      IarRuleReason.childSafety,
+      IarRuleReason.harmfulMisinformation,
+      IarRuleReason.raidCoordination,
+      IarRuleReason.spamScams,
+      IarRuleReason.malware,
+      IarRuleReason.privacy,
+      IarRuleReason.illegalActivity,
+      IarRuleReason.selfHarm,
+      IarRuleReason.other,
+    ];
+    const excluded = {
+      IarRuleReason.violence,
+      IarRuleReason.impersonation,
+      IarRuleReason.inappropriateProfile,
+    };
+
+    test('matches the web guild reason list in order', () {
+      expect(guildReportReasons, orderedEquals(expectedOrder));
+    });
+
+    test(
+      'includes guild-only reasons and excludes message/user-only reasons',
+      () {
+        expect(guildReportReasons, contains(IarRuleReason.terrorismExtremism));
+        expect(guildReportReasons, contains(IarRuleReason.raidCoordination));
+        expect(guildReportReasons, isNot(contains(IarRuleReason.violence)));
+        expect(
+          guildReportReasons,
+          isNot(contains(IarRuleReason.impersonation)),
+        );
+        expect(
+          guildReportReasons,
+          isNot(contains(IarRuleReason.inappropriateProfile)),
+        );
+      },
+    );
+
+    test('together with the excluded reasons covers the whole enum', () {
+      expect({
+        ...guildReportReasons,
+        ...excluded,
+      }, equals(IarRuleReason.values.toSet()));
+      expect(guildReportReasons.toSet().intersection(excluded), isEmpty);
+    });
+
+    test('every listed reason maps to a defined backend enum value', () {
+      for (final reason in guildReportReasons) {
+        expect(
+          iarReasonToGuildCategory(reason),
+          isNot(equals(ReportGuildRequestCategoryCategory.$unknown)),
+          reason: '$reason maps to \$unknown',
+        );
+      }
+    });
+  });
 }

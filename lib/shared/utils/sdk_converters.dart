@@ -155,6 +155,9 @@ db.RolesCompanion roleFromSdk(GuildRoleResponse sdk, String guildId) {
     hoist: Value(sdk.hoist),
     mentionable: Value(sdk.mentionable),
     permissions: Value(sdk.permissions),
+    hoistPosition: sdk.hoistPosition == null
+        ? const Value.absent()
+        : Value(sdk.hoistPosition),
   );
 }
 

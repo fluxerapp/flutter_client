@@ -181,4 +181,55 @@ class RunnerTests: XCTestCase {
     XCTAssertTrue(result.body.contains("😀") || result.body == "Hello :grinning:")
     XCTAssertTrue(result.imageUrls.isEmpty)
   }
+
+  func testForegroundPushPolicyDiscardsAlertPushesWhileAppIsForeground() {
+    let alertPayload: [AnyHashable: Any] = [
+      "aps": ["alert": ["title": "Ping", "body": "Hello"]],
+      "channel_id": "456",
+      "message_id": "msg-1",
+    ]
+    XCTAssertFalse(
+      ForegroundPushNotificationPolicy.shouldProcessPush(
+        userInfo: alertPayload,
+        isAppForeground: true
+      )
+    )
+    XCTAssertTrue(
+      ForegroundPushNotificationPolicy.shouldProcessPush(
+        userInfo: alertPayload,
+        isAppForeground: false
+      )
+    )
+  }
+
+  func testForegroundPushPolicyAlwaysProcessesClearPayloads() {
+    let clearPayload: [AnyHashable: Any] = [
+      "type": "notification_clear",
+      "channel_id": "456",
+    ]
+    XCTAssertTrue(
+      ForegroundPushNotificationPolicy.shouldProcessPush(
+        userInfo: clearPayload,
+        isAppForeground: true
+      )
+    )
+    XCTAssertTrue(
+      ForegroundPushNotificationPolicy.shouldProcessPush(
+        userInfo: clearPayload,
+        isAppForeground: false
+      )
+    )
+  }
+
+  func testHasApsAlertDetectsAlertPayload() {
+    let alertPayload: [AnyHashable: Any] = [
+      "aps": ["alert": ["title": "Ping", "body": "Hello"]],
+    ]
+    let dataOnlyPayload: [AnyHashable: Any] = [
+      "channel_id": "456",
+      "message_id": "msg-1",
+    ]
+    XCTAssertTrue(PushNotificationPayload.hasApsAlert(alertPayload))
+    XCTAssertFalse(PushNotificationPayload.hasApsAlert(dataOnlyPayload))
+  }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/channel_last_message_index.dart';
 import 'package:fluxer_app/features/chat/data/message_write_batcher.dart';
+
+import '../../../helpers/open_test_database.dart';
 
 void main() {
   late FluxerDatabase db;

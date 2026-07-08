@@ -20,7 +20,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   desktop_drop: ^0.7.1
   device_info_plus: ^12.4.0
-  dio: ^5.7.0
+  dio: ^5.10.0
   drift: ^2.34.0
   drift_flutter: ^0.3.0
   file_picker: ^11.0.2

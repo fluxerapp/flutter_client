@@ -170,10 +170,11 @@ List<FluxerRadioItem<IarPrimaryPath>> iarPrimaryPathOptions(
 String _iarPreferencePathLabel(FluxerLocalizations l10n, IarContext context) {
   return switch (context) {
     IarMessageContext() => l10n.iarPathPreferenceMessage,
-    // The multi-step flow is message-only (and currently has no caller); user
-    // reports always use the simple sheet, so this branch is unreachable.
     IarUserContext() => throw UnsupportedError(
       'User reports use showSimpleIarReportSheet, not the multi-step flow.',
+    ),
+    IarGuildContext() => throw UnsupportedError(
+      'Guild reports use showSimpleIarReportSheet, not the multi-step flow.',
     ),
   };
 }
@@ -269,6 +270,73 @@ List<FluxerSelectItem<IarRuleReason>> iarFlatUserReasonSelectOptions(
         description: reason == IarRuleReason.inappropriateProfile
             ? l10n.iarReasonInappropriateProfileDescription
             : iarMessageReasonDescription(l10n, reason),
+      ),
+    );
+  }
+  return items;
+}
+
+/// Display name for a rule reason within the guild-report flow.
+String? iarGuildReasonLabel(FluxerLocalizations l10n, IarRuleReason reason) {
+  return switch (reason) {
+    IarRuleReason.harassment => l10n.iarReasonHarassmentGuildLabel,
+    IarRuleReason.hate => l10n.iarReasonHateLabel,
+    IarRuleReason.terrorismExtremism => l10n.iarReasonTerrorismLabel,
+    IarRuleReason.matureContent => l10n.iarReasonMatureContentGuildLabel,
+    IarRuleReason.childSafety => l10n.iarReasonChildSafetyLabel,
+    IarRuleReason.harmfulMisinformation => l10n.iarReasonHarmfulMisinfoLabel,
+    IarRuleReason.raidCoordination => l10n.iarReasonRaidLabel,
+    IarRuleReason.spamScams => l10n.iarReasonSpamLabel,
+    IarRuleReason.malware => l10n.iarReasonMalwareGuildLabel,
+    IarRuleReason.privacy => l10n.iarReasonPrivacyGuildLabel,
+    IarRuleReason.illegalActivity => l10n.iarReasonIllegalLabel,
+    IarRuleReason.selfHarm => l10n.iarReasonSelfHarmGuildLabel,
+    IarRuleReason.other => l10n.iarReasonOtherLabel,
+    IarRuleReason.violence => null,
+    IarRuleReason.impersonation => null,
+    IarRuleReason.inappropriateProfile => null,
+  };
+}
+
+String? iarGuildReasonDescription(
+  FluxerLocalizations l10n,
+  IarRuleReason reason,
+) {
+  return switch (reason) {
+    IarRuleReason.harassment => l10n.iarReasonHarassmentGuildDescription,
+    IarRuleReason.hate => l10n.iarReasonHateGuildDescription,
+    IarRuleReason.terrorismExtremism => l10n.iarReasonTerrorismDescription,
+    IarRuleReason.matureContent => l10n.iarReasonMatureContentGuildDescription,
+    IarRuleReason.childSafety => l10n.iarReasonChildSafetyGuildDescription,
+    IarRuleReason.harmfulMisinformation =>
+      l10n.iarReasonHarmfulMisinfoDescription,
+    IarRuleReason.raidCoordination => l10n.iarReasonRaidDescription,
+    IarRuleReason.spamScams => l10n.iarReasonSpamGuildDescription,
+    IarRuleReason.malware => l10n.iarReasonMalwareGuildDescription,
+    IarRuleReason.privacy => l10n.iarReasonPrivacyGuildDescription,
+    IarRuleReason.illegalActivity => l10n.iarReasonIllegalDescription,
+    IarRuleReason.selfHarm => l10n.iarReasonSelfHarmGuildDescription,
+    IarRuleReason.other => l10n.iarReasonOtherDescription,
+    IarRuleReason.violence => null,
+    IarRuleReason.impersonation => null,
+    IarRuleReason.inappropriateProfile => null,
+  };
+}
+
+List<FluxerSelectItem<IarRuleReason>> iarFlatGuildReasonSelectOptions(
+  FluxerLocalizations l10n,
+) {
+  final items = <FluxerSelectItem<IarRuleReason>>[];
+  for (final reason in guildReportReasons) {
+    final label = iarGuildReasonLabel(l10n, reason);
+    if (label == null) {
+      continue;
+    }
+    items.add(
+      FluxerSelectItem(
+        value: reason,
+        label: label,
+        description: iarGuildReasonDescription(l10n, reason),
       ),
     );
   }

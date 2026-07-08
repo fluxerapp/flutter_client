@@ -20,6 +20,7 @@ enum GuildAction {
   settingsMembers,
   settingsInviteLinks,
   settingsBans,
+  settingsChannels,
   notificationSettings,
   privacySettings,
   editCommunityProfile,
@@ -259,6 +260,11 @@ const List<_SettingsTabDef> _settingsTabDefs = <_SettingsTabDef>[
     icon: PhosphorIconsFill.shield,
   ),
   (
+    action: GuildAction.settingsChannels,
+    perms: [Permission.manageChannels],
+    icon: PhosphorIconsFill.hash,
+  ),
+  (
     action: GuildAction.settingsEmoji,
     perms: [Permission.createExpressions, Permission.manageExpressions],
     icon: PhosphorIconsFill.smiley,
@@ -319,6 +325,7 @@ String _settingsTabLabel(GuildAction action, FluxerLocalizations l10n) {
     GuildAction.settingsMembers => l10n.guildMenuSettingsMembers,
     GuildAction.settingsInviteLinks => l10n.guildMenuSettingsInviteLinks,
     GuildAction.settingsBans => l10n.guildMenuSettingsBans,
+    GuildAction.settingsChannels => l10n.guildMenuSettingsChannels,
     _ => '',
   };
 }

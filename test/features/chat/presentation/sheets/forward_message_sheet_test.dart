@@ -1,9 +1,9 @@
 import 'dart:async';
+
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show ChannelsCompanion, FluxerDatabase;
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -30,6 +30,8 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+
+import '../../../../helpers/open_test_database.dart';
 
 // ---------------------------------------------------------------------------
 // Source media detection helpers (pure)

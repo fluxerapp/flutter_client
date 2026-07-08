@@ -32,6 +32,7 @@ class ComposerAutocompletePanelRow {
     this.userAvatarStatus,
     this.emojiSurrogates,
     this.emojiImageUrl,
+    this.emojiCacheKey,
   });
 
   final String title;
@@ -46,6 +47,7 @@ class ComposerAutocompletePanelRow {
   final String? userAvatarStatus;
   final String? emojiSurrogates;
   final String? emojiImageUrl;
+  final String? emojiCacheKey;
 }
 
 class ComposerAutocompletePanelSnapshot {
@@ -162,6 +164,7 @@ class _ComposerAutocompletePanelOpenBody extends StatelessWidget {
                   userAvatarStatus: row.userAvatarStatus,
                   emojiSurrogates: row.emojiSurrogates,
                   emojiImageUrl: row.emojiImageUrl,
+                  emojiCacheKey: row.emojiCacheKey,
                 );
               },
             ),
@@ -201,6 +204,7 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
     this.userAvatarStatus,
     this.emojiSurrogates,
     this.emojiImageUrl,
+    this.emojiCacheKey,
     super.key,
   });
 
@@ -217,6 +221,7 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
   final String? userAvatarStatus;
   final String? emojiSurrogates;
   final String? emojiImageUrl;
+  final String? emojiCacheKey;
 
   bool get _showsUserAvatar {
     return userAvatarFallbackText != null &&
@@ -290,6 +295,7 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
                                 )
                               : CachedNetworkImage(
                                   imageUrl: emojiImageUrl!,
+                                  cacheKey: emojiCacheKey,
                                   width: _kAutocompleteEmojiPreviewSize,
                                   height: _kAutocompleteEmojiPreviewSize,
                                 ),

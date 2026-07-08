@@ -352,6 +352,10 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
         guildId,
         GuildSettingsTab.bans,
       ),
+      GuildAction.settingsChannels => guildSettingsTabPath(
+        guildId,
+        GuildSettingsTab.channels,
+      ),
       _ => null,
     };
     if (path != null) {

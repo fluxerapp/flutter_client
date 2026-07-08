@@ -1,12 +1,15 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 enum GuildSettingsTab {
   overview,
   roles,
+  channels,
   emoji,
   stickers,
   moderation,
@@ -19,13 +22,11 @@ enum GuildSettingsTab {
 }
 
 const List<GuildSettingsTab> _comingSoonTabs = <GuildSettingsTab>[
-  GuildSettingsTab.roles,
   GuildSettingsTab.emoji,
   GuildSettingsTab.stickers,
   GuildSettingsTab.webhooks,
   GuildSettingsTab.discovery,
   GuildSettingsTab.members,
-  GuildSettingsTab.invites,
 ];
 
 bool isGuildSettingsTabComingSoon(GuildSettingsTab tab) {
@@ -50,6 +51,7 @@ GuildAction guildSettingsTabToAction(GuildSettingsTab tab) {
     GuildSettingsTab.members => GuildAction.settingsMembers,
     GuildSettingsTab.invites => GuildAction.settingsInviteLinks,
     GuildSettingsTab.bans => GuildAction.settingsBans,
+    GuildSettingsTab.channels => GuildAction.settingsChannels,
   };
 }
 
@@ -57,7 +59,11 @@ bool isGuildSettingsTabVisible({
   required GuildSettingsTab tab,
   required int permissions,
   required Guild? guild,
+  required bool isTouchPrimary,
 }) {
+  if (tab == GuildSettingsTab.channels && !isTouchPrimary) {
+    return false;
+  }
   final GuildAction action = guildSettingsTabToAction(tab);
   return canAccessGuildSettingsTab(action, permissions);
 }
@@ -115,6 +121,7 @@ String guildSettingsTabPath(String guildId, GuildSettingsTab tab) {
     GuildSettingsTab.members => RoutePaths.guildSettingsMembersPath(guildId),
     GuildSettingsTab.invites => RoutePaths.guildSettingsInvitesPath(guildId),
     GuildSettingsTab.bans => RoutePaths.guildSettingsBansPath(guildId),
+    GuildSettingsTab.channels => RoutePaths.guildSettingsChannelsPath(guildId),
   };
 }
 
@@ -131,6 +138,7 @@ String guildSettingsTabPathFromQuery(String guildId, String tabQuery) {
     'members' => RoutePaths.guildSettingsMembersPath(guildId),
     'invites' => RoutePaths.guildSettingsInvitesPath(guildId),
     'bans' => RoutePaths.guildSettingsBansPath(guildId),
+    'channels' => RoutePaths.guildSettingsChannelsPath(guildId),
     _ => RoutePaths.guildSettingsPath(guildId),
   };
 }
@@ -138,6 +146,7 @@ String guildSettingsTabPathFromQuery(String guildId, String tabQuery) {
 List<GuildSettingsTab> visibleGuildSettingsTabs({
   required int permissions,
   required Guild? guild,
+  required bool isTouchPrimary,
 }) {
   return GuildSettingsTab.values
       .where(
@@ -145,7 +154,20 @@ List<GuildSettingsTab> visibleGuildSettingsTabs({
           tab: tab,
           permissions: permissions,
           guild: guild,
+          isTouchPrimary: isTouchPrimary,
         ),
       )
       .toList();
+}
+
+List<GuildSettingsTab> visibleGuildSettingsTabsForRef({
+  required WidgetRef ref,
+  required int permissions,
+  required Guild? guild,
+}) {
+  return visibleGuildSettingsTabs(
+    permissions: permissions,
+    guild: guild,
+    isTouchPrimary: isTouchPrimaryInput(ref),
+  );
 }

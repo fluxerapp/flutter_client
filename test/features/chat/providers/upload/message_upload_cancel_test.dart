@@ -7,7 +7,6 @@ import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
@@ -27,6 +26,8 @@ import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_pro
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+
+import '../../../../helpers/open_test_database.dart';
 
 PendingAttachment _pendingAttachment({
   required int id,

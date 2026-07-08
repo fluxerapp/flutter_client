@@ -10,7 +10,6 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
@@ -45,10 +44,10 @@ import 'package:fluxer_app/features/favorites/providers/favorite_channels_provid
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/guilds/data/guild_user_settings_repository.dart';
+import 'package:fluxer_app/features/members/data/guild_mention_member_search.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/guild_members_tab_content.dart';
-import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
@@ -2132,7 +2131,6 @@ String? _visibleDiscriminator(String discriminator) {
   return trimmed;
 }
 
-const int _kUserFilterSearchLimit = 100;
 const Duration _kUserFilterSearchDebounce = Duration(milliseconds: 300);
 
 class _DmUserFilterSheetLoader extends ConsumerStatefulWidget {
@@ -2302,52 +2300,32 @@ class _GuildUserSearchFilterSheetState
               (parsed.tagQuery ?? '').trim().isEmpty
           ? parseMentionQuery(searchQuery)
           : parsed;
-      ref
-          .read(gatewayConnectionProvider)
-          .requestGuildMembers(
-            guildId: widget.guildId,
-            query: searchQuery.isEmpty ? null : searchQuery,
-            limit: _kUserFilterSearchLimit,
-          );
-      await ref
-          .read(guildMemberChunkWaiterProvider)
-          .waitForChunk(widget.guildId);
-      final List<String> scopeUserIds = ref
-          .read(guildMemberChunkWaiterProvider)
-          .lastChunkUserIds(widget.guildId);
-      final List<Member> members = await ref
-          .read(memberRepositoryProvider)
-          .searchMembersForAutocomplete(
-            guildId: widget.guildId,
-            query: searchQuery,
-            scopeUserIds: scopeUserIds,
-          );
-      final List<db.User> users = await ref
-          .read(fluxerDatabaseProvider)
-          .userDao
-          .getUsersByIds(members.map((Member member) => member.id).toList());
-      final Map<String, String> rawDiscriminatorByUserId = <String, String>{
-        for (final db.User user in users) user.id: user.discriminator,
-      };
-      final Map<String, String> discriminatorByUserId = <String, String>{
-        for (final Member member in members)
-          member.id:
-              _visibleDiscriminator(
-                rawDiscriminatorByUserId[member.id] ?? '',
-              ) ??
-              '',
-      };
-      final List<Member> ranked = rankMembersForMentionQuery(
-        members,
-        rankingQuery,
-        limit: _kUserFilterSearchLimit,
-        discriminatorByUserId: discriminatorByUserId,
+      final GuildMentionMemberSearch search = ref.read(
+        guildMentionMemberSearchProvider,
       );
-      pickers = ranked
+      List<Member> members = await search.searchCached(
+        guildId: widget.guildId,
+        parsed: rankingQuery,
+      );
+      if (searchQuery.isNotEmpty &&
+          await search.shouldFetchFromGateway(widget.guildId, searchQuery)) {
+        members = (await search.fetchGatewayAndMerge(
+          guildId: widget.guildId,
+          query: searchQuery,
+          parsed: rankingQuery,
+        )).members;
+      }
+      final Map<String, String> discriminatorByUserId = await search
+          .discriminatorsFor(members);
+      pickers = members
           .map(
             (Member member) => _PickerUser.fromMember(
               member,
-              discriminator: discriminatorByUserId[member.id] ?? '',
+              discriminator:
+                  _visibleDiscriminator(
+                    discriminatorByUserId[member.id] ?? '',
+                  ) ??
+                  '',
             ),
           )
           .toList();

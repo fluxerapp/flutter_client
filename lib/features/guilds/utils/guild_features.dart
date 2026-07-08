@@ -6,6 +6,8 @@ abstract final class GuildFeatures {
   static const String inviteSplash = 'INVITE_SPLASH';
   static const String textChannelFlexibleNames = 'TEXT_CHANNEL_FLEXIBLE_NAMES';
   static const String hideOwnerCrown = 'HIDE_OWNER_CROWN';
+  static const String invitesDisabled = 'INVITES_DISABLED';
+  static const String raidDetected = 'RAID_DETECTED';
 }
 
 bool hasGuildFeature(List<String> features, String feature) {

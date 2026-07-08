@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
+import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -111,19 +111,11 @@ class _ReactionChip extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (reaction.isCustom)
-                CachedNetworkImage(
-                  imageUrl: FluxerMediaUrl.customEmoji(
-                    id: reaction.emojiId!,
-                    animated: reaction.animated,
-                    size: _kReactionEmojiSize.toInt(),
-                  ),
-                  cacheKey:
-                      'reaction_emoji_'
-                      '${reaction.emojiId}_'
-                      '${reaction.animated ? 'a' : 's'}_'
-                      '${_kReactionEmojiSize.toInt()}',
-                  width: _kReactionEmojiSize,
-                  height: _kReactionEmojiSize,
+                CachedEmojiImage(
+                  emojiId: reaction.emojiId!,
+                  animated: reaction.animated,
+                  requestSize: kCustomEmojiFetchSize,
+                  size: _kReactionEmojiSize,
                 )
               else
                 UnicodeEmojiWidget(

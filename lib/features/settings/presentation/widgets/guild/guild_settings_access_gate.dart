@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 
 class GuildSettingsAccessGate extends ConsumerWidget {
   const GuildSettingsAccessGate({
@@ -30,6 +31,7 @@ class GuildSettingsAccessGate extends ConsumerWidget {
       tab: tab,
       permissions: permissions,
       guild: guild,
+      isTouchPrimary: isTouchPrimaryInput(ref),
     );
     if (!isVisible) {
       return Center(

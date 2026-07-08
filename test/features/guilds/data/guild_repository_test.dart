@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
-import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/guilds/data/guild_repository.dart';
 import 'package:fluxer_dart/export.dart';
+
+import '../../../helpers/open_test_database.dart';
 
 void main() {
   group('GuildRepository.getOwnedGuilds', () {

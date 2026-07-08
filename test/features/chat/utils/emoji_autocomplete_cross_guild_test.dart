@@ -1,12 +1,13 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_autocomplete_search.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
+
+import '../../../helpers/open_test_database.dart';
 
 void main() {
   test(

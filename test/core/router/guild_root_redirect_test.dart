@@ -1,9 +1,10 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
-import '../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/router/guild_root_redirect.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
+
+import '../../helpers/open_test_database.dart';
 
 void main() {
   late FluxerDatabase db;

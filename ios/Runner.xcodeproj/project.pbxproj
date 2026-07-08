@@ -23,6 +23,9 @@
 		FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
 		FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */; };
+		FB0ADACB2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
+		FB0ADACC2F5C91D80078A4D8 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
+		FB0ADACD2F5C91D80078A4D9 /* ForegroundPushNotificationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */; };
 		FB0ADB042F5C92000078A4E4 /* NotificationImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */; };
 		FB0ADB052F5C92000078A4E5 /* NotificationEmojiDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADB012F5C92000078A4E1 /* NotificationEmojiDecoder.swift */; };
 		FB0ADB062F5C92000078A4E6 /* NotificationPayloadMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB0ADB022F5C92000078A4E2 /* NotificationPayloadMedia.swift */; };
@@ -143,6 +146,7 @@
 		FB0ADAC12F5C91D50078A4D4 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		FB0ADAC42F5C91D70078A4D4 /* ApplePushBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePushBridge.swift; sourceTree = "<group>"; };
 		FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationPayload.swift; sourceTree = "<group>"; };
+		FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundPushNotificationPolicy.swift; sourceTree = "<group>"; };
 		FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationImageAttachment.swift; sourceTree = "<group>"; };
 		FB0ADB012F5C92000078A4E1 /* NotificationEmojiDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEmojiDecoder.swift; sourceTree = "<group>"; };
 		FB0ADB022F5C92000078A4E2 /* NotificationPayloadMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPayloadMedia.swift; sourceTree = "<group>"; };
@@ -411,6 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				FB0ADAC82F5C91D80078A4D4 /* PushNotificationPayload.swift */,
+				FB0ADACA2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift */,
 				FB0ADB002F5C92000078A4E0 /* NotificationImageAttachment.swift */,
 				FB0ADB012F5C92000078A4E1 /* NotificationEmojiDecoder.swift */,
 				FB0ADB022F5C92000078A4E2 /* NotificationPayloadMedia.swift */,
@@ -751,6 +756,7 @@
 			files = (
 				331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */,
 				FB0ADAC92F5C91D80078A4D6 /* PushNotificationPayload.swift in Sources */,
+				FB0ADACD2F5C91D80078A4D9 /* ForegroundPushNotificationPolicy.swift in Sources */,
 				FB0ADB0C2F5C92000078A4EC /* NotificationImageAttachment.swift in Sources */,
 				FB0ADB0D2F5C92000078A4ED /* NotificationEmojiDecoder.swift in Sources */,
 				FB0ADB0E2F5C92000078A4EE /* NotificationPayloadMedia.swift in Sources */,
@@ -764,6 +770,7 @@
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				FB0ADAC52F5C91D70078A4D4 /* ApplePushBridge.swift in Sources */,
 				FB0ADAC62F5C91D80078A4D4 /* PushNotificationPayload.swift in Sources */,
+				FB0ADACB2F5C91D80078A4D7 /* ForegroundPushNotificationPolicy.swift in Sources */,
 				FB0ADB042F5C92000078A4E4 /* NotificationImageAttachment.swift in Sources */,
 				FB0ADB052F5C92000078A4E5 /* NotificationEmojiDecoder.swift in Sources */,
 				FB0ADB062F5C92000078A4E6 /* NotificationPayloadMedia.swift in Sources */,
@@ -789,6 +796,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB0ADAC72F5C91D80078A4D5 /* PushNotificationPayload.swift in Sources */,
+				FB0ADACC2F5C91D80078A4D8 /* ForegroundPushNotificationPolicy.swift in Sources */,
 				FB0ADB082F5C92000078A4E8 /* NotificationImageAttachment.swift in Sources */,
 				FB0ADB092F5C92000078A4E9 /* NotificationEmojiDecoder.swift in Sources */,
 				FB0ADB0A2F5C92000078A4EA /* NotificationPayloadMedia.swift in Sources */,

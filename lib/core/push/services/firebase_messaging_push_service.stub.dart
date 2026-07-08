@@ -25,4 +25,8 @@ class FirebaseMessagingPushService implements PushService {
 
   @override
   Stream<PushMessage> watchMessages() => const Stream<PushMessage>.empty();
+
+  static void configureForegroundMessageFilter(
+    bool Function(Map<String, String> payload)? filter,
+  ) {}
 }

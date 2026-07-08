@@ -16,9 +16,7 @@
 // (`createDsaReport`, requiring an email-verification ticket, legal name, and
 // country of residence) and is NOT what the IAR in-app report flow uses.
 //
-// Mobile exposes the `message` and `user` IAR contexts. The `guild` context
-// on the web is intentionally deferred until that entry point exists on
-// mobile.
+// Mobile exposes the `message`, `user`, and `guild` IAR contexts.
 
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -197,8 +195,7 @@ IarReportFailure classifyIarReportFailure(Object error) {
   return IarReportFailure.generic;
 }
 
-/// Discriminated input to the IAR flow. The message and user variants are
-/// wired up; the guild variant will be added when that entry point lands.
+/// Discriminated input to the IAR flow.
 sealed class IarContext {
   const IarContext();
 }
@@ -230,6 +227,20 @@ class IarUserContext extends IarContext {
   /// Community the report is scoped to, or null for a global (DM/friends)
   /// report.
   final String? guildId;
+}
+
+class IarGuildContext extends IarContext {
+  const IarGuildContext({
+    required this.guildId,
+    required this.guildName,
+    this.inviteCode,
+  });
+
+  final String guildId;
+  final String guildName;
+
+  /// Invite code when reporting from an invite embed.
+  final String? inviteCode;
 }
 
 /// User-report reasons in the web's `getUserRuleReasonOptions` display order:
@@ -277,5 +288,53 @@ ReportUserRequestCategoryCategory iarReasonToUserCategory(
     IarRuleReason.raidCoordination => ReportUserRequestCategoryCategory.other,
     IarRuleReason.selfHarm => ReportUserRequestCategoryCategory.other,
     IarRuleReason.other => ReportUserRequestCategoryCategory.other,
+  };
+}
+
+const List<IarRuleReason> guildReportReasons = [
+  IarRuleReason.harassment,
+  IarRuleReason.hate,
+  IarRuleReason.terrorismExtremism,
+  IarRuleReason.matureContent,
+  IarRuleReason.childSafety,
+  IarRuleReason.harmfulMisinformation,
+  IarRuleReason.raidCoordination,
+  IarRuleReason.spamScams,
+  IarRuleReason.malware,
+  IarRuleReason.privacy,
+  IarRuleReason.illegalActivity,
+  IarRuleReason.selfHarm,
+  IarRuleReason.other,
+];
+
+/// Maps a chosen reason onto the backend wire-format
+/// [ReportGuildRequestCategoryCategory]. Mirrors `REPORT_CATEGORY_BY_REASON.guild`
+/// from the web.
+ReportGuildRequestCategoryCategory iarReasonToGuildCategory(
+  IarRuleReason reason,
+) {
+  return switch (reason) {
+    IarRuleReason.harassment => ReportGuildRequestCategoryCategory.harassment,
+    IarRuleReason.hate => ReportGuildRequestCategoryCategory.hateSpeech,
+    IarRuleReason.violence => ReportGuildRequestCategoryCategory.other,
+    IarRuleReason.terrorismExtremism =>
+      ReportGuildRequestCategoryCategory.extremistCommunity,
+    IarRuleReason.matureContent => ReportGuildRequestCategoryCategory.other,
+    IarRuleReason.childSafety => ReportGuildRequestCategoryCategory.childSafety,
+    IarRuleReason.harmfulMisinformation =>
+      ReportGuildRequestCategoryCategory.other,
+    IarRuleReason.illegalActivity =>
+      ReportGuildRequestCategoryCategory.illegalActivity,
+    IarRuleReason.spamScams => ReportGuildRequestCategoryCategory.spam,
+    IarRuleReason.malware =>
+      ReportGuildRequestCategoryCategory.malwareDistribution,
+    IarRuleReason.privacy => ReportGuildRequestCategoryCategory.harassment,
+    IarRuleReason.impersonation => ReportGuildRequestCategoryCategory.other,
+    IarRuleReason.inappropriateProfile =>
+      ReportGuildRequestCategoryCategory.other,
+    IarRuleReason.raidCoordination =>
+      ReportGuildRequestCategoryCategory.raidCoordination,
+    IarRuleReason.selfHarm => ReportGuildRequestCategoryCategory.other,
+    IarRuleReason.other => ReportGuildRequestCategoryCategory.other,
   };
 }

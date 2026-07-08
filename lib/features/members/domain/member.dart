@@ -12,6 +12,7 @@ class MemberRole {
   final bool hoist;
   final bool mentionable;
   final int permissions;
+  final int? hoistPosition;
 
   const MemberRole({
     required this.id,
@@ -21,7 +22,17 @@ class MemberRole {
     this.hoist = false,
     this.mentionable = false,
     this.permissions = 0,
+    this.hoistPosition,
   });
+
+  bool isEveryoneRole(String guildId) => id == guildId;
+
+  int effectiveHoistPosition(String guildId) {
+    if (!hoist || isEveryoneRole(guildId)) {
+      return 0;
+    }
+    return hoistPosition ?? position;
+  }
 
   factory MemberRole.fromRow(db.Role row) {
     return MemberRole(
@@ -32,8 +43,20 @@ class MemberRole {
       hoist: row.hoist,
       mentionable: row.mentionable,
       permissions: int.tryParse(row.permissions) ?? 0,
+      hoistPosition: row.hoistPosition,
     );
   }
+}
+
+List<MemberRole> sortRolesByPosition(List<MemberRole> roles) {
+  final List<MemberRole> sorted = List<MemberRole>.from(roles);
+  sorted.sort((MemberRole a, MemberRole b) {
+    if (b.position != a.position) {
+      return b.position - a.position;
+    }
+    return BigInt.parse(a.id) < BigInt.parse(b.id) ? -1 : 1;
+  });
+  return sorted;
 }
 
 class RoleGroup {
@@ -96,7 +119,7 @@ class Member {
     return Member(
       id: row.userId,
       username: user?.username ?? '',
-      globalName: row.nick ?? user?.globalName,
+      globalName: user?.globalName,
       avatar: avatar,
       avatarColor: user?.avatarColor,
       nickname: row.nick,

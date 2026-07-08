@@ -103,6 +103,27 @@ List<Message> reconcileMessagesWithNetworkPage({
   return mergeMessagesSorted(preserved, networkPage);
 }
 
+/// Drops local messages that fall inside [networkPage]s snowflake range but
+/// are absent from the server response, then merges [networkPage] updates.
+/// unlike [reconcileMessagesWithNetworkPage], messages outside the network
+/// page range are kept as is so a scrolledup window is not trimmed.
+List<Message> reconcileStaleDeletionsInLoadedWindow({
+  required List<Message> current,
+  required List<Message> networkPage,
+}) {
+  if (networkPage.isEmpty) {
+    return current;
+  }
+  final Set<String> staleIds = networkPageStaleLocalIds(
+    localMessageIds: current.map((Message message) => message.id),
+    networkPage: networkPage,
+  ).toSet();
+  final List<Message> retained = current
+      .where((Message message) => !staleIds.contains(message.id))
+      .toList();
+  return mergeMessagesSorted(retained, networkPage);
+}
+
 /// True when the window's oldest message is strictly newer than the oldest
 /// id of the channel's known-contiguous interval, i.e. every message between
 /// them was fetched contiguously and can be re-served from the local cache

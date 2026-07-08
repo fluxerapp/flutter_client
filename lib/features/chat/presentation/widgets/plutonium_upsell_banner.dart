@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/ui/plutonium_upsell/fluxer_plutonium_upsell.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -225,7 +226,7 @@ class _PreviewEmojiRow extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(
                   imageUrl: e.url,
-                  cacheKey: 'emoji_${e.id}',
+                  cacheKey: e.cacheKeyForSize(kCustomEmojiFetchSize),
                   width: 32,
                   height: 32,
                   fit: BoxFit.contain,

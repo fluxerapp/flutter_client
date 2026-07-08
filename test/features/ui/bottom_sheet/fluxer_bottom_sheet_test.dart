@@ -11,6 +11,8 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+void _noop() {}
+
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
@@ -128,6 +130,162 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(FluxerBottomSheetDragHandle), findsOneWidget);
+    });
+
+    testWidgets('drag handle has expanded hit target', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const Material(child: FluxerBottomSheetDragHandle(onDismiss: _noop)),
+        ),
+      );
+
+      final Size size = tester.getSize(
+        find.byType(FluxerBottomSheetDragHandle),
+      );
+      expect(size.height, greaterThanOrEqualTo(24));
+    });
+
+    testWidgets('scrollable sheet drag handle resizes the sheet', (
+      tester,
+    ) async {
+      final DraggableScrollableController sheetController =
+          DraggableScrollableController();
+      addTearDown(sheetController.dispose);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 800,
+              child: DraggableScrollableSheet(
+                expand: false,
+                controller: sheetController,
+                initialChildSize: 0.7,
+                minChildSize: 0.4,
+                maxChildSize: 0.9,
+                builder: (context, scrollController) {
+                  return Column(
+                    children: [
+                      FluxerBottomSheetDragHandle(
+                        sheetController: sheetController,
+                        minChildSize: 0.4,
+                        maxChildSize: 0.9,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          controller: scrollController,
+                          itemCount: 40,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Item $index')),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(sheetController.isAttached, isTrue);
+      final double initialSize = sheetController.size;
+
+      await tester.drag(
+        find.byType(FluxerBottomSheetDragHandle),
+        const Offset(0, 80),
+      );
+      await tester.pumpAndSettle();
+
+      expect(sheetController.size, lessThan(initialSize));
+    });
+
+    testWidgets('scrollable sheet dismisses from handle without double pop', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.showScrollable(
+                      context,
+                      initialChildSize: 0.7,
+                      maxChildSize: 0.9,
+                      builder: (context, scrollController, close) {
+                        return ListView.builder(
+                          controller: scrollController,
+                          itemCount: 20,
+                          itemBuilder: (context, index) =>
+                              ListTile(title: Text('Scroll Item $index')),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+      expect(find.text('Scroll Item 0'), findsOneWidget);
+
+      await tester.drag(
+        find.byType(FluxerBottomSheetDragHandle),
+        const Offset(0, 300),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Scroll Item 0'), findsNothing);
+      expect(find.text('Open'), findsOneWidget);
+    });
+
+    testWidgets('non-scrollable sheet closes when dragging handle down', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerBottomSheet.show(
+                      context,
+                      title: 'Draggable Sheet',
+                      builder: (context, close) {
+                        return const SizedBox(height: 200);
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Draggable Sheet'), findsOneWidget);
+
+      await tester.drag(
+        find.byType(FluxerBottomSheetDragHandle),
+        const Offset(0, 80),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Draggable Sheet'), findsNothing);
     });
 
     testWidgets('header supports back and trailing actions', (tester) async {

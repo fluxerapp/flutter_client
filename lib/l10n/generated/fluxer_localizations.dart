@@ -4729,6 +4729,132 @@ abstract class FluxerLocalizations {
   /// **'Report user'**
   String get iarReportUserTitle;
 
+  /// Title of the simple community-report sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Report community'**
+  String get iarReportGuildTitle;
+
+  /// Body shown in the pre-confirm dialog before opening the community report sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'If this report is about a specific message in this community, report that message instead. Message reports give our safety team the clearest context, and adding details in the comments can help us review it faster. Only continue with reporting the community as a whole if reporting a message would not capture the broader issue.'**
+  String get iarReportGuildPreconfirmBody;
+
+  /// Primary button in the community report pre-confirm dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to report community'**
+  String get iarContinueToReportCommunity;
+
+  /// Subtitle shown under the community name in the IAR preview card.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get iarPreviewCommunitySubtitle;
+
+  /// Community-report reason label for harassment or targeted abuse.
+  ///
+  /// In en, this message translates to:
+  /// **'Harassment or targeted abuse'**
+  String get iarReasonHarassmentGuildLabel;
+
+  /// Community-report reason description for harassment or targeted abuse.
+  ///
+  /// In en, this message translates to:
+  /// **'Community facilitates pile-ons or targeted abuse.'**
+  String get iarReasonHarassmentGuildDescription;
+
+  /// Community-report reason description for hate speech.
+  ///
+  /// In en, this message translates to:
+  /// **'Promotes hatred against protected groups.'**
+  String get iarReasonHateGuildDescription;
+
+  /// Community-report reason label for terrorism or violent extremism.
+  ///
+  /// In en, this message translates to:
+  /// **'Terrorism or violent extremism'**
+  String get iarReasonTerrorismLabel;
+
+  /// Community-report reason description for terrorism or violent extremism.
+  ///
+  /// In en, this message translates to:
+  /// **'Promotes, recruits for, or coordinates violent extremist activity.'**
+  String get iarReasonTerrorismDescription;
+
+  /// Community-report reason label for mature content or unsafe gating.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content or unsafe gating'**
+  String get iarReasonMatureContentGuildLabel;
+
+  /// Community-report reason description for mature content or unsafe gating.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content without proper gating.'**
+  String get iarReasonMatureContentGuildDescription;
+
+  /// Community-report reason description for child safety.
+  ///
+  /// In en, this message translates to:
+  /// **'Endangers minors or hosts child-exploitation content.'**
+  String get iarReasonChildSafetyGuildDescription;
+
+  /// Community-report reason label for raid coordination.
+  ///
+  /// In en, this message translates to:
+  /// **'Raid coordination'**
+  String get iarReasonRaidLabel;
+
+  /// Community-report reason description for raid coordination.
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinates raids, brigading, or harassment against people or communities.'**
+  String get iarReasonRaidDescription;
+
+  /// Community-report reason description for spam, scams, or phishing.
+  ///
+  /// In en, this message translates to:
+  /// **'Community exists to spam, scam, or abuse the platform.'**
+  String get iarReasonSpamGuildDescription;
+
+  /// Community-report reason label for malware distribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Malware distribution'**
+  String get iarReasonMalwareGuildLabel;
+
+  /// Community-report reason description for malware distribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Distributes malware, credential theft, or harmful files.'**
+  String get iarReasonMalwareGuildDescription;
+
+  /// Community-report reason label for privacy violation or doxxing.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy violation or doxxing'**
+  String get iarReasonPrivacyGuildLabel;
+
+  /// Community-report reason description for privacy violation or doxxing.
+  ///
+  /// In en, this message translates to:
+  /// **'Shares personal info, stalks users, or coordinates privacy abuse.'**
+  String get iarReasonPrivacyGuildDescription;
+
+  /// Community-report reason label for self-harm encouragement.
+  ///
+  /// In en, this message translates to:
+  /// **'Encourages self-harm'**
+  String get iarReasonSelfHarmGuildLabel;
+
+  /// Community-report reason description for self-harm encouragement.
+  ///
+  /// In en, this message translates to:
+  /// **'Encourages suicide, self-harm, or eating disorders.'**
+  String get iarReasonSelfHarmGuildDescription;
+
   /// User-report reason: the user's profile contains inappropriate content.
   ///
   /// In en, this message translates to:
@@ -5353,10 +5479,10 @@ abstract class FluxerLocalizations {
   /// **'Browse files'**
   String get chatAttachmentSourceBrowse;
 
-  /// Tooltip for pasting an image attachment from the clipboard.
+  /// Tooltip for pasting a file attachment from the clipboard.
   ///
   /// In en, this message translates to:
-  /// **'Paste image from clipboard'**
+  /// **'Paste file from clipboard'**
   String get chatAttachmentPasteTooltip;
 
   /// Badge text for spoiler attachments.
@@ -9033,6 +9159,54 @@ abstract class FluxerLocalizations {
   /// **'Delete Channel'**
   String get channelDetailsDeleteChannel;
 
+  /// Guild channel menu action that opens a voice channel chat without joining voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Open chat'**
+  String get channelMenuOpenChat;
+
+  /// Guild channel menu action to duplicate the selected channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate channel'**
+  String get channelMenuDuplicateChannel;
+
+  /// Developer tool action that forgets a local mature-content gate acknowledgement.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset mature content agreement state'**
+  String get channelMenuResetMatureContentAgreeState;
+
+  /// Confirmation title for deleting all of the caller's messages in a channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your messages in this channel?'**
+  String get channelMenuDeleteMyMessagesTitle;
+
+  /// Confirmation description for deleting all of the caller's messages in a channel.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete every message you have ever sent in this channel. This cannot be undone.'**
+  String get channelMenuDeleteMyMessagesDescription;
+
+  /// Confirm button for deleting all of the caller's messages in a channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete My Messages'**
+  String get channelMenuDeleteMyMessagesConfirm;
+
+  /// Success toast after deleting messages in a channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted your messages'**
+  String get channelMenuDeletedYourMessages;
+
+  /// Error toast when deleting messages in a channel fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete your messages'**
+  String get channelMenuCouldNotDeleteYourMessages;
+
   /// Subtitle in channel details for a system DM recipient.
   ///
   /// In en, this message translates to:
@@ -10926,13 +11100,13 @@ abstract class FluxerLocalizations {
   /// Title and confirm label for the create channel modal.
   ///
   /// In en, this message translates to:
-  /// **'Create Channel'**
+  /// **'Create channel'**
   String get guildNavbarCreateChannel;
 
   /// Section label for channel type selection in create channel modal.
   ///
   /// In en, this message translates to:
-  /// **'Channel Type'**
+  /// **'Channel type'**
   String get guildNavbarChannelType;
 
   /// Label for the text channel type option.
@@ -10995,16 +11169,22 @@ abstract class FluxerLocalizations {
   /// **'https://example.com'**
   String get guildNavbarUrlHint;
 
+  /// Accessibility label for channel type radio group in create channel modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel type selection'**
+  String get guildNavbarChannelTypeSelection;
+
   /// Title and confirm label for the create category modal.
   ///
   /// In en, this message translates to:
-  /// **'Create Category'**
+  /// **'Create category'**
   String get guildNavbarCreateCategory;
 
   /// Placeholder hint for new category name input.
   ///
   /// In en, this message translates to:
-  /// **'New Category'**
+  /// **'New category'**
   String get guildNavbarNewCategoryHint;
 
   /// Title for the invite members modal.
@@ -11412,7 +11592,7 @@ abstract class FluxerLocalizations {
   /// Community settings tab for invite links.
   ///
   /// In en, this message translates to:
-  /// **'Invite Links'**
+  /// **'Invites'**
   String get guildMenuSettingsInviteLinks;
 
   /// Community settings tab for banned members.
@@ -11420,6 +11600,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Bans'**
   String get guildMenuSettingsBans;
+
+  /// Guild settings menu item for channel management.
+  ///
+  /// In en, this message translates to:
+  /// **'Channels'**
+  String get guildMenuSettingsChannels;
 
   /// Shown when the user lacks permission for a guild settings tab.
   ///
@@ -11490,7 +11676,7 @@ abstract class FluxerLocalizations {
   /// Button to create a new role.
   ///
   /// In en, this message translates to:
-  /// **'Create Role'**
+  /// **'Create role'**
   String get guildSettingsCreateRole;
 
   /// Title for the roles list section.
@@ -11498,6 +11684,672 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Roles'**
   String get guildSettingsRolesListTitle;
+
+  /// Default name for a newly created role.
+  ///
+  /// In en, this message translates to:
+  /// **'New role'**
+  String get guildSettingsRolesNewRole;
+
+  /// Button to delete the selected role.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete role'**
+  String get guildSettingsRolesDeleteRole;
+
+  /// Button to return to the role list from the editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to roles'**
+  String get guildSettingsRolesBackToRoles;
+
+  /// Title for the role editor panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit \"{name}\"'**
+  String guildSettingsRolesEditTitle(String name);
+
+  /// Subtitle for the role editor panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure role settings and permissions'**
+  String get guildSettingsRolesEditSubtitle;
+
+  /// Section title for role display settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Display'**
+  String get guildSettingsRolesDisplaySection;
+
+  /// Label for the role name input.
+  ///
+  /// In en, this message translates to:
+  /// **'Role name'**
+  String get guildSettingsRolesRoleName;
+
+  /// Label for the role color picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Role color'**
+  String get guildSettingsRolesRoleColor;
+
+  /// Helper text under the role color input.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a color (hex, rgb(), hsl(), or name) or use the picker.'**
+  String get guildSettingsRolesRoleColorHelper;
+
+  /// Switch label for the hoist toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Show this role separately'**
+  String get guildSettingsRolesShowSeparately;
+
+  /// Helper text under the hoist toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists members with this role in their own section in the member list.'**
+  String get guildSettingsRolesShowSeparatelyHelper;
+
+  /// Switch label for the mentionable toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow mentions for this role'**
+  String get guildSettingsRolesAllowMentions;
+
+  /// Helper text under the mentionable toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Members with the \"{permission}\" permission can always mention roles, regardless of this setting.'**
+  String guildSettingsRolesAllowMentionsHelper(String permission);
+
+  /// Help text above the clear permissions button.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this button to quickly clear all permissions.'**
+  String get guildSettingsRolesClearPermissionsHelp;
+
+  /// Button to clear all role permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear permissions'**
+  String get guildSettingsRolesClearPermissions;
+
+  /// Section title for role permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions'**
+  String get guildSettingsRolesPermissionsSection;
+
+  /// Placeholder for the permission search input.
+  ///
+  /// In en, this message translates to:
+  /// **'Search permissions'**
+  String get guildSettingsRolesSearchPermissions;
+
+  /// Tooltip when permission list is in comfy layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Dense layout'**
+  String get guildSettingsRolesDenseLayout;
+
+  /// Tooltip when permission list is in dense layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Comfy layout'**
+  String get guildSettingsRolesComfyLayout;
+
+  /// Aria label for switching to dense layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to dense layout'**
+  String get guildSettingsRolesSwitchToDenseLayout;
+
+  /// Aria label for switching to comfy layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to comfy layout'**
+  String get guildSettingsRolesSwitchToComfyLayout;
+
+  /// Tooltip when permission list is in two-column layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Single column'**
+  String get guildSettingsRolesSingleColumn;
+
+  /// Tooltip when permission list is in single-column layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Two columns'**
+  String get guildSettingsRolesTwoColumns;
+
+  /// Aria label for switching to single column.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to single column'**
+  String get guildSettingsRolesSwitchToSingleColumn;
+
+  /// Aria label for switching to two columns.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to two columns'**
+  String get guildSettingsRolesSwitchToTwoColumns;
+
+  /// Empty state when permission search has no matches.
+  ///
+  /// In en, this message translates to:
+  /// **'No permissions found'**
+  String get guildSettingsRolesNoPermissionsFound;
+
+  /// Button to enter custom hoist order mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom hoist order'**
+  String get guildSettingsRolesCustomHoistOrder;
+
+  /// Header for hoist order sub-mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Hoist order'**
+  String get guildSettingsRolesHoistOrder;
+
+  /// Button to reset custom hoist order.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default'**
+  String get guildSettingsRolesResetHoistOrder;
+
+  /// Help text in hoist order mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag roles to customize the order they appear in the member list.'**
+  String get guildSettingsRolesHoistOrderHelp;
+
+  /// Empty state when no roles are hoisted.
+  ///
+  /// In en, this message translates to:
+  /// **'No hoisted roles. Enable \"Show this role separately\" on a role to see it here.'**
+  String get guildSettingsRolesNoHoistedRoles;
+
+  /// Tooltip on locked role rows.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot edit this role because it is your highest role or above you'**
+  String get guildSettingsRolesLockedTooltip;
+
+  /// Tooltip when user lacks manage roles permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You need the \"{permission}\" permission to edit these permissions'**
+  String guildSettingsRolesNeedManageRolesPermission(String permission);
+
+  /// Tooltip when role hierarchy blocks editing.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot edit a role at or above your highest role'**
+  String get guildSettingsRolesCannotEditHigherRole;
+
+  /// Tooltip when user cannot grant a permission.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot grant a permission you don\'t have'**
+  String get guildSettingsRolesCannotGrantPermission;
+
+  /// Tooltip when revoking would strip permission from self.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot remove this permission because it would remove it from yourself'**
+  String get guildSettingsRolesCannotRemoveOwnPermission;
+
+  /// Toast after saving role changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles updated successfully'**
+  String get guildSettingsRolesUpdatedSuccess;
+
+  /// Toast after creating a role.
+  ///
+  /// In en, this message translates to:
+  /// **'Role created successfully'**
+  String get guildSettingsRolesCreatedSuccess;
+
+  /// Toast after deleting a role.
+  ///
+  /// In en, this message translates to:
+  /// **'Role deleted successfully'**
+  String get guildSettingsRolesDeletedSuccess;
+
+  /// Toast after resetting hoist order.
+  ///
+  /// In en, this message translates to:
+  /// **'Hoist order reset to default'**
+  String get guildSettingsRolesHoistResetSuccess;
+
+  /// Modal title when role name is blank on save.
+  ///
+  /// In en, this message translates to:
+  /// **'Role name is required'**
+  String get guildSettingsRolesNameRequiredTitle;
+
+  /// Modal body when role name is blank on save.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the role a name before saving.'**
+  String get guildSettingsRolesNameRequiredBody;
+
+  /// Error modal title when role creation fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t create role'**
+  String get guildSettingsRolesCreateFailedTitle;
+
+  /// Error modal title when role update fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update roles'**
+  String get guildSettingsRolesUpdateFailedTitle;
+
+  /// Error modal title when role deletion fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete role'**
+  String get guildSettingsRolesDeleteFailedTitle;
+
+  /// Error modal body when role deletion fails.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{name}\" wouldn\'t delete. Try again.'**
+  String guildSettingsRolesDeleteFailedBody(String name);
+
+  /// Error modal title when hoist reset fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reset hoist order'**
+  String get guildSettingsRolesResetHoistFailedTitle;
+
+  /// Generic retry message for role errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in a moment.'**
+  String get guildSettingsRolesTryAgainInAMoment;
+
+  /// Delete role confirmation message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete the {name} role? Any members with this role will no longer have it.'**
+  String guildSettingsRolesDeleteConfirm(String name);
+
+  /// Permission category label.
+  ///
+  /// In en, this message translates to:
+  /// **'Community-wide'**
+  String get permissionCategoryCommunityWide;
+
+  /// Permission category label.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages & media'**
+  String get permissionCategoryMessagesMedia;
+
+  /// Permission category label.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderation'**
+  String get permissionCategoryModeration;
+
+  /// Permission category label.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel access'**
+  String get permissionCategoryChannelAccess;
+
+  /// Permission category label.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio & video'**
+  String get permissionCategoryAudioVideo;
+
+  /// Fallback permission label.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown permission'**
+  String get permissionUnknown;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Administrator'**
+  String get permissionAdministrator;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Grants all permissions and bypasses channel restrictions. Highly sensitive.'**
+  String get permissionAdministratorDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'View activity log'**
+  String get permissionViewActivityLog;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the community\'s activity log of changes and moderation actions.'**
+  String get permissionViewActivityLogDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage community'**
+  String get permissionManageCommunity;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit global settings like name, description, and icon.'**
+  String get permissionManageCommunityDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage roles'**
+  String get permissionManageRoles;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites.'**
+  String get permissionManageRolesDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage channels'**
+  String get permissionManageChannels;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Create, edit, or delete channels and categories.'**
+  String get permissionManageChannelsDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Kick members'**
+  String get permissionKickMembers;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Ban members'**
+  String get permissionBanMembers;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Create invite links'**
+  String get permissionCreateInviteLinks;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Change own nickname'**
+  String get permissionChangeOwnNickname;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your own nickname.'**
+  String get permissionChangeOwnNicknameDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage nicknames'**
+  String get permissionManageNicknames;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Change other members\' nicknames.'**
+  String get permissionManageNicknamesDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Create emoji & stickers'**
+  String get permissionCreateEmojiStickers;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload new emoji and stickers, and manage your own creations.'**
+  String get permissionCreateEmojiStickersDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage emoji & stickers'**
+  String get permissionManageEmojiStickers;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit or delete emoji and stickers created by other members.'**
+  String get permissionManageEmojiStickersDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage webhooks'**
+  String get permissionManageWebhooks;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Create, edit, or delete webhooks.'**
+  String get permissionManageWebhooksDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Send messages'**
+  String get permissionSendMessages;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Send TTS messages'**
+  String get permissionSendTtsMessages;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Send text-to-speech messages.'**
+  String get permissionSendTtsMessagesDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage messages'**
+  String get permissionManageMessages;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete other members\' messages. Pinning is controlled separately.'**
+  String get permissionManageMessagesDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin messages'**
+  String get permissionPinMessages;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Embed links'**
+  String get permissionEmbedLinks;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach files'**
+  String get permissionAttachFiles;
+
+  /// Permission name for mention everyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Use @everyone/@here and @role'**
+  String get permissionMentionEveryone;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Mention everyone or any role (even if the role isn\'t set to be mentionable).'**
+  String get permissionMentionEveryoneDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Use external emoji'**
+  String get permissionUseExternalEmoji;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Use emoji from other communities.'**
+  String get permissionUseExternalEmojiDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Use external stickers'**
+  String get permissionUseExternalStickers;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reactions'**
+  String get permissionAddReactions;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new reactions to messages.'**
+  String get permissionAddReactionsDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Bypass slowmode'**
+  String get permissionBypassSlowmode;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignore per-channel message rate limits.'**
+  String get permissionBypassSlowmodeDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Time out members'**
+  String get permissionTimeOutMembers;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Prevent members from sending messages, reacting, and joining voice for a duration.'**
+  String get permissionTimeOutMembersDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'View channel'**
+  String get permissionViewChannel;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'View channel members'**
+  String get permissionViewChannelMembers;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'See the member list for channels in this community.'**
+  String get permissionViewChannelMembersDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get permissionConnect;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak'**
+  String get permissionSpeak;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Stream video'**
+  String get permissionStreamVideo;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Use voice activity'**
+  String get permissionUseVoiceActivity;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Without this permission, push-to-talk is required.'**
+  String get permissionUseVoiceActivityDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority speaker'**
+  String get permissionPrioritySpeaker;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute members'**
+  String get permissionMuteMembers;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Deafen members'**
+  String get permissionDeafenMembers;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Move members'**
+  String get permissionMoveMembers;
+
+  /// Permission description.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag members between channels they can access.'**
+  String get permissionMoveMembersDescription;
+
+  /// Permission name.
+  ///
+  /// In en, this message translates to:
+  /// **'Set voice region'**
+  String get permissionSetVoiceRegion;
 
   /// Emoji slot usage summary.
   ///
@@ -12582,17 +13434,191 @@ abstract class FluxerLocalizations {
   /// **'{count} members'**
   String guildSettingsMembersResultsTitle(int count);
 
+  /// Title for the invites settings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites'**
+  String get guildSettingsInvitesTitle;
+
   /// Description for invites tab.
   ///
   /// In en, this message translates to:
-  /// **'View and revoke active invite links.'**
+  /// **'View all invites for this community. To create a new invite, go to a channel and use the invite button.'**
   String get guildSettingsInvitesDescription;
 
-  /// Empty state for invites.
+  /// Empty state title for invites.
   ///
   /// In en, this message translates to:
-  /// **'No active invites.'**
+  /// **'No invite links'**
   String get guildSettingsInvitesEmpty;
+
+  /// Empty state description for invites.
+  ///
+  /// In en, this message translates to:
+  /// **'This community doesn\'t have any invite links yet. Go to a channel and create an invite to invite people.'**
+  String get guildSettingsInvitesEmptyDescription;
+
+  /// Error title when invites fail to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load invites'**
+  String get guildSettingsInvitesLoadFailedTitle;
+
+  /// Error description when invites fail to load.
+  ///
+  /// In en, this message translates to:
+  /// **'There was an error loading the invites. Try again.'**
+  String get guildSettingsInvitesLoadFailedDescription;
+
+  /// Retry button on invites load error.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get guildSettingsInvitesTryAgain;
+
+  /// Toggle to show invite creation date instead of expiration.
+  ///
+  /// In en, this message translates to:
+  /// **'Show creation date instead of expiration date'**
+  String get guildSettingsInvitesShowCreatedDate;
+
+  /// Button to pause invite links for a community.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause invites'**
+  String get guildSettingsInvitesPauseInvites;
+
+  /// Button to re-enable invite links for a community.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable invites'**
+  String get guildSettingsInvitesEnableInvites;
+
+  /// Confirmation title before pausing invites.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause invites for this community'**
+  String get guildSettingsInvitesPauseForCommunityTitle;
+
+  /// Confirmation title before enabling invites.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable invites for this community'**
+  String get guildSettingsInvitesEnableForCommunityTitle;
+
+  /// Confirmation body before pausing invites.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause invites? New users won\'t be able to join through invite links until you re-enable them. Existing members won\'t be affected.'**
+  String get guildSettingsInvitesPauseConfirmDescription;
+
+  /// Confirmation body before enabling invites.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable invites? Users will be able to join this community through invite links again.'**
+  String get guildSettingsInvitesEnableConfirmDescription;
+
+  /// Confirm button to pause invites.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get guildSettingsInvitesPause;
+
+  /// Status message when invites are manually paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites are paused for this community.'**
+  String get guildSettingsInvitesPausedForCommunity;
+
+  /// Status message when invites are paused due to raid detection.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites are paused because {productName} detected a potential raid. New users can\'t join right now.'**
+  String guildSettingsInvitesPausedBecauseRaid(String productName);
+
+  /// Mobile invite row label for inviter.
+  ///
+  /// In en, this message translates to:
+  /// **'Inviter:'**
+  String get guildSettingsInvitesLabelInviter;
+
+  /// Mobile invite row label for channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel:'**
+  String get guildSettingsInvitesLabelChannel;
+
+  /// Mobile invite row label for invite code.
+  ///
+  /// In en, this message translates to:
+  /// **'Code:'**
+  String get guildSettingsInvitesLabelCode;
+
+  /// Mobile invite row label for uses count.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses:'**
+  String get guildSettingsInvitesLabelUses;
+
+  /// Mobile invite row label for created date.
+  ///
+  /// In en, this message translates to:
+  /// **'Created:'**
+  String get guildSettingsInvitesLabelCreated;
+
+  /// Mobile invite row label for expiration date.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires:'**
+  String get guildSettingsInvitesLabelExpires;
+
+  /// Fallback when invite inviter is unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get guildSettingsInvitesUnknown;
+
+  /// Fallback when invite channel has no parent category.
+  ///
+  /// In en, this message translates to:
+  /// **'No category'**
+  String get guildSettingsInvitesNoCategory;
+
+  /// Label when an invite has expired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get guildSettingsInvitesExpired;
+
+  /// Label when an invite does not expire.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get guildSettingsInvitesNever;
+
+  /// Action to copy an invite link.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy invite link'**
+  String get guildSettingsInvitesCopyLink;
+
+  /// Action to revoke an invite link.
+  ///
+  /// In en, this message translates to:
+  /// **'Revoke invite'**
+  String get guildSettingsInvitesRevoke;
+
+  /// Error title when revoking an invite fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t revoke invite'**
+  String get guildSettingsInvitesRevokeFailedTitle;
+
+  /// Error description when revoking an invite fails.
+  ///
+  /// In en, this message translates to:
+  /// **'The link may still work. Try again in a moment.'**
+  String get guildSettingsInvitesRevokeFailedDescription;
 
   /// Invite usage count.
   ///
@@ -13367,6 +14393,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Created'**
   String get guildSettingsInvitesTableCreated;
+
+  /// No description provided for @guildSettingsInvitesTableExpires.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires'**
+  String get guildSettingsInvitesTableExpires;
 
   /// No description provided for @guildSettingsMembersSortNewest.
   ///

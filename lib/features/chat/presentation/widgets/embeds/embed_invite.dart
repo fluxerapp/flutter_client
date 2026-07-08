@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/embeds/invite_embed_context_menu.dart';
 import 'package:fluxer_app/features/chat/providers/messages/invite_embed_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
@@ -100,6 +101,28 @@ class _GuildInviteCard extends StatelessWidget {
     return null;
   }
 
+  Future<void> _showContextMenu(BuildContext context, Offset position) async {
+    final InviteEmbedContextMenuAction? action =
+        await showInviteEmbedContextMenu(
+          context,
+          position: position,
+          canCopyGuildId: true,
+          canCopyChannelId: true,
+          canReport: true,
+        );
+    if (action == null || !context.mounted) {
+      return;
+    }
+    await handleInviteEmbedContextMenuAction(
+      context: context,
+      action: action,
+      guildId: invite.guild.id,
+      guildName: invite.guild.name,
+      inviteCode: code,
+      channelId: invite.channel.id,
+    );
+  }
+
   void _onJoin(BuildContext context) {
     if (isAlreadyMember) {
       ref
@@ -127,58 +150,66 @@ class _GuildInviteCard extends StatelessWidget {
     final onlineStr = _formatCount(invite.presenceCount);
     final memberStr = _formatCount(invite.memberCount);
 
-    return _InviteCard(
-      splashUrl: _splashUrl,
-      splashAspectRatio: _splashAspectRatio,
-      icon: _GuildIcon(url: _iconUrl, name: invite.guild.name),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: Text(
-              invite.guild.name,
-              style: TextStyle(
-                color: context.colors.textPrimary,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                letterSpacing: -0.1,
+    return GestureDetector(
+      onSecondaryTapDown: (TapDownDetails details) {
+        unawaited(_showContextMenu(context, details.globalPosition));
+      },
+      onLongPressStart: (LongPressStartDetails details) {
+        unawaited(_showContextMenu(context, details.globalPosition));
+      },
+      child: _InviteCard(
+        splashUrl: _splashUrl,
+        splashAspectRatio: _splashAspectRatio,
+        icon: _GuildIcon(url: _iconUrl, name: invite.guild.name),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                invite.guild.name,
+                style: TextStyle(
+                  color: context.colors.textPrimary,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: -0.1,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: FluxerGuildBadge(features: invite.guild.features),
-          ),
-        ],
-      ),
-      stats: Row(
-        children: [
-          const _StatDot(online: true),
-          const SizedBox(width: 4),
-          Text(
-            l10n.embedInviteOnline(onlineStr),
-            style: TextStyle(
-              color: context.colors.textTertiaryMuted,
-              fontSize: 12,
+            Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: FluxerGuildBadge(features: invite.guild.features),
             ),
-          ),
-          const SizedBox(width: 10),
-          const _StatDot(online: false),
-          const SizedBox(width: 4),
-          Text(
-            l10n.embedInviteMembers(memberStr),
-            style: TextStyle(
-              color: context.colors.textTertiaryMuted,
-              fontSize: 12,
+          ],
+        ),
+        stats: Row(
+          children: [
+            const _StatDot(online: true),
+            const SizedBox(width: 4),
+            Text(
+              l10n.embedInviteOnline(onlineStr),
+              style: TextStyle(
+                color: context.colors.textTertiaryMuted,
+                fontSize: 12,
+              ),
             ),
-          ),
-        ],
-      ),
-      footer: FluxerButton.primary(
-        onPressed: () => _onJoin(context),
-        label: isAlreadyMember ? l10n.embedInviteGoTo : l10n.embedInviteJoin,
+            const SizedBox(width: 10),
+            const _StatDot(online: false),
+            const SizedBox(width: 4),
+            Text(
+              l10n.embedInviteMembers(memberStr),
+              style: TextStyle(
+                color: context.colors.textTertiaryMuted,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+        footer: FluxerButton.primary(
+          onPressed: () => _onJoin(context),
+          label: isAlreadyMember ? l10n.embedInviteGoTo : l10n.embedInviteJoin,
+        ),
       ),
     );
   }

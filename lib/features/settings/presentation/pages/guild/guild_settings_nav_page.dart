@@ -25,7 +25,8 @@ class GuildSettingsNavPage extends ConsumerWidget {
       guildSettingsPermissionsProvider(guildId),
     );
     final Guild? guild = ref.watch(guildByIdProvider(guildId)).value;
-    final List<GuildSettingsTab> tabs = visibleGuildSettingsTabs(
+    final List<GuildSettingsTab> tabs = visibleGuildSettingsTabsForRef(
+      ref: ref,
       permissions: permissions,
       guild: guild,
     );
@@ -115,5 +116,6 @@ IconData guildSettingsTabIcon(GuildSettingsTab tab) {
     GuildSettingsTab.members => PhosphorIconsFill.users,
     GuildSettingsTab.invites => PhosphorIconsFill.ticket,
     GuildSettingsTab.bans => PhosphorIconsFill.prohibit,
+    GuildSettingsTab.channels => PhosphorIconsRegular.hash,
   };
 }

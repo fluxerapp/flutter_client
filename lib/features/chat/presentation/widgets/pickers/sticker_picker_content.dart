@@ -43,6 +43,7 @@ class StickerPickerContent extends ConsumerStatefulWidget {
     this.searchTopPadding,
     this.searchBottomPadding,
     this.channelId,
+    this.scrollController,
     super.key,
   });
 
@@ -52,6 +53,7 @@ class StickerPickerContent extends ConsumerStatefulWidget {
   final double? searchTopPadding;
   final double? searchBottomPadding;
   final String? channelId;
+  final ScrollController? scrollController;
 
   @override
   ConsumerState<StickerPickerContent> createState() =>
@@ -85,7 +87,7 @@ class _StickerPickerData {
 }
 
 class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
-  final _scrollController = ScrollController();
+  ScrollController? _ownedScrollController;
   final _searchController = TextEditingController();
   String _searchQuery = '';
   StickerEntry? _hoveredSticker;
@@ -95,6 +97,10 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
   bool? _cachedCanUseExternalStickers;
   List<StickerEntry>? _cachedAllStickers;
   Map<Guild, List<StickerEntry>>? _cachedGroupedStickers;
+
+  ScrollController get _scrollController =>
+      widget.scrollController ??
+      (_ownedScrollController ??= ScrollController());
 
   @override
   void initState() {
@@ -106,7 +112,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _ownedScrollController?.dispose();
     _searchController.dispose();
     super.dispose();
   }

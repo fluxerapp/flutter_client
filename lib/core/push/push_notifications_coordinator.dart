@@ -4,18 +4,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
 import 'package:fluxer_app/core/push/apns/apns_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/apns/apple_push_notification_tap_binding.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_mobile_device_registration.dart';
 import 'package:fluxer_app/core/push/fcm/fcm_notification_tap_binding.dart';
+import 'package:fluxer_app/core/push/foreground_push_notification_policy.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
-import 'package:fluxer_app/core/push/push_notification_display_config.dart';
+import 'package:fluxer_app/core/push/push_notification_clear.dart';
+import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_notification_tap_handler.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
+import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
@@ -34,7 +38,10 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
   bool build() {
     ref
       ..read(applePushNotificationTapBindingProvider)
-      ..read(fcmNotificationTapBindingProvider);
+      ..read(fcmNotificationTapBindingProvider)
+      ..listen<bool>(appUiForegroundProvider, (_, bool next) {
+        _syncForegroundState(isAppForeground: next);
+      }, fireImmediately: true);
     if (!_bootstrapScheduled) {
       _bootstrapScheduled = true;
       SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -46,6 +53,20 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
       _messageSubscription = null;
     });
     return false;
+  }
+
+  void _syncForegroundState({required bool isAppForeground}) {
+    if (PushProviderGuard.isUnifiedPush) {
+      UnifiedPushService.instance.appForeground = isAppForeground;
+    }
+    FirebaseMessagingPushService.configureForegroundMessageFilter((
+      Map<String, String> payload,
+    ) {
+      return ForegroundPushNotificationPolicy.shouldProcessPush(
+        isAppForeground: isAppForeground,
+        payload: payload,
+      );
+    });
   }
 
   Future<void> _runBootstrap() async {
@@ -90,21 +111,10 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
               .syncFromCurrentEndpoint(),
         );
       }
+      _syncForegroundState(isAppForeground: ref.read(appUiForegroundProvider));
       await _messageSubscription?.cancel();
       _messageSubscription = pushService.watchMessages().listen(
-        (PushMessage message) {
-          if (PushProviderGuard.isUnifiedPush) {
-            return;
-          }
-          // APNs + NotificationService extension already show rich notifications.
-          if (PushProviderGuard.isApple) {
-            return;
-          }
-          if (!PushNotificationDisplayConfig.foregroundNotificationsEnabled) {
-            return;
-          }
-          unawaited(_localPush.showPushMessage(message));
-        },
+        _onIncomingPush,
         onError: (Object err, StackTrace st) {
           if (kDebugMode) {
             debugPrint('[PushNotificationsCoordinator] message stream: $err');
@@ -116,6 +126,24 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
         debugPrint('[PushNotificationsCoordinator] bootstrap failed: $e\n$st');
       }
     }
+  }
+
+  void _onIncomingPush(PushMessage message) {
+    final bool isForeground = ref.read(appUiForegroundProvider);
+    if (!ForegroundPushNotificationPolicy.shouldProcessPush(
+      isAppForeground: isForeground,
+      payload: message.payload,
+    )) {
+      return;
+    }
+    if (isNotificationClearPayload(message.payload)) {
+      unawaited(PushNotificationClear.handleClearPayload(message.payload));
+      return;
+    }
+    if (PushProviderGuard.isApple || PushProviderGuard.isUnifiedPush) {
+      return;
+    }
+    unawaited(_localPush.showPushMessage(message));
   }
 
   Future<void> _initializeUnifiedPush(UnifiedPushService pushService) async {

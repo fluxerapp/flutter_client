@@ -78,13 +78,20 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
     applicationState: UIApplication.State
   ) {
     if PushNotificationPayload.isClearPayload(from: userInfo) {
+      handleClearPayload(userInfo: userInfo)
       return
     }
-    guard Self.hasApsAlert(userInfo) else {
+    guard PushNotificationPayload.hasApsAlert(userInfo) else {
+      return
+    }
+    let isAppForeground = applicationState == .active
+    if !ForegroundPushNotificationPolicy.shouldProcessAlertPush(
+      isAppForeground: isAppForeground
+    ) {
       return
     }
     emitPushMessage(userInfo: userInfo, messageId: nil)
-    if applicationState != .active {
+    if !isAppForeground {
       presentLocalNotificationReplacingRemoteDuplicate(userInfo: userInfo)
     }
   }
@@ -95,18 +102,17 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   ) {
     let userInfo = notification.request.content.userInfo
     if PushNotificationPayload.isClearPayload(from: userInfo) {
+      handleClearPayload(userInfo: userInfo)
       completionHandler([])
       return
     }
-    emitPushMessage(
-      userInfo: userInfo,
-      messageId: PushNotificationPayload.resolveNotificationIdentifier(from: userInfo)
-    )
     completionHandler([])
-    presentLocalNotificationReplacingRemoteDuplicate(
-      userInfo: userInfo,
-      sourceContent: notification.request.content
-    )
+  }
+
+  private func handleClearPayload(userInfo: [AnyHashable: Any]) {
+    if let channelId = PushNotificationPayload.resolveChannelId(from: userInfo) {
+      removeDeliveredNotificationsForChannel(channelId: channelId)
+    }
   }
 
   func removeAllDeliveredNotifications() {
@@ -338,10 +344,7 @@ final class ApplePushBridge: NSObject, FlutterStreamHandler {
   }
 
   private static func hasApsAlert(_ userInfo: [AnyHashable: Any]) -> Bool {
-    guard let aps = userInfo["aps"] as? [String: Any] else {
-      return false
-    }
-    return aps["alert"] != nil
+    PushNotificationPayload.hasApsAlert(userInfo)
   }
 
   private static func resolveDisplayContent(

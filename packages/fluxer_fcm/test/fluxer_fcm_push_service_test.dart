@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_fcm/fcm_push_message.dart';
 import 'package:fluxer_fcm/fluxer_fcm_push_service.dart';
 
 void main() {
@@ -95,6 +96,48 @@ void main() {
         actualPayloads.add(payload);
       });
       expect(actualPayloads, isEmpty);
+    });
+  });
+
+  group('foregroundMessageFilter', () {
+    test('blocks foreground messages when filter returns false', () {
+      service.setForegroundMessageFilter((FcmPushMessage message) => false);
+      const FcmPushMessage message = FcmPushMessage(
+        id: '1',
+        title: 'Ping',
+        body: 'Hello',
+        payload: <String, String>{'channel_id': '456'},
+      );
+      expect(service.shouldProcessForegroundMessage(message), isFalse);
+    });
+
+    test('allows clear payloads through policy-style filter', () {
+      service.setForegroundMessageFilter((FcmPushMessage message) {
+        if (message.payload['type'] == 'notification_clear') {
+          return true;
+        }
+        return false;
+      });
+      const FcmPushMessage clearMessage = FcmPushMessage(
+        id: 'clear',
+        title: null,
+        body: null,
+        payload: <String, String>{'type': 'notification_clear'},
+      );
+      const FcmPushMessage alertMessage = FcmPushMessage(
+        id: 'alert',
+        title: 'Ping',
+        body: 'Hello',
+        payload: <String, String>{'channel_id': '456'},
+      );
+      expect(service.shouldProcessForegroundMessage(clearMessage), isTrue);
+      expect(service.shouldProcessForegroundMessage(alertMessage), isFalse);
+    });
+
+    test('clears foreground filter on reset', () {
+      service.setForegroundMessageFilter((FcmPushMessage message) => false);
+      service.resetForTesting();
+      expect(service.foregroundMessageFilterForTesting, isNull);
     });
   });
 }

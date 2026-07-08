@@ -33,7 +33,29 @@ class FluxerFcmPushService {
   )?
   tapPayloadEnricher;
 
+  bool Function(FcmPushMessage message)? _foregroundMessageFilter;
+
   Stream<String> get tokenRefreshStream => _tokenRefresh.stream;
+
+  void setForegroundMessageFilter(
+    bool Function(FcmPushMessage message)? filter,
+  ) {
+    _foregroundMessageFilter = filter;
+  }
+
+  @visibleForTesting
+  bool Function(FcmPushMessage message)?
+  get foregroundMessageFilterForTesting => _foregroundMessageFilter;
+
+  @visibleForTesting
+  bool shouldProcessForegroundMessage(FcmPushMessage message) {
+    final bool Function(FcmPushMessage message)? filter =
+        _foregroundMessageFilter;
+    if (filter == null) {
+      return true;
+    }
+    return filter(message);
+  }
 
   void setNotificationTapCallback(
     void Function(Map<String, String> payload)? callback,
@@ -109,6 +131,9 @@ class FluxerFcmPushService {
 
   void _onForegroundMessage(RemoteMessage message) {
     final FcmPushMessage mapped = mapRemoteMessage(message);
+    if (!shouldProcessForegroundMessage(mapped)) {
+      return;
+    }
     if (kDebugMode) {
       debugPrint('[FluxerFcmPushService] foreground id=${mapped.id}');
     }
@@ -182,6 +207,7 @@ class FluxerFcmPushService {
     _onMessageSubscription = null;
     _onMessageOpenedAppSubscription = null;
     _onTokenRefreshSubscription = null;
+    _foregroundMessageFilter = null;
     tapPayloadEnricher = null;
     FcmTapPayloadCacheHooks.resetForTesting();
   }

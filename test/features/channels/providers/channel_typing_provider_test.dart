@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 
 void main() {
@@ -77,6 +78,22 @@ void main() {
       });
     },
   );
+
+  test('presentableTypingUsersInChannel excludes blocked users', () {
+    final container = ProviderContainer(
+      overrides: [
+        currentUserIdProvider.overrideWithValue('me'),
+        blockedUserIdsProvider.overrideWithValue({'u2'}),
+      ],
+    );
+    addTearDown(container.dispose);
+    container.read(typingIndicatorsProvider.notifier).addTyping('A', 'u1');
+    container.read(typingIndicatorsProvider.notifier).addTyping('A', 'u2');
+
+    expect(container.read(presentableTypingUsersInChannelProvider('A')), [
+      'u1',
+    ]);
+  });
 
   test('re-typing within the window extends the expiry', () {
     fakeAsync((FakeAsync async) {

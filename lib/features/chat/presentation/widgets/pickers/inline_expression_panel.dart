@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
@@ -13,11 +12,11 @@ import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_drag.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 const double kCollapsedPanelHeight = kInlineExpressionPanelCollapsedHeight;
 
-const _kDragHandleHeight = 28.0;
 const _kExpandedFraction = 0.85;
 const _kInlineSearchHorizontalPadding = 16.0;
 const _kInlineSearchTopPadding = 8.0;
@@ -252,7 +251,11 @@ class _InlineExpressionPanelState extends State<InlineExpressionPanel>
         ),
         child: Column(
           children: [
-            _buildDragHandle(colors),
+            FluxerBottomSheetDragHandle(
+              onVerticalDragUpdate: _onVerticalDragUpdate,
+              onVerticalDragEnd: _onVerticalDragEnd,
+              includeTopPadding: false,
+            ),
             Expanded(
               child: NotificationListener<ScrollNotification>(
                 onNotification: _onScrollNotification,
@@ -306,25 +309,6 @@ class _InlineExpressionPanelState extends State<InlineExpressionPanel>
       },
     );
   }
-
-  Widget _buildDragHandle(FluxerColorTheme colors) => GestureDetector(
-    onVerticalDragUpdate: _onVerticalDragUpdate,
-    onVerticalDragEnd: _onVerticalDragEnd,
-    behavior: HitTestBehavior.opaque,
-    child: SizedBox(
-      height: _kDragHandleHeight,
-      child: Center(
-        child: Container(
-          width: 32,
-          height: 4,
-          decoration: BoxDecoration(
-            color: colors.backgroundModifierAccent,
-            borderRadius: BorderRadius.circular(2),
-          ),
-        ),
-      ),
-    ),
-  );
 }
 
 class _ExpressionPanelContent extends ConsumerStatefulWidget {

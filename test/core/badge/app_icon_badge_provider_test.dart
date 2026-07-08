@@ -1,11 +1,12 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
+
+import '../../helpers/open_test_database.dart';
 
 void main() {
   test(

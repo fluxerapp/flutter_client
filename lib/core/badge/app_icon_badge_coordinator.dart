@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/badge/push_badge_count_parser.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_ready_provider.dart';
 import 'package:fluxer_app/core/providers/push_provider.dart';
+import 'package:fluxer_app/core/push/foreground_push_notification_policy.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -65,7 +66,10 @@ class AppIconBadgeCoordinator extends _$AppIconBadgeCoordinator {
     }
     final bool gatewayReady = ref.read(gatewayReadyProvider);
     final bool isForeground = ref.read(appUiForegroundProvider);
-    if (gatewayReady && isForeground) {
+    if (gatewayReady &&
+        !ForegroundPushNotificationPolicy.shouldProcessAlertPush(
+          isAppForeground: isForeground,
+        )) {
       return;
     }
     final int? badgeCount = parsePushBadgeCount(message.payload);

@@ -49,6 +49,13 @@ enum PushNotificationPayload {
     resolveMessageId(from: userInfo) ?? UUID().uuidString
   }
 
+  static func hasApsAlert(_ userInfo: [AnyHashable: Any]) -> Bool {
+    guard let aps = userInfo["aps"] as? [String: Any] else {
+      return false
+    }
+    return aps["alert"] != nil
+  }
+
   static func isClearPayload(from userInfo: [AnyHashable: Any]) -> Bool {
     if isClearValue(userInfo["type"]) || isClearValue(userInfo["action"]) {
       return true

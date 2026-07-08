@@ -35,4 +35,33 @@ void main() {
       expect(values, isNot(contains(IarRuleReason.raidCoordination)));
     });
   });
+
+  group('iarFlatGuildReasonSelectOptions', () {
+    test('returns one option per guild reason, in list order', () {
+      final options = iarFlatGuildReasonSelectOptions(l10n);
+      expect(
+        options.map((option) => option.value).toList(),
+        orderedEquals(guildReportReasons),
+      );
+    });
+
+    test('every option has a non-empty label and description', () {
+      for (final option in iarFlatGuildReasonSelectOptions(l10n)) {
+        expect(option.label, isNotEmpty, reason: '${option.value} label');
+        expect(
+          option.description,
+          allOf(isNotNull, isNotEmpty),
+          reason: '${option.value} description',
+        );
+      }
+    });
+
+    test('includes guild-only reasons', () {
+      final values = iarFlatGuildReasonSelectOptions(
+        l10n,
+      ).map((option) => option.value).toSet();
+      expect(values, contains(IarRuleReason.terrorismExtremism));
+      expect(values, contains(IarRuleReason.raidCoordination));
+    });
+  });
 }

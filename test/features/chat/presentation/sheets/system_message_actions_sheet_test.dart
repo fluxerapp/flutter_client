@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart'
     show FluxerDatabase;
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
@@ -18,6 +17,8 @@ import 'package:fluxer_app/features/chat/providers/messages/saved_message_provid
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations_en.dart';
+
+import '../../../../helpers/open_test_database.dart';
 
 const String _messageId = 'm1';
 

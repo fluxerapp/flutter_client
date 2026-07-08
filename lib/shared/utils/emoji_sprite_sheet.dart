@@ -11,7 +11,7 @@ const _kSpriteSize = 32;
 const _kNonDiversitySpritesPerRow = 42;
 const _kDiversitySpritesPerRow = 10;
 const _kSpriteBase = 'https://fluxerstatic.com/emoji';
-const _kSpriteVersion = '2';
+const _kSpriteVersion = '3';
 
 const Map<String, String> _kSpriteSheetNames = {
   'default': 'spritesheet-emoji',
@@ -39,7 +39,8 @@ class EmojiSpriteSheet {
   static final Map<String, ui.Image> _images = <String, ui.Image>{};
   static final Map<String, Future<ui.Image>> _loading =
       <String, Future<ui.Image>>{};
-  static final BaseCacheManager _cacheManager = DefaultCacheManager();
+  static BaseCacheManager get _cacheManager =>
+      CachedNetworkImageProvider.defaultCacheManager;
 
   static bool isLoaded({String? skinTone}) =>
       _images.containsKey(_spriteSheetKeyForSkinTone(skinTone));

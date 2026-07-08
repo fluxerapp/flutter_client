@@ -1497,7 +1497,7 @@ class FluxerEmojiWidget extends StatelessWidget {
       height: size,
       child: CachedNetworkImage(
         imageUrl: url,
-        cacheKey: 'emoji_${id}_${animated ? 'a' : 's'}',
+        cacheKey: 'emoji_${id}_${animated ? 'a' : 's'}_$cdnSize',
         width: size,
         height: size,
         // Cap one decode axis only. Capping both forces ResizeImagePolicy.exact,

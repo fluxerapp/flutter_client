@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_reactions_bar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/system_message.dart';
+import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -142,6 +143,7 @@ Future<void> _pumpSystemMessage(
         userSettingsViewModelProvider.overrideWith(
           userSettingsOverride ?? _FakeUserSettings.new,
         ),
+        use12HourTimeFormatProvider.overrideWithValue(false),
       ],
       child: MaterialApp(
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
@@ -159,11 +161,6 @@ Future<void> _pumpSystemMessage(
     ),
   );
   await tester.pumpAndSettle();
-}
-
-Future<void> _disposeSystemMessage(WidgetTester tester) async {
-  await tester.pumpWidget(const SizedBox.shrink());
-  await tester.pump(const Duration(milliseconds: 1));
 }
 
 void main() {
@@ -216,7 +213,6 @@ void main() {
       );
 
       expect(find.textContaining('Sample User added u2'), findsOneWidget);
-      await _disposeSystemMessage(tester);
     });
 
     testWidgets('renders localized channel rename with new name', (

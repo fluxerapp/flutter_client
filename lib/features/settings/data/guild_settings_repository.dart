@@ -46,6 +46,24 @@ class GuildSettingsRepository {
     }
   }
 
+  Future<List<InviteMetadataResponseSchema>> listGuildInvites(
+    String guildId,
+  ) async {
+    try {
+      return await _client.invites.listGuildInvites(guildId: guildId);
+    } on DioException catch (error) {
+      throw Exception(_messageFromDio(error, 'Failed to load invites'));
+    }
+  }
+
+  Future<void> deleteInvite(String inviteCode) async {
+    try {
+      await _client.invites.deleteInvite(inviteCode: inviteCode);
+    } on DioException catch (error) {
+      throw Exception(_messageFromDio(error, 'Failed to revoke invite'));
+    }
+  }
+
   Future<GuildAuditLogPage> listAuditLogs({
     required String guildId,
     int limit = 50,

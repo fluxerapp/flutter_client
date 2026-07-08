@@ -134,6 +134,9 @@ IarResolvedContext resolveIarContext(
     IarUserContext() => throw UnsupportedError(
       'User reports use showSimpleIarReportSheet, not the multi-step flow.',
     ),
+    IarGuildContext() => throw UnsupportedError(
+      'Guild reports use showSimpleIarReportSheet, not the multi-step flow.',
+    ),
   };
 }
 

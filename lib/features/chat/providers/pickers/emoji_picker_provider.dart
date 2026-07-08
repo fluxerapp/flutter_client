@@ -39,7 +39,7 @@ class GuildEmojiEntry {
   final bool animated;
   final String guildId;
 
-  String get url => urlForSize(48);
+  String get url => urlForSize(kCustomEmojiFetchSize);
 
   String urlForSize(int size) =>
       FluxerMediaUrl.customEmoji(id: id, animated: animated, size: size);

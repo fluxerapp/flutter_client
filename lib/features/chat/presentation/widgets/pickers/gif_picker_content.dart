@@ -73,6 +73,7 @@ class GifPickerContent extends ConsumerStatefulWidget {
     this.searchHorizontalPadding,
     this.searchTopPadding,
     this.searchBottomPadding,
+    this.scrollController,
     super.key,
   });
 
@@ -82,6 +83,7 @@ class GifPickerContent extends ConsumerStatefulWidget {
   final double? searchHorizontalPadding;
   final double? searchTopPadding;
   final double? searchBottomPadding;
+  final ScrollController? scrollController;
 
   @override
   ConsumerState<GifPickerContent> createState() => _GifPickerContentState();
@@ -261,6 +263,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     if (_view == _GifPickerView.trending) {
       final trending = ref.watch(gifTrendingProvider(locale));
       return _AsyncGifGrid(
+        scrollController: widget.scrollController,
         gifs: trending,
         onGifTap: (gif) => _selectGif(gif, locale),
         favoriteForGif: favoriteLookup.favoriteForGif,
@@ -287,6 +290,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
             child: searchIsPending || _debouncedQuery.isEmpty
                 ? const _GifLoadingState()
                 : _AsyncGifGrid(
+                    scrollController: widget.scrollController,
                     gifs: ref.watch(
                       gifSearchProvider((
                         query: _debouncedQuery,
@@ -311,6 +315,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
     final featured = ref.watch(gifFeaturedProvider(locale));
     return featured.when(
       data: (data) => _FeaturedGifLanding(
+        scrollController: widget.scrollController,
         featured: data,
         onFavoritesTap: widget.onFavoritesTap,
         onTrendingTap: _showTrending,
@@ -439,6 +444,7 @@ class _FeaturedGifLanding extends StatelessWidget {
     required this.favoriteForGif,
     required this.onGifLongPress,
     this.onFavoritesTap,
+    this.scrollController,
   });
 
   final GifPickerFeatured featured;
@@ -448,6 +454,7 @@ class _FeaturedGifLanding extends StatelessWidget {
   final ValueChanged<GifPickerGif> onGifTap;
   final FavoriteMeme? Function(GifPickerGif gif) favoriteForGif;
   final void Function(GifPickerGif gif, FavoriteMeme? favorite) onGifLongPress;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -489,6 +496,7 @@ class _FeaturedGifLanding extends StatelessWidget {
         onFavoritesTap == null &&
         featured.gifs.isNotEmpty) {
       return _GifGrid(
+        scrollController: scrollController,
         gifs: featured.gifs,
         onGifTap: onGifTap,
         favoriteForGif: favoriteForGif,
@@ -496,7 +504,10 @@ class _FeaturedGifLanding extends StatelessWidget {
       );
     }
 
-    return _CategoryGrid(categories: categories);
+    return _CategoryGrid(
+      scrollController: scrollController,
+      categories: categories,
+    );
   }
 
   static String _bestPreviewUrl(GifPickerGif? gif) {
@@ -529,6 +540,7 @@ class _AsyncGifGrid extends StatelessWidget {
     required this.onGifTap,
     required this.favoriteForGif,
     required this.onGifLongPress,
+    this.scrollController,
     this.emptyTitle,
     this.emptyDescription,
   });
@@ -537,6 +549,7 @@ class _AsyncGifGrid extends StatelessWidget {
   final ValueChanged<GifPickerGif> onGifTap;
   final FavoriteMeme? Function(GifPickerGif gif) favoriteForGif;
   final void Function(GifPickerGif gif, FavoriteMeme? favorite) onGifLongPress;
+  final ScrollController? scrollController;
   final String? emptyTitle;
   final String? emptyDescription;
 
@@ -554,6 +567,7 @@ class _AsyncGifGrid extends StatelessWidget {
         );
       }
       return _GifGrid(
+        scrollController: scrollController,
         gifs: items,
         onGifTap: onGifTap,
         favoriteForGif: favoriteForGif,
@@ -574,15 +588,18 @@ class _GifGrid extends StatelessWidget {
     required this.onGifTap,
     required this.favoriteForGif,
     required this.onGifLongPress,
+    this.scrollController,
   });
 
   final List<GifPickerGif> gifs;
   final ValueChanged<GifPickerGif> onGifTap;
   final FavoriteMeme? Function(GifPickerGif gif) favoriteForGif;
   final void Function(GifPickerGif gif, FavoriteMeme? favorite) onGifLongPress;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) => _VirtualMasonryGrid(
+    scrollController: scrollController,
     items: List<Object>.from(gifs),
     aspectRatioFor: (item) {
       final gif = item as GifPickerGif;
@@ -612,17 +629,22 @@ class _GifGrid extends StatelessWidget {
 }
 
 class _CategoryGrid extends StatefulWidget {
-  const _CategoryGrid({required this.categories});
+  const _CategoryGrid({required this.categories, this.scrollController});
 
   final List<_GifCategoryData> categories;
+  final ScrollController? scrollController;
 
   @override
   State<_CategoryGrid> createState() => _CategoryGridState();
 }
 
 class _CategoryGridState extends State<_CategoryGrid> {
-  final _scrollController = ScrollController();
+  ScrollController? _ownedScrollController;
   var _scrollUpdateScheduled = false;
+
+  ScrollController get _scrollController =>
+      widget.scrollController ??
+      (_ownedScrollController ??= ScrollController());
 
   @override
   void initState() {
@@ -632,9 +654,10 @@ class _CategoryGridState extends State<_CategoryGrid> {
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_scheduleScrollUpdate)
-      ..dispose();
+    _scrollController.removeListener(_scheduleScrollUpdate);
+    if (widget.scrollController == null) {
+      _ownedScrollController?.dispose();
+    }
     super.dispose();
   }
 
@@ -817,6 +840,7 @@ class _VirtualMasonryGrid extends StatefulWidget {
     required this.aspectRatioFor,
     required this.itemKeyFor,
     required this.itemBuilder,
+    this.scrollController,
     super.key,
   });
 
@@ -829,13 +853,14 @@ class _VirtualMasonryGrid extends StatefulWidget {
     required bool isAnimatedImagePlaybackAllowed,
   })
   itemBuilder;
+  final ScrollController? scrollController;
 
   @override
   State<_VirtualMasonryGrid> createState() => _VirtualMasonryGridState();
 }
 
 class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
-  final _scrollController = ScrollController();
+  ScrollController? _ownedScrollController;
   var _itemsVersion = 0;
   int? _layoutItemsVersion;
   double? _layoutColumnWidth;
@@ -844,6 +869,10 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
   List<_MasonryPosition> _layoutPositions = const <_MasonryPosition>[];
   var _layoutContentHeight = 0.0;
   var _scrollUpdateScheduled = false;
+
+  ScrollController get _scrollController =>
+      widget.scrollController ??
+      (_ownedScrollController ??= ScrollController());
 
   @override
   void initState() {
@@ -867,9 +896,10 @@ class _VirtualMasonryGridState extends State<_VirtualMasonryGrid> {
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_scheduleScrollUpdate)
-      ..dispose();
+    _scrollController.removeListener(_scheduleScrollUpdate);
+    if (widget.scrollController == null) {
+      _ownedScrollController?.dispose();
+    }
     super.dispose();
   }
 

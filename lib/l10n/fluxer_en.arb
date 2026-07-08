@@ -3451,6 +3451,90 @@
   "@iarReportUserTitle": {
     "description": "Title of the simple user-report sheet."
   },
+  "iarReportGuildTitle": "Report community",
+  "@iarReportGuildTitle": {
+    "description": "Title of the simple community-report sheet."
+  },
+  "iarReportGuildPreconfirmBody": "If this report is about a specific message in this community, report that message instead. Message reports give our safety team the clearest context, and adding details in the comments can help us review it faster. Only continue with reporting the community as a whole if reporting a message would not capture the broader issue.",
+  "@iarReportGuildPreconfirmBody": {
+    "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
+  },
+  "iarContinueToReportCommunity": "Continue to report community",
+  "@iarContinueToReportCommunity": {
+    "description": "Primary button in the community report pre-confirm dialog."
+  },
+  "iarPreviewCommunitySubtitle": "Community",
+  "@iarPreviewCommunitySubtitle": {
+    "description": "Subtitle shown under the community name in the IAR preview card."
+  },
+  "iarReasonHarassmentGuildLabel": "Harassment or targeted abuse",
+  "@iarReasonHarassmentGuildLabel": {
+    "description": "Community-report reason label for harassment or targeted abuse."
+  },
+  "iarReasonHarassmentGuildDescription": "Community facilitates pile-ons or targeted abuse.",
+  "@iarReasonHarassmentGuildDescription": {
+    "description": "Community-report reason description for harassment or targeted abuse."
+  },
+  "iarReasonHateGuildDescription": "Promotes hatred against protected groups.",
+  "@iarReasonHateGuildDescription": {
+    "description": "Community-report reason description for hate speech."
+  },
+  "iarReasonTerrorismLabel": "Terrorism or violent extremism",
+  "@iarReasonTerrorismLabel": {
+    "description": "Community-report reason label for terrorism or violent extremism."
+  },
+  "iarReasonTerrorismDescription": "Promotes, recruits for, or coordinates violent extremist activity.",
+  "@iarReasonTerrorismDescription": {
+    "description": "Community-report reason description for terrorism or violent extremism."
+  },
+  "iarReasonMatureContentGuildLabel": "Mature content or unsafe gating",
+  "@iarReasonMatureContentGuildLabel": {
+    "description": "Community-report reason label for mature content or unsafe gating."
+  },
+  "iarReasonMatureContentGuildDescription": "Mature content without proper gating.",
+  "@iarReasonMatureContentGuildDescription": {
+    "description": "Community-report reason description for mature content or unsafe gating."
+  },
+  "iarReasonChildSafetyGuildDescription": "Endangers minors or hosts child-exploitation content.",
+  "@iarReasonChildSafetyGuildDescription": {
+    "description": "Community-report reason description for child safety."
+  },
+  "iarReasonRaidLabel": "Raid coordination",
+  "@iarReasonRaidLabel": {
+    "description": "Community-report reason label for raid coordination."
+  },
+  "iarReasonRaidDescription": "Coordinates raids, brigading, or harassment against people or communities.",
+  "@iarReasonRaidDescription": {
+    "description": "Community-report reason description for raid coordination."
+  },
+  "iarReasonSpamGuildDescription": "Community exists to spam, scam, or abuse the platform.",
+  "@iarReasonSpamGuildDescription": {
+    "description": "Community-report reason description for spam, scams, or phishing."
+  },
+  "iarReasonMalwareGuildLabel": "Malware distribution",
+  "@iarReasonMalwareGuildLabel": {
+    "description": "Community-report reason label for malware distribution."
+  },
+  "iarReasonMalwareGuildDescription": "Distributes malware, credential theft, or harmful files.",
+  "@iarReasonMalwareGuildDescription": {
+    "description": "Community-report reason description for malware distribution."
+  },
+  "iarReasonPrivacyGuildLabel": "Privacy violation or doxxing",
+  "@iarReasonPrivacyGuildLabel": {
+    "description": "Community-report reason label for privacy violation or doxxing."
+  },
+  "iarReasonPrivacyGuildDescription": "Shares personal info, stalks users, or coordinates privacy abuse.",
+  "@iarReasonPrivacyGuildDescription": {
+    "description": "Community-report reason description for privacy violation or doxxing."
+  },
+  "iarReasonSelfHarmGuildLabel": "Encourages self-harm",
+  "@iarReasonSelfHarmGuildLabel": {
+    "description": "Community-report reason label for self-harm encouragement."
+  },
+  "iarReasonSelfHarmGuildDescription": "Encourages suicide, self-harm, or eating disorders.",
+  "@iarReasonSelfHarmGuildDescription": {
+    "description": "Community-report reason description for self-harm encouragement."
+  },
   "iarReasonInappropriateProfile": "Inappropriate profile",
   "@iarReasonInappropriateProfile": {
     "description": "User-report reason: the user's profile contains inappropriate content."
@@ -4043,9 +4127,9 @@
   "@chatAttachmentSourceBrowse": {
     "description": "Option to pick arbitrary files from storage."
   },
-  "chatAttachmentPasteTooltip": "Paste image from clipboard",
+  "chatAttachmentPasteTooltip": "Paste file from clipboard",
   "@chatAttachmentPasteTooltip": {
-    "description": "Tooltip for pasting an image attachment from the clipboard."
+    "description": "Tooltip for pasting a file attachment from the clipboard."
   },
   "chatAttachmentSpoiler": "Spoiler",
   "@chatAttachmentSpoiler": {
@@ -6768,6 +6852,38 @@
   "@channelDetailsDeleteChannel": {
     "description": "Channel details menu action to delete a guild channel."
   },
+  "channelMenuOpenChat": "Open chat",
+  "@channelMenuOpenChat": {
+    "description": "Guild channel menu action that opens a voice channel chat without joining voice."
+  },
+  "channelMenuDuplicateChannel": "Duplicate channel",
+  "@channelMenuDuplicateChannel": {
+    "description": "Guild channel menu action to duplicate the selected channel."
+  },
+  "channelMenuResetMatureContentAgreeState": "Reset mature content agreement state",
+  "@channelMenuResetMatureContentAgreeState": {
+    "description": "Developer tool action that forgets a local mature-content gate acknowledgement."
+  },
+  "channelMenuDeleteMyMessagesTitle": "Delete your messages in this channel?",
+  "@channelMenuDeleteMyMessagesTitle": {
+    "description": "Confirmation title for deleting all of the caller's messages in a channel."
+  },
+  "channelMenuDeleteMyMessagesDescription": "This will permanently delete every message you have ever sent in this channel. This cannot be undone.",
+  "@channelMenuDeleteMyMessagesDescription": {
+    "description": "Confirmation description for deleting all of the caller's messages in a channel."
+  },
+  "channelMenuDeleteMyMessagesConfirm": "Delete My Messages",
+  "@channelMenuDeleteMyMessagesConfirm": {
+    "description": "Confirm button for deleting all of the caller's messages in a channel."
+  },
+  "channelMenuDeletedYourMessages": "Deleted your messages",
+  "@channelMenuDeletedYourMessages": {
+    "description": "Success toast after deleting messages in a channel."
+  },
+  "channelMenuCouldNotDeleteYourMessages": "Couldn't delete your messages",
+  "@channelMenuCouldNotDeleteYourMessages": {
+    "description": "Error toast when deleting messages in a channel fails."
+  },
   "channelDetailsSystemMessage": "System message",
   "@channelDetailsSystemMessage": {
     "description": "Subtitle in channel details for a system DM recipient."
@@ -8123,11 +8239,11 @@
   "@guildNavbarGroupDm": {
     "description": "Secondary label for a group DM in the invite recipients list."
   },
-  "guildNavbarCreateChannel": "Create Channel",
+  "guildNavbarCreateChannel": "Create channel",
   "@guildNavbarCreateChannel": {
     "description": "Title and confirm label for the create channel modal."
   },
-  "guildNavbarChannelType": "Channel Type",
+  "guildNavbarChannelType": "Channel type",
   "@guildNavbarChannelType": {
     "description": "Section label for channel type selection in create channel modal."
   },
@@ -8171,11 +8287,15 @@
   "@guildNavbarUrlHint": {
     "description": "Placeholder hint for URL input in link channel creation."
   },
-  "guildNavbarCreateCategory": "Create Category",
+  "guildNavbarChannelTypeSelection": "Channel type selection",
+  "@guildNavbarChannelTypeSelection": {
+    "description": "Accessibility label for channel type radio group in create channel modal."
+  },
+  "guildNavbarCreateCategory": "Create category",
   "@guildNavbarCreateCategory": {
     "description": "Title and confirm label for the create category modal."
   },
-  "guildNavbarNewCategoryHint": "New Category",
+  "guildNavbarNewCategoryHint": "New category",
   "@guildNavbarNewCategoryHint": {
     "description": "Placeholder hint for new category name input."
   },
@@ -8482,13 +8602,17 @@
   "@guildMenuSettingsMembers": {
     "description": "Community settings tab for member management."
   },
-  "guildMenuSettingsInviteLinks": "Invite Links",
+  "guildMenuSettingsInviteLinks": "Invites",
   "@guildMenuSettingsInviteLinks": {
     "description": "Community settings tab for invite links."
   },
   "guildMenuSettingsBans": "Bans",
   "@guildMenuSettingsBans": {
     "description": "Community settings tab for banned members."
+  },
+  "guildMenuSettingsChannels": "Channels",
+  "@guildMenuSettingsChannels": {
+    "description": "Guild settings menu item for channel management."
   },
   "guildSettingsNoPermission": "You do not have permission to view this settings tab.",
   "@guildSettingsNoPermission": {
@@ -8534,13 +8658,472 @@
   "@guildSettingsRolesDescription": {
     "description": "Description for the roles settings tab."
   },
-  "guildSettingsCreateRole": "Create Role",
+  "guildSettingsCreateRole": "Create role",
   "@guildSettingsCreateRole": {
     "description": "Button to create a new role."
   },
   "guildSettingsRolesListTitle": "Roles",
   "@guildSettingsRolesListTitle": {
     "description": "Title for the roles list section."
+  },
+  "guildSettingsRolesNewRole": "New role",
+  "@guildSettingsRolesNewRole": {
+    "description": "Default name for a newly created role."
+  },
+  "guildSettingsRolesDeleteRole": "Delete role",
+  "@guildSettingsRolesDeleteRole": {
+    "description": "Button to delete the selected role."
+  },
+  "guildSettingsRolesBackToRoles": "Back to roles",
+  "@guildSettingsRolesBackToRoles": {
+    "description": "Button to return to the role list from the editor."
+  },
+  "guildSettingsRolesEditTitle": "Edit \"{name}\"",
+  "@guildSettingsRolesEditTitle": {
+    "description": "Title for the role editor panel.",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "guildSettingsRolesEditSubtitle": "Configure role settings and permissions",
+  "@guildSettingsRolesEditSubtitle": {
+    "description": "Subtitle for the role editor panel."
+  },
+  "guildSettingsRolesDisplaySection": "Display",
+  "@guildSettingsRolesDisplaySection": {
+    "description": "Section title for role display settings."
+  },
+  "guildSettingsRolesRoleName": "Role name",
+  "@guildSettingsRolesRoleName": {
+    "description": "Label for the role name input."
+  },
+  "guildSettingsRolesRoleColor": "Role color",
+  "@guildSettingsRolesRoleColor": {
+    "description": "Label for the role color picker."
+  },
+  "guildSettingsRolesRoleColorHelper": "Type a color (hex, rgb(), hsl(), or name) or use the picker.",
+  "@guildSettingsRolesRoleColorHelper": {
+    "description": "Helper text under the role color input."
+  },
+  "guildSettingsRolesShowSeparately": "Show this role separately",
+  "@guildSettingsRolesShowSeparately": {
+    "description": "Switch label for the hoist toggle."
+  },
+  "guildSettingsRolesShowSeparatelyHelper": "Lists members with this role in their own section in the member list.",
+  "@guildSettingsRolesShowSeparatelyHelper": {
+    "description": "Helper text under the hoist toggle."
+  },
+  "guildSettingsRolesAllowMentions": "Allow mentions for this role",
+  "@guildSettingsRolesAllowMentions": {
+    "description": "Switch label for the mentionable toggle."
+  },
+  "guildSettingsRolesAllowMentionsHelper": "Members with the \"{permission}\" permission can always mention roles, regardless of this setting.",
+  "@guildSettingsRolesAllowMentionsHelper": {
+    "description": "Helper text under the mentionable toggle.",
+    "placeholders": {
+      "permission": {"type": "String"}
+    }
+  },
+  "guildSettingsRolesClearPermissionsHelp": "Use this button to quickly clear all permissions.",
+  "@guildSettingsRolesClearPermissionsHelp": {
+    "description": "Help text above the clear permissions button."
+  },
+  "guildSettingsRolesClearPermissions": "Clear permissions",
+  "@guildSettingsRolesClearPermissions": {
+    "description": "Button to clear all role permissions."
+  },
+  "guildSettingsRolesPermissionsSection": "Permissions",
+  "@guildSettingsRolesPermissionsSection": {
+    "description": "Section title for role permissions."
+  },
+  "guildSettingsRolesSearchPermissions": "Search permissions",
+  "@guildSettingsRolesSearchPermissions": {
+    "description": "Placeholder for the permission search input."
+  },
+  "guildSettingsRolesDenseLayout": "Dense layout",
+  "@guildSettingsRolesDenseLayout": {
+    "description": "Tooltip when permission list is in comfy layout."
+  },
+  "guildSettingsRolesComfyLayout": "Comfy layout",
+  "@guildSettingsRolesComfyLayout": {
+    "description": "Tooltip when permission list is in dense layout."
+  },
+  "guildSettingsRolesSwitchToDenseLayout": "Switch to dense layout",
+  "@guildSettingsRolesSwitchToDenseLayout": {
+    "description": "Aria label for switching to dense layout."
+  },
+  "guildSettingsRolesSwitchToComfyLayout": "Switch to comfy layout",
+  "@guildSettingsRolesSwitchToComfyLayout": {
+    "description": "Aria label for switching to comfy layout."
+  },
+  "guildSettingsRolesSingleColumn": "Single column",
+  "@guildSettingsRolesSingleColumn": {
+    "description": "Tooltip when permission list is in two-column layout."
+  },
+  "guildSettingsRolesTwoColumns": "Two columns",
+  "@guildSettingsRolesTwoColumns": {
+    "description": "Tooltip when permission list is in single-column layout."
+  },
+  "guildSettingsRolesSwitchToSingleColumn": "Switch to single column",
+  "@guildSettingsRolesSwitchToSingleColumn": {
+    "description": "Aria label for switching to single column."
+  },
+  "guildSettingsRolesSwitchToTwoColumns": "Switch to two columns",
+  "@guildSettingsRolesSwitchToTwoColumns": {
+    "description": "Aria label for switching to two columns."
+  },
+  "guildSettingsRolesNoPermissionsFound": "No permissions found",
+  "@guildSettingsRolesNoPermissionsFound": {
+    "description": "Empty state when permission search has no matches."
+  },
+  "guildSettingsRolesCustomHoistOrder": "Custom hoist order",
+  "@guildSettingsRolesCustomHoistOrder": {
+    "description": "Button to enter custom hoist order mode."
+  },
+  "guildSettingsRolesHoistOrder": "Hoist order",
+  "@guildSettingsRolesHoistOrder": {
+    "description": "Header for hoist order sub-mode."
+  },
+  "guildSettingsRolesResetHoistOrder": "Reset to default",
+  "@guildSettingsRolesResetHoistOrder": {
+    "description": "Button to reset custom hoist order."
+  },
+  "guildSettingsRolesHoistOrderHelp": "Drag roles to customize the order they appear in the member list.",
+  "@guildSettingsRolesHoistOrderHelp": {
+    "description": "Help text in hoist order mode."
+  },
+  "guildSettingsRolesNoHoistedRoles": "No hoisted roles. Enable \"Show this role separately\" on a role to see it here.",
+  "@guildSettingsRolesNoHoistedRoles": {
+    "description": "Empty state when no roles are hoisted."
+  },
+  "guildSettingsRolesLockedTooltip": "You cannot edit this role because it is your highest role or above you",
+  "@guildSettingsRolesLockedTooltip": {
+    "description": "Tooltip on locked role rows."
+  },
+  "guildSettingsRolesNeedManageRolesPermission": "You need the \"{permission}\" permission to edit these permissions",
+  "@guildSettingsRolesNeedManageRolesPermission": {
+    "description": "Tooltip when user lacks manage roles permission.",
+    "placeholders": {
+      "permission": {"type": "String"}
+    }
+  },
+  "guildSettingsRolesCannotEditHigherRole": "You cannot edit a role at or above your highest role",
+  "@guildSettingsRolesCannotEditHigherRole": {
+    "description": "Tooltip when role hierarchy blocks editing."
+  },
+  "guildSettingsRolesCannotGrantPermission": "You cannot grant a permission you don't have",
+  "@guildSettingsRolesCannotGrantPermission": {
+    "description": "Tooltip when user cannot grant a permission."
+  },
+  "guildSettingsRolesCannotRemoveOwnPermission": "You cannot remove this permission because it would remove it from yourself",
+  "@guildSettingsRolesCannotRemoveOwnPermission": {
+    "description": "Tooltip when revoking would strip permission from self."
+  },
+  "guildSettingsRolesUpdatedSuccess": "Roles updated successfully",
+  "@guildSettingsRolesUpdatedSuccess": {
+    "description": "Toast after saving role changes."
+  },
+  "guildSettingsRolesCreatedSuccess": "Role created successfully",
+  "@guildSettingsRolesCreatedSuccess": {
+    "description": "Toast after creating a role."
+  },
+  "guildSettingsRolesDeletedSuccess": "Role deleted successfully",
+  "@guildSettingsRolesDeletedSuccess": {
+    "description": "Toast after deleting a role."
+  },
+  "guildSettingsRolesHoistResetSuccess": "Hoist order reset to default",
+  "@guildSettingsRolesHoistResetSuccess": {
+    "description": "Toast after resetting hoist order."
+  },
+  "guildSettingsRolesNameRequiredTitle": "Role name is required",
+  "@guildSettingsRolesNameRequiredTitle": {
+    "description": "Modal title when role name is blank on save."
+  },
+  "guildSettingsRolesNameRequiredBody": "Give the role a name before saving.",
+  "@guildSettingsRolesNameRequiredBody": {
+    "description": "Modal body when role name is blank on save."
+  },
+  "guildSettingsRolesCreateFailedTitle": "Couldn't create role",
+  "@guildSettingsRolesCreateFailedTitle": {
+    "description": "Error modal title when role creation fails."
+  },
+  "guildSettingsRolesUpdateFailedTitle": "Couldn't update roles",
+  "@guildSettingsRolesUpdateFailedTitle": {
+    "description": "Error modal title when role update fails."
+  },
+  "guildSettingsRolesDeleteFailedTitle": "Couldn't delete role",
+  "@guildSettingsRolesDeleteFailedTitle": {
+    "description": "Error modal title when role deletion fails."
+  },
+  "guildSettingsRolesDeleteFailedBody": "\"{name}\" wouldn't delete. Try again.",
+  "@guildSettingsRolesDeleteFailedBody": {
+    "description": "Error modal body when role deletion fails.",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "guildSettingsRolesResetHoistFailedTitle": "Couldn't reset hoist order",
+  "@guildSettingsRolesResetHoistFailedTitle": {
+    "description": "Error modal title when hoist reset fails."
+  },
+  "guildSettingsRolesTryAgainInAMoment": "Try again in a moment.",
+  "@guildSettingsRolesTryAgainInAMoment": {
+    "description": "Generic retry message for role errors."
+  },
+  "guildSettingsRolesDeleteConfirm": "Are you sure you want to delete the {name} role? Any members with this role will no longer have it.",
+  "@guildSettingsRolesDeleteConfirm": {
+    "description": "Delete role confirmation message.",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "permissionCategoryCommunityWide": "Community-wide",
+  "@permissionCategoryCommunityWide": {
+    "description": "Permission category label."
+  },
+  "permissionCategoryMessagesMedia": "Messages & media",
+  "@permissionCategoryMessagesMedia": {
+    "description": "Permission category label."
+  },
+  "permissionCategoryModeration": "Moderation",
+  "@permissionCategoryModeration": {
+    "description": "Permission category label."
+  },
+  "permissionCategoryChannelAccess": "Channel access",
+  "@permissionCategoryChannelAccess": {
+    "description": "Permission category label."
+  },
+  "permissionCategoryAudioVideo": "Audio & video",
+  "@permissionCategoryAudioVideo": {
+    "description": "Permission category label."
+  },
+  "permissionUnknown": "Unknown permission",
+  "@permissionUnknown": {
+    "description": "Fallback permission label."
+  },
+  "permissionAdministrator": "Administrator",
+  "@permissionAdministrator": {
+    "description": "Permission name."
+  },
+  "permissionAdministratorDescription": "Grants all permissions and bypasses channel restrictions. Highly sensitive.",
+  "@permissionAdministratorDescription": {
+    "description": "Permission description."
+  },
+  "permissionViewActivityLog": "View activity log",
+  "@permissionViewActivityLog": {
+    "description": "Permission name."
+  },
+  "permissionViewActivityLogDescription": "Read the community's activity log of changes and moderation actions.",
+  "@permissionViewActivityLogDescription": {
+    "description": "Permission description."
+  },
+  "permissionManageCommunity": "Manage community",
+  "@permissionManageCommunity": {
+    "description": "Permission name."
+  },
+  "permissionManageCommunityDescription": "Edit global settings like name, description, and icon.",
+  "@permissionManageCommunityDescription": {
+    "description": "Permission description."
+  },
+  "permissionManageRoles": "Manage roles",
+  "@permissionManageRoles": {
+    "description": "Permission name."
+  },
+  "permissionManageRolesDescription": "Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites.",
+  "@permissionManageRolesDescription": {
+    "description": "Permission description."
+  },
+  "permissionManageChannels": "Manage channels",
+  "@permissionManageChannels": {
+    "description": "Permission name."
+  },
+  "permissionManageChannelsDescription": "Create, edit, or delete channels and categories.",
+  "@permissionManageChannelsDescription": {
+    "description": "Permission description."
+  },
+  "permissionKickMembers": "Kick members",
+  "@permissionKickMembers": {
+    "description": "Permission name."
+  },
+  "permissionBanMembers": "Ban members",
+  "@permissionBanMembers": {
+    "description": "Permission name."
+  },
+  "permissionCreateInviteLinks": "Create invite links",
+  "@permissionCreateInviteLinks": {
+    "description": "Permission name."
+  },
+  "permissionChangeOwnNickname": "Change own nickname",
+  "@permissionChangeOwnNickname": {
+    "description": "Permission name."
+  },
+  "permissionChangeOwnNicknameDescription": "Update your own nickname.",
+  "@permissionChangeOwnNicknameDescription": {
+    "description": "Permission description."
+  },
+  "permissionManageNicknames": "Manage nicknames",
+  "@permissionManageNicknames": {
+    "description": "Permission name."
+  },
+  "permissionManageNicknamesDescription": "Change other members' nicknames.",
+  "@permissionManageNicknamesDescription": {
+    "description": "Permission description."
+  },
+  "permissionCreateEmojiStickers": "Create emoji & stickers",
+  "@permissionCreateEmojiStickers": {
+    "description": "Permission name."
+  },
+  "permissionCreateEmojiStickersDescription": "Upload new emoji and stickers, and manage your own creations.",
+  "@permissionCreateEmojiStickersDescription": {
+    "description": "Permission description."
+  },
+  "permissionManageEmojiStickers": "Manage emoji & stickers",
+  "@permissionManageEmojiStickers": {
+    "description": "Permission name."
+  },
+  "permissionManageEmojiStickersDescription": "Edit or delete emoji and stickers created by other members.",
+  "@permissionManageEmojiStickersDescription": {
+    "description": "Permission description."
+  },
+  "permissionManageWebhooks": "Manage webhooks",
+  "@permissionManageWebhooks": {
+    "description": "Permission name."
+  },
+  "permissionManageWebhooksDescription": "Create, edit, or delete webhooks.",
+  "@permissionManageWebhooksDescription": {
+    "description": "Permission description."
+  },
+  "permissionSendMessages": "Send messages",
+  "@permissionSendMessages": {
+    "description": "Permission name."
+  },
+  "permissionSendTtsMessages": "Send TTS messages",
+  "@permissionSendTtsMessages": {
+    "description": "Permission name."
+  },
+  "permissionSendTtsMessagesDescription": "Send text-to-speech messages.",
+  "@permissionSendTtsMessagesDescription": {
+    "description": "Permission description."
+  },
+  "permissionManageMessages": "Manage messages",
+  "@permissionManageMessages": {
+    "description": "Permission name."
+  },
+  "permissionManageMessagesDescription": "Delete other members' messages. Pinning is controlled separately.",
+  "@permissionManageMessagesDescription": {
+    "description": "Permission description."
+  },
+  "permissionPinMessages": "Pin messages",
+  "@permissionPinMessages": {
+    "description": "Permission name."
+  },
+  "permissionEmbedLinks": "Embed links",
+  "@permissionEmbedLinks": {
+    "description": "Permission name."
+  },
+  "permissionAttachFiles": "Attach files",
+  "@permissionAttachFiles": {
+    "description": "Permission name."
+  },
+  "permissionMentionEveryone": "Use @everyone/@here and @role",
+  "@permissionMentionEveryone": {
+    "description": "Permission name for mention everyone."
+  },
+  "permissionMentionEveryoneDescription": "Mention everyone or any role (even if the role isn't set to be mentionable).",
+  "@permissionMentionEveryoneDescription": {
+    "description": "Permission description."
+  },
+  "permissionUseExternalEmoji": "Use external emoji",
+  "@permissionUseExternalEmoji": {
+    "description": "Permission name."
+  },
+  "permissionUseExternalEmojiDescription": "Use emoji from other communities.",
+  "@permissionUseExternalEmojiDescription": {
+    "description": "Permission description."
+  },
+  "permissionUseExternalStickers": "Use external stickers",
+  "@permissionUseExternalStickers": {
+    "description": "Permission name."
+  },
+  "permissionAddReactions": "Add reactions",
+  "@permissionAddReactions": {
+    "description": "Permission name."
+  },
+  "permissionAddReactionsDescription": "Add new reactions to messages.",
+  "@permissionAddReactionsDescription": {
+    "description": "Permission description."
+  },
+  "permissionBypassSlowmode": "Bypass slowmode",
+  "@permissionBypassSlowmode": {
+    "description": "Permission name."
+  },
+  "permissionBypassSlowmodeDescription": "Ignore per-channel message rate limits.",
+  "@permissionBypassSlowmodeDescription": {
+    "description": "Permission description."
+  },
+  "permissionTimeOutMembers": "Time out members",
+  "@permissionTimeOutMembers": {
+    "description": "Permission name."
+  },
+  "permissionTimeOutMembersDescription": "Prevent members from sending messages, reacting, and joining voice for a duration.",
+  "@permissionTimeOutMembersDescription": {
+    "description": "Permission description."
+  },
+  "permissionViewChannel": "View channel",
+  "@permissionViewChannel": {
+    "description": "Permission name."
+  },
+  "permissionViewChannelMembers": "View channel members",
+  "@permissionViewChannelMembers": {
+    "description": "Permission name."
+  },
+  "permissionViewChannelMembersDescription": "See the member list for channels in this community.",
+  "@permissionViewChannelMembersDescription": {
+    "description": "Permission description."
+  },
+  "permissionConnect": "Connect",
+  "@permissionConnect": {
+    "description": "Permission name."
+  },
+  "permissionSpeak": "Speak",
+  "@permissionSpeak": {
+    "description": "Permission name."
+  },
+  "permissionStreamVideo": "Stream video",
+  "@permissionStreamVideo": {
+    "description": "Permission name."
+  },
+  "permissionUseVoiceActivity": "Use voice activity",
+  "@permissionUseVoiceActivity": {
+    "description": "Permission name."
+  },
+  "permissionUseVoiceActivityDescription": "Without this permission, push-to-talk is required.",
+  "@permissionUseVoiceActivityDescription": {
+    "description": "Permission description."
+  },
+  "permissionPrioritySpeaker": "Priority speaker",
+  "@permissionPrioritySpeaker": {
+    "description": "Permission name."
+  },
+  "permissionMuteMembers": "Mute members",
+  "@permissionMuteMembers": {
+    "description": "Permission name."
+  },
+  "permissionDeafenMembers": "Deafen members",
+  "@permissionDeafenMembers": {
+    "description": "Permission name."
+  },
+  "permissionMoveMembers": "Move members",
+  "@permissionMoveMembers": {
+    "description": "Permission name."
+  },
+  "permissionMoveMembersDescription": "Drag members between channels they can access.",
+  "@permissionMoveMembersDescription": {
+    "description": "Permission description."
+  },
+  "permissionSetVoiceRegion": "Set voice region",
+  "@permissionSetVoiceRegion": {
+    "description": "Permission name."
   },
   "guildSettingsEmojiSlotInfo": "{staticCount} static, {animatedCount} animated emoji slots used",
   "@guildSettingsEmojiSlotInfo": {
@@ -9722,13 +10305,132 @@
       "count": {"type": "int"}
     }
   },
-  "guildSettingsInvitesDescription": "View and revoke active invite links.",
+  "guildSettingsInvitesTitle": "Invites",
+  "@guildSettingsInvitesTitle": {
+    "description": "Title for the invites settings tab."
+  },
+  "guildSettingsInvitesDescription": "View all invites for this community. To create a new invite, go to a channel and use the invite button.",
   "@guildSettingsInvitesDescription": {
     "description": "Description for invites tab."
   },
-  "guildSettingsInvitesEmpty": "No active invites.",
+  "guildSettingsInvitesEmpty": "No invite links",
   "@guildSettingsInvitesEmpty": {
-    "description": "Empty state for invites."
+    "description": "Empty state title for invites."
+  },
+  "guildSettingsInvitesEmptyDescription": "This community doesn't have any invite links yet. Go to a channel and create an invite to invite people.",
+  "@guildSettingsInvitesEmptyDescription": {
+    "description": "Empty state description for invites."
+  },
+  "guildSettingsInvitesLoadFailedTitle": "Failed to load invites",
+  "@guildSettingsInvitesLoadFailedTitle": {
+    "description": "Error title when invites fail to load."
+  },
+  "guildSettingsInvitesLoadFailedDescription": "There was an error loading the invites. Try again.",
+  "@guildSettingsInvitesLoadFailedDescription": {
+    "description": "Error description when invites fail to load."
+  },
+  "guildSettingsInvitesTryAgain": "Try again",
+  "@guildSettingsInvitesTryAgain": {
+    "description": "Retry button on invites load error."
+  },
+  "guildSettingsInvitesShowCreatedDate": "Show creation date instead of expiration date",
+  "@guildSettingsInvitesShowCreatedDate": {
+    "description": "Toggle to show invite creation date instead of expiration."
+  },
+  "guildSettingsInvitesPauseInvites": "Pause invites",
+  "@guildSettingsInvitesPauseInvites": {
+    "description": "Button to pause invite links for a community."
+  },
+  "guildSettingsInvitesEnableInvites": "Enable invites",
+  "@guildSettingsInvitesEnableInvites": {
+    "description": "Button to re-enable invite links for a community."
+  },
+  "guildSettingsInvitesPauseForCommunityTitle": "Pause invites for this community",
+  "@guildSettingsInvitesPauseForCommunityTitle": {
+    "description": "Confirmation title before pausing invites."
+  },
+  "guildSettingsInvitesEnableForCommunityTitle": "Enable invites for this community",
+  "@guildSettingsInvitesEnableForCommunityTitle": {
+    "description": "Confirmation title before enabling invites."
+  },
+  "guildSettingsInvitesPauseConfirmDescription": "Pause invites? New users won't be able to join through invite links until you re-enable them. Existing members won't be affected.",
+  "@guildSettingsInvitesPauseConfirmDescription": {
+    "description": "Confirmation body before pausing invites."
+  },
+  "guildSettingsInvitesEnableConfirmDescription": "Enable invites? Users will be able to join this community through invite links again.",
+  "@guildSettingsInvitesEnableConfirmDescription": {
+    "description": "Confirmation body before enabling invites."
+  },
+  "guildSettingsInvitesPause": "Pause",
+  "@guildSettingsInvitesPause": {
+    "description": "Confirm button to pause invites."
+  },
+  "guildSettingsInvitesPausedForCommunity": "Invites are paused for this community.",
+  "@guildSettingsInvitesPausedForCommunity": {
+    "description": "Status message when invites are manually paused."
+  },
+  "guildSettingsInvitesPausedBecauseRaid": "Invites are paused because {productName} detected a potential raid. New users can't join right now.",
+  "@guildSettingsInvitesPausedBecauseRaid": {
+    "description": "Status message when invites are paused due to raid detection.",
+    "placeholders": {
+      "productName": {"type": "String"}
+    }
+  },
+  "guildSettingsInvitesLabelInviter": "Inviter:",
+  "@guildSettingsInvitesLabelInviter": {
+    "description": "Mobile invite row label for inviter."
+  },
+  "guildSettingsInvitesLabelChannel": "Channel:",
+  "@guildSettingsInvitesLabelChannel": {
+    "description": "Mobile invite row label for channel."
+  },
+  "guildSettingsInvitesLabelCode": "Code:",
+  "@guildSettingsInvitesLabelCode": {
+    "description": "Mobile invite row label for invite code."
+  },
+  "guildSettingsInvitesLabelUses": "Uses:",
+  "@guildSettingsInvitesLabelUses": {
+    "description": "Mobile invite row label for uses count."
+  },
+  "guildSettingsInvitesLabelCreated": "Created:",
+  "@guildSettingsInvitesLabelCreated": {
+    "description": "Mobile invite row label for created date."
+  },
+  "guildSettingsInvitesLabelExpires": "Expires:",
+  "@guildSettingsInvitesLabelExpires": {
+    "description": "Mobile invite row label for expiration date."
+  },
+  "guildSettingsInvitesUnknown": "Unknown",
+  "@guildSettingsInvitesUnknown": {
+    "description": "Fallback when invite inviter is unknown."
+  },
+  "guildSettingsInvitesNoCategory": "No category",
+  "@guildSettingsInvitesNoCategory": {
+    "description": "Fallback when invite channel has no parent category."
+  },
+  "guildSettingsInvitesExpired": "Expired",
+  "@guildSettingsInvitesExpired": {
+    "description": "Label when an invite has expired."
+  },
+  "guildSettingsInvitesNever": "Never",
+  "@guildSettingsInvitesNever": {
+    "description": "Label when an invite does not expire."
+  },
+  "guildSettingsInvitesCopyLink": "Copy invite link",
+  "@guildSettingsInvitesCopyLink": {
+    "description": "Action to copy an invite link."
+  },
+  "guildSettingsInvitesRevoke": "Revoke invite",
+  "@guildSettingsInvitesRevoke": {
+    "description": "Action to revoke an invite link."
+  },
+  "guildSettingsInvitesRevokeFailedTitle": "Couldn't revoke invite",
+  "@guildSettingsInvitesRevokeFailedTitle": {
+    "description": "Error title when revoking an invite fails."
+  },
+  "guildSettingsInvitesRevokeFailedDescription": "The link may still work. Try again in a moment.",
+  "@guildSettingsInvitesRevokeFailedDescription": {
+    "description": "Error description when revoking an invite fails."
   },
   "guildSettingsInviteUses": "{uses} / {maxUses} uses",
   "@guildSettingsInviteUses": {
@@ -10115,6 +10817,7 @@
   "guildSettingsInvitesTableCode": "Code",
   "guildSettingsInvitesTableUses": "Uses",
   "guildSettingsInvitesTableCreated": "Created",
+  "guildSettingsInvitesTableExpires": "Expires",
   "guildSettingsMembersSortNewest": "Newest first",
   "guildSettingsAuditLogFilterUser": "Filter by user",
   "@guildSettingsAuditLogFilterUser": {

@@ -44,6 +44,7 @@ class FavoriteMediaPickerContent extends ConsumerStatefulWidget {
     this.searchHorizontalPadding,
     this.searchTopPadding,
     this.searchBottomPadding,
+    this.scrollController,
     super.key,
   });
 
@@ -51,6 +52,7 @@ class FavoriteMediaPickerContent extends ConsumerStatefulWidget {
   final double? searchHorizontalPadding;
   final double? searchTopPadding;
   final double? searchBottomPadding;
+  final ScrollController? scrollController;
 
   @override
   ConsumerState<FavoriteMediaPickerContent> createState() =>
@@ -204,6 +206,7 @@ class _FavoriteMediaPickerContentState
     }
 
     return _FavoriteMediaMasonryGrid(
+      scrollController: widget.scrollController,
       memes: filtered,
       onTap: _select,
       onLongPress: _showActions,
@@ -526,11 +529,13 @@ class _FavoriteMediaMasonryGrid extends StatefulWidget {
     required this.memes,
     required this.onTap,
     required this.onLongPress,
+    this.scrollController,
   });
 
   final List<FavoriteMeme> memes;
   final ValueChanged<FavoriteMeme> onTap;
   final ValueChanged<FavoriteMeme> onLongPress;
+  final ScrollController? scrollController;
 
   @override
   State<_FavoriteMediaMasonryGrid> createState() =>
@@ -538,7 +543,7 @@ class _FavoriteMediaMasonryGrid extends StatefulWidget {
 }
 
 class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
-  final _scrollController = ScrollController();
+  ScrollController? _ownedScrollController;
   var _itemsVersion = 0;
   int? _layoutItemsVersion;
   double? _layoutColumnWidth;
@@ -549,6 +554,10 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
   var _scrollUpdateScheduled = false;
   var _isScrollActive = false;
   Timer? _videoResumeTimer;
+
+  ScrollController get _scrollController =>
+      widget.scrollController ??
+      (_ownedScrollController ??= ScrollController());
 
   @override
   void initState() {
@@ -573,9 +582,10 @@ class _FavoriteMediaMasonryGridState extends State<_FavoriteMediaMasonryGrid> {
   @override
   void dispose() {
     _videoResumeTimer?.cancel();
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _scrollController.removeListener(_onScroll);
+    if (widget.scrollController == null) {
+      _ownedScrollController?.dispose();
+    }
     super.dispose();
   }
 

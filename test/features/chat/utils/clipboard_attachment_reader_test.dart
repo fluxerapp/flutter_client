@@ -1,0 +1,140 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/chat/utils/clipboard_attachment_reader.dart';
+import 'package:fluxer_app/features/chat/utils/composer_clipboard_paste.dart';
+import 'package:super_clipboard/super_clipboard.dart';
+
+void main() {
+  group('extensionForClipboardFormat', () {
+    test('maps common image formats', () {
+      expect(extensionForClipboardFormat(Formats.png), 'png');
+      expect(extensionForClipboardFormat(Formats.jpeg), 'jpg');
+      expect(extensionForClipboardFormat(Formats.gif), 'gif');
+      expect(extensionForClipboardFormat(Formats.webp), 'webp');
+    });
+
+    test('maps document formats', () {
+      expect(extensionForClipboardFormat(Formats.pdf), 'pdf');
+      expect(extensionForClipboardFormat(Formats.docx), 'docx');
+      expect(extensionForClipboardFormat(Formats.zip), 'zip');
+    });
+
+    test('falls back to bin for unknown formats', () {
+      expect(extensionForClipboardFormat(Formats.webUnknown), 'bin');
+    });
+  });
+
+  group('mimeForClipboardFormat', () {
+    test('maps common image formats', () {
+      expect(mimeForClipboardFormat(Formats.png), 'image/png');
+      expect(mimeForClipboardFormat(Formats.jpeg), 'image/jpeg');
+      expect(mimeForClipboardFormat(Formats.heic), 'image/heic');
+    });
+
+    test('maps document formats', () {
+      expect(mimeForClipboardFormat(Formats.pdf), 'application/pdf');
+      expect(mimeForClipboardFormat(Formats.json), 'application/json');
+    });
+
+    test('falls back to octet-stream for unknown formats', () {
+      expect(
+        mimeForClipboardFormat(Formats.webUnknown),
+        'application/octet-stream',
+      );
+    });
+  });
+
+  group('resolveClipboardFilename', () {
+    test('prefers file name from clipboard reader', () {
+      expect(
+        resolveClipboardFilename(
+          format: Formats.png,
+          fileName: 'screenshot.png',
+          suggestedName: 'other.png',
+        ),
+        'screenshot.png',
+      );
+    });
+
+    test('uses suggested name when file name is missing', () {
+      expect(
+        resolveClipboardFilename(
+          format: Formats.pdf,
+          suggestedName: 'report.pdf',
+        ),
+        'report.pdf',
+      );
+    });
+
+    test('falls back to clipboard extension', () {
+      expect(resolveClipboardFilename(format: Formats.gif), 'clipboard.gif');
+    });
+  });
+
+  group('shouldSkipClipboardFileFormat', () {
+    test('skips text file formats when plain text value is available', () {
+      final ClipboardDataReader item = _FakeClipboardDataReader(
+        providedFormats: <DataFormat<Object>>[
+          Formats.plainText,
+          Formats.plainTextFile,
+        ],
+      );
+      expect(
+        shouldSkipClipboardFileFormat(item, Formats.plainTextFile),
+        isTrue,
+      );
+      expect(shouldSkipClipboardFileFormat(item, Formats.png), isFalse);
+    });
+
+    test('keeps text file formats when only a file was copied', () {
+      final ClipboardDataReader item = _FakeClipboardDataReader(
+        providedFormats: <DataFormat<Object>>[Formats.plainTextFile],
+      );
+      expect(
+        shouldSkipClipboardFileFormat(item, Formats.plainTextFile),
+        isFalse,
+      );
+    });
+  });
+
+  group('pastePlainTextIntoComposer', () {
+    test('inserts clipboard text at the current selection', () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      final TextEditingController controller = TextEditingController(
+        text: 'hello world',
+      );
+      controller.selection = const TextSelection.collapsed(offset: 5);
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (
+            MethodCall methodCall,
+          ) async {
+            if (methodCall.method == 'Clipboard.getData') {
+              return <String, String>{'text': ' there'};
+            }
+            return null;
+          });
+      await pastePlainTextIntoComposer(controller);
+      expect(controller.text, 'hello there world');
+      expect(controller.selection, const TextSelection.collapsed(offset: 11));
+    });
+  });
+}
+
+class _FakeClipboardDataReader implements ClipboardDataReader {
+  _FakeClipboardDataReader({required this.providedFormats});
+
+  final List<DataFormat<Object>> providedFormats;
+
+  @override
+  bool canProvide(DataFormat<Object> format) =>
+      providedFormats.contains(format);
+
+  @override
+  List<DataFormat<Object>> getFormats(List<DataFormat<Object>> allFormats) {
+    return allFormats.where(canProvide).toList();
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}

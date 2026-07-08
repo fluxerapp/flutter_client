@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
-import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/features/channels/data/unread_permission_utils.dart';
+
+import '../../../helpers/open_test_database.dart';
 
 Future<Channel> _seedGuildChannel({
   required FluxerDatabase db,

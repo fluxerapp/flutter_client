@@ -1,6 +1,5 @@
 part of 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 
-const int _kMentionLimit = 100;
 const int _kRoleMentionLimit = 10;
 const int _kChannelLimit = 10;
 const int _kEmojiLimit = 10;
@@ -29,6 +28,7 @@ class _ComposerRow {
     this.channelRowType,
     this.emojiSurrogates,
     this.emojiImageUrl,
+    this.emojiCacheKey,
   });
 
   final String title;
@@ -39,6 +39,7 @@ class _ComposerRow {
   final ChannelType? channelRowType;
   final String? emojiSurrogates;
   final String? emojiImageUrl;
+  final String? emojiCacheKey;
 }
 
 class ComposerAutocompleteFieldState
@@ -55,6 +56,7 @@ class ComposerAutocompleteFieldState
   final ScrollController _scrollController = ScrollController();
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
+  MentionAutocompleteSession? _mentionSession;
 
   String get _channelId => widget.channelId ?? '';
 
@@ -251,35 +253,149 @@ class ComposerAutocompleteFieldState
   ) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final ParsedMentionQuery parsed = parseMentionQuery(trigger.matchedText);
-    final ({
-      List<Member> members,
-      Set<String> remoteSearchMemberIds,
-      Set<String> localMemberIds,
-    })
-    source = await _mentionMemberSource(parsed);
-    if (generation != _syncGeneration) {
-      return;
-    }
-    final Map<String, String>? discs = await _discriminatorsFor(source.members);
-    if (generation != _syncGeneration) {
-      return;
-    }
+    final Channel? ch = _guildChannel();
+    final String? guildId = ch?.guildId;
     final Map<String, String?> friendNicknameById = friendNicknamesById(
       ref.read(dmViewModelProvider).friendsList,
     );
-    List<Member> ranked = rankMembersForMentionQuery(
-      source.members,
-      parsed,
-      limit: _kMentionLimit,
-      discriminatorByUserId: discs,
-      prioritizeMemberIds: source.remoteSearchMemberIds,
-      friendNicknameById: friendNicknameById,
-    );
-    final Channel? ch = _guildChannel();
-    final String? guildId = ch?.guildId;
+    List<Member> members = const <Member>[];
+    Set<String> remoteSearchMemberIds = <String>{};
+    Set<String> localMemberIds = <String>{};
     if (guildId != null && guildId.isNotEmpty) {
-      final Set<String> assumeVisibleForUserIds = source.remoteSearchMemberIds
-          .difference(source.localMemberIds);
+      ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
+      final GuildMentionMemberSearch search = ref.read(
+        guildMentionMemberSearchProvider,
+      );
+      final MentionAutocompleteSession stableSession = _mentionSessionFor(
+        guildId,
+        parsed,
+      );
+      final String searchQuery = parsed.usernameQuery.trim();
+      members = await search.searchCached(
+        guildId: guildId,
+        parsed: parsed,
+        friendNicknameById: friendNicknameById,
+        stableSession: stableSession,
+      );
+      localMemberIds = <String>{for (final Member m in members) m.id};
+      if (generation != _syncGeneration) {
+        return;
+      }
+      await _renderMentionRows(
+        trigger: trigger,
+        generation: generation,
+        parsed: parsed,
+        guildId: guildId,
+        members: members,
+        remoteSearchMemberIds: remoteSearchMemberIds,
+        localMemberIds: localMemberIds,
+        friendNicknameById: friendNicknameById,
+        l10n: l10n,
+      );
+      if (generation != _syncGeneration) {
+        return;
+      }
+      if (await search.shouldFetchFromGateway(guildId, searchQuery)) {
+        final ({List<Member> members, Set<String> remoteMemberIds})
+        gatewayResult = await search.fetchGatewayAndMerge(
+          guildId: guildId,
+          query: searchQuery,
+          parsed: parsed,
+          friendNicknameById: friendNicknameById,
+          stableSession: stableSession,
+        );
+        members = gatewayResult.members;
+        remoteSearchMemberIds = gatewayResult.remoteMemberIds;
+        if (generation != _syncGeneration) {
+          return;
+        }
+        await _renderMentionRows(
+          trigger: trigger,
+          generation: generation,
+          parsed: parsed,
+          guildId: guildId,
+          members: members,
+          remoteSearchMemberIds: remoteSearchMemberIds,
+          localMemberIds: localMemberIds,
+          friendNicknameById: friendNicknameById,
+          l10n: l10n,
+        );
+      }
+      return;
+    }
+    members = await _dmMentionMembers();
+    if (generation != _syncGeneration) {
+      return;
+    }
+    final Map<String, String> discs = await ref
+        .read(guildMentionMemberSearchProvider)
+        .discriminatorsFor(members);
+    if (generation != _syncGeneration) {
+      return;
+    }
+    final MentionAutocompleteSession stableSession = MentionAutocompleteSession(
+      sessionKey: 'dm:${parsed.usernameQuery}',
+    );
+    final List<Member> ranked = filterGuildMembersForAutocomplete(
+      members: members,
+      parsed: parsed,
+      limit: kMentionResultLimit,
+      discriminatorByUserId: discs,
+      friendNicknameById: friendNicknameById,
+      stableSession: stableSession,
+    );
+    await _renderMentionRows(
+      trigger: trigger,
+      generation: generation,
+      parsed: parsed,
+      guildId: null,
+      members: ranked,
+      remoteSearchMemberIds: remoteSearchMemberIds,
+      localMemberIds: localMemberIds,
+      friendNicknameById: friendNicknameById,
+      l10n: l10n,
+      discriminators: discs,
+    );
+  }
+
+  MentionAutocompleteSession _mentionSessionFor(
+    String guildId,
+    ParsedMentionQuery parsed,
+  ) {
+    final String sessionKey = '$guildId:${parsed.usernameQuery}';
+    if (_mentionSession == null || _mentionSession!.sessionKey != sessionKey) {
+      _mentionSession = MentionAutocompleteSession(sessionKey: sessionKey);
+    }
+    return _mentionSession!;
+  }
+
+  Future<void> _renderMentionRows({
+    required ComposerAutocompleteTrigger trigger,
+    required int generation,
+    required ParsedMentionQuery parsed,
+    required String? guildId,
+    required List<Member> members,
+    required Set<String> remoteSearchMemberIds,
+    required Set<String> localMemberIds,
+    required Map<String, String?> friendNicknameById,
+    required FluxerLocalizations l10n,
+    Map<String, String>? discriminators,
+  }) async {
+    if (generation != _syncGeneration) {
+      return;
+    }
+    final Map<String, String> discs =
+        discriminators ??
+        await ref
+            .read(guildMentionMemberSearchProvider)
+            .discriminatorsFor(members);
+    if (generation != _syncGeneration) {
+      return;
+    }
+    List<Member> ranked = members;
+    if (guildId != null && guildId.isNotEmpty) {
+      final Set<String> assumeVisibleForUserIds = remoteSearchMemberIds
+          .difference(localMemberIds);
       ranked = await filterMembersByViewChannel(
         database: ref.read(fluxerDatabaseProvider),
         channelId: _channelId,
@@ -287,6 +403,9 @@ class ComposerAutocompleteFieldState
         members: ranked,
         assumeVisibleForUserIds: assumeVisibleForUserIds,
       );
+    }
+    if (ranked.length > kMentionResultLimit) {
+      ranked = ranked.sublist(0, kMentionResultLimit);
     }
     if (generation != _syncGeneration) {
       return;
@@ -375,67 +494,13 @@ class ComposerAutocompleteFieldState
     _setRows(rows);
   }
 
-  Future<
-    ({
-      List<Member> members,
-      Set<String> remoteSearchMemberIds,
-      Set<String> localMemberIds,
-    })
-  >
-  _mentionMemberSource(ParsedMentionQuery parsed) async {
-    final Channel? ch = _guildChannel();
-    final String? guildId = ch?.guildId;
-    if (guildId != null && guildId.isNotEmpty) {
-      final MemberRepository repo = ref.read(memberRepositoryProvider);
-      final GuildMemberChunkWaiter chunkWaiter = ref.read(
-        guildMemberChunkWaiterProvider,
-      );
-      final String searchQuery = parsed.usernameQuery.trim();
-      List<Member> members = const <Member>[];
-      Set<String> localMemberIds = <String>{};
-      Set<String> remoteSearchMemberIds = <String>{};
-      try {
-        ref
-            .read(gatewayConnectionProvider)
-            .requestGuildMembers(
-              guildId: guildId,
-              query: searchQuery.isEmpty ? null : searchQuery,
-              limit: _kMentionLimit,
-            );
-        await chunkWaiter.waitForChunk(guildId);
-        final List<String> scopeUserIds = chunkWaiter.lastChunkUserIds(guildId);
-        members = await repo.searchMembersForAutocomplete(
-          guildId: guildId,
-          query: searchQuery,
-          scopeUserIds: scopeUserIds,
-        );
-        final Set<String> memberIds = <String>{
-          for (final Member m in members) m.id,
-        };
-        if (searchQuery.isNotEmpty) {
-          remoteSearchMemberIds = memberIds;
-        } else {
-          localMemberIds = memberIds;
-        }
-      } on Object {
-        members = const <Member>[];
-      }
-      return (
-        members: members,
-        remoteSearchMemberIds: remoteSearchMemberIds,
-        localMemberIds: localMemberIds,
-      );
-    }
+  Future<List<Member>> _dmMentionMembers() async {
     final List<DmConversation> dms = ref.read(
       dmViewModelProvider.select((DmViewState s) => s.conversations),
     );
     final DmConversation? dm = findDmById(dms, _channelId);
     if (dm == null) {
-      return (
-        members: const <Member>[],
-        remoteSearchMemberIds: <String>{},
-        localMemberIds: <String>{},
-      );
+      return const <Member>[];
     }
     if (dm.isGroup) {
       final String? currentUserId = ref.read(currentUserIdProvider);
@@ -466,35 +531,17 @@ class ComposerAutocompleteFieldState
           ),
         );
       }
-      return (
-        members: members,
-        remoteSearchMemberIds: <String>{},
-        localMemberIds: <String>{},
-      );
+      return members;
     }
-    return (
-      members: <Member>[
-        Member(
-          id: dm.recipientId,
-          username: dm.recipientUsername ?? dm.recipientName,
-          globalName: dm.recipientName,
-          status: dm.recipientStatus,
-          isBot: dm.isBot,
-        ),
-      ],
-      remoteSearchMemberIds: <String>{},
-      localMemberIds: <String>{},
-    );
-  }
-
-  Future<Map<String, String>?> _discriminatorsFor(List<Member> members) async {
-    if (members.isEmpty) {
-      return null;
-    }
-    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
-    final List<String> ids = members.map((Member m) => m.id).toList();
-    final List<db.User> users = await database.userDao.getUsersByIds(ids);
-    return {for (final db.User u in users) u.id: u.discriminator};
+    return <Member>[
+      Member(
+        id: dm.recipientId,
+        username: dm.recipientUsername ?? dm.recipientName,
+        globalName: dm.recipientName,
+        status: dm.recipientStatus,
+        isBot: dm.isBot,
+      ),
+    ];
   }
 
   Future<void> _syncEmoji(
@@ -567,6 +614,7 @@ class ComposerAutocompleteFieldState
             onApply: () =>
                 _applyEmoji(trigger, name: entry.name, wire: entry.markdown),
             emojiImageUrl: entry.url,
+            emojiCacheKey: entry.cacheKeyForSize(kCustomEmojiFetchSize),
           ),
           UnicodeEmojiResult(:final EmojiEntry entry) => _ComposerRow(
             title: ':${entry.primaryName}:',
@@ -639,6 +687,7 @@ class ComposerAutocompleteFieldState
           userAvatarStatus: status,
           emojiSurrogates: r.emojiSurrogates,
           emojiImageUrl: r.emojiImageUrl,
+          emojiCacheKey: r.emojiCacheKey,
         );
       }).toList(),
       selectedIndex: safeIndex,

@@ -23,6 +23,8 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/presentation/sheets/create_category_sheet.dart';
+import 'package:fluxer_app/features/channels/presentation/sheets/create_channel_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
@@ -65,6 +67,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_voice_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
+import 'package:fluxer_app/features/moderation/iar/iar_report_guild.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -786,7 +789,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
                       permissionOverwrites: [],
                       nsfw: false,
                       nsfwOverride: null,
-                      contentWarningLevel: null,
+                      contentWarningLevel: ContentWarningLevel.inherit,
                       contentWarningText: null,
                     ),
                   ),
@@ -1375,7 +1378,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
                         permissionOverwrites: [],
                         nsfw: false,
                         nsfwOverride: null,
-                        contentWarningLevel: null,
+                        contentWarningLevel: ContentWarningLevel.inherit,
                         contentWarningText: null,
                       ),
                     ),
@@ -1818,7 +1821,7 @@ Widget _buildGuildMenuActionItem({
                 permissionOverwrites: const [],
                 nsfw: false,
                 nsfwOverride: null,
-                contentWarningLevel: null,
+                contentWarningLevel: ContentWarningLevel.inherit,
                 contentWarningText: null,
               ),
             ),
@@ -2306,6 +2309,7 @@ Future<void> updateGuildUserSettings(
     case GuildAction.settingsMembers:
     case GuildAction.settingsInviteLinks:
     case GuildAction.settingsBans:
+    case GuildAction.settingsChannels:
     case GuildAction.notificationSettings:
     case GuildAction.privacySettings:
     case GuildAction.editCommunityProfile:
@@ -2790,170 +2794,9 @@ class _GuildListItemState extends State<_GuildListItem>
     }
   }
 
-  static bool _isValidUrl(String value) {
-    final url = value.trim();
-    if (url.isEmpty) {
-      return false;
-    }
-    final uri = Uri.tryParse(url);
-    return uri != null && uri.hasScheme && uri.hasAuthority;
-  }
-
   Future<void> _showCreateChannelModal(BuildContext context) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    var currentName = '';
-    var currentUrl = '';
-    var selectedType = 0; // GUILD_TEXT
-    final formValid = ValueNotifier(false);
-
-    void updateValidity() {
-      final nameOk = currentName.trim().isNotEmpty;
-      final urlOk = selectedType != 998 || _isValidUrl(currentUrl);
-      formValid.value = nameOk && urlOk;
-    }
-
-    final request = await FluxerModal.show<ChannelCreateRequest>(
+    final ChannelCreateRequest? request = await CreateChannelSheet.show(
       context,
-      title: l10n.guildNavbarCreateChannel,
-      builder: (dialogContext, close) {
-        final layout = dialogContext.layout;
-        return StatefulBuilder(
-          builder: (stfContext, setModalState) {
-            final colors = stfContext.colors;
-            final textStyles = stfContext.textStyles;
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: layout.s2),
-                  child: Text(
-                    l10n.guildNavbarChannelType,
-                    style: textStyles.label.copyWith(
-                      color: colors.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                FluxerRadioGroup<int>(
-                  value: selectedType,
-                  onChanged: (value) {
-                    setModalState(() => selectedType = value);
-                    updateValidity();
-                  },
-                  items: [
-                    FluxerRadioItem(
-                      value: 0,
-                      label: l10n.guildNavbarTextChannel,
-                      description: l10n.guildNavbarTextChannelDescription,
-                    ),
-                    FluxerRadioItem(
-                      value: 2,
-                      label: l10n.guildNavbarVoiceChannel,
-                      description: l10n.guildNavbarVoiceChannelDescription,
-                    ),
-                    FluxerRadioItem(
-                      value: 998,
-                      label: l10n.guildNavbarLinkChannel,
-                      description: l10n.guildNavbarLinkChannelDescription,
-                    ),
-                  ],
-                ),
-                SizedBox(height: layout.s4),
-                FluxerInput(
-                  label: l10n.guildNavbarNameLabel,
-                  hint: l10n.guildNavbarNewChannelHint,
-                  maxLength: 100,
-                  autofocus: true,
-                  onChanged: (value) {
-                    currentName = value;
-                    updateValidity();
-                  },
-                ),
-                if (isGuildLinkChannelType(selectedType)) ...[
-                  SizedBox(height: layout.s4),
-                  FluxerInput(
-                    label: l10n.guildNavbarUrlLabel,
-                    hint: l10n.guildNavbarUrlHint,
-                    maxLength: 1024,
-                    keyboardType: TextInputType.url,
-                    onChanged: (value) {
-                      currentUrl = value;
-                      updateValidity();
-                    },
-                  ),
-                ],
-              ],
-            );
-          },
-        );
-      },
-      actions: [
-        ValueListenableBuilder<bool>(
-          valueListenable: formValid,
-          builder: (_, isValid, _) => FluxerButton.primary(
-            onPressed: isValid
-                ? () {
-                    final name = currentName.trim();
-                    final ChannelCreateRequest body = switch (selectedType) {
-                      2 => ChannelCreateRequest2(
-                        name: name,
-                        type: GuildVoiceChannelCreateRequestTypeType.guildVoice,
-                        topic: null,
-                        url: null,
-                        parentId: null,
-                        bitrate: 64000,
-                        userLimit: 0,
-                        voiceConnectionLimit: null,
-                        permissionOverwrites: [],
-                        nsfw: false,
-                        nsfwOverride: null,
-                        contentWarningLevel: null,
-                        contentWarningText: null,
-                      ),
-                      998 => ChannelCreateRequest998(
-                        name: name,
-                        type: GuildLinkChannelCreateRequestTypeType.guildLink,
-                        topic: null,
-                        url: currentUrl.trim(),
-                        parentId: null,
-                        bitrate: null,
-                        userLimit: null,
-                        voiceConnectionLimit: null,
-                        permissionOverwrites: [],
-                        nsfw: false,
-                        nsfwOverride: null,
-                        contentWarningLevel: null,
-                        contentWarningText: null,
-                      ),
-                      _ => ChannelCreateRequest0(
-                        name: name,
-                        type: GuildTextChannelCreateRequestTypeType.guildText,
-                        topic: null,
-                        url: null,
-                        parentId: null,
-                        bitrate: null,
-                        userLimit: null,
-                        voiceConnectionLimit: null,
-                        permissionOverwrites: [],
-                        nsfw: false,
-                        nsfwOverride: null,
-                        contentWarningLevel: null,
-                        contentWarningText: null,
-                      ),
-                    };
-                    Navigator.of(context).pop(body);
-                  }
-                : null,
-            label: l10n.guildNavbarCreateChannel,
-          ),
-        ),
-        const SizedBox(height: 8),
-        FluxerButton.secondary(
-          onPressed: () => Navigator.of(context).pop(),
-          label: l10n.cancel,
-        ),
-      ],
     );
     if (request != null && context.mounted) {
       widget.onCreateChannel?.call(request);
@@ -2961,48 +2804,7 @@ class _GuildListItemState extends State<_GuildListItem>
   }
 
   Future<void> _showCreateCategoryModal(BuildContext context) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    var currentName = '';
-    final nameValid = ValueNotifier(false);
-    final name = await FluxerModal.show<String>(
-      context,
-      title: l10n.guildNavbarCreateCategory,
-      builder: (dialogContext, close) {
-        return FluxerInput(
-          label: l10n.guildNavbarNameLabel,
-          hint: l10n.guildNavbarNewCategoryHint,
-          maxLength: 100,
-          autofocus: true,
-          textInputAction: TextInputAction.done,
-          onChanged: (value) {
-            currentName = value;
-            nameValid.value = value.trim().isNotEmpty;
-          },
-          onSubmitted: (_) {
-            final value = currentName.trim();
-            if (value.isNotEmpty) {
-              Navigator.of(context).pop(value);
-            }
-          },
-        );
-      },
-      actions: [
-        ValueListenableBuilder<bool>(
-          valueListenable: nameValid,
-          builder: (_, isValid, _) => FluxerButton.primary(
-            onPressed: isValid
-                ? () => Navigator.of(context).pop(currentName.trim())
-                : null,
-            label: l10n.guildNavbarCreateCategory,
-          ),
-        ),
-        const SizedBox(height: 8),
-        FluxerButton.secondary(
-          onPressed: () => Navigator.of(context).pop(),
-          label: l10n.cancel,
-        ),
-      ],
-    );
+    final String? name = await CreateCategorySheet.show(context);
     if (name != null && name.isNotEmpty && context.mounted) {
       widget.onCreateCategory?.call(name);
     }
@@ -4155,7 +3957,9 @@ class _GuildListItemState extends State<_GuildListItem>
       case GuildAction.settingsWebhooks:
       case GuildAction.settingsDiscovery:
       case GuildAction.settingsInviteLinks:
-        unawaited(context.push(RoutePaths.guildSettingsPath(guildId)));
+        unawaited(
+          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'invites')),
+        );
       case GuildAction.settingsMembers:
         unawaited(
           context.push(RoutePaths.guildSettingsPath(guildId, tab: 'members')),
@@ -4163,6 +3967,10 @@ class _GuildListItemState extends State<_GuildListItem>
       case GuildAction.settingsBans:
         unawaited(
           context.push(RoutePaths.guildSettingsPath(guildId, tab: 'bans')),
+        );
+      case GuildAction.settingsChannels:
+        unawaited(
+          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'channels')),
         );
       case GuildAction.copyGuildId:
         unawaited(Clipboard.setData(ClipboardData(text: guildId)));
@@ -4207,7 +4015,13 @@ class _GuildListItemState extends State<_GuildListItem>
           ),
         );
       case GuildAction.reportCommunity:
-        break;
+        unawaited(
+          showReportGuildFlow(
+            context,
+            guildId: guildId,
+            guildName: widget.guild!.name,
+          ),
+        );
       case GuildAction.privacySettings:
         unawaited(_showPrivacySettingsSheet(context));
       case GuildAction.debugCommunity:

@@ -39,6 +39,16 @@ class FirebaseMessagingPushService implements PushService {
       payload: message.payload,
     );
   }
+
+  static void configureForegroundMessageFilter(
+    bool Function(Map<String, String> payload)? filter,
+  ) {
+    _delegate.setForegroundMessageFilter(
+      filter == null
+          ? null
+          : (FcmPushMessage message) => filter(message.payload),
+    );
+  }
 }
 
 final class _FcmTapBindingHostAdapter implements FcmTapBindingHost {

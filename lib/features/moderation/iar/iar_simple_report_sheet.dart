@@ -30,6 +30,7 @@ Future<void> showSimpleIarReportSheet(
     title: switch (iarContext) {
       IarMessageContext() => l10n.iarReportMessageTitle,
       IarUserContext() => l10n.iarReportUserTitle,
+      IarGuildContext() => l10n.iarReportGuildTitle,
     },
     builder: (sheetContext, close) =>
         _SimpleIarReportBody(iarContext: iarContext, close: close),
@@ -93,6 +94,17 @@ class _SimpleIarReportBodyState extends ConsumerState<_SimpleIarReportBody> {
                   guildId: guildId,
                 ),
               );
+        case IarGuildContext(:final guildId, :final inviteCode):
+          await ref
+              .read(fluxerClientProvider)
+              .reports
+              .reportGuild(
+                body: ReportGuildRequest(
+                  guildId: guildId,
+                  category: iarReasonToGuildCategory(reason),
+                  inviteCode: inviteCode,
+                ),
+              );
       }
       if (!mounted) {
         return;
@@ -135,6 +147,7 @@ class _SimpleIarReportBodyState extends ConsumerState<_SimpleIarReportBody> {
     final options = switch (widget.iarContext) {
       IarMessageContext() => iarFlatMessageReasonSelectOptions(l10n),
       IarUserContext() => iarFlatUserReasonSelectOptions(l10n),
+      IarGuildContext() => iarFlatGuildReasonSelectOptions(l10n),
     };
     final routingNote = iarChildSafetyRoutingNote(l10n, _selectedReason);
     final safetyNote = iarSpecialSafetyNote(l10n, _selectedReason);

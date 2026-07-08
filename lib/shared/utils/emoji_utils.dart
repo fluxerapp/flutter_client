@@ -2,6 +2,8 @@ import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
 const _kTwemojiCdn = 'https://fluxerstatic.com/emoji';
 
+const int kCustomEmojiFetchSize = 96;
+
 /// Resolves a reaction or shortcode [emoji] value to Unicode surrogates.
 String resolveUnicodeEmoji(String emoji) {
   final entry = EmojiRegistry.entryByName(emoji);

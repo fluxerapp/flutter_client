@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_dart/export.dart';
 
 class MemberRepository {
-  static const int mentionAutocompleteMaxMatches = 100;
+  static const int mentionAutocompleteMaxMatches = kMentionMemberSearchLimit;
   static const int restBackfillPageSize = 100;
   static const int restBackfillMaxGuildMembers = 1000;
 
@@ -149,6 +150,9 @@ class MemberRepository {
             permissions: map['permissions'] != null
                 ? Value(map['permissions'] as String)
                 : const Value.absent(),
+            hoistPosition: map['hoist_position'] != null
+                ? Value(map['hoist_position'] as int)
+                : const Value.absent(),
           );
         }).toList();
       } else {
@@ -160,6 +164,24 @@ class MemberRepository {
 
     final rows = await _db.roleDao.getRoles(guildId);
     return rows.map(MemberRole.fromRow).toList();
+  }
+
+  Future<List<Member>> getCachedMembersForGuild(String guildId) async {
+    final List<db.Member> rows = await _db.memberDao.getMembers(guildId);
+    return _membersFromRows(guildId, rows);
+  }
+
+  Future<bool> isGuildMemberCacheComplete(String guildId) async {
+    final db.Server? server = await _db.guildDao.getServerById(guildId);
+    if (server == null) {
+      return false;
+    }
+    final int expectedCount = server.memberCount;
+    if (expectedCount <= 0) {
+      return false;
+    }
+    final int cachedCount = await _db.memberDao.countMembers(guildId);
+    return cachedCount >= expectedCount;
   }
 
   /// Resolves mention matches from scoped local rows.
@@ -191,7 +213,8 @@ class MemberRepository {
     final List<Member> hits = <Member>[];
     for (final db.Member row in rows) {
       final Member member = Member.fromRow(row, users[row.userId], roles);
-      if (qLower != null && !_mentionHaystackContainsQuery(member, qLower)) {
+      if (qLower != null &&
+          !memberMentionHaystackContainsQuery(member, qLower)) {
         continue;
       }
       hits.add(member);
@@ -221,12 +244,4 @@ class MemberRepository {
         .map((db.Member m) => Member.fromRow(m, users[m.userId], roles))
         .toList();
   }
-}
-
-bool _mentionHaystackContainsQuery(Member member, String queryLower) {
-  final String display =
-      member.nickname ?? member.globalName ?? member.username;
-  final String haystack =
-      '$display ${member.username} ${member.globalName ?? ''}'.toLowerCase();
-  return haystack.contains(queryLower);
 }

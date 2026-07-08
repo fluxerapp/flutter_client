@@ -127,6 +127,29 @@ void main() {
     expect(actual.map((Message m) => m.id), [anchor, kept]);
   });
 
+  test('reconcileStaleDeletionsInLoadedWindow keeps scrolled-up history', () {
+    final String idOlder = _snowflakeForUtc(DateTime.utc(2026, 5, 9, 12));
+    final String idA = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 10));
+    final String idB = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 11));
+    final String idC = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 12));
+    final List<Message> current = [
+      _message(idOlder),
+      _message(idA),
+      _message(idB),
+      _message(idC),
+    ];
+    final List<Message> actual = reconcileStaleDeletionsInLoadedWindow(
+      current: current,
+      networkPage: [
+        _message(idA),
+        _message(idC, content: 'updated'),
+      ],
+    );
+    expect(actual.map((Message m) => m.id), [idOlder, idA, idC]);
+    expect(actual.last.content, 'updated');
+    expect(actual.any((Message m) => m.id == idB), isFalse);
+  });
+
   test('networkPageStaleLocalIds ignores messages outside page range', () {
     final String idOlder = _snowflakeForUtc(DateTime.utc(2026, 5, 9, 12));
     final List<String> stale = networkPageStaleLocalIds(

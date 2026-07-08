@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SensitiveContent;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../helpers/open_test_database.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart'
-    show FluxerDatabase;
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -24,6 +21,9 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
+import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -32,7 +32,15 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 
+import '../../../../helpers/open_test_database.dart';
+
 const String _guildId = 'g1';
+const String _otherGuildId = 'g2';
+
+class _GuildSwitchTestHarness {
+  String activeGuildId = _guildId;
+  late ChannelListState channelListState;
+}
 
 void main() {
   group('GuildSidebar collapsed category visibility', () {
@@ -147,7 +155,7 @@ void main() {
   });
 
   group('GuildSidebar long-press menus', () {
-    testWidgets('channel menu shows copy and notification actions', (
+    testWidgets('channel menu hides mark as read when channel is read', (
       tester,
     ) async {
       _setMobileSurface(tester);
@@ -164,20 +172,92 @@ void main() {
       await tester.longPress(find.text('general'));
       await tester.pumpAndSettle();
 
+      expect(find.text('Mark as Read'), findsNothing);
       expect(find.text('Copy Link'), findsOneWidget);
       expect(find.text('Copy Channel ID'), findsOneWidget);
       expect(find.text('Notification Settings'), findsOneWidget);
-      expect(find.text('Open Link'), findsNothing);
+      expect(find.text('Delete My Messages'), findsOneWidget);
+      expect(find.text('Open link'), findsNothing);
       expect(find.text('Debug Channel'), findsNothing);
       expect(find.text('Delete Channel'), findsNothing);
 
-      // Order must mirror the web channel menu:
-      // Mark as Read -> Copy Link -> Mute -> Notification Settings -> Copy ID.
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
-      expect(dy('Mark as Read'), lessThan(dy('Copy Link')));
       expect(dy('Copy Link'), lessThan(dy('Mute Channel')));
       expect(dy('Mute Channel'), lessThan(dy('Notification Settings')));
       expect(dy('Notification Settings'), lessThan(dy('Copy Channel ID')));
+      expect(dy('Copy Channel ID'), lessThan(dy('Delete My Messages')));
+    });
+
+    testWidgets('channel menu shows mark as read when channel is unread', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {
+              'c1': UnreadState(hasUnread: true, hasUnreadMessages: true),
+              'c2': UnreadState(),
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.longPress(find.text('general'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Mark as Read'), findsOneWidget);
+      double dy(String label) => tester.getTopLeft(find.text(label)).dy;
+      expect(dy('Mark as Read'), lessThan(dy('Copy Link')));
+    });
+
+    testWidgets('channel menu shows invite people when permitted', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _state(),
+            unread: const {'c1': UnreadState(), 'c2': UnreadState()},
+            permissionBits: {
+              'c1': Permission.createInstantInvite.value,
+              'c2': Permission.viewChannel.value,
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.longPress(find.text('general'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Invite People'), findsOneWidget);
+      double dy(String label) => tester.getTopLeft(find.text(label)).dy;
+      expect(dy('Invite People'), lessThan(dy('Copy Link')));
+    });
+
+    testWidgets('voice channel menu shows open chat and delete my messages', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: _buildOverrides(
+            channelListState: _mixedChannelState(),
+            unread: const {'c1': UnreadState(), 'voice-1': UnreadState()},
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.longPress(find.text('voice-room'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Open chat'), findsOneWidget);
+      expect(find.text('Delete My Messages'), findsOneWidget);
     });
 
     testWidgets('category menu shows mute, copy id, and mark read actions', (
@@ -226,10 +306,14 @@ void main() {
       await tester.longPress(find.text('general'));
       await tester.pumpAndSettle();
 
+      expect(find.text('Edit Channel'), findsOneWidget);
+      expect(find.text('Duplicate channel'), findsOneWidget);
       expect(find.text('Delete Channel'), findsOneWidget);
-      // Delete is the final, destructive entry (after Copy Channel ID).
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
+      expect(dy('Edit Channel'), lessThan(dy('Duplicate channel')));
+      expect(dy('Duplicate channel'), lessThan(dy('Copy Channel ID')));
       expect(dy('Copy Channel ID'), lessThan(dy('Delete Channel')));
+      expect(dy('Delete Channel'), lessThan(dy('Delete My Messages')));
     });
 
     testWidgets('channel menu shows Debug Channel in developer mode', (
@@ -302,8 +386,10 @@ void main() {
       await tester.longPress(find.text('announcements'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Open Link'), findsOneWidget);
+      expect(find.text('Open link'), findsOneWidget);
       expect(find.text('Copy Link'), findsOneWidget);
+      expect(find.text('Notification Settings'), findsOneWidget);
+      expect(find.text('Mute Channel'), findsNothing);
     });
   });
 
@@ -524,6 +610,131 @@ void main() {
 
       expect(find.text('channel-20'), findsOneWidget);
     });
+
+    testWidgets('restores channel list scroll after switching guilds', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(390, 220);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final List<Channel> guildAChannels = List<Channel>.generate(
+        20,
+        (int index) => _channel('c${index + 1}', 'channel-${index + 1}'),
+      );
+      final List<Channel> guildBChannels = List<Channel>.generate(
+        5,
+        (int index) => Channel(
+          id: 'b${index + 1}',
+          guildId: _otherGuildId,
+          name: 'guild-b-${index + 1}',
+          parentId: 'cat-b1',
+        ),
+      );
+      final Map<String, UnreadState> unread = <String, UnreadState>{
+        for (int index = 1; index <= 20; index++)
+          'c$index': index == 20
+              ? const UnreadState(hasUnread: true, hasUnreadMessages: true)
+              : const UnreadState(),
+      };
+      final _GuildSwitchTestHarness harness = _GuildSwitchTestHarness();
+      final ChannelListState guildAState = ChannelListState(
+        guild: const Guild(id: _guildId, name: 'Test Guild'),
+        categories: <ChannelCategory>[
+          ChannelCategory(
+            id: 'cat1',
+            name: 'My Category',
+            channels: guildAChannels,
+          ),
+        ],
+        selectedChannelId: 'c1',
+      );
+      final ChannelListState guildBState = ChannelListState(
+        guild: const Guild(id: _otherGuildId, name: 'Other Guild'),
+        categories: <ChannelCategory>[
+          ChannelCategory(
+            id: 'cat-b1',
+            name: 'Other Category',
+            channels: guildBChannels,
+          ),
+        ],
+        selectedChannelId: 'b1',
+      );
+      harness.channelListState = guildAState;
+      final List<Override> overrides = <Override>[
+        ..._buildOverrides(
+          channelListState: guildAState,
+          selectedChannelId: 'c1',
+          unread: unread,
+          activeGuildIdReader: (Ref ref) => harness.activeGuildId,
+          channelListViewModelFactory: () =>
+              _HarnessChannelListViewModel(harness),
+        ),
+        guildMuteProvider(_otherGuildId).overrideWith(
+          (Ref ref) => Stream<GuildMuteState>.value(const GuildMuteState()),
+        ),
+        mutedChannelIdsProvider(_otherGuildId).overrideWith(
+          (Ref ref) => Stream<Set<String>>.value(const <String>{}),
+        ),
+        guildCollapsedCategoriesProvider(_otherGuildId).overrideWith(
+          (Ref ref) => Stream<Set<String>>.value(const <String>{}),
+        ),
+        for (final Channel channel in guildBChannels)
+          channelUnreadProvider(channel.id).overrideWith(
+            (Ref ref) => Stream<UnreadState>.value(const UnreadState()),
+          ),
+      ];
+      final ProviderContainer container = ProviderContainer(
+        overrides: overrides,
+      );
+      addTearDown(container.dispose);
+      final colorTheme = buildDarkColorTheme();
+      Future<void> pumpSidebar() async {
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: MaterialApp(
+              localizationsDelegates:
+                  FluxerLocalizations.localizationsDelegates,
+              supportedLocales: FluxerLocalizations.supportedLocales,
+              theme: buildFluxerTheme(
+                colorTheme: colorTheme,
+                textTheme: FluxerTextTheme.fromColors(colorTheme),
+                layoutTheme: FluxerLayoutTheme.scaled(),
+              ),
+              home: const Scaffold(body: GuildSidebar()),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+      }
+
+      await pumpSidebar();
+      await tester.scrollUntilVisible(
+        find.text('channel-20'),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('channel-20'), findsOneWidget);
+
+      harness.activeGuildId = _otherGuildId;
+      harness.channelListState = guildBState;
+      container
+        ..invalidate(activeGuildIdProvider)
+        ..invalidate(channelListViewModelProvider);
+      await pumpSidebar();
+      expect(find.text('guild-b-1'), findsOneWidget);
+
+      harness.activeGuildId = _guildId;
+      harness.channelListState = guildAState;
+      container
+        ..invalidate(activeGuildIdProvider)
+        ..invalidate(channelListViewModelProvider);
+      await pumpSidebar();
+      expect(find.text('channel-20'), findsOneWidget);
+    });
   });
 
   group('GuildSidebar voice session isolation', () {
@@ -644,15 +855,21 @@ List<Override> _buildOverrides({
   Map<String, int?> sidebarConnectBits = const {},
   bool developerMode = false,
   VoiceSession Function()? voiceSessionFactory,
+  String? Function(Ref ref)? activeGuildIdReader,
+  ChannelListViewModel Function()? channelListViewModelFactory,
 }) {
   final db = openTestDatabase();
   return [
     fluxerDatabaseProvider.overrideWithValue(db),
     currentUserIdProvider.overrideWithValue('me'),
-    activeGuildIdProvider.overrideWithValue(_guildId),
+    if (activeGuildIdReader != null)
+      activeGuildIdProvider.overrideWith(activeGuildIdReader)
+    else
+      activeGuildIdProvider.overrideWithValue(_guildId),
     activeChannelIdProvider.overrideWithValue(selectedChannelId),
     channelListViewModelProvider.overrideWith(
-      () => _FakeChannelListViewModel(channelListState),
+      channelListViewModelFactory ??
+          () => _FakeChannelListViewModel(channelListState),
     ),
     appearancePreferencesProvider.overrideWith(_FakeAppearancePreferences.new),
     voiceSessionProvider.overrideWith(
@@ -661,6 +878,8 @@ List<Override> _buildOverrides({
     userSettingsViewModelProvider.overrideWith(
       () => _FakeUserSettings(developerMode: developerMode),
     ),
+    sensitiveContentProvider.overrideWith(_FakeSensitiveContent.new),
+    matureContentAgreementsProvider.overrideWith(_FakeMatureAgreements.new),
     guildMuteProvider(_guildId).overrideWith(
       (ref) => Stream.value(GuildMuteState(hideMutedChannels: hideMuted)),
     ),
@@ -727,6 +946,15 @@ class _FakeChannelListViewModel extends ChannelListViewModel {
   ChannelListState build() => _state;
 }
 
+class _HarnessChannelListViewModel extends ChannelListViewModel {
+  _HarnessChannelListViewModel(this._harness);
+
+  final _GuildSwitchTestHarness _harness;
+
+  @override
+  ChannelListState build() => _harness.channelListState;
+}
+
 class _FakeAppearancePreferences extends AppearancePreferences {
   @override
   AppearancePreferencesState build() =>
@@ -769,4 +997,16 @@ class _FakeUserSettings extends UserSettingsViewModel {
     developerMode: developerMode,
     trustedDomains: const [],
   );
+}
+
+class _FakeSensitiveContent extends SensitiveContent {
+  @override
+  SensitiveContentState build() =>
+      const SensitiveContentState(isLoading: false);
+}
+
+class _FakeMatureAgreements extends MatureContentAgreements {
+  @override
+  MatureContentAgreementsState build() =>
+      const MatureContentAgreementsState(isLoaded: true);
 }

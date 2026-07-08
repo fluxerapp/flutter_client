@@ -122,5 +122,6 @@ String guildSettingsTabTitle(FluxerLocalizations l10n, GuildSettingsTab tab) {
     GuildSettingsTab.members => l10n.guildMenuSettingsMembers,
     GuildSettingsTab.invites => l10n.guildMenuSettingsInviteLinks,
     GuildSettingsTab.bans => l10n.guildMenuSettingsBans,
+    GuildSettingsTab.channels => l10n.guildMenuSettingsChannels,
   };
 }

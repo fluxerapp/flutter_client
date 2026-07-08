@@ -29,6 +29,7 @@ String expressionTabLabel(ExpressionPickerTab tab, FluxerLocalizations l10n) =>
 class ExpressionPicker extends ConsumerStatefulWidget {
   const ExpressionPicker({
     required this.onClose,
+    this.scrollController,
     this.visibleTabs = const [
       ExpressionPickerTab.gifs,
       ExpressionPickerTab.memes,
@@ -56,6 +57,7 @@ class ExpressionPicker extends ConsumerStatefulWidget {
   });
 
   final VoidCallback onClose;
+  final ScrollController? scrollController;
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
 
@@ -244,6 +246,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
   ) {
     if (_selectedTab == ExpressionPickerTab.emojis) {
       return EmojiPickerContent(
+        scrollController: widget.scrollController,
         isMobile: isMobileLayout(context),
         searchQuery: _searchQuery,
         skinTone: widget.skinTone ?? skinTone,
@@ -255,6 +258,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
     }
     if (_selectedTab == ExpressionPickerTab.gifs) {
       return GifPickerContent(
+        scrollController: widget.scrollController,
         onClose: widget.onClose,
         onFavoritesTap: widget.visibleTabs.contains(ExpressionPickerTab.memes)
             ? () => _selectTab(ExpressionPickerTab.memes)
@@ -267,6 +271,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
     }
     if (_selectedTab == ExpressionPickerTab.stickers) {
       return StickerPickerContent(
+        scrollController: widget.scrollController,
         isMobile: isMobileLayout(context),
         onSelect: widget.onStickerSelect,
         channelId: widget.channelId,
@@ -276,6 +281,7 @@ class _ExpressionPickerState extends ConsumerState<ExpressionPicker> {
       );
     }
     return FavoriteMediaPickerContent(
+      scrollController: widget.scrollController,
       onSelect: widget.onFavoriteMemeSelect,
       searchHorizontalPadding: widget.contentSearchHorizontalPadding,
       searchTopPadding: widget.contentSearchTopPadding,

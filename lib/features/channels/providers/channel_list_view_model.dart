@@ -43,6 +43,8 @@ class ChannelListState {
 class ChannelListViewModel extends _$ChannelListViewModel {
   String? _currentGuildId;
   StreamSubscription<List<Channel>>? _subscription;
+  final Map<String, List<ChannelCategory>> _categoryCache =
+      <String, List<ChannelCategory>>{};
 
   @override
   ChannelListState build() {
@@ -61,10 +63,15 @@ class ChannelListViewModel extends _$ChannelListViewModel {
       }
       return;
     }
+    if (_currentGuildId != null && state.categories.isNotEmpty) {
+      _categoryCache[_currentGuildId!] = state.categories;
+    }
     _currentGuildId = guildId;
+    final List<ChannelCategory> cachedCategories =
+        _categoryCache[guildId] ?? const <ChannelCategory>[];
     state = ChannelListState(
       guild: guild,
-      categories: const <ChannelCategory>[],
+      categories: cachedCategories,
       selectedChannelId: state.selectedChannelId,
       isMemberListVisible: state.isMemberListVisible,
     );
@@ -76,6 +83,7 @@ class ChannelListViewModel extends _$ChannelListViewModel {
         .listen(
           (channels) {
             final categories = groupChannelsIntoCategories(channels);
+            _categoryCache[guildId] = categories;
             state = state.copyWith(categories: categories);
             final Map<String, int> cachedBits = ref.read(
               channelPermissionCacheProvider,

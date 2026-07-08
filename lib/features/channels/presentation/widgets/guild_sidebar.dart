@@ -9,24 +9,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
-import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_unread_state.dart';
+import 'package:fluxer_app/features/channels/presentation/channel_menu_data.dart';
+import 'package:fluxer_app/features/channels/presentation/modals/show_channel_invite_modal.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
+import 'package:fluxer_app/features/channels/presentation/widgets/channel_list_typing_indicator.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/voice_channel_participants.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/voice_channel_user_count.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/channel_sidebar_icon_connect_bits_provider.dart';
-import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_sidebar_entries_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_sidebar_scroll_store_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
@@ -41,11 +43,14 @@ import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_navbar.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
+import 'package:fluxer_app/features/mature_content/providers/sensitive_content_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_member_count_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -87,7 +92,7 @@ class _GuildSidebarState extends ConsumerState<GuildSidebar> {
         children: [
           _buildServerHeader(context, guild),
           Expanded(
-            child: guild == null || guildId == null
+            child: guild == null || guildId == null || guild.id != guildId
                 ? const SizedBox.shrink()
                 : _GuildSidebarChannelList(
                     key: ValueKey<String>(guildId),
@@ -277,6 +282,12 @@ class _GuildSidebarChannelListState
   }
 
   @override
+  void deactivate() {
+    _persistScroll();
+    super.deactivate();
+  }
+
+  @override
   void dispose() {
     _persistScroll();
     _scrollController
@@ -318,7 +329,11 @@ class _GuildSidebarChannelListState
       _scrollController.jumpTo(target);
       _restoring = false;
     }
-    _needsScrollClamp = false;
+    if (_needsScrollClamp) {
+      setState(() {
+        _needsScrollClamp = false;
+      });
+    }
     _scrollIndicator.scheduleUpdate();
   }
 
@@ -390,7 +405,10 @@ class _GuildSidebarChannelListState
       child: UnreadScrollIndicatorLayer(
         controller: _scrollIndicator,
         label: FluxerLocalizations.of(context).scrollIndicatorNewMessage,
-        child: channelListView,
+        child: Opacity(
+          opacity: _needsScrollClamp ? 0 : 1,
+          child: channelListView,
+        ),
       ),
     );
   }
@@ -435,7 +453,6 @@ class _ChannelTile extends ConsumerWidget {
       showFadedUnreadOnMutedChannels: showFadedUnread,
       unreadBadgesLevel: unread?.unreadBadgesLevel,
     );
-    final bool hasTyping = ref.watch(channelHasTypingProvider(channel.id));
     final int? connectPermissionBits = ref
         .watch(channelSidebarIconConnectBitsProvider(channel.id))
         .value;
@@ -556,14 +573,11 @@ class _ChannelTile extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (hasTyping) ...[
-                  const SizedBox(width: 4),
-                  RepaintBoundary(
-                    child: FluxerLoadingSpinner(
-                      color: context.colors.textSecondary,
-                    ),
-                  ),
-                ],
+                ChannelListTypingIndicator(
+                  channelId: channel.id,
+                  guildId: guildId,
+                  isSelected: isSelected,
+                ),
                 if (!isSelected &&
                     mentionCount > 0 &&
                     channelUnreadState.hasMentions) ...[
@@ -600,160 +614,246 @@ class _ChannelTile extends ConsumerWidget {
         await ref
             .read(favoriteChannelsRepositoryProvider)
             .isFavorite(channel.id);
-    final bool canMute = _canMuteChannel(channel);
-    final bool canMarkRead = _canMarkChannelRead(channel);
-    final bool developerMode = ref
-        .read(userSettingsViewModelProvider)
-        .developerMode;
-    final bool canOpenLink =
-        channel.type == ChannelType.guildLink &&
-        (channel.url?.isNotEmpty ?? false);
     final int? permissionBits =
         ref.read(channelPermissionCacheProvider)[channel.id] ??
         ref.read(effectiveGuildChannelPermissionBitsProvider(channel.id)).value;
-    final bool canManageChannel =
-        permissionBits != null &&
-        hasPermission(permissionBits, Permission.manageChannels);
     final Set<String> mutedIds =
         ref.read(mutedChannelIdsProvider(guildId)).value ?? const <String>{};
     final bool isMuted = mutedIds.contains(channel.id);
     final muteConfig = await _loadChannelMuteConfig(ref, guildId, channel.id);
     final String? mutedHint = isMuted ? formatMutedHintText(muteConfig) : null;
+    final bool developerMode = ref
+        .read(userSettingsViewModelProvider)
+        .developerMode;
+    final bool nsfwAllowed = ref.read(sensitiveContentProvider).nsfwAllowed;
+    final bool hasAgreedToMatureContent = ref
+        .read(matureContentAgreementsProvider)
+        .agreedChannelIds
+        .contains(channel.id);
+    final Channel? parentCategory = await _loadParentCategory(ref, channel);
     if (!context.mounted) {
       return;
     }
+    final ChannelMenuState menuState = resolveChannelMenuState(
+      channel: channel,
+      guild: guild,
+      parentCategory: parentCategory,
+      permissionBits: permissionBits,
+      hasUnread: hasUnread,
+      showFavorites: showFavorites,
+      isFavorite: isFavorite,
+      isMuted: isMuted,
+      developerMode: developerMode,
+      nsfwAllowed: nsfwAllowed,
+      hasAgreedToMatureContent: hasAgreedToMatureContent,
+      voiceChannelJoinRequiresDoubleClick: false,
+      mutedHint: mutedHint,
+    );
+    final List<ChannelMenuGroup> groups = buildChannelMenuGroups(
+      l10n: l10n,
+      state: menuState,
+    );
     return FluxerActionMenu.show(
       context,
       position: position,
-      builder: (menuContext, close) => [
-        if (canMarkRead)
-          FluxerMenuItem(
-            label: 'Mark as Read',
-            icon: PhosphorIconsRegular.envelopeOpen,
-            enabled: hasUnread,
-            onPressed: () {
-              close();
-              unawaited(_readStateRepository(ref).ackLatest(channel.id));
-            },
-          ),
-        if (showFavorites)
-          FluxerMenuItem(
-            label: isFavorite ? 'Remove from Favorites' : 'Add to Favorites',
-            icon: isFavorite ? PhosphorIconsFill.star : PhosphorIconsBold.star,
-            onPressed: () {
-              close();
-              unawaited(_toggleFavorite(ref, isFavorite: isFavorite));
-            },
-          ),
-        if (canOpenLink)
-          FluxerMenuItem(
-            label: 'Open Link',
-            icon: PhosphorIconsRegular.arrowSquareOut,
-            onPressed: () {
-              close();
-              final uri = Uri.tryParse(channel.url ?? '');
-              if (uri != null) {
-                unawaited(
-                  openExternalUrl(
-                    uri,
-                    style: ExternalUrlBrowserStyle.fromColorTheme(
-                      menuContext.colors,
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
-        FluxerMenuItem(
-          label: 'Copy Link',
-          icon: PhosphorIconsRegular.link,
-          onPressed: () {
-            close();
-            unawaited(
-              _copyToClipboard(ref, channelLink(channel.id, channel.guildId)),
-            );
-          },
+      builder: (menuContext, close) => channelMenuGroupsToWidgets(
+        groups: groups,
+        onAction: (ChannelMenuAction action) => _handleChannelMenuAction(
+          action,
+          menuContext: menuContext,
+          ref: ref,
+          close: close,
+          menuState: menuState,
         ),
-        if (canMute)
-          FluxerMenuItem(
-            label: isMuted
-                ? l10n.notificationUnmuteChannel
-                : l10n.notificationMuteChannel,
-            icon: isMuted
-                ? PhosphorIconsRegular.bell
-                : PhosphorIconsRegular.bellSlash,
-            hint: mutedHint,
-            onPressed: () {
-              unawaited(
-                _openChannelMuteSheet(
-                  menuContext,
-                  ref,
-                  close: close,
-                  isMuted: isMuted,
-                ),
-              );
-            },
-          ),
-        if (canMarkRead)
-          FluxerMenuItem(
-            label: 'Notification Settings',
-            icon: PhosphorIconsRegular.bell,
-            onPressed: () {
-              close();
-              unawaited(
-                showChannelNotificationSettingsSheet(
-                  menuContext,
-                  channel: channel,
-                  onSetNotification: (setting) async {
-                    await ref
-                        .read(guildUserSettingsRepositoryProvider)
-                        .updateChannelOverride(
-                          guildId: channel.guildId,
-                          channelId: channel.id,
-                          messageNotifications: setting,
-                        );
-                    ref
-                        .read(toastProvider.notifier)
-                        .show(
-                          const FluxerToast(
-                            message: 'Notification settings updated',
-                            variant: FluxerToastVariant.success,
-                          ),
-                        );
-                  },
-                ),
-              );
-            },
-          ),
-        if (developerMode)
-          FluxerMenuItem(
-            label: FluxerLocalizations.of(menuContext).dmDebugChannel,
-            icon: PhosphorIconsFill.bugBeetle,
-            onPressed: () {
-              close();
-              unawaited(_showDebugChannelSheet(menuContext, ref));
-            },
-          ),
-        FluxerMenuItem(
-          label: 'Copy Channel ID',
-          icon: PhosphorIconsRegular.copy,
-          onPressed: () {
-            close();
-            unawaited(_copyToClipboard(ref, channel.id));
-          },
-        ),
-        if (canManageChannel)
-          FluxerMenuItem(
-            label: 'Delete Channel',
-            icon: PhosphorIconsRegular.trash,
-            isDanger: true,
-            onPressed: () {
-              close();
-              unawaited(_confirmDeleteChannel(menuContext, ref));
-            },
-          ),
-      ],
+      ),
     );
+  }
+
+  Future<Channel?> _loadParentCategory(WidgetRef ref, Channel channel) async {
+    final String? parentId = channel.parentId;
+    if (parentId == null) {
+      return null;
+    }
+    final row = await ref
+        .read(fluxerDatabaseProvider)
+        .channelDao
+        .getChannelById(parentId);
+    if (row == null) {
+      return null;
+    }
+    final Channel parent = Channel.fromRow(row);
+    return parent.isCategory ? parent : null;
+  }
+
+  void _handleChannelMenuAction(
+    ChannelMenuAction action, {
+    required BuildContext menuContext,
+    required WidgetRef ref,
+    required VoidCallback close,
+    required ChannelMenuState menuState,
+  }) {
+    switch (action) {
+      case ChannelMenuAction.openChat:
+        close();
+        unawaited(_openVoiceChannelChat(menuContext, ref));
+      case ChannelMenuAction.markAsRead:
+        close();
+        unawaited(_readStateRepository(ref).ackLatest(channel.id));
+      case ChannelMenuAction.toggleFavorite:
+        close();
+        unawaited(_toggleFavorite(ref, isFavorite: menuState.isFavorite));
+      case ChannelMenuAction.invitePeople:
+        close();
+        unawaited(
+          showChannelInviteModal(
+            menuContext,
+            ref,
+            channelId: channel.id,
+            channelName: channel.name,
+            guildId: guildId,
+            useVanityUrl: menuState.useVanityInvite,
+            vanityUrlCode: menuState.vanityUrlCode,
+          ),
+        );
+      case ChannelMenuAction.openLink:
+        close();
+        final uri = Uri.tryParse(channel.url ?? '');
+        if (uri != null) {
+          unawaited(
+            openExternalUrl(
+              uri,
+              style: ExternalUrlBrowserStyle.fromColorTheme(menuContext.colors),
+            ),
+          );
+        }
+      case ChannelMenuAction.copyLink:
+        close();
+        unawaited(
+          _copyToClipboard(ref, channelLink(channel.id, channel.guildId)),
+        );
+      case ChannelMenuAction.mute:
+        unawaited(
+          _openChannelMuteSheet(
+            menuContext,
+            ref,
+            close: close,
+            isMuted: menuState.isMuted,
+          ),
+        );
+      case ChannelMenuAction.notificationSettings:
+        close();
+        unawaited(
+          showChannelNotificationSettingsSheet(
+            menuContext,
+            channel: channel,
+            onSetNotification: (setting) async {
+              await ref
+                  .read(guildUserSettingsRepositoryProvider)
+                  .updateChannelOverride(
+                    guildId: channel.guildId,
+                    channelId: channel.id,
+                    messageNotifications: setting,
+                  );
+              ref
+                  .read(toastProvider.notifier)
+                  .show(
+                    const FluxerToast(
+                      message: 'Notification settings updated',
+                      variant: FluxerToastVariant.success,
+                    ),
+                  );
+            },
+          ),
+        );
+      case ChannelMenuAction.editChannel:
+        close();
+        _showComingSoon(menuContext, ref);
+      case ChannelMenuAction.duplicateChannel:
+        close();
+        _showComingSoon(menuContext, ref);
+      case ChannelMenuAction.debugChannel:
+        close();
+        unawaited(_showDebugChannelSheet(menuContext, ref));
+      case ChannelMenuAction.resetMatureContentAgree:
+        close();
+        unawaited(
+          ref
+              .read(matureContentAgreementsProvider.notifier)
+              .revokeChannelAgreement(channel.id),
+        );
+      case ChannelMenuAction.copyChannelId:
+        close();
+        unawaited(_copyToClipboard(ref, channel.id));
+      case ChannelMenuAction.deleteChannel:
+        close();
+        unawaited(_confirmDeleteChannel(menuContext, ref));
+      case ChannelMenuAction.deleteMyMessages:
+        close();
+        unawaited(_confirmDeleteMyMessagesInChannel(menuContext, ref));
+    }
+  }
+
+  Future<void> _openVoiceChannelChat(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    if (isMobileLayout(context)) {
+      await showVoiceChannelChatSheet(
+        context,
+        channelId: channel.id,
+        channelName: channel.name,
+        useRootNavigator: true,
+      );
+      return;
+    }
+    navigateToContent(context, RoutePaths.guildChannel(guildId, channel.id));
+  }
+
+  void _showComingSoon(BuildContext context, WidgetRef ref) {
+    ref
+        .read(toastProvider.notifier)
+        .show(FluxerToast(message: FluxerLocalizations.of(context).comingSoon));
+  }
+
+  Future<void> _confirmDeleteMyMessagesInChannel(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final bool? confirmed = await FluxerConfirmModal.show(
+      context,
+      title: l10n.channelMenuDeleteMyMessagesTitle,
+      description: l10n.channelMenuDeleteMyMessagesDescription,
+      confirmLabel: l10n.channelMenuDeleteMyMessagesConfirm,
+      isDanger: true,
+      onConfirm: () {},
+    );
+    if (confirmed != true) {
+      return;
+    }
+    final toast = ref.read(toastProvider.notifier);
+    try {
+      await ref
+          .read(fluxerClientProvider)
+          .channels
+          .bulkDeleteMyMessagesInChannel(
+            channelId: channel.id,
+            body: const SudoVerificationSchema(),
+          );
+      toast.show(
+        FluxerToast(
+          message: l10n.channelMenuDeletedYourMessages,
+          variant: FluxerToastVariant.success,
+        ),
+      );
+    } on Object {
+      toast.show(
+        FluxerToast(
+          message: l10n.channelMenuCouldNotDeleteYourMessages,
+          variant: FluxerToastVariant.danger,
+        ),
+      );
+    }
   }
 
   Future<void> _showDebugChannelSheet(BuildContext context, WidgetRef ref) =>
@@ -1074,7 +1174,3 @@ Future<ChannelOverridesMuteConfig?> _loadChannelMuteConfig(
 bool _canMarkChannelRead(Channel channel) =>
     channel.type != ChannelType.guildCategory &&
     channel.type != ChannelType.guildLink;
-
-bool _canMuteChannel(Channel channel) =>
-    channel.type == ChannelType.guildText ||
-    channel.type == ChannelType.guildVoice;

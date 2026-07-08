@@ -171,6 +171,10 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
                   guildId: guildId,
                 ),
               );
+        case IarGuildContext():
+          throw UnsupportedError(
+            'Guild reports use showSimpleIarReportSheet, not the multi-step flow.',
+          );
       }
       if (mounted) {
         setState(() => _step = IarStep.success);

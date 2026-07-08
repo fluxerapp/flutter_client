@@ -4,8 +4,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/push_provider_guard.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/push/foreground_push_notification_policy.dart';
 import 'package:fluxer_app/core/push/local_push_notifications.dart';
 import 'package:fluxer_app/core/push/push_message.dart';
+import 'package:fluxer_app/core/push/push_notification_clear.dart';
+import 'package:fluxer_app/core/push/push_notification_payload.dart';
 import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:fluxer_app/core/push/push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_message_mapper.dart';
@@ -39,6 +42,7 @@ class UnifiedPushService implements PushService {
   bool _registrationRetryScheduled = false;
   FluxerDatabase? _database;
   static bool _backgroundMode = false;
+  bool _appForeground = true;
 
   Stream<up.PushEndpoint> get endpointStream => _endpoints.stream;
 
@@ -56,6 +60,21 @@ class UnifiedPushService implements PushService {
       return;
     }
     _database = database;
+  }
+
+  set appForeground(bool isAppForeground) {
+    _appForeground = isAppForeground;
+  }
+
+  @visibleForTesting
+  bool get appForegroundForTesting => _appForeground;
+
+  @visibleForTesting
+  static bool get backgroundModeForTesting => _backgroundMode;
+
+  @visibleForTesting
+  static void resetBackgroundModeForTesting() {
+    _backgroundMode = false;
   }
 
   static Future<void> ensureBackgroundInitialized() async {
@@ -346,10 +365,28 @@ class UnifiedPushService implements PushService {
       return;
     }
     final PushMessage mapped = mapUnifiedPushMessage(message);
+    if (_backgroundMode) {
+      await _displayUnifiedPushMessage(mapped);
+      return;
+    }
+    if (!ForegroundPushNotificationPolicy.shouldProcessPush(
+      isAppForeground: _appForeground,
+      payload: mapped.payload,
+    )) {
+      return;
+    }
+    if (isNotificationClearPayload(mapped.payload)) {
+      await PushNotificationClear.handleClearPayload(mapped.payload);
+      return;
+    }
+    await _displayUnifiedPushMessage(mapped);
+  }
+
+  Future<void> _displayUnifiedPushMessage(PushMessage mapped) async {
     _messages.add(mapped);
     if (kDebugMode) {
       debugPrint(
-        '[UnifiedPushService] onMessage decrypted=${message.decrypted} '
+        '[UnifiedPushService] display push id=${mapped.id} '
         'title=${mapped.title} body=${mapped.body} bg=$_backgroundMode',
       );
     }

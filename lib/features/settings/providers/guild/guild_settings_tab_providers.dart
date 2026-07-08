@@ -19,9 +19,21 @@ Future<List<Channel>> guildSettingsChannels(Ref ref, String guildId) async {
   final List<ChannelCategory> categories = await repository.getChannels(
     guildId,
   );
-  return categories
-      .expand((ChannelCategory category) => category.channels)
-      .toList();
+  final List<Channel> channels = <Channel>[];
+  for (final ChannelCategory category in categories) {
+    if (!category.isUncategorized) {
+      channels.add(
+        Channel(
+          id: category.id,
+          guildId: guildId,
+          name: category.name,
+          type: ChannelType.guildCategory,
+        ),
+      );
+    }
+    channels.addAll(category.channels);
+  }
+  return channels;
 }
 
 @riverpod

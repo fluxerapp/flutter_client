@@ -4,7 +4,6 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -33,6 +32,8 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:riverpod/src/framework.dart' show Override;
 import 'package:scrollview_observer/scrollview_observer.dart';
+
+import '../../../../helpers/open_test_database.dart';
 
 /// Reverse chat-list harness mirroring the production wiring in
 /// `message_list.dart`: a `reverse: true` `ListView.builder` wrapped in a

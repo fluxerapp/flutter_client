@@ -1,8 +1,9 @@
 import 'package:drift/drift.dart' hide isNull;
 import 'package:flutter_test/flutter_test.dart';
-import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
+
+import '../../../helpers/open_test_database.dart';
 
 void main() {
   late FluxerDatabase db;

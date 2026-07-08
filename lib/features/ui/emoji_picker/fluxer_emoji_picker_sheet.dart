@@ -28,12 +28,16 @@ class FluxerEmojiPickerSheet {
     String? channelId,
     bool trackEmojiUsageOnSelect = true,
   }) {
-    return FluxerBottomSheet.show<void>(
+    final double sheetSize = maxHeight ?? 0.9;
+    return FluxerBottomSheet.showScrollable<void>(
       context,
       title: title,
       maxHeight: maxHeight,
-      builder: (context, close) {
+      initialChildSize: sheetSize,
+      maxChildSize: sheetSize,
+      builder: (context, scrollController, close) {
         return _SheetContent(
+          scrollController: scrollController,
           visibleTabs: visibleTabs,
           initialTab: initialTab,
           onClose: close,
@@ -51,6 +55,7 @@ class FluxerEmojiPickerSheet {
 
 class _SheetContent extends StatefulWidget {
   const _SheetContent({
+    required this.scrollController,
     required this.visibleTabs,
     required this.initialTab,
     required this.onClose,
@@ -62,6 +67,7 @@ class _SheetContent extends StatefulWidget {
     this.trackEmojiUsageOnSelect = true,
   });
 
+  final ScrollController scrollController;
   final List<ExpressionPickerTab> visibleTabs;
   final ExpressionPickerTab initialTab;
   final VoidCallback onClose;
@@ -99,6 +105,7 @@ class _SheetContentState extends State<_SheetContent> {
       const SizedBox(height: 8),
       Expanded(
         child: ExpressionPicker(
+          scrollController: widget.scrollController,
           onClose: widget.onClose,
           onEmojiSelect: (name, surrogates) {
             widget.onEmojiSelected?.call(

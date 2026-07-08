@@ -46,6 +46,7 @@ abstract final class RouteNames {
   static const guildSettingsMembers = 'guild-settings-members';
   static const guildSettingsInvites = 'guild-settings-invites';
   static const guildSettingsBans = 'guild-settings-bans';
+  static const guildSettingsChannels = 'guild-settings-channels';
 }
 
 /// Path builders mirroring web app's Routes object.
@@ -106,6 +107,8 @@ abstract final class RoutePaths {
       '/settings/guild/$guildId/invites';
   static String guildSettingsBansPath(String guildId) =>
       '/settings/guild/$guildId/bans';
+  static String guildSettingsChannelsPath(String guildId) =>
+      '/settings/guild/$guildId/channels';
 
   static const notificationsPath = '/notifications';
   static const youPath = '/you';

@@ -1,11 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../helpers/open_test_database.dart';
 import 'package:fluxer_app/core/database/daos/favorite_channels_dao.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/features/favorites/data/favorite_channels_repository.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+
+import '../../../helpers/open_test_database.dart';
 
 void main() {
   late FluxerDatabase database;

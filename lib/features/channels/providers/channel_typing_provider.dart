@@ -1,6 +1,7 @@
 import 'package:clock/clock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -39,5 +40,24 @@ List<String> typingUsersInChannel(Ref ref, String channelId) {
   return <String>[
     for (final MapEntry<String, DateTime> e in entries.entries)
       if (e.key != currentUserId && e.value.isAfter(now)) e.key,
+  ];
+}
+
+/// Remote users typing in [channelId], excluding blocked users.
+@riverpod
+List<String> presentableTypingUsersInChannel(Ref ref, String channelId) {
+  final List<String> userIds = ref.watch(
+    typingUsersInChannelProvider(channelId),
+  );
+  if (userIds.isEmpty) {
+    return const <String>[];
+  }
+  final Set<String> blockedIds = ref.watch(blockedUserIdsProvider);
+  if (blockedIds.isEmpty) {
+    return userIds;
+  }
+  return <String>[
+    for (final String id in userIds)
+      if (!blockedIds.contains(id)) id,
   ];
 }
