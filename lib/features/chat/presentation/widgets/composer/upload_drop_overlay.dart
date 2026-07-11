@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
+import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -64,7 +65,7 @@ class _UploadDropOverlayState extends ConsumerState<UploadDropOverlay> {
         ];
         final FileUploadValidationResult result = await ref
             .read(cloudUploadControllerProvider(widget.channelId).notifier)
-            .addFiles(files);
+            .addFiles(composerUploadFiles(files));
         if (context.mounted) {
           _maybeToastValidation(context, ref, result);
         }

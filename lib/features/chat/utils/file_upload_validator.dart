@@ -61,7 +61,10 @@ class FileUploadValidator {
         descriptors.add((
           name: x.name,
           size: len,
-          contentType: guessContentTypeFromName(x.name),
+          contentType: resolveContentTypeForUpload(
+            filename: x.name,
+            mimeType: x.mimeType,
+          ),
         ));
       }
       if (isMultipartMessageRequestTooLarge(
@@ -75,6 +78,19 @@ class FileUploadValidator {
       }
     }
     return const FileUploadValidationResult.success();
+  }
+
+  static String resolveContentTypeForUpload({
+    required String filename,
+    String? mimeType,
+  }) {
+    final String? trimmedMime = mimeType?.trim();
+    if (trimmedMime != null &&
+        trimmedMime.isNotEmpty &&
+        trimmedMime.toLowerCase() != 'application/octet-stream') {
+      return trimmedMime;
+    }
+    return guessContentTypeFromName(filename);
   }
 
   static String guessContentTypeFromName(String name) {

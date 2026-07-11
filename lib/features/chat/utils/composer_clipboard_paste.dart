@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/clipboard_attachment_reader.dart';
+import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 
@@ -23,7 +24,7 @@ Future<FileUploadValidationResult?> tryPasteClipboardAttachments({
   }
   return ref
       .read(cloudUploadControllerProvider(channelId).notifier)
-      .addFiles(files);
+      .addFiles(composerUploadFiles(files));
 }
 
 Future<void> pastePlainTextIntoComposer(

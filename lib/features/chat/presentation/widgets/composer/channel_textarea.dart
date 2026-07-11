@@ -45,6 +45,7 @@ import 'package:fluxer_app/features/chat/utils/composer_command.dart';
 import 'package:fluxer_app/features/chat/utils/composer_emoji_resolution.dart';
 import 'package:fluxer_app/features/chat/utils/composer_message_length_paste_formatter.dart';
 import 'package:fluxer_app/features/chat/utils/composer_sendable_content.dart';
+import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/composer_voice_button_visibility.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
@@ -1472,7 +1473,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                           return;
                         }
                         final FileUploadValidationResult r = await notifier
-                            .addFiles(media);
+                            .addFiles(
+                              composerUploadFilesFromImagePicker(media),
+                            );
                         if (mounted) {
                           _toastUploadValidation(r);
                         }
@@ -1494,7 +1497,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                           return;
                         }
                         final FileUploadValidationResult r = await notifier
-                            .addFiles(<XFile>[image]);
+                            .addFiles(<ComposerUploadFile>[
+                              composerUploadFileFromImagePicker(image),
+                            ]);
                         if (mounted) {
                           _toastUploadValidation(r);
                         }
@@ -1513,12 +1518,8 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                         if (!mounted) {
                           return;
                         }
-                        final List<XFile> files = <XFile>[];
-                        for (final PlatformFile p in res.files) {
-                          if (p.path != null && p.path!.isNotEmpty) {
-                            files.add(XFile(p.path!, name: p.name));
-                          }
-                        }
+                        final List<ComposerUploadFile> files =
+                            composerUploadFilesFromPlatformFiles(res.files);
                         if (files.isEmpty) {
                           return;
                         }
@@ -1544,12 +1545,9 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     if (res == null || !mounted) {
       return;
     }
-    final List<XFile> files = <XFile>[];
-    for (final PlatformFile p in res.files) {
-      if (p.path != null && p.path!.isNotEmpty) {
-        files.add(XFile(p.path!, name: p.name));
-      }
-    }
+    final List<ComposerUploadFile> files = composerUploadFilesFromPlatformFiles(
+      res.files,
+    );
     if (files.isEmpty) {
       return;
     }

@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/chat/providers/messages/message_upload_sessi
 import 'package:fluxer_app/features/chat/providers/upload/attachment_upload_client_provider.dart';
 import 'package:fluxer_app/features/chat/providers/upload/user_upload_limits_provider.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_filename_utils.dart';
+import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart'
     show
@@ -22,7 +23,6 @@ import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart'
         FileUploadValidationResult,
         FileUploadValidator;
 import 'package:path/path.dart' as path_lib;
-import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cloud_upload_controller.g.dart';
@@ -45,7 +45,9 @@ class CloudUploadController extends _$CloudUploadController {
     return CloudComposerAttachments.empty;
   }
 
-  Future<FileUploadValidationResult> addFiles(List<XFile> files) async {
+  Future<FileUploadValidationResult> addFiles(
+    List<ComposerUploadFile> files,
+  ) async {
     if (files.isEmpty) {
       return const FileUploadValidationResult.failure(
         FileUploadValidationError.noFiles,
@@ -60,19 +62,24 @@ class CloudUploadController extends _$CloudUploadController {
     final FileUploadValidationResult validation = await validator
         .validateAddFiles(
           currentCount: state.items.length,
-          newFiles: files,
+          newFiles: files.map((ComposerUploadFile f) => f.file).toList(),
           multipartPayloadPreview: const <String, dynamic>{'content': ''},
         );
     if (!validation.isValid) {
       return validation;
     }
     final List<PendingAttachment> created = <PendingAttachment>[];
-    for (final XFile file in files) {
-      final XFile resolved = await _ensureResolvableFile(file);
-      final int length = await resolved.length();
-      final String contentType = FileUploadValidator.guessContentTypeFromName(
-        resolved.name,
+    for (final ComposerUploadFile uploadFile in files) {
+      final XFile resolved = await _ensureResolvableFile(
+        uploadFile.file,
+        uploadFilename: uploadFile.displayFilename,
       );
+      final int length = await resolved.length();
+      final String contentType =
+          FileUploadValidator.resolveContentTypeForUpload(
+            filename: resolved.name,
+            mimeType: resolved.mimeType,
+          );
       created.add(
         PendingAttachment(
           id: _nextAttachmentId++,
@@ -93,31 +100,43 @@ class CloudUploadController extends _$CloudUploadController {
     return const FileUploadValidationResult.success();
   }
 
-  Future<XFile> _ensureResolvableFile(XFile file) async {
-    final String safeName = sanitizeAttachmentFilename(
-      rawUploadFilenameForSanitization(name: file.name, path: file.path),
-      mimeType: file.mimeType,
+  Future<XFile> _ensureResolvableFile(
+    XFile file, {
+    String? uploadFilename,
+  }) async {
+    final String safeName = resolveUploadFilename(
+      file: file,
+      explicitName: uploadFilename,
     );
     final String path = file.path.trim();
     if (path.isNotEmpty && File(path).existsSync()) {
       final String onDiskBasename = path_lib.basename(path);
       if (onDiskBasename == safeName) {
-        return XFile(path, mimeType: file.mimeType);
+        return XFile(path, mimeType: file.mimeType, name: safeName);
       }
-      final Directory dir = await getTemporaryDirectory();
-      final File dest = File(
-        '${dir.path}/fluxer_upload_${DateTime.now().microsecondsSinceEpoch}_$safeName',
+      return _stageUploadFile(
+        safeName: safeName,
+        mimeType: file.mimeType,
+        write: (File dest) => File(path).copy(dest.path),
       );
-      await File(path).copy(dest.path);
-      return XFile(dest.path, mimeType: file.mimeType);
     }
     final Uint8List bytes = await file.readAsBytes();
-    final Directory dir = await getTemporaryDirectory();
-    final File temp = File(
-      '${dir.path}/fluxer_upload_${DateTime.now().microsecondsSinceEpoch}_$safeName',
+    return _stageUploadFile(
+      safeName: safeName,
+      mimeType: file.mimeType,
+      write: (File dest) => dest.writeAsBytes(bytes, flush: true),
     );
-    await temp.writeAsBytes(bytes, flush: true);
-    return XFile(temp.path, mimeType: file.mimeType);
+  }
+
+  Future<XFile> _stageUploadFile({
+    required String safeName,
+    required String? mimeType,
+    required Future<void> Function(File dest) write,
+  }) async {
+    final Directory dir = await Directory.systemTemp.createTemp('upload_');
+    final File dest = File('${dir.path}/$safeName');
+    await write(dest);
+    return XFile(dest.path, mimeType: mimeType, name: safeName);
   }
 
   List<PendingAttachment> claimForMessage(String nonce) {

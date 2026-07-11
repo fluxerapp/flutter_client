@@ -81,6 +81,9 @@ class ComposerMentionPasteFormatter extends TextInputFormatter {
     if (insertedLength <= 1) {
       return newValue;
     }
+    if (oldValue.composing.isValid) {
+      return newValue;
+    }
     final String pastedText = InlineTokenPasteFormatter.extractInsertedText(
       oldValue,
       newValue,
@@ -98,12 +101,18 @@ class ComposerMentionPasteFormatter extends TextInputFormatter {
       final int end = oldValue.selection.end;
       final String displayFragment = await controller
           .mentionWireToDisplayFragment(sanitized);
-      final String newText = controller.text.replaceRange(
+      if (displayFragment == sanitized) {
+        return;
+      }
+      final String newText = oldValue.text.replaceRange(
         start,
         end,
         displayFragment,
       );
-      controller.value = oldValue.copyWith(
+      if (newText == pendingValue.text) {
+        return;
+      }
+      controller.value = pendingValue.copyWith(
         text: newText,
         selection: TextSelection.collapsed(
           offset: start + displayFragment.length,

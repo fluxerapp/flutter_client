@@ -95,6 +95,8 @@ class FriendRequestSheetItem extends ConsumerWidget {
     final l10n = FluxerLocalizations.of(context);
     await FluxerBottomSheet.show<void>(
       context,
+      variant: FluxerBottomSheetVariant.menu,
+      showDragHandle: false,
       builder: (sheetContext, close) {
         final groups = <Widget>[
           FluxerMenuGroup(

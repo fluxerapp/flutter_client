@@ -29,6 +29,43 @@ bool isTextClipboardFileFormat(FileFormat format) {
   return textClipboardFileFormats.contains(format);
 }
 
+const List<FileFormat> _prioritizedClipboardFileFormats = <FileFormat>[
+  Formats.png,
+  Formats.jpeg,
+  Formats.gif,
+  Formats.webp,
+  Formats.heic,
+  Formats.heif,
+  Formats.tiff,
+  Formats.bmp,
+  Formats.svg,
+  Formats.ico,
+  Formats.mp4,
+  Formats.mov,
+  Formats.m4v,
+  Formats.webm,
+  Formats.avi,
+  Formats.mkv,
+  Formats.pdf,
+];
+
+List<DataFormat<Object>> orderClipboardFileFormats(
+  List<DataFormat<Object>> available,
+) {
+  final List<FileFormat> ordered = <FileFormat>[];
+  for (final FileFormat format in _prioritizedClipboardFileFormats) {
+    if (available.contains(format)) {
+      ordered.add(format);
+    }
+  }
+  for (final DataFormat<Object> format in available) {
+    if (format is FileFormat && !ordered.contains(format)) {
+      ordered.add(format);
+    }
+  }
+  return ordered;
+}
+
 bool shouldSkipClipboardFileFormat(
   ClipboardDataReader item,
   FileFormat format,
@@ -85,8 +122,8 @@ Future<List<XFile>> readClipboardAttachmentFiles() async {
     if (result.length >= kMaxAttachmentsPerMessage) {
       break;
     }
-    final List<DataFormat<Object>> available = item.getFormats(
-      _clipboardFileFormats,
+    final List<DataFormat<Object>> available = orderClipboardFileFormats(
+      item.getFormats(_clipboardFileFormats),
     );
     for (final DataFormat<Object> format in available) {
       if (format is! FileFormat) {
@@ -120,13 +157,33 @@ String resolveClipboardFilename({
 }) {
   final String? resolvedFileName = fileName?.trim();
   if (resolvedFileName != null && resolvedFileName.isNotEmpty) {
-    return resolvedFileName;
+    return _ensureClipboardFilenameExtension(resolvedFileName, format);
   }
   final String? resolvedSuggestedName = suggestedName?.trim();
   if (resolvedSuggestedName != null && resolvedSuggestedName.isNotEmpty) {
-    return resolvedSuggestedName;
+    return _ensureClipboardFilenameExtension(resolvedSuggestedName, format);
   }
   return 'clipboard.${extensionForClipboardFormat(format)}';
+}
+
+String _ensureClipboardFilenameExtension(String name, FileFormat format) {
+  if (_hasKnownFilenameExtension(name)) {
+    return name;
+  }
+  final String ext = extensionForClipboardFormat(format);
+  if (ext == 'bin') {
+    return name;
+  }
+  return '$name.$ext';
+}
+
+bool _hasKnownFilenameExtension(String name) {
+  final int dot = name.lastIndexOf('.');
+  if (dot <= 0 || dot >= name.length - 1) {
+    return false;
+  }
+  final String ext = name.substring(dot + 1).toLowerCase();
+  return ext.isNotEmpty && ext.length <= 12;
 }
 
 String extensionForClipboardFormat(FileFormat format) {

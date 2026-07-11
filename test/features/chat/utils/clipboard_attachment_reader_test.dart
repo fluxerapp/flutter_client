@@ -70,6 +70,45 @@ void main() {
     test('falls back to clipboard extension', () {
       expect(resolveClipboardFilename(format: Formats.gif), 'clipboard.gif');
     });
+
+    test('appends extension when suggested name has none', () {
+      expect(
+        resolveClipboardFilename(format: Formats.png, suggestedName: 'image'),
+        'image.png',
+      );
+    });
+
+    test('appends extension when file name has none', () {
+      expect(
+        resolveClipboardFilename(format: Formats.jpeg, fileName: 'Screenshot'),
+        'Screenshot.jpg',
+      );
+    });
+
+    test('keeps filename when extension is already present', () {
+      expect(
+        resolveClipboardFilename(
+          format: Formats.png,
+          fileName: 'screenshot.png',
+        ),
+        'screenshot.png',
+      );
+    });
+  });
+
+  group('orderClipboardFileFormats', () {
+    test('prefers image formats over webUnknown', () {
+      final List<DataFormat<Object>> available = <DataFormat<Object>>[
+        Formats.webUnknown,
+        Formats.png,
+        Formats.plainTextFile,
+      ];
+      final List<DataFormat<Object>> ordered = orderClipboardFileFormats(
+        available,
+      );
+      expect(ordered.first, Formats.png);
+      expect(ordered, contains(Formats.webUnknown));
+    });
   });
 
   group('shouldSkipClipboardFileFormat', () {

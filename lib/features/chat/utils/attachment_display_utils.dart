@@ -1,6 +1,31 @@
 import 'package:flutter/widgets.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+const Set<String> kImageAttachmentExtensions = <String>{
+  'png',
+  'jpg',
+  'jpeg',
+  'gif',
+  'webp',
+};
+
+bool isImageAttachment({required String filename, String? contentType}) {
+  final List<String> segments = filename.split('.');
+  if (segments.length > 1) {
+    final String ext = segments.last.toLowerCase();
+    if (kImageAttachmentExtensions.contains(ext)) {
+      return true;
+    }
+  }
+  final String? normalizedType = contentType?.toLowerCase();
+  if (normalizedType != null &&
+      normalizedType.startsWith('image/') &&
+      normalizedType != 'image/svg+xml') {
+    return true;
+  }
+  return false;
+}
+
 IconData phosphorFillIconForChatAttachmentFilename(String filename) {
   final List<String> segments = filename.split('.');
   final String fileExt = segments.length > 1 ? segments.last.toLowerCase() : '';

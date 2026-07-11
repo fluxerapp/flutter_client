@@ -2733,7 +2733,7 @@
   "@phoneAddHint": {
     "description": "Hint for phone input."
   },
-  "phoneAddFooter": "Enter your phone number. We'll send you a verification code via SMS.",
+  "phoneAddFooter": "We'll send an SMS code when available. Your number is not linked to your account. We keep only an encrypted marker, with no user ID, to allow at most 2 verifications in about 30 days.",
   "@phoneAddFooter": {
     "description": "Footer text for phone input."
   },
@@ -2749,9 +2749,149 @@
   "@phoneVerifyDescription": {
     "description": "Description for phone verify step."
   },
-  "phoneAddSuccess": "Phone number added",
+  "phoneAddSuccess": "Phone number verified",
   "@phoneAddSuccess": {
-    "description": "Toast after phone added."
+    "description": "Toast after phone verified."
+  },
+  "phoneCountryLabel": "Country",
+  "@phoneCountryLabel": {
+    "description": "Label for country selector in phone verification."
+  },
+  "phoneSearchCountries": "Search countries...",
+  "@phoneSearchCountries": {
+    "description": "Search hint for country selector."
+  },
+  "phoneNumberRequired": "Phone number is required",
+  "@phoneNumberRequired": {
+    "description": "Validation error when phone number is empty."
+  },
+  "phoneEnterValidNumber": "Enter a valid mobile phone number.",
+  "@phoneEnterValidNumber": {
+    "description": "Validation error for invalid phone format."
+  },
+  "phoneCannotBeUsed": "This phone number cannot be used. Try another mobile number or contact support.",
+  "@phoneCannotBeUsed": {
+    "description": "API error when phone number is rejected."
+  },
+  "phoneAlreadyUsed": "This phone number has already been used. Try another number or contact support.",
+  "@phoneAlreadyUsed": {
+    "description": "API error when phone number was reused."
+  },
+  "phoneCodeDidNotWork": "That code didn't work. Check it and try again.",
+  "@phoneCodeDidNotWork": {
+    "description": "API error for invalid verification code."
+  },
+  "phoneTooManyAttempts": "Too many attempts. Wait a bit, then try again.",
+  "@phoneTooManyAttempts": {
+    "description": "Rate limit error for phone verification."
+  },
+  "phoneSmsUnavailable": "SMS verification is unavailable right now. Try again later or contact support.",
+  "@phoneSmsUnavailable": {
+    "description": "SMS provider unavailable error."
+  },
+  "phoneNotEligible": "Phone verification is not available for this account. Use another method or contact support.",
+  "@phoneNotEligible": {
+    "description": "Account not eligible for phone verification."
+  },
+  "phoneCaptchaRequired": "A browser check is required before phone verification. Try again from the sign-in page or contact support.",
+  "@phoneCaptchaRequired": {
+    "description": "Captcha required for phone verification."
+  },
+  "phoneSomethingWentWrong": "Something went wrong. Try again.",
+  "@phoneSomethingWentWrong": {
+    "description": "Generic phone verification error."
+  },
+  "phoneInboundExpensiveDescription": "Sending an SMS to this phone number is too expensive, so we need you to send us an SMS instead. You can also contact support to have us lift this requirement from your account.",
+  "@phoneInboundExpensiveDescription": {
+    "description": "Inbound challenge reason for expensive destinations."
+  },
+  "phoneInboundDefaultDescription": "We need you to send us an SMS to verify your phone number.",
+  "@phoneInboundDefaultDescription": {
+    "description": "Default inbound challenge description."
+  },
+  "phoneInboundStepOpenMessaging": "Open your phone's messaging app and create a new text message.",
+  "@phoneInboundStepOpenMessaging": {
+    "description": "Inbound verification step 1."
+  },
+  "phoneInboundStepSendCode": "Send the code {code} to {number}.",
+  "@phoneInboundStepSendCode": {
+    "description": "Inbound verification step 2.",
+    "placeholders": {
+      "code": {"type": "String"},
+      "number": {"type": "String"}
+    }
+  },
+  "phoneInboundStepWait": "Wait for us to receive your message. This can take a minute.",
+  "@phoneInboundStepWait": {
+    "description": "Inbound verification step 3."
+  },
+  "phoneInboundGetNewCode": "Get new code",
+  "@phoneInboundGetNewCode": {
+    "description": "Button to refresh inbound challenge."
+  },
+  "phoneInboundChallengeCodeLabel": "Code to send",
+  "@phoneInboundChallengeCodeLabel": {
+    "description": "Label for inbound challenge code."
+  },
+  "phoneInboundOurNumberLabel": "Send to",
+  "@phoneInboundOurNumberLabel": {
+    "description": "Label for inbound destination number."
+  },
+  "requiredActionTitle": "Account verification required",
+  "@requiredActionTitle": {
+    "description": "Title for required action blocking modal."
+  },
+  "requiredActionIntroGeneric": "Complete the required verification to continue using Fluxer.",
+  "@requiredActionIntroGeneric": {
+    "description": "Generic required action intro."
+  },
+  "requiredActionIntroPhone": "Your registration needs an extra anti-spam check before you can continue.",
+  "@requiredActionIntroPhone": {
+    "description": "Phone-only required action intro."
+  },
+  "requiredActionIntroEmailOrPhone": "Verify your email or phone to continue using Fluxer.",
+  "@requiredActionIntroEmailOrPhone": {
+    "description": "Email or phone required action intro."
+  },
+  "requiredActionIntroEmailAndPhone": "Complete the required email and phone verification steps below to continue using Fluxer.",
+  "@requiredActionIntroEmailAndPhone": {
+    "description": "Email and phone required action intro."
+  },
+  "requiredActionChooseMethodTitle": "Choose a verification method",
+  "@requiredActionChooseMethodTitle": {
+    "description": "Title when user can pick email or phone."
+  },
+  "requiredActionChooseMethodDescription": "Complete one of the verification paths below to continue using Fluxer.",
+  "@requiredActionChooseMethodDescription": {
+    "description": "Description when user can pick email or phone."
+  },
+  "requiredActionUseEmail": "Use email",
+  "@requiredActionUseEmail": {
+    "description": "Button to choose email verification."
+  },
+  "requiredActionUsePhone": "Use phone",
+  "@requiredActionUsePhone": {
+    "description": "Button to choose phone verification."
+  },
+  "requiredActionCheckEmailTitle": "Check your email",
+  "@requiredActionCheckEmailTitle": {
+    "description": "Title for email verification instructions."
+  },
+  "requiredActionCheckEmailDescription": "We sent a verification link to your email address. Open it to continue.",
+  "@requiredActionCheckEmailDescription": {
+    "description": "Description for email verification instructions."
+  },
+  "requiredActionResendVerificationEmail": "Resend verification email",
+  "@requiredActionResendVerificationEmail": {
+    "description": "Button to resend verification email."
+  },
+  "requiredActionVerificationEmailSent": "Verification email sent. Check your inbox.",
+  "@requiredActionVerificationEmailSent": {
+    "description": "Toast after resending verification email."
+  },
+  "requiredActionSignOut": "Sign out",
+  "@requiredActionSignOut": {
+    "description": "Sign out button in required action modal."
   },
   "dangerZoneSectionTitle": "Danger Zone",
   "@dangerZoneSectionTitle": {

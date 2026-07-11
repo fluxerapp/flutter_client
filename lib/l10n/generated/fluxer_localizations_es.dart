@@ -2142,6 +2142,129 @@ class FluxerLocalizationsEs extends FluxerLocalizations {
   String get phoneAddSuccess => 'Número de teléfono añadido';
 
   @override
+  String get phoneCountryLabel => 'Country';
+
+  @override
+  String get phoneSearchCountries => 'Search countries...';
+
+  @override
+  String get phoneNumberRequired => 'Phone number is required';
+
+  @override
+  String get phoneEnterValidNumber => 'Enter a valid mobile phone number.';
+
+  @override
+  String get phoneCannotBeUsed =>
+      'This phone number cannot be used. Try another mobile number or contact support.';
+
+  @override
+  String get phoneAlreadyUsed =>
+      'This phone number has already been used. Try another number or contact support.';
+
+  @override
+  String get phoneCodeDidNotWork =>
+      'That code didn\'t work. Check it and try again.';
+
+  @override
+  String get phoneTooManyAttempts =>
+      'Too many attempts. Wait a bit, then try again.';
+
+  @override
+  String get phoneSmsUnavailable =>
+      'SMS verification is unavailable right now. Try again later or contact support.';
+
+  @override
+  String get phoneNotEligible =>
+      'Phone verification is not available for this account. Use another method or contact support.';
+
+  @override
+  String get phoneCaptchaRequired =>
+      'A browser check is required before phone verification. Try again from the sign-in page or contact support.';
+
+  @override
+  String get phoneSomethingWentWrong => 'Something went wrong. Try again.';
+
+  @override
+  String get phoneInboundExpensiveDescription =>
+      'Sending an SMS to this phone number is too expensive, so we need you to send us an SMS instead. You can also contact support to have us lift this requirement from your account.';
+
+  @override
+  String get phoneInboundDefaultDescription =>
+      'We need you to send us an SMS to verify your phone number.';
+
+  @override
+  String get phoneInboundStepOpenMessaging =>
+      'Open your phone\'s messaging app and create a new text message.';
+
+  @override
+  String phoneInboundStepSendCode(String code, String number) {
+    return 'Send the code $code to $number.';
+  }
+
+  @override
+  String get phoneInboundStepWait =>
+      'Wait for us to receive your message. This can take a minute.';
+
+  @override
+  String get phoneInboundGetNewCode => 'Get new code';
+
+  @override
+  String get phoneInboundChallengeCodeLabel => 'Code to send';
+
+  @override
+  String get phoneInboundOurNumberLabel => 'Send to';
+
+  @override
+  String get requiredActionTitle => 'Account verification required';
+
+  @override
+  String get requiredActionIntroGeneric =>
+      'Complete the required verification to continue using Fluxer.';
+
+  @override
+  String get requiredActionIntroPhone =>
+      'Your registration needs an extra anti-spam check before you can continue.';
+
+  @override
+  String get requiredActionIntroEmailOrPhone =>
+      'Verify your email or phone to continue using Fluxer.';
+
+  @override
+  String get requiredActionIntroEmailAndPhone =>
+      'Complete the required email and phone verification steps below to continue using Fluxer.';
+
+  @override
+  String get requiredActionChooseMethodTitle => 'Choose a verification method';
+
+  @override
+  String get requiredActionChooseMethodDescription =>
+      'Complete one of the verification paths below to continue using Fluxer.';
+
+  @override
+  String get requiredActionUseEmail => 'Use email';
+
+  @override
+  String get requiredActionUsePhone => 'Use phone';
+
+  @override
+  String get requiredActionCheckEmailTitle => 'Check your email';
+
+  @override
+  String get requiredActionCheckEmailDescription =>
+      'We sent a verification link to your email address. Open it to continue.';
+
+  @override
+  String get requiredActionResendVerificationEmail =>
+      'Resend verification email';
+
+  @override
+  String get requiredActionVerificationEmailSent =>
+      'Verification email sent. Check your inbox.';
+
+  @override
+  String get requiredActionSignOut => 'Sign out';
+
+  @override
   String get dangerZoneSectionTitle => 'Zona de peligro';
 
   @override

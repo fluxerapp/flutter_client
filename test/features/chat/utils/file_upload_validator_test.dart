@@ -85,4 +85,33 @@ void main() {
       );
     });
   });
+
+  group('FileUploadValidator.resolveContentTypeForUpload', () {
+    test('prefers mime type over extension-less filename', () {
+      expect(
+        FileUploadValidator.resolveContentTypeForUpload(
+          filename: 'image',
+          mimeType: 'image/png',
+        ),
+        'image/png',
+      );
+    });
+
+    test('falls back to filename when mime is octet-stream', () {
+      expect(
+        FileUploadValidator.resolveContentTypeForUpload(
+          filename: 'photo.png',
+          mimeType: 'application/octet-stream',
+        ),
+        'image/png',
+      );
+    });
+
+    test('falls back to filename when mime is null', () {
+      expect(
+        FileUploadValidator.resolveContentTypeForUpload(filename: 'photo.jpg'),
+        'image/jpeg',
+      );
+    });
+  });
 }

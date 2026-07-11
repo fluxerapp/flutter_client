@@ -3841,7 +3841,7 @@ abstract class FluxerLocalizations {
   /// Footer text for phone input.
   ///
   /// In en, this message translates to:
-  /// **'Enter your phone number. We\'ll send you a verification code via SMS.'**
+  /// **'We\'ll send an SMS code when available. Your number is not linked to your account. We keep only an encrypted marker, with no user ID, to allow at most 2 verifications in about 30 days.'**
   String get phoneAddFooter;
 
   /// Button to send phone verification code.
@@ -3862,11 +3862,215 @@ abstract class FluxerLocalizations {
   /// **'Enter the verification code sent to your phone number.'**
   String get phoneVerifyDescription;
 
-  /// Toast after phone added.
+  /// Toast after phone verified.
   ///
   /// In en, this message translates to:
-  /// **'Phone number added'**
+  /// **'Phone number verified'**
   String get phoneAddSuccess;
+
+  /// Label for country selector in phone verification.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get phoneCountryLabel;
+
+  /// Search hint for country selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Search countries...'**
+  String get phoneSearchCountries;
+
+  /// Validation error when phone number is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required'**
+  String get phoneNumberRequired;
+
+  /// Validation error for invalid phone format.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid mobile phone number.'**
+  String get phoneEnterValidNumber;
+
+  /// API error when phone number is rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone number cannot be used. Try another mobile number or contact support.'**
+  String get phoneCannotBeUsed;
+
+  /// API error when phone number was reused.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone number has already been used. Try another number or contact support.'**
+  String get phoneAlreadyUsed;
+
+  /// API error for invalid verification code.
+  ///
+  /// In en, this message translates to:
+  /// **'That code didn\'t work. Check it and try again.'**
+  String get phoneCodeDidNotWork;
+
+  /// Rate limit error for phone verification.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait a bit, then try again.'**
+  String get phoneTooManyAttempts;
+
+  /// SMS provider unavailable error.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS verification is unavailable right now. Try again later or contact support.'**
+  String get phoneSmsUnavailable;
+
+  /// Account not eligible for phone verification.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone verification is not available for this account. Use another method or contact support.'**
+  String get phoneNotEligible;
+
+  /// Captcha required for phone verification.
+  ///
+  /// In en, this message translates to:
+  /// **'A browser check is required before phone verification. Try again from the sign-in page or contact support.'**
+  String get phoneCaptchaRequired;
+
+  /// Generic phone verification error.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get phoneSomethingWentWrong;
+
+  /// Inbound challenge reason for expensive destinations.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending an SMS to this phone number is too expensive, so we need you to send us an SMS instead. You can also contact support to have us lift this requirement from your account.'**
+  String get phoneInboundExpensiveDescription;
+
+  /// Default inbound challenge description.
+  ///
+  /// In en, this message translates to:
+  /// **'We need you to send us an SMS to verify your phone number.'**
+  String get phoneInboundDefaultDescription;
+
+  /// Inbound verification step 1.
+  ///
+  /// In en, this message translates to:
+  /// **'Open your phone\'s messaging app and create a new text message.'**
+  String get phoneInboundStepOpenMessaging;
+
+  /// Inbound verification step 2.
+  ///
+  /// In en, this message translates to:
+  /// **'Send the code {code} to {number}.'**
+  String phoneInboundStepSendCode(String code, String number);
+
+  /// Inbound verification step 3.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait for us to receive your message. This can take a minute.'**
+  String get phoneInboundStepWait;
+
+  /// Button to refresh inbound challenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Get new code'**
+  String get phoneInboundGetNewCode;
+
+  /// Label for inbound challenge code.
+  ///
+  /// In en, this message translates to:
+  /// **'Code to send'**
+  String get phoneInboundChallengeCodeLabel;
+
+  /// Label for inbound destination number.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to'**
+  String get phoneInboundOurNumberLabel;
+
+  /// Title for required action blocking modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Account verification required'**
+  String get requiredActionTitle;
+
+  /// Generic required action intro.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the required verification to continue using Fluxer.'**
+  String get requiredActionIntroGeneric;
+
+  /// Phone-only required action intro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your registration needs an extra anti-spam check before you can continue.'**
+  String get requiredActionIntroPhone;
+
+  /// Email or phone required action intro.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email or phone to continue using Fluxer.'**
+  String get requiredActionIntroEmailOrPhone;
+
+  /// Email and phone required action intro.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete the required email and phone verification steps below to continue using Fluxer.'**
+  String get requiredActionIntroEmailAndPhone;
+
+  /// Title when user can pick email or phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a verification method'**
+  String get requiredActionChooseMethodTitle;
+
+  /// Description when user can pick email or phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete one of the verification paths below to continue using Fluxer.'**
+  String get requiredActionChooseMethodDescription;
+
+  /// Button to choose email verification.
+  ///
+  /// In en, this message translates to:
+  /// **'Use email'**
+  String get requiredActionUseEmail;
+
+  /// Button to choose phone verification.
+  ///
+  /// In en, this message translates to:
+  /// **'Use phone'**
+  String get requiredActionUsePhone;
+
+  /// Title for email verification instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email'**
+  String get requiredActionCheckEmailTitle;
+
+  /// Description for email verification instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a verification link to your email address. Open it to continue.'**
+  String get requiredActionCheckEmailDescription;
+
+  /// Button to resend verification email.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend verification email'**
+  String get requiredActionResendVerificationEmail;
+
+  /// Toast after resending verification email.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email sent. Check your inbox.'**
+  String get requiredActionVerificationEmailSent;
+
+  /// Sign out button in required action modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get requiredActionSignOut;
 
   /// Title for danger zone section.
   ///

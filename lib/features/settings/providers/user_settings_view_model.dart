@@ -22,22 +22,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_settings_view_model.g.dart';
 
-bool _hasVerifiedPhoneFromProfile(UserPrivateResponse profile) {
-  try {
-    final Object json = profile.toJson();
-    if (json is Map<String, dynamic>) {
-      final Object? value = json['has_verified_phone'];
-      if (value is bool) {
-        return value;
-      }
-    }
-  } on Object {
-    // Fall through.
-  }
-  final String? phone = profile.phone;
-  return phone != null && phone.trim().isNotEmpty;
-}
-
 const int _kGuildProfileFlagAvatarUnset = 1 << 0;
 const int _kGuildProfileFlagBannerUnset = 1 << 1;
 
@@ -86,6 +70,7 @@ class UserSettingsViewState {
   final bool mfaEnabled;
   final String? phone;
   final bool hasVerifiedPhone;
+  final List<String> requiredActions;
   final List<int> authenticatorTypes;
   final bool premiumWillCancel;
 
@@ -174,6 +159,7 @@ class UserSettingsViewState {
     this.mfaEnabled = false,
     this.phone,
     this.hasVerifiedPhone = false,
+    this.requiredActions = const <String>[],
     this.authenticatorTypes = const [],
     this.premiumWillCancel = false,
     this.premiumType,
@@ -449,6 +435,7 @@ class UserSettingsViewState {
     bool? mfaEnabled,
     Object? phone = _unset,
     bool? hasVerifiedPhone,
+    List<String>? requiredActions,
     List<int>? authenticatorTypes,
     bool? premiumWillCancel,
     Object? premiumType = _unset,
@@ -543,6 +530,7 @@ class UserSettingsViewState {
       mfaEnabled: mfaEnabled ?? this.mfaEnabled,
       phone: phone == _unset ? this.phone : phone as String?,
       hasVerifiedPhone: hasVerifiedPhone ?? this.hasVerifiedPhone,
+      requiredActions: requiredActions ?? this.requiredActions,
       authenticatorTypes: authenticatorTypes ?? this.authenticatorTypes,
       premiumWillCancel: premiumWillCancel ?? this.premiumWillCancel,
       premiumType: premiumType == _unset
@@ -834,7 +822,8 @@ class UserSettingsViewModel extends _$UserSettingsViewModel {
         passwordLastChangedAt: profile.passwordLastChangedAt,
         mfaEnabled: profile.mfaEnabled,
         phone: profile.phone,
-        hasVerifiedPhone: _hasVerifiedPhoneFromProfile(profile),
+        hasVerifiedPhone: profile.hasVerifiedPhone,
+        requiredActions: List<String>.from(profile.requiredActions),
         authenticatorTypes:
             profile.authenticatorTypes
                 ?.map((t) => t.json)

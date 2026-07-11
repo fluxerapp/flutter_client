@@ -48,6 +48,30 @@ void main() {
     expect(find.byType(AttachmentImage), findsOneWidget);
   });
 
+  testWidgets('renders image inline from content type without extension', (
+    tester,
+  ) async {
+    final Attachment attachment = _buildAttachment(
+      filename: 'image',
+      contentType: 'image/png',
+      url: 'https://cdn.example/image.png',
+      width: 640,
+      height: 360,
+    );
+    await tester.pumpWidget(
+      _buildTestApp(
+        child: AttachmentRenderer(
+          attachment: attachment,
+          inlineAttachmentMedia: true,
+          dimensionSize: MediaDimensionSize.small,
+          revealSpoilers: false,
+        ),
+      ),
+    );
+    expect(find.byType(AttachmentImage), findsOneWidget);
+    expect(find.byType(AttachmentFile), findsNothing);
+  });
+
   testWidgets('opens attachment media viewer when image is tapped', (
     tester,
   ) async {

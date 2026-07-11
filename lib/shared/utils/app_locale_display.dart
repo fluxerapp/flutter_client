@@ -15,7 +15,7 @@ class AppLocaleDisplayInfo {
   final String languageCode;
   final String? countryCode;
 
-  String get label => '$name ($nativeName)';
+  String get label => name;
 
   String get searchText => '$name $nativeName $languageCode';
 }
@@ -85,6 +85,7 @@ const Map<String, AppLocaleDisplayInfo> _appLocaleDisplayInfoByTag =
         name: 'Spanish (Latin America)',
         nativeName: 'Español (Latinoamérica)',
         languageCode: 'es',
+        countryCode: 'MX',
       ),
       'fi': AppLocaleDisplayInfo(
         name: 'Finnish',
@@ -257,9 +258,9 @@ AppLocaleDisplayInfo appLocaleDisplayInfo(sdk.Locale locale) {
 List<sdk.Locale> sortedAppSdkLocales() {
   final List<sdk.Locale> locales =
       List<sdk.Locale>.from(sdk.Locale.$valuesDefined)..sort(
-        (sdk.Locale a, sdk.Locale b) => appLocaleDisplayInfo(a).label
+        (sdk.Locale a, sdk.Locale b) => appLocaleDisplayInfo(a).name
             .toLowerCase()
-            .compareTo(appLocaleDisplayInfo(b).label.toLowerCase()),
+            .compareTo(appLocaleDisplayInfo(b).name.toLowerCase()),
       );
   return locales;
 }

@@ -167,6 +167,8 @@ class UserLanguageAndTime extends ConsumerWidget {
                     FluxerSelectItem<sdk.Locale>(
                       value: locale,
                       label: appLocaleDisplayInfo(locale).label,
+                      description: appLocaleDisplayInfo(locale).nativeName,
+                      searchText: appLocaleDisplayInfo(locale).searchText,
                       leading: appLocaleFlag(locale),
                     ),
                 ],

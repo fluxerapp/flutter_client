@@ -89,7 +89,10 @@ class _AttachmentChip extends ConsumerWidget {
     final String path = attachment.file.path;
     final bool hasImagePreview =
         path.isNotEmpty &&
-        _isImageFilename(attachment.filename) &&
+        isImageAttachment(
+          filename: attachment.filename,
+          contentType: attachment.contentType,
+        ) &&
         File(path).existsSync();
     final bool isVideo = _isVideoFilename(attachment.filename);
     final bool isSpoiler = (attachment.flags & attachmentFlagIsSpoiler) != 0;
@@ -272,15 +275,6 @@ class _AttachmentChip extends ConsumerWidget {
       return PhosphorIconsFill.fileCode;
     }
     return PhosphorIconsFill.file;
-  }
-
-  static bool _isImageFilename(String name) {
-    final String lower = name.toLowerCase();
-    return lower.endsWith('.png') ||
-        lower.endsWith('.jpg') ||
-        lower.endsWith('.jpeg') ||
-        lower.endsWith('.gif') ||
-        lower.endsWith('.webp');
   }
 
   static bool _isVideoFilename(String name) {

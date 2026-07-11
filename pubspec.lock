@@ -1753,6 +1753,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.2"
+  phone_numbers_parser:
+    dependency: "direct main"
+    description:
+      name: phone_numbers_parser
+      sha256: f024c4003f2f186ac1ef8bbf56841b6409d4a9c84379df4e22cb50488aea5a31
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.24"
   phosphor_flutter:
     dependency: "direct main"
     description:

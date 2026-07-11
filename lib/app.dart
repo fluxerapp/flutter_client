@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/native_titlebar.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/beta_warning_layer.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/required_action_gate.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast_overlay.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_layer.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
@@ -98,7 +99,9 @@ class FluxerApp extends ConsumerWidget {
         final Widget layered = InputModalityListener(
           child: AppUiLifecycleObserver(
             child: BetaWarningLayer(
-              child: IncomingVoiceCallLayer(child: child!),
+              child: RequiredActionGate(
+                child: IncomingVoiceCallLayer(child: child!),
+              ),
             ),
           ),
         );

@@ -30,6 +30,9 @@ class ComposerMessageLengthPasteFormatter extends TextInputFormatter {
     if (insertedLength <= 1) {
       return newValue;
     }
+    if (oldValue.composing.isValid) {
+      return newValue;
+    }
     if (!canAttachOnExceed()) {
       return newValue;
     }
