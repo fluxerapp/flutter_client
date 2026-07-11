@@ -20,7 +20,7 @@ import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/auth/providers/current_auth_session_provider.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/providers/read_state_write_batcher_provider.dart';
-import 'package:fluxer_app/features/chat/providers/core/active_read_channel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
@@ -93,8 +93,15 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     mentionFeedWriteBatcher: ref.read(mentionFeedWriteBatcherProvider),
     reactionWriteBatcher: ref.read(reactionWriteBatcherProvider),
     currentUserId: currentUserId,
-    isAutoAckActive: (channelId) =>
-        ref.read(activeReadChannelProvider.notifier).isAutoAckActive(channelId),
+    isAutoAckActive: (channelId) {
+      final chat = ref.read(chatViewModelProvider);
+      return isAutoAckEligible(
+        viewport: ref.read(chatReadViewportProvider),
+        channelId: channelId,
+        hasMoreNewerMessages:
+            chat.channelId == channelId && chat.hasMoreNewerMessages,
+      );
+    },
     onReady: () {
       talker.info('[Gateway] Setting gatewayReady = true');
       unawaited(ref.read(channelPermissionCacheProvider.notifier).rebuildAll());
@@ -115,18 +122,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             .syncIfNeeded(activeGuildId, force: true);
       }
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
-      unawaited(
-        ref.read(chatViewModelProvider.notifier).refreshAfterSessionRecovery(),
-      );
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
     },
     onResumed: () {
       talker.info('[Gateway] RESUMED, light recovery');
       ref.read(gatewayReadyProvider.notifier).setReady();
       ref.read(gatewaySessionRecoveryProvider.notifier).bump();
-      unawaited(
-        ref.read(chatViewModelProvider.notifier).refreshAfterSessionRecovery(),
-      );
       ref.read(pendingPushNotificationPathProvider.notifier).flushIfReady();
     },
     onTypingStart: (channelId, userId) {

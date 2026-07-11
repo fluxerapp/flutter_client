@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
@@ -130,60 +131,45 @@ void main() {
     return (container, notifier, loaded);
   }
 
-  test(
-    'loadMore prepends older messages without trimming the newest',
-    () async {
-      final db = openTestDatabase();
-      await db.channelDao.upsertChannel(
-        ChannelsCompanion.insert(
-          id: 'channel-1',
-          guildId: 'guild-1',
-          name: 'general',
-        ),
-      );
-      final List<Map<String, Object?>> all = _channelMessages('channel-1', 250);
-      final String oldestId = all.first['id']! as String;
-      final String newestId = all.last['id']! as String;
-      final adapter = _PaginatingAdapter(
-        messagesByChannel: {'channel-1': all},
-        pageLimit: 150,
-      );
-      final container = _container(db, adapter);
-      addTearDown(container.dispose);
+  test('loadMore keeps a bounded oldest-side window', () async {
+    final db = openTestDatabase();
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+    final List<Map<String, Object?>> all = _channelMessages('channel-1', 250);
+    final String oldestId = all.first['id']! as String;
+    final String newestId = all.last['id']! as String;
+    final adapter = _PaginatingAdapter(
+      messagesByChannel: {'channel-1': all},
+      pageLimit: 150,
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
 
-      final notifier = container.read(chatViewModelProvider.notifier);
-      await notifier.switchChannel('channel-1');
-      await _flushAsync();
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
 
-      final initial = container.read(chatViewModelProvider);
-      expect(initial.messages.last.id, newestId);
-      expect(initial.hasMoreNewerMessages, isFalse);
-      final int initialCount = initial.messages.length;
-      expect(initialCount, 150);
+    final initial = container.read(chatViewModelProvider);
+    expect(initial.messages.last.id, newestId);
+    expect(initial.hasMoreNewerMessages, isFalse);
+    expect(initial.messages, hasLength(150));
 
-      await notifier.loadMore();
-      await _flushAsync();
+    await notifier.loadMore();
+    await _flushAsync();
 
-      final grown = container.read(chatViewModelProvider);
-      // Whole window retained: older prepend, newest never dropped.
-      expect(grown.messages.length, 250);
-      expect(grown.messages.first.id, oldestId);
-      expect(grown.messages.last.id, newestId);
-      // Loading older never opens a newer-side gap.
-      expect(grown.hasMoreNewerMessages, isFalse);
-
-      // At the live tail, memory reclaims to the cap and keeps the newest.
-      notifier.trimToNewestWindow();
-      final trimmed = container.read(chatViewModelProvider);
-      expect(trimmed.messages.length, kTrimmedMessageWindowSize);
-      expect(trimmed.messages.last.id, newestId);
-      expect(
-        trimmed.messages.first.id,
-        all[250 - kTrimmedMessageWindowSize]['id'],
-      );
-      expect(trimmed.hasMoreMessages, isTrue);
-    },
-  );
+    final bounded = container.read(chatViewModelProvider);
+    expect(bounded.messages.length, lessThanOrEqualTo(kMaxLoadedMessages));
+    expect(bounded.messages, hasLength(kTrimmedMessageWindowSize));
+    expect(bounded.messages.first.id, oldestId);
+    expect(bounded.messages.last.id, all[kTrimmedMessageWindowSize - 1]['id']);
+    expect(bounded.messages.last.id, isNot(newestId));
+    expect(bounded.hasMoreNewerMessages, isTrue);
+  });
 
   test(
     'trimToNewestWindow is a no-op while newer history is unloaded',
@@ -202,7 +188,7 @@ void main() {
       final List<Map<String, Object?>> all = _channelMessages('channel-1', 250);
       final adapter = _PaginatingAdapter(
         messagesByChannel: {'channel-1': all},
-        pageLimit: 150,
+        pageLimit: 250,
       );
       final container = _container(db, adapter);
       addTearDown(container.dispose);
@@ -210,14 +196,19 @@ void main() {
       final notifier = container.read(chatViewModelProvider.notifier);
       await notifier.switchChannel('channel-1');
       await _flushAsync();
-      await notifier.loadMore();
-      await _flushAsync();
 
       final state = container.read(chatViewModelProvider);
       expect(state.hasMoreNewerMessages, isTrue);
-      expect(state.messages.length, 250);
+      // Above the cap, so only the hasMoreNewerMessages guard protects it.
+      expect(state.messages, hasLength(250));
+      final messagesBeforeTrim = state.messages;
+
       notifier.trimToNewestWindow();
-      expect(container.read(chatViewModelProvider).messages.length, 250);
+
+      expect(
+        container.read(chatViewModelProvider).messages,
+        same(messagesBeforeTrim),
+      );
     },
   );
 
@@ -228,11 +219,14 @@ void main() {
       final String oldestSeededId = loaded.first['id']! as String;
       final String newMessageId = _snowflakeForIndex(kMaxLoadedMessages);
 
-      notifier.updateReadViewport(
-        isNearBottom: false,
-        distanceFromBottom: 1000,
-        viewportHeight: 600,
-      );
+      container
+          .read(chatReadViewportProvider.notifier)
+          .updateViewport(
+            channelId: 'channel-1',
+            nearLoadedTail: false,
+            distanceFromBottom: 1000,
+            viewportHeight: 600,
+          );
       _emitCreatedMessage(container, id: newMessageId);
       await _flushAsync();
 
@@ -250,13 +244,47 @@ void main() {
       kMaxLoadedMessages + 1 - kTrimmedMessageWindowSize,
     );
 
-    notifier.updateReadViewport(isNearBottom: true, viewportHeight: 600);
+    container
+        .read(chatReadViewportProvider.notifier)
+        .updateViewport(
+          channelId: 'channel-1',
+          nearLoadedTail: true,
+          distanceFromBottom: 0,
+          viewportHeight: 600,
+        );
     _emitCreatedMessage(container, id: newMessageId);
     await _flushAsync();
 
     final state = container.read(chatViewModelProvider);
     expect(state.messages, hasLength(kTrimmedMessageWindowSize));
     expect(state.messages.first.id, firstRetainedId);
+    expect(state.messages.last.id, newMessageId);
+    expect(state.hasMoreMessages, isTrue);
+  });
+
+  test('trimToNewestWindow trims a live-tail window past the cap', () async {
+    final (container, notifier, _) = await setUpLoadedLiveTailWindow();
+    final String newMessageId = _snowflakeForIndex(kMaxLoadedMessages);
+
+    container
+        .read(chatReadViewportProvider.notifier)
+        .updateViewport(
+          channelId: 'channel-1',
+          nearLoadedTail: false,
+          distanceFromBottom: 1000,
+          viewportHeight: 600,
+        );
+    _emitCreatedMessage(container, id: newMessageId);
+    await _flushAsync();
+    expect(
+      container.read(chatViewModelProvider).messages,
+      hasLength(kMaxLoadedMessages + 1),
+    );
+
+    notifier.trimToNewestWindow();
+
+    final state = container.read(chatViewModelProvider);
+    expect(state.messages, hasLength(kTrimmedMessageWindowSize));
     expect(state.messages.last.id, newMessageId);
     expect(state.hasMoreMessages, isTrue);
   });
@@ -271,11 +299,14 @@ void main() {
         kMaxLoadedMessages + 1,
       );
 
-      notifier.updateReadViewport(
-        isNearBottom: false,
-        distanceFromBottom: 1000,
-        viewportHeight: 600,
-      );
+      container
+          .read(chatReadViewportProvider.notifier)
+          .updateViewport(
+            channelId: 'channel-1',
+            nearLoadedTail: false,
+            distanceFromBottom: 1000,
+            viewportHeight: 600,
+          );
       _emitCreatedMessage(container, id: firstNewMessageId);
       _emitCreatedMessage(container, id: secondNewMessageId);
       await _flushAsync();
@@ -347,6 +378,205 @@ void main() {
     expect(state.isLoadingMore, isFalse);
   });
 
+  test(
+    'stale older page after a same-channel window replacement is discarded',
+    () async {
+      final db = openTestDatabase();
+      final List<Map<String, Object?>> all = _channelMessages('channel-1', 300);
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(all.last['id']! as String),
+        ),
+      );
+      final adapter = _PaginatingAdapter(
+        messagesByChannel: {'channel-1': all},
+        pageLimit: 40,
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      final Set<String> stalePageIds = {
+        for (final message in all.sublist(220, 260)) message['id']! as String,
+      };
+      adapter.holdBeforeFetch = true;
+      final Future<void> staleLoad = notifier.loadMore();
+      await _flushAsync();
+
+      final String targetId = all[50]['id']! as String;
+      await notifier.goToRepliedMessage(
+        channelId: 'channel-1',
+        messageId: targetId,
+      );
+      await _flushAsync();
+      expect(
+        container.read(chatViewModelProvider).messages.map((m) => m.id),
+        contains(targetId),
+      );
+
+      adapter.releaseBeforeFetch();
+      await staleLoad;
+      await _flushAsync();
+
+      final state = container.read(chatViewModelProvider);
+      final Set<String> loadedIds = state.messages.map((m) => m.id).toSet();
+      expect(loadedIds.intersection(stalePageIds), isEmpty);
+      expect(state.isLoadingMore, isFalse);
+    },
+  );
+
+  test(
+    'empty reply-jump page clears syncing and allows another attempt',
+    () async {
+      final db = openTestDatabase();
+      final List<Map<String, Object?>> messages = _channelMessages(
+        'channel-1',
+        5,
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(messages.last['id']! as String),
+        ),
+      );
+      final adapter = _PaginatingAdapter(
+        messagesByChannel: {'channel-1': messages},
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      final String missingId = _snowflakeForIndex(999);
+      await notifier.goToRepliedMessage(
+        channelId: 'channel-1',
+        messageId: missingId,
+      );
+      expect(container.read(chatViewModelProvider).isSyncingMessages, isFalse);
+      expect(adapter.aroundFetchCount, 1);
+
+      await notifier.goToRepliedMessage(
+        channelId: 'channel-1',
+        messageId: missingId,
+      );
+      expect(container.read(chatViewModelProvider).isSyncingMessages, isFalse);
+      expect(adapter.aroundFetchCount, 2);
+    },
+  );
+
+  test('reply-jump page never lands after a channel switch', () async {
+    final db = openTestDatabase();
+    final List<Map<String, Object?>> channel1 = _channelMessages(
+      'channel-1',
+      100,
+    );
+    final List<Map<String, Object?>> channel2 = _channelMessages(
+      'channel-2',
+      5,
+      baseIndex: 100000,
+    );
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(channel1.last['id']! as String),
+      ),
+    );
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-2',
+        guildId: 'guild-2',
+        name: 'other',
+        lastMessageId: Value(channel2.last['id']! as String),
+      ),
+    );
+    final adapter = _PaginatingAdapter(
+      messagesByChannel: {'channel-1': channel1, 'channel-2': channel2},
+      pageLimit: 10,
+    )..holdAroundFetch = true;
+    final container = _container(db, adapter);
+    addTearDown(() {
+      adapter.releaseAroundFetch();
+      container.dispose();
+    });
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
+
+    final Future<void> staleJump = notifier.goToRepliedMessage(
+      channelId: 'channel-1',
+      messageId: channel1[10]['id']! as String,
+    );
+    await _flushAsync();
+    expect(adapter.aroundFetchCount, 1);
+
+    await notifier.switchChannel('channel-2');
+    await _flushAsync();
+    adapter.releaseAroundFetch();
+    await staleJump;
+    await _flushAsync();
+
+    final state = container.read(chatViewModelProvider);
+    expect(state.channelId, 'channel-2');
+    expect(state.isSyncingMessages, isFalse);
+    final Set<String> loadedIds = state.messages.map((m) => m.id).toSet();
+    final Set<String> channel1Ids = {
+      for (final message in channel1) message['id']! as String,
+    };
+    expect(loadedIds.intersection(channel1Ids), isEmpty);
+  });
+
+  test('session recovery keeps a detached window intact', () async {
+    final db = openTestDatabase();
+    final List<Map<String, Object?>> all = _channelMessages('channel-1', 1000);
+    final String targetId = all[149]['id']! as String;
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(all.last['id']! as String),
+      ),
+    );
+    final adapter = _PaginatingAdapter(
+      messagesByChannel: {'channel-1': all},
+      pageLimit: 150,
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1', targetMessageId: targetId);
+    await _flushAsync();
+
+    final before = container.read(chatViewModelProvider);
+    expect(before.hasMoreNewerMessages, isTrue);
+    expect(before.messages, isNotEmpty);
+
+    await notifier.refreshAfterSessionRecovery();
+    await _flushAsync();
+
+    final after = container.read(chatViewModelProvider);
+    expect(after.messages, same(before.messages));
+    expect(after.messages.length, before.messages.length);
+    expect(after.messages.first.id, before.messages.first.id);
+    expect(after.messages.last.id, before.messages.last.id);
+    expect(after.hasMoreNewerMessages, isTrue);
+    expect(after.isSyncingMessages, isFalse);
+  });
+
   test('refreshAfterSessionRecovery preserves a scrolled-up window', () async {
     final db = openTestDatabase();
     // Newest message far ahead so the loaded window stays in history.
@@ -358,7 +588,7 @@ void main() {
         lastMessageId: Value(_snowflakeForIndex(999)),
       ),
     );
-    final List<Map<String, Object?>> all = _channelMessages('channel-1', 250);
+    final List<Map<String, Object?>> all = _channelMessages('channel-1', 350);
     final adapter = _PaginatingAdapter(
       messagesByChannel: {'channel-1': all},
       pageLimit: 150,
@@ -373,15 +603,23 @@ void main() {
     await _flushAsync();
 
     // Near-bottom viewport isolates the hasMoreNewerMessages guard.
-    notifier.updateReadViewport(isNearBottom: true);
+    container
+        .read(chatReadViewportProvider.notifier)
+        .updateViewport(
+          channelId: 'channel-1',
+          nearLoadedTail: true,
+          distanceFromBottom: 0,
+          viewportHeight: 0,
+        );
     final before = container.read(chatViewModelProvider);
     expect(before.hasMoreNewerMessages, isTrue);
-    expect(before.messages.length, 250);
+    expect(before.messages, hasLength(kTrimmedMessageWindowSize));
 
     await notifier.refreshAfterSessionRecovery();
     await _flushAsync();
 
     final after = container.read(chatViewModelProvider);
+    expect(after.messages, same(before.messages));
     expect(after.messages.length, before.messages.length);
     expect(after.messages.first.id, before.messages.first.id);
     expect(after.messages.last.id, before.messages.last.id);
@@ -429,12 +667,24 @@ class _PaginatingAdapter implements HttpClientAdapter {
   final Map<String, List<Map<String, Object?>>> messagesByChannel;
   final int pageLimit;
   bool holdBeforeFetch = false;
+  bool holdAroundFetch = false;
+  int aroundFetchCount = 0;
   Completer<void>? _beforeCompleter;
+  Completer<void>? _aroundCompleter;
 
   void releaseBeforeFetch() {
     holdBeforeFetch = false;
     final completer = _beforeCompleter;
     _beforeCompleter = null;
+    if (completer != null && !completer.isCompleted) {
+      completer.complete();
+    }
+  }
+
+  void releaseAroundFetch() {
+    holdAroundFetch = false;
+    final completer = _aroundCompleter;
+    _aroundCompleter = null;
     if (completer != null && !completer.isCompleted) {
       completer.complete();
     }
@@ -454,6 +704,13 @@ class _PaginatingAdapter implements HttpClientAdapter {
       final all = messagesByChannel[channelId] ?? const [];
       final before = options.uri.queryParameters['before'];
       final around = options.uri.queryParameters['around'];
+      if (around != null) {
+        aroundFetchCount++;
+        if (holdAroundFetch) {
+          _aroundCompleter ??= Completer<void>();
+          await _aroundCompleter!.future;
+        }
+      }
       if (before != null && holdBeforeFetch) {
         _beforeCompleter ??= Completer<void>();
         await _beforeCompleter!.future;

@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_pagination.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -1149,46 +1150,41 @@ void main() {
       },
     );
 
-    testWidgets(
-      'visible toggles drive setReadViewportActive on the view model',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(420, 640);
-        tester.view.devicePixelRatio = 1;
-        addTearDown(tester.view.resetPhysicalSize);
-        addTearDown(tester.view.resetDevicePixelRatio);
+    testWidgets('visible toggles drive the read viewport controller', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
 
-        final _AroundAckMessageListHarness harness =
-            await _createBottomMessageListHarness();
+      final _AroundAckMessageListHarness harness =
+          await _createBottomMessageListHarness();
 
-        await tester.pumpWidget(
-          _messageListApp(
-            database: harness.database,
-            chatViewModel: harness.chatViewModel,
-            body: const _RevealToggleHost(),
-          ),
-        );
-        await tester.pump();
+      await tester.pumpWidget(
+        _messageListApp(
+          database: harness.database,
+          chatViewModel: harness.chatViewModel,
+          body: const _RevealToggleHost(),
+        ),
+      );
+      await tester.pump();
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(find.byType(MessageList)),
+      );
 
-        expect(harness.chatViewModel._readViewportActiveCalls, <bool>[true]);
+      expect(container.read(chatReadViewportProvider).viewportActive, isTrue);
 
-        _revealHostState(tester).setVisible(visible: false);
-        await tester.pump();
-        expect(harness.chatViewModel._readViewportActiveCalls, <bool>[
-          true,
-          false,
-        ]);
+      _revealHostState(tester).setVisible(visible: false);
+      await tester.pump();
+      expect(container.read(chatReadViewportProvider).viewportActive, isFalse);
 
-        _revealHostState(tester).setVisible(visible: true);
-        await tester.pump();
-        expect(harness.chatViewModel._readViewportActiveCalls, <bool>[
-          true,
-          false,
-          true,
-        ]);
+      _revealHostState(tester).setVisible(visible: true);
+      await tester.pump();
+      expect(container.read(chatReadViewportProvider).viewportActive, isTrue);
 
-        await _disposeMessageList(tester);
-      },
-    );
+      await _disposeMessageList(tester);
+    });
 
     testWidgets('list that opens hidden keeps the read viewport inactive until '
         'revealed', (WidgetTester tester) async {
@@ -1208,19 +1204,19 @@ void main() {
         ),
       );
       await tester.pump();
+      final ProviderContainer container = ProviderScope.containerOf(
+        tester.element(_offstageMessageList()),
+      );
 
       expect(find.byType(MessageList), findsNothing);
       expect(_offstageMessageList(), findsOneWidget);
-      expect(harness.chatViewModel._readViewportActiveCalls, <bool>[false]);
+      expect(container.read(chatReadViewportProvider).viewportActive, isFalse);
 
       _revealHostState(tester).setVisible(visible: true);
       await tester.pump();
 
       expect(find.byType(MessageList), findsOneWidget);
-      expect(harness.chatViewModel._readViewportActiveCalls, <bool>[
-        false,
-        true,
-      ]);
+      expect(container.read(chatReadViewportProvider).viewportActive, isTrue);
 
       await _disposeMessageList(tester);
     });
@@ -1639,10 +1635,14 @@ class _InstrumentedChatViewModel extends ChatViewModel {
   final ChatViewState _initialState;
   int _loadNewerCallCount = 0;
   String? _latestReplacementNewestId;
-  final List<bool> _readViewportActiveCalls = <bool>[];
 
   @override
-  ChatViewState build() => _initialState;
+  ChatViewState build() {
+    ref
+        .read(chatReadViewportProvider.notifier)
+        .setActiveChannel(_initialState.channelId);
+    return _initialState;
+  }
 
   ChatViewState get _testState => state;
 
@@ -1684,18 +1684,6 @@ class _InstrumentedChatViewModel extends ChatViewModel {
   Future<void> loadMore() async {}
 
   @override
-  void setReadViewportActive({required bool isActive}) {
-    _readViewportActiveCalls.add(isActive);
-  }
-
-  @override
-  void updateReadViewport({
-    required bool isNearBottom,
-    double distanceFromBottom = 0,
-    double viewportHeight = 0,
-  }) {}
-
-  @override
   Future<void> ackCurrentChannel({bool force = false}) async {}
 
   @override
@@ -1705,7 +1693,7 @@ class _InstrumentedChatViewModel extends ChatViewModel {
   Future<void> jumpToFirstUnread() async {}
 
   @override
-  Future<void> jumpToLatestMessages() async {
+  Future<bool> jumpToLatestMessages() async {
     final List<Message> latestMessages = _latestReplacementMessages();
     _latestReplacementNewestId = latestMessages.last.id;
     state = state.copyWith(
@@ -1713,6 +1701,7 @@ class _InstrumentedChatViewModel extends ChatViewModel {
       hasMoreNewerMessages: false,
     );
     scrollToBottom();
+    return true;
   }
 
   @override

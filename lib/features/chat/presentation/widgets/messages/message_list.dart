@@ -47,6 +47,7 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/system_message.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
@@ -152,9 +153,13 @@ class _MessageListState extends ConsumerState<MessageList> {
   final Map<String, GlobalKey> _itemKeys = <String, GlobalKey>{};
   final MessageTileCache _tileCache = MessageTileCache();
   late final ChatViewModel _chatViewModel;
+  late final ChatReadViewport _readViewport;
+  late String _viewportChannelId;
   String? _pendingScrollTarget;
   int _messageJumpInFlight = 0;
   bool _landAtLatestTailPending = false;
+  int _jumpToLatestTicket = 0;
+  bool _jumpToLatestInFlight = false;
   String? _centerAnchorMessageId;
   BuildContext? _leadingSliverCtx;
   BuildContext? _trailingSliverCtx;
@@ -171,6 +176,9 @@ class _MessageListState extends ConsumerState<MessageList> {
   void initState() {
     super.initState();
     _chatViewModel = ref.read(chatViewModelProvider.notifier);
+    _readViewport = ref.read(chatReadViewportProvider.notifier);
+    _viewportChannelId =
+        widget.expectedChannelId ?? ref.read(chatViewModelProvider).channelId;
     _observerController = ListObserverController(controller: _scrollController);
     _sliverObserverController = SliverObserverController(
       controller: _scrollController,
@@ -183,7 +191,10 @@ class _MessageListState extends ConsumerState<MessageList> {
       if (!mounted) {
         return;
       }
-      _chatViewModel.setReadViewportActive(isActive: widget.visible);
+      _readViewport.setViewportActive(
+        channelId: _viewportChannelId,
+        isActive: widget.visible,
+      );
       _onScroll();
     });
   }
@@ -195,15 +206,38 @@ class _MessageListState extends ConsumerState<MessageList> {
         widget.targetMessageId != null) {
       _pendingScrollTarget = widget.targetMessageId;
     }
-    if (widget.visible != oldWidget.visible) {
-      _chatViewModel.setReadViewportActive(isActive: widget.visible);
+    final String nextViewportChannelId =
+        widget.expectedChannelId ?? ref.read(chatViewModelProvider).channelId;
+    if (nextViewportChannelId != _viewportChannelId) {
+      final String previousViewportChannelId = _viewportChannelId;
+      _viewportChannelId = nextViewportChannelId;
+      if (oldWidget.visible) {
+        _readViewport.setViewportActive(
+          channelId: previousViewportChannelId,
+          isActive: false,
+        );
+      }
+      if (widget.visible) {
+        _readViewport.setViewportActive(
+          channelId: _viewportChannelId,
+          isActive: true,
+        );
+      }
+    } else if (widget.visible != oldWidget.visible) {
+      _readViewport.setViewportActive(
+        channelId: _viewportChannelId,
+        isActive: widget.visible,
+      );
     }
   }
 
   @override
   void dispose() {
+    _readViewport.setViewportActive(
+      channelId: _viewportChannelId,
+      isActive: false,
+    );
     _chatViewModel
-      ..setReadViewportActive(isActive: false)
       ..clearCurrentManualUnread()
       ..clearStickyUnreadAfterBuildForCurrentChannel();
     _scrollController
@@ -431,6 +465,8 @@ class _MessageListState extends ConsumerState<MessageList> {
     _trailingSliverCtx = null;
     _centerAnchorMessageId = null;
     _landAtLatestTailPending = false;
+    _jumpToLatestTicket++;
+    _jumpToLatestInFlight = false;
     _openMode = _MessageListOpenMode.unresolved;
     _edgeLoadTrigger.reset();
     _useCompactScrollCache = true;
@@ -584,8 +620,9 @@ class _MessageListState extends ConsumerState<MessageList> {
       return;
     }
     final ScrollPosition position = _scrollController.position;
-    _chatViewModel.updateReadViewport(
-      isNearBottom: _isLiveNearBottom(),
+    _readViewport.updateViewport(
+      channelId: _viewportChannelId,
+      nearLoadedTail: _isLiveNearBottom(),
       distanceFromBottom: distanceFromScrollExtentEnd(
         pixels: position.pixels,
         minScrollExtent: position.minScrollExtent,
@@ -602,8 +639,9 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     final ScrollPosition position = _scrollController.position;
     final double distanceFromTrailingEdge = _centerTrailingDistance(position);
-    _chatViewModel.updateReadViewport(
-      isNearBottom: isNearTrailingEdge(
+    _readViewport.updateViewport(
+      channelId: _viewportChannelId,
+      nearLoadedTail: isNearTrailingEdge(
         distanceFromTrailingEdge: distanceFromTrailingEdge,
       ),
       distanceFromBottom: distanceFromTrailingEdge,
@@ -619,8 +657,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       final ChatViewState chatState = ref.read(chatViewModelProvider);
       if (chatState.hasMoreNewerMessages) {
         _centerAnchorMessageId = null;
-        _landAtLatestTailPending = true;
-        unawaited(_chatViewModel.jumpToLatestMessages());
+        _requestJumpToLatest();
         return;
       }
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -635,8 +672,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     }
     final ChatViewState chatState = ref.read(chatViewModelProvider);
     if (chatState.hasMoreNewerMessages) {
-      _landAtLatestTailPending = true;
-      unawaited(_chatViewModel.jumpToLatestMessages());
+      _requestJumpToLatest();
       return;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -645,6 +681,28 @@ class _MessageListState extends ConsumerState<MessageList> {
         _scrollController.jumpTo(_scrollController.position.minScrollExtent);
       }
     });
+  }
+
+  /// Arms the land-at-tail flag and starts a jump. Re-entrant requests are
+  /// ignored so a rejected second call cannot clear the pending flag.
+  void _requestJumpToLatest() {
+    if (_jumpToLatestInFlight) {
+      return;
+    }
+    final int ticket = ++_jumpToLatestTicket;
+    _jumpToLatestInFlight = true;
+    _landAtLatestTailPending = true;
+    unawaited(
+      _chatViewModel.jumpToLatestMessages().then((bool started) {
+        if (ticket != _jumpToLatestTicket) {
+          return;
+        }
+        _jumpToLatestInFlight = false;
+        if (!started && mounted) {
+          _landAtLatestTailPending = false;
+        }
+      }),
+    );
   }
 
   void _followTailCenter() {

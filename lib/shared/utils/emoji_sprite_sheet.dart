@@ -11,7 +11,7 @@ const _kSpriteSize = 32;
 const _kNonDiversitySpritesPerRow = 42;
 const _kDiversitySpritesPerRow = 10;
 const _kSpriteBase = 'https://fluxerstatic.com/emoji';
-const _kSpriteVersion = '3';
+const _kSpriteVersion = '2';
 
 const Map<String, String> _kSpriteSheetNames = {
   'default': 'spritesheet-emoji',

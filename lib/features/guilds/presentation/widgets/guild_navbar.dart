@@ -729,7 +729,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           guildUnreadReady: guildUnreadReady,
           invitesPaused: invitesPaused,
           developerMode: developerMode,
-          enableLongPressMenu: isMobileLayout(context),
+          enableLongPressMenu: !isMobileLayout(context),
           onTap: () {
             context.go(RoutePaths.guild(guild.id));
           },
@@ -1318,7 +1318,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
             guildUnreadReady: guildUnreadReady,
             invitesPaused: invitesPaused,
             developerMode: developerMode,
-            enableLongPressMenu: isMobileLayout(context),
+            enableLongPressMenu: !isMobileLayout(context),
             onTap: () {
               context.go(RoutePaths.guild(guild.id));
             },

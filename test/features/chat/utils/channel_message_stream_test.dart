@@ -143,6 +143,48 @@ void main() {
       );
       expect(stream.where((item) => item.type.isCollapsedGroup).length, 2);
     });
+
+    test('splits blocked groups and dividers across midnight', () {
+      final DateTime beforeMidnight = DateTime(2026, 5, 6, 23, 59);
+      final DateTime afterMidnight = DateTime(2026, 5, 7, 0, 1);
+      final Message first = _message(
+        id: 'm1',
+        authorId: 'blocked',
+        timestamp: beforeMidnight,
+      );
+      final Message second = _message(
+        id: 'm2',
+        authorId: 'blocked',
+        timestamp: afterMidnight,
+      );
+
+      final List<ChannelStreamItem> stream = createChannelStream(
+        messages: <Message>[first, second],
+        oldestUnreadMessageId: null,
+        context: _context,
+      );
+
+      expect(
+        stream.map((ChannelStreamItem item) => item.type),
+        <ChannelStreamType>[
+          ChannelStreamType.divider,
+          ChannelStreamType.messageGroupBlocked,
+          ChannelStreamType.divider,
+          ChannelStreamType.messageGroupBlocked,
+        ],
+      );
+      expect(stream[0].dividerDate, beforeMidnight);
+      expect(stream[2].dividerDate, afterMidnight);
+      expect(stream[1].groupKey, first.id);
+      expect(stream[3].groupKey, second.id);
+      expect(stream[1].groupKey, isNot(stream[3].groupKey));
+      expect(
+        stream
+            .expand((ChannelStreamItem item) => item.messages)
+            .where((Message message) => message.id == first.id),
+        hasLength(1),
+      );
+    });
   });
 
   group('buildMessageCollapseAssignments', () {
@@ -196,6 +238,27 @@ void main() {
         ),
       );
       expect(key, isNull);
+    });
+
+    test('starts a new group key after midnight', () {
+      final Message first = _message(
+        id: 'm1',
+        authorId: 'blocked',
+        timestamp: DateTime(2026, 5, 6, 23, 59),
+      );
+      final Message second = _message(
+        id: 'm2',
+        authorId: 'blocked',
+        timestamp: DateTime(2026, 5, 7, 0, 1),
+      );
+
+      final String? key = getCollapsedMessageGroupKey(
+        messages: <Message>[first, second],
+        messageId: second.id,
+        context: _context,
+      );
+
+      expect(key, second.id);
     });
   });
 

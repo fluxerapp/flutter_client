@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.dart';
 
 class MessageListPageShell extends StatelessWidget {
   const MessageListPageShell({
@@ -17,6 +19,7 @@ class MessageListPageShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = isMobileLayout(context);
     final colors = context.colors;
     final layout = context.layout;
     return ColoredBox(
@@ -26,6 +29,7 @@ class MessageListPageShell extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            if (isMobile) const NagbarContainer(),
             Container(
               height: 56,
               decoration: BoxDecoration(

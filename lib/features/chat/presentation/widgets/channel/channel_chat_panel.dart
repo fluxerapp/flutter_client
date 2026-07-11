@@ -10,7 +10,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_l
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/neko_sprite.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/inline_expression_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/inline_expression_panel_host.dart';
-import 'package:fluxer_app/features/chat/providers/core/active_read_channel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -73,8 +73,8 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     final bool showNeko = ref.watch(
       appearancePreferencesProvider.select((state) => state.showNeko),
     );
-    final ActiveReadChannelState activeRead = ref.watch(
-      activeReadChannelProvider,
+    final ChatReadViewportState readViewport = ref.watch(
+      chatReadViewportProvider,
     );
     final String effectiveChannelId = listChannelId;
     final bool hasMessages = ref.watch(
@@ -91,15 +91,15 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     );
     final bool isActiveReadChannel =
         effectiveChannelId.isNotEmpty &&
-        activeRead.channelId == effectiveChannelId;
+        readViewport.channelId == effectiveChannelId;
     final bool showJumpToBottom =
         widget.loadMessages &&
         shouldShowJumpToBottomButton(
           hasMessages: hasMessages,
           isLoading: isLoading,
           isActiveReadChannel: isActiveReadChannel,
-          distanceFromBottom: activeRead.distanceFromBottom,
-          viewportHeight: activeRead.viewportHeight,
+          distanceFromBottom: readViewport.distanceFromBottom,
+          viewportHeight: readViewport.viewportHeight,
           hasMoreNewerMessages: hasMoreNewerMessages,
         );
     final VoidCallback? onClose = widget.onClose;

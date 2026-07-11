@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:drift/drift.dart' show CancellationException;
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
 import 'package:fluxer_app/core/audio/fluxer_sfx.dart';
@@ -55,47 +56,54 @@ void fluxerMessageSfxBinding(Ref ref) {
         if (evt is! MessageCreated) {
           return;
         }
-        final String? uid = ref.read(currentUserIdProvider);
-        if (uid == null) {
-          return;
+        try {
+          final String? uid = ref.read(currentUserIdProvider);
+          if (uid == null) {
+            return;
+          }
+          final db = ref.read(fluxerDatabaseProvider);
+          final User? self = await db.userDao.getUserById(uid);
+          final bool selfDnd = self?.status == 'dnd';
+          final bool foreground = ref.read(appUiForegroundProvider);
+          final String? activeCh = ref.read(activeChannelIdProvider);
+          final MessageNotificationSfxPlayRequest? request =
+              await FluxerMessageNotificationSfxEvaluator.evaluateFromSnapshot(
+                message: evt.event.message,
+                snapshot: evt.snapshot,
+                currentUserId: uid,
+                blockedUserIds: ref.read(blockedUserIdsProvider),
+                selfIsDnd: selfDnd,
+                deduper: deduper,
+                foreground: foreground,
+                viewingChannel:
+                    activeCh != null && activeCh == evt.event.message.channelId,
+                hasObscuringOverlay: ref.read(hasObscuringOverlayProvider),
+              );
+          if (request == null) {
+            return;
+          }
+          if (await executeReadSystemFocusModeEnabled()) {
+            return;
+          }
+          final SoundPreferencesState soundPrefs = ref.read(
+            soundPreferencesProvider,
+          );
+          if (!soundPrefs.isSoundTypeEnabled(
+            request.clipKind.soundSettingsKey,
+          )) {
+            return;
+          }
+          final FluxerSfxClip clip = _clipForKind(request.clipKind);
+          scheduler.schedule(
+            clip: clip,
+            play: (FluxerSfxClip scheduledClip) {
+              unawaited(ref.read(fluxerSfxProvider).playOneShot(scheduledClip));
+            },
+          );
+        } on CancellationException {
+          // Best-effort sound: the database connection closed while this
+          // event was in flight (app teardown or hot restart).
         }
-        final db = ref.read(fluxerDatabaseProvider);
-        final User? self = await db.userDao.getUserById(uid);
-        final bool selfDnd = self?.status == 'dnd';
-        final bool foreground = ref.read(appUiForegroundProvider);
-        final String? activeCh = ref.read(activeChannelIdProvider);
-        final MessageNotificationSfxPlayRequest? request =
-            await FluxerMessageNotificationSfxEvaluator.evaluateFromSnapshot(
-              message: evt.event.message,
-              snapshot: evt.snapshot,
-              currentUserId: uid,
-              blockedUserIds: ref.read(blockedUserIdsProvider),
-              selfIsDnd: selfDnd,
-              deduper: deduper,
-              foreground: foreground,
-              viewingChannel:
-                  activeCh != null && activeCh == evt.event.message.channelId,
-              hasObscuringOverlay: ref.read(hasObscuringOverlayProvider),
-            );
-        if (request == null) {
-          return;
-        }
-        if (await executeReadSystemFocusModeEnabled()) {
-          return;
-        }
-        final SoundPreferencesState soundPrefs = ref.read(
-          soundPreferencesProvider,
-        );
-        if (!soundPrefs.isSoundTypeEnabled(request.clipKind.soundSettingsKey)) {
-          return;
-        }
-        final FluxerSfxClip clip = _clipForKind(request.clipKind);
-        scheduler.schedule(
-          clip: clip,
-          play: (FluxerSfxClip scheduledClip) {
-            unawaited(ref.read(fluxerSfxProvider).playOneShot(scheduledClip));
-          },
-        );
       });
   ref.onDispose(sub.cancel);
 }

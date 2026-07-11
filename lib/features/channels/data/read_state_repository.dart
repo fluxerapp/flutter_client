@@ -88,6 +88,32 @@ class ReadStateRepository {
     return messageId;
   }
 
+  /// Acks up to [messageId] (the newest loaded/visible message). Never
+  /// regresses an existing ack. Returns the acked id, or null when a no-op.
+  Future<String?> applyLocalAckUpTo(String channelId, String messageId) async {
+    final current = await _db.readStateDao.getReadState(channelId);
+    final String? currentAck = current?.lastMessageId;
+    final int? comparison = currentAck == null
+        ? null
+        : compareSnowflakeIds(currentAck, messageId);
+    if (comparison != null &&
+        comparison >= 0 &&
+        current?.mentionCount == 0 &&
+        current?.manual != true) {
+      return null;
+    }
+    final String ackId = comparison != null && comparison > 0
+        ? currentAck!
+        : messageId;
+    await applyLocalAck(
+      channelId: channelId,
+      messageId: ackId,
+      mentionCount: 0,
+    );
+    unawaited(PushNotificationClear.cancelForChannel(channelId));
+    return ackId;
+  }
+
   Future<void> sendAckHttp(String channelId, String messageId) =>
       _client.channels.acknowledgeMessage(
         channelId: channelId,

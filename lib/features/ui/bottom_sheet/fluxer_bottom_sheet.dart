@@ -178,8 +178,8 @@ class FluxerBottomSheet {
                     ),
                   ],
                   Flexible(
-                    child: FluxerBottomSheetScope(
-                      bottomScrollPadding: bottomScrollPadding,
+                    child: _FluxerBottomSheetInsetChild(
+                      bottomPadding: bottomScrollPadding,
                       child: builder(sheetContext, close),
                     ),
                   ),
@@ -347,6 +347,27 @@ Widget _wrapBottomSheetSurface({
     padding: EdgeInsets.only(bottom: insetBelowSurface),
     child: sheetBody,
   );
+}
+
+class _FluxerBottomSheetInsetChild extends StatelessWidget {
+  const _FluxerBottomSheetInsetChild({
+    required this.bottomPadding,
+    required this.child,
+  });
+
+  final double bottomPadding;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (bottomPadding <= 0) {
+      return child;
+    }
+    return Padding(
+      padding: EdgeInsets.only(bottom: bottomPadding),
+      child: child,
+    );
+  }
 }
 
 const double _kDragHandleHitHeight = 28;

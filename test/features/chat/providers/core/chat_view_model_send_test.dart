@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,8 +15,10 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
@@ -92,6 +95,58 @@ void main() {
     await notifier.switchChannel('channel-1');
     await _flushAsync();
     return (container, sendAdapter, serverMessageId);
+  }
+
+  Future<(ProviderContainer, _SendAdapter, ChatViewModel)>
+  setUpDetachedChannel({
+    bool holdSend = false,
+    bool holdLatestFetch = false,
+  }) async {
+    final db = openTestDatabase();
+    final String historicalId = _snowflakeForUtc(DateTime.utc(2026, 6, 14, 12));
+    final String latestId = _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12));
+    final String deliveredId = _snowflakeForUtc(DateTime.utc(2026, 6, 17, 12));
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(latestId),
+      ),
+    );
+    final adapter =
+        _SendAdapter(
+            serverMessageId: deliveredId,
+            aroundMessages: <Map<String, Object?>>[
+              _messageJson(
+                id: historicalId,
+                channelId: 'channel-1',
+                authorId: 'other',
+              ),
+            ],
+            latestMessages: <Map<String, Object?>>[
+              _messageJson(
+                id: latestId,
+                channelId: 'channel-1',
+                authorId: 'other',
+              ),
+            ],
+          )
+          ..holdSend = holdSend
+          ..holdLatestFetch = holdLatestFetch;
+    final container = _container(db, adapter);
+    addTearDown(() {
+      adapter
+        ..releaseSend()
+        ..releaseLatestFetch();
+      container.dispose();
+    });
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1', targetMessageId: historicalId);
+    await _flushAsync();
+    expect(container.read(chatViewModelProvider).hasMoreNewerMessages, isTrue);
+    return (container, adapter, notifier);
   }
 
   test(
@@ -279,6 +334,104 @@ void main() {
       expect(state.messages.last.content, contains('could not be delivered'));
     },
   );
+
+  test('jump to latest preserves an optimistic sending message', () async {
+    final (container, adapter, notifier) = await setUpDetachedChannel(
+      holdSend: true,
+    );
+
+    await notifier.sendMessage(text: 'pending');
+    final Message optimistic = container
+        .read(chatViewModelProvider)
+        .messages
+        .firstWhere(
+          (Message message) =>
+              message.deliveryState == MessageDeliveryState.sending,
+        );
+
+    final bool started = await notifier.jumpToLatestMessages();
+
+    final ChatViewState jumped = container.read(chatViewModelProvider);
+    expect(started, isTrue);
+    expect(jumped.hasMoreNewerMessages, isFalse);
+    expect(
+      jumped.messages.any(
+        (Message message) =>
+            message.id == optimistic.id &&
+            message.deliveryState == MessageDeliveryState.sending,
+      ),
+      isTrue,
+    );
+
+    final String latestServerId =
+        adapter.latestMessages.single['id']! as String;
+    container
+        .read(chatReadViewportProvider.notifier)
+        .setViewportActive(channelId: 'channel-1', isActive: true);
+    await _flushAsync();
+    container
+        .read(chatReadViewportProvider.notifier)
+        .updateViewport(
+          channelId: 'channel-1',
+          nearLoadedTail: true,
+          distanceFromBottom: 0,
+          viewportHeight: 600,
+        );
+    await _flushAsync();
+    expect(adapter.ackedMessageIds, [latestServerId]);
+    expect(adapter.ackedMessageIds, isNot(contains(optimistic.id)));
+
+    adapter.releaseSend();
+    await _flushAsync();
+  });
+
+  test(
+    'recovery ignores an optimistic tail when checking detached overlap',
+    () async {
+      final (container, adapter, notifier) = await setUpDetachedChannel(
+        holdSend: true,
+      );
+      await notifier.sendMessage(text: 'pending');
+      final List<String> beforeIds = container
+          .read(chatViewModelProvider)
+          .messages
+          .map((Message message) => message.id)
+          .toList();
+      final String latestServerId =
+          adapter.latestMessages.single['id']! as String;
+
+      await notifier.refreshAfterSessionRecovery();
+      await _flushAsync();
+
+      final ChatViewState after = container.read(chatViewModelProvider);
+      expect(after.messages.map((Message message) => message.id), beforeIds);
+      expect(after.messages.any(isLocalOnlyMessage), isTrue);
+      expect(
+        after.messages.map((Message message) => message.id),
+        isNot(contains(latestServerId)),
+      );
+      expect(after.hasMoreNewerMessages, isTrue);
+
+      adapter.releaseSend();
+      await _flushAsync();
+    },
+  );
+
+  test('jump to latest returns false while a jump is in flight', () async {
+    final (container, adapter, notifier) = await setUpDetachedChannel(
+      holdLatestFetch: true,
+    );
+
+    final Future<bool> firstJump = notifier.jumpToLatestMessages();
+    expect(container.read(chatViewModelProvider).isSyncingMessages, isTrue);
+
+    expect(await notifier.jumpToLatestMessages(), isFalse);
+
+    adapter.releaseLatestFetch();
+    expect(await firstJump, isTrue);
+    expect(container.read(chatViewModelProvider).isSyncingMessages, isFalse);
+    await _flushAsync();
+  });
 }
 
 ProviderContainer _container(FluxerDatabase db, _SendAdapter adapter) {
@@ -312,14 +465,44 @@ Future<void> _flushAsync() async {
 }
 
 class _SendAdapter implements HttpClientAdapter {
-  _SendAdapter({required this.serverMessageId, this.failureCode});
+  _SendAdapter({
+    required this.serverMessageId,
+    this.failureCode,
+    this.aroundMessages = const <Map<String, Object?>>[],
+    this.latestMessages = const <Map<String, Object?>>[],
+  });
 
   final String serverMessageId;
   final String? failureCode;
+  final List<Map<String, Object?>> aroundMessages;
+  final List<Map<String, Object?>> latestMessages;
+  final List<String> ackedMessageIds = <String>[];
   String? lastSentNonce;
   Map<String, dynamic>? lastBody;
   int messagePostCount = 0;
   String? lastEditContent;
+  bool holdSend = false;
+  bool holdLatestFetch = false;
+  Completer<void>? _sendCompleter;
+  Completer<void>? _latestFetchCompleter;
+
+  void releaseSend() {
+    holdSend = false;
+    final Completer<void>? completer = _sendCompleter;
+    _sendCompleter = null;
+    if (completer != null && !completer.isCompleted) {
+      completer.complete();
+    }
+  }
+
+  void releaseLatestFetch() {
+    holdLatestFetch = false;
+    final Completer<void>? completer = _latestFetchCompleter;
+    _latestFetchCompleter = null;
+    if (completer != null && !completer.isCompleted) {
+      completer.complete();
+    }
+  }
 
   @override
   Future<ResponseBody> fetch(
@@ -332,10 +515,19 @@ class _SendAdapter implements HttpClientAdapter {
       r'/channels/([^/]+)/messages$',
     ).hasMatch(path);
     if (options.method == 'GET' && isMessages) {
-      return _json(const <Map<String, Object?>>[]);
+      final bool isAround = options.uri.queryParameters.containsKey('around');
+      if (!isAround && holdLatestFetch) {
+        _latestFetchCompleter ??= Completer<void>();
+        await _latestFetchCompleter!.future;
+      }
+      return _json(isAround ? aroundMessages : latestMessages);
     }
     if (options.method == 'POST' && isMessages) {
       messagePostCount++;
+      if (holdSend) {
+        _sendCompleter ??= Completer<void>();
+        await _sendCompleter!.future;
+      }
       if (failureCode != null) {
         return ResponseBody.fromString(
           jsonEncode(<String, Object?>{
@@ -364,8 +556,36 @@ class _SendAdapter implements HttpClientAdapter {
         ),
       );
     }
+    if (options.method == 'POST' && path.endsWith('/read-states/ack')) {
+      final String? raw = await _readRequestBody(requestStream, options.data);
+      if (raw != null && raw.isNotEmpty) {
+        final Map<String, dynamic> body =
+            jsonDecode(raw) as Map<String, dynamic>;
+        final List<dynamic> entries =
+            body['read_states'] as List<dynamic>? ?? const <dynamic>[];
+        for (final dynamic entry in entries) {
+          ackedMessageIds.add(
+            (entry as Map<String, dynamic>)['message_id']! as String,
+          );
+        }
+      }
+      return ResponseBody.fromString(
+        '{"read_states":[],"read_state_proto":""}',
+        200,
+        statusMessage: 'OK',
+        headers: {
+          Headers.contentTypeHeader: [Headers.jsonContentType],
+        },
+      );
+    }
     if (options.method == 'POST' &&
         (path.endsWith('/ack') || path.endsWith('/read-states/ack-bulk'))) {
+      final RegExpMatch? channelAck = RegExp(
+        r'/channels/[^/]+/messages/([^/]+)/ack$',
+      ).firstMatch(path);
+      if (channelAck != null) {
+        ackedMessageIds.add(channelAck.group(1)!);
+      }
       return ResponseBody.fromString('', 204, statusMessage: 'No Content');
     }
     if (options.method == 'PATCH') {

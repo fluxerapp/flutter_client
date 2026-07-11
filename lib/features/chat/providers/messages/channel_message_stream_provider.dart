@@ -43,7 +43,7 @@ ChannelCollapseContext channelCollapseContext(Ref ref) {
   );
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 List<ChannelStreamItem> channelMessageStream(
   Ref ref,
   ChannelMessageStreamInput input,

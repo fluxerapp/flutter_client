@@ -11,7 +11,6 @@ import 'package:fluxer_app/features/shell/presentation/mobile_home_utility_shell
 import 'package:fluxer_app/features/shell/presentation/mobile_main_tab_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_shell_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.dart';
 import 'package:go_router/go_router.dart';
 
 class MobileShellScaffold extends ConsumerWidget {
@@ -58,7 +57,7 @@ class MobileShellScaffold extends ConsumerWidget {
     return switch (mode) {
       ShellLayoutMode.channelDrawer => MobileChannelDrawerShell(
         shellLocation: shellLocation,
-        navigationShell: shellContent,
+        navigationShell: navigationShell,
         bottomNav: bottomNav,
       ),
       ShellLayoutMode.channelsRoot => MobileChannelsRootShell(
@@ -86,12 +85,7 @@ class AppLayoutShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isMobile = isMobileLayout(context);
-    final Widget shellContent = Column(
-      children: <Widget>[
-        const NagbarContainer(),
-        Expanded(child: navigationShell),
-      ],
-    );
+    final Widget shellContent = navigationShell;
     if (!isMobile) {
       final String shellLocation = ref.watch(shellLocationProvider);
       return Scaffold(

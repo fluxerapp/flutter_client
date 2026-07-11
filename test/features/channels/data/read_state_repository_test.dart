@@ -67,6 +67,68 @@ void main() {
   );
 
   test(
+    'applyLocalAckUpTo keeps a newer ack while clearing unread flags',
+    () async {
+      final String olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final String newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final db = openTestDatabase();
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(newerId),
+          mentionCount: const Value(2),
+          manual: const Value(true),
+        ),
+      );
+      final repository = ReadStateRepository(
+        FluxerClient(Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))),
+        db,
+      );
+
+      final String? ackedId = await repository.applyLocalAckUpTo(
+        'channel-1',
+        olderId,
+      );
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(ackedId, newerId);
+      expect(readState?.lastMessageId, newerId);
+      expect(readState?.mentionCount, 0);
+      expect(readState?.manual, isFalse);
+    },
+  );
+
+  test(
+    'applyLocalAckUpTo is a no-op when a clean newer ack is stored',
+    () async {
+      final String olderId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final String newerId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final db = openTestDatabase();
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(newerId),
+          mentionCount: const Value(0),
+        ),
+      );
+      final repository = ReadStateRepository(
+        FluxerClient(Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))),
+        db,
+      );
+
+      final String? ackedId = await repository.applyLocalAckUpTo(
+        'channel-1',
+        olderId,
+      );
+
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(ackedId, null);
+      expect(readState?.lastMessageId, newerId);
+      expect(readState?.mentionCount, 0);
+    },
+  );
+
+  test(
     'ackLatest uses newer cached message when channel last message is stale',
     () async {
       final staleId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));

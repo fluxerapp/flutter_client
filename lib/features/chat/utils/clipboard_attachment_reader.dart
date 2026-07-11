@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
+import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
 class _ClipboardFileRead {
@@ -142,8 +143,19 @@ Future<List<XFile>> readClipboardAttachmentFiles() async {
         fileName: read.fileName,
         suggestedName: suggestedName,
       );
-      final String mime = mimeForClipboardFormat(format);
-      result.add(XFile.fromData(read.bytes, name: name, mimeType: mime));
+      final ({String name, String? mime}) metadata =
+          resolveClipboardAttachmentMetadata(
+            bytes: read.bytes,
+            format: format,
+            name: name,
+          );
+      result.add(
+        XFile.fromData(
+          read.bytes,
+          name: metadata.name,
+          mimeType: metadata.mime,
+        ),
+      );
       break;
     }
   }
@@ -186,6 +198,52 @@ bool _hasKnownFilenameExtension(String name) {
   return ext.isNotEmpty && ext.length <= 12;
 }
 
+({String name, String? mime}) resolveClipboardAttachmentMetadata({
+  required Uint8List bytes,
+  required FileFormat format,
+  required String name,
+}) {
+  final String? formatMime = mimeForClipboardFormat(format);
+  if (formatMime != null) {
+    return (name: name, mime: formatMime);
+  }
+  final String sniffedMime = ImageUtils.detectMimeType(bytes);
+  if (sniffedMime != 'application/octet-stream') {
+    final String? extension = _extensionFromMime(sniffedMime);
+    final String resolvedName = extension != null
+        ? _replaceOrAppendExtension(name, extension)
+        : name;
+    return (name: resolvedName, mime: sniffedMime);
+  }
+  if (_hasKnownFilenameExtension(name)) {
+    return (name: name, mime: null);
+  }
+  final String trimmedName = name.trim();
+  if (trimmedName.isNotEmpty) {
+    return (name: trimmedName, mime: null);
+  }
+  return (name: 'clipboard.bin', mime: null);
+}
+
+String _replaceOrAppendExtension(String name, String extension) {
+  final int dot = name.lastIndexOf('.');
+  if (dot > 0) {
+    final String currentExt = name.substring(dot + 1).toLowerCase();
+    if (currentExt == 'bin') {
+      return '${name.substring(0, dot)}.$extension';
+    }
+    if (_hasKnownFilenameExtension(name)) {
+      return name;
+    }
+    return '${name.substring(0, dot)}.$extension';
+  }
+  return '$name.$extension';
+}
+
+String? _extensionFromMime(String mime) {
+  return _extensionFromMimeTypes(<PlatformFormat>[mime]);
+}
+
 String extensionForClipboardFormat(FileFormat format) {
   for (final _ClipboardFormatInfo info in _clipboardFormatInfos) {
     if (identical(format, info.format)) {
@@ -201,7 +259,7 @@ String extensionForClipboardFormat(FileFormat format) {
   return 'bin';
 }
 
-String mimeForClipboardFormat(FileFormat format) {
+String? mimeForClipboardFormat(FileFormat format) {
   for (final _ClipboardFormatInfo info in _clipboardFormatInfos) {
     if (identical(format, info.format)) {
       return info.mimeType;
@@ -213,7 +271,7 @@ String mimeForClipboardFormat(FileFormat format) {
       return mimeTypes.first;
     }
   }
-  return 'application/octet-stream';
+  return null;
 }
 
 String? _extensionFromMimeTypes(List<PlatformFormat>? mimeTypes) {
@@ -231,6 +289,7 @@ String? _extensionFromMimeTypes(List<PlatformFormat>? mimeTypes) {
     'image/heic': 'heic',
     'image/heif': 'heif',
     'image/svg+xml': 'svg',
+    'image/avif': 'avif',
     'video/mp4': 'mp4',
     'video/quicktime': 'mov',
     'application/pdf': 'pdf',
@@ -547,10 +606,5 @@ const List<_ClipboardFormatInfo> _clipboardFormatInfos = <_ClipboardFormatInfo>[
     format: Formats.dll,
     extension: 'dll',
     mimeType: 'application/x-msdownload',
-  ),
-  _ClipboardFormatInfo(
-    format: Formats.webUnknown,
-    extension: 'bin',
-    mimeType: 'application/octet-stream',
   ),
 ];

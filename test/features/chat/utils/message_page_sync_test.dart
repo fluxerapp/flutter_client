@@ -96,6 +96,28 @@ void main() {
     expect(actual.any((Message m) => m.id == clientSystem.id), isTrue);
   });
 
+  test('newestServerBackedMessageId ignores local-only tail rows', () {
+    expect(
+      newestServerBackedMessageId([
+        _message(idA),
+        _message(idC, deliveryState: MessageDeliveryState.sending),
+        _message(idD, deliveryState: MessageDeliveryState.failed),
+      ]),
+      idA,
+    );
+  });
+
+  test('newestServerBackedMessageId is null without server-backed rows', () {
+    expect(newestServerBackedMessageId(const <Message>[]), isNull);
+    expect(
+      newestServerBackedMessageId([
+        _message(idA, deliveryState: MessageDeliveryState.sending),
+        _message(idB, deliveryState: MessageDeliveryState.failed),
+      ]),
+      isNull,
+    );
+  });
+
   test('drops cached messages below baseline when channel shrinks', () {
     final List<Message> current = [_message(idA), _message(idB), _message(idC)];
     final List<Message> networkPage = [_message(idC, content: 'only')];
@@ -150,6 +172,19 @@ void main() {
     expect(actual.any((Message m) => m.id == idB), isFalse);
   });
 
+  test('loaded-window reconciliation preserves local-only rows', () {
+    final List<Message> actual = reconcileStaleDeletionsInLoadedWindow(
+      current: [
+        _message(idA),
+        _message(idB, deliveryState: MessageDeliveryState.sending),
+        _message(idC),
+      ],
+      networkPage: [_message(idA), _message(idC)],
+    );
+    expect(actual.map((Message message) => message.id), [idA, idB, idC]);
+    expect(actual[1].deliveryState, MessageDeliveryState.sending);
+  });
+
   test('networkPageStaleLocalIds ignores messages outside page range', () {
     final String idOlder = _snowflakeForUtc(DateTime.utc(2026, 5, 9, 12));
     final List<String> stale = networkPageStaleLocalIds(
@@ -157,6 +192,81 @@ void main() {
       networkPage: [_message(idA), _message(idB)],
     );
     expect(stale, isEmpty);
+  });
+
+  group('network page overlap guard', () {
+    test('accepts overlap', () {
+      expect(
+        networkPageOverlapsWindow(
+          window: [_message(idA), _message(idC)],
+          networkPage: [_message(idB), _message(idD)],
+        ),
+        isTrue,
+      );
+    });
+
+    test('accepts an abutting boundary', () {
+      expect(
+        networkPageOverlapsWindow(
+          window: [_message(idA), _message(idC)],
+          networkPage: [_message(idC), _message(idD)],
+        ),
+        isTrue,
+      );
+    });
+
+    test('rejects a disjoint newer page', () {
+      expect(
+        networkPageOverlapsWindow(
+          window: [_message(idA), _message(idB)],
+          networkPage: [_message(idC), _message(idD)],
+        ),
+        isFalse,
+      );
+    });
+
+    test('rejects a disjoint page past a local-only tail row', () {
+      expect(
+        networkPageOverlapsWindow(
+          window: [
+            _message(idA),
+            _message(idD, deliveryState: MessageDeliveryState.sending),
+          ],
+          networkPage: [_message(idB), _message(idC)],
+        ),
+        isFalse,
+      );
+    });
+
+    test('accepts an empty window', () {
+      expect(
+        networkPageOverlapsWindow(
+          window: const <Message>[],
+          networkPage: [_message(idC)],
+        ),
+        isTrue,
+      );
+    });
+
+    test('accepts a window with only local-only rows', () {
+      expect(
+        networkPageOverlapsWindow(
+          window: [_message(idA, deliveryState: MessageDeliveryState.sending)],
+          networkPage: [_message(idC), _message(idD)],
+        ),
+        isTrue,
+      );
+    });
+
+    test('accepts an empty page', () {
+      expect(
+        networkPageOverlapsWindow(
+          window: [_message(idA)],
+          networkPage: const <Message>[],
+        ),
+        isTrue,
+      );
+    });
   });
 
   group('cache-serve contiguity guards', () {

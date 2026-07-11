@@ -46,17 +46,5 @@ void main() {
     test('returns null for empty input', () {
       expect(getTwemojiUrl(''), isNull);
     });
-
-    test('builds URL for Unicode 17 emoji', () {
-      expect(getTwemojiUrl('🫪'), 'https://fluxerstatic.com/emoji/1faea.svg');
-    });
-
-    test('builds URL for Unicode 16 emoji', () {
-      expect(getTwemojiUrl('🫩'), 'https://fluxerstatic.com/emoji/1fae9.svg');
-      expect(
-        getTwemojiUrl('🇨🇶'),
-        'https://fluxerstatic.com/emoji/1f1e8-1f1f6.svg',
-      );
-    });
   });
 }

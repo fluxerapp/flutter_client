@@ -1,14 +1,17 @@
-import 'package:flutter/foundation.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'push_notification_permission_status_provider.g.dart';
 
-@Riverpod(keepAlive: true)
-Future<bool> pushNotificationPermissionGranted(Ref ref) async {
-  if (kIsWeb) {
-    return true;
-  }
-  final PermissionStatus status = await Permission.notification.status;
-  return status.isGranted || status.isProvisional;
+@riverpod
+Future<bool> pushNotificationPermissionGranted(Ref ref) {
+  ref.watch(appUiForegroundProvider);
+  return isPushNotificationPermissionGranted();
+}
+
+@riverpod
+Future<bool> pushNotificationRequiresSystemSettings(Ref ref) {
+  ref.watch(appUiForegroundProvider);
+  return requiresPushNotificationSystemSettings();
 }

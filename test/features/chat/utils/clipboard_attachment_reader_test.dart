@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -37,11 +39,84 @@ void main() {
       expect(mimeForClipboardFormat(Formats.json), 'application/json');
     });
 
-    test('falls back to octet-stream for unknown formats', () {
-      expect(
-        mimeForClipboardFormat(Formats.webUnknown),
-        'application/octet-stream',
-      );
+    test('falls back to null for unknown formats', () {
+      expect(mimeForClipboardFormat(Formats.webUnknown), isNull);
+    });
+  });
+
+  group('resolveClipboardAttachmentMetadata', () {
+    final Uint8List pngBytes = Uint8List.fromList(<int>[
+      0x89,
+      0x50,
+      0x4E,
+      0x47,
+      0x0D,
+      0x0A,
+      0x1A,
+      0x0A,
+    ]);
+
+    final Uint8List jpegBytes = Uint8List.fromList(<int>[
+      0xFF,
+      0xD8,
+      0xFF,
+      0xE0,
+    ]);
+
+    test('sniffs PNG bytes from webUnknown into clipboard.png', () {
+      final ({String name, String? mime}) metadata =
+          resolveClipboardAttachmentMetadata(
+            bytes: pngBytes,
+            format: Formats.webUnknown,
+            name: 'clipboard.bin',
+          );
+      expect(metadata.name, 'clipboard.png');
+      expect(metadata.mime, 'image/png');
+    });
+
+    test('sniffs PNG bytes with suggested name into Screenshot.png', () {
+      final ({String name, String? mime}) metadata =
+          resolveClipboardAttachmentMetadata(
+            bytes: pngBytes,
+            format: Formats.webUnknown,
+            name: 'Screenshot',
+          );
+      expect(metadata.name, 'Screenshot.png');
+      expect(metadata.mime, 'image/png');
+    });
+
+    test('sniffs JPEG bytes from webUnknown', () {
+      final ({String name, String? mime}) metadata =
+          resolveClipboardAttachmentMetadata(
+            bytes: jpegBytes,
+            format: Formats.webUnknown,
+            name: 'clipboard.bin',
+          );
+      expect(metadata.name, 'clipboard.jpg');
+      expect(metadata.mime, 'image/jpeg');
+    });
+
+    test('keeps known format metadata unchanged', () {
+      final ({String name, String? mime}) metadata =
+          resolveClipboardAttachmentMetadata(
+            bytes: pngBytes,
+            format: Formats.png,
+            name: 'screenshot.png',
+          );
+      expect(metadata.name, 'screenshot.png');
+      expect(metadata.mime, 'image/png');
+    });
+
+    test('returns clipboard.bin with null mime for unidentifiable bytes', () {
+      final Uint8List randomBytes = Uint8List.fromList(<int>[0x00, 0x01, 0x02]);
+      final ({String name, String? mime}) metadata =
+          resolveClipboardAttachmentMetadata(
+            bytes: randomBytes,
+            format: Formats.webUnknown,
+            name: 'clipboard.bin',
+          );
+      expect(metadata.name, 'clipboard.bin');
+      expect(metadata.mime, isNull);
     });
   });
 

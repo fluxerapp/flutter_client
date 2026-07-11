@@ -85,15 +85,19 @@ List<MessageCollapseAssignment> buildMessageCollapseAssignments({
       <MessageCollapseAssignment>[];
   ChannelStreamType? currentType;
   String? currentGroupKey;
+  DateTime? previousTimestamp;
   for (final Message message in messages) {
     final ChannelStreamType? collapsedType = context.collapsedTypeFor(message);
     if (collapsedType == null) {
       currentType = null;
       currentGroupKey = null;
       assignments.add(const MessageCollapseAssignment());
+      previousTimestamp = message.timestamp;
       continue;
     }
-    if (collapsedType != currentType) {
+    if (collapsedType != currentType ||
+        (previousTimestamp != null &&
+            !_isSameDay(previousTimestamp, message.timestamp))) {
       currentType = collapsedType;
       currentGroupKey = message.id;
     }
@@ -103,6 +107,7 @@ List<MessageCollapseAssignment> buildMessageCollapseAssignments({
         groupKey: currentGroupKey,
       ),
     );
+    previousTimestamp = message.timestamp;
   }
   return assignments;
 }
@@ -143,6 +148,8 @@ List<ChannelStreamItem> createChannelStream({
     final MessageCollapseAssignment assignment = assignments[i];
     if (lastDateDividerTimestamp == null ||
         !_isSameDay(lastDateDividerTimestamp, message.timestamp)) {
+      activeCollapsedGroupKey = null;
+      activeCollapsedItem = null;
       stream.add(
         ChannelStreamItem(
           type: ChannelStreamType.divider,

@@ -17,6 +17,9 @@ class PushNotificationNagbar extends ConsumerWidget implements NagbarWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isMobile = isMobileLayout(context);
+    final bool requiresSystemSettings = ref
+        .watch(pushNotificationRequiresSystemSettingsProvider)
+        .maybeWhen(data: (bool value) => value, orElse: () => false);
     return FluxerNagbar(
       isMobile: isMobile,
       backgroundColor: const Color(0xFF2563EB),
@@ -32,10 +35,14 @@ class PushNotificationNagbar extends ConsumerWidget implements NagbarWidget {
             .dismissPushNotification(),
         actions: FluxerNagbarButton(
           isMobile: isMobile,
-          label: l10n.nagbarEnableNotifications,
+          label: requiresSystemSettings
+              ? l10n.nagbarOpenSettings
+              : l10n.nagbarEnableNotifications,
           onPressed: () async {
             await requestPushNotificationPermission();
-            ref.invalidate(pushNotificationPermissionGrantedProvider);
+            ref
+              ..invalidate(pushNotificationPermissionGrantedProvider)
+              ..invalidate(pushNotificationRequiresSystemSettingsProvider);
           },
         ),
       ),

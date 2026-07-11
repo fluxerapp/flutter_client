@@ -10,16 +10,43 @@ bool isMessageIdInNetworkPageRange({
       compareSnowflakeIds(messageId, newestId) <= 0;
 }
 
+/// False when [networkPage] lies entirely newer than the window's newest
+/// server-backed row, meaning that merging would create a silent gap.
+bool networkPageOverlapsWindow({
+  required List<Message> window,
+  required List<Message> networkPage,
+}) {
+  if (networkPage.isEmpty) {
+    return true;
+  }
+  final String? windowTailId = newestServerBackedMessageId(window);
+  if (windowTailId == null) {
+    return true;
+  }
+  return compareSnowflakeIds(networkPage.first.id, windowTailId) <= 0;
+}
+
+bool isLocalOnlyMessage(Message message) =>
+    message.isClientSystemMessage ||
+    message.deliveryState == MessageDeliveryState.sending ||
+    message.deliveryState == MessageDeliveryState.failed;
+
+String? newestServerBackedMessageId(List<Message> messages) {
+  for (var i = messages.length - 1; i >= 0; i--) {
+    final Message message = messages[i];
+    if (!isLocalOnlyMessage(message)) {
+      return message.id;
+    }
+  }
+  return null;
+}
+
 bool shouldPreserveLocalMessage({
   required Message message,
   required String newestNetworkId,
   required String? syncBaselineOldestId,
 }) {
-  if (message.isClientSystemMessage) {
-    return true;
-  }
-  if (message.deliveryState == MessageDeliveryState.sending ||
-      message.deliveryState == MessageDeliveryState.failed) {
+  if (isLocalOnlyMessage(message)) {
     return true;
   }
   if (syncBaselineOldestId != null &&
@@ -115,7 +142,9 @@ List<Message> reconcileStaleDeletionsInLoadedWindow({
     return current;
   }
   final Set<String> staleIds = networkPageStaleLocalIds(
-    localMessageIds: current.map((Message message) => message.id),
+    localMessageIds: current
+        .where((Message message) => !isLocalOnlyMessage(message))
+        .map((Message message) => message.id),
     networkPage: networkPage,
   ).toSet();
   final List<Message> retained = current
