@@ -93,8 +93,9 @@ bool canAddReactionsInChannel({
   required bool isDmChannel,
   int? channelPermissionBits,
   bool interactionsBlocked = false,
+  bool isAuthorBlocked = false,
 }) {
-  if (interactionsBlocked) {
+  if (interactionsBlocked || isAuthorBlocked) {
     return false;
   }
   if (isDmChannel) {

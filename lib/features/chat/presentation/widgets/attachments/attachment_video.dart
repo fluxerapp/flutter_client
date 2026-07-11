@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
@@ -13,22 +13,26 @@ class AttachmentVideo extends StatelessWidget {
     required this.attachment,
     this.dimensionSize = MediaDimensionSize.small,
     this.controlsBuilder,
+    this.videoActionScope,
     super.key,
   });
 
   final Attachment attachment;
   final MediaDimensionSize dimensionSize;
   final AttachmentVideoControlsBuilder? controlsBuilder;
+  final MessageMediaActionScope? videoActionScope;
 
   @override
   Widget build(BuildContext context) {
     final FluxerMediaDimensions dimensions = mediaDimensionsForSize(
       dimensionSize,
     );
-    final ChatVideoSource source = ChatVideoSource.fromAttachment(
-      attachment,
-      dimensions,
-    );
+    final ChatFullscreenVideoLaunchContext launchContext =
+        ChatFullscreenVideoLaunchContext.fromAttachment(
+          attachment: attachment,
+          layoutDimensions: dimensions,
+          actionScope: videoActionScope,
+        );
     return Container(
       margin: const EdgeInsets.only(top: 4, bottom: 3),
       constraints: BoxConstraints(
@@ -42,7 +46,8 @@ class AttachmentVideo extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: ChatInlineVideoPlayer(
-          source: source,
+          source: launchContext.source,
+          launchContext: launchContext,
           dimensionSize: dimensionSize,
           controlsBuilder: controlsBuilder,
         ),

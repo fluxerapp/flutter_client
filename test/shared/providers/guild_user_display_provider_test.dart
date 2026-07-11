@@ -1,39 +1,180 @@
 import 'dart:async';
+import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
+
+const String _guildMemberResponseJson = '''
+{
+  "user": {
+    "id": "user-1",
+    "username": "alice",
+    "discriminator": "0000",
+    "global_name": null,
+    "avatar": null,
+    "avatar_color": null,
+    "flags": 0
+  },
+  "roles": [],
+  "joined_at": "2026-01-01T00:00:00.000Z",
+  "mute": false,
+  "deaf": false
+}
+''';
+
+class _ControlledGuildMemberAdapter implements HttpClientAdapter {
+  final Completer<void> requestStarted = Completer<void>();
+  final Completer<ResponseBody> _response = Completer<ResponseBody>();
+
+  int requestCount = 0;
+  RequestOptions? lastRequest;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
+    requestCount++;
+    lastRequest = options;
+    if (!requestStarted.isCompleted) {
+      requestStarted.complete();
+    }
+    return _response.future;
+  }
+
+  void completeRequest() {
+    if (_response.isCompleted) {
+      return;
+    }
+    _response.complete(
+      ResponseBody.fromString(
+        _guildMemberResponseJson,
+        200,
+        statusMessage: 'OK',
+        headers: <String, List<String>>{
+          Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+        },
+      ),
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+FluxerClient _clientWithAdapter(_ControlledGuildMemberAdapter adapter) {
+  final Dio dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid/v1'))
+    ..httpClientAdapter = adapter;
+  addTearDown(dio.close);
+  return FluxerClient(dio);
+}
 
 void main() {
   test(
     'guildUserDisplayProvider does not touch ref after dispose mid-fetch',
     () async {
-      // No user/member is seeded, so the build reaches the background member
-      // fetch path that previously used `ref` after the provider was disposed.
       final db = openTestDatabase();
-
+      final adapter = _ControlledGuildMemberAdapter();
       final errors = <Object>[];
-      await runZonedGuarded(() async {
-        final container = ProviderContainer(
-          overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
-        );
-        // Kick off the build; it suspends on the async DB reads.
-        final initial = container.read(
-          guildUserDisplayProvider(('user-1', 'guild-1')),
-        );
-        expect(initial.isLoading, isTrue);
-        // Dispose while those reads are still pending so the build resumes
-        // on a disposed ref.
-        container.dispose();
-        // Let the pending build resume and reach the fetch trigger.
-        await Future<void>.delayed(const Duration(milliseconds: 100));
-      }, (error, _) => errors.add(error));
 
+      final zoneCompleted = Completer<void>();
+      final Future<void> zoneFuture = runZonedGuarded<Future<void>>(() async {
+        final container = ProviderContainer(
+          overrides: [
+            fluxerDatabaseProvider.overrideWithValue(db),
+            fluxerClientProvider.overrideWithValue(_clientWithAdapter(adapter)),
+          ],
+        );
+        try {
+          final initial = container.read(
+            guildUserDisplayProvider(('user-1', 'guild-1')),
+          );
+          expect(initial.isLoading, isTrue);
+          await adapter.requestStarted.future;
+          expect(
+            adapter.lastRequest?.uri.path,
+            '/v1/guilds/guild-1/members/user-1',
+          );
+
+          final memberCached = db.memberDao
+              .watchMemberByUserId('user-1', 'guild-1')
+              .firstWhere((member) => member != null)
+              .timeout(const Duration(seconds: 5));
+          container.dispose();
+          adapter.completeRequest();
+          await memberCached;
+          await pumpEventQueue();
+        } finally {
+          adapter.completeRequest();
+          container.dispose();
+          zoneCompleted.complete();
+        }
+      }, (error, _) => errors.add(error))!;
+      unawaited(zoneFuture);
+      await zoneCompleted.future;
+
+      expect(adapter.requestCount, 1);
       expect(errors, isEmpty);
+    },
+  );
+
+  test(
+    'guildUserDisplayProvider scopes in-flight fetches to each container',
+    () async {
+      final db = openTestDatabase();
+      final firstAdapter = _ControlledGuildMemberAdapter();
+      final secondAdapter = _ControlledGuildMemberAdapter();
+      final firstContainer = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          fluxerClientProvider.overrideWithValue(
+            _clientWithAdapter(firstAdapter),
+          ),
+        ],
+      );
+      final secondContainer = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          fluxerClientProvider.overrideWithValue(
+            _clientWithAdapter(secondAdapter),
+          ),
+        ],
+      );
+
+      try {
+        firstContainer.read(guildUserDisplayProvider(('user-1', 'guild-1')));
+        await firstAdapter.requestStarted.future;
+
+        secondContainer.read(guildUserDisplayProvider(('user-1', 'guild-1')));
+        await pumpEventQueue();
+        expect(secondAdapter.requestCount, 1);
+
+        firstContainer.read(guildUserDisplayProvider(('user-1', 'guild-1')));
+        expect(firstAdapter.requestCount, 1);
+
+        final memberCached = db.memberDao
+            .watchMemberByUserId('user-1', 'guild-1')
+            .firstWhere((member) => member != null)
+            .timeout(const Duration(seconds: 5));
+        firstAdapter.completeRequest();
+        secondAdapter.completeRequest();
+        await memberCached;
+      } finally {
+        firstAdapter.completeRequest();
+        secondAdapter.completeRequest();
+        firstContainer.dispose();
+        secondContainer.dispose();
+        await pumpEventQueue();
+      }
     },
   );
 

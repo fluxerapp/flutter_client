@@ -25,6 +25,7 @@ class DmConversation {
   final String recipientStatus;
   final String? name;
   final String? icon;
+  final String? ownerId;
   final int recipientCount;
   final String lastMessage;
   final String? lastMessageId;
@@ -66,6 +67,7 @@ class DmConversation {
     this.lastMessageMentionedUserName,
     this.name,
     this.icon,
+    this.ownerId,
     this.recipientAvatar,
     this.recipientStatus = 'offline',
     this.recipientCount = 2,
@@ -156,6 +158,7 @@ class DmConversation {
       recipientStatus: recipient?.status ?? 'offline',
       name: row.name,
       icon: row.icon,
+      ownerId: row.ownerId,
       recipientCount: row.recipientCount,
       isBot: recipient?.bot ?? false,
       isSystem: recipient?.system ?? false,

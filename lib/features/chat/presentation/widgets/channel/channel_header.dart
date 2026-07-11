@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -12,14 +14,19 @@ import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/channel_details_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/chat_back_button.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_back_button_unread_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
+import 'package:fluxer_app/features/dm/presentation/add_friends_to_group_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
+import 'package:fluxer_app/features/dm/presentation/edit_group_dm_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -30,6 +37,7 @@ import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/notifications/presentation/inbox_popout.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/navigation/drawer_navigation_coordinator.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_back_resolver.dart';
@@ -145,7 +153,7 @@ class ChannelHeader extends ConsumerWidget {
       chatBackButtonUnreadCountProvider(channelId),
     );
     return Container(
-      height: 64,
+      height: kMobileChannelHeaderHeight,
       color: context.colors.chatInputBackground,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -326,7 +334,13 @@ class ChannelHeader extends ConsumerWidget {
         children: [
           Flexible(
             child: InkWell(
-              onTap: () => _openDetails(context, channel: channel, dm: dm),
+              onTap: () => _openHeaderTitleTap(
+                context,
+                ref,
+                channel: channel,
+                dm: dm,
+                isDesktop: true,
+              ),
               borderRadius: BorderRadius.circular(6),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
@@ -375,6 +389,7 @@ class ChannelHeader extends ConsumerWidget {
             ),
           ],
           const SizedBox(width: 8),
+          const Spacer(),
           if (dm != null && canStartDmCall(dm)) ...[
             FluxerButton.circle(
               icon: PhosphorIconsFill.phone,
@@ -399,8 +414,18 @@ class ChannelHeader extends ConsumerWidget {
             ),
             const SizedBox(width: 8),
           ],
-          const Spacer(),
           if (showMessageActions) ...[
+            if (dm != null &&
+                dm.isGroup &&
+                !isPersonalNotes &&
+                _shouldShowAddFriendsToGroupButton(ref, dm))
+              _topBarIcon(
+                context,
+                PhosphorIconsFill.userPlus,
+                l10n.groupDmWelcomeAddFriends,
+                onTap: () =>
+                    unawaited(AddFriendsToGroupFlow.show(context, ref, dm: dm)),
+              ),
             if (dm != null &&
                 !dm.isGroup &&
                 !isPersonalNotes &&
@@ -479,14 +504,27 @@ class ChannelHeader extends ConsumerWidget {
                   ),
                 ),
               ),
-            _topBarIcon(
-              context,
-              PhosphorIconsFill.tray,
-              'Inbox',
-              onTap: () => ref
-                  .read(fluxerRouterProvider)
-                  .go(RoutePaths.notificationsPath),
-            ),
+            if (isWideLayout(context))
+              InboxPopoutButton(
+                anchorBuilder:
+                    (BuildContext context, bool isOpen, VoidCallback toggle) =>
+                        _topBarIcon(
+                          context,
+                          PhosphorIconsFill.tray,
+                          'Inbox',
+                          isActive: isOpen,
+                          onTap: toggle,
+                        ),
+              )
+            else
+              _topBarIcon(
+                context,
+                PhosphorIconsFill.tray,
+                'Inbox',
+                onTap: () => ref
+                    .read(fluxerRouterProvider)
+                    .go(RoutePaths.notificationsPath),
+              ),
           ],
         ],
       ),
@@ -569,11 +607,17 @@ class ChannelHeader extends ConsumerWidget {
         connectedVoiceGuildId: voice.guildId,
         connectedVoiceChannelId: voice.channelId,
       );
+      final bool isTyping = ref.watch(dmAvatarIsTypingProvider(dm));
       return Stack(
         clipBehavior: Clip.none,
         children: <Widget>[
           if (dm.isGroup)
-            groupDmAvatarCluster(dm: dm, size: 32, status: dm.groupStatus)
+            groupDmAvatarCluster(
+              dm: dm,
+              size: 32,
+              status: dm.groupStatus,
+              isTyping: isTyping,
+            )
           else
             FluxerAvatar.user(
               fallbackText: dm.recipientName,
@@ -586,7 +630,8 @@ class ChannelHeader extends ConsumerWidget {
               status: shouldShowDmRecipientPresence(dm)
                   ? dm.recipientStatus
                   : null,
-              showStatus: shouldShowDmRecipientPresence(dm),
+              showStatus: shouldShowDmRecipientPresence(dm) || isTyping,
+              isTyping: isTyping,
               size: 32,
             ),
           if (showE2eeBadge)
@@ -739,6 +784,30 @@ class ChannelHeader extends ConsumerWidget {
       );
     }
     return '';
+  }
+
+  void _openHeaderTitleTap(
+    BuildContext context,
+    WidgetRef ref, {
+    required Channel? channel,
+    required DmConversation? dm,
+    required bool isDesktop,
+  }) {
+    if (isDesktop && dm != null && dm.isGroup) {
+      unawaited(EditGroupDmFlow.show(context, dm: dm));
+      return;
+    }
+    _openDetails(context, channel: channel, dm: dm);
+  }
+
+  bool _shouldShowAddFriendsToGroupButton(WidgetRef ref, DmConversation dm) {
+    final int maxGroupDmRecipients = ref.read(
+      instanceLimitProvider(LimitKeys.maxGroupDmRecipients),
+    );
+    return !isGroupDmFull(
+      memberCount: dm.recipientCount,
+      maxGroupDmRecipients: maxGroupDmRecipients,
+    );
   }
 
   void _openDetails(

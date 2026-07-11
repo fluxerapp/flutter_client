@@ -31,6 +31,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_auto_ack_allowed_pr
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_ack_gate.dart';
 import 'package:fluxer_app/features/chat/providers/guild/guild_composer_access_provider.dart';
+import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_frame_batcher.dart';
@@ -42,6 +43,7 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_indicator_s
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/providers/upload/cloud_upload_controller.dart';
 import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
+import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/client_nonce.dart';
 import 'package:fluxer_app/features/chat/utils/client_system_message.dart';
 import 'package:fluxer_app/features/chat/utils/composer_command.dart';
@@ -94,6 +96,7 @@ class ChatViewState {
   final String? stickyUnreadMessageId;
   final String? highlightedMessageId;
   final int jumpHighlightSequence;
+  final String? revealedCollapsedGroupKey;
   final bool isLoading;
   final bool isSyncingMessages;
   final bool isLoadingMore;
@@ -123,6 +126,7 @@ class ChatViewState {
     this.stickyUnreadMessageId,
     this.highlightedMessageId,
     this.jumpHighlightSequence = 0,
+    this.revealedCollapsedGroupKey,
   });
 
   bool get canSend => messageText.trim().isNotEmpty;
@@ -138,6 +142,7 @@ class ChatViewState {
     Object? scrollToMessageSignal = _unset,
     Object? stickyUnreadMessageId = _unset,
     Object? highlightedMessageId = _unset,
+    Object? revealedCollapsedGroupKey = _unset,
     int? jumpHighlightSequence,
     bool? isLoading,
     bool? isSyncingMessages,
@@ -169,6 +174,9 @@ class ChatViewState {
       highlightedMessageId: highlightedMessageId == _unset
           ? this.highlightedMessageId
           : highlightedMessageId as String?,
+      revealedCollapsedGroupKey: revealedCollapsedGroupKey == _unset
+          ? this.revealedCollapsedGroupKey
+          : revealedCollapsedGroupKey as String?,
       jumpHighlightSequence:
           jumpHighlightSequence ?? this.jumpHighlightSequence,
       isLoading: isLoading ?? this.isLoading,
@@ -309,7 +317,7 @@ class ChatViewModel extends _$ChatViewModel {
         continue;
       }
       workingMessages = next;
-      if (!state.hasMoreNewerMessages) {
+      if (!state.hasMoreNewerMessages && _readViewportNearBottom) {
         final MessageWindowTrim trim = trimMessageWindow(
           next,
           keepNewest: true,
@@ -360,7 +368,9 @@ class ChatViewModel extends _$ChatViewModel {
     if (next != null) {
       var nextMessages = next;
       var droppedOlder = false;
-      if (ev is MessageCreated && !state.hasMoreNewerMessages) {
+      if (ev is MessageCreated &&
+          !state.hasMoreNewerMessages &&
+          _readViewportNearBottom) {
         final trim = trimMessageWindow(next, keepNewest: true);
         nextMessages = trim.messages;
         droppedOlder = trim.droppedOlder;
@@ -714,6 +724,27 @@ class ChatViewModel extends _$ChatViewModel {
       errorMessage: errorMessage,
       jumpHighlightSequence: state.jumpHighlightSequence,
     );
+  }
+
+  void setCollapsedGroupRevealed(String? groupKey) {
+    final String? current = state.revealedCollapsedGroupKey;
+    if (groupKey != null && groupKey == current) {
+      state = state.copyWith(revealedCollapsedGroupKey: null);
+      return;
+    }
+    state = state.copyWith(revealedCollapsedGroupKey: groupKey);
+  }
+
+  void _revealCollapsedGroupForMessageIfNeeded(String messageId) {
+    final String? groupKey = getCollapsedMessageGroupKey(
+      messages: state.messages,
+      messageId: messageId,
+      context: ref.read(channelCollapseContextProvider),
+    );
+    if (groupKey == null) {
+      return;
+    }
+    state = state.copyWith(revealedCollapsedGroupKey: groupKey);
   }
 
   void highlightJumpMessage(String messageId) {
@@ -2718,6 +2749,7 @@ class ChatViewModel extends _$ChatViewModel {
   }
 
   void scrollToMessage(String messageId) {
+    _revealCollapsedGroupForMessageIfNeeded(messageId);
     final version = (state.scrollToMessageSignal?.$2 ?? 0) + 1;
     state = state.copyWith(scrollToMessageSignal: (messageId, version));
   }

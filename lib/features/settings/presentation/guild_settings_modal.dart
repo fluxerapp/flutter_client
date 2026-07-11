@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_state.dart';
@@ -52,6 +53,17 @@ class GuildSettingsModal extends ConsumerStatefulWidget {
 
 class _GuildSettingsModalState extends ConsumerState<GuildSettingsModal> {
   late GuildSettingsTab _selectedTab = widget.initialTab;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      ref.read(guildSyncProvider.notifier).syncIfNeeded(widget.guildId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

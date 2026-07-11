@@ -88,7 +88,8 @@ class GuildFoldersSyncedField
     GuildFoldersLocalState local,
     GuildFoldersLocalState remote,
   ) {
-    if (isRemoteShrink(local: local, remote: remote)) {
+    if (isRemoteShrink(local: local, remote: remote) ||
+        isLocalShrink(local: local, remote: remote)) {
       return false;
     }
     return !statesEqual(local, remote);
@@ -110,5 +111,12 @@ class GuildFoldersSyncedField
     required GuildFoldersLocalState remote,
   }) {
     return remote.length < local.length && local.containsAll(remote);
+  }
+
+  static bool isLocalShrink({
+    required GuildFoldersLocalState local,
+    required GuildFoldersLocalState remote,
+  }) {
+    return local.length < remote.length && remote.containsAll(local);
   }
 }

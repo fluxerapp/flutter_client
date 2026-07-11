@@ -4,13 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/router/navigate_to_content.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
+import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/notifications/presentation/inbox_popout.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
+import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_confirm_sheet.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/shared/providers/user_profile.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -49,7 +59,7 @@ class FriendsList extends ConsumerWidget {
                   Divider(color: context.colors.borderColor, height: 1),
                   _buildSearchBar(context, ref, activeTab),
                   _buildSectionHeader(context, vm),
-                  Expanded(child: _buildFriendsList(context, vm)),
+                  Expanded(child: _buildFriendsList(context, ref, vm)),
                 ],
               ),
             ),
@@ -132,23 +142,54 @@ class FriendsList extends ConsumerWidget {
           ),
         ),
 
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(6),
-            hoverColor: context.colors.backgroundModifierHover,
-            onTap: () {},
-            child: Padding(
-              padding: EdgeInsets.all(context.layout.s2),
-              child: SvgPicture.asset(
-                'assets/images/inbox-icon.svg',
-                width: 24,
-                height: 24,
-                theme: SvgTheme(currentColor: context.colors.interactiveNormal),
+        if (isWideLayout(context))
+          InboxPopoutButton(
+            anchorBuilder:
+                (BuildContext context, bool isOpen, VoidCallback toggle) {
+                  return Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(6),
+                      hoverColor: context.colors.backgroundModifierHover,
+                      onTap: toggle,
+                      child: Padding(
+                        padding: EdgeInsets.all(context.layout.s2),
+                        child: SvgPicture.asset(
+                          'assets/images/inbox-icon.svg',
+                          width: 24,
+                          height: 24,
+                          theme: SvgTheme(
+                            currentColor: isOpen
+                                ? context.colors.interactiveActive
+                                : context.colors.interactiveNormal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+          )
+        else
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(6),
+              hoverColor: context.colors.backgroundModifierHover,
+              onTap: () =>
+                  navigateToContent(context, RoutePaths.notificationsPath),
+              child: Padding(
+                padding: EdgeInsets.all(context.layout.s2),
+                child: SvgPicture.asset(
+                  'assets/images/inbox-icon.svg',
+                  width: 24,
+                  height: 24,
+                  theme: SvgTheme(
+                    currentColor: context.colors.interactiveNormal,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
       ],
     ),
   );
@@ -345,7 +386,11 @@ class FriendsList extends ConsumerWidget {
     ),
   );
 
-  Widget _buildFriendsList(BuildContext context, DmViewState vm) {
+  Widget _buildFriendsList(
+    BuildContext context,
+    WidgetRef ref,
+    DmViewState vm,
+  ) {
     final filtered = vm.filteredFriends;
     if (filtered.isEmpty) {
       return Center(
@@ -390,131 +435,143 @@ class FriendsList extends ConsumerWidget {
       itemCount: filtered.length,
       itemBuilder: (context, index) {
         final friend = filtered[index];
-        return _buildFriendTile(context, friend);
+        return _buildFriendTile(context, ref, friend);
       },
     );
   }
 
-  Widget _buildFriendTile(BuildContext context, Friend friend) => DecoratedBox(
-    decoration: BoxDecoration(
-      border: Border(
-        top: BorderSide(
-          color: context.colors.borderColor.withValues(alpha: 0.5),
-        ),
-      ),
-    ),
-    child: Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(6),
-        hoverColor: context.colors.backgroundModifierHover,
-        onTap: () =>
-            unawaited(FluxerUserProfileSheet.show(context, userId: friend.id)),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: context.layout.s3,
-            horizontal: context.layout.s4,
+  Widget _buildFriendTile(BuildContext context, WidgetRef ref, Friend friend) =>
+      DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: context.colors.borderColor.withValues(alpha: 0.5),
+            ),
           ),
-          child: Row(
-            children: [
-              FluxerAvatar.user(
-                fallbackText: friend.displayName,
-                userId: friend.id,
-                imageUrl: FluxerMediaUrl.userAvatar(
-                  userId: friend.id,
-                  hash: friend.avatar,
-                ),
-                avatarColor: friend.avatarColor,
-                status: friend.status,
-                size: 36,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(6),
+            hoverColor: context.colors.backgroundModifierHover,
+            onTap: () => unawaited(
+              FluxerUserProfileSheet.show(context, userId: friend.id),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: context.layout.s3,
+                horizontal: context.layout.s4,
               ),
-              SizedBox(width: context.layout.s3),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      friend.displayName,
-                      style: TextStyle(
-                        color: context.colors.textPrimary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      overflow: TextOverflow.ellipsis,
+              child: Row(
+                children: [
+                  FluxerAvatar.user(
+                    fallbackText: friend.displayName,
+                    userId: friend.id,
+                    imageUrl: FluxerMediaUrl.userAvatar(
+                      userId: friend.id,
+                      hash: friend.avatar,
                     ),
-                    const SizedBox(height: 1),
-                    if (friend.friendStatus == FriendStatus.accepted &&
-                        hasVisibleCustomStatus(friend.customStatus))
-                      CustomStatusDisplay(
-                        stored: friend.customStatus,
-                        maxLines: 1,
-                        emojiSize: 14,
-                      )
-                    else
-                      Text(
-                        _statusText(friend),
-                        style: TextStyle(
-                          color: friend.status == 'offline'
-                              ? context.colors.textTertiary
-                              : context.colors.textPrimaryMuted.withValues(
-                                  alpha: 0.85,
-                                ),
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
+                    avatarColor: friend.avatarColor,
+                    status: friend.status,
+                    size: 36,
+                  ),
+                  SizedBox(width: context.layout.s3),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          friend.displayName,
+                          style: TextStyle(
+                            color: context.colors.textPrimary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                        const SizedBox(height: 1),
+                        if (friend.friendStatus == FriendStatus.accepted &&
+                            hasVisibleCustomStatus(friend.customStatus))
+                          CustomStatusDisplay(
+                            stored: friend.customStatus,
+                            maxLines: 1,
+                            emojiSize: 14,
+                          )
+                        else
+                          Text(
+                            _statusText(friend),
+                            style: TextStyle(
+                              color: friend.status == 'offline'
+                                  ? context.colors.textTertiary
+                                  : context.colors.textPrimaryMuted.withValues(
+                                      alpha: 0.85,
+                                    ),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ],
+                    ),
+                  ),
+                  if (friend.friendStatus == FriendStatus.accepted) ...[
+                    _actionButton(
+                      context,
+                      icon: PhosphorIconsFill.chatCircle,
+                      color: context.colors.textPrimaryMuted,
+                      backgroundColor: context.colors.backgroundModifierHover,
+                      onPressed: () =>
+                          unawaited(_openFriendChat(context, ref, friend)),
+                    ),
+                    SizedBox(width: context.layout.s2),
+                    _actionButton(
+                      context,
+                      icon: PhosphorIconsRegular.dotsThreeVertical,
+                      color: context.colors.textPrimaryMuted,
+                      backgroundColor: context.colors.backgroundModifierHover,
+                      onPressed: () =>
+                          unawaited(_openFriendMenu(context, ref, friend)),
+                    ),
                   ],
-                ),
+                  if (friend.friendStatus == FriendStatus.pendingIncoming) ...[
+                    _actionButton(
+                      context,
+                      icon: PhosphorIconsRegular.check,
+                      color: context.colors.brandPrimaryFill,
+                      backgroundColor: context.colors.brandPrimary,
+                      onPressed: () => unawaited(
+                        ref
+                            .read(friendRepositoryProvider)
+                            .acceptFriendRequest(friend.id),
+                      ),
+                    ),
+                    SizedBox(width: context.layout.s2),
+                    _actionButton(
+                      context,
+                      icon: PhosphorIconsRegular.x,
+                      color: context.colors.textPrimary,
+                      backgroundColor: context.colors.statusDanger,
+                      onPressed: () => unawaited(
+                        _confirmRemoveRelationship(context, ref, friend),
+                      ),
+                    ),
+                  ],
+                  if (friend.friendStatus == FriendStatus.pendingOutgoing) ...[
+                    _actionButton(
+                      context,
+                      icon: PhosphorIconsRegular.x,
+                      color: context.colors.textPrimary,
+                      backgroundColor: context.colors.backgroundTertiary,
+                      onPressed: () => unawaited(
+                        _confirmCancelOutgoingRequest(context, ref, friend),
+                      ),
+                    ),
+                  ],
+                ],
               ),
-              if (friend.friendStatus == FriendStatus.accepted) ...[
-                _actionButton(
-                  context,
-                  icon: PhosphorIconsFill.chatCircle,
-                  color: context.colors.textPrimaryMuted,
-                  backgroundColor: context.colors.backgroundModifierHover,
-                  onPressed: () {},
-                ),
-                SizedBox(width: context.layout.s2),
-                _actionButton(
-                  context,
-                  icon: PhosphorIconsRegular.dotsThreeVertical,
-                  color: context.colors.textPrimaryMuted,
-                  backgroundColor: context.colors.backgroundModifierHover,
-                  onPressed: () {},
-                ),
-              ],
-              if (friend.friendStatus == FriendStatus.pendingIncoming) ...[
-                _actionButton(
-                  context,
-                  icon: PhosphorIconsFill.check,
-                  color: context.colors.brandPrimaryFill,
-                  backgroundColor: context.colors.brandPrimary,
-                  onPressed: () {},
-                ),
-                SizedBox(width: context.layout.s2),
-                _actionButton(
-                  context,
-                  icon: PhosphorIconsFill.x,
-                  color: context.colors.textPrimary,
-                  backgroundColor: context.colors.statusDanger,
-                  onPressed: () {},
-                ),
-              ],
-              if (friend.friendStatus == FriendStatus.pendingOutgoing) ...[
-                _actionButton(
-                  context,
-                  icon: PhosphorIconsFill.x,
-                  color: context.colors.textPrimary,
-                  backgroundColor: context.colors.backgroundTertiary,
-                  onPressed: () {},
-                ),
-              ],
-            ],
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
 
   Widget _actionButton(
     BuildContext context, {
@@ -583,5 +640,103 @@ class FriendsList extends ConsumerWidget {
       case FriendStatus.blocked:
         return 'Blocked';
     }
+  }
+
+  Future<void> _openFriendChat(
+    BuildContext context,
+    WidgetRef ref,
+    Friend friend,
+  ) async {
+    final String channelId = await ref
+        .read(dmRepositoryProvider)
+        .ensureDmChannel(friend.id);
+    if (!context.mounted) {
+      return;
+    }
+    await navigateToDmChannelContent(
+      context: context,
+      ref: ref,
+      channelId: channelId,
+    );
+  }
+
+  Future<void> _openFriendMenu(
+    BuildContext context,
+    WidgetRef ref,
+    Friend friend,
+  ) async {
+    final profile = await ref.read(
+      userProfileProvider(userId: friend.id).future,
+    );
+    if (!context.mounted || profile == null) {
+      return;
+    }
+    final RenderBox? box = context.findRenderObject() as RenderBox?;
+    final Offset position = box == null
+        ? Offset.zero
+        : box.localToGlobal(Offset(box.size.width - 48, box.size.height / 2));
+    await UserProfileActionsSheet.show(
+      context,
+      ref,
+      relationship: friend,
+      user: profile.user,
+      isCurrentUser: false,
+      position: position,
+      displayName: friend.displayName,
+    );
+  }
+
+  Future<void> _confirmRemoveRelationship(
+    BuildContext context,
+    WidgetRef ref,
+    Friend friend,
+  ) async {
+    final bool? confirmed = isMobileLayout(context)
+        ? await FluxerConfirmSheet.show(
+            context,
+            title: 'Ignore friend request',
+            description:
+                'Ignore the friend request from ${friend.displayName}?',
+            confirmLabel: 'Ignore',
+            onConfirm: () {},
+          )
+        : await FluxerConfirmModal.show(
+            context,
+            title: 'Ignore friend request',
+            description:
+                'Ignore the friend request from ${friend.displayName}?',
+            confirmLabel: 'Ignore',
+            onConfirm: () {},
+          );
+    if (confirmed != true || !context.mounted) {
+      return;
+    }
+    await ref.read(friendRepositoryProvider).removeRelationship(friend.id);
+  }
+
+  Future<void> _confirmCancelOutgoingRequest(
+    BuildContext context,
+    WidgetRef ref,
+    Friend friend,
+  ) async {
+    final bool? confirmed = isMobileLayout(context)
+        ? await FluxerConfirmSheet.show(
+            context,
+            title: 'Cancel friend request',
+            description: 'Cancel your friend request to ${friend.displayName}?',
+            confirmLabel: 'Cancel request',
+            onConfirm: () {},
+          )
+        : await FluxerConfirmModal.show(
+            context,
+            title: 'Cancel friend request',
+            description: 'Cancel your friend request to ${friend.displayName}?',
+            confirmLabel: 'Cancel request',
+            onConfirm: () {},
+          );
+    if (confirmed != true || !context.mounted) {
+      return;
+    }
+    await ref.read(friendRepositoryProvider).removeRelationship(friend.id);
   }
 }

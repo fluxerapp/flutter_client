@@ -156,10 +156,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
               if (widget.showTopBar) const ChannelHeader(),
               DmCallE2eeFooter(channelId: widget.channelId),
               DirectVoiceSessionStrip(channelId: widget.channelId),
-              if (layoutModeOf(
-                    layoutReferenceExtentOf(MediaQuery.sizeOf(context)),
-                  ) ==
-                  LayoutMode.desktop)
+              if (isWideLayout(context))
                 DmEmbeddedVoiceCallPanel(channelId: widget.channelId),
               Expanded(
                 child: ChannelChatPanel(

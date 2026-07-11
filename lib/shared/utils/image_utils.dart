@@ -127,6 +127,18 @@ abstract final class ImageUtils {
     return 'data:$mime;base64,$encoded';
   }
 
+  static Uint8List? decodeDataUri(String dataUri) {
+    final int commaIndex = dataUri.indexOf(',');
+    if (commaIndex < 0) {
+      return null;
+    }
+    try {
+      return base64Decode(dataUri.substring(commaIndex + 1));
+    } on FormatException {
+      return null;
+    }
+  }
+
   static bool _isAvif(Uint8List bytes) {
     if (bytes.length < 12) {
       return false;

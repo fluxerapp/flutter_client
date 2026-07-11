@@ -143,8 +143,8 @@ void main() {
       ]);
       expect(merged.categories.map((c) => c.id), ['cat-2', 'cat-1']);
       expect(merged.collapsedCategoryIds, containsAll(['cat-1', 'cat-2']));
-      expect(merged.hideMutedChannels, isTrue);
-      expect(merged.muted, isFalse);
+      expect(merged.hideMutedChannels, isFalse);
+      expect(merged.muted, isTrue);
     });
 
     test('decode failure does not masquerade as empty server', () {

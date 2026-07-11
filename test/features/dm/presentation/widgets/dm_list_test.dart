@@ -35,6 +35,58 @@ import 'package:riverpod/src/framework.dart' show Override;
 import '../../../../helpers/open_test_database.dart';
 
 void main() {
+  group('DMList desktop', () {
+    testWidgets('Friends button navigates to the DM home route', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1280, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final GoRouter router = GoRouter(
+        initialLocation: '/channels/@me/dm-channel-1',
+        routes: <RouteBase>[
+          GoRoute(
+            path: '/channels/@me',
+            builder: (BuildContext context, GoRouterState state) {
+              return const Scaffold(body: DMList());
+            },
+            routes: <RouteBase>[
+              GoRoute(
+                path: ':channelId',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const Scaffold(body: DMList());
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: <Override>[
+            ..._buildOverrides(conversations: const <DmConversation>[]),
+            fluxerRouterProvider.overrideWithValue(router),
+          ],
+          routerConfig: router,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(
+        router.routeInformationProvider.value.uri.path,
+        '/channels/@me/dm-channel-1',
+      );
+
+      await tester.tap(find.text('Friends'));
+      await tester.pumpAndSettle();
+
+      expect(router.routeInformationProvider.value.uri.path, '/channels/@me');
+    });
+  });
+
   group('DMList mobile', () {
     testWidgets('shows a header divider above the mobile list', (tester) async {
       _setMobileSurface(tester);
@@ -537,7 +589,10 @@ class _VerifiedUserSettingsViewModel extends UserSettingsViewModel {
   }
 }
 
-Widget _buildTestApp({required List<Override> overrides}) {
+Widget _buildTestApp({
+  required List<Override> overrides,
+  GoRouter? routerConfig,
+}) {
   final colorTheme = buildDarkColorTheme();
 
   return ProviderScope(
@@ -550,19 +605,25 @@ Widget _buildTestApp({required List<Override> overrides}) {
         textTheme: FluxerTextTheme.fromColors(colorTheme),
         layoutTheme: FluxerLayoutTheme.scaled(),
       ),
-      routerConfig: GoRouter(
-        initialLocation: '/channels/@me',
-        routes: [
-          GoRoute(
-            path: '/channels/@me',
-            builder: (context, state) => const Scaffold(body: DMList()),
+      routerConfig:
+          routerConfig ??
+          GoRouter(
+            initialLocation: '/channels/@me',
+            routes: <RouteBase>[
+              GoRoute(
+                path: '/channels/@me',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const Scaffold(body: DMList());
+                },
+              ),
+              GoRoute(
+                path: '/channels/@me/:channelId',
+                builder: (BuildContext context, GoRouterState state) {
+                  return const Scaffold(body: DMList());
+                },
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/channels/@me/:channelId',
-            builder: (context, state) => const Scaffold(body: DMList()),
-          ),
-        ],
-      ),
     ),
   );
 }

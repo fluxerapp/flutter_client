@@ -103,6 +103,12 @@ class FluxerMarkdownConfig {
     this.blockquoteTextColor,
     this.inlineCodeBackgroundColor,
     this.inlineCodeTextColor,
+    this.tableBorderColor,
+    this.tableHeaderBackgroundColor,
+    this.tableHeaderTextColor,
+    this.tableRowOddBackgroundColor,
+    this.tableRowEvenBackgroundColor,
+    this.tableBorderRadius,
     this.spoilerBackgroundColor,
     this.internalLinkPattern,
     this.userMentionBuilder,
@@ -129,6 +135,12 @@ class FluxerMarkdownConfig {
   final Color? blockquoteTextColor;
   final Color? inlineCodeBackgroundColor;
   final Color? inlineCodeTextColor;
+  final Color? tableBorderColor;
+  final Color? tableHeaderBackgroundColor;
+  final Color? tableHeaderTextColor;
+  final Color? tableRowOddBackgroundColor;
+  final Color? tableRowEvenBackgroundColor;
+  final BorderRadius? tableBorderRadius;
   final Color? spoilerBackgroundColor;
   final RegExp? internalLinkPattern;
   final FluxerMentionBuilder? userMentionBuilder;

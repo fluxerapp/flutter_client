@@ -31,6 +31,9 @@ class InstanceDiscoveryService {
   final Dio _dio;
 
   Future<InstanceConfigSnapshot> connectToEndpoint(String input) async {
+    if (_normalizer.isOfficialInstanceInput(input)) {
+      return InstanceConfigSnapshot.officialDefault();
+    }
     final String apiEndpoint = _normalizer.normalizeEndpoint(input);
     final String wellKnownUrl = _normalizer.buildWellKnownUrl(apiEndpoint);
     talker.debug(

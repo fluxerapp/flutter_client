@@ -205,6 +205,7 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
           final bool dimmed = layout?.id == 'offline';
           return MemberListSidebarMemberRow(
             guildId: guildId,
+            channelId: channelId,
             listMember: listMember,
             userId: userId,
             rolesById: rolesById,

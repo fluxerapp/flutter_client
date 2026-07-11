@@ -125,6 +125,16 @@ List<MessageContentSegment> _parseMessageContentStructureUncached(
       i = blockEnd;
       continue;
     }
+    if (_isTableBlockStart(lines, i, features)) {
+      _flushTextFlow(textFlowBuffer, segments);
+      final tableEnd = _findTableEnd(lines, i);
+      segments.add(
+        MessageBlockMarkdownSegment(lines.sublist(i, tableEnd).join('\n')),
+      );
+      previousWasHeading = false;
+      i = tableEnd;
+      continue;
+    }
     final inlineGroup = _parseInlineLineGroup(lines, i, features);
     _appendTextFlow(textFlowBuffer, segments, inlineGroup.text);
     previousWasHeading = false;
@@ -160,7 +170,9 @@ _InlineLineGroup _parseInlineLineGroup(
   while (startIndex + consumed < lines.length) {
     final nextLine = lines[startIndex + consumed];
     final trimmedNext = nextLine.trimLeft();
-    if (_isBlockStart(trimmedNext, features) || nextLine.trim().isEmpty) {
+    if (_isBlockStart(trimmedNext, features) ||
+        _isTableBlockStart(lines, startIndex + consumed, features) ||
+        nextLine.trim().isEmpty) {
       break;
     }
     buffer
@@ -171,9 +183,14 @@ _InlineLineGroup _parseInlineLineGroup(
   if (startIndex + consumed < lines.length) {
     final nextLine = lines[startIndex + consumed];
     final trimmedNext = nextLine.trimLeft();
-    final nextIsHeading = _isHeadingStart(trimmedNext, features);
-    final nextIsBlockquote = _isBlockquoteStart(trimmedNext, features);
-    if (nextLine.trim().isEmpty || (!nextIsHeading && !nextIsBlockquote)) {
+    final nextIsBlockStart = _isBlockStart(trimmedNext, features);
+    final nextIsTableBlockStart = _isTableBlockStart(
+      lines,
+      startIndex + consumed,
+      features,
+    );
+    if (nextLine.trim().isEmpty ||
+        (!nextIsBlockStart && !nextIsTableBlockStart)) {
       buffer.write('\n');
     }
   }
@@ -355,6 +372,94 @@ int _findTableEnd(List<String> lines, int startIndex) {
     index++;
   }
   return index;
+}
+
+bool _isTableBlockStart(
+  List<String> lines,
+  int index,
+  FluxerMarkdownFeatures features,
+) {
+  if (!features.allowTables || index + 2 >= lines.length) {
+    return false;
+  }
+  final String header = lines[index].trimLeft();
+  final String separator = lines[index + 1].trimLeft();
+  if (!header.contains('|') || !separator.contains('|')) {
+    return false;
+  }
+  final List<String> headerCells = _splitTableCells(header);
+  if (headerCells.isEmpty || !_cellsHaveContent(headerCells)) {
+    return false;
+  }
+  final List<String> alignCells = _splitTableCells(separator);
+  final List<bool>? alignments = _parseTableAlignments(alignCells);
+  if (alignments == null || headerCells.length != alignments.length) {
+    return false;
+  }
+  return _findTableEnd(lines, index) > index + 1;
+}
+
+List<String> _splitTableCells(String line) {
+  var start = 0;
+  var end = line.length;
+  if (line.startsWith('|')) {
+    start = 1;
+  }
+  if (end > start && line.endsWith('|')) {
+    end -= 1;
+  }
+  if (start >= end) {
+    return const [];
+  }
+  final List<String> cells = <String>[];
+  final StringBuffer cell = StringBuffer();
+  var i = start;
+  while (i < end) {
+    if (line.codeUnitAt(i) == 0x5C &&
+        i + 1 < end &&
+        line.codeUnitAt(i + 1) == 0x7C) {
+      cell.write('|');
+      i += 2;
+      continue;
+    }
+    if (line.codeUnitAt(i) == 0x7C) {
+      cells.add(cell.toString());
+      cell.clear();
+      i++;
+      continue;
+    }
+    cell.writeCharCode(line.codeUnitAt(i));
+    i++;
+  }
+  cells.add(cell.toString());
+  return cells;
+}
+
+List<bool>? _parseTableAlignments(List<String> cells) {
+  if (cells.isEmpty) {
+    return null;
+  }
+  final List<bool> alignments = <bool>[];
+  for (final String cell in cells) {
+    final String value = cell.trim();
+    if (value.isEmpty || !value.contains('-')) {
+      return null;
+    }
+    for (final int codeUnit in value.codeUnits) {
+      if (codeUnit != 0x20 &&
+          codeUnit != 0x3A &&
+          codeUnit != 0x2D &&
+          codeUnit != 0x7C) {
+        return null;
+      }
+    }
+    alignments.add(true);
+  }
+  return alignments;
+}
+
+bool _cellsHaveContent(List<String> cells) {
+  return cells.any((String cell) => cell.trim().isNotEmpty);
 }
 
 bool _isTableBlockBreak(String trimmed) {

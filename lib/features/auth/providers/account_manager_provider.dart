@@ -13,6 +13,7 @@ import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/domain/stored_account.dart';
 import 'package:fluxer_app/features/auth/providers/auth_providers.dart';
+import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'account_manager_provider.g.dart';
@@ -144,6 +145,11 @@ class AccountManager extends _$AccountManager {
     await repo.logout(userId);
     ref.read(syncedPreferencesStoreProvider).reset();
     await loadAccounts();
+
+    if (state.accounts.isEmpty) {
+      ref.read(activeInstanceProvider.notifier).resetToOfficialDefault();
+      ref.invalidate(instanceSelectorProvider);
+    }
 
     // Always go to login — account selector shows remaining accounts.
     ref.read(fluxerAuthTokenProvider.notifier).setToken(null);

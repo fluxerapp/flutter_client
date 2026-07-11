@@ -62,8 +62,11 @@ class MemberListSyncedField extends SyncedFieldAdapter<MemberListLocalState> {
     required MemberListLocalState local,
     required MemberListLocalState remote,
   }) {
-    return local;
+    return remote;
   }
+
+  @override
+  bool hasLocalData(MemberListLocalState local) => false;
 
   @override
   bool verifyRoundtrip(MemberListLocalState candidate) {

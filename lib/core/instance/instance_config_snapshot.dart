@@ -102,11 +102,31 @@ class InstanceConfigSnapshot {
   }
 
   static String _resolveApiBaseUrl(WellKnownFluxerResponseEndpoints endpoints) {
+    final String apiPublic = endpoints.apiPublic.trim();
+    if (apiPublic.isNotEmpty && _isOfficialApiPublicUrl(apiPublic)) {
+      return '${_stripTrailingSlashes(apiPublic)}/v1';
+    }
     final String apiClient = endpoints.apiClient.trim();
     if (apiClient.isNotEmpty) {
       return _stripTrailingSlashes(apiClient);
     }
     return _stripTrailingSlashes(endpoints.api.trim());
+  }
+
+  static const Set<String> _officialApiPublicHosts = <String>{
+    'api.fluxer.app',
+    'api.canary.fluxer.app',
+    'api.fluxer.com',
+    'api.canary.fluxer.com',
+  };
+
+  static bool _isOfficialApiPublicUrl(String apiPublic) {
+    try {
+      final String host = Uri.parse(apiPublic).host.toLowerCase();
+      return _officialApiPublicHosts.contains(host);
+    } on FormatException {
+      return false;
+    }
   }
 
   static final RegExp _trailingSlashes = RegExp(r'/+$');

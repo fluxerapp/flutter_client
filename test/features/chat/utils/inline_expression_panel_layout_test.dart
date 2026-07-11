@@ -10,6 +10,7 @@ void main() {
         keyboardInset: 320,
         topPadding: 24,
         topMargin: 8,
+        viewPaddingBottom: 0,
       ),
       448,
     );
@@ -23,22 +24,50 @@ void main() {
         keyboardInset: 320,
         topPadding: 24,
         topMargin: 8,
+        viewPaddingBottom: 0,
       ),
       448,
     );
   });
 
-  test('clamps expanded height to the keyboard safe maximum', () {
+  test('resolves unbounded layout height from the screen and safe areas', () {
+    expect(
+      inlineExpressionPanelResolveAvailableHeight(
+        layoutMaxHeight: double.infinity,
+        screenHeight: 800,
+        keyboardInset: 0,
+        viewPaddingTop: 24,
+        viewPaddingBottom: 34,
+      ),
+      742,
+    );
+  });
+
+  test('caps expanded height to 80% of the screen', () {
     expect(
       inlineExpressionPanelExpandedHeight(
-        availableHeight: 800,
+        availableHeight: 900,
         screenHeight: 800,
-        keyboardInset: 320,
-        topPadding: 24,
+        keyboardInset: 0,
+        topPadding: 0,
         topMargin: 8,
-        expandedFraction: 0.85,
+        viewPaddingBottom: 0,
       ),
-      448,
+      640,
+    );
+  });
+
+  test('uses the inset slot height when the host reserves the header', () {
+    expect(
+      inlineExpressionPanelExpandedHeight(
+        availableHeight: 687,
+        screenHeight: 844,
+        keyboardInset: 0,
+        topPadding: 0,
+        topMargin: 8,
+        viewPaddingBottom: 34,
+      ),
+      675.2,
     );
   });
 

@@ -2,18 +2,13 @@ import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
-import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_avatar.dart';
-import 'package:fluxer_app/features/chat/presentation/'
-    'sheets/message_debug_sheet.dart';
-import 'package:fluxer_app/features/chat/presentation/'
-    'sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_list_renderer.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_image.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_invite.dart';
@@ -22,8 +17,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_rich.
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_theme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
-import 'package:fluxer_app/features/chat/presentation/'
-    'widgets/message_actions/message_bottom_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_context_menu.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_loader.dart';
@@ -38,11 +32,8 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_r
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_row_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/spoiler_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
-import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
-import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/spoiler_reveal_provider.dart';
 import 'package:fluxer_app/features/chat/utils/embed_gallery_utils.dart';
-import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/chat/utils/message_timestamp_format.dart';
 import 'package:fluxer_app/features/chat/utils/spoiler_utils.dart';
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
@@ -285,113 +276,70 @@ class _MessageItemState extends ConsumerState<MessageItem> {
   }
 
   void _handleAction(MessageAction? action, {required bool isMobile}) {
-    switch (action) {
-      case MessageAction.reply:
-        widget.onReply?.call();
-      case MessageAction.forward:
-        widget.onForward?.call();
-      case MessageAction.edit:
-        widget.onEdit?.call();
-      case MessageAction.delete:
-        widget.onDelete?.call();
-      case MessageAction.retry:
-        widget.onRetry?.call();
-      case MessageAction.deleteFailed:
-        widget.onDeleteFailed?.call();
-      case MessageAction.copyText:
-        unawaited(
-          Clipboard.setData(ClipboardData(text: widget.message.content)),
-        );
-      case MessageAction.copyMessageId:
-        unawaited(Clipboard.setData(ClipboardData(text: widget.message.id)));
-      case MessageAction.copyMessageLink:
-        final guildId =
-            widget.previewRoleGuildId ?? ref.read(activeGuildIdProvider);
-        unawaited(
-          Clipboard.setData(
-            ClipboardData(
-              text: messageLink(
-                channelId: widget.message.channelId,
-                messageId: widget.message.id,
-                guildId: guildId,
-              ),
-            ),
-          ),
-        );
-      case MessageAction.bookmark:
-        final dao = ref.read(fluxerDatabaseProvider).savedMessageDao;
-        final messageId = widget.message.id;
-        unawaited(() async {
-          if (await dao.isSaved(messageId)) {
-            await dao.removeSavedMessage(messageId);
-          } else {
-            await dao.addSavedMessage(messageId);
-          }
-        }());
-      case MessageAction.pin:
-        final channelId = widget.message.channelId;
-        final messageId = widget.message.id;
-        if (widget.message.isPinned) {
-          unawaited(
-            showUnpinMessageConfirmSheet(
-              context,
-              ref,
-              channelId: channelId,
-              messageId: messageId,
-            ),
-          );
-        } else {
-          unawaited(
-            ref
-                .read(channelPinsRepositoryProvider)
-                .pinMessage(channelId: channelId, messageId: messageId),
-          );
-        }
-      case MessageAction.addReaction:
-        if (isMobile) {
-          _openReactionPickerSheet(
-            context,
-            channelId: widget.message.channelId,
-          );
-        } else {
-          _hovered.value = true;
-          _reactionPickerOpen.value = true;
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (!mounted) {
-              return;
-            }
-            if (!(_reactionPickerKey.currentState?.isOpen ?? false)) {
-              _reactionPickerKey.currentState?.toggle();
-            }
-          });
-        }
-      case MessageAction.markAsUnread:
-        widget.onMarkAsUnread?.call();
-      case MessageAction.suppressEmbeds:
-        final repo = ref.read(messageRepositoryProvider);
-        final channelId = widget.message.channelId;
-        final messageId = widget.message.id;
-        final nextFlags = widget.message.suppressEmbeds
-            ? widget.message.flags & ~messageFlagSuppressEmbeds
-            : widget.message.flags | messageFlagSuppressEmbeds;
-        unawaited(
-          repo.setMessageFlags(
-            channelId: channelId,
-            messageId: messageId,
-            flags: nextFlags,
-          ),
-        );
-      case MessageAction.viewReactions:
-        widget.onViewReactions?.call();
-      case MessageAction.removeAllReactions:
-        widget.onRemoveAllReactions?.call();
-      case MessageAction.report:
-        widget.onReport?.call();
-      case MessageAction.debugMessage:
-        unawaited(showMessageDebugSheet(context, message: widget.message));
-      case null:
-        break;
+    if (action == null) {
+      return;
     }
+    if (action == MessageAction.addReaction && !isMobile) {
+      _hovered.value = true;
+      _reactionPickerOpen.value = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        if (!(_reactionPickerKey.currentState?.isOpen ?? false)) {
+          _reactionPickerKey.currentState?.toggle();
+        }
+      });
+      return;
+    }
+    unawaited(
+      dispatchMessageAction(
+        ref: ref,
+        context: context,
+        message: widget.message,
+        action: action,
+        callbacks: _videoActionScope.callbacks,
+        previewRoleGuildId: widget.previewRoleGuildId,
+      ),
+    );
+  }
+
+  MessageMediaActionScope get _videoActionScope {
+    return MessageMediaActionScope(
+      message: widget.message,
+      previewRoleGuildId: widget.previewRoleGuildId,
+      callbacks: MessageActionCallbacks(
+        onReply: widget.onReply,
+        onForward: widget.onForward,
+        onEdit: widget.onEdit,
+        onDelete: widget.onDelete,
+        onRetry: widget.onRetry,
+        onDeleteFailed: widget.onDeleteFailed,
+        onMarkAsUnread: widget.onMarkAsUnread,
+        onViewReactions: widget.onViewReactions,
+        onRemoveAllReactions: widget.onRemoveAllReactions,
+        onReport: widget.onReport,
+        onAddReaction: () => _openReactionPickerSheet(
+          context,
+          channelId: widget.message.channelId,
+        ),
+      ),
+      permissions: MessageActionPermissions(
+        isOwnMessage:
+            widget.currentUserId != null &&
+            widget.message.authorId == widget.currentUserId,
+        isDmChannel: widget.isDmChannel,
+        canDelete: widget.canDelete,
+        canReport: _canReportThisMessage,
+        canAddReactions: widget.canAddReactions,
+        canPinMessage: widget.canPinMessage,
+        canManageMessages: widget.canManageMessages,
+        canSendMessages: widget.canSendMessages,
+        developerMode: ref.read(
+          userSettingsViewModelProvider.select((s) => s.developerMode),
+        ),
+      ),
+    );
   }
 
   bool get _canReportThisMessage {
@@ -822,6 +770,18 @@ class _MessageItemState extends ConsumerState<MessageItem> {
           const Padding(padding: EdgeInsets.only(top: 4), child: EmbedTheme()),
         ),
       ),
+      if (msg.attachments.isNotEmpty)
+        AttachmentListRenderer(
+          attachments: msg.attachments,
+          inlineAttachmentMedia: inlineAttachmentMedia,
+          dimensionSize: attachmentSize,
+          revealSpoilers: revealSpoilers,
+          messageId: msg.id,
+          messageNonce: msg.clientNonce,
+          channelId: msg.channelId,
+          messageFlags: msg.flags,
+          videoActionScope: _videoActionScope,
+        ),
       if (renderEmbeds && !msg.suppressEmbeds)
         ...() {
           final EmbedGalleryIndex galleryIndex = EmbedGalleryIndex(msg.embeds);
@@ -849,17 +809,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                 );
               });
         }(),
-      if (msg.attachments.isNotEmpty)
-        AttachmentListRenderer(
-          attachments: msg.attachments,
-          inlineAttachmentMedia: inlineAttachmentMedia,
-          dimensionSize: attachmentSize,
-          revealSpoilers: revealSpoilers,
-          messageId: msg.id,
-          messageNonce: msg.clientNonce,
-          channelId: msg.channelId,
-          messageFlags: msg.flags,
-        ),
       if (msg.hasStickers)
         wrapPart(
           Padding(
@@ -1361,6 +1310,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         spoilerSyncController: _spoilerSyncController,
         channelId: channelId,
         messageId: messageId,
+        videoActionScope: _videoActionScope,
       ),
       EmbedType.image || EmbedType.gifv => EmbedImage(
         embed: embed,
@@ -1391,6 +1341,9 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         spoilerSyncController: _spoilerSyncController,
         spoilerSyncKeys: spoilerSyncKeys,
         channelId: channelId,
+        messageId: messageId,
+        embedIndex: embedIndex,
+        videoActionScope: _videoActionScope,
       ),
     };
 

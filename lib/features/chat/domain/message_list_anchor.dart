@@ -38,28 +38,37 @@ class LeadingEdgeDelta {
 LeadingEdgeDelta computeLeadingEdgeDelta(
   List<Message> prev,
   List<Message> next,
+) => computeLeadingEdgeKeyDelta(
+  prev.map((Message message) => message.id).toList(growable: false),
+  next.map((Message message) => message.id).toList(growable: false),
+);
+
+/// Diffs stable render-item identities at the newest edge.
+LeadingEdgeDelta computeLeadingEdgeKeyDelta(
+  List<Object> prevKeys,
+  List<Object> nextKeys,
 ) {
   const LeadingEdgeDelta none = LeadingEdgeDelta(
     addedNewest: 0,
     removedNewest: 0,
   );
-  if (prev.isEmpty || next.isEmpty) {
+  if (prevKeys.isEmpty || nextKeys.isEmpty) {
     return none;
   }
-  final String prevLastId = prev.last.id;
-  final int idxInNext = next.lastIndexWhere((Message m) => m.id == prevLastId);
+  final Object prevLastKey = prevKeys.last;
+  final int idxInNext = nextKeys.lastIndexOf(prevLastKey);
   if (idxInNext != -1) {
     return LeadingEdgeDelta(
-      addedNewest: next.length - 1 - idxInNext,
+      addedNewest: nextKeys.length - 1 - idxInNext,
       removedNewest: 0,
     );
   }
-  final String nextLastId = next.last.id;
-  final int idxInPrev = prev.lastIndexWhere((Message m) => m.id == nextLastId);
+  final Object nextLastKey = nextKeys.last;
+  final int idxInPrev = prevKeys.lastIndexOf(nextLastKey);
   if (idxInPrev != -1) {
     return LeadingEdgeDelta(
       addedNewest: 0,
-      removedNewest: prev.length - 1 - idxInPrev,
+      removedNewest: prevKeys.length - 1 - idxInPrev,
     );
   }
   return none;

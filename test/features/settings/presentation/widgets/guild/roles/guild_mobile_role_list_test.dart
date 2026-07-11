@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
@@ -11,16 +12,18 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 void main() {
   Widget buildTestApp({required Widget child}) {
     final colorTheme = buildDarkColorTheme();
-    return MaterialApp(
-      locale: const Locale('en'),
-      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-      supportedLocales: FluxerLocalizations.supportedLocales,
-      theme: buildFluxerTheme(
-        colorTheme: colorTheme,
-        textTheme: FluxerTextTheme.fromColors(colorTheme),
-        layoutTheme: FluxerLayoutTheme.scaled(),
+    return ProviderScope(
+      child: MaterialApp(
+        locale: const Locale('en'),
+        localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+        supportedLocales: FluxerLocalizations.supportedLocales,
+        theme: buildFluxerTheme(
+          colorTheme: colorTheme,
+          textTheme: FluxerTextTheme.fromColors(colorTheme),
+          layoutTheme: FluxerLayoutTheme.scaled(),
+        ),
+        home: Scaffold(body: child),
       ),
-      home: Scaffold(body: child),
     );
   }
 

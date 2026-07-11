@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
@@ -149,7 +150,12 @@ void main() {
                 child: TextButton(
                   onPressed: () {
                     unawaited(
-                      showChatMobileFullscreenVideo(context, source: source),
+                      showChatMobileFullscreenVideo(
+                        context,
+                        launchContext: const ChatFullscreenVideoLaunchContext(
+                          source: source,
+                        ),
+                      ),
                     );
                   },
                   child: const Text('open'),

@@ -137,6 +137,7 @@ class MarkdownParseTestHelper {
       FluxerUnicodeEmojiToneSyntax(_noopEmoji),
       FluxerUnicodeEmojiSyntax(_noopEmoji),
       FluxerCustomEmojiSyntax(),
+      FluxerLocalhostAutolinkSyntax(),
       md.AutolinkExtensionSyntax(),
     ];
   }

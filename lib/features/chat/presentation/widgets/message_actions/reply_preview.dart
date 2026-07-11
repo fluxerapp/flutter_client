@@ -11,7 +11,9 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_i
     show MessageItem;
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/channel_message_stream_provider.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_references_provider.dart';
+import 'package:fluxer_app/features/chat/utils/channel_message_stream.dart';
 import 'package:fluxer_app/features/chat/utils/mention_reply_preference_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -72,6 +74,30 @@ class InlineReplyPreview extends ConsumerWidget {
     final String? resolvedGuildId = guildId ?? ref.watch(activeGuildIdProvider);
     final String? resolvedCurrentUserId =
         currentUserId ?? ref.watch(currentUserIdProvider);
+    final String? revealedCollapsedGroupKey = ref.watch(
+      chatViewModelProvider.select((state) => state.revealedCollapsedGroupKey),
+    );
+    final ChannelCollapseContext collapseContext = ref.watch(
+      channelCollapseContextProvider,
+    );
+    final bool isReplyVisible =
+        replyMsg == null ||
+        isMessageInRevealedCollapsedGroup(
+          messages: channelMessages,
+          messageId: replyMsg.id,
+          revealedCollapsedGroupKey: revealedCollapsedGroupKey,
+          context: collapseContext,
+        );
+    final ChannelStreamType? hiddenReplyType = !isReplyVisible
+        ? collapseContext.collapsedTypeFor(replyMsg)
+        : null;
+    final String? hiddenReplyLabel = switch (hiddenReplyType) {
+      ChannelStreamType.messageGroupBlocked =>
+        l10n.chatReplyHiddenBlockedAuthor,
+      ChannelStreamType.messageGroupSpammer =>
+        l10n.chatReplyHiddenSpammerAuthor,
+      _ => null,
+    };
     final bool mentionsReplyAuthor =
         replyMsg != null &&
         message.mentionedUserIds.contains(replyMsg.authorId);
@@ -115,7 +141,27 @@ class InlineReplyPreview extends ConsumerWidget {
               constraints.maxWidth * _kReplyPreviewAuthorMaxWidthRatio;
           return Row(
             children: [
-              if (resolution.state == MessageReferenceState.loaded &&
+              if (hiddenReplyLabel != null) ...[
+                PhosphorIcon(
+                  PhosphorIconsFill.arrowBendUpLeft,
+                  size: 12,
+                  color: context.colors.textPrimaryMuted,
+                ),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Text(
+                    hiddenReplyLabel,
+                    style: TextStyle(
+                      color: context.colors.textPrimaryMuted,
+                      fontSize: _kReplyPreviewFontSize,
+                      height: _kReplyPreviewLineHeight,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ] else if (resolution.state == MessageReferenceState.loaded &&
                   replyMsg != null &&
                   replyAuthorDisplay != null) ...[
                 FluxerAvatar.user(

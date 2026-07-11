@@ -11,6 +11,7 @@ import 'package:fluxer_app/core/database/daos/guild_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_emoji_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_last_channel_dao.dart';
 import 'package:fluxer_app/core/database/daos/guild_sticker_dao.dart';
+import 'package:fluxer_app/core/database/daos/local_spam_overrides_dao.dart';
 import 'package:fluxer_app/core/database/daos/member_dao.dart';
 import 'package:fluxer_app/core/database/daos/message_dao.dart';
 import 'package:fluxer_app/core/database/daos/mobile_push_registration_dao.dart';
@@ -41,6 +42,7 @@ import 'package:fluxer_app/core/database/tables/favorite_settings.dart';
 import 'package:fluxer_app/core/database/tables/guild_emojis.dart';
 import 'package:fluxer_app/core/database/tables/guild_last_channels.dart';
 import 'package:fluxer_app/core/database/tables/guild_stickers.dart';
+import 'package:fluxer_app/core/database/tables/local_spam_overrides.dart';
 import 'package:fluxer_app/core/database/tables/member_cache_access.dart';
 import 'package:fluxer_app/core/database/tables/members.dart';
 import 'package:fluxer_app/core/database/tables/messages.dart';
@@ -96,6 +98,7 @@ part 'fluxer_database.g.dart';
     FavoriteChannels,
     FavoriteCategories,
     FavoriteSettings,
+    LocalSpamOverrides,
     MobilePushRegistrations,
     ComposerDrafts,
     RecentInstances,
@@ -128,6 +131,7 @@ part 'fluxer_database.g.dart';
     DmFolderSettingsDao,
     NotificationDao,
     FavoriteChannelsDao,
+    LocalSpamOverridesDao,
     RecentInstancesDao,
   ],
 )
@@ -137,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 72;
+  int get schemaVersion => 74;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -702,6 +706,25 @@ class FluxerDatabase extends _$FluxerDatabase {
           await m.addColumn(roles, roles.hoistPosition);
         }
       }
+      if (from < 73) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'dm_channels',
+          columnName: 'owner_id',
+        )) {
+          await m.addColumn(dmChannels, dmChannels.ownerId);
+        }
+      }
+      if (from < 74) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'messages',
+          columnName: 'author_public_flags',
+        )) {
+          await m.addColumn(messages, messages.authorPublicFlags);
+        }
+        await m.createTable(localSpamOverrides);
+      }
     },
   );
 
@@ -732,6 +755,7 @@ class FluxerDatabase extends _$FluxerDatabase {
       await savedMessageDao.clearAll();
       await notificationDao.clearAllUserData();
       await favoriteChannelsDao.clearAll();
+      await localSpamOverridesDao.clearAll();
     });
   }
 

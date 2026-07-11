@@ -60,7 +60,7 @@ class VoicePromptsSyncedField
     required VoicePromptsLocalState local,
     required VoicePromptsLocalState remote,
   }) {
-    return local;
+    return remote;
   }
 
   @override

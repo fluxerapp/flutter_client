@@ -248,4 +248,28 @@ class NotificationsRepository {
       await _database.dmChannelDao.markAsRead(channelId);
     }
   }
+
+  Future<void> markAllInboxChannelsAsRead(
+    List<UnreadInboxEntry> entries,
+  ) async {
+    for (final UnreadInboxEntry entry in entries) {
+      final String? messageId = await _resolveMarkReadMessageId(
+        entry.channelId,
+      );
+      if (messageId == null || messageId.isEmpty) {
+        continue;
+      }
+      await markChannelRead(channelId: entry.channelId, messageId: messageId);
+    }
+  }
+
+  Future<String?> _resolveMarkReadMessageId(String channelId) async {
+    final channel = await _database.channelDao.getChannelById(channelId);
+    String? messageId = channel?.lastMessageId;
+    final msgs = await _database.messageDao.getMessages(channelId, limit: 1);
+    if (msgs.isNotEmpty) {
+      messageId = msgs.last.id;
+    }
+    return messageId;
+  }
 }

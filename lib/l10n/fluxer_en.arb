@@ -61,6 +61,166 @@
   "@splashIncidentHistory": {
     "description": "Link label to incident history when no active incident."
   },
+  "nagbarLearnMore": "Learn more",
+  "@nagbarLearnMore": {
+    "description": "CTA on maintenance and other nagbars that open an external link."
+  },
+  "nagbarMaintenanceScheduled": "Maintenance is scheduled for {localizedTime}. Expected duration: {duration}.",
+  "@nagbarMaintenanceScheduled": {
+    "description": "Maintenance nagbar before planned work begins.",
+    "placeholders": {
+      "localizedTime": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarMaintenanceInProgress": "Maintenance is in progress. Expected duration: {duration}.",
+  "@nagbarMaintenanceInProgress": {
+    "description": "Maintenance nagbar while work is active.",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarMaintenanceComplete": "Maintenance is complete.",
+  "@nagbarMaintenanceComplete": {
+    "description": "Maintenance nagbar after planned work finishes."
+  },
+  "nagbarUnclaimedAccountMessage": "Hey {displayName}, claim your account to prevent losing access.",
+  "@nagbarUnclaimedAccountMessage": {
+    "description": "Unclaimed account nagbar body.",
+    "placeholders": {
+      "displayName": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarEmailVerificationMessage": "Hey {displayName}, please verify your email address.",
+  "@nagbarEmailVerificationMessage": {
+    "description": "Email verification nagbar body.",
+    "placeholders": {
+      "displayName": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarOpenSettings": "Open settings",
+  "@nagbarOpenSettings": {
+    "description": "Nagbar CTA that opens user settings."
+  },
+  "nagbarPremiumGracePeriod": "Your subscription failed to renew, but you still have access to {productName} perks until {graceDate}. Take action now or you'll lose all perks.",
+  "@nagbarPremiumGracePeriod": {
+    "description": "Premium grace period nagbar body.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      },
+      "graceDate": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarPremiumExpired": "Your {productName} subscription has expired. Renew now to keep your perks.",
+  "@nagbarPremiumExpired": {
+    "description": "Premium expired nagbar body.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarManageSubscription": "Manage subscription",
+  "@nagbarManageSubscription": {
+    "description": "Nagbar CTA that opens the billing portal."
+  },
+  "nagbarPremiumOnboardingDefault": "Welcome to {productFullName}. Explore your {productName} perks and manage your subscription.",
+  "@nagbarPremiumOnboardingDefault": {
+    "description": "Premium onboarding nagbar default body.",
+    "placeholders": {
+      "productFullName": {
+        "type": "String"
+      },
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarViewPremiumFeatures": "View {productName} features",
+  "@nagbarViewPremiumFeatures": {
+    "description": "Premium onboarding nagbar CTA.",
+    "placeholders": {
+      "productName": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarGiftInventoryOne": "You have a new gift code waiting in your gift inventory.",
+  "@nagbarGiftInventoryOne": {
+    "description": "Gift inventory nagbar when one unread gift exists."
+  },
+  "nagbarGiftInventoryMany": "You have {count} new gift codes waiting in your gift inventory.",
+  "@nagbarGiftInventoryMany": {
+    "description": "Gift inventory nagbar when multiple unread gifts exist.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nagbarViewGiftInventory": "View gift inventory",
+  "@nagbarViewGiftInventory": {
+    "description": "Gift inventory nagbar CTA."
+  },
+  "nagbarVisionaryMfa": "Enable two-factor authentication to protect your Visionary account.",
+  "@nagbarVisionaryMfa": {
+    "description": "Visionary MFA nagbar body."
+  },
+  "nagbarEnableMfa": "Enable 2FA",
+  "@nagbarEnableMfa": {
+    "description": "Visionary MFA nagbar CTA."
+  },
+  "nagbarTermsAcceptance": "We've updated our terms. Please review and accept them to continue.",
+  "@nagbarTermsAcceptance": {
+    "description": "Terms acceptance nagbar body."
+  },
+  "nagbarReviewTerms": "Review terms",
+  "@nagbarReviewTerms": {
+    "description": "Terms acceptance nagbar CTA."
+  },
+  "nagbarGuildMembershipCta": "Join {communityName} to chat with the team and stay up to date.",
+  "@nagbarGuildMembershipCta": {
+    "description": "Official community membership nagbar body.",
+    "placeholders": {
+      "communityName": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarJoinCommunity": "Join {communityName}",
+  "@nagbarJoinCommunity": {
+    "description": "Official community membership nagbar CTA.",
+    "placeholders": {
+      "communityName": {
+        "type": "String"
+      }
+    }
+  },
+  "nagbarPushNotification": "Enable notifications so you don't miss messages and mentions.",
+  "@nagbarPushNotification": {
+    "description": "Push notification permission nagbar body."
+  },
+  "nagbarEnableNotifications": "Enable notifications",
+  "@nagbarEnableNotifications": {
+    "description": "Push notification permission nagbar CTA."
+  },
+  "nagbarBillingPortalFailed": "Couldn't open the billing portal. Please try again in a moment.",
+  "@nagbarBillingPortalFailed": {
+    "description": "Toast when opening the billing portal from a nagbar fails."
+  },
   "welcomeBack": "Welcome back",
   "@welcomeBack": {
     "description": "Greeting on the login screen; usable wherever returning users are welcomed."
@@ -1034,7 +1194,7 @@
   "@dmAddNote": {
     "description": "DM context menu action to add a note about the user."
   },
-  "dmEditGroup": "Edit Group",
+  "dmEditGroup": "Edit group",
   "@dmEditGroup": {
     "description": "DM context menu action to edit a group DM."
   },
@@ -6451,6 +6611,40 @@
   "@chatReplyAttachedMedia": {
     "description": "Label in the channel and chat reply preview."
   },
+  "chatBlockedMessagesCollapsed": "{count, plural, =1{1 blocked message} other{{count} blocked messages}}",
+  "@chatBlockedMessagesCollapsed": {
+    "description": "Collapsed summary label for consecutive messages from blocked users.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chatSpammerMessagesCollapsed": "{count, plural, =1{1 potential spammer message} other{{count} potential spammer messages}}",
+  "@chatSpammerMessagesCollapsed": {
+    "description": "Collapsed summary label for consecutive messages from spammer-flagged users.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chatReplyHiddenBlockedAuthor": "Reply hidden because the original author is blocked.",
+  "@chatReplyHiddenBlockedAuthor": {
+    "description": "Reply preview placeholder when the referenced author is blocked."
+  },
+  "chatReplyHiddenSpammerAuthor": "Reply hidden because the original author is marked as a spammer.",
+  "@chatReplyHiddenSpammerAuthor": {
+    "description": "Reply preview placeholder when the referenced author is marked as a spammer."
+  },
+  "devMarkAsSpamLocally": "Mark as spam locally",
+  "@devMarkAsSpamLocally": {
+    "description": "Developer menu option to locally mark a user as spam."
+  },
+  "devIgnoreSpamFlag": "Ignore spam flag",
+  "@devIgnoreSpamFlag": {
+    "description": "Developer menu option to ignore the server spammer flag for a user."
+  },
   "chatMessagesLoadError": "Couldn't load messages.",
   "@chatMessagesLoadError": {
     "description": "Shown in the chat message list when the initial message history request fails. The user can retry from the same screen."
@@ -6556,6 +6750,14 @@
   "mediaViewerOpenInBrowser": "Open in browser",
   "@mediaViewerOpenInBrowser": {
     "description": "Tooltip and accessibility label to open the current media item in an external browser."
+  },
+  "mediaViewerOptions": "Media options",
+  "@mediaViewerOptions": {
+    "description": "Title and accessibility label for the overflow menu in the mobile media viewer."
+  },
+  "mediaViewerCopyLink": "Copy link",
+  "@mediaViewerCopyLink": {
+    "description": "Media viewer action that copies the media URL to the clipboard."
   },
   "mediaViewerForward": "Forward",
   "@mediaViewerForward": {
@@ -6836,11 +7038,11 @@
   "@channelDetailsCopyLink": {
     "description": "Channel details menu action to copy a channel link."
   },
-  "channelDetailsAddFriendsToGroup": "Add Friends to Group",
+  "channelDetailsAddFriendsToGroup": "Add friends to group",
   "@channelDetailsAddFriendsToGroup": {
     "description": "Group DM menu action to add friends to the group."
   },
-  "channelDetailsGroupInvites": "Group Invites",
+  "channelDetailsGroupInvites": "Group invites",
   "@channelDetailsGroupInvites": {
     "description": "Group DM menu action to view group invites."
   },
@@ -7298,6 +7500,181 @@
   "groupDmWelcomeAddFriends": "Add friends to group",
   "@groupDmWelcomeAddFriends": {
     "description": "Primary action on the group DM welcome hero."
+  },
+  "dmGroupInvites": "Invites",
+  "@dmGroupInvites": {
+    "description": "Menu label for managing group DM invites."
+  },
+  "groupDmEditTitle": "Edit group",
+  "@groupDmEditTitle": {
+    "description": "Title for the edit group DM modal or sheet."
+  },
+  "groupDmEditDetailsTooltip": "Edit group details",
+  "@groupDmEditDetailsTooltip": {
+    "description": "Tooltip on the desktop group DM header edit action."
+  },
+  "groupDmGroupName": "Group name",
+  "@groupDmGroupName": {
+    "description": "Label for the group name field in edit group."
+  },
+  "groupDmMyGroup": "My group",
+  "@groupDmMyGroup": {
+    "description": "Placeholder for the group name field in edit group."
+  },
+  "groupDmGroupNameMaxLength": "Group name must not exceed 100 characters",
+  "@groupDmGroupNameMaxLength": {
+    "description": "Validation error when group name is too long."
+  },
+  "groupDmGroupIcon": "Group icon",
+  "@groupDmGroupIcon": {
+    "description": "Label for the group icon section in edit group."
+  },
+  "groupDmUploadIcon": "Upload icon",
+  "@groupDmUploadIcon": {
+    "description": "Button to upload a group icon."
+  },
+  "groupDmChangeIcon": "Change icon",
+  "@groupDmChangeIcon": {
+    "description": "Button to change an existing group icon."
+  },
+  "groupDmRemoveIcon": "Remove icon",
+  "@groupDmRemoveIcon": {
+    "description": "Button to remove the group icon."
+  },
+  "groupDmUpdated": "Group updated",
+  "@groupDmUpdated": {
+    "description": "Success toast after saving group changes."
+  },
+  "groupDmUpdateFailed": "Couldn't update group. Try again.",
+  "@groupDmUpdateFailed": {
+    "description": "Error toast when group update fails."
+  },
+  "groupDmAnimatedIconNotSupported": "Animated icons are not supported. Use a static image.",
+  "@groupDmAnimatedIconNotSupported": {
+    "description": "Error when user selects an animated group icon."
+  },
+  "groupDmAnimatedIconNotSupportedTitle": "Animated icons are not supported",
+  "@groupDmAnimatedIconNotSupportedTitle": {
+    "description": "Title when user selects an animated group icon."
+  },
+  "groupDmIconFileTooLargeTitle": "Icon file is too large",
+  "@groupDmIconFileTooLargeTitle": {
+    "description": "Title when the selected group icon exceeds the size limit."
+  },
+  "groupDmIconFileTooLargeBody": "Icon file is too large. Choose a file smaller than {maxSize}.",
+  "@groupDmIconFileTooLargeBody": {
+    "description": "Body when the selected group icon exceeds the size limit.",
+    "placeholders": {
+      "maxSize": {"type": "String"}
+    }
+  },
+  "groupDmUnsupportedIconFormat": "Unsupported icon format",
+  "@groupDmUnsupportedIconFormat": {
+    "description": "Title when the selected group icon format is unsupported."
+  },
+  "groupDmUnsupportedIconFormatBody": "Unsupported file type.",
+  "@groupDmUnsupportedIconFormatBody": {
+    "description": "Body when the selected group icon format is unsupported."
+  },
+  "groupDmCouldntProcessImage": "Couldn't process image",
+  "@groupDmCouldntProcessImage": {
+    "description": "Title when a cropped group icon cannot be processed."
+  },
+  "groupDmFailedToProcessCroppedImage": "Failed to process the cropped image. Try again.",
+  "@groupDmFailedToProcessCroppedImage": {
+    "description": "Body when a cropped group icon cannot be processed."
+  },
+  "groupDmInvalidImage": "Invalid image",
+  "@groupDmInvalidImage": {
+    "description": "Title when the selected group icon image cannot be used."
+  },
+  "groupDmInvalidImageBody": "That image is invalid. Try another one.",
+  "@groupDmInvalidImageBody": {
+    "description": "Body when the selected group icon image cannot be used."
+  },
+  "groupDmAddFriends": "Add",
+  "@groupDmAddFriends": {
+    "description": "Button to add selected friends to a group DM."
+  },
+  "groupDmOrSendInvite": "or send an invite to a friend:",
+  "@groupDmOrSendInvite": {
+    "description": "Label above the invite link field in add friends to group."
+  },
+  "groupDmGenerateInviteLink": "Generate invite link",
+  "@groupDmGenerateInviteLink": {
+    "description": "Placeholder for the invite link field before generation."
+  },
+  "groupDmCreateInvite": "Create",
+  "@groupDmCreateInvite": {
+    "description": "Button to create a group DM invite link."
+  },
+  "groupDmInviteExpires24Hours": "Your invite expires in 24 hours",
+  "@groupDmInviteExpires24Hours": {
+    "description": "Note below the invite link field in add friends to group."
+  },
+  "groupDmAddFriendFailed": "Couldn't add this friend to the group. Please try again.",
+  "@groupDmAddFriendFailed": {
+    "description": "Error when adding a single friend to a group DM fails."
+  },
+  "groupDmAddFailed": "Couldn't add to group",
+  "@groupDmAddFailed": {
+    "description": "Title when adding friends to a group DM fails."
+  },
+  "groupDmGroupFull": "This group is full. Remove someone before adding more people.",
+  "@groupDmGroupFull": {
+    "description": "Error when the group DM has no remaining member slots."
+  },
+  "groupDmRateLimited": "You're going too fast. Wait a moment and try again.",
+  "@groupDmRateLimited": {
+    "description": "Error when add-friends requests are rate limited."
+  },
+  "groupDmCreateInviteFailed": "Couldn't create invite link",
+  "@groupDmCreateInviteFailed": {
+    "description": "Title when invite link generation fails."
+  },
+  "groupDmCreateInviteFailedBody": "Couldn't generate an invite link. Please try again.",
+  "@groupDmCreateInviteFailedBody": {
+    "description": "Body when invite link generation fails."
+  },
+  "groupDmCopyInviteFailed": "Failed to copy invite link",
+  "@groupDmCopyInviteFailed": {
+    "description": "Error when copying a group DM invite link fails."
+  },
+  "groupDmInvitesOwnerOnly": "Only the group owner can manage invites.",
+  "@groupDmInvitesOwnerOnly": {
+    "description": "Shown when a non-owner opens group invites management."
+  },
+  "groupDmNoInvitesCreated": "No invites created",
+  "@groupDmNoInvitesCreated": {
+    "description": "Empty state for group DM invites list."
+  },
+  "groupDmLoadingInvites": "Loading invites...",
+  "@groupDmLoadingInvites": {
+    "description": "Loading state for group DM invites list."
+  },
+  "groupDmInvitesLoadFailed": "Failed to load invites. Try again.",
+  "@groupDmInvitesLoadFailed": {
+    "description": "Inline error when group DM invites fail to load."
+  },
+  "groupDmInvitesRevokeConfirm": "Revoke this invite? Can't be undone.",
+  "@groupDmInvitesRevokeConfirm": {
+    "description": "Confirmation body when revoking a group DM invite."
+  },
+  "groupDmInviteRevoked": "Invite revoked",
+  "@groupDmInviteRevoked": {
+    "description": "Success toast after revoking a group DM invite."
+  },
+  "groupDmInviteCreatedByExpires": "Created by {name}. Expires in {time}.",
+  "@groupDmInviteCreatedByExpires": {
+    "description": "Mobile group invite row subtitle.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
   },
   "channelWelcomeHeading": "Welcome to {channelName}",
   "@channelWelcomeHeading": {
@@ -7855,6 +8232,22 @@
   "quickSwitcherBookmarksLabel": "Bookmarks",
   "@quickSwitcherBookmarksLabel": {
     "description": "Quick switcher settings entry for bookmarks."
+  },
+  "savedMessagesEmptyTitle": "No bookmarks",
+  "@savedMessagesEmptyTitle": {
+    "description": "Empty-state title on the saved messages page."
+  },
+  "savedMessagesEmptyBody": "Bookmark messages to save them for later.",
+  "@savedMessagesEmptyBody": {
+    "description": "Empty-state body on the saved messages page."
+  },
+  "savedMessagesEndBody": "There's nothing more to see here.",
+  "@savedMessagesEndBody": {
+    "description": "End-of-list body on the saved messages page."
+  },
+  "savedMessagesRemoveTooltip": "Remove bookmark",
+  "@savedMessagesRemoveTooltip": {
+    "description": "Tooltip for removing a saved message bookmark."
   },
   "quickSwitcherMentionsLabel": "Mentions",
   "@quickSwitcherMentionsLabel": {

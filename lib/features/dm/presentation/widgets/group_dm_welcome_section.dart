@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
@@ -6,6 +8,8 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
+import 'package:fluxer_app/features/dm/presentation/add_friends_to_group_flow.dart';
+import 'package:fluxer_app/features/dm/presentation/edit_group_dm_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/utils/group_dm_display_name.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -83,14 +87,17 @@ class GroupDmWelcomeSection extends ConsumerWidget {
                 label: l10n.groupDmWelcomeEditGroup,
                 icon: PhosphorIconsFill.notePencil,
                 fitContent: true,
-                onPressed: () => _showComingSoonToast(context, ref),
+                onPressed: () =>
+                    unawaited(EditGroupDmFlow.show(context, dm: dm)),
               ),
               if (!isGroupFull)
                 FluxerButton.primary(
                   label: l10n.groupDmWelcomeAddFriends,
                   icon: PhosphorIconsFill.userPlus,
                   fitContent: true,
-                  onPressed: () => _showComingSoonToast(context, ref),
+                  onPressed: () => unawaited(
+                    AddFriendsToGroupFlow.show(context, ref, dm: dm),
+                  ),
                 ),
             ],
           ),
@@ -118,10 +125,4 @@ List<InlineSpan> _groupDmWelcomeSpans({
       style: textStyle,
     ),
   ];
-}
-
-void _showComingSoonToast(BuildContext context, WidgetRef ref) {
-  ref
-      .read(toastProvider.notifier)
-      .show(FluxerToast(message: FluxerLocalizations.of(context).comingSoon));
 }

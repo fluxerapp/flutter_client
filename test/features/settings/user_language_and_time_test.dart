@@ -125,6 +125,7 @@ void main() {
         find.text('Choose the language used throughout the app'),
         findsOneWidget,
       );
+      expect(find.text('English (United States) (English)'), findsOneWidget);
       expect(find.text('Open language settings'), findsOneWidget);
     },
     skip: !Platform.isIOS && !Platform.isAndroid,

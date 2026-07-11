@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -73,7 +74,12 @@ class NativeTitlebar extends ConsumerWidget {
                   children: [
                     _WindowButton(
                       icon: PhosphorIconsRegular.question,
-                      onPressed: () {},
+                      onPressed: () => unawaited(
+                        handleExternalLinkTap(
+                          context,
+                          'https://help.fluxer.app',
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: kNativeTitlebarHeight * 0.6,

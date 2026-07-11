@@ -70,6 +70,7 @@ void main() {
         authorName: 'monty',
         authorIsBot: false,
         authorIsSystem: false,
+        authorPublicFlags: 0,
         content: '',
         timestamp: DateTime.utc(2026),
         embedsJson: '[]',

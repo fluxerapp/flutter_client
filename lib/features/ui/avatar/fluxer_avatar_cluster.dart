@@ -4,7 +4,9 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/media/fluxer_media_cdn.dart';
+import 'package:fluxer_app/features/ui/avatar/avatar_status_layout.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
+import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kAccentColors = [
@@ -19,6 +21,9 @@ const _kAccentColors = [
 const _kDefaultAvatarCount = 6;
 String get _kStaticCdnUrl => fluxerStaticCdn;
 const _kAvatarBorderSize = 2.0;
+const Duration _kStatusTransitionDuration = Duration(milliseconds: 160);
+
+enum _ClusterStatusCutoutShape { circle, typingPill }
 
 @visibleForTesting
 bool avatarClusterGeometryChanged({
@@ -62,6 +67,7 @@ class FluxerAvatarCluster extends StatelessWidget {
     required this.channelId,
     this.iconUrl,
     this.status,
+    this.isTyping = false,
     this.members = const [],
     this.size = 32,
     super.key,
@@ -70,6 +76,7 @@ class FluxerAvatarCluster extends StatelessWidget {
   final String channelId;
   final String? iconUrl;
   final String? status;
+  final bool isTyping;
   final List<AvatarClusterMember> members;
   final double size;
 
@@ -84,15 +91,9 @@ class FluxerAvatarCluster extends StatelessWidget {
     return _kAccentColors[hash.abs() % _kAccentColors.length];
   }
 
-  double get _statusDotSize {
-    if (size <= 36) {
-      return 10;
-    }
-    if (size <= 40) {
-      return 12;
-    }
-    return 14;
-  }
+  bool get _showsTypingIndicator => isTyping && status != null;
+
+  bool get _showsStatusBadge => status != null;
 
   @override
   Widget build(BuildContext context) {
@@ -105,20 +106,52 @@ class FluxerAvatarCluster extends StatelessWidget {
       avatar = _buildFallback();
     }
 
-    if (status == null) {
+    if (!_showsStatusBadge) {
       return avatar;
     }
+
+    final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(size);
+    final _ClusterStatusCutoutShape cutoutShape = _showsTypingIndicator
+        ? _ClusterStatusCutoutShape.typingPill
+        : _ClusterStatusCutoutShape.circle;
+
+    avatar = ClipPath(
+      clipper: _ClusterStatusCutoutClipper(
+        avatarSize: size,
+        cutoutRadius: layout.cutoutRadius,
+        statusDotSize: layout.statusDotSize,
+        cutoutShape: cutoutShape,
+        typingCutoutRect: layout.typingCutoutRect,
+      ),
+      child: avatar,
+    );
 
     return SizedBox(
       width: size,
       height: size,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           avatar,
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: FluxerStatusIndicator(status: status!, size: _statusDotSize),
+          AnimatedPositioned(
+            duration: _kStatusTransitionDuration,
+            curve: Curves.easeOut,
+            right: _showsTypingIndicator
+                ? layout.typingRight
+                : layout.statusRight,
+            bottom: _showsTypingIndicator
+                ? layout.typingBottom
+                : layout.statusBottom,
+            child: _showsTypingIndicator
+                ? FluxerTypingStatusIndicator(
+                    status: status!,
+                    width: layout.typingWidth,
+                    height: layout.typingHeight,
+                  )
+                : FluxerStatusIndicator(
+                    status: status!,
+                    size: layout.statusDotSize,
+                  ),
           ),
         ],
       ),
@@ -298,6 +331,46 @@ class _CircleCutout {
   });
 
   Rect get oval => Rect.fromCircle(center: Offset(cx, cy), radius: radius);
+}
+
+class _ClusterStatusCutoutClipper extends CustomClipper<Path> {
+  const _ClusterStatusCutoutClipper({
+    required this.avatarSize,
+    required this.cutoutRadius,
+    required this.statusDotSize,
+    required this.cutoutShape,
+    required this.typingCutoutRect,
+  });
+
+  final double avatarSize;
+  final double cutoutRadius;
+  final double statusDotSize;
+  final _ClusterStatusCutoutShape cutoutShape;
+  final RRect typingCutoutRect;
+
+  @override
+  Path getClip(Size size) {
+    final Path path = Path()
+      ..addOval(Rect.fromLTWH(0, 0, size.width, size.height));
+    if (cutoutShape == _ClusterStatusCutoutShape.typingPill) {
+      path.addRRect(typingCutoutRect);
+    } else {
+      final Offset center = Offset(
+        avatarSize - statusDotSize / 2,
+        avatarSize - statusDotSize / 2,
+      );
+      path.addOval(Rect.fromCircle(center: center, radius: cutoutRadius));
+    }
+    return path..fillType = PathFillType.evenOdd;
+  }
+
+  @override
+  bool shouldReclip(covariant _ClusterStatusCutoutClipper oldClipper) =>
+      avatarSize != oldClipper.avatarSize ||
+      cutoutRadius != oldClipper.cutoutRadius ||
+      statusDotSize != oldClipper.statusDotSize ||
+      cutoutShape != oldClipper.cutoutShape ||
+      typingCutoutRect != oldClipper.typingCutoutRect;
 }
 
 class _ClusterOverlapClipper extends CustomClipper<Path> {

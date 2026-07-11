@@ -4,26 +4,28 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator_selection.dart';
 
-enum ScrollIndicatorSeverity { unread, mention }
+enum GuildScrollIndicatorSeverity { unread, mention }
 
-typedef UnreadScrollIndicatorView = ({
+typedef GuildScrollIndicatorState = ({
   bool show,
-  ScrollIndicatorSeverity severity,
+  GuildScrollIndicatorSeverity severity,
   String? targetId,
 });
 
-const UnreadScrollIndicatorView _hiddenUnreadScrollIndicator = (
+const GuildScrollIndicatorState _hiddenGuildScrollIndicatorState = (
   show: false,
-  severity: ScrollIndicatorSeverity.unread,
+  severity: GuildScrollIndicatorSeverity.unread,
   targetId: null,
 );
 
-class UnreadScrollIndicatorController {
-  UnreadScrollIndicatorController({
+class GuildScrollIndicatorController {
+  GuildScrollIndicatorController({
     required ScrollController scrollController,
     required Map<String, GlobalKey> itemKeys,
-    required ScrollIndicatorSeverity? Function(String itemId) resolveSeverity,
+    required GuildScrollIndicatorSeverity? Function(String itemId)
+    resolveSeverity,
     bool Function()? isMounted,
     bool Function(double scrollOffset)? hideTopWhen,
   }) : _scrollController = scrollController,
@@ -32,28 +34,46 @@ class UnreadScrollIndicatorController {
        _isMounted = isMounted,
        _hideTopWhen = hideTopWhen;
 
+  static const double _scrollDirectionEpsilon = 0.5;
+
   final ScrollController _scrollController;
   final Map<String, GlobalKey> _itemKeys;
-  final ScrollIndicatorSeverity? Function(String itemId) _resolveSeverity;
+  final GuildScrollIndicatorSeverity? Function(String itemId) _resolveSeverity;
   final bool Function()? _isMounted;
   final bool Function(double scrollOffset)? _hideTopWhen;
 
-  final ValueNotifier<UnreadScrollIndicatorView> topIndicator = ValueNotifier(
-    _hiddenUnreadScrollIndicator,
+  final ValueNotifier<GuildScrollIndicatorState> topIndicator = ValueNotifier(
+    _hiddenGuildScrollIndicatorState,
   );
-  final ValueNotifier<UnreadScrollIndicatorView> bottomIndicator =
-      ValueNotifier(_hiddenUnreadScrollIndicator);
+  final ValueNotifier<GuildScrollIndicatorState> bottomIndicator =
+      ValueNotifier(_hiddenGuildScrollIndicatorState);
 
   bool _updateScheduled = false;
+  double _lastScrollOffset = 0;
+  GuildScrollIndicatorEdge? _preferredEdge;
+  GuildScrollIndicatorEdge? _lastEdge;
 
   void attach() {
-    _scrollController.addListener(scheduleUpdate);
+    _scrollController.addListener(_onScroll);
   }
 
   void detach() {
-    _scrollController.removeListener(scheduleUpdate);
+    _scrollController.removeListener(_onScroll);
     topIndicator.dispose();
     bottomIndicator.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.hasClients) {
+      final double currentOffset = _scrollController.offset;
+      if (currentOffset > _lastScrollOffset + _scrollDirectionEpsilon) {
+        _preferredEdge = GuildScrollIndicatorEdge.bottom;
+      } else if (currentOffset < _lastScrollOffset - _scrollDirectionEpsilon) {
+        _preferredEdge = GuildScrollIndicatorEdge.top;
+      }
+      _lastScrollOffset = currentOffset;
+    }
+    scheduleUpdate();
   }
 
   void scheduleUpdate() {
@@ -76,77 +96,87 @@ class UnreadScrollIndicatorController {
       return;
     }
     final ScrollPosition scrollPosition = _scrollController.position;
-    var showTop = false;
-    var showBottom = false;
-    var topSeverity = ScrollIndicatorSeverity.unread;
-    var bottomSeverity = ScrollIndicatorSeverity.unread;
-    String? topTarget;
-    String? bottomTarget;
-    var topDistance = double.infinity;
-    var bottomDistance = double.infinity;
+    final RenderBox? scrollableRenderObject = _laidOutBox(
+      scrollPosition.context.storageContext,
+    );
+    if (scrollableRenderObject == null) {
+      return;
+    }
+    final double scrollableTop = scrollableRenderObject
+        .localToGlobal(Offset.zero)
+        .dy;
+    final double scrollableBottom =
+        scrollableTop + scrollPosition.viewportDimension;
+    GuildScrollIndicatorCandidate? topCandidate;
+    GuildScrollIndicatorCandidate? bottomCandidate;
+    var order = 0;
     for (final MapEntry<String, GlobalKey> entry in _itemKeys.entries) {
-      final ScrollIndicatorSeverity? severity = _resolveSeverity(entry.key);
+      final GuildScrollIndicatorSeverity? severity = _resolveSeverity(
+        entry.key,
+      );
       if (severity == null) {
+        order++;
         continue;
       }
       final RenderBox? itemBox = _laidOutBox(entry.value.currentContext);
       if (itemBox == null) {
+        order++;
         continue;
       }
-      final RenderBox? scrollableRenderObject = _laidOutBox(
-        scrollPosition.context.storageContext,
-      );
-      if (scrollableRenderObject == null) {
-        return;
-      }
-      final double scrollableTop = scrollableRenderObject
-          .localToGlobal(Offset.zero)
-          .dy;
-      final double scrollableBottom =
-          scrollableTop + scrollPosition.viewportDimension;
       final double itemTop = itemBox.localToGlobal(Offset.zero).dy;
       final double itemBottom = itemTop + itemBox.size.height;
-      if (itemBottom < scrollableTop) {
-        final double distance = scrollableTop - itemBottom;
-        if (_shouldReplaceCandidate(
-          hasCandidate: showTop,
-          candidateSeverity: topSeverity,
-          candidateDistance: topDistance,
+      if (itemBottom <=
+          scrollableTop + kGuildScrollIndicatorVisibilityEpsilon) {
+        final GuildScrollIndicatorCandidate candidate = (
+          id: entry.key,
           severity: severity,
-          distance: distance,
-        )) {
-          showTop = true;
-          topSeverity = severity;
-          topTarget = entry.key;
-          topDistance = distance;
+          distance: (scrollableTop - itemBottom).clamp(0, double.infinity),
+          order: order,
+        );
+        if (_isBetterCandidate(candidate, topCandidate)) {
+          topCandidate = candidate;
         }
-      } else if (itemTop > scrollableBottom) {
-        final double distance = itemTop - scrollableBottom;
-        if (_shouldReplaceCandidate(
-          hasCandidate: showBottom,
-          candidateSeverity: bottomSeverity,
-          candidateDistance: bottomDistance,
+      } else if (itemTop >=
+          scrollableBottom - kGuildScrollIndicatorVisibilityEpsilon) {
+        final GuildScrollIndicatorCandidate candidate = (
+          id: entry.key,
           severity: severity,
-          distance: distance,
-        )) {
-          showBottom = true;
-          bottomSeverity = severity;
-          bottomTarget = entry.key;
-          bottomDistance = distance;
+          distance: (itemTop - scrollableBottom).clamp(0, double.infinity),
+          order: order,
+        );
+        if (_isBetterCandidate(candidate, bottomCandidate)) {
+          bottomCandidate = candidate;
         }
       }
+      order++;
     }
+    GuildScrollIndicatorSelection? selection = selectGuildScrollIndicator(
+      topCandidate: topCandidate,
+      bottomCandidate: bottomCandidate,
+      preferredEdge: _preferredEdge,
+      previousEdge: _lastEdge,
+    );
     final bool hideTop = _hideTopWhen?.call(scrollPosition.pixels) ?? false;
-    topIndicator.value = (
-      show: showTop && !hideTop,
-      severity: topSeverity,
-      targetId: topTarget,
-    );
-    bottomIndicator.value = (
-      show: showBottom,
-      severity: bottomSeverity,
-      targetId: bottomTarget,
-    );
+    if (selection?.edge == GuildScrollIndicatorEdge.top && hideTop) {
+      selection = bottomCandidate != null
+          ? (edge: GuildScrollIndicatorEdge.bottom, candidate: bottomCandidate)
+          : null;
+    }
+    topIndicator.value = _hiddenGuildScrollIndicatorState;
+    bottomIndicator.value = _hiddenGuildScrollIndicatorState;
+    if (selection != null) {
+      final GuildScrollIndicatorState state = (
+        show: true,
+        severity: selection.candidate.severity,
+        targetId: selection.candidate.id,
+      );
+      if (selection.edge == GuildScrollIndicatorEdge.top) {
+        topIndicator.value = state;
+      } else {
+        bottomIndicator.value = state;
+      }
+      _lastEdge = selection.edge;
+    }
   }
 
   void scrollTo(String? itemId) {
@@ -188,33 +218,29 @@ class UnreadScrollIndicatorController {
     return true;
   }
 
-  static bool _shouldReplaceCandidate({
-    required bool hasCandidate,
-    required ScrollIndicatorSeverity candidateSeverity,
-    required double candidateDistance,
-    required ScrollIndicatorSeverity severity,
-    required double distance,
-  }) {
-    if (!hasCandidate) {
+  static bool _isBetterCandidate(
+    GuildScrollIndicatorCandidate candidate,
+    GuildScrollIndicatorCandidate? current,
+  ) {
+    if (current == null) {
       return true;
     }
-    final int severityPriority = severity == ScrollIndicatorSeverity.mention
-        ? 2
-        : 1;
-    final int candidatePriority =
-        candidateSeverity == ScrollIndicatorSeverity.mention ? 2 : 1;
-    if (severityPriority > candidatePriority) {
-      return true;
+    final int candidateSeverity =
+        candidate.severity == GuildScrollIndicatorSeverity.mention ? 2 : 1;
+    final int currentSeverity =
+        current.severity == GuildScrollIndicatorSeverity.mention ? 2 : 1;
+    if (candidateSeverity != currentSeverity) {
+      return candidateSeverity > currentSeverity;
     }
-    if (severityPriority < candidatePriority) {
-      return false;
+    if (candidate.distance != current.distance) {
+      return candidate.distance < current.distance;
     }
-    return distance < candidateDistance;
+    return candidate.order < current.order;
   }
 }
 
-class UnreadScrollIndicatorLayer extends StatelessWidget {
-  const UnreadScrollIndicatorLayer({
+class GuildScrollIndicatorLayer extends StatelessWidget {
+  const GuildScrollIndicatorLayer({
     required this.controller,
     required this.label,
     required this.child,
@@ -223,7 +249,7 @@ class UnreadScrollIndicatorLayer extends StatelessWidget {
     super.key,
   });
 
-  final UnreadScrollIndicatorController controller;
+  final GuildScrollIndicatorController controller;
   final String label;
   final Widget child;
   final double topInset;
@@ -239,8 +265,8 @@ class UnreadScrollIndicatorLayer extends StatelessWidget {
           left: 0,
           right: 0,
           child: Center(
-            child: _UnreadScrollIndicatorPill(
-              viewListenable: controller.topIndicator,
+            child: _GuildScrollIndicatorPill(
+              stateListenable: controller.topIndicator,
               label: label,
               slideUp: true,
               onTap: controller.scrollTo,
@@ -252,8 +278,8 @@ class UnreadScrollIndicatorLayer extends StatelessWidget {
           left: 0,
           right: 0,
           child: Center(
-            child: _UnreadScrollIndicatorPill(
-              viewListenable: controller.bottomIndicator,
+            child: _GuildScrollIndicatorPill(
+              stateListenable: controller.bottomIndicator,
               label: label,
               slideUp: false,
               onTap: controller.scrollTo,
@@ -265,37 +291,37 @@ class UnreadScrollIndicatorLayer extends StatelessWidget {
   }
 }
 
-class _UnreadScrollIndicatorPill extends StatelessWidget {
-  const _UnreadScrollIndicatorPill({
-    required this.viewListenable,
+class _GuildScrollIndicatorPill extends StatelessWidget {
+  const _GuildScrollIndicatorPill({
+    required this.stateListenable,
     required this.label,
     required this.slideUp,
     required this.onTap,
   });
 
-  final ValueListenable<UnreadScrollIndicatorView> viewListenable;
+  final ValueListenable<GuildScrollIndicatorState> stateListenable;
   final String label;
   final bool slideUp;
   final void Function(String? targetId) onTap;
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<UnreadScrollIndicatorView>(
-      valueListenable: viewListenable,
-      builder: (BuildContext context, UnreadScrollIndicatorView view, _) {
+    return ValueListenableBuilder<GuildScrollIndicatorState>(
+      valueListenable: stateListenable,
+      builder: (BuildContext context, GuildScrollIndicatorState state, _) {
         return IgnorePointer(
-          ignoring: !view.show,
+          ignoring: !state.show,
           child: AnimatedSlide(
-            offset: Offset(0, view.show ? 0 : (slideUp ? -1 : 1)),
+            offset: Offset(0, state.show ? 0 : (slideUp ? -1 : 1)),
             duration: const Duration(milliseconds: 150),
             curve: Curves.easeOut,
             child: AnimatedOpacity(
-              opacity: view.show ? 1.0 : 0.0,
+              opacity: state.show ? 1.0 : 0.0,
               duration: const Duration(milliseconds: 150),
               child: GuildScrollIndicator(
-                severity: view.severity,
+                severity: state.severity,
                 label: label,
-                onTap: () => onTap(view.targetId),
+                onTap: () => onTap(state.targetId),
               ),
             ),
           ),
@@ -313,7 +339,7 @@ class GuildScrollIndicator extends StatelessWidget {
     super.key,
   });
 
-  final ScrollIndicatorSeverity severity;
+  final GuildScrollIndicatorSeverity severity;
   final VoidCallback onTap;
   final String label;
 
@@ -321,8 +347,8 @@ class GuildScrollIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final Color bgColor = switch (severity) {
-      ScrollIndicatorSeverity.mention => colors.statusDanger,
-      ScrollIndicatorSeverity.unread => colors.textSecondary.withValues(
+      GuildScrollIndicatorSeverity.mention => colors.statusDanger,
+      GuildScrollIndicatorSeverity.unread => colors.textSecondary.withValues(
         alpha: 0.6,
       ),
     };

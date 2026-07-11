@@ -16,6 +16,7 @@ class Messages extends Table {
   BoolColumn get authorIsBot => boolean().withDefault(const Constant(false))();
   BoolColumn get authorIsSystem =>
       boolean().withDefault(const Constant(false))();
+  IntColumn get authorPublicFlags => integer().withDefault(const Constant(0))();
   TextColumn get webhookId => text().nullable()();
   TextColumn get content => text()();
   DateTimeColumn get timestamp => dateTime()();

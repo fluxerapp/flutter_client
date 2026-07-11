@@ -147,6 +147,12 @@ bool get _composerAutocompleteKeyboardEnabled {
       defaultTargetPlatform == TargetPlatform.windows;
 }
 
+/// Whether [key] is the main or numpad Enter/Return key.
+bool isComposerSubmitKey(LogicalKeyboardKey key) {
+  return key == LogicalKeyboardKey.enter ||
+      key == LogicalKeyboardKey.numpadEnter;
+}
+
 /// Routes hardware-keyboard navigation keys to an open autocomplete menu.
 ///
 /// Returns [KeyEventResult.handled] when the key drove the menu (arrows move
@@ -184,7 +190,7 @@ KeyEventResult handleComposerAutocompleteKey(
     state.applyCurrentSelection();
     return KeyEventResult.handled;
   }
-  if (key == LogicalKeyboardKey.enter) {
+  if (isComposerSubmitKey(key)) {
     if (HardwareKeyboard.instance.isShiftPressed) {
       return KeyEventResult.ignored;
     }

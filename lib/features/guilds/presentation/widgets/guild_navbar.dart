@@ -123,7 +123,7 @@ class GuildNavbar extends ConsumerStatefulWidget {
 class _GuildNavbarState extends ConsumerState<GuildNavbar> {
   late final ScrollController _scrollController;
   final Map<String, GlobalKey> _itemKeys = <String, GlobalKey>{};
-  late final UnreadScrollIndicatorController _scrollIndicator;
+  late final GuildScrollIndicatorController _scrollIndicator;
   bool _restoring = false;
   bool _needsScrollClamp = false;
   GuildNavbarScrollStore? _scrollStore;
@@ -136,7 +136,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     _needsScrollClamp = savedOffset > 0;
     _scrollController = ScrollController(initialScrollOffset: savedOffset)
       ..addListener(_persistScroll);
-    _scrollIndicator = UnreadScrollIndicatorController(
+    _scrollIndicator = GuildScrollIndicatorController(
       scrollController: _scrollController,
       itemKeys: _itemKeys,
       resolveSeverity: _resolveGuildScrollSeverity,
@@ -287,7 +287,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
     super.dispose();
   }
 
-  ScrollIndicatorSeverity? _resolveGuildScrollSeverity(String guildId) {
+  GuildScrollIndicatorSeverity? _resolveGuildScrollSeverity(String guildId) {
     final GuildReadStateEntry? unread = ref.read(
       guildReadStateProvider,
     )[guildId];
@@ -295,10 +295,10 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       return null;
     }
     if (unread.mentionCount > 0) {
-      return ScrollIndicatorSeverity.mention;
+      return GuildScrollIndicatorSeverity.mention;
     }
     if (unread.hasUnread) {
-      return ScrollIndicatorSeverity.unread;
+      return GuildScrollIndicatorSeverity.unread;
     }
     return null;
   }
@@ -391,7 +391,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       ),
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        child: UnreadScrollIndicatorLayer(
+        child: GuildScrollIndicatorLayer(
           controller: _scrollIndicator,
           label: l10n.scrollIndicatorNew,
           topInset: 8 + topPadding,
@@ -729,7 +729,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
           guildUnreadReady: guildUnreadReady,
           invitesPaused: invitesPaused,
           developerMode: developerMode,
-          enableLongPressMenu: !isMobileLayout(context),
+          enableLongPressMenu: isMobileLayout(context),
           onTap: () {
             context.go(RoutePaths.guild(guild.id));
           },
@@ -1318,7 +1318,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
             guildUnreadReady: guildUnreadReady,
             invitesPaused: invitesPaused,
             developerMode: developerMode,
-            enableLongPressMenu: !isMobileLayout(context),
+            enableLongPressMenu: isMobileLayout(context),
             onTap: () {
               context.go(RoutePaths.guild(guild.id));
             },
@@ -2768,7 +2768,7 @@ class _GuildListItemState extends State<_GuildListItem>
       return;
     }
     widget.onMenuOpened?.call();
-    final isMobile = MediaQuery.of(context).size.width < Breakpoints.tablet;
+    final isMobile = isMobileLayout(context);
     if (!isMobile) {
       return;
     }
@@ -4207,7 +4207,8 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
                         width: 44,
                         height: 44,
                         child: CustomPaint(
-                          painter: _DashedBorderPainter(
+                          painter: DashedBorderPainter(
+                            shape: DashedBorderShape.roundedRectangle,
                             borderRadius: widget.isSelected
                                 ? 13
                                 : _radiusAnim.value,
@@ -4233,56 +4234,6 @@ class _DashedGuildIconState extends State<_DashedGuildIcon>
       ],
     ),
   );
-}
-
-class _DashedBorderPainter extends CustomPainter {
-  final double borderRadius;
-  final Color color;
-  final bool isSolid;
-
-  _DashedBorderPainter({
-    required this.borderRadius,
-    required this.color,
-    this.isSolid = false,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
-
-    final rrect = RRect.fromRectAndRadius(
-      Offset.zero & size,
-      Radius.circular(borderRadius),
-    );
-    final path = Path()..addRRect(rrect);
-
-    if (isSolid) {
-      canvas.drawPath(path, paint);
-      return;
-    }
-
-    const dashLength = 6.0;
-    const gapLength = 4.0;
-
-    final metrics = path.computeMetrics();
-    for (final metric in metrics) {
-      var distance = 0.0;
-      while (distance < metric.length) {
-        final end = (distance + dashLength).clamp(0.0, metric.length);
-        canvas.drawPath(metric.extractPath(distance, end), paint);
-        distance += dashLength + gapLength;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_DashedBorderPainter oldDelegate) =>
-      oldDelegate.borderRadius != borderRadius ||
-      oldDelegate.color != color ||
-      oldDelegate.isSolid != isSolid;
 }
 
 class _RightTooltip extends StatefulWidget {

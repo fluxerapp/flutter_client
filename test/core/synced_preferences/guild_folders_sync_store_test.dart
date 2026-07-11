@@ -236,5 +236,30 @@ void main() {
 
       expect(container.read(folderExpandedStateProvider), isEmpty);
     });
+
+    test(
+      'rapid local collapse ignores stale remote expand while dirty',
+      () async {
+        final store = container.read(syncedPreferencesStoreProvider);
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithExpandedFolders({1, 2, 3, 4, 5}),
+          ),
+        );
+
+        final notifier = container.read(folderExpandedStateProvider.notifier);
+        for (final folderId in [1, 2, 3, 4, 5]) {
+          notifier.toggle(folderId);
+        }
+
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithExpandedFolders({1, 2, 3, 4, 5}),
+          ),
+        );
+
+        expect(container.read(folderExpandedStateProvider), isEmpty);
+      },
+    );
   });
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_audio.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_expiry_footnote.dart';
@@ -28,6 +29,7 @@ class AttachmentRenderer extends StatelessWidget {
     this.messageNonce,
     this.channelId,
     this.messageFlags = 0,
+    this.videoActionScope,
     super.key,
   });
 
@@ -41,6 +43,7 @@ class AttachmentRenderer extends StatelessWidget {
   final String? messageNonce;
   final String? channelId;
   final int messageFlags;
+  final MessageMediaActionScope? videoActionScope;
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +116,7 @@ class AttachmentRenderer extends StatelessWidget {
       AttachmentRenderType.video => AttachmentVideo(
         attachment: attachment,
         dimensionSize: dimensionSize,
+        videoActionScope: videoActionScope,
       ),
       AttachmentRenderType.audio =>
         isVoiceMessageAttachment(

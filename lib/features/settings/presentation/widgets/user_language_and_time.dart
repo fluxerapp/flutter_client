@@ -1,19 +1,19 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 import 'dart:ui' show PlatformDispatcher;
 
-import 'package:app_settings/app_settings.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/time_format_preference_provider.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/app_locale_display.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/models/locale.dart' as sdk;
 
 class UserLanguageAndTime extends ConsumerWidget {
   const UserLanguageAndTime({super.key, this.scrollController});
@@ -37,6 +37,9 @@ class UserLanguageAndTime extends ConsumerWidget {
     final String systemLocale = PlatformDispatcher.instance.locale
         .toLanguageTag();
     final String displayLocale = Localizations.localeOf(context).toString();
+    final sdk.Locale? selectedLocale = settings?.locale == sdk.Locale.$unknown
+        ? null
+        : settings?.locale;
 
     void showSyncFailedToast() {
       ref
@@ -95,9 +98,13 @@ class UserLanguageAndTime extends ConsumerWidget {
       use12Hour: false,
     );
 
-    // TODO: Add desktop language picker
-    final bool showLanguageSection =
-        !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+    Future<void> changeAppLocale(sdk.Locale value) async {
+      try {
+        await ref.read(userSettingsSyncProvider).pushLocale(value);
+      } on Object {
+        showSyncFailedToast();
+      }
+    }
 
     return SingleChildScrollView(
       controller: scrollController,
@@ -146,19 +153,28 @@ class UserLanguageAndTime extends ConsumerWidget {
               ],
             ],
           ),
-          if (showLanguageSection)
-            FluxerSettingsSection(
-              title: l10n.languageAndTimeLanguageSectionTitle,
-              description: l10n.languageAndTimeLanguageSectionDescription,
-              children: [
-                FluxerButton.primary(
-                  label: l10n.languageAndTimeOpenLanguageSettings,
-                  onPressedAsync: () => AppSettings.openAppSettings(
-                    type: AppSettingsType.appLocale,
-                  ),
-                ),
-              ],
-            ),
+          FluxerSettingsSection(
+            title: l10n.languageAndTimeLanguageSectionTitle,
+            description: l10n.languageAndTimeLanguageSectionDescription,
+            children: [
+              FluxerSelect<sdk.Locale>(
+                hint: l10n.languageAndTimeLanguageSectionTitle,
+                value: selectedLocale,
+                enableSearch: false,
+                scrollableSheet: true,
+                items: <FluxerSelectItem<sdk.Locale>>[
+                  for (final sdk.Locale locale in sortedAppSdkLocales())
+                    FluxerSelectItem<sdk.Locale>(
+                      value: locale,
+                      label: appLocaleDisplayInfo(locale).label,
+                      leading: appLocaleFlag(locale),
+                    ),
+                ],
+                onChanged: (sdk.Locale value) =>
+                    unawaited(changeAppLocale(value)),
+              ),
+            ],
+          ),
         ],
       ),
     );

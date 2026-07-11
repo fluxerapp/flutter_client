@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/utils/composer_clipboard_paste.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_validator.dart';
+import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
+import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 
 class ComposerPasteScope extends ConsumerStatefulWidget {
   const ComposerPasteScope({
@@ -27,6 +29,14 @@ class ComposerPasteScope extends ConsumerStatefulWidget {
 }
 
 class ComposerPasteScopeState extends ConsumerState<ComposerPasteScope> {
+  Future<void> handleCopy() {
+    return copyInlineTokenSelection(widget.controller);
+  }
+
+  Future<void> handleCut() {
+    return cutInlineTokenSelection(widget.controller);
+  }
+
   Future<void> handlePaste() {
     return handleComposerPaste(
       ref: ref,
@@ -37,13 +47,28 @@ class ComposerPasteScopeState extends ConsumerState<ComposerPasteScope> {
     );
   }
 
-  Widget buildContextMenu(
-    BuildContext context,
+  List<ContextMenuButtonItem> _composeContextMenuItems(
     EditableTextState editableTextState,
   ) {
+    final bool isInlineToken =
+        widget.controller is InlineTokenTextEditingController;
     final List<ContextMenuButtonItem> buttonItems = editableTextState
         .contextMenuButtonItems
         .map((ContextMenuButtonItem item) {
+          if (isInlineToken &&
+              (item.type == ContextMenuButtonType.copy ||
+                  item.type == ContextMenuButtonType.cut)) {
+            return item.copyWith(
+              onPressed: () {
+                ContextMenuController.removeAny();
+                if (item.type == ContextMenuButtonType.copy) {
+                  unawaited(handleCopy());
+                } else {
+                  unawaited(handleCut());
+                }
+              },
+            );
+          }
           if (item.type != ContextMenuButtonType.paste) {
             return item;
           }
@@ -55,9 +80,32 @@ class ComposerPasteScopeState extends ConsumerState<ComposerPasteScope> {
           );
         })
         .toList();
+    final bool hasPasteButton = buttonItems.any(
+      (ContextMenuButtonItem item) => item.type == ContextMenuButtonType.paste,
+    );
+    final bool shouldInjectPaste = widget.isAttachEnabled && !hasPasteButton;
+    if (!shouldInjectPaste) {
+      return buttonItems;
+    }
+    return <ContextMenuButtonItem>[
+      ContextMenuButtonItem(
+        type: ContextMenuButtonType.paste,
+        onPressed: () {
+          ContextMenuController.removeAny();
+          unawaited(handlePaste());
+        },
+      ),
+      ...buttonItems,
+    ];
+  }
+
+  Widget buildContextMenu(
+    BuildContext context,
+    EditableTextState editableTextState,
+  ) {
     return AdaptiveTextSelectionToolbar.buttonItems(
       anchors: editableTextState.contextMenuAnchors,
-      buttonItems: buttonItems,
+      buttonItems: _composeContextMenuItems(editableTextState),
     );
   }
 

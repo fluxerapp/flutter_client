@@ -25,6 +25,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
+import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -472,6 +473,125 @@ void main() {
     );
 
     testWidgets(
+      'live-tail append while scrolled up preserves the visible anchor',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createBottomMessageListHarness();
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        final ScrollPosition position = _messageListScrollPosition(tester);
+        expect(
+          position.pixels,
+          moreOrLessEquals(position.minScrollExtent, epsilon: 1),
+        );
+
+        position.jumpTo(position.maxScrollExtent * 0.5);
+        await tester.pumpAndSettle();
+        expect(position.pixels, greaterThan(kMessageListReadBottomThreshold));
+
+        final String anchorId = _centerVisibleMessageItemId(tester);
+        final Finder anchor = _messageItemFor(anchorId);
+        expect(anchor, findsOneWidget);
+        final double anchorTopBefore = tester.getRect(anchor).top;
+        final double pixelsBefore = position.pixels;
+        final double distanceFromOlderEdgeBefore =
+            position.maxScrollExtent - position.pixels;
+
+        harness.appendNewerMessages(count: 1);
+        await tester.pump();
+        await tester.pump();
+
+        expect(anchor, findsOneWidget);
+        expect(
+          tester.getRect(anchor).top,
+          moreOrLessEquals(anchorTopBefore, epsilon: 1),
+        );
+        expect(position.pixels, greaterThan(pixelsBefore));
+        expect(
+          position.maxScrollExtent - position.pixels,
+          moreOrLessEquals(distanceFromOlderEdgeBefore, epsilon: 1),
+        );
+        expect(harness.chatViewModel._testState.hasMoreNewerMessages, isFalse);
+        expect(harness.chatViewModel._testState.messages, hasLength(81));
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'blocked tail append absorbed by its group preserves the visible anchor',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        const String blockedAuthorId = 'blocked-author';
+        final _AroundAckMessageListHarness harness =
+            await _createBottomMessageListHarness(
+              newestAuthorId: blockedAuthorId,
+            );
+        expect(harness.messages.last.authorId, blockedAuthorId);
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+            blockedUserIds: const <String>{blockedAuthorId},
+          ),
+        );
+        await tester.pumpAndSettle();
+        final ProviderContainer container = ProviderScope.containerOf(
+          tester.element(find.byType(MessageList)),
+        );
+        expect(container.read(blockedUserIdsProvider), const <String>{
+          blockedAuthorId,
+        });
+
+        final Finder collapsedGroup = find.byKey(
+          ValueKey<String>('group-${harness.newestLoadedId}'),
+          skipOffstage: false,
+        );
+        expect(collapsedGroup, findsOneWidget);
+
+        final ScrollPosition position = _messageListScrollPosition(tester);
+        position.jumpTo(position.maxScrollExtent * 0.5);
+        await tester.pumpAndSettle();
+
+        final String anchorId = _centerVisibleMessageItemId(tester);
+        final Finder anchor = _messageItemFor(anchorId);
+        final double anchorTopBefore = tester.getRect(anchor).top;
+        final double pixelsBefore = position.pixels;
+
+        harness.appendNewerMessages(count: 1, authorId: blockedAuthorId);
+        await tester.pump();
+        await tester.pump();
+
+        expect(collapsedGroup, findsOneWidget);
+        expect(
+          tester.getRect(anchor).top,
+          moreOrLessEquals(anchorTopBefore, epsilon: 1),
+        );
+        expect(position.pixels, greaterThan(pixelsBefore));
+        expect(harness.chatViewModel._testState.messages, hasLength(81));
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
       'jump to newest replacement lands at the bottom edge after one frame',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(420, 640);
@@ -769,12 +889,19 @@ void main() {
         await tester.pump();
         await tester.pump();
 
-        // The fallback demoted the centered anchor to a bottom-anchored open:
-        // the position is settled with nothing scrollable below the newest
-        // message beyond the 33px trailing padding.
+        // The fallback demoted the centered anchor to the real bottom-mode
+        // reverse list: newest is at the min edge, while older history remains
+        // scrollable above it.
         final ScrollPosition position = _messageListScrollPosition(tester);
-        expect(position.pixels, moreOrLessEquals(0, epsilon: 1));
-        expect(position.maxScrollExtent, lessThanOrEqualTo(34));
+        expect(position.minScrollExtent, moreOrLessEquals(0, epsilon: 1));
+        expect(
+          position.pixels,
+          moreOrLessEquals(position.minScrollExtent, epsilon: 1),
+        );
+        expect(
+          position.maxScrollExtent,
+          greaterThan(kMessageListReadBottomThreshold),
+        );
 
         final Finder newest = _messageItemFor(harness.newestLoadedId);
         expect(newest, findsOneWidget);
@@ -784,6 +911,83 @@ void main() {
 
         // The NEW divider is per-tile, so the fallback keeps it rendered.
         expect(unreadDivider, findsOneWidget);
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'short unread fallback append while scrolled up preserves the visible older anchor',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final _AroundAckMessageListHarness harness =
+            await _createAroundAckMessageListHarness(
+              ackIndex: 48,
+              hasMoreNewerMessages: false,
+            );
+
+        await tester.pumpWidget(
+          _messageListApp(
+            database: harness.database,
+            chatViewModel: harness.chatViewModel,
+          ),
+        );
+        await tester.pump();
+        expect(find.text('NEW'), findsOneWidget);
+
+        await tester.pump();
+        await tester.pump();
+
+        final ScrollPosition position = _messageListScrollPosition(tester);
+        expect(
+          position.maxScrollExtent - position.minScrollExtent,
+          greaterThan(kMessageListReadBottomThreshold),
+        );
+
+        position.jumpTo(
+          (position.minScrollExtent + position.maxScrollExtent) * 0.5,
+        );
+        await tester.pump();
+        await tester.pump();
+
+        final String anchorId = _centerVisibleMessageItemId(tester);
+        expect(anchorId, isNot(harness.newestLoadedId));
+        final Finder anchor = _messageItemFor(anchorId);
+        expect(anchor, findsOneWidget);
+        final Rect anchorRectBefore = tester.getRect(anchor);
+        final double pixelsBefore = position.pixels;
+        final double distanceFromOlderEdgeBefore =
+            position.maxScrollExtent - position.pixels;
+
+        harness.appendNewerMessages(count: 1);
+        await tester.pump();
+        await tester.pump();
+
+        expect(anchor, findsOneWidget);
+        final Rect anchorRectAfter = tester.getRect(anchor);
+        final double distanceFromOlderEdgeAfter =
+            position.maxScrollExtent - position.pixels;
+        final String failureContext =
+            'anchor=$anchorId before=$anchorRectBefore after=$anchorRectAfter '
+            'pixelsBefore=$pixelsBefore pixelsAfter=${position.pixels} '
+            'olderDistanceBefore=$distanceFromOlderEdgeBefore '
+            'olderDistanceAfter=$distanceFromOlderEdgeAfter';
+        expect(
+          anchorRectAfter.top,
+          moreOrLessEquals(anchorRectBefore.top, epsilon: 1),
+          reason: failureContext,
+        );
+        expect(position.pixels, greaterThan(pixelsBefore));
+        expect(
+          distanceFromOlderEdgeAfter,
+          moreOrLessEquals(distanceFromOlderEdgeBefore, epsilon: 1),
+          reason: failureContext,
+        );
+        expect(harness.chatViewModel._testState.messages, hasLength(51));
 
         await _disposeMessageList(tester);
       },
@@ -1063,11 +1267,12 @@ Message _message({
   required String id,
   required String content,
   required DateTime timestamp,
+  String authorId = _messageListAuthorId,
 }) {
   return Message(
     id: id,
     channelId: _messageListChannelId,
-    authorId: _messageListAuthorId,
+    authorId: authorId,
     authorName: 'Webhook',
     webhookId: 'message-list-webhook',
     content: content,
@@ -1144,7 +1349,10 @@ class _AroundAckMessageListHarness {
   String get latestReplacementNewestId =>
       chatViewModel._latestReplacementNewestIdValue;
 
-  void appendNewerMessages({required int count}) {
+  void appendNewerMessages({
+    required int count,
+    String authorId = _messageListAuthorId,
+  }) {
     final List<Message> next = List<Message>.of(
       chatViewModel._testState.messages,
     );
@@ -1155,6 +1363,7 @@ class _AroundAckMessageListHarness {
       );
       next.add(
         _message(
+          authorId: authorId,
           id: _snowflakeForUtc(timestamp),
           content: 'appended newer message $index',
           timestamp: timestamp,
@@ -1193,6 +1402,7 @@ Future<_AroundAckMessageListHarness> _createAroundAckMessageListHarness({
   int messageCount = 50,
   bool hasMoreNewerMessages = true,
   bool readThroughNewest = false,
+  String? newestAuthorId,
 }) async {
   assert(ackIndex > 0, 'ackIndex must leave one older message');
   assert(ackIndex < messageCount - 1, 'ackIndex must leave one newer message');
@@ -1211,6 +1421,9 @@ Future<_AroundAckMessageListHarness> _createAroundAckMessageListHarness({
     for (int index = 0; index < ids.length; index += 1)
       _message(
         id: ids[index],
+        authorId: index == ids.length - 1
+            ? newestAuthorId ?? _messageListAuthorId
+            : _messageListAuthorId,
         content: _messageListContentFor(
           id: ids[index],
           index: index,
@@ -1262,6 +1475,7 @@ Future<_AroundAckMessageListHarness> _createAroundAckMessageListHarness({
 Future<_AroundAckMessageListHarness> _createBottomMessageListHarness({
   int messageCount = 80,
   bool hasMoreNewerMessages = false,
+  String? newestAuthorId,
 }) {
   assert(messageCount >= 3, 'messageCount must leave loaded jump targets');
   return _createAroundAckMessageListHarness(
@@ -1269,12 +1483,14 @@ Future<_AroundAckMessageListHarness> _createBottomMessageListHarness({
     messageCount: messageCount,
     hasMoreNewerMessages: hasMoreNewerMessages,
     readThroughNewest: true,
+    newestAuthorId: newestAuthorId,
   );
 }
 
 Widget _messageListApp({
   required db.FluxerDatabase database,
   required _InstrumentedChatViewModel chatViewModel,
+  Set<String> blockedUserIds = const <String>{},
   Widget body = const MessageList(expectedChannelId: _messageListChannelId),
 }) {
   final colorTheme = buildDarkColorTheme();
@@ -1282,6 +1498,7 @@ Widget _messageListApp({
     overrides: _messageListOverrides(
       database: database,
       chatViewModel: chatViewModel,
+      blockedUserIds: blockedUserIds,
     ),
     child: MaterialApp(
       localizationsDelegates: FluxerLocalizations.localizationsDelegates,
@@ -1294,6 +1511,32 @@ Widget _messageListApp({
       home: Scaffold(body: body),
     ),
   );
+}
+
+String _centerVisibleMessageItemId(WidgetTester tester) {
+  final Rect viewport = tester.getRect(_messageListScrollable());
+  final double centerY = viewport.center.dy;
+  String? bestId;
+  double? bestDistance;
+  for (final MessageItem item in tester.widgetList<MessageItem>(
+    find.byType(MessageItem),
+  )) {
+    final Finder finder = _messageItemFor(item.message.id);
+    final Rect rect = tester.getRect(finder);
+    if (rect.bottom <= viewport.top || rect.top >= viewport.bottom) {
+      continue;
+    }
+    final double distance = (rect.center.dy - centerY).abs();
+    if (bestDistance == null || distance < bestDistance) {
+      bestDistance = distance;
+      bestId = item.message.id;
+    }
+  }
+  final String? id = bestId;
+  if (id == null) {
+    throw TestFailure('Expected at least one visible MessageItem in $viewport');
+  }
+  return id;
 }
 
 /// Mirrors the `ChannelChatPanel` reveal round-trip wrapping: while hidden
@@ -1338,11 +1581,13 @@ _RevealToggleHostState _revealHostState(WidgetTester tester) =>
 List<Override> _messageListOverrides({
   required db.FluxerDatabase database,
   required _InstrumentedChatViewModel chatViewModel,
+  required Set<String> blockedUserIds,
 }) {
   return <Override>[
     fluxerDatabaseProvider.overrideWithValue(database),
     chatViewModelProvider.overrideWith(() => chatViewModel),
     currentUserIdProvider.overrideWithValue(_messageListCurrentUserId),
+    blockedUserIdsProvider.overrideWithValue(blockedUserIds),
     activeGuildIdProvider.overrideWithValue(null),
     channelListViewModelProvider.overrideWithValue(
       const ChannelListState(

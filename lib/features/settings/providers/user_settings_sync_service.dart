@@ -1,6 +1,13 @@
+import 'dart:convert';
+
+import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/models/locale.dart' as sdk;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_settings_sync_service.g.dart';
@@ -36,6 +43,37 @@ class UserSettingsSyncService {
       talker.error('[UserSettingsSync] Push failed', e, st);
       rethrow;
     }
+  }
+
+  Future<void> pushLocale(sdk.Locale locale) async {
+    final client = _ref.read(fluxerClientProvider);
+    try {
+      final UserSettingsResponse updated = await client.users
+          .updateCurrentUserSettings(
+            body: UserSettingsUpdateRequest(locale: locale),
+          );
+      await _persistSettings(updated);
+      talker.debug('[UserSettingsSync] Pushed locale=${locale.json}');
+    } on Object catch (e, st) {
+      talker.error('[UserSettingsSync] Push locale failed', e, st);
+      rethrow;
+    }
+  }
+
+  Future<void> _persistSettings(UserSettingsResponse settings) async {
+    final String? userId = _ref.read(currentUserIdProvider);
+    if (userId == null) {
+      return;
+    }
+    await _ref
+        .read(fluxerDatabaseProvider)
+        .userSettingsDao
+        .upsertSettings(
+          UserSettingsTableCompanion(
+            userId: Value(userId),
+            data: Value(jsonEncode(settings.toJson())),
+          ),
+        );
   }
 
   Future<UserSettingsResponse> fetchCurrentSettings() async {

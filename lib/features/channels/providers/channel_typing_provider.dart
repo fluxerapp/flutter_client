@@ -1,11 +1,60 @@
 import 'package:clock/clock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_typing_provider.g.dart';
+
+bool _isRemoteUserTyping({
+  required Map<String, DateTime>? entries,
+  required String userId,
+  required String? currentUserId,
+  required DateTime now,
+}) {
+  if (userId == currentUserId) {
+    return false;
+  }
+  final DateTime? expiresAt = entries?[userId];
+  return expiresAt != null && expiresAt.isAfter(now);
+}
+
+/// Whether [userId] is remotely typing in [channelId].
+@riverpod
+bool isUserTypingInChannel(Ref ref, String channelId, String userId) {
+  final String? currentUserId = ref.watch(currentUserIdProvider);
+  final Map<String, DateTime>? entries = ref.watch(
+    typingIndicatorsProvider.select((m) => m[channelId]),
+  );
+  return _isRemoteUserTyping(
+    entries: entries,
+    userId: userId,
+    currentUserId: currentUserId,
+    now: clock.now(),
+  );
+}
+
+/// Whether [userId] is typing in [channelId] for member list avatars.
+@riverpod
+bool memberListUserIsTyping(Ref ref, String channelId, String userId) {
+  return ref.watch(isUserTypingInChannelProvider(channelId, userId));
+}
+
+/// Whether a DM conversation avatar should show the typing badge.
+@riverpod
+bool dmAvatarIsTyping(Ref ref, DmConversation dm) {
+  if (dm.isGroup) {
+    for (final String userId in dm.remoteRecipientIds) {
+      if (ref.watch(isUserTypingInChannelProvider(dm.id, userId))) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return ref.watch(isUserTypingInChannelProvider(dm.id, dm.recipientId));
+}
 
 /// Whether a remote user is typing in [channelId].
 @riverpod

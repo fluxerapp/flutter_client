@@ -680,6 +680,41 @@ void main() {
       );
     });
 
+    group('wire text range', () {
+      test('toWireTextRange expands sentinels in selection', () {
+        controller.loadWithTokens('hello :wave: world');
+
+        expect(
+          controller.toWireTextRange(0, controller.text.length),
+          'hello :wave: world',
+        );
+        expect(controller.toWireTextRange(6, 7), ':wave:');
+      });
+
+      test('wireToDisplayFragment round-trips emoji shortcode', () {
+        final String display = controller.wireToDisplayFragment(':wave:');
+        controller.text = display;
+
+        expect(display.length, 1);
+        expect(controller.toWireText(), ':wave:');
+      });
+
+      test('replaceSelectionWithDisplayFragment splices at caret', () {
+        controller
+          ..loadWithTokens('hello world')
+          ..selection = const TextSelection.collapsed(offset: 5);
+        final String fragment = controller.wireToDisplayFragment(' :wave:');
+
+        controller.replaceSelectionWithDisplayFragment(fragment);
+
+        expect(controller.actualText, 'hello :wave: world');
+        expect(
+          controller.selection,
+          TextSelection.collapsed(offset: 5 + fragment.length),
+        );
+      });
+    });
+
     group('sentinel allocation', () {
       test('allocates unique sentinels for each emoji', () {
         controller

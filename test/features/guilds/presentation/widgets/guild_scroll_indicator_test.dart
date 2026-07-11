@@ -25,14 +25,14 @@ Widget _buildScrollable({
   );
 }
 
-UnreadScrollIndicatorController _createController({
+GuildScrollIndicatorController _createController({
   required ScrollController scrollController,
   required Map<String, GlobalKey> itemKeys,
 }) {
-  return UnreadScrollIndicatorController(
+  return GuildScrollIndicatorController(
     scrollController: scrollController,
     itemKeys: itemKeys,
-    resolveSeverity: (String itemId) => ScrollIndicatorSeverity.unread,
+    resolveSeverity: (String itemId) => GuildScrollIndicatorSeverity.unread,
   );
 }
 
@@ -56,7 +56,7 @@ class _RenderUnlaidOutChildHost extends RenderBox
 }
 
 void main() {
-  group('UnreadScrollIndicatorController', () {
+  group('GuildScrollIndicatorController', () {
     testWidgets('scheduleUpdate skips an attached keyed item before layout', (
       WidgetTester tester,
     ) async {
@@ -100,7 +100,47 @@ void main() {
     });
 
     testWidgets(
-      'laid-out unread items above and below the viewport still show indicators',
+      'shows only one indicator when unread items exist above and below viewport',
+      (WidgetTester tester) async {
+        final scrollController = ScrollController();
+        final itemKeys = <String, GlobalKey>{
+          'above': GlobalKey(),
+          'below': GlobalKey(),
+        };
+        final indicatorController = _createController(
+          scrollController: scrollController,
+          itemKeys: itemKeys,
+        );
+        addTearDown(() {
+          indicatorController.detach();
+          scrollController.dispose();
+        });
+
+        await tester.pumpWidget(
+          _buildScrollable(
+            scrollController: scrollController,
+            children: <Widget>[
+              SizedBox(key: itemKeys['above'], height: 40),
+              const SizedBox(height: 260),
+              SizedBox(key: itemKeys['below'], height: 40),
+            ],
+          ),
+        );
+        scrollController.jumpTo(130);
+        await tester.pump();
+        indicatorController.update();
+
+        final bool topVisible = indicatorController.topIndicator.value.show;
+        final bool bottomVisible =
+            indicatorController.bottomIndicator.value.show;
+        expect(topVisible || bottomVisible, isTrue);
+        expect(topVisible && bottomVisible, isFalse);
+        expect(indicatorController.bottomIndicator.value.targetId, 'below');
+      },
+    );
+
+    testWidgets(
+      'laid-out unread items above and below the viewport show one indicator at each edge',
       (WidgetTester tester) async {
         final scrollController = ScrollController();
         final itemKeys = <String, GlobalKey>{
@@ -137,7 +177,7 @@ void main() {
         expect(indicatorController.topIndicator.value.show, isFalse);
         expect(indicatorController.bottomIndicator.value, (
           show: true,
-          severity: ScrollIndicatorSeverity.unread,
+          severity: GuildScrollIndicatorSeverity.unread,
           targetId: 'below',
         ));
 
@@ -152,7 +192,7 @@ void main() {
 
         expect(indicatorController.topIndicator.value, (
           show: true,
-          severity: ScrollIndicatorSeverity.unread,
+          severity: GuildScrollIndicatorSeverity.unread,
           targetId: 'above',
         ));
         expect(indicatorController.bottomIndicator.value.show, isFalse);

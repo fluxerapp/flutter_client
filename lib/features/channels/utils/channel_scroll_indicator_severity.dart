@@ -5,7 +5,7 @@ import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 
-ScrollIndicatorSeverity? channelScrollIndicatorSeverity({
+GuildScrollIndicatorSeverity? channelScrollIndicatorSeverity({
   required WidgetRef ref,
   required String guildId,
   required String channelId,
@@ -31,10 +31,10 @@ ScrollIndicatorSeverity? channelScrollIndicatorSeverity({
     unreadBadgesLevel: unread.unreadBadgesLevel,
   );
   if (channelUnreadState.hasMentions) {
-    return ScrollIndicatorSeverity.mention;
+    return GuildScrollIndicatorSeverity.mention;
   }
   if (channelUnreadState.shouldShowUnreadIndicator) {
-    return ScrollIndicatorSeverity.unread;
+    return GuildScrollIndicatorSeverity.unread;
   }
   return null;
 }

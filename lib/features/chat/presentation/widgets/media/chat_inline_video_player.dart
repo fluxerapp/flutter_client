@@ -4,6 +4,7 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
@@ -13,7 +14,6 @@ import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/shared/utils/media_kit_bootstrap.dart';
 import 'package:fluxer_app/shared/widgets/shared_video_controls.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
@@ -23,6 +23,7 @@ typedef ChatVideoControlsBuilder = Widget Function(mkv.VideoState state);
 class ChatInlineVideoPlayer extends StatefulWidget {
   const ChatInlineVideoPlayer({
     required this.source,
+    this.launchContext,
     this.dimensionSize = MediaDimensionSize.small,
     this.controlsBuilder,
     this.posterFit = BoxFit.cover,
@@ -31,6 +32,7 @@ class ChatInlineVideoPlayer extends StatefulWidget {
   });
 
   final ChatVideoSource source;
+  final ChatFullscreenVideoLaunchContext? launchContext;
   final MediaDimensionSize dimensionSize;
   final ChatVideoControlsBuilder? controlsBuilder;
   final BoxFit posterFit;
@@ -82,10 +84,13 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
   }
 
   Future<void> _openMobileFullscreen() async {
-    if (!widget.source.hasPlayableContent) {
+    final ChatFullscreenVideoLaunchContext launchContext =
+        widget.launchContext ??
+        ChatFullscreenVideoLaunchContext(source: widget.source);
+    if (!launchContext.source.hasPlayableContent) {
       return;
     }
-    await showChatMobileFullscreenVideo(context, source: widget.source);
+    await showChatMobileFullscreenVideo(context, launchContext: launchContext);
   }
 
   void _markPlaybackFailed() {
@@ -107,7 +112,6 @@ class _ChatInlineVideoPlayerState extends State<ChatInlineVideoPlayer> {
     });
     _hasAttemptedPlayback = true;
     try {
-      await MediaKitBootstrap.ensureInitialized();
       final Player player = _ensurePlayer();
       if (_hasLoadedMedia) {
         await player.play();

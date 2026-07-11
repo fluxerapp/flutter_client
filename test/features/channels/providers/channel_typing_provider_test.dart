@@ -15,6 +15,30 @@ void main() {
     return container;
   }
 
+  test('isUserTypingInChannel reports remote typing for a user', () {
+    final container = makeContainer();
+    container.read(typingIndicatorsProvider.notifier).addTyping('A', 'u1');
+
+    expect(container.read(isUserTypingInChannelProvider('A', 'u1')), isTrue);
+    expect(container.read(isUserTypingInChannelProvider('A', 'u2')), isFalse);
+    expect(container.read(isUserTypingInChannelProvider('B', 'u1')), isFalse);
+  });
+
+  test('isUserTypingInChannel ignores current user typing', () {
+    final container = makeContainer();
+    container.read(typingIndicatorsProvider.notifier).addTyping('A', 'me');
+
+    expect(container.read(isUserTypingInChannelProvider('A', 'me')), isFalse);
+  });
+
+  test('memberListUserIsTyping mirrors isUserTypingInChannel', () {
+    final container = makeContainer();
+    container.read(typingIndicatorsProvider.notifier).addTyping('A', 'u1');
+
+    expect(container.read(memberListUserIsTypingProvider('A', 'u1')), isTrue);
+    expect(container.read(memberListUserIsTypingProvider('A', 'u2')), isFalse);
+  });
+
   test('reports typing only for the channel a remote user types in', () {
     final container = makeContainer();
     container.read(typingIndicatorsProvider.notifier).addTyping('A', 'u1');

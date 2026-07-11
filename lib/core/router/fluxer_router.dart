@@ -23,7 +23,10 @@ import 'package:fluxer_app/features/discovery/presentation/discovery_layout.dart
 import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
 import 'package:fluxer_app/features/favorites/presentation/favorites_layout.dart';
 import 'package:fluxer_app/features/guilds/presentation/pages/invite_accept_page.dart';
+import 'package:fluxer_app/features/members/presentation/pages/guild_members_page.dart';
+import 'package:fluxer_app/features/messaging/presentation/saved_messages_page.dart';
 import 'package:fluxer_app/features/notifications/presentation/notifications_page.dart';
+import 'package:fluxer_app/features/notifications/presentation/recent_mentions_page.dart';
 import 'package:fluxer_app/features/profile/presentation/profile_page.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/guild_settings_modal.dart'
@@ -41,13 +44,11 @@ import 'package:fluxer_app/features/shell/presentation/invalid_deep_link_screen.
 import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/splash_screen.dart';
-import 'package:fluxer_app/features/shell/presentation/stub_screen.dart';
 import 'package:fluxer_app/features/shell/providers/shell_popup_overlay_provider.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/voice/presentation/dm_voice_call_fullscreen_page.dart'
     deferred as dm_voice_call;
 import 'package:go_router/go_router.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 export 'package:fluxer_app/core/router/shell_navigator_keys.dart';
@@ -121,6 +122,16 @@ class ServerReachable extends _$ServerReachable {
 
 class _RouterRefreshNotifier extends ChangeNotifier {
   void notify() => notifyListeners();
+}
+
+CustomTransitionPage<void> _dmShellTransitionPage(GoRouterState state) {
+  final String? channelId = state.pathParameters['channelId'];
+  final String? messageId = state.pathParameters['messageId'];
+  return shellSlideTransitionPage(
+    key: state.pageKey,
+    parallaxOutgoing: true,
+    child: DMLayout(channelId: channelId, targetMessageId: messageId),
+  );
 }
 
 @Riverpod(keepAlive: true)
@@ -446,21 +457,14 @@ GoRouter fluxerRouter(Ref ref) {
               GoRoute(
                 path: '/channels/@me',
                 name: RouteNames.dms,
-                pageBuilder: (context, state) => shellFadeTransitionPage(
-                  key: state.pageKey,
-                  child: const DMLayout(),
-                ),
+                pageBuilder: (BuildContext context, GoRouterState state) =>
+                    _dmShellTransitionPage(state),
                 routes: [
                   GoRoute(
                     path: ':channelId',
                     name: RouteNames.dmChannel,
-                    pageBuilder: (context, state) => shellSlideTransitionPage(
-                      key: state.pageKey,
-                      parallaxOutgoing: true,
-                      child: DMLayout(
-                        channelId: state.pathParameters['channelId'],
-                      ),
-                    ),
+                    pageBuilder: (BuildContext context, GoRouterState state) =>
+                        _dmShellTransitionPage(state),
                     routes: [
                       GoRoute(
                         path: 'call',
@@ -497,16 +501,9 @@ GoRouter fluxerRouter(Ref ref) {
                       GoRoute(
                         path: ':messageId',
                         name: RouteNames.dmMessage,
-                        pageBuilder: (context, state) =>
-                            shellSlideTransitionPage(
-                              key: state.pageKey,
-                              parallaxOutgoing: true,
-                              child: DMLayout(
-                                channelId: state.pathParameters['channelId'],
-                                targetMessageId:
-                                    state.pathParameters['messageId'],
-                              ),
-                            ),
+                        pageBuilder:
+                            (BuildContext context, GoRouterState state) =>
+                                _dmShellTransitionPage(state),
                       ),
                     ],
                   ),
@@ -602,9 +599,8 @@ GoRouter fluxerRouter(Ref ref) {
                     name: RouteNames.guildMembers,
                     pageBuilder: (context, state) => shellSlideTransitionPage(
                       key: state.pageKey,
-                      child: const StubScreen(
-                        title: 'Members',
-                        icon: PhosphorIconsFill.users,
+                      child: GuildMembersPage(
+                        guildId: state.pathParameters['guildId'] ?? '',
                       ),
                     ),
                   ),
@@ -651,10 +647,7 @@ GoRouter fluxerRouter(Ref ref) {
                 name: RouteNames.bookmarks,
                 pageBuilder: (context, state) => shellFadeTransitionPage(
                   key: state.pageKey,
-                  child: const StubScreen(
-                    title: 'Bookmarks',
-                    icon: PhosphorIconsFill.bookmarkSimple,
-                  ),
+                  child: const SavedMessagesPage(),
                 ),
               ),
               // /mentions
@@ -663,10 +656,7 @@ GoRouter fluxerRouter(Ref ref) {
                 name: RouteNames.mentions,
                 pageBuilder: (context, state) => shellFadeTransitionPage(
                   key: state.pageKey,
-                  child: const StubScreen(
-                    title: 'Mentions',
-                    icon: PhosphorIconsFill.at,
-                  ),
+                  child: const RecentMentionsPage(),
                 ),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/constants/external_urls.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_incident.dart';
+import 'package:fluxer_app/features/shell/domain/service_status_maintenance.dart';
 
 const Duration _kStatusRequestTimeout = Duration(seconds: 8);
 
@@ -102,6 +103,45 @@ _NormalizedMaintenance? _selectActiveMaintenance(List<dynamic>? maintenances) {
   return selected;
 }
 
+ServiceStatusMaintenanceStatus _toMaintenanceStatus(String status) {
+  return switch (status) {
+    'in_progress' => ServiceStatusMaintenanceStatus.inProgress,
+    'scheduled' => ServiceStatusMaintenanceStatus.scheduled,
+    'completed' => ServiceStatusMaintenanceStatus.completed,
+    _ => ServiceStatusMaintenanceStatus.scheduled,
+  };
+}
+
+String _maintenanceStatusStorageKey(ServiceStatusMaintenanceStatus status) {
+  return switch (status) {
+    ServiceStatusMaintenanceStatus.inProgress => 'in_progress',
+    ServiceStatusMaintenanceStatus.scheduled => 'scheduled',
+    ServiceStatusMaintenanceStatus.completed => 'completed',
+  };
+}
+
+ServiceStatusMaintenance? _mapMaintenance(_NormalizedMaintenance? maintenance) {
+  if (maintenance == null) {
+    return null;
+  }
+  final DateTime? start = DateTime.tryParse(maintenance.start);
+  if (start == null) {
+    return null;
+  }
+  return ServiceStatusMaintenance(
+    id: maintenance.id,
+    name: maintenance.name,
+    status: _toMaintenanceStatus(maintenance.status),
+    start: start.toUtc(),
+    durationMinutes: maintenance.durationMinutes,
+    url: maintenance.url,
+  );
+}
+
+String maintenanceStatusStorageValue(ServiceStatusMaintenance maintenance) {
+  return _maintenanceStatusStorageKey(maintenance.status);
+}
+
 bool _shouldFetchComponentMaintenances(
   Map<String, dynamic> data,
   _NormalizedMaintenance? activeMaintenance,
@@ -199,6 +239,30 @@ class ServiceStatusClient {
         );
       }
       return null;
+    } on DioException {
+      return null;
+    }
+  }
+
+  Future<ServiceStatusMaintenance?> fetchScheduledMaintenance() async {
+    try {
+      final Response<dynamic> response = await _dio.get<dynamic>(
+        '${ExternalUrls.serviceStatus}/summary.json',
+      );
+      if (response.statusCode != 200 ||
+          response.data is! Map<String, dynamic>) {
+        return null;
+      }
+      final Map<String, dynamic> data = response.data as Map<String, dynamic>;
+      _NormalizedMaintenance? activeMaintenance = _selectActiveMaintenance(
+        data['activeMaintenances'] as List<dynamic>?,
+      );
+      if (_shouldFetchComponentMaintenances(data, activeMaintenance)) {
+        activeMaintenance = _selectActiveMaintenance(
+          await _fetchComponentMaintenancesList(),
+        );
+      }
+      return _mapMaintenance(activeMaintenance);
     } on DioException {
       return null;
     }

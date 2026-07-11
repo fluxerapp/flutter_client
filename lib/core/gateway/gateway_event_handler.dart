@@ -1303,7 +1303,10 @@ class GatewayEventHandler {
       decision: decision,
     );
 
-    if (mentionsCurrentUser && !isDm && !acknowledgedByGateway) {
+    if (mentionsCurrentUser &&
+        !isDm &&
+        !acknowledgedByGateway &&
+        !mentionCtx.blockedUserIds.contains(msg.authorId)) {
       if (mentionFeedWriteBatcher != null) {
         mentionFeedWriteBatcher!.enqueue(
           messageId: msg.id,

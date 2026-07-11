@@ -19,7 +19,6 @@ import 'package:fluxer_app/features/chat/utils/media_proxy_url.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/shared/utils/media_kit_bootstrap.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -1108,7 +1107,6 @@ class _FavoriteMediaVideoPreviewState
 
   Future<void> _openPlayer(Player player, String url) async {
     try {
-      await MediaKitBootstrap.ensureInitialized();
       await player.open(
         Media(url, httpHeaders: _kFavoriteMediaVideoHttpHeaders),
         play: widget.isVisible && widget.allowPlayback,

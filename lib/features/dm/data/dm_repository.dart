@@ -351,4 +351,84 @@ class DmRepository {
       muted: false,
     );
   }
+
+  Future<ChannelResponse> updateGroupDm({
+    required String channelId,
+    String? name,
+    String? icon,
+    bool removeIcon = false,
+  }) async {
+    try {
+      final ChannelResponse response = await _client.channels.updateChannel(
+        channelId: channelId,
+        body: ChannelUpdateRequest3(
+          type: GroupDmChannelUpdateRequestTypeType.groupDm,
+          name: name,
+          icon: removeIcon ? null : icon,
+          ownerId: null,
+          nicks: null,
+        ),
+      );
+      final db.DmChannelsCompanion? companion = await _buildDmChannelCompanion(
+        response,
+      );
+      if (companion != null) {
+        await _db.dmChannelDao.upsertDmChannels([companion]);
+      }
+      return response;
+    } on DioException catch (e) {
+      throw Exception(e.response?.statusMessage ?? 'Failed to update group');
+    }
+  }
+
+  Future<void> addGroupDmMember({
+    required String channelId,
+    required String userId,
+  }) async {
+    try {
+      await _client.channels.addGroupDmRecipient(
+        channelId: channelId,
+        userId: userId,
+      );
+    } on DioException catch (e) {
+      throw Exception(
+        e.response?.statusMessage ?? 'Failed to add group member',
+      );
+    }
+  }
+
+  Future<String> createGroupDmInvite({required String channelId}) async {
+    try {
+      final InviteMetadataResponseSchema invite = await _client.invites
+          .createChannelInvite(
+            channelId: channelId,
+            body: const ChannelInviteCreateRequest(
+              maxAge: 86400,
+              maxUses: 0,
+              temporary: false,
+            ),
+          );
+      return invite.toGroupDmInviteMetadataResponse().code;
+    } on DioException catch (e) {
+      throw Exception(e.response?.statusMessage ?? 'Failed to create invite');
+    }
+  }
+
+  Future<List<InviteMetadataResponseSchema>> listGroupDmInvites(
+    String channelId,
+  ) async {
+    try {
+      return await _client.invites.listChannelInvites(channelId: channelId);
+    } on DioException catch (e) {
+      throw Exception(e.response?.statusMessage ?? 'Failed to load invites');
+    }
+  }
+
+  Future<void> revokeGroupDmInvite(String inviteCode) async {
+    try {
+      await _client.invites.deleteInvite(inviteCode: inviteCode);
+    } on DioException catch (e) {
+      throw Exception(e.response?.statusMessage ?? 'Failed to revoke invite');
+    }
+  }
 }

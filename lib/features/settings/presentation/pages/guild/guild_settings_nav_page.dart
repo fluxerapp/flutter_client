@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
@@ -13,18 +14,35 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class GuildSettingsNavPage extends ConsumerWidget {
+class GuildSettingsNavPage extends ConsumerStatefulWidget {
   const GuildSettingsNavPage({required this.guildId, super.key});
 
   final String guildId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GuildSettingsNavPage> createState() =>
+      _GuildSettingsNavPageState();
+}
+
+class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      ref.read(guildSyncProvider.notifier).syncIfNeeded(widget.guildId);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final int permissions = ref.watch(
-      guildSettingsPermissionsProvider(guildId),
+      guildSettingsPermissionsProvider(widget.guildId),
     );
-    final Guild? guild = ref.watch(guildByIdProvider(guildId)).value;
+    final Guild? guild = ref.watch(guildByIdProvider(widget.guildId)).value;
     final List<GuildSettingsTab> tabs = visibleGuildSettingsTabsForRef(
       ref: ref,
       permissions: permissions,
@@ -52,7 +70,7 @@ class GuildSettingsNavPage extends ConsumerWidget {
           layout.s4,
           layout.s4,
         ),
-        groups: _buildNavGroups(l10n, tabs, context, guildId, ref),
+        groups: _buildNavGroups(l10n, tabs, context, widget.guildId, ref),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_gallery_media.dart';
@@ -22,6 +23,7 @@ class EmbedRich extends StatelessWidget {
   final FluxerSpoilerSyncController? spoilerSyncController;
   final String? channelId;
   final String? messageId;
+  final MessageMediaActionScope? videoActionScope;
 
   const EmbedRich({
     required this.embed,
@@ -32,6 +34,7 @@ class EmbedRich extends StatelessWidget {
     this.spoilerSyncController,
     this.channelId,
     this.messageId,
+    this.videoActionScope,
     super.key,
   });
 
@@ -45,6 +48,13 @@ class EmbedRich extends StatelessWidget {
         ? ChatVideoSource.fromEmbed(embed)
         : null;
     final bool hasVideo = videoSource != null && videoSource.hasPlayableContent;
+    final ChatFullscreenVideoLaunchContext? videoLaunchContext = hasVideo
+        ? ChatFullscreenVideoLaunchContext.fromEmbed(
+            embed: embed,
+            embedIndex: embedIndex,
+            actionScope: videoActionScope,
+          )
+        : null;
     final bool hasImage = embed.image != null;
     final bool hasThumbnail =
         !hasVideo &&
@@ -122,7 +132,8 @@ class EmbedRich extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
                         child: ChatInlineVideoPlayer(
-                          source: videoSource,
+                          source: videoLaunchContext!.source,
+                          launchContext: videoLaunchContext,
                           dimensionSize: dimensionSize,
                           posterFit: BoxFit.contain,
                         ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -14,9 +15,13 @@ import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/gateway.dart';
 
+import '../../../../helpers/message_realtime_test_helpers.dart';
 import '../../../../helpers/open_test_database.dart';
 
 const int _kMinuteMs = 60 * 1000;
@@ -70,7 +75,61 @@ List<Map<String, Object?>> _channelMessages(
     ),
 ];
 
+void _emitCreatedMessage(ProviderContainer container, {required String id}) {
+  container
+      .read(messageRealtimeBusProvider)
+      .emit(
+        testMessageCreated(
+          MessageCreateEvent(
+            message: MessageResponseSchema.fromJson(
+              _messageJson(id: id, channelId: 'channel-1', authorId: 'other'),
+            ),
+          ),
+          snapshot: const MessagePersistSnapshot(
+            mentionsCurrentUser: false,
+            isDm: false,
+            guildStorageId: null,
+            acknowledgedByGateway: true,
+          ),
+        ),
+      );
+}
+
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  Future<(ProviderContainer, ChatViewModel, List<Map<String, Object?>>)>
+  setUpLoadedLiveTailWindow() async {
+    final db = openTestDatabase();
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+    final List<Map<String, Object?>> loaded = _channelMessages(
+      'channel-1',
+      kMaxLoadedMessages,
+    );
+    final adapter = _PaginatingAdapter(
+      messagesByChannel: {'channel-1': loaded},
+      pageLimit: kMaxLoadedMessages,
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
+
+    final state = container.read(chatViewModelProvider);
+    expect(state.messages, hasLength(kMaxLoadedMessages));
+    expect(state.messages.first.id, loaded.first['id']);
+    expect(state.hasMoreNewerMessages, isFalse);
+    return (container, notifier, loaded);
+  }
+
   test(
     'loadMore prepends older messages without trimming the newest',
     () async {
@@ -159,6 +218,72 @@ void main() {
       expect(state.messages.length, 250);
       notifier.trimToNewestWindow();
       expect(container.read(chatViewModelProvider).messages.length, 250);
+    },
+  );
+
+  test(
+    'realtime create while scrolled up preserves loaded older messages',
+    () async {
+      final (container, notifier, loaded) = await setUpLoadedLiveTailWindow();
+      final String oldestSeededId = loaded.first['id']! as String;
+      final String newMessageId = _snowflakeForIndex(kMaxLoadedMessages);
+
+      notifier.updateReadViewport(
+        isNearBottom: false,
+        distanceFromBottom: 1000,
+        viewportHeight: 600,
+      );
+      _emitCreatedMessage(container, id: newMessageId);
+      await _flushAsync();
+
+      final state = container.read(chatViewModelProvider);
+      expect(state.messages, hasLength(kMaxLoadedMessages + 1));
+      expect(state.messages.first.id, oldestSeededId);
+      expect(state.messages.last.id, newMessageId);
+    },
+  );
+
+  test('realtime create at live tail trims to newest window', () async {
+    final (container, notifier, _) = await setUpLoadedLiveTailWindow();
+    final String newMessageId = _snowflakeForIndex(kMaxLoadedMessages);
+    final String firstRetainedId = _snowflakeForIndex(
+      kMaxLoadedMessages + 1 - kTrimmedMessageWindowSize,
+    );
+
+    notifier.updateReadViewport(isNearBottom: true, viewportHeight: 600);
+    _emitCreatedMessage(container, id: newMessageId);
+    await _flushAsync();
+
+    final state = container.read(chatViewModelProvider);
+    expect(state.messages, hasLength(kTrimmedMessageWindowSize));
+    expect(state.messages.first.id, firstRetainedId);
+    expect(state.messages.last.id, newMessageId);
+    expect(state.hasMoreMessages, isTrue);
+  });
+
+  test(
+    'batched realtime creates while scrolled up preserve loaded older messages',
+    () async {
+      final (container, notifier, loaded) = await setUpLoadedLiveTailWindow();
+      final String oldestSeededId = loaded.first['id']! as String;
+      final String firstNewMessageId = _snowflakeForIndex(kMaxLoadedMessages);
+      final String secondNewMessageId = _snowflakeForIndex(
+        kMaxLoadedMessages + 1,
+      );
+
+      notifier.updateReadViewport(
+        isNearBottom: false,
+        distanceFromBottom: 1000,
+        viewportHeight: 600,
+      );
+      _emitCreatedMessage(container, id: firstNewMessageId);
+      _emitCreatedMessage(container, id: secondNewMessageId);
+      await _flushAsync();
+
+      final state = container.read(chatViewModelProvider);
+      expect(state.messages, hasLength(kMaxLoadedMessages + 2));
+      expect(state.messages.first.id, oldestSeededId);
+      expect(state.messages.last.id, secondNewMessageId);
     },
   );
 
@@ -288,6 +413,11 @@ ProviderContainer _container(FluxerDatabase db, _PaginatingAdapter adapter) {
 }
 
 Future<void> _flushAsync() async {
+  for (var i = 0; i < 8; i++) {
+    await pumpEventQueue();
+  }
+  SchedulerBinding.instance.handleBeginFrame(Duration.zero);
+  SchedulerBinding.instance.handleDrawFrame();
   for (var i = 0; i < 8; i++) {
     await pumpEventQueue();
   }

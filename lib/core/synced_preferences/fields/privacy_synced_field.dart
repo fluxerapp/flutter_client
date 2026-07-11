@@ -45,8 +45,24 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
   }
 
   @override
+  $pb.GeneratedMessage? readWireSubMessage(pb.SyncedPreferences wire) {
+    return wire.hasPrivacy() ? wire.privacy : null;
+  }
+
+  @override
   $pb.GeneratedMessage toProtoMessage(PrivacyLocalState local) {
-    return pb.PrivacyPreferences(showActiveNow: local.showActiveNow);
+    return toProtoForPush(local: local);
+  }
+
+  @override
+  $pb.GeneratedMessage toProtoMessageForPush(
+    PrivacyLocalState local, {
+    $pb.GeneratedMessage? wireSubMessage,
+  }) {
+    return toProtoForPush(
+      local: local,
+      wireBase: wireSubMessage as pb.PrivacyPreferences?,
+    );
   }
 
   @override
@@ -59,7 +75,7 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
     required PrivacyLocalState local,
     required PrivacyLocalState remote,
   }) {
-    return local;
+    return remote;
   }
 
   @override
@@ -67,5 +83,16 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
     final proto = toProtoMessage(candidate) as pb.PrivacyPreferences;
     final roundtripped = readFromProto(pb.SyncedPreferences(privacy: proto));
     return roundtripped != null && statesEqual(candidate, roundtripped);
+  }
+
+  static pb.PrivacyPreferences toProtoForPush({
+    required PrivacyLocalState local,
+    pb.PrivacyPreferences? wireBase,
+  }) {
+    final pb.PrivacyPreferences settings = wireBase != null
+        ? (pb.PrivacyPreferences()..mergeFromMessage(wireBase))
+        : pb.PrivacyPreferences();
+    settings.showActiveNow = local.showActiveNow;
+    return settings;
   }
 }

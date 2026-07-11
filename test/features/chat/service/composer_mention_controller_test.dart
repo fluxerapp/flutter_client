@@ -207,6 +207,20 @@ void main() {
     expect(controller.toWireText(), '12:30:45 <:smile:9>');
   });
 
+  testWidgets('mentionWireToDisplayFragment chips pasted mention and emoji', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await _pumpController(tester);
+
+    final String display = await controller.mentionWireToDisplayFragment(
+      'hi <@123> :wave:',
+    );
+    controller.text = display;
+
+    expect(display, isNot(contains('<@123>')));
+    expect(controller.toWireText(), 'hi <@123> :wave:');
+  });
+
   testWidgets('keeps mention chip visible during IME composing', (
     WidgetTester tester,
   ) async {

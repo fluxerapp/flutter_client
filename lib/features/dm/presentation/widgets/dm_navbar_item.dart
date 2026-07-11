@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -117,6 +118,13 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
             hash: recipient?.avatar,
           );
     final avatarColor = recipient?.avatarColor;
+    final bool isTyping = !isGroup
+        ? ref.watch(
+            isUserTypingInChannelProvider(widget.channelId, widget.recipientId),
+          )
+        : groupDm != null && ref.watch(dmAvatarIsTypingProvider(groupDm));
+    final bool showPresence = !isGroup && widget.recipientId != fluxerBotUserId;
+    final String? recipientStatus = recipient?.status;
 
     final indicatorHeight = isSelected
         ? 40.0
@@ -192,6 +200,7 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                                             dm: groupDm,
                                             size: 44,
                                             status: groupDm.groupStatus,
+                                            isTyping: isTyping,
                                           )
                                         : FluxerAvatarCluster(
                                             channelId: widget.channelId,
@@ -202,6 +211,9 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                                       userId: widget.recipientId,
                                       imageUrl: avatarImageUrl,
                                       avatarColor: avatarColor,
+                                      status: recipientStatus,
+                                      showStatus: showPresence || isTyping,
+                                      isTyping: isTyping,
                                       size: 44,
                                     ),
                             ),

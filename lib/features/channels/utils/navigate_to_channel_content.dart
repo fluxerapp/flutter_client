@@ -90,6 +90,10 @@ Future<void> navigateToDmChannelContent({
   navigateToContent(context, path);
 }
 
+void navigateToDmFriendsContent(BuildContext context) {
+  navigateToContent(context, RoutePaths.me);
+}
+
 Future<void> navigateToGuildChannelContent({
   required BuildContext context,
   required WidgetRef ref,

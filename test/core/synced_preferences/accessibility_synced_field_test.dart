@@ -73,5 +73,61 @@ void main() {
       );
       expect(restored.customThemeCss, isNull);
     });
+
+    test('toProtoForPush preserves desktop-only fields from wire base', () {
+      const local = AccessibilityLocalState(
+        hideKeyboardHints: true,
+        channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+        showSelectedChannelTypingIndicator: false,
+        showFadedUnreadOnMutedChannels: false,
+        dmMessagePreviewMode: DmMessagePreviewMode.all,
+        showFavorites: true,
+        useSystemLocaleForTimeFormat: false,
+        messageGroupSpacing: 16,
+        compactMessageGroupSpacing: 0,
+        saturationFactor: 1,
+        customThemeCss: null,
+        hasSaturationFactorInProto: false,
+        hasCustomThemeCssInProto: false,
+      );
+      final wireBase = accessibility_pb.AccessibilitySettings(
+        showMessageSendButton: true,
+        autoSendKlipyGifs: true,
+      );
+      final pushed = AccessibilitySyncedField.toProtoForPush(
+        local: local,
+        wireBase: wireBase,
+      );
+      expect(pushed.showMessageSendButton, isTrue);
+      expect(pushed.autoSendKlipyGifs, isTrue);
+      expect(pushed.hideKeyboardHints, isTrue);
+    });
+
+    test('toProtoForPush keeps wire custom theme css when local has none', () {
+      const local = AccessibilityLocalState(
+        hideKeyboardHints: false,
+        channelTypingIndicatorMode: ChannelTypingIndicatorMode.avatars,
+        showSelectedChannelTypingIndicator: false,
+        showFadedUnreadOnMutedChannels: false,
+        dmMessagePreviewMode: DmMessagePreviewMode.all,
+        showFavorites: true,
+        useSystemLocaleForTimeFormat: false,
+        messageGroupSpacing: 16,
+        compactMessageGroupSpacing: 0,
+        saturationFactor: 1,
+        customThemeCss: null,
+        hasSaturationFactorInProto: false,
+        hasCustomThemeCssInProto: false,
+      );
+      const css = ':root { --brand-primary: #010203; }';
+      final wireBase = accessibility_pb.AccessibilitySettings(
+        customThemeCss: css,
+      );
+      final pushed = AccessibilitySyncedField.toProtoForPush(
+        local: local,
+        wireBase: wireBase,
+      );
+      expect(pushed.customThemeCss, css);
+    });
   });
 }

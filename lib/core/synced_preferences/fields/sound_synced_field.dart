@@ -51,6 +51,22 @@ class SoundSyncedField extends SyncedFieldAdapter<SoundLocalState> {
   }
 
   @override
+  $pb.GeneratedMessage? readWireSubMessage(pb.SyncedPreferences wire) {
+    return wire.hasSound() ? wire.sound : null;
+  }
+
+  @override
+  $pb.GeneratedMessage toProtoMessageForPush(
+    SoundLocalState local, {
+    $pb.GeneratedMessage? wireSubMessage,
+  }) {
+    return toProtoForPush(
+      local: local,
+      wireBase: wireSubMessage as pickers.SoundSettings?,
+    );
+  }
+
+  @override
   bool statesEqual(SoundLocalState a, SoundLocalState b) {
     return a.allSoundsDisabled == b.allSoundsDisabled &&
         a.masterVolume == b.masterVolume &&
@@ -82,5 +98,20 @@ class SoundSyncedField extends SyncedFieldAdapter<SoundLocalState> {
       }
     }
     return true;
+  }
+
+  static pickers.SoundSettings toProtoForPush({
+    required SoundLocalState local,
+    pickers.SoundSettings? wireBase,
+  }) {
+    final pickers.SoundSettings settings = wireBase != null
+        ? (pickers.SoundSettings()..mergeFromMessage(wireBase))
+        : pickers.SoundSettings();
+    settings.allSoundsDisabled = local.allSoundsDisabled;
+    settings.masterVolume = local.masterVolume;
+    settings.disabledSounds
+      ..clear()
+      ..addEntries(local.disabledSounds.entries);
+    return settings;
   }
 }

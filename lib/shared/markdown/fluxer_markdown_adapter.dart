@@ -77,6 +77,12 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     blockquoteTextColor: context?.colors.textChatMuted,
     inlineCodeBackgroundColor: context?.colors.bgCodeBlock,
     inlineCodeTextColor: context?.colors.textSecondary,
+    tableBorderColor: context?.colors.borderColor,
+    tableHeaderBackgroundColor: context?.colors.bgTableHeader,
+    tableHeaderTextColor: context?.colors.textPrimary,
+    tableRowOddBackgroundColor: context?.colors.bgTableRowOdd,
+    tableRowEvenBackgroundColor: context?.colors.bgTableRowEven,
+    tableBorderRadius: context?.layout.radiusMd,
     spoilerBackgroundColor: context?.colors.spoilerBackground,
     internalLinkPattern: buildChannelJumpLinkPattern(channelJumpLinkHosts()),
     userMentionBuilder: (context, id, style) {

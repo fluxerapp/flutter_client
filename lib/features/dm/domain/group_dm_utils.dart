@@ -65,3 +65,17 @@ bool isGroupDmFull({
 }) {
   return memberCount >= maxGroupDmRecipients;
 }
+
+int getGroupDmRemainingSlots({
+  required int memberCount,
+  required int maxGroupDmRecipients,
+}) {
+  return (maxGroupDmRecipients - memberCount).clamp(0, maxGroupDmRecipients);
+}
+
+bool isGroupDmOwner({
+  required String? ownerId,
+  required String? currentUserId,
+}) {
+  return ownerId != null && currentUserId != null && ownerId == currentUserId;
+}

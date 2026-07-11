@@ -15,6 +15,7 @@ dependencies:
   cached_network_image_ce: ^4.6.4
   clock: ^1.1.2
   connectivity_plus: ^7.1.1
+  country_flags: ^4.1.2
   crop_your_image: ^2.0.0
   cross_file: ^0.3.5+2
   cupertino_icons: ^1.0.8

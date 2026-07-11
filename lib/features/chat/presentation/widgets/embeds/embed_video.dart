@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
-import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/embeds/embed_shared.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_inline_video_player.dart';
@@ -19,6 +19,9 @@ class EmbedVideo extends StatelessWidget {
   final FluxerSpoilerSyncController? spoilerSyncController;
   final List<String> spoilerSyncKeys;
   final String? channelId;
+  final String? messageId;
+  final int? embedIndex;
+  final MessageMediaActionScope? videoActionScope;
 
   const EmbedVideo({
     required this.embed,
@@ -28,6 +31,9 @@ class EmbedVideo extends StatelessWidget {
     this.spoilerSyncController,
     this.spoilerSyncKeys = const [],
     this.channelId,
+    this.messageId,
+    this.embedIndex,
+    this.videoActionScope,
     super.key,
   });
 
@@ -41,7 +47,12 @@ class EmbedVideo extends StatelessWidget {
         : context.colors.backgroundSecondaryAlt;
 
     final dimensions = mediaDimensionsForSize(dimensionSize);
-    final ChatVideoSource source = ChatVideoSource.fromEmbed(embed);
+    final ChatFullscreenVideoLaunchContext launchContext =
+        ChatFullscreenVideoLaunchContext.fromEmbed(
+          embed: embed,
+          embedIndex: embedIndex,
+          actionScope: videoActionScope,
+        );
 
     return Container(
       margin: const EdgeInsets.only(top: 4),
@@ -95,7 +106,8 @@ class EmbedVideo extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: ChatInlineVideoPlayer(
-                    source: source,
+                    source: launchContext.source,
+                    launchContext: launchContext,
                     dimensionSize: dimensionSize,
                     posterFit: BoxFit.contain,
                   ),

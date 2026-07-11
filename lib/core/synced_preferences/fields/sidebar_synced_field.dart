@@ -44,8 +44,24 @@ class SidebarSyncedField extends SyncedFieldAdapter<SidebarLocalState> {
   }
 
   @override
+  $pb.GeneratedMessage? readWireSubMessage(pb.SyncedPreferences wire) {
+    return wire.hasSidebar() ? wire.sidebar : null;
+  }
+
+  @override
   $pb.GeneratedMessage toProtoMessage(SidebarLocalState local) {
-    return pb.SidebarPreferences(inlineDmsCollapsed: local.inlineDmsCollapsed);
+    return toProtoForPush(local: local);
+  }
+
+  @override
+  $pb.GeneratedMessage toProtoMessageForPush(
+    SidebarLocalState local, {
+    $pb.GeneratedMessage? wireSubMessage,
+  }) {
+    return toProtoForPush(
+      local: local,
+      wireBase: wireSubMessage as pb.SidebarPreferences?,
+    );
   }
 
   @override
@@ -58,7 +74,7 @@ class SidebarSyncedField extends SyncedFieldAdapter<SidebarLocalState> {
     required SidebarLocalState local,
     required SidebarLocalState remote,
   }) {
-    return local;
+    return remote;
   }
 
   @override
@@ -69,5 +85,16 @@ class SidebarSyncedField extends SyncedFieldAdapter<SidebarLocalState> {
       ),
     );
     return roundtripped != null && statesEqual(candidate, roundtripped);
+  }
+
+  static pb.SidebarPreferences toProtoForPush({
+    required SidebarLocalState local,
+    pb.SidebarPreferences? wireBase,
+  }) {
+    final pb.SidebarPreferences settings = wireBase != null
+        ? (pb.SidebarPreferences()..mergeFromMessage(wireBase))
+        : pb.SidebarPreferences();
+    settings.inlineDmsCollapsed = local.inlineDmsCollapsed;
+    return settings;
   }
 }

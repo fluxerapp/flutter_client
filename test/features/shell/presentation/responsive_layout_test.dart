@@ -42,4 +42,44 @@ void main() {
       expect(find.text('no'), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'isWideLayout is false when shortest side is under mobile breakpoint',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: MediaQuery(
+            data: const MediaQueryData(size: Size(900, 400)),
+            child: Builder(
+              builder: (BuildContext context) {
+                return Text(isWideLayout(context) ? 'yes' : 'no');
+              },
+            ),
+          ),
+        ),
+      );
+      expect(find.text('no'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'isWideLayout is true when shortest side is at least mobile breakpoint',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: MediaQuery(
+            data: const MediaQueryData(size: Size(1200, 800)),
+            child: Builder(
+              builder: (BuildContext context) {
+                return Text(isWideLayout(context) ? 'yes' : 'no');
+              },
+            ),
+          ),
+        ),
+      );
+      expect(find.text('yes'), findsOneWidget);
+    },
+  );
 }

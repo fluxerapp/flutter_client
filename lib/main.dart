@@ -19,6 +19,7 @@ import 'package:fluxer_app/core/push/fcm/fcm_entrypoint.dart';
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:image_picker_android/image_picker_android.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:window_manager/window_manager.dart';
 
 void _configureImagePicker() {
@@ -66,6 +67,13 @@ Future<void> _bootstrapFluxer(List<String> args) async {
   configureFluxerImageCache();
   configureFluxerErrorUi();
   _configureFluxerErrorReporting();
+
+  if (!kIsWeb) {
+    FluxerObservability.instance.traceSync(
+      'app.bootstrap.media_kit',
+      MediaKit.ensureInitialized,
+    );
+  }
 
   final ProviderContainer container = ProviderContainer();
   await container.read(observabilityReportingProvider.notifier).load();

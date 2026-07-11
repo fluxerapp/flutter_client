@@ -33,6 +33,7 @@ class FluxerInput extends StatelessWidget {
     this.textInputAction,
     this.autofillHints,
     this.inputFormatters,
+    this.contextMenuBuilder,
     this.style,
     this.maxLines = 1,
     this.minLines,
@@ -69,6 +70,7 @@ class FluxerInput extends StatelessWidget {
     this.textInputAction,
     this.autofillHints,
     this.inputFormatters,
+    this.contextMenuBuilder,
     this.style,
     this.maxLines,
     this.minLines = 3,
@@ -115,6 +117,7 @@ class FluxerInput extends StatelessWidget {
   final TextInputAction? textInputAction;
   final Iterable<String>? autofillHints;
   final List<TextInputFormatter>? inputFormatters;
+  final EditableTextContextMenuBuilder? contextMenuBuilder;
   final TextStyle? style;
   final int? maxLines;
   final int? minLines;
@@ -187,6 +190,7 @@ class FluxerInput extends StatelessWidget {
           autocorrect: autocorrect,
           enableSuggestions: enableSuggestions,
           inputFormatters: inputFormatters,
+          contextMenuBuilder: contextMenuBuilder,
           maxLines: maxLines,
           minLines: minLines,
         ),
@@ -268,6 +272,7 @@ class FluxerInput extends StatelessWidget {
                       autocorrect: autocorrect,
                       enableSuggestions: enableSuggestions,
                       inputFormatters: inputFormatters,
+                      contextMenuBuilder: contextMenuBuilder,
                       maxLines: maxLines,
                       minLines: minLines,
                     ),
@@ -340,6 +345,7 @@ class FluxerInput extends StatelessWidget {
               autocorrect: autocorrect,
               enableSuggestions: enableSuggestions,
               inputFormatters: inputFormatters,
+              contextMenuBuilder: contextMenuBuilder,
               maxLines: maxLines,
               minLines: minLines,
             ),

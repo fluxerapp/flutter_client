@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_content.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_header.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/inline_expression_panel_host.dart';
+import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_content_channel_gate.dart';
 import 'package:fluxer_app/features/mature_content/providers/mature_content_agreements_provider.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/channel_members.dart';
@@ -82,6 +83,7 @@ class ChannelLayout extends ConsumerWidget {
             : context.colors.chatBackground,
         child: SafeArea(
           child: Stack(
+            clipBehavior: Clip.none,
             children: [
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -108,7 +110,10 @@ class ChannelLayout extends ConsumerWidget {
                   );
                 },
               ),
-              const InlineExpressionPanelHost(showInlineEmojiPicker: true),
+              const InlineExpressionPanelHost(
+                showInlineEmojiPicker: true,
+                topHeaderInset: kMobileChannelHeaderHeight,
+              ),
             ],
           ),
         ),

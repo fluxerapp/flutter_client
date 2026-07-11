@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
+import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
@@ -32,7 +34,11 @@ import 'package:fluxer_app/features/chat/utils/composer_mention_query.dart';
 import 'package:fluxer_app/features/chat/utils/message_link.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/domain/group_dm_utils.dart';
+import 'package:fluxer_app/features/dm/presentation/add_friends_to_group_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
+import 'package:fluxer_app/features/dm/presentation/edit_group_dm_flow.dart';
+import 'package:fluxer_app/features/dm/presentation/group_dm_invites_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/create_dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
@@ -2890,6 +2896,20 @@ Future<void> _showDetailsMoreSheet(
             : l10n.channelDetailsDmSettingsTitle);
   final isDM = dm != null && !dm.isGroup && !dm.isPersonalNotes;
   final isGroupDM = dm != null && dm.isGroup;
+  final String? currentUserId = ref.read(currentUserIdProvider);
+  final bool isGroupDmOwner =
+      isGroupDM &&
+      dm.ownerId != null &&
+      currentUserId != null &&
+      dm.ownerId == currentUserId;
+  final bool isGroupDmFullState =
+      isGroupDM &&
+      isGroupDmFull(
+        memberCount: dm.recipientCount,
+        maxGroupDmRecipients: ref.read(
+          instanceLimitProvider(LimitKeys.maxGroupDmRecipients),
+        ),
+      );
   return FluxerBottomSheet.show<void>(
     context,
     title: title,
@@ -3004,31 +3024,33 @@ Future<void> _showDetailsMoreSheet(
         if (commonItems.isNotEmpty) FluxerMenuGroup(children: commonItems),
         if (isGroupDM)
           FluxerMenuGroup(
-            children: [
+            children: <Widget>[
               FluxerBottomSheetMenuItem(
                 label: l10n.dmEditGroup,
                 icon: PhosphorIconsBold.pencilSimple,
                 onTap: () {
                   close();
-                  _stubComingSoon(context, ref);
+                  unawaited(EditGroupDmFlow.show(context, dm: dm));
                 },
               ),
-              FluxerBottomSheetMenuItem(
-                label: l10n.channelDetailsAddFriendsToGroup,
-                icon: PhosphorIconsBold.userPlus,
-                onTap: () {
-                  close();
-                  _stubComingSoon(context, ref);
-                },
-              ),
-              FluxerBottomSheetMenuItem(
-                label: l10n.channelDetailsGroupInvites,
-                icon: PhosphorIconsBold.envelope,
-                onTap: () {
-                  close();
-                  _stubComingSoon(context, ref);
-                },
-              ),
+              if (!isGroupDmFullState)
+                FluxerBottomSheetMenuItem(
+                  label: l10n.channelDetailsAddFriendsToGroup,
+                  icon: PhosphorIconsBold.userPlus,
+                  onTap: () {
+                    close();
+                    unawaited(AddFriendsToGroupFlow.show(context, ref, dm: dm));
+                  },
+                ),
+              if (isGroupDmOwner)
+                FluxerBottomSheetMenuItem(
+                  label: l10n.channelDetailsGroupInvites,
+                  icon: PhosphorIconsBold.envelope,
+                  onTap: () {
+                    close();
+                    unawaited(GroupDmInvitesFlow.show(context, dm: dm));
+                  },
+                ),
             ],
           ),
         if (canManageChannel)

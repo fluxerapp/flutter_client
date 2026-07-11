@@ -2,23 +2,24 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/mobile_video_media_options_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_video_playback_failure_overlay.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/chat_video_playback_utils.dart';
 import 'package:fluxer_app/features/shell/providers/shell_manual_gesture_block_provider.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:fluxer_app/shared/utils/media_kit_bootstrap.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 Future<void> showChatMobileFullscreenVideo(
   BuildContext context, {
-  required ChatVideoSource source,
+  required ChatFullscreenVideoLaunchContext launchContext,
 }) async {
-  if (!source.hasPlayableContent) {
+  if (!launchContext.source.hasPlayableContent) {
     return;
   }
   final ShellManualGestureBlock shellGestureBlock = ProviderScope.containerOf(
@@ -30,7 +31,7 @@ Future<void> showChatMobileFullscreenVideo(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
         builder: (BuildContext context) =>
-            _ChatMobileFullscreenVideoPage(source: source),
+            _ChatMobileFullscreenVideoPage(launchContext: launchContext),
       ),
     );
   } finally {
@@ -38,18 +39,18 @@ Future<void> showChatMobileFullscreenVideo(
   }
 }
 
-class _ChatMobileFullscreenVideoPage extends StatefulWidget {
-  const _ChatMobileFullscreenVideoPage({required this.source});
+class _ChatMobileFullscreenVideoPage extends ConsumerStatefulWidget {
+  const _ChatMobileFullscreenVideoPage({required this.launchContext});
 
-  final ChatVideoSource source;
+  final ChatFullscreenVideoLaunchContext launchContext;
 
   @override
-  State<_ChatMobileFullscreenVideoPage> createState() =>
+  ConsumerState<_ChatMobileFullscreenVideoPage> createState() =>
       _ChatMobileFullscreenVideoPageState();
 }
 
 class _ChatMobileFullscreenVideoPageState
-    extends State<_ChatMobileFullscreenVideoPage> {
+    extends ConsumerState<_ChatMobileFullscreenVideoPage> {
   static const Duration _hudHideDelay = Duration(seconds: 3);
   static const double _kUnmutedVolume = 100;
 
@@ -71,6 +72,8 @@ class _ChatMobileFullscreenVideoPageState
   bool _isMuted = false;
   Timer? _hudHideTimer;
 
+  ChatVideoSource get _source => widget.launchContext.source;
+
   @override
   void initState() {
     super.initState();
@@ -78,88 +81,141 @@ class _ChatMobileFullscreenVideoPageState
   }
 
   Future<void> _initPlayer() async {
-    await MediaKitBootstrap.ensureInitialized();
-    if (!mounted) {
-      return;
-    }
-    final Player player = Player();
-    _player = player;
-    unawaited(player.setVolume(_kUnmutedVolume));
-    _controller = mkv.VideoController(player);
-    _playingSubscription = player.stream.playing.listen((bool playing) {
+    try {
       if (!mounted) {
         return;
       }
-      setState(() {
-        _isPlaying = playing;
-      });
-      if (playing) {
-        _scheduleHudHide();
-      } else {
-        _hudHideTimer?.cancel();
+      final Player player = Player();
+      _player = player;
+      unawaited(player.setVolume(_kUnmutedVolume));
+      _controller = mkv.VideoController(player);
+      _playingSubscription = player.stream.playing.listen((bool playing) {
+        if (!mounted || _playbackFailed) {
+          return;
+        }
         setState(() {
-          _hudVisible = true;
+          _isPlaying = playing;
         });
-      }
-    });
-    _bufferingSubscription = player.stream.buffering.listen((bool buffering) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _isBuffering = buffering;
+        if (playing) {
+          _scheduleHudHide();
+        } else {
+          _hudHideTimer?.cancel();
+          setState(() {
+            _hudVisible = true;
+          });
+        }
       });
-    });
-    _positionSubscription = player.stream.position.listen((Duration position) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _position = position;
+      _bufferingSubscription = player.stream.buffering.listen((bool buffering) {
+        if (!mounted || _playbackFailed) {
+          return;
+        }
+        setState(() {
+          _isBuffering = buffering;
+        });
       });
-    });
-    _durationSubscription = player.stream.duration.listen((Duration duration) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _duration = duration;
+      _positionSubscription = player.stream.position.listen((
+        Duration position,
+      ) {
+        if (!mounted || _playbackFailed) {
+          return;
+        }
+        setState(() {
+          _position = position;
+        });
       });
-    });
-    _errorSubscription = player.stream.error.listen((String error) {
-      if (!mounted || !_hasAttemptedPlayback || _playbackFailed) {
-        return;
-      }
-      setState(() {
-        _playbackFailed = true;
-        _isOpening = false;
+      _durationSubscription = player.stream.duration.listen((
+        Duration duration,
+      ) {
+        if (!mounted || _playbackFailed) {
+          return;
+        }
+        setState(() {
+          _duration = duration;
+        });
       });
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      unawaited(_startPlayback());
-    });
+      _errorSubscription = player.stream.error.listen((String error) {
+        if (!mounted || !_hasAttemptedPlayback || _playbackFailed) {
+          return;
+        }
+        unawaited(_handlePlaybackFailure());
+      });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_startPlayback());
+      });
+    } on Object {
+      _markPlaybackFailed();
+    }
   }
 
   @override
   void dispose() {
     _hudHideTimer?.cancel();
-    unawaited(_playingSubscription?.cancel());
-    unawaited(_bufferingSubscription?.cancel());
-    unawaited(_positionSubscription?.cancel());
-    unawaited(_durationSubscription?.cancel());
-    unawaited(_errorSubscription?.cancel());
-    unawaited(_player?.dispose());
+    unawaited(_disposePlayer());
     super.dispose();
   }
 
-  void _markPlaybackFailed() {
+  Future<void> _disposePlayer() async {
+    await _playingSubscription?.cancel();
+    await _bufferingSubscription?.cancel();
+    await _positionSubscription?.cancel();
+    await _durationSubscription?.cancel();
+    await _errorSubscription?.cancel();
+    _playingSubscription = null;
+    _bufferingSubscription = null;
+    _positionSubscription = null;
+    _durationSubscription = null;
+    _errorSubscription = null;
+    final Player? player = _player;
+    _player = null;
+    _controller = null;
+    if (player != null) {
+      await player.dispose();
+    }
+  }
+
+  Future<void> _handlePlaybackFailure() async {
     if (!mounted || _playbackFailed) {
       return;
     }
+    _hudHideTimer?.cancel();
     setState(() {
       _playbackFailed = true;
       _isOpening = false;
+      _isPlaying = false;
+      _isBuffering = false;
+      _hudVisible = true;
     });
+    await _playingSubscription?.cancel();
+    await _bufferingSubscription?.cancel();
+    await _positionSubscription?.cancel();
+    await _durationSubscription?.cancel();
+    await _errorSubscription?.cancel();
+    _playingSubscription = null;
+    _bufferingSubscription = null;
+    _positionSubscription = null;
+    _durationSubscription = null;
+    _errorSubscription = null;
+    final Player? player = _player;
+    _player = null;
+    _controller = null;
+    if (player == null) {
+      return;
+    }
+    try {
+      await player.pause();
+      await player.stop();
+    } on Object {
+      // Player may already be in a failed native state.
+    }
+    try {
+      await player.dispose();
+    } on Object {
+      // Ignore cleanup errors after playback failure.
+    }
+  }
+
+  void _markPlaybackFailed() {
+    unawaited(_handlePlaybackFailure());
   }
 
   Future<void> _startPlayback() async {
@@ -169,7 +225,7 @@ class _ChatMobileFullscreenVideoPageState
     }
     _hasAttemptedPlayback = true;
     try {
-      final String playbackUrl = await resolvePlaybackUrl(widget.source);
+      final String playbackUrl = await resolvePlaybackUrl(_source);
       await player.open(Media(playbackUrl));
       if (!mounted || _playbackFailed) {
         return;
@@ -210,6 +266,15 @@ class _ChatMobileFullscreenVideoPageState
       }
     } else {
       _hudHideTimer?.cancel();
+    }
+  }
+
+  void _keepHudVisible() {
+    _hudHideTimer?.cancel();
+    if (!_hudVisible) {
+      setState(() {
+        _hudVisible = true;
+      });
     }
   }
 
@@ -261,10 +326,24 @@ class _ChatMobileFullscreenVideoPageState
     Navigator.of(context).pop();
   }
 
+  Future<void> _openOptions() async {
+    _keepHudVisible();
+    await showMobileVideoMediaOptionsSheet(
+      context: context,
+      ref: ref,
+      launchContext: widget.launchContext,
+      onCloseViewer: _executeClose,
+    );
+    if (mounted && _isPlaying) {
+      _scheduleHudHide();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final mkv.VideoController? controller = _controller;
+    final bool showOptionsButton = widget.launchContext.hasOptionsMenu;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -274,7 +353,7 @@ class _ChatMobileFullscreenVideoPageState
             Positioned.fill(
               child: mkv.Video(controller: controller, controls: null),
             ),
-          if (_isOpening || controller == null)
+          if ((_isOpening || controller == null) && !_playbackFailed)
             const IgnorePointer(
               child: ColoredBox(
                 color: Colors.black,
@@ -310,6 +389,7 @@ class _ChatMobileFullscreenVideoPageState
             _MobileVideoHud(
               l10n: l10n,
               onClose: _executeClose,
+              onOpenOptions: showOptionsButton ? _openOptions : null,
               isMuted: _isMuted,
               onMute: _toggleMute,
               isPlaying: _isPlaying,
@@ -320,9 +400,10 @@ class _ChatMobileFullscreenVideoPageState
             ),
           if (_playbackFailed)
             ChatVideoPlaybackFailureOverlay(
-              fallbackUrl: widget.source.fallbackUrl,
+              fallbackUrl: _source.fallbackUrl,
               useRootNavigator: true,
               onClose: _executeClose,
+              onOpenOptions: showOptionsButton ? _openOptions : null,
             ),
         ],
       ),
@@ -341,10 +422,12 @@ class _MobileVideoHud extends StatelessWidget {
     required this.position,
     required this.duration,
     required this.onSeekFromGlobalDx,
+    this.onOpenOptions,
   });
 
   final FluxerLocalizations l10n;
   final VoidCallback onClose;
+  final VoidCallback? onOpenOptions;
   final bool isMuted;
   final Future<void> Function() onMute;
   final bool isPlaying;
@@ -371,7 +454,6 @@ class _MobileVideoHud extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 4, 8, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   IconButton(
                     onPressed: onClose,
@@ -386,6 +468,21 @@ class _MobileVideoHud extends StatelessWidget {
                       size: 20,
                     ),
                   ),
+                  const Spacer(),
+                  if (onOpenOptions != null)
+                    IconButton(
+                      onPressed: onOpenOptions,
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black.withValues(alpha: 0.5),
+                        foregroundColor: Colors.white,
+                      ),
+                      tooltip: l10n.mediaViewerOptions,
+                      icon: const PhosphorIcon(
+                        PhosphorIconsBold.dotsThree,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
                 ],
               ),
             ),

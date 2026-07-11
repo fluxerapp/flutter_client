@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
@@ -33,6 +36,7 @@ String _memberDisplayName(
 class MemberListSidebarMemberRow extends ConsumerStatefulWidget {
   const MemberListSidebarMemberRow({
     required this.guildId,
+    required this.channelId,
     required this.listMember,
     required this.userId,
     required this.rolesById,
@@ -42,6 +46,7 @@ class MemberListSidebarMemberRow extends ConsumerStatefulWidget {
   });
 
   final String guildId;
+  final String channelId;
   final MemberListMember listMember;
   final String userId;
   final Map<String, db.Role> rolesById;
@@ -76,6 +81,12 @@ class _MemberListSidebarMemberRowState
     );
     final bool showUserTag =
         (member.user.bot ?? false) || (member.user.system ?? false);
+    final String? currentUserId = ref.watch(currentUserIdProvider);
+    final bool isCurrentUser =
+        currentUserId != null && currentUserId == widget.userId;
+    final bool isTyping = ref.watch(
+      memberListUserIsTypingProvider(widget.channelId, widget.userId),
+    );
     final FluxerLayoutTheme layout = context.layout;
     final Widget row = SizedBox(
       height: kMemberListRowHeight,
@@ -116,6 +127,11 @@ class _MemberListSidebarMemberRowState
                     ),
                     avatarColor: member.user.avatarColor,
                     status: status,
+                    showStatus:
+                        isCurrentUser ||
+                        isTyping ||
+                        isMemberPresenceOnline(status),
+                    isTyping: isTyping,
                     size: 32,
                   ),
                   const SizedBox(width: 10),

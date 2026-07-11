@@ -18,6 +18,9 @@ const InstanceConfigSnapshot _pendingInstance = InstanceConfigSnapshot(
   displayDomain: 'b.example',
 );
 
+final InstanceConfigSnapshot _officialPendingInstance =
+    InstanceConfigSnapshot.officialDefault();
+
 class _PendingInstanceSelector extends InstanceSelector {
   @override
   Future<InstanceSelectorState> build() async {
@@ -27,6 +30,19 @@ class _PendingInstanceSelector extends InstanceSelector {
       recentInstances: <RecentInstance>[],
       requiresDiscovery: false,
       pendingSnapshot: _pendingInstance,
+    );
+  }
+}
+
+class _OfficialPendingInstanceSelector extends InstanceSelector {
+  @override
+  Future<InstanceSelectorState> build() async {
+    return InstanceSelectorState(
+      instanceUrl: 'api.fluxer.app/v1',
+      status: InstanceDiscoveryStatus.success,
+      recentInstances: const <RecentInstance>[],
+      requiresDiscovery: false,
+      pendingSnapshot: _officialPendingInstance,
     );
   }
 }
@@ -59,6 +75,35 @@ void main() {
       expect(
         container.read(authFluxerDioProvider).options.baseUrl,
         _pendingInstance.apiBaseUrl,
+      );
+    },
+  );
+
+  test(
+    'auth client targets official pending instance while add-account guard is armed',
+    () async {
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          instanceSelectorProvider.overrideWith(
+            _OfficialPendingInstanceSelector.new,
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+      await container.read(instanceSelectorProvider.future);
+      container
+          .read(activeInstanceProvider.notifier)
+          .applySnapshot(_originalInstance);
+      container
+          .read(addAccountInstanceGuardProvider.notifier)
+          .arm(_originalInstance);
+      expect(
+        container.read(authFluxerBaseUrlProvider),
+        _officialPendingInstance.apiBaseUrl,
+      );
+      expect(
+        container.read(authFluxerDioProvider).options.baseUrl,
+        _officialPendingInstance.apiBaseUrl,
       );
     },
   );

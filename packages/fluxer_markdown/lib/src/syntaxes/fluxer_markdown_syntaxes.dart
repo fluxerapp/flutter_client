@@ -278,6 +278,99 @@ class FluxerRoleMentionSyntax extends md.InlineSyntax {
   }
 }
 
+class FluxerLocalhostAutolinkSyntax extends md.InlineSyntax {
+  FluxerLocalhostAutolinkSyntax()
+    : super(
+        '(?:https?|ftp)://'
+        'localhost'
+        r'(?::\d+)?'
+        r'(?:/[^\s<]*)?'
+        '(?![a-zA-Z0-9_-])',
+        caseSensitive: false,
+      );
+
+  @override
+  bool tryMatch(md.InlineParser parser, [int? startMatchPos]) {
+    startMatchPos ??= parser.pos;
+    final Match? startMatch = pattern.matchAsPrefix(
+      parser.source,
+      startMatchPos,
+    );
+    if (startMatch == null) {
+      return false;
+    }
+    if (parser.pos > 0) {
+      final String precededBy = String.fromCharCode(
+        parser.charAt(parser.pos - 1),
+      );
+      const Set<String> validPrecedingChars = {
+        '\n',
+        ' ',
+        '*',
+        '_',
+        '~',
+        '(',
+        '>',
+      };
+      if (!validPrecedingChars.contains(precededBy)) {
+        return false;
+      }
+    }
+    parser.writeText();
+    return onMatch(parser, startMatch);
+  }
+
+  @override
+  bool onMatch(md.InlineParser parser, Match match) {
+    final String matchedText = match[0]!;
+    final int consumeLength = _autolinkConsumeLength(matchedText);
+    final String text = matchedText.substring(0, consumeLength);
+    final md.Element anchor = md.Element.text('a', text)
+      ..attributes['href'] = Uri.encodeFull(text);
+    parser
+      ..addNode(anchor)
+      ..consume(consumeLength);
+    return true;
+  }
+}
+
+int _autolinkConsumeLength(String text) {
+  var excludedLength = 0;
+  if (text.endsWith(')')) {
+    final RegExpMatch parenMatch = RegExp(r'(\(.*)?(\)+)$').firstMatch(text)!;
+    if (parenMatch.group(1) == null) {
+      excludedLength = parenMatch.group(2)!.length;
+    } else {
+      var parenCount = 0;
+      for (var i = 0; i < text.length; i++) {
+        final int char = text.codeUnitAt(i);
+        if (char == 0x28) {
+          parenCount++;
+        } else if (char == 0x29) {
+          parenCount--;
+        }
+      }
+      if (parenCount < 0) {
+        excludedLength = parenCount.abs();
+      }
+    }
+  } else if (text.endsWith(';')) {
+    final RegExpMatch? entityMatch = RegExp(r'&[0-9a-z]+;$').firstMatch(text);
+    if (entityMatch != null) {
+      excludedLength = entityMatch[0]!.length;
+    }
+  }
+  while (text.length - excludedLength > 0) {
+    final String lastChar = text[text.length - excludedLength - 1];
+    if ('?!.,:*_~'.contains(lastChar)) {
+      excludedLength++;
+    } else {
+      break;
+    }
+  }
+  return text.length - excludedLength;
+}
+
 class FluxerAppLinkSyntax extends md.InlineSyntax {
   FluxerAppLinkSyntax() : super(r'fluxer:(?://)?[^\s<>\[\]()]+');
 

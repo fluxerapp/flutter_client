@@ -355,8 +355,8 @@ class FavoritesStateHelpers {
         channels: channels,
         categories: categories,
         collapsedCategoryIds: collapsed,
-        hideMutedChannels: normalizedLocal.hideMutedChannels,
-        muted: normalizedLocal.muted,
+        hideMutedChannels: normalizedServer.hideMutedChannels,
+        muted: normalizedServer.muted,
       ),
     );
   }

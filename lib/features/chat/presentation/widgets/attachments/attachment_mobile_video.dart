@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_fullscreen_video.dart';
 import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
@@ -11,6 +11,7 @@ export 'package:fluxer_app/features/chat/presentation/widgets/media/chat_mobile_
 Future<void> showAttachmentMobileFullscreenVideo(
   BuildContext context, {
   required Attachment attachment,
+  MessageMediaActionScope? videoActionScope,
 }) async {
   if (attachment.url.isEmpty) {
     return;
@@ -20,6 +21,10 @@ Future<void> showAttachmentMobileFullscreenVideo(
   );
   await showChatMobileFullscreenVideo(
     context,
-    source: ChatVideoSource.fromAttachment(attachment, dimensions),
+    launchContext: ChatFullscreenVideoLaunchContext.fromAttachment(
+      attachment: attachment,
+      layoutDimensions: dimensions,
+      actionScope: videoActionScope,
+    ),
   );
 }

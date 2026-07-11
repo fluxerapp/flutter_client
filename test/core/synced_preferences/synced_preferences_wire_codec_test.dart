@@ -89,6 +89,44 @@ void main() {
         isTrue,
       );
     });
+
+    test('accessibility push preserves unrelated top-level field chunks', () {
+      final chatInput = _encodeMessageField(
+        112,
+        pb.ChatInputSettings(convertEmoticons: true).writeToBuffer(),
+      );
+      final accessibility = accessibility_pb.AccessibilitySettings(
+        hideKeyboardHints: false,
+        showMessageSendButton: true,
+      );
+      final wire = base64Encode(
+        Uint8List.fromList([
+          ..._encodeMessageField(1, accessibility.writeToBuffer()),
+          ...chatInput,
+        ]),
+      );
+      final updatedAccessibility = accessibility_pb.AccessibilitySettings(
+        hideKeyboardHints: true,
+        showMessageSendButton: true,
+      );
+      final encoded = SyncedPreferencesWireCodec.encodeFieldIntoWire(
+        currentWire: wire,
+        fieldNumber: SyncedPreferenceField.accessibility.fieldNumber,
+        fieldMessageBytes: updatedAccessibility.writeToBuffer(),
+      );
+      expect(
+        SyncedPreferencesWireCodec.verifyWirePreservesForeignFields(
+          before: wire,
+          after: encoded,
+          replacedFieldNumber: SyncedPreferenceField.accessibility.fieldNumber,
+        ),
+        isTrue,
+      );
+      final decoded = pb.SyncedPreferences.fromBuffer(base64Decode(encoded));
+      expect(decoded.accessibility.hideKeyboardHints, isTrue);
+      expect(decoded.accessibility.showMessageSendButton, isTrue);
+      expect(decoded.chatInput.convertEmoticons, isTrue);
+    });
   });
 }
 
@@ -110,5 +148,14 @@ Uint8List _encodeStringField(int fieldNumber, String value) {
     ..._encodeVarint(tag),
     ..._encodeVarint(valueBytes.length),
     ...valueBytes,
+  ]);
+}
+
+Uint8List _encodeMessageField(int fieldNumber, List<int> messageBytes) {
+  final tag = (fieldNumber << 3) | 2;
+  return Uint8List.fromList([
+    ..._encodeVarint(tag),
+    ..._encodeVarint(messageBytes.length),
+    ...messageBytes,
   ]);
 }

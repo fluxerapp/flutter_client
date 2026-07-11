@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
+import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
 
 Widget buildTestApp(Widget child) {
   final colorTheme = buildDarkColorTheme();
@@ -59,6 +60,38 @@ void main() {
       );
 
       expect(find.byType(FluxerStatusIndicator), findsOneWidget);
+    });
+
+    testWidgets('user variant shows typing indicator when isTyping is true', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatar.user(
+            fallbackText: 'Bob',
+            status: 'online',
+            isTyping: true,
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerTypingStatusIndicator), findsOneWidget);
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+    });
+
+    testWidgets('typing indicator renders three dots', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerTypingStatusIndicator(
+            status: 'online',
+            width: 22,
+            height: 12,
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerTypingStatusIndicator), findsOneWidget);
+      expect(find.byType(DecoratedBox), findsWidgets);
     });
 
     testWidgets('guild variant renders with fallback text', (tester) async {

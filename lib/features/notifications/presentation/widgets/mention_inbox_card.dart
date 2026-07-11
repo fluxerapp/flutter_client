@@ -24,6 +24,7 @@ class MentionInboxCard extends ConsumerWidget {
     required this.previewGuildId,
     required this.onJump,
     required this.onRemove,
+    this.removeTooltip,
     super.key,
   });
 
@@ -33,6 +34,7 @@ class MentionInboxCard extends ConsumerWidget {
   final String? previewGuildId;
   final ValueChanged<Message> onJump;
   final ValueChanged<String> onRemove;
+  final String? removeTooltip;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -131,7 +133,7 @@ class MentionInboxCard extends ConsumerWidget {
         ),
         _ActionIconButton(
           icon: PhosphorIconsRegular.x,
-          tooltip: l10n.notificationsRemoveMentionTooltip,
+          tooltip: removeTooltip ?? l10n.notificationsRemoveMentionTooltip,
           onPressed: () => onRemove(messageId),
         ),
       ],

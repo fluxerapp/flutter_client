@@ -17,7 +17,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 const double kCollapsedPanelHeight = kInlineExpressionPanelCollapsedHeight;
 
-const _kExpandedFraction = 0.85;
 const _kInlineSearchHorizontalPadding = 16.0;
 const _kInlineSearchTopPadding = 8.0;
 const _kInlineSearchBottomPadding = 8.0;
@@ -48,7 +47,7 @@ class _InlineExpressionPanelState extends State<InlineExpressionPanel>
     kCollapsedPanelHeight,
   );
   double get _panelHeight => _panelHeightNotifier.value;
-  late double _expandedHeight;
+  double _expandedHeight = kCollapsedPanelHeight;
   bool _isExpanded = false;
 
   bool _isDraggingViaScroll = false;
@@ -180,11 +179,38 @@ class _InlineExpressionPanelState extends State<InlineExpressionPanel>
   }
 
   void _setPanelHeight(double height) {
-    if (_panelHeightNotifier.value == height) {
+    final double clamped = height.clamp(
+      kCollapsedPanelHeight * 0.5,
+      _expandedHeight,
+    );
+    if (_panelHeightNotifier.value == clamped) {
       return;
     }
-    _panelHeightNotifier.value = height;
-    _isExpanded = height >= _expandedHeight - 1;
+    _panelHeightNotifier.value = clamped;
+    _isExpanded = clamped >= _expandedHeight - 1;
+  }
+
+  double _resolveExpandedHeight(
+    BuildContext context,
+    BoxConstraints constraints,
+  ) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    return inlineExpressionPanelExpandedHeight(
+      availableHeight: constraints.maxHeight,
+      screenHeight: mediaQuery.size.height,
+      keyboardInset: mediaQuery.viewInsets.bottom,
+      topPadding: mediaQuery.viewPadding.top,
+      topMargin: context.layout.s2,
+      viewPaddingBottom: mediaQuery.viewPadding.bottom,
+    );
+  }
+
+  void _syncExpandedHeight(double expandedHeight) {
+    _expandedHeight = expandedHeight;
+    if (_panelHeightNotifier.value > expandedHeight) {
+      _panelHeightNotifier.value = expandedHeight;
+      _isExpanded = true;
+    }
   }
 
   void _snapFromVelocity(double velocity) {
@@ -282,16 +308,11 @@ class _InlineExpressionPanelState extends State<InlineExpressionPanel>
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final mediaQuery = MediaQuery.of(context);
-        final expandedHeight = inlineExpressionPanelExpandedHeight(
-          availableHeight: constraints.maxHeight,
-          screenHeight: mediaQuery.size.height,
-          keyboardInset: mediaQuery.viewInsets.bottom,
-          topPadding: mediaQuery.viewPadding.top,
-          topMargin: context.layout.s2,
-          expandedFraction: _kExpandedFraction,
+        final double expandedHeight = _resolveExpandedHeight(
+          context,
+          constraints,
         );
-        _expandedHeight = expandedHeight;
+        _syncExpandedHeight(expandedHeight);
 
         return SlideTransition(
           position: _entrySlide.drive(

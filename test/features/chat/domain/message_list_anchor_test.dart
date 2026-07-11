@@ -113,4 +113,35 @@ void main() {
       expect(delta.isUnchanged, isTrue);
     });
   });
+
+  group('computeLeadingEdgeKeyDelta', () {
+    test('counts every rendered item added at the newest edge', () {
+      final delta = computeLeadingEdgeKeyDelta(
+        const <Object>['day-1', 'message-1'],
+        const <Object>['day-1', 'message-1', 'day-2', 'message-2'],
+      );
+
+      expect(delta.addedNewest, 2);
+      expect(delta.removedNewest, 0);
+    });
+
+    test('reports zero when a collapsed tail group absorbs a message', () {
+      final delta = computeLeadingEdgeKeyDelta(
+        const <Object>['day-1', 'blocked-group-1'],
+        const <Object>['day-1', 'blocked-group-1'],
+      );
+
+      expect(delta.isUnchanged, isTrue);
+    });
+
+    test('reports one when a new collapsed tail group is rendered', () {
+      final delta = computeLeadingEdgeKeyDelta(
+        const <Object>['day-1', 'message-1'],
+        const <Object>['day-1', 'message-1', 'blocked-group-2'],
+      );
+
+      expect(delta.addedNewest, 1);
+      expect(delta.removedNewest, 0);
+    });
+  });
 }

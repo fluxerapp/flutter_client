@@ -101,6 +101,22 @@ class AccessibilitySyncedField
   }
 
   @override
+  $pb.GeneratedMessage? readWireSubMessage(prefs.SyncedPreferences wire) {
+    return wire.hasAccessibility() ? wire.accessibility : null;
+  }
+
+  @override
+  $pb.GeneratedMessage toProtoMessageForPush(
+    AccessibilityLocalState local, {
+    $pb.GeneratedMessage? wireSubMessage,
+  }) {
+    return toProtoForPush(
+      local: local,
+      wireBase: wireSubMessage as pb.AccessibilitySettings?,
+    );
+  }
+
+  @override
   bool statesEqual(AccessibilityLocalState a, AccessibilityLocalState b) {
     return a.hideKeyboardHints == b.hideKeyboardHints &&
         a.channelTypingIndicatorMode == b.channelTypingIndicatorMode &&
@@ -123,16 +139,16 @@ class AccessibilitySyncedField
     required AccessibilityLocalState remote,
   }) {
     return AccessibilityLocalState(
-      hideKeyboardHints: local.hideKeyboardHints,
-      channelTypingIndicatorMode: local.channelTypingIndicatorMode,
+      hideKeyboardHints: remote.hideKeyboardHints,
+      channelTypingIndicatorMode: remote.channelTypingIndicatorMode,
       showSelectedChannelTypingIndicator:
-          local.showSelectedChannelTypingIndicator,
-      showFadedUnreadOnMutedChannels: local.showFadedUnreadOnMutedChannels,
-      dmMessagePreviewMode: local.dmMessagePreviewMode,
-      showFavorites: local.showFavorites,
-      useSystemLocaleForTimeFormat: local.useSystemLocaleForTimeFormat,
-      messageGroupSpacing: local.messageGroupSpacing,
-      compactMessageGroupSpacing: local.compactMessageGroupSpacing,
+          remote.showSelectedChannelTypingIndicator,
+      showFadedUnreadOnMutedChannels: remote.showFadedUnreadOnMutedChannels,
+      dmMessagePreviewMode: remote.dmMessagePreviewMode,
+      showFavorites: remote.showFavorites,
+      useSystemLocaleForTimeFormat: remote.useSystemLocaleForTimeFormat,
+      messageGroupSpacing: remote.messageGroupSpacing,
+      compactMessageGroupSpacing: remote.compactMessageGroupSpacing,
       saturationFactor: remote.hasSaturationFactorInProto
           ? remote.saturationFactor
           : local.saturationFactor,
@@ -197,31 +213,34 @@ class AccessibilitySyncedField
     );
   }
 
-  static AccessibilityLocalState preserveWireThemeForPush({
+  static pb.AccessibilitySettings toProtoForPush({
     required AccessibilityLocalState local,
-    required String? wireCustomThemeCss,
+    pb.AccessibilitySettings? wireBase,
   }) {
-    if (normalizeCustomThemeCss(local.customThemeCss) != null) {
-      return local;
-    }
-    final String? effectiveCss = normalizeCustomThemeCss(wireCustomThemeCss);
-    if (effectiveCss == null) {
-      return local;
-    }
-    return AccessibilityLocalState(
-      hideKeyboardHints: local.hideKeyboardHints,
-      channelTypingIndicatorMode: local.channelTypingIndicatorMode,
-      showSelectedChannelTypingIndicator:
-          local.showSelectedChannelTypingIndicator,
-      showFadedUnreadOnMutedChannels: local.showFadedUnreadOnMutedChannels,
-      dmMessagePreviewMode: local.dmMessagePreviewMode,
-      showFavorites: local.showFavorites,
-      useSystemLocaleForTimeFormat: local.useSystemLocaleForTimeFormat,
-      messageGroupSpacing: local.messageGroupSpacing,
-      compactMessageGroupSpacing: local.compactMessageGroupSpacing,
-      saturationFactor: local.saturationFactor,
-      customThemeCss: effectiveCss,
+    final pb.AccessibilitySettings settings = wireBase != null
+        ? (pb.AccessibilitySettings()..mergeFromMessage(wireBase))
+        : pb.AccessibilitySettings();
+    settings.hideKeyboardHints = local.hideKeyboardHints;
+    settings.channelTypingIndicatorMode = _toProtoTypingMode(
+      local.channelTypingIndicatorMode,
     );
+    settings.showSelectedChannelTypingIndicator =
+        local.showSelectedChannelTypingIndicator;
+    settings.showFadedUnreadOnMutedChannels =
+        local.showFadedUnreadOnMutedChannels;
+    settings.dmMessagePreviewMode = _toProtoDmPreviewMode(
+      local.dmMessagePreviewMode,
+    );
+    settings.showFavorites = local.showFavorites;
+    settings.useBrowserLocaleForTimeFormat = local.useSystemLocaleForTimeFormat;
+    settings.messageGroupSpacing = local.messageGroupSpacing;
+    settings.compactMessageGroupSpacing = local.compactMessageGroupSpacing;
+    settings.saturationFactor = local.saturationFactor;
+    final String? effectiveCss = normalizeCustomThemeCss(local.customThemeCss);
+    if (effectiveCss != null) {
+      settings.customThemeCss = effectiveCss;
+    }
+    return settings;
   }
 
   static pb.AccessibilitySettings toProto(AccessibilityLocalState local) {

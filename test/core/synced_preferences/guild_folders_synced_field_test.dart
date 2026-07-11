@@ -43,5 +43,16 @@ void main() {
         isFalse,
       );
     });
+
+    test('isLocalShrink detects local collapse while dirty', () {
+      expect(
+        GuildFoldersSyncedField.isLocalShrink(local: {1, 2}, remote: {1, 2, 3}),
+        isTrue,
+      );
+      expect(
+        GuildFoldersSyncedField.isLocalShrink(local: {1, 2, 3}, remote: {1, 2}),
+        isFalse,
+      );
+    });
   });
 }

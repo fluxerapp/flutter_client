@@ -384,5 +384,78 @@ void main() {
       final synced = pb.SyncedPreferences.fromBuffer(bytes);
       expect(synced.accessibility.saturationFactor, closeTo(0.25, 0.001));
     });
+
+    test(
+      'appearance push preserves show_message_send_button from wire',
+      () async {
+        final store = container.read(syncedPreferencesStoreProvider);
+        await container.read(themePreferenceProvider.notifier).load('u1');
+        await container.read(appearancePreferencesProvider.notifier).load('u1');
+        await store.hydrateFromUserSettings(
+          _testUserSettings(
+            syncedPreferences: _settingsWithAccessibility(
+              accessibility_pb.AccessibilitySettings(
+                showMessageSendButton: true,
+              ),
+            ),
+          ),
+        );
+
+        await container
+            .read(appearancePreferencesProvider.notifier)
+            .setHideKeyboardHints(value: true);
+        await _waitForDebounce();
+
+        expect(usersApi.pushCount, 1);
+        final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+        final synced = pb.SyncedPreferences.fromBuffer(bytes);
+        expect(synced.accessibility.showMessageSendButton, isTrue);
+        expect(synced.accessibility.hideKeyboardHints, isTrue);
+      },
+    );
+
+    test('appearance push preserves auto_send_klipy_gifs from wire', () async {
+      final store = container.read(syncedPreferencesStoreProvider);
+      await container.read(themePreferenceProvider.notifier).load('u1');
+      await container.read(appearancePreferencesProvider.notifier).load('u1');
+      await store.hydrateFromUserSettings(
+        _testUserSettings(
+          syncedPreferences: _settingsWithAccessibility(
+            accessibility_pb.AccessibilitySettings(autoSendKlipyGifs: true),
+          ),
+        ),
+      );
+
+      await container
+          .read(appearancePreferencesProvider.notifier)
+          .setHideKeyboardHints(value: true);
+      await _waitForDebounce();
+
+      expect(usersApi.pushCount, 1);
+      final bytes = base64Decode(usersApi.lastPushBody!.syncedPreferences!);
+      final synced = pb.SyncedPreferences.fromBuffer(bytes);
+      expect(synced.accessibility.autoSendKlipyGifs, isTrue);
+    });
+
+    test('first hydrate with desktop-only diff does not auto-push', () async {
+      final store = container.read(syncedPreferencesStoreProvider);
+      await store.hydrateFromUserSettings(
+        _testUserSettings(
+          syncedPreferences: _settingsWithAccessibility(
+            accessibility_pb.AccessibilitySettings(
+              showMessageSendButton: true,
+              hideKeyboardHints: true,
+            ),
+          ),
+        ),
+      );
+      await _waitForDebounce();
+
+      expect(usersApi.pushCount, 0);
+      expect(
+        container.read(appearancePreferencesProvider).hideKeyboardHints,
+        isTrue,
+      );
+    });
   });
 }

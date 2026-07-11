@@ -106,6 +106,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     return ColoredBox(
       color: context.colors.chatBackground,
       child: Stack(
+        clipBehavior: Clip.none,
         children: <Widget>[
           Column(
             children: <Widget>[

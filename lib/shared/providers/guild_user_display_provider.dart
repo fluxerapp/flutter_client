@@ -16,7 +16,8 @@ import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 
-final Set<String> _pendingGuildMemberFetches = <String>{};
+final Provider<Set<String>> _pendingGuildMemberFetchesProvider =
+    Provider<Set<String>>((_) => <String>{});
 
 Future<void> _fetchAndCacheGuildMember({
   required Ref ref,
@@ -147,15 +148,17 @@ AsyncValue<GuildUserDisplay?> _combine(
       guildId.isNotEmpty &&
       (userAsync.value == null || memberAsync.value == null)) {
     final String key = '$guildId:$userId';
-    if (!_pendingGuildMemberFetches.contains(key)) {
-      _pendingGuildMemberFetches.add(key);
+    final Set<String> pendingGuildMemberFetches = ref.read(
+      _pendingGuildMemberFetchesProvider,
+    );
+    if (pendingGuildMemberFetches.add(key)) {
       unawaited(
         _fetchAndCacheGuildMember(
           ref: ref,
           database: ref.watch(fluxerDatabaseProvider),
           userId: userId,
           guildId: guildId,
-        ).whenComplete(() => _pendingGuildMemberFetches.remove(key)),
+        ).whenComplete(() => pendingGuildMemberFetches.remove(key)),
       );
     }
   }

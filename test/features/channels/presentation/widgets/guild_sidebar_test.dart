@@ -19,6 +19,7 @@ import 'package:fluxer_app/features/channels/providers/channel_sidebar_icon_conn
 import 'package:fluxer_app/features/channels/providers/guild_collapsed_categories_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_scroll_indicator.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_mute_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_read_state_provider.dart';
 import 'package:fluxer_app/features/mature_content/domain/mature_content_types.dart';
@@ -534,6 +535,70 @@ void main() {
 
       expect(find.text('channel-20'), findsOneWidget);
     });
+
+    testWidgets(
+      'shows only one NEW MESSAGE pill when unread channels exist above and below',
+      (tester) async {
+        tester.view.physicalSize = const Size(390, 220);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final List<Channel> channels = List<Channel>.generate(
+          20,
+          (int index) => _channel('c${index + 1}', 'channel-${index + 1}'),
+        );
+        final Map<String, UnreadState> unread = <String, UnreadState>{
+          for (int index = 1; index <= 20; index++)
+            'c$index': index == 1 || index == 20
+                ? const UnreadState(hasUnread: true, hasUnreadMessages: true)
+                : const UnreadState(),
+        };
+        await tester.pumpWidget(
+          _buildTestApp(
+            overrides: _buildOverrides(
+              channelListState: ChannelListState(
+                guild: const Guild(id: _guildId, name: 'Test Guild'),
+                categories: [
+                  ChannelCategory(
+                    id: 'cat1',
+                    name: 'My Category',
+                    channels: channels,
+                  ),
+                ],
+                selectedChannelId: 'c10',
+              ),
+              selectedChannelId: 'c10',
+              unread: unread,
+              guildReadState: {
+                _guildId: GuildReadStateEntry.empty.copyWith(hasUnread: true),
+              },
+            ),
+          ),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+
+        final ScrollableState scrollable = tester.state<ScrollableState>(
+          find.byType(Scrollable).first,
+        );
+        scrollable.position.jumpTo(scrollable.position.maxScrollExtent / 2);
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 300));
+
+        final Iterable<AnimatedOpacity> opacities = tester
+            .widgetList<AnimatedOpacity>(
+              find.descendant(
+                of: find.byType(GuildScrollIndicatorLayer),
+                matching: find.byType(AnimatedOpacity),
+              ),
+            );
+        final int visibleCount = opacities
+            .where((AnimatedOpacity opacity) => opacity.opacity == 1.0)
+            .length;
+        expect(visibleCount, 1);
+      },
+    );
   });
 
   group('GuildSidebar scroll persistence', () {

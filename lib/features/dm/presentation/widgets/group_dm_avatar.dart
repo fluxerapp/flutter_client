@@ -20,11 +20,13 @@ FluxerAvatarCluster groupDmAvatarCluster({
   required DmConversation dm,
   required double size,
   required String? status,
+  bool isTyping = false,
 }) {
   return FluxerAvatarCluster(
     channelId: dm.id,
     iconUrl: FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon),
     status: status,
+    isTyping: isTyping,
     members: groupDmClusterMembers(dm.groupMembers),
     size: size,
   );

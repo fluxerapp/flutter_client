@@ -18,6 +18,8 @@ import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 
@@ -96,6 +98,14 @@ Future<void> showSystemMessageActionsSheet(
           ),
         ),
       );
+      ref
+          .read(toastProvider.notifier)
+          .show(
+            FluxerToast(
+              message: FluxerLocalizations.of(context).copiedToClipboard,
+              variant: FluxerToastVariant.success,
+            ),
+          );
     case MessageAction.copyText:
       final String? mentionedUserName = message.mentionedUserIds.isEmpty
           ? null

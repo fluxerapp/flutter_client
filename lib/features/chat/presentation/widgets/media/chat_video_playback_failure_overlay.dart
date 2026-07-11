@@ -9,12 +9,14 @@ class ChatVideoPlaybackFailureOverlay extends StatelessWidget {
     required this.fallbackUrl,
     this.useRootNavigator = false,
     this.onClose,
+    this.onOpenOptions,
     super.key,
   });
 
   final String fallbackUrl;
   final bool useRootNavigator;
   final VoidCallback? onClose;
+  final VoidCallback? onOpenOptions;
 
   bool get _canOpenInBrowser => fallbackUrl.isNotEmpty;
 
@@ -89,6 +91,24 @@ class ChatVideoPlaybackFailureOverlay extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (onOpenOptions != null)
+                    Positioned(
+                      top: 4,
+                      right: 8,
+                      child: IconButton(
+                        onPressed: onOpenOptions,
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black.withValues(alpha: 0.5),
+                          foregroundColor: Colors.white,
+                        ),
+                        tooltip: l10n.mediaViewerOptions,
+                        icon: const PhosphorIcon(
+                          PhosphorIconsBold.dotsThree,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                    ),
                 ],
               ),
       ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/chat_video_source.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
@@ -23,6 +24,7 @@ class AttachmentMediaGrid extends StatelessWidget {
     required this.dimensionSize,
     this.channelId,
     this.messageId,
+    this.videoActionScope,
     super.key,
   });
 
@@ -31,6 +33,7 @@ class AttachmentMediaGrid extends StatelessWidget {
   final MediaDimensionSize dimensionSize;
   final String? channelId;
   final String? messageId;
+  final MessageMediaActionScope? videoActionScope;
 
   @override
   Widget build(BuildContext context) {
@@ -307,9 +310,10 @@ class AttachmentMediaGrid extends StatelessWidget {
       unawaited(
         showChatMobileFullscreenVideo(
           context,
-          source: ChatVideoSource.fromAttachment(
-            attachment,
-            mediaDimensionsForSize(dimensionSize),
+          launchContext: ChatFullscreenVideoLaunchContext.fromAttachment(
+            attachment: attachment,
+            layoutDimensions: mediaDimensionsForSize(dimensionSize),
+            actionScope: videoActionScope,
           ),
         ),
       );

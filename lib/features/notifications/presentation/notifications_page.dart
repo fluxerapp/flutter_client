@@ -2,9 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/navigate_to_content.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/messaging/presentation/widgets/bookmarks_sheet.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -92,6 +96,28 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                       ),
                     ),
                   ],
+                  Tooltip(
+                    message: l10n.notificationsBookmarksTooltip,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(
+                        minWidth: 36,
+                        minHeight: 36,
+                      ),
+                      onPressed: () {
+                        if (isMobileLayout(context)) {
+                          unawaited(BookmarksSheet.show(context));
+                        } else {
+                          navigateToContent(context, RoutePaths.bookmarksPath);
+                        }
+                      },
+                      icon: Icon(
+                        PhosphorIconsFill.bookmarkSimple,
+                        color: colors.textSecondary,
+                        size: 22,
+                      ),
+                    ),
+                  ),
                   FluxerSelect<_NotificationTabSegment>(
                     hint: '',
                     enableSearch: false,
@@ -110,24 +136,6 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                       setState(() => _segment = next);
                     },
                   ),
-                  // TODO(Elias): Add bookmark feature.
-                  // Tooltip(
-                  //   message: l10n.notificationsBookmarksTooltip,
-                  //   child: IconButton(
-                  //     padding: EdgeInsets.zero,
-                  //     constraints: const BoxConstraints(
-                  //       minWidth: 36,
-                  //       minHeight: 36,
-                  //     ),
-                  //     onPressed: () =>
-                  //         navigateToContent(context, RoutePaths.bookmarksPath),
-                  //     icon: Icon(
-                  //       PhosphorIconsFill.bookmarkSimple,
-                  //       color: colors.textSecondary,
-                  //       size: 22,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

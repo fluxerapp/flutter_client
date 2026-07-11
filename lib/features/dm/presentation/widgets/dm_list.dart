@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_unread_indicator.dart';
+import 'package:fluxer_app/features/channels/providers/channel_typing_provider.dart';
 import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/channels/utils/show_channel_debug_sheet.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
@@ -22,6 +23,8 @@ import 'package:fluxer_app/features/dm/domain/create_dm_restriction.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/create_dm_flow.dart';
+import 'package:fluxer_app/features/dm/presentation/edit_group_dm_flow.dart';
+import 'package:fluxer_app/features/dm/presentation/group_dm_invites_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_message_preview_row.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
@@ -45,7 +48,6 @@ import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/sheets/add_friend_sheet.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
-import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class DMList extends ConsumerStatefulWidget {
@@ -160,11 +162,7 @@ class _DMListState extends ConsumerState<DMList> {
     final List<DmConversation> convos = ref.watch(
       dmViewModelProvider.select((DmViewState state) => state.conversations),
     );
-    final location = ref.watch(currentLocationProvider);
-    const mePrefix = '${RoutePaths.me}/';
-    final selectedId = location.startsWith(mePrefix)
-        ? location.substring(mePrefix.length)
-        : null;
+    final String? selectedId = ref.watch(activeChannelIdProvider);
 
     final isMobile = isMobileLayout(context);
     final pinnedIds = ref.watch(pinnedDmChannelIdsProvider).value ?? {};
@@ -194,8 +192,9 @@ class _DMListState extends ConsumerState<DMList> {
                 _buildMobileHeader(context),
                 Divider(color: context.colors.borderColor, height: 1),
               ] else ...[
-                _buildQuickSwitcher(context),
-                Divider(color: context.colors.borderColor, height: 1),
+                // TODO: fully setup
+                // _buildQuickSwitcher(context),
+                // Divider(color: context.colors.borderColor, height: 1),
                 Builder(
                   builder: (context) {
                     final location = ref.watch(currentLocationProvider);
@@ -214,7 +213,7 @@ class _DMListState extends ConsumerState<DMList> {
                             icon: PhosphorIconsFill.users,
                             label: 'Friends',
                             isSelected: isFriends,
-                            onTap: () => context.go(RoutePaths.me),
+                            onTap: () => navigateToDmFriendsContent(context),
                           ),
                           _buildNavButton(
                             context,
@@ -235,12 +234,12 @@ class _DMListState extends ConsumerState<DMList> {
                                   )
                                 : null,
                           ),
-                          _buildNavButton(
-                            context,
-                            icon: PhosphorIconsFill.skull,
-                            label: 'Plutonium',
-                            onTap: () {},
-                          ),
+                          // _buildNavButton(
+                          //   context,
+                          //   icon: PhosphorIconsFill.skull,
+                          //   label: 'Plutonium',
+                          //   onTap: () {},
+                          // ),
                         ],
                       ),
                     );
@@ -755,6 +754,9 @@ class _DMListState extends ConsumerState<DMList> {
               children: [
                 Consumer(
                   builder: (context, ref, _) {
+                    final bool isTyping = ref.watch(
+                      dmAvatarIsTypingProvider(c),
+                    );
                     if (c.isGroup) {
                       final String? status = ref.watch(
                         dmListRecipientRowDataProvider.select(
@@ -770,6 +772,7 @@ class _DMListState extends ConsumerState<DMList> {
                         dm: c,
                         size: avatarSize,
                         status: status,
+                        isTyping: isTyping,
                       );
                     }
                     final bool showPresence = shouldShowDmRecipientPresence(c);
@@ -792,7 +795,8 @@ class _DMListState extends ConsumerState<DMList> {
                         animated: isSelected,
                       ),
                       status: status,
-                      showStatus: showPresence,
+                      showStatus: showPresence || isTyping,
+                      isTyping: isTyping,
                       size: avatarSize,
                     );
                   },
@@ -1023,8 +1027,9 @@ class _DMListState extends ConsumerState<DMList> {
           unawaited(ref.read(dmRepositoryProvider).pinDm(convo.id));
         }
       case _DmAction.editGroup:
-        // TODO(Elias): open edit group sheet
-        break;
+        unawaited(EditGroupDmFlow.show(context, dm: convo));
+      case _DmAction.showGroupInvites:
+        unawaited(GroupDmInvitesFlow.show(context, dm: convo));
       case _DmAction.removeFriend:
         if (!mounted) {
           break;
@@ -1386,6 +1391,7 @@ enum _DmAction {
   unmute,
   pinToggle,
   editGroup,
+  showGroupInvites,
   removeFriend,
   addFriend,
   acceptFriendRequest,
@@ -1435,6 +1441,13 @@ class _DmBottomSheet extends ConsumerWidget {
       l10n: l10n,
       currentUserId: ref.watch(currentUserIdProvider),
     );
+
+    final String? currentUserId = ref.watch(currentUserIdProvider);
+    final bool isGroupOwner =
+        convo.isGroup &&
+        convo.ownerId != null &&
+        currentUserId != null &&
+        convo.ownerId == currentUserId;
 
     void pop(Object action) => Navigator.of(context).pop(action);
 
@@ -1488,6 +1501,15 @@ class _DmBottomSheet extends ConsumerWidget {
             onTap: () => pop(_DmAction.editGroup),
           ),
         );
+        if (isGroupOwner) {
+          children.add(
+            FluxerBottomSheetMenuItem(
+              icon: PhosphorIconsFill.envelope,
+              label: l10n.dmGroupInvites,
+              onTap: () => pop(_DmAction.showGroupInvites),
+            ),
+          );
+        }
       } else {
         children.addAll([
           FluxerBottomSheetMenuItem(
@@ -1665,6 +1687,7 @@ class _DmBottomSheet extends ConsumerWidget {
         final Map<String, DmListRecipientRowData> recipientRows =
             ref.watch(dmListRecipientRowDataProvider).value ??
             const <String, DmListRecipientRowData>{};
+        final bool isTyping = ref.watch(dmAvatarIsTypingProvider(convo));
         return SafeArea(
           bottom: Platform.isAndroid,
           child: Column(
@@ -1696,7 +1719,9 @@ class _DmBottomSheet extends ConsumerWidget {
                             ? recipientRows[convo.recipientId]?.status ??
                                   'offline'
                             : null,
-                        showStatus: shouldShowDmRecipientPresence(convo),
+                        showStatus:
+                            shouldShowDmRecipientPresence(convo) || isTyping,
+                        isTyping: isTyping,
                         size: 48,
                       ),
                 title: displayName,

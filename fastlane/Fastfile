@@ -263,17 +263,49 @@ platform :ios do
     Spaceship::ConnectAPI.token = jwt
 
     app = Spaceship::ConnectAPI::App.find(app_identifier)
-    build = FastlaneCore::BuildWatcher.wait_for_build_processing_to_be_complete(
-      app_id: app.id,
-      app_version: app_version,
-      build_version: build_number.to_s,
-      platform: Spaceship::ConnectAPI::Platform::IOS,
-      timeout_duration: 1200,
-      wait_for_build_beta_detail_processing: true,
-      return_spaceship_testflight_build: false
-    )
+    build = nil
+    begin
+      build = FastlaneCore::BuildWatcher.wait_for_build_processing_to_be_complete(
+        app_id: app.id,
+        app_version: app_version,
+        build_version: build_number.to_s,
+        platform: Spaceship::ConnectAPI::Platform::IOS,
+        timeout_duration: 3600,
+        wait_for_build_beta_detail_processing: false,
+        return_spaceship_testflight_build: false
+      )
+    rescue FastlaneCore::Interface::FastlaneCrash => err
+      unless err.message.include?("BuildWatcher exceeded")
+        raise err
+      end
+      UI.important(
+        "BuildWatcher timed out waiting for App Store Connect processing of #{app_version} (#{build_number}). " \
+        "The IPA upload already succeeded; checking whether the build is available for distribution..."
+      )
+      build = find_processed_build(app: app, app_version: app_version, build_number: build_number)
+      if build.nil?
+        UI.user_error!(
+          "Build #{app_version} (#{build_number}) was uploaded but is not yet available in App Store Connect " \
+          "after waiting 3600 seconds. Check App Store Connect for processing issues."
+        )
+      end
+    end
 
     distribute_to_groups(build: build, app: app, groups: groups, changelog: changelog)
+  end
+
+  def find_processed_build(app:, app_version:, build_number:)
+    builds = Spaceship::ConnectAPI::Build.all(
+      app_id: app.id,
+      version: app_version,
+      build_number: build_number.to_s,
+      platform: Spaceship::ConnectAPI::Platform::IOS
+    )
+    build = builds.first
+    return nil if build.nil?
+    return nil unless build.processed?
+
+    build
   end
 
   def distribute_to_groups(build:, app:, groups:, changelog:)

@@ -79,7 +79,6 @@ class FluxerBottomSheet {
               Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
 
           final mediaQuery = MediaQuery.of(sheetContext);
-          final bottomPadding = mediaQuery.viewPadding.bottom;
           final topPadding = mediaQuery.viewPadding.top;
           final bottomInset = mediaQuery.viewInsets.bottom;
           final hasHeader =
@@ -122,10 +121,6 @@ class FluxerBottomSheet {
                     ),
                   ],
                   Flexible(child: builder(sheetContext, close)),
-                  if (reserveBottomInset)
-                    SizedBox(
-                      height: bottomPadding > 0 ? bottomPadding : layout.s4,
-                    ),
                 ],
               ),
             ),
@@ -392,11 +387,6 @@ class _FluxerDraggableScrollableSheetState
                     scrollController,
                     widget.onDismiss,
                   ),
-                ),
-                SizedBox(
-                  height: widget.bottomPadding > 0
-                      ? widget.bottomPadding
-                      : layout.s4,
                 ),
               ],
             ),

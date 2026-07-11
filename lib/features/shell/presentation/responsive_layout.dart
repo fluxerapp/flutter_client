@@ -29,6 +29,21 @@ bool isMobileLayout(BuildContext context) =>
     layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) ==
     LayoutMode.mobile;
 
+/// Whether the current layout is tablet ([layoutReferenceExtentOf] ≥
+/// [Breakpoints.mobile] and &lt; [Breakpoints.tablet]).
+bool isTabletLayout(BuildContext context) =>
+    layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) ==
+    LayoutMode.tablet;
+
+/// Whether the current layout is desktop ([layoutReferenceExtentOf] ≥
+/// [Breakpoints.tablet]).
+bool isDesktopLayout(BuildContext context) =>
+    layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) ==
+    LayoutMode.desktop;
+
+/// Non-mobile layout (tablet + desktop). Matches web `!MobileLayout.enabled`.
+bool isWideLayout(BuildContext context) => !isMobileLayout(context);
+
 class ResponsiveLayout extends StatelessWidget {
   final Widget Function(BuildContext context, LayoutMode mode) builder;
 

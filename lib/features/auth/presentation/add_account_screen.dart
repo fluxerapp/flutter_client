@@ -34,6 +34,7 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
       ref
           .read(addAccountInstanceGuardProvider.notifier)
           .arm(ref.read(activeInstanceProvider));
+      ref.invalidate(instanceSelectorProvider);
       final LoginViewModel notifier = ref.read(loginViewModelProvider.notifier)
         ..hideAccountSelector();
       if (widget.prefillEmail != null) {

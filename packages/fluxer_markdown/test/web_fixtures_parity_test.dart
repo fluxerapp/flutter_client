@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/parsing/markdown_preprocessor.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'support/markdown_parse_test_helper.dart';
 
 void main() {
@@ -94,6 +95,34 @@ void main() {
         MarkdownParseTestHelper.collectText(nodes),
         contains('fluxer://invite/abc'),
       );
+    });
+
+    test('localhost http urls autolink', () {
+      for (final String input in <String>[
+        'http://localhost:5173',
+        'https://localhost:5173/path',
+        'http://localhost',
+      ]) {
+        final nodes = MarkdownParseTestHelper.parseInline(input, features);
+        expect(
+          MarkdownParseTestHelper.containsTag(nodes, 'a'),
+          isTrue,
+          reason: input,
+        );
+        final md.Element link = nodes.whereType<md.Element>().firstWhere(
+          (md.Element node) => node.tag == 'a',
+        );
+        expect(link.attributes['href'], input);
+        expect(link.textContent, input);
+      }
+    });
+
+    test('localhost urls do not partially match longer hostnames', () {
+      final nodes = MarkdownParseTestHelper.parseInline(
+        'http://localhostish',
+        features,
+      );
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'a'), isFalse);
     });
 
     test('rejects apostrophe in masked link authority', () {

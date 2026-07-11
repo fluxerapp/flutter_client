@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/constants/user_flags.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -9,11 +12,13 @@ import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
+import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/ban_member_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/change_nickname_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/timeout_member_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
@@ -491,6 +496,59 @@ class UserProfileActionsSheet {
             }
           }
           groups.add(reportBlockItems);
+        }
+
+        final bool developerMode = ref.read(
+          userSettingsViewModelProvider.select((s) => s.developerMode),
+        );
+        if (developerMode && !isCurrentUser) {
+          final LocalUserSpamOverrideState spamOverride = ref.read(
+            localUserSpamOverrideProvider,
+          );
+          final LocalUserSpamOverride spamNotifier = ref.read(
+            localUserSpamOverrideProvider.notifier,
+          );
+          final bool isLocalSpammer = spamOverride.spammerUserIds.contains(
+            user.id,
+          );
+          final bool isLocalNotSpammer = spamOverride.notSpammerUserIds
+              .contains(user.id);
+          final bool isServerSpammerUser = isServerSpammer(user.flags);
+          final List<Widget> spamOverrideItems = <Widget>[
+            FluxerMenuItem(
+              label: l10n.devMarkAsSpamLocally,
+              icon: isLocalSpammer
+                  ? PhosphorIconsFill.check
+                  : PhosphorIconsFill.bug,
+              onPressed: () {
+                close();
+                unawaited(
+                  isLocalSpammer
+                      ? spamNotifier.clearOverride(user.id)
+                      : spamNotifier.markAsSpammer(user.id),
+                );
+              },
+            ),
+          ];
+          if (isServerSpammerUser) {
+            spamOverrideItems.add(
+              FluxerMenuItem(
+                label: l10n.devIgnoreSpamFlag,
+                icon: isLocalNotSpammer
+                    ? PhosphorIconsFill.check
+                    : PhosphorIconsFill.bug,
+                onPressed: () {
+                  close();
+                  unawaited(
+                    isLocalNotSpammer
+                        ? spamNotifier.clearOverride(user.id)
+                        : spamNotifier.markAsNotSpammer(user.id),
+                  );
+                },
+              ),
+            );
+          }
+          groups.add(spamOverrideItems);
         }
 
         final widgets = <Widget>[];

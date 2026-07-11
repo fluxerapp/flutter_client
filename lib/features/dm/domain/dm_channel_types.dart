@@ -111,6 +111,7 @@ db.DmChannelsCompanion? dmChannelCompanionFromChannelResponse(
     recipientCount: Value(recipients.length + 1),
     recipientIds: Value(jsonEncode(recipients.map((r) => r.id).toList())),
     nicksJson: Value(encodeDmChannelNicksJson(channel.nicks)),
+    ownerId: Value(channel.ownerId),
     lastMessageId: Value(channel.lastMessageId),
     lastMessageTime: Value(
       channel.lastMessageId != null

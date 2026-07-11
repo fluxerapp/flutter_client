@@ -11,12 +11,18 @@ import 'package:fluxer_app/features/shell/presentation/mobile_home_utility_shell
 import 'package:fluxer_app/features/shell/presentation/mobile_main_tab_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_shell_back_scope.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/features/shell/presentation/widgets/nagbar_container.dart';
 import 'package:go_router/go_router.dart';
 
 class MobileShellScaffold extends ConsumerWidget {
-  const MobileShellScaffold({required this.navigationShell, super.key});
+  const MobileShellScaffold({
+    required this.navigationShell,
+    required this.shellContent,
+    super.key,
+  });
 
   final StatefulNavigationShell navigationShell;
+  final Widget shellContent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,7 +58,7 @@ class MobileShellScaffold extends ConsumerWidget {
     return switch (mode) {
       ShellLayoutMode.channelDrawer => MobileChannelDrawerShell(
         shellLocation: shellLocation,
-        navigationShell: navigationShell,
+        navigationShell: shellContent,
         bottomNav: bottomNav,
       ),
       ShellLayoutMode.channelsRoot => MobileChannelsRootShell(
@@ -60,12 +66,12 @@ class MobileShellScaffold extends ConsumerWidget {
         bottomNav: bottomNav,
       ),
       ShellLayoutMode.mainTab => MobileMainTabShell(
-        navigationShell: navigationShell,
+        navigationShell: shellContent,
         bottomNav: bottomNav,
       ),
       ShellLayoutMode.homeUtility => MobileHomeUtilityShell(
         shellLocation: shellLocation,
-        navigationShell: navigationShell,
+        navigationShell: shellContent,
         bottomNav: bottomNav,
       ),
     };
@@ -80,6 +86,12 @@ class AppLayoutShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isMobile = isMobileLayout(context);
+    final Widget shellContent = Column(
+      children: <Widget>[
+        const NagbarContainer(),
+        Expanded(child: navigationShell),
+      ],
+    );
     if (!isMobile) {
       final String shellLocation = ref.watch(shellLocationProvider);
       return Scaffold(
@@ -87,13 +99,16 @@ class AppLayoutShell extends ConsumerWidget {
         body: desktopShellScaffold(
           context: context,
           shellLocation: shellLocation,
-          navigationShell: navigationShell,
+          navigationShell: shellContent,
         ),
       );
     }
     return MobileShellBackScope(
       navigationShell: navigationShell,
-      child: MobileShellScaffold(navigationShell: navigationShell),
+      child: MobileShellScaffold(
+        navigationShell: navigationShell,
+        shellContent: shellContent,
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_media_grid.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/attachments/attachment_renderer.dart';
@@ -15,6 +16,7 @@ class AttachmentListRenderer extends StatelessWidget {
     this.messageNonce,
     this.channelId,
     this.messageFlags = 0,
+    this.videoActionScope,
     super.key,
   });
 
@@ -27,6 +29,7 @@ class AttachmentListRenderer extends StatelessWidget {
   final String? messageNonce;
   final String? channelId;
   final int messageFlags;
+  final MessageMediaActionScope? videoActionScope;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +63,7 @@ class AttachmentListRenderer extends StatelessWidget {
                 dimensionSize: dimensionSize,
                 channelId: channelId,
                 messageId: messageId,
+                videoActionScope: videoActionScope,
               ),
             ),
           );
@@ -81,6 +85,7 @@ class AttachmentListRenderer extends StatelessWidget {
           messageNonce: messageNonce,
           channelId: channelId,
           messageFlags: messageFlags,
+          videoActionScope: videoActionScope,
         ),
       );
     }

@@ -18,6 +18,8 @@ import 'package:fluxer_app/features/chat/providers/messages/message_length_limit
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dart';
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
+import 'package:fluxer_app/features/ui/input/fluxer_input_clipboard_scope.dart';
+import 'package:fluxer_app/features/ui/input/inline_token_paste_formatter.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -142,14 +144,26 @@ class _ForwardMessageSheetBodyState
   final FocusNode _commentFocus = FocusNode();
   final GlobalKey<ComposerAutocompleteFieldState> _commentFieldKey =
       GlobalKey<ComposerAutocompleteFieldState>();
+  final GlobalKey<FluxerInputClipboardScopeState> _commentClipboardKey =
+      GlobalKey<FluxerInputClipboardScopeState>();
   Timer? _slowmodeTicker;
 
   @override
   void initState() {
     super.initState();
     _commentController = ComposerMentionController(ref: ref);
-    _commentFocus.onKeyEvent = (FocusNode node, KeyEvent event) =>
-        handleComposerAutocompleteKey(_commentFieldKey.currentState, event);
+    _commentFocus.onKeyEvent = (FocusNode node, KeyEvent event) {
+      final KeyEventResult clipboardResult =
+          _commentClipboardKey.currentState?.handleKeyboardShortcut(event) ??
+          KeyEventResult.ignored;
+      if (clipboardResult == KeyEventResult.handled) {
+        return clipboardResult;
+      }
+      return handleComposerAutocompleteKey(
+        _commentFieldKey.currentState,
+        event,
+      );
+    };
     _searchController.addListener(_onSearchChanged);
     _commentController.addListener(_onCommentChanged);
   }
@@ -521,55 +535,69 @@ class _ForwardMessageSheetBodyState
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: colors.backgroundHeaderSecondary),
       ),
-      child: ComposerAutocompleteField(
-        key: _commentFieldKey,
+      child: FluxerInputClipboardScope(
+        key: _commentClipboardKey,
         controller: _commentController,
-        focusNode: _commentFocus,
-        channelId: widget.sourceChannelId,
-        enabled: !commentDisabled,
-        child: TextField(
-          controller: _commentController,
-          focusNode: _commentFocus,
-          enabled: !commentDisabled,
-          style: context.textStyles.inputText,
-          minLines: 1,
-          maxLines: 4,
-          textCapitalization: TextCapitalization.sentences,
-          inputFormatters: <TextInputFormatter>[
-            LengthLimitingTextInputFormatter(maxMessageLength),
-          ],
-          decoration: InputDecoration(
-            isDense: true,
-            border: InputBorder.none,
-            hintText: l10n.forwardCommentHint,
-            hintStyle: context.textStyles.inputHint,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
-            suffixIcon: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: commentDisabled ? null : _openCommentEmojiPicker,
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: Center(
-                  child: PhosphorIcon(
-                    PhosphorIconsFill.smiley,
-                    size: 22,
-                    color: commentDisabled
-                        ? colors.textTertiaryMuted
-                        : colors.textTertiary,
+        builder:
+            (
+              BuildContext context,
+              FluxerInputClipboardScopeState clipboardScope,
+            ) {
+              return ComposerAutocompleteField(
+                key: _commentFieldKey,
+                controller: _commentController,
+                focusNode: _commentFocus,
+                channelId: widget.sourceChannelId,
+                enabled: !commentDisabled,
+                child: TextField(
+                  controller: _commentController,
+                  focusNode: _commentFocus,
+                  enabled: !commentDisabled,
+                  style: context.textStyles.inputText,
+                  minLines: 1,
+                  maxLines: 4,
+                  textCapitalization: TextCapitalization.sentences,
+                  contextMenuBuilder: clipboardScope.buildContextMenu,
+                  inputFormatters: <TextInputFormatter>[
+                    ComposerMentionPasteFormatter(
+                      controller: _commentController,
+                    ),
+                    LengthLimitingTextInputFormatter(maxMessageLength),
+                  ],
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: InputBorder.none,
+                    hintText: l10n.forwardCommentHint,
+                    hintStyle: context.textStyles.inputHint,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
+                    suffixIcon: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: commentDisabled ? null : _openCommentEmojiPicker,
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: Center(
+                          child: PhosphorIcon(
+                            PhosphorIconsFill.smiley,
+                            size: 22,
+                            color: commentDisabled
+                                ? colors.textTertiaryMuted
+                                : colors.textTertiary,
+                          ),
+                        ),
+                      ),
+                    ),
+                    suffixIconConstraints: const BoxConstraints(
+                      minWidth: 40,
+                      minHeight: 40,
+                    ),
                   ),
                 ),
-              ),
-            ),
-            suffixIconConstraints: const BoxConstraints(
-              minWidth: 40,
-              minHeight: 40,
-            ),
-          ),
-        ),
+              );
+            },
       ),
     );
   }

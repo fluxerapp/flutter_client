@@ -11,6 +11,7 @@ class GuildRoleListItem extends StatelessWidget {
     required this.isLocked,
     required this.onTap,
     this.trailing,
+    this.dragHandle,
     this.showChevron = false,
     this.useMobileTileStyle = false,
     super.key,
@@ -21,6 +22,7 @@ class GuildRoleListItem extends StatelessWidget {
   final bool isLocked;
   final VoidCallback onTap;
   final Widget? trailing;
+  final Widget? dragHandle;
   final bool showChevron;
   final bool useMobileTileStyle;
 
@@ -69,10 +71,10 @@ class GuildRoleListItem extends StatelessWidget {
       return Material(
         color: context.colors.backgroundSecondary,
         borderRadius: BorderRadius.circular(6),
-        child: InkWell(
-          onTap: onTap,
+        child: _buildInteractiveRow(
           borderRadius: BorderRadius.circular(6),
-          child: Padding(padding: contentPadding, child: row),
+          contentPadding: contentPadding,
+          row: row,
         ),
       );
     }
@@ -81,11 +83,37 @@ class GuildRoleListItem extends StatelessWidget {
           ? context.colors.backgroundModifierSelected
           : Colors.transparent,
       borderRadius: BorderRadius.circular(4),
-      child: InkWell(
-        onTap: onTap,
+      child: _buildInteractiveRow(
         borderRadius: BorderRadius.circular(4),
-        child: Padding(padding: contentPadding, child: row),
+        contentPadding: contentPadding,
+        row: row,
       ),
+    );
+  }
+
+  Widget _buildInteractiveRow({
+    required BorderRadius borderRadius,
+    required EdgeInsets contentPadding,
+    required Widget row,
+  }) {
+    if (dragHandle == null) {
+      return InkWell(
+        onTap: onTap,
+        borderRadius: borderRadius,
+        child: Padding(padding: contentPadding, child: row),
+      );
+    }
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: borderRadius,
+            child: Padding(padding: contentPadding, child: row),
+          ),
+        ),
+        dragHandle!,
+      ],
     );
   }
 }

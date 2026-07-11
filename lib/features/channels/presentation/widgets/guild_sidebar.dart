@@ -253,7 +253,7 @@ class _GuildSidebarChannelList extends ConsumerStatefulWidget {
 class _GuildSidebarChannelListState
     extends ConsumerState<_GuildSidebarChannelList> {
   late final ScrollController _scrollController;
-  late final UnreadScrollIndicatorController _scrollIndicator;
+  late final GuildScrollIndicatorController _scrollIndicator;
   final Map<String, GlobalKey> _channelKeys = <String, GlobalKey>{};
   bool _restoring = false;
   bool _needsScrollClamp = false;
@@ -267,7 +267,7 @@ class _GuildSidebarChannelListState
     _needsScrollClamp = savedOffset > 0;
     _scrollController = ScrollController(initialScrollOffset: savedOffset)
       ..addListener(_persistScroll);
-    _scrollIndicator = UnreadScrollIndicatorController(
+    _scrollIndicator = GuildScrollIndicatorController(
       scrollController: _scrollController,
       itemKeys: _channelKeys,
       resolveSeverity: _resolveChannelScrollSeverity,
@@ -297,7 +297,9 @@ class _GuildSidebarChannelListState
     super.dispose();
   }
 
-  ScrollIndicatorSeverity? _resolveChannelScrollSeverity(String channelId) {
+  GuildScrollIndicatorSeverity? _resolveChannelScrollSeverity(
+    String channelId,
+  ) {
     return channelScrollIndicatorSeverity(
       ref: ref,
       guildId: widget.guildId,
@@ -402,7 +404,7 @@ class _GuildSidebarChannelListState
     );
     return ScrollConfiguration(
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      child: UnreadScrollIndicatorLayer(
+      child: GuildScrollIndicatorLayer(
         controller: _scrollIndicator,
         label: FluxerLocalizations.of(context).scrollIndicatorNewMessage,
         child: Opacity(

@@ -38,6 +38,8 @@ import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.da
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
+import 'package:fluxer_app/features/shell/providers/service_status_maintenance_provider.dart';
 import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
@@ -147,6 +149,11 @@ class AppStartup extends _$AppStartup {
     ]);
     unawaited(ref.read(sensitiveContentProvider.notifier).load());
     unawaited(ref.read(matureContentAgreementsProvider.notifier).reload());
+
+    unawaited(
+      ref.read(serviceStatusMaintenanceReadProvider.notifier).refresh(),
+    );
+    unawaited(ref.read(currentUserPrivateReadProvider.notifier).refresh());
 
     ref
       ..read(gatewayConnectBindingProvider)

@@ -47,7 +47,7 @@ void main() {
     expect(find.text('Sample User'), findsNothing);
 
     await tester.pumpWidget(const SizedBox.shrink());
-    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 1));
   });
 }
 

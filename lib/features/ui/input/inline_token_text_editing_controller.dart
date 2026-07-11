@@ -48,14 +48,52 @@ class InlineTokenTextEditingController extends TextEditingController {
 
   /// The editing text with every sentinel expanded to its
   /// [InlineToken.wireText].
-  String toWireText() {
+  String toWireText() => toWireTextRange(0, text.length);
+
+  String toWireTextRange(int start, int end) {
     final StringBuffer buffer = StringBuffer();
-    for (final int rune in text.runes) {
-      final String char = String.fromCharCode(rune);
-      final InlineToken? token = _tokens[char];
-      buffer.write(token != null ? token.wireText : char);
+    int index = start;
+    while (index < end) {
+      final InlineToken? token = _tokens[text[index]];
+      if (token != null) {
+        buffer.write(token.wireText);
+        index += 1;
+        continue;
+      }
+      final int next = _nextPlainTextOffset(text, index);
+      buffer.write(text.substring(index, next.clamp(index, end)));
+      index = next;
     }
     return buffer.toString();
+  }
+
+  String wireToDisplayFragment(
+    String wire, {
+    bool includePlainShortcodes = true,
+  }) {
+    return substituteEmojiTokens(
+      wire,
+      allocateToken,
+      includePlainShortcodes: includePlainShortcodes,
+    );
+  }
+
+  void replaceSelectionWithDisplayFragment(String displayFragment) {
+    final TextSelection sel = selection;
+    if (!sel.isValid) {
+      return;
+    }
+    final String newText = text.replaceRange(
+      sel.start,
+      sel.end,
+      displayFragment,
+    );
+    value = TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(
+        offset: sel.start + displayFragment.length,
+      ),
+    );
   }
 
   /// The length of [toWireText] without materializing the string.

@@ -1,4 +1,5 @@
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
+import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:markdown/markdown.dart' as md;
 
 md.ExtensionSet buildFluxerMarkdownExtensionSet(
@@ -12,6 +13,7 @@ md.ExtensionSet buildFluxerMarkdownExtensionSet(
   final inlineSyntaxes = <md.InlineSyntax>[
     md.InlineHtmlSyntax(),
     md.StrikethroughSyntax(),
+    FluxerLocalhostAutolinkSyntax(),
     md.AutolinkExtensionSyntax(),
   ];
 

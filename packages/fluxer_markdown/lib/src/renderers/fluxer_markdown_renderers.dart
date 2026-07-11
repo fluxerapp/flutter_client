@@ -328,7 +328,11 @@ class _MarkdownBlockRenderer {
     }
   }
 
-  Widget _buildParagraph(List<md.Node> nodes, {TextStyle? style}) {
+  Widget _buildParagraph(
+    List<md.Node> nodes, {
+    TextStyle? style,
+    TextAlign? textAlign,
+  }) {
     final effectiveStyle = style ?? baseStyle;
     final spans = _MarkdownInlineRenderer(
       context: context,
@@ -343,6 +347,7 @@ class _MarkdownBlockRenderer {
     if (spans.isEmpty) {
       return RichText(
         text: TextSpan(text: '\n', style: effectiveStyle),
+        textAlign: textAlign ?? TextAlign.start,
         textScaler: MediaQuery.textScalerOf(context),
         maxLines: maxLines,
         overflow: overflow ?? TextOverflow.clip,
@@ -354,6 +359,7 @@ class _MarkdownBlockRenderer {
 
     return RichText(
       text: TextSpan(style: effectiveStyle, children: spans),
+      textAlign: textAlign ?? TextAlign.start,
       textScaler: MediaQuery.textScalerOf(context),
       maxLines: maxLines,
       overflow: overflow ?? TextOverflow.clip,
@@ -515,59 +521,144 @@ class _MarkdownBlockRenderer {
   }
 
   Widget _buildTable(md.Element table) {
-    final rows = <TableRow>[];
+    const double minCellWidth = 80;
+    const EdgeInsets cellPadding = EdgeInsets.symmetric(
+      horizontal: 12,
+      vertical: 8,
+    );
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color borderColor =
+        config.tableBorderColor ?? colorScheme.outlineVariant;
+    final Color headerBackgroundColor =
+        config.tableHeaderBackgroundColor ??
+        colorScheme.surfaceContainerHighest;
+    final Color headerTextColor =
+        config.tableHeaderTextColor ?? baseStyle.color ?? colorScheme.onSurface;
+    final Color rowOddBackgroundColor =
+        config.tableRowOddBackgroundColor ?? Colors.transparent;
+    final Color rowEvenBackgroundColor =
+        config.tableRowEvenBackgroundColor ?? Colors.transparent;
+    final BorderRadius borderRadius =
+        config.tableBorderRadius ?? const BorderRadius.all(Radius.circular(6));
+    final double baseFontSize = baseStyle.fontSize ?? 16;
+    final TextStyle tableStyle = baseStyle.copyWith(
+      fontSize: baseFontSize * 0.875,
+      height: 1.4,
+    );
+    final TextStyle headerStyle = tableStyle.copyWith(
+      color: headerTextColor,
+      fontWeight: FontWeight.w600,
+    );
+    final BorderSide borderSide = BorderSide(color: borderColor);
+    final List<TableRow> tableRows = <TableRow>[];
+    int columnCount = 0;
     final sectionElements = table.children?.whereType<md.Element>() ?? const [];
-
-    for (final section in sectionElements) {
+    for (final md.Element section in sectionElements) {
       if (section.tag != 'thead' && section.tag != 'tbody') {
         continue;
       }
-
-      final rowElements = section.children?.whereType<md.Element>() ?? const [];
-      for (final row in rowElements) {
+      final List<md.Element> rowElements =
+          section.children?.whereType<md.Element>().toList() ?? const [];
+      var bodyRowIndex = 0;
+      for (final md.Element row in rowElements) {
         if (row.tag != 'tr') {
           continue;
         }
-
-        final cellElements =
+        final List<md.Element> cellElements =
             row.children?.whereType<md.Element>().toList() ?? const [];
-        rows.add(
+        if (cellElements.length > columnCount) {
+          columnCount = cellElements.length;
+        }
+        final bool isHeader = section.tag == 'thead';
+        tableRows.add(
           TableRow(
-            children: [
-              for (final cell in cellElements)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 6,
-                  ),
-                  color: cell.tag == 'th'
-                      ? Theme.of(context).colorScheme.surfaceContainerHighest
-                            .withValues(alpha: 0.5)
-                      : null,
-                  child: _buildParagraph(
-                    cell.children ?? const [],
-                    style: cell.tag == 'th'
-                        ? baseStyle.copyWith(fontWeight: FontWeight.w600)
-                        : baseStyle,
-                  ),
+            children: <Widget>[
+              for (final md.Element cell in cellElements)
+                _buildTableCell(
+                  cell: cell,
+                  isHeader: isHeader,
+                  bodyRowIndex: bodyRowIndex,
+                  headerBackgroundColor: headerBackgroundColor,
+                  rowOddBackgroundColor: rowOddBackgroundColor,
+                  rowEvenBackgroundColor: rowEvenBackgroundColor,
+                  headerStyle: headerStyle,
+                  tableStyle: tableStyle,
+                  cellPadding: cellPadding,
+                  minCellWidth: minCellWidth,
                 ),
             ],
           ),
         );
+        if (section.tag == 'tbody') {
+          bodyRowIndex++;
+        }
       }
     }
-
-    if (rows.isEmpty) {
+    if (tableRows.isEmpty) {
       return const SizedBox.shrink();
     }
-
-    return Table(
+    final Map<int, TableColumnWidth> columnWidths = <int, TableColumnWidth>{
+      for (int i = 0; i < columnCount; i++) i: const IntrinsicColumnWidth(),
+    };
+    final Widget tableWidget = Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      border: TableBorder.all(
-        color: Theme.of(context).colorScheme.outlineVariant,
-      ),
-      children: rows,
+      columnWidths: columnWidths,
+      border: TableBorder(horizontalInside: borderSide),
+      children: tableRows,
     );
+    return Padding(
+      padding: EdgeInsets.only(bottom: baseFontSize * 0.75),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: borderColor),
+            borderRadius: borderRadius,
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: tableWidget,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTableCell({
+    required md.Element cell,
+    required bool isHeader,
+    required int bodyRowIndex,
+    required Color headerBackgroundColor,
+    required Color rowOddBackgroundColor,
+    required Color rowEvenBackgroundColor,
+    required TextStyle headerStyle,
+    required TextStyle tableStyle,
+    required EdgeInsets cellPadding,
+    required double minCellWidth,
+  }) {
+    final Color backgroundColor = isHeader
+        ? headerBackgroundColor
+        : bodyRowIndex.isEven
+        ? rowOddBackgroundColor
+        : rowEvenBackgroundColor;
+    final TextStyle cellStyle = isHeader ? headerStyle : tableStyle;
+    final TextAlign textAlign = _tableCellTextAlign(cell.attributes['align']);
+    return Container(
+      constraints: BoxConstraints(minWidth: minCellWidth),
+      padding: cellPadding,
+      color: backgroundColor,
+      child: _buildParagraph(
+        cell.children ?? const [],
+        style: cellStyle,
+        textAlign: textAlign,
+      ),
+    );
+  }
+
+  TextAlign _tableCellTextAlign(String? alignment) {
+    return switch (alignment) {
+      'center' => TextAlign.center,
+      'right' => TextAlign.right,
+      _ => TextAlign.left,
+    };
   }
 }
 
@@ -1430,10 +1521,21 @@ class FluxerSvgCache {
     return _cache.putIfAbsent(url, () async {
       final uri = Uri.parse(url);
       final response = await HttpClient().getUrl(uri).then((r) => r.close());
+      if (response.statusCode != HttpStatus.ok) {
+        throw HttpException(
+          'Twemoji load failed: ${response.statusCode}',
+          uri: uri,
+        );
+      }
       final builder = BytesBuilder();
       await response.forEach(builder.add);
       return builder.toBytes();
     });
+  }
+
+  @visibleForTesting
+  static void clearCacheForTesting() {
+    _cache.clear();
   }
 }
 
@@ -1464,19 +1566,31 @@ class FluxerEmojiWidget extends StatelessWidget {
     return _buildUnicode(size);
   }
 
+  Widget _buildSystemUnicodeEmoji(String surrogate, double size) {
+    return Text(surrogate, style: TextStyle(fontSize: size));
+  }
+
   Widget _buildUnicode(double size) {
     final surrogate = element.attributes['surrogate'] ?? element.textContent;
     final url = unicodeEmojiUrlBuilder(surrogate);
     if (url == null) {
-      return Text(surrogate, style: TextStyle(fontSize: size));
+      return _buildSystemUnicodeEmoji(surrogate, size);
     }
     return FutureBuilder<Uint8List>(
       future: FluxerSvgCache.load(url),
       builder: (context, snap) {
+        if (snap.hasError) {
+          return _buildSystemUnicodeEmoji(surrogate, size);
+        }
         if (!snap.hasData) {
           return SizedBox(width: size, height: size);
         }
-        return SvgPicture.memory(snap.data!, width: size, height: size);
+        return SvgPicture.memory(
+          snap.data!,
+          width: size,
+          height: size,
+          errorBuilder: (_, _, _) => _buildSystemUnicodeEmoji(surrogate, size),
+        );
       },
     );
   }

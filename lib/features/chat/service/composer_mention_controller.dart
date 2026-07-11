@@ -93,11 +93,22 @@ class ComposerMentionController extends InlineTokenTextEditingController {
     if (toWireText() == wire) {
       return;
     }
+    clearTokens();
+    final String next = await mentionWireToDisplayFragment(
+      wire,
+      includePlainShortcodes: false,
+    );
+    value = TextEditingValue(
+      text: next,
+      selection: TextSelection.collapsed(offset: next.length),
+    );
+  }
+
+  Future<String> mentionWireToDisplayFragment(
+    String wire, {
+    bool includePlainShortcodes = true,
+  }) async {
     final List<RegExpMatch> matches = _wireMentions.allMatches(wire).toList();
-    // Resolve referenced roles up front so the rebuild below runs as a single
-    // synchronous mutation - no awaits between clearing and committing the new
-    // value, which would otherwise flash an empty or half-built field. Only
-    // touch the database when a role mention is actually present.
     final Map<String, db.Role?> rolesById = <String, db.Role?>{};
     if (matches.any((RegExpMatch m) => m.group(1) != null)) {
       final db.FluxerDatabase database = _ref.read(fluxerDatabaseProvider);
@@ -108,8 +119,6 @@ class ComposerMentionController extends InlineTokenTextEditingController {
         }
       }
     }
-
-    clearTokens();
     final StringBuffer display = StringBuffer();
     int start = 0;
     for (final RegExpMatch m in matches) {
@@ -154,14 +163,10 @@ class ComposerMentionController extends InlineTokenTextEditingController {
       start = m.end;
     }
     display.write(wire.substring(start));
-    final String next = substituteEmojiTokens(
+    return substituteEmojiTokens(
       display.toString(),
       allocateToken,
-      includePlainShortcodes: false,
-    );
-    value = TextEditingValue(
-      text: next,
-      selection: TextSelection.collapsed(offset: next.length),
+      includePlainShortcodes: includePlainShortcodes,
     );
   }
 
