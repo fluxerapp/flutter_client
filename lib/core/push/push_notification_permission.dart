@@ -43,7 +43,9 @@ Future<bool> requiresPushNotificationSystemSettings() async {
   return requiresPushNotificationSystemSettingsForStatus(status);
 }
 
-Future<bool> requestPushNotificationPermission() async {
+Future<bool> requestPushNotificationPermission({
+  bool openSystemSettingsIfBlocked = false,
+}) async {
   if (kIsWeb) {
     return false;
   }
@@ -52,7 +54,8 @@ Future<bool> requestPushNotificationPermission() async {
   if (status.isGranted || status.isProvisional) {
     return true;
   }
-  if (requiresPushNotificationSystemSettingsForStatus(status)) {
+  if (openSystemSettingsIfBlocked &&
+      requiresPushNotificationSystemSettingsForStatus(status)) {
     await openAppSettings();
     return false;
   }
@@ -64,11 +67,12 @@ Future<bool> requestPushNotificationPermission() async {
   if (status.isGranted || status.isProvisional) {
     return true;
   }
-  if (shouldOpenPushNotificationSettingsAfterRequest(
-    before: before,
-    after: status,
-    isAndroid: !kIsWeb && Platform.isAndroid,
-  )) {
+  if (openSystemSettingsIfBlocked &&
+      shouldOpenPushNotificationSettingsAfterRequest(
+        before: before,
+        after: status,
+        isAndroid: !kIsWeb && Platform.isAndroid,
+      )) {
     await openAppSettings();
   }
   return false;

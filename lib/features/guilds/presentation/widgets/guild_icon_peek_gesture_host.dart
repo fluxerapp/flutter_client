@@ -202,15 +202,6 @@ class _GuildIconPeekGestureHostState
       DragState? previous,
       DragState next,
     ) {
-      if (next.dragItemId == widget.itemId && next.isDragging) {
-        _holdTimer?.cancel();
-        if (_peekVisible) {
-          _dismissPeekOverlay(suppressSession: true);
-        } else {
-          _suppressPeekForSession = true;
-        }
-        return;
-      }
       if (!_peekVisible) {
         return;
       }

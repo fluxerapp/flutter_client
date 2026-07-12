@@ -39,7 +39,9 @@ class PushNotificationNagbar extends ConsumerWidget implements NagbarWidget {
               ? l10n.nagbarOpenSettings
               : l10n.nagbarEnableNotifications,
           onPressed: () async {
-            await requestPushNotificationPermission();
+            await requestPushNotificationPermission(
+              openSystemSettingsIfBlocked: true,
+            );
             ref
               ..invalidate(pushNotificationPermissionGrantedProvider)
               ..invalidate(pushNotificationRequiresSystemSettingsProvider);

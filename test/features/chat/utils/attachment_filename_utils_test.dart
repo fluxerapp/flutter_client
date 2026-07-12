@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_filename_utils.dart';
@@ -48,6 +50,73 @@ void main() {
         mimeType: 'image/jpeg',
       );
       expect(resolveUploadFilename(file: file), 'image.jpg');
+    });
+
+    test('replaces bin extension when mime type is image', () {
+      final XFile file = XFile.fromData(
+        Uint8List(0),
+        name: 'clipboard.bin',
+        mimeType: 'image/png',
+      );
+      expect(resolveUploadFilename(file: file), 'attachment.png');
+    });
+
+    test('replaces attachment.bin when mime type is image', () {
+      final XFile file = XFile.fromData(
+        Uint8List(0),
+        name: 'attachment.bin',
+        mimeType: 'image/jpeg',
+      );
+      expect(resolveUploadFilename(file: file), 'attachment.jpg');
+    });
+
+    test('replaces bin extension for supported pdf mime type', () {
+      expect(
+        filenameForMimeType('clipboard.bin', mimeType: 'application/pdf'),
+        'clipboard.pdf',
+      );
+    });
+  });
+
+  group('filenameForMimeType', () {
+    test('replaces bin extension from mime type', () {
+      expect(
+        filenameForMimeType('clipboard.bin', mimeType: 'image/png'),
+        'clipboard.png',
+      );
+    });
+
+    test('appends extension when name has none', () {
+      expect(
+        filenameForMimeType('Screenshot', mimeType: 'image/png'),
+        'Screenshot.png',
+      );
+    });
+
+    test('uses default stem when name is empty', () {
+      expect(
+        filenameForMimeType(
+          '',
+          mimeType: 'image/png',
+          defaultStem: 'clipboard',
+        ),
+        'clipboard.png',
+      );
+    });
+
+    test('falls back to bin when mime type is unknown', () {
+      expect(filenameForMimeType('', mimeType: null), 'attachment.bin');
+      expect(
+        filenameForMimeType('clipboard.bin', mimeType: null),
+        'clipboard.bin',
+      );
+    });
+
+    test('keeps non-bin extensions', () {
+      expect(
+        filenameForMimeType('photo.jpg', mimeType: 'image/png'),
+        'photo.jpg',
+      );
     });
   });
 

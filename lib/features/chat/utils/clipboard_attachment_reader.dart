@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:cross_file/cross_file.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_filename_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_mime_utils.dart';
 import 'package:fluxer_app/features/chat/utils/file_upload_constants.dart';
-import 'package:fluxer_app/shared/utils/image_utils.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
 class _ClipboardFileRead {
@@ -203,45 +204,12 @@ bool _hasKnownFilenameExtension(String name) {
   required FileFormat format,
   required String name,
 }) {
-  final String? formatMime = mimeForClipboardFormat(format);
-  if (formatMime != null) {
-    return (name: name, mime: formatMime);
-  }
-  final String sniffedMime = ImageUtils.detectMimeType(bytes);
-  if (sniffedMime != 'application/octet-stream') {
-    final String? extension = _extensionFromMime(sniffedMime);
-    final String resolvedName = extension != null
-        ? _replaceOrAppendExtension(name, extension)
-        : name;
-    return (name: resolvedName, mime: sniffedMime);
-  }
-  if (_hasKnownFilenameExtension(name)) {
-    return (name: name, mime: null);
-  }
-  final String trimmedName = name.trim();
-  if (trimmedName.isNotEmpty) {
-    return (name: trimmedName, mime: null);
-  }
-  return (name: 'clipboard.bin', mime: null);
-}
-
-String _replaceOrAppendExtension(String name, String extension) {
-  final int dot = name.lastIndexOf('.');
-  if (dot > 0) {
-    final String currentExt = name.substring(dot + 1).toLowerCase();
-    if (currentExt == 'bin') {
-      return '${name.substring(0, dot)}.$extension';
-    }
-    if (_hasKnownFilenameExtension(name)) {
-      return name;
-    }
-    return '${name.substring(0, dot)}.$extension';
-  }
-  return '$name.$extension';
-}
-
-String? _extensionFromMime(String mime) {
-  return _extensionFromMimeTypes(<PlatformFormat>[mime]);
+  final String? mime =
+      mimeForClipboardFormat(format) ?? detectSupportedUploadMimeType(bytes);
+  return (
+    name: filenameForMimeType(name, mimeType: mime, defaultStem: 'clipboard'),
+    mime: mime,
+  );
 }
 
 String extensionForClipboardFormat(FileFormat format) {
@@ -251,9 +219,12 @@ String extensionForClipboardFormat(FileFormat format) {
     }
   }
   if (format is SimpleFileFormat) {
-    final String? fromMime = _extensionFromMimeTypes(format.mimeTypes);
-    if (fromMime != null) {
-      return fromMime;
+    final List<PlatformFormat>? mimeTypes = format.mimeTypes;
+    if (mimeTypes != null && mimeTypes.isNotEmpty) {
+      final String? fromMime = uploadMimeExtension(mimeTypes.first);
+      if (fromMime != null) {
+        return fromMime;
+      }
     }
   }
   return 'bin';
@@ -272,33 +243,6 @@ String? mimeForClipboardFormat(FileFormat format) {
     }
   }
   return null;
-}
-
-String? _extensionFromMimeTypes(List<PlatformFormat>? mimeTypes) {
-  if (mimeTypes == null || mimeTypes.isEmpty) {
-    return null;
-  }
-  final String mime = mimeTypes.first;
-  const Map<String, String> mimeToExtension = <String, String>{
-    'image/png': 'png',
-    'image/jpeg': 'jpg',
-    'image/gif': 'gif',
-    'image/webp': 'webp',
-    'image/bmp': 'bmp',
-    'image/tiff': 'tif',
-    'image/heic': 'heic',
-    'image/heif': 'heif',
-    'image/svg+xml': 'svg',
-    'image/avif': 'avif',
-    'video/mp4': 'mp4',
-    'video/quicktime': 'mov',
-    'application/pdf': 'pdf',
-    'text/plain': 'txt',
-    'text/html': 'html',
-    'application/json': 'json',
-    'application/zip': 'zip',
-  };
-  return mimeToExtension[mime];
 }
 
 class _ClipboardFormatInfo {

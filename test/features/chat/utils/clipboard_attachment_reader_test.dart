@@ -107,6 +107,17 @@ void main() {
       expect(metadata.mime, 'image/png');
     });
 
+    test('fixes bin extension when known format mime is image', () {
+      final ({String name, String? mime}) metadata =
+          resolveClipboardAttachmentMetadata(
+            bytes: pngBytes,
+            format: Formats.png,
+            name: 'clipboard.bin',
+          );
+      expect(metadata.name, 'clipboard.png');
+      expect(metadata.mime, 'image/png');
+    });
+
     test('returns clipboard.bin with null mime for unidentifiable bytes', () {
       final Uint8List randomBytes = Uint8List.fromList(<int>[0x00, 0x01, 0x02]);
       final ({String name, String? mime}) metadata =
@@ -117,6 +128,24 @@ void main() {
           );
       expect(metadata.name, 'clipboard.bin');
       expect(metadata.mime, isNull);
+    });
+
+    test('sniffs PDF bytes from webUnknown', () {
+      final Uint8List pdfBytes = Uint8List.fromList(<int>[
+        0x25,
+        0x50,
+        0x44,
+        0x46,
+        0x2D,
+      ]);
+      final ({String name, String? mime}) metadata =
+          resolveClipboardAttachmentMetadata(
+            bytes: pdfBytes,
+            format: Formats.webUnknown,
+            name: 'clipboard.bin',
+          );
+      expect(metadata.name, 'clipboard.pdf');
+      expect(metadata.mime, 'application/pdf');
     });
   });
 
