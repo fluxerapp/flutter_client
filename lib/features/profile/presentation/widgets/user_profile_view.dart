@@ -389,12 +389,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                         shape: BoxShape.circle,
                         color: colors.backgroundPrimary,
                       ),
-                      child: FluxerAvatar.user(
+                      child: FluxerAvatar.userPresence(
                         fallbackText: displayName,
                         userId: userId,
                         imageUrl: avatarUrl,
                         avatarColor: avatarColor,
-                        status: isWebhook ? null : presenceAsync.value?.status,
+                        showStatus: !isWebhook,
                         size: _kAvatarSize,
                       ),
                     ),

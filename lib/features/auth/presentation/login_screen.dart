@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/auth_failure.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/account_selector.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_flow_content.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/forgot_password_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/register_screen.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/reset_password_screen.dart';
@@ -180,28 +181,22 @@ class LoginScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: context.colors.backgroundSecondary,
-      body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 448),
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(
-                horizontal: layout.s6,
-                vertical: layout.s8,
-              ),
-              child: Column(
-                children: [
-                  SvgPicture.asset(
-                    Assets.fluxerWordmarkMonochrome,
-                    height: 32,
-                    theme: SvgTheme(currentColor: context.colors.textPrimary),
-                  ),
-                  SizedBox(height: layout.s8),
-                  _buildAuthContent(context, ref, showBrowserLogin: false),
-                ],
-              ),
+      body: AuthViewport(
+        maxWidth: 448,
+        padding: EdgeInsets.symmetric(
+          horizontal: layout.s6,
+          vertical: layout.s8,
+        ),
+        child: Column(
+          children: [
+            SvgPicture.asset(
+              Assets.fluxerWordmarkMonochrome,
+              height: 32,
+              theme: SvgTheme(currentColor: context.colors.textPrimary),
             ),
-          ),
+            SizedBox(height: layout.s8),
+            _buildAuthContent(context, ref, showBrowserLogin: false),
+          ],
         ),
       ),
     );

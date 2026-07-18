@@ -124,7 +124,6 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
           )
         : groupDm != null && ref.watch(dmAvatarIsTypingProvider(groupDm));
     final bool showPresence = !isGroup && widget.recipientId != fluxerBotUserId;
-    final String? recipientStatus = recipient?.status;
 
     final indicatorHeight = isSelected
         ? 40.0
@@ -206,12 +205,11 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                                             channelId: widget.channelId,
                                             size: 44,
                                           )
-                                  : FluxerAvatar.user(
+                                  : FluxerAvatar.userPresence(
                                       fallbackText: displayName,
                                       userId: widget.recipientId,
                                       imageUrl: avatarImageUrl,
                                       avatarColor: avatarColor,
-                                      status: recipientStatus,
                                       showStatus: showPresence || isTyping,
                                       isTyping: isTyping,
                                       size: 44,

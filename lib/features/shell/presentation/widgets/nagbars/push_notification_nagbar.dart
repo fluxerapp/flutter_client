@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluxer_app/core/push/push_notification_permission.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/widgets/nagbars/nagbar_widget.dart';
 import 'package:fluxer_app/features/shell/providers/nagbar_dismissals_provider.dart';
@@ -39,8 +40,9 @@ class PushNotificationNagbar extends ConsumerWidget implements NagbarWidget {
               ? l10n.nagbarOpenSettings
               : l10n.nagbarEnableNotifications,
           onPressed: () async {
-            await requestPushNotificationPermission(
-              openSystemSettingsIfBlocked: true,
+            await ensureSystemPermission(
+              context,
+              SystemPermissionKind.notifications,
             );
             ref
               ..invalidate(pushNotificationPermissionGrantedProvider)

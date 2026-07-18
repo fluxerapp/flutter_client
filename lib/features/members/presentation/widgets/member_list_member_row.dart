@@ -118,7 +118,7 @@ class _MemberListSidebarMemberRowState
               ),
               child: Row(
                 children: <Widget>[
-                  FluxerAvatar.user(
+                  FluxerAvatar.userPresence(
                     fallbackText: displayName,
                     userId: widget.userId,
                     imageUrl: FluxerMediaUrl.userAvatar(
@@ -126,7 +126,6 @@ class _MemberListSidebarMemberRowState
                       hash: avatar,
                     ),
                     avatarColor: member.user.avatarColor,
-                    status: status,
                     showStatus:
                         isCurrentUser ||
                         isTyping ||
@@ -240,7 +239,7 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             children: <Widget>[
-              FluxerAvatar.user(
+              FluxerAvatar.userPresence(
                 fallbackText: displayName,
                 userId: userId,
                 imageUrl: FluxerMediaUrl.userAvatar(
@@ -248,7 +247,6 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
                   hash: avatar,
                 ),
                 avatarColor: member.user.avatarColor,
-                status: status,
                 size: 32,
               ),
               const SizedBox(width: 12),

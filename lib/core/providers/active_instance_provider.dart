@@ -66,7 +66,12 @@ class ActiveInstance extends _$ActiveInstance {
         );
   }
 
+  void cancelPendingConnection() {
+    ++_connectSeq;
+  }
+
   void applySnapshot(InstanceConfigSnapshot snapshot) {
+    cancelPendingConnection();
     _applySnapshot(snapshot);
   }
 

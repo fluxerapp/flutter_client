@@ -43,6 +43,29 @@ md.Document _inlineDocument() => md.Document(
   ],
 );
 
+md.Document _inlineDocumentWithAutolink() => md.Document(
+  encodeHtml: false,
+  withDefaultBlockSyntaxes: false,
+  blockSyntaxes: const [],
+  inlineSyntaxes: [
+    FluxerSpoilerSyntax(),
+    FluxerUnicodeEmojiToneSyntax(_resolveEmojiShortcode),
+    FluxerUnicodeEmojiSyntax(_resolveEmojiShortcode),
+    FluxerCustomEmojiSyntax(),
+    md.AutolinkExtensionSyntax(),
+  ],
+);
+
+const String _longSpoiledLink =
+    '||https://example.com/very/long/path/that/should/not/wrap||';
+
+const FluxerMarkdownConfig _revealedMarkdownConfig = FluxerMarkdownConfig(
+  resolveEmojiShortcode: _resolveEmojiShortcode,
+  unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+  customEmojiUrlBuilder: _noopCustomEmojiUrl,
+  spoilersInitiallyRevealed: true,
+);
+
 List<md.Element> _spoilerNodes(List<md.Node> nodes) => nodes
     .whereType<md.Element>()
     .where((node) => node.tag == FluxerSpoilerSyntax.tag)
@@ -179,6 +202,51 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(contentBlocker().ignoring, isFalse);
+    });
+
+    testWidgets('flattens revealed spoiler for single-line ellipsis', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 200,
+              child: Builder(
+                builder: (context) => buildFluxerMarkdownTextFlow(
+                  context: context,
+                  text: _longSpoiledLink,
+                  baseStyle: baseStyle,
+                  config: _revealedMarkdownConfig,
+                  features: FluxerMarkdownFeatures.forContext(
+                    FluxerMarkdownContext.restrictedInlineReply,
+                  ),
+                  inlineDocument: _inlineDocumentWithAutolink(),
+                  selectable: false,
+                  isDark: false,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(GestureDetector), findsNothing);
+      expect(find.byType(RichText), findsOneWidget);
+      expect(tester.widget<RichText>(find.byType(RichText)).maxLines, 1);
+    });
+
+    testWidgets('keeps spoiler widget when maxLines is not set', (
+      tester,
+    ) async {
+      await pumpMarkdown(tester, _longSpoiledLink);
+
+      expect(find.byType(GestureDetector), findsOneWidget);
+      expect(find.byType(RichText), findsNWidgets(2));
     });
   });
 }

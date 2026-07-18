@@ -39,6 +39,7 @@ ChromeSafariBrowserSettings _buildBrowserSettings(
 ) {
   return ChromeSafariBrowserSettings(
     barCollapsingEnabled: true,
+    noHistory: Platform.isAndroid,
     toolbarBackgroundColor: style.toolbarBackground,
     navigationBarColor: style.navigationBar,
     navigationBarDividerColor: style.navigationBarDivider,
@@ -61,7 +62,10 @@ Future<bool> openExternalUrl(Uri uri, {ExternalUrlBrowserStyle? style}) async {
         url: WebUri(uri.toString()),
         settings: style != null
             ? _buildBrowserSettings(style)
-            : ChromeSafariBrowserSettings(barCollapsingEnabled: true),
+            : ChromeSafariBrowserSettings(
+                barCollapsingEnabled: true,
+                noHistory: Platform.isAndroid,
+              ),
       );
       return true;
     } on Object {

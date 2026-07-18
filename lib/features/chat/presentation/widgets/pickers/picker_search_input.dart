@@ -4,7 +4,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class PickerSearchInput extends StatelessWidget {
+class PickerSearchInput extends StatefulWidget {
   const PickerSearchInput({
     required this.controller,
     required this.hintText,
@@ -17,6 +17,8 @@ class PickerSearchInput extends StatelessWidget {
     this.bottomPadding = 12,
     this.maxLength = 100,
     this.onSubmitted,
+    this.focusNode,
+    this.onActivated,
     super.key,
   });
 
@@ -31,6 +33,55 @@ class PickerSearchInput extends StatelessWidget {
   final double bottomPadding;
   final int maxLength;
   final ValueChanged<String>? onSubmitted;
+  final FocusNode? focusNode;
+  final VoidCallback? onActivated;
+
+  @override
+  State<PickerSearchInput> createState() => _PickerSearchInputState();
+}
+
+class _PickerSearchInputState extends State<PickerSearchInput> {
+  FocusNode? _ownedFocusNode;
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = widget.focusNode ?? (_ownedFocusNode = FocusNode());
+    _focusNode.addListener(_handleFocusChange);
+  }
+
+  @override
+  void didUpdateWidget(PickerSearchInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.focusNode == widget.focusNode) {
+      return;
+    }
+    _focusNode.removeListener(_handleFocusChange);
+    _ownedFocusNode?.dispose();
+    _ownedFocusNode = null;
+    _focusNode = widget.focusNode ?? (_ownedFocusNode = FocusNode());
+    _focusNode.addListener(_handleFocusChange);
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_handleFocusChange);
+    _ownedFocusNode?.dispose();
+    super.dispose();
+  }
+
+  void _handleFocusChange() {
+    if (!_focusNode.hasFocus) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_focusNode.hasFocus) {
+        return;
+      }
+      widget.onActivated?.call();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +90,18 @@ class PickerSearchInput extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        left: horizontalPadding,
-        right: rightPadding ?? horizontalPadding,
-        top: topPadding,
-        bottom: bottomPadding,
+        left: widget.horizontalPadding,
+        right: widget.rightPadding ?? widget.horizontalPadding,
+        top: widget.topPadding,
+        bottom: widget.bottomPadding,
       ),
       child: Row(
         children: [
-          if (showBackButton && onBackButtonClick != null) ...[
+          if (widget.showBackButton && widget.onBackButtonClick != null) ...[
             MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
-                onTap: onBackButtonClick,
+                onTap: widget.onBackButtonClick,
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8),
@@ -65,12 +116,13 @@ class PickerSearchInput extends StatelessWidget {
           ],
           Expanded(
             child: ValueListenableBuilder<TextEditingValue>(
-              valueListenable: controller,
+              valueListenable: widget.controller,
               builder: (context, value, _) {
                 return TextField(
-                  controller: controller,
-                  onSubmitted: onSubmitted,
-                  maxLength: maxLength,
+                  controller: widget.controller,
+                  focusNode: _focusNode,
+                  onSubmitted: widget.onSubmitted,
+                  maxLength: widget.maxLength,
                   maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   style: TextStyle(
                     fontSize: 16,
@@ -79,7 +131,7 @@ class PickerSearchInput extends StatelessWidget {
                   ),
                   decoration: InputDecoration(
                     counterText: '',
-                    hintText: hintText,
+                    hintText: widget.hintText,
                     hintStyle: TextStyle(
                       color: colors.textTertiary,
                       fontSize: 16,
@@ -97,7 +149,7 @@ class PickerSearchInput extends StatelessWidget {
                       minWidth: 36,
                       minHeight: 36,
                     ),
-                    suffixIcon: _renderRightElement(colors),
+                    suffixIcon: _renderRightElement(colors, value.text),
                     suffixIconConstraints: const BoxConstraints(
                       minWidth: 32,
                       minHeight: 32,
@@ -147,8 +199,8 @@ class PickerSearchInput extends StatelessWidget {
     return Color.lerp(formSurface, Colors.black, 0.15)!;
   }
 
-  Widget? _renderRightElement(FluxerColorTheme colors) {
-    if (rightCustomElement == null && controller.text.isEmpty) {
+  Widget? _renderRightElement(FluxerColorTheme colors, String text) {
+    if (widget.rightCustomElement == null && text.isEmpty) {
       return null;
     }
 
@@ -158,13 +210,13 @@ class PickerSearchInput extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (rightCustomElement != null) ...[
-            rightCustomElement!,
-            if (controller.text.isNotEmpty) const SizedBox(width: 6),
+          if (widget.rightCustomElement != null) ...[
+            widget.rightCustomElement!,
+            if (text.isNotEmpty) const SizedBox(width: 6),
           ],
-          if (controller.text.isNotEmpty)
+          if (text.isNotEmpty)
             GestureDetector(
-              onTap: controller.clear,
+              onTap: widget.controller.clear,
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: Icon(

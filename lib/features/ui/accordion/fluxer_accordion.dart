@@ -10,11 +10,13 @@ class FluxerAccordion extends StatefulWidget {
   const FluxerAccordion({
     required this.title,
     required this.child,
+    this.description,
     this.initiallyExpanded = false,
     super.key,
   });
 
   final String title;
+  final String? description;
   final Widget child;
   final bool initiallyExpanded;
 
@@ -80,24 +82,40 @@ class _FluxerAccordionState extends State<FluxerAccordion>
           expanded: _isExpanded,
           excludeChildSemantics: true,
           builder: (context, states) {
-            return Row(
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Text(
-                    widget.title,
-                    style: textStyles.label.copyWith(color: colors.textPrimary),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.title,
+                        style: textStyles.label.copyWith(
+                          color: colors.textPrimary,
+                        ),
+                      ),
+                    ),
+                    AnimatedRotation(
+                      turns: _isExpanded ? 0.5 : 0.0,
+                      duration: context.motion.slow,
+                      curve: context.motion.emphasizedCurve,
+                      child: PhosphorIcon(
+                        PhosphorIconsBold.caretDown,
+                        size: 16,
+                        color: colors.textSecondary,
+                      ),
+                    ),
+                  ],
                 ),
-                AnimatedRotation(
-                  turns: _isExpanded ? 0.5 : 0.0,
-                  duration: context.motion.slow,
-                  curve: context.motion.emphasizedCurve,
-                  child: PhosphorIcon(
-                    PhosphorIconsBold.caretDown,
-                    size: 16,
-                    color: colors.textSecondary,
+                if (widget.description != null) ...[
+                  SizedBox(height: context.layout.s1),
+                  Text(
+                    widget.description!,
+                    style: textStyles.smallText.copyWith(
+                      color: colors.textSecondary,
+                    ),
                   ),
-                ),
+                ],
               ],
             );
           },

@@ -17,9 +17,14 @@ import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 class GuildDisableInvitesButton extends ConsumerWidget {
-  const GuildDisableInvitesButton({required this.guildId, super.key});
+  const GuildDisableInvitesButton({
+    required this.guildId,
+    this.embedded = false,
+    super.key,
+  });
 
   final String guildId;
+  final bool embedded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,47 +49,43 @@ class GuildDisableInvitesButton extends ConsumerWidget {
     );
     final InstanceConfigSnapshot instance = ref.watch(activeInstanceProvider);
     final String productName = instance.instanceDisplayName ?? 'Fluxer';
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        context.layout.s4,
-        0,
-        context.layout.s4,
-        context.layout.s4,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          if (invitesDisabled)
-            FluxerButton.dangerPrimary(
-              label: l10n.guildSettingsInvitesEnableInvites,
-              size: FluxerButtonSize.small,
-              onPressed: () => unawaited(
-                _confirmToggle(
-                  context,
-                  ref,
-                  l10n: l10n,
-                  invitesDisabled: invitesDisabled,
-                  features: guild.features,
-                ),
-              ),
-            )
-          else
-            FluxerButton.secondary(
-              label: l10n.guildSettingsInvitesPauseInvites,
-              size: FluxerButtonSize.small,
-              onPressed: () => unawaited(
-                _confirmToggle(
-                  context,
-                  ref,
-                  l10n: l10n,
-                  invitesDisabled: invitesDisabled,
-                  features: guild.features,
-                ),
+    final Widget content = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        if (invitesDisabled)
+          FluxerButton.dangerPrimary(
+            label: l10n.guildSettingsInvitesEnableInvites,
+            size: FluxerButtonSize.small,
+            fitContent: true,
+            onPressed: () => unawaited(
+              _confirmToggle(
+                context,
+                ref,
+                l10n: l10n,
+                invitesDisabled: invitesDisabled,
+                features: guild.features,
               ),
             ),
-          if (invitesDisabled) ...<Widget>[
-            SizedBox(height: context.layout.s2),
-            Text(
+          )
+        else
+          FluxerButton.secondary(
+            label: l10n.guildSettingsInvitesPauseInvites,
+            size: FluxerButtonSize.small,
+            fitContent: true,
+            onPressed: () => unawaited(
+              _confirmToggle(
+                context,
+                ref,
+                l10n: l10n,
+                invitesDisabled: invitesDisabled,
+                features: guild.features,
+              ),
+            ),
+          ),
+        if (invitesDisabled) ...<Widget>[
+          SizedBox(width: context.layout.s2),
+          Flexible(
+            child: Text(
               isRaidDetected
                   ? l10n.guildSettingsInvitesPausedBecauseRaid(productName)
                   : l10n.guildSettingsInvitesPausedForCommunity,
@@ -92,9 +93,21 @@ class GuildDisableInvitesButton extends ConsumerWidget {
                 color: context.colors.textPrimaryMuted,
               ),
             ),
-          ],
+          ),
         ],
+      ],
+    );
+    if (embedded) {
+      return content;
+    }
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        context.layout.s4,
+        0,
+        context.layout.s4,
+        context.layout.s4,
       ),
+      child: content,
     );
   }
 

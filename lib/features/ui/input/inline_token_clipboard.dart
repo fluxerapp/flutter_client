@@ -4,11 +4,31 @@ import 'package:fluxer_app/features/chat/service/composer_mention_controller.dar
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:super_clipboard/super_clipboard.dart';
 
+const int _kComposerPrivateUseStart = 0xE000;
+const int _kComposerPrivateUseEnd = 0xF8FF;
+
 final RegExp _privateUseAreaPattern = RegExp(r'[\uE000-\uF8FF]');
 
+bool _containsPrivateUseCharacter(String text) {
+  for (final int rune in text.runes) {
+    if (rune >= _kComposerPrivateUseStart && rune <= _kComposerPrivateUseEnd) {
+      return true;
+    }
+  }
+  return false;
+}
+
 String stripPrivateUseCharacters(String text) {
+  if (text.isEmpty || !_containsPrivateUseCharacter(text)) {
+    return text;
+  }
   return text.replaceAll(_privateUseAreaPattern, '');
 }
+
+bool wireTextLostContentAfterSanitize({
+  required String rawWireText,
+  required String sanitizedWireText,
+}) => rawWireText.trim().isNotEmpty && sanitizedWireText.trim().isEmpty;
 
 Future<String> _wireToDisplayFragment(
   TextEditingController controller,

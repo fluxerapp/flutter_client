@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 
 const Duration kPresenceUpdateBatchDelay = Duration(milliseconds: 500);
 
+bool get isFluxerMobileClient => Platform.isAndroid || Platform.isIOS;
+
 typedef PresenceUpdateRecord = ({
   String userId,
   String status,
   String? customStatus,
+  bool mobile,
 });
 
 /// Coalesces high-frequency `PRESENCE_UPDATE` events into a single Drift
@@ -34,6 +38,7 @@ class PresenceUpdateBatcher {
     required String userId,
     required String status,
     String? customStatus,
+    bool mobile = false,
   }) {
     if (_disposed) {
       return;
@@ -44,6 +49,7 @@ class PresenceUpdateBatcher {
           userId,
           status: status,
           customStatus: customStatus,
+          mobile: isFluxerMobileClient,
         ),
       );
       return;
@@ -52,6 +58,7 @@ class PresenceUpdateBatcher {
       userId: userId,
       status: status,
       customStatus: customStatus,
+      mobile: mobile,
     );
     _scheduleFlush();
   }

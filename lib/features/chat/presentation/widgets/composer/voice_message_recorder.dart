@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -262,14 +264,21 @@ class _VoiceMessageRecorderState extends ConsumerState<VoiceMessageRecorder>
         error,
       );
       if (mounted) {
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: l10n.voiceMessageMicPermissionDenied,
-                variant: FluxerToastVariant.danger,
-              ),
-            );
+        if (error.requiresSettings) {
+          await ensureSystemPermission(
+            context,
+            SystemPermissionKind.microphone,
+          );
+        } else {
+          ref
+              .read(toastProvider.notifier)
+              .show(
+                FluxerToast(
+                  message: l10n.voiceMessageMicPermissionDenied,
+                  variant: FluxerToastVariant.danger,
+                ),
+              );
+        }
       }
       await _cancelGesture();
       return;

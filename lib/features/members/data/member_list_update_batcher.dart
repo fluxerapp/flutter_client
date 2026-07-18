@@ -174,7 +174,8 @@ class MemberListUpdateBatcher {
           continue;
         }
         if (member.status != currentRow.status ||
-            member.customStatus != currentRow.customStatus) {
+            member.customStatus != currentRow.customStatus ||
+            member.mobile != currentRow.mobile) {
           return true;
         }
       }

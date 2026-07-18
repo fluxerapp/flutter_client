@@ -11,12 +11,11 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/upload_dr
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
-import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
+import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
-import 'package:fluxer_app/features/voice/presentation/sheets/voice_channel_chat_sheet.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_e2ee_indicator.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
@@ -165,12 +164,6 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     required bool isMobile,
   }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final bool showChatButton =
-        isMobile &&
-        (ref
-                .watch(voiceChannelTextChatSupportedProvider(widget.channelId))
-                .value ??
-            false);
     final AsyncValue<VoiceJoinEligibility> joinEligibilityAsync = ref.watch(
       voiceJoinEligibilityProvider(widget.channelId),
     );
@@ -239,23 +232,6 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                         }
                       : null,
                 ),
-                if (showChatButton) ...<Widget>[
-                  const SizedBox(height: 8),
-                  FluxerButton.secondary(
-                    label: l10n.voiceControlChat,
-                    onPressed: () {
-                      unawaited(
-                        showVoiceChannelChatSheet(
-                          context,
-                          channelId: widget.channelId,
-                          channelName: channelName.isNotEmpty
-                              ? channelName
-                              : null,
-                        ),
-                      );
-                    },
-                  ),
-                ],
                 VoiceE2eeIndicator(
                   guildId: widget.guildId,
                   channelId: widget.channelId,
@@ -278,54 +254,59 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     final String? joinError = ref.watch(
       voiceSessionProvider.select((VoiceSessionState s) => s.errorMessage),
     );
+    final Widget connectingBody = Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            if (channelName.isNotEmpty) ...<Widget>[
+              Text(
+                channelName,
+                textAlign: TextAlign.center,
+                style: context.textStyles.channelName.copyWith(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: context.colors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+            const FluxerLoadingSpinner(),
+            const SizedBox(height: 12),
+            if (joinError != null) ...<Widget>[
+              _VoiceJoinErrorBanner(message: joinError),
+              const SizedBox(height: 12),
+            ],
+            Text(
+              l10n.voiceChannelStatusConnecting,
+              textAlign: TextAlign.center,
+              style: context.textStyles.bodyMedium.copyWith(
+                color: context.colors.textSecondary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
     return ColoredBox(
       color: context.colors.chatBackground,
       child: SafeArea(
         top: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      if (channelName.isNotEmpty) ...<Widget>[
-                        Text(
-                          channelName,
-                          textAlign: TextAlign.center,
-                          style: context.textStyles.channelName.copyWith(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: context.colors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
-                      const FluxerLoadingSpinner(),
-                      const SizedBox(height: 12),
-                      if (joinError != null) ...<Widget>[
-                        _VoiceJoinErrorBanner(message: joinError),
-                        const SizedBox(height: 12),
-                      ],
-                      Text(
-                        l10n.voiceChannelStatusConnecting,
-                        textAlign: TextAlign.center,
-                        style: context.textStyles.bodyMedium.copyWith(
-                          color: context.colors.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+        child: isMobile
+            ? VoiceCallMobilePageLayout(
+                channelId: widget.channelId,
+                guildId: widget.guildId,
+                child: connectingBody,
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(child: connectingBody),
+                  VoiceChannelControlBar(channelId: widget.channelId),
+                ],
               ),
-            ),
-            VoiceChannelControlBar(channelId: widget.channelId),
-          ],
-        ),
       ),
     );
   }
@@ -335,48 +316,39 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     required String channelName,
     required bool isMobile,
   }) {
-    final bool showChatButton =
-        isMobile &&
-        (ref
-                .watch(voiceChannelTextChatSupportedProvider(widget.channelId))
-                .value ??
-            false);
-    return Stack(
-      children: <Widget>[
-        _LocalCameraOrientationSync(
-          child: ColoredBox(
-            color: context.colors.chatBackground,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(
-                  child: RepaintBoundary(
-                    child: VoiceChannelParticipantGrid(
-                      key: const ValueKey<String>('voice-participant-grid'),
-                      guildId: widget.guildId,
-                      channelId: widget.channelId,
-                    ),
+    return _LocalCameraOrientationSync(
+      child: ColoredBox(
+        color: context.colors.chatBackground,
+        child: isMobile
+            ? VoiceCallMobilePageLayout(
+                channelId: widget.channelId,
+                guildId: widget.guildId,
+                child: RepaintBoundary(
+                  child: VoiceChannelParticipantGrid(
+                    key: const ValueKey<String>('voice-participant-grid'),
+                    guildId: widget.guildId,
+                    channelId: widget.channelId,
                   ),
                 ),
-                RepaintBoundary(
-                  child: VoiceChannelControlBar(channelId: widget.channelId),
-                ),
-              ],
-            ),
-          ),
-        ),
-        if (showChatButton)
-          Positioned(
-            top: 12,
-            right: 12,
-            child: SafeArea(
-              child: ChatButton(
-                channelId: widget.channelId,
-                channelName: channelName.isNotEmpty ? channelName : null,
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                    child: RepaintBoundary(
+                      child: VoiceChannelParticipantGrid(
+                        key: const ValueKey<String>('voice-participant-grid'),
+                        guildId: widget.guildId,
+                        channelId: widget.channelId,
+                      ),
+                    ),
+                  ),
+                  RepaintBoundary(
+                    child: VoiceChannelControlBar(channelId: widget.channelId),
+                  ),
+                ],
               ),
-            ),
-          ),
-      ],
+      ),
     );
   }
 }

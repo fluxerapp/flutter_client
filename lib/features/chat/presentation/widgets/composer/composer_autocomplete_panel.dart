@@ -264,14 +264,16 @@ class ComposerAutocompletePanelListTile extends StatelessWidget {
                   child: Row(
                     children: [
                       if (_showsUserAvatar) ...<Widget>[
-                        FluxerAvatar.user(
+                        FluxerAvatar.userPresence(
                           imageUrl: userAvatarImageUrl,
                           fallbackText: userAvatarFallbackText,
-                          userId: _snowflakeUserIdForDefaultAvatar(
-                            userAvatarUserId,
-                          ),
+                          userId:
+                              _snowflakeUserIdForDefaultAvatar(
+                                userAvatarUserId,
+                              ) ??
+                              userAvatarUserId ??
+                              '',
                           avatarColor: userAvatarColor,
-                          status: userAvatarStatus,
                           size: _kAutocompleteAvatarSize,
                         ),
                         const SizedBox(width: _kAutocompleteAvatarGap),

@@ -172,12 +172,12 @@ class ComposerAutocompleteFieldState
     if (_channelId.isEmpty) {
       return 0;
     }
-    final bool isDm = ref.read(
-      dmViewModelProvider.select(
-        (DmViewState s) => findDmById(s.conversations, _channelId) != null,
-      ),
+    final bool isDirectChat = isComposerDirectChat(
+      channelId: _channelId,
+      dmConversations: ref.read(dmViewModelProvider).conversations,
+      currentUserId: ref.read(currentUserIdProvider),
     );
-    if (isDm) {
+    if (isDirectChat) {
       return allPermissions;
     }
     return ref.read(
@@ -552,12 +552,16 @@ class ComposerAutocompleteFieldState
     await EmojiRegistry.ensureLoaded();
     final bool hasChannel = _channelId.isNotEmpty;
     final String activeGuildId = ref.read(activeGuildIdProvider) ?? '';
-    // No channel context (e.g. bio) offers every accessible custom emoji; a
-    // channel applies the same premium/external gating as the message composer.
-    final bool hasGlobalExpressions = ref.read(
-      instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
-    );
-    final bool isPremium = !hasChannel || hasGlobalExpressions;
+    final bool hasPlutoniumEmojiAccess =
+        !hasChannel ||
+        composerHasDirectChatEmojiAccess(
+          channelId: _channelId,
+          dmConversations: ref.read(dmViewModelProvider).conversations,
+          currentUserId: ref.read(currentUserIdProvider),
+          hasGlobalExpressions: ref.read(
+            instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
+          ),
+        );
     final bool canUseExternal =
         !hasChannel ||
         channelMessagePermissionsForComposer(
@@ -580,7 +584,7 @@ class ComposerAutocompleteFieldState
           guilds: guilds,
           emojis: allCustom,
           activeGuildId: activeGuildId,
-          isPremium: isPremium,
+          isPremium: hasPlutoniumEmojiAccess,
           canUseExternalEmojis: canUseExternal,
         );
     final List<GuildEmojiEntry> customOrdered = <GuildEmojiEntry>[];

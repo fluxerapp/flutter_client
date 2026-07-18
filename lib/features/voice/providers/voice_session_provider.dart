@@ -11,25 +11,31 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
+import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
+import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
 import 'package:fluxer_app/features/voice/utils/android_screen_share_background.dart';
-import 'package:fluxer_app/features/voice/utils/camera_permission.dart';
 import 'package:fluxer_app/features/voice/utils/channel_e2ee_status.dart';
 import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/features/voice/utils/voice_channel_join_guard.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_voice_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_effective_audio_state.dart';
+import 'package:fluxer_app/features/voice/utils/voice_participant_volume_utils.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -117,8 +123,8 @@ class VoiceSession extends _$VoiceSession {
           return;
         }
         unawaited(_onVoiceSettingsChanged(previous, next));
-      });
-    ref.read(voiceNoiseFilterProvider);
+      })
+      ..read(voiceNoiseFilterProvider);
     return const VoiceSessionState();
   }
 
@@ -357,13 +363,15 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     await _clearStaleVoiceSessionIfNeeded(channelId);
-    final bool micOk = await requestMicrophonePermissionForVoice();
+    final bool micOk = await _ensureSystemPermissionForVoice(
+      SystemPermissionKind.microphone,
+      deniedErrorCode: kVoiceSessionErrorMicPermission,
+    );
     if (!micOk) {
       talker.warning(
         '[Voice] Join aborted: microphone permission denied '
         '(channelId=$channelId).',
       );
-      state = state.copyWith(errorMessage: kVoiceSessionErrorMicPermission);
       return;
     }
     if (guildId != null) {
@@ -848,7 +856,11 @@ class VoiceSession extends _$VoiceSession {
         moveFromChannelId.isNotEmpty &&
         moveFromChannelId != resolvedChannelId) {
       unawaited(
-        ref.read(fluxerSfxProvider).playOneShot(FluxerSfxClip.userMove),
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: FluxerSfxClip.userMove,
+        ),
       );
     }
     final String? e2eeKey = event.e2eeKey;
@@ -1036,12 +1048,22 @@ class VoiceSession extends _$VoiceSession {
     if (lp == null) {
       return;
     }
-    final bool camOk = await requestCameraPermissionForVoice();
-    if (!camOk || attempt != _connectGeneration) {
+    final SystemPermissionOutcome cameraOutcome = await requestSystemPermission(
+      SystemPermissionKind.camera,
+    );
+    if (cameraOutcome != SystemPermissionOutcome.granted ||
+        attempt != _connectGeneration) {
       if (attempt == _connectGeneration) {
-        state = state.copyWith(
-          errorMessage: kVoiceSessionErrorCameraPermission,
-        );
+        if (cameraOutcome == SystemPermissionOutcome.denied) {
+          state = state.copyWith(
+            errorMessage: kVoiceSessionErrorCameraPermission,
+          );
+        } else if (cameraOutcome == SystemPermissionOutcome.requiresSettings) {
+          await ensureSystemPermission(
+            resolveSystemPermissionContext(null),
+            SystemPermissionKind.camera,
+          );
+        }
       }
       return;
     }
@@ -1066,7 +1088,11 @@ class VoiceSession extends _$VoiceSession {
         selfVideo: true,
       );
       unawaited(
-        ref.read(fluxerSfxProvider).playOneShot(FluxerSfxClip.cameraOn),
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: FluxerSfxClip.cameraOn,
+        ),
       );
     } finally {
       _togglingVideo = false;
@@ -1079,10 +1105,15 @@ class VoiceSession extends _$VoiceSession {
     _cancelDeferredServerDisconnect();
     _startWithVideoAfterConnect = false;
     unawaited(
-      ref.read(fluxerSfxProvider).playOneShot(FluxerSfxClip.voiceDisconnect),
+      playFluxerSoundEffect(
+        prefs: ref.read(soundPreferencesProvider),
+        sfx: ref.read(fluxerSfxProvider),
+        clip: FluxerSfxClip.voiceDisconnect,
+      ),
     );
     ref.read(voiceScreenShareWatchTileProvider.notifier).setActiveTileId(null);
     ref.read(voiceCallLayoutProvider.notifier).reset();
+    ref.read(voiceCallDisplayPreferencesProvider.notifier).reset();
     await disableAndroidScreenShareBackground();
     final String? channelId = state.channelId;
     final String? guildId = state.guildId;
@@ -1185,10 +1216,20 @@ class VoiceSession extends _$VoiceSession {
         );
   }
 
-  void reportMicrophonePermissionDenied() {
-    state = state.copyWith(
-      errorMessage: 'Microphone permission is required for voice.',
-    );
+  Future<bool> _ensureSystemPermissionForVoice(
+    SystemPermissionKind kind, {
+    required String deniedErrorCode,
+  }) async {
+    final SystemPermissionOutcome outcome = await requestSystemPermission(kind);
+    if (outcome == SystemPermissionOutcome.granted) {
+      return true;
+    }
+    if (outcome == SystemPermissionOutcome.requiresSettings) {
+      await ensureSystemPermission(resolveSystemPermissionContext(null), kind);
+      return false;
+    }
+    state = state.copyWith(errorMessage: deniedErrorCode);
+    return false;
   }
 
   void clearError() {
@@ -1251,9 +1292,11 @@ class VoiceSession extends _$VoiceSession {
     );
     if (playSound) {
       unawaited(
-        ref
-            .read(fluxerSfxProvider)
-            .playOneShot(isMuted ? FluxerSfxClip.mute : FluxerSfxClip.unmute),
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: isMuted ? FluxerSfxClip.mute : FluxerSfxClip.unmute,
+        ),
       );
     }
   }
@@ -1271,14 +1314,26 @@ class VoiceSession extends _$VoiceSession {
         selfDeaf: false,
         selfVideo: vs?.selfVideo ?? false,
       );
-      unawaited(ref.read(fluxerSfxProvider).playOneShot(FluxerSfxClip.undeaf));
+      unawaited(
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: FluxerSfxClip.undeaf,
+        ),
+      );
     } else {
       await _applySelfVoiceState(
         selfMute: true,
         selfDeaf: true,
         selfVideo: vs?.selfVideo ?? false,
       );
-      unawaited(ref.read(fluxerSfxProvider).playOneShot(FluxerSfxClip.deaf));
+      unawaited(
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: FluxerSfxClip.deaf,
+        ),
+      );
     }
   }
 
@@ -1297,11 +1352,11 @@ class VoiceSession extends _$VoiceSession {
       return;
     }
     if (nextVideo) {
-      final bool camOk = await requestCameraPermissionForVoice();
+      final bool camOk = await _ensureSystemPermissionForVoice(
+        SystemPermissionKind.camera,
+        deniedErrorCode: kVoiceSessionErrorCameraPermission,
+      );
       if (!camOk) {
-        state = state.copyWith(
-          errorMessage: kVoiceSessionErrorCameraPermission,
-        );
         return;
       }
     }
@@ -1322,11 +1377,11 @@ class VoiceSession extends _$VoiceSession {
         selfVideo: nextVideo,
       );
       unawaited(
-        ref
-            .read(fluxerSfxProvider)
-            .playOneShot(
-              nextVideo ? FluxerSfxClip.cameraOn : FluxerSfxClip.cameraOff,
-            ),
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: nextVideo ? FluxerSfxClip.cameraOn : FluxerSfxClip.cameraOff,
+        ),
       );
     } finally {
       _togglingVideo = false;
@@ -1472,13 +1527,13 @@ class VoiceSession extends _$VoiceSession {
         return;
       }
       unawaited(
-        ref
-            .read(fluxerSfxProvider)
-            .playOneShot(
-              nextSelfStream
-                  ? FluxerSfxClip.streamStart
-                  : FluxerSfxClip.streamStop,
-            ),
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: nextSelfStream
+              ? FluxerSfxClip.streamStart
+              : FluxerSfxClip.streamStop,
+        ),
       );
     } finally {
       _togglingScreenShare = false;
@@ -1512,11 +1567,10 @@ class VoiceSession extends _$VoiceSession {
     talker.warning(
       '[Voice] Screen-share audio requires microphone permission; requesting.',
     );
-    final bool granted = await requestMicrophonePermissionForVoice();
-    if (!granted) {
-      talker.warning('[Voice] Screen-share audio permission denied by user.');
-    }
-    return granted;
+    return _ensureSystemPermissionForVoice(
+      SystemPermissionKind.microphone,
+      deniedErrorCode: kVoiceSessionErrorScreenSharePermissionDenied,
+    );
   }
 
   String _classifyScreenShareException(Object error) {
@@ -1542,10 +1596,6 @@ class VoiceSession extends _$VoiceSession {
       return kVoiceSessionErrorScreenShareToggle;
     }
     return kVoiceSessionErrorScreenShareToggle;
-  }
-
-  void reportCameraPermissionDenied() {
-    state = state.copyWith(errorMessage: kVoiceSessionErrorCameraPermission);
   }
 
   Future<void> _applySelfVoiceState({
@@ -1777,7 +1827,11 @@ class VoiceSession extends _$VoiceSession {
     );
     SchedulerBinding.instance.addPostFrameCallback((_) {
       unawaited(
-        ref.read(fluxerSfxProvider).playOneShot(FluxerSfxClip.userJoin),
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: FluxerSfxClip.userJoin,
+        ),
       );
     });
     if (_pendingRingAfterConnect) {
@@ -1796,6 +1850,17 @@ class VoiceSession extends _$VoiceSession {
     );
   }
 
+  Future<void> _applyAudioOutputDevice(String outputDeviceId) async {
+    if (outputDeviceId == kDefaultVoiceDeviceId || outputDeviceId.isEmpty) {
+      return;
+    }
+    try {
+      await Helper.selectAudioOutput(outputDeviceId);
+    } on Object {
+      return;
+    }
+  }
+
   Future<void> _onVoiceSettingsChanged(
     VoiceSettingsState? previous,
     VoiceSettingsState next,
@@ -1804,6 +1869,11 @@ class VoiceSession extends _$VoiceSession {
       voiceSettingsApplicatorProvider,
     );
     await applicator.applySpeakerOutput(settings: next);
+    final bool outputDeviceChanged =
+        previous == null || previous.outputDeviceId != next.outputDeviceId;
+    if (outputDeviceChanged) {
+      await _applyAudioOutputDevice(next.outputDeviceId);
+    }
     final Room? room = state.liveKitRoom;
     if (room == null || !state.isConnected) {
       return;
@@ -1839,6 +1909,68 @@ class VoiceSession extends _$VoiceSession {
         cameraEnabled: vs?.selfVideo ?? false,
       );
     }
+    final bool participantVolumesChanged =
+        previous == null ||
+        previous.participantVolumes != next.participantVolumes;
+    final bool outputVolumeChanged =
+        previous == null || previous.outputVolume != next.outputVolume;
+    if (participantVolumesChanged || outputVolumeChanged) {
+      await applyAllParticipantVolumes();
+    }
+  }
+
+  Future<void> applyParticipantVolume(String userId) async {
+    final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
+    await applyParticipantVolumeToRoom(
+      room: state.liveKitRoom,
+      userId: userId,
+      participantVolumePercent: defaultParticipantVolumeForUser(
+        participantVolumes: settings.participantVolumes,
+        userId: userId,
+      ),
+      outputVolumePercent: settings.outputVolume,
+    );
+  }
+
+  Future<void> applyAllParticipantVolumes() async {
+    final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
+    await applyAllParticipantVolumesToRoom(
+      room: state.liveKitRoom,
+      participantVolumes: settings.participantVolumes,
+      outputVolumePercent: settings.outputVolume,
+    );
+  }
+
+  Future<void> _applyParticipantVolumeForPublication(
+    RemoteTrackPublication publication,
+  ) async {
+    if (publication.source != TrackSource.microphone) {
+      return;
+    }
+    final Participant participant = publication.participant;
+    final String? userId = parseUserIdFromParticipantIdentity(
+      participant.identity,
+    );
+    if (userId == null) {
+      return;
+    }
+    final Track? track = publication.track;
+    if (track is! RemoteAudioTrack) {
+      return;
+    }
+    final VoiceSettingsState settings = ref.read(voiceSettingsProvider);
+    try {
+      await applyParticipantVolumeToTrack(
+        track: track,
+        participantVolumePercent: defaultParticipantVolumeForUser(
+          participantVolumes: settings.participantVolumes,
+          userId: userId,
+        ),
+        outputVolumePercent: settings.outputVolume,
+      );
+    } on Object catch (error) {
+      talker.warning('[Voice] Failed to apply participant volume: $error');
+    }
   }
 
   CameraCaptureOptions _cameraCaptureOptions() {
@@ -1858,6 +1990,7 @@ class VoiceSession extends _$VoiceSession {
     }
     try {
       await publication.subscribe();
+      await _applyParticipantVolumeForPublication(publication);
     } on Object catch (e) {
       talker.warning('[Voice] Failed to subscribe remote track: $e');
     }
@@ -2086,13 +2219,13 @@ class VoiceSession extends _$VoiceSession {
           'user_',
         );
         unawaited(
-          ref
-              .read(fluxerSfxProvider)
-              .playOneShot(
-                isUserParticipant
-                    ? FluxerSfxClip.userJoin
-                    : FluxerSfxClip.viewerJoin,
-              ),
+          playFluxerSoundEffect(
+            prefs: ref.read(soundPreferencesProvider),
+            sfx: ref.read(fluxerSfxProvider),
+            clip: isUserParticipant
+                ? FluxerSfxClip.userJoin
+                : FluxerSfxClip.viewerJoin,
+          ),
         );
       })
       ..on<ParticipantDisconnectedEvent>((ParticipantDisconnectedEvent evt) {
@@ -2106,13 +2239,13 @@ class VoiceSession extends _$VoiceSession {
           'user_',
         );
         unawaited(
-          ref
-              .read(fluxerSfxProvider)
-              .playOneShot(
-                isUserParticipant
-                    ? FluxerSfxClip.userLeave
-                    : FluxerSfxClip.viewerLeave,
-              ),
+          playFluxerSoundEffect(
+            prefs: ref.read(soundPreferencesProvider),
+            sfx: ref.read(fluxerSfxProvider),
+            clip: isUserParticipant
+                ? FluxerSfxClip.userLeave
+                : FluxerSfxClip.viewerLeave,
+          ),
         );
       });
   }

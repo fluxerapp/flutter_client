@@ -6528,9 +6528,9 @@
     "@userSettingsNavAccessibility": {
         "description": "User settings navigation item for accessibility settings."
     },
-    "userSettingsNavMessagesAndMedia": "Messages & Media",
-    "@userSettingsNavMessagesAndMedia": {
-        "description": "User settings navigation item for messages and media settings."
+    "userSettingsNavChat": "Chat",
+    "@userSettingsNavChat": {
+        "description": "User settings navigation item for chat settings."
     },
     "userSettingsNavAudioAndVideo": "Audio & Video",
     "@userSettingsNavAudioAndVideo": {

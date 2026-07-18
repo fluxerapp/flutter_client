@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
@@ -13,7 +15,6 @@ import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/services/voice_settings_applicator.dart';
-import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/voice_processing_profile.dart';
 import 'package:fluxer_app/features/voice/utils/voice_volume_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -55,7 +56,10 @@ class _VoiceMicTestSectionState extends ConsumerState<VoiceMicTestSection> {
     if (ref.read(voiceSessionProvider).isConnected) {
       return;
     }
-    final bool micOk = await requestMicrophonePermissionForVoice();
+    final bool micOk = await ensureSystemPermission(
+      context,
+      SystemPermissionKind.microphone,
+    );
     if (!micOk || !mounted) {
       return;
     }

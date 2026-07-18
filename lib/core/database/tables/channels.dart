@@ -20,6 +20,9 @@ class Channels extends Table {
   TextColumn get contentWarningText => text().nullable()();
   TextColumn get permissionOverwritesJson => text().nullable()();
   IntColumn get userLimit => integer().nullable()();
+  IntColumn get bitrate => integer().nullable()();
+  TextColumn get rtcRegion => text().nullable()();
+  IntColumn get voiceConnectionLimit => integer().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

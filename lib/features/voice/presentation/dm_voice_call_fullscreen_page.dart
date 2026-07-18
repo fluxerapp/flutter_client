@@ -7,8 +7,10 @@ import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/utils/chat_route_sync_guard.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
+import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
@@ -102,17 +104,24 @@ class _DmVoiceCallFullscreenPageState
       ),
       body: inThisChannel
           ? _LocalCameraOrientationSync(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Expanded(
-                    child: VoiceChannelParticipantGrid(
+              child: isMobileLayout(context)
+                  ? VoiceCallMobilePageLayout(
                       channelId: widget.channelId,
+                      child: VoiceChannelParticipantGrid(
+                        channelId: widget.channelId,
+                      ),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Expanded(
+                          child: VoiceChannelParticipantGrid(
+                            channelId: widget.channelId,
+                          ),
+                        ),
+                        VoiceChannelControlBar(channelId: widget.channelId),
+                      ],
                     ),
-                  ),
-                  VoiceChannelControlBar(channelId: widget.channelId),
-                ],
-              ),
             )
           : _DmVoiceEmptyPane(
               channelId: widget.channelId,

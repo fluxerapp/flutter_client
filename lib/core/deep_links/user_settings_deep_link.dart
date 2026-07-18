@@ -1,3 +1,4 @@
+import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/deep_links/deep_link_path_policy.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 
@@ -25,7 +26,6 @@ const Set<String> _userSettingsTabTypes = {
   'component_gallery',
   'language',
   'keybinds',
-  'expression_packs',
   'linked_accounts',
 };
 
@@ -194,17 +194,15 @@ UserSettingsSection? mapUserSettingsDeepLinkToSection(
     case 'accessibility':
       return UserSettingsSection.accessibility;
     case 'chat_settings':
-      return UserSettingsSection.messagesAndMedia;
+      return UserSettingsSection.chat;
     case 'voice_video':
       return UserSettingsSection.audioAndVideo;
     case 'notifications':
-      return UserSettingsSection.soundsAndAlerts;
+      return UserSettingsSection.notifications;
     case 'language':
       return UserSettingsSection.languageAndTime;
     case 'keybinds':
       return UserSettingsSection.keybinds;
-    case 'expression_packs':
-      return UserSettingsSection.expressionPacks;
     case 'linked_accounts':
       return UserSettingsSection.connections;
     case 'applications':
@@ -212,6 +210,9 @@ UserSettingsSection? mapUserSettingsDeepLinkToSection(
     case 'advanced_settings':
       return UserSettingsSection.advanced;
     case 'client_developer_settings':
+      if (!AppBuildConfig.isCanary) {
+        return null;
+      }
       return UserSettingsSection.developerTools;
     default:
       return null;

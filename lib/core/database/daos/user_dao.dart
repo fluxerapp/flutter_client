@@ -52,23 +52,36 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
     String id, {
     required String status,
     String? customStatus,
+    bool? mobile,
   }) => (update(users)..where((u) => u.id.equals(id))).write(
-    UsersCompanion(status: Value(status), customStatus: Value(customStatus)),
+    UsersCompanion(
+      status: Value(status),
+      customStatus: Value(customStatus),
+      mobile: mobile == null ? const Value.absent() : Value(mobile),
+    ),
   );
 
   Future<void> updateUserPresencesBatch(
-    List<({String userId, String status, String? customStatus})> updates,
+    List<({String userId, String status, String? customStatus, bool mobile})>
+    updates,
   ) async {
     if (updates.isEmpty) {
       return;
     }
     await transaction(() async {
-      for (final ({String userId, String status, String? customStatus}) entry
+      for (final ({
+            String userId,
+            String status,
+            String? customStatus,
+            bool mobile,
+          })
+          entry
           in updates) {
         await (update(users)..where((u) => u.id.equals(entry.userId))).write(
           UsersCompanion(
             status: Value(entry.status),
             customStatus: Value(entry.customStatus),
+            mobile: Value(entry.mobile),
           ),
         );
       }

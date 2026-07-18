@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_nav_group.dart';
 import 'package:fluxer_app/features/settings/domain/user_settings_section.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/settings_sidebar.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -63,7 +65,7 @@ class UserSettingsDesktopNavEntry {
   }
 }
 
-const userSettingsDesktopNav = [
+const _userSettingsDesktopNavBeforeStaffOnly = [
   UserSettingsDesktopNavEntry.separator(UserSettingsNavGroup.yourAccount),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.profile,
@@ -81,10 +83,6 @@ const userSettingsDesktopNav = [
   //   UserSettingsSection.giftsAndCodes,
   //   icon: PhosphorIconsFill.gift,
   // ),
-  UserSettingsDesktopNavEntry.link(
-    UserSettingsSection.expressionPacks,
-    icon: PhosphorIconsFill.sticker,
-  ),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.privacyDashboard,
     icon: PhosphorIconsFill.eyeSlash,
@@ -111,11 +109,15 @@ const userSettingsDesktopNav = [
     icon: PhosphorIconsFill.paintBrush,
   ),
   UserSettingsDesktopNavEntry.link(
+    UserSettingsSection.notifications,
+    icon: PhosphorIconsFill.bell,
+  ),
+  UserSettingsDesktopNavEntry.link(
     UserSettingsSection.accessibility,
     icon: PhosphorIconsFill.personSimpleCircle,
   ),
   UserSettingsDesktopNavEntry.link(
-    UserSettingsSection.messagesAndMedia,
+    UserSettingsSection.chat,
     icon: PhosphorIconsFill.chatCircle,
   ),
   UserSettingsDesktopNavEntry.link(
@@ -125,10 +127,6 @@ const userSettingsDesktopNav = [
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.keybinds,
     icon: PhosphorIconsFill.keyboard,
-  ),
-  UserSettingsDesktopNavEntry.link(
-    UserSettingsSection.soundsAndAlerts,
-    icon: PhosphorIconsFill.bell,
   ),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.languageAndTime,
@@ -143,6 +141,9 @@ const userSettingsDesktopNav = [
     UserSettingsSection.applications,
     icon: PhosphorIconsFill.code,
   ),
+];
+
+const _userSettingsDesktopNavStaffOnly = [
   UserSettingsDesktopNavEntry.separator(UserSettingsNavGroup.staffOnly),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.developerTools,
@@ -156,7 +157,9 @@ const userSettingsDesktopNav = [
     UserSettingsSection.featureFlags,
     icon: PhosphorIconsFill.flag,
   ),
-  UserSettingsDesktopNavEntry.separator(),
+];
+
+const _userSettingsDesktopNavAfterStaffOnly = [
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.whatsNew,
     icon: PhosphorIconsFill.megaphone,
@@ -164,7 +167,16 @@ const userSettingsDesktopNav = [
   UserSettingsDesktopNavEntry.logout(),
 ];
 
+List<UserSettingsDesktopNavEntry> get userSettingsDesktopNav => [
+  ..._userSettingsDesktopNavBeforeStaffOnly,
+  if (AppBuildConfig.isCanary) ..._userSettingsDesktopNavStaffOnly,
+  ..._userSettingsDesktopNavAfterStaffOnly,
+];
+
 int? indexForUserSettingsSection(UserSettingsSection section) {
+  if (!isUserSettingsStaffOnlySectionAvailable(section)) {
+    return null;
+  }
   for (var i = 0; i < userSettingsDesktopNav.length; i++) {
     if (userSettingsDesktopNav[i].section == section) {
       return i;
@@ -195,7 +207,6 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         link(UserSettingsSection.securityLogin, PhosphorIconsFill.shieldCheck),
         // link(UserSettingsSection.fluxerPlutonium, PhosphorIconsFill.crown),
         // link(UserSettingsSection.giftsAndCodes, PhosphorIconsFill.gift),
-        link(UserSettingsSection.expressionPacks, PhosphorIconsFill.sticker),
         link(UserSettingsSection.privacyDashboard, PhosphorIconsFill.eyeSlash),
         link(UserSettingsSection.authorizedApps, PhosphorIconsFill.robot),
         link(UserSettingsSection.blockedUsers, PhosphorIconsFill.prohibit),
@@ -207,16 +218,13 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
       label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.application),
       items: [
         link(UserSettingsSection.lookAndFeel, PhosphorIconsFill.paintBrush),
+        link(UserSettingsSection.notifications, PhosphorIconsFill.bell),
         link(
           UserSettingsSection.accessibility,
           PhosphorIconsFill.personSimpleCircle,
         ),
-        link(
-          UserSettingsSection.messagesAndMedia,
-          PhosphorIconsFill.chatCircle,
-        ),
+        link(UserSettingsSection.chat, PhosphorIconsFill.chatCircle),
         link(UserSettingsSection.audioAndVideo, PhosphorIconsFill.microphone),
-        link(UserSettingsSection.soundsAndAlerts, PhosphorIconsFill.bell),
         link(UserSettingsSection.languageAndTime, PhosphorIconsFill.translate),
         link(UserSettingsSection.advanced, PhosphorIconsFill.flask),
       ],
@@ -232,14 +240,15 @@ List<FluxerSettingsNavGroup> buildUserSettingsMobileNavGroups({
         ),
       ],
     ),
-    FluxerSettingsNavGroup(
-      label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.staffOnly),
-      items: [
-        link(UserSettingsSection.developerTools, PhosphorIconsFill.code),
-        link(UserSettingsSection.limitsConfig, PhosphorIconsFill.flag),
-        link(UserSettingsSection.featureFlags, PhosphorIconsFill.flag),
-      ],
-    ),
+    if (AppBuildConfig.isCanary)
+      FluxerSettingsNavGroup(
+        label: userSettingsNavGroupLabel(l10n, UserSettingsNavGroup.staffOnly),
+        items: [
+          link(UserSettingsSection.developerTools, PhosphorIconsFill.code),
+          link(UserSettingsSection.limitsConfig, PhosphorIconsFill.flag),
+          link(UserSettingsSection.featureFlags, PhosphorIconsFill.flag),
+        ],
+      ),
     FluxerSettingsNavGroup(
       items: [
         link(UserSettingsSection.whatsNew, PhosphorIconsFill.megaphone),

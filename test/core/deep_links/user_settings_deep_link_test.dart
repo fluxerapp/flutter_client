@@ -77,6 +77,10 @@ void main() {
         isNull,
       );
       expect(mapUserSettingsDeepLinkToSection('plutonium', null), isNull);
+      expect(
+        mapUserSettingsDeepLinkToSection('client_developer_settings', null),
+        isNull,
+      );
     });
   });
 }

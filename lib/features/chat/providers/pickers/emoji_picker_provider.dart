@@ -151,6 +151,14 @@ Map<Guild, List<GuildEmojiEntry>> _groupEmojiEntriesByGuild({
   return result;
 }
 
+/// Whether a guild emoji can be inserted or sent in the composer for [channelId].
+bool composerCanUseGuildEmoji({
+  required GuildEmojiEntry emoji,
+  required bool hasGlobalEmojiAccess,
+  required bool isDirectChat,
+  required String? activeGuildId,
+}) => hasGlobalEmojiAccess || isDirectChat || emoji.guildId == activeGuildId;
+
 @Riverpod(keepAlive: true)
 class EmojiSkinTone extends _$EmojiSkinTone {
   @override

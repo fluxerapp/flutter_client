@@ -438,7 +438,7 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
     }
     if (dm != null) {
       final bool isTyping = ref.watch(dmAvatarIsTypingProvider(dm));
-      return FluxerAvatar.user(
+      return FluxerAvatar.userPresence(
         fallbackText: dm.displayName,
         userId: dm.recipientId,
         imageUrl: dm.recipientAvatar == null
@@ -447,7 +447,6 @@ class _FavoriteLeadingIcon extends ConsumerWidget {
                 userId: dm.recipientId,
                 hash: dm.recipientAvatar,
               ),
-        status: dm.recipientStatus,
         showStatus: shouldShowDmRecipientPresence(dm) || isTyping,
         isTyping: isTyping,
         size: _avatarSize,

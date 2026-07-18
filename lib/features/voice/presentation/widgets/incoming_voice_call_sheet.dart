@@ -193,14 +193,13 @@ class _IncomingVoiceCallSheetBody extends ConsumerWidget {
       return groupDmAvatarCluster(dm: dm, size: size, status: dm.groupStatus);
     }
     if (dm != null) {
-      return FluxerAvatar.user(
+      return FluxerAvatar.userPresence(
         fallbackText: dm.recipientName,
         userId: dm.recipientId,
         imageUrl: FluxerMediaUrl.userAvatar(
           userId: dm.recipientId,
           hash: dm.recipientAvatar,
         ),
-        status: dm.recipientStatus,
         size: size,
       );
     }

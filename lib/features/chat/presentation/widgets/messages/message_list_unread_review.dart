@@ -54,13 +54,11 @@ bool shouldShowUnreadBar({
   required bool liveNearBottom,
   required bool hasMoreNewerMessages,
   required bool isManualReadState,
-  required String? stickyUnreadMessageId,
 }) {
   if (!hasUnread) {
     return false;
   }
-  if (isManualReadState ||
-      (stickyUnreadMessageId != null && stickyUnreadMessageId.isNotEmpty)) {
+  if (isManualReadState) {
     return true;
   }
   if (liveNearBottom && !hasMoreNewerMessages) {

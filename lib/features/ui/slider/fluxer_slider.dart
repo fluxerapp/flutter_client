@@ -26,6 +26,9 @@ class FluxerSlider extends StatefulWidget {
     this.asValueChanges,
     this.step,
     this.semanticLabel,
+    this.markerLabelWidth = 24,
+    this.markerAreaHeight = 24,
+    this.shrinkMarkerLabels = true,
     super.key,
   });
 
@@ -46,6 +49,9 @@ class FluxerSlider extends StatefulWidget {
   final ValueChanged<double>? asValueChanges;
   final double? step;
   final String? semanticLabel;
+  final double markerLabelWidth;
+  final double markerAreaHeight;
+  final bool shrinkMarkerLabels;
 
   @override
   State<FluxerSlider> createState() => _FluxerSliderState();
@@ -65,10 +71,8 @@ class _FluxerSliderState extends State<FluxerSlider> {
   static const double _kBarHeightMini = 6;
   static const double _kThumbSize = 16;
   static const double _kThumbSizeMini = 12;
-  static const double _kMarkerWidth = 24;
   static const double _kMarkerDashWidth = 2;
   static const double _kMarkerDashHeight = 24;
-  static const double _kMarkerAreaHeight = 24;
   static const double _kTooltipGap = 8;
 
   @override
@@ -358,7 +362,8 @@ class _FluxerSliderState extends State<FluxerSlider> {
               builder: (context, constraints) {
                 final trackWidth = constraints.maxWidth;
                 final markerX =
-                    (positions[i] / 100.0) * trackWidth - _kMarkerWidth / 2;
+                    (positions[i] / 100.0) * trackWidth -
+                    widget.markerLabelWidth / 2;
                 final isFactoryDefault =
                     widget.factoryDefaultValue != null &&
                     sorted[i] == widget.factoryDefaultValue;
@@ -383,9 +388,14 @@ class _FluxerSliderState extends State<FluxerSlider> {
                   ),
                 );
 
-                final fittedMarkerLabel = Flexible(
-                  child: FittedBox(fit: BoxFit.scaleDown, child: markerLabel),
-                );
+                final Widget markerLabelWidget = widget.shrinkMarkerLabels
+                    ? Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: markerLabel,
+                        ),
+                      )
+                    : markerLabel;
 
                 return Stack(
                   clipBehavior: Clip.none,
@@ -394,8 +404,8 @@ class _FluxerSliderState extends State<FluxerSlider> {
                       left: markerX,
                       top: 0,
                       child: SizedBox(
-                        width: _kMarkerWidth,
-                        height: _kMarkerAreaHeight,
+                        width: widget.markerLabelWidth,
+                        height: widget.markerAreaHeight,
                         child: Column(
                           mainAxisAlignment:
                               widget.markerPosition ==
@@ -405,8 +415,8 @@ class _FluxerSliderState extends State<FluxerSlider> {
                           children:
                               widget.markerPosition ==
                                   FluxerSliderMarkerPosition.above
-                              ? [fittedMarkerLabel, dash]
-                              : [dash, fittedMarkerLabel],
+                              ? <Widget>[markerLabelWidget, dash]
+                              : <Widget>[dash, markerLabelWidget],
                         ),
                       ),
                     ),
@@ -434,7 +444,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
     final positions = _markerPositions(sorted);
     final valuePct = _valuePercent.clamp(0.0, 100.0);
     final totalHeight =
-        _kMarkerAreaHeight + (_hasMarkers ? _kMarkerAreaHeight : 0);
+        widget.markerAreaHeight + (_hasMarkers ? widget.markerAreaHeight : 0);
 
     return OverlayPortal(
       controller: _tooltipController,
@@ -470,8 +480,8 @@ class _FluxerSliderState extends State<FluxerSlider> {
                               widget.markerPosition ==
                                   FluxerSliderMarkerPosition.above
                               ? 0
-                              : totalHeight - _kMarkerAreaHeight,
-                          height: _kMarkerAreaHeight,
+                              : totalHeight - widget.markerAreaHeight,
+                          height: widget.markerAreaHeight,
                           child: _buildMarkers(
                             sorted,
                             positions,
@@ -487,7 +497,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
                             _hasMarkers &&
                                 widget.markerPosition ==
                                     FluxerSliderMarkerPosition.above
-                            ? _kMarkerAreaHeight +
+                            ? widget.markerAreaHeight +
                                   (_kThumbSize - _barHeight) / 2
                             : (totalHeight - _barHeight) / 2,
                         height: _barHeight,
@@ -520,7 +530,7 @@ class _FluxerSliderState extends State<FluxerSlider> {
                             _hasMarkers &&
                                 widget.markerPosition ==
                                     FluxerSliderMarkerPosition.above
-                            ? _kMarkerAreaHeight +
+                            ? widget.markerAreaHeight +
                                   (_kThumbSize - _thumbSize) / 2
                             : (totalHeight - _thumbSize) / 2,
                         child: MouseRegion(

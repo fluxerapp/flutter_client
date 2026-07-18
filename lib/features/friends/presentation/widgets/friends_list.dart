@@ -464,7 +464,7 @@ class FriendsList extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  FluxerAvatar.user(
+                  FluxerAvatar.userPresence(
                     fallbackText: friend.displayName,
                     userId: friend.id,
                     imageUrl: FluxerMediaUrl.userAvatar(
@@ -472,7 +472,6 @@ class FriendsList extends ConsumerWidget {
                       hash: friend.avatar,
                     ),
                     avatarColor: friend.avatarColor,
-                    status: friend.status,
                     size: 36,
                   ),
                   SizedBox(width: context.layout.s3),

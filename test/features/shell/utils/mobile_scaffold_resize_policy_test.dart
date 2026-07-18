@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/shell/utils/mobile_scaffold_resize_policy.dart';
 
 void main() {
-  test('mobile chat keeps full-height body while expression panel is open', () {
+  test('mobile chat never resizes scaffold for keyboard', () {
     expect(
       mobileChannelScaffoldShouldResizeForKeyboard(
         isChatRoute: true,
@@ -10,26 +10,20 @@ void main() {
       ),
       isFalse,
     );
-  });
-
-  test(
-    'mobile chat preserves keyboard inset while expression panel is open',
-    () {
-      expect(
-        mobileChannelScaffoldShouldRemoveKeyboardInset(
-          isChatRoute: true,
-          isExpressionPanelOpen: true,
-        ),
-        isFalse,
-      );
-    },
-  );
-
-  test('mobile chat resizes for keyboard while expression panel is closed', () {
     expect(
       mobileChannelScaffoldShouldResizeForKeyboard(
         isChatRoute: true,
         isExpressionPanelOpen: false,
+      ),
+      isFalse,
+    );
+  });
+
+  test('mobile chat strips keyboard insets from message list subtree', () {
+    expect(
+      mobileChannelScaffoldShouldRemoveKeyboardInset(
+        isChatRoute: true,
+        isExpressionPanelOpen: true,
       ),
       isTrue,
     );

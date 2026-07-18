@@ -126,6 +126,9 @@ List<Channel> _channelsFromFinalList({
         contentWarningText: source.contentWarningText,
         permissionOverwritesJson: source.permissionOverwritesJson,
         userLimit: source.userLimit,
+        bitrate: source.bitrate,
+        rtcRegion: source.rtcRegion,
+        voiceConnectionLimit: source.voiceConnectionLimit,
       ),
     );
   }

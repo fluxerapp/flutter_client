@@ -1,26 +1,32 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
+import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
+import 'package:riverpod/src/framework.dart' show Override;
 
-Widget _app(Widget child) {
+Widget _app(Widget child, {List<Override> overrides = const <Override>[]}) {
   final colorTheme = buildDarkColorTheme();
-  return MaterialApp(
-    localizationsDelegates: FluxerLocalizations.localizationsDelegates,
-    supportedLocales: FluxerLocalizations.supportedLocales,
-    theme: buildFluxerTheme(
-      colorTheme: colorTheme,
-      textTheme: FluxerTextTheme.fromColors(colorTheme),
-      layoutTheme: FluxerLayoutTheme.scaled(),
+  return ProviderScope(
+    overrides: overrides,
+    child: MaterialApp(
+      localizationsDelegates: FluxerLocalizations.localizationsDelegates,
+      supportedLocales: FluxerLocalizations.supportedLocales,
+      theme: buildFluxerTheme(
+        colorTheme: colorTheme,
+        textTheme: FluxerTextTheme.fromColors(colorTheme),
+        layoutTheme: FluxerLayoutTheme.scaled(),
+      ),
+      home: Scaffold(body: Center(child: child)),
     ),
-    home: Scaffold(body: Center(child: child)),
   );
 }
 
@@ -73,6 +79,11 @@ void main() {
           onTap: () {},
           userAvatarFallbackText: 'Alice',
         ),
+        overrides: <Override>[
+          userPresenceProvider(
+            '',
+          ).overrideWith((Ref ref) => Stream.value(null)),
+        ],
       ),
     );
 

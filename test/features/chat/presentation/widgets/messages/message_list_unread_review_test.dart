@@ -31,7 +31,6 @@ void main() {
           liveNearBottom: false,
           hasMoreNewerMessages: false,
           isManualReadState: false,
-          stickyUnreadMessageId: null,
         ),
         isFalse,
       );
@@ -44,7 +43,6 @@ void main() {
           liveNearBottom: true,
           hasMoreNewerMessages: false,
           isManualReadState: false,
-          stickyUnreadMessageId: null,
         ),
         isFalse,
       );
@@ -57,7 +55,6 @@ void main() {
           liveNearBottom: false,
           hasMoreNewerMessages: false,
           isManualReadState: false,
-          stickyUnreadMessageId: null,
         ),
         isTrue,
       );
@@ -70,22 +67,20 @@ void main() {
           liveNearBottom: true,
           hasMoreNewerMessages: false,
           isManualReadState: true,
-          stickyUnreadMessageId: null,
         ),
         isTrue,
       );
     });
 
-    test('shows at bottom when sticky unread is set', () {
+    test('suppresses at bottom without a manual read state', () {
       expect(
         shouldShowUnreadBar(
           hasUnread: true,
           liveNearBottom: true,
           hasMoreNewerMessages: false,
           isManualReadState: false,
-          stickyUnreadMessageId: 'msg-1',
         ),
-        isTrue,
+        isFalse,
       );
     });
 
@@ -96,7 +91,6 @@ void main() {
           liveNearBottom: true,
           hasMoreNewerMessages: true,
           isManualReadState: false,
-          stickyUnreadMessageId: null,
         ),
         isTrue,
       );

@@ -6528,8 +6528,8 @@
     "@userSettingsNavAccessibility": {
         "description": "User settings navigation item for accessibility settings."
     },
-    "userSettingsNavMessagesAndMedia": "Ziņojumi un mediji",
-    "@userSettingsNavMessagesAndMedia": {
+    "userSettingsNavChat": "Ziņojumi un mediji",
+    "@userSettingsNavChat": {
         "description": "User settings navigation item for messages and media settings."
     },
     "userSettingsNavAudioAndVideo": "Audio un video",

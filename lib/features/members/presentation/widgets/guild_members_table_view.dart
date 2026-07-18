@@ -7,7 +7,6 @@ import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
-import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
@@ -243,10 +242,6 @@ class _MemberRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? presenceStatus = ref
-        .watch(userPresenceProvider(member.id))
-        .value
-        ?.status;
     final String displayName = resolveDisplayName(
       guildNickname: member.nickname,
       globalName: member.globalName,
@@ -261,7 +256,7 @@ class _MemberRow extends ConsumerWidget {
           padding: EdgeInsets.symmetric(vertical: context.layout.s2),
           child: Row(
             children: <Widget>[
-              FluxerAvatar.user(
+              FluxerAvatar.userPresence(
                 fallbackText: displayName,
                 userId: member.id,
                 imageUrl: FluxerMediaUrl.userAvatar(
@@ -269,7 +264,6 @@ class _MemberRow extends ConsumerWidget {
                   hash: member.avatar,
                 ),
                 avatarColor: member.avatarColor,
-                status: presenceStatus,
                 size: 36,
               ),
               SizedBox(width: context.layout.s3),

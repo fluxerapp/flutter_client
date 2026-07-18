@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_live_waveform.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
@@ -110,12 +111,15 @@ class VoiceMessageRecordingService {
     if (isMicrophoneInUse) {
       throw const VoiceMessageMicrophoneInUseException();
     }
-    final bool granted = await requestPermission();
-    if (!granted) {
+    final SystemPermissionOutcome outcome =
+        await requestMicrophonePermissionOutcome();
+    if (outcome != SystemPermissionOutcome.granted) {
       talker.warning(
         '[VoiceMessageRecording] Microphone permission not granted',
       );
-      throw const VoiceMessageRecordingPermissionException();
+      throw VoiceMessageRecordingPermissionException(
+        requiresSettings: outcome == SystemPermissionOutcome.requiresSettings,
+      );
     }
     final Directory dir = await getTemporaryDirectory();
     final int stamp = DateTime.now().microsecondsSinceEpoch;
@@ -445,7 +449,11 @@ class VoiceMessageRecordingService {
 }
 
 class VoiceMessageRecordingPermissionException implements Exception {
-  const VoiceMessageRecordingPermissionException();
+  const VoiceMessageRecordingPermissionException({
+    this.requiresSettings = false,
+  });
+
+  final bool requiresSettings;
 }
 
 class VoiceMessageMicrophoneInUseException implements Exception {

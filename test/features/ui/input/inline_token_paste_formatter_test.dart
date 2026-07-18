@@ -153,7 +153,6 @@ void main() {
           ComposerMentionPasteFormatter(controller: controller);
 
       const TextEditingValue oldValue = TextEditingValue(
-        text: '',
         selection: TextSelection.collapsed(offset: 0),
       );
       const TextEditingValue newValue = TextEditingValue(

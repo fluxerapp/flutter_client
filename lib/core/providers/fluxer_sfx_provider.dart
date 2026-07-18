@@ -17,6 +17,8 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_pro
 import 'package:fluxer_app/features/chat/service/message_notification_sfx_gate.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/utils/sound_type_utils.dart';
+import 'package:fluxer_app/features/settings/utils/sound_volume_utils.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -94,10 +96,18 @@ void fluxerMessageSfxBinding(Ref ref) {
             return;
           }
           final FluxerSfxClip clip = _clipForKind(request.clipKind);
+          final double volume = computeEffectiveSfxVolume(
+            prefs: soundPrefs,
+            soundType: request.clipKind.soundSettingsKey,
+          );
           scheduler.schedule(
             clip: clip,
             play: (FluxerSfxClip scheduledClip) {
-              unawaited(ref.read(fluxerSfxProvider).playOneShot(scheduledClip));
+              unawaited(
+                ref
+                    .read(fluxerSfxProvider)
+                    .playOneShot(scheduledClip, volume: volume),
+              );
             },
           );
         } on CancellationException {
@@ -124,12 +134,20 @@ void fluxerSfxIncomingRingBinding(Ref ref) {
       isForeground: isForeground,
       hasPendingIncoming: pending.isNotEmpty,
     );
-    if (shouldPlay) {
+    final SoundPreferencesState soundPrefs = ref.read(soundPreferencesProvider);
+    final bool soundEnabled = soundPrefs.isSoundTypeEnabled(
+      kSoundTypeIncomingRing,
+    );
+    if (shouldPlay && soundEnabled) {
       if (isIncomingRingPlaying) {
         return;
       }
       isIncomingRingPlaying = true;
-      unawaited(sfx.startLoop(FluxerSfxClip.incomingRing));
+      final double volume = computeEffectiveSfxVolume(
+        prefs: soundPrefs,
+        soundType: kSoundTypeIncomingRing,
+      );
+      unawaited(sfx.startLoop(FluxerSfxClip.incomingRing, volume: volume));
       return;
     }
     if (!isIncomingRingPlaying) {

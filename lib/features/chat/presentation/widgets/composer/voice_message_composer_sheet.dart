@@ -5,6 +5,8 @@ import 'dart:typed_data';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/voice_message_live_waveform.dart';
@@ -122,7 +124,18 @@ class _VoiceMessageComposerSheetBodyState
         _errorMessage = l10n.voiceMessageMicInUse;
       });
       return;
-    } on VoiceMessageRecordingPermissionException {
+    } on VoiceMessageRecordingPermissionException catch (error) {
+      if (error.requiresSettings) {
+        await ensureSystemPermission(context, SystemPermissionKind.microphone);
+        if (!mounted) {
+          return;
+        }
+        setState(() {
+          _stage = _VoiceComposerStage.recording;
+          _errorMessage = null;
+        });
+        return;
+      }
       setState(() {
         _stage = _VoiceComposerStage.permissionError;
         _errorMessage = l10n.voiceMessageMicPermissionDenied;

@@ -704,6 +704,7 @@ db.User _dbUser() {
     bot: false,
     system: false,
     status: 'online',
+    mobile: true,
   );
 }
 

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/profile_tab_menu_sheet.dart';
-import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
@@ -31,10 +30,6 @@ class AppBottomNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
     final UserSettingsViewState user = ref.watch(userSettingsViewModelProvider);
-    final String? selfUserId = user.userId.isEmpty ? null : user.userId;
-    final String? presenceStatus = selfUserId == null
-        ? null
-        : ref.watch(userPresenceProvider(selfUserId)).value?.status;
 
     return Material(
       color: colors.backgroundSecondary,
@@ -50,7 +45,6 @@ class AppBottomNavBar extends ConsumerWidget {
                     config: _items[index],
                     isSelected: currentIndex == index,
                     user: user,
-                    presenceStatus: presenceStatus,
                     onTap: () => onBranchSelected(index),
                     onLongPress: index == 2
                         ? () {
@@ -86,14 +80,12 @@ class _AppBottomNavItem extends StatelessWidget {
     required this.isSelected,
     required this.user,
     required this.onTap,
-    this.presenceStatus,
     this.onLongPress,
   });
 
   final _NavItemConfig config;
   final bool isSelected;
   final UserSettingsViewState user;
-  final String? presenceStatus;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
 
@@ -119,12 +111,11 @@ class _AppBottomNavItem extends StatelessWidget {
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
                   opacity: isSelected ? 1 : 0.5,
-                  child: FluxerAvatar.user(
+                  child: FluxerAvatar.userPresence(
                     fallbackText: user.displayName,
                     userId: user.userId,
                     imageUrl: user.avatarUrl,
                     avatarColor: user.avatarColor,
-                    status: presenceStatus,
                     size: 24,
                   ),
                 )

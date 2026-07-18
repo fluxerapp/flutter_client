@@ -33,11 +33,13 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_language_
 import 'package:fluxer_app/features/settings/presentation/widgets/user_linked_devices.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_look_and_feel.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_messages_media.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/user_notifications_settings.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_privacy_dashboard.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_security_login.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
+import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_utils.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -403,6 +405,9 @@ class _MobileSettingsNavBodyState
   }
 
   void _openSettingsPage(UserSettingsSection section) {
+    if (!isUserSettingsStaffOnlySectionAvailable(section)) {
+      return;
+    }
     final l10n = FluxerLocalizations.of(context);
     final canDismiss = ValueNotifier<bool>(true);
     unawaited(
@@ -506,6 +511,9 @@ Widget _buildUserSettingsSectionContent({
   required UserSettingsSection section,
   ScrollController? scrollController,
 }) {
+  if (!isUserSettingsStaffOnlySectionAvailable(section)) {
+    return const SizedBox.shrink();
+  }
   switch (section) {
     case UserSettingsSection.profile:
       return FluxerSettingsSheet(
@@ -538,7 +546,7 @@ Widget _buildUserSettingsSectionContent({
       return scrollController == null
           ? const UserAccessibility()
           : UserAccessibility(scrollController: scrollController);
-    case UserSettingsSection.messagesAndMedia:
+    case UserSettingsSection.chat:
       return scrollController == null
           ? const UserMessagesMedia()
           : UserMessagesMedia(scrollController: scrollController);
@@ -572,9 +580,11 @@ Widget _buildUserSettingsSectionContent({
       return scrollController == null
           ? const UserAudioAndVideo()
           : UserAudioAndVideo(scrollController: scrollController);
-    case UserSettingsSection.expressionPacks:
+    case UserSettingsSection.notifications:
+      return scrollController == null
+          ? const UserNotificationsSettings()
+          : UserNotificationsSettings(scrollController: scrollController);
     case UserSettingsSection.keybinds:
-    case UserSettingsSection.soundsAndAlerts:
     case UserSettingsSection.applications:
     case UserSettingsSection.developerTools:
     case UserSettingsSection.limitsConfig:

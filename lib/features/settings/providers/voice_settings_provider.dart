@@ -127,6 +127,39 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
+  int participantVolumeFor(String userId) {
+    return state.participantVolumes[userId] ?? kDefaultVoiceVolumePercent;
+  }
+
+  Future<void> setParticipantVolume(String userId, int value) async {
+    final int clamped = clampVoiceVolumePercent(value);
+    final Map<String, int> nextVolumes = Map<String, int>.from(
+      state.participantVolumes,
+    );
+    nextVolumes[userId] = clamped;
+    state = state.copyWith(participantVolumes: nextVolumes);
+    _schedulePersist();
+  }
+
+  Future<void> setStreamVolume(String streamKey, int value) async {
+    final int clamped = clampVoiceVolumePercent(value);
+    final Map<String, int> nextVolumes = Map<String, int>.from(
+      state.streamAudioVolumes,
+    );
+    nextVolumes[streamKey] = clamped;
+    state = state.copyWith(streamAudioVolumes: nextVolumes);
+    _schedulePersist();
+  }
+
+  Future<void> setStreamMuted(String streamKey, {required bool muted}) async {
+    final Map<String, bool> nextMuted = Map<String, bool>.from(
+      state.streamAudioMuted,
+    );
+    nextMuted[streamKey] = muted;
+    state = state.copyWith(streamAudioMuted: nextMuted);
+    _schedulePersist();
+  }
+
   void _schedulePersist() {
     _persistTimer?.cancel();
     _persistTimer = Timer(_kVoiceSettingsPersistDebounce, () {

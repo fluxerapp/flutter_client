@@ -118,13 +118,17 @@ class FluxerBadge extends StatelessWidget {
           ),
         ),
         alignment: Alignment.center,
-        child: Text(
-          label,
-          style: TextStyle(
-            color: context.colors.textOnBrandPrimary,
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-            height: 1,
+        child: Padding(
+          // IBM Plex Sans numerals sit slightly low.
+          padding: const EdgeInsets.only(bottom: 1),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: context.colors.textOnBrandPrimary,
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              height: 1,
+            ),
           ),
         ),
       ),

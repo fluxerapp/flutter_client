@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/gateway/presence_update_batcher.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
@@ -129,6 +130,7 @@ class UserStatusService {
       await database.userDao.updateUserPresence(
         userId,
         status: previousSettings.status,
+        mobile: isFluxerMobileClient,
       );
     }
     try {
@@ -156,6 +158,7 @@ class UserStatusService {
           userId,
           status: previousSettings.status,
           customStatus: serializeCustomStatus(previousSettings.customStatus),
+          mobile: isFluxerMobileClient,
         );
       }
       rethrow;
@@ -200,6 +203,7 @@ class UserStatusService {
           userId,
           status: previousSettings.status,
           customStatus: serializeCustomStatus(previousSettings.customStatus),
+          mobile: isFluxerMobileClient,
         );
       }
       rethrow;
@@ -239,6 +243,7 @@ class UserStatusService {
       userId,
       status: optimisticStatus,
       customStatus: optimisticCustomStatusText,
+      mobile: isFluxerMobileClient,
     );
   }
 }

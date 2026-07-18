@@ -1,5 +1,5 @@
-import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/push/push_notification_permission.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() {

@@ -77,6 +77,7 @@ class FluxerActionMenu {
                               label: item.label,
                               hint: item.hint,
                               icon: item.icon,
+                              iconColor: item.iconColor,
                               isDanger: item.isDanger,
                               enabled: item.enabled,
                               onTap: item.onPressed,
@@ -324,6 +325,7 @@ class FluxerMenuItem extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.icon,
+    this.iconColor,
     this.hint,
     this.enabled = true,
     this.isDanger = false,
@@ -333,6 +335,7 @@ class FluxerMenuItem extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
   final PhosphorIconData? icon;
+  final Color? iconColor;
   final String? hint;
   final bool enabled;
   final bool isDanger;
@@ -373,7 +376,7 @@ class FluxerMenuItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (icon != null) ...[
-                  PhosphorIcon(icon!, size: 20, color: foreground),
+                  PhosphorIcon(icon!, size: 20, color: iconColor ?? foreground),
                   SizedBox(width: layout.s3),
                 ],
                 Expanded(

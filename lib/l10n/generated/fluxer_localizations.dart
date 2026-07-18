@@ -295,6 +295,36 @@ abstract class FluxerLocalizations {
   /// **'Open settings'**
   String get nagbarOpenSettings;
 
+  /// Title for the system permission settings prompt modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable permission'**
+  String get systemPermissionSettingsTitle;
+
+  /// Primary action that opens the device app settings for a blocked permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get systemPermissionSettingsOpenSettings;
+
+  /// Body text when microphone access must be enabled in system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer doesn\'t have access to your microphone. You can enable it in your device privacy settings.'**
+  String get systemPermissionMicrophoneMessage;
+
+  /// Body text when camera access must be enabled in system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer doesn\'t have access to your camera. You can enable it in your device privacy settings.'**
+  String get systemPermissionCameraMessage;
+
+  /// Body text when notification permission must be enabled in system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluxer doesn\'t have permission to send notifications. You can enable it in your device settings.'**
+  String get systemPermissionNotificationsMessage;
+
   /// Premium grace period nagbar body.
   ///
   /// In en, this message translates to:
@@ -7762,11 +7792,89 @@ abstract class FluxerLocalizations {
   /// **'Disconnect'**
   String get voiceControlDisconnect;
 
+  /// Voice participant context menu item to open the user's profile.
+  ///
+  /// In en, this message translates to:
+  /// **'View profile'**
+  String get voiceParticipantMenuViewProfile;
+
+  /// Voice participant context menu item to pin a participant tile in focus layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus this person'**
+  String get voiceParticipantMenuFocus;
+
+  /// Voice participant context menu item to return to grid layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfocus'**
+  String get voiceParticipantMenuUnfocus;
+
+  /// Voice participant context menu item to community-mute another member.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get voiceParticipantMenuCommunityMute;
+
+  /// Voice participant context menu item to community-deafen another member.
+  ///
+  /// In en, this message translates to:
+  /// **'Deafen'**
+  String get voiceParticipantMenuCommunityDeafen;
+
+  /// Voice participant context menu slider label for per-user volume.
+  ///
+  /// In en, this message translates to:
+  /// **'User volume'**
+  String get voiceParticipantMenuUserVolume;
+
+  /// Voice participant context menu slider label for screen share audio volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Stream volume'**
+  String get voiceParticipantMenuStreamVolume;
+
+  /// Toast shown when a voice participant moderation action fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update that member. Please try again.'**
+  String get voiceParticipantModerationFailed;
+
   /// Label for the chat button in voice lobby and call control surfaces.
   ///
   /// In en, this message translates to:
   /// **'Chat'**
   String get voiceControlChat;
+
+  /// Section header for in-call voice settings in the expandable control panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice settings'**
+  String get voicePanelSettingsSectionTitle;
+
+  /// Switch label to route voice call audio through the phone earpiece instead of the speaker.
+  ///
+  /// In en, this message translates to:
+  /// **'Use earpiece'**
+  String get voicePanelUseEarpieceLabel;
+
+  /// Switch label to hide voice participants who do not have their camera on.
+  ///
+  /// In en, this message translates to:
+  /// **'Only show videos'**
+  String get voicePanelOnlyShowVideosLabel;
+
+  /// Description for the only-show-videos switch in the voice call panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Only show participants who have their camera on.'**
+  String get voicePanelOnlyShowVideosDescription;
+
+  /// Switch label to show or hide the local camera tile in the voice call grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Show my own camera'**
+  String get voicePanelShowOwnCameraLabel;
 
   /// Accessibility label for opening voice channel text chat.
   ///
@@ -9507,7 +9615,7 @@ abstract class FluxerLocalizations {
   /// Title for the channel details overflow menu on guild channels.
   ///
   /// In en, this message translates to:
-  /// **'Channel Settings'**
+  /// **'Channel settings'**
   String get channelDetailsChannelSettingsTitle;
 
   /// Title for the channel details overflow menu on group DMs.
@@ -9549,14 +9657,734 @@ abstract class FluxerLocalizations {
   /// Channel details menu action to edit a guild channel.
   ///
   /// In en, this message translates to:
-  /// **'Edit Channel'**
+  /// **'Edit channel'**
   String get channelDetailsEditChannel;
 
   /// Channel details menu action to delete a guild channel.
   ///
   /// In en, this message translates to:
-  /// **'Delete Channel'**
+  /// **'Delete channel'**
   String get channelDetailsDeleteChannel;
+
+  /// Title for category settings modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Category settings'**
+  String get channelSettingsCategorySettingsTitle;
+
+  /// Context menu action to edit a category.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit category'**
+  String get channelSettingsEditCategory;
+
+  /// Channel settings tab for basic channel details.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get channelSettingsTabOverview;
+
+  /// Channel settings tab for role and member permission overwrites.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions'**
+  String get channelSettingsTabPermissions;
+
+  /// Channel settings tab for invite management.
+  ///
+  /// In en, this message translates to:
+  /// **'Invites'**
+  String get channelSettingsTabInvites;
+
+  /// Channel settings tab for configuring channel webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhooks'**
+  String get channelSettingsTabWebhooks;
+
+  /// Destructive footer button in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete channel'**
+  String get channelSettingsDeleteChannel;
+
+  /// Destructive confirmation for deleting a channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {channelName}? This cannot be undone.'**
+  String channelSettingsDeleteChannelConfirm(String channelName);
+
+  /// Destructive confirmation for deleting a category.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {categoryName}? This cannot be undone.'**
+  String channelSettingsDeleteCategoryConfirm(String categoryName);
+
+  /// Destructive footer button in category settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete category'**
+  String get channelSettingsDeleteCategory;
+
+  /// Success toast after saving channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel updated'**
+  String get channelSettingsChannelUpdated;
+
+  /// Label for channel name field in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel name'**
+  String get channelSettingsChannelName;
+
+  /// Label for category name field in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Category name'**
+  String get channelSettingsCategoryName;
+
+  /// Placeholder for category name field.
+  ///
+  /// In en, this message translates to:
+  /// **'My category'**
+  String get channelSettingsMyCategory;
+
+  /// Placeholder for channel name field in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'general'**
+  String get channelSettingsChannelNamePlaceholder;
+
+  /// Label for link channel URL field.
+  ///
+  /// In en, this message translates to:
+  /// **'URL'**
+  String get channelSettingsUrl;
+
+  /// Placeholder for link channel URL field in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'https://example.com'**
+  String get channelSettingsUrlPlaceholder;
+
+  /// Label for channel topic field.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic'**
+  String get channelSettingsTopic;
+
+  /// Placeholder for channel topic field.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a topic to this channel'**
+  String get channelSettingsTopicPlaceholder;
+
+  /// Accessibility label for the emoji button on the channel topic field.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert emoji'**
+  String get channelSettingsInsertEmoji;
+
+  /// Error modal title when channel topic exceeds maximum length.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel topic is too long.'**
+  String get channelSettingsTopicTooLongTitle;
+
+  /// Error modal body when channel topic exceeds maximum length.
+  ///
+  /// In en, this message translates to:
+  /// **'Shorten the topic and try again.'**
+  String get channelSettingsTopicTooLongMessage;
+
+  /// Label for slowmode control in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Slowmode'**
+  String get channelSettingsSlowmode;
+
+  /// Description under the slowmode select in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait between messages. \"{bypassSlowmodePermissionLabel}\" can bypass it.'**
+  String channelSettingsSlowmodeDescription(
+    String bypassSlowmodePermissionLabel,
+  );
+
+  /// Slowmode option for no rate limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get channelSettingsSlowmodeOff;
+
+  /// Slowmode option label in seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds'**
+  String channelSettingsSlowmodeSeconds(int seconds);
+
+  /// Slowmode option label in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes'**
+  String channelSettingsSlowmodeMinutes(int minutes);
+
+  /// Slowmode option label in hours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} hours'**
+  String channelSettingsSlowmodeHours(int hours);
+
+  /// Slowmode option label for one minute.
+  ///
+  /// In en, this message translates to:
+  /// **'{oneMinute} minute'**
+  String channelSettingsSlowmodeOneMinute(int oneMinute);
+
+  /// Slowmode option label for one hour.
+  ///
+  /// In en, this message translates to:
+  /// **'{oneHour} hour'**
+  String channelSettingsSlowmodeOneHour(int oneHour);
+
+  /// Voice channel setting label for voice bitrate preset.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice quality'**
+  String get channelSettingsVoiceQuality;
+
+  /// Helper text for the voice quality slider in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher bitrate = better quality and higher bandwidth usage.'**
+  String get channelSettingsVoiceQualityDescription;
+
+  /// Voice channel bitrate option label.
+  ///
+  /// In en, this message translates to:
+  /// **'{kilobits} kbps'**
+  String channelSettingsVoiceQualityKbps(int kilobits);
+
+  /// Voice channel setting label for maximum members.
+  ///
+  /// In en, this message translates to:
+  /// **'Participant limit'**
+  String get channelSettingsParticipantLimit;
+
+  /// Helper text for the voice channel participant limit slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum members who can join at once. 0 means unlimited.'**
+  String get channelSettingsParticipantLimitDescription;
+
+  /// Displayed value for voice channel participant limit slider.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0 {∞ No limit} =1 {1 participant} other {{count} participants}}'**
+  String channelSettingsParticipantLimitValue(int count);
+
+  /// Voice channel setting label for connection limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection limit'**
+  String get channelSettingsConnectionLimit;
+
+  /// Helper text for voice channel connection limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum active connections one member can keep in this channel.'**
+  String get channelSettingsConnectionLimitDescription;
+
+  /// Displayed value for voice channel connection limit slider.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1 {1 connection} other {{count} connections}}'**
+  String channelSettingsConnectionLimitValue(int count);
+
+  /// Label for voice region picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice region'**
+  String get channelSettingsVoiceRegion;
+
+  /// Helper text for the voice region picker in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a voice region for this channel. Automatic uses the closest region.'**
+  String get channelSettingsVoiceRegionDescription;
+
+  /// Automatic voice region option.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get channelSettingsVoiceRegionAutomatic;
+
+  /// Error modal title when voice regions fail to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load voice regions'**
+  String get channelSettingsVoiceRegionsLoadFailed;
+
+  /// Error modal body when voice regions fail to load in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in a moment.'**
+  String get channelSettingsVoiceRegionsLoadFailedDescription;
+
+  /// Tooltip for reset buttons on channel settings sliders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset slider to default value'**
+  String get channelSettingsResetSlider;
+
+  /// Collapsible advanced section title in channel overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get channelSettingsAdvanced;
+
+  /// Accessibility label for mature content override control.
+  ///
+  /// In en, this message translates to:
+  /// **'Mature content override'**
+  String get channelSettingsMatureContentOverride;
+
+  /// Section description for mature content settings in channel overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Override the {scopeLevel}-level setting for this channel. Mature content is shown behind a gate before entry.'**
+  String channelSettingsMatureContentSectionDescription(String scopeLevel);
+
+  /// Mature content option that uses parent or community setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Inherit'**
+  String get channelSettingsMatureContentInherit;
+
+  /// Mature content option that marks channel for mature content.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get channelSettingsMatureContentOn;
+
+  /// Mature content option that leaves channel ungated.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get channelSettingsMatureContentOff;
+
+  /// Description for the mature content on override option.
+  ///
+  /// In en, this message translates to:
+  /// **'Marks this channel for mature content.'**
+  String get channelSettingsMatureContentOnDescription;
+
+  /// Description for the mature content off override option.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave this channel ungated for mature content.'**
+  String get channelSettingsMatureContentOffDescription;
+
+  /// Mature content summary when inherited setting is enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Inherited from {inheritedSourceLabel}: on'**
+  String channelSettingsMatureContentInheritsOn(String inheritedSourceLabel);
+
+  /// Mature content summary when inherited setting is disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Inherited from {inheritedSourceLabel}: off'**
+  String channelSettingsMatureContentInheritsOff(String inheritedSourceLabel);
+
+  /// Lowercase source label for inherited mature content from category.
+  ///
+  /// In en, this message translates to:
+  /// **'category'**
+  String get channelSettingsMatureContentCategorySource;
+
+  /// Lowercase source label for inherited mature content from community.
+  ///
+  /// In en, this message translates to:
+  /// **'community'**
+  String get channelSettingsMatureContentCommunitySource;
+
+  /// Capitalized scope label when mature content inherits from a category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get channelSettingsMatureContentCategoryScope;
+
+  /// Capitalized scope label when mature content inherits from the community.
+  ///
+  /// In en, this message translates to:
+  /// **'Community'**
+  String get channelSettingsMatureContentCommunityScope;
+
+  /// Toggle for showing content warning in channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show a content warning in this channel'**
+  String get channelSettingsContentWarningToggle;
+
+  /// Description for the channel content warning toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turns on a consent prompt before entering this channel.'**
+  String get channelSettingsContentWarningToggleDescription;
+
+  /// Label for custom content warning text field.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom warning text'**
+  String get channelSettingsContentWarningText;
+
+  /// Default content warning text placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'This contains sensitive content.'**
+  String get channelSettingsContentWarningDefault;
+
+  /// Error when user lacks manage channels permission for channel permissions tab.
+  ///
+  /// In en, this message translates to:
+  /// **'You need the \"{manageChannelsPermissionLabel}\" permission to edit these permissions.'**
+  String channelSettingsPermissionsNeedManageChannels(
+    String manageChannelsPermissionLabel,
+  );
+
+  /// Error when user lacks manage roles permission for channel permissions tab.
+  ///
+  /// In en, this message translates to:
+  /// **'You need the \"{manageRolesPermissionLabel}\" permission to edit these permissions.'**
+  String channelSettingsPermissionsNeedManageRoles(
+    String manageRolesPermissionLabel,
+  );
+
+  /// Fallback label for unknown role in permission overwrites.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown role'**
+  String get channelSettingsUnknownRole;
+
+  /// Fallback label for unknown user in permission overwrites.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown user'**
+  String get channelSettingsUnknownUser;
+
+  /// Label for the default @everyone role overwrite in channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'@everyone'**
+  String get channelSettingsEveryoneRole;
+
+  /// Sidebar title for channel permission overwrite list.
+  ///
+  /// In en, this message translates to:
+  /// **'Access overrides'**
+  String get channelSettingsPermissionsAccessOverrides;
+
+  /// Title for channel permission editor panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit access for {name}'**
+  String channelSettingsPermissionsEditAccessFor(String name);
+
+  /// Mobile back button label on channel permission editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to overrides'**
+  String get channelSettingsPermissionsBackToOverrides;
+
+  /// Subtitle when editing @everyone channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure base access for this channel'**
+  String get channelSettingsPermissionsConfigureBaseAccess;
+
+  /// Subtitle when editing a role channel permission overwrite.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure overrides for this role'**
+  String get channelSettingsPermissionsConfigureRoleOverrides;
+
+  /// Subtitle when editing a member channel permission overwrite.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure overrides for this member'**
+  String get channelSettingsPermissionsConfigureMemberOverrides;
+
+  /// Placeholder for channel permissions search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search permissions…'**
+  String get channelSettingsPermissionsSearchPlaceholder;
+
+  /// Success toast after saving channel permission overwrites.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel access updated'**
+  String get channelSettingsPermissionsChannelAccessUpdated;
+
+  /// Page title for the channel permissions settings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Access control'**
+  String get channelSettingsPermissionsTitle;
+
+  /// Prefix for the synced-with-parent banner in channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel is synced with the parent category '**
+  String get channelSettingsPermissionsSyncedWithParentPrefix;
+
+  /// Suffix for the synced-with-parent banner in channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'.'**
+  String get channelSettingsPermissionsSyncedWithParentSuffix;
+
+  /// Prefix for the not-synced-with-parent banner in channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel is not synced with the parent category '**
+  String get channelSettingsPermissionsNotSyncedWithParentPrefix;
+
+  /// Suffix for the not-synced-with-parent banner in channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'.'**
+  String get channelSettingsPermissionsNotSyncedWithParentSuffix;
+
+  /// Button label to sync channel permissions with the parent category.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync with category'**
+  String get channelSettingsPermissionsSyncWithCategory;
+
+  /// Success toast after syncing channel permissions with the parent category.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel synced with parent category'**
+  String get channelSettingsPermissionsSyncedWithParentToast;
+
+  /// Button label to add a new channel permission override.
+  ///
+  /// In en, this message translates to:
+  /// **'Add override'**
+  String get channelSettingsPermissionsAddOverride;
+
+  /// Placeholder for the add override search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search roles or members…'**
+  String get channelSettingsPermissionsSearchRolesOrMembers;
+
+  /// Section title in the add override picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles and members'**
+  String get channelSettingsPermissionsRolesAndMembers;
+
+  /// Action to delete a channel invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete invite'**
+  String get channelSettingsDeleteInvite;
+
+  /// Confirmation message for deleting a channel invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this invite? Can\'t be undone.'**
+  String get channelSettingsDeleteInviteConfirm;
+
+  /// Action to copy invite code.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy invite code'**
+  String get channelSettingsCopyInviteCode;
+
+  /// Action to copy invite URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy invite URL'**
+  String get channelSettingsCopyInviteUrl;
+
+  /// Success toast after creating a webhook.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhook created'**
+  String get channelSettingsWebhookCreated;
+
+  /// Error toast when webhook creation fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create webhook'**
+  String get channelSettingsWebhookCreateFailed;
+
+  /// Button to create a new webhook in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Create webhook'**
+  String get channelSettingsCreateWebhook;
+
+  /// Description for the channel invites settings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage invite links for this channel.'**
+  String get channelSettingsInvitesDescription;
+
+  /// Button to create a new invite in channel settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Create invite'**
+  String get channelSettingsInvitesCreate;
+
+  /// Empty state title for channel invites.
+  ///
+  /// In en, this message translates to:
+  /// **'No invite links'**
+  String get channelSettingsInvitesEmpty;
+
+  /// Empty state description for channel invites.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel doesn\'t have any invite links yet. Create one to invite people to this channel.'**
+  String get channelSettingsInvitesEmptyDescription;
+
+  /// Error description when channel invites fail to load.
+  ///
+  /// In en, this message translates to:
+  /// **'There was an error loading the invite links for this channel. Try again.'**
+  String get channelSettingsInvitesLoadFailedDescription;
+
+  /// Description for the channel webhooks settings tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage incoming webhooks that can post messages into this channel.'**
+  String get channelSettingsWebhooksDescription;
+
+  /// Empty state title for channel webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'No webhooks'**
+  String get channelSettingsWebhooksEmpty;
+
+  /// Empty state description for channel webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no webhooks configured for this channel. Create a webhook to allow external applications to post messages.'**
+  String get channelSettingsWebhooksEmptyDescription;
+
+  /// Message when the channel type does not support webhooks.
+  ///
+  /// In en, this message translates to:
+  /// **'This channel does not support webhooks.'**
+  String get channelSettingsWebhooksUnsupported;
+
+  /// Permission denial message on the channel webhooks tab.
+  ///
+  /// In en, this message translates to:
+  /// **'You need the \"{permission}\" permission to view and edit webhooks for this channel.'**
+  String channelSettingsWebhooksPermissionRequired(String permission);
+
+  /// Error title when channel webhooks fail to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load webhooks'**
+  String get channelSettingsWebhooksLoadFailedTitle;
+
+  /// Error description when channel webhooks fail to load.
+  ///
+  /// In en, this message translates to:
+  /// **'There was an error loading the webhooks for this channel. Try again.'**
+  String get channelSettingsWebhooksLoadFailedDescription;
+
+  /// Webhook list metadata line.
+  ///
+  /// In en, this message translates to:
+  /// **'Created by {creator} on {date}'**
+  String channelSettingsWebhooksCreatedBy(String creator, String date);
+
+  /// Fallback label when webhook creator is unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown user'**
+  String get channelSettingsWebhooksUnknownUser;
+
+  /// Label for webhook avatar field.
+  ///
+  /// In en, this message translates to:
+  /// **'Avatar'**
+  String get channelSettingsWebhooksAvatar;
+
+  /// Button to upload a webhook avatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload image'**
+  String get channelSettingsWebhooksUploadImage;
+
+  /// Button to remove webhook avatar.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get channelSettingsWebhooksRemove;
+
+  /// Label for webhook name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get channelSettingsWebhooksName;
+
+  /// Placeholder for webhook name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhook name'**
+  String get channelSettingsWebhooksNamePlaceholder;
+
+  /// Label for webhook channel picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel'**
+  String get channelSettingsWebhooksChannel;
+
+  /// Label for read-only webhook URL field.
+  ///
+  /// In en, this message translates to:
+  /// **'Webhook URL'**
+  String get channelSettingsWebhooksUrl;
+
+  /// Button to copy webhook URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy webhook URL'**
+  String get channelSettingsWebhooksCopyUrl;
+
+  /// Danger button to delete a webhook.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete webhook'**
+  String get channelSettingsWebhooksDelete;
+
+  /// Error when webhook deletion fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete this webhook'**
+  String get channelSettingsWebhooksDeleteFailed;
+
+  /// Confirmation when deleting a webhook.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this webhook? Can\'t be undone.'**
+  String get channelSettingsWebhooksDeleteConfirm;
+
+  /// Generic retry hint for webhook errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again in a moment.'**
+  String get channelSettingsWebhookTryAgainInAMoment;
 
   /// Guild channel menu action that opens a voice channel chat without joining voice.
   ///
@@ -10560,12 +11388,6 @@ abstract class FluxerLocalizations {
   /// **'Gifts & Codes'**
   String get userSettingsNavGiftsAndCodes;
 
-  /// User settings navigation item for expression pack settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Expression Packs'**
-  String get userSettingsNavExpressionPacks;
-
   /// User settings navigation item for the privacy dashboard.
   ///
   /// In en, this message translates to:
@@ -10608,11 +11430,11 @@ abstract class FluxerLocalizations {
   /// **'Accessibility'**
   String get userSettingsNavAccessibility;
 
-  /// User settings navigation item for messages and media settings.
+  /// User settings navigation item for chat settings.
   ///
   /// In en, this message translates to:
-  /// **'Messages & Media'**
-  String get userSettingsNavMessagesAndMedia;
+  /// **'Chat'**
+  String get userSettingsNavChat;
 
   /// User settings navigation item for audio and video settings.
   ///
@@ -10914,11 +11736,359 @@ abstract class FluxerLocalizations {
   /// **'Don\'t ask when hiding my screen share'**
   String get audioAndVideoSkipHideOwnScreenshareConfirmLabel;
 
-  /// User settings navigation item for sounds and alert settings.
+  /// User settings navigation item for notification settings.
   ///
   /// In en, this message translates to:
-  /// **'Sounds & Alerts'**
-  String get userSettingsNavSoundsAndAlerts;
+  /// **'Notifications'**
+  String get userSettingsNavNotifications;
+
+  /// Notifications settings section title for general notification controls.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get notificationsGeneralSectionTitle;
+
+  /// Toggle label for enabling push or system notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications'**
+  String get notificationsEnableNotificationsLabel;
+
+  /// Description for the enable notifications toggle on mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified when you receive messages. You may need to allow notifications for {productName} in your device settings. For per-channel/per-community controls, open notification settings from a community\'s menu.'**
+  String notificationsEnableNotificationsDescription(String productName);
+
+  /// Toggle label for enabling desktop notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable desktop notifications'**
+  String get notificationsEnableDesktopNotificationsLabel;
+
+  /// Description for the enable desktop notifications toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open notification settings.'**
+  String get notificationsEnableDesktopNotificationsDescription;
+
+  /// Toggle label for enabling browser notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable browser notifications'**
+  String get notificationsEnableBrowserNotificationsLabel;
+
+  /// Description for the enable browser notifications toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified when you receive messages. You may need to allow notifications in your browser settings. For per-channel/per-community controls, right-click a community icon and open notification settings.'**
+  String get notificationsEnableBrowserNotificationsDescription;
+
+  /// Label for push notification inactive timeout setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Push notification inactive timeout'**
+  String get notificationsPushInactiveTimeoutLabel;
+
+  /// Description for push notification inactive timeout setting.
+  ///
+  /// In en, this message translates to:
+  /// **'{productName} avoids sending push notifications to your mobile devices when you are at your computer. Choose how long you need to be inactive on desktop before you receive push notifications.'**
+  String notificationsPushInactiveTimeoutDescription(String productName);
+
+  /// Push notification inactive timeout option for one minute.
+  ///
+  /// In en, this message translates to:
+  /// **'{oneMinute} minute'**
+  String notificationsPushInactiveTimeoutOneMinute(int oneMinute);
+
+  /// Push notification inactive timeout option for multiple minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes'**
+  String notificationsPushInactiveTimeoutMinutes(int minutes);
+
+  /// Notifications settings section title for reply mention preference.
+  ///
+  /// In en, this message translates to:
+  /// **'Mention preference'**
+  String get notificationsMentionPreferenceSectionTitle;
+
+  /// Accessibility label for the reply mention preference radio group.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply mention preference'**
+  String get notificationsReplyMentionPreferenceAriaLabel;
+
+  /// Mention preference option: no preference.
+  ///
+  /// In en, this message translates to:
+  /// **'No preference'**
+  String get notificationsMentionNoPreferenceName;
+
+  /// Description for the no preference mention option.
+  ///
+  /// In en, this message translates to:
+  /// **'Respect the sender\'s intent, with no warning when they toggle the @ mention'**
+  String get notificationsMentionNoPreferenceDescription;
+
+  /// Mention preference option: prefer @mention.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer @mention'**
+  String get notificationsMentionPreferMentionName;
+
+  /// Description for the prefer @mention option.
+  ///
+  /// In en, this message translates to:
+  /// **'Default replies to @mention you, and warn the sender if they disable it'**
+  String get notificationsMentionPreferMentionDescription;
+
+  /// Mention preference option: prefer no @mention.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer no @mention'**
+  String get notificationsMentionPreferNoMentionName;
+
+  /// Description for the prefer no @mention option.
+  ///
+  /// In en, this message translates to:
+  /// **'Default replies to omit the @mention, and warn the sender if they enable it'**
+  String get notificationsMentionPreferNoMentionDescription;
+
+  /// Notifications settings section title for sound controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds'**
+  String get notificationsSoundsSectionTitle;
+
+  /// Label for the master volume slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Master volume'**
+  String get notificationsMasterVolumeLabel;
+
+  /// Description for the master volume slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets the level for every sound effect. Per-sound overrides ignore this.'**
+  String get notificationsMasterVolumeDescription;
+
+  /// Accessibility label for resetting master volume to default.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to default volume'**
+  String get notificationsResetToDefaultVolume;
+
+  /// Toggle label for disabling all notification sounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable all notification sounds'**
+  String get notificationsDisableAllSoundsLabel;
+
+  /// Description for the disable all notification sounds toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your existing notification sound settings will be preserved.'**
+  String get notificationsDisableAllSoundsDescription;
+
+  /// Button label to reveal additional sound effect toggles.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more sound effects'**
+  String get notificationsShowMoreSoundEffects;
+
+  /// Button label to hide additional sound effect toggles.
+  ///
+  /// In en, this message translates to:
+  /// **'Show fewer sound effects'**
+  String get notificationsShowFewerSoundEffects;
+
+  /// Button label to preview a notification sound.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview sound'**
+  String get notificationsPreviewSound;
+
+  /// Accordion title for per-sound volume overrides.
+  ///
+  /// In en, this message translates to:
+  /// **'Per-sound volume'**
+  String get notificationsPerSoundVolumeTitle;
+
+  /// Accordion description when no per-sound volume overrides exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Set custom volumes for individual sounds. Sounds without an override follow the master volume.'**
+  String get notificationsPerSoundVolumeDescription;
+
+  /// Accordion description when per-sound volume overrides exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Active custom sound volume overrides: {overrideCount}.'**
+  String notificationsPerSoundVolumeOverrideDescription(int overrideCount);
+
+  /// Status text when a sound follows the master volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Following master • {effectiveValue}%'**
+  String notificationsFollowingMasterVolume(int effectiveValue);
+
+  /// Accessibility label for resetting a per-sound volume override.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset {label} to master volume'**
+  String notificationsResetSoundToMasterVolume(String label);
+
+  /// Button label to reset all per-sound volume overrides.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all overrides'**
+  String get notificationsResetAllOverrides;
+
+  /// Accessibility label for muting a sound type.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute {label}'**
+  String notificationsMuteSound(String label);
+
+  /// Accessibility label for unmuting a sound type.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute {label}'**
+  String notificationsUnmuteSound(String label);
+
+  /// Sound toggle label for community message notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Community message notifications'**
+  String get notificationsSoundMessage;
+
+  /// Sound toggle label for direct message notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct message notifications'**
+  String get notificationsSoundDirectMessage;
+
+  /// Sound toggle label for current channel message notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Current channel message notifications'**
+  String get notificationsSoundSameChannelMessage;
+
+  /// Sound toggle label for voice mute.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice mute'**
+  String get notificationsSoundMute;
+
+  /// Sound toggle label for voice unmute.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice unmute'**
+  String get notificationsSoundUnmute;
+
+  /// Sound toggle label for voice deafen.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice deafen'**
+  String get notificationsSoundDeaf;
+
+  /// Sound toggle label for voice undeafen.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice undeafen'**
+  String get notificationsSoundUndeaf;
+
+  /// Sound toggle label for user joins channel.
+  ///
+  /// In en, this message translates to:
+  /// **'User joins channel'**
+  String get notificationsSoundUserJoin;
+
+  /// Sound toggle label for user leaves channel.
+  ///
+  /// In en, this message translates to:
+  /// **'User leaves channel'**
+  String get notificationsSoundUserLeave;
+
+  /// Sound toggle label for user moved channel.
+  ///
+  /// In en, this message translates to:
+  /// **'User moved channel'**
+  String get notificationsSoundUserMove;
+
+  /// Sound toggle label for viewer joins stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewer joins stream'**
+  String get notificationsSoundViewerJoin;
+
+  /// Sound toggle label for viewer leaves stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewer leaves stream'**
+  String get notificationsSoundViewerLeave;
+
+  /// Sound toggle label for voice disconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice disconnected'**
+  String get notificationsSoundVoiceDisconnect;
+
+  /// Sound toggle label for incoming call.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming call'**
+  String get notificationsSoundIncomingRing;
+
+  /// Sound toggle label for camera on.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera on'**
+  String get notificationsSoundCameraOn;
+
+  /// Sound toggle label for camera off.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera off'**
+  String get notificationsSoundCameraOff;
+
+  /// Sound toggle label for screen share start.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share start'**
+  String get notificationsSoundScreenShareStart;
+
+  /// Sound toggle label for screen share stop.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen share stop'**
+  String get notificationsSoundScreenShareStop;
+
+  /// Toast shown when push inactive timeout sync fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update push notification timeout. Try again.'**
+  String get notificationsAfkTimeoutSyncFailed;
+
+  /// Toast shown when mention preference update fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t update mention preference. Try again.'**
+  String get notificationsMentionPreferenceSyncFailed;
+
+  /// Banner title when OS notification permission is denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications blocked'**
+  String get notificationsPermissionDeniedTitle;
+
+  /// Toast shown when enabling notifications fails because permission was denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t enable notifications. Allow notification permission to continue.'**
+  String get notificationsEnableNotificationsPermissionDenied;
 
   /// User settings navigation item for language and time settings.
   ///
@@ -12672,6 +13842,12 @@ abstract class FluxerLocalizations {
   /// **'Channel access'**
   String get permissionCategoryChannelAccess;
 
+  /// Permission category for per-channel management permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel management'**
+  String get permissionCategoryChannelManagement;
+
   /// Permission category label.
   ///
   /// In en, this message translates to:
@@ -12737,6 +13913,72 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Manage channels'**
   String get permissionManageChannels;
+
+  /// Channel-scoped permission name for editing the current channel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage channel'**
+  String get permissionManageChannel;
+
+  /// Channel-scoped description for manage channel permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename and edit this channel\'s settings.'**
+  String get permissionManageChannelDescription;
+
+  /// Channel-scoped permission name for editing permission overwrites.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage permissions'**
+  String get permissionManagePermissions;
+
+  /// Channel-scoped description for manage permissions permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit overwrites for roles and members in this channel.'**
+  String get permissionManagePermissionsDescription;
+
+  /// Channel-scoped description for manage webhooks permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Create, edit, or delete webhooks for this channel.'**
+  String get permissionManageWebhooksChannelDescription;
+
+  /// Channel-scoped description for view channel members permission.
+  ///
+  /// In en, this message translates to:
+  /// **'See the member list for this channel.'**
+  String get permissionViewChannelMembersChannelDescription;
+
+  /// Channel-scoped description for create invite permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage invite links for this channel.'**
+  String get permissionCreateInviteLinksChannelDescription;
+
+  /// Deny state label for channel permission overwrite controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Deny'**
+  String get permissionOverwriteDeny;
+
+  /// Inherit state label for channel permission overwrite controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Neutral (inherit)'**
+  String get permissionOverwriteInherit;
+
+  /// Allow state label for channel permission overwrite controls.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get permissionOverwriteAllow;
+
+  /// Helper text above bulk permission state buttons in channel permissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Use these buttons to quickly set all permissions.'**
+  String get permissionOverwriteSetAllHelp;
 
   /// Permission description.
   ///

@@ -102,6 +102,9 @@ class VoiceSettingsState {
     this.mirrorCamera = true,
     this.screenshareResolution = ScreenshareResolution.medium,
     this.videoFrameRate = kDefaultVideoFrameRate,
+    this.participantVolumes = const <String, int>{},
+    this.streamAudioVolumes = const <String, int>{},
+    this.streamAudioMuted = const <String, bool>{},
   });
 
   final String inputDeviceId;
@@ -120,6 +123,9 @@ class VoiceSettingsState {
   final bool mirrorCamera;
   final ScreenshareResolution screenshareResolution;
   final int videoFrameRate;
+  final Map<String, int> participantVolumes;
+  final Map<String, int> streamAudioVolumes;
+  final Map<String, bool> streamAudioMuted;
 
   bool get shouldMirrorOwnCamera =>
       mirrorCamera && cameraFacing == VoiceCameraFacing.front;
@@ -141,6 +147,9 @@ class VoiceSettingsState {
     bool? mirrorCamera,
     ScreenshareResolution? screenshareResolution,
     int? videoFrameRate,
+    Map<String, int>? participantVolumes,
+    Map<String, int>? streamAudioVolumes,
+    Map<String, bool>? streamAudioMuted,
   }) {
     return VoiceSettingsState(
       inputDeviceId: inputDeviceId ?? this.inputDeviceId,
@@ -160,6 +169,9 @@ class VoiceSettingsState {
       screenshareResolution:
           screenshareResolution ?? this.screenshareResolution,
       videoFrameRate: videoFrameRate ?? this.videoFrameRate,
+      participantVolumes: participantVolumes ?? this.participantVolumes,
+      streamAudioVolumes: streamAudioVolumes ?? this.streamAudioVolumes,
+      streamAudioMuted: streamAudioMuted ?? this.streamAudioMuted,
     );
   }
 
@@ -181,6 +193,9 @@ class VoiceSettingsState {
       'mirrorCamera': mirrorCamera,
       'screenshareResolution': screenshareResolution.toJson(),
       'videoFrameRate': videoFrameRate,
+      'participantVolumes': participantVolumes,
+      'streamAudioVolumes': streamAudioVolumes,
+      'streamAudioMuted': streamAudioMuted,
     };
   }
 
@@ -209,8 +224,47 @@ class VoiceSettingsState {
         json['screenshareResolution'] as String?,
       ),
       videoFrameRate: _clampFrameRate(json['videoFrameRate']),
+      participantVolumes: _parseParticipantVolumes(json['participantVolumes']),
+      streamAudioVolumes: _parseParticipantVolumes(json['streamAudioVolumes']),
+      streamAudioMuted: _parseStreamAudioMuted(json['streamAudioMuted']),
     );
   }
+}
+
+Map<String, bool> _parseStreamAudioMuted(Object? value) {
+  if (value is! Map<Object?, Object?>) {
+    return const <String, bool>{};
+  }
+  final Map<String, bool> parsed = <String, bool>{};
+  for (final MapEntry<Object?, Object?> entry in value.entries) {
+    final String? streamKey = entry.key?.toString();
+    if (streamKey == null || streamKey.isEmpty) {
+      continue;
+    }
+    if (entry.value is! bool) {
+      continue;
+    }
+    parsed[streamKey] = entry.value! as bool;
+  }
+  return parsed;
+}
+
+Map<String, int> _parseParticipantVolumes(Object? value) {
+  if (value is! Map<Object?, Object?>) {
+    return const <String, int>{};
+  }
+  final Map<String, int> parsed = <String, int>{};
+  for (final MapEntry<Object?, Object?> entry in value.entries) {
+    final String? userId = entry.key?.toString();
+    if (userId == null || userId.isEmpty) {
+      continue;
+    }
+    if (entry.value is! num) {
+      continue;
+    }
+    parsed[userId] = clampVoiceVolumePercent((entry.value! as num).round());
+  }
+  return parsed;
 }
 
 NoiseSuppressionTier _resolveNoiseSuppressionTier(Map<String, Object?> json) {

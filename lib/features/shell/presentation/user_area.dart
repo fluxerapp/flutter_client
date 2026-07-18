@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
-import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/shell/presentation/user_area_popout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
@@ -22,10 +21,6 @@ class UserArea extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userSettingsViewModelProvider);
-    final String? selfUserId = user.userId.isEmpty ? null : user.userId;
-    final String? presenceStatus = selfUserId == null
-        ? null
-        : ref.watch(userPresenceProvider(selfUserId)).value?.status;
     final VoiceSessionState voice = ref.watch(voiceSessionProvider);
     final String? connectionId = voice.activeConnectionId;
     final VoiceState? selfVoiceState = connectionId == null
@@ -60,12 +55,11 @@ class UserArea extends ConsumerWidget {
                     height: 40,
                     child: Row(
                       children: [
-                        FluxerAvatar.user(
+                        FluxerAvatar.userPresence(
                           fallbackText: user.displayName,
                           userId: user.userId,
                           imageUrl: user.avatarUrl,
                           avatarColor: user.avatarColor,
-                          status: presenceStatus,
                           size: 36,
                         ),
                         SizedBox(width: layout.s2),

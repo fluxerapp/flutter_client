@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
@@ -68,6 +69,14 @@ MessagesCompanion _cachedMessage({
   content: 'message $id',
   timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
 );
+
+const MessagePersistSnapshot _acknowledgedGatewaySnapshot =
+    MessagePersistSnapshot(
+      mentionsCurrentUser: false,
+      isDm: false,
+      guildStorageId: null,
+      acknowledgedByGateway: true,
+    );
 
 void _setViewportActive(
   ProviderContainer container, {
@@ -2533,6 +2542,236 @@ void main() {
       );
     },
   );
+
+  group('gateway auto-ack watermark', () {
+    test('acked create appends with its watermark in the same state', () async {
+      final db = openTestDatabase();
+      final String baseId = _snowflakeForUtc(DateTime.utc(2026, 5, 7, 10));
+      final String incomingId = _snowflakeForUtc(DateTime.utc(2026, 5, 7, 11));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(baseId),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: <Map<String, Object?>>[
+          _messageJson(id: baseId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .switchChannel('channel-1');
+      await _flushAsync();
+      final List<ChatViewState> appendedStates = <ChatViewState>[];
+      final subscription = container.listen<ChatViewState>(
+        chatViewModelProvider,
+        (_, ChatViewState next) {
+          if (next.messages.any((message) => message.id == incomingId)) {
+            appendedStates.add(next);
+          }
+        },
+      );
+      addTearDown(subscription.close);
+
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            testMessageCreated(
+              MessageCreateEvent(
+                message: MessageResponseSchema.fromJson(
+                  _messageJson(
+                    id: incomingId,
+                    channelId: 'channel-1',
+                    authorId: 'other',
+                  ),
+                ),
+              ),
+              snapshot: _acknowledgedGatewaySnapshot,
+            ),
+          );
+      await _flushAsync();
+
+      expect(appendedStates, isNotEmpty);
+      for (final ChatViewState appendedState in appendedStates) {
+        expect(appendedState.pendingAutoAckMessageId, incomingId);
+      }
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.messages.last.id, incomingId);
+      expect(state.pendingAutoAckMessageId, incomingId);
+    });
+
+    test('batched acked creates keep the newest watermark', () async {
+      final db = openTestDatabase();
+      final String baseId = _snowflakeForUtc(DateTime.utc(2026, 5, 8, 10));
+      final List<String> incomingIds = <String>[
+        _snowflakeForUtc(DateTime.utc(2026, 5, 8, 11)),
+        _snowflakeForUtc(DateTime.utc(2026, 5, 8, 12)),
+        _snowflakeForUtc(DateTime.utc(2026, 5, 8, 13)),
+      ];
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(baseId),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: <Map<String, Object?>>[
+          _messageJson(id: baseId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .switchChannel('channel-1');
+      await _flushAsync();
+      final bus = container.read(messageRealtimeBusProvider);
+      for (final String incomingId in incomingIds) {
+        bus.emit(
+          testMessageCreated(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(
+                  id: incomingId,
+                  channelId: 'channel-1',
+                  authorId: 'other',
+                ),
+              ),
+            ),
+            snapshot: _acknowledgedGatewaySnapshot,
+          ),
+        );
+      }
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(
+        state.messages.map((message) => message.id),
+        containsAll(incomingIds),
+      );
+      expect(state.pendingAutoAckMessageId, incomingIds.last);
+    });
+
+    test('unacknowledged create leaves the watermark unset', () async {
+      final db = openTestDatabase();
+      final String baseId = _snowflakeForUtc(DateTime.utc(2026, 5, 9, 10));
+      final String incomingId = _snowflakeForUtc(DateTime.utc(2026, 5, 9, 11));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(baseId),
+        ),
+      );
+      final adapter = _ChatAdapter(
+        initialMessages: <Map<String, Object?>>[
+          _messageJson(id: baseId, channelId: 'channel-1', authorId: 'other'),
+        ],
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      await container
+          .read(chatViewModelProvider.notifier)
+          .switchChannel('channel-1');
+      await _flushAsync();
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            testMessageCreated(
+              MessageCreateEvent(
+                message: MessageResponseSchema.fromJson(
+                  _messageJson(
+                    id: incomingId,
+                    channelId: 'channel-1',
+                    authorId: 'other',
+                  ),
+                ),
+              ),
+            ),
+          );
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.messages.last.id, incomingId);
+      expect(state.pendingAutoAckMessageId, null);
+    });
+
+    test('switching channels resets the watermark', () async {
+      final db = openTestDatabase();
+      final String baseId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 10));
+      final String incomingId = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 11));
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(baseId),
+        ),
+      );
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-2',
+          guildId: 'guild-1',
+          name: 'other',
+        ),
+      );
+      final adapter = _ChatAdapter(
+        messagesByChannel: <String, List<Map<String, Object?>>>{
+          'channel-1': <Map<String, Object?>>[
+            _messageJson(id: baseId, channelId: 'channel-1', authorId: 'other'),
+          ],
+          'channel-2': <Map<String, Object?>>[],
+        },
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+      final ChatViewModel notifier = container.read(
+        chatViewModelProvider.notifier,
+      );
+
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+      container
+          .read(messageRealtimeBusProvider)
+          .emit(
+            testMessageCreated(
+              MessageCreateEvent(
+                message: MessageResponseSchema.fromJson(
+                  _messageJson(
+                    id: incomingId,
+                    channelId: 'channel-1',
+                    authorId: 'other',
+                  ),
+                ),
+              ),
+              snapshot: _acknowledgedGatewaySnapshot,
+            ),
+          );
+      await _flushAsync();
+      expect(
+        container.read(chatViewModelProvider).pendingAutoAckMessageId,
+        incomingId,
+      );
+
+      await notifier.switchChannel('channel-2');
+      await _flushAsync();
+
+      final ChatViewState state = container.read(chatViewModelProvider);
+      expect(state.channelId, 'channel-2');
+      expect(state.pendingAutoAckMessageId, null);
+    });
+  });
 
   group('pre-ack sticky snapshot', () {
     test(

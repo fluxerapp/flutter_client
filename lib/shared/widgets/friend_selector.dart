@@ -216,7 +216,7 @@ class _FriendSelectorRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Row(
             children: <Widget>[
-              FluxerAvatar.user(
+              FluxerAvatar.userPresence(
                 fallbackText: friend.displayName,
                 userId: friend.id,
                 imageUrl: FluxerMediaUrl.userAvatar(
@@ -224,7 +224,6 @@ class _FriendSelectorRow extends StatelessWidget {
                   hash: friend.avatar,
                 ),
                 avatarColor: friend.avatarColor,
-                status: friend.status,
                 size: 32,
               ),
               const SizedBox(width: 12),

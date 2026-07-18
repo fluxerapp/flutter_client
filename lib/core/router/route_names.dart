@@ -47,6 +47,13 @@ abstract final class RouteNames {
   static const guildSettingsInvites = 'guild-settings-invites';
   static const guildSettingsBans = 'guild-settings-bans';
   static const guildSettingsChannels = 'guild-settings-channels';
+
+  // Channel settings (pushed on root)
+  static const channelSettings = 'channel-settings';
+  static const channelSettingsOverview = 'channel-settings-overview';
+  static const channelSettingsPermissions = 'channel-settings-permissions';
+  static const channelSettingsInvites = 'channel-settings-invites';
+  static const channelSettingsWebhooks = 'channel-settings-webhooks';
 }
 
 /// Path builders mirroring web app's Routes object.
@@ -109,6 +116,23 @@ abstract final class RoutePaths {
       '/settings/guild/$guildId/bans';
   static String guildSettingsChannelsPath(String guildId) =>
       '/settings/guild/$guildId/channels';
+
+  static String channelSettingsPath(String channelId, {String? tab}) {
+    final String base = '/settings/channel/$channelId';
+    if (tab == null) {
+      return base;
+    }
+    return '$base?tab=$tab';
+  }
+
+  static String channelSettingsOverviewPath(String channelId) =>
+      '/settings/channel/$channelId/overview';
+  static String channelSettingsPermissionsPath(String channelId) =>
+      '/settings/channel/$channelId/permissions';
+  static String channelSettingsInvitesPath(String channelId) =>
+      '/settings/channel/$channelId/invites';
+  static String channelSettingsWebhooksPath(String channelId) =>
+      '/settings/channel/$channelId/webhooks';
 
   static const notificationsPath = '/notifications';
   static const youPath = '/you';

@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
@@ -42,6 +43,50 @@ bool isPersonalNotesChannelRoute({
   required String channelId,
   required String? currentUserId,
 }) => currentUserId != null && channelId == currentUserId;
+
+/// Whether [channelId] is a DM or Personal Notes composer context.
+bool isComposerDirectChat({
+  required String channelId,
+  required List<DmConversation> dmConversations,
+  required String? currentUserId,
+}) {
+  if (channelId.isEmpty) {
+    return false;
+  }
+  if (isPersonalNotesChannelRoute(
+    channelId: channelId,
+    currentUserId: currentUserId,
+  )) {
+    return true;
+  }
+  return findDmById(dmConversations, channelId) != null;
+}
+
+/// DM and Personal Notes composers show guild emojis like plutonium.
+bool composerHasDirectChatEmojiAccess({
+  required String? channelId,
+  required List<DmConversation> dmConversations,
+  required String? currentUserId,
+  required bool hasGlobalExpressions,
+}) {
+  if (hasGlobalExpressions) {
+    return true;
+  }
+  if (channelId == null || channelId.isEmpty) {
+    return false;
+  }
+  if (isPersonalNotesChannelRoute(
+    channelId: channelId,
+    currentUserId: currentUserId,
+  )) {
+    return true;
+  }
+  return isComposerDirectChat(
+    channelId: channelId,
+    dmConversations: dmConversations,
+    currentUserId: currentUserId,
+  );
+}
 
 bool isPersonalNotesChannel({
   required int? type,

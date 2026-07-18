@@ -6528,8 +6528,8 @@
     "@userSettingsNavAccessibility": {
         "description": "User settings navigation item for accessibility settings."
     },
-    "userSettingsNavMessagesAndMedia": "메시지 및 미디어",
-    "@userSettingsNavMessagesAndMedia": {
+    "userSettingsNavChat": "메시지 및 미디어",
+    "@userSettingsNavChat": {
         "description": "User settings navigation item for messages and media settings."
     },
     "userSettingsNavAudioAndVideo": "오디오 및 비디오",

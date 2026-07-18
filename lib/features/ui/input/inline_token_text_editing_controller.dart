@@ -46,6 +46,24 @@ class InlineTokenTextEditingController extends TextEditingController {
     _nextSentinelIndex = 0;
   }
 
+  /// Replaces the editing text and token map in one step.
+  void replaceWireDisplay({
+    required String displayText,
+    required Map<String, InlineToken> tokens,
+    required int nextSentinelIndex,
+    TextSelection? selection,
+  }) {
+    _tokens
+      ..clear()
+      ..addAll(tokens);
+    _nextSentinelIndex = nextSentinelIndex;
+    value = TextEditingValue(
+      text: displayText,
+      selection:
+          selection ?? TextSelection.collapsed(offset: displayText.length),
+    );
+  }
+
   /// The editing text with every sentinel expanded to its
   /// [InlineToken.wireText].
   String toWireText() => toWireTextRange(0, text.length);

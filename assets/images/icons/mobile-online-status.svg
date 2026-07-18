@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" preserveAspectRatio="none" fill="none">
+  <defs>
+    <mask
+      id="mobile-online-status-mask"
+      maskUnits="userSpaceOnUse"
+      x="0"
+      y="0"
+      width="1"
+      height="1"
+    >
+      <rect width="1" height="1" rx="0.12" ry="0.09" fill="white" />
+      <rect x="0.14" y="0.09" width="0.72" height="0.602" rx="0.04" ry="0.03" fill="black" />
+      <ellipse cx="0.5" cy="0.846" rx="0.13" ry="0.086" fill="black" />
+    </mask>
+  </defs>
+  <rect width="1" height="1" fill="#000000" mask="url(#mobile-online-status-mask)" />
+</svg>

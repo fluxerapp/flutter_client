@@ -17,21 +17,25 @@ class SoundPreferencesState {
     this.allSoundsDisabled = false,
     this.disabledSounds = const <String, bool>{},
     this.masterVolume = 100,
+    this.soundOverrides = const <String, double>{},
   });
 
   final bool allSoundsDisabled;
   final Map<String, bool> disabledSounds;
   final double masterVolume;
+  final Map<String, double> soundOverrides;
 
   SoundPreferencesState copyWith({
     bool? allSoundsDisabled,
     Map<String, bool>? disabledSounds,
     double? masterVolume,
+    Map<String, double>? soundOverrides,
   }) {
     return SoundPreferencesState(
       allSoundsDisabled: allSoundsDisabled ?? this.allSoundsDisabled,
       disabledSounds: disabledSounds ?? this.disabledSounds,
       masterVolume: masterVolume ?? this.masterVolume,
+      soundOverrides: soundOverrides ?? this.soundOverrides,
     );
   }
 
@@ -44,6 +48,10 @@ class SoundPreferencesState {
       return !configured;
     }
     return !_defaultDisabledSoundTypes.contains(soundType);
+  }
+
+  bool hasSoundOverride(String soundType) {
+    return soundOverrides.containsKey(soundType);
   }
 }
 
@@ -58,11 +66,15 @@ class SoundPreferences extends _$SoundPreferences {
     state = value;
   }
 
-  Future<void> setAllSoundsDisabled({required bool value}) async {
-    state = state.copyWith(allSoundsDisabled: value);
+  void _markDirty() {
     ref
         .read(syncedPreferencesStoreProvider)
         .markDirty(SyncedPreferenceField.sound);
+  }
+
+  Future<void> setAllSoundsDisabled({required bool value}) async {
+    state = state.copyWith(allSoundsDisabled: value);
+    _markDirty();
   }
 
   Future<void> setSoundTypeEnabled({
@@ -80,8 +92,42 @@ class SoundPreferences extends _$SoundPreferences {
       next[soundType] = true;
     }
     state = state.copyWith(disabledSounds: next);
-    ref
-        .read(syncedPreferencesStoreProvider)
-        .markDirty(SyncedPreferenceField.sound);
+    _markDirty();
+  }
+
+  Future<void> setMasterVolume(double value) async {
+    state = state.copyWith(masterVolume: value);
+    _markDirty();
+  }
+
+  Future<void> setSoundOverride({
+    required String soundType,
+    required double value,
+  }) async {
+    final Map<String, double> next = Map<String, double>.from(
+      state.soundOverrides,
+    );
+    next[soundType] = value;
+    state = state.copyWith(soundOverrides: next);
+    _markDirty();
+  }
+
+  Future<void> clearSoundOverride(String soundType) async {
+    if (!state.soundOverrides.containsKey(soundType)) {
+      return;
+    }
+    final Map<String, double> next = Map<String, double>.from(
+      state.soundOverrides,
+    )..remove(soundType);
+    state = state.copyWith(soundOverrides: next);
+    _markDirty();
+  }
+
+  Future<void> clearAllSoundOverrides() async {
+    if (state.soundOverrides.isEmpty) {
+      return;
+    }
+    state = state.copyWith(soundOverrides: const <String, double>{});
+    _markDirty();
   }
 }

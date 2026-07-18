@@ -54,8 +54,11 @@ import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dar
 import 'package:fluxer_app/features/chat/utils/uploading_attachment_utils.dart';
 import 'package:fluxer_app/features/chat/utils/url_sanitization_utils.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
+import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/guilds/services/guild_verification.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/ui/input/inline_token_clipboard.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -93,6 +96,7 @@ class ChatViewState {
   final int scrollToBottomSignal;
   final (String messageId, int version)? scrollToMessageSignal;
   final String? stickyUnreadMessageId;
+  final String? pendingAutoAckMessageId;
   final String? highlightedMessageId;
   final int jumpHighlightSequence;
   final String? revealedCollapsedGroupKey;
@@ -123,6 +127,7 @@ class ChatViewState {
     this.messageLoadFailed = false,
     this.scrollToMessageSignal,
     this.stickyUnreadMessageId,
+    this.pendingAutoAckMessageId,
     this.highlightedMessageId,
     this.jumpHighlightSequence = 0,
     this.revealedCollapsedGroupKey,
@@ -140,6 +145,7 @@ class ChatViewState {
     int? scrollToBottomSignal,
     Object? scrollToMessageSignal = _unset,
     Object? stickyUnreadMessageId = _unset,
+    Object? pendingAutoAckMessageId = _unset,
     Object? highlightedMessageId = _unset,
     Object? revealedCollapsedGroupKey = _unset,
     int? jumpHighlightSequence,
@@ -170,6 +176,9 @@ class ChatViewState {
       stickyUnreadMessageId: stickyUnreadMessageId == _unset
           ? this.stickyUnreadMessageId
           : stickyUnreadMessageId as String?,
+      pendingAutoAckMessageId: pendingAutoAckMessageId == _unset
+          ? this.pendingAutoAckMessageId
+          : pendingAutoAckMessageId as String?,
       highlightedMessageId: highlightedMessageId == _unset
           ? this.highlightedMessageId
           : highlightedMessageId as String?,
@@ -355,6 +364,7 @@ class ChatViewModel extends _$ChatViewModel {
     var droppedOlder = false;
     var shouldAck = false;
     var clearSticky = false;
+    String? ackWatermark;
     for (final MessageRealtimeEvent event in events) {
       if (event is! MessageCreated) {
         continue;
@@ -376,7 +386,12 @@ class ChatViewModel extends _$ChatViewModel {
         workingMessages = trim.messages;
         droppedOlder = droppedOlder || trim.droppedOlder;
       }
-      if (!event.snapshot.acknowledgedByGateway) {
+      if (event.snapshot.acknowledgedByGateway) {
+        final String messageId = event.event.message.id;
+        if (compareSnowflakeIds(messageId, ackWatermark) > 0) {
+          ackWatermark = messageId;
+        }
+      } else {
         shouldAck = true;
       }
       if (event.event.message.author.id == ref.read(currentUserIdProvider)) {
@@ -392,9 +407,14 @@ class ChatViewModel extends _$ChatViewModel {
       }
       return;
     }
+    var pendingAutoAckMessageId = state.pendingAutoAckMessageId;
+    if (compareSnowflakeIds(ackWatermark, pendingAutoAckMessageId) > 0) {
+      pendingAutoAckMessageId = ackWatermark;
+    }
     state = state.copyWith(
       messages: workingMessages,
       hasMoreMessages: droppedOlder || state.hasMoreMessages,
+      pendingAutoAckMessageId: pendingAutoAckMessageId,
     );
     if (clearSticky) {
       clearStickyUnread();
@@ -426,6 +446,13 @@ class ChatViewModel extends _$ChatViewModel {
         nextMessages = trim.messages;
         droppedOlder = trim.droppedOlder;
       }
+      var pendingAutoAckMessageId = state.pendingAutoAckMessageId;
+      if (ev is MessageCreated &&
+          ev.snapshot.acknowledgedByGateway &&
+          compareSnowflakeIds(ev.event.message.id, pendingAutoAckMessageId) >
+              0) {
+        pendingAutoAckMessageId = ev.event.message.id;
+      }
       state = state.copyWith(
         messages: nextMessages,
         editingMessage: clearEditing || clearComposerForDelete
@@ -437,6 +464,7 @@ class ChatViewModel extends _$ChatViewModel {
         replyingTo: clearComposerForDelete ? null : state.replyingTo,
         replyMentioning: !clearComposerForDelete && state.replyMentioning,
         hasMoreMessages: droppedOlder || state.hasMoreMessages,
+        pendingAutoAckMessageId: pendingAutoAckMessageId,
       );
       if (clearComposerForDelete) {
         unawaited(_flushComposerDraftSave());
@@ -688,8 +716,9 @@ class ChatViewModel extends _$ChatViewModel {
     if (channelId.isEmpty) {
       return;
     }
+    final String sanitizedContent = stripPrivateUseCharacters(content);
     final String? replyId = reply?.id;
-    final bool hasDraft = content.isNotEmpty || replyId != null;
+    final bool hasDraft = sanitizedContent.isNotEmpty || replyId != null;
     final dao = ref.read(fluxerDatabaseProvider).composerDraftDao;
     if (!hasDraft) {
       await dao.deleteDraft(channelId);
@@ -697,7 +726,7 @@ class ChatViewModel extends _$ChatViewModel {
     }
     await dao.upsertDraft(
       channelId: channelId,
-      content: content,
+      content: sanitizedContent,
       replyToMessageId: replyId,
     );
   }
@@ -720,7 +749,7 @@ class ChatViewModel extends _$ChatViewModel {
       );
       reply = dbMsg == null ? null : Message.fromRow(dbMsg);
     }
-    return (text: row.content, reply: reply);
+    return (text: stripPrivateUseCharacters(row.content), reply: reply);
   }
 
   Future<void> _restoreComposerDraftFromDb() async {
@@ -852,6 +881,18 @@ class ChatViewModel extends _$ChatViewModel {
     final int switchGeneration = ++_channelSwitchGeneration;
     bool isCurrentSwitch() => switchGeneration == _channelSwitchGeneration;
     try {
+      final String? currentUserId = ref.read(currentUserIdProvider);
+      if (isPersonalNotesChannelRoute(
+        channelId: channelId,
+        currentUserId: currentUserId,
+      )) {
+        await ref
+            .read(dmRepositoryProvider)
+            .ensurePersonalNotesChannel(channelId);
+        if (!isCurrentSwitch()) {
+          return;
+        }
+      }
       ref.read(chatReadViewportProvider.notifier).setActiveChannel(channelId);
       if (loadMessages) {
         _stickySnapshotArmed = true;

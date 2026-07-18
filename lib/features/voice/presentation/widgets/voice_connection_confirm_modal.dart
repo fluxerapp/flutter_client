@@ -17,33 +17,23 @@ Future<VoiceConnectionConfirmResult?> showVoiceConnectionConfirmModal(
     builder: (BuildContext dialogContext, VoidCallback close) {
       return const SizedBox.shrink();
     },
-    actions: <Widget>[
-      FluxerButton.primary(
-        onPressed: () {
-          Navigator.of(
-            context,
-            rootNavigator: true,
-          ).pop(VoiceConnectionConfirmResult.switchToThisDevice);
-        },
-        label: l10n.voiceConnectionConfirmSwitch,
-      ),
-      const SizedBox(height: 8),
-      FluxerButton.secondary(
-        onPressed: () {
-          Navigator.of(
-            context,
-            rootNavigator: true,
-          ).pop(VoiceConnectionConfirmResult.justJoin);
-        },
-        label: l10n.voiceConnectionConfirmJustJoin,
-      ),
-      const SizedBox(height: 8),
-      FluxerButton.secondary(
-        onPressed: () {
-          Navigator.of(context, rootNavigator: true).pop();
-        },
-        label: l10n.voiceConnectionConfirmDoNothing,
-      ),
-    ],
+    actionsBuilder:
+        (void Function([VoiceConnectionConfirmResult? result]) pop) => <Widget>[
+          FluxerButton.primary(
+            onPressed: () =>
+                pop(VoiceConnectionConfirmResult.switchToThisDevice),
+            label: l10n.voiceConnectionConfirmSwitch,
+          ),
+          const SizedBox(height: 8),
+          FluxerButton.secondary(
+            onPressed: () => pop(VoiceConnectionConfirmResult.justJoin),
+            label: l10n.voiceConnectionConfirmJustJoin,
+          ),
+          const SizedBox(height: 8),
+          FluxerButton.secondary(
+            onPressed: () => pop(),
+            label: l10n.voiceConnectionConfirmDoNothing,
+          ),
+        ],
   );
 }

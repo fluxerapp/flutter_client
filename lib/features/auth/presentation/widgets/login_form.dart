@@ -90,22 +90,23 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         .ssoConfig;
     final String ssoProviderName = ssoConfig?.displayName ?? 'Single Sign-On';
 
-    ref.listen(loginViewModelProvider.select((state) => state.email), (
-      _,
-      next,
-    ) {
-      if (_emailController.text != next) {
-        _emailController.text = next;
-      }
-    });
-    ref.listen(loginViewModelProvider.select((state) => state.password), (
-      _,
-      next,
-    ) {
-      if (_passwordController.text != next) {
-        _passwordController.text = next;
-      }
-    });
+    ref
+      ..listen(loginViewModelProvider.select((state) => state.email), (
+        _,
+        next,
+      ) {
+        if (_emailController.text != next) {
+          _emailController.text = next;
+        }
+      })
+      ..listen(loginViewModelProvider.select((state) => state.password), (
+        _,
+        next,
+      ) {
+        if (_passwordController.text != next) {
+          _passwordController.text = next;
+        }
+      });
 
     return AbsorbPointer(
       absorbing: vm.isLoggingIn || vm.isStartingSso,
@@ -213,10 +214,12 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               SizedBox(height: layout.s5),
               Row(
                 children: [
-                  Text(
-                    strings.needAccountPrompt,
-                    style: context.textStyles.bodySmall.copyWith(
-                      color: context.colors.textTertiary,
+                  Flexible(
+                    child: Text(
+                      strings.needAccountPrompt,
+                      style: context.textStyles.bodySmall.copyWith(
+                        color: context.colors.textTertiary,
+                      ),
                     ),
                   ),
                   FluxerTextLink(

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/media/fluxer_media_cdn.dart';
 import 'package:fluxer_app/features/ui/avatar/avatar_status_layout.dart';
+import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -23,7 +24,7 @@ String get _kStaticCdnUrl => fluxerStaticCdn;
 const _kAvatarBorderSize = 2.0;
 const Duration _kStatusTransitionDuration = Duration(milliseconds: 160);
 
-enum _ClusterStatusCutoutShape { circle, typingPill }
+enum _ClusterStatusCutoutShape { circle, typingPill, mobilePhone }
 
 @visibleForTesting
 bool avatarClusterGeometryChanged({
@@ -68,6 +69,7 @@ class FluxerAvatarCluster extends StatelessWidget {
     this.iconUrl,
     this.status,
     this.isTyping = false,
+    this.isMobileStatus = false,
     this.members = const [],
     this.size = 32,
     super.key,
@@ -77,6 +79,7 @@ class FluxerAvatarCluster extends StatelessWidget {
   final String? iconUrl;
   final String? status;
   final bool isTyping;
+  final bool isMobileStatus;
   final List<AvatarClusterMember> members;
   final double size;
 
@@ -110,18 +113,26 @@ class FluxerAvatarCluster extends StatelessWidget {
       return avatar;
     }
 
+    final bool isMobileOnline = isMobileOnlineStatus(
+      isMobileStatus: isMobileStatus,
+      status: status!,
+      isTyping: isTyping,
+      size: size,
+    );
     final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(size);
     final _ClusterStatusCutoutShape cutoutShape = _showsTypingIndicator
         ? _ClusterStatusCutoutShape.typingPill
+        : isMobileOnline
+        ? _ClusterStatusCutoutShape.mobilePhone
         : _ClusterStatusCutoutShape.circle;
 
     avatar = ClipPath(
       clipper: _ClusterStatusCutoutClipper(
-        avatarSize: size,
         cutoutRadius: layout.cutoutRadius,
-        statusDotSize: layout.statusDotSize,
+        statusCutoutCenter: layout.statusCutoutCenter,
         cutoutShape: cutoutShape,
         typingCutoutRect: layout.typingCutoutRect,
+        phoneCutoutRect: layout.phoneCutoutRect,
       ),
       child: avatar,
     );
@@ -138,15 +149,28 @@ class FluxerAvatarCluster extends StatelessWidget {
             curve: Curves.easeOut,
             right: _showsTypingIndicator
                 ? layout.typingRight
+                : isMobileOnline
+                ? size - layout.phoneCutoutRect.right
                 : layout.statusRight,
             bottom: _showsTypingIndicator
                 ? layout.typingBottom
+                : isMobileOnline
+                ? size - layout.phoneCutoutRect.bottom
                 : layout.statusBottom,
             child: _showsTypingIndicator
                 ? FluxerTypingStatusIndicator(
                     status: status!,
                     width: layout.typingWidth,
                     height: layout.typingHeight,
+                  )
+                : isMobileOnline
+                ? FluxerMobileOnlineStatusIndicator(
+                    width: layout.phoneCutoutRect.width,
+                    height: layout.phoneCutoutRect.height,
+                    borderWidth: mobileStatusBorderWidth(
+                      statusDotSize: layout.statusDotSize,
+                      cutoutRadius: layout.cutoutRadius,
+                    ),
                   )
                 : FluxerStatusIndicator(
                     status: status!,
@@ -335,42 +359,43 @@ class _CircleCutout {
 
 class _ClusterStatusCutoutClipper extends CustomClipper<Path> {
   const _ClusterStatusCutoutClipper({
-    required this.avatarSize,
     required this.cutoutRadius,
-    required this.statusDotSize,
+    required this.statusCutoutCenter,
     required this.cutoutShape,
     required this.typingCutoutRect,
+    required this.phoneCutoutRect,
   });
 
-  final double avatarSize;
   final double cutoutRadius;
-  final double statusDotSize;
+  final Offset statusCutoutCenter;
   final _ClusterStatusCutoutShape cutoutShape;
   final RRect typingCutoutRect;
+  final RRect phoneCutoutRect;
 
   @override
   Path getClip(Size size) {
     final Path path = Path()
       ..addOval(Rect.fromLTWH(0, 0, size.width, size.height));
-    if (cutoutShape == _ClusterStatusCutoutShape.typingPill) {
-      path.addRRect(typingCutoutRect);
-    } else {
-      final Offset center = Offset(
-        avatarSize - statusDotSize / 2,
-        avatarSize - statusDotSize / 2,
-      );
-      path.addOval(Rect.fromCircle(center: center, radius: cutoutRadius));
+    switch (cutoutShape) {
+      case _ClusterStatusCutoutShape.typingPill:
+        path.addRRect(typingCutoutRect);
+      case _ClusterStatusCutoutShape.mobilePhone:
+        path.addRRect(phoneCutoutRect);
+      case _ClusterStatusCutoutShape.circle:
+        path.addOval(
+          Rect.fromCircle(center: statusCutoutCenter, radius: cutoutRadius),
+        );
     }
     return path..fillType = PathFillType.evenOdd;
   }
 
   @override
   bool shouldReclip(covariant _ClusterStatusCutoutClipper oldClipper) =>
-      avatarSize != oldClipper.avatarSize ||
       cutoutRadius != oldClipper.cutoutRadius ||
-      statusDotSize != oldClipper.statusDotSize ||
+      statusCutoutCenter != oldClipper.statusCutoutCenter ||
       cutoutShape != oldClipper.cutoutShape ||
-      typingCutoutRect != oldClipper.typingCutoutRect;
+      typingCutoutRect != oldClipper.typingCutoutRect ||
+      phoneCutoutRect != oldClipper.phoneCutoutRect;
 }
 
 class _ClusterOverlapClipper extends CustomClipper<Path> {

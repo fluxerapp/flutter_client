@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_confirm_modal.dart';
@@ -37,7 +39,32 @@ Future<void> _connectToVoiceChannel({
   bool initialSelfMute = false,
   bool initialSelfDeaf = false,
   bool initialSelfVideo = false,
-}) {
+}) async {
+  final BuildContext? permissionContext = _modalContext(null);
+  final bool micOk = await ensureSystemPermission(
+    permissionContext,
+    SystemPermissionKind.microphone,
+  );
+  if (!micOk) {
+    talker.warning(
+      '[Voice] Join aborted: microphone permission denied '
+      '(channelId=$channelId).',
+    );
+    return;
+  }
+  if (initialSelfVideo) {
+    final bool camOk = await ensureSystemPermission(
+      permissionContext,
+      SystemPermissionKind.camera,
+    );
+    if (!camOk) {
+      talker.warning(
+        '[Voice] Join aborted: camera permission denied '
+        '(channelId=$channelId).',
+      );
+      return;
+    }
+  }
   return ref
       .read(voiceSessionProvider.notifier)
       .connectToVoiceChannel(
@@ -124,14 +151,6 @@ Future<void> joinVoiceChannelWithConfirmation({
         modalContext,
         otherDeviceCount: others.length,
       );
-  final BuildContext? postModalContext = _modalContext(context);
-  if (postModalContext == null) {
-    talker.warning(
-      '[Voice] Join aborted after multi-device modal: context unmounted '
-      '(channelId=$channelId).',
-    );
-    return;
-  }
   if (choice == null) {
     talker.info(
       '[Voice] Join cancelled from multi-device modal '

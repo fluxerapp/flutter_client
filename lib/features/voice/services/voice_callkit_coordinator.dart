@@ -232,8 +232,8 @@ class VoiceCallKitCoordinatorLogic {
           previousChannelId != next.channelId) {
         await _endCallKitForChannel(previousChannelId);
       }
-      await _startCallKitOnVoiceJoin(next);
-      if (next.isConnected) {
+      if (shouldStartCallKitOnVoiceJoin(voice: next)) {
+        await _startCallKitOnVoiceJoin(next);
         await _syncCallKitConnectedState(next);
       }
       return;
@@ -356,6 +356,7 @@ class VoiceCallKitCoordinatorLogic {
     );
     try {
       await FlutterCallkitIncoming.startCall(params);
+      _armSuppressUserCallKitEndEvents();
     } on Object catch (error) {
       talker.warning('[VoiceCallKit] startCall on voice join failed: $error');
       _sessions.unregisterSession(callKitId, channelId: channelId);
@@ -622,7 +623,7 @@ class VoiceCallKitCoordinatorLogic {
       _ref.read(voiceSessionProvider),
     );
     await _endCallKitForChannel(channelId);
-    if (voice.channelId == channelId && voice.isInVoice) {
+    if (shouldLeaveVoiceFromCallKitEnd(voice: voice, channelId: channelId)) {
       await _ref.read(voiceSessionProvider.notifier).leaveVoice();
       return;
     }

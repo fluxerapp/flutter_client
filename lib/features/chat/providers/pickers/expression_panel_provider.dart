@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'expression_panel_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@Riverpod()
 class ExpressionPanel extends _$ExpressionPanel {
   @override
   bool build() => false;
@@ -16,7 +16,17 @@ class ExpressionPanel extends _$ExpressionPanel {
   void toggle() => state = !state;
 }
 
-@Riverpod(keepAlive: true)
+@Riverpod()
+class ExpressionPanelHeight extends _$ExpressionPanelHeight {
+  @override
+  double? build() => null;
+
+  void set(double height) => state = height;
+
+  void clear() => state = null;
+}
+
+@Riverpod()
 class PendingEmojiInsert extends _$PendingEmojiInsert {
   @override
   ({String name, String surrogates})? build() => null;
@@ -37,8 +47,6 @@ class PendingGifSelection extends Notifier<FluxerSelectedGif?> {
   @override
   FluxerSelectedGif? build() => null;
 
-  // GIF selections are transient events, matching PendingEmojiInsert above.
-  // ignore: use_setters_to_change_properties
   void emit(FluxerSelectedGif selection) => state = selection;
 
   void consume() => state = null;
@@ -54,8 +62,6 @@ class PendingStickerSelection extends Notifier<StickerEntry?> {
   @override
   StickerEntry? build() => null;
 
-  // Sticker selections are transient events, matching GIF selections.
-  // ignore: use_setters_to_change_properties
   void emit(StickerEntry selection) => state = selection;
 
   void consume() => state = null;
@@ -71,8 +77,6 @@ class PendingFavoriteMemeSelection extends Notifier<FavoriteMemeSelection?> {
   @override
   FavoriteMemeSelection? build() => null;
 
-  // Saved media selections are transient events, matching GIF selections.
-  // ignore: use_setters_to_change_properties
   void emit(FavoriteMemeSelection selection) => state = selection;
 
   void consume() => state = null;

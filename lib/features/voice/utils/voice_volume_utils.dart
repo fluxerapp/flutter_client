@@ -31,3 +31,11 @@ double boostedVoiceVolumePercentToTrackVolume(int value) {
       )
       .toDouble();
 }
+
+int composeVoiceVolumePercent(Iterable<int> volumeParts) {
+  var composed = 100.0;
+  for (final int part in volumeParts) {
+    composed *= clampVoiceVolumePercent(part) / _unityGainPercent;
+  }
+  return clampVoiceVolumePercent(composed.round());
+}

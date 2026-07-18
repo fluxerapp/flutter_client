@@ -162,6 +162,7 @@ Widget buildFluxerMarkdownTextFlow({
       features: features,
       isDark: isDark,
       jumbo: useJumbo,
+      maxLines: maxLines,
     ).build(chunkNodes);
     spans.addAll(chunkSpans);
   }
@@ -342,6 +343,7 @@ class _MarkdownBlockRenderer {
       isDark: isDark,
       jumbo:
           style == null && features.allowJumboEmoji && _allNodesAreEmoji(nodes),
+      maxLines: maxLines,
     ).build(nodes);
 
     if (spans.isEmpty) {
@@ -670,6 +672,7 @@ class _MarkdownInlineRenderer {
     required this.features,
     required this.isDark,
     required this.jumbo,
+    this.maxLines,
   });
 
   final BuildContext context;
@@ -678,6 +681,7 @@ class _MarkdownInlineRenderer {
   final FluxerMarkdownFeatures features;
   final bool isDark;
   final bool jumbo;
+  final int? maxLines;
 
   List<InlineSpan> build(List<md.Node> nodes, {TextStyle? style}) {
     final effectiveStyle = style ?? baseStyle;
@@ -811,6 +815,13 @@ class _MarkdownInlineRenderer {
           ),
         );
       case FluxerSpoilerSyntax.tag:
+        final List<InlineSpan> spoilerChildren = build(
+          node.children ?? const [],
+          style: effectiveStyle,
+        );
+        if (config.spoilersInitiallyRevealed && maxLines != null) {
+          return TextSpan(style: effectiveStyle, children: spoilerChildren);
+        }
         return WidgetSpan(
           alignment: PlaceholderAlignment.middle,
           child: _FluxerSpoilerSpan(
@@ -822,13 +833,7 @@ class _MarkdownInlineRenderer {
               config.spoilerSyncKeyNormalizer,
             ),
             child: RichText(
-              text: TextSpan(
-                style: effectiveStyle,
-                children: build(
-                  node.children ?? const [],
-                  style: effectiveStyle,
-                ),
-              ),
+              text: TextSpan(style: effectiveStyle, children: spoilerChildren),
               textScaler: MediaQuery.textScalerOf(context),
             ),
           ),

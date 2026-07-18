@@ -94,17 +94,17 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
     final layout = context.layout;
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
-    final selectedItem = value != null
-        ? items.cast<FluxerSelectItem<T>?>().firstWhere(
-            (item) => item!.value == value,
-            orElse: () => null,
-          )
-        : null;
+    final selectedItem = items.cast<FluxerSelectItem<T>?>().firstWhere(
+      (FluxerSelectItem<T>? item) => item!.value == value,
+      orElse: () => null,
+    );
 
     final String triggerLabel = label ?? hint ?? l10n.uiSelectPlaceholder;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: stretch
+          ? CrossAxisAlignment.stretch
+          : CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null)
@@ -124,6 +124,7 @@ class _FluxerSelectState<T> extends State<FluxerSelect<T>> {
           semanticLabel: triggerLabel,
           expanded: _isOpen,
           builder: (context, states) => Container(
+            width: stretch ? double.infinity : null,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
               color: colors.backgroundTertiary,

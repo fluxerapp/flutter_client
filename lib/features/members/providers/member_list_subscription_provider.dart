@@ -29,18 +29,24 @@ void memberListDetailsSubscription(
   bool enabled,
 ) {
   String? subscribedGuildId;
+  GatewayConnection? subscribedConnection;
   String? subscribedChannelId;
   List<MemberListRange> lastSentRanges = <MemberListRange>[];
 
+  void clearSubscriptionState() {
+    subscribedConnection = null;
+    subscribedGuildId = null;
+    subscribedChannelId = null;
+    lastSentRanges = <MemberListRange>[];
+  }
+
   void unsubscribe() {
-    final GatewayConnection connection = ref.read(gatewayConnectionProvider);
-    if (connection.state != GatewayState.connected) {
-      subscribedGuildId = null;
-      subscribedChannelId = null;
-      lastSentRanges = <MemberListRange>[];
-      return;
-    }
-    if (subscribedGuildId == null || subscribedChannelId == null) {
+    final GatewayConnection? connection = subscribedConnection;
+    if (connection == null ||
+        connection.state != GatewayState.connected ||
+        subscribedGuildId == null ||
+        subscribedChannelId == null) {
+      clearSubscriptionState();
       return;
     }
     connection.sendLazyRequest(
@@ -54,9 +60,7 @@ void memberListDetailsSubscription(
         ),
       },
     );
-    subscribedGuildId = null;
-    subscribedChannelId = null;
-    lastSentRanges = <MemberListRange>[];
+    clearSubscriptionState();
   }
 
   void syncSubscription() {
@@ -111,6 +115,7 @@ void memberListDetailsSubscription(
         ),
       },
     );
+    subscribedConnection = connection;
     subscribedGuildId = guildId;
     subscribedChannelId = channelId;
     lastSentRanges = normalized;

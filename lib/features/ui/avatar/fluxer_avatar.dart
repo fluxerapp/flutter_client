@@ -1,10 +1,13 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/media/fluxer_media_cdn.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/avatar_status_layout.dart';
+import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
 
@@ -23,7 +26,7 @@ const Duration _kStatusTransitionDuration = Duration(milliseconds: 160);
 
 enum _AvatarShape { circle, rounded }
 
-enum _StatusCutoutShape { circle, typingPill }
+enum _StatusCutoutShape { circle, typingPill, mobilePhone }
 
 class FluxerAvatar extends StatelessWidget {
   const FluxerAvatar({
@@ -36,6 +39,7 @@ class FluxerAvatar extends StatelessWidget {
        status = null,
        showStatus = false,
        isTyping = false,
+       isMobileStatus = false,
        avatarColor = null,
        _userId = null,
        icon = null,
@@ -49,6 +53,7 @@ class FluxerAvatar extends StatelessWidget {
     this.size = 40,
     this.showStatus = true,
     this.isTyping = false,
+    this.isMobileStatus = false,
     this.avatarColor,
     this.cacheKey,
     String? userId,
@@ -69,6 +74,7 @@ class FluxerAvatar extends StatelessWidget {
        status = null,
        showStatus = false,
        isTyping = false,
+       isMobileStatus = false,
        avatarColor = null,
        _userId = null,
        icon = null,
@@ -89,6 +95,7 @@ class FluxerAvatar extends StatelessWidget {
        status = null,
        showStatus = false,
        isTyping = false,
+       isMobileStatus = false,
        avatarColor = null,
        _userId = null;
 
@@ -109,8 +116,33 @@ class FluxerAvatar extends StatelessWidget {
       size: size,
       showStatus: showStatus,
       isTyping: isTyping,
+      isMobileStatus: user.mobile,
       avatarColor: user.avatarColor,
       userId: user.id,
+    );
+  }
+
+  static Widget userPresence({
+    required String userId,
+    String? imageUrl,
+    String? fallbackText,
+    double size = 40,
+    bool showStatus = true,
+    bool isTyping = false,
+    int? avatarColor,
+    String? cacheKey,
+    Key? key,
+  }) {
+    return _FluxerUserPresenceAvatar(
+      key: key,
+      userId: userId,
+      imageUrl: imageUrl,
+      fallbackText: fallbackText,
+      size: size,
+      showStatus: showStatus,
+      isTyping: isTyping,
+      avatarColor: avatarColor,
+      cacheKey: cacheKey,
     );
   }
 
@@ -121,6 +153,7 @@ class FluxerAvatar extends StatelessWidget {
   final String? status;
   final bool showStatus;
   final bool isTyping;
+  final bool isMobileStatus;
   final int? avatarColor;
   final _AvatarShape _shape;
   final String? _userId;
@@ -156,15 +189,27 @@ class FluxerAvatar extends StatelessWidget {
 
   String get _resolvedStatus => status ?? 'offline';
 
+  bool _isMobileOnline() {
+    return isMobileOnlineStatus(
+      isMobileStatus: isMobileStatus,
+      status: _resolvedStatus,
+      isTyping: isTyping,
+      size: size,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final resolvedUrl = _resolvedImageUrl;
     final hasStatus = _showsStatusBadge;
     final iconData = icon;
     final double dpr = MediaQuery.devicePixelRatioOf(context);
+    final bool isMobileOnline = _isMobileOnline();
     final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(size);
     final _StatusCutoutShape cutoutShape = isTyping
         ? _StatusCutoutShape.typingPill
+        : isMobileOnline
+        ? _StatusCutoutShape.mobilePhone
         : _StatusCutoutShape.circle;
 
     Widget avatarContent;
@@ -204,11 +249,11 @@ class FluxerAvatar extends StatelessWidget {
     if (hasStatus) {
       avatarContent = ClipPath(
         clipper: _StatusCutoutClipper(
-          avatarSize: size,
           cutoutRadius: layout.cutoutRadius,
-          statusDotSize: layout.statusDotSize,
+          statusCutoutCenter: layout.statusCutoutCenter,
           cutoutShape: cutoutShape,
           typingCutoutRect: layout.typingCutoutRect,
+          phoneCutoutRect: layout.phoneCutoutRect,
         ),
         child: avatarContent,
       );
@@ -225,13 +270,30 @@ class FluxerAvatar extends StatelessWidget {
             AnimatedPositioned(
               duration: _kStatusTransitionDuration,
               curve: Curves.easeOut,
-              right: isTyping ? layout.typingRight : layout.statusRight,
-              bottom: isTyping ? layout.typingBottom : layout.statusBottom,
+              right: isTyping
+                  ? layout.typingRight
+                  : isMobileOnline
+                  ? size - layout.phoneCutoutRect.right
+                  : layout.statusRight,
+              bottom: isTyping
+                  ? layout.typingBottom
+                  : isMobileOnline
+                  ? size - layout.phoneCutoutRect.bottom
+                  : layout.statusBottom,
               child: isTyping
                   ? FluxerTypingStatusIndicator(
                       status: _resolvedStatus,
                       width: layout.typingWidth,
                       height: layout.typingHeight,
+                    )
+                  : isMobileOnline
+                  ? FluxerMobileOnlineStatusIndicator(
+                      width: layout.phoneCutoutRect.width,
+                      height: layout.phoneCutoutRect.height,
+                      borderWidth: mobileStatusBorderWidth(
+                        statusDotSize: layout.statusDotSize,
+                        cutoutRadius: layout.cutoutRadius,
+                      ),
                     )
                   : FluxerStatusIndicator(
                       status: _resolvedStatus,
@@ -275,40 +337,81 @@ class FluxerAvatar extends StatelessWidget {
 
 class _StatusCutoutClipper extends CustomClipper<Path> {
   const _StatusCutoutClipper({
-    required this.avatarSize,
     required this.cutoutRadius,
-    required this.statusDotSize,
+    required this.statusCutoutCenter,
     required this.cutoutShape,
     required this.typingCutoutRect,
+    required this.phoneCutoutRect,
   });
 
-  final double avatarSize;
   final double cutoutRadius;
-  final double statusDotSize;
+  final Offset statusCutoutCenter;
   final _StatusCutoutShape cutoutShape;
   final RRect typingCutoutRect;
+  final RRect phoneCutoutRect;
 
   @override
   Path getClip(Size size) {
     final Path path = Path()
       ..addOval(Rect.fromLTWH(0, 0, size.width, size.height));
-    if (cutoutShape == _StatusCutoutShape.typingPill) {
-      path.addRRect(typingCutoutRect);
-    } else {
-      final Offset center = Offset(
-        avatarSize - statusDotSize / 2,
-        avatarSize - statusDotSize / 2,
-      );
-      path.addOval(Rect.fromCircle(center: center, radius: cutoutRadius));
+    switch (cutoutShape) {
+      case _StatusCutoutShape.typingPill:
+        path.addRRect(typingCutoutRect);
+      case _StatusCutoutShape.mobilePhone:
+        path.addRRect(phoneCutoutRect);
+      case _StatusCutoutShape.circle:
+        path.addOval(
+          Rect.fromCircle(center: statusCutoutCenter, radius: cutoutRadius),
+        );
     }
     return path..fillType = PathFillType.evenOdd;
   }
 
   @override
   bool shouldReclip(covariant _StatusCutoutClipper oldClipper) =>
-      avatarSize != oldClipper.avatarSize ||
       cutoutRadius != oldClipper.cutoutRadius ||
-      statusDotSize != oldClipper.statusDotSize ||
+      statusCutoutCenter != oldClipper.statusCutoutCenter ||
       cutoutShape != oldClipper.cutoutShape ||
-      typingCutoutRect != oldClipper.typingCutoutRect;
+      typingCutoutRect != oldClipper.typingCutoutRect ||
+      phoneCutoutRect != oldClipper.phoneCutoutRect;
+}
+
+class _FluxerUserPresenceAvatar extends ConsumerWidget {
+  const _FluxerUserPresenceAvatar({
+    required this.userId,
+    this.imageUrl,
+    this.fallbackText,
+    this.size = 40,
+    this.showStatus = true,
+    this.isTyping = false,
+    this.avatarColor,
+    this.cacheKey,
+    super.key,
+  });
+
+  final String userId;
+  final String? imageUrl;
+  final String? fallbackText;
+  final double size;
+  final bool showStatus;
+  final bool isTyping;
+  final int? avatarColor;
+  final String? cacheKey;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final presenceUser = ref.watch(userPresenceProvider(userId)).value;
+    return FluxerAvatar.user(
+      imageUrl: imageUrl,
+      fallbackText: fallbackText,
+      status: presenceUser?.status,
+      size: size,
+      showStatus: showStatus,
+      isTyping: isTyping,
+      isMobileStatus: presenceUser?.mobile ?? false,
+      avatarColor: avatarColor,
+      cacheKey: cacheKey,
+      userId: userId,
+    );
+  }
 }

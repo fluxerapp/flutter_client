@@ -787,6 +787,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
                       userLimit: null,
                       voiceConnectionLimit: null,
                       permissionOverwrites: [],
+                      rateLimitPerUser: null,
                       nsfw: false,
                       nsfwOverride: null,
                       contentWarningLevel: ContentWarningLevel.inherit,
@@ -1376,6 +1377,7 @@ class _GuildFolderWidgetState extends ConsumerState<_GuildFolderWidget>
                         userLimit: null,
                         voiceConnectionLimit: null,
                         permissionOverwrites: [],
+                        rateLimitPerUser: null,
                         nsfw: false,
                         nsfwOverride: null,
                         contentWarningLevel: ContentWarningLevel.inherit,
@@ -1819,6 +1821,7 @@ Widget _buildGuildMenuActionItem({
                 userLimit: null,
                 voiceConnectionLimit: null,
                 permissionOverwrites: const [],
+                rateLimitPerUser: null,
                 nsfw: false,
                 nsfwOverride: null,
                 contentWarningLevel: ContentWarningLevel.inherit,
@@ -3223,10 +3226,10 @@ class _GuildListItemState extends State<_GuildListItem>
       padding: EdgeInsets.symmetric(horizontal: layout.s4, vertical: layout.s2),
       child: Row(
         children: [
-          FluxerAvatar.user(
+          FluxerAvatar.userPresence(
             imageUrl: recipient.avatarUrl,
             fallbackText: recipient.displayName,
-            status: recipient.status,
+            userId: recipient.id,
             size: 32,
           ),
           SizedBox(width: layout.s3),

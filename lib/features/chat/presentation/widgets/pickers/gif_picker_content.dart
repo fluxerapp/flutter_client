@@ -21,6 +21,7 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -73,6 +74,8 @@ class GifPickerContent extends ConsumerStatefulWidget {
     this.searchHorizontalPadding,
     this.searchTopPadding,
     this.searchBottomPadding,
+    this.onSearchActivated,
+    this.sheetDragHandlers,
     this.scrollController,
     super.key,
   });
@@ -83,6 +86,8 @@ class GifPickerContent extends ConsumerStatefulWidget {
   final double? searchHorizontalPadding;
   final double? searchTopPadding;
   final double? searchBottomPadding;
+  final VoidCallback? onSearchActivated;
+  final ExpandableSheetDragHandlers? sheetDragHandlers;
   final ScrollController? scrollController;
 
   @override
@@ -237,23 +242,34 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
       );
     }
 
-    return PickerSearchInput(
-      controller: _searchController,
-      hintText: switch (provider) {
-        GifProviderKind.klipy => l10n.gifPickerSearchKlipy,
-        GifProviderKind.tenor => l10n.gifPickerSearchTenor,
-        null => l10n.gifPickerSearch,
-      },
-      showBackButton: _searchController.text.isNotEmpty,
-      onBackButtonClick: _searchController.clear,
-      rightCustomElement: provider == GifProviderKind.klipy
-          ? _PoweredByKlipyLabel()
-          : null,
-      horizontalPadding: widget.searchHorizontalPadding ?? layout.s4,
-      topPadding: widget.searchTopPadding ?? layout.s3,
-      bottomPadding: widget.searchBottomPadding ?? layout.s3,
-      onSubmitted: _flushSearch,
+    return _wrapSearchHeader(
+      PickerSearchInput(
+        controller: _searchController,
+        hintText: switch (provider) {
+          GifProviderKind.klipy => l10n.gifPickerSearchKlipy,
+          GifProviderKind.tenor => l10n.gifPickerSearchTenor,
+          null => l10n.gifPickerSearch,
+        },
+        showBackButton: _searchController.text.isNotEmpty,
+        onBackButtonClick: _searchController.clear,
+        rightCustomElement: provider == GifProviderKind.klipy
+            ? _PoweredByKlipyLabel()
+            : null,
+        horizontalPadding: widget.searchHorizontalPadding ?? layout.s4,
+        topPadding: widget.searchTopPadding ?? layout.s3,
+        bottomPadding: widget.searchBottomPadding ?? layout.s3,
+        onSubmitted: _flushSearch,
+        onActivated: widget.onSearchActivated,
+      ),
     );
+  }
+
+  Widget _wrapSearchHeader(Widget child) {
+    final ExpandableSheetDragHandlers? handlers = widget.sheetDragHandlers;
+    if (handlers == null) {
+      return child;
+    }
+    return handlers.wrapChrome(child);
   }
 
   Widget _buildBody(BuildContext context, sdk.Locale locale) {

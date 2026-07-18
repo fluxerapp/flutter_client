@@ -54,4 +54,66 @@ void main() {
       );
     });
   });
+
+  group('isComposerDirectChat', () {
+    test('returns true for a listed DM conversation', () {
+      final DmConversation dm = convo(type: ChannelType.dm.wireValue);
+      expect(
+        isComposerDirectChat(
+          channelId: dm.id,
+          dmConversations: <DmConversation>[dm],
+          currentUserId: 'self',
+        ),
+        isTrue,
+      );
+    });
+
+    test('returns true for personal notes route before DM row exists', () {
+      expect(
+        isComposerDirectChat(
+          channelId: 'self',
+          dmConversations: const <DmConversation>[],
+          currentUserId: 'self',
+        ),
+        isTrue,
+      );
+    });
+
+    test('returns false for guild channels', () {
+      expect(
+        isComposerDirectChat(
+          channelId: 'guild-channel',
+          dmConversations: const <DmConversation>[],
+          currentUserId: 'self',
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('composerHasDirectChatEmojiAccess', () {
+    test('returns true for personal notes without plutonium', () {
+      expect(
+        composerHasDirectChatEmojiAccess(
+          channelId: 'self',
+          dmConversations: const <DmConversation>[],
+          currentUserId: 'self',
+          hasGlobalExpressions: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('returns false for guild channels without plutonium', () {
+      expect(
+        composerHasDirectChatEmojiAccess(
+          channelId: 'guild-channel',
+          dmConversations: const <DmConversation>[],
+          currentUserId: 'self',
+          hasGlobalExpressions: false,
+        ),
+        isFalse,
+      );
+    });
+  });
 }

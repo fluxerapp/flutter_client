@@ -6528,8 +6528,8 @@
     "@userSettingsNavAccessibility": {
         "description": "User settings navigation item for accessibility settings."
     },
-    "userSettingsNavMessagesAndMedia": "Negeseuon a Chyfryngau",
-    "@userSettingsNavMessagesAndMedia": {
+    "userSettingsNavChat": "Negeseuon a Chyfryngau",
+    "@userSettingsNavChat": {
         "description": "User settings navigation item for messages and media settings."
     },
     "userSettingsNavAudioAndVideo": "Sain a Fideo",

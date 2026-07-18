@@ -2,11 +2,16 @@ import 'dart:async' show unawaited;
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/session_authorization_header.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
+import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
+import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_track_resolver.dart';
+import 'package:fluxer_app/features/voice/utils/voice_stream_audio_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:livekit_client/livekit_client.dart';
@@ -64,6 +69,9 @@ class VoiceParticipantMediaTile extends StatelessWidget {
     }
     final bool isScreenShareTile =
         tileSource == VoiceParticipantTileSource.screenShare;
+    final String? streamKey = isScreenShareTile
+        ? buildViewerStreamKey(voice: voice, isScreenShareTile: true)
+        : null;
     final bool isOwnScreenShareTile =
         isScreenShareTile &&
         currentUserId != null &&
@@ -167,8 +175,9 @@ class VoiceParticipantMediaTile extends StatelessWidget {
               Positioned.fill(
                 child: IgnorePointer(
                   child: _ScreenShareAudioPlayback(
+                    streamKey: streamKey,
                     audioTrack: audioTrack,
-                    isEnabled: isActiveScreenShare,
+                    isActiveScreenShare: isActiveScreenShare,
                   ),
                 ),
               ),
@@ -196,8 +205,9 @@ class VoiceParticipantMediaTile extends StatelessWidget {
             Positioned.fill(
               child: IgnorePointer(
                 child: _ScreenShareAudioPlayback(
+                  streamKey: streamKey,
                   audioTrack: audioTrack,
-                  isEnabled: true,
+                  isActiveScreenShare: isActiveScreenShare,
                 ),
               ),
             ),
@@ -362,23 +372,26 @@ class VoiceParticipantMediaTile extends StatelessWidget {
   }
 }
 
-class _ScreenShareAudioPlayback extends StatefulWidget {
+class _ScreenShareAudioPlayback extends ConsumerStatefulWidget {
   const _ScreenShareAudioPlayback({
+    required this.streamKey,
     required this.audioTrack,
-    required this.isEnabled,
+    required this.isActiveScreenShare,
   });
 
+  final String? streamKey;
   final AudioTrack audioTrack;
-  final bool isEnabled;
+  final bool isActiveScreenShare;
 
   @override
-  State<_ScreenShareAudioPlayback> createState() =>
+  ConsumerState<_ScreenShareAudioPlayback> createState() =>
       _ScreenShareAudioPlaybackState();
 }
 
-class _ScreenShareAudioPlaybackState extends State<_ScreenShareAudioPlayback> {
-  AudioTrack? currentTrack;
-  bool isPlaying = false;
+class _ScreenShareAudioPlaybackState
+    extends ConsumerState<_ScreenShareAudioPlayback> {
+  AudioTrack? _currentTrack;
+  var _isPlaying = false;
 
   @override
   void initState() {
@@ -390,9 +403,12 @@ class _ScreenShareAudioPlaybackState extends State<_ScreenShareAudioPlayback> {
   void didUpdateWidget(covariant _ScreenShareAudioPlayback oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.audioTrack != widget.audioTrack ||
-        oldWidget.isEnabled != widget.isEnabled) {
+        oldWidget.isActiveScreenShare != widget.isActiveScreenShare ||
+        oldWidget.streamKey != widget.streamKey) {
       _syncPlayback();
+      return;
     }
+    unawaited(_applyVolume());
   }
 
   @override
@@ -401,36 +417,87 @@ class _ScreenShareAudioPlaybackState extends State<_ScreenShareAudioPlayback> {
     super.dispose();
   }
 
+  VoiceStreamAudioPrefsState get _streamPrefs =>
+      ref.read(voiceStreamAudioProvider);
+
+  bool get _isPlaybackEnabled {
+    if (!widget.isActiveScreenShare) {
+      return false;
+    }
+    final String? streamKey = widget.streamKey;
+    if (streamKey == null) {
+      return true;
+    }
+    return !_streamPrefs.isMuted(streamKey);
+  }
+
   void _syncPlayback() {
-    if (widget.isEnabled) {
+    if (_isPlaybackEnabled) {
       _startTrack(widget.audioTrack);
       return;
     }
     _stopTrack();
   }
 
+  Future<void> _applyVolume() async {
+    final AudioTrack? track = _currentTrack;
+    if (track == null || !_isPlaying) {
+      return;
+    }
+    final String? streamKey = widget.streamKey;
+    final int outputVolume = ref.read(voiceSettingsProvider).outputVolume;
+    final int streamVolume = streamKey == null
+        ? kDefaultVoiceVolumePercent
+        : _streamPrefs.volumeFor(streamKey);
+    await applyStreamVolumeToTrack(
+      track: track,
+      streamVolumePercent: streamVolume,
+      outputVolumePercent: outputVolume,
+    );
+  }
+
   void _startTrack(AudioTrack track) {
-    if (currentTrack == track && isPlaying) {
+    if (_currentTrack == track && _isPlaying) {
+      unawaited(_applyVolume());
       return;
     }
     _stopTrack();
-    currentTrack = track;
-    isPlaying = true;
-    unawaited(track.start());
+    _currentTrack = track;
+    _isPlaying = true;
+    unawaited(() async {
+      await track.start();
+      if (!mounted || _currentTrack != track) {
+        return;
+      }
+      await _applyVolume();
+    }());
   }
 
   void _stopTrack() {
-    final AudioTrack? track = currentTrack;
+    final AudioTrack? track = _currentTrack;
     if (track == null) {
       return;
     }
-    currentTrack = null;
-    isPlaying = false;
+    _currentTrack = null;
+    _isPlaying = false;
     unawaited(track.stop());
+  }
+
+  void _onStreamPrefsChanged() {
+    _syncPlayback();
+    unawaited(_applyVolume());
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<VoiceStreamAudioPrefsState>(
+      voiceStreamAudioProvider,
+      (_, _) => _onStreamPrefsChanged(),
+    );
+    ref.listen<VoiceSettingsState>(
+      voiceSettingsProvider,
+      (_, _) => unawaited(_applyVolume()),
+    );
     return const SizedBox.shrink();
   }
 }

@@ -37,6 +37,21 @@ void main() {
       expect(result[guilds.first]!.map((emoji) => emoji.id), ['a']);
       expect(result[guilds.last]!.map((emoji) => emoji.id), ['b']);
     });
+
+    test('preserves reordered guild input for premium picker sections', () {
+      const reorderedGuilds = <Guild>[
+        Guild(id: '2', name: 'Two'),
+        Guild(id: '1', name: 'One'),
+      ];
+      final result = guildEmojiEntriesForPicker(
+        guilds: reorderedGuilds,
+        emojis: emojis,
+        activeGuildId: '1',
+        isPremium: true,
+      );
+
+      expect(result.keys.map((guild) => guild.id), ['2', '1']);
+    });
   });
 
   test('lockedGuildEmojiEntriesForUpsell returns non-active guild emojis', () {

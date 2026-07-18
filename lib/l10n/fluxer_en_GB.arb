@@ -5581,7 +5581,7 @@
     "@forwardFailed": {
         "description": "Toast shown when forwarding a message fails."
     },
-    "forwardCommentSlowmodeDisabled": "Comments are unavailable because a selected channel has slow mode enabled.",
+    "forwardCommentSlowmodeDisabled": "Comments are unavailable because a selected channel has slowmode enabled.",
     "@forwardCommentSlowmodeDisabled": {
         "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."
     },
@@ -5605,7 +5605,7 @@
     "@forwardDestinationTimedOut": {
         "description": "Reason shown on a disabled forward destination when the current user is timed out (communication disabled) in the destination guild."
     },
-    "forwardDestinationSlowmodeCoolingDown": "Slow mode - wait {remaining}",
+    "forwardDestinationSlowmodeCoolingDown": "Slowmode - wait {remaining}",
     "@forwardDestinationSlowmodeCoolingDown": {
         "description": "Reason shown on a disabled forward destination currently within its slowmode cool-down window. Preserve {remaining}; it is the formatted MM:SS countdown inserted by code.",
         "placeholders": {
@@ -6528,9 +6528,9 @@
     "@userSettingsNavAccessibility": {
         "description": "User settings navigation item for accessibility settings."
     },
-    "userSettingsNavMessagesAndMedia": "Messages & Media",
-    "@userSettingsNavMessagesAndMedia": {
-        "description": "User settings navigation item for messages and media settings."
+    "userSettingsNavChat": "Chat",
+    "@userSettingsNavChat": {
+        "description": "User settings navigation item for chat settings."
     },
     "userSettingsNavAudioAndVideo": "Audio & Video",
     "@userSettingsNavAudioAndVideo": {

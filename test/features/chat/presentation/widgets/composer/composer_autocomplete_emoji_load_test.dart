@@ -12,6 +12,9 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
+import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -77,6 +80,14 @@ void main() {
             channelMessagePermissionsProvider(_channelId).overrideWith(
               (ref) => Future<ChannelMessagePermissions>.value(
                 ChannelMessagePermissions.all,
+              ),
+            ),
+            dmViewModelProvider.overrideWithValue(
+              const DmViewState(
+                conversations: <DmConversation>[],
+                friendsList: <Friend>[],
+                activeTab: FriendsTab.online,
+                searchQuery: '',
               ),
             ),
           ],

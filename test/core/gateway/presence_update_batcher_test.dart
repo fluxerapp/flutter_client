@@ -44,4 +44,21 @@ void main() {
     expect(u1?.status, 'idle');
     expect(u2?.status, 'dnd');
   });
+
+  test('PresenceUpdateBatcher persists mobile flag for other users', () async {
+    final FluxerDatabase database = openTestDatabase();
+    final PresenceUpdateBatcher batcher = PresenceUpdateBatcher(
+      database: database,
+      currentUserId: 'self',
+      batchDelay: const Duration(milliseconds: 50),
+    );
+    addTearDown(batcher.dispose);
+    await database.userDao.upsertUser(
+      UsersCompanion.insert(id: 'u1', username: 'u1'),
+    );
+    batcher.enqueue(userId: 'u1', status: 'online', mobile: true);
+    await Future<void>.delayed(const Duration(milliseconds: 80));
+    final User? user = await database.userDao.getUserById('u1');
+    expect(user?.mobile, isTrue);
+  });
 }

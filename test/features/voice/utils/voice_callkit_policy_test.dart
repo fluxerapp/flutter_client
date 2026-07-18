@@ -147,6 +147,79 @@ void main() {
     });
   });
 
+  group('shouldStartCallKitOnVoiceJoin', () {
+    test('starts CallKit only after LiveKit is connected', () {
+      expect(
+        shouldStartCallKitOnVoiceJoin(
+          voice: (
+            isInVoice: true,
+            isConnected: false,
+            isConnecting: true,
+            channelId: 'channel-1',
+            activeConnectionId: null,
+          ),
+        ),
+        isFalse,
+      );
+      expect(
+        shouldStartCallKitOnVoiceJoin(
+          voice: (
+            isInVoice: true,
+            isConnected: true,
+            isConnecting: false,
+            channelId: 'channel-1',
+            activeConnectionId: 'conn-1',
+          ),
+        ),
+        isTrue,
+      );
+    });
+  });
+
+  group('shouldLeaveVoiceFromCallKitEnd', () {
+    test('leaves voice only when connected on the same channel', () {
+      expect(
+        shouldLeaveVoiceFromCallKitEnd(
+          voice: (
+            isInVoice: true,
+            isConnected: false,
+            isConnecting: true,
+            channelId: 'channel-1',
+            activeConnectionId: null,
+          ),
+          channelId: 'channel-1',
+        ),
+        isFalse,
+      );
+      expect(
+        shouldLeaveVoiceFromCallKitEnd(
+          voice: (
+            isInVoice: true,
+            isConnected: true,
+            isConnecting: false,
+            channelId: 'channel-1',
+            activeConnectionId: 'conn-1',
+          ),
+          channelId: 'channel-1',
+        ),
+        isTrue,
+      );
+      expect(
+        shouldLeaveVoiceFromCallKitEnd(
+          voice: (
+            isInVoice: true,
+            isConnected: true,
+            isConnecting: false,
+            channelId: 'channel-1',
+            activeConnectionId: 'conn-1',
+          ),
+          channelId: 'channel-2',
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('didJoinVoiceCall', () {
     test('detects first voice join', () {
       expect(

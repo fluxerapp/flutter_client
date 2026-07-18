@@ -1,6 +1,8 @@
-import 'dart:io' show Platform;
-
 import 'package:flutter/foundation.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_result.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_status.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 bool shouldOpenPushNotificationSettingsAfterRequest({
@@ -8,23 +10,15 @@ bool shouldOpenPushNotificationSettingsAfterRequest({
   required PermissionStatus after,
   required bool isAndroid,
 }) {
-  if (after.isGranted || after.isProvisional) {
-    return false;
-  }
-  if (after.isPermanentlyDenied || after.isRestricted) {
-    return true;
-  }
-  if (!isAndroid && after.isDenied && before.isDenied) {
-    return true;
-  }
-  return false;
+  return shouldOpenSystemSettingsAfterRequest(
+    before: before,
+    after: after,
+    isAndroid: isAndroid,
+  );
 }
 
 bool requiresPushNotificationSystemSettingsForStatus(PermissionStatus status) {
-  if (status.isGranted || status.isProvisional) {
-    return false;
-  }
-  return status.isPermanentlyDenied || status.isRestricted;
+  return requiresSystemSettingsForStatus(status);
 }
 
 Future<bool> isPushNotificationPermissionGranted() async {
@@ -32,7 +26,7 @@ Future<bool> isPushNotificationPermissionGranted() async {
     return true;
   }
   final PermissionStatus status = await Permission.notification.status;
-  return status.isGranted || status.isProvisional;
+  return isSystemPermissionGranted(SystemPermissionKind.notifications, status);
 }
 
 Future<bool> requiresPushNotificationSystemSettings() async {
@@ -49,31 +43,11 @@ Future<bool> requestPushNotificationPermission({
   if (kIsWeb) {
     return false;
   }
-  const Permission permission = Permission.notification;
-  PermissionStatus status = await permission.status;
-  if (status.isGranted || status.isProvisional) {
-    return true;
+  if (openSystemSettingsIfBlocked) {
+    return ensureSystemPermission(null, SystemPermissionKind.notifications);
   }
-  if (openSystemSettingsIfBlocked &&
-      requiresPushNotificationSystemSettingsForStatus(status)) {
-    await openAppSettings();
-    return false;
-  }
-  final PermissionStatus before = status;
-  status = await permission.request();
-  if (kDebugMode) {
-    debugPrint('[PushPermission] status after request: $status');
-  }
-  if (status.isGranted || status.isProvisional) {
-    return true;
-  }
-  if (openSystemSettingsIfBlocked &&
-      shouldOpenPushNotificationSettingsAfterRequest(
-        before: before,
-        after: status,
-        isAndroid: !kIsWeb && Platform.isAndroid,
-      )) {
-    await openAppSettings();
-  }
-  return false;
+  final SystemPermissionOutcome outcome = await requestSystemPermission(
+    SystemPermissionKind.notifications,
+  );
+  return outcome == SystemPermissionOutcome.granted;
 }

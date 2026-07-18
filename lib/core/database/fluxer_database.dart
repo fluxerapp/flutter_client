@@ -141,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 74;
+  int get schemaVersion => 76;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -724,6 +724,38 @@ class FluxerDatabase extends _$FluxerDatabase {
           await m.addColumn(messages, messages.authorPublicFlags);
         }
         await m.createTable(localSpamOverrides);
+      }
+      if (from < 75) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'channels',
+          columnName: 'bitrate',
+        )) {
+          await m.addColumn(channels, channels.bitrate);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'channels',
+          columnName: 'rtc_region',
+        )) {
+          await m.addColumn(channels, channels.rtcRegion);
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'channels',
+          columnName: 'voice_connection_limit',
+        )) {
+          await m.addColumn(channels, channels.voiceConnectionLimit);
+        }
+      }
+      if (from < 76) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'users',
+          columnName: 'mobile',
+        )) {
+          await m.addColumn(users, users.mobile);
+        }
       }
     },
   );

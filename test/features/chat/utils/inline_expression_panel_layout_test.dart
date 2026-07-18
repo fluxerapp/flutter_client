@@ -67,12 +67,29 @@ void main() {
         topMargin: 8,
         viewPaddingBottom: 34,
       ),
-      675.2,
+      closeTo(675.2, 0.01),
     );
   });
 
-  test('anchors the panel above an open keyboard', () {
-    expect(inlineExpressionPanelBottomOffset(keyboardInset: 320), 320);
-    expect(inlineExpressionPanelBottomOffset(keyboardInset: 0), 0);
-  });
+  test(
+    'dock content height subtracts the pull bar from the keyboard anchor',
+    () {
+      const double anchor = 291;
+      const double handle = 36;
+      expect(
+        inlineExpressionPanelDockedContentHeight(
+          keyboardAnchorNet: anchor,
+          dragHandleHeight: handle,
+        ),
+        255,
+      );
+      expect(
+        inlineExpressionPanelDockedTotalHeight(
+          contentHeight: 255,
+          dragHandleHeight: handle,
+        ),
+        anchor,
+      );
+    },
+  );
 }

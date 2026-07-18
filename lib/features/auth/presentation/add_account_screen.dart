@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/providers/active_instance_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/widgets/auth_flow_content.dart';
+import 'package:fluxer_app/features/auth/presentation/widgets/auth_viewport.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
 import 'package:fluxer_app/features/auth/providers/instance_selector_provider.dart';
 import 'package:fluxer_app/features/auth/providers/login_view_model.dart';
@@ -96,20 +97,12 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
             onPressed: _close,
           ),
         ),
-        body: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: isMobileLayout(context) ? double.infinity : 420,
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(layout.s5),
-                child: AuthFlowContent(
-                  showBrowserLogin: false,
-                  heading: l10n.accountAdd,
-                ),
-              ),
-            ),
+        body: AuthViewport(
+          maxWidth: isMobileLayout(context) ? double.infinity : 420,
+          padding: EdgeInsets.all(layout.s5),
+          child: AuthFlowContent(
+            showBrowserLogin: false,
+            heading: l10n.accountAdd,
           ),
         ),
       ),

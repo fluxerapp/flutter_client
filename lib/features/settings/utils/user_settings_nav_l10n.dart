@@ -15,8 +15,6 @@ String userSettingsSectionLabel(
     //   return l10n.userSettingsNavFluxerPlutonium;
     // case UserSettingsSection.giftsAndCodes:
     //   return l10n.userSettingsNavGiftsAndCodes;
-    case UserSettingsSection.expressionPacks:
-      return l10n.userSettingsNavExpressionPacks;
     case UserSettingsSection.privacyDashboard:
       return l10n.userSettingsNavPrivacyDashboard;
     case UserSettingsSection.authorizedApps:
@@ -31,14 +29,14 @@ String userSettingsSectionLabel(
       return l10n.userSettingsNavLookAndFeel;
     case UserSettingsSection.accessibility:
       return l10n.userSettingsNavAccessibility;
-    case UserSettingsSection.messagesAndMedia:
-      return l10n.userSettingsNavMessagesAndMedia;
+    case UserSettingsSection.chat:
+      return l10n.userSettingsNavChat;
     case UserSettingsSection.audioAndVideo:
       return l10n.userSettingsNavAudioAndVideo;
     case UserSettingsSection.keybinds:
       return 'Keybinds';
-    case UserSettingsSection.soundsAndAlerts:
-      return l10n.userSettingsNavSoundsAndAlerts;
+    case UserSettingsSection.notifications:
+      return l10n.userSettingsNavNotifications;
     case UserSettingsSection.languageAndTime:
       return l10n.userSettingsNavLanguageAndTime;
     case UserSettingsSection.advanced:

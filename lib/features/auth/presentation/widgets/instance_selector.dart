@@ -36,6 +36,7 @@ class InstanceSelectorControl extends ConsumerStatefulWidget {
 class _InstanceSelectorControlState
     extends ConsumerState<InstanceSelectorControl> {
   final TextEditingController _controller = TextEditingController();
+  String _draftUrl = '';
   bool _showRecentInstances = false;
 
   @override
@@ -48,6 +49,7 @@ class _InstanceSelectorControlState
         .instanceUrl;
     if (initialUrl != null) {
       _controller.text = initialUrl;
+      _draftUrl = initialUrl;
     }
     ref.listenManual<AsyncValue<InstanceSelectorState>>(
       instanceSelectorProvider,
@@ -55,22 +57,57 @@ class _InstanceSelectorControlState
         AsyncValue<InstanceSelectorState>? previous,
         AsyncValue<InstanceSelectorState> next,
       ) {
+        final String? previousUrl = previous?.asData?.value.instanceUrl;
         final String? instanceUrl = next.asData?.value.instanceUrl;
-        if (instanceUrl != null && _controller.text != instanceUrl) {
-          _controller.value = _controller.value.copyWith(
-            text: instanceUrl,
-            selection: TextSelection.collapsed(offset: instanceUrl.length),
-          );
-        }
-        final InstanceDiscoveryStatus? previousStatus =
-            previous?.asData?.value.status;
-        final InstanceDiscoveryStatus? nextStatus = next.asData?.value.status;
-        if (previousStatus != InstanceDiscoveryStatus.success &&
-            nextStatus == InstanceDiscoveryStatus.success) {
-          widget.onConnected?.call();
+        if (instanceUrl != null && previousUrl != instanceUrl) {
+          _replaceDraft(instanceUrl);
         }
       },
     );
+  }
+
+  void _replaceDraft(String value) {
+    if (_controller.text != value) {
+      _controller.value = _controller.value.copyWith(
+        text: value,
+        selection: TextSelection.collapsed(offset: value.length),
+      );
+    }
+    if (_draftUrl != value) {
+      setState(() => _draftUrl = value);
+    }
+  }
+
+  void _handleDraftChanged(String value) {
+    final InstanceSelectorState? selector = ref
+        .read(instanceSelectorProvider)
+        .asData
+        ?.value;
+    if (selector?.status == InstanceDiscoveryStatus.discovering) {
+      ref.read(instanceSelectorProvider.notifier).cancelPendingConnection();
+    }
+    setState(() => _draftUrl = value);
+  }
+
+  Future<void> _connectTo(String value) async {
+    final String input = value.trim();
+    _replaceDraft(input);
+    final bool connected = await ref
+        .read(instanceSelectorProvider.notifier)
+        .connectToUrl(input);
+    if (connected && mounted) {
+      widget.onConnected?.call();
+    }
+  }
+
+  Future<void> _resetToOfficialDefault() async {
+    _replaceDraft(InstanceConstants.defaultInstanceInputUrl);
+    final bool connected = await ref
+        .read(instanceSelectorProvider.notifier)
+        .resetToOfficialDefault();
+    if (connected && mounted) {
+      widget.onConnected?.call();
+    }
   }
 
   @override
@@ -94,9 +131,18 @@ class _InstanceSelectorControlState
       loading: () => const SizedBox.shrink(),
       error: (_, _) => const SizedBox.shrink(),
       data: (InstanceSelectorState selector) {
+        final bool draftChanged = _draftUrl != selector.instanceUrl;
+        final InstanceSelectorState viewState = draftChanged
+            ? selector.copyWith(
+                instanceUrl: _draftUrl,
+                status: InstanceDiscoveryStatus.idle,
+                requiresDiscovery: _draftUrl.trim().isNotEmpty,
+                clearError: true,
+              )
+            : selector;
         final String? errorText =
-            selector.status == InstanceDiscoveryStatus.error
-            ? selector.errorMessage ?? l10n.instanceConnectFailed
+            viewState.status == InstanceDiscoveryStatus.error
+            ? viewState.errorMessage ?? l10n.instanceConnectFailed
             : null;
 
         return Column(
@@ -109,18 +155,17 @@ class _InstanceSelectorControlState
               hint: l10n.instanceUrlPlaceholder,
               enabled: widget.enabled,
               prefixIcon: InstanceDomainIcon(
-                isOfficial: isOfficial && !selector.requiresDiscovery,
+                isOfficial: isOfficial && !viewState.requiresDiscovery,
                 size: 20,
               ),
-              suffixIcon: _buildSuffixIcons(
-                context,
-                selector,
-                notifier,
-                isOfficial,
-              ),
-              onChanged: notifier.updateInstanceUrl,
+              suffixIcon: _buildSuffixIcons(context, viewState, isOfficial),
+              onChanged: _handleDraftChanged,
+              onSubmitted: (String value) => unawaited(_connectTo(value)),
               errorText: errorText,
-              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.url,
+              autocorrect: false,
+              enableSuggestions: false,
+              textInputAction: TextInputAction.go,
             ),
             SizedBox(height: context.layout.s2),
             Row(
@@ -129,16 +174,16 @@ class _InstanceSelectorControlState
                   child: FluxerButton.secondary(
                     onPressed:
                         !widget.enabled ||
-                            selector.status ==
+                            viewState.status ==
                                 InstanceDiscoveryStatus.discovering
                         ? null
-                        : () => unawaited(notifier.connectToCurrentUrl()),
+                        : () => unawaited(_connectTo(_draftUrl)),
                     label:
-                        selector.status == InstanceDiscoveryStatus.discovering
+                        viewState.status == InstanceDiscoveryStatus.discovering
                         ? l10n.instanceConnecting
                         : l10n.instanceConnect,
                     isLoading:
-                        selector.status == InstanceDiscoveryStatus.discovering,
+                        viewState.status == InstanceDiscoveryStatus.discovering,
                   ),
                 ),
                 if (selector.recentInstances.isNotEmpty) ...[
@@ -166,7 +211,7 @@ class _InstanceSelectorControlState
                 enabled: widget.enabled,
                 onSelect: (RecentInstance instance) {
                   setState(() => _showRecentInstances = false);
-                  unawaited(notifier.selectRecentInstance(instance));
+                  unawaited(_connectTo(instance.domain));
                 },
                 onRemove: (String domain) {
                   unawaited(notifier.removeRecentInstance(domain));
@@ -182,7 +227,6 @@ class _InstanceSelectorControlState
   Widget? _buildSuffixIcons(
     BuildContext context,
     InstanceSelectorState selector,
-    InstanceSelector notifier,
     bool isOfficial,
   ) {
     final Widget? statusIcon = _buildStatusIcon(context, selector.status);
@@ -205,7 +249,7 @@ class _InstanceSelectorControlState
                 !widget.enabled ||
                     selector.status == InstanceDiscoveryStatus.discovering
                 ? null
-                : () => unawaited(notifier.resetToOfficialDefault()),
+                : () => unawaited(_resetToOfficialDefault()),
             icon: PhosphorIcon(
               PhosphorIconsFill.arrowsCounterClockwise,
               color: context.colors.textPrimaryMuted,

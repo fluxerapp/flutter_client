@@ -38,6 +38,7 @@ class SoundSyncedField extends SyncedFieldAdapter<SoundLocalState> {
       allSoundsDisabled: sound.allSoundsDisabled,
       disabledSounds: Map<String, bool>.from(sound.disabledSounds),
       masterVolume: sound.hasMasterVolume() ? sound.masterVolume : 100,
+      soundOverrides: Map<String, double>.from(sound.soundOverrides),
     );
   }
 
@@ -47,6 +48,7 @@ class SoundSyncedField extends SyncedFieldAdapter<SoundLocalState> {
       allSoundsDisabled: local.allSoundsDisabled,
       masterVolume: local.masterVolume,
       disabledSounds: local.disabledSounds.entries,
+      soundOverrides: local.soundOverrides.entries,
     );
   }
 
@@ -70,7 +72,8 @@ class SoundSyncedField extends SyncedFieldAdapter<SoundLocalState> {
   bool statesEqual(SoundLocalState a, SoundLocalState b) {
     return a.allSoundsDisabled == b.allSoundsDisabled &&
         a.masterVolume == b.masterVolume &&
-        _mapsEqual(a.disabledSounds, b.disabledSounds);
+        _mapsEqual(a.disabledSounds, b.disabledSounds) &&
+        _doubleMapsEqual(a.soundOverrides, b.soundOverrides);
   }
 
   @override
@@ -100,6 +103,18 @@ class SoundSyncedField extends SyncedFieldAdapter<SoundLocalState> {
     return true;
   }
 
+  bool _doubleMapsEqual(Map<String, double> a, Map<String, double> b) {
+    if (a.length != b.length) {
+      return false;
+    }
+    for (final MapEntry<String, double> entry in a.entries) {
+      if (b[entry.key] != entry.value) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   static pickers.SoundSettings toProtoForPush({
     required SoundLocalState local,
     pickers.SoundSettings? wireBase,
@@ -112,6 +127,9 @@ class SoundSyncedField extends SyncedFieldAdapter<SoundLocalState> {
     settings.disabledSounds
       ..clear()
       ..addEntries(local.disabledSounds.entries);
+    settings.soundOverrides
+      ..clear()
+      ..addEntries(local.soundOverrides.entries);
     return settings;
   }
 }

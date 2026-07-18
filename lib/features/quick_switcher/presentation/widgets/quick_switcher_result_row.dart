@@ -73,15 +73,13 @@ class QuickSwitcherResultRow extends StatelessWidget {
             :final userId,
             :final avatar,
             :final avatarColor,
-            :final status,
             :final title,
           ) =>
-            FluxerAvatar.user(
+            FluxerAvatar.userPresence(
               fallbackText: title,
               userId: userId,
               imageUrl: FluxerMediaUrl.userAvatar(userId: userId, hash: avatar),
               avatarColor: avatarColor,
-              status: status,
               size: _kAvatarRenderSize,
             ),
           QuickSwitcherGroupDmResult(

@@ -15,6 +15,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/presentation/login_screen.dart';
 import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
 import 'package:fluxer_app/features/auth/providers/add_account_instance_guard_provider.dart';
+import 'package:fluxer_app/features/channels/domain/channel_settings_tab.dart';
+import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_modal.dart';
+import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_nav_page.dart';
+import 'package:fluxer_app/features/channels/presentation/channel_settings/pages/channel_settings_tab_pages.dart';
 import 'package:fluxer_app/features/chat/presentation/channel_layout.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
 import 'package:fluxer_app/features/chat/utils/chat_spinner_debug.dart';
@@ -418,6 +422,92 @@ GoRouter fluxerRouter(Ref ref) {
             guildId: state.pathParameters['guildId'] ?? '',
           ),
         ),
+      ),
+
+      // Channel settings (pushed on root navigator)
+      GoRoute(
+        path: '/settings/channel/:channelId',
+        name: RouteNames.channelSettings,
+        parentNavigatorKey: rootNavigatorKey,
+        redirect: (BuildContext context, GoRouterState state) {
+          final String? tab = state.uri.queryParameters['tab'];
+          if (tab == null || tab.isEmpty || !isMobileLayout(context)) {
+            return null;
+          }
+          final String channelId = state.pathParameters['channelId'] ?? '';
+          return channelSettingsTabPathFromQuery(channelId, tab);
+        },
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          final String channelId = state.pathParameters['channelId'] ?? '';
+          if (isMobileLayout(context)) {
+            return shellMobileRootPushTransitionPage(
+              context: context,
+              key: state.pageKey,
+              child: ChannelSettingsNavPage(channelId: channelId),
+            );
+          }
+          return shellFadeTransitionPage(
+            key: state.pageKey,
+            child: ChannelSettingsModal(
+              channelId: channelId,
+              initialTab: channelSettingsTabFromQuery(
+                state.uri.queryParameters['tab'],
+              ),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings/channel/:channelId/overview',
+        name: RouteNames.channelSettingsOverview,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            shellMobileRootPushTransitionPage(
+              context: context,
+              key: state.pageKey,
+              child: ChannelSettingsOverviewPage(
+                channelId: state.pathParameters['channelId'] ?? '',
+              ),
+            ),
+      ),
+      GoRoute(
+        path: '/settings/channel/:channelId/permissions',
+        name: RouteNames.channelSettingsPermissions,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            shellMobileRootPushTransitionPage(
+              context: context,
+              key: state.pageKey,
+              child: ChannelSettingsPermissionsPage(
+                channelId: state.pathParameters['channelId'] ?? '',
+              ),
+            ),
+      ),
+      GoRoute(
+        path: '/settings/channel/:channelId/invites',
+        name: RouteNames.channelSettingsInvites,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            shellMobileRootPushTransitionPage(
+              context: context,
+              key: state.pageKey,
+              child: ChannelSettingsInvitesPage(
+                channelId: state.pathParameters['channelId'] ?? '',
+              ),
+            ),
+      ),
+      GoRoute(
+        path: '/settings/channel/:channelId/webhooks',
+        name: RouteNames.channelSettingsWebhooks,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            shellMobileRootPushTransitionPage(
+              context: context,
+              key: state.pageKey,
+              child: ChannelSettingsWebhooksPage(
+                channelId: state.pathParameters['channelId'] ?? '',
+              ),
+            ),
       ),
 
       // Discover (root navigator — slide on mobile, inline shell on desktop)

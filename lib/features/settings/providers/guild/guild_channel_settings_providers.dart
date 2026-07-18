@@ -89,6 +89,7 @@ class GuildChannelSettingsActions extends _$GuildChannelSettingsActions {
         userLimit: null,
         voiceConnectionLimit: null,
         permissionOverwrites: [],
+        rateLimitPerUser: null,
         nsfw: false,
         nsfwOverride: null,
         contentWarningLevel: ContentWarningLevel.inherit,

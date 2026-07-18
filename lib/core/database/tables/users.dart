@@ -10,6 +10,7 @@ class Users extends Table {
   BoolColumn get bot => boolean().withDefault(const Constant(false))();
   BoolColumn get system => boolean().withDefault(const Constant(false))();
   TextColumn get status => text().withDefault(const Constant('offline'))();
+  BoolColumn get mobile => boolean().withDefault(const Constant(false))();
   TextColumn get customStatus => text().nullable()();
   DateTimeColumn get memberSince => dateTime().nullable()();
   TextColumn get bio => text().nullable()();

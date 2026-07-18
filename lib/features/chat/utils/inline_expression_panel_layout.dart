@@ -1,12 +1,31 @@
 import 'dart:math' as math;
 
-const double kInlineExpressionPanelCollapsedHeight = 350;
 const double kMobileChannelHeaderHeight = 64;
+const double kInlineExpressionPanelDragHandleHitHeight = 28;
+const double kInlineExpressionPanelDragHandleBottomSpacing = 8;
 
 const double kInlineExpressionPanelMaxScreenFraction = 0.80;
 
-double inlineExpressionPanelBottomOffset({required double keyboardInset}) =>
-    keyboardInset;
+double inlineExpressionPanelDragHandleHeight({
+  double topPadding = 0,
+  double bottomSpacing = kInlineExpressionPanelDragHandleBottomSpacing,
+}) {
+  return topPadding + kInlineExpressionPanelDragHandleHitHeight + bottomSpacing;
+}
+
+double inlineExpressionPanelDockedContentHeight({
+  required double keyboardAnchorNet,
+  required double dragHandleHeight,
+}) {
+  return math.max(0, keyboardAnchorNet - dragHandleHeight);
+}
+
+double inlineExpressionPanelDockedTotalHeight({
+  required double contentHeight,
+  required double dragHandleHeight,
+}) {
+  return contentHeight + dragHandleHeight;
+}
 
 double inlineExpressionPanelResolveAvailableHeight({
   required double layoutMaxHeight,

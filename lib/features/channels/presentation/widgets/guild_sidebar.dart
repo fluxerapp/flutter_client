@@ -18,6 +18,7 @@ import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_unread_state.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_menu_data.dart';
+import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/modals/show_channel_invite_modal.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
@@ -659,7 +660,9 @@ class _ChannelTile extends ConsumerWidget {
       context,
       position: position,
       builder: (menuContext, close) => channelMenuGroupsToWidgets(
+        context: menuContext,
         groups: groups,
+        menuState: menuState,
         onAction: (ChannelMenuAction action) => _handleChannelMenuAction(
           action,
           menuContext: menuContext,
@@ -769,7 +772,7 @@ class _ChannelTile extends ConsumerWidget {
         );
       case ChannelMenuAction.editChannel:
         close();
-        _showComingSoon(menuContext, ref);
+        unawaited(ChannelSettingsFlow.show(menuContext, channelId: channel.id));
       case ChannelMenuAction.duplicateChannel:
         close();
         _showComingSoon(menuContext, ref);

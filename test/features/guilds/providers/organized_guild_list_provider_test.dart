@@ -152,6 +152,84 @@ void main() {
     });
   });
 
+  group('flattenOrganizedGuildList', () {
+    test('linearizes top-level guilds and folder guilds in sidebar order', () {
+      final items = <GuildNavbarItem>[
+        GuildNavbarGuild(guild: _guild('unplaced')),
+        _navbarFolder(id: 1, guildIds: ['a', 'b']),
+        GuildNavbarGuild(guild: _guild('solo')),
+      ];
+
+      expect(
+        flattenOrganizedGuildList(items).map((guild) => guild.id).toList(),
+        ['unplaced', 'a', 'b', 'solo'],
+      );
+    });
+
+    test('preserves unplaced prefix order from organized list', () {
+      final guilds = [_guild('a'), _guild('b')];
+      final folders = [
+        _folder(id: 1, guildIds: ['a']),
+      ];
+      final organized = computeOrganizedGuildList(
+        guilds: guilds,
+        folders: folders,
+      );
+
+      expect(
+        flattenOrganizedGuildList(organized).map((guild) => guild.id).toList(),
+        ['b', 'a'],
+      );
+    });
+  });
+
+  group('pinActiveGuildToFront', () {
+    const guilds = <Guild>[
+      Guild(id: '1', name: 'One'),
+      Guild(id: '2', name: 'Two'),
+      Guild(id: '3', name: 'Three'),
+    ];
+
+    test('moves active guild from middle to front', () {
+      expect(
+        pinActiveGuildToFront(guilds, '2').map((guild) => guild.id).toList(),
+        ['2', '1', '3'],
+      );
+    });
+
+    test('moves active guild from end to front', () {
+      expect(
+        pinActiveGuildToFront(guilds, '3').map((guild) => guild.id).toList(),
+        ['3', '1', '2'],
+      );
+    });
+
+    test('leaves list unchanged when active guild is already first', () {
+      expect(pinActiveGuildToFront(guilds, '1'), guilds);
+    });
+
+    test('leaves list unchanged when active guild is absent', () {
+      expect(pinActiveGuildToFront(guilds, 'missing'), guilds);
+    });
+  });
+
+  group('guildsForExpressionPicker', () {
+    test('flattens organized list and pins active guild first', () {
+      final organized = <GuildNavbarItem>[
+        GuildNavbarGuild(guild: _guild('b')),
+        _navbarFolder(id: 1, guildIds: ['a', 'c']),
+      ];
+
+      expect(
+        guildsForExpressionPicker(
+          organized: organized,
+          activeGuildId: 'c',
+        ).map((guild) => guild.id).toList(),
+        ['c', 'b', 'a'],
+      );
+    });
+  });
+
   group('OrganizedGuildList reorder', () {
     test('moves guild out of folder before target guild', () {
       final ProviderContainer container = _organizedGuildListTestContainer();

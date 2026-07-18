@@ -1,5 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/utils/channel_invite_capability.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -175,7 +176,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     groups.add(<ChannelMenuEntry>[
       ChannelMenuEntry(
         label: l10n.channelMenuOpenChat,
-        icon: PhosphorIconsRegular.chatCircle,
+        icon: PhosphorIconsFill.chatCircle,
         action: ChannelMenuAction.openChat,
       ),
     ]);
@@ -185,7 +186,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     metaItems.add(
       ChannelMenuEntry(
         label: l10n.dmMarkAsRead,
-        icon: PhosphorIconsRegular.envelopeOpen,
+        icon: PhosphorIconsFill.envelopeOpen,
         action: ChannelMenuAction.markAsRead,
       ),
     );
@@ -211,7 +212,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     inviteItems.add(
       ChannelMenuEntry(
         label: l10n.channelDetailsInvitePeople,
-        icon: PhosphorIconsRegular.userPlus,
+        icon: PhosphorIconsFill.userPlus,
         action: ChannelMenuAction.invitePeople,
       ),
     );
@@ -220,7 +221,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     inviteItems.add(
       ChannelMenuEntry(
         label: l10n.matureContentOpenLinkButton,
-        icon: PhosphorIconsRegular.arrowSquareOut,
+        icon: PhosphorIconsFill.arrowSquareOut,
         action: ChannelMenuAction.openLink,
       ),
     );
@@ -228,7 +229,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
   inviteItems.add(
     ChannelMenuEntry(
       label: l10n.channelDetailsCopyLink,
-      icon: PhosphorIconsRegular.link,
+      icon: PhosphorIconsFill.link,
       action: ChannelMenuAction.copyLink,
     ),
   );
@@ -241,8 +242,8 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
             ? l10n.notificationUnmuteChannel
             : l10n.notificationMuteChannel,
         icon: state.isMuted
-            ? PhosphorIconsRegular.bell
-            : PhosphorIconsRegular.bellSlash,
+            ? PhosphorIconsFill.bell
+            : PhosphorIconsFill.bellSlash,
         hint: state.mutedHint,
         action: ChannelMenuAction.mute,
       ),
@@ -252,7 +253,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     notificationItems.add(
       ChannelMenuEntry(
         label: l10n.notificationSettings,
-        icon: PhosphorIconsRegular.bell,
+        icon: PhosphorIconsFill.bell,
         action: ChannelMenuAction.notificationSettings,
       ),
     );
@@ -264,7 +265,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
       manageItems.add(
         ChannelMenuEntry(
           label: l10n.channelDetailsEditChannel,
-          icon: PhosphorIconsRegular.pencilSimple,
+          icon: PhosphorIconsFill.pencilSimple,
           action: ChannelMenuAction.editChannel,
         ),
       );
@@ -273,7 +274,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
       manageItems.add(
         ChannelMenuEntry(
           label: l10n.channelMenuDuplicateChannel,
-          icon: PhosphorIconsRegular.copy,
+          icon: PhosphorIconsFill.copy,
           action: ChannelMenuAction.duplicateChannel,
         ),
       );
@@ -304,7 +305,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
   debugItems.add(
     ChannelMenuEntry(
       label: l10n.dmCopyChannelId,
-      icon: PhosphorIconsRegular.copy,
+      icon: PhosphorIconsFill.copy,
       action: ChannelMenuAction.copyChannelId,
     ),
   );
@@ -314,7 +315,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     destructiveItems.add(
       ChannelMenuEntry(
         label: l10n.channelDetailsDeleteChannel,
-        icon: PhosphorIconsRegular.trash,
+        icon: PhosphorIconsFill.trash,
         isDanger: true,
         action: ChannelMenuAction.deleteChannel,
       ),
@@ -324,7 +325,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     destructiveItems.add(
       ChannelMenuEntry(
         label: l10n.channelMenuDeleteMyMessagesConfirm,
-        icon: PhosphorIconsRegular.trash,
+        icon: PhosphorIconsFill.trash,
         isDanger: true,
         action: ChannelMenuAction.deleteMyMessages,
       ),
@@ -337,7 +338,9 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
 }
 
 List<Widget> channelMenuGroupsToWidgets({
+  required BuildContext context,
   required List<ChannelMenuGroup> groups,
+  required ChannelMenuState menuState,
   required void Function(ChannelMenuAction action) onAction,
 }) {
   final List<Widget> widgets = <Widget>[];
@@ -346,10 +349,16 @@ List<Widget> channelMenuGroupsToWidgets({
       widgets.add(const FluxerMenuDivider());
     }
     for (final ChannelMenuEntry entry in groups[groupIndex]) {
+      final Color? iconColor =
+          entry.action == ChannelMenuAction.toggleFavorite &&
+              menuState.isFavorite
+          ? context.colors.statusIdle
+          : null;
       widgets.add(
         FluxerMenuItem(
           label: entry.label,
           icon: entry.icon,
+          iconColor: iconColor,
           hint: entry.hint,
           enabled: entry.enabled,
           isDanger: entry.isDanger,

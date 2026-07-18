@@ -18,6 +18,8 @@ PODS:
     - Flutter
   - media_kit_video (0.0.1):
     - Flutter
+  - smart_keyboard_insets (0.0.1):
+    - Flutter
   - super_native_extensions (0.0.1):
     - Flutter
   - WebRTC-SDK (144.7559.09)
@@ -30,6 +32,7 @@ DEPENDENCIES:
   - livekit_noise_filter (from `.symlinks/plugins/livekit_noise_filter/ios`)
   - media_kit_libs_ios_video (from `.symlinks/plugins/media_kit_libs_ios_video/ios`)
   - media_kit_video (from `.symlinks/plugins/media_kit_video/ios`)
+  - smart_keyboard_insets (from `.symlinks/plugins/smart_keyboard_insets/ios`)
   - super_native_extensions (from `.symlinks/plugins/super_native_extensions/ios`)
 
 SPEC REPOS:
@@ -52,6 +55,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/media_kit_libs_ios_video/ios"
   media_kit_video:
     :path: ".symlinks/plugins/media_kit_video/ios"
+  smart_keyboard_insets:
+    :path: ".symlinks/plugins/smart_keyboard_insets/ios"
   super_native_extensions:
     :path: ".symlinks/plugins/super_native_extensions/ios"
 
@@ -64,9 +69,10 @@ SPEC CHECKSUMS:
   LiveKitKrispNoiseFilter: efe418ceca28163ace0ff222bd2cc02384645d84
   media_kit_libs_ios_video: 5a18affdb97d1f5d466dc79988b13eff6c5e2854
   media_kit_video: 1746e198cb697d1ffb734b1d05ec429d1fcd1474
+  smart_keyboard_insets: 707e2ae443f7c422dd25ee87718e730b61d269ab
   super_native_extensions: b763c02dc3a8fd078389f410bf15149179020cb4
   WebRTC-SDK: e6006119cd730d6315d875e4a421b6cc8bb88833
 
 PODFILE CHECKSUM: ec6dac94027c1185889cf4747af026cc0e1d478f
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.17.0

@@ -96,6 +96,44 @@ List<GuildNavbarItem> computeOrganizedGuildList({
   return [...prefix, ...items];
 }
 
+List<Guild> flattenOrganizedGuildList(List<GuildNavbarItem> items) {
+  final result = <Guild>[];
+  for (final item in items) {
+    switch (item) {
+      case GuildNavbarGuild(:final guild):
+        result.add(guild);
+      case GuildNavbarFolder(:final guilds):
+        result.addAll(guilds);
+    }
+  }
+  return result;
+}
+
+List<Guild> pinActiveGuildToFront(List<Guild> guilds, String? activeGuildId) {
+  if (activeGuildId == null || guilds.isEmpty) {
+    return guilds;
+  }
+  final index = guilds.indexWhere((guild) => guild.id == activeGuildId);
+  if (index <= 0) {
+    return guilds;
+  }
+  final next = List<Guild>.from(guilds);
+  next
+    ..removeAt(index)
+    ..insert(0, guilds[index]);
+  return next;
+}
+
+List<Guild> guildsForExpressionPicker({
+  required List<GuildNavbarItem> organized,
+  String? activeGuildId,
+}) {
+  return pinActiveGuildToFront(
+    flattenOrganizedGuildList(organized),
+    activeGuildId,
+  );
+}
+
 @Riverpod(keepAlive: true)
 Stream<List<UserSettingsResponseGuildFolders>> guildFolders(Ref ref) async* {
   final db = ref.watch(fluxerDatabaseProvider);

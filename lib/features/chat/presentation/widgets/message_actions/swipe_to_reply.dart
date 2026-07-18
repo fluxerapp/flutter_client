@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
+import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kMaxDragFraction = 0.30;
@@ -50,6 +51,7 @@ class SwipeToReply extends StatefulWidget {
 
 class _SwipeToReplyState extends State<SwipeToReply>
     with TickerProviderStateMixin {
+  final GlobalKey _contentKey = GlobalKey();
   late final AnimationController _springController;
   late final AnimationController _holdController;
   Animation<double>? _springAnimation;
@@ -174,6 +176,18 @@ class _SwipeToReplyState extends State<SwipeToReply>
     _dragOffset.value = _springAnimation?.value ?? 0;
   }
 
+  bool _shouldDeferToHorizontalScroll(PointerDownEvent event) {
+    final BuildContext? searchRoot = _contentKey.currentContext;
+    if (searchRoot == null) {
+      return false;
+    }
+    return isPointerOverOverflowingHorizontalScrollable(
+      searchRoot,
+      event.position,
+      viewId: event.viewId,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!widget.enabled) {
@@ -190,7 +204,7 @@ class _SwipeToReplyState extends State<SwipeToReply>
       children: [
         AnimatedBuilder(
           animation: _dragOffset,
-          child: RepaintBoundary(child: widget.child),
+          child: RepaintBoundary(key: _contentKey, child: widget.child),
           builder: (BuildContext context, Widget? child) {
             final double offset = _dragOffset.value;
             final double progress = _maxDrag == 0
@@ -236,13 +250,19 @@ class _SwipeToReplyState extends State<SwipeToReply>
               _LeftwardHorizontalDragRecognizer:
                   GestureRecognizerFactoryWithHandlers<
                     _LeftwardHorizontalDragRecognizer
-                  >(_LeftwardHorizontalDragRecognizer.new, (recognizer) {
-                    recognizer
-                      ..onStart = _handleDragStart
-                      ..onUpdate = _handleDragUpdate
-                      ..onEnd = _handleDragEnd
-                      ..onCancel = _handleDragCancel;
-                  }),
+                  >(
+                    () => _LeftwardHorizontalDragRecognizer(
+                      shouldDeferToHorizontalScroll:
+                          _shouldDeferToHorizontalScroll,
+                    ),
+                    (recognizer) {
+                      recognizer
+                        ..onStart = _handleDragStart
+                        ..onUpdate = _handleDragUpdate
+                        ..onEnd = _handleDragEnd
+                        ..onCancel = _handleDragCancel;
+                    },
+                  ),
             },
             child: const SizedBox.expand(),
           ),
@@ -357,13 +377,21 @@ class _HoldRingPainter extends CustomPainter {
 /// drawer free to claim the gesture and open the drawer.
 class _LeftwardHorizontalDragRecognizer
     extends HorizontalDragGestureRecognizer {
-  _LeftwardHorizontalDragRecognizer({super.debugOwner});
+  _LeftwardHorizontalDragRecognizer({
+    required this.shouldDeferToHorizontalScroll,
+  });
+
+  final bool Function(PointerDownEvent event) shouldDeferToHorizontalScroll;
 
   final Map<int, Offset> _initialPositions = <int, Offset>{};
   final Set<int> _resolved = <int>{};
 
   @override
   void addAllowedPointer(PointerDownEvent event) {
+    if (shouldDeferToHorizontalScroll(event)) {
+      resolve(GestureDisposition.rejected);
+      return;
+    }
     _initialPositions[event.pointer] = event.position;
     super.addAllowedPointer(event);
   }

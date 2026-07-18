@@ -91,6 +91,21 @@ void main() {
       expect(result[guilds.last]!.map((sticker) => sticker.id), ['b']);
     });
 
+    test('preserves reordered guild input for premium picker sections', () {
+      const reorderedGuilds = <Guild>[
+        Guild(id: '2', name: 'Two'),
+        Guild(id: '1', name: 'One'),
+      ];
+      final result = guildStickerEntriesForPicker(
+        guilds: reorderedGuilds,
+        stickers: stickers,
+        activeGuildId: '1',
+        isPremium: true,
+      );
+
+      expect(result.keys.map((guild) => guild.id), ['2', '1']);
+    });
+
     test('sorts stickers within guilds by newest snowflake first', () {
       const guild = Guild(id: '1', name: 'One');
       const unordered = <StickerEntry>[

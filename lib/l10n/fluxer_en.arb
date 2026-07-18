@@ -112,6 +112,26 @@
   "@nagbarOpenSettings": {
     "description": "Nagbar CTA that opens user settings."
   },
+  "systemPermissionSettingsTitle": "Enable permission",
+  "@systemPermissionSettingsTitle": {
+    "description": "Title for the system permission settings prompt modal."
+  },
+  "systemPermissionSettingsOpenSettings": "Open settings",
+  "@systemPermissionSettingsOpenSettings": {
+    "description": "Primary action that opens the device app settings for a blocked permission."
+  },
+  "systemPermissionMicrophoneMessage": "Fluxer doesn't have access to your microphone. You can enable it in your device privacy settings.",
+  "@systemPermissionMicrophoneMessage": {
+    "description": "Body text when microphone access must be enabled in system settings."
+  },
+  "systemPermissionCameraMessage": "Fluxer doesn't have access to your camera. You can enable it in your device privacy settings.",
+  "@systemPermissionCameraMessage": {
+    "description": "Body text when camera access must be enabled in system settings."
+  },
+  "systemPermissionNotificationsMessage": "Fluxer doesn't have permission to send notifications. You can enable it in your device settings.",
+  "@systemPermissionNotificationsMessage": {
+    "description": "Body text when notification permission must be enabled in system settings."
+  },
   "nagbarPremiumGracePeriod": "Your subscription failed to renew, but you still have access to {productName} perks until {graceDate}. Take action now or you'll lose all perks.",
   "@nagbarPremiumGracePeriod": {
     "description": "Premium grace period nagbar body.",
@@ -5874,9 +5894,61 @@
   "@voiceControlDisconnect": {
     "description": "Tooltip: leave the voice call in the voice call control bar."
   },
+  "voiceParticipantMenuViewProfile": "View profile",
+  "@voiceParticipantMenuViewProfile": {
+    "description": "Voice participant context menu item to open the user's profile."
+  },
+  "voiceParticipantMenuFocus": "Focus this person",
+  "@voiceParticipantMenuFocus": {
+    "description": "Voice participant context menu item to pin a participant tile in focus layout."
+  },
+  "voiceParticipantMenuUnfocus": "Unfocus",
+  "@voiceParticipantMenuUnfocus": {
+    "description": "Voice participant context menu item to return to grid layout."
+  },
+  "voiceParticipantMenuCommunityMute": "Mute",
+  "@voiceParticipantMenuCommunityMute": {
+    "description": "Voice participant context menu item to community-mute another member."
+  },
+  "voiceParticipantMenuCommunityDeafen": "Deafen",
+  "@voiceParticipantMenuCommunityDeafen": {
+    "description": "Voice participant context menu item to community-deafen another member."
+  },
+  "voiceParticipantMenuUserVolume": "User volume",
+  "@voiceParticipantMenuUserVolume": {
+    "description": "Voice participant context menu slider label for per-user volume."
+  },
+  "voiceParticipantMenuStreamVolume": "Stream volume",
+  "@voiceParticipantMenuStreamVolume": {
+    "description": "Voice participant context menu slider label for screen share audio volume."
+  },
+  "voiceParticipantModerationFailed": "Couldn't update that member. Please try again.",
+  "@voiceParticipantModerationFailed": {
+    "description": "Toast shown when a voice participant moderation action fails."
+  },
   "voiceControlChat": "Chat",
   "@voiceControlChat": {
     "description": "Label for the chat button in voice lobby and call control surfaces."
+  },
+  "voicePanelSettingsSectionTitle": "Voice settings",
+  "@voicePanelSettingsSectionTitle": {
+    "description": "Section header for in-call voice settings in the expandable control panel."
+  },
+  "voicePanelUseEarpieceLabel": "Use earpiece",
+  "@voicePanelUseEarpieceLabel": {
+    "description": "Switch label to route voice call audio through the phone earpiece instead of the speaker."
+  },
+  "voicePanelOnlyShowVideosLabel": "Only show videos",
+  "@voicePanelOnlyShowVideosLabel": {
+    "description": "Switch label to hide voice participants who do not have their camera on."
+  },
+  "voicePanelOnlyShowVideosDescription": "Only show participants who have their camera on.",
+  "@voicePanelOnlyShowVideosDescription": {
+    "description": "Description for the only-show-videos switch in the voice call panel."
+  },
+  "voicePanelShowOwnCameraLabel": "Show my own camera",
+  "@voicePanelShowOwnCameraLabel": {
+    "description": "Switch label to show or hide the local camera tile in the voice call grid."
   },
   "voiceTextChatShow": "Show chat",
   "@voiceTextChatShow": {
@@ -7158,7 +7230,7 @@
       }
     }
   },
-  "channelDetailsChannelSettingsTitle": "Channel Settings",
+  "channelDetailsChannelSettingsTitle": "Channel settings",
   "@channelDetailsChannelSettingsTitle": {
     "description": "Title for the channel details overflow menu on guild channels."
   },
@@ -7186,13 +7258,587 @@
   "@channelDetailsGroupInvites": {
     "description": "Group DM menu action to view group invites."
   },
-  "channelDetailsEditChannel": "Edit Channel",
+  "channelDetailsEditChannel": "Edit channel",
   "@channelDetailsEditChannel": {
     "description": "Channel details menu action to edit a guild channel."
   },
-  "channelDetailsDeleteChannel": "Delete Channel",
+  "channelDetailsDeleteChannel": "Delete channel",
   "@channelDetailsDeleteChannel": {
     "description": "Channel details menu action to delete a guild channel."
+  },
+  "channelSettingsCategorySettingsTitle": "Category settings",
+  "@channelSettingsCategorySettingsTitle": {
+    "description": "Title for category settings modal."
+  },
+  "channelSettingsEditCategory": "Edit category",
+  "@channelSettingsEditCategory": {
+    "description": "Context menu action to edit a category."
+  },
+  "channelSettingsTabOverview": "Overview",
+  "@channelSettingsTabOverview": {
+    "description": "Channel settings tab for basic channel details."
+  },
+  "channelSettingsTabPermissions": "Permissions",
+  "@channelSettingsTabPermissions": {
+    "description": "Channel settings tab for role and member permission overwrites."
+  },
+  "channelSettingsTabInvites": "Invites",
+  "@channelSettingsTabInvites": {
+    "description": "Channel settings tab for invite management."
+  },
+  "channelSettingsTabWebhooks": "Webhooks",
+  "@channelSettingsTabWebhooks": {
+    "description": "Channel settings tab for configuring channel webhooks."
+  },
+  "channelSettingsDeleteChannel": "Delete channel",
+  "@channelSettingsDeleteChannel": {
+    "description": "Destructive footer button in channel settings."
+  },
+  "channelSettingsDeleteChannelConfirm": "Are you sure you want to delete {channelName}? This cannot be undone.",
+  "@channelSettingsDeleteChannelConfirm": {
+    "description": "Destructive confirmation for deleting a channel.",
+    "placeholders": {
+      "channelName": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsDeleteCategoryConfirm": "Are you sure you want to delete {categoryName}? This cannot be undone.",
+  "@channelSettingsDeleteCategoryConfirm": {
+    "description": "Destructive confirmation for deleting a category.",
+    "placeholders": {
+      "categoryName": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsDeleteCategory": "Delete category",
+  "@channelSettingsDeleteCategory": {
+    "description": "Destructive footer button in category settings."
+  },
+  "channelSettingsChannelUpdated": "Channel updated",
+  "@channelSettingsChannelUpdated": {
+    "description": "Success toast after saving channel settings."
+  },
+  "channelSettingsChannelName": "Channel name",
+  "@channelSettingsChannelName": {
+    "description": "Label for channel name field in channel settings."
+  },
+  "channelSettingsCategoryName": "Category name",
+  "@channelSettingsCategoryName": {
+    "description": "Label for category name field in channel settings."
+  },
+  "channelSettingsMyCategory": "My category",
+  "@channelSettingsMyCategory": {
+    "description": "Placeholder for category name field."
+  },
+  "channelSettingsChannelNamePlaceholder": "general",
+  "@channelSettingsChannelNamePlaceholder": {
+    "description": "Placeholder for channel name field in channel settings."
+  },
+  "channelSettingsUrl": "URL",
+  "@channelSettingsUrl": {
+    "description": "Label for link channel URL field."
+  },
+  "channelSettingsUrlPlaceholder": "https://example.com",
+  "@channelSettingsUrlPlaceholder": {
+    "description": "Placeholder for link channel URL field in channel settings."
+  },
+  "channelSettingsTopic": "Topic",
+  "@channelSettingsTopic": {
+    "description": "Label for channel topic field."
+  },
+  "channelSettingsTopicPlaceholder": "Add a topic to this channel",
+  "@channelSettingsTopicPlaceholder": {
+    "description": "Placeholder for channel topic field."
+  },
+  "channelSettingsInsertEmoji": "Insert emoji",
+  "@channelSettingsInsertEmoji": {
+    "description": "Accessibility label for the emoji button on the channel topic field."
+  },
+  "channelSettingsTopicTooLongTitle": "Channel topic is too long.",
+  "@channelSettingsTopicTooLongTitle": {
+    "description": "Error modal title when channel topic exceeds maximum length."
+  },
+  "channelSettingsTopicTooLongMessage": "Shorten the topic and try again.",
+  "@channelSettingsTopicTooLongMessage": {
+    "description": "Error modal body when channel topic exceeds maximum length."
+  },
+  "channelSettingsSlowmode": "Slowmode",
+  "@channelSettingsSlowmode": {
+    "description": "Label for slowmode control in channel settings."
+  },
+  "channelSettingsSlowmodeDescription": "Wait between messages. \"{bypassSlowmodePermissionLabel}\" can bypass it.",
+  "@channelSettingsSlowmodeDescription": {
+    "description": "Description under the slowmode select in channel settings.",
+    "placeholders": {
+      "bypassSlowmodePermissionLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsSlowmodeOff": "Off",
+  "@channelSettingsSlowmodeOff": {
+    "description": "Slowmode option for no rate limit."
+  },
+  "channelSettingsSlowmodeSeconds": "{seconds} seconds",
+  "@channelSettingsSlowmodeSeconds": {
+    "description": "Slowmode option label in seconds.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "channelSettingsSlowmodeMinutes": "{minutes} minutes",
+  "@channelSettingsSlowmodeMinutes": {
+    "description": "Slowmode option label in minutes.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "channelSettingsSlowmodeHours": "{hours} hours",
+  "@channelSettingsSlowmodeHours": {
+    "description": "Slowmode option label in hours.",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "channelSettingsSlowmodeOneMinute": "{oneMinute} minute",
+  "@channelSettingsSlowmodeOneMinute": {
+    "description": "Slowmode option label for one minute.",
+    "placeholders": {
+      "oneMinute": {
+        "type": "int"
+      }
+    }
+  },
+  "channelSettingsSlowmodeOneHour": "{oneHour} hour",
+  "@channelSettingsSlowmodeOneHour": {
+    "description": "Slowmode option label for one hour.",
+    "placeholders": {
+      "oneHour": {
+        "type": "int"
+      }
+    }
+  },
+  "channelSettingsVoiceQuality": "Voice quality",
+  "@channelSettingsVoiceQuality": {
+    "description": "Voice channel setting label for voice bitrate preset."
+  },
+  "channelSettingsVoiceQualityDescription": "Higher bitrate = better quality and higher bandwidth usage.",
+  "@channelSettingsVoiceQualityDescription": {
+    "description": "Helper text for the voice quality slider in channel settings."
+  },
+  "channelSettingsVoiceQualityKbps": "{kilobits} kbps",
+  "@channelSettingsVoiceQualityKbps": {
+    "description": "Voice channel bitrate option label.",
+    "placeholders": {
+      "kilobits": {
+        "type": "int"
+      }
+    }
+  },
+  "channelSettingsParticipantLimit": "Participant limit",
+  "@channelSettingsParticipantLimit": {
+    "description": "Voice channel setting label for maximum members."
+  },
+  "channelSettingsParticipantLimitDescription": "Maximum members who can join at once. 0 means unlimited.",
+  "@channelSettingsParticipantLimitDescription": {
+    "description": "Helper text for the voice channel participant limit slider."
+  },
+  "channelSettingsParticipantLimitValue": "{count, plural, =0 {∞ No limit} =1 {1 participant} other {{count} participants}}",
+  "@channelSettingsParticipantLimitValue": {
+    "description": "Displayed value for voice channel participant limit slider.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "channelSettingsConnectionLimit": "Connection limit",
+  "@channelSettingsConnectionLimit": {
+    "description": "Voice channel setting label for connection limit."
+  },
+  "channelSettingsConnectionLimitDescription": "Maximum active connections one member can keep in this channel.",
+  "@channelSettingsConnectionLimitDescription": {
+    "description": "Helper text for voice channel connection limit."
+  },
+  "channelSettingsConnectionLimitValue": "{count, plural, =1 {1 connection} other {{count} connections}}",
+  "@channelSettingsConnectionLimitValue": {
+    "description": "Displayed value for voice channel connection limit slider.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "channelSettingsVoiceRegion": "Voice region",
+  "@channelSettingsVoiceRegion": {
+    "description": "Label for voice region picker."
+  },
+  "channelSettingsVoiceRegionDescription": "Select a voice region for this channel. Automatic uses the closest region.",
+  "@channelSettingsVoiceRegionDescription": {
+    "description": "Helper text for the voice region picker in channel settings."
+  },
+  "channelSettingsVoiceRegionAutomatic": "Automatic",
+  "@channelSettingsVoiceRegionAutomatic": {
+    "description": "Automatic voice region option."
+  },
+  "channelSettingsVoiceRegionsLoadFailed": "Couldn't load voice regions",
+  "@channelSettingsVoiceRegionsLoadFailed": {
+    "description": "Error modal title when voice regions fail to load."
+  },
+  "channelSettingsVoiceRegionsLoadFailedDescription": "Try again in a moment.",
+  "@channelSettingsVoiceRegionsLoadFailedDescription": {
+    "description": "Error modal body when voice regions fail to load in channel settings."
+  },
+  "channelSettingsResetSlider": "Reset slider to default value",
+  "@channelSettingsResetSlider": {
+    "description": "Tooltip for reset buttons on channel settings sliders."
+  },
+  "channelSettingsAdvanced": "Advanced",
+  "@channelSettingsAdvanced": {
+    "description": "Collapsible advanced section title in channel overview."
+  },
+  "channelSettingsMatureContentOverride": "Mature content override",
+  "@channelSettingsMatureContentOverride": {
+    "description": "Accessibility label for mature content override control."
+  },
+  "channelSettingsMatureContentSectionDescription": "Override the {scopeLevel}-level setting for this channel. Mature content is shown behind a gate before entry.",
+  "@channelSettingsMatureContentSectionDescription": {
+    "description": "Section description for mature content settings in channel overview.",
+    "placeholders": {
+      "scopeLevel": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsMatureContentInherit": "Inherit",
+  "@channelSettingsMatureContentInherit": {
+    "description": "Mature content option that uses parent or community setting."
+  },
+  "channelSettingsMatureContentOn": "On",
+  "@channelSettingsMatureContentOn": {
+    "description": "Mature content option that marks channel for mature content."
+  },
+  "channelSettingsMatureContentOff": "Off",
+  "@channelSettingsMatureContentOff": {
+    "description": "Mature content option that leaves channel ungated."
+  },
+  "channelSettingsMatureContentOnDescription": "Marks this channel for mature content.",
+  "@channelSettingsMatureContentOnDescription": {
+    "description": "Description for the mature content on override option."
+  },
+  "channelSettingsMatureContentOffDescription": "Leave this channel ungated for mature content.",
+  "@channelSettingsMatureContentOffDescription": {
+    "description": "Description for the mature content off override option."
+  },
+  "channelSettingsMatureContentInheritsOn": "Inherited from {inheritedSourceLabel}: on",
+  "@channelSettingsMatureContentInheritsOn": {
+    "description": "Mature content summary when inherited setting is enabled.",
+    "placeholders": {
+      "inheritedSourceLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsMatureContentInheritsOff": "Inherited from {inheritedSourceLabel}: off",
+  "@channelSettingsMatureContentInheritsOff": {
+    "description": "Mature content summary when inherited setting is disabled.",
+    "placeholders": {
+      "inheritedSourceLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsMatureContentCategorySource": "category",
+  "@channelSettingsMatureContentCategorySource": {
+    "description": "Lowercase source label for inherited mature content from category."
+  },
+  "channelSettingsMatureContentCommunitySource": "community",
+  "@channelSettingsMatureContentCommunitySource": {
+    "description": "Lowercase source label for inherited mature content from community."
+  },
+  "channelSettingsMatureContentCategoryScope": "Category",
+  "@channelSettingsMatureContentCategoryScope": {
+    "description": "Capitalized scope label when mature content inherits from a category."
+  },
+  "channelSettingsMatureContentCommunityScope": "Community",
+  "@channelSettingsMatureContentCommunityScope": {
+    "description": "Capitalized scope label when mature content inherits from the community."
+  },
+  "channelSettingsContentWarningToggle": "Show a content warning in this channel",
+  "@channelSettingsContentWarningToggle": {
+    "description": "Toggle for showing content warning in channel."
+  },
+  "channelSettingsContentWarningToggleDescription": "Turns on a consent prompt before entering this channel.",
+  "@channelSettingsContentWarningToggleDescription": {
+    "description": "Description for the channel content warning toggle."
+  },
+  "channelSettingsContentWarningText": "Custom warning text",
+  "@channelSettingsContentWarningText": {
+    "description": "Label for custom content warning text field."
+  },
+  "channelSettingsContentWarningDefault": "This contains sensitive content.",
+  "@channelSettingsContentWarningDefault": {
+    "description": "Default content warning text placeholder."
+  },
+  "channelSettingsPermissionsNeedManageChannels": "You need the \"{manageChannelsPermissionLabel}\" permission to edit these permissions.",
+  "@channelSettingsPermissionsNeedManageChannels": {
+    "description": "Error when user lacks manage channels permission for channel permissions tab.",
+    "placeholders": {
+      "manageChannelsPermissionLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsPermissionsNeedManageRoles": "You need the \"{manageRolesPermissionLabel}\" permission to edit these permissions.",
+  "@channelSettingsPermissionsNeedManageRoles": {
+    "description": "Error when user lacks manage roles permission for channel permissions tab.",
+    "placeholders": {
+      "manageRolesPermissionLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsUnknownRole": "Unknown role",
+  "@channelSettingsUnknownRole": {
+    "description": "Fallback label for unknown role in permission overwrites."
+  },
+  "channelSettingsUnknownUser": "Unknown user",
+  "@channelSettingsUnknownUser": {
+    "description": "Fallback label for unknown user in permission overwrites."
+  },
+  "channelSettingsEveryoneRole": "@everyone",
+  "@channelSettingsEveryoneRole": {
+    "description": "Label for the default @everyone role overwrite in channel permissions."
+  },
+  "channelSettingsPermissionsAccessOverrides": "Access overrides",
+  "@channelSettingsPermissionsAccessOverrides": {
+    "description": "Sidebar title for channel permission overwrite list."
+  },
+  "channelSettingsPermissionsEditAccessFor": "Edit access for {name}",
+  "@channelSettingsPermissionsEditAccessFor": {
+    "description": "Title for channel permission editor panel.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsPermissionsBackToOverrides": "Back to overrides",
+  "@channelSettingsPermissionsBackToOverrides": {
+    "description": "Mobile back button label on channel permission editor."
+  },
+  "channelSettingsPermissionsConfigureBaseAccess": "Configure base access for this channel",
+  "@channelSettingsPermissionsConfigureBaseAccess": {
+    "description": "Subtitle when editing @everyone channel permissions."
+  },
+  "channelSettingsPermissionsConfigureRoleOverrides": "Configure overrides for this role",
+  "@channelSettingsPermissionsConfigureRoleOverrides": {
+    "description": "Subtitle when editing a role channel permission overwrite."
+  },
+  "channelSettingsPermissionsConfigureMemberOverrides": "Configure overrides for this member",
+  "@channelSettingsPermissionsConfigureMemberOverrides": {
+    "description": "Subtitle when editing a member channel permission overwrite."
+  },
+  "channelSettingsPermissionsSearchPlaceholder": "Search permissions…",
+  "@channelSettingsPermissionsSearchPlaceholder": {
+    "description": "Placeholder for channel permissions search field."
+  },
+  "channelSettingsPermissionsChannelAccessUpdated": "Channel access updated",
+  "@channelSettingsPermissionsChannelAccessUpdated": {
+    "description": "Success toast after saving channel permission overwrites."
+  },
+  "channelSettingsPermissionsTitle": "Access control",
+  "@channelSettingsPermissionsTitle": {
+    "description": "Page title for the channel permissions settings tab."
+  },
+  "channelSettingsPermissionsSyncedWithParentPrefix": "This channel is synced with the parent category ",
+  "@channelSettingsPermissionsSyncedWithParentPrefix": {
+    "description": "Prefix for the synced-with-parent banner in channel permissions."
+  },
+  "channelSettingsPermissionsSyncedWithParentSuffix": ".",
+  "@channelSettingsPermissionsSyncedWithParentSuffix": {
+    "description": "Suffix for the synced-with-parent banner in channel permissions."
+  },
+  "channelSettingsPermissionsNotSyncedWithParentPrefix": "This channel is not synced with the parent category ",
+  "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
+    "description": "Prefix for the not-synced-with-parent banner in channel permissions."
+  },
+  "channelSettingsPermissionsNotSyncedWithParentSuffix": ".",
+  "@channelSettingsPermissionsNotSyncedWithParentSuffix": {
+    "description": "Suffix for the not-synced-with-parent banner in channel permissions."
+  },
+  "channelSettingsPermissionsSyncWithCategory": "Sync with category",
+  "@channelSettingsPermissionsSyncWithCategory": {
+    "description": "Button label to sync channel permissions with the parent category."
+  },
+  "channelSettingsPermissionsSyncedWithParentToast": "Channel synced with parent category",
+  "@channelSettingsPermissionsSyncedWithParentToast": {
+    "description": "Success toast after syncing channel permissions with the parent category."
+  },
+  "channelSettingsPermissionsAddOverride": "Add override",
+  "@channelSettingsPermissionsAddOverride": {
+    "description": "Button label to add a new channel permission override."
+  },
+  "channelSettingsPermissionsSearchRolesOrMembers": "Search roles or members…",
+  "@channelSettingsPermissionsSearchRolesOrMembers": {
+    "description": "Placeholder for the add override search field."
+  },
+  "channelSettingsPermissionsRolesAndMembers": "Roles and members",
+  "@channelSettingsPermissionsRolesAndMembers": {
+    "description": "Section title in the add override picker."
+  },
+  "channelSettingsDeleteInvite": "Delete invite",
+  "@channelSettingsDeleteInvite": {
+    "description": "Action to delete a channel invite."
+  },
+  "channelSettingsDeleteInviteConfirm": "Delete this invite? Can't be undone.",
+  "@channelSettingsDeleteInviteConfirm": {
+    "description": "Confirmation message for deleting a channel invite."
+  },
+  "channelSettingsCopyInviteCode": "Copy invite code",
+  "@channelSettingsCopyInviteCode": {
+    "description": "Action to copy invite code."
+  },
+  "channelSettingsCopyInviteUrl": "Copy invite URL",
+  "@channelSettingsCopyInviteUrl": {
+    "description": "Action to copy invite URL."
+  },
+  "channelSettingsWebhookCreated": "Webhook created",
+  "@channelSettingsWebhookCreated": {
+    "description": "Success toast after creating a webhook."
+  },
+  "channelSettingsWebhookCreateFailed": "Failed to create webhook",
+  "@channelSettingsWebhookCreateFailed": {
+    "description": "Error toast when webhook creation fails."
+  },
+  "channelSettingsCreateWebhook": "Create webhook",
+  "@channelSettingsCreateWebhook": {
+    "description": "Button to create a new webhook in channel settings."
+  },
+  "channelSettingsInvitesDescription": "Manage invite links for this channel.",
+  "@channelSettingsInvitesDescription": {
+    "description": "Description for the channel invites settings tab."
+  },
+  "channelSettingsInvitesCreate": "Create invite",
+  "@channelSettingsInvitesCreate": {
+    "description": "Button to create a new invite in channel settings."
+  },
+  "channelSettingsInvitesEmpty": "No invite links",
+  "@channelSettingsInvitesEmpty": {
+    "description": "Empty state title for channel invites."
+  },
+  "channelSettingsInvitesEmptyDescription": "This channel doesn't have any invite links yet. Create one to invite people to this channel.",
+  "@channelSettingsInvitesEmptyDescription": {
+    "description": "Empty state description for channel invites."
+  },
+  "channelSettingsInvitesLoadFailedDescription": "There was an error loading the invite links for this channel. Try again.",
+  "@channelSettingsInvitesLoadFailedDescription": {
+    "description": "Error description when channel invites fail to load."
+  },
+  "channelSettingsWebhooksDescription": "Manage incoming webhooks that can post messages into this channel.",
+  "@channelSettingsWebhooksDescription": {
+    "description": "Description for the channel webhooks settings tab."
+  },
+  "channelSettingsWebhooksEmpty": "No webhooks",
+  "@channelSettingsWebhooksEmpty": {
+    "description": "Empty state title for channel webhooks."
+  },
+  "channelSettingsWebhooksEmptyDescription": "There are no webhooks configured for this channel. Create a webhook to allow external applications to post messages.",
+  "@channelSettingsWebhooksEmptyDescription": {
+    "description": "Empty state description for channel webhooks."
+  },
+  "channelSettingsWebhooksUnsupported": "This channel does not support webhooks.",
+  "@channelSettingsWebhooksUnsupported": {
+    "description": "Message when the channel type does not support webhooks."
+  },
+  "channelSettingsWebhooksPermissionRequired": "You need the \"{permission}\" permission to view and edit webhooks for this channel.",
+  "@channelSettingsWebhooksPermissionRequired": {
+    "description": "Permission denial message on the channel webhooks tab.",
+    "placeholders": {
+      "permission": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsWebhooksLoadFailedTitle": "Failed to load webhooks",
+  "@channelSettingsWebhooksLoadFailedTitle": {
+    "description": "Error title when channel webhooks fail to load."
+  },
+  "channelSettingsWebhooksLoadFailedDescription": "There was an error loading the webhooks for this channel. Try again.",
+  "@channelSettingsWebhooksLoadFailedDescription": {
+    "description": "Error description when channel webhooks fail to load."
+  },
+  "channelSettingsWebhooksCreatedBy": "Created by {creator} on {date}",
+  "@channelSettingsWebhooksCreatedBy": {
+    "description": "Webhook list metadata line.",
+    "placeholders": {
+      "creator": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "channelSettingsWebhooksUnknownUser": "Unknown user",
+  "@channelSettingsWebhooksUnknownUser": {
+    "description": "Fallback label when webhook creator is unavailable."
+  },
+  "channelSettingsWebhooksAvatar": "Avatar",
+  "@channelSettingsWebhooksAvatar": {
+    "description": "Label for webhook avatar field."
+  },
+  "channelSettingsWebhooksUploadImage": "Upload image",
+  "@channelSettingsWebhooksUploadImage": {
+    "description": "Button to upload a webhook avatar."
+  },
+  "channelSettingsWebhooksRemove": "Remove",
+  "@channelSettingsWebhooksRemove": {
+    "description": "Button to remove webhook avatar."
+  },
+  "channelSettingsWebhooksName": "Name",
+  "@channelSettingsWebhooksName": {
+    "description": "Label for webhook name field."
+  },
+  "channelSettingsWebhooksNamePlaceholder": "Webhook name",
+  "@channelSettingsWebhooksNamePlaceholder": {
+    "description": "Placeholder for webhook name field."
+  },
+  "channelSettingsWebhooksChannel": "Channel",
+  "@channelSettingsWebhooksChannel": {
+    "description": "Label for webhook channel picker."
+  },
+  "channelSettingsWebhooksUrl": "Webhook URL",
+  "@channelSettingsWebhooksUrl": {
+    "description": "Label for read-only webhook URL field."
+  },
+  "channelSettingsWebhooksCopyUrl": "Copy webhook URL",
+  "@channelSettingsWebhooksCopyUrl": {
+    "description": "Button to copy webhook URL."
+  },
+  "channelSettingsWebhooksDelete": "Delete webhook",
+  "@channelSettingsWebhooksDelete": {
+    "description": "Danger button to delete a webhook."
+  },
+  "channelSettingsWebhooksDeleteFailed": "Couldn't delete this webhook",
+  "@channelSettingsWebhooksDeleteFailed": {
+    "description": "Error when webhook deletion fails."
+  },
+  "channelSettingsWebhooksDeleteConfirm": "Delete this webhook? Can't be undone.",
+  "@channelSettingsWebhooksDeleteConfirm": {
+    "description": "Confirmation when deleting a webhook."
+  },
+  "channelSettingsWebhookTryAgainInAMoment": "Try again in a moment.",
+  "@channelSettingsWebhookTryAgainInAMoment": {
+    "description": "Generic retry hint for webhook errors."
   },
   "channelMenuOpenChat": "Open chat",
   "@channelMenuOpenChat": {
@@ -7903,10 +8549,6 @@
   "@userSettingsNavGiftsAndCodes": {
     "description": "User settings navigation item for gifts and promo codes."
   },
-  "userSettingsNavExpressionPacks": "Expression Packs",
-  "@userSettingsNavExpressionPacks": {
-    "description": "User settings navigation item for expression pack settings."
-  },
   "userSettingsNavPrivacyDashboard": "Privacy Dashboard",
   "@userSettingsNavPrivacyDashboard": {
     "description": "User settings navigation item for the privacy dashboard."
@@ -7935,9 +8577,9 @@
   "@userSettingsNavAccessibility": {
     "description": "User settings navigation item for accessibility settings."
   },
-  "userSettingsNavMessagesAndMedia": "Messages & Media",
-  "@userSettingsNavMessagesAndMedia": {
-    "description": "User settings navigation item for messages and media settings."
+  "userSettingsNavChat": "Chat",
+  "@userSettingsNavChat": {
+    "description": "User settings navigation item for chat settings."
   },
   "userSettingsNavAudioAndVideo": "Audio & Video",
   "@userSettingsNavAudioAndVideo": {
@@ -8163,9 +8805,295 @@
   "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
     "description": "Toggle to skip confirmation when hiding own screen share during a call."
   },
-  "userSettingsNavSoundsAndAlerts": "Sounds & Alerts",
-  "@userSettingsNavSoundsAndAlerts": {
-    "description": "User settings navigation item for sounds and alert settings."
+  "userSettingsNavNotifications": "Notifications",
+  "@userSettingsNavNotifications": {
+    "description": "User settings navigation item for notification settings."
+  },
+  "notificationsGeneralSectionTitle": "General",
+  "@notificationsGeneralSectionTitle": {
+    "description": "Notifications settings section title for general notification controls."
+  },
+  "notificationsEnableNotificationsLabel": "Enable notifications",
+  "@notificationsEnableNotificationsLabel": {
+    "description": "Toggle label for enabling push or system notifications."
+  },
+  "notificationsEnableNotificationsDescription": "Get notified when you receive messages. You may need to allow notifications for {productName} in your device settings. For per-channel/per-community controls, open notification settings from a community's menu.",
+  "@notificationsEnableNotificationsDescription": {
+    "description": "Description for the enable notifications toggle on mobile.",
+    "placeholders": {
+      "productName": {
+        "type": "String",
+        "example": "Fluxer"
+      }
+    }
+  },
+  "notificationsEnableDesktopNotificationsLabel": "Enable desktop notifications",
+  "@notificationsEnableDesktopNotificationsLabel": {
+    "description": "Toggle label for enabling desktop notifications."
+  },
+  "notificationsEnableDesktopNotificationsDescription": "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open notification settings.",
+  "@notificationsEnableDesktopNotificationsDescription": {
+    "description": "Description for the enable desktop notifications toggle."
+  },
+  "notificationsEnableBrowserNotificationsLabel": "Enable browser notifications",
+  "@notificationsEnableBrowserNotificationsLabel": {
+    "description": "Toggle label for enabling browser notifications."
+  },
+  "notificationsEnableBrowserNotificationsDescription": "Get notified when you receive messages. You may need to allow notifications in your browser settings. For per-channel/per-community controls, right-click a community icon and open notification settings.",
+  "@notificationsEnableBrowserNotificationsDescription": {
+    "description": "Description for the enable browser notifications toggle."
+  },
+  "notificationsPushInactiveTimeoutLabel": "Push notification inactive timeout",
+  "@notificationsPushInactiveTimeoutLabel": {
+    "description": "Label for push notification inactive timeout setting."
+  },
+  "notificationsPushInactiveTimeoutDescription": "{productName} avoids sending push notifications to your mobile devices when you are at your computer. Choose how long you need to be inactive on desktop before you receive push notifications.",
+  "@notificationsPushInactiveTimeoutDescription": {
+    "description": "Description for push notification inactive timeout setting.",
+    "placeholders": {
+      "productName": {
+        "type": "String",
+        "example": "Fluxer"
+      }
+    }
+  },
+  "notificationsPushInactiveTimeoutOneMinute": "{oneMinute} minute",
+  "@notificationsPushInactiveTimeoutOneMinute": {
+    "description": "Push notification inactive timeout option for one minute.",
+    "placeholders": {
+      "oneMinute": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "notificationsPushInactiveTimeoutMinutes": "{minutes} minutes",
+  "@notificationsPushInactiveTimeoutMinutes": {
+    "description": "Push notification inactive timeout option for multiple minutes.",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "notificationsMentionPreferenceSectionTitle": "Mention preference",
+  "@notificationsMentionPreferenceSectionTitle": {
+    "description": "Notifications settings section title for reply mention preference."
+  },
+  "notificationsReplyMentionPreferenceAriaLabel": "Reply mention preference",
+  "@notificationsReplyMentionPreferenceAriaLabel": {
+    "description": "Accessibility label for the reply mention preference radio group."
+  },
+  "notificationsMentionNoPreferenceName": "No preference",
+  "@notificationsMentionNoPreferenceName": {
+    "description": "Mention preference option: no preference."
+  },
+  "notificationsMentionNoPreferenceDescription": "Respect the sender's intent, with no warning when they toggle the @ mention",
+  "@notificationsMentionNoPreferenceDescription": {
+    "description": "Description for the no preference mention option."
+  },
+  "notificationsMentionPreferMentionName": "Prefer @mention",
+  "@notificationsMentionPreferMentionName": {
+    "description": "Mention preference option: prefer @mention."
+  },
+  "notificationsMentionPreferMentionDescription": "Default replies to @mention you, and warn the sender if they disable it",
+  "@notificationsMentionPreferMentionDescription": {
+    "description": "Description for the prefer @mention option."
+  },
+  "notificationsMentionPreferNoMentionName": "Prefer no @mention",
+  "@notificationsMentionPreferNoMentionName": {
+    "description": "Mention preference option: prefer no @mention."
+  },
+  "notificationsMentionPreferNoMentionDescription": "Default replies to omit the @mention, and warn the sender if they enable it",
+  "@notificationsMentionPreferNoMentionDescription": {
+    "description": "Description for the prefer no @mention option."
+  },
+  "notificationsSoundsSectionTitle": "Sounds",
+  "@notificationsSoundsSectionTitle": {
+    "description": "Notifications settings section title for sound controls."
+  },
+  "notificationsMasterVolumeLabel": "Master volume",
+  "@notificationsMasterVolumeLabel": {
+    "description": "Label for the master volume slider."
+  },
+  "notificationsMasterVolumeDescription": "Sets the level for every sound effect. Per-sound overrides ignore this.",
+  "@notificationsMasterVolumeDescription": {
+    "description": "Description for the master volume slider."
+  },
+  "notificationsResetToDefaultVolume": "Reset to default volume",
+  "@notificationsResetToDefaultVolume": {
+    "description": "Accessibility label for resetting master volume to default."
+  },
+  "notificationsDisableAllSoundsLabel": "Disable all notification sounds",
+  "@notificationsDisableAllSoundsLabel": {
+    "description": "Toggle label for disabling all notification sounds."
+  },
+  "notificationsDisableAllSoundsDescription": "Your existing notification sound settings will be preserved.",
+  "@notificationsDisableAllSoundsDescription": {
+    "description": "Description for the disable all notification sounds toggle."
+  },
+  "notificationsShowMoreSoundEffects": "Show more sound effects",
+  "@notificationsShowMoreSoundEffects": {
+    "description": "Button label to reveal additional sound effect toggles."
+  },
+  "notificationsShowFewerSoundEffects": "Show fewer sound effects",
+  "@notificationsShowFewerSoundEffects": {
+    "description": "Button label to hide additional sound effect toggles."
+  },
+  "notificationsPreviewSound": "Preview sound",
+  "@notificationsPreviewSound": {
+    "description": "Button label to preview a notification sound."
+  },
+  "notificationsPerSoundVolumeTitle": "Per-sound volume",
+  "@notificationsPerSoundVolumeTitle": {
+    "description": "Accordion title for per-sound volume overrides."
+  },
+  "notificationsPerSoundVolumeDescription": "Set custom volumes for individual sounds. Sounds without an override follow the master volume.",
+  "@notificationsPerSoundVolumeDescription": {
+    "description": "Accordion description when no per-sound volume overrides exist."
+  },
+  "notificationsPerSoundVolumeOverrideDescription": "Active custom sound volume overrides: {overrideCount}.",
+  "@notificationsPerSoundVolumeOverrideDescription": {
+    "description": "Accordion description when per-sound volume overrides exist.",
+    "placeholders": {
+      "overrideCount": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "notificationsFollowingMasterVolume": "Following master • {effectiveValue}%",
+  "@notificationsFollowingMasterVolume": {
+    "description": "Status text when a sound follows the master volume.",
+    "placeholders": {
+      "effectiveValue": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "notificationsResetSoundToMasterVolume": "Reset {label} to master volume",
+  "@notificationsResetSoundToMasterVolume": {
+    "description": "Accessibility label for resetting a per-sound volume override.",
+    "placeholders": {
+      "label": {
+        "type": "String",
+        "example": "Voice mute"
+      }
+    }
+  },
+  "notificationsResetAllOverrides": "Reset all overrides",
+  "@notificationsResetAllOverrides": {
+    "description": "Button label to reset all per-sound volume overrides."
+  },
+  "notificationsMuteSound": "Mute {label}",
+  "@notificationsMuteSound": {
+    "description": "Accessibility label for muting a sound type.",
+    "placeholders": {
+      "label": {
+        "type": "String",
+        "example": "Voice mute"
+      }
+    }
+  },
+  "notificationsUnmuteSound": "Unmute {label}",
+  "@notificationsUnmuteSound": {
+    "description": "Accessibility label for unmuting a sound type.",
+    "placeholders": {
+      "label": {
+        "type": "String",
+        "example": "Voice mute"
+      }
+    }
+  },
+  "notificationsSoundMessage": "Community message notifications",
+  "@notificationsSoundMessage": {
+    "description": "Sound toggle label for community message notifications."
+  },
+  "notificationsSoundDirectMessage": "Direct message notifications",
+  "@notificationsSoundDirectMessage": {
+    "description": "Sound toggle label for direct message notifications."
+  },
+  "notificationsSoundSameChannelMessage": "Current channel message notifications",
+  "@notificationsSoundSameChannelMessage": {
+    "description": "Sound toggle label for current channel message notifications."
+  },
+  "notificationsSoundMute": "Voice mute",
+  "@notificationsSoundMute": {
+    "description": "Sound toggle label for voice mute."
+  },
+  "notificationsSoundUnmute": "Voice unmute",
+  "@notificationsSoundUnmute": {
+    "description": "Sound toggle label for voice unmute."
+  },
+  "notificationsSoundDeaf": "Voice deafen",
+  "@notificationsSoundDeaf": {
+    "description": "Sound toggle label for voice deafen."
+  },
+  "notificationsSoundUndeaf": "Voice undeafen",
+  "@notificationsSoundUndeaf": {
+    "description": "Sound toggle label for voice undeafen."
+  },
+  "notificationsSoundUserJoin": "User joins channel",
+  "@notificationsSoundUserJoin": {
+    "description": "Sound toggle label for user joins channel."
+  },
+  "notificationsSoundUserLeave": "User leaves channel",
+  "@notificationsSoundUserLeave": {
+    "description": "Sound toggle label for user leaves channel."
+  },
+  "notificationsSoundUserMove": "User moved channel",
+  "@notificationsSoundUserMove": {
+    "description": "Sound toggle label for user moved channel."
+  },
+  "notificationsSoundViewerJoin": "Viewer joins stream",
+  "@notificationsSoundViewerJoin": {
+    "description": "Sound toggle label for viewer joins stream."
+  },
+  "notificationsSoundViewerLeave": "Viewer leaves stream",
+  "@notificationsSoundViewerLeave": {
+    "description": "Sound toggle label for viewer leaves stream."
+  },
+  "notificationsSoundVoiceDisconnect": "Voice disconnected",
+  "@notificationsSoundVoiceDisconnect": {
+    "description": "Sound toggle label for voice disconnected."
+  },
+  "notificationsSoundIncomingRing": "Incoming call",
+  "@notificationsSoundIncomingRing": {
+    "description": "Sound toggle label for incoming call."
+  },
+  "notificationsSoundCameraOn": "Camera on",
+  "@notificationsSoundCameraOn": {
+    "description": "Sound toggle label for camera on."
+  },
+  "notificationsSoundCameraOff": "Camera off",
+  "@notificationsSoundCameraOff": {
+    "description": "Sound toggle label for camera off."
+  },
+  "notificationsSoundScreenShareStart": "Screen share start",
+  "@notificationsSoundScreenShareStart": {
+    "description": "Sound toggle label for screen share start."
+  },
+  "notificationsSoundScreenShareStop": "Screen share stop",
+  "@notificationsSoundScreenShareStop": {
+    "description": "Sound toggle label for screen share stop."
+  },
+  "notificationsAfkTimeoutSyncFailed": "Couldn't update push notification timeout. Try again.",
+  "@notificationsAfkTimeoutSyncFailed": {
+    "description": "Toast shown when push inactive timeout sync fails."
+  },
+  "notificationsMentionPreferenceSyncFailed": "Couldn't update mention preference. Try again.",
+  "@notificationsMentionPreferenceSyncFailed": {
+    "description": "Toast shown when mention preference update fails."
+  },
+  "notificationsPermissionDeniedTitle": "Notifications blocked",
+  "@notificationsPermissionDeniedTitle": {
+    "description": "Banner title when OS notification permission is denied."
+  },
+  "notificationsEnableNotificationsPermissionDenied": "Couldn't enable notifications. Allow notification permission to continue.",
+  "@notificationsEnableNotificationsPermissionDenied": {
+    "description": "Toast shown when enabling notifications fails because permission was denied."
   },
   "userSettingsNavLanguageAndTime": "Language & Time",
   "@userSettingsNavLanguageAndTime": {
@@ -9426,6 +10354,10 @@
   "@permissionCategoryChannelAccess": {
     "description": "Permission category label."
   },
+  "permissionCategoryChannelManagement": "Channel management",
+  "@permissionCategoryChannelManagement": {
+    "description": "Permission category for per-channel management permissions."
+  },
   "permissionCategoryAudioVideo": "Audio & video",
   "@permissionCategoryAudioVideo": {
     "description": "Permission category label."
@@ -9469,6 +10401,50 @@
   "permissionManageChannels": "Manage channels",
   "@permissionManageChannels": {
     "description": "Permission name."
+  },
+  "permissionManageChannel": "Manage channel",
+  "@permissionManageChannel": {
+    "description": "Channel-scoped permission name for editing the current channel."
+  },
+  "permissionManageChannelDescription": "Rename and edit this channel's settings.",
+  "@permissionManageChannelDescription": {
+    "description": "Channel-scoped description for manage channel permission."
+  },
+  "permissionManagePermissions": "Manage permissions",
+  "@permissionManagePermissions": {
+    "description": "Channel-scoped permission name for editing permission overwrites."
+  },
+  "permissionManagePermissionsDescription": "Edit overwrites for roles and members in this channel.",
+  "@permissionManagePermissionsDescription": {
+    "description": "Channel-scoped description for manage permissions permission."
+  },
+  "permissionManageWebhooksChannelDescription": "Create, edit, or delete webhooks for this channel.",
+  "@permissionManageWebhooksChannelDescription": {
+    "description": "Channel-scoped description for manage webhooks permission."
+  },
+  "permissionViewChannelMembersChannelDescription": "See the member list for this channel.",
+  "@permissionViewChannelMembersChannelDescription": {
+    "description": "Channel-scoped description for view channel members permission."
+  },
+  "permissionCreateInviteLinksChannelDescription": "Manage invite links for this channel.",
+  "@permissionCreateInviteLinksChannelDescription": {
+    "description": "Channel-scoped description for create invite permission."
+  },
+  "permissionOverwriteDeny": "Deny",
+  "@permissionOverwriteDeny": {
+    "description": "Deny state label for channel permission overwrite controls."
+  },
+  "permissionOverwriteInherit": "Neutral (inherit)",
+  "@permissionOverwriteInherit": {
+    "description": "Inherit state label for channel permission overwrite controls."
+  },
+  "permissionOverwriteAllow": "Allow",
+  "@permissionOverwriteAllow": {
+    "description": "Allow state label for channel permission overwrite controls."
+  },
+  "permissionOverwriteSetAllHelp": "Use these buttons to quickly set all permissions.",
+  "@permissionOverwriteSetAllHelp": {
+    "description": "Helper text above bulk permission state buttons in channel permissions."
   },
   "permissionManageChannelsDescription": "Create, edit, or delete channels and categories.",
   "@permissionManageChannelsDescription": {

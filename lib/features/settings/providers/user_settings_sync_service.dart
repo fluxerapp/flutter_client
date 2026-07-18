@@ -45,6 +45,21 @@ class UserSettingsSyncService {
     }
   }
 
+  Future<void> pushAfkTimeout(int minutes) async {
+    final client = _ref.read(fluxerClientProvider);
+    try {
+      final UserSettingsResponse updated = await client.users
+          .updateCurrentUserSettings(
+            body: UserSettingsUpdateRequest(afkTimeout: minutes * 60),
+          );
+      await _persistSettings(updated);
+      talker.debug('[UserSettingsSync] Pushed afkTimeout=${minutes}m');
+    } on Object catch (e, st) {
+      talker.error('[UserSettingsSync] Push afkTimeout failed', e, st);
+      rethrow;
+    }
+  }
+
   Future<void> pushLocale(sdk.Locale locale) async {
     final client = _ref.read(fluxerClientProvider);
     try {

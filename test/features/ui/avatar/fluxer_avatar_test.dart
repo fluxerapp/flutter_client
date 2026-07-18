@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar_cluster.dart';
+import 'package:fluxer_app/features/ui/status_indicator/fluxer_mobile_online_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_status_indicator.dart';
 import 'package:fluxer_app/features/ui/status_indicator/fluxer_typing_status_indicator.dart';
 
@@ -60,6 +61,40 @@ void main() {
       );
 
       expect(find.byType(FluxerStatusIndicator), findsOneWidget);
+    });
+
+    testWidgets('user variant shows phone indicator for mobile online', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatar.user(
+            fallbackText: 'Bob',
+            status: 'online',
+            isMobileStatus: true,
+            size: 32,
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerMobileOnlineStatusIndicator), findsOneWidget);
+      expect(find.byType(FluxerStatusIndicator), findsNothing);
+    });
+
+    testWidgets('mobile idle status keeps round indicator', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const FluxerAvatar.user(
+            fallbackText: 'Bob',
+            status: 'idle',
+            isMobileStatus: true,
+            size: 32,
+          ),
+        ),
+      );
+
+      expect(find.byType(FluxerStatusIndicator), findsOneWidget);
+      expect(find.byType(FluxerMobileOnlineStatusIndicator), findsNothing);
     });
 
     testWidgets('user variant shows typing indicator when isTyping is true', (

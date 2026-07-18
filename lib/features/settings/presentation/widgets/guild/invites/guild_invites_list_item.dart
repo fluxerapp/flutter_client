@@ -24,6 +24,7 @@ class GuildInvitesListItem extends StatelessWidget {
     required this.categoryName,
     required this.onCopy,
     required this.onRevoke,
+    this.showChannel = true,
     this.onTap,
     this.onMenuPressed,
     super.key,
@@ -35,6 +36,7 @@ class GuildInvitesListItem extends StatelessWidget {
   final bool showCreatedDate;
   final bool isMobile;
   final String? categoryName;
+  final bool showChannel;
   final VoidCallback onCopy;
   final VoidCallback onRevoke;
   final VoidCallback? onTap;
@@ -90,12 +92,14 @@ class GuildInvitesListItem extends StatelessWidget {
                 label: l10n.guildSettingsInvitesLabelInviter,
                 child: _buildInviter(context),
               ),
-              SizedBox(height: context.layout.s2),
-              _buildLabeledRow(
-                context,
-                label: l10n.guildSettingsInvitesLabelChannel,
-                child: _buildChannel(context),
-              ),
+              if (showChannel) ...<Widget>[
+                SizedBox(height: context.layout.s2),
+                _buildLabeledRow(
+                  context,
+                  label: l10n.guildSettingsInvitesLabelChannel,
+                  child: _buildChannel(context),
+                ),
+              ],
               SizedBox(height: context.layout.s2),
               _buildLabeledRow(
                 context,
@@ -137,11 +141,13 @@ class GuildInvitesListItem extends StatelessWidget {
   Widget _buildDesktopContent(BuildContext context) {
     return Row(
       children: <Widget>[
-        Expanded(flex: 20, child: _buildInviter(context)),
+        Expanded(flex: showChannel ? 20 : 24, child: _buildInviter(context)),
+        if (showChannel) ...<Widget>[
+          SizedBox(width: context.layout.s2),
+          Expanded(flex: 15, child: _buildChannel(context)),
+        ],
         SizedBox(width: context.layout.s2),
-        Expanded(flex: 15, child: _buildChannel(context)),
-        SizedBox(width: context.layout.s2),
-        Expanded(flex: 18, child: _buildCodeCell(context)),
+        Expanded(flex: showChannel ? 18 : 22, child: _buildCodeCell(context)),
         SizedBox(width: context.layout.s2),
         Expanded(
           flex: 10,
@@ -153,7 +159,10 @@ class GuildInvitesListItem extends StatelessWidget {
           ),
         ),
         SizedBox(width: context.layout.s2),
-        Expanded(flex: 16, child: _buildDateDisplay(context)),
+        Expanded(
+          flex: showChannel ? 16 : 18,
+          child: _buildDateDisplay(context),
+        ),
       ],
     );
   }

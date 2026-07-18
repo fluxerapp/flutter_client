@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 import 'package:fluxer_app/features/shell/providers/shell_blocks_horizontal_gestures_provider.dart';
+import 'package:fluxer_app/shared/gestures/nested_horizontal_scrollable.dart';
 
 /// Mobile shell drawer that draws a foreground [slider] over a static [base].
 ///
@@ -218,6 +219,22 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     );
   }
 
+  bool _shouldDeferDrawerGesture(PointerDownEvent event) {
+    if (isPointerOverOverflowingHorizontalScrollable(
+      context,
+      event.position,
+      viewId: event.viewId,
+    )) {
+      return true;
+    }
+    return isPointerOverDescendantWithKey(
+      context,
+      event.position,
+      key: kExpressionPanelShellGestureBlockKey,
+      viewId: event.viewId,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool blocksHorizontalGestures = ref.watch(
@@ -254,15 +271,20 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         blocksHorizontalGestures
         ? <Type, GestureRecognizerFactory>{}
         : <Type, GestureRecognizerFactory>{
-            HorizontalDragGestureRecognizer:
+            _DrawerHorizontalDragRecognizer:
                 GestureRecognizerFactoryWithHandlers<
-                  HorizontalDragGestureRecognizer
-                >(HorizontalDragGestureRecognizer.new, (recognizer) {
-                  recognizer
-                    ..onStart = _handleDragStart
-                    ..onUpdate = _handleDragUpdate
-                    ..onEnd = _handleDragEnd;
-                }),
+                  _DrawerHorizontalDragRecognizer
+                >(
+                  () => _DrawerHorizontalDragRecognizer(
+                    shouldDeferDrawerGesture: _shouldDeferDrawerGesture,
+                  ),
+                  (recognizer) {
+                    recognizer
+                      ..onStart = _handleDragStart
+                      ..onUpdate = _handleDragUpdate
+                      ..onEnd = _handleDragEnd;
+                  },
+                ),
           };
 
     return RawGestureDetector(
@@ -284,6 +306,21 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
         ],
       ),
     );
+  }
+}
+
+class _DrawerHorizontalDragRecognizer extends HorizontalDragGestureRecognizer {
+  _DrawerHorizontalDragRecognizer({required this.shouldDeferDrawerGesture});
+
+  final bool Function(PointerDownEvent event) shouldDeferDrawerGesture;
+
+  @override
+  void addAllowedPointer(PointerDownEvent event) {
+    if (shouldDeferDrawerGesture(event)) {
+      resolve(GestureDisposition.rejected);
+      return;
+    }
+    super.addAllowedPointer(event);
   }
 }
 

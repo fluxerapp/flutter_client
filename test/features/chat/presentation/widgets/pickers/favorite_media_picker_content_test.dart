@@ -8,6 +8,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/favorite_media_picker_content.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/favorite_media_provider.dart';
+import 'package:fluxer_app/features/chat/utils/inline_expression_panel_scroll_physics.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart' as mkv;
@@ -163,19 +164,30 @@ void main() {
               ]),
             ),
           ],
-          child: SizedBox(
-            width: 260,
-            height: 320,
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                sawOverscroll =
-                    sawOverscroll ||
-                    notification is OverscrollNotification &&
-                        notification.overscroll > 0;
-                return false;
-              },
-              child: const FavoriteMediaPickerContent(),
-            ),
+          child: Builder(
+            builder: (context) {
+              return SizedBox(
+                width: 260,
+                height: 320,
+                child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(
+                    physics: inlineExpressionPanelContentScrollPhysics(
+                      isSheetExpanded: true,
+                    ),
+                  ),
+                  child: NotificationListener<ScrollNotification>(
+                    onNotification: (notification) {
+                      sawOverscroll =
+                          sawOverscroll ||
+                          notification is OverscrollNotification &&
+                              notification.overscroll > 0;
+                      return false;
+                    },
+                    child: const FavoriteMediaPickerContent(),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       );

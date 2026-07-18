@@ -29,6 +29,7 @@ class EmojiSearchBar extends StatelessWidget {
     required this.onSkinToneChanged,
     this.hoveredEmojiName,
     this.horizontalPadding = 12.0,
+    this.onActivated,
     super.key,
   });
 
@@ -36,6 +37,7 @@ class EmojiSearchBar extends StatelessWidget {
   final String? hoveredEmojiName;
   final String skinTone;
   final ValueChanged<String> onSkinToneChanged;
+  final VoidCallback? onActivated;
 
   final double horizontalPadding;
 
@@ -57,6 +59,7 @@ class EmojiSearchBar extends StatelessWidget {
               rightPadding: 0,
               topPadding: 8,
               bottomPadding: 4,
+              onActivated: onActivated,
             ),
           ),
           const SizedBox(width: 8),

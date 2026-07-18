@@ -105,11 +105,8 @@ void main() {
     });
 
     test('falls back to bin when mime type is unknown', () {
-      expect(filenameForMimeType('', mimeType: null), 'attachment.bin');
-      expect(
-        filenameForMimeType('clipboard.bin', mimeType: null),
-        'clipboard.bin',
-      );
+      expect(filenameForMimeType(''), 'attachment.bin');
+      expect(filenameForMimeType('clipboard.bin'), 'clipboard.bin');
     });
 
     test('keeps non-bin extensions', () {

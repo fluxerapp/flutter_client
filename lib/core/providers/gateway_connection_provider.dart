@@ -41,6 +41,7 @@ GatewayConnection gatewayConnection(Ref ref) {
       desktopAppVersion: isDesktop ? '1.0.0' : null,
       desktopOs: isDesktop ? Platform.operatingSystem : null,
       e2eeCapable: true,
+      mobile: Platform.isAndroid || Platform.isIOS,
     ),
   );
 

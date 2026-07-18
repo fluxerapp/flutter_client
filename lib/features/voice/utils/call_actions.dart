@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
+import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
-import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:fluxer_app/features/voice/utils/camera_permission.dart';
-import 'package:fluxer_app/features/voice/utils/microphone_permission.dart';
 import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:fluxer_dart/export.dart';
@@ -40,9 +39,11 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       joinAttemptFailed: false,
     );
   }
-  final bool micOk = await requestMicrophonePermissionForVoice();
+  final bool micOk = await ensureSystemPermission(
+    context,
+    SystemPermissionKind.microphone,
+  );
   if (!micOk) {
-    ref.read(voiceSessionProvider.notifier).reportMicrophonePermissionDenied();
     return (
       ok: false,
       microphoneDenied: true,
@@ -52,9 +53,11 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
     );
   }
   if (startWithVideo) {
-    final bool camOk = await requestCameraPermissionForVoice();
+    final bool camOk = await ensureSystemPermission(
+      context,
+      SystemPermissionKind.camera,
+    );
     if (!camOk) {
-      ref.read(voiceSessionProvider.notifier).reportCameraPermissionDenied();
       return (
         ok: false,
         microphoneDenied: false,

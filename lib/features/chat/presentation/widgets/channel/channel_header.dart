@@ -305,10 +305,15 @@ class ChannelHeader extends ConsumerWidget {
               onPressed: () => _openSearch(context, channel: channel),
             ),
           if (channel != null &&
-              channel.type == ChannelType.guildVoice &&
-              isMobileVoiceCameraPlatform()) ...<Widget>[
-            const SizedBox(width: 8),
-            const FlipCameraButton(),
+              channel.type == ChannelType.guildVoice) ...<Widget>[
+            ChatButton(
+              channelId: channel.id,
+              channelName: channel.name.isNotEmpty ? channel.name : null,
+            ),
+            if (isMobileVoiceCameraPlatform()) ...<Widget>[
+              const SizedBox(width: 8),
+              const FlipCameraButton(),
+            ],
           ],
         ],
       ),
@@ -619,7 +624,7 @@ class ChannelHeader extends ConsumerWidget {
               isTyping: isTyping,
             )
           else
-            FluxerAvatar.user(
+            FluxerAvatar.userPresence(
               fallbackText: dm.recipientName,
               userId: dm.recipientId,
               imageUrl: FluxerMediaUrl.userAvatar(
@@ -627,9 +632,6 @@ class ChannelHeader extends ConsumerWidget {
                 hash: dm.recipientAvatar,
                 animated: true,
               ),
-              status: shouldShowDmRecipientPresence(dm)
-                  ? dm.recipientStatus
-                  : null,
               showStatus: shouldShowDmRecipientPresence(dm) || isTyping,
               isTyping: isTyping,
               size: 32,

@@ -7,6 +7,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/swipe_to_reply.dart';
 import 'package:fluxer_app/features/shell/presentation/swipe_constants.dart';
+import 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
+
+import '../../../../../shared/gestures/wide_markdown_table_test_helpers.dart';
 
 Widget _buildApp(
   Widget child, {
@@ -293,5 +296,102 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('leftward drag on wide table scrolls instead of replying', (
+    tester,
+  ) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildApp(
+        SizedBox(
+          width: 400,
+          height: 120,
+          child: SwipeToReply(
+            onReply: () => replyCount++,
+            child: buildWideMarkdownTable(),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollableState scrollable = tableScrollableState(tester);
+    expect(scrollable.position.maxScrollExtent, greaterThan(0));
+    final double before = scrollable.position.pixels;
+    await _slowDrag(tester, tableDragStart(tester), const Offset(-120, 0));
+    await tester.pumpAndSettle();
+    expect(scrollable.position.pixels, greaterThan(before));
+    expect(replyCount, 0);
+  });
+
+  testWidgets(
+    'rightward drag on wide table scrolls instead of opening drawer',
+    (tester) async {
+      var replyCount = 0;
+      var parentStartCount = 0;
+      await tester.pumpWidget(
+        _buildApp(
+          SizedBox(
+            width: 400,
+            height: 120,
+            child: SwipeToReply(
+              onReply: () => replyCount++,
+              child: buildWideMarkdownTable(),
+            ),
+          ),
+          parentGestures: <Type, GestureRecognizerFactory>{
+            HorizontalDragGestureRecognizer:
+                GestureRecognizerFactoryWithHandlers<
+                  HorizontalDragGestureRecognizer
+                >(HorizontalDragGestureRecognizer.new, (recognizer) {
+                  recognizer.onStart = (_) {
+                    parentStartCount++;
+                  };
+                }),
+          },
+        ),
+      );
+      await tester.pumpAndSettle();
+      final ScrollableState scrollable = tableScrollableState(tester);
+      scrollable.position.jumpTo(scrollable.position.maxScrollExtent / 2);
+      await tester.pump();
+      final double before = scrollable.position.pixels;
+      await _slowDrag(tester, tableDragStart(tester), const Offset(120, 0));
+      await tester.pumpAndSettle();
+      expect(scrollable.position.pixels, lessThan(before));
+      expect(replyCount, 0);
+      expect(parentStartCount, 0);
+    },
+  );
+
+  testWidgets('leftward drag on narrow table still replies', (tester) async {
+    var replyCount = 0;
+    await tester.pumpWidget(
+      _buildApp(
+        SizedBox(
+          width: 400,
+          height: 120,
+          child: SwipeToReply(
+            onReply: () => replyCount++,
+            child: const FluxerMarkdown(
+              data: kNarrowMarkdownTable,
+              config: kWideTableMarkdownConfig,
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final ScrollableState scrollable = tableScrollableState(tester);
+    expect(scrollable.position.maxScrollExtent, 0);
+    final BuildContext ctx = tester.element(find.byType(SwipeToReply));
+    final double reserve = leadingEdgeHorizontalSwipeReserveWidth(ctx);
+    final RenderBox box = tester.renderObject<RenderBox>(find.byType(Table));
+    final Offset start = box.localToGlobal(
+      Offset(reserve + 20, box.size.height / 2),
+    );
+    await _slowDrag(tester, start, const Offset(-150, 0));
+    await tester.pumpAndSettle();
+    expect(replyCount, 1);
   });
 }

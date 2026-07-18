@@ -12,7 +12,10 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/voice/fluxer_live_badge.dart';
 import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_active_speakers_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_screen_share_watch_tile_provider.dart';
@@ -50,15 +53,24 @@ List<_VoiceGridTileItem> _buildTileItems({
   required Room? room,
   required String? currentUserId,
   required String? localConnectionId,
+  required bool onlyShowVideos,
+  required bool showOwnCamera,
 }) {
   final List<_VoiceGridTileItem> tileItems = <_VoiceGridTileItem>[];
   for (final VoiceChannelParticipantData participant in participants) {
-    tileItems.add(
-      _VoiceGridTileItem(
-        data: participant,
-        source: VoiceParticipantTileSource.camera,
-      ),
-    );
+    final bool isOwnParticipant =
+        currentUserId != null && participant.userId == currentUserId;
+    final bool includeCameraTile = showOwnCamera || !isOwnParticipant;
+    final bool includeVideoParticipant =
+        !onlyShowVideos || participant.voice.selfVideo;
+    if (includeCameraTile && includeVideoParticipant) {
+      tileItems.add(
+        _VoiceGridTileItem(
+          data: participant,
+          source: VoiceParticipantTileSource.camera,
+        ),
+      );
+    }
     final Participant? liveKitParticipant = resolveVoiceParticipant(
       room: room,
       voice: participant.voice,
@@ -325,6 +337,9 @@ class _VoiceChannelParticipantGridState
       voiceActiveSpeakersProvider,
     );
     final VoiceCallLayoutState layout = ref.watch(voiceCallLayoutProvider);
+    final VoiceCallDisplayPreferencesState displayPreferences = ref.watch(
+      voiceCallDisplayPreferencesProvider,
+    );
     final AsyncValue<List<VoiceChannelParticipantData>> async = ref.watch(
       voiceChannelParticipantsProvider(participantKey),
     );
@@ -363,6 +378,8 @@ class _VoiceChannelParticipantGridState
             room: liveKit,
             currentUserId: me,
             localConnectionId: localConnectionId,
+            onlyShowVideos: displayPreferences.onlyShowVideos,
+            showOwnCamera: displayPreferences.showOwnCamera,
           ),
           liveKit,
           me,
@@ -671,6 +688,28 @@ class _VoiceChannelParticipantGridState
     );
   }
 
+  void _showParticipantMenu(
+    BuildContext context,
+    WidgetRef ref,
+    _VoiceGridTileItem tile, {
+    required Offset position,
+  }) {
+    unawaited(
+      VoiceParticipantContextMenu.show(
+        context,
+        ref,
+        target: VoiceParticipantMenuTarget(
+          participant: tile.data,
+          tileId: tile.tileId,
+          tileSource: tile.source,
+          guildId: widget.guildId,
+          channelId: widget.channelId,
+        ),
+        position: position,
+      ),
+    );
+  }
+
   Widget _buildCard({
     required BuildContext context,
     required _VoiceGridTileItem tile,
@@ -694,10 +733,12 @@ class _VoiceChannelParticipantGridState
     return _VoiceParticipantCard(
       data: tile.data,
       guildId: widget.guildId,
+      channelId: widget.channelId,
+      tileId: tile.tileId,
+      tileSource: tile.source,
       room: room,
       currentUserId: me,
       localConnectionId: localConnectionId,
-      tileSource: tile.source,
       isActiveScreenShare: isActiveScreenShare,
       isSpeaking: isSpeaking,
       isFocusMain: isFocusMain,
@@ -710,6 +751,8 @@ class _VoiceChannelParticipantGridState
       ),
       authToken: authToken,
       onTap: () => _onTileTap(tile, isFocusMain),
+      onContextMenu: (Offset position) =>
+          _showParticipantMenu(context, ref, tile, position: position),
       showOverlay: !isFocusMain || isOverlayVisible,
       l10n: l10n,
     );
@@ -753,6 +796,8 @@ class _VoiceParticipantCard extends ConsumerWidget {
   const _VoiceParticipantCard({
     required this.data,
     required this.guildId,
+    required this.channelId,
+    required this.tileId,
     required this.room,
     required this.currentUserId,
     required this.localConnectionId,
@@ -764,12 +809,15 @@ class _VoiceParticipantCard extends ConsumerWidget {
     required this.streamPreviewUrl,
     required this.authToken,
     required this.onTap,
+    required this.onContextMenu,
     required this.showOverlay,
     required this.l10n,
   });
 
   final VoiceChannelParticipantData data;
   final String? guildId;
+  final String channelId;
+  final String tileId;
   final Room? room;
   final String? currentUserId;
   final String? localConnectionId;
@@ -781,6 +829,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
   final String? streamPreviewUrl;
   final String? authToken;
   final VoidCallback onTap;
+  final void Function(Offset position) onContextMenu;
   final bool showOverlay;
   final FluxerLocalizations l10n;
 
@@ -815,6 +864,11 @@ class _VoiceParticipantCard extends ConsumerWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: onTap,
+        onSecondaryTapUp: (TapUpDetails details) =>
+            onContextMenu(details.globalPosition),
+        onLongPress: isMobileLayout(context)
+            ? () => onContextMenu(Offset.zero)
+            : null,
         borderRadius: BorderRadius.circular(12),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),

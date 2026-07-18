@@ -6,12 +6,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_move_operation.dart';
 import 'package:fluxer_app/features/channels/domain/channel_reorder_drop.dart';
+import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_entries.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_channel_settings_providers.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
-import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:gaimon/gaimon.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -157,13 +155,9 @@ class GuildChannelSettingsRow extends ConsumerWidget {
                   onDragStarted: onDragStarted,
                   onDragEnded: onDragEnded,
                   onTap: () {
-                    ref
-                        .read(toastProvider.notifier)
-                        .show(
-                          FluxerToast(
-                            message: FluxerLocalizations.of(context).comingSoon,
-                          ),
-                        );
+                    unawaited(
+                      ChannelSettingsFlow.show(context, channelId: entry.id),
+                    );
                   },
                 ),
               ],

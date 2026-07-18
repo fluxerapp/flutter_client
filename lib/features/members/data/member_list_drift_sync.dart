@@ -16,9 +16,11 @@ class MemberListDriftSync {
   }) async {
     final List<db.UsersCompanion> userCompanions = <db.UsersCompanion>[];
     final List<db.MembersCompanion> memberCompanions = <db.MembersCompanion>[];
-    final List<({String userId, String status, String? customStatus})>
+    final List<
+      ({String userId, String status, String? customStatus, bool mobile})
+    >
     presenceUpdates =
-        <({String userId, String status, String? customStatus})>[];
+        <({String userId, String status, String? customStatus, bool mobile})>[];
     for (final MemberListOp op in ops) {
       if (op.op != 'SYNC' || !isValidRange(op.range)) {
         continue;
@@ -42,6 +44,7 @@ class MemberListDriftSync {
             userId: listMember.member.user.id,
             status: status,
             customStatus: listMember.customStatus,
+            mobile: listMember.mobile,
           ));
         }
       }

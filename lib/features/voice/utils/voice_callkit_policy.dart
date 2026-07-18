@@ -89,6 +89,17 @@ bool shouldMaintainBackgroundVoiceCallKit({
   return true;
 }
 
+bool shouldStartCallKitOnVoiceJoin({required VoiceCallKitVoiceSnapshot voice}) {
+  return voice.isConnected;
+}
+
+bool shouldLeaveVoiceFromCallKitEnd({
+  required VoiceCallKitVoiceSnapshot voice,
+  required String channelId,
+}) {
+  return voice.channelId == channelId && voice.isConnected;
+}
+
 bool didJoinVoiceCall({
   required VoiceCallKitVoiceSnapshot? previous,
   required VoiceCallKitVoiceSnapshot next,
