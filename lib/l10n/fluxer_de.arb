@@ -7,7 +7,7 @@
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
-    "gatewayReconnectingToast": "Verbinde erneut…",
+    "gatewayReconnectingToast": "Erneut verbinden…",
     "@gatewayReconnectingToast": {
         "description": "Toast shown when the gateway connection is lost and reconnecting."
     },
@@ -15,7 +15,7 @@
     "@gatewayConnectedToast": {
         "description": "Toast shown when the gateway connection is restored."
     },
-    "splashStartupFailed": "Start fehlgeschlagen: {error}",
+    "splashStartupFailed": "Konnte nicht starten: {error}",
     "@splashStartupFailed": {
         "description": "Error message on the splash screen when app startup fails.",
         "placeholders": {
@@ -28,7 +28,7 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
+    "connectingCaps": "VERBINDEN",
     "@connectingCaps": {
         "description": "Connecting text on the splash screen"
     },
@@ -48,11 +48,11 @@
     "@splashStatusPageLink": {
         "description": "Link label to the public service status site."
     },
-    "splashReadIncident": "Vorfall lesen",
+    "splashReadIncident": "Störung anzeigen",
     "@splashReadIncident": {
         "description": "Link label when an active incident exists."
     },
-    "splashIncidentHistory": "Vorfallverlauf",
+    "splashIncidentHistory": "Störungsverlauf",
     "@splashIncidentHistory": {
         "description": "Link label to incident history when no active incident."
     },
@@ -97,7 +97,7 @@
     "@ssoRequired": {
         "description": "Short sign-in note shown when the instance requires single sign-on."
     },
-    "organizationSsoProvider": "Melde dich mit dem Single Sign-On-Anbieter deiner Organisation an.",
+    "organizationSsoProvider": "Melde dich mit dem SSO-Anbieter deiner Organisation an.",
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
     },
@@ -109,7 +109,7 @@
     "@ssoCancelled": {
         "description": "Shown when the user cancels the single sign-on browser flow."
     },
-    "preferSso": "Bevorzugst du SSO? Fahre mit {provider} fort.",
+    "preferSso": "Bevorzugst du SSO? Mit {provider} fortfahren.",
     "@preferSso": {
         "description": "Optional sign-in note when SSO is available but not required.",
         "placeholders": {
@@ -122,7 +122,7 @@
     "@logInViaBrowser": {
         "description": "Secondary login that opens or uses the system browser."
     },
-    "needAccountPrompt": "Noch kein Konto? ",
+    "needAccountPrompt": "Noch keinen Account? ",
     "@needAccountPrompt": {
         "description": "Lead text before a register link; trailing space keeps spacing before the link."
     },
@@ -130,15 +130,15 @@
     "@register": {
         "description": "Generic label to create a new account."
     },
-    "orDivider": "OR",
+    "orDivider": "ODER",
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
-    "captchaTitle": "Verifiziere, dass du menschlich bist",
+    "captchaTitle": "Bestätige, dass du ein Mensch bist",
     "@captchaTitle": {
         "description": "Title for the captcha verification modal."
     },
-    "captchaDescription": "Wir müssen sicherstellen, dass du kein Bot bist. Bitte schließe die Verifizierung unten ab.",
+    "captchaDescription": "Wir müssen sicherstellen, dass du kein Bot bist. Bitte führe folgende Überprüfung durch.",
     "@captchaDescription": {
         "description": "Explanatory text in the captcha modal body."
     },
@@ -154,7 +154,7 @@
     "@cancel": {
         "description": "Generic cancel button label."
     },
-    "ipAuthCheckEmail": "Überprüfe deine E-Mail",
+    "ipAuthCheckEmail": "Überprüfe deine E-Mails",
     "@ipAuthCheckEmail": {
         "description": "Title when IP authorization email has been sent."
     },
@@ -236,15 +236,15 @@
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
-    "accountSelectorTitle": "Konto auswählen",
+    "accountSelectorTitle": "Account auswählen",
     "@accountSelectorTitle": {
         "description": "Title for the account selector on the login screen."
     },
-    "accountSelectorDescription": "Wähle ein Konto aus, um fortzufahren, oder füge ein anderes hinzu.",
+    "accountSelectorDescription": "Wähle einen Account aus, um fortzufahren, oder füge einen anderen hinzu.",
     "@accountSelectorDescription": {
         "description": "Description for the account selector."
     },
-    "accountAdd": "Konto hinzufügen",
+    "accountAdd": "Account hinzufügen",
     "@accountAdd": {
         "description": "Button to add a new account."
     },
@@ -261,11 +261,11 @@
             }
         }
     },
-    "accountRemoveDescription": "Dadurch wird die gespeicherte Sitzung für dieses Konto entfernt.",
+    "accountRemoveDescription": "Dadurch wird die gespeicherte Sitzung für diesen Account entfernt.",
     "@accountRemoveDescription": {
         "description": "Description for the remove account confirmation modal."
     },
-    "accountRemoveOnlyDescription": "Dadurch wird das einzige gespeicherte Konto auf diesem Gerät entfernt.",
+    "accountRemoveOnlyDescription": "Dadurch wird der einzige gespeicherte Account auf diesem Gerät entfernt.",
     "@accountRemoveOnlyDescription": {
         "description": "Description when removing the last stored account."
     },
@@ -282,15 +282,15 @@
             }
         }
     },
-    "accountManageTitle": "Konten verwalten",
+    "accountManageTitle": "Accounts verwalten",
     "@accountManageTitle": {
         "description": "Title for the in-app account switcher sheet."
     },
-    "accountSwitchFailed": "Konnte Konten nicht wechseln. Versuche es erneut.",
+    "accountSwitchFailed": "Konnte Account nicht wechseln. Versuche es erneut.",
     "@accountSwitchFailed": {
         "description": "Error when switching accounts from the account switcher."
     },
-    "profileTabMenuSwitchAccounts": "Konten wechseln",
+    "profileTabMenuSwitchAccounts": "Account wechseln",
     "@profileTabMenuSwitchAccounts": {
         "description": "Menu item to open the account switcher from the profile tab."
     },
@@ -406,7 +406,7 @@
     "@customStatusSave": {
         "description": "Button to save custom status changes."
     },
-    "accountActive": "Aktives Konto",
+    "accountActive": "Aktiver Account",
     "@accountActive": {
         "description": "Badge shown on the currently active account."
     },
@@ -414,19 +414,19 @@
     "@signOut": {
         "description": "Context menu option to sign out of current account."
     },
-    "suspendedPermanentTitle": "Konto dauerhaft gesperrt",
+    "suspendedPermanentTitle": "Account dauerhaft gesperrt",
     "@suspendedPermanentTitle": {
         "description": "Title when account is permanently banned."
     },
-    "suspendedTemporaryTitle": "Konto gesperrt",
+    "suspendedTemporaryTitle": "Account gesperrt",
     "@suspendedTemporaryTitle": {
         "description": "Title when account is temporarily suspended."
     },
-    "suspendedPermanentDescription": "Dein Konto wurde dauerhaft wegen Verstoßes gegen unsere Nutzungsbedingungen gesperrt.",
+    "suspendedPermanentDescription": "Dein Account wurde dauerhaft wegen Verstoßes gegen unsere Nutzungsbedingungen gesperrt.",
     "@suspendedPermanentDescription": {
         "description": "Description for permanent suspension."
     },
-    "suspendedTemporaryDescription": "Dein Konto wurde vorübergehend gesperrt. Du kannst auf dein Konto zugreifen, sobald die Sperrfrist abgelaufen ist.",
+    "suspendedTemporaryDescription": "Dein Account wurde vorübergehend gesperrt. Du kannst auf deinen Account zugreifen, sobald die Dauer der Sperrung abgelaufen ist.",
     "@suspendedTemporaryDescription": {
         "description": "Description for temporary suspension."
     },
@@ -442,7 +442,7 @@
     "@suspendedDuration": {
         "description": "Label for ban duration."
     },
-    "suspendedPermanent": "Permanent",
+    "suspendedPermanent": "Dauerhaft",
     "@suspendedPermanent": {
         "description": "Value shown for permanent ban duration."
     },
@@ -454,7 +454,7 @@
     "@suspendedAppealDeadline": {
         "description": "Label for appeal deadline date."
     },
-    "suspendedDeletionWarning": "Dein Konto wird am {date} zur Löschung vorgemerkt.",
+    "suspendedDeletionWarning": "Dein Account ist zur Löschung am {date} vorgesehen.",
     "@suspendedDeletionWarning": {
         "description": "Warning about scheduled account deletion.",
         "placeholders": {
@@ -463,7 +463,7 @@
             }
         }
     },
-    "suspendedRecheck": "Aktualisierungen prüfen",
+    "suspendedRecheck": "Auf Updates überprüfen",
     "@suspendedRecheck": {
         "description": "Button to recheck ban status."
     },
@@ -504,11 +504,11 @@
     "@suspendedAppealRejected": {
         "description": "Badge for rejected appeal."
     },
-    "suspendedAppealAcceptedDescription": "Deine Überprüfung wurde akzeptiert und dein Konto wurde wiederhergestellt.",
+    "suspendedAppealAcceptedDescription": "Dein Einspruch wurde angenommen und dein Account wurde wiederhergestellt.",
     "@suspendedAppealAcceptedDescription": {
         "description": "Message when appeal is accepted."
     },
-    "suspendedSignIn": "Melde dich bei deinem Konto an",
+    "suspendedSignIn": "Melde dich bei deinem Account an",
     "@suspendedSignIn": {
         "description": "Button to sign in after appeal is accepted."
     },
@@ -560,7 +560,7 @@
     "@resetPasswordMismatch": {
         "description": "Error when password and confirmation don't match."
     },
-    "registerTitle": "Konto erstellen",
+    "registerTitle": "Account erstellen",
     "@registerTitle": {
         "description": "Title for the registration screen."
     },
@@ -624,11 +624,11 @@
     "@registerConfirmPassword": {
         "description": "Label for the confirm password field on the register screen."
     },
-    "registerSubmit": "Konto erstellen",
+    "registerSubmit": "Account erstellen",
     "@registerSubmit": {
         "description": "Button to submit the registration form."
     },
-    "registerHaveAccount": "Hast du bereits ein Konto? ",
+    "registerHaveAccount": "Hast du bereits einen Account? ",
     "@registerHaveAccount": {
         "description": "Text before the login link on the register screen."
     },
@@ -656,7 +656,7 @@
     "@passkeyFailed": {
         "description": "Generic fallback error for passkey authentication."
     },
-    "errorUnableToCreateAccount": "Konto konnte nicht erstellt werden. Bitte versuche es erneut.",
+    "errorUnableToCreateAccount": "Account konnte nicht erstellt werden. Bitte versuche es erneut.",
     "@errorUnableToCreateAccount": {
         "description": "Generic fallback error when registration fails unexpectedly."
     },
@@ -944,7 +944,7 @@
     "@dmCloseDmConfirmTitle": {
         "description": "Title for close DM confirmation modal."
     },
-    "dmCloseDmConfirmDescription": "Möchtest du deine DM mit {username} wirklich schließen? Du kannst sie jederzeit wieder öffnen.",
+    "dmCloseDmConfirmDescription": "Möchtest du deine Direktnachricht mit {username} wirklich schließen? Du kannst sie jederzeit wieder öffnen.",
     "@dmCloseDmConfirmDescription": {
         "description": "Description for close DM confirmation modal.",
         "placeholders": {
@@ -1033,7 +1033,7 @@
     "@dmLeaveGroup": {
         "description": "DM context menu action to leave a group DM."
     },
-    "dmNoCommunitiesAvailable": "Keine Communities verfügbar",
+    "dmNoCommunitiesAvailable": "Keine Communitys verfügbar",
     "@dmNoCommunitiesAvailable": {
         "description": "Shown when no communities are available to invite to."
     },
@@ -1106,7 +1106,7 @@
     "@dmUnfavoriteGroupDm": {
         "description": "DM context menu action to unfavorite a group DM."
     },
-    "dmChangeFriendNickname": "Spitznamen des Freundes ändern",
+    "dmChangeFriendNickname": "Anzeigename des Freundes ändern",
     "@dmChangeFriendNickname": {
         "description": "DM context menu action to change friend nickname."
     },
@@ -1244,11 +1244,11 @@
     "@addFriendOutgoingSuccess": {
         "description": "Success message after sending a friend request by tag."
     },
-    "addFriendClaimTitle": "Konto beanspruchen",
+    "addFriendClaimTitle": "Account beanspruchen",
     "@addFriendClaimTitle": {
         "description": "Title when unclaimed users try to send friend requests."
     },
-    "addFriendClaimDescription": "Beanspruche dein Konto, um Freundschaftsanfragen zu senden.",
+    "addFriendClaimDescription": "Beanspruche deinen Account, um Freundschaftsanfragen zu senden.",
     "@addFriendClaimDescription": {
         "description": "Description when unclaimed users try to send friend requests."
     },
@@ -1501,7 +1501,7 @@
             }
         }
     },
-    "emojiPlutoniumUpsellCommunity": "{count, plural, =1{1 Community} other{{count} Communities}}",
+    "emojiPlutoniumUpsellCommunity": "{count, plural, =1{1 Community} other{{count} Communitys}}",
     "@emojiPlutoniumUpsellCommunity": {
         "description": "Community count label in upsell banner.",
         "placeholders": {
@@ -1703,7 +1703,7 @@
     "@customTagIsTemporary": {
         "description": "Title for the temporary tag warning sheet."
     },
-    "customTagTemporaryBodyWithDate": "Dein benutzerdefinierter 4-stelliger Tag ist nur verfügbar, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement am {date} abläuft, wird dein Tag nach einer 3-tägigen Kulanzfrist auf eine zufällig zugewiesene Nummer zurückgesetzt.",
+    "customTagTemporaryBodyWithDate": "Dein benutzerdefinierter 4-stelliger Tag ist nur verfügbar, solange dein Plutonium-Abo aktiv ist. Wenn dein Abo am {date} abläuft, wird dein Tag nach einer 3-tägigen Kulanzfrist auf eine zufällig zugewiesene Nummer zurückgesetzt.",
     "@customTagTemporaryBodyWithDate": {
         "description": "Warning body when premium subscription has a known expiry date.",
         "placeholders": {
@@ -1712,7 +1712,7 @@
             }
         }
     },
-    "customTagTemporaryBody": "Dein benutzerdefinierter 4-stelliger Tag ist nur verfügbar, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement abläuft, wird dein Tag nach einer 3-tägigen Kulanzfrist auf eine zufällig zugewiesene Nummer zurückgesetzt.",
+    "customTagTemporaryBody": "Dein benutzerdefinierter 4-stelliger Tag ist nur verfügbar, solange dein Plutonium-Abo aktiv ist. Wenn dein Abo abläuft, wird dein Tag nach einer 3-tägigen Kulanzfrist auf eine zufällig zugewiesene Nummer zurückgesetzt.",
     "@customTagTemporaryBody": {
         "description": "Warning body when premium subscription expiry date is unknown."
     },
@@ -1720,11 +1720,11 @@
     "@iUnderstandContinue": {
         "description": "Button to acknowledge a warning and proceed."
     },
-    "premiumWarningPendingDiscriminator": "Wenn du diesen FluxerTag speicherst, wird dein benutzerdefinierter 4-stelliger Tag auf eine zufällige Nummer zurückgesetzt, wenn dein Plutonium-Abonnement endet. Wenn dein Abonnement nicht erneuert wird, hast du eine 3-tägige Kulanzfrist, bevor sich der Tag ändert.",
+    "premiumWarningPendingDiscriminator": "Wenn du diesen FluxerTag speicherst, wird dein benutzerdefinierter 4-stelliger Tag auf eine zufällige Nummer zurückgesetzt, wenn dein Plutonium-Abo endet. Wenn dein Abo nicht erneuert wird, hast du eine 3-tägige Kulanzfrist, bevor sich der Tag ändert.",
     "@premiumWarningPendingDiscriminator": {
         "description": "Warning shown when premium user is about to change their discriminator."
     },
-    "premiumWarningActiveDiscriminator": "Dein benutzerdefinierter 4-stelliger Tag (#{discriminator}) ist aktiv, solange dein Plutonium-Abonnement aktiv ist. Wenn dein Abonnement nach einer 3-tägigen Kulanzfrist endet oder nicht erneuert wird, wird dein Tag auf eine zufällige Nummer zurückgesetzt.",
+    "premiumWarningActiveDiscriminator": "Dein benutzerdefinierter 4-stelliger Tag (#{discriminator}) ist aktiv, solange dein Plutonium-Abo aktiv ist. Wenn dein Abo nach einer 3-tägigen Kulanzfrist endet oder nicht erneuert wird, wird dein Tag auf eine zufällige Nummer zurückgesetzt.",
     "@premiumWarningActiveDiscriminator": {
         "description": "Warning shown when premium user already has a custom discriminator.",
         "placeholders": {
@@ -1774,7 +1774,7 @@
     "@usernameLabel": {
         "description": "Label for the username field in profile settings."
     },
-    "claimAccountToChangeFluxerTag": "Fordere dein Konto an, um deinen FluxerTag zu ändern",
+    "claimAccountToChangeFluxerTag": "Beanspruche deinen Account, um deinen FluxerTag zu ändern",
     "@claimAccountToChangeFluxerTag": {
         "description": "Tooltip when unverified user hovers the disabled Change FluxerTag button."
     },
@@ -1864,19 +1864,19 @@
     "@emojiPickerTitle": {
         "description": "Title for the emoji picker sheet."
     },
-    "plutoniumBadgePrivacyTitle": "Plutonium-Badge-Datenschutz",
+    "plutoniumBadgePrivacyTitle": "Plutonium-Abzeichen-Datenschutz",
     "@plutoniumBadgePrivacyTitle": {
         "description": "Heading for the premium badge privacy settings section."
     },
-    "plutoniumBadgePrivacyDescription": "Steuere, wie dein Plutonium-Badge anderen angezeigt wird",
+    "plutoniumBadgePrivacyDescription": "Lege fest, wie dein Plutonium-Abzeichen anderen angezeigt wird",
     "@plutoniumBadgePrivacyDescription": {
         "description": "Subheading for the premium badge privacy settings section."
     },
-    "hidePlutoniumBadgeLabel": "Plutonium-Badge komplett ausblenden",
+    "hidePlutoniumBadgeLabel": "Plutonium-Abzeichen komplett ausblenden",
     "@hidePlutoniumBadgeLabel": {
         "description": "Label for the toggle to hide the Plutonium badge."
     },
-    "hidePlutoniumBadgeDescription": "Blende dein Plutonium-Badge vollständig für andere Benutzer aus",
+    "hidePlutoniumBadgeDescription": "Blende dein Plutonium-Abzeichen vollständig für andere Benutzer aus",
     "@hidePlutoniumBadgeDescription": {
         "description": "Description for the toggle to hide the Plutonium badge."
     },
@@ -1893,23 +1893,23 @@
             }
         }
     },
-    "hidePurchaseDateDescription": "Entferne das Datum deines ersten Plutonium-Kaufs von deinem Badge",
+    "hidePurchaseDateDescription": "Entferne das Datum deines ersten Plutonium-Kaufs von deinem Abzeichen",
     "@hidePurchaseDateDescription": {
         "description": "Description for the toggle to hide the Plutonium purchase date."
     },
-    "maskVisionaryAsSubscription": "Visionary als Abonnement maskieren",
+    "maskVisionaryAsSubscription": "Visionary als Abo tarnen",
     "@maskVisionaryAsSubscription": {
         "description": "Label for the toggle to mask Visionary as a regular subscription."
     },
-    "maskVisionaryDescription": "Zeige dein Visionary als reguläres Abonnement an",
+    "maskVisionaryDescription": "Zeige dein Visionary als reguläres Abo an",
     "@maskVisionaryDescription": {
         "description": "Description for the toggle to mask Visionary as a regular subscription."
     },
-    "hideVisionaryIdBadge": "Visionary-ID-Badge ausblenden",
+    "hideVisionaryIdBadge": "Visionary-ID-Abzeichen ausblenden",
     "@hideVisionaryIdBadge": {
         "description": "Label for the toggle to hide the Visionary ID badge."
     },
-    "hideVisionaryIdBadgeWithSequence": "Visionary-ID-Badge ausblenden (#{sequence})",
+    "hideVisionaryIdBadgeWithSequence": "Visionary-ID-Abzeichen ausblenden (#{sequence})",
     "@hideVisionaryIdBadgeWithSequence": {
         "description": "Label for the toggle to hide the Visionary ID badge, showing the sequence number.",
         "placeholders": {
@@ -1918,11 +1918,11 @@
             }
         }
     },
-    "hideVisionaryIdDescription": "Entferne deinen Visionary-ID-Badge",
+    "hideVisionaryIdDescription": "Entferne dein Visionary-ID-Abzeichen",
     "@hideVisionaryIdDescription": {
         "description": "Description for the toggle to hide the Visionary ID badge."
     },
-    "premiumTrialSubscriptionStarts": "Du bist in einer Plutonium-Testphase – dein Abonnement beginnt am {date}",
+    "premiumTrialSubscriptionStarts": "Du bist in einer Plutonium-Testphase – dein Abo beginnt am {date}",
     "@premiumTrialSubscriptionStarts": {
         "description": "Trial banner title when user has an active subscription pending after trial.",
         "placeholders": {
@@ -1931,7 +1931,7 @@
             }
         }
     },
-    "premiumTrialSubscriptionStartsDescription": "Dein Abonnement beginnt automatisch, wenn deine Testphase endet. Keine Aktion erforderlich.",
+    "premiumTrialSubscriptionStartsDescription": "Dein Abo beginnt automatisch, wenn deine Testphase endet. Keine Aktion erforderlich.",
     "@premiumTrialSubscriptionStartsDescription": {
         "description": "Trial banner description when user has an active subscription pending after trial."
     },
@@ -1980,15 +1980,15 @@
     "@profilePreviewMemberSince": {
         "description": "Label for the member-since date in the profile preview card."
     },
-    "unclaimedAccountTitle": "Nicht beanspruchtes Konto",
+    "unclaimedAccountTitle": "Nicht beanspruchter Account",
     "@unclaimedAccountTitle": {
         "description": "Title for the unclaimed account warning bar."
     },
-    "unclaimedAccountDescription": "Dein Konto wurde noch nicht beansprucht. Ohne E-Mail und Passwort könntest du den Zugriff verlieren. Beanspruche dein Konto jetzt, um es zu sichern.",
+    "unclaimedAccountDescription": "Dein Account wurde noch nicht beansprucht. Ohne E-Mail und Passwort könntest du den Zugriff verlieren. Beanspruche deinen Account jetzt, um ihn zu sichern.",
     "@unclaimedAccountDescription": {
         "description": "Description for the unclaimed account warning bar."
     },
-    "claimAccount": "Konto beanspruchen",
+    "claimAccount": "Account beanspruchen",
     "@claimAccount": {
         "description": "Button to start the account claiming flow."
     },
@@ -2004,11 +2004,11 @@
     "@profileTypeGuildDescription": {
         "description": "Description shown when editing a per-guild profile"
     },
-    "communityNicknameLabel": "Community-Nickname",
+    "communityNicknameLabel": "Community-Anzeigename",
     "@communityNicknameLabel": {
         "description": "Label for the community nickname field"
     },
-    "perGuildPremiumUpsellText": "Das Anpassen deines Avatars, Banners, deiner Akzentfarbe und deines Profils für einzelne Communities erfordert Plutonium. Community-Spitznamen und Pronomen sind für alle kostenlos.",
+    "perGuildPremiumUpsellText": "Das Anpassen deines Avatars, Banners, deiner Akzentfarbe und deines Profils für einzelne Communitys erfordert Plutonium. Community-Anzeigenamen und Pronomen sind für alle kostenlos.",
     "@perGuildPremiumUpsellText": {
         "description": "Upsell text for per-guild premium features"
     },
@@ -2068,11 +2068,11 @@
     "@sudoVerificationFailed": {
         "description": "Error message shown when sudo verification attempt fails."
     },
-    "securityAccountTitle": "Konto",
+    "securityAccountTitle": "Account",
     "@securityAccountTitle": {
         "description": "Top-level Account section heading in Security & Login settings."
     },
-    "securityAccountDescription": "Verwalte deine E-Mail-Adresse, dein Passwort und deine Kontoeinstellungen",
+    "securityAccountDescription": "Verwalte deine E-Mail-Adresse, dein Passwort und deine Accounteinstellungen",
     "@securityAccountDescription": {
         "description": "Description for Account section heading."
     },
@@ -2080,7 +2080,7 @@
     "@securitySectionTitle": {
         "description": "Top-level Security section heading in Security & Login settings."
     },
-    "securitySectionDescription": "Schütze dein Konto mit Zwei-Faktor-Authentifizierung und Passkeys",
+    "securitySectionDescription": "Schütze deinen Account mit Zwei-Faktor-Authentifizierung und Passkeys",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
     },
@@ -2120,7 +2120,7 @@
     "@securityLoginPasswordSectionTitle": {
         "description": "Title for password section in Security & Login."
     },
-    "securityLoginPasswordSectionDescription": "Ändere dein Passwort, um dein Konto zu schützen",
+    "securityLoginPasswordSectionDescription": "Ändere dein Passwort, um deinen Account zu schützen",
     "@securityLoginPasswordSectionDescription": {
         "description": "Description for password section."
     },
@@ -2217,7 +2217,7 @@
     "@emailChangeTitle": {
         "description": "Title for email change flow."
     },
-    "emailChangeIntroDescription": "Wir senden Ihnen Verifizierungscodes, um Ihre Identität zu bestätigen, bevor wir Ihre E-Mail-Adresse ändern.",
+    "emailChangeIntroDescription": "Wir senden dir Verifizierungscodes, um deine Identität zu bestätigen, bevor wir deine E-Mail-Adresse ändern.",
     "@emailChangeIntroDescription": {
         "description": "Description shown on the intro step of email change."
     },
@@ -2306,7 +2306,7 @@
     "@securityTfaSectionTitle": {
         "description": "Title for the 2FA section."
     },
-    "securityTfaSectionDescription": "Füge deinem Konto eine zusätzliche Sicherheitsebene hinzu",
+    "securityTfaSectionDescription": "Füge deinem Account eine zusätzliche Sicherheitsebene hinzu",
     "@securityTfaSectionDescription": {
         "description": "Description for 2FA section."
     },
@@ -2326,7 +2326,7 @@
     "@securityTfaBackupCodes": {
         "description": "Label for backup codes row."
     },
-    "securityTfaBackupCodesDescription": "Zeige deine Backup-Codes zur Kontowiederherstellung an und verwalte sie",
+    "securityTfaBackupCodesDescription": "Zeige deine Backup-Codes zur Accountwiederherstellung an und verwalte sie",
     "@securityTfaBackupCodesDescription": {
         "description": "Description for backup codes."
     },
@@ -2450,7 +2450,7 @@
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
     },
-    "securityClaimDescription": "Fordere dein Konto an, um auf Sicherheitsfunktionen wie Zwei-Faktor-Authentifizierung und Passkeys zuzugreifen.",
+    "securityClaimDescription": "Beanspruche deinen Account, um auf Sicherheitsfunktionen wie Zwei-Faktor-Authentifizierung und Passkeys zuzugreifen.",
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
@@ -2494,7 +2494,7 @@
     "@backupCodesTitle": {
         "description": "Title for backup codes sheet."
     },
-    "backupCodesWarning": "Wenn du den Zugriff auf deine Authenticator-App verlierst und diese Codes nicht hast, wirst du dauerhaft von deinem Konto ausgesperrt. Lade sie herunter oder kopiere sie jetzt und bewahre sie sicher auf.",
+    "backupCodesWarning": "Wenn du den Zugriff auf deine Authenticator-App verlierst und diese Codes nicht hast, wirst du dauerhaft von deinem Account ausgesperrt. Lade sie herunter oder kopiere sie jetzt und bewahre sie sicher auf.",
     "@backupCodesWarning": {
         "description": "Warning about backup codes."
     },
@@ -2562,39 +2562,39 @@
     "@dangerZoneSectionTitle": {
         "description": "Title for danger zone section."
     },
-    "dangerZoneSectionDescription": "Irreversible und destruktive Aktionen",
+    "dangerZoneSectionDescription": "Dauerhafte und nicht rückgängig zu machende Aktionen",
     "@dangerZoneSectionDescription": {
         "description": "Description for danger zone section heading."
     },
-    "dangerZoneDisableTitle": "Konto deaktivieren",
+    "dangerZoneDisableTitle": "Account deaktivieren",
     "@dangerZoneDisableTitle": {
         "description": "Title for account disable."
     },
-    "dangerZoneDisableDescription": "Deaktiviere dein Konto vorübergehend. Du kannst es später reaktivieren, indem du dich wieder anmeldest.",
+    "dangerZoneDisableDescription": "Deaktiviere deinen Account vorübergehend. Du kannst ihn später reaktivieren, indem du dich wieder anmeldest.",
     "@dangerZoneDisableDescription": {
         "description": "Description for account disable."
     },
-    "dangerZoneDisableConfirmDescription": "Das Deaktivieren deines Kontos wird dich aus allen Sitzungen abmelden. Du kannst dein Konto jederzeit wieder aktivieren, indem du dich erneut anmeldest.",
+    "dangerZoneDisableConfirmDescription": "Das Deaktivieren deines Accounts wird dich aus allen Sitzungen abmelden. Du kannst deinen Account jederzeit wieder aktivieren, indem du dich erneut anmeldest.",
     "@dangerZoneDisableConfirmDescription": {
         "description": "Confirmation description for account disable."
     },
-    "dangerZoneDeleteTitle": "Konto löschen",
+    "dangerZoneDeleteTitle": "Account löschen",
     "@dangerZoneDeleteTitle": {
         "description": "Title for account delete."
     },
-    "dangerZoneDeleteDescription": "Lösche dein Konto und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "dangerZoneDeleteDescription": "Lösche deinen Account und alle zugehörigen Daten dauerhaft. Diese Aktion kann nicht rückgängig gemacht werden.",
     "@dangerZoneDeleteDescription": {
         "description": "Description for account delete."
     },
-    "dangerZoneDeleteCancelSubscription": "Kündige dein aktives Plutonium-Abonnement in den Plutonium-Einstellungen, bevor du dein Konto löschst.",
+    "dangerZoneDeleteCancelSubscription": "Kündige dein aktives Plutonium-Abo in den Plutonium-Einstellungen, bevor du deinen Account löschst.",
     "@dangerZoneDeleteCancelSubscription": {
         "description": "Warning about active subscription before deletion."
     },
-    "dangerZoneDeleteCannotDeleteAccount": "Konto kann nicht gelöscht werden",
+    "dangerZoneDeleteCannotDeleteAccount": "Account kann nicht gelöscht werden",
     "@dangerZoneDeleteCannotDeleteAccount": {
         "description": "Title for the guild ownership warning modal when trying to delete account."
     },
-    "dangerZoneDeleteOwnsCommunities": "Du kannst dein Konto nicht löschen, solange du Communities besitzt. Übertrage zuerst den Besitz der folgenden Communities:",
+    "dangerZoneDeleteOwnsCommunities": "Du kannst deinen Account nicht löschen, solange du der Eigentümer von Communitys bist. Übertrage zuerst die Eigentümerschaft der folgenden Communitys:",
     "@dangerZoneDeleteOwnsCommunities": {
         "description": "Warning message shown when user owns communities and tries to delete account."
     },
@@ -2616,7 +2616,7 @@
             }
         }
     },
-    "dangerZoneDeleteConfirmDescription": "Möchtest du dein Konto wirklich löschen? Diese Aktion plant dein Konto zur dauerhaften Löschung ein.",
+    "dangerZoneDeleteConfirmDescription": "Möchtest du deinen Account wirklich löschen? Diese Aktion sieht die dauerhafte Löschung deines Accounts vor.",
     "@dangerZoneDeleteConfirmDescription": {
         "description": "Confirmation description for account delete."
     },
@@ -2624,15 +2624,15 @@
     "@dangerZoneDeleteBullet1": {
         "description": "First bullet point in delete confirmation."
     },
-    "dangerZoneDeleteBullet2": "Nach 14 Tagen wird dein Konto dauerhaft gelöscht",
+    "dangerZoneDeleteBullet2": "Nach 14 Tagen wird dein Account dauerhaft gelöscht",
     "@dangerZoneDeleteBullet2": {
         "description": "Second bullet point."
     },
-    "dangerZoneDeleteBullet3": "Nachdem die Löschung verarbeitet wurde, kannst du nicht mehr auf dein Konto zugreifen",
+    "dangerZoneDeleteBullet3": "Nachdem die Löschung verarbeitet wurde, kannst du nicht mehr auf deinen Account zugreifen",
     "@dangerZoneDeleteBullet3": {
         "description": "Third bullet point."
     },
-    "dangerZoneDeleteBullet4": "Du kannst deine gesendeten Nachrichten nach der Löschung deines Kontos nicht mehr löschen",
+    "dangerZoneDeleteBullet4": "Du kannst deine gesendeten Nachrichten nach der Löschung deines Account nicht mehr löschen",
     "@dangerZoneDeleteBullet4": {
         "description": "Fourth bullet point."
     },
@@ -2640,11 +2640,11 @@
     "@dangerZoneDeleteDisclaimer": {
         "description": "Disclaimer about data export before deletion."
     },
-    "claimAccountTitle": "Fordere dein Konto an",
+    "claimAccountTitle": "Account beanspruchen",
     "@claimAccountTitle": {
         "description": "Title for claim account sheet."
     },
-    "claimAccountDescription": "Fordere dein Konto an, indem du eine E-Mail-Adresse und ein Passwort hinzufügst. Wir senden dir einen Verifizierungscode, um deine E-Mail zu bestätigen, bevor wir fertig sind.",
+    "claimAccountDescription": "Beanspruche deinen Account, indem du eine E-Mail-Adresse und ein Passwort angibst. Wir senden dir einen Verifizierungscode, um deine E-Mail-Adresse zu bestätigen, bevor wir fertig sind.",
     "@claimAccountDescription": {
         "description": "Description for claim account sheet."
     },
@@ -2664,7 +2664,7 @@
     "@claimAccountVerifyDescription": {
         "description": "Description for verify step."
     },
-    "claimAccountSuccess": "Konto erfolgreich beansprucht",
+    "claimAccountSuccess": "Account erfolgreich beansprucht",
     "@claimAccountSuccess": {
         "description": "Toast after account claimed."
     },
@@ -2733,7 +2733,7 @@
     "@authorizedAppsTitle": {
         "description": "Title for the Authorized Applications settings section."
     },
-    "authorizedAppsDescription": "Diesen Anwendungen wurde der Zugriff auf dein Fluxer-Konto gewährt.",
+    "authorizedAppsDescription": "Diesen Anwendungen wurde der Zugriff auf deinen Fluxer-Account gewährt.",
     "@authorizedAppsDescription": {
         "description": "Description under the Authorized Applications section title."
     },
@@ -2741,7 +2741,7 @@
     "@authorizedAppsEmptyTitle": {
         "description": "Title shown when the user has no authorized OAuth2 applications."
     },
-    "authorizedAppsEmptyDescription": "Du hast noch keine Anwendungen autorisiert, auf dein Konto zuzugreifen.",
+    "authorizedAppsEmptyDescription": "Du hast noch keine Anwendungen autorisiert, auf deinen Account zuzugreifen.",
     "@authorizedAppsEmptyDescription": {
         "description": "Body text shown when the user has no authorized OAuth2 applications."
     },
@@ -2770,7 +2770,7 @@
     "@authorizedAppsRevokeTitle": {
         "description": "Confirmation modal title when revoking an authorized application."
     },
-    "authorizedAppsRevokeDescription": "Möchtest du den Zugriff für {appName} wirklich entziehen? Diese Anwendung hat dann keinen Zugriff mehr auf dein Konto.",
+    "authorizedAppsRevokeDescription": "Möchtest du den Zugriff für {appName} wirklich entziehen? Diese Anwendung hat dann keinen Zugriff mehr auf deinen Account.",
     "@authorizedAppsRevokeDescription": {
         "description": "Confirmation modal body when revoking an authorized application.",
         "placeholders": {
@@ -2787,11 +2787,11 @@
     "@authorizedAppsScopeEmail": {
         "description": "OAuth2 scope description: email."
     },
-    "authorizedAppsScopeGuilds": "Die Communities anzeigen, deren Mitglied du bist",
+    "authorizedAppsScopeGuilds": "Die Communitys anzeigen, in denen du Mitglied bist",
     "@authorizedAppsScopeGuilds": {
         "description": "OAuth2 scope description: guilds."
     },
-    "authorizedAppsScopeConnections": "Deine verbundenen Konten anzeigen",
+    "authorizedAppsScopeConnections": "Deine verbundenen Accounts anzeigen",
     "@authorizedAppsScopeConnections": {
         "description": "OAuth2 scope description: connections."
     },
@@ -2936,7 +2936,7 @@
             }
         }
     },
-    "userProfileMutualCommunities": "Gemeinsame Communities ({count})",
+    "userProfileMutualCommunities": "Gemeinsame Communitys ({count})",
     "@userProfileMutualCommunities": {
         "description": "Profile mutual communities entry label with count.",
         "placeholders": {
@@ -2949,7 +2949,7 @@
     "@userProfileMutualFriendsTitle": {
         "description": "Bottom sheet title for mutual friends."
     },
-    "userProfileMutualCommunitiesTitle": "Gemeinsame Communities",
+    "userProfileMutualCommunitiesTitle": "Gemeinsame Communitys",
     "@userProfileMutualCommunitiesTitle": {
         "description": "Bottom sheet title for mutual communities."
     },
@@ -2957,11 +2957,11 @@
     "@userProfileNoMutualFriends": {
         "description": "Empty state shown when a profile has no mutual friends."
     },
-    "userProfileNoMutualCommunities": "Keine gemeinsamen Communities gefunden.",
+    "userProfileNoMutualCommunities": "Keine gemeinsamen Communitys gefunden.",
     "@userProfileNoMutualCommunities": {
         "description": "Empty state shown when a profile has no mutual communities."
     },
-    "userProfileMutualCommunityNickname": "Spitzname: {nickname}",
+    "userProfileMutualCommunityNickname": "Anzeigename: {nickname}",
     "@userProfileMutualCommunityNickname": {
         "description": "Subtitle showing the profiled user's nickname in a mutual community.",
         "placeholders": {
@@ -3098,7 +3098,7 @@
     "@userProfileActionFailed": {
         "description": "Toast shown when a relationship action (block, unblock, friend request, etc.) fails."
     },
-    "userProfileChangeNickname": "Spitznamen ändern",
+    "userProfileChangeNickname": "Anzeigename ändern",
     "@userProfileChangeNickname": {
         "description": "Three-dot menu item to change a member's nickname."
     },
@@ -3139,7 +3139,7 @@
             }
         }
     },
-    "userProfileKickConfirmDescription": "Möchtest du {username} wirklich entfernen? Sie können mit einer neuen Einladung wieder beitreten.",
+    "userProfileKickConfirmDescription": "Möchtest du {username} wirklich entfernen? Die Person kann mit einer neuen Einladung wieder beitreten.",
     "@userProfileKickConfirmDescription": {
         "description": "Confirmation sheet body before kicking a member.",
         "placeholders": {
@@ -3165,7 +3165,7 @@
     "@userProfileTransferConfirmTitle": {
         "description": "Confirmation sheet title before transferring community ownership."
     },
-    "userProfileTransferConfirmDescription": "Besitz dieser Community an {username} übertragen? Dies ist unumkehrbar und Sie verlieren alle Inhaberprivilegien.",
+    "userProfileTransferConfirmDescription": "Eigentumsrechte dieser Community an {username} übertragen? Das kann nicht rückgängig gemacht werden und du verlierst alle Eigentümerrechte.",
     "@userProfileTransferConfirmDescription": {
         "description": "Confirmation sheet body before transferring community ownership.",
         "placeholders": {
@@ -3248,11 +3248,11 @@
     "@userProfileTimeoutSubmit": {
         "description": "Submit button on the timeout member sheet."
     },
-    "userProfileNicknameLabel": "Spitzname",
+    "userProfileNicknameLabel": "Anzeigename",
     "@userProfileNicknameLabel": {
         "description": "Label for the change nickname input."
     },
-    "userProfileNicknameHint": "Spitznamen eingeben",
+    "userProfileNicknameHint": "Anzeigename eingeben",
     "@userProfileNicknameHint": {
         "description": "Placeholder for the change nickname input."
     },
@@ -3269,7 +3269,7 @@
             }
         }
     },
-    "userProfileBanSuccess": "{username} wurde gesperrt",
+    "userProfileBanSuccess": "{username} wurde gebannt",
     "@userProfileBanSuccess": {
         "description": "Toast shown after banning a member.",
         "placeholders": {
@@ -3296,7 +3296,7 @@
             }
         }
     },
-    "userProfileNicknameSuccess": "Spitzname aktualisiert",
+    "userProfileNicknameSuccess": "Anzeigename aktualisiert",
     "@userProfileNicknameSuccess": {
         "description": "Toast shown after updating a member's nickname."
     },
@@ -3630,7 +3630,7 @@
     "@linkedDevicesTitle": {
         "description": "Heading for the Linked Devices settings page."
     },
-    "linkedDevicesDescription": "Alle Geräte anzeigen, die derzeit bei Ihrem Konto angemeldet sind. Widerrufen Sie alle Sitzungen, die Sie nicht erkennen.",
+    "linkedDevicesDescription": "Alle Geräte anzeigen, die derzeit bei deinem Account angemeldet sind. Melde alle Sitzungen ab, die du nicht erkennst.",
     "@linkedDevicesDescription": {
         "description": "Description shown under the Linked Devices heading."
     },
@@ -3688,7 +3688,7 @@
     "@linkedDevicesSignOutAllSheetTitle": {
         "description": "Title of the confirmation bottom sheet when revoking all other devices."
     },
-    "linkedDevicesSignOutSheetDescription": "{count, plural, =1{Dadurch wird das ausgewählte Gerät von Ihrem Konto abgemeldet. Sie müssen sich auf diesem Gerät erneut anmelden.} other{Dadurch werden die ausgewählten Geräte von Ihrem Konto abgemeldet. Sie müssen sich auf diesen Geräten erneut anmelden.}}",
+    "linkedDevicesSignOutSheetDescription": "{count, plural, =1{Dadurch wird das ausgewählte Gerät von deinem Account abgemeldet. Du musst dich auf diesem Gerät erneut anmelden.} other{Dadurch werden die ausgewählten Geräte von deinem Account abgemeldet. Du musst dich auf diesen Geräten erneut anmelden.}}",
     "@linkedDevicesSignOutSheetDescription": {
         "description": "Body of the confirmation bottom sheet for selected devices.",
         "placeholders": {
@@ -3697,7 +3697,7 @@
             }
         }
     },
-    "linkedDevicesSignOutAllSheetDescription": "Dadurch werden die ausgewählten Geräte von Ihrem Konto abgemeldet. Sie müssen sich auf diesen Geräten erneut anmelden.",
+    "linkedDevicesSignOutAllSheetDescription": "Dadurch werden die ausgewählten Geräte von deinem Account abgemeldet. Du musst dich auf diesen Geräten erneut anmelden.",
     "@linkedDevicesSignOutAllSheetDescription": {
         "description": "Body of the confirmation bottom sheet when revoking all other devices."
     },
@@ -3705,7 +3705,7 @@
     "@linkedDevicesSignOutConfirm": {
         "description": "Destructive confirm button inside the sign-out bottom sheet."
     },
-    "linkedDevicesLogoutDisclaimer": "Sie müssen sich auf allen abgemeldeten Geräten erneut anmelden",
+    "linkedDevicesLogoutDisclaimer": "Du musst dich auf allen abgemeldeten Geräten erneut anmelden",
     "@linkedDevicesLogoutDisclaimer": {
         "description": "Disclaimer shown beneath the bulk-action button."
     },
@@ -3713,7 +3713,7 @@
     "@linkedDevicesLoadErrorTitle": {
         "description": "Title shown when loading the sessions list fails."
     },
-    "linkedDevicesLoadErrorDescription": "Wir haben Probleme, eine Verbindung zum Raum-Zeit-Kontinuum herzustellen. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+    "linkedDevicesLoadErrorDescription": "Wir haben Probleme, eine Verbindung zum Raum-Zeit-Kontinuum herzustellen. Bitte überprüfe deine Verbindung und versuche es erneut.",
     "@linkedDevicesLoadErrorDescription": {
         "description": "Body shown when loading the sessions list fails."
     },
@@ -3726,7 +3726,7 @@
             }
         }
     },
-    "linkedDevicesRevokeError": "Abmeldung fehlgeschlagen. Versuchen Sie es erneut.",
+    "linkedDevicesRevokeError": "Abmeldung fehlgeschlagen. Versuche es erneut.",
     "@linkedDevicesRevokeError": {
         "description": "Toast shown when the sign-out request fails."
     },
@@ -3738,7 +3738,7 @@
     "@linkedDevicesUnknownPlatform": {
         "description": "Fallback shown when the session's platform field is missing."
     },
-    "slowmodeLabel": "{duration} Zeitlupenmodus",
+    "slowmodeLabel": "{duration} Slow-Modus",
     "@slowmodeLabel": {
         "description": "Label shown in the slowmode indicator pill when slowmode is enabled for the channel but no cooldown is actively counting down.",
         "placeholders": {
@@ -3748,11 +3748,11 @@
             }
         }
     },
-    "slowmodeTooltipActive": "Sie befinden sich im Zeitlupenmodus. Bitte warten Sie, bevor Sie eine weitere Nachricht senden.",
+    "slowmodeTooltipActive": "Du befindest dich im Slow-Modus. Bitte warte, bevor du eine weitere Nachricht sendest.",
     "@slowmodeTooltipActive": {
         "description": "Tooltip shown on the slowmode indicator while the current user is still serving their slowmode cooldown."
     },
-    "slowmodeTooltipImmune": "Zeitlupenmodus ist aktiviert, aber Sie sind immun.",
+    "slowmodeTooltipImmune": "Slow-Modus ist aktiviert, aber du bist ausgenommen.",
     "@slowmodeTooltipImmune": {
         "description": "Tooltip shown on the slowmode indicator when slowmode is on but the current user bypasses it."
     },
@@ -3777,7 +3777,7 @@
     "@channelComposerBarrierTimedOut": {
         "description": "Composer barrier when the current user is timed out in the guild."
     },
-    "channelComposerBarrierUnclaimedAccount": "Du musst dein Konto beanspruchen, um in dieser Community Nachrichten senden zu können.",
+    "channelComposerBarrierUnclaimedAccount": "Du musst deinen Account beanspruchen, um in dieser Community Nachrichten senden zu können.",
     "@channelComposerBarrierUnclaimedAccount": {
         "description": "Composer barrier when the user must claim their account before messaging."
     },
@@ -3785,7 +3785,7 @@
     "@channelComposerBarrierUnverifiedEmail": {
         "description": "Composer barrier when the user must verify their email before messaging."
     },
-    "channelComposerBarrierAccountTooNew": "Dein Konto ist zu neu, um in dieser Community Nachrichten senden zu können.",
+    "channelComposerBarrierAccountTooNew": "Dein Account ist zu neu, um in dieser Community Nachrichten senden zu können.",
     "@channelComposerBarrierAccountTooNew": {
         "description": "Composer barrier when the user's account is younger than the guild verification requirement."
     },
@@ -3878,7 +3878,7 @@
     "@voiceMessageReviewHint": {
         "description": "Help text while reviewing a voice message before send."
     },
-    "voiceMessageStop": "Stopp",
+    "voiceMessageStop": "Abbrechen",
     "@voiceMessageStop": {
         "description": "Stop recording button in voice message composer."
     },
@@ -3980,15 +3980,15 @@
     "@matureContentTitle": {
         "description": "Title for mature content gates and warnings."
     },
-    "matureCommunityTitle": "Reife Community",
+    "matureCommunityTitle": "Altersbeschränkte Community",
     "@matureCommunityTitle": {
         "description": "Title for a mature community gate."
     },
-    "matureCategoryTitle": "Reife Kategorie",
+    "matureCategoryTitle": "Altersbeschränkte Kategorie",
     "@matureCategoryTitle": {
         "description": "Title for a mature category gate."
     },
-    "matureChannelTitle": "Reifer Kanal",
+    "matureChannelTitle": "Altersbeschränkter Kanal",
     "@matureChannelTitle": {
         "description": "Title for a mature channel gate."
     },
@@ -4008,35 +4008,35 @@
     "@defaultContentWarningBody": {
         "description": "Default body text for content warning gates."
     },
-    "matureCommunityBody": "Diese Community ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.",
+    "matureCommunityBody": "Diese Community ist für altersbeschränkte Inhalte gekennzeichnet und kann Material enthalten, dass für einige Nutzer ungeeignet ist.",
     "@matureCommunityBody": {
         "description": "Body for a mature community gate without custom warning text."
     },
-    "matureCategoryBody": "Diese Kategorie ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.",
+    "matureCategoryBody": "Diese Kategorie ist für altersbeschränkte Inhalte gekennzeichnet und kann Material enthalten, das für einige Nutzer ungeeignet ist.",
     "@matureCategoryBody": {
         "description": "Body for a mature category gate without custom warning text."
     },
-    "matureChannelBody": "Dieser Kanal ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.",
+    "matureChannelBody": "Dieser Kanal ist für altersbeschränkte Inhalte gekennzeichnet und kann Material enthalten, das für einige Nutzer ungeeignet ist.",
     "@matureChannelBody": {
         "description": "Body for a mature text channel gate without custom warning text."
     },
-    "matureVoiceChannelBody": "Dieser Sprachkanal ist für reife Inhalte gekennzeichnet und kann Material enthalten, das für einige Benutzer ungeeignet ist.",
+    "matureVoiceChannelBody": "Dieser Sprachkanal ist für altersbeschränkte Inhalte gekennzeichnet und kann Material enthalten, das für einige Nutzer ungeeignet ist.",
     "@matureVoiceChannelBody": {
         "description": "Body for a mature voice channel gate without custom warning text."
     },
-    "matureLinkChannelBody": "Dieser Linkkanal ist für reife Inhalte gekennzeichnet und kann Material öffnen, das für einige Benutzer ungeeignet ist.",
+    "matureLinkChannelBody": "Dieser Linkkanal ist für altersbeschränkte Inhalte gekennzeichnet und kann Links öffnen, die für einige Nutzer ungeeignet ist.",
     "@matureLinkChannelBody": {
         "description": "Body for a mature link channel gate without custom warning text."
     },
-    "matureCommunityUnavailableBody": "Diese reife Community ist für Ihr Konto nicht verfügbar.",
+    "matureCommunityUnavailableBody": "Diese altersbeschränkte Community ist für deinen Account nicht verfügbar.",
     "@matureCommunityUnavailableBody": {
         "description": "Body when a minor cannot access a mature community."
     },
-    "matureCategoryUnavailableBody": "Diese reife Kategorie ist für Ihr Konto nicht verfügbar.",
+    "matureCategoryUnavailableBody": "Diese altersbeschränkte Kategorie ist für deinen Account nicht verfügbar.",
     "@matureCategoryUnavailableBody": {
         "description": "Body when a minor cannot access a mature category."
     },
-    "matureChannelUnavailableBody": "Dieser reife Kanal ist für Ihr Konto nicht verfügbar.",
+    "matureChannelUnavailableBody": "Dieser altersbeschränkte Kanal ist für dein Konto nicht verfügbar.",
     "@matureChannelUnavailableBody": {
         "description": "Body when a minor cannot access a mature channel."
     },
@@ -4056,7 +4056,7 @@
     "@sensitiveContentSectionTitle": {
         "description": "Privacy settings section title for sensitive content filters."
     },
-    "sensitiveContentSectionDescription": "Steuere, wie reife oder sensible Medien in verschiedenen Kontexten gefiltert werden",
+    "sensitiveContentSectionDescription": "Lege fest, wie altersbeschränkte oder sensible Medien in verschiedenen Situationen gefiltert werden",
     "@sensitiveContentSectionDescription": {
         "description": "Privacy settings section description for sensitive content filters."
     },
@@ -4092,7 +4092,7 @@
     "@sensitiveContentBlurUnscannedDescriptionAdult": {
         "description": "Description for blur-unscanned toggle for adult accounts."
     },
-    "sensitiveContentBlurUnscannedDescriptionMinor": "Diese Einstellung ist für Ihr Konto immer aktiviert.",
+    "sensitiveContentBlurUnscannedDescriptionMinor": "Diese Einstellung ist für deinen Account immer aktiviert.",
     "@sensitiveContentBlurUnscannedDescriptionMinor": {
         "description": "Description for blur-unscanned toggle for minor accounts."
     },
@@ -4142,7 +4142,7 @@
     "@connectionsTitle": {
         "description": "Title of the Connections settings page."
     },
-    "connectionsDescription": "Verknüpfe externe Konten und Domains mit deinem Fluxer-Profil. Verifizierte Verbindungen werden auf deinem Profil angezeigt.",
+    "connectionsDescription": "Verknüpfe externe Accounts und Domains mit deinem Fluxer-Profil. Verifizierte Verbindungen werden auf deinem Profil angezeigt.",
     "@connectionsDescription": {
         "description": "Description shown under the Connections settings page title."
     },
@@ -4150,7 +4150,7 @@
     "@connectionsEmptyTitle": {
         "description": "Empty-state title when the user has no connections."
     },
-    "connectionsEmptyDescriptionBluesky": "Verknüpfe dein Bluesky-Konto oder verifiziere den Domainbesitz, um sie auf deinem Profil anzuzeigen.",
+    "connectionsEmptyDescriptionBluesky": "Verknüpfe deinen Bluesky-Account oder verifiziere den Besitz der Domain, um ihn auf deinem Profil anzuzeigen.",
     "@connectionsEmptyDescriptionBluesky": {
         "description": "Empty-state description when Bluesky is enabled."
     },
@@ -4320,7 +4320,7 @@
     "@connectionVisibilityCommunityMembers": {
         "description": "Label for the Community Members visibility toggle."
     },
-    "connectionVisibilityCommunityMembersDesc": "Erlaube Mitgliedern aus Communities, in denen du bist, diese Verbindung zu sehen",
+    "connectionVisibilityCommunityMembersDesc": "Erlaube Mitgliedern aus Communitys, in denen du ein Mitglied bist, diese Verbindung zu sehen",
     "@connectionVisibilityCommunityMembersDesc": {
         "description": "Description under the Community Members visibility toggle."
     },
@@ -4420,7 +4420,7 @@
     "@lookAndFeelSyncThemeAcrossDevicesSystemDescription": {
         "description": "Description shown under the sync toggle when System theme is active and the toggle is therefore disabled."
     },
-    "lookAndFeelThemeSyncFailed": "Das Design konnte nicht mit deinem Konto synchronisiert werden. Bitte versuche es erneut.",
+    "lookAndFeelThemeSyncFailed": "Das Theme konnte nicht mit deinem Account synchronisiert werden. Bitte versuche es erneut.",
     "@lookAndFeelThemeSyncFailed": {
         "description": "Toast message shown when the server PATCH for a theme change or sync toggle fails."
     },
@@ -4488,7 +4488,7 @@
     "@lookAndFeelKeyboardHintsTitle": {
         "description": "Section title for keyboard shortcut hint visibility settings."
     },
-    "lookAndFeelKeyboardHintsDescription": "Steuere, ob Tastaturkürzel-Hinweise in Tooltips angezeigt werden.",
+    "lookAndFeelKeyboardHintsDescription": "Lege fest, ob Tastaturkürzel-Hinweise in Tooltips angezeigt werden.",
     "@lookAndFeelKeyboardHintsDescription": {
         "description": "Section description for keyboard shortcut hint visibility settings."
     },
@@ -4520,7 +4520,7 @@
     "@lookAndFeelVoiceChannelJoinTitle": {
         "description": "Subsection title under Interface — voice channel join behavior."
     },
-    "lookAndFeelVoiceChannelJoinDescription": "Steuere, wie du Sprachkanälen in Communities beitrittst.",
+    "lookAndFeelVoiceChannelJoinDescription": "Lege fest, wie du Sprachkanälen in Communitys beitrittst.",
     "@lookAndFeelVoiceChannelJoinDescription": {
         "description": "Subsection description for voice channel join behavior."
     },
@@ -4544,7 +4544,7 @@
     "@lookAndFeelGuildSidebarDescription": {
         "description": "Subsection description for guild sidebar config."
     },
-    "guildUnavailableOutageTooltip": "{count, plural, =1{1 Community ist aufgrund einer Störung des Flusskondensators vorübergehend nicht verfügbar.} other{{count} Communities sind aufgrund einer Störung des Flusskondensators vorübergehend nicht verfügbar.}}",
+    "guildUnavailableOutageTooltip": "{count, plural, =1{1 Community ist aufgrund einer Störung des Fluxkondensators vorübergehend nicht verfügbar.} other{{count} Communitys sind aufgrund einer Störung des Fluxkondensators vorübergehend nicht verfügbar.}}",
     "@guildUnavailableOutageTooltip": {
         "description": "Tooltip on the aggregate outage badge in the guild sidebar when one or more communities are unavailable.",
         "placeholders": {
@@ -4565,7 +4565,7 @@
     "@lookAndFeelChannelListSectionTitle": {
         "description": "Section title for channel list options."
     },
-    "lookAndFeelChannelListSectionDescription": "Steuere das Verhalten von ungelesenen Indikatoren für stummgeschaltete Kanäle in Kanallisten.",
+    "lookAndFeelChannelListSectionDescription": "Lege das Verhalten von ungelesenen Indikatoren für stummgeschaltete Kanäle in Kanallisten fest.",
     "@lookAndFeelChannelListSectionDescription": {
         "description": "Section description for channel list options."
     },
@@ -4581,7 +4581,7 @@
     "@lookAndFeelActiveNowSectionTitle": {
         "description": "Section title for Active Now visibility."
     },
-    "lookAndFeelActiveNowSectionDescription": "Steuere, wie „Jetzt aktiv“ in der App angezeigt wird.",
+    "lookAndFeelActiveNowSectionDescription": "Lege fest, wie „Jetzt aktiv“ in der App angezeigt wird.",
     "@lookAndFeelActiveNowSectionDescription": {
         "description": "Section description for Active Now visibility."
     },
@@ -4597,7 +4597,7 @@
     "@lookAndFeelFavoritesSectionTitle": {
         "description": "Section title for favorites visibility."
     },
-    "lookAndFeelFavoritesSectionDescription": "Steuere die Sichtbarkeit von Favoriten in der gesamten App.",
+    "lookAndFeelFavoritesSectionDescription": "Lege die Sichtbarkeit von Favoriten in der gesamten App fest.",
     "@lookAndFeelFavoritesSectionDescription": {
         "description": "Section description for favorites visibility."
     },
@@ -4677,15 +4677,15 @@
     "@favoritesShowMutedChannels": {
         "description": "Toggle to show muted channels in favorites."
     },
-    "favoritesSetNickname": "Spitznamen festlegen",
+    "favoritesSetNickname": "Anzeigename festlegen",
     "@favoritesSetNickname": {
         "description": "Action to set a favorite channel nickname."
     },
-    "favoritesNicknameLabel": "Spitzname",
+    "favoritesNicknameLabel": "Anzeigename",
     "@favoritesNicknameLabel": {
         "description": "Label for favorite channel nickname input."
     },
-    "favoritesSaveNickname": "Spitznamen speichern",
+    "favoritesSaveNickname": "Anzeigename speichern",
     "@favoritesSaveNickname": {
         "description": "Button to save favorite channel nickname."
     },
@@ -4717,7 +4717,7 @@
     "@favoritesHideConfirmDescription": {
         "description": "Description for hide favorites confirmation."
     },
-    "favoritesDirectMessageSubtitle": "Direkte Nachricht",
+    "favoritesDirectMessageSubtitle": "Direktnachricht",
     "@favoritesDirectMessageSubtitle": {
         "description": "Subtitle for a 1:1 DM in the favorites channel list."
     },
@@ -4725,7 +4725,7 @@
     "@messagesMediaDisplayGroupTitle": {
         "description": "Top-level section title for message display settings."
     },
-    "messagesMediaDisplayGroupDescription": "Steuere, wie Nachrichten, Medien und andere Inhalte angezeigt werden.",
+    "messagesMediaDisplayGroupDescription": "Lege fest, wie Nachrichten, Medien und andere Inhalte angezeigt werden.",
     "@messagesMediaDisplayGroupDescription": {
         "description": "Top-level section description for message display settings."
     },
@@ -4757,7 +4757,7 @@
     "@messagesMediaDefaultHideMutedChannelsLabel": {
         "description": "Toggle label for hiding muted channels by default in new communities."
     },
-    "messagesMediaDefaultHideMutedChannelsDescription": "Blendet stummgeschaltete Kanäle in der Seitenleiste automatisch aus, wenn du neuen Communities beitrittst",
+    "messagesMediaDefaultHideMutedChannelsDescription": "Blendet stummgeschaltete Kanäle in der Seitenleiste automatisch aus, wenn du neuen Communitys beitrittst",
     "@messagesMediaDefaultHideMutedChannelsDescription": {
         "description": "Toggle description for hiding muted channels by default in new communities."
     },
@@ -4765,7 +4765,7 @@
     "@messagesMediaDefaultHideMutedChannelsEnableTitle": {
         "description": "Confirmation title when enabling default hidden muted channels."
     },
-    "messagesMediaDefaultHideMutedChannelsEnableDescription": "Neue Communities, denen du beitrittst, blenden stummgeschaltete Kanäle automatisch aus. Möchtest du diese Einstellung auch auf alle deine bestehenden Communities anwenden?",
+    "messagesMediaDefaultHideMutedChannelsEnableDescription": "Neue Communitys, denen du beitrittst, blenden stummgeschaltete Kanäle automatisch aus. Möchtest du diese Einstellung auch auf alle deine bestehenden Communitys anwenden?",
     "@messagesMediaDefaultHideMutedChannelsEnableDescription": {
         "description": "Confirmation description when enabling default hidden muted channels."
     },
@@ -4773,19 +4773,19 @@
     "@messagesMediaDefaultHideMutedChannelsDisableTitle": {
         "description": "Confirmation title when disabling default hidden muted channels."
     },
-    "messagesMediaDefaultHideMutedChannelsDisableDescription": "Neue Communities, denen du beitrittst, blenden stummgeschaltete Kanäle nicht mehr automatisch aus. Möchtest du stummgeschaltete Kanäle auch in allen deinen bestehenden Communities anzeigen?",
+    "messagesMediaDefaultHideMutedChannelsDisableDescription": "Neue Communitys, denen du beitrittst, blenden stummgeschaltete Kanäle nicht mehr automatisch aus. Möchtest du stummgeschaltete Kanäle auch in allen deinen bestehenden Communitys anzeigen?",
     "@messagesMediaDefaultHideMutedChannelsDisableDescription": {
         "description": "Confirmation description when disabling default hidden muted channels."
     },
-    "messagesMediaDefaultHideMutedChannelsApplyAllAction": "Auf alle Communities anwenden",
+    "messagesMediaDefaultHideMutedChannelsApplyAllAction": "Auf alle Communitys anwenden",
     "@messagesMediaDefaultHideMutedChannelsApplyAllAction": {
         "description": "Primary confirmation action when enabling default hidden muted channels."
     },
-    "messagesMediaDefaultHideMutedChannelsShowAllAction": "In allen Communities anzeigen",
+    "messagesMediaDefaultHideMutedChannelsShowAllAction": "In allen Communitys anzeigen",
     "@messagesMediaDefaultHideMutedChannelsShowAllAction": {
         "description": "Primary confirmation action when disabling default hidden muted channels."
     },
-    "messagesMediaDefaultHideMutedChannelsNewOnlyAction": "Nur neue Communities",
+    "messagesMediaDefaultHideMutedChannelsNewOnlyAction": "Nur neue Communitys",
     "@messagesMediaDefaultHideMutedChannelsNewOnlyAction": {
         "description": "Secondary confirmation action to only affect new communities."
     },
@@ -4793,7 +4793,7 @@
     "@messagesMediaDisplaySectionTitle": {
         "description": "Section title for media display settings."
     },
-    "messagesMediaDisplaySectionDescription": "Steuere, wie Bilder, Videos und andere Medien angezeigt werden. Alle Medien werden in der Größe angepasst und konvertiert. Extrem große Dateien, die nicht in eine Vorschau komprimiert werden können, werden unabhängig von diesen Einstellungen nicht eingebettet.",
+    "messagesMediaDisplaySectionDescription": "Lege fest, wie Bilder, Videos und andere Medien angezeigt werden. Alle Medien werden in der Größe angepasst und konvertiert. Extrem große Dateien, die nicht in eine Vorschau komprimiert werden können, werden unabhängig von diesen Einstellungen nicht eingebettet.",
     "@messagesMediaDisplaySectionDescription": {
         "description": "Section description for media display settings."
     },
@@ -4805,11 +4805,11 @@
     "@messagesMediaDisplayInlineAttachmentLabel": {
         "description": "Toggle label for inlining media for direct uploads."
     },
-    "messagesMediaLinkPreviewsSectionTitle": "Link-Vorschauen",
+    "messagesMediaLinkPreviewsSectionTitle": "Linkvorschau",
     "@messagesMediaLinkPreviewsSectionTitle": {
         "description": "Section title for link preview settings."
     },
-    "messagesMediaLinkPreviewsSectionDescription": "Steuere, wie Website-Links im Chat in der Vorschau angezeigt werden",
+    "messagesMediaLinkPreviewsSectionDescription": "Lege fest, wie Website-Links im Chat in der Vorschau angezeigt werden",
     "@messagesMediaLinkPreviewsSectionDescription": {
         "description": "Section description for link preview settings."
     },
@@ -4869,7 +4869,7 @@
     "@messagesMediaSizeSectionTitle": {
         "description": "Section title for media size preferences."
     },
-    "messagesMediaSizeSectionDescription": "Passen Sie die maximale Anzeigegröße für eingebettete und angehängte Medien an. Kleinere Größen verbrauchen weniger Speicherplatz, während größere Größen mehr Details anzeigen.",
+    "messagesMediaSizeSectionDescription": "Passe die maximale Anzeigegröße für eingebettete und angehängte Medien an. Kleinere Größen verbrauchen weniger Speicherplatz, während größere Größen mehr Details anzeigen.",
     "@messagesMediaSizeSectionDescription": {
         "description": "Section description for media size preferences."
     },
@@ -5133,7 +5133,7 @@
     "@voiceChannelJoin": {
         "description": "Primary action to connect to a voice channel from the empty state."
     },
-    "voiceChannelJoinConnect": "Mit Sprache verbinden",
+    "voiceChannelJoinConnect": "Sprachkanal beitreten",
     "@voiceChannelJoinConnect": {
         "description": "Primary action in the mobile bottom sheet before joining a voice channel from the channel list."
     },
@@ -5356,11 +5356,11 @@
     "@dmVoiceCallBarIssueFallback": {
         "description": "Fallback bar title when a voice error has no guild name."
     },
-    "dmVoiceFullscreenTitle": "Sprache",
+    "dmVoiceFullscreenTitle": "Sprachkanal",
     "@dmVoiceFullscreenTitle": {
         "description": "Fallback AppBar title for the fullscreen DM voice page."
     },
-    "voiceCallBarGuildConnectedFallback": "Sprache verbunden",
+    "voiceCallBarGuildConnectedFallback": "Sprachkanal beigetreten",
     "@voiceCallBarGuildConnectedFallback": {
         "description": "Primary line on the compact voice bar when in a guild call but guild name is not loaded."
     },
@@ -5493,11 +5493,11 @@
             }
         }
     },
-    "chatSendFailureUnclaimedDm": "Deine Nachricht konnte nicht zugestellt werden. Du musst dein Konto beanspruchen, um Direktnachrichten senden zu können.",
+    "chatSendFailureUnclaimedDm": "Deine Nachricht konnte nicht zugestellt werden. Du musst deinen Account beanspruchen, um Direktnachrichten senden zu können.",
     "@chatSendFailureUnclaimedDm": {
         "description": "Fluxerbot system message when an unclaimed account tries to send a DM."
     },
-    "chatSendFailureUnclaimedGeneral": "Deine Nachricht konnte nicht zugestellt werden. Du musst dein Konto beanspruchen, um Nachrichten senden zu können.",
+    "chatSendFailureUnclaimedGeneral": "Deine Nachricht konnte nicht zugestellt werden. Du musst deinen Account beanspruchen, um Nachrichten senden zu können.",
     "@chatSendFailureUnclaimedGeneral": {
         "description": "Fluxerbot system message when an unclaimed account tries to send a message."
     },
@@ -5826,7 +5826,7 @@
     "@iarReasonSpamLabel": {
         "description": "Rule-reason label for spam/scams/phishing in the IAR message flow."
     },
-    "iarReasonSpamMessageDescription": "Massen-Spam, Betrug, gefälschte Gewinnspiele oder Missbrauch von Konten.",
+    "iarReasonSpamMessageDescription": "Massen-Spam, Betrug, gefälschte Gewinnspiele oder Missbrauch von Accounts.",
     "@iarReasonSpamMessageDescription": {
         "description": "Rule-reason description for spam/scams in the IAR message flow."
     },
@@ -6004,11 +6004,11 @@
     "@iarActionBanUserButton": {
         "description": "Trailing button label on the ban-user action card."
     },
-    "iarActionBanUserBannedButton": "Gesperrt",
+    "iarActionBanUserBannedButton": "Gebannt",
     "@iarActionBanUserBannedButton": {
         "description": "Disabled-state trailing button label on the ban-user action card after the target is already banned."
     },
-    "iarActionBanUserBannedTooltip": "Dieser Nutzer ist bereits aus der Community gesperrt.",
+    "iarActionBanUserBannedTooltip": "Dieser Nutzer ist bereits in der Community gebannt.",
     "@iarActionBanUserBannedTooltip": {
         "description": "Tooltip on the disabled ban-user action card."
     },
@@ -6144,7 +6144,7 @@
     "@chatReplyMentionOverrideTitle": {
         "description": "Title of the confirmation alert shown when toggling reply mention against the recipient preference."
     },
-    "chatReplyMentionPrefersMentionBody": "{authorNickname} möchte lieber mit @erwähnt werden, wenn auf Nachrichten geantwortet wird. Trotzdem ohne Erwähnung senden?",
+    "chatReplyMentionPrefersMentionBody": "{authorNickname} möchte lieber mit @-erwähnt werden, wenn auf Nachrichten geantwortet wird. Trotzdem ohne Erwähnung senden?",
     "@chatReplyMentionPrefersMentionBody": {
         "description": "Confirmation body when the recipient prefers @mentions on replies but the user disabled it.",
         "placeholders": {
@@ -6154,7 +6154,7 @@
             }
         }
     },
-    "chatReplyMentionPrefersNoMentionBody": "{authorNickname} bevorzugt Antworten ohne @Erwähnung. Trotzdem mit Erwähnung senden?",
+    "chatReplyMentionPrefersNoMentionBody": "{authorNickname} bevorzugt Antworten ohne @-Erwähnung. Trotzdem mit Erwähnung senden?",
     "@chatReplyMentionPrefersNoMentionBody": {
         "description": "Confirmation body when the recipient prefers no @mention on replies but the user enabled it.",
         "placeholders": {
@@ -6464,7 +6464,7 @@
     "@purgePersonalNotesFailed": {
         "description": "Toast or error title when the purge personal notes API call fails."
     },
-    "userSettingsGroupYourAccount": "DEIN KONTO",
+    "userSettingsGroupYourAccount": "DEIN ACCOUNT",
     "@userSettingsGroupYourAccount": {
         "description": "Section heading for account-related items in user settings navigation."
     },
@@ -6495,10 +6495,6 @@
     "userSettingsNavGiftsAndCodes": "Geschenke & Codes",
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
-    },
-    "userSettingsNavExpressionPacks": "Emoji-Pakete",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
     },
     "userSettingsNavPrivacyDashboard": "Datenschutz-Dashboard",
     "@userSettingsNavPrivacyDashboard": {
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Audio & Video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Töne & Benachrichtigungen",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Sprache & Uhrzeit",
     "@userSettingsNavLanguageAndTime": {
@@ -6620,7 +6612,7 @@
     "@quickSwitcherTabFriends": {
         "description": "Quick switcher bottom sheet tab for the friends list."
     },
-    "quickSwitcherSearchPlaceholder": "Kanäle, Personen oder Communities suchen",
+    "quickSwitcherSearchPlaceholder": "Kanäle, Personen oder Communitys suchen",
     "@quickSwitcherSearchPlaceholder": {
         "description": "Placeholder in the mobile quick switcher search input."
     },
@@ -6879,7 +6871,7 @@
     "@guildNavbarDirectMessages": {
         "description": "Label for the direct messages entry in the guild navbar."
     },
-    "guildNavbarExploreDiscoverableCommunities": "Entdeckbare Communities durchsuchen",
+    "guildNavbarExploreDiscoverableCommunities": "Entdeckbare Communitys durchsuchen",
     "@guildNavbarExploreDiscoverableCommunities": {
         "description": "Label for the explore communities button in the guild navbar."
     },
@@ -6887,7 +6879,7 @@
     "@discoveryExplore": {
         "description": "Short label in the discovery page header."
     },
-    "discoveryExplorePublicCommunities": "Öffentliche Communities entdecken",
+    "discoveryExplorePublicCommunities": "Öffentliche Communitys entdecken",
     "@discoveryExplorePublicCommunities": {
         "description": "Main heading on the Discovery page."
     },
@@ -6895,7 +6887,7 @@
     "@discoveryListingSubheading": {
         "description": "Subheading on the Discovery page explaining how to apply for listing."
     },
-    "discoverySearchCommunities": "Communities suchen",
+    "discoverySearchCommunities": "Communitys suchen",
     "@discoverySearchCommunities": {
         "description": "Accessible label and placeholder for the community search field."
     },
@@ -6947,7 +6939,7 @@
     "@discoveryCategoryOther": {
         "description": "Discovery category label for communities that do not fit other categories."
     },
-    "discoveryNoCommunitiesMatch": "Keine Communities gefunden.",
+    "discoveryNoCommunitiesMatch": "Keine Communitys gefunden.",
     "@discoveryNoCommunitiesMatch": {
         "description": "Empty-state text when no discovery communities match the filters."
     },
@@ -7006,11 +6998,11 @@
     "@discoveryJoinErrorFullMessage": {
         "description": "Body when a discovery community has reached its member limit."
     },
-    "discoveryJoinErrorMaxGuildsTitle": "Du hast das Community-Limit erreicht",
+    "discoveryJoinErrorMaxGuildsTitle": "Du bist der maximalen Anzahl an Communitys beigetreten",
     "@discoveryJoinErrorMaxGuildsTitle": {
         "description": "Title when the user is in the maximum number of communities."
     },
-    "discoveryJoinErrorMaxGuildsMessage": "Du bist in der maximalen Anzahl von Communities. Verlasse eine und versuche es erneut.",
+    "discoveryJoinErrorMaxGuildsMessage": "Du bist der maximalen Anzahl von Communitys beigetreten. Verlasse eine und versuche es erneut.",
     "@discoveryJoinErrorMaxGuildsMessage": {
         "description": "Body when the user is in the maximum number of communities."
     },
@@ -7018,7 +7010,7 @@
     "@discoveryJoinErrorBannedTitle": {
         "description": "Title when the user is banned from a discovery community."
     },
-    "discoveryJoinErrorBannedMessage": "Du wurdest aus dieser Community gesperrt.",
+    "discoveryJoinErrorBannedMessage": "Du bist von dieser Community gebannt.",
     "@discoveryJoinErrorBannedMessage": {
         "description": "Body when the user is banned from a discovery community."
     },
@@ -7527,23 +7519,23 @@
     "@guildSettingsModerationVerificationRolesBypass": {
         "description": "Additional verification guidance in moderation settings."
     },
-    "guildSettingsModerationVerificationDiscoveryNote": "Communities, die in der Suche aufgeführt sind, benötigen mindestens eine verifizierte E-Mail-Adresse. „Keine“ kann nicht ausgewählt werden, wenn die Suche aktiviert ist.",
+    "guildSettingsModerationVerificationDiscoveryNote": "Communitys die in der Suche aufgeführt sind, benötigen mindestens eine verifizierte E-Mail-Adresse. „Keine“ kann nicht ausgewählt werden, wenn die Suche aktiviert ist.",
     "@guildSettingsModerationVerificationDiscoveryNote": {
         "description": "Discovery restriction note for verification level."
     },
-    "guildSettingsModerationMatureTitle": "Reife Inhalte & Inhaltswarnungen",
+    "guildSettingsModerationMatureTitle": "Altersbeschränkte Inhalte & Inhaltswarnungen",
     "@guildSettingsModerationMatureTitle": {
         "description": "Title for mature content settings."
     },
-    "guildSettingsModerationMatureSectionDescription": "Konfiguriere die Kennzeichnung reifer Inhalte und optionale Inhaltswarnungen für Mitglieder.",
+    "guildSettingsModerationMatureSectionDescription": "Konfiguriere die Kennzeichnung altersbeschränkter Inhalte und optionale Inhaltswarnungen für Mitglieder.",
     "@guildSettingsModerationMatureSectionDescription": {
         "description": "Section description for mature content and content warning settings."
     },
-    "guildSettingsModerationMatureToggle": "Reife Inhalte",
+    "guildSettingsModerationMatureToggle": "Altersbeschränkte Inhalte",
     "@guildSettingsModerationMatureToggle": {
         "description": "Switch label for mature content setting."
     },
-    "guildSettingsModerationMatureToggleDescription": "Markiere diese Community als reife Inhalte enthaltend.",
+    "guildSettingsModerationMatureToggleDescription": "Markiere diese Community als altersbeschränkte Inhalte enthaltend.",
     "@guildSettingsModerationMatureToggleDescription": {
         "description": "Subtitle for the mature content switch in moderation settings."
     },
@@ -7552,7 +7544,7 @@
     "guildSettingsVerificationLow": "Niedrig",
     "guildSettingsVerificationLowDescription": "Erfordert eine verifizierte E-Mail-Adresse.",
     "guildSettingsVerificationMedium": "Mittel",
-    "guildSettingsVerificationMediumDescription": "Erfordert eine verifizierte E-Mail-Adresse und ein Konto, das mindestens 5 Minuten alt ist.",
+    "guildSettingsVerificationMediumDescription": "Erfordert eine verifizierte E-Mail-Adresse und einen Account, der mindestens 5 Minuten alt ist.",
     "guildSettingsVerificationHigh": "Hoch",
     "guildSettingsVerificationHighDescription": "Erfordert alles aus „Mittel“ plus die Mitgliedschaft in der Community für mindestens 10 Minuten.",
     "guildSettingsVerificationHighest": "Sehr hoch",
@@ -7653,7 +7645,7 @@
     "@auditLogActionMemberPrune": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionMemberBanAdd": "Mitglied gesperrt",
+    "auditLogActionMemberBanAdd": "Mitglied gebannt",
     "@auditLogActionMemberBanAdd": {
         "description": "Audit log action filter label."
     },
@@ -7895,7 +7887,7 @@
             }
         }
     },
-    "auditLogSummaryMemberBanAdd": "{actor} hat {target} gesperrt.",
+    "auditLogSummaryMemberBanAdd": "{actor} hat {target} gebannt.",
     "@auditLogSummaryMemberBanAdd": {
         "description": "Activity log entry summary.",
         "placeholders": {
@@ -8420,7 +8412,7 @@
             }
         }
     },
-    "auditLogChangeUpdatedCommunityIcon": "Das Community-Symbol wurde aktualisiert.",
+    "auditLogChangeUpdatedCommunityIcon": "Das Community-Icon wurde aktualisiert.",
     "@auditLogChangeUpdatedCommunityIcon": {
         "description": "Guild change detail sentence."
     },
@@ -8454,7 +8446,7 @@
     "@auditLogChangeDisabledMatureContent": {
         "description": "Channel change detail sentence."
     },
-    "auditLogChangeSetNickname": "Spitzname auf {nickname} gesetzt.",
+    "auditLogChangeSetNickname": "Anzeigename auf {nickname} gesetzt.",
     "@auditLogChangeSetNickname": {
         "description": "Member change detail sentence.",
         "placeholders": {
@@ -8463,7 +8455,7 @@
             }
         }
     },
-    "auditLogChangeRemovedNickname": "Spitzname {nickname} entfernt.",
+    "auditLogChangeRemovedNickname": "Anzeigename {nickname} entfernt.",
     "@auditLogChangeRemovedNickname": {
         "description": "Member change detail sentence.",
         "placeholders": {
@@ -8682,7 +8674,7 @@
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Keine aktiven Einladungen.",
+    "guildSettingsInvitesEmpty": "Keine Einladungslinks",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -8707,7 +8699,7 @@
             }
         }
     },
-    "guildSettingsBansDescription": "Gesperrte Benutzer anzeigen und verwalten.",
+    "guildSettingsBansDescription": "Gebannte Nutzer anzeigen und verwalten.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
     },
@@ -8715,7 +8707,7 @@
     "@guildSettingsBansSearchHint": {
         "description": "Hint for ban search field."
     },
-    "guildSettingsBansEmpty": "Keine gesperrten Benutzer.",
+    "guildSettingsBansEmpty": "Keine gebannten Nutzer.",
     "@guildSettingsBansEmpty": {
         "description": "Empty state for bans."
     },
@@ -8740,7 +8732,7 @@
     "@guildSettingsUnban": {
         "description": "Button to unban a user."
     },
-    "guildSettingsBansLoading": "Gesperrte Benutzer werden geladen",
+    "guildSettingsBansLoading": "Gebannte Nutzer werden geladen",
     "@guildSettingsBansLoading": {
         "description": "Loading state for the guild bans list."
     },
@@ -8756,11 +8748,11 @@
     "@guildSettingsBanViewDetails": {
         "description": "Menu action to open ban details."
     },
-    "guildSettingsBannedOn": "Gesperrt am",
+    "guildSettingsBannedOn": "Gebannt am",
     "@guildSettingsBannedOn": {
         "description": "Label for when a user was banned."
     },
-    "guildSettingsBannedBy": "Gesperrt von",
+    "guildSettingsBannedBy": "Gebannt von",
     "@guildSettingsBannedBy": {
         "description": "Label for who issued the ban."
     },
@@ -8832,7 +8824,7 @@
         "description": "Description for the system and welcome settings section."
     },
     "guildSettingsOverviewNotificationsTitle": "Standardbenachrichtigungen",
-    "guildSettingsOverviewNotificationsLargeGuild": "Communities mit über 250 Personen werden auf die Einstellung „Nur Erwähnungen“ gesetzt. Deine ursprüngliche Einstellung bleibt erhalten und wird wiederhergestellt, wenn die Community unter 250 Mitglieder fällt.",
+    "guildSettingsOverviewNotificationsLargeGuild": "Communitys mit über 250 Personen werden auf die Einstellung „Nur Erwähnungen“ gesetzt. Deine ursprüngliche Einstellung bleibt erhalten und wird wiederhergestellt, wenn die Community unter 250 Mitglieder fällt.",
     "guildSettingsOverviewAdvancedTitle": "Erweitert",
     "guildSettingsOverviewFlexibleNames": "Flexible Textkanalnamen zulassen",
     "guildSettingsOverviewHideOwnerCrown": "Community-Besitzerkrone ausblenden",
@@ -9030,14 +9022,14 @@
         "description": "Upload requirements for chat embed background images."
     },
     "guildSettingsModerationDescription": "Konfiguriere Verifizierungs-, Inhaltsfilter- und Jugendschutzeinstellungen.",
-    "guildSettingsModerationDiscoveryNotice": "In der Suche gelistete Communities haben eingeschränkte Moderationsoptionen.",
+    "guildSettingsModerationDiscoveryNotice": "In der Suche gelistete Communitys haben eingeschränkte Moderationsoptionen.",
     "guildSettingsModerationContentFilterTitle": "Inhaltsfilterung",
     "guildSettingsModerationContentFilterDescription": "Filtert Nachrichten automatisch auf explizite Inhalte in Kanälen, die nicht als jugendgefährdend gekennzeichnet sind.",
-    "guildSettingsModerationContentFilterDiscoveryNote": "In der Suche gelistete Communities müssen alle Mitglieder scannen. Diese Einstellung kann nicht geändert werden, solange die Suche aktiviert ist.",
+    "guildSettingsModerationContentFilterDiscoveryNote": "In der Suche gelistete Communitys müssen alle Mitglieder scannen. Diese Einstellung kann nicht geändert werden, solange die Suche aktiviert ist.",
     "guildSettingsContentFilterOff": "Aus",
     "guildSettingsContentFilterOffDescription": "Überlasse die Moderation der Community selbst",
     "guildSettingsContentFilterNoRole": "Mitglieder ohne Rollen filtern",
-    "guildSettingsContentFilterNoRoleDescription": "Empfohlen für die meisten Communities",
+    "guildSettingsContentFilterNoRoleDescription": "Empfohlen für die meisten Communitys",
     "guildSettingsContentFilterAll": "Alle filtern",
     "guildSettingsContentFilterAllDescription": "Maximaler Schutz für familienfreundliche Bereiche",
     "guildSettingsModerationMatureOff": "Aus",
@@ -9062,7 +9054,7 @@
     "guildSettingsModeration2faDescription": "Fordere Zwei-Faktor-Authentifizierung für Moderatoren an, bevor sie verbannen, kicken, stumm schalten oder Nachrichten entfernen können.",
     "guildSettingsModeration2faSwitchLabel": "2FA für Moderationsaktionen erforderlich",
     "guildSettingsModeration2faOwnerOnlyTooltip": "Nur der Community-Besitzer kann diese Einstellung ändern",
-    "guildSettingsModeration2faEnableFirstTooltip": "Aktiviere 2FA für dein Konto, um diese Einstellung zu ändern",
+    "guildSettingsModeration2faEnableFirstTooltip": "Aktiviere 2FA für deinen Account, um diese Einstellung zu ändern",
     "guildSettingsEmojiSearchHint": "Emojis suchen",
     "guildSettingsEmojiUploadTitle": "Emoji hochladen",
     "guildSettingsNonAnimatedEmoji": "Nicht animierte Emojis ({count})",
@@ -9085,7 +9077,7 @@
     "guildSettingsWebhooksInfo": "Erstelle Webhooks in den Kanaleinstellungen. Bearbeite sie hier.",
     "guildSettingsVanityUrlWarning": "Deine Vanity-URL funktioniert nicht, es sei denn, mindestens ein Kanal ist für alle sichtbar.",
     "guildSettingsVanityUrlRemove": "Entfernen",
-    "guildSettingsBannedUsersTitle": "Gesperrte Benutzer",
+    "guildSettingsBannedUsersTitle": "Gebannte Nutzer",
     "guildSettingsInvitesTableInviter": "Einlader",
     "guildSettingsInvitesTableChannel": "Kanal",
     "guildSettingsInvitesTableCode": "Code",
@@ -9099,5 +9091,105 @@
     "guildSettingsAuditLogFilterAction": "Nach Aktion filtern",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "userProfileLocalTime": "Ortszeit",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "userProfileSameTimeAsYou": "Gleiche Zeitzone wie du",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "userProfileTimeAheadOfYou": "{duration} voraus",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "{duration} zurück",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeTimeFormatSectionTitle": "Zeitformat",
+    "@languageAndTimeTimeFormatSectionTitle": {
+        "description": "Settings section title for time format preference."
+    },
+    "languageAndTimeTimeFormatSelectionLabel": "Zeitformat Auswahl",
+    "@languageAndTimeTimeFormatSelectionLabel": {
+        "description": "Accessibility label for the time format radio group."
+    },
+    "languageAndTimeTimeFormatAuto": "Auto",
+    "@languageAndTimeTimeFormatAuto": {
+        "description": "Time format option that detects format from locale."
+    },
+    "languageAndTimeTimeFormat12Hour": "12-stündig",
+    "@languageAndTimeTimeFormat12Hour": {
+        "description": "Time format option for 12-hour AM/PM display."
+    },
+    "languageAndTimeTimeFormat24Hour": "24-stündig",
+    "@languageAndTimeTimeFormat24Hour": {
+        "description": "Time format option for 24-hour display."
+    },
+    "languageAndTimeTimeFormatAppLanguage": "App-Sprache: {format}",
+    "@languageAndTimeTimeFormatAppLanguage": {
+        "description": "Auto time format description using the app interface language.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeTimeFormatSystemLocale": "System-Spracheinstellung: {format}",
+    "@languageAndTimeTimeFormatSystemLocale": {
+        "description": "Auto time format description using the device system locale.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeUseSystemLocaleForTimeFormat": "Nutze die System-Spracheinstellung für das Zeitformat",
+    "@languageAndTimeUseSystemLocaleForTimeFormat": {
+        "description": "Toggle to use device system locale when auto-detecting time format."
+    },
+    "languageAndTimeTimeFormatSyncFailed": "Zeitformat konnte nicht aktualisiert werden",
+    "@languageAndTimeTimeFormatSyncFailed": {
+        "description": "Toast shown when saving the time format preference fails."
+    },
+    "channelMenuDuplicateChannel": "Kanal duplizieren",
+    "@channelMenuDuplicateChannel": {
+        "description": "Guild channel menu action to duplicate the selected channel."
+    },
+    "channelMenuResetMatureContentAgreeState": "Zustimmung zu nicht jugendfreien Inhalten zurücksetzen",
+    "@channelMenuResetMatureContentAgreeState": {
+        "description": "Developer tool action that forgets a local mature-content gate acknowledgement."
+    },
+    "channelMenuDeleteMyMessagesTitle": "Deine Nachrichten in diesem Kanal löschen?",
+    "@channelMenuDeleteMyMessagesTitle": {
+        "description": "Confirmation title for deleting all of the caller's messages in a channel."
+    },
+    "channelMenuDeleteMyMessagesDescription": "Alle Nachrichten, die du jemals in diesem Kanal gesendet hast, werden endgültig gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.",
+    "@channelMenuDeleteMyMessagesDescription": {
+        "description": "Confirmation description for deleting all of the caller's messages in a channel."
+    },
+    "channelMenuDeletedYourMessages": "Deine Nachrichten wurden gelöscht",
+    "@channelMenuDeletedYourMessages": {
+        "description": "Success toast after deleting messages in a channel."
+    },
+    "channelMenuCouldNotDeleteYourMessages": "Deine Nachrichten konnten nicht gelöscht werden",
+    "@channelMenuCouldNotDeleteYourMessages": {
+        "description": "Error toast when deleting messages in a channel fails."
     }
 }

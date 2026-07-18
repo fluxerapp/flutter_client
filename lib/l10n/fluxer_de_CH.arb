@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Emote-Pakete",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Datenschutz-Dashboard",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Audio & Video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Töne & Benachrichtigungen",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Sprache & Zeit",
     "@userSettingsNavLanguageAndTime": {

@@ -1017,7 +1017,7 @@
     "@dmAddNote": {
         "description": "DM context menu action to add a note about the user."
     },
-    "dmEditGroup": "Edit Group",
+    "dmEditGroup": "Edit group",
     "@dmEditGroup": {
         "description": "DM context menu action to edit a group DM."
     },
@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Expression Packs",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Privacy Dashboard",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Audio & Video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Sounds & Alerts",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Language & Time",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,99 @@
     "guildSettingsAuditLogFilterAction": "Filter by action",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "Your session has expired. Please sign in again.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "invalidDeepLinkDescription": "This link may be broken, only available on the web, or you might not have access. Check the link and try again.",
+    "@invalidDeepLinkDescription": {
+        "description": "Explanation shown when a deep link or route cannot be opened in the app."
+    },
+    "invalidDeepLinkGoHomeButton": "Go to home",
+    "@invalidDeepLinkGoHomeButton": {
+        "description": "Primary action on the invalid deep link screen to return to the home tab."
+    },
+    "dmUnnamedGroup": "Unnamed group",
+    "@dmUnnamedGroup": {
+        "description": "Fallback title for a group DM without a custom name."
+    },
+    "dmOwnersGroup": "{resolvedName}'s group",
+    "@dmOwnersGroup": {
+        "description": "Fallback title when the current user is the only participant in a group DM.",
+        "placeholders": {
+            "resolvedName": {
+                "type": "String",
+                "example": "Alice"
+            }
+        }
+    },
+    "dmDebugCategory": "Debug Category",
+    "@dmDebugCategory": {
+        "description": "Category context menu action to debug category data."
+    },
+    "userProfileLocalTime": "Local time",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "userProfileSameTimeAsYou": "Same time as you",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "userProfileTimeAheadOfYou": "{duration} ahead of you",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "{duration} behind you",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 hour} other{{hours} hours}} {minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+    "@userProfileTimezoneDurationHoursMinutes": {
+        "description": "Duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            },
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHours": "{hours, plural, =1{1 hour} other{{hours} hours}}",
+    "@userProfileTimezoneDurationHours": {
+        "description": "Hours-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+    "@userProfileTimezoneDurationMinutes": {
+        "description": "Minutes-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "iarReportGuildTitle": "Report community",
+    "@iarReportGuildTitle": {
+        "description": "Title of the simple community-report sheet."
+    },
+    "iarReportGuildPreconfirmBody": "If this report is about a specific message in this community, report that message instead. Message reports give our safety team the clearest context, and adding details in the comments can help us review it faster. Only continue with reporting the community as a whole if reporting a message would not capture the broader issue.",
+    "@iarReportGuildPreconfirmBody": {
+        "description": "Body shown in the pre-confirm dialog before opening the community report sheet."
     }
 }

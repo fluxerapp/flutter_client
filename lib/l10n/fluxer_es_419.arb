@@ -36,7 +36,7 @@
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
     },
-    "splashViewOnStatusPage": "Ver página de estado",
+    "splashViewOnStatusPage": "Ver en la página de estado",
     "@splashViewOnStatusPage": {
         "description": "Link under incident title on splash to open the status page."
     },
@@ -232,7 +232,7 @@
     "@mfaTryAnotherMethod": {
         "description": "Link to switch to a different MFA method."
     },
-    "mfaUseSecurityKey": "Llave de seguridad / Llave de acceso en su lugar",
+    "mfaUseSecurityKey": "Prueba la llave de seguridad / llave de acceso en su lugar",
     "@mfaUseSecurityKey": {
         "description": "Link to switch to WebAuthn from code entry."
     },
@@ -640,7 +640,7 @@
     "@passkeyDeviceNotSupported": {
         "description": "Error when device does not support passkeys."
     },
-    "passkeyDomainNotAssociated": "Las llaves de acceso no están configuradas para esta app. En su lugar, inicia sesión con tu correo y contraseña.",
+    "passkeyDomainNotAssociated": "Las llaves de acceso no están configuradas para esta aplicación. En su lugar, inicia sesión con tu correo y contraseña.",
     "@passkeyDomainNotAssociated": {
         "description": "Error when passkey domain association is missing."
     },
@@ -648,7 +648,7 @@
     "@passkeyTimeout": {
         "description": "Error when passkey authentication times out."
     },
-    "passkeyNotAvailable": "Las llaves de acceso no están disponibles para esta app. En su lugar, inicia sesión con tu correo y contraseña.",
+    "passkeyNotAvailable": "Las llaves de acceso no están disponibles para esta aplicación. En su lugar, inicia sesión con tu correo y contraseña.",
     "@passkeyNotAvailable": {
         "description": "Error for unknown passkey provider errors (e.g. TYPE_UNKNOWN)."
     },
@@ -742,7 +742,7 @@
     "@inviteAcceptJoinGroupButton": {
         "description": "Primary action to join a group DM from the invite modal."
     },
-    "inviteAcceptGroupDmDescription": "Fuiste invitado a unirte a un DM grupal por {inviterName}",
+    "inviteAcceptGroupDmDescription": "Fuiste invitado a unirte a un chat privado grupal por {inviterName}",
     "@inviteAcceptGroupDmDescription": {
         "description": "Description for a group DM invite in the accept modal.",
         "placeholders": {
@@ -868,7 +868,7 @@
     "@notificationOnlyMentions": {
         "description": "Radio option for receiving only mention notifications."
     },
-    "notificationNothing": "Nada",
+    "notificationNothing": "Ninguna",
     "@notificationNothing": {
         "description": "Radio option for receiving no notifications."
     },
@@ -900,7 +900,7 @@
     "@notificationMuteChannel": {
         "description": "Switch label for muting a channel override."
     },
-    "notificationUnmuteChannel": "Reactivar sonido del canal",
+    "notificationUnmuteChannel": "Activar notificaciones del canal",
     "@notificationUnmuteChannel": {
         "description": "Action label for unmuting a channel from the context menu."
     },
@@ -912,19 +912,19 @@
     "@dmMarkAsRead": {
         "description": "DM context menu action to mark conversation as read."
     },
-    "dmMuteConversation": "Silenciar chat",
+    "dmMuteConversation": "Silenciar chat privado",
     "@dmMuteConversation": {
         "description": "DM context menu action to mute a DM."
     },
-    "dmUnmuteConversation": "Desactivar silencio de chat",
+    "dmUnmuteConversation": "Activar notificaciones de chat privado",
     "@dmUnmuteConversation": {
         "description": "DM context menu action to unmute a DM."
     },
-    "dmPinDm": "Fijar chat",
+    "dmPinDm": "Fijar chat privado",
     "@dmPinDm": {
         "description": "DM context menu action to pin a DM."
     },
-    "dmUnpinDm": "Desfijar chat",
+    "dmUnpinDm": "Desfijar chat privado",
     "@dmUnpinDm": {
         "description": "DM context menu action to unpin a DM."
     },
@@ -936,15 +936,15 @@
     "@dmRemoveFromAlwaysShown": {
         "description": "DM context menu action to remove from always shown."
     },
-    "dmCloseDm": "Cerrar chat",
+    "dmCloseDm": "Cerrar chat privado",
     "@dmCloseDm": {
         "description": "DM context menu action to close a DM conversation."
     },
-    "dmCloseDmConfirmTitle": "Cerrar chat",
+    "dmCloseDmConfirmTitle": "Cerrar chat privado",
     "@dmCloseDmConfirmTitle": {
         "description": "Title for close DM confirmation modal."
     },
-    "dmCloseDmConfirmDescription": "¿Estás seguro de que quieres cerrar el chat con {username}? Puedes volver a abrirlo más tarde.",
+    "dmCloseDmConfirmDescription": "¿Estás seguro de que quieres cerrar el chat privado con {username}? Puedes volver a abrirlo más tarde.",
     "@dmCloseDmConfirmDescription": {
         "description": "Description for close DM confirmation modal.",
         "placeholders": {
@@ -1082,27 +1082,27 @@
     "@dmMuteForever": {
         "description": "Mute duration option: indefinite."
     },
-    "dmPinGroupDm": "Fijar chat grupal",
+    "dmPinGroupDm": "Fijar chat privado grupal",
     "@dmPinGroupDm": {
         "description": "DM context menu action to pin a group DM."
     },
-    "dmUnpinGroupDm": "Desfijar chat grupal",
+    "dmUnpinGroupDm": "Desfijar chat privado grupal",
     "@dmUnpinGroupDm": {
         "description": "DM context menu action to unpin a group DM."
     },
-    "dmFavoriteDm": "Añadir chat a favoritos",
+    "dmFavoriteDm": "Añadir chat privado a favoritos",
     "@dmFavoriteDm": {
         "description": "DM context menu action to favorite a DM."
     },
-    "dmUnfavoriteDm": "Quitar chat de favoritos",
+    "dmUnfavoriteDm": "Quitar chat privado de favoritos",
     "@dmUnfavoriteDm": {
         "description": "DM context menu action to unfavorite a DM."
     },
-    "dmFavoriteGroupDm": "Añadir chat grupal a favoritos",
+    "dmFavoriteGroupDm": "Añadir chat privado grupal a favoritos",
     "@dmFavoriteGroupDm": {
         "description": "DM context menu action to favorite a group DM."
     },
-    "dmUnfavoriteGroupDm": "Quitar chat grupal de favoritos",
+    "dmUnfavoriteGroupDm": "Remover chat privado grupal de favoritos",
     "@dmUnfavoriteGroupDm": {
         "description": "DM context menu action to unfavorite a group DM."
     },
@@ -1142,19 +1142,19 @@
     "@dmDebugChannel": {
         "description": "DM context menu action to debug channel data."
     },
-    "dmPinned": "Chat fijado",
+    "dmPinned": "Chat privado fijado",
     "@dmPinned": {
         "description": "Toast message when a DM is pinned."
     },
-    "dmUnpinned": "Chat desfijado",
+    "dmUnpinned": "Chat privado desfijado",
     "@dmUnpinned": {
         "description": "Toast message when a DM is unpinned."
     },
-    "dmMuted": "Chat silenciado",
+    "dmMuted": "Chat privado silenciado",
     "@dmMuted": {
         "description": "Toast message when a DM conversation is muted."
     },
-    "dmUnmuted": "Sonido de chat activado",
+    "dmUnmuted": "Notificaciones de chat privado activadas",
     "@dmUnmuted": {
         "description": "Toast message when a DM conversation is unmuted."
     },
@@ -1220,11 +1220,11 @@
     "@addFriendSheetTitle": {
         "description": "Title for the mobile add friends bottom sheet."
     },
-    "addFriendUsernameHint": "Nombredeusuario#0000",
+    "addFriendUsernameHint": "Usuario#0000",
     "@addFriendUsernameHint": {
         "description": "Placeholder for the add friend username input."
     },
-    "addFriendUsernameLabel": "Nombre de usuario del amigo",
+    "addFriendUsernameLabel": "Nombre de usuario de tu amigo",
     "@addFriendUsernameLabel": {
         "description": "Accessibility label for the add friend username input."
     },
@@ -1236,7 +1236,7 @@
     "@addFriendNoUserFound": {
         "description": "Error when no user matches the entered FluxerTag."
     },
-    "addFriendInvalidUsername": "Ingresa un nombre de usuario valido (Username#0000).",
+    "addFriendInvalidUsername": "Ingresa un nombre de usuario valido (Usuario#0000).",
     "@addFriendInvalidUsername": {
         "description": "Error when the FluxerTag format is invalid."
     },
@@ -1643,11 +1643,11 @@
     "@crop": {
         "description": "Button to confirm image crop."
     },
-    "changeYourFluxerTag": "Cambiar tu FluxerTag",
+    "changeYourFluxerTag": "Cambiar tu etiqueta",
     "@changeYourFluxerTag": {
         "description": "Title for the FluxerTag change bottom sheet."
     },
-    "fluxerTagInputLabel": "FluxerTag",
+    "fluxerTagInputLabel": "Etiqueta",
     "@fluxerTagInputLabel": {
         "description": "Label above the username and discriminator input fields."
     },
@@ -1750,11 +1750,11 @@
     "@premiumTrialActive": {
         "description": "Trial upsell without specific expiry date."
     },
-    "fluxerTagUpdated": "FluxerTag actualizado",
+    "fluxerTagUpdated": "Etiqueta actualizada",
     "@fluxerTagUpdated": {
         "description": "Success toast after FluxerTag change."
     },
-    "fluxerTagUpdateFailed": "No se pudo actualizar el FluxerTag. Inténtalo de nuevo.",
+    "fluxerTagUpdateFailed": "No se pudo actualizar el FluxerTag. Por favor, Inténtalo de nuevo.",
     "@fluxerTagUpdateFailed": {
         "description": "Error message when FluxerTag update fails."
     },
@@ -1852,7 +1852,7 @@
     "@accentColorDescription": {
         "description": "Helper text for the accent color picker."
     },
-    "aboutMeLabel": "Acerca de mí",
+    "aboutMeLabel": "Sobre mí",
     "@aboutMeLabel": {
         "description": "Label for the bio text area."
     },
@@ -1984,11 +1984,11 @@
     "@unclaimedAccountTitle": {
         "description": "Title for the unclaimed account warning bar."
     },
-    "unclaimedAccountDescription": "Tu cuenta aún no ha sido activada. Sin un correo electrónico y una contraseña, podrías perder el acceso. Activa tu cuenta ahora para protegerla.",
+    "unclaimedAccountDescription": "Tu cuenta aún no ha sido reclamada. Sin un correo electrónico y una contraseña, podrías perder el acceso. Reclama tu cuenta ahora para protegerla.",
     "@unclaimedAccountDescription": {
         "description": "Description for the unclaimed account warning bar."
     },
-    "claimAccount": "Activar cuenta",
+    "claimAccount": "Reclamar cuenta",
     "@claimAccount": {
         "description": "Button to start the account claiming flow."
     },
@@ -2294,7 +2294,7 @@
     "@disable": {
         "description": "Generic disable button label."
     },
-    "delete": "Borrar",
+    "delete": "Eliminar",
     "@delete": {
         "description": "Generic delete button label."
     },
@@ -2450,7 +2450,7 @@
     "@securityClaimTitle": {
         "description": "Title when user needs to claim account for security."
     },
-    "securityClaimDescription": "Reclama tu cuenta para acceder a funciones de seguridad como la autenticación de dos factores y las llaves de acceso.",
+    "securityClaimDescription": "Reclama tu cuenta para acceder a funciones de seguridad como la autenticación en dos pasos y las llaves de acceso.",
     "@securityClaimDescription": {
         "description": "Description prompting user to claim account."
     },
@@ -2554,7 +2554,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Número de teléfono añadido",
+    "phoneAddSuccess": "Número de teléfono verificado",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -2970,7 +2970,7 @@
             }
         }
     },
-    "userProfileOpenBlockedDmTitle": "Abrir chat",
+    "userProfileOpenBlockedDmTitle": "Abrir chat privado",
     "@userProfileOpenBlockedDmTitle": {
         "description": "Title of the confirmation sheet shown when opening a DM with a blocked user."
     },
@@ -2987,7 +2987,7 @@
     "@blockedUserComposerBarrierAction": {
         "description": "Button label on the composer barrier shown when messaging a blocked user."
     },
-    "userProfileOpenDm": "Abrir chat",
+    "userProfileOpenDm": "Abrir chat privado",
     "@userProfileOpenDm": {
         "description": "Primary button label on the open-DM-while-blocked confirmation."
     },
@@ -3086,7 +3086,7 @@
             }
         }
     },
-    "userProfileFailedOpenDm": "No se pudo abrir el chat",
+    "userProfileFailedOpenDm": "No se pudo abrir el chat privado",
     "@userProfileFailedOpenDm": {
         "description": "Toast shown when opening a DM channel fails."
     },
@@ -3368,7 +3368,7 @@
     "@iarReasonInappropriateProfileDescription": {
         "description": "Description for the inappropriate-profile user-report reason."
     },
-    "typingIndicatorOne": "Escribiendo {name}...",
+    "typingIndicatorOne": "{name} está escribiendo ...",
     "@typingIndicatorOne": {
         "description": "Typing indicator shown above the chat input when exactly one other user is typing.",
         "placeholders": {
@@ -3377,7 +3377,7 @@
             }
         }
     },
-    "typingIndicatorTwo": "Escribiendo {name1} y {name2}...",
+    "typingIndicatorTwo": "{name1} y {name2} están escribiendo...",
     "@typingIndicatorTwo": {
         "description": "Typing indicator shown above the chat input when two other users are typing.",
         "placeholders": {
@@ -3389,7 +3389,7 @@
             }
         }
     },
-    "typingIndicatorThree": "Escribiendo {name1}, {name2} y {name3}...",
+    "typingIndicatorThree": "{name1}, {name2} y {name3} están escribiendo...",
     "@typingIndicatorThree": {
         "description": "Typing indicator shown above the chat input when three other users are typing.",
         "placeholders": {
@@ -4288,7 +4288,7 @@
     "@connectionVerifyButton": {
         "description": "Primary button on the verify step."
     },
-    "connectionBack": "Atrás",
+    "connectionBack": "Volver",
     "@connectionBack": {
         "description": "Secondary button on the verify step that returns to step 1."
     },
@@ -4380,7 +4380,7 @@
     "@connectionEnterDomain": {
         "description": "Inline error shown when the domain input is empty."
     },
-    "lookAndFeelTitle": "Apariencia y estilo",
+    "lookAndFeelTitle": "Diseño e interfaz",
     "@lookAndFeelTitle": {
         "description": "Title of the Look & Feel (Appearance) settings page."
     },
@@ -4653,7 +4653,7 @@
     "@favoritesMute": {
         "description": "Action to mute the favorites section."
     },
-    "favoritesUnmute": "Reactivar notificaciones de favoritos",
+    "favoritesUnmute": "Activar notificaciones de favoritos",
     "@favoritesUnmute": {
         "description": "Action to unmute the favorites section."
     },
@@ -4737,7 +4737,7 @@
     "@messagesMediaMediaGroupDescription": {
         "description": "Top-level section description for media settings."
     },
-    "messagesMediaInputGroupTitle": "Entrada",
+    "messagesMediaInputGroupTitle": "Escritura",
     "@messagesMediaInputGroupTitle": {
         "description": "Top-level section title for message input settings."
     },
@@ -4961,7 +4961,7 @@
     "@accessibilityShowFadedUnreadOnMutedChannelsDescription": {
         "description": "Toggle description for showing a faded unread indicator on muted channels."
     },
-    "accessibilityDmMessagePreviewGroupTitle": "Vistas previas de mensajes de MD",
+    "accessibilityDmMessagePreviewGroupTitle": "Vistas previas de mensajes de chats privados",
     "@accessibilityDmMessagePreviewGroupTitle": {
         "description": "Section title for DM message preview accessibility settings."
     },
@@ -4969,7 +4969,7 @@
     "@accessibilityDmMessagePreviewGroupDescription": {
         "description": "Section description for DM message preview accessibility settings."
     },
-    "accessibilityDmMessagePreviewModeLabel": "Modo de vista previa de mensajes de MD",
+    "accessibilityDmMessagePreviewModeLabel": "Modo de vista previa de mensajes de chats privados",
     "@accessibilityDmMessagePreviewModeLabel": {
         "description": "Accessibility label for the DM message preview mode radio group."
     },
@@ -4981,19 +4981,19 @@
     "@accessibilityDmMessagePreviewAllDescription": {
         "description": "Radio option description for showing DM previews for all conversations."
     },
-    "accessibilityDmMessagePreviewUnreadOnlyName": "Solo DMs no leídos",
+    "accessibilityDmMessagePreviewUnreadOnlyName": "Solo chats privados no leídos",
     "@accessibilityDmMessagePreviewUnreadOnlyName": {
         "description": "Radio option name for showing DM previews only when unread."
     },
-    "accessibilityDmMessagePreviewUnreadOnlyDescription": "Mostrar solo vistas previas de mensajes en DMs con mensajes no leídos",
+    "accessibilityDmMessagePreviewUnreadOnlyDescription": "Mostrar solo vistas previas de mensajes en chats privados con mensajes no leídos",
     "@accessibilityDmMessagePreviewUnreadOnlyDescription": {
         "description": "Radio option description for showing DM previews only when unread."
     },
-    "accessibilityDmMessagePreviewNoneName": "Ninguna",
+    "accessibilityDmMessagePreviewNoneName": "Ninguno",
     "@accessibilityDmMessagePreviewNoneName": {
         "description": "Radio option name for hiding DM message previews."
     },
-    "accessibilityDmMessagePreviewNoneDescription": "No mostrar vistas previas de mensajes en la lista de DMs",
+    "accessibilityDmMessagePreviewNoneDescription": "No mostrar vistas previas de mensajes en la lista de chats privados",
     "@accessibilityDmMessagePreviewNoneDescription": {
         "description": "Radio option description for hiding DM message previews."
     },
@@ -5545,7 +5545,7 @@
     "@forwardMessageTitle": {
         "description": "Title of the forward-message bottom sheet."
     },
-    "forwardSearchHint": "Buscar canales o chats",
+    "forwardSearchHint": "Buscar canales o chats privados",
     "@forwardSearchHint": {
         "description": "Placeholder for the destination search field in the forward sheet."
     },
@@ -5690,7 +5690,7 @@
     "@iarReportMessageTitle": {
         "description": "Title shown at the top of the In-App Reporting (IAR) sheet when the user is reporting a specific message."
     },
-    "iarThisUserFallback": "Este usuario",
+    "iarThisUserFallback": "este usuario",
     "@iarThisUserFallback": {
         "description": "Lowercase phrase used mid-sentence in IAR copy when referring to the reported user without a name (e.g. inside the close-DM confirmation)."
     },
@@ -5928,7 +5928,7 @@
     "@iarActionCopyMessageLinkButton": {
         "description": "Trailing button label on the copy-message-link action card."
     },
-    "iarActionCloseDmTitle": "Cerrar este DM",
+    "iarActionCloseDmTitle": "Cerrar este chat privado",
     "@iarActionCloseDmTitle": {
         "description": "Action card title for closing the DM with the reported user."
     },
@@ -5936,7 +5936,7 @@
     "@iarActionCloseDmDescription": {
         "description": "Action card description for closing the DM."
     },
-    "iarActionCloseDmButton": "Cerrar DM",
+    "iarActionCloseDmButton": "Cerrar chat privado",
     "@iarActionCloseDmButton": {
         "description": "Trailing button label on the close-DM action card."
     },
@@ -5952,7 +5952,7 @@
     "@iarActionLeaveCommunityButton": {
         "description": "Trailing button label on the leave-community action card."
     },
-    "iarActionDmSettingsTitle": "Configuración de DMs y solicitudes de amistad",
+    "iarActionDmSettingsTitle": "Ajustes de chats privados y solicitudes de amistad",
     "@iarActionDmSettingsTitle": {
         "description": "Action card title for opening the DM / friend-request privacy settings."
     },
@@ -6000,7 +6000,7 @@
     "@iarActionBanUserDescription": {
         "description": "Action card description (moderator-only) for banning the reported user."
     },
-    "iarActionBanUserButton": "Expulsar",
+    "iarActionBanUserButton": "Banear",
     "@iarActionBanUserButton": {
         "description": "Trailing button label on the ban-user action card."
     },
@@ -6012,7 +6012,7 @@
     "@iarActionBanUserBannedTooltip": {
         "description": "Tooltip on the disabled ban-user action card."
     },
-    "iarCloseDmConfirmTitle": "Cerrar DM",
+    "iarCloseDmConfirmTitle": "Cerrar chat privado",
     "@iarCloseDmConfirmTitle": {
         "description": "Title of the confirm-close-DM bottom sheet shown after the user taps Close DM on the action card."
     },
@@ -6030,7 +6030,7 @@
     "@iarSuccessTitle": {
         "description": "Title shown on the success step after a platform report is submitted."
     },
-    "iarSuccessBody": "Nuestro equipo de seguridad lo está revisando. Te enviaremos un DM y un correo electrónico una vez que hayamos llegado a un veredicto.",
+    "iarSuccessBody": "Nuestro equipo de seguridad lo está revisando. Te enviaremos un chat privado y un correo electrónico una vez que hayamos llegado a un veredicto.",
     "@iarSuccessBody": {
         "description": "Body shown on the success step after a platform report is submitted."
     },
@@ -6042,7 +6042,7 @@
     "@iarAlreadyReportedBody": {
         "description": "Body shown on the IAR success step when the message had already been reported by this user (HTTP 409)."
     },
-    "iarBackButton": "Atrás",
+    "iarBackButton": "Volver",
     "@iarBackButton": {
         "description": "Footer button label that returns the user to the previous IAR step."
     },
@@ -6084,7 +6084,7 @@
     "@iarBlockUserFailedToast": {
         "description": "Toast shown when blocking the reported user from the IAR action card fails."
     },
-    "iarCloseDmSuccessToast": "DM cerrado.",
+    "iarCloseDmSuccessToast": "Chat privado cerrado.",
     "@iarCloseDmSuccessToast": {
         "description": "Toast shown after the DM with the reported user is closed from the IAR action card."
     },
@@ -6132,7 +6132,7 @@
     "@chatReplyOriginalFailedToLoad": {
         "description": "Error message in the channel and chat reply preview."
     },
-    "chatReplyAttachedMedia": "El mensaje contiene medios adjuntos",
+    "chatReplyAttachedMedia": "El mensaje contiene archivos multimedia adjuntos",
     "@chatReplyAttachedMedia": {
         "description": "Label in the channel and chat reply preview."
     },
@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Packs de expresiones",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Panel de privacidad",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Audio y video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Sonidos y alertas",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Idioma y hora",
     "@userSettingsNavLanguageAndTime": {
@@ -6931,7 +6923,7 @@
     "@discoveryCategoryScienceAndTechnology": {
         "description": "Discovery category label for science and technology communities."
     },
-    "discoveryCategoryContentCreator": "Creador de Contenido",
+    "discoveryCategoryContentCreator": "Creador de contenido",
     "@discoveryCategoryContentCreator": {
         "description": "Discovery category label for content creator communities."
     },
@@ -7063,7 +7055,7 @@
             }
         }
     },
-    "guildNavbarGroupDm": "DM Grupal",
+    "guildNavbarGroupDm": "Chat privado grupal",
     "@guildNavbarGroupDm": {
         "description": "Secondary label for a group DM in the invite recipients list."
     },
@@ -7103,7 +7095,7 @@
     "@guildNavbarNameLabel": {
         "description": "Label for name input fields in guild navbar modals."
     },
-    "guildNavbarNewChannelHint": "new-channel",
+    "guildNavbarNewChannelHint": "nuevo-canal",
     "@guildNavbarNewChannelHint": {
         "description": "Placeholder hint for new channel name input."
     },
@@ -7111,7 +7103,7 @@
     "@guildNavbarUrlLabel": {
         "description": "Label for URL input in link channel creation."
     },
-    "guildNavbarUrlHint": "https://example.com",
+    "guildNavbarUrlHint": "https://ejemplo.com",
     "@guildNavbarUrlHint": {
         "description": "Placeholder hint for URL input in link channel creation."
     },
@@ -7119,7 +7111,7 @@
     "@guildNavbarCreateCategory": {
         "description": "Title and confirm label for the create category modal."
     },
-    "guildNavbarNewCategoryHint": "Nueva Categoría",
+    "guildNavbarNewCategoryHint": "Nueva categoría",
     "@guildNavbarNewCategoryHint": {
         "description": "Placeholder hint for new category name input."
     },
@@ -7345,7 +7337,7 @@
     "@guildMenuInviteMembers": {
         "description": "Guild menu action to open the invite members flow."
     },
-    "guildMenuCommunitySettings": "Configuración de la comunidad",
+    "guildMenuCommunitySettings": "Ajustes de la comunidad",
     "@guildMenuCommunitySettings": {
         "description": "Guild menu submenu for community settings tabs."
     },
@@ -7353,7 +7345,7 @@
     "@guildMenuEditCommunityProfile": {
         "description": "Guild menu action to edit the community profile."
     },
-    "guildMenuUnmuteCommunity": "Activar comunidad",
+    "guildMenuUnmuteCommunity": "Activar notificaciones",
     "@guildMenuUnmuteCommunity": {
         "description": "Guild menu action to unmute the community."
     },
@@ -7406,7 +7398,7 @@
     "@guildMenuSettingsSafetyModeration": {
         "description": "Community settings tab for safety and moderation."
     },
-    "guildMenuSettingsActivityLog": "Activity Log",
+    "guildMenuSettingsActivityLog": "Registro de actividad",
     "@guildMenuSettingsActivityLog": {
         "description": "Community settings tab for the activity log."
     },
@@ -7430,7 +7422,7 @@
     "@guildMenuSettingsInviteLinks": {
         "description": "Community settings tab for invite links."
     },
-    "guildMenuSettingsBans": "Prohibiciones",
+    "guildMenuSettingsBans": "Baneos",
     "@guildMenuSettingsBans": {
         "description": "Community settings tab for banned members."
     },
@@ -7653,7 +7645,7 @@
     "@auditLogActionMemberPrune": {
         "description": "Audit log action filter label."
     },
-    "auditLogActionMemberBanAdd": "Miembro prohibido",
+    "auditLogActionMemberBanAdd": "Miembro baneado",
     "@auditLogActionMemberBanAdd": {
         "description": "Audit log action filter label."
     },
@@ -8446,11 +8438,11 @@
             }
         }
     },
-    "auditLogChangeEnabledMatureContent": "Se habilitó contenido para adultos.",
+    "auditLogChangeEnabledMatureContent": "Contenido para adultos habilitado.",
     "@auditLogChangeEnabledMatureContent": {
         "description": "Channel change detail sentence."
     },
-    "auditLogChangeDisabledMatureContent": "Se deshabilitó contenido para adultos.",
+    "auditLogChangeDisabledMatureContent": "Contenido para adultos deshabilitado.",
     "@auditLogChangeDisabledMatureContent": {
         "description": "Channel change detail sentence."
     },
@@ -8472,7 +8464,7 @@
             }
         }
     },
-    "auditLogChangeMutedMember": "Se silenció al miembro.",
+    "auditLogChangeMutedMember": "Se ha silenciado al miembro.",
     "@auditLogChangeMutedMember": {
         "description": "Member change detail sentence."
     },
@@ -8480,11 +8472,11 @@
     "@auditLogChangeUnmutedMember": {
         "description": "Member change detail sentence."
     },
-    "auditLogChangeDeafenedMember": "Se puso en modo sordo al miembro.",
+    "auditLogChangeDeafenedMember": "Se ha ensordecido al miembro.",
     "@auditLogChangeDeafenedMember": {
         "description": "Member change detail sentence."
     },
-    "auditLogChangeUndeafenedMember": "Se quitó el modo sordo al miembro.",
+    "auditLogChangeUndeafenedMember": "Se ha reactivado el sonido del miembro.",
     "@auditLogChangeUndeafenedMember": {
         "description": "Member change detail sentence."
     },
@@ -8571,7 +8563,7 @@
     "@guildSettingsLoadingMore": {
         "description": "Loading state for pagination."
     },
-    "guildSettingsWebhooksDescription": "Administra los webhooks que publican mensajes en los canales.",
+    "guildSettingsWebhooksDescription": "Gestiona los webhooks que publican mensajes en los canales.",
     "@guildSettingsWebhooksDescription": {
         "description": "Description for webhooks tab."
     },
@@ -8707,7 +8699,7 @@
             }
         }
     },
-    "guildSettingsBansDescription": "Ve y administra los usuarios baneados.",
+    "guildSettingsBansDescription": "Ver y gestionar los usuarios baneados.",
     "@guildSettingsBansDescription": {
         "description": "Description for bans tab."
     },
@@ -8794,7 +8786,7 @@
     "@guildSettingsRevokeBanError": {
         "description": "Error when revoking a ban fails."
     },
-    "guildSettingsCommunitySettings": "Configuración de la comunidad",
+    "guildSettingsCommunitySettings": "Ajustes de la comunidad",
     "@guildSettingsCommunitySettings": {
         "description": "Title for guild settings modal."
     },
@@ -8814,14 +8806,14 @@
     "@guildSettingsCategoryPeople": {
         "description": "Sidebar category for members, invites, and bans."
     },
-    "guildSettingsOverviewDescription": "Administra el perfil, los canales y la configuración predeterminada de tu comunidad.",
+    "guildSettingsOverviewDescription": "Gestiona el perfil, los canales y la configuración predeterminada de tu comunidad.",
     "guildSettingsOverviewBrandingTitle": "Marca",
     "guildSettingsOverviewBrandingDescription": "Actualiza tu ícono, nombre, banner y fondo de invitación",
     "@guildSettingsOverviewBrandingDescription": {
         "description": "Description for the branding settings section."
     },
     "guildSettingsOverviewBannerUpload": "Subir banner",
-    "guildSettingsOverviewIdleTitle": "Configuración de inactividad",
+    "guildSettingsOverviewIdleTitle": "Ajustes de inactividad",
     "guildSettingsOverviewIdleDescription": "Configura el canal AFK y el tiempo de espera",
     "@guildSettingsOverviewIdleDescription": {
         "description": "Description for the idle settings section."
@@ -9099,5 +9091,538 @@
     "guildSettingsAuditLogFilterAction": "Filtrar por acción",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "Tu sesión ha caducado. Por favor, inicia sesión de nuevo.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "audioAndVideoAudioSectionTitle": "Audio",
+    "@audioAndVideoAudioSectionTitle": {
+        "description": "Settings section title for audio settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionTitle": "Video",
+    "@audioAndVideoVideoSectionTitle": {
+        "description": "Settings section title for video settings in the voice and video tab."
+    },
+    "audioAndVideoDefaultDeviceLabel": "Por defecto",
+    "@audioAndVideoDefaultDeviceLabel": {
+        "description": "Label for the system default audio or video device."
+    },
+    "audioAndVideoCustomProfileLabel": "Personalizado",
+    "@audioAndVideoCustomProfileLabel": {
+        "description": "Voice processing profile with manual controls."
+    },
+    "audioAndVideoNoiseSuppressionEnhancedLabel": "Mejorado",
+    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
+        "description": "Enhanced noise suppression option using AI filtering."
+    },
+    "audioAndVideoNoiseSuppressionStandardLabel": "Estándar",
+    "@audioAndVideoNoiseSuppressionStandardLabel": {
+        "description": "Standard browser or platform noise suppression option."
+    },
+    "channelDetailsActionMore": "Más",
+    "@channelDetailsActionMore": {
+        "description": "More action button label in channel details."
+    },
+    "channelDetailsSearchTitle": "Buscar",
+    "@channelDetailsSearchTitle": {
+        "description": "Title for the channel search bottom sheet."
+    },
+    "permissionManageCommunity": "Administrar comunidad",
+    "@permissionManageCommunity": {
+        "description": "Permission name."
+    },
+    "permissionManageRoles": "Administrar roles",
+    "@permissionManageRoles": {
+        "description": "Permission name."
+    },
+    "permissionManageChannels": "Administrar canales",
+    "@permissionManageChannels": {
+        "description": "Permission name."
+    },
+    "permissionManageNicknames": "Administrar apodos",
+    "@permissionManageNicknames": {
+        "description": "Permission name."
+    },
+    "permissionManageWebhooks": "Administrar webhooks",
+    "@permissionManageWebhooks": {
+        "description": "Permission name."
+    },
+    "permissionSendMessages": "Enviar mensajes",
+    "@permissionSendMessages": {
+        "description": "Permission name."
+    },
+    "permissionManageMessages": "Administrar mensajes",
+    "@permissionManageMessages": {
+        "description": "Permission name."
+    },
+    "channelDetailsActionUnmute": "Activar notificaciones",
+    "@channelDetailsActionUnmute": {
+        "description": "Unmute action button label in channel details."
+    },
+    "channelDetailsSearchContentSticker": "Sticker",
+    "@channelDetailsSearchContentSticker": {
+        "description": "Content filter label for stickers."
+    },
+    "dmDebugCategory": "Depurar categoría",
+    "@dmDebugCategory": {
+        "description": "Category context menu action to debug category data."
+    },
+    "createDm": "Crear chat privado",
+    "@createDm": {
+        "description": "Button to create a direct message with selected friends."
+    },
+    "createDmNewMessage": "Nuevo mensaje",
+    "@createDmNewMessage": {
+        "description": "Accessibility label for the mobile compose FAB in the DM list."
+    },
+    "createDmSelectFriends": "Seleccionar amigos",
+    "@createDmSelectFriends": {
+        "description": "Title for the create DM modal or bottom sheet."
+    },
+    "createDmSearchFriends": "Buscar amigos",
+    "@createDmSearchFriends": {
+        "description": "Search input placeholder in the friend selector."
+    },
+    "createDmNewGroup": "Nuevo grupo",
+    "@createDmNewGroup": {
+        "description": "Row title to create a group from an existing 1:1 DM."
+    },
+    "createDmRemoveFriend": "Eliminar a {displayName}",
+    "@createDmRemoveFriend": {
+        "description": "Accessibility label for removing a selected friend pill.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmListDirectMessagesTitle": "Chats privados",
+    "@dmListDirectMessagesTitle": {
+        "description": "Desktop section header for the DM conversation list."
+    },
+    "dmUnnamedGroup": "Grupo sin nombre",
+    "@dmUnnamedGroup": {
+        "description": "Fallback title for a group DM without a custom name."
+    },
+    "dmOwnersGroup": "Grupo de {resolvedName}",
+    "@dmOwnersGroup": {
+        "description": "Fallback title when the current user is the only participant in a group DM.",
+        "placeholders": {
+            "resolvedName": {
+                "type": "String",
+                "example": "Alice"
+            }
+        }
+    },
+    "channelDetailsUnmutedConversation": "Notificaciones de la conversación activadas",
+    "@channelDetailsUnmutedConversation": {
+        "description": "Toast after unmuting a DM conversation from channel details."
+    },
+    "channelDetailsUnmutedChannel": "Notificaciones del canal activadas",
+    "@channelDetailsUnmutedChannel": {
+        "description": "Toast after unmuting a guild channel from channel details."
+    },
+    "channelDetailsPinnedMessageTitle": "Mensaje fijado",
+    "@channelDetailsPinnedMessageTitle": {
+        "description": "Title for the pinned message action sheet in channel details."
+    },
+    "channelDetailsSearchScopeCurrentDm": "Chat privado actual",
+    "@channelDetailsSearchScopeCurrentDm": {
+        "description": "Search scope label for the current DM."
+    },
+    "channelDetailsSearchScopeAllDms": "Todos los chats privados",
+    "@channelDetailsSearchScopeAllDms": {
+        "description": "Search scope label for all DMs when searching from a DM."
+    },
+    "channelDetailsSearchScopeOpenDms": "Abrir chats privados",
+    "@channelDetailsSearchScopeOpenDms": {
+        "description": "Search scope label for open DMs when searching from a DM."
+    },
+    "groupDmWelcomeEditGroup": "Editar grupo",
+    "@groupDmWelcomeEditGroup": {
+        "description": "Secondary action on the group DM welcome hero."
+    },
+    "channelDetailsSearchScopeAllDmsOnlyGuild": "Solo chats privados",
+    "@channelDetailsSearchScopeAllDmsOnlyGuild": {
+        "description": "Search scope label for all DMs when searching from a guild channel."
+    },
+    "groupDmWelcomeAddFriends": "Añadir amigos al grupo",
+    "@groupDmWelcomeAddFriends": {
+        "description": "Primary action on the group DM welcome hero."
+    },
+    "systemCallMissedWithDuration": "Te perdiste una llamada de {username} que duró {duration}.",
+    "@systemCallMissedWithDuration": {
+        "description": "System message when the viewer missed a call that had a measurable duration.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissed": "Te perdiste una llamada de {username}.",
+    "@systemCallMissed": {
+        "description": "System message when the viewer missed a call.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "createDmCreateGroupWithRecipient": "Crear un grupo nuevo con {userName}",
+    "@createDmCreateGroupWithRecipient": {
+        "description": "Subtitle for the new group row in channel details.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "createDmNoFriendsFound": "No se encontraron amigos",
+    "@createDmNoFriendsFound": {
+        "description": "Empty state when friend search has no matches."
+    },
+    "createDmVerifyYourEmail": "Verifica tu correo electrónico",
+    "@createDmVerifyYourEmail": {
+        "description": "Title when email verification is required to start DMs."
+    },
+    "createDmConfirmNewGroup": "Confirmar nuevo grupo",
+    "@createDmConfirmNewGroup": {
+        "description": "Title for duplicate group confirmation modal."
+    },
+    "createDmNoFriendsYet": "Aún no tienes amigos",
+    "@createDmNoFriendsYet": {
+        "description": "Empty state when the user has no friends."
+    },
+    "mediaViewerCopyLink": "Copiar enlace",
+    "@mediaViewerCopyLink": {
+        "description": "Media viewer action that copies the media URL to the clipboard."
+    },
+    "dmListMessagesTitle": "Mensajes",
+    "@dmListMessagesTitle": {
+        "description": "Mobile header title for the DM list."
+    },
+    "channelDetailsDmSettingsTitle": "Ajustes de chat privado",
+    "@channelDetailsDmSettingsTitle": {
+        "description": "Title for the channel details overflow menu on 1:1 DMs."
+    },
+    "addGuildCreateClaimTitle": "Reclama tu cuenta",
+    "@addGuildCreateClaimTitle": {
+        "description": "Gate title when the user must claim their account before creating a community."
+    },
+    "createGroupDm": "Crear chat privado grupal",
+    "@createGroupDm": {
+        "description": "Button to create a group direct message."
+    },
+    "createDmUnaddableBlocked": "No puedes enviar mensajes a este usuario",
+    "@createDmUnaddableBlocked": {
+        "description": "Reason when an unaddable recipient is blocked or DMs are disallowed."
+    },
+    "createDmUnaddableNotFriends": "No está en tu lista de amigos",
+    "@createDmUnaddableNotFriends": {
+        "description": "Reason when a recipient is not a friend."
+    },
+    "channelDetailsCloseDmDescription": "¿Cerrar tu conversación con {name}?",
+    "@channelDetailsCloseDmDescription": {
+        "description": "Confirmation body when closing a 1:1 DM from channel details.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "createDmCreateNewGroup": "Crear nuevo grupo",
+    "@createDmCreateNewGroup": {
+        "description": "Confirm button to create a new group despite duplicates."
+    },
+    "createDmNoActivityYet": "Aún no hay actividad",
+    "@createDmNoActivityYet": {
+        "description": "Fallback label for duplicate group list items with no recent activity."
+    },
+    "createDmCreateWithoutThem": "Crear sin ellos",
+    "@createDmCreateWithoutThem": {
+        "description": "Confirm button to create group DM excluding unaddable users."
+    },
+    "createDmUnaddableUserNotFound": "Usuario no encontrado",
+    "@createDmUnaddableUserNotFound": {
+        "description": "Reason when an unaddable recipient is unknown."
+    },
+    "channelDetailsSearchScopeOpenDmsOnlyGuild": "Solo chats privados abiertos",
+    "@channelDetailsSearchScopeOpenDmsOnlyGuild": {
+        "description": "Search scope label for open DMs when searching from a guild channel."
+    },
+    "createDmChooseFriendsSubtitle": "Seleccionar amigos para enviar un mensaje.",
+    "@createDmChooseFriendsSubtitle": {
+        "description": "Subtitle in the create DM flow."
+    },
+    "channelDetailsSearchScopeAllDmsAndCommunities": "Todos los chats privados + comunidades",
+    "@channelDetailsSearchScopeAllDmsAndCommunities": {
+        "description": "Search scope label for all DMs and communities."
+    },
+    "channelDetailsSearchScopeOpenDmsAndCommunities": "Chats privados abiertos + comunidades",
+    "@channelDetailsSearchScopeOpenDmsAndCommunities": {
+        "description": "Search scope label for open DMs and communities."
+    },
+    "groupDmInvalidImageBody": "Esa imagen no es válida. Prueba con otra.",
+    "@groupDmInvalidImageBody": {
+        "description": "Body when the selected group icon image cannot be used."
+    },
+    "nagbarLearnMore": "Más información",
+    "@nagbarLearnMore": {
+        "description": "CTA on maintenance and other nagbars that open an external link."
+    },
+    "nagbarMaintenanceInProgress": "El mantenimiento está en curso. Duración prevista: {duration}.",
+    "@nagbarMaintenanceInProgress": {
+        "description": "Maintenance nagbar while work is active.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarMaintenanceComplete": "El mantenimiento se ha completado.",
+    "@nagbarMaintenanceComplete": {
+        "description": "Maintenance nagbar after planned work finishes."
+    },
+    "groupDmGroupName": "Nombre del grupo",
+    "@groupDmGroupName": {
+        "description": "Label for the group name field in edit group."
+    },
+    "groupDmMyGroup": "Mi grupo",
+    "@groupDmMyGroup": {
+        "description": "Placeholder for the group name field in edit group."
+    },
+    "groupDmGroupIcon": "Icono del grupo",
+    "@groupDmGroupIcon": {
+        "description": "Label for the group icon section in edit group."
+    },
+    "groupDmUploadIcon": "Subir icono",
+    "@groupDmUploadIcon": {
+        "description": "Button to upload a group icon."
+    },
+    "groupDmChangeIcon": "Cambiar icono",
+    "@groupDmChangeIcon": {
+        "description": "Button to change an existing group icon."
+    },
+    "groupDmRemoveIcon": "Eliminar icono",
+    "@groupDmRemoveIcon": {
+        "description": "Button to remove the group icon."
+    },
+    "groupDmUpdated": "Grupo actualizado",
+    "@groupDmUpdated": {
+        "description": "Success toast after saving group changes."
+    },
+    "groupDmInvalidImage": "Imagen invalida",
+    "@groupDmInvalidImage": {
+        "description": "Title when the selected group icon image cannot be used."
+    },
+    "nagbarMaintenanceScheduled": "El mantenimiento está programado para {localizedTime}. Duración estimada: {duration}.",
+    "@nagbarMaintenanceScheduled": {
+        "description": "Maintenance nagbar before planned work begins.",
+        "placeholders": {
+            "localizedTime": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarUnclaimedAccountMessage": "Hola {displayName}, reclama tu cuenta para evitar perder el acceso.",
+    "@nagbarUnclaimedAccountMessage": {
+        "description": "Unclaimed account nagbar body.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarOpenSettings": "Abrir ajustes",
+    "@nagbarOpenSettings": {
+        "description": "Nagbar CTA that opens user settings."
+    },
+    "nagbarGuildMembershipCta": "Únete a {communityName} para chatear con el equipo y mantenerte al día.",
+    "@nagbarGuildMembershipCta": {
+        "description": "Official community membership nagbar body.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "chatBlockedMessagesCollapsed": "{count, plural, =1{1 mensaje bloqueado} other{{count} mensajes bloqueados}}",
+    "@chatBlockedMessagesCollapsed": {
+        "description": "Collapsed summary label for consecutive messages from blocked users.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "addGuildCreateClaimDescription": "Debes reclamar tu cuenta antes de poder crear una comunidad.",
+    "@addGuildCreateClaimDescription": {
+        "description": "Gate description when the user must claim their account before creating a community."
+    },
+    "groupDmGroupNameMaxLength": "El nombre del grupo no debe exceder los 100 caracteres",
+    "@groupDmGroupNameMaxLength": {
+        "description": "Validation error when group name is too long."
+    },
+    "groupDmUpdateFailed": "No se pudo actualizar el grupo. Inténtalo de nuevo.",
+    "@groupDmUpdateFailed": {
+        "description": "Error toast when group update fails."
+    },
+    "groupDmAnimatedIconNotSupported": "Los iconos animados no son compatibles. Usa una imagen estática.",
+    "@groupDmAnimatedIconNotSupported": {
+        "description": "Error when user selects an animated group icon."
+    },
+    "groupDmAnimatedIconNotSupportedTitle": "Los iconos animados no son compatibles",
+    "@groupDmAnimatedIconNotSupportedTitle": {
+        "description": "Title when user selects an animated group icon."
+    },
+    "groupDmIconFileTooLargeTitle": "Archivo demasiado grande",
+    "@groupDmIconFileTooLargeTitle": {
+        "description": "Title when the selected group icon exceeds the size limit."
+    },
+    "groupDmIconFileTooLargeBody": "Archivo demasiado grande. Elige un archivo menor a {maxSize}.",
+    "@groupDmIconFileTooLargeBody": {
+        "description": "Body when the selected group icon exceeds the size limit.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmUnsupportedIconFormat": "Formato de icono no compatible",
+    "@groupDmUnsupportedIconFormat": {
+        "description": "Title when the selected group icon format is unsupported."
+    },
+    "groupDmUnsupportedIconFormatBody": "Tipo de archivo no compatible.",
+    "@groupDmUnsupportedIconFormatBody": {
+        "description": "Body when the selected group icon format is unsupported."
+    },
+    "groupDmCouldntProcessImage": "No se pudo procesar la imagen",
+    "@groupDmCouldntProcessImage": {
+        "description": "Title when a cropped group icon cannot be processed."
+    },
+    "groupDmFailedToProcessCroppedImage": "No se pudo procesar la imagen recortada. Inténtalo de nuevo.",
+    "@groupDmFailedToProcessCroppedImage": {
+        "description": "Body when a cropped group icon cannot be processed."
+    },
+    "guildSettingsInvitesShowCreatedDate": "Mostrar fecha de creación en lugar de la fecha de caducidad",
+    "@guildSettingsInvitesShowCreatedDate": {
+        "description": "Toggle to show invite creation date instead of expiration."
+    },
+    "createDmClaimToStartDms": "Reclama tu cuenta para empezar a usar los chats privados.",
+    "@createDmClaimToStartDms": {
+        "description": "Blocked state when an unclaimed account cannot start DMs."
+    },
+    "createDmVerifyToStartDms": "Verifica tu correo electrónico para empezar a usar los chats privados.",
+    "@createDmVerifyToStartDms": {
+        "description": "Blocked state when an unverified account cannot start DMs."
+    },
+    "createDmDuplicateGroupDescription": "Ya tienes un grupo con estos usuarios. ¿Realmente quieres crear uno nuevo? ¡Eso también está genial!",
+    "@createDmDuplicateGroupDescription": {
+        "description": "Body text in the duplicate group confirmation modal."
+    },
+    "createDmSomeUsersCantBeAdded": "No se puede añadir a algunos usuarios",
+    "@createDmSomeUsersCantBeAdded": {
+        "description": "Title for unaddable recipients confirmation."
+    },
+    "createDmUnaddableIntro": "Las siguientes personas no se pueden añadir a este chat privado grupal:",
+    "@createDmUnaddableIntro": {
+        "description": "Intro text listing users who cannot be added to a group DM."
+    },
+    "createDmUnaddableProceed": "¿Crear el chat privado grupal con los {count} destinatario(s) restante(s) y omitir a los demás?",
+    "@createDmUnaddableProceed": {
+        "description": "Prompt to proceed with addable recipients only.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "createDmUnaddableNoneRemaining": "No quedan destinatarios para crear un chat privado grupal.",
+    "@createDmUnaddableNoneRemaining": {
+        "description": "Shown when every selected recipient is unaddable."
+    },
+    "createDmUnaddableGroupDisabled": "No permite ser añadido a chats privados grupales",
+    "@createDmUnaddableGroupDisabled": {
+        "description": "Reason when a user disabled group DM additions."
+    },
+    "createDmFailed": "No se pudo crear la conversación. Inténtalo de nuevo.",
+    "@createDmFailed": {
+        "description": "Generic error when DM or group DM creation fails."
+    },
+    "channelDetailsSearchScopeOpenDmsOnlyGuildDescription": "Solo en todos los chats privados que tienes abiertos actualmente",
+    "@channelDetailsSearchScopeOpenDmsOnlyGuildDescription": {
+        "description": "Description for open DMs scope when searching from a guild channel."
+    },
+    "channelDetailsSearchScopeOpenDmsDescription": "En todos los chats privados que tienes abiertos actualmente",
+    "@channelDetailsSearchScopeOpenDmsDescription": {
+        "description": "Description for open DMs scope when searching from a DM."
+    },
+    "channelDetailsSearchScopeAllDmsAndCommunitiesDescription": "En todos los chats privados en los que has estado alguna vez + todas las comunidades en las que estás actualmente",
+    "@channelDetailsSearchScopeAllDmsAndCommunitiesDescription": {
+        "description": "Description for the all DMs and communities search scope."
+    },
+    "channelDetailsSearchScopeOpenDmsAndCommunitiesDescription": "En todos los chats privados que tienes abiertos actualmente + todas las comunidades en las que estás actualmente",
+    "@channelDetailsSearchScopeOpenDmsAndCommunitiesDescription": {
+        "description": "Description for the open DMs and communities search scope."
+    },
+    "groupDmWelcome": "Te damos la bienvenida a {displayName}. Agrega amigos para poner en marcha el grupo.",
+    "@groupDmWelcome": {
+        "description": "Welcome copy on the group DM hero at the start of chat history. {displayName} is rendered bold in the UI.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmGroupInvites": "Invitaciones",
+    "@dmGroupInvites": {
+        "description": "Menu label for managing group DM invites."
+    },
+    "groupDmEditTitle": "Editar grupo",
+    "@groupDmEditTitle": {
+        "description": "Title for the edit group DM modal or sheet."
+    },
+    "groupDmEditDetailsTooltip": "Editar detalles del grupo",
+    "@groupDmEditDetailsTooltip": {
+        "description": "Tooltip on the desktop group DM header edit action."
+    },
+    "guildSettingsRolesLockedTooltip": "No puedes editar este rol porque es tu rol más alto o está por encima de ti",
+    "@guildSettingsRolesLockedTooltip": {
+        "description": "Tooltip on locked role rows."
+    },
+    "channelMenuDeleteMyMessagesConfirm": "Eliminar mis mensajes",
+    "@channelMenuDeleteMyMessagesConfirm": {
+        "description": "Confirm button for deleting all of the caller's messages in a channel."
+    },
+    "channelMenuDeletedYourMessages": "Mensajes eliminados",
+    "@channelMenuDeletedYourMessages": {
+        "description": "Success toast after deleting messages in a channel."
+    },
+    "channelMenuCouldNotDeleteYourMessages": "No se pudieron eliminar tus mensajes",
+    "@channelMenuCouldNotDeleteYourMessages": {
+        "description": "Error toast when deleting messages in a channel fails."
+    },
+    "channelDetailsPinsDmEndHint": "Puedes fijar mensajes en esta conversación para que todos los vean.",
+    "@channelDetailsPinsDmEndHint": {
+        "description": "Footer hint at the end of the pins list in DM channels."
+    },
+    "channelDetailsSearchScopeCurrentDmDescription": "Buscar solo en el chat privado actual",
+    "@channelDetailsSearchScopeCurrentDmDescription": {
+        "description": "Description for the current DM search scope."
+    },
+    "channelDetailsSearchScopeAllDmsOnlyGuildDescription": "Solo en todos los chats privados en los que has estado",
+    "@channelDetailsSearchScopeAllDmsOnlyGuildDescription": {
+        "description": "Description for all DMs scope when searching from a guild channel."
+    },
+    "channelDetailsSearchScopeAllDmsDescription": "En todos los chats privados en los que has estado",
+    "@channelDetailsSearchScopeAllDmsDescription": {
+        "description": "Description for all DMs scope when searching from a DM."
     }
 }

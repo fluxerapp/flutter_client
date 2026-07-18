@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "حزم التعبيرات",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "لوحة تحكم الخصوصية",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "الصوت والفيديو",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "الأصوات والتنبيهات",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "اللغة والوقت",
     "@userSettingsNavLanguageAndTime": {

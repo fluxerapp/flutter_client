@@ -7,7 +7,7 @@
     "@reconnectingBody": {
         "description": "Subtitle on the reconnecting screen explaining temporary server issues."
     },
-    "gatewayReconnectingToast": "Pripojenie…",
+    "gatewayReconnectingToast": "Pokúšam sa o opätovné pripojenie…",
     "@gatewayReconnectingToast": {
         "description": "Toast shown when the gateway connection is lost and reconnecting."
     },
@@ -32,7 +32,7 @@
     "@connectingCaps": {
         "description": "Connecting text on the splash screen"
     },
-    "splashConnectionLost": "Spojenie prerušené",
+    "splashConnectionLost": "Spojenie bolo prerušené",
     "@splashConnectionLost": {
         "description": "Fallback headline on splash when gateway is unavailable (web parity)."
     },
@@ -64,7 +64,7 @@
     "@email": {
         "description": "Generic label for an email field."
     },
-    "emailInvalid": "Zadajte platnú e-mailovú adresu.",
+    "emailInvalid": "Prosím, zadajte platnú e-mailovú adresu.",
     "@emailInvalid": {
         "description": "Error shown when the email field contains an invalid email format."
     },
@@ -72,7 +72,7 @@
     "@password": {
         "description": "Generic label for a password field."
     },
-    "forgotPassword": "Zabudli ste heslo?",
+    "forgotPassword": "Zabudli ste svoje heslo?",
     "@forgotPassword": {
         "description": "Link or button to start password recovery."
     },
@@ -80,7 +80,7 @@
     "@logIn": {
         "description": "Primary login submit action."
     },
-    "logInWithPasskey": "Prihlásiť sa pomocou kľúča",
+    "logInWithPasskey": "Prihlásiť sa pomocou kľúča (passkey)",
     "@logInWithPasskey": {
         "description": "Secondary login using a passkey."
     },
@@ -101,11 +101,11 @@
     "@organizationSsoProvider": {
         "description": "Description shown when sign-in is restricted to the configured SSO provider."
     },
-    "failedToStartSso": "Spustenie SSO zlyhalo",
+    "failedToStartSso": "Nepodarilo sa spustiť SSO",
     "@failedToStartSso": {
         "description": "Login flow error shown when the single sign-on redirect cannot be started."
     },
-    "ssoCancelled": "Prihlásenie SSO bolo zrušené",
+    "ssoCancelled": "Prihlásenie do SSO bolo zrušené",
     "@ssoCancelled": {
         "description": "Shown when the user cancels the single sign-on browser flow."
     },
@@ -130,7 +130,7 @@
     "@register": {
         "description": "Generic label to create a new account."
     },
-    "orDivider": "OR",
+    "orDivider": "ALEBO",
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
@@ -167,7 +167,7 @@
             }
         }
     },
-    "ipAuthConnectionLost": "Spojenie prerušené",
+    "ipAuthConnectionLost": "Spojenie bolo prerušené",
     "@ipAuthConnectionLost": {
         "description": "Title when polling for IP authorization fails."
     },
@@ -442,7 +442,7 @@
     "@suspendedDuration": {
         "description": "Label for ban duration."
     },
-    "suspendedPermanent": "Trvalo",
+    "suspendedPermanent": "Natrvalo",
     "@suspendedPermanent": {
         "description": "Value shown for permanent ban duration."
     },
@@ -492,7 +492,7 @@
     "@suspendedAppealSubmit": {
         "description": "Button to submit an appeal."
     },
-    "suspendedAppealPending": "Čaká na preskúmanie",
+    "suspendedAppealPending": "Čaká na preverenie",
     "@suspendedAppealPending": {
         "description": "Badge for appeal with pending status."
     },
@@ -3952,7 +3952,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Prilepiť obrázok zo schránky",
+    "chatAttachmentPasteTooltip": "Vložiť súbor zo schránky",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Balíky výrazov",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Panel ochrany osobných údajov",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Zvuk a video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Zvuky a upozornenia",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Jazyk a čas",
     "@userSettingsNavLanguageAndTime": {
@@ -7046,7 +7038,7 @@
     "@guildNavbarHelp": {
         "description": "Label for the help button in the guild navbar."
     },
-    "scrollIndicatorNew": "NEW",
+    "scrollIndicatorNew": "NOVÉ",
     "@scrollIndicatorNew": {
         "description": "Scroll pill shown when unread guilds are off-screen in the guild navbar."
     },
@@ -8678,11 +8670,11 @@
             }
         }
     },
-    "guildSettingsInvitesDescription": "Zobraziť a zrušiť platné odkazy na pozvánky.",
+    "guildSettingsInvitesDescription": "Zobraziť všetky pozvánky do tejto komunity. Ak chcete vytvoriť novú pozvánku, prejdite do kanála a použite tlačidlo \"Pozvať\".",
     "@guildSettingsInvitesDescription": {
         "description": "Description for invites tab."
     },
-    "guildSettingsInvitesEmpty": "Žiadne aktívne pozvánky.",
+    "guildSettingsInvitesEmpty": "Žiadne pozvánkové odkazy",
     "@guildSettingsInvitesEmpty": {
         "description": "Empty state for invites."
     },
@@ -9099,5 +9091,1627 @@
     "guildSettingsAuditLogFilterAction": "Filtrovať podľa akcie",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
-    }
+    },
+    "userProfileLocalTime": "Miestny čas",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "userProfileTimeAheadOfYou": "{duration} pred vami",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "{duration} za vami",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "channelMenuResetMatureContentAgreeState": "Vynulovať stav súhlasu s obsahom pre dospelých",
+    "@channelMenuResetMatureContentAgreeState": {
+        "description": "Developer tool action that forgets a local mature-content gate acknowledgement."
+    },
+    "createDmUnaddableNotFriends": "Nie je na vašom zozname priateľov",
+    "@createDmUnaddableNotFriends": {
+        "description": "Reason when a recipient is not a friend."
+    },
+    "userProfileSameTimeAsYou": "Rovnaký čas ako vy",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 hodina} few{{hours} hodiny} other{{hours} hodín}} {minutes, plural, =1{1 minúta} few{{minutes} minúty} other{{minutes} minút}}",
+    "@userProfileTimezoneDurationHoursMinutes": {
+        "description": "Duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            },
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHours": "{hours, plural, =1{1 hodina} few{{hours} hodiny} other{{hours} hodín}}",
+    "@userProfileTimezoneDurationHours": {
+        "description": "Hours-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationMinutes": "{minutes, plural, =1{1 minúta} few{{minutes} minúty} other{{minutes} minút}}",
+    "@userProfileTimezoneDurationMinutes": {
+        "description": "Minutes-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "iarReasonHarassmentGuildLabel": "Obťažovanie alebo cielené útoky",
+    "@iarReasonHarassmentGuildLabel": {
+        "description": "Community-report reason label for harassment or targeted abuse."
+    },
+    "iarReasonChildSafetyGuildDescription": "Ohrozuje maloletých alebo sprístupňuje obsah súvisiaci s vykorisťovaním detí.",
+    "@iarReasonChildSafetyGuildDescription": {
+        "description": "Community-report reason description for child safety."
+    },
+    "iarReasonRaidDescription": "Koordinuje nájazdy, hromadné útoky alebo obťažovanie namierené proti ľuďom či komunitám.",
+    "@iarReasonRaidDescription": {
+        "description": "Community-report reason description for raid coordination."
+    },
+    "iarReasonRaidLabel": "Koordinácia nájazdov",
+    "@iarReasonRaidLabel": {
+        "description": "Community-report reason label for raid coordination."
+    },
+    "iarReasonMalwareGuildDescription": "Šíri škodlivý softvér, nástroje na krádež prihlasovacích údajov alebo škodlivé súbory.",
+    "@iarReasonMalwareGuildDescription": {
+        "description": "Community-report reason description for malware distribution."
+    },
+    "iarReasonPrivacyGuildDescription": "Zverejňuje osobné údaje, prenasleduje používateľov alebo koordinuje narúšanie súkromia.",
+    "@iarReasonPrivacyGuildDescription": {
+        "description": "Community-report reason description for privacy violation or doxxing."
+    },
+    "systemCallDurationYears": "{count, plural, one {# rok} few {# roky} other {# rokov}}",
+    "@systemCallDurationYears": {
+        "description": "Duration label for multiple years in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationMonths": "{count, plural, one {# mesiac} few {# mesiace} other {# mesiacov}}",
+    "@systemCallDurationMonths": {
+        "description": "Duration label for multiple months in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationWeeks": "{count, plural, one {# týždeň} few {# týždne} other {# týždňov}}",
+    "@systemCallDurationWeeks": {
+        "description": "Duration label for multiple weeks in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationDays": "{count, plural, one {# deň} few {# dni} other {# dní}}",
+    "@systemCallDurationDays": {
+        "description": "Duration label for multiple days in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationHours": "{count, plural, one {# hodina} few {# hodiny} other {# hodín}}",
+    "@systemCallDurationHours": {
+        "description": "Duration label for multiple hours in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationMinutes": "{count, plural, one {# minúta} few {# minúty} other {# minút}}",
+    "@systemCallDurationMinutes": {
+        "description": "Duration label for multiple minutes in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "String"
+            }
+        }
+    },
+    "addGuildCreateTitle": "Vytvoriť komunitu",
+    "@addGuildCreateTitle": {
+        "description": "Title of the create-community sub-view in the add community modal."
+    },
+    "addGuildCreateDescription": "Vytvorte komunitu, kde môžete chatovať so svojimi priateľmi.",
+    "@addGuildCreateDescription": {
+        "description": "Body text on the create-community sub-view."
+    },
+    "addGuildCreateClaimTitle": "Zaregistrujte si účet",
+    "@addGuildCreateClaimTitle": {
+        "description": "Gate title when the user must claim their account before creating a community."
+    },
+    "channelDetailsGroupDmSubtitle": "Skupinový DM · {count, plural, one {# člen} few {# členovia} other {# členov}}",
+    "@channelDetailsGroupDmSubtitle": {
+        "description": "Subtitle in channel details for a group DM showing member count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelDetailsSearchScopeCurrentDm": "Aktuálny DM",
+    "@channelDetailsSearchScopeCurrentDm": {
+        "description": "Search scope label for the current DM."
+    },
+    "channelDetailsSearchScopeAllDmsDescription": "Vo všetkých DM, ktorých ste sa kedy zúčastnili",
+    "@channelDetailsSearchScopeAllDmsDescription": {
+        "description": "Description for all DMs scope when searching from a DM."
+    },
+    "channelDetailsSearchScopeAllDmsOnlyGuildDescription": "Iba v DM, ktorých ste sa kedy zúčastnili",
+    "@channelDetailsSearchScopeAllDmsOnlyGuildDescription": {
+        "description": "Description for all DMs scope when searching from a guild channel."
+    },
+    "channelDetailsSearchScopeOpenDmsOnlyGuildDescription": "Iba v momentálne otvorených DM",
+    "@channelDetailsSearchScopeOpenDmsOnlyGuildDescription": {
+        "description": "Description for open DMs scope when searching from a guild channel."
+    },
+    "channelDetailsSearchScopeOpenDmsDescription": "Vo všetkých momentálne otvorených DM",
+    "@channelDetailsSearchScopeOpenDmsDescription": {
+        "description": "Description for open DMs scope when searching from a DM."
+    },
+    "channelDetailsSearchContentEmbed": "Náhľad odkazu alebo vložený obsah",
+    "@channelDetailsSearchContentEmbed": {
+        "description": "Content filter label for link previews and embeds."
+    },
+    "channelDetailsSearchContentEmbedDescription": "Načítané náhľady a rozšírený vložený obsah, nie nahrané súbory",
+    "@channelDetailsSearchContentEmbedDescription": {
+        "description": "Description for the embed content filter."
+    },
+    "audioAndVideoInCallBehaviorSectionDescription": "Ovládajte výzvy na potvrdenie počas hlasových hovorov a videohovorov.",
+    "@audioAndVideoInCallBehaviorSectionDescription": {
+        "description": "Settings section description for in-call behavior prompts."
+    },
+    "audioAndVideoHigherQualityRequiresPremium": "Rozlíšenie 1080p a snímková frekvencia 60 FPS vyžadujú {premiumProductName}.",
+    "@audioAndVideoHigherQualityRequiresPremium": {
+        "description": "Note shown when higher video quality options require premium.",
+        "placeholders": {
+            "premiumProductName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "languageAndTimeUseSystemLocaleForTimeFormat": "Použiť miestne nastavenie systému pre formát času",
+    "@languageAndTimeUseSystemLocaleForTimeFormat": {
+        "description": "Toggle to use device system locale when auto-detecting time format."
+    },
+    "guildSettingsRolesEditSubtitle": "Nastavenie rolí a povolení",
+    "@guildSettingsRolesEditSubtitle": {
+        "description": "Subtitle for the role editor panel."
+    },
+    "permissionCategoryAudioVideo": "Zvuk a video",
+    "@permissionCategoryAudioVideo": {
+        "description": "Permission category label."
+    },
+    "permissionManageRolesDescription": "Umožňuje vytvárať, upravovať alebo odstraňovať roly pod vašou najvyššou rolou a upravovať prepísania povolení kanálov.",
+    "@permissionManageRolesDescription": {
+        "description": "Permission description."
+    },
+    "permissionBanMembers": "Zablokovať členov",
+    "@permissionBanMembers": {
+        "description": "Permission name."
+    },
+    "permissionBypassSlowmode": "Obísť režim spomalenia",
+    "@permissionBypassSlowmode": {
+        "description": "Permission name."
+    },
+    "permissionBypassSlowmodeDescription": "Ignorovať obmedzenia frekvencie odosielania správ v jednotlivých kanáloch.",
+    "@permissionBypassSlowmodeDescription": {
+        "description": "Permission description."
+    },
+    "permissionTimeOutMembers": "Dočasne zablokovať členov",
+    "@permissionTimeOutMembers": {
+        "description": "Permission name."
+    },
+    "permissionPrioritySpeaker": "Prioritný rečník",
+    "@permissionPrioritySpeaker": {
+        "description": "Permission name."
+    },
+    "permissionSetVoiceRegion": "Nastaviť oblasť hlasového servera",
+    "@permissionSetVoiceRegion": {
+        "description": "Permission name."
+    },
+    "guildSettingsInvitesLabelUses": "Počet použití:",
+    "@guildSettingsInvitesLabelUses": {
+        "description": "Mobile invite row label for uses count."
+    },
+    "createDmChooseFriendsSubtitle": "Vyberte priateľov, ktorým chcete poslať správu.",
+    "@createDmChooseFriendsSubtitle": {
+        "description": "Subtitle in the create DM flow."
+    },
+    "chatBlockedMessagesCollapsed": "{count, plural, =1{1 blokovaná správa} few{{count} blokované správy} other{{count} blokovaných správ}}",
+    "@chatBlockedMessagesCollapsed": {
+        "description": "Collapsed summary label for consecutive messages from blocked users.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "chatSpammerMessagesCollapsed": "{count, plural, =1{1 správa od potenciálneho spamera} few{{count} správy od potenciálnych spamerov} other{{count} správ od potenciálnych spamerov}}",
+    "@chatSpammerMessagesCollapsed": {
+        "description": "Collapsed summary label for consecutive messages from spammer-flagged users.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "sessionExpiredToast": "Vaša relácia vypršala. Prosím, skúste sa znovu prihlásiť.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "channelDetailsGroupInvites": "Skupinové pozvánky",
+    "@channelDetailsGroupInvites": {
+        "description": "Group DM menu action to view group invites."
+    },
+    "channelDetailsActionMore": "Viac",
+    "@channelDetailsActionMore": {
+        "description": "More action button label in channel details."
+    },
+    "channelDetailsMembersEmptyBody": "Tu sa zobrazia členovia potom, čo sa načítajú dáta komunity.",
+    "@channelDetailsMembersEmptyBody": {
+        "description": "Empty state body when channel details has no members loaded."
+    },
+    "channelDetailsSearchTitle": "Hľadať",
+    "@channelDetailsSearchTitle": {
+        "description": "Title for the channel search bottom sheet."
+    },
+    "channelDetailsSearchFilterFrom": "Od",
+    "@channelDetailsSearchFilterFrom": {
+        "description": "Author filter chip label in channel message search."
+    },
+    "channelDetailsSearchFilterHas": "Má",
+    "@channelDetailsSearchFilterHas": {
+        "description": "Content filter chip label in channel message search."
+    },
+    "channelDetailsSearchFilterSort": "Zoradiť",
+    "@channelDetailsSearchFilterSort": {
+        "description": "Sort filter chip label in channel message search."
+    },
+    "channelDetailsActionMute": "Stlmiť",
+    "@channelDetailsActionMute": {
+        "description": "Mute action button label in channel details."
+    },
+    "channelDetailsActionUnmute": "Zrušiť stlmenie",
+    "@channelDetailsActionUnmute": {
+        "description": "Unmute action button label in channel details."
+    },
+    "channelDetailsActionSearch": "Hľadať",
+    "@channelDetailsActionSearch": {
+        "description": "Search action button label in channel details."
+    },
+    "channelDetailsTabPins": "Pripnutia",
+    "@channelDetailsTabPins": {
+        "description": "Pins tab label in channel details."
+    },
+    "channelDetailsTabMembers": "Členovia",
+    "@channelDetailsTabMembers": {
+        "description": "Members tab label in channel details."
+    },
+    "channelDetailsNotificationSettingsUpdated": "Nastavenia notifikácií boli aktualizované",
+    "@channelDetailsNotificationSettingsUpdated": {
+        "description": "Toast after updating notification settings from channel details."
+    },
+    "channelDetailsMutedChannel": "Stlmený kanál",
+    "@channelDetailsMutedChannel": {
+        "description": "Toast after muting a guild channel from channel details."
+    },
+    "channelDetailsMutedConversation": "Konverzácia je stlmená",
+    "@channelDetailsMutedConversation": {
+        "description": "Toast after muting a DM conversation from channel details."
+    },
+    "channelDetailsGenericChannel": "Kanál",
+    "@channelDetailsGenericChannel": {
+        "description": "Generic channel type subtitle fallback."
+    },
+    "channelDetailsLinkChannel": "Kanál s odkazom",
+    "@channelDetailsLinkChannel": {
+        "description": "Channel type subtitle for link channels."
+    },
+    "channelDetailsCategory": "Kategória",
+    "@channelDetailsCategory": {
+        "description": "Channel type subtitle for categories."
+    },
+    "channelDetailsVoiceChannel": "Hlasový kanál",
+    "@channelDetailsVoiceChannel": {
+        "description": "Channel type subtitle for voice channels."
+    },
+    "channelDetailsTextChannel": "Textový kanál",
+    "@channelDetailsTextChannel": {
+        "description": "Channel type subtitle for text channels."
+    },
+    "channelDetailsSystemMessage": "Systémová správa",
+    "@channelDetailsSystemMessage": {
+        "description": "Subtitle in channel details for a system DM recipient."
+    },
+    "channelMenuCouldNotDeleteYourMessages": "Vaše správy nemohli byť zmazané",
+    "@channelMenuCouldNotDeleteYourMessages": {
+        "description": "Error toast when deleting messages in a channel fails."
+    },
+    "channelMenuDeletedYourMessages": "Vaše správy boli zmazané",
+    "@channelMenuDeletedYourMessages": {
+        "description": "Success toast after deleting messages in a channel."
+    },
+    "invalidDeepLinkTitle": "Odkaz sa nepodarilo otvoriť",
+    "@invalidDeepLinkTitle": {
+        "description": "Title when a deep link or route cannot be opened in the app."
+    },
+    "dmUnnamedGroup": "Nepomenovaná skupina",
+    "@dmUnnamedGroup": {
+        "description": "Fallback title for a group DM without a custom name."
+    },
+    "channelMenuDuplicateChannel": "Duplikovať kanál",
+    "@channelMenuDuplicateChannel": {
+        "description": "Guild channel menu action to duplicate the selected channel."
+    },
+    "channelMenuDeleteMyMessagesTitle": "Chcete vymazať svoje správy v tomto kanáli?",
+    "@channelMenuDeleteMyMessagesTitle": {
+        "description": "Confirmation title for deleting all of the caller's messages in a channel."
+    },
+    "channelMenuDeleteMyMessagesDescription": "Týmto sa natrvalo vymažú všetky správy, ktoré ste kedy v tomto kanáli odoslali. Túto akciu nie je možné vrátiť späť.",
+    "@channelMenuDeleteMyMessagesDescription": {
+        "description": "Confirmation description for deleting all of the caller's messages in a channel."
+    },
+    "dmListMessagesTitle": "Správy",
+    "@dmListMessagesTitle": {
+        "description": "Mobile header title for the DM list."
+    },
+    "createDmFailed": "Konverzáciu sa nepodarilo vytvoriť. Skúste to znova.",
+    "@createDmFailed": {
+        "description": "Generic error when DM or group DM creation fails."
+    },
+    "createDmUnaddableBlocked": "Tomuto používateľovi nemôžete poslať správu",
+    "@createDmUnaddableBlocked": {
+        "description": "Reason when an unaddable recipient is blocked or DMs are disallowed."
+    },
+    "createDmUnaddableUserNotFound": "Používateľ nebol nájdený",
+    "@createDmUnaddableUserNotFound": {
+        "description": "Reason when an unaddable recipient is unknown."
+    },
+    "createDmUnaddableProceed": "Vytvoriť skupinovú správu s zostávajúcimi {count} príjemcami a ostatných vynechať?",
+    "@createDmUnaddableProceed": {
+        "description": "Prompt to proceed with addable recipients only.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "createDmUnaddableIntro": "Do tejto skupinovej správy nie je možné pridať nasledujúce osoby:",
+    "@createDmUnaddableIntro": {
+        "description": "Intro text listing users who cannot be added to a group DM."
+    },
+    "createDmCreateWithoutThem": "Vytvoriť bez nich",
+    "@createDmCreateWithoutThem": {
+        "description": "Confirm button to create group DM excluding unaddable users."
+    },
+    "createDmSomeUsersCantBeAdded": "Niektorých používateľov nie je možné pridať",
+    "@createDmSomeUsersCantBeAdded": {
+        "description": "Title for unaddable recipients confirmation."
+    },
+    "createDmNoActivityYet": "Zatiaľ žiadna aktivita",
+    "@createDmNoActivityYet": {
+        "description": "Fallback label for duplicate group list items with no recent activity."
+    },
+    "createDmDuplicateGroupDescription": "Skupinu s týmito používateľmi už máte. Naozaj chcete vytvoriť novú? To je tiež v poriadku!",
+    "@createDmDuplicateGroupDescription": {
+        "description": "Body text in the duplicate group confirmation modal."
+    },
+    "createDmRemoveFriend": "Odstrániť {displayName}",
+    "@createDmRemoveFriend": {
+        "description": "Accessibility label for removing a selected friend pill.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "createDmCreateNewGroup": "Vytvoriť novú skupinu",
+    "@createDmCreateNewGroup": {
+        "description": "Confirm button to create a new group despite duplicates."
+    },
+    "createDmConfirmNewGroup": "Potvrdiť novú skupinu",
+    "@createDmConfirmNewGroup": {
+        "description": "Title for duplicate group confirmation modal."
+    },
+    "createDmCreateGroupWithRecipient": "Vytvoriť novú skupinu s {userName}",
+    "@createDmCreateGroupWithRecipient": {
+        "description": "Subtitle for the new group row in channel details.",
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            }
+        }
+    },
+    "createDmNewGroup": "Nová skupina",
+    "@createDmNewGroup": {
+        "description": "Row title to create a group from an existing 1:1 DM."
+    },
+    "createDmVerifyYourEmail": "Overte si svoj e-mail",
+    "@createDmVerifyYourEmail": {
+        "description": "Title when email verification is required to start DMs."
+    },
+    "createDmVerifyToStartDms": "Overte si e-mailovú adresu, aby ste mohli začať posielať súkromné správy.",
+    "@createDmVerifyToStartDms": {
+        "description": "Blocked state when an unverified account cannot start DMs."
+    },
+    "createDmNoFriendsYet": "Zatiaľ nemáte žiadnych priateľov",
+    "@createDmNoFriendsYet": {
+        "description": "Empty state when the user has no friends."
+    },
+    "createDmSearchFriends": "Vyhľadávať priateľov",
+    "@createDmSearchFriends": {
+        "description": "Search input placeholder in the friend selector."
+    },
+    "createDmNewMessage": "Nová správa",
+    "@createDmNewMessage": {
+        "description": "Accessibility label for the mobile compose FAB in the DM list."
+    },
+    "createGroupDm": "Vytvoriť skupinovú súkromnú správu",
+    "@createGroupDm": {
+        "description": "Button to create a group direct message."
+    },
+    "createDm": "Vytvoriť súkromnú správu",
+    "@createDm": {
+        "description": "Button to create a direct message with selected friends."
+    },
+    "guildSettingsInvitesLabelInviter": "Pozývajúci:",
+    "@guildSettingsInvitesLabelInviter": {
+        "description": "Mobile invite row label for inviter."
+    },
+    "invalidDeepLinkDescription": "Tento odkaz môže byť nefunkčný, dostupný len na webe alebo k nemu možno nemáte prístup. Skontrolujte odkaz a skúste to znova.",
+    "@invalidDeepLinkDescription": {
+        "description": "Explanation shown when a deep link or route cannot be opened in the app."
+    },
+    "dmOwnersGroup": "Skupina {resolvedName}",
+    "@dmOwnersGroup": {
+        "description": "Fallback title when the current user is the only participant in a group DM.",
+        "placeholders": {
+            "resolvedName": {
+                "type": "String",
+                "example": "Alice"
+            }
+        }
+    },
+    "iarReportGuildTitle": "Nahlásiť komunitu",
+    "@iarReportGuildTitle": {
+        "description": "Title of the simple community-report sheet."
+    },
+    "iarContinueToReportCommunity": "Pokračovať v nahlásení tejto komunity",
+    "@iarContinueToReportCommunity": {
+        "description": "Primary button in the community report pre-confirm dialog."
+    },
+    "iarPreviewCommunitySubtitle": "Komunita",
+    "@iarPreviewCommunitySubtitle": {
+        "description": "Subtitle shown under the community name in the IAR preview card."
+    },
+    "iarReasonHarassmentGuildDescription": "Komunita napomáha hromadnému útočeniu alebo cielenému urážaniu.",
+    "@iarReasonHarassmentGuildDescription": {
+        "description": "Community-report reason description for harassment or targeted abuse."
+    },
+    "iarReasonHateGuildDescription": "Podnecuje nenávisť voči chráneným skupinám.",
+    "@iarReasonHateGuildDescription": {
+        "description": "Community-report reason description for hate speech."
+    },
+    "iarReasonTerrorismLabel": "Terorizmus alebo násilný extrémizmus",
+    "@iarReasonTerrorismLabel": {
+        "description": "Community-report reason label for terrorism or violent extremism."
+    },
+    "iarReasonTerrorismDescription": "Podporuje, verbuje účastníkov alebo koordinuje násilné extrémistické aktivity.",
+    "@iarReasonTerrorismDescription": {
+        "description": "Community-report reason description for terrorism or violent extremism."
+    },
+    "iarReasonMatureContentGuildLabel": "Obsah pre dospelých alebo nebezpečné obmedzenie prístupu",
+    "@iarReasonMatureContentGuildLabel": {
+        "description": "Community-report reason label for mature content or unsafe gating."
+    },
+    "iarReasonMatureContentGuildDescription": "Obsah pre dospelých bez primeraného obmedzenia prístupu.",
+    "@iarReasonMatureContentGuildDescription": {
+        "description": "Community-report reason description for mature content or unsafe gating."
+    },
+    "iarReasonSpamGuildDescription": "Komunita existuje s cieľom rozosielať spam, podvádzať alebo zneužívať platformu.",
+    "@iarReasonSpamGuildDescription": {
+        "description": "Community-report reason description for spam, scams, or phishing."
+    },
+    "iarReasonMalwareGuildLabel": "Šírenie škodlivého softvéru",
+    "@iarReasonMalwareGuildLabel": {
+        "description": "Community-report reason label for malware distribution."
+    },
+    "iarReasonPrivacyGuildLabel": "Porušenie súkromia alebo doxxing",
+    "@iarReasonPrivacyGuildLabel": {
+        "description": "Community-report reason label for privacy violation or doxxing."
+    },
+    "iarReasonSelfHarmGuildLabel": "Podnecuje k sebapoškodzovaniu",
+    "@iarReasonSelfHarmGuildLabel": {
+        "description": "Community-report reason label for self-harm encouragement."
+    },
+    "iarReasonSelfHarmGuildDescription": "Podnecuje k samovražde, sebapoškodzovaniu alebo poruchám príjmu potravy.",
+    "@iarReasonSelfHarmGuildDescription": {
+        "description": "Community-report reason description for self-harm encouragement."
+    },
+    "accessibilitySaturationTitle": "Sýtosť",
+    "@accessibilitySaturationTitle": {
+        "description": "Section title for the theme saturation slider on the accessibility settings page."
+    },
+    "accessibilitySaturationDescription": "Nastavte, ako výrazne sa budú farby motívu zobrazovať v celej aplikácii.",
+    "@accessibilitySaturationDescription": {
+        "description": "Section description for the theme saturation slider on the accessibility settings page."
+    },
+    "systemCallJoinTheCall": "Zapojte sa do hovoru",
+    "@systemCallJoinTheCall": {
+        "description": "Call-to-action button label on an in-progress call system message."
+    },
+    "systemCallStartedThatLasted": "{username} začal hovor, ktorý trval {duration}.",
+    "@systemCallStartedThatLasted": {
+        "description": "System message when a call has ended and the viewer participated.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissedWithDuration": "Zmeškali ste hovor od {username}, ktorý trval {duration}.",
+    "@systemCallMissedWithDuration": {
+        "description": "System message when the viewer missed a call that had a measurable duration.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissed": "Zmeškali ste hovor od {username}.",
+    "@systemCallMissed": {
+        "description": "System message when the viewer missed a call.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationFewSeconds": "niekoľko sekúnd",
+    "@systemCallDurationFewSeconds": {
+        "description": "Duration label for a very short elapsed call."
+    },
+    "systemCallDurationOneYear": "1 rok",
+    "@systemCallDurationOneYear": {
+        "description": "Duration label when a call lasted about one year."
+    },
+    "systemCallDurationOneMonth": "1 mesiac",
+    "@systemCallDurationOneMonth": {
+        "description": "Duration label when a call lasted about one month."
+    },
+    "systemCallDurationOneWeek": "1 týždeň",
+    "@systemCallDurationOneWeek": {
+        "description": "Duration label when a call lasted about one week."
+    },
+    "systemCallDurationOneDay": "1 deň",
+    "@systemCallDurationOneDay": {
+        "description": "Duration label when a call lasted about one day."
+    },
+    "systemUnknownMessage": "Aktualizujte {productName}, aby ste si mohli prečítať túto správu.",
+    "@systemUnknownMessage": {
+        "description": "Fallback system message when the client does not recognize the message type.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "voiceControlFlipCamera": "Prehodiť kameru",
+    "@voiceControlFlipCamera": {
+        "description": "Tooltip: switch between front and back camera while video is on."
+    },
+    "addGuildCreateNameLabel": "Názov komunity",
+    "@addGuildCreateNameLabel": {
+        "description": "Label for the community name input on the create sub-view."
+    },
+    "addGuildCreateSubmit": "Vytvoriť komunitu",
+    "@addGuildCreateSubmit": {
+        "description": "Primary button label to submit the create-community form."
+    },
+    "addGuildCreateFailed": "Komunitu sa nepodarilo vytvoriť. Skúste to prosím znova.",
+    "@addGuildCreateFailed": {
+        "description": "Generic error when creating a community fails."
+    },
+    "addGuildCreateVerifyTitle": "Overte si svoj e-mail",
+    "@addGuildCreateVerifyTitle": {
+        "description": "Gate title when the user must verify email before creating a community."
+    },
+    "addGuildCreateVerifyDescription": "Pred vytvorením komunity je potrebné overiť vašu e-mailovú adresu.",
+    "@addGuildCreateVerifyDescription": {
+        "description": "Gate description when the user must verify email before creating a community."
+    },
+    "addGuildCreateAnimatedIconUnsupported": "Pri vytváraní novej komunity nie sú podporované animované ikony. Použite statický obrázok.",
+    "@addGuildCreateAnimatedIconUnsupported": {
+        "description": "Error when the user picks an animated image for a new community icon."
+    },
+    "addGuildCreateGuidelinesBefore": "Vytvorením komunity súhlasíte s tým, že budete dodržiavať a presadzovať ",
+    "@addGuildCreateGuidelinesBefore": {
+        "description": "Text before the community guidelines link on the create sub-view."
+    },
+    "addGuildCreateGuidelinesLink": "Pravidlá komunity pre {productName}",
+    "@addGuildCreateGuidelinesLink": {
+        "description": "Link label for community guidelines on the create sub-view.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "addGuildCreateSingleCommunityBlocked": "Táto inštancia predstavuje jedinú komunitu, preto nie je možné vytvárať ďalšie komunity.",
+    "@addGuildCreateSingleCommunityBlocked": {
+        "description": "Error when creation is blocked because the instance only allows one community."
+    },
+    "addGuildCreateChangeIcon": "Zmeniť ikonu",
+    "@addGuildCreateChangeIcon": {
+        "description": "Button label to replace the selected community icon."
+    },
+    "addGuildCreateIconLabel": "Ikona komunity",
+    "@addGuildCreateIconLabel": {
+        "description": "Label for the optional community icon field on the create sub-view."
+    },
+    "addGuildCreateIconHint": "PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Maximálne 10 MB. Odporúčané rozmery: 512×512px",
+    "@addGuildCreateIconHint": {
+        "description": "Helper text under the community icon upload buttons listing accepted formats and size guidance."
+    },
+    "channelDetailsFallbackTitle": "Detaily",
+    "@channelDetailsFallbackTitle": {
+        "description": "Fallback title in channel details when no channel or DM name is available."
+    },
+    "channelDetailsCloseDmDescription": "Chcete ukončiť konverzáciu s {name}?",
+    "@channelDetailsCloseDmDescription": {
+        "description": "Confirmation body when closing a 1:1 DM from channel details.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelDetailsLeaveGroupDescription": "Chcete opustiť {name}?",
+    "@channelDetailsLeaveGroupDescription": {
+        "description": "Confirmation body when leaving a group DM from channel details.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelDetailsDmSettingsTitle": "Nastavenia DM",
+    "@channelDetailsDmSettingsTitle": {
+        "description": "Title for the channel details overflow menu on 1:1 DMs."
+    },
+    "channelMenuOpenChat": "Otvoriť chat",
+    "@channelMenuOpenChat": {
+        "description": "Guild channel menu action that opens a voice channel chat without joining voice."
+    },
+    "channelDetailsSearchFilterByUser": "Filtrovať podľa používateľa",
+    "@channelDetailsSearchFilterByUser": {
+        "description": "Title for the author filter sheet in channel message search."
+    },
+    "channelDetailsSearchFilterByContent": "Filtrovať podľa obsahu",
+    "@channelDetailsSearchFilterByContent": {
+        "description": "Title for the content filter sheet in channel message search."
+    },
+    "channelDetailsSearchSortBy": "Zoradiť výsledky podľa",
+    "@channelDetailsSearchSortBy": {
+        "description": "Title for the sort filter sheet in channel message search."
+    },
+    "channelDetailsSearchIn": "Vyhľadávať v",
+    "@channelDetailsSearchIn": {
+        "description": "Title for the search scope filter sheet in channel message search."
+    },
+    "channelDetailsSearchEmptyTitle": "Vyhľadávať v tejto konverzácii",
+    "@channelDetailsSearchEmptyTitle": {
+        "description": "Empty state title before the user runs a channel message search."
+    },
+    "channelDetailsSearchEmptyBody": "Na vyhľadanie správ zadajte text, autora alebo filter obsahu.",
+    "@channelDetailsSearchEmptyBody": {
+        "description": "Empty state body before the user runs a channel message search."
+    },
+    "channelDetailsSearchIndexingTitle": "Správy sa indexujú",
+    "@channelDetailsSearchIndexingTitle": {
+        "description": "Title when channel message search is still indexing."
+    },
+    "channelDetailsSearchIndexingBody": "Skúste to o chvíľu znova, akonáhle vyhľadávanie dokončí indexovanie tejto oblasti.",
+    "@channelDetailsSearchIndexingBody": {
+        "description": "Body when channel message search is still indexing."
+    },
+    "channelDetailsSearchNoResultsTitle": "Žiadne výsledky",
+    "@channelDetailsSearchNoResultsTitle": {
+        "description": "Title when a channel message search returns no results."
+    },
+    "channelDetailsSearchNoResultsBody": "Skúste použiť iné vyhľadávacie výrazy alebo filtre.",
+    "@channelDetailsSearchNoResultsBody": {
+        "description": "Body when a channel message search returns no results."
+    },
+    "channelDetailsMembersOnline": "Online",
+    "@channelDetailsMembersOnline": {
+        "description": "Online members section header in channel details."
+    },
+    "channelDetailsMembersOffline": "Offline",
+    "@channelDetailsMembersOffline": {
+        "description": "Offline members section header in channel details."
+    },
+    "channelDetailsMemberYou": "Vy",
+    "@channelDetailsMemberYou": {
+        "description": "Label for the current user in the channel details member list."
+    },
+    "channelDetailsSearchUsersHint": "Vyhľadávať používateľov",
+    "@channelDetailsSearchUsersHint": {
+        "description": "Search field hint in channel details user picker sheets."
+    },
+    "channelDetailsSearchUsersTypeToSearch": "Napíšte text na vyhľadanie členov",
+    "@channelDetailsSearchUsersTypeToSearch": {
+        "description": "Prompt shown before the user types in the member search picker."
+    },
+    "channelDetailsSearchUsersEmpty": "Nenašli sa žiadni používatelia",
+    "@channelDetailsSearchUsersEmpty": {
+        "description": "Empty state when member search returns no results."
+    },
+    "channelDetailsSearchUsersNoAvailable": "Žiadni používatelia nie sú k dispozícii",
+    "@channelDetailsSearchUsersNoAvailable": {
+        "description": "Empty state when no users are available in the member picker."
+    },
+    "channelDetailsDone": "Hotovo",
+    "@channelDetailsDone": {
+        "description": "Done button label in channel details picker sheets."
+    },
+    "channelDetailsHasFilterPrompt": "Zobraziť správy, ktoré obsahujú:",
+    "@channelDetailsHasFilterPrompt": {
+        "description": "Prompt above content filter options in channel message search."
+    },
+    "channelDetailsRetry": "Skúsiť znova",
+    "@channelDetailsRetry": {
+        "description": "Retry button label in channel details error states."
+    },
+    "channelDetailsCopyMessageId": "Skopírovať ID správy",
+    "@channelDetailsCopyMessageId": {
+        "description": "Action to copy a message ID from channel details."
+    },
+    "channelDetailsSearchScopeAllDms": "Všetky súkromné správy",
+    "@channelDetailsSearchScopeAllDms": {
+        "description": "Search scope label for all DMs when searching from a DM."
+    },
+    "channelDetailsSearchScopeOpenDmsOnlyGuild": "Iba otvorené súkromné správy",
+    "@channelDetailsSearchScopeOpenDmsOnlyGuild": {
+        "description": "Search scope label for open DMs when searching from a guild channel."
+    },
+    "channelDetailsSearchScopeOpenDms": "Otvorené súkromné správy",
+    "@channelDetailsSearchScopeOpenDms": {
+        "description": "Search scope label for open DMs when searching from a DM."
+    },
+    "channelDetailsSearchScopeAllCommunitiesDescription": "Vo všetkých komunitách, ktorých ste momentálne členom",
+    "@channelDetailsSearchScopeAllCommunitiesDescription": {
+        "description": "Description for the all communities search scope."
+    },
+    "channelDetailsSearchScopeAllDmsAndCommunitiesDescription": "Vo všetkých súkromných správach, v ktorých ste kedy boli + vo všetkých komunitách, v ktorých ste momentálne členom",
+    "@channelDetailsSearchScopeAllDmsAndCommunitiesDescription": {
+        "description": "Description for the all DMs and communities search scope."
+    },
+    "channelDetailsSearchScopeOpenDmsAndCommunitiesDescription": "Vo všetkých súkromných správach, ktoré máte momentálne otvorené + vo všetkých komunitách, v ktorých ste momentálne členom",
+    "@channelDetailsSearchScopeOpenDmsAndCommunitiesDescription": {
+        "description": "Description for the open DMs and communities search scope."
+    },
+    "channelDetailsSearchSortRelevance": "Najrelevantnejšie",
+    "@channelDetailsSearchSortRelevance": {
+        "description": "Sort option label for most relevant messages first."
+    },
+    "channelDetailsSearchSortNewestDescription": "Zobraziť najnovšie správy ako prvé",
+    "@channelDetailsSearchSortNewestDescription": {
+        "description": "Description for the newest-first sort option."
+    },
+    "channelDetailsSearchSortOldestDescription": "Zobraziť najstaršie správy ako prvé",
+    "@channelDetailsSearchSortOldestDescription": {
+        "description": "Description for the oldest-first sort option."
+    },
+    "channelDetailsSearchSortRelevanceDescription": "Zobraziť najrelevantnejšie správy ako prvé",
+    "@channelDetailsSearchSortRelevanceDescription": {
+        "description": "Description for the relevance sort option."
+    },
+    "channelDetailsSearchContentLink": "Odkaz",
+    "@channelDetailsSearchContentLink": {
+        "description": "Content filter label for typed links."
+    },
+    "channelDetailsSearchContentSticker": "Nálepka",
+    "@channelDetailsSearchContentSticker": {
+        "description": "Content filter label for stickers."
+    },
+    "channelDetailsSearchContentImageDescription": "Iba nahraté obrazové súbory",
+    "@channelDetailsSearchContentImageDescription": {
+        "description": "Description for the image content filter."
+    },
+    "channelDetailsSearchContentVideoDescription": "Iba nahraté video súbory",
+    "@channelDetailsSearchContentVideoDescription": {
+        "description": "Description for the video content filter."
+    },
+    "channelDetailsSearchContentAudioDescription": "Iba nahraté zvukové súbory",
+    "@channelDetailsSearchContentAudioDescription": {
+        "description": "Description for the audio content filter."
+    },
+    "channelDetailsSearchContentFileDescription": "Akákoľvek nahratá príloha",
+    "@channelDetailsSearchContentFileDescription": {
+        "description": "Description for the file content filter."
+    },
+    "channelDetailsSearchContentLinkDescription": "URL adresa zadaná v texte správy",
+    "@channelDetailsSearchContentLinkDescription": {
+        "description": "Description for the link content filter."
+    },
+    "channelDetailsSearchContentStickerDescription": "Nálepka pripojená k správe",
+    "@channelDetailsSearchContentStickerDescription": {
+        "description": "Description for the sticker content filter."
+    },
+    "groupDmWelcome": "Vitajte v {displayName}. Pridajte priateľov a rozbehnite skupinu.",
+    "@groupDmWelcome": {
+        "description": "Welcome copy on the group DM hero at the start of chat history. {displayName} is rendered bold in the UI.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmWelcomeEditGroup": "Upraviť skupinu",
+    "@groupDmWelcomeEditGroup": {
+        "description": "Secondary action on the group DM welcome hero."
+    },
+    "groupDmWelcomeAddFriends": "Pridať priateľov do skupiny",
+    "@groupDmWelcomeAddFriends": {
+        "description": "Primary action on the group DM welcome hero."
+    },
+    "audioAndVideoAudioSectionTitle": "Audio",
+    "@audioAndVideoAudioSectionTitle": {
+        "description": "Settings section title for audio settings in the voice and video tab."
+    },
+    "audioAndVideoAudioSectionDescription": "Nastavte si mikrofón, reproduktory a spracovanie hlasu.",
+    "@audioAndVideoAudioSectionDescription": {
+        "description": "Settings section description for audio settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionTitle": "Video",
+    "@audioAndVideoVideoSectionTitle": {
+        "description": "Settings section title for video settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionDescription": "Nastavte kvalitu kamery a zdieľania obrazovky.",
+    "@audioAndVideoVideoSectionDescription": {
+        "description": "Settings section description for video settings in the voice and video tab."
+    },
+    "audioAndVideoInCallBehaviorSectionTitle": "Správanie počas hovoru",
+    "@audioAndVideoInCallBehaviorSectionTitle": {
+        "description": "Settings section title for in-call behavior prompts."
+    },
+    "audioAndVideoInputDeviceLabel": "Vstupné zariadenie",
+    "@audioAndVideoInputDeviceLabel": {
+        "description": "Label for microphone input device selection."
+    },
+    "audioAndVideoOutputDeviceLabel": "Výstupné zariadenie",
+    "@audioAndVideoOutputDeviceLabel": {
+        "description": "Label for speaker output device selection."
+    },
+    "audioAndVideoDefaultDeviceLabel": "Predvolené nastavenie",
+    "@audioAndVideoDefaultDeviceLabel": {
+        "description": "Label for the system default audio or video device."
+    },
+    "audioAndVideoUseSpeakerLabel": "Použiť reproduktor",
+    "@audioAndVideoUseSpeakerLabel": {
+        "description": "Switch label to route voice call audio through the device speaker."
+    },
+    "audioAndVideoInputVolumeLabel": "Hlasitosť vstupu",
+    "@audioAndVideoInputVolumeLabel": {
+        "description": "Label for microphone input volume slider."
+    },
+    "audioAndVideoOutputVolumeLabel": "Hlasitosť výstupu",
+    "@audioAndVideoOutputVolumeLabel": {
+        "description": "Label for speaker output volume slider."
+    },
+    "audioAndVideoVoiceProcessingSectionTitle": "Spracovanie hlasu",
+    "@audioAndVideoVoiceProcessingSectionTitle": {
+        "description": "Subsection title for voice processing profile selection."
+    },
+    "audioAndVideoFocusedVoiceLabel": "Zameraný na hlas",
+    "@audioAndVideoFocusedVoiceLabel": {
+        "description": "Voice processing profile optimized for speech."
+    },
+    "audioAndVideoFocusedVoiceDescription": "Odporúčané. Vyčistí váš mikrofón a zabezpečí čistú reč.",
+    "@audioAndVideoFocusedVoiceDescription": {
+        "description": "Description for the focused voice processing profile."
+    },
+    "audioAndVideoDirectInputLabel": "Priamy vstup",
+    "@audioAndVideoDirectInputLabel": {
+        "description": "Voice processing profile that sends unprocessed audio."
+    },
+    "audioAndVideoDirectInputDescription": "Odosiela zvuk bez akýchkoľvek zmien. Najvhodnejšie v prípade, keď používate externý zvukový softvér.",
+    "@audioAndVideoDirectInputDescription": {
+        "description": "Description for the direct input voice processing profile."
+    },
+    "audioAndVideoCustomProfileLabel": "Vlastný",
+    "@audioAndVideoCustomProfileLabel": {
+        "description": "Voice processing profile with manual controls."
+    },
+    "audioAndVideoCustomProfileDescription": "Nastavte si všetko sami: potlačenie šumu, potlačenie ozveny a zosilnenie.",
+    "@audioAndVideoCustomProfileDescription": {
+        "description": "Description for the custom voice processing profile."
+    },
+    "audioAndVideoNoiseSuppressionSectionTitle": "Potlačenie šumu",
+    "@audioAndVideoNoiseSuppressionSectionTitle": {
+        "description": "Subsection title for noise suppression tier selection."
+    },
+    "audioAndVideoNoiseSuppressionEnhancedLabel": "Vylepšené",
+    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
+        "description": "Enhanced noise suppression option using AI filtering."
+    },
+    "audioAndVideoNoiseSuppressionStandardLabel": "Štandard",
+    "@audioAndVideoNoiseSuppressionStandardLabel": {
+        "description": "Standard browser or platform noise suppression option."
+    },
+    "audioAndVideoNoiseSuppressionNoneLabel": "Žiadne",
+    "@audioAndVideoNoiseSuppressionNoneLabel": {
+        "description": "No noise suppression option."
+    },
+    "audioAndVideoEchoCancellationLabel": "Potlačenie ozveny",
+    "@audioAndVideoEchoCancellationLabel": {
+        "description": "Toggle label for echo cancellation."
+    },
+    "audioAndVideoAutomaticGainControlLabel": "Automatická regulácia zosilnenia",
+    "@audioAndVideoAutomaticGainControlLabel": {
+        "description": "Toggle label for automatic gain control."
+    },
+    "audioAndVideoAutomaticGainControlDescription": "Vyrovnáva hlasitosť mikrofónu. Je vypnutá, ak je zapnuté vylepšené potlačenie.",
+    "@audioAndVideoAutomaticGainControlDescription": {
+        "description": "Description for automatic gain control toggle."
+    },
+    "audioAndVideoMicTestSectionTitle": "Skúška mikrofónu",
+    "@audioAndVideoMicTestSectionTitle": {
+        "description": "Subsection title for microphone test controls."
+    },
+    "audioAndVideoMicTestSectionDescription": "Vypočujte si, ako znie váš hlas pri súčasných nastaveniach.",
+    "@audioAndVideoMicTestSectionDescription": {
+        "description": "Subsection description for microphone test controls."
+    },
+    "audioAndVideoMicTestStartLabel": "Spustiť test mikrofónu",
+    "@audioAndVideoMicTestStartLabel": {
+        "description": "Button label to start the microphone test."
+    },
+    "audioAndVideoMicTestStopLabel": "Ukončiť test mikrofónu",
+    "@audioAndVideoMicTestStopLabel": {
+        "description": "Button label to stop the microphone test."
+    },
+    "audioAndVideoMicTestPermissionRequired": "Aplikácia {productName} potrebuje prístup k mikrofónu, aby mohla otestovať váš vstup.",
+    "@audioAndVideoMicTestPermissionRequired": {
+        "description": "Shown when microphone permission is required for the mic test.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoCameraLabel": "Kamera",
+    "@audioAndVideoCameraLabel": {
+        "description": "Label for camera device selection."
+    },
+    "audioAndVideoMirrorCameraLabel": "Zrkadliť kameru",
+    "@audioAndVideoMirrorCameraLabel": {
+        "description": "Switch label for flipping the local camera preview horizontally."
+    },
+    "audioAndVideoCameraQualitySectionTitle": "Kvalita kamery",
+    "@audioAndVideoCameraQualitySectionTitle": {
+        "description": "Subsection title for camera resolution selection."
+    },
+    "audioAndVideoCameraQuality480pLabel": "480p",
+    "@audioAndVideoCameraQuality480pLabel": {
+        "description": "Camera quality option for 480p resolution."
+    },
+    "audioAndVideoCameraQuality720pLabel": "720p",
+    "@audioAndVideoCameraQuality720pLabel": {
+        "description": "Camera quality option for 720p resolution."
+    },
+    "audioAndVideoCameraQuality1080pLabel": "1080p",
+    "@audioAndVideoCameraQuality1080pLabel": {
+        "description": "Camera quality option for 1080p resolution."
+    },
+    "audioAndVideoScreenShareQualitySectionTitle": "Kvalita zdieľania obrazovky",
+    "@audioAndVideoScreenShareQualitySectionTitle": {
+        "description": "Subsection title for screen share resolution selection."
+    },
+    "audioAndVideoFrameRateSectionTitle": "Počet snímok za sekundu",
+    "@audioAndVideoFrameRateSectionTitle": {
+        "description": "Subsection title for screen share frame rate selection."
+    },
+    "audioAndVideoFrameRate15Label": "15 snímok za sekundu",
+    "@audioAndVideoFrameRate15Label": {
+        "description": "Screen share frame rate option for 15 FPS."
+    },
+    "audioAndVideoFrameRate30Label": "30 snímok za sekundu",
+    "@audioAndVideoFrameRate30Label": {
+        "description": "Screen share frame rate option for 30 FPS."
+    },
+    "audioAndVideoFrameRate60Label": "60 snímok za sekundu",
+    "@audioAndVideoFrameRate60Label": {
+        "description": "Screen share frame rate option for 60 FPS."
+    },
+    "audioAndVideoInstanceVideoQualityLimit": "Táto inštancia v súčasnosti umožňuje zdieľanie obrazovky v rozlíšení až 720p pri 30 FPS.",
+    "@audioAndVideoInstanceVideoQualityLimit": {
+        "description": "Note shown when instance limits block higher screen share quality."
+    },
+    "audioAndVideoMicrophonePermissionRequired": "Aplikácia {productName} potrebuje prístup k mikrofónu, aby mohla zobraziť zoznam vašich zariadení.",
+    "@audioAndVideoMicrophonePermissionRequired": {
+        "description": "Shown when microphone permission is required to enumerate audio input devices.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoCameraPermissionRequired": "Aplikácia {productName} potrebuje prístup k fotoaparátu, aby mohla zobraziť zoznam vašich zariadení.",
+    "@audioAndVideoCameraPermissionRequired": {
+        "description": "Shown when camera permission is required to enumerate video devices.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "Nepýtať sa, keď skrývam zdieľanie obrazovky",
+    "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
+        "description": "Toggle to skip confirmation when hiding own screen share during a call."
+    },
+    "languageAndTimeLanguageSectionTitle": "Jazyk rozhrania",
+    "@languageAndTimeLanguageSectionTitle": {
+        "description": "Settings section title for interface language preference."
+    },
+    "languageAndTimeLanguageSectionDescription": "Vyberte jazyk, ktorý sa bude používať v celej aplikácii",
+    "@languageAndTimeLanguageSectionDescription": {
+        "description": "Settings section description for interface language preference."
+    },
+    "languageAndTimeOpenLanguageSettings": "Otvoriť nastavenia jazyka",
+    "@languageAndTimeOpenLanguageSettings": {
+        "description": "Button that opens the system per-app language settings."
+    },
+    "languageAndTimeTimeFormatSectionTitle": "Formát času",
+    "@languageAndTimeTimeFormatSectionTitle": {
+        "description": "Settings section title for time format preference."
+    },
+    "languageAndTimeTimeFormatSectionDescription": "Vyberte si, ako sa majú časy zobrazovať v celej aplikácii",
+    "@languageAndTimeTimeFormatSectionDescription": {
+        "description": "Settings section description for time format preference."
+    },
+    "languageAndTimeTimeFormatSelectionLabel": "Výber formátu času",
+    "@languageAndTimeTimeFormatSelectionLabel": {
+        "description": "Accessibility label for the time format radio group."
+    },
+    "languageAndTimeTimeFormatAuto": "Automaticky",
+    "@languageAndTimeTimeFormatAuto": {
+        "description": "Time format option that detects format from locale."
+    },
+    "languageAndTimeTimeFormat12Hour": "12-hodinový",
+    "@languageAndTimeTimeFormat12Hour": {
+        "description": "Time format option for 12-hour AM/PM display."
+    },
+    "languageAndTimeTimeFormat24Hour": "24-hodinový",
+    "@languageAndTimeTimeFormat24Hour": {
+        "description": "Time format option for 24-hour display."
+    },
+    "languageAndTimeTimeFormatAppLanguage": "Jazyk aplikácie: {format}",
+    "@languageAndTimeTimeFormatAppLanguage": {
+        "description": "Auto time format description using the app interface language.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeTimeFormatSyncFailed": "Nepodarilo sa aktualizovať formát času",
+    "@languageAndTimeTimeFormatSyncFailed": {
+        "description": "Toast shown when saving the time format preference fails."
+    },
+    "guildNavbarChannelTypeSelection": "Výber typu kanála",
+    "@guildNavbarChannelTypeSelection": {
+        "description": "Accessibility label for channel type radio group in create channel modal."
+    },
+    "guildMenuSettingsChannels": "Kanály",
+    "@guildMenuSettingsChannels": {
+        "description": "Guild settings menu item for channel management."
+    },
+    "guildSettingsRolesNewRole": "Nová rola",
+    "@guildSettingsRolesNewRole": {
+        "description": "Default name for a newly created role."
+    },
+    "guildSettingsRolesDeleteRole": "Zmazať rolu",
+    "@guildSettingsRolesDeleteRole": {
+        "description": "Button to delete the selected role."
+    },
+    "guildSettingsRolesBackToRoles": "Späť na zoznam rolí",
+    "@guildSettingsRolesBackToRoles": {
+        "description": "Button to return to the role list from the editor."
+    },
+    "guildSettingsRolesEditTitle": "Upraviť \"{name}\"",
+    "@guildSettingsRolesEditTitle": {
+        "description": "Title for the role editor panel.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesRoleName": "Názov role",
+    "@guildSettingsRolesRoleName": {
+        "description": "Label for the role name input."
+    },
+    "guildSettingsRolesRoleColor": "Farba role",
+    "@guildSettingsRolesRoleColor": {
+        "description": "Label for the role color picker."
+    },
+    "guildSettingsRolesRoleColorHelper": "Zadajte farbu (hex, rgb(), hsl() alebo názov) alebo použite výber farieb.",
+    "@guildSettingsRolesRoleColorHelper": {
+        "description": "Helper text under the role color input."
+    },
+    "guildSettingsRolesShowSeparately": "Zobraziť túto rolu samostatne",
+    "@guildSettingsRolesShowSeparately": {
+        "description": "Switch label for the hoist toggle."
+    },
+    "guildSettingsRolesShowSeparatelyHelper": "Zobrazuje členov s touto rolou v samostatnej časti zoznamu členov.",
+    "@guildSettingsRolesShowSeparatelyHelper": {
+        "description": "Helper text under the hoist toggle."
+    },
+    "guildSettingsRolesAllowMentions": "Povoliť zmienky pre túto rolu",
+    "@guildSettingsRolesAllowMentions": {
+        "description": "Switch label for the mentionable toggle."
+    },
+    "guildSettingsRolesClearPermissions": "Vymazať oprávnenia",
+    "@guildSettingsRolesClearPermissions": {
+        "description": "Button to clear all role permissions."
+    },
+    "guildSettingsRolesPermissionsSection": "Oprávnenia",
+    "@guildSettingsRolesPermissionsSection": {
+        "description": "Section title for role permissions."
+    },
+    "guildSettingsRolesDenseLayout": "Husté rozloženie",
+    "@guildSettingsRolesDenseLayout": {
+        "description": "Tooltip when permission list is in comfy layout."
+    },
+    "guildSettingsRolesComfyLayout": "Komfortné rozloženie",
+    "@guildSettingsRolesComfyLayout": {
+        "description": "Tooltip when permission list is in dense layout."
+    },
+    "guildSettingsRolesSwitchToDenseLayout": "Prepnúť na husté rozloženie",
+    "@guildSettingsRolesSwitchToDenseLayout": {
+        "description": "Aria label for switching to dense layout."
+    },
+    "guildSettingsRolesSwitchToComfyLayout": "Prepnúť na komfortné rozloženie",
+    "@guildSettingsRolesSwitchToComfyLayout": {
+        "description": "Aria label for switching to comfy layout."
+    },
+    "guildSettingsRolesSingleColumn": "Jeden stĺpec",
+    "@guildSettingsRolesSingleColumn": {
+        "description": "Tooltip when permission list is in two-column layout."
+    },
+    "guildSettingsRolesTwoColumns": "Dva stĺpce",
+    "@guildSettingsRolesTwoColumns": {
+        "description": "Tooltip when permission list is in single-column layout."
+    },
+    "guildSettingsRolesSwitchToSingleColumn": "Prepnúť na jeden stĺpec",
+    "@guildSettingsRolesSwitchToSingleColumn": {
+        "description": "Aria label for switching to single column."
+    },
+    "guildSettingsRolesSwitchToTwoColumns": "Prepnúť na dva stĺpce",
+    "@guildSettingsRolesSwitchToTwoColumns": {
+        "description": "Aria label for switching to two columns."
+    },
+    "guildSettingsRolesNoPermissionsFound": "Nenašli sa žiadne oprávnenia",
+    "@guildSettingsRolesNoPermissionsFound": {
+        "description": "Empty state when permission search has no matches."
+    },
+    "guildSettingsRolesResetHoistOrder": "Obnoviť predvolené nastavenia",
+    "@guildSettingsRolesResetHoistOrder": {
+        "description": "Button to reset custom hoist order."
+    },
+    "guildSettingsRolesHoistOrderHelp": "Preťahovaním rolí môžete prispôsobiť poradie, v akom sa zobrazujú v zozname členov.",
+    "@guildSettingsRolesHoistOrderHelp": {
+        "description": "Help text in hoist order mode."
+    },
+    "guildSettingsRolesLockedTooltip": "Túto rolu nemôžete upravovať, pretože ide o vašu najvyššiu rolu alebo o rolu, ktorá je nad vašou.",
+    "@guildSettingsRolesLockedTooltip": {
+        "description": "Tooltip on locked role rows."
+    },
+    "guildSettingsRolesCannotEditHigherRole": "Rolu, ktorá je rovnaká alebo vyššia ako vaša najvyššia rola, nemôžete upravovať",
+    "@guildSettingsRolesCannotEditHigherRole": {
+        "description": "Tooltip when role hierarchy blocks editing."
+    },
+    "guildSettingsRolesCannotGrantPermission": "Nemôžete udeliť oprávnenie, ktoré nemáte",
+    "@guildSettingsRolesCannotGrantPermission": {
+        "description": "Tooltip when user cannot grant a permission."
+    },
+    "guildSettingsRolesCannotRemoveOwnPermission": "Toto oprávnenie nemôžete odstrániť, pretože by ste ho tým odstránili aj pre seba",
+    "@guildSettingsRolesCannotRemoveOwnPermission": {
+        "description": "Tooltip when revoking would strip permission from self."
+    },
+    "guildSettingsRolesUpdatedSuccess": "Role boli úspešne aktualizované",
+    "@guildSettingsRolesUpdatedSuccess": {
+        "description": "Toast after saving role changes."
+    },
+    "guildSettingsRolesCreatedSuccess": "Rola bola úspešne vytvorená",
+    "@guildSettingsRolesCreatedSuccess": {
+        "description": "Toast after creating a role."
+    },
+    "guildSettingsRolesDeletedSuccess": "Rola bola úspešne odstránená",
+    "@guildSettingsRolesDeletedSuccess": {
+        "description": "Toast after deleting a role."
+    },
+    "guildSettingsRolesNameRequiredTitle": "Názov role je povinný",
+    "@guildSettingsRolesNameRequiredTitle": {
+        "description": "Modal title when role name is blank on save."
+    },
+    "guildSettingsRolesNameRequiredBody": "Pred uložením zadajte názov role.",
+    "@guildSettingsRolesNameRequiredBody": {
+        "description": "Modal body when role name is blank on save."
+    },
+    "guildSettingsRolesCreateFailedTitle": "Nepodarilo sa vytvoriť rolu",
+    "@guildSettingsRolesCreateFailedTitle": {
+        "description": "Error modal title when role creation fails."
+    },
+    "guildSettingsRolesUpdateFailedTitle": "Nepodarilo sa aktualizovať role",
+    "@guildSettingsRolesUpdateFailedTitle": {
+        "description": "Error modal title when role update fails."
+    },
+    "guildSettingsRolesDeleteFailedTitle": "Nepodarilo sa odstrániť rolu",
+    "@guildSettingsRolesDeleteFailedTitle": {
+        "description": "Error modal title when role deletion fails."
+    },
+    "guildSettingsRolesDeleteFailedBody": "\"{name}\" sa nepodarilo odstrániť. Skúste to znova.",
+    "@guildSettingsRolesDeleteFailedBody": {
+        "description": "Error modal body when role deletion fails.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesTryAgainInAMoment": "Skúste to o chvíľu znova.",
+    "@guildSettingsRolesTryAgainInAMoment": {
+        "description": "Generic retry message for role errors."
+    },
+    "guildSettingsRolesDeleteConfirm": "Naozaj chcete odstrániť rolu {name}? Všetci členovia s touto rolou ju stratia.",
+    "@guildSettingsRolesDeleteConfirm": {
+        "description": "Delete role confirmation message.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "permissionCategoryCommunityWide": "V rámci celej komunity",
+    "@permissionCategoryCommunityWide": {
+        "description": "Permission category label."
+    },
+    "permissionCategoryMessagesMedia": "Správy a multimediálny obsah",
+    "@permissionCategoryMessagesMedia": {
+        "description": "Permission category label."
+    },
+    "permissionCategoryModeration": "Moderovanie",
+    "@permissionCategoryModeration": {
+        "description": "Permission category label."
+    },
+    "permissionUnknown": "Neznáme oprávnenie",
+    "@permissionUnknown": {
+        "description": "Fallback permission label."
+    },
+    "permissionAdministrator": "Správca",
+    "@permissionAdministrator": {
+        "description": "Permission name."
+    },
+    "permissionAdministratorDescription": "Udeľuje všetky oprávnenia a obchádza obmedzenia kanálov. Veľmi citlivé.",
+    "@permissionAdministratorDescription": {
+        "description": "Permission description."
+    },
+    "permissionViewActivityLog": "Zobraziť protokol aktivít",
+    "@permissionViewActivityLog": {
+        "description": "Permission name."
+    },
+    "permissionViewActivityLogDescription": "Prečítajte si protokol zmien a moderátorských zásahov v komunite.",
+    "@permissionViewActivityLogDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageCommunity": "Spravovať komunitu",
+    "@permissionManageCommunity": {
+        "description": "Permission name."
+    },
+    "permissionManageCommunityDescription": "Upravte globálne nastavenia, ako sú názov, popis a ikona.",
+    "@permissionManageCommunityDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageRoles": "Správa rolí",
+    "@permissionManageRoles": {
+        "description": "Permission name."
+    },
+    "permissionManageChannels": "Spravovať kanály",
+    "@permissionManageChannels": {
+        "description": "Permission name."
+    },
+    "permissionManageChannelsDescription": "Vytvárajte, upravujte alebo odstraňujte kanály a kategórie.",
+    "@permissionManageChannelsDescription": {
+        "description": "Permission description."
+    },
+    "permissionKickMembers": "Vylúčiť členov",
+    "@permissionKickMembers": {
+        "description": "Permission name."
+    },
+    "permissionChangeOwnNickname": "Zmeniť vlastnú prezývku",
+    "@permissionChangeOwnNickname": {
+        "description": "Permission name."
+    },
+    "permissionChangeOwnNicknameDescription": "Upraviť si vlastnú prezývku.",
+    "@permissionChangeOwnNicknameDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageNicknames": "Spravovať prezývky",
+    "@permissionManageNicknames": {
+        "description": "Permission name."
+    },
+    "permissionManageNicknamesDescription": "Zmeniť prezývky ostatných členov.",
+    "@permissionManageNicknamesDescription": {
+        "description": "Permission description."
+    },
+    "permissionCreateEmojiStickers": "Vytvoriť emoji a nálepky",
+    "@permissionCreateEmojiStickers": {
+        "description": "Permission name."
+    },
+    "permissionCreateEmojiStickersDescription": "Nahrať nové emoji a nálepky a spravovať svoje vlastné výtvory.",
+    "@permissionCreateEmojiStickersDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageEmojiStickers": "Spravovať emoji a nálepky",
+    "@permissionManageEmojiStickers": {
+        "description": "Permission name."
+    },
+    "permissionManageEmojiStickersDescription": "Upravujte alebo odstraňujte emoji a nálepky vytvorené ostatnými členmi.",
+    "@permissionManageEmojiStickersDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageWebhooks": "Správa webhookov",
+    "@permissionManageWebhooks": {
+        "description": "Permission name."
+    },
+    "permissionManageWebhooksDescription": "Vytvárajte, upravujte alebo odstraňujte webhooky.",
+    "@permissionManageWebhooksDescription": {
+        "description": "Permission description."
+    },
+    "permissionSendMessages": "Odosielať správy",
+    "@permissionSendMessages": {
+        "description": "Permission name."
+    },
+    "permissionSendTtsMessages": "Odosielať správy TTS",
+    "@permissionSendTtsMessages": {
+        "description": "Permission name."
+    },
+    "permissionSendTtsMessagesDescription": "Odosielajte správy s premenou textu na reč.",
+    "@permissionSendTtsMessagesDescription": {
+        "description": "Permission description."
+    },
+    "permissionManageMessages": "Spravovať správy",
+    "@permissionManageMessages": {
+        "description": "Permission name."
+    },
+    "permissionManageMessagesDescription": "Odstráňovať správy ostatných členov. Pripnutia sa nastavujú samostatne.",
+    "@permissionManageMessagesDescription": {
+        "description": "Permission description."
+    },
+    "permissionPinMessages": "Pripínať správy",
+    "@permissionPinMessages": {
+        "description": "Permission name."
+    },
+    "permissionEmbedLinks": "Vkladať odkazy",
+    "@permissionEmbedLinks": {
+        "description": "Permission name."
+    },
+    "permissionAttachFiles": "Priložiť súbory",
+    "@permissionAttachFiles": {
+        "description": "Permission name."
+    },
+    "permissionMentionEveryone": "Používať @everyone/@here a @role",
+    "@permissionMentionEveryone": {
+        "description": "Permission name for mention everyone."
+    },
+    "permissionUseExternalEmoji": "Použiť externé emoji",
+    "@permissionUseExternalEmoji": {
+        "description": "Permission name."
+    },
+    "permissionUseExternalEmojiDescription": "Používať emoji z iných komunít.",
+    "@permissionUseExternalEmojiDescription": {
+        "description": "Permission description."
+    },
+    "permissionUseExternalStickers": "Používať externé nálepky",
+    "@permissionUseExternalStickers": {
+        "description": "Permission name."
+    },
+    "permissionAddReactions": "Pridávať reakcie",
+    "@permissionAddReactions": {
+        "description": "Permission name."
+    },
+    "permissionAddReactionsDescription": "Pridávať nové reakcie na správy.",
+    "@permissionAddReactionsDescription": {
+        "description": "Permission description."
+    },
+    "permissionTimeOutMembersDescription": "Na určitú dobu zabrániť členom v odosielaní správ, reagovaní a pripájaní sa k hlasovému kanálu.",
+    "@permissionTimeOutMembersDescription": {
+        "description": "Permission description."
+    },
+    "permissionViewChannel": "Zobraziť kanál",
+    "@permissionViewChannel": {
+        "description": "Permission name."
+    },
+    "permissionViewChannelMembers": "Zobraziť členov kanálu",
+    "@permissionViewChannelMembers": {
+        "description": "Permission name."
+    },
+    "permissionViewChannelMembersDescription": "Zobraziť si zoznam členov pre kanály tejto komunity.",
+    "@permissionViewChannelMembersDescription": {
+        "description": "Permission description."
+    },
+    "permissionConnect": "Pripojiť sa",
+    "@permissionConnect": {
+        "description": "Permission name."
+    },
+    "permissionSpeak": "Rozprávať",
+    "@permissionSpeak": {
+        "description": "Permission name."
+    },
+    "permissionUseVoiceActivity": "Používať hlasovú aktivitu",
+    "@permissionUseVoiceActivity": {
+        "description": "Permission name."
+    },
+    "permissionUseVoiceActivityDescription": "Bez tohto povolenia je potrebná funkcia \"push-to-talk\".",
+    "@permissionUseVoiceActivityDescription": {
+        "description": "Permission description."
+    },
+    "permissionMuteMembers": "Stlmiť členov",
+    "@permissionMuteMembers": {
+        "description": "Permission name."
+    },
+    "permissionMoveMembers": "Presúvať členov",
+    "@permissionMoveMembers": {
+        "description": "Permission name."
+    },
+    "permissionMoveMembersDescription": "Presúvať členov medzi kanálmi, ku ktorým majú prístup.",
+    "@permissionMoveMembersDescription": {
+        "description": "Permission description."
+    },
+    "guildSettingsInvitesTitle": "Pozvánky",
+    "@guildSettingsInvitesTitle": {
+        "description": "Title for the invites settings tab."
+    },
+    "guildSettingsInvitesEmptyDescription": "Táto komunita zatiaľ nemá žiadne pozývacie odkazy. Prejdite do kanála a vytvorte pozvánku, aby ste mohli pozvať ľudí.",
+    "@guildSettingsInvitesEmptyDescription": {
+        "description": "Empty state description for invites."
+    },
+    "guildSettingsInvitesLoadFailedTitle": "Nepodarilo sa načítať pozvánky",
+    "@guildSettingsInvitesLoadFailedTitle": {
+        "description": "Error title when invites fail to load."
+    },
+    "guildSettingsInvitesLoadFailedDescription": "Pri načítaní pozvánok došlo k chybe. Skúste to znova.",
+    "@guildSettingsInvitesLoadFailedDescription": {
+        "description": "Error description when invites fail to load."
+    },
+    "guildSettingsInvitesTryAgain": "Skúste to znova",
+    "@guildSettingsInvitesTryAgain": {
+        "description": "Retry button on invites load error."
+    },
+    "guildSettingsInvitesShowCreatedDate": "Zobraziť dátum vytvorenia namiesto dátumu vypršania platnosti",
+    "@guildSettingsInvitesShowCreatedDate": {
+        "description": "Toggle to show invite creation date instead of expiration."
+    },
+    "guildSettingsInvitesEnableInvites": "Povoliť pozvánky",
+    "@guildSettingsInvitesEnableInvites": {
+        "description": "Button to re-enable invite links for a community."
+    },
+    "guildSettingsInvitesPauseInvites": "Pozastaviť pozvánky",
+    "@guildSettingsInvitesPauseInvites": {
+        "description": "Button to pause invite links for a community."
+    },
+    "guildSettingsInvitesEnableForCommunityTitle": "Povoliť pozvánky pre túto komunitu",
+    "@guildSettingsInvitesEnableForCommunityTitle": {
+        "description": "Confirmation title before enabling invites."
+    },
+    "guildSettingsInvitesPauseConfirmDescription": "Pozastaviť pozvánky? Noví používatelia sa nebudú môcť pripojiť prostredníctvom pozývacích odkazov, kým túto funkciu opäť nezapnete. Na súčasných členov to nebude mať žiadny vplyv.",
+    "@guildSettingsInvitesPauseConfirmDescription": {
+        "description": "Confirmation body before pausing invites."
+    },
+    "guildSettingsInvitesEnableConfirmDescription": "Povoliť pozvánky? Používatelia sa budú môcť opäť pripojiť k tejto komunite prostredníctvom pozvánkových odkazov.",
+    "@guildSettingsInvitesEnableConfirmDescription": {
+        "description": "Confirmation body before enabling invites."
+    },
+    "guildSettingsInvitesPause": "Pozastaviť",
+    "@guildSettingsInvitesPause": {
+        "description": "Confirm button to pause invites."
+    },
+    "guildSettingsInvitesPausedForCommunity": "Pozvánky sú pozastavené pre túto komunitu.",
+    "@guildSettingsInvitesPausedForCommunity": {
+        "description": "Status message when invites are manually paused."
+    },
+    "guildSettingsInvitesPausedBecauseRaid": "Pozvánky sú dočasne pozastavené, pretože {productName} zaznamenal potenciálny útok. Noví používatelia sa momentálne nemôžu pripojiť.",
+    "@guildSettingsInvitesPausedBecauseRaid": {
+        "description": "Status message when invites are paused due to raid detection.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsInvitesLabelChannel": "Kanál:",
+    "@guildSettingsInvitesLabelChannel": {
+        "description": "Mobile invite row label for channel."
+    },
+    "guildSettingsInvitesLabelCode": "Kód:",
+    "@guildSettingsInvitesLabelCode": {
+        "description": "Mobile invite row label for invite code."
+    },
+    "guildSettingsInvitesLabelCreated": "Vytvorené:",
+    "@guildSettingsInvitesLabelCreated": {
+        "description": "Mobile invite row label for created date."
+    },
+    "guildSettingsInvitesLabelExpires": "Vyprší:",
+    "@guildSettingsInvitesLabelExpires": {
+        "description": "Mobile invite row label for expiration date."
+    },
+    "guildSettingsInvitesUnknown": "Neznámy",
+    "@guildSettingsInvitesUnknown": {
+        "description": "Fallback when invite inviter is unknown."
+    },
+    "guildSettingsInvitesNoCategory": "Žiadna kategória",
+    "@guildSettingsInvitesNoCategory": {
+        "description": "Fallback when invite channel has no parent category."
+    },
+    "guildSettingsInvitesExpired": "Platnosť vypršala",
+    "@guildSettingsInvitesExpired": {
+        "description": "Label when an invite has expired."
+    },
+    "guildSettingsInvitesNever": "Nikdy",
+    "@guildSettingsInvitesNever": {
+        "description": "Label when an invite does not expire."
+    },
+    "guildSettingsInvitesCopyLink": "Skopírovať odkaz na pozvánku",
+    "@guildSettingsInvitesCopyLink": {
+        "description": "Action to copy an invite link."
+    },
+    "guildSettingsInvitesRevokeFailedTitle": "Pozvánku sa nepodarilo zrušiť",
+    "@guildSettingsInvitesRevokeFailedTitle": {
+        "description": "Error title when revoking an invite fails."
+    },
+    "guildSettingsInvitesRevokeFailedDescription": "Odkaz môže stále fungovať. Skúste to o chvíľu znova.",
+    "@guildSettingsInvitesRevokeFailedDescription": {
+        "description": "Error description when revoking an invite fails."
+    },
+    "guildSettingsInvitesTableExpires": "Platnosť vyprší"
 }

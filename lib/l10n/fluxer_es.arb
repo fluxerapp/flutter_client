@@ -2080,7 +2080,7 @@
     "@securitySectionTitle": {
         "description": "Top-level Security section heading in Security & Login settings."
     },
-    "securitySectionDescription": "Protege tu cuenta con autenticación de dos factores y passkeys",
+    "securitySectionDescription": "Protege tu cuenta con autenticación de dos factores y claves de acceso",
     "@securitySectionDescription": {
         "description": "Description for Security section heading."
     },
@@ -2538,7 +2538,7 @@
     "@phoneAddHint": {
         "description": "Hint for phone input."
     },
-    "phoneAddFooter": "Introduce tu número de teléfono. Te enviaremos un código de verificación por SMS.",
+    "phoneAddFooter": "Te enviaremos un código por SMS cuando esté disponible. Tu número no está vinculado a tu cuenta. Solo conservamos un marcador cifrado, sin identificador de usuario, para permitir como máximo 2 verificaciones en unos 30 días.",
     "@phoneAddFooter": {
         "description": "Footer text for phone input."
     },
@@ -2554,7 +2554,7 @@
     "@phoneVerifyDescription": {
         "description": "Description for phone verify step."
     },
-    "phoneAddSuccess": "Número de teléfono añadido",
+    "phoneAddSuccess": "Número de teléfono verificado",
     "@phoneAddSuccess": {
         "description": "Toast after phone added."
     },
@@ -3952,7 +3952,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Pegar imagen del portapapeles",
+    "chatAttachmentPasteTooltip": "Pegar archivo del portapapeles",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Packs de expresiones",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Panel de privacidad",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Audio y vídeo",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Sonidos y alertas",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Idioma y hora",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,1717 @@
     "guildSettingsAuditLogFilterAction": "Filtrar por acción",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "Tu sesión ha expirado. Por favor inicia sesión de nuevo.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "nagbarViewPremiumFeatures": "Descubrir las ventajas de {productName}",
+    "@nagbarViewPremiumFeatures": {
+        "description": "Premium onboarding nagbar CTA.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "invalidDeepLinkDescription": "El enlace puede estar roto, solo estar disponible en la web o que no tengas acceso. Comprueba el enlace y prueba de nuevo.",
+    "@invalidDeepLinkDescription": {
+        "description": "Explanation shown when a deep link or route cannot be opened in the app."
+    },
+    "addGuildCreateDescription": "Crea una comunidad para hablar con tus amigos.",
+    "@addGuildCreateDescription": {
+        "description": "Body text on the create-community sub-view."
+    },
+    "dmListMessagesTitle": "Mensajes",
+    "@dmListMessagesTitle": {
+        "description": "Mobile header title for the DM list."
+    },
+    "dmListDirectMessagesTitle": "Mensajes directos",
+    "@dmListDirectMessagesTitle": {
+        "description": "Desktop section header for the DM conversation list."
+    },
+    "nagbarOpenSettings": "Abrir ajustes",
+    "@nagbarOpenSettings": {
+        "description": "Nagbar CTA that opens user settings."
+    },
+    "systemPermissionSettingsOpenSettings": "Abrir ajustes",
+    "@systemPermissionSettingsOpenSettings": {
+        "description": "Primary action that opens the device app settings for a blocked permission."
+    },
+    "systemPermissionMicrophoneMessage": "Fluxer no tiene acceso a tu micrófono. Puedes habilitarlo en los ajustes de privacidad de tu dispositivo.",
+    "@systemPermissionMicrophoneMessage": {
+        "description": "Body text when microphone access must be enabled in system settings."
+    },
+    "systemPermissionCameraMessage": "Fluxer no tiene acceso a tu cámara. Puedes habilitarla en los ajustes de privacidad de tu dispositivo.",
+    "@systemPermissionCameraMessage": {
+        "description": "Body text when camera access must be enabled in system settings."
+    },
+    "systemPermissionNotificationsMessage": "Fluxer no tiene permiso para enviar notificaciones. Puedes habilitarlo en los ajustes de tu dispositivo.",
+    "@systemPermissionNotificationsMessage": {
+        "description": "Body text when notification permission must be enabled in system settings."
+    },
+    "nagbarManageSubscription": "Gestionar suscripción",
+    "@nagbarManageSubscription": {
+        "description": "Nagbar CTA that opens the billing portal."
+    },
+    "nagbarViewGiftInventory": "Ver inventario de regalos",
+    "@nagbarViewGiftInventory": {
+        "description": "Gift inventory nagbar CTA."
+    },
+    "nagbarEnableMfa": "Activar autenticación de doble factor",
+    "@nagbarEnableMfa": {
+        "description": "Visionary MFA nagbar CTA."
+    },
+    "nagbarReviewTerms": "Revisar términos",
+    "@nagbarReviewTerms": {
+        "description": "Terms acceptance nagbar CTA."
+    },
+    "nagbarGuildMembershipCta": "Únete a {communityName} para hablar con el equipo y mantenerte al día.",
+    "@nagbarGuildMembershipCta": {
+        "description": "Official community membership nagbar body.",
+        "placeholders": {
+            "communityName": {
+                "type": "String"
+            }
+        }
+    },
+    "nagbarPushNotification": "Activa las notificaciones para no perderte mensajes y menciones.",
+    "@nagbarPushNotification": {
+        "description": "Push notification permission nagbar body."
+    },
+    "addGuildCreateTitle": "Crear comunidad",
+    "@addGuildCreateTitle": {
+        "description": "Title of the create-community sub-view in the add community modal."
+    },
+    "invalidDeepLinkGoHomeButton": "Ir al inicio",
+    "@invalidDeepLinkGoHomeButton": {
+        "description": "Primary action on the invalid deep link screen to return to the home tab."
+    },
+    "addGuildCreateNameLabel": "Nombre de la comunidad",
+    "@addGuildCreateNameLabel": {
+        "description": "Label for the community name input on the create sub-view."
+    },
+    "addGuildCreateSubmit": "Crear comunidad",
+    "@addGuildCreateSubmit": {
+        "description": "Primary button label to submit the create-community form."
+    },
+    "addGuildCreateClaimTitle": "Reclama tu cuenta",
+    "@addGuildCreateClaimTitle": {
+        "description": "Gate title when the user must claim their account before creating a community."
+    },
+    "addGuildCreateClaimDescription": "Tienes que reclamar tu cuenta antes de poder crear una comunidad.",
+    "@addGuildCreateClaimDescription": {
+        "description": "Gate description when the user must claim their account before creating a community."
+    },
+    "addGuildCreateVerifyTitle": "Verifica tu correo",
+    "@addGuildCreateVerifyTitle": {
+        "description": "Gate title when the user must verify email before creating a community."
+    },
+    "addGuildCreateVerifyDescription": "Tienes que verificar tu dirección de correo antes de poder crear una comunidad.",
+    "@addGuildCreateVerifyDescription": {
+        "description": "Gate description when the user must verify email before creating a community."
+    },
+    "addGuildCreateAnimatedIconUnsupported": "Los iconos animados no se pueden utilizar al crear una comunidad nueva. Utiliza una imagen estática.",
+    "@addGuildCreateAnimatedIconUnsupported": {
+        "description": "Error when the user picks an animated image for a new community icon."
+    },
+    "addGuildCreateGuidelinesLink": "normas de la comunidad de {productName}",
+    "@addGuildCreateGuidelinesLink": {
+        "description": "Link label for community guidelines on the create sub-view.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "addGuildCreateSingleCommunityBlocked": "Esta instancia es una única comunidad, por lo que no se pueden crear comunidades adicionales.",
+    "@addGuildCreateSingleCommunityBlocked": {
+        "description": "Error when creation is blocked because the instance only allows one community."
+    },
+    "addGuildCreateChangeIcon": "Cambiar icono",
+    "@addGuildCreateChangeIcon": {
+        "description": "Button label to replace the selected community icon."
+    },
+    "addGuildCreateIconLabel": "Icono de la comunidad",
+    "@addGuildCreateIconLabel": {
+        "description": "Label for the optional community icon field on the create sub-view."
+    },
+    "channelDetailsFallbackTitle": "Detalles",
+    "@channelDetailsFallbackTitle": {
+        "description": "Fallback title in channel details when no channel or DM name is available."
+    },
+    "channelDetailsGroupDmSubtitle": "Grupo de MD · {count} miembros",
+    "@channelDetailsGroupDmSubtitle": {
+        "description": "Subtitle in channel details for a group DM showing member count.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelDetailsCloseDmDescription": "¿Cerrar tu conversación con {name}?",
+    "@channelDetailsCloseDmDescription": {
+        "description": "Confirmation body when closing a 1:1 DM from channel details.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelDetailsLeaveGroupDescription": "¿Abandonar {name}?",
+    "@channelDetailsLeaveGroupDescription": {
+        "description": "Confirmation body when leaving a group DM from channel details.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelDetailsChannelSettingsTitle": "Ajustes de canal",
+    "@channelDetailsChannelSettingsTitle": {
+        "description": "Title for the channel details overflow menu on guild channels."
+    },
+    "channelDetailsDmSettingsTitle": "Ajustes de MD",
+    "@channelDetailsDmSettingsTitle": {
+        "description": "Title for the channel details overflow menu on 1:1 DMs."
+    },
+    "phoneCountryLabel": "País",
+    "@phoneCountryLabel": {
+        "description": "Label for country selector in phone verification."
+    },
+    "phoneNumberRequired": "Se requiere un número de teléfono",
+    "@phoneNumberRequired": {
+        "description": "Validation error when phone number is empty."
+    },
+    "phoneCodeDidNotWork": "El código no funcionó. Compruébalo y prueba de nuevo.",
+    "@phoneCodeDidNotWork": {
+        "description": "API error for invalid verification code."
+    },
+    "phoneTooManyAttempts": "Demasiados intentos. Espera un rato e inténtalo de nuevo.",
+    "@phoneTooManyAttempts": {
+        "description": "Rate limit error for phone verification."
+    },
+    "phoneSmsUnavailable": "La verificación por SMS no está disponible ahora mismo. Inténtalo más tarde o contacta a soporte.",
+    "@phoneSmsUnavailable": {
+        "description": "SMS provider unavailable error."
+    },
+    "phoneNotEligible": "La verificación por número de teléfono no está disponible para esta cuenta. Utiliza otro método o contacta a soporte.",
+    "@phoneNotEligible": {
+        "description": "Account not eligible for phone verification."
+    },
+    "phoneCaptchaRequired": "Se requiere comprobar el navegador antes de poder verificar tu teléfono. Prueba otra vez desde la página de inicio de sesión o contacta a soporte.",
+    "@phoneCaptchaRequired": {
+        "description": "Captcha required for phone verification."
+    },
+    "phoneSomethingWentWrong": "Algo salió mal. Inténtalo de nuevo.",
+    "@phoneSomethingWentWrong": {
+        "description": "Generic phone verification error."
+    },
+    "phoneInboundExpensiveDescription": "Enviar un SMS a este número de teléfono es muy caro, por lo que necesitamos que nos envíes un SMS. También puedes contactar a soporte para que elimine esta restricción de tu cuenta.",
+    "@phoneInboundExpensiveDescription": {
+        "description": "Inbound challenge reason for expensive destinations."
+    },
+    "phoneInboundDefaultDescription": "Necesitamos que nos envíes un SMS para verificar tu número de teléfono.",
+    "@phoneInboundDefaultDescription": {
+        "description": "Default inbound challenge description."
+    },
+    "phoneInboundStepOpenMessaging": "Abre la aplicación de mensajes de tu teléfono y crea un nuevo mensaje de texto.",
+    "@phoneInboundStepOpenMessaging": {
+        "description": "Inbound verification step 1."
+    },
+    "phoneInboundStepWait": "Espera a que recibamos tu mensaje. Puede tardar un rato.",
+    "@phoneInboundStepWait": {
+        "description": "Inbound verification step 3."
+    },
+    "phoneInboundGetNewCode": "Obtener nuevo código",
+    "@phoneInboundGetNewCode": {
+        "description": "Button to refresh inbound challenge."
+    },
+    "phoneInboundChallengeCodeLabel": "Código a enviar",
+    "@phoneInboundChallengeCodeLabel": {
+        "description": "Label for inbound challenge code."
+    },
+    "phoneInboundOurNumberLabel": "Enviar a",
+    "@phoneInboundOurNumberLabel": {
+        "description": "Label for inbound destination number."
+    },
+    "requiredActionTitle": "Verificación de cuenta requerida",
+    "@requiredActionTitle": {
+        "description": "Title for required action blocking modal."
+    },
+    "requiredActionIntroGeneric": "Completa la verificación para continuar utilizando Fluxer.",
+    "@requiredActionIntroGeneric": {
+        "description": "Generic required action intro."
+    },
+    "requiredActionIntroPhone": "Tu registro necesita una comprobación anti-spam adicional antes de poder continuar.",
+    "@requiredActionIntroPhone": {
+        "description": "Phone-only required action intro."
+    },
+    "requiredActionIntroEmailOrPhone": "Verifica tu correo o teléfono para continuar utilizando Fluxer.",
+    "@requiredActionIntroEmailOrPhone": {
+        "description": "Email or phone required action intro."
+    },
+    "requiredActionChooseMethodTitle": "Escoge un método de verificación",
+    "@requiredActionChooseMethodTitle": {
+        "description": "Title when user can pick email or phone."
+    },
+    "requiredActionChooseMethodDescription": "Completa uno de los siguientes métodos de verificación para continuar utilizando Fluxer.",
+    "@requiredActionChooseMethodDescription": {
+        "description": "Description when user can pick email or phone."
+    },
+    "requiredActionUsePhone": "Utilizar teléfono",
+    "@requiredActionUsePhone": {
+        "description": "Button to choose phone verification."
+    },
+    "requiredActionCheckEmailTitle": "Comprueba tu correo",
+    "@requiredActionCheckEmailTitle": {
+        "description": "Title for email verification instructions."
+    },
+    "requiredActionCheckEmailDescription": "Hemos enviado un enlace de verificación a tu dirección de correo. Ábrelo para continuar.",
+    "@requiredActionCheckEmailDescription": {
+        "description": "Description for email verification instructions."
+    },
+    "requiredActionResendVerificationEmail": "Volver a enviar correo de verificación",
+    "@requiredActionResendVerificationEmail": {
+        "description": "Button to resend verification email."
+    },
+    "requiredActionVerificationEmailSent": "Correo de verificación enviado. Comprueba tu bandeja de entrada.",
+    "@requiredActionVerificationEmailSent": {
+        "description": "Toast after resending verification email."
+    },
+    "requiredActionSignOut": "Cerrar sesión",
+    "@requiredActionSignOut": {
+        "description": "Sign out button in required action modal."
+    },
+    "iarReasonMalwareGuildLabel": "Distribución de malware",
+    "@iarReasonMalwareGuildLabel": {
+        "description": "Community-report reason label for malware distribution."
+    },
+    "iarReasonPrivacyGuildLabel": "Violación de privacidad o doxxing",
+    "@iarReasonPrivacyGuildLabel": {
+        "description": "Community-report reason label for privacy violation or doxxing."
+    },
+    "iarReasonSelfHarmGuildLabel": "Fomenta la autolesión",
+    "@iarReasonSelfHarmGuildLabel": {
+        "description": "Community-report reason label for self-harm encouragement."
+    },
+    "accessibilitySaturationTitle": "Saturación",
+    "@accessibilitySaturationTitle": {
+        "description": "Section title for the theme saturation slider on the accessibility settings page."
+    },
+    "voiceParticipantMenuUserVolume": "Volumen del usuario",
+    "@voiceParticipantMenuUserVolume": {
+        "description": "Voice participant context menu slider label for per-user volume."
+    },
+    "voiceParticipantMenuStreamVolume": "Volumen del directo",
+    "@voiceParticipantMenuStreamVolume": {
+        "description": "Voice participant context menu slider label for screen share audio volume."
+    },
+    "voicePanelSettingsSectionTitle": "Ajustes de voz",
+    "@voicePanelSettingsSectionTitle": {
+        "description": "Section header for in-call voice settings in the expandable control panel."
+    },
+    "voicePanelUseEarpieceLabel": "Utilizar el auricular",
+    "@voicePanelUseEarpieceLabel": {
+        "description": "Switch label to route voice call audio through the phone earpiece instead of the speaker."
+    },
+    "voicePanelOnlyShowVideosLabel": "Solo mostrar vídeos",
+    "@voicePanelOnlyShowVideosLabel": {
+        "description": "Switch label to hide voice participants who do not have their camera on."
+    },
+    "voicePanelOnlyShowVideosDescription": "Mostrar solo a los participantes que tengan activada su cámara.",
+    "@voicePanelOnlyShowVideosDescription": {
+        "description": "Description for the only-show-videos switch in the voice call panel."
+    },
+    "voicePanelShowOwnCameraLabel": "Mostrar mi propia cámara",
+    "@voicePanelShowOwnCameraLabel": {
+        "description": "Switch label to show or hide the local camera tile in the voice call grid."
+    },
+    "chatBlockedMessagesCollapsed": "{count, plural, =1{1 mensaje bloqueado} other{{count} mensajes bloqueados}}",
+    "@chatBlockedMessagesCollapsed": {
+        "description": "Collapsed summary label for consecutive messages from blocked users.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsCategorySettingsTitle": "Ajustes de categoría",
+    "@channelSettingsCategorySettingsTitle": {
+        "description": "Title for category settings modal."
+    },
+    "channelSettingsEditCategory": "Editar categoría",
+    "@channelSettingsEditCategory": {
+        "description": "Context menu action to edit a category."
+    },
+    "channelSettingsTabWebhooks": "Webhooks",
+    "@channelSettingsTabWebhooks": {
+        "description": "Channel settings tab for configuring channel webhooks."
+    },
+    "channelSettingsDeleteChannel": "Eliminar canal",
+    "@channelSettingsDeleteChannel": {
+        "description": "Destructive footer button in channel settings."
+    },
+    "channelSettingsDeleteChannelConfirm": "¿Seguro que quieres eliminar {channelName}? No se podrá deshacer.",
+    "@channelSettingsDeleteChannelConfirm": {
+        "description": "Destructive confirmation for deleting a channel.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsDeleteCategoryConfirm": "¿Seguro que quieres eliminar {categoryName}? No se podrá deshacer.",
+    "@channelSettingsDeleteCategoryConfirm": {
+        "description": "Destructive confirmation for deleting a category.",
+        "placeholders": {
+            "categoryName": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsDeleteCategory": "Eliminar categoría",
+    "@channelSettingsDeleteCategory": {
+        "description": "Destructive footer button in category settings."
+    },
+    "channelSettingsChannelUpdated": "Canal actualizado",
+    "@channelSettingsChannelUpdated": {
+        "description": "Success toast after saving channel settings."
+    },
+    "channelSettingsChannelName": "Nombre del canal",
+    "@channelSettingsChannelName": {
+        "description": "Label for channel name field in channel settings."
+    },
+    "channelSettingsCategoryName": "Nombre de la categoría",
+    "@channelSettingsCategoryName": {
+        "description": "Label for category name field in channel settings."
+    },
+    "channelSettingsMyCategory": "Mi categoría",
+    "@channelSettingsMyCategory": {
+        "description": "Placeholder for category name field."
+    },
+    "channelSettingsChannelNamePlaceholder": "general",
+    "@channelSettingsChannelNamePlaceholder": {
+        "description": "Placeholder for channel name field in channel settings."
+    },
+    "channelSettingsUrl": "URL",
+    "@channelSettingsUrl": {
+        "description": "Label for link channel URL field."
+    },
+    "channelSettingsUrlPlaceholder": "https://example.com",
+    "@channelSettingsUrlPlaceholder": {
+        "description": "Placeholder for link channel URL field in channel settings."
+    },
+    "channelSettingsTopic": "Tema",
+    "@channelSettingsTopic": {
+        "description": "Label for channel topic field."
+    },
+    "channelSettingsTopicPlaceholder": "Añadir un tema a este canal",
+    "@channelSettingsTopicPlaceholder": {
+        "description": "Placeholder for channel topic field."
+    },
+    "channelSettingsInsertEmoji": "Insertar emoji",
+    "@channelSettingsInsertEmoji": {
+        "description": "Accessibility label for the emoji button on the channel topic field."
+    },
+    "channelSettingsTopicTooLongTitle": "El tema del canal es demasiado largo.",
+    "@channelSettingsTopicTooLongTitle": {
+        "description": "Error modal title when channel topic exceeds maximum length."
+    },
+    "channelSettingsTopicTooLongMessage": "Acorta el tema e inténtalo de nuevo.",
+    "@channelSettingsTopicTooLongMessage": {
+        "description": "Error modal body when channel topic exceeds maximum length."
+    },
+    "channelSettingsSlowmode": "Modo lento",
+    "@channelSettingsSlowmode": {
+        "description": "Label for slowmode control in channel settings."
+    },
+    "channelSettingsSlowmodeDescription": "Tiempo de espera entre mensajes. \"{bypassSlowmodePermissionLabel}\" puede omitirlo.",
+    "@channelSettingsSlowmodeDescription": {
+        "description": "Description under the slowmode select in channel settings.",
+        "placeholders": {
+            "bypassSlowmodePermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsSlowmodeOff": "Desactivado",
+    "@channelSettingsSlowmodeOff": {
+        "description": "Slowmode option for no rate limit."
+    },
+    "channelSettingsSlowmodeSeconds": "{seconds} segundos",
+    "@channelSettingsSlowmodeSeconds": {
+        "description": "Slowmode option label in seconds.",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsSlowmodeMinutes": "{minutes} minutos",
+    "@channelSettingsSlowmodeMinutes": {
+        "description": "Slowmode option label in minutes.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsSlowmodeHours": "{hours} horas",
+    "@channelSettingsSlowmodeHours": {
+        "description": "Slowmode option label in hours.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsSlowmodeOneMinute": "{oneMinute} minuto",
+    "@channelSettingsSlowmodeOneMinute": {
+        "description": "Slowmode option label for one minute.",
+        "placeholders": {
+            "oneMinute": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsSlowmodeOneHour": "{oneHour} hora",
+    "@channelSettingsSlowmodeOneHour": {
+        "description": "Slowmode option label for one hour.",
+        "placeholders": {
+            "oneHour": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsVoiceQuality": "Calidad de la voz",
+    "@channelSettingsVoiceQuality": {
+        "description": "Voice channel setting label for voice bitrate preset."
+    },
+    "channelSettingsVoiceQualityDescription": "Mayor tasa de bits = mejor calidad y mayor uso de ancho de banda.",
+    "@channelSettingsVoiceQualityDescription": {
+        "description": "Helper text for the voice quality slider in channel settings."
+    },
+    "channelSettingsVoiceQualityKbps": "{kilobits} kbps",
+    "@channelSettingsVoiceQualityKbps": {
+        "description": "Voice channel bitrate option label.",
+        "placeholders": {
+            "kilobits": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsParticipantLimit": "Límite de participantes",
+    "@channelSettingsParticipantLimit": {
+        "description": "Voice channel setting label for maximum members."
+    },
+    "channelSettingsParticipantLimitDescription": "Número máximo de miembros que se pueden unir a la vez. 0 significa ilimitado.",
+    "@channelSettingsParticipantLimitDescription": {
+        "description": "Helper text for the voice channel participant limit slider."
+    },
+    "channelSettingsParticipantLimitValue": "{count, plural, =0 {∞ Sin límite} =1 {1 participante} other {{count} participantes}}",
+    "@channelSettingsParticipantLimitValue": {
+        "description": "Displayed value for voice channel participant limit slider.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsConnectionLimit": "Límite de conexiones",
+    "@channelSettingsConnectionLimit": {
+        "description": "Voice channel setting label for connection limit."
+    },
+    "channelSettingsConnectionLimitDescription": "Número máximo de conexiones que un miembro puede mantener en este canal.",
+    "@channelSettingsConnectionLimitDescription": {
+        "description": "Helper text for voice channel connection limit."
+    },
+    "channelSettingsConnectionLimitValue": "{count, plural, =1 {1 conexión} other {{count} conexiones}}",
+    "@channelSettingsConnectionLimitValue": {
+        "description": "Displayed value for voice channel connection limit slider.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelSettingsVoiceRegion": "Región de voz",
+    "@channelSettingsVoiceRegion": {
+        "description": "Label for voice region picker."
+    },
+    "channelSettingsVoiceRegionAutomatic": "Automático",
+    "@channelSettingsVoiceRegionAutomatic": {
+        "description": "Automatic voice region option."
+    },
+    "channelSettingsVoiceRegionsLoadFailed": "No se pudieron cargar las regiones de voz",
+    "@channelSettingsVoiceRegionsLoadFailed": {
+        "description": "Error modal title when voice regions fail to load."
+    },
+    "channelSettingsVoiceRegionsLoadFailedDescription": "Inténtalo de nuevo en un rato.",
+    "@channelSettingsVoiceRegionsLoadFailedDescription": {
+        "description": "Error modal body when voice regions fail to load in channel settings."
+    },
+    "channelSettingsPermissionsSearchRolesOrMembers": "Buscar roles o miembros…",
+    "@channelSettingsPermissionsSearchRolesOrMembers": {
+        "description": "Placeholder for the add override search field."
+    },
+    "channelSettingsPermissionsRolesAndMembers": "Roles y miembros",
+    "@channelSettingsPermissionsRolesAndMembers": {
+        "description": "Section title in the add override picker."
+    },
+    "channelSettingsDeleteInvite": "Eliminar invitación",
+    "@channelSettingsDeleteInvite": {
+        "description": "Action to delete a channel invite."
+    },
+    "channelSettingsCopyInviteCode": "Copiar código de invitación",
+    "@channelSettingsCopyInviteCode": {
+        "description": "Action to copy invite code."
+    },
+    "channelSettingsCopyInviteUrl": "Copiar URL de invitación",
+    "@channelSettingsCopyInviteUrl": {
+        "description": "Action to copy invite URL."
+    },
+    "channelSettingsWebhookCreated": "Webhook creado",
+    "@channelSettingsWebhookCreated": {
+        "description": "Success toast after creating a webhook."
+    },
+    "channelSettingsWebhookCreateFailed": "No se pudo crear el webhook",
+    "@channelSettingsWebhookCreateFailed": {
+        "description": "Error toast when webhook creation fails."
+    },
+    "channelSettingsCreateWebhook": "Crear webhook",
+    "@channelSettingsCreateWebhook": {
+        "description": "Button to create a new webhook in channel settings."
+    },
+    "channelSettingsInvitesDescription": "Gestiona los enlaces de invitación para este canal.",
+    "@channelSettingsInvitesDescription": {
+        "description": "Description for the channel invites settings tab."
+    },
+    "channelSettingsInvitesCreate": "Crear invitación",
+    "@channelSettingsInvitesCreate": {
+        "description": "Button to create a new invite in channel settings."
+    },
+    "channelSettingsInvitesEmpty": "No hay enlaces de invitación",
+    "@channelSettingsInvitesEmpty": {
+        "description": "Empty state title for channel invites."
+    },
+    "channelSettingsInvitesEmptyDescription": "Este canal aún no tiene enlaces de invitación. Crea uno para invitar a gente a este canal.",
+    "@channelSettingsInvitesEmptyDescription": {
+        "description": "Empty state description for channel invites."
+    },
+    "channelSettingsInvitesLoadFailedDescription": "Ha ocurrido un error al cargar los enlaces de invitación de este canal. Inténtalo de nuevo.",
+    "@channelSettingsInvitesLoadFailedDescription": {
+        "description": "Error description when channel invites fail to load."
+    },
+    "channelSettingsWebhooksDescription": "Gestiona los webhooks entrantes que pueden enviar mensajes en este canal.",
+    "@channelSettingsWebhooksDescription": {
+        "description": "Description for the channel webhooks settings tab."
+    },
+    "channelSettingsWebhooksEmpty": "No hay webhooks",
+    "@channelSettingsWebhooksEmpty": {
+        "description": "Empty state title for channel webhooks."
+    },
+    "channelSettingsWebhooksEmptyDescription": "No hay webhooks configurados para este canal. Crea un webhook para permitir que aplicaciones externas envíen mensajes.",
+    "@channelSettingsWebhooksEmptyDescription": {
+        "description": "Empty state description for channel webhooks."
+    },
+    "channelSettingsWebhooksUnsupported": "Este canal no es compatible con los webhooks.",
+    "@channelSettingsWebhooksUnsupported": {
+        "description": "Message when the channel type does not support webhooks."
+    },
+    "channelSettingsWebhooksPermissionRequired": "Necesitas el permiso \"{permission}\" para ver y editar webhooks en este canal.",
+    "@channelSettingsWebhooksPermissionRequired": {
+        "description": "Permission denial message on the channel webhooks tab.",
+        "placeholders": {
+            "permission": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsWebhooksLoadFailedTitle": "No se pudieron cargar los webhooks",
+    "@channelSettingsWebhooksLoadFailedTitle": {
+        "description": "Error title when channel webhooks fail to load."
+    },
+    "channelSettingsWebhooksLoadFailedDescription": "Ha ocurrido un error al cargar los webhooks de este canal. Inténtalo de nuevo.",
+    "@channelSettingsWebhooksLoadFailedDescription": {
+        "description": "Error description when channel webhooks fail to load."
+    },
+    "channelSettingsWebhooksCreatedBy": "Creado por {creator} el {date}",
+    "@channelSettingsWebhooksCreatedBy": {
+        "description": "Webhook list metadata line.",
+        "placeholders": {
+            "creator": {
+                "type": "String"
+            },
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsWebhooksUnknownUser": "Usuario desconocido",
+    "@channelSettingsWebhooksUnknownUser": {
+        "description": "Fallback label when webhook creator is unavailable."
+    },
+    "channelSettingsWebhooksAvatar": "Avatar",
+    "@channelSettingsWebhooksAvatar": {
+        "description": "Label for webhook avatar field."
+    },
+    "channelSettingsWebhooksUploadImage": "Subir imagen",
+    "@channelSettingsWebhooksUploadImage": {
+        "description": "Button to upload a webhook avatar."
+    },
+    "channelSettingsWebhooksRemove": "Eliminar",
+    "@channelSettingsWebhooksRemove": {
+        "description": "Button to remove webhook avatar."
+    },
+    "channelSettingsWebhooksName": "Nombre",
+    "@channelSettingsWebhooksName": {
+        "description": "Label for webhook name field."
+    },
+    "channelSettingsWebhooksNamePlaceholder": "Nombre del webhook",
+    "@channelSettingsWebhooksNamePlaceholder": {
+        "description": "Placeholder for webhook name field."
+    },
+    "channelSettingsWebhooksChannel": "Canal",
+    "@channelSettingsWebhooksChannel": {
+        "description": "Label for webhook channel picker."
+    },
+    "channelSettingsWebhooksUrl": "URL del webhook",
+    "@channelSettingsWebhooksUrl": {
+        "description": "Label for read-only webhook URL field."
+    },
+    "channelSettingsWebhooksCopyUrl": "Copiar URL del webhook",
+    "@channelSettingsWebhooksCopyUrl": {
+        "description": "Button to copy webhook URL."
+    },
+    "channelSettingsWebhooksDelete": "Eliminar webhook",
+    "@channelSettingsWebhooksDelete": {
+        "description": "Danger button to delete a webhook."
+    },
+    "channelSettingsWebhooksDeleteFailed": "No se pudo eliminar el webhook",
+    "@channelSettingsWebhooksDeleteFailed": {
+        "description": "Error when webhook deletion fails."
+    },
+    "channelSettingsWebhooksDeleteConfirm": "¿Eliminar este webhook? No se podrá deshacer.",
+    "@channelSettingsWebhooksDeleteConfirm": {
+        "description": "Confirmation when deleting a webhook."
+    },
+    "channelSettingsWebhookTryAgainInAMoment": "Inténtalo de nuevo en un rato.",
+    "@channelSettingsWebhookTryAgainInAMoment": {
+        "description": "Generic retry hint for webhook errors."
+    },
+    "channelMenuOpenChat": "Abrir chat",
+    "@channelMenuOpenChat": {
+        "description": "Guild channel menu action that opens a voice channel chat without joining voice."
+    },
+    "channelMenuDeleteMyMessagesConfirm": "Eliminar mis mensajes",
+    "@channelMenuDeleteMyMessagesConfirm": {
+        "description": "Confirm button for deleting all of the caller's messages in a channel."
+    },
+    "channelDetailsSystemMessage": "Mensaje del sistema",
+    "@channelDetailsSystemMessage": {
+        "description": "Subtitle in channel details for a system DM recipient."
+    },
+    "channelDetailsTextChannel": "Canal de texto",
+    "@channelDetailsTextChannel": {
+        "description": "Channel type subtitle for text channels."
+    },
+    "channelDetailsVoiceChannel": "Canal de voz",
+    "@channelDetailsVoiceChannel": {
+        "description": "Channel type subtitle for voice channels."
+    },
+    "channelDetailsCategory": "Categoría",
+    "@channelDetailsCategory": {
+        "description": "Channel type subtitle for categories."
+    },
+    "channelDetailsLinkChannel": "Canal de enlace",
+    "@channelDetailsLinkChannel": {
+        "description": "Channel type subtitle for link channels."
+    },
+    "channelDetailsGenericChannel": "Canal",
+    "@channelDetailsGenericChannel": {
+        "description": "Generic channel type subtitle fallback."
+    },
+    "channelDetailsMutedConversation": "Conversación silenciada",
+    "@channelDetailsMutedConversation": {
+        "description": "Toast after muting a DM conversation from channel details."
+    },
+    "channelDetailsMutedChannel": "Canal silenciado",
+    "@channelDetailsMutedChannel": {
+        "description": "Toast after muting a guild channel from channel details."
+    },
+    "channelDetailsNotificationSettingsUpdated": "Ajustes de notificación actualizados",
+    "@channelDetailsNotificationSettingsUpdated": {
+        "description": "Toast after updating notification settings from channel details."
+    },
+    "channelDetailsTabMembers": "Miembros",
+    "@channelDetailsTabMembers": {
+        "description": "Members tab label in channel details."
+    },
+    "systemCallJoinTheCall": "Unirse a la llamada",
+    "@systemCallJoinTheCall": {
+        "description": "Call-to-action button label on an in-progress call system message."
+    },
+    "systemCallStartedThatLasted": "{username} inició una llamada que duró {duration}.",
+    "@systemCallStartedThatLasted": {
+        "description": "System message when a call has ended and the viewer participated.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissedWithDuration": "Perdiste una llamada de {username} que duró {duration}.",
+    "@systemCallMissedWithDuration": {
+        "description": "System message when the viewer missed a call that had a measurable duration.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissed": "Perdiste una llamada de {username}.",
+    "@systemCallMissed": {
+        "description": "System message when the viewer missed a call.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationFewSeconds": "unos segundos",
+    "@systemCallDurationFewSeconds": {
+        "description": "Duration label for a very short elapsed call."
+    },
+    "systemCallDurationMinute": "un minuto",
+    "@systemCallDurationMinute": {
+        "description": "Duration label when a call lasted about one minute."
+    },
+    "voiceParticipantMenuViewProfile": "Ver perfil",
+    "@voiceParticipantMenuViewProfile": {
+        "description": "Voice participant context menu item to open the user's profile."
+    },
+    "voiceParticipantMenuFocus": "Centrarse en esta persona",
+    "@voiceParticipantMenuFocus": {
+        "description": "Voice participant context menu item to pin a participant tile in focus layout."
+    },
+    "voiceParticipantMenuUnfocus": "Dejar de centrarse",
+    "@voiceParticipantMenuUnfocus": {
+        "description": "Voice participant context menu item to return to grid layout."
+    },
+    "voiceParticipantMenuCommunityMute": "Silenciar",
+    "@voiceParticipantMenuCommunityMute": {
+        "description": "Voice participant context menu item to community-mute another member."
+    },
+    "voiceParticipantMenuCommunityDeafen": "Ensordecer",
+    "@voiceParticipantMenuCommunityDeafen": {
+        "description": "Voice participant context menu item to community-deafen another member."
+    },
+    "channelSettingsTabInvites": "Invitaciones",
+    "@channelSettingsTabInvites": {
+        "description": "Channel settings tab for invite management."
+    },
+    "channelSettingsAdvanced": "Avanzado",
+    "@channelSettingsAdvanced": {
+        "description": "Collapsible advanced section title in channel overview."
+    },
+    "channelSettingsUnknownUser": "Usuario desconocido",
+    "@channelSettingsUnknownUser": {
+        "description": "Fallback label for unknown user in permission overwrites."
+    },
+    "channelSettingsEveryoneRole": "@everyone",
+    "@channelSettingsEveryoneRole": {
+        "description": "Label for the default @everyone role overwrite in channel permissions."
+    },
+    "channelSettingsPermissionsAccessOverrides": "Anulaciones de acceso",
+    "@channelSettingsPermissionsAccessOverrides": {
+        "description": "Sidebar title for channel permission overwrite list."
+    },
+    "channelSettingsPermissionsEditAccessFor": "Editar acceso para {name}",
+    "@channelSettingsPermissionsEditAccessFor": {
+        "description": "Title for channel permission editor panel.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsPermissionsConfigureBaseAccess": "Configura el acceso por defecto para este canal",
+    "@channelSettingsPermissionsConfigureBaseAccess": {
+        "description": "Subtitle when editing @everyone channel permissions."
+    },
+    "channelSettingsPermissionsConfigureRoleOverrides": "Configura las anulaciones para este rol",
+    "@channelSettingsPermissionsConfigureRoleOverrides": {
+        "description": "Subtitle when editing a role channel permission overwrite."
+    },
+    "channelSettingsPermissionsConfigureMemberOverrides": "Configura las anulaciones para este miembro",
+    "@channelSettingsPermissionsConfigureMemberOverrides": {
+        "description": "Subtitle when editing a member channel permission overwrite."
+    },
+    "channelSettingsPermissionsSearchPlaceholder": "Buscar permisos…",
+    "@channelSettingsPermissionsSearchPlaceholder": {
+        "description": "Placeholder for channel permissions search field."
+    },
+    "channelSettingsPermissionsChannelAccessUpdated": "Acceso al canal actualizado",
+    "@channelSettingsPermissionsChannelAccessUpdated": {
+        "description": "Success toast after saving channel permission overwrites."
+    },
+    "channelSettingsPermissionsTitle": "Control de acceso",
+    "@channelSettingsPermissionsTitle": {
+        "description": "Page title for the channel permissions settings tab."
+    },
+    "channelSettingsPermissionsSyncedWithParentSuffix": ".",
+    "@channelSettingsPermissionsSyncedWithParentSuffix": {
+        "description": "Suffix for the synced-with-parent banner in channel permissions."
+    },
+    "channelSettingsPermissionsNotSyncedWithParentSuffix": ".",
+    "@channelSettingsPermissionsNotSyncedWithParentSuffix": {
+        "description": "Suffix for the not-synced-with-parent banner in channel permissions."
+    },
+    "channelSettingsPermissionsNotSyncedWithParentPrefix": "Este canal no está sincronizado con la categoría ",
+    "@channelSettingsPermissionsNotSyncedWithParentPrefix": {
+        "description": "Prefix for the not-synced-with-parent banner in channel permissions."
+    },
+    "channelSettingsPermissionsSyncedWithParentPrefix": "Este canal está sincronizado con la categoría ",
+    "@channelSettingsPermissionsSyncedWithParentPrefix": {
+        "description": "Prefix for the synced-with-parent banner in channel permissions."
+    },
+    "channelSettingsPermissionsSyncWithCategory": "Sincronizar con la categoría",
+    "@channelSettingsPermissionsSyncWithCategory": {
+        "description": "Button label to sync channel permissions with the parent category."
+    },
+    "channelSettingsPermissionsSyncedWithParentToast": "Canal sincronizado con su categoría",
+    "@channelSettingsPermissionsSyncedWithParentToast": {
+        "description": "Success toast after syncing channel permissions with the parent category."
+    },
+    "channelSettingsPermissionsAddOverride": "Añadir anulación",
+    "@channelSettingsPermissionsAddOverride": {
+        "description": "Button label to add a new channel permission override."
+    },
+    "channelDetailsTabPins": "Mensajes fijados",
+    "@channelDetailsTabPins": {
+        "description": "Pins tab label in channel details."
+    },
+    "channelDetailsActionMute": "Silenciar",
+    "@channelDetailsActionMute": {
+        "description": "Mute action button label in channel details."
+    },
+    "channelDetailsUnmutedChannel": "Silencio del canal desactivado",
+    "@channelDetailsUnmutedChannel": {
+        "description": "Toast after unmuting a guild channel from channel details."
+    },
+    "channelDetailsUnmutedConversation": "Silencio de la conversación desactivado",
+    "@channelDetailsUnmutedConversation": {
+        "description": "Toast after unmuting a DM conversation from channel details."
+    },
+    "channelSettingsDeleteInviteConfirm": "¿Eliminar esta invitación? No se podrá deshacer.",
+    "@channelSettingsDeleteInviteConfirm": {
+        "description": "Confirmation message for deleting a channel invite."
+    },
+    "channelDetailsActionSearch": "Buscar",
+    "@channelDetailsActionSearch": {
+        "description": "Search action button label in channel details."
+    },
+    "channelDetailsActionMore": "Más",
+    "@channelDetailsActionMore": {
+        "description": "More action button label in channel details."
+    },
+    "channelDetailsMembersEmptyTitle": "No hay miembros que mostrar",
+    "@channelDetailsMembersEmptyTitle": {
+        "description": "Empty state title when channel details has no members loaded."
+    },
+    "channelDetailsMembersEmptyBody": "Los miembros aparecerán aquí cuando se carguen los datos de la comunidad.",
+    "@channelDetailsMembersEmptyBody": {
+        "description": "Empty state body when channel details has no members loaded."
+    },
+    "channelDetailsPinsLoadFailedTitle": "No se pudieron cargar los mensajes fijados",
+    "@channelDetailsPinsLoadFailedTitle": {
+        "description": "Error title when pinned messages fail to load in channel details."
+    },
+    "channelDetailsPinsGuildEndHint": "Los miembros con el permiso \"Fijar mensajes\" pueden fijar mensajes para todo el mundo.",
+    "@channelDetailsPinsGuildEndHint": {
+        "description": "Footer hint at the end of the pins list in guild channels."
+    },
+    "channelDetailsPinsDmEndHint": "Puedes fijar mensajes en esta conversación para todo el mundo.",
+    "@channelDetailsPinsDmEndHint": {
+        "description": "Footer hint at the end of the pins list in DM channels."
+    },
+    "channelDetailsPinsEndReached": "Has llegado al final",
+    "@channelDetailsPinsEndReached": {
+        "description": "Footer label when the user has scrolled through all pinned messages."
+    },
+    "channelDetailsSearchTitle": "Buscar",
+    "@channelDetailsSearchTitle": {
+        "description": "Title for the channel search bottom sheet."
+    },
+    "channelDetailsSearchHint": "Buscar mensajes",
+    "@channelDetailsSearchHint": {
+        "description": "Search field hint in channel details message search."
+    },
+    "channelDetailsSearchFilterFrom": "De",
+    "@channelDetailsSearchFilterFrom": {
+        "description": "Author filter chip label in channel message search."
+    },
+    "channelDetailsSearchFilterHas": "Tiene",
+    "@channelDetailsSearchFilterHas": {
+        "description": "Content filter chip label in channel message search."
+    },
+    "channelDetailsSearchFilterSort": "Ordenar",
+    "@channelDetailsSearchFilterSort": {
+        "description": "Sort filter chip label in channel message search."
+    },
+    "channelDetailsSearchResultCount": "{count, plural, =1{1 resultado} other{{count} resultados}}",
+    "@channelDetailsSearchResultCount": {
+        "description": "Result count label in channel message search.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelDetailsSearchFilterByUser": "Filtrar por usuario",
+    "@channelDetailsSearchFilterByUser": {
+        "description": "Title for the author filter sheet in channel message search."
+    },
+    "channelDetailsSearchFilterByContent": "Filtrar por contenido",
+    "@channelDetailsSearchFilterByContent": {
+        "description": "Title for the content filter sheet in channel message search."
+    },
+    "channelDetailsSearchSortBy": "Ordenar resultados por",
+    "@channelDetailsSearchSortBy": {
+        "description": "Title for the sort filter sheet in channel message search."
+    },
+    "channelDetailsSearchIn": "Buscar en",
+    "@channelDetailsSearchIn": {
+        "description": "Title for the search scope filter sheet in channel message search."
+    },
+    "channelDetailsSearchEmptyTitle": "Buscar en esta conversación",
+    "@channelDetailsSearchEmptyTitle": {
+        "description": "Empty state title before the user runs a channel message search."
+    },
+    "channelDetailsSearchEmptyBody": "Introduce texto, un autor o un filtro de contenido para buscar mensajes.",
+    "@channelDetailsSearchEmptyBody": {
+        "description": "Empty state body before the user runs a channel message search."
+    },
+    "channelDetailsSearchIndexingTitle": "Los mensajes se están indexando",
+    "@channelDetailsSearchIndexingTitle": {
+        "description": "Title when channel message search is still indexing."
+    },
+    "channelDetailsSearchIndexingBody": "Inténtalo de nuevo en cuanto la búsqueda acabe de indexar este ámbito.",
+    "@channelDetailsSearchIndexingBody": {
+        "description": "Body when channel message search is still indexing."
+    },
+    "channelDetailsSearchContentFileDescription": "Cualquier archivo adjunto",
+    "@channelDetailsSearchContentFileDescription": {
+        "description": "Description for the file content filter."
+    },
+    "channelDetailsSearchContentLinkDescription": "URL escrita en el mensaje",
+    "@channelDetailsSearchContentLinkDescription": {
+        "description": "Description for the link content filter."
+    },
+    "channelDetailsSearchContentStickerDescription": "Sticker adjunto al mensaje",
+    "@channelDetailsSearchContentStickerDescription": {
+        "description": "Description for the sticker content filter."
+    },
+    "channelDetailsSearchContentTypesCount": "{count} tipos",
+    "@channelDetailsSearchContentTypesCount": {
+        "description": "Chip label when multiple content filters are selected in channel message search.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "groupDmGroupName": "Nombre del grupo",
+    "@groupDmGroupName": {
+        "description": "Label for the group name field in edit group."
+    },
+    "groupDmMyGroup": "Mi grupo",
+    "@groupDmMyGroup": {
+        "description": "Placeholder for the group name field in edit group."
+    },
+    "phoneInboundStepSendCode": "Envía el código {code} a {number}.",
+    "@phoneInboundStepSendCode": {
+        "description": "Inbound verification step 2.",
+        "placeholders": {
+            "code": {
+                "type": "String"
+            },
+            "number": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmGroupIcon": "Icono del grupo",
+    "@groupDmGroupIcon": {
+        "description": "Label for the group icon section in edit group."
+    },
+    "groupDmUploadIcon": "Subir icono",
+    "@groupDmUploadIcon": {
+        "description": "Button to upload a group icon."
+    },
+    "groupDmChangeIcon": "Cambiar icono",
+    "@groupDmChangeIcon": {
+        "description": "Button to change an existing group icon."
+    },
+    "groupDmRemoveIcon": "Eliminar icono",
+    "@groupDmRemoveIcon": {
+        "description": "Button to remove the group icon."
+    },
+    "groupDmUpdated": "Grupo actualizado",
+    "@groupDmUpdated": {
+        "description": "Success toast after saving group changes."
+    },
+    "groupDmUpdateFailed": "No se pudo actualizar el grupo. Inténtalo de nuevo.",
+    "@groupDmUpdateFailed": {
+        "description": "Error toast when group update fails."
+    },
+    "groupDmAnimatedIconNotSupported": "Los iconos animados no son compatibles. Utiliza una imagen estática.",
+    "@groupDmAnimatedIconNotSupported": {
+        "description": "Error when user selects an animated group icon."
+    },
+    "groupDmAnimatedIconNotSupportedTitle": "Los iconos animados no son compatibles",
+    "@groupDmAnimatedIconNotSupportedTitle": {
+        "description": "Title when user selects an animated group icon."
+    },
+    "groupDmUnsupportedIconFormat": "Formato de icono no compatible",
+    "@groupDmUnsupportedIconFormat": {
+        "description": "Title when the selected group icon format is unsupported."
+    },
+    "groupDmUnsupportedIconFormatBody": "Tipo de archivo no compatible.",
+    "@groupDmUnsupportedIconFormatBody": {
+        "description": "Body when the selected group icon format is unsupported."
+    },
+    "groupDmCouldntProcessImage": "No se pudo procesar la imagen",
+    "@groupDmCouldntProcessImage": {
+        "description": "Title when a cropped group icon cannot be processed."
+    },
+    "groupDmFailedToProcessCroppedImage": "No se pudo procesar la imagen recortada. Inténtalo de nuevo.",
+    "@groupDmFailedToProcessCroppedImage": {
+        "description": "Body when a cropped group icon cannot be processed."
+    },
+    "groupDmInvalidImage": "Imagen inválida",
+    "@groupDmInvalidImage": {
+        "description": "Title when the selected group icon image cannot be used."
+    },
+    "groupDmInvalidImageBody": "La imagen es inválida. Inténtalo con otra.",
+    "@groupDmInvalidImageBody": {
+        "description": "Body when the selected group icon image cannot be used."
+    },
+    "groupDmAddFriends": "Añadir",
+    "@groupDmAddFriends": {
+        "description": "Button to add selected friends to a group DM."
+    },
+    "groupDmOrSendInvite": "o envía una invitación a un amigo:",
+    "@groupDmOrSendInvite": {
+        "description": "Label above the invite link field in add friends to group."
+    },
+    "groupDmGenerateInviteLink": "Crear enlace de invitación",
+    "@groupDmGenerateInviteLink": {
+        "description": "Placeholder for the invite link field before generation."
+    },
+    "groupDmCreateInvite": "Crear",
+    "@groupDmCreateInvite": {
+        "description": "Button to create a group DM invite link."
+    },
+    "groupDmInviteExpires24Hours": "Tu invitación expira en 24 horas",
+    "@groupDmInviteExpires24Hours": {
+        "description": "Note below the invite link field in add friends to group."
+    },
+    "groupDmAddFailed": "No se pudo añadir al grupo",
+    "@groupDmAddFailed": {
+        "description": "Title when adding friends to a group DM fails."
+    },
+    "groupDmGroupFull": "El grupo está lleno. Elimina a alguien antes de añadir a más personas.",
+    "@groupDmGroupFull": {
+        "description": "Error when the group DM has no remaining member slots."
+    },
+    "groupDmCreateInviteFailed": "No se pudo crear el enlace de invitación",
+    "@groupDmCreateInviteFailed": {
+        "description": "Title when invite link generation fails."
+    },
+    "groupDmCopyInviteFailed": "No se pudo copiar el enlace de invitación",
+    "@groupDmCopyInviteFailed": {
+        "description": "Error when copying a group DM invite link fails."
+    },
+    "groupDmInvitesOwnerOnly": "Solo el propietario del grupo puede gestionar las invitaciones.",
+    "@groupDmInvitesOwnerOnly": {
+        "description": "Shown when a non-owner opens group invites management."
+    },
+    "groupDmNoInvitesCreated": "No se han creado invitaciones",
+    "@groupDmNoInvitesCreated": {
+        "description": "Empty state for group DM invites list."
+    },
+    "groupDmLoadingInvites": "Cargando invitaciones...",
+    "@groupDmLoadingInvites": {
+        "description": "Loading state for group DM invites list."
+    },
+    "groupDmInvitesLoadFailed": "No se pudieron cargar las invitaciones. Inténtalo de nuevo.",
+    "@groupDmInvitesLoadFailed": {
+        "description": "Inline error when group DM invites fail to load."
+    },
+    "groupDmInvitesRevokeConfirm": "¿Cancelar esta invitación? No se podrá deshacer.",
+    "@groupDmInvitesRevokeConfirm": {
+        "description": "Confirmation body when revoking a group DM invite."
+    },
+    "groupDmInviteRevoked": "Invitación cancelada",
+    "@groupDmInviteRevoked": {
+        "description": "Success toast after revoking a group DM invite."
+    },
+    "groupDmInviteCreatedByExpires": "Creada por {name}. Expira en {time}.",
+    "@groupDmInviteCreatedByExpires": {
+        "description": "Mobile group invite row subtitle.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "audioAndVideoAudioSectionTitle": "Audio",
+    "@audioAndVideoAudioSectionTitle": {
+        "description": "Settings section title for audio settings in the voice and video tab."
+    },
+    "audioAndVideoAudioSectionDescription": "Configura tu micrófono, altavoces y el procesamiento de voz.",
+    "@audioAndVideoAudioSectionDescription": {
+        "description": "Settings section description for audio settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionTitle": "Vídeo",
+    "@audioAndVideoVideoSectionTitle": {
+        "description": "Settings section title for video settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionDescription": "Configura la calidad de tu cámara y de la pantalla compartida.",
+    "@audioAndVideoVideoSectionDescription": {
+        "description": "Settings section description for video settings in the voice and video tab."
+    },
+    "audioAndVideoInCallBehaviorSectionTitle": "Comportamiento durante llamadas",
+    "@audioAndVideoInCallBehaviorSectionTitle": {
+        "description": "Settings section title for in-call behavior prompts."
+    },
+    "audioAndVideoInputDeviceLabel": "Dispositivo de entrada",
+    "@audioAndVideoInputDeviceLabel": {
+        "description": "Label for microphone input device selection."
+    },
+    "audioAndVideoOutputDeviceLabel": "Dispositivo de salida",
+    "@audioAndVideoOutputDeviceLabel": {
+        "description": "Label for speaker output device selection."
+    },
+    "audioAndVideoDefaultDeviceLabel": "Por defecto",
+    "@audioAndVideoDefaultDeviceLabel": {
+        "description": "Label for the system default audio or video device."
+    },
+    "audioAndVideoUseSpeakerLabel": "Utilizar altavoz",
+    "@audioAndVideoUseSpeakerLabel": {
+        "description": "Switch label to route voice call audio through the device speaker."
+    },
+    "audioAndVideoUseSpeakerDescription": "Cuando está desactivado, el audio se reproducirá por el auricular o los cascos conectados.",
+    "@audioAndVideoUseSpeakerDescription": {
+        "description": "Description for the speaker output toggle on mobile."
+    },
+    "audioAndVideoInputVolumeLabel": "Volumen de entrada",
+    "@audioAndVideoInputVolumeLabel": {
+        "description": "Label for microphone input volume slider."
+    },
+    "audioAndVideoOutputVolumeLabel": "Volumen de salida",
+    "@audioAndVideoOutputVolumeLabel": {
+        "description": "Label for speaker output volume slider."
+    },
+    "audioAndVideoVoiceProcessingSectionTitle": "Procesamiento de voz",
+    "@audioAndVideoVoiceProcessingSectionTitle": {
+        "description": "Subsection title for voice processing profile selection."
+    },
+    "audioAndVideoFocusedVoiceDescription": "Recomendado. Limpia el sonido de tu micrófono para mayor claridad.",
+    "@audioAndVideoFocusedVoiceDescription": {
+        "description": "Description for the focused voice processing profile."
+    },
+    "audioAndVideoDirectInputLabel": "Entrada directa",
+    "@audioAndVideoDirectInputLabel": {
+        "description": "Voice processing profile that sends unprocessed audio."
+    },
+    "audioAndVideoDirectInputDescription": "Envía el audio sin modificar. Preferible si utilizas software externo para ajustar tu audio.",
+    "@audioAndVideoDirectInputDescription": {
+        "description": "Description for the direct input voice processing profile."
+    },
+    "audioAndVideoCustomProfileLabel": "Personalizado",
+    "@audioAndVideoCustomProfileLabel": {
+        "description": "Voice processing profile with manual controls."
+    },
+    "audioAndVideoCustomProfileDescription": "Cambia cada ajuste manualmente: supresión de ruido, cancelación de eco y ganancia.",
+    "@audioAndVideoCustomProfileDescription": {
+        "description": "Description for the custom voice processing profile."
+    },
+    "audioAndVideoNoiseSuppressionSectionTitle": "Supresión de ruido",
+    "@audioAndVideoNoiseSuppressionSectionTitle": {
+        "description": "Subsection title for noise suppression tier selection."
+    },
+    "audioAndVideoNoiseSuppressionEnhancedLabel": "Mejorada",
+    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
+        "description": "Enhanced noise suppression option using AI filtering."
+    },
+    "audioAndVideoNoiseSuppressionStandardLabel": "Estándar",
+    "@audioAndVideoNoiseSuppressionStandardLabel": {
+        "description": "Standard browser or platform noise suppression option."
+    },
+    "audioAndVideoNoiseSuppressionNoneLabel": "Ninguna",
+    "@audioAndVideoNoiseSuppressionNoneLabel": {
+        "description": "No noise suppression option."
+    },
+    "audioAndVideoEchoCancellationLabel": "Cancelación de eco",
+    "@audioAndVideoEchoCancellationLabel": {
+        "description": "Toggle label for echo cancellation."
+    },
+    "audioAndVideoAutomaticGainControlLabel": "Control automático de ganancia",
+    "@audioAndVideoAutomaticGainControlLabel": {
+        "description": "Toggle label for automatic gain control."
+    },
+    "audioAndVideoAutomaticGainControlDescription": "Nivela el volumen de tu micrófono. Se desactiva cuando la supresión mejorada está activada.",
+    "@audioAndVideoAutomaticGainControlDescription": {
+        "description": "Description for automatic gain control toggle."
+    },
+    "audioAndVideoMicTestSectionTitle": "Prueba de micrófono",
+    "@audioAndVideoMicTestSectionTitle": {
+        "description": "Subsection title for microphone test controls."
+    },
+    "audioAndVideoMicTestSectionDescription": "Escucha cómo suenas con tu configuración actual.",
+    "@audioAndVideoMicTestSectionDescription": {
+        "description": "Subsection description for microphone test controls."
+    },
+    "audioAndVideoMicTestStartLabel": "Probar micrófono",
+    "@audioAndVideoMicTestStartLabel": {
+        "description": "Button label to start the microphone test."
+    },
+    "audioAndVideoMicTestStopLabel": "Detener prueba",
+    "@audioAndVideoMicTestStopLabel": {
+        "description": "Button label to stop the microphone test."
+    },
+    "audioAndVideoMicTestPermissionRequired": "{productName} necesita acceso a tu micrófono para realizar la prueba.",
+    "@audioAndVideoMicTestPermissionRequired": {
+        "description": "Shown when microphone permission is required for the mic test.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "devMarkAsSpamLocally": "Marcar como spam localmente",
+    "@devMarkAsSpamLocally": {
+        "description": "Developer menu option to locally mark a user as spam."
+    },
+    "devIgnoreSpamFlag": "Ignorar marcador de spam",
+    "@devIgnoreSpamFlag": {
+        "description": "Developer menu option to ignore the server spammer flag for a user."
+    },
+    "mediaViewerCopyLink": "Copiar enlace",
+    "@mediaViewerCopyLink": {
+        "description": "Media viewer action that copies the media URL to the clipboard."
+    },
+    "channelDetailsGroupInvites": "Invitaciones del grupo",
+    "@channelDetailsGroupInvites": {
+        "description": "Group DM menu action to view group invites."
+    },
+    "channelDetailsEditChannel": "Editar canal",
+    "@channelDetailsEditChannel": {
+        "description": "Channel details menu action to edit a guild channel."
+    },
+    "channelDetailsDeleteChannel": "Eliminar canal",
+    "@channelDetailsDeleteChannel": {
+        "description": "Channel details menu action to delete a guild channel."
+    },
+    "channelSettingsTabOverview": "General",
+    "@channelSettingsTabOverview": {
+        "description": "Channel settings tab for basic channel details."
+    },
+    "channelSettingsTabPermissions": "Permisos",
+    "@channelSettingsTabPermissions": {
+        "description": "Channel settings tab for role and member permission overwrites."
+    },
+    "channelSettingsMatureContentOverride": "Anulación de contenido para adultos",
+    "@channelSettingsMatureContentOverride": {
+        "description": "Accessibility label for mature content override control."
+    },
+    "channelSettingsMatureContentOn": "Activado",
+    "@channelSettingsMatureContentOn": {
+        "description": "Mature content option that marks channel for mature content."
+    },
+    "channelSettingsMatureContentOff": "Desactivado",
+    "@channelSettingsMatureContentOff": {
+        "description": "Mature content option that leaves channel ungated."
+    },
+    "channelSettingsMatureContentInheritsOn": "Hereda de {inheritedSourceLabel}: activado",
+    "@channelSettingsMatureContentInheritsOn": {
+        "description": "Mature content summary when inherited setting is enabled.",
+        "placeholders": {
+            "inheritedSourceLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsMatureContentInheritsOff": "Hereda de {inheritedSourceLabel}: desactivado",
+    "@channelSettingsMatureContentInheritsOff": {
+        "description": "Mature content summary when inherited setting is disabled.",
+        "placeholders": {
+            "inheritedSourceLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsMatureContentCategorySource": "la categoría",
+    "@channelSettingsMatureContentCategorySource": {
+        "description": "Lowercase source label for inherited mature content from category."
+    },
+    "channelSettingsMatureContentCommunitySource": "la comunidad",
+    "@channelSettingsMatureContentCommunitySource": {
+        "description": "Lowercase source label for inherited mature content from community."
+    },
+    "channelSettingsMatureContentCategoryScope": "Categoría",
+    "@channelSettingsMatureContentCategoryScope": {
+        "description": "Capitalized scope label when mature content inherits from a category."
+    },
+    "channelSettingsMatureContentCommunityScope": "Comunidad",
+    "@channelSettingsMatureContentCommunityScope": {
+        "description": "Capitalized scope label when mature content inherits from the community."
+    },
+    "channelSettingsContentWarningToggleDescription": "Activa un aviso de consentimiento antes de entrar al canal.",
+    "@channelSettingsContentWarningToggleDescription": {
+        "description": "Description for the channel content warning toggle."
+    },
+    "channelSettingsContentWarningText": "Texto de advertencia personalizado",
+    "@channelSettingsContentWarningText": {
+        "description": "Label for custom content warning text field."
+    },
+    "channelSettingsContentWarningDefault": "Este canal contiene contenido sensible.",
+    "@channelSettingsContentWarningDefault": {
+        "description": "Default content warning text placeholder."
+    },
+    "channelSettingsPermissionsNeedManageChannels": "Necesitas el permiso \"{manageChannelsPermissionLabel}\" para editar estos permisos.",
+    "@channelSettingsPermissionsNeedManageChannels": {
+        "description": "Error when user lacks manage channels permission for channel permissions tab.",
+        "placeholders": {
+            "manageChannelsPermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsPermissionsNeedManageRoles": "Necesitas el permiso \"{manageRolesPermissionLabel}\" para editar estos permisos.",
+    "@channelSettingsPermissionsNeedManageRoles": {
+        "description": "Error when user lacks manage roles permission for channel permissions tab.",
+        "placeholders": {
+            "manageRolesPermissionLabel": {
+                "type": "String"
+            }
+        }
+    },
+    "channelSettingsUnknownRole": "Rol desconocido",
+    "@channelSettingsUnknownRole": {
+        "description": "Fallback label for unknown role in permission overwrites."
+    },
+    "channelDetailsDone": "Hecho",
+    "@channelDetailsDone": {
+        "description": "Done button label in channel details picker sheets."
+    },
+    "channelDetailsHasFilterPrompt": "Mostrar mensajes que contienen:",
+    "@channelDetailsHasFilterPrompt": {
+        "description": "Prompt above content filter options in channel message search."
+    },
+    "channelDetailsRetry": "Reintentar",
+    "@channelDetailsRetry": {
+        "description": "Retry button label in channel details error states."
+    },
+    "channelDetailsPinnedMessageTitle": "Mensaje fijado",
+    "@channelDetailsPinnedMessageTitle": {
+        "description": "Title for the pinned message action sheet in channel details."
+    },
+    "channelDetailsSearchResultTitle": "Resultado de búsqueda",
+    "@channelDetailsSearchResultTitle": {
+        "description": "Title for the search result action sheet in channel details."
+    },
+    "channelDetailsJumpToMessage": "Saltar al mensaje",
+    "@channelDetailsJumpToMessage": {
+        "description": "Action to jump to a message from channel details."
+    },
+    "channelDetailsUnpinMessage": "Desfijar mensaje",
+    "@channelDetailsUnpinMessage": {
+        "description": "Action to unpin a message from channel details."
+    },
+    "channelDetailsCopyMessageLink": "Copiar enlace del mensaje",
+    "@channelDetailsCopyMessageLink": {
+        "description": "Action to copy a message link from channel details."
+    },
+    "channelDetailsCopyMessageId": "Copiar ID del mensaje",
+    "@channelDetailsCopyMessageId": {
+        "description": "Action to copy a message ID from channel details."
+    },
+    "channelDetailsMessageUnpinned": "Mensaje desfijado",
+    "@channelDetailsMessageUnpinned": {
+        "description": "Toast after unpinning a message from channel details."
+    },
+    "channelDetailsSearchScopeCurrentCommunity": "Comunidad actual",
+    "@channelDetailsSearchScopeCurrentCommunity": {
+        "description": "Search scope label for the current community."
+    },
+    "channelDetailsSearchScopeCurrentDm": "MD actual",
+    "@channelDetailsSearchScopeCurrentDm": {
+        "description": "Search scope label for the current DM."
+    },
+    "channelDetailsSearchScopeAllCommunities": "Todas las comunidades",
+    "@channelDetailsSearchScopeAllCommunities": {
+        "description": "Search scope label for all communities."
+    },
+    "channelDetailsSearchScopeAllDmsOnlyGuild": "Todos los MDs",
+    "@channelDetailsSearchScopeAllDmsOnlyGuild": {
+        "description": "Search scope label for all DMs when searching from a guild channel."
+    },
+    "channelDetailsSearchScopeAllDms": "Todos los MDs",
+    "@channelDetailsSearchScopeAllDms": {
+        "description": "Search scope label for all DMs when searching from a DM."
+    },
+    "channelDetailsSearchScopeOpenDmsOnlyGuild": "Solo MDs abiertos",
+    "@channelDetailsSearchScopeOpenDmsOnlyGuild": {
+        "description": "Search scope label for open DMs when searching from a guild channel."
+    },
+    "channelDetailsSearchScopeOpenDms": "MDs abiertos",
+    "@channelDetailsSearchScopeOpenDms": {
+        "description": "Search scope label for open DMs when searching from a DM."
+    },
+    "channelDetailsSearchScopeAllDmsAndCommunities": "Todos los MDs y comunidades",
+    "@channelDetailsSearchScopeAllDmsAndCommunities": {
+        "description": "Search scope label for all DMs and communities."
+    },
+    "channelDetailsSearchScopeOpenDmsAndCommunities": "MDs abiertos y comunidades",
+    "@channelDetailsSearchScopeOpenDmsAndCommunities": {
+        "description": "Search scope label for open DMs and communities."
+    },
+    "channelDetailsSearchScopeCurrentCommunityDescription": "Buscar solo en la comunidad actual",
+    "@channelDetailsSearchScopeCurrentCommunityDescription": {
+        "description": "Description for the current community search scope."
+    },
+    "channelDetailsSearchScopeCurrentDmDescription": "Buscar solo en el MD actual",
+    "@channelDetailsSearchScopeCurrentDmDescription": {
+        "description": "Description for the current DM search scope."
+    },
+    "channelDetailsSearchScopeAllCommunitiesDescription": "En todas las comunidades en las que estás actualmente",
+    "@channelDetailsSearchScopeAllCommunitiesDescription": {
+        "description": "Description for the all communities search scope."
+    },
+    "languageAndTimeTimeFormatSyncFailed": "No se pudo actualizar el formato de hora",
+    "@languageAndTimeTimeFormatSyncFailed": {
+        "description": "Toast shown when saving the time format preference fails."
+    },
+    "savedMessagesEmptyTitle": "No hay marcadores",
+    "@savedMessagesEmptyTitle": {
+        "description": "Empty-state title on the saved messages page."
+    },
+    "savedMessagesEmptyBody": "Marca mensajes para guardarlos para más tarde.",
+    "@savedMessagesEmptyBody": {
+        "description": "Empty-state body on the saved messages page."
+    },
+    "savedMessagesEndBody": "No hay nada más que ver aquí.",
+    "@savedMessagesEndBody": {
+        "description": "End-of-list body on the saved messages page."
+    },
+    "savedMessagesRemoveTooltip": "Eliminar marcador",
+    "@savedMessagesRemoveTooltip": {
+        "description": "Tooltip for removing a saved message bookmark."
+    },
+    "guildNavbarChannelTypeSelection": "Selección de tipo de canal",
+    "@guildNavbarChannelTypeSelection": {
+        "description": "Accessibility label for channel type radio group in create channel modal."
+    },
+    "guildMenuSettingsChannels": "Canales",
+    "@guildMenuSettingsChannels": {
+        "description": "Guild settings menu item for channel management."
+    },
+    "guildSettingsRolesNewRole": "Nuevo rol",
+    "@guildSettingsRolesNewRole": {
+        "description": "Default name for a newly created role."
+    },
+    "guildSettingsRolesDeleteRole": "Eliminar rol",
+    "@guildSettingsRolesDeleteRole": {
+        "description": "Button to delete the selected role."
+    },
+    "guildSettingsRolesBackToRoles": "Volver a roles",
+    "@guildSettingsRolesBackToRoles": {
+        "description": "Button to return to the role list from the editor."
+    },
+    "guildSettingsRolesEditTitle": "Editar \"{name}\"",
+    "@guildSettingsRolesEditTitle": {
+        "description": "Title for the role editor panel.",
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesDisplaySection": "Visualización",
+    "@guildSettingsRolesDisplaySection": {
+        "description": "Section title for role display settings."
+    },
+    "guildSettingsRolesRoleName": "Nombre del rol",
+    "@guildSettingsRolesRoleName": {
+        "description": "Label for the role name input."
+    },
+    "guildSettingsRolesRoleColor": "Color del rol",
+    "@guildSettingsRolesRoleColor": {
+        "description": "Label for the role color picker."
+    },
+    "guildSettingsRolesShowSeparately": "Mostrar este rol por separado",
+    "@guildSettingsRolesShowSeparately": {
+        "description": "Switch label for the hoist toggle."
+    },
+    "guildSettingsRolesShowSeparatelyHelper": "Muestra a los miembros con este rol en su propia sección en la lista de miembros.",
+    "@guildSettingsRolesShowSeparatelyHelper": {
+        "description": "Helper text under the hoist toggle."
+    },
+    "guildSettingsRolesAllowMentions": "Permitir menciones para este rol",
+    "@guildSettingsRolesAllowMentions": {
+        "description": "Switch label for the mentionable toggle."
+    },
+    "guildSettingsRolesAllowMentionsHelper": "Los miembros con el permiso \"{permission}\" siempre pueden mencionar roles, independientemente de este ajuste.",
+    "@guildSettingsRolesAllowMentionsHelper": {
+        "description": "Helper text under the mentionable toggle.",
+        "placeholders": {
+            "permission": {
+                "type": "String"
+            }
+        }
+    },
+    "guildSettingsRolesClearPermissionsHelp": "Usa este botón para borrar todos los permisos.",
+    "@guildSettingsRolesClearPermissionsHelp": {
+        "description": "Help text above the clear permissions button."
+    },
+    "guildSettingsRolesClearPermissions": "Borrar permisos",
+    "@guildSettingsRolesClearPermissions": {
+        "description": "Button to clear all role permissions."
+    },
+    "guildSettingsRolesPermissionsSection": "Permisos",
+    "@guildSettingsRolesPermissionsSection": {
+        "description": "Section title for role permissions."
+    },
+    "guildSettingsRolesSearchPermissions": "Buscar permisos",
+    "@guildSettingsRolesSearchPermissions": {
+        "description": "Placeholder for the permission search input."
+    },
+    "addGuildCreateGuidelinesBefore": "Al crear una comunidad, aceptas cumplir las ",
+    "@addGuildCreateGuidelinesBefore": {
+        "description": "Text before the community guidelines link on the create sub-view."
+    },
+    "addGuildCreateIconHint": "PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Máx. 10 MB. Recomendado: 512×512 px",
+    "@addGuildCreateIconHint": {
+        "description": "Helper text under the community icon upload buttons listing accepted formats and size guidance."
+    },
+    "phoneEnterValidNumber": "Introduce un número de teléfono móvil válido.",
+    "@phoneEnterValidNumber": {
+        "description": "Validation error for invalid phone format."
+    },
+    "phoneCannotBeUsed": "Este número de teléfono no se puede utilizar. Prueba con otro número móvil o contacta con el soporte técnico.",
+    "@phoneCannotBeUsed": {
+        "description": "API error when phone number is rejected."
+    },
+    "phoneAlreadyUsed": "Este número de teléfono ya se ha utilizado. Prueba con otro número o contacta con el soporte técnico.",
+    "@phoneAlreadyUsed": {
+        "description": "API error when phone number was reused."
+    },
+    "requiredActionUseEmail": "Usar el correo electrónico",
+    "@requiredActionUseEmail": {
+        "description": "Button to choose email verification."
+    },
+    "iarReasonPrivacyGuildDescription": "Comparte información personal, acosa a usuarios o coordina abusos contra la privacidad.",
+    "@iarReasonPrivacyGuildDescription": {
+        "description": "Community-report reason description for privacy violation or doxxing."
+    },
+    "channelSettingsVoiceRegionDescription": "Selecciona una región de voz para este canal. La opción Automático utiliza la región más cercana.",
+    "@channelSettingsVoiceRegionDescription": {
+        "description": "Helper text for the voice region picker in channel settings."
+    },
+    "voiceParticipantModerationFailed": "No se pudo actualizar a ese miembro. Por favor, inténtalo de nuevo.",
+    "@voiceParticipantModerationFailed": {
+        "description": "Toast shown when a voice participant moderation action fails."
+    },
+    "addGuildCreateFailed": "No se pudo crear la comunidad. Por favor, inténtalo de nuevo.",
+    "@addGuildCreateFailed": {
+        "description": "Generic error when creating a community fails."
+    },
+    "channelSettingsPermissionsBackToOverrides": "Volver a las anulaciones",
+    "@channelSettingsPermissionsBackToOverrides": {
+        "description": "Mobile back button label on channel permission editor."
+    },
+    "channelDetailsSearchContentEmbedDescription": "Previsualizaciones generadas y contenido enriquecido incrustado, no archivos subidos",
+    "@channelDetailsSearchContentEmbedDescription": {
+        "description": "Description for the embed content filter."
+    },
+    "groupDmIconFileTooLargeTitle": "El archivo del icono es demasiado grande",
+    "@groupDmIconFileTooLargeTitle": {
+        "description": "Title when the selected group icon exceeds the size limit."
+    },
+    "groupDmIconFileTooLargeBody": "El archivo del icono es demasiado grande. Elige un archivo de menos de {maxSize}.",
+    "@groupDmIconFileTooLargeBody": {
+        "description": "Body when the selected group icon exceeds the size limit.",
+        "placeholders": {
+            "maxSize": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmAddFriendFailed": "No se pudo añadir a este amigo al grupo. Por favor, inténtalo de nuevo.",
+    "@groupDmAddFriendFailed": {
+        "description": "Error when adding a single friend to a group DM fails."
+    },
+    "groupDmRateLimited": "Vas demasiado rápido. Espera un momento e inténtalo de nuevo.",
+    "@groupDmRateLimited": {
+        "description": "Error when add-friends requests are rate limited."
+    },
+    "groupDmCreateInviteFailedBody": "No se pudo generar un enlace de invitación. Por favor, inténtalo de nuevo.",
+    "@groupDmCreateInviteFailedBody": {
+        "description": "Body when invite link generation fails."
+    },
+    "audioAndVideoInCallBehaviorSectionDescription": "Controla los diálogos de confirmación durante las llamadas de voz y vídeo.",
+    "@audioAndVideoInCallBehaviorSectionDescription": {
+        "description": "Settings section description for in-call behavior prompts."
+    },
+    "audioAndVideoFocusedVoiceLabel": "Voz optimizada",
+    "@audioAndVideoFocusedVoiceLabel": {
+        "description": "Voice processing profile optimized for speech."
+    },
+    "mediaViewerOptions": "Opciones multimedia",
+    "@mediaViewerOptions": {
+        "description": "Title and accessibility label for the overflow menu in the mobile media viewer."
+    },
+    "channelSettingsMatureContentOnDescription": "Marca este canal como canal con contenido para adultos.",
+    "@channelSettingsMatureContentOnDescription": {
+        "description": "Description for the mature content on override option."
+    },
+    "channelSettingsMatureContentOffDescription": "Deja este canal sin advertencia de contenido para adultos.",
+    "@channelSettingsMatureContentOffDescription": {
+        "description": "Description for the mature content off override option."
+    },
+    "channelSettingsContentWarningToggle": "Mostrar una advertencia de contenido en este canal",
+    "@channelSettingsContentWarningToggle": {
+        "description": "Toggle for showing content warning in channel."
+    },
+    "iarReportGuildTitle": "Reportar comunidad",
+    "@iarReportGuildTitle": {
+        "description": "Title of the simple community-report sheet."
+    },
+    "iarPreviewCommunitySubtitle": "Comunidad",
+    "@iarPreviewCommunitySubtitle": {
+        "description": "Subtitle shown under the community name in the IAR preview card."
+    },
+    "iarReasonHarassmentGuildLabel": "Acoso o abuso dirigido",
+    "@iarReasonHarassmentGuildLabel": {
+        "description": "Community-report reason label for harassment or targeted abuse."
+    },
+    "iarReasonHarassmentGuildDescription": "La comunidad facilita el acoso colectivo o el abuso dirigido.",
+    "@iarReasonHarassmentGuildDescription": {
+        "description": "Community-report reason description for harassment or targeted abuse."
     }
 }

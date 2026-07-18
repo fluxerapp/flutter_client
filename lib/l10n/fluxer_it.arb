@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Pacchetti espressioni",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Dashboard privacy",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Audio e video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Suoni e avvisi",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Lingua e ora",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,17 @@
     "guildSettingsAuditLogFilterAction": "Filtra per azione",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "La tua sessione è scaduta. Accedi di nuovo.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "nagbarVisionaryMfa": "Abilita l'autenticazione a due fattori per proteggere il tuo account Visionary.",
+    "@nagbarVisionaryMfa": {
+        "description": "Visionary MFA nagbar body."
+    },
+    "nagbarLearnMore": "Scopri di più",
+    "@nagbarLearnMore": {
+        "description": "CTA on maintenance and other nagbars that open an external link."
     }
 }

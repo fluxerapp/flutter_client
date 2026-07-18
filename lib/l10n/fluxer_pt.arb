@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Pacotes de expressões",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Painel de privacidade",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Áudio e vídeo",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Sons e alertas",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Idioma e hora",
     "@userSettingsNavLanguageAndTime": {
@@ -8962,7 +8954,7 @@
     "@guildSettingsMessageHistoryThresholdUpdated": {
         "description": "Toast after saving message history threshold."
     },
-    "guildSettingsOverviewFlexibleNamesHint": "Permite letras maiúsculas e espaços nos nomes dos canais de texto. Desativado restringe os nomes a minúsculas com hífens e sublinhados.",
+    "guildSettingsOverviewFlexibleNamesHint": "Permite letras maiúsculas e espaços nos nomes dos canais de texto. Desativado restringe os nomes a minúsculas com hífenes e subtraços.",
     "@guildSettingsOverviewFlexibleNamesHint": {
         "description": "Description for flexible channel names toggle."
     },
@@ -9032,10 +9024,10 @@
     "guildSettingsModerationDescription": "Configure as definições de verificação, filtragem de conteúdo e conteúdo para adultos.",
     "guildSettingsModerationDiscoveryNotice": "As comunidades listadas na Descoberta têm opções de moderação restritas.",
     "guildSettingsModerationContentFilterTitle": "Filtragem de conteúdo",
-    "guildSettingsModerationContentFilterDescription": "Analise automaticamente as mensagens à procura de conteúdo explícito em canais não marcados para conteúdo para adultos.",
+    "guildSettingsModerationContentFilterDescription": "Em canais sem aviso de maturidade, verificar automaticamente se as mensagens incluem conteúdo explícito.",
     "guildSettingsModerationContentFilterDiscoveryNote": "As comunidades listadas na Descoberta são obrigadas a analisar todos os membros. Esta definição não pode ser alterada enquanto a Descoberta estiver ativada.",
     "guildSettingsContentFilterOff": "Desativado",
-    "guildSettingsContentFilterOffDescription": "Deixar a comunidade auto-moderar-se",
+    "guildSettingsContentFilterOffDescription": "Deixar a comunidade automoderar-se",
     "guildSettingsContentFilterNoRole": "Filtrar membros sem cargos",
     "guildSettingsContentFilterNoRoleDescription": "Sugerido para a maioria das comunidades",
     "guildSettingsContentFilterAll": "Filtrar todos",
@@ -9099,5 +9091,72 @@
     "guildSettingsAuditLogFilterAction": "Filtrar por ação",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "A tua sessão expirou. Por favor entra de novo.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "userProfileLocalTime": "Hora local",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "userProfileSameTimeAsYou": "Mesma hora que tu",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "userProfileTimeAheadOfYou": "{duration} à tua frente",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "{duration} atrás de ti",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeTimeFormatSectionTitle": "Formato horário",
+    "@languageAndTimeTimeFormatSectionTitle": {
+        "description": "Settings section title for time format preference."
+    },
+    "languageAndTimeTimeFormatSelectionLabel": "Seleção de formato horário",
+    "@languageAndTimeTimeFormatSelectionLabel": {
+        "description": "Accessibility label for the time format radio group."
+    },
+    "languageAndTimeTimeFormatAuto": "Auto",
+    "@languageAndTimeTimeFormatAuto": {
+        "description": "Time format option that detects format from locale."
+    },
+    "languageAndTimeTimeFormat12Hour": "12 horas",
+    "@languageAndTimeTimeFormat12Hour": {
+        "description": "Time format option for 12-hour AM/PM display."
+    },
+    "languageAndTimeTimeFormat24Hour": "24 horas",
+    "@languageAndTimeTimeFormat24Hour": {
+        "description": "Time format option for 24-hour display."
+    },
+    "languageAndTimeTimeFormatAppLanguage": "Idioma da aplicação: {format}",
+    "@languageAndTimeTimeFormatAppLanguage": {
+        "description": "Auto time format description using the app interface language.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeTimeFormatSyncFailed": "Falha em atualizar o formato horário",
+    "@languageAndTimeTimeFormatSyncFailed": {
+        "description": "Toast shown when saving the time format preference fails."
+    },
+    "languageAndTimeTimeFormatSectionDescription": "Escolhe como as horas são mostradas na aplicação",
+    "@languageAndTimeTimeFormatSectionDescription": {
+        "description": "Settings section description for time format preference."
     }
 }

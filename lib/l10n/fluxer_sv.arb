@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Uttryckspaket",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Sekretessinstrumentpanel",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Ljud och video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Ljud och aviseringar",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Språk och tid",
     "@userSettingsNavLanguageAndTime": {
@@ -9058,11 +9050,11 @@
     "@guildSettingsContentWarningTextPlaceholder": {
         "description": "Placeholder example in the custom content warning field."
     },
-    "guildSettingsModeration2faTitle": "Krav på 2FA",
-    "guildSettingsModeration2faDescription": "Kräv tvåfaktorsautentisering för moderatorer innan de kan bannlysa, sparka, tidsbegränsa eller ta bort meddelanden.",
-    "guildSettingsModeration2faSwitchLabel": "Kräv 2FA för modereringsåtgärder",
+    "guildSettingsModeration2faTitle": "2FA är valfritt",
+    "guildSettingsModeration2faDescription": "Moderatorer behöver inte tvåfaktorsautentisering för att bannlysa, sparka, tidsbegränsa eller ta bort meddelanden.",
+    "guildSettingsModeration2faSwitchLabel": "2FA är valfritt för modereringsåtgärder",
     "guildSettingsModeration2faOwnerOnlyTooltip": "Endast communityägaren kan ändra den här inställningen",
-    "guildSettingsModeration2faEnableFirstTooltip": "Aktivera 2FA på ditt konto för att ändra den här inställningen",
+    "guildSettingsModeration2faEnableFirstTooltip": "2FA krävs inte för att ändra den här inställningen",
     "guildSettingsEmojiSearchHint": "Sök emojis",
     "guildSettingsEmojiUploadTitle": "Ladda upp emoji",
     "guildSettingsNonAnimatedEmoji": "Icke-animerad emoji ({count})",
