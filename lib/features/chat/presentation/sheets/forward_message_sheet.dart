@@ -19,7 +19,6 @@ import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_tracker.dar
 import 'package:fluxer_app/features/chat/service/composer_mention_controller.dart';
 import 'package:fluxer_app/features/chat/utils/slowmode_format.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input_clipboard_scope.dart';
-import 'package:fluxer_app/features/ui/input/inline_token_paste_formatter.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -559,9 +558,6 @@ class _ForwardMessageSheetBodyState
                   textCapitalization: TextCapitalization.sentences,
                   contextMenuBuilder: clipboardScope.buildContextMenu,
                   inputFormatters: <TextInputFormatter>[
-                    ComposerMentionPasteFormatter(
-                      controller: _commentController,
-                    ),
                     LengthLimitingTextInputFormatter(maxMessageLength),
                   ],
                   decoration: InputDecoration(

@@ -1566,7 +1566,7 @@ class FluxerEmojiWidget extends StatelessWidget {
         ? kFluxerMarkdownEmojiSizeJumbo
         : (baseStyle.fontSize ?? 16) * kFluxerMarkdownEmojiSizeMultiplier;
     if (element.tag == FluxerCustomEmojiSyntax.tag) {
-      return _buildCustom(size);
+      return _buildCustom(context, size);
     }
     return _buildUnicode(size);
   }
@@ -1600,7 +1600,7 @@ class FluxerEmojiWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildCustom(double size) {
+  Widget _buildCustom(BuildContext context, double size) {
     final id = element.attributes['id'] ?? '';
     final name = element.textContent;
     final animated = element.attributes['animated'] == 'true';
@@ -1610,7 +1610,8 @@ class FluxerEmojiWidget extends StatelessWidget {
       animated: animated,
       size: cdnSize,
     );
-    final px = size.toInt();
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final px = (size * dpr).round();
     return SizedBox(
       width: size,
       height: size,

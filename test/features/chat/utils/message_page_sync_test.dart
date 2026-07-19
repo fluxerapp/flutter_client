@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/client_system_message.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
@@ -319,6 +320,68 @@ void main() {
     });
   });
 
+  group('visible window reconcile params', () {
+    test('anchors around the middle server-backed row', () {
+      final String idOlder = _snowflakeForUtc(DateTime.utc(2026, 5, 9, 12));
+      final VisibleWindowReconcileParams? params =
+          reconcileParamsForVisibleWindow(
+            window: [_message(idOlder), _message(idA), _message(idB)],
+          );
+      expect(params, isNotNull);
+      expect(params!.aroundId, idA);
+      expect(params.limit, greaterThanOrEqualTo(30));
+    });
+
+    test('returns null when the window has only local-only rows', () {
+      expect(
+        reconcileParamsForVisibleWindow(
+          window: [_message(idA, deliveryState: MessageDeliveryState.sending)],
+        ),
+        isNull,
+      );
+    });
+
+    test('returns multiple anchors when the window exceeds maxLimit', () {
+      final List<Message> window = <Message>[
+        for (int i = 0; i < 150; i++)
+          _message(_snowflakeForUtc(DateTime.utc(2026, 5, 10, 0, i))),
+      ];
+      final List<VisibleWindowReconcileParams> params =
+          reconcileParamsListForVisibleWindow(window: window);
+      expect(params.length, greaterThan(1));
+      expect(params.first.aroundId, window.first.id);
+      expect(params.last.aroundId, window.last.id);
+    });
+
+    test('removes edge deletions in a large scrolled window', () {
+      final List<Message> window = <Message>[
+        for (int i = 0; i < 150; i++)
+          _message(_snowflakeForUtc(DateTime.utc(2026, 5, 10, 0, i))),
+      ];
+      final String deletedNearStart = window[10].id;
+      final String deletedNearEnd = window[140].id;
+      final List<Message> networkPage = window
+          .where(
+            (Message message) =>
+                message.id != deletedNearStart && message.id != deletedNearEnd,
+          )
+          .toList();
+      final List<Message> actual = reconcileStaleDeletionsInLoadedWindow(
+        current: window,
+        networkPage: networkPage,
+      );
+      expect(
+        actual.any((Message message) => message.id == deletedNearStart),
+        isFalse,
+      );
+      expect(
+        actual.any((Message message) => message.id == deletedNearEnd),
+        isFalse,
+      );
+      expect(actual.length, 148);
+    });
+  });
+
   group('mergeMessagesSorted referential reuse', () {
     test('keeps the existing instance when render-equivalent', () {
       final Message existing = _message(idB);
@@ -366,6 +429,53 @@ void main() {
       );
       final List<Message> merged = mergeMessagesSorted([existing], [incoming]);
       expect(identical(merged.single, incoming), isTrue);
+    });
+  });
+
+  group('scale', () {
+    List<Message> window0(int count) => <Message>[
+      for (int i = 0; i < count; i++)
+        _message(_snowflakeForUtc(DateTime.utc(2026, 5, 10, 0, i))),
+    ];
+
+    test('mergeMessagesSorted keeps ordering for 1k messages', () {
+      final List<Message> current = window0(1000);
+      final List<Message> incoming = window0(1000);
+      final List<Message> merged = mergeMessagesSorted(current, incoming);
+      expect(merged.length, 1000);
+      for (int i = 1; i < merged.length; i++) {
+        expect(
+          compareSnowflakeIds(merged[i - 1].id, merged[i].id),
+          lessThan(0),
+        );
+      }
+    });
+
+    test('reconcileStaleDeletionsInLoadedWindow handles 5k window', () {
+      final List<Message> window = window0(5000);
+      final String deletedId = window[2500].id;
+      final List<Message> networkPage = window
+          .where((Message message) => message.id != deletedId)
+          .toList();
+      final List<Message> actual = reconcileStaleDeletionsInLoadedWindow(
+        current: window,
+        networkPage: networkPage,
+      );
+      expect(actual.length, 4999);
+      expect(actual.any((Message message) => message.id == deletedId), isFalse);
+    });
+
+    test('networkPageStaleLocalIds handles large local sets', () {
+      final List<Message> window = window0(2000);
+      final String deletedId = window[100].id;
+      final List<Message> networkPage = window
+          .where((Message message) => message.id != deletedId)
+          .toList();
+      final List<String> stale = networkPageStaleLocalIds(
+        localMessageIds: window.map((Message message) => message.id),
+        networkPage: networkPage,
+      );
+      expect(stale, [deletedId]);
     });
   });
 }

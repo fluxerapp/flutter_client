@@ -22,6 +22,15 @@ void main() {
           type: const Value(0),
         ),
       );
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: 'message-1',
+          channelId: 'channel-1',
+          authorId: 'author-1',
+          content: 'hello',
+          timestamp: DateTime.utc(2026),
+        ),
+      );
       await db.userGuildSettingsDao.upsert(
         UserGuildSettingsTableCompanion.insert(guildId: guildId, data: '{}'),
       );
@@ -31,6 +40,7 @@ void main() {
 
       expect(await db.guildDao.getServerById(guildId), isNull);
       expect(await db.channelDao.getChannels(guildId), isEmpty);
+      expect(await db.messageDao.getMessage('message-1'), isNull);
       expect(await db.userGuildSettingsDao.getByGuildId(guildId), isNull);
       expect(await db.guildLastChannelDao.getLastChannel(guildId), isNull);
     });

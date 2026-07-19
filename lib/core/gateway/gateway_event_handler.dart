@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -656,6 +655,7 @@ class GatewayEventHandler {
         await database.rtcRegionsDao.clearAll();
         await database.guildEmojiDao.clearAll();
         await database.guildStickerDao.clearAll();
+        await database.messageDao.clearAll();
       }
 
       // Gateway never echoes the current user's own presence back.
@@ -671,7 +671,7 @@ class GatewayEventHandler {
           bot: Value(event.user.bot ?? false),
           system: Value(event.user.system ?? false),
           status: Value(selfStatus),
-          mobile: Value(Platform.isAndroid || Platform.isIOS),
+          mobile: Value(isFluxerMobileClient),
           memberSince: Value(dateTimeFromUserSnowflakeOrNull(event.user.id)),
           bio: Value(event.user.bio),
           pronouns: Value(event.user.pronouns),
@@ -1013,7 +1013,7 @@ class GatewayEventHandler {
       userId,
       status: event.settings.status,
       customStatus: serializeCustomStatus(event.settings.customStatus),
-      mobile: Platform.isAndroid || Platform.isIOS,
+      mobile: isFluxerMobileClient,
     );
     onUserSettingsHydrate?.call(event.settings);
   }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,7 +22,7 @@ GatewayConnection gatewayConnection(Ref ref) {
     throw StateError('Cannot create gateway connection without auth token');
   }
 
-  final isDesktop = Platform.isLinux || Platform.isMacOS || Platform.isWindows;
+  final bool isDesktop = isFluxerDesktopOs;
 
   final activeGuildId = ref.read(activeGuildIdProvider);
 
@@ -41,7 +42,7 @@ GatewayConnection gatewayConnection(Ref ref) {
       desktopAppVersion: isDesktop ? '1.0.0' : null,
       desktopOs: isDesktop ? Platform.operatingSystem : null,
       e2eeCapable: true,
-      mobile: Platform.isAndroid || Platform.isIOS,
+      mobile: isFluxerMobileOs,
     ),
   );
 

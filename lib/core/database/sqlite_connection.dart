@@ -5,6 +5,7 @@ import 'package:drift/native.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/database/sqlite_pragmas.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -26,7 +27,7 @@ QueryExecutor openFluxerSqliteConnection() {
 }
 
 Future<File> _resolveDatabaseFile() async {
-  if (!kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
+  if (!kIsWeb && isFluxerDesktopOs) {
     final Directory dir = await getApplicationDocumentsDirectory();
     return File(p.join(dir.path, 'fluxer_app', 'fluxer.db'));
   }

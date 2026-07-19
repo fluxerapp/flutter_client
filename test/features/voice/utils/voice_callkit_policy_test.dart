@@ -7,7 +7,8 @@ void main() {
     test('desktop always presents sheet', () {
       expect(
         shouldPresentIncomingVoiceSheet(
-          isMobileCallKitPlatform: false,
+          isNativeVoiceCallKitPlatform: false,
+          isRuntimeMobileFormFactor: false,
           isForeground: false,
         ),
         isTrue,
@@ -16,7 +17,8 @@ void main() {
     test('mobile foreground presents sheet', () {
       expect(
         shouldPresentIncomingVoiceSheet(
-          isMobileCallKitPlatform: true,
+          isNativeVoiceCallKitPlatform: true,
+          isRuntimeMobileFormFactor: false,
           isForeground: true,
         ),
         isTrue,
@@ -25,7 +27,28 @@ void main() {
     test('mobile background skips sheet', () {
       expect(
         shouldPresentIncomingVoiceSheet(
-          isMobileCallKitPlatform: true,
+          isNativeVoiceCallKitPlatform: true,
+          isRuntimeMobileFormFactor: false,
+          isForeground: false,
+        ),
+        isFalse,
+      );
+    });
+    test('runtime mobile form factor foreground presents sheet', () {
+      expect(
+        shouldPresentIncomingVoiceSheet(
+          isNativeVoiceCallKitPlatform: false,
+          isRuntimeMobileFormFactor: true,
+          isForeground: true,
+        ),
+        isTrue,
+      );
+    });
+    test('runtime mobile form factor background skips sheet', () {
+      expect(
+        shouldPresentIncomingVoiceSheet(
+          isNativeVoiceCallKitPlatform: false,
+          isRuntimeMobileFormFactor: true,
           isForeground: false,
         ),
         isFalse,
@@ -70,7 +93,7 @@ void main() {
     test('desktop plays ring whenever pending', () {
       expect(
         shouldPlayIncomingVoiceRingSfx(
-          isMobileCallKitPlatform: false,
+          isNativeVoiceCallKitPlatform: false,
           isForeground: false,
           hasPendingIncoming: true,
         ),
@@ -80,7 +103,7 @@ void main() {
     test('mobile background suppresses ring', () {
       expect(
         shouldPlayIncomingVoiceRingSfx(
-          isMobileCallKitPlatform: true,
+          isNativeVoiceCallKitPlatform: true,
           isForeground: false,
           hasPendingIncoming: true,
         ),
@@ -90,7 +113,7 @@ void main() {
     test('mobile foreground plays ring', () {
       expect(
         shouldPlayIncomingVoiceRingSfx(
-          isMobileCallKitPlatform: true,
+          isNativeVoiceCallKitPlatform: true,
           isForeground: true,
           hasPendingIncoming: true,
         ),

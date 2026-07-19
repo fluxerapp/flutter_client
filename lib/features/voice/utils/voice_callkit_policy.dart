@@ -34,13 +34,14 @@ class VoiceCallKitSession {
 }
 
 bool shouldPresentIncomingVoiceSheet({
-  required bool isMobileCallKitPlatform,
+  required bool isNativeVoiceCallKitPlatform,
+  required bool isRuntimeMobileFormFactor,
   required bool isForeground,
 }) {
-  if (!isMobileCallKitPlatform) {
-    return true;
+  if (isNativeVoiceCallKitPlatform || isRuntimeMobileFormFactor) {
+    return isForeground;
   }
-  return isForeground;
+  return true;
 }
 
 bool shouldPresentIncomingVoiceCallKit({
@@ -65,14 +66,14 @@ bool shouldSuppressIncomingVoiceCallKitForChannel({
 }
 
 bool shouldPlayIncomingVoiceRingSfx({
-  required bool isMobileCallKitPlatform,
+  required bool isNativeVoiceCallKitPlatform,
   required bool isForeground,
   required bool hasPendingIncoming,
 }) {
   if (!hasPendingIncoming) {
     return false;
   }
-  if (!isMobileCallKitPlatform) {
+  if (!isNativeVoiceCallKitPlatform) {
     return true;
   }
   return isForeground;

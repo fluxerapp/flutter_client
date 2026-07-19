@@ -7532,37 +7532,37 @@ abstract class FluxerLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} years'**
-  String systemCallDurationYears(String count);
+  String systemCallDurationYears(int count);
 
   /// Duration label for multiple months in a call duration.
   ///
   /// In en, this message translates to:
   /// **'{count} months'**
-  String systemCallDurationMonths(String count);
+  String systemCallDurationMonths(int count);
 
   /// Duration label for multiple weeks in a call duration.
   ///
   /// In en, this message translates to:
   /// **'{count} weeks'**
-  String systemCallDurationWeeks(String count);
+  String systemCallDurationWeeks(int count);
 
   /// Duration label for multiple days in a call duration.
   ///
   /// In en, this message translates to:
   /// **'{count} days'**
-  String systemCallDurationDays(String count);
+  String systemCallDurationDays(int count);
 
   /// Duration label for multiple hours in a call duration.
   ///
   /// In en, this message translates to:
   /// **'{count} hours'**
-  String systemCallDurationHours(String count);
+  String systemCallDurationHours(int count);
 
   /// Duration label for multiple minutes in a call duration.
   ///
   /// In en, this message translates to:
   /// **'{count} minutes'**
-  String systemCallDurationMinutes(String count);
+  String systemCallDurationMinutes(int count);
 
   /// Fallback system message when the client does not recognize the message type.
   ///

@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Emotikon csomagok",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Adatvédelmi irányítópult",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Hang és videó",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Hangok és riasztások",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Nyelv és idő",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,336 @@
     "guildSettingsAuditLogFilterAction": "Szűrés művelet szerint",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "A munkamenet lejárt. Kérlek, jelentkezz be újra.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "userProfileLocalTime": "Helyi idő",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "userProfileTimeAheadOfYou": "Ennyivel előtted: {duration}",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "Ennyivel mögötted: {duration}",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 óra} other{{hours} óra}} {minutes, plural, =1{1 perc} other{{minutes} perc}}",
+    "@userProfileTimezoneDurationHoursMinutes": {
+        "description": "Duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            },
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHours": "{hours, plural, =1{1 óra} other{{hours} óra}}",
+    "@userProfileTimezoneDurationHours": {
+        "description": "Hours-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationMinutes": "{minutes, plural, =1{1 perc} other{{minutes} perc}}",
+    "@userProfileTimezoneDurationMinutes": {
+        "description": "Minutes-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "voiceControlFlipCamera": "Kamera váltása",
+    "@voiceControlFlipCamera": {
+        "description": "Tooltip: switch between front and back camera while video is on."
+    },
+    "audioAndVideoAudioSectionTitle": "Hang",
+    "@audioAndVideoAudioSectionTitle": {
+        "description": "Settings section title for audio settings in the voice and video tab."
+    },
+    "audioAndVideoAudioSectionDescription": "Állítsd be a mikrofonodat, hangszóróidat és a hangfeldolgozást.",
+    "@audioAndVideoAudioSectionDescription": {
+        "description": "Settings section description for audio settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionTitle": "Videó",
+    "@audioAndVideoVideoSectionTitle": {
+        "description": "Settings section title for video settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionDescription": "Állítsd be a kamerádat és a képernyőmegosztás minőségét.",
+    "@audioAndVideoVideoSectionDescription": {
+        "description": "Settings section description for video settings in the voice and video tab."
+    },
+    "audioAndVideoInputDeviceLabel": "Bemeneti eszköz",
+    "@audioAndVideoInputDeviceLabel": {
+        "description": "Label for microphone input device selection."
+    },
+    "audioAndVideoOutputDeviceLabel": "Kimeneti eszköz",
+    "@audioAndVideoOutputDeviceLabel": {
+        "description": "Label for speaker output device selection."
+    },
+    "audioAndVideoDefaultDeviceLabel": "Alapértelmezet",
+    "@audioAndVideoDefaultDeviceLabel": {
+        "description": "Label for the system default audio or video device."
+    },
+    "audioAndVideoUseSpeakerLabel": "Hangszóró használata",
+    "@audioAndVideoUseSpeakerLabel": {
+        "description": "Switch label to route voice call audio through the device speaker."
+    },
+    "audioAndVideoUseSpeakerDescription": "Amikor ki van kapcsolva, akkor a hang a beszédhangszórón vagy a csatlakoztatott fejhallgatón játszódik le.",
+    "@audioAndVideoUseSpeakerDescription": {
+        "description": "Description for the speaker output toggle on mobile."
+    },
+    "audioAndVideoInputVolumeLabel": "Bemeneti hangerő",
+    "@audioAndVideoInputVolumeLabel": {
+        "description": "Label for microphone input volume slider."
+    },
+    "audioAndVideoOutputVolumeLabel": "Kimeneti hangerő",
+    "@audioAndVideoOutputVolumeLabel": {
+        "description": "Label for speaker output volume slider."
+    },
+    "audioAndVideoVoiceProcessingSectionTitle": "Hangfeldolgozás",
+    "@audioAndVideoVoiceProcessingSectionTitle": {
+        "description": "Subsection title for voice processing profile selection."
+    },
+    "audioAndVideoFocusedVoiceLabel": "Fókuszált hang",
+    "@audioAndVideoFocusedVoiceLabel": {
+        "description": "Voice processing profile optimized for speech."
+    },
+    "audioAndVideoFocusedVoiceDescription": "Ajánlott. Megtisztítja a mikrofonod hangját a tiszta beszédhanghoz.",
+    "@audioAndVideoFocusedVoiceDescription": {
+        "description": "Description for the focused voice processing profile."
+    },
+    "audioAndVideoDirectInputLabel": "Közvetlen bemenet",
+    "@audioAndVideoDirectInputLabel": {
+        "description": "Voice processing profile that sends unprocessed audio."
+    },
+    "audioAndVideoDirectInputDescription": "Módosítás nélkül továbbítja a hangod. Akkor a legjobb, ha külső hangszoftvert használsz.",
+    "@audioAndVideoDirectInputDescription": {
+        "description": "Description for the direct input voice processing profile."
+    },
+    "audioAndVideoCustomProfileLabel": "Egyedi",
+    "@audioAndVideoCustomProfileLabel": {
+        "description": "Voice processing profile with manual controls."
+    },
+    "audioAndVideoCustomProfileDescription": "Minden beállítást te állítasz be: zajcsökkentés, visszhangkioltás és erősítés.",
+    "@audioAndVideoCustomProfileDescription": {
+        "description": "Description for the custom voice processing profile."
+    },
+    "audioAndVideoNoiseSuppressionSectionTitle": "Zajcsökkentés",
+    "@audioAndVideoNoiseSuppressionSectionTitle": {
+        "description": "Subsection title for noise suppression tier selection."
+    },
+    "audioAndVideoNoiseSuppressionEnhancedLabel": "Fejlett",
+    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
+        "description": "Enhanced noise suppression option using AI filtering."
+    },
+    "audioAndVideoNoiseSuppressionStandardLabel": "Szokványos",
+    "@audioAndVideoNoiseSuppressionStandardLabel": {
+        "description": "Standard browser or platform noise suppression option."
+    },
+    "audioAndVideoNoiseSuppressionNoneLabel": "Nincs",
+    "@audioAndVideoNoiseSuppressionNoneLabel": {
+        "description": "No noise suppression option."
+    },
+    "audioAndVideoEchoCancellationLabel": "Visszhangkioltás",
+    "@audioAndVideoEchoCancellationLabel": {
+        "description": "Toggle label for echo cancellation."
+    },
+    "audioAndVideoAutomaticGainControlLabel": "Erősítés automatikus beállítása",
+    "@audioAndVideoAutomaticGainControlLabel": {
+        "description": "Toggle label for automatic gain control."
+    },
+    "audioAndVideoAutomaticGainControlDescription": "Kiegyenlíti a mikrofonod hangerejét. Kikapcsolásra kerül, ha a fejlett zajcsökkentés aktív.",
+    "@audioAndVideoAutomaticGainControlDescription": {
+        "description": "Description for automatic gain control toggle."
+    },
+    "audioAndVideoMicTestSectionTitle": "Mikrofonpróba",
+    "@audioAndVideoMicTestSectionTitle": {
+        "description": "Subsection title for microphone test controls."
+    },
+    "audioAndVideoMicTestSectionDescription": "Meghallgathatod, hogy a jelenlegi beállításokkal hogy hangzol.",
+    "@audioAndVideoMicTestSectionDescription": {
+        "description": "Subsection description for microphone test controls."
+    },
+    "audioAndVideoMicTestStartLabel": "Mikrofonpróba indítása",
+    "@audioAndVideoMicTestStartLabel": {
+        "description": "Button label to start the microphone test."
+    },
+    "audioAndVideoMicTestStopLabel": "Mikrofonpróba leállítása",
+    "@audioAndVideoMicTestStopLabel": {
+        "description": "Button label to stop the microphone test."
+    },
+    "audioAndVideoMicTestPermissionRequired": "A {productName}-nek mikrofon-hozzáférésre van szüksége a bemenet teszteléséhez.",
+    "@audioAndVideoMicTestPermissionRequired": {
+        "description": "Shown when microphone permission is required for the mic test.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoCameraLabel": "Kamera",
+    "@audioAndVideoCameraLabel": {
+        "description": "Label for camera device selection."
+    },
+    "audioAndVideoMirrorCameraLabel": "Kamera tükrözése",
+    "@audioAndVideoMirrorCameraLabel": {
+        "description": "Switch label for flipping the local camera preview horizontally."
+    },
+    "audioAndVideoCameraQualitySectionTitle": "Kameraminőség",
+    "@audioAndVideoCameraQualitySectionTitle": {
+        "description": "Subsection title for camera resolution selection."
+    },
+    "audioAndVideoCameraQuality480pLabel": "480p",
+    "@audioAndVideoCameraQuality480pLabel": {
+        "description": "Camera quality option for 480p resolution."
+    },
+    "audioAndVideoCameraQuality720pLabel": "720p",
+    "@audioAndVideoCameraQuality720pLabel": {
+        "description": "Camera quality option for 720p resolution."
+    },
+    "audioAndVideoCameraQuality1080pLabel": "1080p",
+    "@audioAndVideoCameraQuality1080pLabel": {
+        "description": "Camera quality option for 1080p resolution."
+    },
+    "audioAndVideoScreenShareQualitySectionTitle": "Képernyőmegosztás minősége",
+    "@audioAndVideoScreenShareQualitySectionTitle": {
+        "description": "Subsection title for screen share resolution selection."
+    },
+    "audioAndVideoFrameRateSectionTitle": "Képkockasebesség",
+    "@audioAndVideoFrameRateSectionTitle": {
+        "description": "Subsection title for screen share frame rate selection."
+    },
+    "audioAndVideoFrameRate15Label": "15 FPS",
+    "@audioAndVideoFrameRate15Label": {
+        "description": "Screen share frame rate option for 15 FPS."
+    },
+    "audioAndVideoFrameRate30Label": "30 FPS",
+    "@audioAndVideoFrameRate30Label": {
+        "description": "Screen share frame rate option for 30 FPS."
+    },
+    "audioAndVideoFrameRate60Label": "60 FPS",
+    "@audioAndVideoFrameRate60Label": {
+        "description": "Screen share frame rate option for 60 FPS."
+    },
+    "audioAndVideoHigherQualityRequiresPremium": "Az 1080p 60 FPS beállításhoz {premiumProductName} szükséges.",
+    "@audioAndVideoHigherQualityRequiresPremium": {
+        "description": "Note shown when higher video quality options require premium.",
+        "placeholders": {
+            "premiumProductName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "audioAndVideoInstanceVideoQualityLimit": "Ez a példány jelenleg legfeljebb 720p 30 FPS-t engedélyez.",
+    "@audioAndVideoInstanceVideoQualityLimit": {
+        "description": "Note shown when instance limits block higher screen share quality."
+    },
+    "audioAndVideoMicrophonePermissionRequired": "A {productName}-nek mikrofon-hozzáférésre van szüksége az eszközeid listázásához.",
+    "@audioAndVideoMicrophonePermissionRequired": {
+        "description": "Shown when microphone permission is required to enumerate audio input devices.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "addGuildCreateTitle": "Közösség létrehozása",
+    "@addGuildCreateTitle": {
+        "description": "Title of the create-community sub-view in the add community modal."
+    },
+    "addGuildCreateDescription": "Közösség létrehozása, ahol tudsz beszélgetni a barátaiddal.",
+    "@addGuildCreateDescription": {
+        "description": "Body text on the create-community sub-view."
+    },
+    "addGuildCreateNameLabel": "Közösség neve",
+    "@addGuildCreateNameLabel": {
+        "description": "Label for the community name input on the create sub-view."
+    },
+    "addGuildCreateSubmit": "Közösség létrehozása",
+    "@addGuildCreateSubmit": {
+        "description": "Primary button label to submit the create-community form."
+    },
+    "addGuildCreateFailed": "Nem sikerült létrehozni a közösséget. Kérlek, próbáld újra.",
+    "@addGuildCreateFailed": {
+        "description": "Generic error when creating a community fails."
+    },
+    "addGuildCreateClaimTitle": "Igényeld a fiókod",
+    "@addGuildCreateClaimTitle": {
+        "description": "Gate title when the user must claim their account before creating a community."
+    },
+    "addGuildCreateClaimDescription": "Közösség létrehozása előtt igényelned kell a fiókodat.",
+    "@addGuildCreateClaimDescription": {
+        "description": "Gate description when the user must claim their account before creating a community."
+    },
+    "addGuildCreateVerifyTitle": "Erősítsd meg az email címed",
+    "@addGuildCreateVerifyTitle": {
+        "description": "Gate title when the user must verify email before creating a community."
+    },
+    "addGuildCreateVerifyDescription": "Közösség létrehozása előtt meg kell erősítened az email címedet.",
+    "@addGuildCreateVerifyDescription": {
+        "description": "Gate description when the user must verify email before creating a community."
+    },
+    "addGuildCreateAnimatedIconUnsupported": "Az animált ikonok nem támogatottak új közösség létrehozásakor. Használj statikus képet.",
+    "@addGuildCreateAnimatedIconUnsupported": {
+        "description": "Error when the user picks an animated image for a new community icon."
+    },
+    "addGuildCreateGuidelinesBefore": "A közösség létrehozásával beleegyezel, hogy betartod a ",
+    "@addGuildCreateGuidelinesBefore": {
+        "description": "Text before the community guidelines link on the create sub-view."
+    },
+    "addGuildCreateGuidelinesLink": "{productName} közösségi irányelveket",
+    "@addGuildCreateGuidelinesLink": {
+        "description": "Link label for community guidelines on the create sub-view.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "addGuildCreateSingleCommunityBlocked": "Ez a példány egyetlen közösség, így további közösségek nem hozhatók létre.",
+    "@addGuildCreateSingleCommunityBlocked": {
+        "description": "Error when creation is blocked because the instance only allows one community."
+    },
+    "addGuildCreateChangeIcon": "Ikon módosítása",
+    "@addGuildCreateChangeIcon": {
+        "description": "Button label to replace the selected community icon."
+    },
+    "addGuildCreateIconLabel": "Közösségi ikon",
+    "@addGuildCreateIconLabel": {
+        "description": "Label for the optional community icon field on the create sub-view."
+    },
+    "addGuildCreateIconHint": "PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Javasolt: 512×512px",
+    "@addGuildCreateIconHint": {
+        "description": "Helper text under the community icon upload buttons listing accepted formats and size guidance."
+    },
+    "accessibilitySaturationTitle": "Telítettség",
+    "@accessibilitySaturationTitle": {
+        "description": "Section title for the theme saturation slider on the accessibility settings page."
+    },
+    "accessibilitySaturationDescription": "Szabályozza, hogy mennyire élénken jelennek meg a témaszínek az alkalmazásban.",
+    "@accessibilitySaturationDescription": {
+        "description": "Section description for the theme saturation slider on the accessibility settings page."
     }
 }

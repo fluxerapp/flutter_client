@@ -64,10 +64,7 @@ class AttachmentImage extends StatelessWidget {
         maxWidth: dimensions.maxWidth,
         maxHeight: dimensions.maxHeight,
       ),
-      decoration: BoxDecoration(
-        color: context.colors.backgroundSecondaryAlt,
-        borderRadius: BorderRadius.circular(8),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: GestureDetector(
@@ -120,14 +117,20 @@ class AttachmentImage extends StatelessWidget {
   }
 
   Widget _buildImagePlaceholder(BuildContext context) {
+    final Widget child;
     if (attachment.placeholder != null) {
-      return Image(
+      child = Image(
         image: ThumbHash.fromBase64(attachment.placeholder!).toImage(),
         fit: BoxFit.contain,
       );
+    } else {
+      child = const Skeletonizer(
+        child: SizedBox(height: double.maxFinite, width: double.maxFinite),
+      );
     }
-    return const Skeletonizer(
-      child: SizedBox(height: double.maxFinite, width: double.maxFinite),
+    return ColoredBox(
+      color: context.colors.backgroundSecondaryAlt,
+      child: child,
     );
   }
 

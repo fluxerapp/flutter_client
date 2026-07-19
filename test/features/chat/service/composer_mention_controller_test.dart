@@ -299,4 +299,23 @@ void main() {
       isFalse,
     );
   });
+
+  testWidgets('applyWireText aborts when controller diverged during async', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await _pumpController(tester);
+    controller
+      ..text = 'hello'
+      ..selection = const TextSelection.collapsed(offset: 5);
+
+    final Future<void> apply = controller.applyWireText('stale draft');
+    controller.value = const TextEditingValue(
+      text: 'hello world',
+      selection: TextSelection.collapsed(offset: 11),
+    );
+    await apply;
+    await tester.pump();
+
+    expect(controller.toWireText(), 'hello world');
+  });
 }

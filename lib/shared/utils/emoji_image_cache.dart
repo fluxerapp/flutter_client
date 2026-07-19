@@ -1,6 +1,7 @@
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/features/chat/utils/media_dimension_utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class CachedEmojiImage extends StatefulWidget {
@@ -79,11 +80,16 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
     return _visibleNotifier.value;
   }
 
-  Widget _buildImage(bool shouldAnimate) {
+  Widget _buildImage(BuildContext context, bool shouldAnimate) {
     final String url = FluxerMediaUrl.customEmoji(
       id: widget.emojiId,
       animated: shouldAnimate,
       size: widget.requestSize,
+    );
+    final cache = containDecodeCacheSize(
+      cellWidth: widget.size,
+      cellHeight: widget.size,
+      devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
     );
     return CachedNetworkImage(
       imageUrl: url,
@@ -91,6 +97,8 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
           'emoji_${widget.emojiId}_${shouldAnimate ? 'a' : 's'}_${widget.requestSize}',
       width: widget.size,
       height: widget.size,
+      memCacheWidth: cache.width,
+      memCacheHeight: cache.height,
       fadeInDuration: Duration.zero,
       fadeOutDuration: Duration.zero,
       fit: BoxFit.contain,
@@ -104,7 +112,7 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
   @override
   Widget build(BuildContext context) {
     if (!widget.animated || !widget.pauseWhenOffscreen) {
-      return _buildImage(_shouldAnimate);
+      return _buildImage(context, _shouldAnimate);
     }
     return VisibilityDetector(
       key: ValueKey<String>('emoji-${widget.emojiId}-${widget.requestSize}'),
@@ -112,7 +120,7 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
       child: ListenableBuilder(
         listenable: _visibleNotifier,
         builder: (BuildContext context, Widget? _) {
-          return _buildImage(_shouldAnimate);
+          return _buildImage(context, _shouldAnimate);
         },
       ),
     );

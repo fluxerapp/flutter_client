@@ -47,10 +47,6 @@ String _formatConjunction(List<String> parts) {
   return '${parts.sublist(0, parts.length - 1).join(', ')} and ${parts.last}';
 }
 
-String _formatLocalizedCount(int value) {
-  return value.toString();
-}
-
 String _formatDurationUnit({
   required FluxerLocalizations l10n,
   required int value,
@@ -66,13 +62,12 @@ String _formatDurationUnit({
       _ => l10n.systemCallDurationMinute,
     };
   }
-  final String countLabel = _formatLocalizedCount(value);
   return switch (unit) {
-    'year' => l10n.systemCallDurationYears(countLabel),
-    'month' => l10n.systemCallDurationMonths(countLabel),
-    'week' => l10n.systemCallDurationWeeks(countLabel),
-    'day' => l10n.systemCallDurationDays(countLabel),
-    'hour' => l10n.systemCallDurationHours(countLabel),
-    _ => l10n.systemCallDurationMinutes(countLabel),
+    'year' => l10n.systemCallDurationYears(value),
+    'month' => l10n.systemCallDurationMonths(value),
+    'week' => l10n.systemCallDurationWeeks(value),
+    'day' => l10n.systemCallDurationDays(value),
+    'hour' => l10n.systemCallDurationHours(value),
+    _ => l10n.systemCallDurationMinutes(value),
   };
 }

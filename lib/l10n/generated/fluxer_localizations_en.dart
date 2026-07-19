@@ -4436,32 +4436,32 @@ class FluxerLocalizationsEn extends FluxerLocalizations {
   String get systemCallDurationOneHour => '1 hour';
 
   @override
-  String systemCallDurationYears(String count) {
+  String systemCallDurationYears(int count) {
     return '$count years';
   }
 
   @override
-  String systemCallDurationMonths(String count) {
+  String systemCallDurationMonths(int count) {
     return '$count months';
   }
 
   @override
-  String systemCallDurationWeeks(String count) {
+  String systemCallDurationWeeks(int count) {
     return '$count weeks';
   }
 
   @override
-  String systemCallDurationDays(String count) {
+  String systemCallDurationDays(int count) {
     return '$count days';
   }
 
   @override
-  String systemCallDurationHours(String count) {
+  String systemCallDurationHours(int count) {
     return '$count hours';
   }
 
   @override
-  String systemCallDurationMinutes(String count) {
+  String systemCallDurationMinutes(int count) {
     return '$count minutes';
   }
 
@@ -9763,6 +9763,10 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get gatewayConnectedToast => 'Connected';
 
   @override
+  String get sessionExpiredToast =>
+      'Your session has expired. Please sign in again.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Failed to start: $error';
   }
@@ -10315,6 +10319,13 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
       'This invite may be expired or invalid.';
 
   @override
+  String get invalidDeepLinkDescription =>
+      'This link may be broken, only available on the web, or you might not have access. Check the link and try again.';
+
+  @override
+  String get invalidDeepLinkGoHomeButton => 'Go to home';
+
+  @override
   String get inviteAcceptJoinGroupButton => 'Join group';
 
   @override
@@ -10530,7 +10541,7 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get dmAddNote => 'Add Note';
 
   @override
-  String get dmEditGroup => 'Edit Group';
+  String get dmEditGroup => 'Edit group';
 
   @override
   String get dmInviteToCommunity => 'Invite to Community';
@@ -10583,6 +10594,14 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get dmUnpinGroupDm => 'Unpin group DM';
 
   @override
+  String get dmUnnamedGroup => 'Unnamed group';
+
+  @override
+  String dmOwnersGroup(String resolvedName) {
+    return '$resolvedName\'s group';
+  }
+
+  @override
   String get dmFavoriteDm => 'Favorite DM';
 
   @override
@@ -10620,6 +10639,9 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get dmDebugChannel => 'Debug channel';
+
+  @override
+  String get dmDebugCategory => 'Debug Category';
 
   @override
   String get dmPinned => 'Pinned DM';
@@ -12092,6 +12114,61 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
   String get userProfileAboutMe => 'About Me';
 
   @override
+  String get userProfileLocalTime => 'Local time';
+
+  @override
+  String get userProfileSameTimeAsYou => 'Same time as you';
+
+  @override
+  String userProfileTimeAheadOfYou(String duration) {
+    return '$duration ahead of you';
+  }
+
+  @override
+  String userProfileTimeBehindYou(String duration) {
+    return '$duration behind you';
+  }
+
+  @override
+  String userProfileTimezoneDurationHoursMinutes(int hours, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours',
+      one: '1 hour',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return '$_temp0 $_temp1';
+  }
+
+  @override
+  String userProfileTimezoneDurationHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours',
+      one: '1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String userProfileTimezoneDurationMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get userProfileCopyUsername => 'Copy Username';
 
   @override
@@ -12319,6 +12396,13 @@ class FluxerLocalizationsEnGb extends FluxerLocalizationsEn {
 
   @override
   String get iarReportUserTitle => 'Report user';
+
+  @override
+  String get iarReportGuildTitle => 'Report community';
+
+  @override
+  String get iarReportGuildPreconfirmBody =>
+      'If this report is about a specific message in this community, report that message instead. Message reports give our safety team the clearest context, and adding details in the comments can help us review it faster. Only continue with reporting the community as a whole if reporting a message would not capture the broader issue.';
 
   @override
   String get iarReasonInappropriateProfile => 'Inappropriate profile';

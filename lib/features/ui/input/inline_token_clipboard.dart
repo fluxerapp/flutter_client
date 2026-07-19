@@ -93,6 +93,24 @@ Future<bool> cutInlineTokenSelection(TextEditingController controller) async {
   return true;
 }
 
+int projectedWireLengthAfterPaste(
+  InlineTokenTextEditingController controller,
+  String clipboardText,
+) {
+  final TextSelection selection = controller.selection;
+  final int insertOffset = selection.isValid
+      ? selection.start
+      : controller.text.length;
+  final int replaceEnd = selection.isValid ? selection.end : insertOffset;
+  final String sanitized = stripPrivateUseCharacters(clipboardText);
+  final String beforeWire = controller.toWireTextRange(0, insertOffset);
+  final String afterWire = controller.toWireTextRange(
+    replaceEnd,
+    controller.text.length,
+  );
+  return (beforeWire + sanitized + afterWire).trim().length;
+}
+
 Future<bool> pasteWireTextIntoInlineTokenController(
   TextEditingController controller,
   String clipboardText,
@@ -101,9 +119,9 @@ Future<bool> pasteWireTextIntoInlineTokenController(
     return false;
   }
   final TextSelection selection = controller.selection;
-  if (!selection.isValid) {
-    return false;
-  }
+  final int insertOffset = selection.isValid
+      ? selection.start
+      : controller.text.length;
   final String sanitized = stripPrivateUseCharacters(clipboardText);
   if (sanitized.isEmpty) {
     return false;
@@ -112,7 +130,18 @@ Future<bool> pasteWireTextIntoInlineTokenController(
     controller,
     sanitized,
   );
-  controller.replaceSelectionWithDisplayFragment(displayFragment);
+  final String newText = controller.text.replaceRange(
+    selection.isValid ? selection.start : insertOffset,
+    selection.isValid ? selection.end : insertOffset,
+    displayFragment,
+  );
+  controller.value = controller.value.copyWith(
+    text: newText,
+    selection: TextSelection.collapsed(
+      offset: insertOffset + displayFragment.length,
+    ),
+    composing: TextRange.empty,
+  );
   return true;
 }
 

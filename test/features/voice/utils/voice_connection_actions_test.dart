@@ -142,7 +142,7 @@ void main() {
       await tester.tap(find.text('Join'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Do nothing, I don\'t want to join').last);
+      await tester.tap(find.text("Do nothing, I don't want to join").last);
       await tester.pumpAndSettle();
 
       expect(voiceSession.connectCallCount, 0);
@@ -202,7 +202,7 @@ void main() {
 
 Map<String, VoiceState> _otherDeviceVoiceStates() {
   return <String, VoiceState>{
-    _otherConnectionId: VoiceState(
+    _otherConnectionId: const VoiceState(
       userId: _userId,
       channelId: _channelId,
       guildId: _guildId,

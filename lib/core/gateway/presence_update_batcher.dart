@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 
 const Duration kPresenceUpdateBatchDelay = Duration(milliseconds: 500);
 
-bool get isFluxerMobileClient => Platform.isAndroid || Platform.isIOS;
+bool get isFluxerMobileClient => isFluxerMobileOs;
 
 typedef PresenceUpdateRecord = ({
   String userId,

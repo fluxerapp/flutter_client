@@ -65,6 +65,19 @@ void main() {
     });
   });
 
+  group('projectedWireLengthAfterPaste', () {
+    test('projects wire length for insertion at caret', () {
+      final EmojiTextEditingController controller = EmojiTextEditingController()
+        ..text = 'hi'
+        ..selection = const TextSelection.collapsed(offset: 2);
+
+      final int projected = projectedWireLengthAfterPaste(controller, ' there');
+
+      expect(projected, 'hi there'.length);
+      controller.dispose();
+    });
+  });
+
   group('pasteWireTextIntoInlineTokenController', () {
     test('re-chips pasted emoji shortcode', () async {
       final EmojiTextEditingController controller = EmojiTextEditingController()

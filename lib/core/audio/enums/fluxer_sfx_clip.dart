@@ -23,4 +23,12 @@ enum FluxerSfxClip {
   const FluxerSfxClip(this.assetKey);
 
   final String assetKey;
+
+  bool get respectsRinger => switch (this) {
+    FluxerSfxClip.message ||
+    FluxerSfxClip.directMessage ||
+    FluxerSfxClip.sameChannelMessage ||
+    FluxerSfxClip.incomingRing => true,
+    _ => false,
+  };
 }

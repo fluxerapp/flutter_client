@@ -3952,7 +3952,7 @@
     "@chatAttachmentSourceBrowse": {
         "description": "Option to pick arbitrary files from storage."
     },
-    "chatAttachmentPasteTooltip": "Įklijuoti vaizdą iš mainų srities",
+    "chatAttachmentPasteTooltip": "Įklijuoti failą iš mainų srities",
     "@chatAttachmentPasteTooltip": {
         "description": "Tooltip for pasting an image attachment from the clipboard."
     },
@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Išraiškos paketai",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Privatumo informacijos suvestinė",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Garsas ir vaizdas",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Garsai ir įspėjimai",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Kalba ir laikas",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,222 @@
     "guildSettingsAuditLogFilterAction": "Filtruoti pagal veiksmą",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "Sesijos laikas pasibaigė. Prašome prisijungti iš naujo.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "userProfileLocalTime": "Lokalus laikas",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "userProfileSameTimeAsYou": "Toks pat laikas kaip jūsų",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "userProfileTimeAheadOfYou": "{duration} anksčiau nei jūs",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "{duration} vėliau nei jūs",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 valanda} other{{hours} valandos}} {minutes, plural, =1{1 minutė} other{{minutes} minutės}}",
+    "@userProfileTimezoneDurationHoursMinutes": {
+        "description": "Duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            },
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHours": "{hours, plural, =1{1 valanda} other{{hours} valandų}}",
+    "@userProfileTimezoneDurationHours": {
+        "description": "Hours-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationMinutes": "{minutes, plural, one {# minutė} few {# minutės} other {# minučių}}",
+    "@userProfileTimezoneDurationMinutes": {
+        "description": "Minutes-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "accessibilitySaturationTitle": "Spalvų sodrumas",
+    "@accessibilitySaturationTitle": {
+        "description": "Section title for the theme saturation slider on the accessibility settings page."
+    },
+    "accessibilitySaturationDescription": "Reguliuokite programėlės temos spalvų sodrumą.",
+    "@accessibilitySaturationDescription": {
+        "description": "Section description for the theme saturation slider on the accessibility settings page."
+    },
+    "dmDebugCategory": "Derinimo kategorija",
+    "@dmDebugCategory": {
+        "description": "Category context menu action to debug category data."
+    },
+    "invalidDeepLinkTitle": "Nepavyko atidaryti nuorodos",
+    "@invalidDeepLinkTitle": {
+        "description": "Title when a deep link or route cannot be opened in the app."
+    },
+    "invalidDeepLinkDescription": "Ši nuoroda gali būti neveikianti, prieinama tik naršyklėje arba jūs galite neturėti prieigos prie jos. Patikrinkite nuorodą ir bandykite dar kartą.",
+    "@invalidDeepLinkDescription": {
+        "description": "Explanation shown when a deep link or route cannot be opened in the app."
+    },
+    "invalidDeepLinkGoHomeButton": "Pagrindinis",
+    "@invalidDeepLinkGoHomeButton": {
+        "description": "Primary action on the invalid deep link screen to return to the home tab."
+    },
+    "systemCallJoinTheCall": "Prisijungti prie skambučio",
+    "@systemCallJoinTheCall": {
+        "description": "Call-to-action button label on an in-progress call system message."
+    },
+    "systemCallStartedThatLasted": "{username} pradėjo skambutį, kuris truko {duration}.",
+    "@systemCallStartedThatLasted": {
+        "description": "System message when a call has ended and the viewer participated.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissedWithDuration": "Praleidote {username} skambutį, kuris truko {duration}.",
+    "@systemCallMissedWithDuration": {
+        "description": "System message when the viewer missed a call that had a measurable duration.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissed": "Praleistas {username} skambutis.",
+    "@systemCallMissed": {
+        "description": "System message when the viewer missed a call.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationFewSeconds": "kelios sekundės",
+    "@systemCallDurationFewSeconds": {
+        "description": "Duration label for a very short elapsed call."
+    },
+    "systemCallDurationMinute": "minute",
+    "@systemCallDurationMinute": {
+        "description": "Duration label when a call lasted about one minute."
+    },
+    "systemCallDurationOneYear": "metus",
+    "@systemCallDurationOneYear": {
+        "description": "Duration label when a call lasted about one year."
+    },
+    "systemCallDurationOneMonth": "mėnesį",
+    "@systemCallDurationOneMonth": {
+        "description": "Duration label when a call lasted about one month."
+    },
+    "systemCallDurationOneWeek": "savaitę",
+    "@systemCallDurationOneWeek": {
+        "description": "Duration label when a call lasted about one week."
+    },
+    "systemCallDurationOneDay": "dieną",
+    "@systemCallDurationOneDay": {
+        "description": "Duration label when a call lasted about one day."
+    },
+    "systemCallDurationOneHour": "valandą",
+    "@systemCallDurationOneHour": {
+        "description": "Duration label when a call lasted about one hour."
+    },
+    "systemCallDurationYears": "{count, plural, one {# metus} few {# metus} other {# metų}}",
+    "@systemCallDurationYears": {
+        "description": "Duration label for multiple years in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationMonths": "{count, plural, one {# mėnesį} few {# mėnesius} other {# mėnesių}}",
+    "@systemCallDurationMonths": {
+        "description": "Duration label for multiple months in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationWeeks": "{count, plural, one {# savaitę} few {# savaites} other {# savaičių}}",
+    "@systemCallDurationWeeks": {
+        "description": "Duration label for multiple weeks in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationDays": "{count, plural, one {# dieną} few {# dienas} other {# dienų}}",
+    "@systemCallDurationDays": {
+        "description": "Duration label for multiple days in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationHours": "{count, plural, one {# valandą} few {# valandas} other {# valandų}}",
+    "@systemCallDurationHours": {
+        "description": "Duration label for multiple hours in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationMinutes": "{count, plural, one {# minutę} few {# minutes} other {# minučių}}",
+    "@systemCallDurationMinutes": {
+        "description": "Duration label for multiple minutes in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "dmUnnamedGroup": "Nepavadinta grupė",
+    "@dmUnnamedGroup": {
+        "description": "Fallback title for a group DM without a custom name."
+    },
+    "dmOwnersGroup": "{resolvedName} grupė",
+    "@dmOwnersGroup": {
+        "description": "Fallback title when the current user is the only participant in a group DM.",
+        "placeholders": {
+            "resolvedName": {
+                "type": "String",
+                "example": "Alice"
+            }
+        }
     }
 }

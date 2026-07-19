@@ -21,8 +21,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get gatewayConnectedToast => '接続済み';
 
   @override
-  String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+  String get sessionExpiredToast => 'セッションの有効期限が切れました。もう一度サインインしてください。';
 
   @override
   String splashStartupFailed(String error) {
@@ -999,7 +998,7 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get dmDebugChannel => 'チャンネルをデバッグ';
 
   @override
-  String get dmDebugCategory => 'Debug Category';
+  String get dmDebugCategory => 'カテゴリーをデバッグ';
 
   @override
   String get dmPinned => 'DMをピン留めしました';
@@ -2538,13 +2537,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userProfileNoteEmpty => 'クリックしてメモを追加';
 
   @override
-  String get userProfileMemberSince => 'メンバー منذ';
+  String get userProfileMemberSince => 'メンバーになった日';
 
   @override
   String get userProfileAboutMe => '自己紹介';
 
   @override
-  String get userProfileLocalTime => 'Local time';
+  String get userProfileLocalTime => '現地時間';
 
   @override
   String get userProfileSameTimeAsYou => 'Same time as you';
@@ -4307,32 +4306,32 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get systemCallDurationOneHour => '1 hour';
 
   @override
-  String systemCallDurationYears(String count) {
+  String systemCallDurationYears(int count) {
     return '$count years';
   }
 
   @override
-  String systemCallDurationMonths(String count) {
+  String systemCallDurationMonths(int count) {
     return '$count months';
   }
 
   @override
-  String systemCallDurationWeeks(String count) {
+  String systemCallDurationWeeks(int count) {
     return '$count weeks';
   }
 
   @override
-  String systemCallDurationDays(String count) {
+  String systemCallDurationDays(int count) {
     return '$count days';
   }
 
   @override
-  String systemCallDurationHours(String count) {
+  String systemCallDurationHours(int count) {
     return '$count hours';
   }
 
   @override
-  String systemCallDurationMinutes(String count) {
+  String systemCallDurationMinutes(int count) {
     return '$count minutes';
   }
 
@@ -6552,25 +6551,23 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsNavAudioAndVideo => 'オーディオとビデオ';
 
   @override
-  String get audioAndVideoAudioSectionTitle => 'Audio';
+  String get audioAndVideoAudioSectionTitle => 'オーディオ';
 
   @override
-  String get audioAndVideoAudioSectionDescription =>
-      'Configure your microphone, speakers, and voice processing.';
+  String get audioAndVideoAudioSectionDescription => 'マイク、スピーカー、音声処理を設定します。';
 
   @override
-  String get audioAndVideoVideoSectionTitle => 'Video';
+  String get audioAndVideoVideoSectionTitle => 'ビデオ';
 
   @override
-  String get audioAndVideoVideoSectionDescription =>
-      'Configure your camera and screen sharing quality.';
+  String get audioAndVideoVideoSectionDescription => 'カメラと画面共有の品質を設定します。';
 
   @override
-  String get audioAndVideoInCallBehaviorSectionTitle => 'In-call behavior';
+  String get audioAndVideoInCallBehaviorSectionTitle => '通話中の確認';
 
   @override
   String get audioAndVideoInCallBehaviorSectionDescription =>
-      'Control confirmation prompts during voice and video calls.';
+      '音声通話やビデオ通話中に表示する確認メッセージを設定します。';
 
   @override
   String get audioAndVideoInputDeviceLabel => 'Input device';
@@ -6935,14 +6932,13 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get userSettingsNavLanguageAndTime => '言語と時刻';
 
   @override
-  String get languageAndTimeLanguageSectionTitle => 'Interface language';
+  String get languageAndTimeLanguageSectionTitle => '表示言語';
 
   @override
-  String get languageAndTimeLanguageSectionDescription =>
-      'Choose the language used throughout the app';
+  String get languageAndTimeLanguageSectionDescription => 'アプリの表示に使用する言語を選択します';
 
   @override
-  String get languageAndTimeOpenLanguageSettings => 'Open language settings';
+  String get languageAndTimeOpenLanguageSettings => '言語設定を開く';
 
   @override
   String get languageAndTimeTimeFormatSectionTitle => 'Time format';
@@ -6958,10 +6954,10 @@ class FluxerLocalizationsJa extends FluxerLocalizations {
   String get languageAndTimeTimeFormatAuto => 'Auto';
 
   @override
-  String get languageAndTimeTimeFormat12Hour => '12-hour';
+  String get languageAndTimeTimeFormat12Hour => '12時間制';
 
   @override
-  String get languageAndTimeTimeFormat24Hour => '24-hour';
+  String get languageAndTimeTimeFormat24Hour => '24時間制';
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {

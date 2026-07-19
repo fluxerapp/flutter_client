@@ -502,10 +502,10 @@ class MessageRepository {
     if (networkPage.isEmpty) {
       return;
     }
-    final DateTime oldest = networkPage.first.timestamp;
-    final DateTime newest = networkPage.last.timestamp;
+    final String oldestId = networkPage.first.id;
+    final String newestId = networkPage.last.id;
     final List<db.Message> localRows = await _db.messageDao
-        .getMessagesInTimestampRange(channelId, oldest, newest);
+        .getMessagesInSnowflakeRange(channelId, oldestId, newestId);
     final List<String> staleIds = networkPageStaleLocalIds(
       localMessageIds: localRows.map((db.Message row) => row.id),
       networkPage: networkPage,
@@ -768,8 +768,10 @@ class MessageRepository {
         channelId: channelId,
         messageId: messageId,
       );
+      await _db.messageDao.deleteMessages([messageId]);
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
+        await _db.messageDao.deleteMessages([messageId]);
         return;
       }
       throw Exception(e.response?.statusMessage ?? 'Failed to delete message');

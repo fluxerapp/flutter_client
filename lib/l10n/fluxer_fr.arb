@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Packs d'expressions",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Tableau de bord de confidentialité",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Audio et vidéo",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Sons et alertes",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Langue et heure",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,55 @@
     "guildSettingsAuditLogFilterAction": "Filtrer par action",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "Votre session a expiré. Veuillez vous reconnecter.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "userProfileLocalTime": "Heure locale",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "voiceControlFlipCamera": "Retourner la caméra",
+    "@voiceControlFlipCamera": {
+        "description": "Tooltip: switch between front and back camera while video is on."
+    },
+    "audioAndVideoAudioSectionTitle": "Audio",
+    "@audioAndVideoAudioSectionTitle": {
+        "description": "Settings section title for audio settings in the voice and video tab."
+    },
+    "audioAndVideoAudioSectionDescription": "Configurez votre microphone, vos haut-parleurs et le traitement vocal.",
+    "@audioAndVideoAudioSectionDescription": {
+        "description": "Settings section description for audio settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionTitle": "Vidéo",
+    "@audioAndVideoVideoSectionTitle": {
+        "description": "Settings section title for video settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionDescription": "Configurez la qualité de votre caméra et du partage d'écran.",
+    "@audioAndVideoVideoSectionDescription": {
+        "description": "Settings section description for video settings in the voice and video tab."
+    },
+    "userProfileSameTimeAsYou": "Même fuseau horaire que vous",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "invalidDeepLinkTitle": "Impossible d'ouvrir le lien",
+    "@invalidDeepLinkTitle": {
+        "description": "Title when a deep link or route cannot be opened in the app."
+    },
+    "dmUnnamedGroup": "Groupe non nommé",
+    "@dmUnnamedGroup": {
+        "description": "Fallback title for a group DM without a custom name."
+    },
+    "dmOwnersGroup": "Groupe de {resolvedName}",
+    "@dmOwnersGroup": {
+        "description": "Fallback title when the current user is the only participant in a group DM.",
+        "placeholders": {
+            "resolvedName": {
+                "type": "String",
+                "example": "Alice"
+            }
+        }
     }
 }

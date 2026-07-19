@@ -1,8 +1,9 @@
-import 'dart:io' show Platform;
+import 'package:fluxer_app/core/platform/fluxer_platform.dart'
+    show isFluxerDesktopOs, isFluxerMobileOs;
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+export 'package:fluxer_app/core/platform/fluxer_platform.dart'
+    show isFluxerDesktopOs, isFluxerMobileOs;
 
-bool get isDesktopOs =>
-    !kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows);
+bool get isDesktopOs => isFluxerDesktopOs;
 
-bool get isMobileNative => !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+bool get isMobileNative => isFluxerMobileOs;

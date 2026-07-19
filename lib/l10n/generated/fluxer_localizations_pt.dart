@@ -23,7 +23,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'A tua sessão expirou. Por favor entra de novo.';
 
   @override
   String splashStartupFailed(String error) {
@@ -2641,19 +2641,19 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get userProfileAboutMe => 'Sobre Mim';
 
   @override
-  String get userProfileLocalTime => 'Local time';
+  String get userProfileLocalTime => 'Hora local';
 
   @override
-  String get userProfileSameTimeAsYou => 'Same time as you';
+  String get userProfileSameTimeAsYou => 'Mesma hora que tu';
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
-    return '$duration ahead of you';
+    return '$duration à tua frente';
   }
 
   @override
   String userProfileTimeBehindYou(String duration) {
-    return '$duration behind you';
+    return '$duration atrás de ti';
   }
 
   @override
@@ -4475,32 +4475,32 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get systemCallDurationOneHour => '1 hour';
 
   @override
-  String systemCallDurationYears(String count) {
+  String systemCallDurationYears(int count) {
     return '$count years';
   }
 
   @override
-  String systemCallDurationMonths(String count) {
+  String systemCallDurationMonths(int count) {
     return '$count months';
   }
 
   @override
-  String systemCallDurationWeeks(String count) {
+  String systemCallDurationWeeks(int count) {
     return '$count weeks';
   }
 
   @override
-  String systemCallDurationDays(String count) {
+  String systemCallDurationDays(int count) {
     return '$count days';
   }
 
   @override
-  String systemCallDurationHours(String count) {
+  String systemCallDurationHours(int count) {
     return '$count hours';
   }
 
   @override
-  String systemCallDurationMinutes(String count) {
+  String systemCallDurationMinutes(int count) {
     return '$count minutes';
   }
 
@@ -7186,27 +7186,28 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
   String get languageAndTimeOpenLanguageSettings => 'Open language settings';
 
   @override
-  String get languageAndTimeTimeFormatSectionTitle => 'Time format';
+  String get languageAndTimeTimeFormatSectionTitle => 'Formato horário';
 
   @override
   String get languageAndTimeTimeFormatSectionDescription =>
-      'Choose how times are displayed throughout the app';
+      'Escolhe como as horas são mostradas na aplicação';
 
   @override
-  String get languageAndTimeTimeFormatSelectionLabel => 'Time format selection';
+  String get languageAndTimeTimeFormatSelectionLabel =>
+      'Seleção de formato horário';
 
   @override
   String get languageAndTimeTimeFormatAuto => 'Auto';
 
   @override
-  String get languageAndTimeTimeFormat12Hour => '12-hour';
+  String get languageAndTimeTimeFormat12Hour => '12 horas';
 
   @override
-  String get languageAndTimeTimeFormat24Hour => '24-hour';
+  String get languageAndTimeTimeFormat24Hour => '24 horas';
 
   @override
   String languageAndTimeTimeFormatAppLanguage(String format) {
-    return 'App language: $format';
+    return 'Idioma da aplicação: $format';
   }
 
   @override
@@ -7220,7 +7221,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get languageAndTimeTimeFormatSyncFailed =>
-      'Failed to update time format';
+      'Falha em atualizar o formato horário';
 
   @override
   String get userSettingsNavAdvanced => 'Avançadas';
@@ -9485,7 +9486,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get guildSettingsOverviewFlexibleNamesHint =>
-      'Permite letras maiúsculas e espaços nos nomes dos canais de texto. Desativado restringe os nomes a minúsculas com hífens e sublinhados.';
+      'Permite letras maiúsculas e espaços nos nomes dos canais de texto. Desativado restringe os nomes a minúsculas com hífenes e subtraços.';
 
   @override
   String get guildSettingsOverviewHideOwnerCrownHint =>
@@ -9589,7 +9590,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get guildSettingsModerationContentFilterDescription =>
-      'Analise automaticamente as mensagens à procura de conteúdo explícito em canais não marcados para conteúdo para adultos.';
+      'Em canais sem aviso de maturidade, verificar automaticamente se as mensagens incluem conteúdo explícito.';
 
   @override
   String get guildSettingsModerationContentFilterDiscoveryNote =>
@@ -9600,7 +9601,7 @@ class FluxerLocalizationsPt extends FluxerLocalizations {
 
   @override
   String get guildSettingsContentFilterOffDescription =>
-      'Deixar a comunidade auto-moderar-se';
+      'Deixar a comunidade automoderar-se';
 
   @override
   String get guildSettingsContentFilterNoRole => 'Filtrar membros sem cargos';
@@ -9834,6 +9835,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get gatewayConnectedToast => 'Conectado';
 
   @override
+  String get sessionExpiredToast =>
+      'Sua sessão expirou. Por favor entre novamente.';
+
+  @override
   String splashStartupFailed(String error) {
     return 'Falha ao iniciar: $error';
   }
@@ -9842,7 +9847,7 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get retry => 'Tentar novamente';
 
   @override
-  String get connectingCaps => 'CONNECTING';
+  String get connectingCaps => 'CONECTANDO';
 
   @override
   String get splashConnectionLost => 'Conexão perdida';
@@ -9916,7 +9921,7 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get register => 'Registrar';
 
   @override
-  String get orDivider => 'OR';
+  String get orDivider => 'OU';
 
   @override
   String get captchaTitle => 'Verifique se você é humano';
@@ -10389,6 +10394,10 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Este convite pode ter expirado ou ser inválido.';
 
   @override
+  String get invalidDeepLinkDescription =>
+      'Esse link pode estar quebrado, disponível apenas no navegador, ou você pode não ter acesso. Verifique o link e tente novamente.';
+
+  @override
   String get inviteAcceptJoinGroupButton => 'Entrar no grupo';
 
   @override
@@ -10416,7 +10425,7 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Aceitar este convite instala o pacote automaticamente.';
 
   @override
-  String get mentionUnknownChannel => 'unknown-channel';
+  String get mentionUnknownChannel => 'canal-desconhecido';
 
   @override
   String get channelAccessDeniedTitle => 'Acesso ao Canal Negado';
@@ -10658,6 +10667,14 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get dmUnpinGroupDm => 'Desafixar conversa em grupo';
 
   @override
+  String get dmUnnamedGroup => 'Grupo sem nome';
+
+  @override
+  String dmOwnersGroup(String resolvedName) {
+    return 'Grupo de $resolvedName';
+  }
+
+  @override
   String get dmFavoriteDm => 'Favoritar conversa';
 
   @override
@@ -10695,6 +10712,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get dmDebugChannel => 'Depurar canal';
+
+  @override
+  String get dmDebugCategory => 'Categoria de Depuração';
 
   @override
   String get dmPinned => 'Conversa fixada';
@@ -12179,6 +12199,22 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get userProfileAboutMe => 'Sobre Mim';
 
   @override
+  String get userProfileLocalTime => 'Horário local';
+
+  @override
+  String get userProfileSameTimeAsYou => 'Mesmo fuso horário de você';
+
+  @override
+  String userProfileTimeAheadOfYou(String duration) {
+    return '$duration à sua frente';
+  }
+
+  @override
+  String userProfileTimeBehindYou(String duration) {
+    return '$duration atrás de você';
+  }
+
+  @override
   String get userProfileCopyUsername => 'Copiar nome de usuário';
 
   @override
@@ -12444,7 +12480,7 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Uma sinfonia de teclas batendo está em andamento...';
 
   @override
-  String get typingIndicatorFiesta => 'É uma festa de digitação completa aqui';
+  String get typingIndicatorFiesta => 'É uma baita festa de digitação aqui';
 
   @override
   String get typingIndicatorApocalypse => 'Uau, é um apocalipse de digitação';
@@ -13732,6 +13768,13 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Preservar rascunho de edição ao cancelar';
 
   @override
+  String get accessibilitySaturationTitle => 'Saturação';
+
+  @override
+  String get accessibilitySaturationDescription =>
+      'Ajuste a intensidade das cores do tema em todo o aplicativo.';
+
+  @override
   String get accessibilityUnreadGroupTitle => 'Indicadores de não lidas';
 
   @override
@@ -13960,6 +14003,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get voiceControlVideo => 'Vídeo';
+
+  @override
+  String get voiceControlFlipCamera => 'Virar câmera';
 
   @override
   String get voiceControlScreenShare => 'Compartilhar tela';
@@ -14763,6 +14809,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get mediaViewerOpenInBrowser => 'Abrir no navegador';
 
   @override
+  String get mediaViewerCopyLink => 'Copiar link';
+
+  @override
   String get mediaViewerForward => 'Encaminhar';
 
   @override
@@ -14845,6 +14894,43 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
       'Não foi possível entrar na comunidade. Por favor, tente novamente.';
 
   @override
+  String get addGuildCreateTitle => 'Criar uma comunidade';
+
+  @override
+  String get addGuildCreateDescription =>
+      'Crie uma comunidade para você e seus amigos conversarem.';
+
+  @override
+  String get addGuildCreateNameLabel => 'Nome da comunidade';
+
+  @override
+  String get addGuildCreateSubmit => 'Criar comunidade';
+
+  @override
+  String get addGuildCreateFailed =>
+      'Não foi possível criar a comunidade. Tente novamente.';
+
+  @override
+  String get addGuildCreateVerifyTitle => 'Verifique seu e-mail';
+
+  @override
+  String get addGuildCreateVerifyDescription =>
+      'Você precisa verificar seu endereço de e-mail antes de poder criar uma comunidade.';
+
+  @override
+  String get addGuildCreateAnimatedIconUnsupported =>
+      'Ícones animados não são suportados ao se criar uma nova comunidade. Use uma imagem estática.';
+
+  @override
+  String get addGuildCreateGuidelinesBefore =>
+      'Ao criar uma comunidade, você concorda em seguir e assegurar as ';
+
+  @override
+  String addGuildCreateGuidelinesLink(String productName) {
+    return '$productName diretrizes de comunidades';
+  }
+
+  @override
   String get addGuildPackInstalled => 'Pacote instalado com sucesso.';
 
   @override
@@ -14884,11 +14970,29 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
   String get channelPinsEmptyDescription => 'Mensagens fixadas aparecem aqui.';
 
   @override
+  String get channelDetailsCopyLink => 'Copiar link';
+
+  @override
+  String get channelDetailsEditChannel => 'Editar canal';
+
+  @override
+  String get channelMenuOpenChat => 'Abrir chat';
+
+  @override
+  String get channelMenuDuplicateChannel => 'Duplicar canal';
+
+  @override
+  String get channelDetailsCopyMessageLink => 'Copiar link da mensagem';
+
+  @override
   String get personalNotesTitle => 'Notas pessoais';
 
   @override
   String get personalNotesSubtitle =>
       'Seu espaço particular para pensamentos e lembretes';
+
+  @override
+  String get groupDmCopyInviteFailed => 'Falha ao copiar link de convite';
 
   @override
   String channelWelcomeHeading(String channelName) {
@@ -16468,6 +16572,9 @@ class FluxerLocalizationsPtBr extends FluxerLocalizationsPt {
 
   @override
   String get guildSettingsInvitesEmpty => 'Nenhum convite ativo.';
+
+  @override
+  String get guildSettingsInvitesCopyLink => 'Copiar link de convite';
 
   @override
   String guildSettingsInviteUses(int uses, int maxUses) {

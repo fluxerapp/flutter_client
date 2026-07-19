@@ -186,10 +186,10 @@ void main() {
   });
 
   group('FluxerMediaUrl.customEmoji', () {
-    test('returns base webp without query when no options', () {
+    test('includes lossless quality by default', () {
       expect(
         FluxerMediaUrl.customEmoji(id: '123'),
-        'https://fluxerusercontent.com/emojis/123.webp',
+        'https://fluxerusercontent.com/emojis/123.webp?quality=lossless',
       );
     });
 
@@ -199,6 +199,7 @@ void main() {
         animated: true,
         size: 48,
       );
+      expect(actual, contains('quality=lossless'));
       expect(actual, contains('animated=true'));
       expect(actual, contains('size=48'));
     });

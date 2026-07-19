@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:cross_file/cross_file.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/slowmode/slowmode_blocked_provider.dart';
@@ -21,7 +20,7 @@ bool _isDesktopFileDropSupported() {
   if (kIsWeb) {
     return false;
   }
-  return Platform.isLinux || Platform.isMacOS || Platform.isWindows;
+  return isFluxerDesktopOs;
 }
 
 class UploadDropOverlay extends ConsumerStatefulWidget {

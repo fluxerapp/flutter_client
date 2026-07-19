@@ -3011,7 +3011,7 @@
     "@userProfileNoteEmpty": {
         "description": "Hint text when no note has been written yet."
     },
-    "userProfileMemberSince": "メンバー منذ",
+    "userProfileMemberSince": "メンバーになった日",
     "@userProfileMemberSince": {
         "description": "Header of the member-since section in the bio card."
     },
@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "エクスプレッションパック",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "プライバシーダッシュボード",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "オーディオとビデオ",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "サウンドとアラート",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "言語と時刻",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,61 @@
     "guildSettingsAuditLogFilterAction": "アクションでフィルタリング",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "セッションの有効期限が切れました。もう一度サインインしてください。",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "userProfileLocalTime": "現地時間",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "languageAndTimeTimeFormat12Hour": "12時間制",
+    "@languageAndTimeTimeFormat12Hour": {
+        "description": "Time format option for 12-hour AM/PM display."
+    },
+    "languageAndTimeTimeFormat24Hour": "24時間制",
+    "@languageAndTimeTimeFormat24Hour": {
+        "description": "Time format option for 24-hour display."
+    },
+    "audioAndVideoAudioSectionTitle": "オーディオ",
+    "@audioAndVideoAudioSectionTitle": {
+        "description": "Settings section title for audio settings in the voice and video tab."
+    },
+    "audioAndVideoAudioSectionDescription": "マイク、スピーカー、音声処理を設定します。",
+    "@audioAndVideoAudioSectionDescription": {
+        "description": "Settings section description for audio settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionTitle": "ビデオ",
+    "@audioAndVideoVideoSectionTitle": {
+        "description": "Settings section title for video settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionDescription": "カメラと画面共有の品質を設定します。",
+    "@audioAndVideoVideoSectionDescription": {
+        "description": "Settings section description for video settings in the voice and video tab."
+    },
+    "audioAndVideoInCallBehaviorSectionTitle": "通話中の確認",
+    "@audioAndVideoInCallBehaviorSectionTitle": {
+        "description": "Settings section title for in-call behavior prompts."
+    },
+    "audioAndVideoInCallBehaviorSectionDescription": "音声通話やビデオ通話中に表示する確認メッセージを設定します。",
+    "@audioAndVideoInCallBehaviorSectionDescription": {
+        "description": "Settings section description for in-call behavior prompts."
+    },
+    "languageAndTimeLanguageSectionTitle": "表示言語",
+    "@languageAndTimeLanguageSectionTitle": {
+        "description": "Settings section title for interface language preference."
+    },
+    "languageAndTimeLanguageSectionDescription": "アプリの表示に使用する言語を選択します",
+    "@languageAndTimeLanguageSectionDescription": {
+        "description": "Settings section description for interface language preference."
+    },
+    "languageAndTimeOpenLanguageSettings": "言語設定を開く",
+    "@languageAndTimeOpenLanguageSettings": {
+        "description": "Button that opens the system per-app language settings."
+    },
+    "dmDebugCategory": "カテゴリーをデバッグ",
+    "@dmDebugCategory": {
+        "description": "Category context menu action to debug category data."
     }
 }

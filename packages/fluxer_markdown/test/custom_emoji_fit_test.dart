@@ -84,5 +84,22 @@ void main() {
         _expectSingleAxisContain(_customEmojiImage(tester));
       },
     );
+
+    testWidgets(
+      'inline custom emoji decode cache scales with device pixel ratio',
+      (tester) async {
+        tester.view.devicePixelRatio = 3.0;
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        await _pumpMarkdown(tester, 'hello <:smile:111111111111111111> world');
+
+        final CachedNetworkImage image = _customEmojiImage(tester);
+        _expectSingleAxisContain(image);
+        expect(
+          image.memCacheWidth,
+          (16 * kFluxerMarkdownEmojiSizeMultiplier * 3).round(),
+        );
+      },
+    );
   });
 }

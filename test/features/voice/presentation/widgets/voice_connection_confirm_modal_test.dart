@@ -84,7 +84,7 @@ void main() {
       expect(find.text('Voice Connection Confirmation'), findsOneWidget);
       expect(find.textContaining('1 other device'), findsOneWidget);
 
-      await tester.tap(find.text('Do nothing, I don\'t want to join'));
+      await tester.tap(find.text("Do nothing, I don't want to join"));
       await tester.pumpAndSettle();
 
       expect(await resultCompleter.future, isNull);
@@ -135,7 +135,7 @@ void main() {
       await tester.tap(find.text('Open'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Do nothing, I don\'t want to join'));
+      await tester.tap(find.text("Do nothing, I don't want to join"));
       await tester.pumpAndSettle();
 
       expect(await resultCompleter.future, isNull);

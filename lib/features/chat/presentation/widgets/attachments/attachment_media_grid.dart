@@ -279,25 +279,22 @@ class AttachmentMediaGrid extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           child: GestureDetector(
             onTap: canOpen ? () => _openMedia(context, attachment) : null,
-            child: DecoratedBox(
-              decoration: const BoxDecoration(color: Colors.black),
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  if (displayUrl.isEmpty)
-                    const ColoredBox(color: Colors.black)
-                  else
-                    CachedNetworkImage(
-                      imageUrl: displayUrl,
-                      memCacheWidth: cache.width,
-                      memCacheHeight: cache.height,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) =>
-                          const ColoredBox(color: Colors.black),
-                    ),
-                  if (isVideo) const VideoPlayButtonOverlay(),
-                ],
-              ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                if (displayUrl.isEmpty)
+                  const ColoredBox(color: Colors.black)
+                else
+                  CachedNetworkImage(
+                    imageUrl: displayUrl,
+                    memCacheWidth: cache.width,
+                    memCacheHeight: cache.height,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) =>
+                        const ColoredBox(color: Colors.black),
+                  ),
+                if (isVideo) const VideoPlayButtonOverlay(),
+              ],
             ),
           ),
         ),

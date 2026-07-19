@@ -23,7 +23,7 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'La tua sessione è scaduta. Accedi di nuovo.';
 
   @override
   String splashStartupFailed(String error) {
@@ -55,7 +55,7 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get splashIncidentHistory => 'Cronologia incidenti';
 
   @override
-  String get nagbarLearnMore => 'Learn more';
+  String get nagbarLearnMore => 'Scopri di più';
 
   @override
   String nagbarMaintenanceScheduled(String localizedTime, String duration) {
@@ -141,7 +141,7 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
 
   @override
   String get nagbarVisionaryMfa =>
-      'Enable two-factor authentication to protect your Visionary account.';
+      'Abilita l\'autenticazione a due fattori per proteggere il tuo account Visionary.';
 
   @override
   String get nagbarEnableMfa => 'Enable 2FA';
@@ -4469,32 +4469,32 @@ class FluxerLocalizationsIt extends FluxerLocalizations {
   String get systemCallDurationOneHour => '1 hour';
 
   @override
-  String systemCallDurationYears(String count) {
+  String systemCallDurationYears(int count) {
     return '$count years';
   }
 
   @override
-  String systemCallDurationMonths(String count) {
+  String systemCallDurationMonths(int count) {
     return '$count months';
   }
 
   @override
-  String systemCallDurationWeeks(String count) {
+  String systemCallDurationWeeks(int count) {
     return '$count weeks';
   }
 
   @override
-  String systemCallDurationDays(String count) {
+  String systemCallDurationDays(int count) {
     return '$count days';
   }
 
   @override
-  String systemCallDurationHours(String count) {
+  String systemCallDurationHours(int count) {
     return '$count hours';
   }
 
   @override
-  String systemCallDurationMinutes(String count) {
+  String systemCallDurationMinutes(int count) {
     return '$count minutes';
   }
 

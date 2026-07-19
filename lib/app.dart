@@ -1,8 +1,6 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
@@ -21,9 +19,6 @@ import 'package:fluxer_app/shared/widgets/input_modality_listener.dart';
 import 'package:fluxer_dart/export.dart' hide Locale;
 import 'package:fluxer_dart/models/locale.dart' as sdk;
 import 'package:window_manager/window_manager.dart';
-
-bool get _isDesktopPlatform =>
-    !kIsWeb && (Platform.isLinux || Platform.isMacOS || Platform.isWindows);
 
 class FluxerApp extends ConsumerWidget {
   const FluxerApp({super.key});
@@ -106,7 +101,7 @@ class FluxerApp extends ConsumerWidget {
           ),
         );
         final Widget content;
-        if (!_isDesktopPlatform) {
+        if (!isFluxerDesktopOs) {
           content = BetaBanner(child: FluxerToastOverlay(child: layered));
         } else {
           content = FluxerToastOverlay(

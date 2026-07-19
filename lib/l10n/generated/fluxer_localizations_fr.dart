@@ -23,7 +23,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'Votre session a expiré. Veuillez vous reconnecter.';
 
   @override
   String splashStartupFailed(String error) {
@@ -707,7 +707,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
       'Cette invitation peut être expirée ou invalide.';
 
   @override
-  String get invalidDeepLinkTitle => 'Link couldn\'t be opened';
+  String get invalidDeepLinkTitle => 'Impossible d\'ouvrir le lien';
 
   @override
   String get invalidDeepLinkDescription =>
@@ -992,11 +992,11 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get dmUnpinGroupDm => 'Désépingler la discussion de groupe';
 
   @override
-  String get dmUnnamedGroup => 'Unnamed group';
+  String get dmUnnamedGroup => 'Groupe non nommé';
 
   @override
   String dmOwnersGroup(String resolvedName) {
-    return '$resolvedName\'s group';
+    return 'Groupe de $resolvedName';
   }
 
   @override
@@ -2668,10 +2668,10 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get userProfileAboutMe => 'À propos de moi';
 
   @override
-  String get userProfileLocalTime => 'Local time';
+  String get userProfileLocalTime => 'Heure locale';
 
   @override
-  String get userProfileSameTimeAsYou => 'Same time as you';
+  String get userProfileSameTimeAsYou => 'Même fuseau horaire que vous';
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
@@ -4513,32 +4513,32 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get systemCallDurationOneHour => '1 hour';
 
   @override
-  String systemCallDurationYears(String count) {
+  String systemCallDurationYears(int count) {
     return '$count years';
   }
 
   @override
-  String systemCallDurationMonths(String count) {
+  String systemCallDurationMonths(int count) {
     return '$count months';
   }
 
   @override
-  String systemCallDurationWeeks(String count) {
+  String systemCallDurationWeeks(int count) {
     return '$count weeks';
   }
 
   @override
-  String systemCallDurationDays(String count) {
+  String systemCallDurationDays(int count) {
     return '$count days';
   }
 
   @override
-  String systemCallDurationHours(String count) {
+  String systemCallDurationHours(int count) {
     return '$count hours';
   }
 
   @override
-  String systemCallDurationMinutes(String count) {
+  String systemCallDurationMinutes(int count) {
     return '$count minutes';
   }
 
@@ -4675,7 +4675,7 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
   String get voiceControlVideo => 'Vidéo';
 
   @override
-  String get voiceControlFlipCamera => 'Flip camera';
+  String get voiceControlFlipCamera => 'Retourner la caméra';
 
   @override
   String get voiceControlScreenShare => 'Partage d\'écran';
@@ -6844,14 +6844,14 @@ class FluxerLocalizationsFr extends FluxerLocalizations {
 
   @override
   String get audioAndVideoAudioSectionDescription =>
-      'Configure your microphone, speakers, and voice processing.';
+      'Configurez votre microphone, vos haut-parleurs et le traitement vocal.';
 
   @override
-  String get audioAndVideoVideoSectionTitle => 'Video';
+  String get audioAndVideoVideoSectionTitle => 'Vidéo';
 
   @override
   String get audioAndVideoVideoSectionDescription =>
-      'Configure your camera and screen sharing quality.';
+      'Configurez la qualité de votre caméra et du partage d\'écran.';
 
   @override
   String get audioAndVideoInCallBehaviorSectionTitle => 'In-call behavior';

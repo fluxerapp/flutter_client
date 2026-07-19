@@ -14,6 +14,9 @@ class ComposerPasteScope extends ConsumerStatefulWidget {
     required this.isAttachEnabled,
     required this.onValidationResult,
     required this.builder,
+    this.maxMessageLength,
+    this.canAttachOnExceed,
+    this.onPasteExceedsLimit,
     super.key,
   });
 
@@ -21,6 +24,9 @@ class ComposerPasteScope extends ConsumerStatefulWidget {
   final TextEditingController controller;
   final bool isAttachEnabled;
   final void Function(FileUploadValidationResult result) onValidationResult;
+  final int? maxMessageLength;
+  final bool Function()? canAttachOnExceed;
+  final void Function(String pastedText)? onPasteExceedsLimit;
   final Widget Function(BuildContext context, ComposerPasteScopeState state)
   builder;
 
@@ -43,6 +49,9 @@ class ComposerPasteScopeState extends ConsumerState<ComposerPasteScope> {
       channelId: widget.channelId,
       controller: widget.controller,
       isAttachEnabled: widget.isAttachEnabled,
+      maxMessageLength: widget.maxMessageLength,
+      canAttachOnExceed: widget.canAttachOnExceed,
+      onPasteExceedsLimit: widget.onPasteExceedsLimit,
       onValidationResult: widget.onValidationResult,
     );
   }

@@ -11,6 +11,7 @@ Future<void> playFluxerSoundEffect({
   required FluxerSFX sfx,
   required FluxerSfxClip clip,
   String? soundType,
+  bool ignoreRingerPolicy = false,
 }) async {
   final String? resolvedSoundType =
       soundType ?? soundTypeForFluxerSfxClip(clip);
@@ -24,5 +25,9 @@ Future<void> playFluxerSoundEffect({
     prefs: prefs,
     soundType: resolvedSoundType,
   );
-  await sfx.playOneShot(clip, volume: volume);
+  await sfx.playOneShot(
+    clip,
+    volume: volume,
+    ignoreRingerPolicy: ignoreRingerPolicy,
+  );
 }

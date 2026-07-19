@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math' show max;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
@@ -22,7 +21,6 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input_clipboard_scope.dart';
-import 'package:fluxer_app/features/ui/input/inline_token_paste_formatter.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
@@ -850,11 +848,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                     counterLength: () => controller.actualTextLength,
                     counterMax: _kMaxBioLength,
                     helperText: l10n.aboutMeHelperText,
-                    contextMenuBuilder: clipboardScope.buildContextMenu,
-                    inputFormatters: <TextInputFormatter>[
-                      InlineTokenPasteFormatter(controller: controller),
-                    ],
-                    onChanged: (_) => onChanged(),
                     suffixIcon: FluxerEmojiPickerPopout(
                       key: _expressionPickerKey,
                       visibleTabs: const [ExpressionPickerTab.emojis],

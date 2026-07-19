@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_build_environment.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_runtime_info.dart';
 
 const int fluxerClientPropertiesSchemaVersion = 1;
@@ -95,30 +96,37 @@ String mapAppBuildEnvironmentToReleaseChannel(AppBuildEnvironment environment) {
   };
 }
 
-String resolveClientPlatform(TargetPlatform targetPlatform) {
+String resolveClientPlatform(
+  TargetPlatform targetPlatform, {
+  bool mobileFormFactor = false,
+}) {
   switch (targetPlatform) {
     case TargetPlatform.android:
       return 'android';
     case TargetPlatform.iOS:
       return 'ios';
-    case TargetPlatform.macOS:
     case TargetPlatform.linux:
+      return mobileFormFactor ? 'linux' : 'desktop';
+    case TargetPlatform.macOS:
     case TargetPlatform.windows:
     case TargetPlatform.fuchsia:
       return 'desktop';
   }
 }
 
-String resolveDeviceClass(TargetPlatform targetPlatform) {
+String resolveDeviceClass(
+  TargetPlatform targetPlatform, {
+  bool mobileFormFactor = false,
+}) {
   switch (targetPlatform) {
     case TargetPlatform.android:
     case TargetPlatform.iOS:
       return 'mobile';
-    case TargetPlatform.macOS:
     case TargetPlatform.linux:
+    case TargetPlatform.macOS:
     case TargetPlatform.windows:
     case TargetPlatform.fuchsia:
-      return 'desktop';
+      return mobileFormFactor ? 'mobile' : 'desktop';
   }
 }
 
@@ -150,6 +158,7 @@ String buildFluxerClientUserAgent({
   final String clientName = switch (clientPlatform) {
     'android' => 'Fluxer Android',
     'ios' => 'Fluxer iOS',
+    'linux' => 'Fluxer Linux',
     'desktop' => 'Fluxer Desktop',
     'client' => 'Fluxer Client',
     _ => 'Fluxer Client',
@@ -222,7 +231,11 @@ FluxerClientProperties buildFluxerClientProperties({
   AppRuntimeInfo? runtimeInfo,
 }) {
   final TargetPlatform target = defaultTargetPlatform;
-  final String clientPlatform = resolveClientPlatform(target);
+  final bool mobileFormFactor = isFluxerRuntimeMobileFormFactor;
+  final String clientPlatform = resolveClientPlatform(
+    target,
+    mobileFormFactor: mobileFormFactor,
+  );
   final AppBuildEnvironment environment =
       runtimeInfo?.environment ?? AppBuildConfig.environment;
   final String releaseChannel = mapAppBuildEnvironmentToReleaseChannel(
@@ -243,7 +256,7 @@ FluxerClientProperties buildFluxerClientProperties({
     clientRuntime: fluxerClientRuntimeFlutter,
     os: normalizeFluxerOperatingSystem(),
     browser: fluxerBrowserName,
-    device: resolveDeviceClass(target),
+    device: resolveDeviceClass(target, mobileFormFactor: mobileFormFactor),
     locale: PlatformDispatcher.instance.locale.toLanguageTag(),
     systemLocale: Platform.localeName,
     userAgent: userAgent,

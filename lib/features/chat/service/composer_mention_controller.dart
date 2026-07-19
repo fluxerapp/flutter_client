@@ -105,11 +105,18 @@ class ComposerMentionController extends InlineTokenTextEditingController {
       return;
     }
     final int generation = ++_applyWireTextGeneration;
+    final String wireBeforeAsync = toWireText();
     final bundle = await buildWireDisplayBundle(
       wire,
       includePlainShortcodes: false,
     );
     if (generation != _applyWireTextGeneration) {
+      return;
+    }
+    if (toWireText() != wireBeforeAsync) {
+      return;
+    }
+    if (toWireText() == wire) {
       return;
     }
     replaceWireDisplay(

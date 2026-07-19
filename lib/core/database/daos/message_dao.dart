@@ -109,6 +109,21 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
             ..orderBy([(m) => OrderingTerm.asc(m.timestamp)]))
           .get();
 
+  Future<List<Message>> getMessagesInSnowflakeRange(
+    String channelId,
+    String oldestId,
+    String newestId,
+  ) =>
+      (select(messages)
+            ..where(
+              (m) =>
+                  m.channelId.equals(channelId) &
+                  m.id.isBiggerOrEqualValue(oldestId) &
+                  m.id.isSmallerOrEqualValue(newestId),
+            )
+            ..orderBy([(m) => OrderingTerm.asc(m.timestamp)]))
+          .get();
+
   Future<Message?> getPreviousMessage(String channelId, String beforeId) async {
     final reference = await (select(
       messages,
@@ -145,25 +160,43 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> deleteMessagesForChannel(String channelId) =>
       (delete(messages)..where((m) => m.channelId.equals(channelId))).go();
 
+  Future<void> deleteMessagesForChannels(List<String> channelIds) {
+    if (channelIds.isEmpty) {
+      return Future.value();
+    }
+    return (delete(messages)..where((m) => m.channelId.isIn(channelIds))).go();
+  }
+
   Future<Map<String, Message>> getLastMessageForChannels(
     List<String> channelIds,
   ) async {
     if (channelIds.isEmpty) {
       return {};
     }
-    final result = <String, Message>{};
-    for (final channelId in channelIds) {
-      final msg =
-          await (select(messages)
-                ..where((m) => m.channelId.equals(channelId))
-                ..orderBy([(m) => OrderingTerm.desc(m.timestamp)])
-                ..limit(1))
-              .getSingleOrNull();
-      if (msg != null) {
-        result[channelId] = msg;
-      }
-    }
-    return result;
+    final String placeholders = List.filled(channelIds.length, '?').join(', ');
+    final List<Variable<String>> channelVariables = channelIds
+        .map(Variable<String>.new)
+        .toList();
+    final List<Message> latestMessages = await customSelect(
+      '''
+      SELECT m.*
+      FROM messages m
+      INNER JOIN (
+        SELECT channel_id, MAX(timestamp) AS max_timestamp
+        FROM messages
+        WHERE channel_id IN ($placeholders)
+        GROUP BY channel_id
+      ) latest
+        ON m.channel_id = latest.channel_id
+       AND m.timestamp = latest.max_timestamp
+      WHERE m.channel_id IN ($placeholders)
+      ''',
+      variables: <Variable<Object>>[...channelVariables, ...channelVariables],
+      readsFrom: <TableInfo<Table, Object?>>{messages},
+    ).map((QueryRow row) => messages.map(row.data)).get();
+    return <String, Message>{
+      for (final Message message in latestMessages) message.channelId: message,
+    };
   }
 
   Future<void> clearAll() => delete(messages).go();

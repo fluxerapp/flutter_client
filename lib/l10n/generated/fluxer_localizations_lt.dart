@@ -23,7 +23,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'Sesijos laikas pasibaigė. Prašome prisijungti iš naujo.';
 
   @override
   String splashStartupFailed(String error) {
@@ -701,14 +701,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Šis kvietimas gali būti pasibaigęs arba negaliojantis.';
 
   @override
-  String get invalidDeepLinkTitle => 'Link couldn\'t be opened';
+  String get invalidDeepLinkTitle => 'Nepavyko atidaryti nuorodos';
 
   @override
   String get invalidDeepLinkDescription =>
-      'This link may be broken, only available on the web, or you might not have access. Check the link and try again.';
+      'Ši nuoroda gali būti neveikianti, prieinama tik naršyklėje arba jūs galite neturėti prieigos prie jos. Patikrinkite nuorodą ir bandykite dar kartą.';
 
   @override
-  String get invalidDeepLinkGoHomeButton => 'Go to home';
+  String get invalidDeepLinkGoHomeButton => 'Pagrindinis';
 
   @override
   String get inviteAcceptJoinGroupButton => 'Prisijungti prie grupės';
@@ -981,11 +981,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get dmUnpinGroupDm => 'Atsegti grupės DM';
 
   @override
-  String get dmUnnamedGroup => 'Unnamed group';
+  String get dmUnnamedGroup => 'Nepavadinta grupė';
 
   @override
   String dmOwnersGroup(String resolvedName) {
-    return '$resolvedName\'s group';
+    return '$resolvedName grupė';
   }
 
   @override
@@ -1028,7 +1028,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get dmDebugChannel => 'Derinti kanalą';
 
   @override
-  String get dmDebugCategory => 'Debug Category';
+  String get dmDebugCategory => 'Derinimo kategorija';
 
   @override
   String get dmPinned => 'Prisegtas DM';
@@ -2643,19 +2643,19 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get userProfileAboutMe => 'Apie mane';
 
   @override
-  String get userProfileLocalTime => 'Local time';
+  String get userProfileLocalTime => 'Lokalus laikas';
 
   @override
-  String get userProfileSameTimeAsYou => 'Same time as you';
+  String get userProfileSameTimeAsYou => 'Toks pat laikas kaip jūsų';
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
-    return '$duration ahead of you';
+    return '$duration anksčiau nei jūs';
   }
 
   @override
   String userProfileTimeBehindYou(String duration) {
-    return '$duration behind you';
+    return '$duration vėliau nei jūs';
   }
 
   @override
@@ -2663,14 +2663,14 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
+      other: '$hours valandos',
+      one: '1 valanda',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '$minutes minutės',
+      one: '1 minutė',
     );
     return '$_temp0 $_temp1';
   }
@@ -2680,8 +2680,8 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
+      other: '$hours valandų',
+      one: '1 valanda',
     );
     return '$_temp0';
   }
@@ -2691,8 +2691,9 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '# minučių',
+      few: '# minutės',
+      one: '# minutė',
     );
     return '$_temp0';
   }
@@ -3475,7 +3476,7 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   String get chatAttachmentSourceBrowse => 'Naršyti failus';
 
   @override
-  String get chatAttachmentPasteTooltip => 'Įklijuoti vaizdą iš mainų srities';
+  String get chatAttachmentPasteTooltip => 'Įklijuoti failą iš mainų srities';
 
   @override
   String get chatAttachmentSpoiler => 'Spoileris';
@@ -4326,11 +4327,11 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
       'Išsaugoti redagavimo juodraštį atšaukus';
 
   @override
-  String get accessibilitySaturationTitle => 'Saturation';
+  String get accessibilitySaturationTitle => 'Spalvų sodrumas';
 
   @override
   String get accessibilitySaturationDescription =>
-      'Adjust how vivid theme colors appear across the app.';
+      'Reguliuokite programėlės temos spalvų sodrumą.';
 
   @override
   String get accessibilityUnreadGroupTitle => 'Neskaitytų indikatoriai';
@@ -4435,72 +4436,114 @@ class FluxerLocalizationsLt extends FluxerLocalizations {
   }
 
   @override
-  String get systemCallJoinTheCall => 'Join the call';
+  String get systemCallJoinTheCall => 'Prisijungti prie skambučio';
 
   @override
   String systemCallStartedThatLasted(String username, String duration) {
-    return '$username started a call that lasted $duration.';
+    return '$username pradėjo skambutį, kuris truko $duration.';
   }
 
   @override
   String systemCallMissedWithDuration(String username, String duration) {
-    return 'You missed a call from $username that lasted $duration.';
+    return 'Praleidote $username skambutį, kuris truko $duration.';
   }
 
   @override
   String systemCallMissed(String username) {
-    return 'You missed a call from $username.';
+    return 'Praleistas $username skambutis.';
   }
 
   @override
-  String get systemCallDurationFewSeconds => 'a few seconds';
+  String get systemCallDurationFewSeconds => 'kelios sekundės';
 
   @override
-  String get systemCallDurationMinute => 'a minute';
+  String get systemCallDurationMinute => 'minute';
 
   @override
-  String get systemCallDurationOneYear => '1 year';
+  String get systemCallDurationOneYear => 'metus';
 
   @override
-  String get systemCallDurationOneMonth => '1 month';
+  String get systemCallDurationOneMonth => 'mėnesį';
 
   @override
-  String get systemCallDurationOneWeek => '1 week';
+  String get systemCallDurationOneWeek => 'savaitę';
 
   @override
-  String get systemCallDurationOneDay => '1 day';
+  String get systemCallDurationOneDay => 'dieną';
 
   @override
-  String get systemCallDurationOneHour => '1 hour';
+  String get systemCallDurationOneHour => 'valandą';
 
   @override
-  String systemCallDurationYears(String count) {
-    return '$count years';
+  String systemCallDurationYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# metų',
+      few: '# metus',
+      one: '# metus',
+    );
+    return '$_temp0';
   }
 
   @override
-  String systemCallDurationMonths(String count) {
-    return '$count months';
+  String systemCallDurationMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# mėnesių',
+      few: '# mėnesius',
+      one: '# mėnesį',
+    );
+    return '$_temp0';
   }
 
   @override
-  String systemCallDurationWeeks(String count) {
-    return '$count weeks';
+  String systemCallDurationWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# savaičių',
+      few: '# savaites',
+      one: '# savaitę',
+    );
+    return '$_temp0';
   }
 
   @override
-  String systemCallDurationDays(String count) {
-    return '$count days';
+  String systemCallDurationDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# dienų',
+      few: '# dienas',
+      one: '# dieną',
+    );
+    return '$_temp0';
   }
 
   @override
-  String systemCallDurationHours(String count) {
-    return '$count hours';
+  String systemCallDurationHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# valandų',
+      few: '# valandas',
+      one: '# valandą',
+    );
+    return '$_temp0';
   }
 
   @override
-  String systemCallDurationMinutes(String count) {
-    return '$count minutes';
+  String systemCallDurationMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# minučių',
+      few: '# minutes',
+      one: '# minutę',
+    );
+    return '$_temp0';
   }
 
   @override

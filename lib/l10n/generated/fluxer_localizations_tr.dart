@@ -23,7 +23,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
 
   @override
   String get sessionExpiredToast =>
-      'Your session has expired. Please sign in again.';
+      'Oturum süreniz doldu. Lütfen tekrar giriş yapın.';
 
   @override
   String splashStartupFailed(String error) {
@@ -1027,7 +1027,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get dmDebugChannel => 'Kanalı Hata Ayıkla';
 
   @override
-  String get dmDebugCategory => 'Debug Category';
+  String get dmDebugCategory => 'Ayıklama Kategorisi';
 
   @override
   String get dmPinned => 'Sabitlenmiş DM';
@@ -2634,19 +2634,19 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userProfileAboutMe => 'Hakkımda';
 
   @override
-  String get userProfileLocalTime => 'Local time';
+  String get userProfileLocalTime => 'Yerel Saat';
 
   @override
-  String get userProfileSameTimeAsYou => 'Same time as you';
+  String get userProfileSameTimeAsYou => 'Seninle aynı saat diliminde';
 
   @override
   String userProfileTimeAheadOfYou(String duration) {
-    return '$duration ahead of you';
+    return 'Senden $duration ileride';
   }
 
   @override
   String userProfileTimeBehindYou(String duration) {
-    return '$duration behind you';
+    return 'Senden $duration geride';
   }
 
   @override
@@ -2654,14 +2654,14 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
+      other: '$hours saat',
+      one: '1 saat',
     );
     String _temp1 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '$minutes dakika',
+      one: '1 dakika',
     );
     return '$_temp0 $_temp1';
   }
@@ -2671,8 +2671,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       hours,
       locale: localeName,
-      other: '$hours hours',
-      one: '1 hour',
+      other: '$hours saat',
+      one: '1 saat',
     );
     return '$_temp0';
   }
@@ -2682,8 +2682,8 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       minutes,
       locale: localeName,
-      other: '$minutes minutes',
-      one: '1 minute',
+      other: '$minutes dakika',
+      one: '1 dakika',
     );
     return '$_temp0';
   }
@@ -4314,11 +4314,11 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'İptal edildiğinde düzenleme taslağını koru';
 
   @override
-  String get accessibilitySaturationTitle => 'Saturation';
+  String get accessibilitySaturationTitle => 'Doygunluk';
 
   @override
   String get accessibilitySaturationDescription =>
-      'Adjust how vivid theme colors appear across the app.';
+      'Uygulama genelindeki tema renklerinin canlılığını ayarlayın.';
 
   @override
   String get accessibilityUnreadGroupTitle => 'Okunmamış göstergeler';
@@ -4460,32 +4460,32 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get systemCallDurationOneHour => '1 hour';
 
   @override
-  String systemCallDurationYears(String count) {
+  String systemCallDurationYears(int count) {
     return '$count years';
   }
 
   @override
-  String systemCallDurationMonths(String count) {
+  String systemCallDurationMonths(int count) {
     return '$count months';
   }
 
   @override
-  String systemCallDurationWeeks(String count) {
+  String systemCallDurationWeeks(int count) {
     return '$count weeks';
   }
 
   @override
-  String systemCallDurationDays(String count) {
+  String systemCallDurationDays(int count) {
     return '$count days';
   }
 
   @override
-  String systemCallDurationHours(String count) {
+  String systemCallDurationHours(int count) {
     return '$count hours';
   }
 
   @override
-  String systemCallDurationMinutes(String count) {
+  String systemCallDurationMinutes(int count) {
     return '$count minutes';
   }
 
@@ -4623,7 +4623,7 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get voiceControlVideo => 'Video';
 
   @override
-  String get voiceControlFlipCamera => 'Flip camera';
+  String get voiceControlFlipCamera => 'Kamerayı çevir';
 
   @override
   String get voiceControlScreenShare => 'Ekran Paylaşımı';
@@ -5590,62 +5590,62 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
       'Topluluğa katılım sağlanamadı. Lütfen tekrar deneyin.';
 
   @override
-  String get addGuildCreateTitle => 'Create a community';
+  String get addGuildCreateTitle => 'Topluluk oluştur';
 
   @override
   String get addGuildCreateDescription =>
-      'Create a community for you and your friends to chat.';
+      'Sen ve arkadaşların için sohbet edebileceğiniz bir topluluk oluştur.';
 
   @override
-  String get addGuildCreateNameLabel => 'Community name';
+  String get addGuildCreateNameLabel => 'Topluluk adı';
 
   @override
-  String get addGuildCreateSubmit => 'Create community';
+  String get addGuildCreateSubmit => 'Topluluk oluştur';
 
   @override
   String get addGuildCreateFailed =>
-      'Could not create community. Please try again.';
+      'Topluluk oluşturulamadı. Lütfen tekrar dene.';
 
   @override
-  String get addGuildCreateClaimTitle => 'Claim your account';
+  String get addGuildCreateClaimTitle => 'Hesabını onayla';
 
   @override
   String get addGuildCreateClaimDescription =>
-      'You need to claim your account before you can create a community.';
+      'Topluluk oluşturabilmek için önce hesabını onaylaman gerekiyor.';
 
   @override
-  String get addGuildCreateVerifyTitle => 'Verify your email';
+  String get addGuildCreateVerifyTitle => 'E-postanı doğrula';
 
   @override
   String get addGuildCreateVerifyDescription =>
-      'You need to verify your email address before you can create a community.';
+      'Topluluk oluşturabilmek için önce e-posta adresini doğrulaman gerekiyor.';
 
   @override
   String get addGuildCreateAnimatedIconUnsupported =>
-      'Animated icons are not supported when creating a new community. Use a static image.';
+      'Yeni bir topluluk oluştururken hareketli simgeler desteklenmiyor. Sabit bir görsel kullan.';
 
   @override
   String get addGuildCreateGuidelinesBefore =>
-      'By creating a community, you agree to follow and uphold the ';
+      'Topluluk oluşturarak, şunlara uymayı ve bunları desteklemeyi kabul etmiş olursun: ';
 
   @override
   String addGuildCreateGuidelinesLink(String productName) {
-    return '$productName community guidelines';
+    return '$productName topluluk kuralları';
   }
 
   @override
   String get addGuildCreateSingleCommunityBlocked =>
-      'This instance is a single community, so additional communities cannot be created.';
+      'Bu sunucu tek bir toplulukla sınırlıdır, bu nedenle başka topluluklar oluşturulamaz.';
 
   @override
-  String get addGuildCreateChangeIcon => 'Change icon';
+  String get addGuildCreateChangeIcon => 'Simgeyi değiştir';
 
   @override
-  String get addGuildCreateIconLabel => 'Community icon';
+  String get addGuildCreateIconLabel => 'Topluluk simgesi';
 
   @override
   String get addGuildCreateIconHint =>
-      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Max 10MB. Recommended: 512×512px';
+      'PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Maks. 10MB. Önerilen: 512×512 piksel';
 
   @override
   String get addGuildPackInstalled => 'Paket başarıyla yüklendi.';
@@ -6775,31 +6775,31 @@ class FluxerLocalizationsTr extends FluxerLocalizations {
   String get userSettingsNavAudioAndVideo => 'Ses ve Görüntü';
 
   @override
-  String get audioAndVideoAudioSectionTitle => 'Audio';
+  String get audioAndVideoAudioSectionTitle => 'Ses';
 
   @override
   String get audioAndVideoAudioSectionDescription =>
-      'Configure your microphone, speakers, and voice processing.';
+      'Mikrofonunu, hoparlörlerini ve ses işleme ayarlarını yapılandır.';
 
   @override
   String get audioAndVideoVideoSectionTitle => 'Video';
 
   @override
   String get audioAndVideoVideoSectionDescription =>
-      'Configure your camera and screen sharing quality.';
+      'Kameranı ve ekran paylaşımı kaliteni yapılandır.';
 
   @override
-  String get audioAndVideoInCallBehaviorSectionTitle => 'In-call behavior';
+  String get audioAndVideoInCallBehaviorSectionTitle => 'Arama içi davranış';
 
   @override
   String get audioAndVideoInCallBehaviorSectionDescription =>
-      'Control confirmation prompts during voice and video calls.';
+      'Sesli ve görüntülü aramalardaki onay uyarılarını yönet.';
 
   @override
-  String get audioAndVideoInputDeviceLabel => 'Input device';
+  String get audioAndVideoInputDeviceLabel => 'Giriş aygıtı';
 
   @override
-  String get audioAndVideoOutputDeviceLabel => 'Output device';
+  String get audioAndVideoOutputDeviceLabel => 'Çıkış aygıtı';
 
   @override
   String get audioAndVideoDefaultDeviceLabel => 'Default';

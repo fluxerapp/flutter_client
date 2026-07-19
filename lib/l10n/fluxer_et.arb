@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Emotsioonipaketid",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Privaatsusjuhtpaneel",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Heli ja video",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Helid ja teavitused",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Keel ja aeg",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,667 @@
     "guildSettingsAuditLogFilterAction": "Filtreeri tegevuse järgi",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "Teie sessioon on aegunud. Palun logige uuesti sisse.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "userProfileLocalTime": "Kohalik aeg",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "userProfileSameTimeAsYou": "Samal ajal kui sina",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "userProfileTimeAheadOfYou": "{duration} ees sinust",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "{duration} taga sinust",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHoursMinutes": "{hours, plural, =1{1 tund} other{{hours} tundi}} {minutes, plural, =1{1 minut} other{{minutes} minutit}}",
+    "@userProfileTimezoneDurationHoursMinutes": {
+        "description": "Duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            },
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationHours": "{hours, plural, =1{1 tund} other{{hours} tundi}}",
+    "@userProfileTimezoneDurationHours": {
+        "description": "Hours-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "hours": {
+                "type": "int"
+            }
+        }
+    },
+    "userProfileTimezoneDurationMinutes": "{minutes, plural, =1{1 minut} other{{minutes} minutit}}",
+    "@userProfileTimezoneDurationMinutes": {
+        "description": "Minutes-only duration phrase in the profile timezone section.",
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "languageAndTimeTimeFormatSectionTitle": "Aja formaat",
+    "@languageAndTimeTimeFormatSectionTitle": {
+        "description": "Settings section title for time format preference."
+    },
+    "languageAndTimeTimeFormatSelectionLabel": "Kellaajaformaadi valik",
+    "@languageAndTimeTimeFormatSelectionLabel": {
+        "description": "Accessibility label for the time format radio group."
+    },
+    "languageAndTimeTimeFormatAuto": "Automaatne",
+    "@languageAndTimeTimeFormatAuto": {
+        "description": "Time format option that detects format from locale."
+    },
+    "languageAndTimeTimeFormat12Hour": "12-tunnine",
+    "@languageAndTimeTimeFormat12Hour": {
+        "description": "Time format option for 12-hour AM/PM display."
+    },
+    "languageAndTimeTimeFormat24Hour": "24-tunnine",
+    "@languageAndTimeTimeFormat24Hour": {
+        "description": "Time format option for 24-hour display."
+    },
+    "languageAndTimeTimeFormatAppLanguage": "Äpi keel: {format}",
+    "@languageAndTimeTimeFormatAppLanguage": {
+        "description": "Auto time format description using the app interface language.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeTimeFormatSystemLocale": "Süsteemi keeleseade: {format}",
+    "@languageAndTimeTimeFormatSystemLocale": {
+        "description": "Auto time format description using the device system locale.",
+        "placeholders": {
+            "format": {
+                "type": "String"
+            }
+        }
+    },
+    "languageAndTimeUseSystemLocaleForTimeFormat": "Kasutage kellaajaformaadi jaoks süsteemi keeleseadet",
+    "@languageAndTimeUseSystemLocaleForTimeFormat": {
+        "description": "Toggle to use device system locale when auto-detecting time format."
+    },
+    "languageAndTimeTimeFormatSyncFailed": "Kellaajaformaadi uuendamine ebaõnnestus",
+    "@languageAndTimeTimeFormatSyncFailed": {
+        "description": "Toast shown when saving the time format preference fails."
+    },
+    "languageAndTimeTimeFormatSectionDescription": "Valige, kuidas kellaaegu kogu äpis kuvatakse",
+    "@languageAndTimeTimeFormatSectionDescription": {
+        "description": "Settings section description for time format preference."
+    },
+    "voiceControlFlipCamera": "Vaheta kaamerat",
+    "@voiceControlFlipCamera": {
+        "description": "Tooltip: switch between front and back camera while video is on."
+    },
+    "audioAndVideoAudioSectionTitle": "Audio",
+    "@audioAndVideoAudioSectionTitle": {
+        "description": "Settings section title for audio settings in the voice and video tab."
+    },
+    "audioAndVideoAudioSectionDescription": "Konfigureerige oma mikrofon, kõlarid ja häältöötlus.",
+    "@audioAndVideoAudioSectionDescription": {
+        "description": "Settings section description for audio settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionTitle": "Video",
+    "@audioAndVideoVideoSectionTitle": {
+        "description": "Settings section title for video settings in the voice and video tab."
+    },
+    "audioAndVideoVideoSectionDescription": "Seadistage oma kaamera ja ekraanijagamise kvaliteet.",
+    "@audioAndVideoVideoSectionDescription": {
+        "description": "Settings section description for video settings in the voice and video tab."
+    },
+    "audioAndVideoInCallBehaviorSectionTitle": "Käitumine kõne ajal",
+    "@audioAndVideoInCallBehaviorSectionTitle": {
+        "description": "Settings section title for in-call behavior prompts."
+    },
+    "audioAndVideoInCallBehaviorSectionDescription": "Hallake kinnitusteateid hääl- ja videokõnede ajal.",
+    "@audioAndVideoInCallBehaviorSectionDescription": {
+        "description": "Settings section description for in-call behavior prompts."
+    },
+    "audioAndVideoInputDeviceLabel": "Sisendseade",
+    "@audioAndVideoInputDeviceLabel": {
+        "description": "Label for microphone input device selection."
+    },
+    "audioAndVideoOutputDeviceLabel": "Väljundseade",
+    "@audioAndVideoOutputDeviceLabel": {
+        "description": "Label for speaker output device selection."
+    },
+    "audioAndVideoDefaultDeviceLabel": "Vaikimisi",
+    "@audioAndVideoDefaultDeviceLabel": {
+        "description": "Label for the system default audio or video device."
+    },
+    "audioAndVideoUseSpeakerLabel": "Kasuta kõlarit",
+    "@audioAndVideoUseSpeakerLabel": {
+        "description": "Switch label to route voice call audio through the device speaker."
+    },
+    "audioAndVideoUseSpeakerDescription": "Kui väljas, mängitakse heli läbi kõrvaklapi või ühendatud kõrvaklappide.",
+    "@audioAndVideoUseSpeakerDescription": {
+        "description": "Description for the speaker output toggle on mobile."
+    },
+    "audioAndVideoInputVolumeLabel": "Sisendi helitugevus",
+    "@audioAndVideoInputVolumeLabel": {
+        "description": "Label for microphone input volume slider."
+    },
+    "audioAndVideoOutputVolumeLabel": "Väljundi helitugevus",
+    "@audioAndVideoOutputVolumeLabel": {
+        "description": "Label for speaker output volume slider."
+    },
+    "audioAndVideoVoiceProcessingSectionTitle": "Häältöötlus",
+    "@audioAndVideoVoiceProcessingSectionTitle": {
+        "description": "Subsection title for voice processing profile selection."
+    },
+    "audioAndVideoFocusedVoiceLabel": "Fokuseeritud hääl",
+    "@audioAndVideoFocusedVoiceLabel": {
+        "description": "Voice processing profile optimized for speech."
+    },
+    "audioAndVideoFocusedVoiceDescription": "Soovitatav. Puhastab teie mikrofoni selge kõne jaoks.",
+    "@audioAndVideoFocusedVoiceDescription": {
+        "description": "Description for the focused voice processing profile."
+    },
+    "audioAndVideoDirectInputLabel": "Otsene sisend",
+    "@audioAndVideoDirectInputLabel": {
+        "description": "Voice processing profile that sends unprocessed audio."
+    },
+    "audioAndVideoDirectInputDescription": "Saadab teie heli muutmata kujul. Parim valik, kui kasutate välist audiotarkvara.",
+    "@audioAndVideoDirectInputDescription": {
+        "description": "Description for the direct input voice processing profile."
+    },
+    "audioAndVideoCustomProfileLabel": "Kohandatud",
+    "@audioAndVideoCustomProfileLabel": {
+        "description": "Voice processing profile with manual controls."
+    },
+    "audioAndVideoCustomProfileDescription": "Kohandage iga seadet ise: müra summutamine, kaja kõrvaldamine ja võimendus.",
+    "@audioAndVideoCustomProfileDescription": {
+        "description": "Description for the custom voice processing profile."
+    },
+    "audioAndVideoNoiseSuppressionSectionTitle": "Müra summutamine",
+    "@audioAndVideoNoiseSuppressionSectionTitle": {
+        "description": "Subsection title for noise suppression tier selection."
+    },
+    "audioAndVideoNoiseSuppressionEnhancedLabel": "Täiustatud",
+    "@audioAndVideoNoiseSuppressionEnhancedLabel": {
+        "description": "Enhanced noise suppression option using AI filtering."
+    },
+    "audioAndVideoNoiseSuppressionStandardLabel": "Standardne",
+    "@audioAndVideoNoiseSuppressionStandardLabel": {
+        "description": "Standard browser or platform noise suppression option."
+    },
+    "audioAndVideoNoiseSuppressionNoneLabel": "Puudub",
+    "@audioAndVideoNoiseSuppressionNoneLabel": {
+        "description": "No noise suppression option."
+    },
+    "audioAndVideoEchoCancellationLabel": "Kaja kõrvaldamine",
+    "@audioAndVideoEchoCancellationLabel": {
+        "description": "Toggle label for echo cancellation."
+    },
+    "audioAndVideoAutomaticGainControlLabel": "Automaatne võimenduse reguleerimine",
+    "@audioAndVideoAutomaticGainControlLabel": {
+        "description": "Toggle label for automatic gain control."
+    },
+    "audioAndVideoAutomaticGainControlDescription": "Ühtlustab teie mikrofoni helitugevust. Väljas, kui täiustatud summutamine on sisse lülitatud.",
+    "@audioAndVideoAutomaticGainControlDescription": {
+        "description": "Description for automatic gain control toggle."
+    },
+    "audioAndVideoMicTestSectionTitle": "Mikrofoni test",
+    "@audioAndVideoMicTestSectionTitle": {
+        "description": "Subsection title for microphone test controls."
+    },
+    "audioAndVideoMicTestSectionDescription": "Kuulake, kuidas te kõlate praeguste sätetega.",
+    "@audioAndVideoMicTestSectionDescription": {
+        "description": "Subsection description for microphone test controls."
+    },
+    "audioAndVideoMicTestStartLabel": "Alustage mikrofoni testi",
+    "@audioAndVideoMicTestStartLabel": {
+        "description": "Button label to start the microphone test."
+    },
+    "audioAndVideoMicTestStopLabel": "Lõpetage mikrofoni testi",
+    "@audioAndVideoMicTestStopLabel": {
+        "description": "Button label to stop the microphone test."
+    },
+    "audioAndVideoMicTestPermissionRequired": "{productName} vajab mikrofonile juurdepääsu, et testida teie sisendit.",
+    "@audioAndVideoMicTestPermissionRequired": {
+        "description": "Shown when microphone permission is required for the mic test.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoCameraLabel": "Kaamera",
+    "@audioAndVideoCameraLabel": {
+        "description": "Label for camera device selection."
+    },
+    "audioAndVideoMirrorCameraLabel": "Peegelda kaamerapilti",
+    "@audioAndVideoMirrorCameraLabel": {
+        "description": "Switch label for flipping the local camera preview horizontally."
+    },
+    "audioAndVideoCameraQualitySectionTitle": "Kaamera kvaliteet",
+    "@audioAndVideoCameraQualitySectionTitle": {
+        "description": "Subsection title for camera resolution selection."
+    },
+    "audioAndVideoCameraQuality480pLabel": "480p",
+    "@audioAndVideoCameraQuality480pLabel": {
+        "description": "Camera quality option for 480p resolution."
+    },
+    "audioAndVideoCameraQuality720pLabel": "720p",
+    "@audioAndVideoCameraQuality720pLabel": {
+        "description": "Camera quality option for 720p resolution."
+    },
+    "audioAndVideoCameraQuality1080pLabel": "1080p",
+    "@audioAndVideoCameraQuality1080pLabel": {
+        "description": "Camera quality option for 1080p resolution."
+    },
+    "audioAndVideoScreenShareQualitySectionTitle": "Ekraanijagamise kvaliteet",
+    "@audioAndVideoScreenShareQualitySectionTitle": {
+        "description": "Subsection title for screen share resolution selection."
+    },
+    "audioAndVideoFrameRateSectionTitle": "Kaadrisagedus",
+    "@audioAndVideoFrameRateSectionTitle": {
+        "description": "Subsection title for screen share frame rate selection."
+    },
+    "audioAndVideoFrameRate15Label": "15 FPS",
+    "@audioAndVideoFrameRate15Label": {
+        "description": "Screen share frame rate option for 15 FPS."
+    },
+    "audioAndVideoFrameRate30Label": "30 FPS",
+    "@audioAndVideoFrameRate30Label": {
+        "description": "Screen share frame rate option for 30 FPS."
+    },
+    "audioAndVideoFrameRate60Label": "60 FPS",
+    "@audioAndVideoFrameRate60Label": {
+        "description": "Screen share frame rate option for 60 FPS."
+    },
+    "audioAndVideoHigherQualityRequiresPremium": "1080p ja 60 FPS nõuavad {premiumProductName}.",
+    "@audioAndVideoHigherQualityRequiresPremium": {
+        "description": "Note shown when higher video quality options require premium.",
+        "placeholders": {
+            "premiumProductName": {
+                "type": "String",
+                "example": "Plutonium"
+            }
+        }
+    },
+    "audioAndVideoInstanceVideoQualityLimit": "See server lubab hetkel ekraanijagamist kuni 720p juures 30 FPS-iga.",
+    "@audioAndVideoInstanceVideoQualityLimit": {
+        "description": "Note shown when instance limits block higher screen share quality."
+    },
+    "audioAndVideoMicrophonePermissionRequired": "{productName} vajab mikrofonile juurdepääsu, et loetleda teie seadmeid.",
+    "@audioAndVideoMicrophonePermissionRequired": {
+        "description": "Shown when microphone permission is required to enumerate audio input devices.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoCameraPermissionRequired": "{productName} vajab kaamerale juurdepääsu, et loetleda teie seadmeid.",
+    "@audioAndVideoCameraPermissionRequired": {
+        "description": "Shown when camera permission is required to enumerate video devices.",
+        "placeholders": {
+            "productName": {
+                "type": "String",
+                "example": "Fluxer"
+            }
+        }
+    },
+    "audioAndVideoSkipHideOwnCameraConfirmLabel": "Ärge küsige, kui peidan oma kaamera",
+    "@audioAndVideoSkipHideOwnCameraConfirmLabel": {
+        "description": "Toggle to skip confirmation when hiding own camera during a call."
+    },
+    "audioAndVideoSkipHideOwnScreenshareConfirmLabel": "Ärge küsige, kui peidan oma ekraanijagamise",
+    "@audioAndVideoSkipHideOwnScreenshareConfirmLabel": {
+        "description": "Toggle to skip confirmation when hiding own screen share during a call."
+    },
+    "languageAndTimeLanguageSectionTitle": "Liidese keel",
+    "@languageAndTimeLanguageSectionTitle": {
+        "description": "Settings section title for interface language preference."
+    },
+    "languageAndTimeLanguageSectionDescription": "Valige keel, mida kasutatakse kogu äpis",
+    "@languageAndTimeLanguageSectionDescription": {
+        "description": "Settings section description for interface language preference."
+    },
+    "languageAndTimeOpenLanguageSettings": "Avage keele sätted",
+    "@languageAndTimeOpenLanguageSettings": {
+        "description": "Button that opens the system per-app language settings."
+    },
+    "addGuildCreateTitle": "Loo kogukond",
+    "@addGuildCreateTitle": {
+        "description": "Title of the create-community sub-view in the add community modal."
+    },
+    "addGuildCreateDescription": "Loo kogukond, kus sina ja su sõbrad saate suhelda.",
+    "@addGuildCreateDescription": {
+        "description": "Body text on the create-community sub-view."
+    },
+    "addGuildCreateNameLabel": "Kogukonna nimi",
+    "@addGuildCreateNameLabel": {
+        "description": "Label for the community name input on the create sub-view."
+    },
+    "addGuildCreateSubmit": "Loo kogukond",
+    "@addGuildCreateSubmit": {
+        "description": "Primary button label to submit the create-community form."
+    },
+    "addGuildCreateFailed": "Ei saanud luua kogukonda. Palun proovi uuesti.",
+    "@addGuildCreateFailed": {
+        "description": "Generic error when creating a community fails."
+    },
+    "addGuildCreateClaimTitle": "Kinnita oma konto",
+    "@addGuildCreateClaimTitle": {
+        "description": "Gate title when the user must claim their account before creating a community."
+    },
+    "addGuildCreateClaimDescription": "Peate kinnitama oma konto, enne kui saate kogukonda luua.",
+    "@addGuildCreateClaimDescription": {
+        "description": "Gate description when the user must claim their account before creating a community."
+    },
+    "addGuildCreateVerifyTitle": "Kinnitage oma e-post",
+    "@addGuildCreateVerifyTitle": {
+        "description": "Gate title when the user must verify email before creating a community."
+    },
+    "addGuildCreateVerifyDescription": "Peate kinnitama oma e-posti aadressi, enne kui saate luua kogukonda.",
+    "@addGuildCreateVerifyDescription": {
+        "description": "Gate description when the user must verify email before creating a community."
+    },
+    "addGuildCreateAnimatedIconUnsupported": "Animeeritud ikoonid ei ole toetatud, kui loote uut kogukonda. Palun kasutage staatilist pilti.",
+    "@addGuildCreateAnimatedIconUnsupported": {
+        "description": "Error when the user picks an animated image for a new community icon."
+    },
+    "addGuildCreateGuidelinesBefore": "Kogukonda luues nõustute järgima ja täitma ",
+    "@addGuildCreateGuidelinesBefore": {
+        "description": "Text before the community guidelines link on the create sub-view."
+    },
+    "addGuildCreateGuidelinesLink": "{productName} kogukonna reeglid",
+    "@addGuildCreateGuidelinesLink": {
+        "description": "Link label for community guidelines on the create sub-view.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "addGuildCreateSingleCommunityBlocked": "See server toetab ainult ühte kogukonda, mistõttu täiendavaid kogukondi luua ei saa.",
+    "@addGuildCreateSingleCommunityBlocked": {
+        "description": "Error when creation is blocked because the instance only allows one community."
+    },
+    "addGuildCreateChangeIcon": "Muutke ikooni",
+    "@addGuildCreateChangeIcon": {
+        "description": "Button label to replace the selected community icon."
+    },
+    "addGuildCreateIconLabel": "Kogukonna ikoon",
+    "@addGuildCreateIconLabel": {
+        "description": "Label for the optional community icon field on the create sub-view."
+    },
+    "addGuildCreateIconHint": "PNG, JPEG, WebP, AVIF, HEIC, HEIF, JXL, SVG. Maksimaalselt 10 MB. Soovitatav: 512×512 px",
+    "@addGuildCreateIconHint": {
+        "description": "Helper text under the community icon upload buttons listing accepted formats and size guidance."
+    },
+    "accessibilitySaturationTitle": "Küllastus",
+    "@accessibilitySaturationTitle": {
+        "description": "Section title for the theme saturation slider on the accessibility settings page."
+    },
+    "accessibilitySaturationDescription": "Kohanda, kui erksad on teema värvid kogu rakenduses.",
+    "@accessibilitySaturationDescription": {
+        "description": "Section description for the theme saturation slider on the accessibility settings page."
+    },
+    "dmDebugCategory": "Veaotsingu Kategooria",
+    "@dmDebugCategory": {
+        "description": "Category context menu action to debug category data."
+    },
+    "invalidDeepLinkTitle": "Linki ei õnnestunud avada",
+    "@invalidDeepLinkTitle": {
+        "description": "Title when a deep link or route cannot be opened in the app."
+    },
+    "invalidDeepLinkDescription": "See link võib olla katki, saadaval ainult veebis, või teil ei ole selleks juurdepääsu. Kontrollige linki ja proovige uuesti.",
+    "@invalidDeepLinkDescription": {
+        "description": "Explanation shown when a deep link or route cannot be opened in the app."
+    },
+    "systemCallJoinTheCall": "Liitu kõnega",
+    "@systemCallJoinTheCall": {
+        "description": "Call-to-action button label on an in-progress call system message."
+    },
+    "systemCallStartedThatLasted": "{username} alustas kõnet, mis kestis {duration}.",
+    "@systemCallStartedThatLasted": {
+        "description": "System message when a call has ended and the viewer participated.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissedWithDuration": "Jäite kõnest kasutajalt {username} kõrvale, mis kestis {duration}.",
+    "@systemCallMissedWithDuration": {
+        "description": "System message when the viewer missed a call that had a measurable duration.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            },
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallMissed": "Teil oli vastamata kõne kasutajalt {username}.",
+    "@systemCallMissed": {
+        "description": "System message when the viewer missed a call.",
+        "placeholders": {
+            "username": {
+                "type": "String"
+            }
+        }
+    },
+    "systemCallDurationFewSeconds": "Mõni sekund",
+    "@systemCallDurationFewSeconds": {
+        "description": "Duration label for a very short elapsed call."
+    },
+    "systemCallDurationOneYear": "1 aasta",
+    "@systemCallDurationOneYear": {
+        "description": "Duration label when a call lasted about one year."
+    },
+    "systemCallDurationOneMonth": "1 kuu",
+    "@systemCallDurationOneMonth": {
+        "description": "Duration label when a call lasted about one month."
+    },
+    "systemCallDurationOneWeek": "1 nädal",
+    "@systemCallDurationOneWeek": {
+        "description": "Duration label when a call lasted about one week."
+    },
+    "systemCallDurationOneHour": "1 tund",
+    "@systemCallDurationOneHour": {
+        "description": "Duration label when a call lasted about one hour."
+    },
+    "systemCallDurationYears": "{count} aastat",
+    "@systemCallDurationYears": {
+        "description": "Duration label for multiple years in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationMonths": "{count} kuud",
+    "@systemCallDurationMonths": {
+        "description": "Duration label for multiple months in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationWeeks": "{count} nädalat",
+    "@systemCallDurationWeeks": {
+        "description": "Duration label for multiple weeks in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationDays": "{count} päeva",
+    "@systemCallDurationDays": {
+        "description": "Duration label for multiple days in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemCallDurationHours": "{count} tundi",
+    "@systemCallDurationHours": {
+        "description": "Duration label for multiple hours in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "systemUnknownMessage": "Uuendage {productName}, et seda sõnumit vaadata.",
+    "@systemUnknownMessage": {
+        "description": "Fallback system message when the client does not recognize the message type.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmUnnamedGroup": "Nimetamata grupp",
+    "@dmUnnamedGroup": {
+        "description": "Fallback title for a group DM without a custom name."
+    },
+    "groupDmWelcome": "Tere tulemast, {displayName}. Lisage sõpru, et grupp käima saada.",
+    "@groupDmWelcome": {
+        "description": "Welcome copy on the group DM hero at the start of chat history. {displayName} is rendered bold in the UI.",
+        "placeholders": {
+            "displayName": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmWelcomeEditGroup": "Muutke gruppi",
+    "@groupDmWelcomeEditGroup": {
+        "description": "Secondary action on the group DM welcome hero."
+    },
+    "groupDmWelcomeAddFriends": "Lisage sõpru gruppi",
+    "@groupDmWelcomeAddFriends": {
+        "description": "Primary action on the group DM welcome hero."
+    },
+    "iarPreviewCommunitySubtitle": "Kogukond",
+    "@iarPreviewCommunitySubtitle": {
+        "description": "Subtitle shown under the community name in the IAR preview card."
+    },
+    "iarReasonMalwareGuildLabel": "Pahavara levitamine",
+    "@iarReasonMalwareGuildLabel": {
+        "description": "Community-report reason label for malware distribution."
+    },
+    "dmOwnersGroup": "{resolvedName} grupp",
+    "@dmOwnersGroup": {
+        "description": "Fallback title when the current user is the only participant in a group DM.",
+        "placeholders": {
+            "resolvedName": {
+                "type": "String",
+                "example": "Alice"
+            }
+        }
+    },
+    "systemCallDurationOneDay": "1 päev",
+    "@systemCallDurationOneDay": {
+        "description": "Duration label when a call lasted about one day."
+    },
+    "systemCallDurationMinutes": "{count} minutit",
+    "@systemCallDurationMinutes": {
+        "description": "Duration label for multiple minutes in a call duration.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "channelDetailsFallbackTitle": "Detailid",
+    "@channelDetailsFallbackTitle": {
+        "description": "Fallback title in channel details when no channel or DM name is available."
+    },
+    "channelDetailsChannelSettingsTitle": "Kanali sätted",
+    "@channelDetailsChannelSettingsTitle": {
+        "description": "Title for the channel details overflow menu on guild channels."
+    },
+    "channelDetailsGroupSettingsTitle": "Grupi sätted",
+    "@channelDetailsGroupSettingsTitle": {
+        "description": "Title for the channel details overflow menu on group DMs."
+    },
+    "channelDetailsInvitePeople": "Kutsu inimesi",
+    "@channelDetailsInvitePeople": {
+        "description": "Channel details menu action to invite people."
+    },
+    "channelDetailsAddFriendsToGroup": "Lisage sõpru gruppi",
+    "@channelDetailsAddFriendsToGroup": {
+        "description": "Group DM menu action to add friends to the group."
+    },
+    "channelDetailsGroupInvites": "Grupi kutsed",
+    "@channelDetailsGroupInvites": {
+        "description": "Group DM menu action to view group invites."
+    },
+    "channelDetailsEditChannel": "Muuda kanalit",
+    "@channelDetailsEditChannel": {
+        "description": "Channel details menu action to edit a guild channel."
+    },
+    "channelDetailsDeleteChannel": "Kustuta kanal",
+    "@channelDetailsDeleteChannel": {
+        "description": "Channel details menu action to delete a guild channel."
+    },
+    "channelDetailsVoiceChannel": "Häälekanal",
+    "@channelDetailsVoiceChannel": {
+        "description": "Channel type subtitle for voice channels."
+    },
+    "channelDetailsTextChannel": "Tekstikanal",
+    "@channelDetailsTextChannel": {
+        "description": "Channel type subtitle for text channels."
+    },
+    "channelDetailsCategory": "Kategooria",
+    "@channelDetailsCategory": {
+        "description": "Channel type subtitle for categories."
+    },
+    "channelDetailsGenericChannel": "Kanal",
+    "@channelDetailsGenericChannel": {
+        "description": "Generic channel type subtitle fallback."
+    },
+    "channelDetailsMutedChannel": "Vaigistatud kanal",
+    "@channelDetailsMutedChannel": {
+        "description": "Toast after muting a guild channel from channel details."
+    },
+    "systemCallDurationMinute": "minut",
+    "@systemCallDurationMinute": {
+        "description": "Duration label when a call lasted about one minute."
+    },
+    "channelMenuOpenChat": "Ava vestlus",
+    "@channelMenuOpenChat": {
+        "description": "Guild channel menu action that opens a voice channel chat without joining voice."
+    },
+    "channelMenuDuplicateChannel": "Dubleeri kanal",
+    "@channelMenuDuplicateChannel": {
+        "description": "Guild channel menu action to duplicate the selected channel."
     }
 }

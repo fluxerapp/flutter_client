@@ -130,6 +130,7 @@ class _UserNotificationsSoundSettingsSectionState
                           sfx: ref.read(fluxerSfxProvider),
                           clip: clip,
                           soundType: soundType,
+                          ignoreRingerPolicy: true,
                         ),
                       ),
                       semanticLabel: l10n.notificationsPreviewSound,

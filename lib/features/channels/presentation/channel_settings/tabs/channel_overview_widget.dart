@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math' show max;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -20,7 +19,6 @@ import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_popout.d
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
-import 'package:fluxer_app/features/ui/input/inline_token_paste_formatter.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart';
@@ -356,9 +354,6 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
                   showCounter: true,
                   counterLength: () => _topicController.actualTextLength,
                   counterMax: kMaxChannelTopicLength,
-                  inputFormatters: <TextInputFormatter>[
-                    InlineTokenPasteFormatter(controller: _topicController),
-                  ],
                   onChanged: (_) => _updateTopic(_topicController.actualText),
                   suffixSemanticLabel: l10n.channelSettingsInsertEmoji,
                   suffixIcon: FluxerEmojiPickerPopout(

@@ -1,7 +1,9 @@
-import 'dart:io' show Platform;
-
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 
 bool isMobileVoiceCameraPlatform() {
-  return !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+  return isFluxerMobileOs;
+}
+
+bool isNativeVoiceCallKitPlatform() {
+  return isFluxerNativeMobileOs;
 }

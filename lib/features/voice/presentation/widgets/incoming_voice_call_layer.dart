@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/incoming_voice_call_sheet.dart';
@@ -11,18 +10,12 @@ import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls
 import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 
-bool _isVoiceCallKitMobilePlatform() {
-  return !kIsWeb && (Platform.isIOS || Platform.isAndroid);
-}
-
 /// Presents ringing calls in a Fluxer draggable bottom sheet like fluxer-web
 /// IncomingCallUI on mobile.
 class IncomingVoiceCallLayer extends ConsumerStatefulWidget {
   const IncomingVoiceCallLayer({required this.child, super.key});
 
   final Widget child;
-
-  bool get _isMobileCallKitPlatform => _isVoiceCallKitMobilePlatform();
 
   @override
   ConsumerState<IncomingVoiceCallLayer> createState() =>
@@ -44,7 +37,8 @@ class _IncomingVoiceCallLayerState
       return;
     }
     if (!shouldPresentIncomingVoiceSheet(
-      isMobileCallKitPlatform: widget._isMobileCallKitPlatform,
+      isNativeVoiceCallKitPlatform: isNativeVoiceCallKitPlatform,
+      isRuntimeMobileFormFactor: isFluxerRuntimeMobileFormFactor,
       isForeground: ref.read(appUiForegroundProvider),
     )) {
       return;

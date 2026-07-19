@@ -28,7 +28,7 @@
     "@retry": {
         "description": "Generic label for retry actions (splash, errors, network, etc.)."
     },
-    "connectingCaps": "CONNECTING",
+    "connectingCaps": "CONECTANDO",
     "@connectingCaps": {
         "description": "Connecting text on the splash screen"
     },
@@ -130,7 +130,7 @@
     "@register": {
         "description": "Generic label to create a new account."
     },
-    "orDivider": "OR",
+    "orDivider": "OU",
     "@orDivider": {
         "description": "Divider between alternative actions (e.g. email login vs SSO)."
     },
@@ -775,7 +775,7 @@
     "@inviteAcceptPackInstallNote": {
         "description": "Note shown on expression pack invites before accepting."
     },
-    "mentionUnknownChannel": "unknown-channel",
+    "mentionUnknownChannel": "canal-desconhecido",
     "@mentionUnknownChannel": {
         "description": "Fallback name shown in a channel mention pill when the channel is not found."
     },
@@ -3416,7 +3416,7 @@
     "@typingIndicatorSymphony": {
         "description": "Typing indicator shown when 10-14 other users are typing."
     },
-    "typingIndicatorFiesta": "É uma festa de digitação completa aqui",
+    "typingIndicatorFiesta": "É uma baita festa de digitação aqui",
     "@typingIndicatorFiesta": {
         "description": "Typing indicator shown when 15-19 other users are typing."
     },
@@ -6496,10 +6496,6 @@
     "@userSettingsNavGiftsAndCodes": {
         "description": "User settings navigation item for gifts and promo codes."
     },
-    "userSettingsNavExpressionPacks": "Pacotes de Expressões",
-    "@userSettingsNavExpressionPacks": {
-        "description": "User settings navigation item for expression pack settings."
-    },
     "userSettingsNavPrivacyDashboard": "Painel de Privacidade",
     "@userSettingsNavPrivacyDashboard": {
         "description": "User settings navigation item for the privacy dashboard."
@@ -6535,10 +6531,6 @@
     "userSettingsNavAudioAndVideo": "Áudio e Vídeo",
     "@userSettingsNavAudioAndVideo": {
         "description": "User settings navigation item for audio and video settings."
-    },
-    "userSettingsNavSoundsAndAlerts": "Sons e Alertas",
-    "@userSettingsNavSoundsAndAlerts": {
-        "description": "User settings navigation item for sounds and alert settings."
     },
     "userSettingsNavLanguageAndTime": "Idioma e Hora",
     "@userSettingsNavLanguageAndTime": {
@@ -9099,5 +9091,146 @@
     "guildSettingsAuditLogFilterAction": "Filtrar por ação",
     "@guildSettingsAuditLogFilterAction": {
         "description": "Label of the action-type filter dropdown in the activity log tab."
+    },
+    "sessionExpiredToast": "Sua sessão expirou. Por favor entre novamente.",
+    "@sessionExpiredToast": {
+        "description": "Toast shown when the stored session is rejected by the server and the user is signed out to the login screen."
+    },
+    "userProfileLocalTime": "Horário local",
+    "@userProfileLocalTime": {
+        "description": "Profile section title for a user's local time."
+    },
+    "userProfileSameTimeAsYou": "Mesmo fuso horário de você",
+    "@userProfileSameTimeAsYou": {
+        "description": "Profile timezone difference when the target matches the viewer."
+    },
+    "userProfileTimeAheadOfYou": "{duration} à sua frente",
+    "@userProfileTimeAheadOfYou": {
+        "description": "Profile timezone difference when the target is ahead of the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "userProfileTimeBehindYou": "{duration} atrás de você",
+    "@userProfileTimeBehindYou": {
+        "description": "Profile timezone difference when the target is behind the viewer.",
+        "placeholders": {
+            "duration": {
+                "type": "String"
+            }
+        }
+    },
+    "voiceControlFlipCamera": "Virar câmera",
+    "@voiceControlFlipCamera": {
+        "description": "Tooltip: switch between front and back camera while video is on."
+    },
+    "addGuildCreateTitle": "Criar uma comunidade",
+    "@addGuildCreateTitle": {
+        "description": "Title of the create-community sub-view in the add community modal."
+    },
+    "addGuildCreateDescription": "Crie uma comunidade para você e seus amigos conversarem.",
+    "@addGuildCreateDescription": {
+        "description": "Body text on the create-community sub-view."
+    },
+    "addGuildCreateNameLabel": "Nome da comunidade",
+    "@addGuildCreateNameLabel": {
+        "description": "Label for the community name input on the create sub-view."
+    },
+    "addGuildCreateSubmit": "Criar comunidade",
+    "@addGuildCreateSubmit": {
+        "description": "Primary button label to submit the create-community form."
+    },
+    "addGuildCreateFailed": "Não foi possível criar a comunidade. Tente novamente.",
+    "@addGuildCreateFailed": {
+        "description": "Generic error when creating a community fails."
+    },
+    "addGuildCreateVerifyTitle": "Verifique seu e-mail",
+    "@addGuildCreateVerifyTitle": {
+        "description": "Gate title when the user must verify email before creating a community."
+    },
+    "addGuildCreateVerifyDescription": "Você precisa verificar seu endereço de e-mail antes de poder criar uma comunidade.",
+    "@addGuildCreateVerifyDescription": {
+        "description": "Gate description when the user must verify email before creating a community."
+    },
+    "addGuildCreateAnimatedIconUnsupported": "Ícones animados não são suportados ao se criar uma nova comunidade. Use uma imagem estática.",
+    "@addGuildCreateAnimatedIconUnsupported": {
+        "description": "Error when the user picks an animated image for a new community icon."
+    },
+    "addGuildCreateGuidelinesBefore": "Ao criar uma comunidade, você concorda em seguir e assegurar as ",
+    "@addGuildCreateGuidelinesBefore": {
+        "description": "Text before the community guidelines link on the create sub-view."
+    },
+    "addGuildCreateGuidelinesLink": "{productName} diretrizes de comunidades",
+    "@addGuildCreateGuidelinesLink": {
+        "description": "Link label for community guidelines on the create sub-view.",
+        "placeholders": {
+            "productName": {
+                "type": "String"
+            }
+        }
+    },
+    "accessibilitySaturationTitle": "Saturação",
+    "@accessibilitySaturationTitle": {
+        "description": "Section title for the theme saturation slider on the accessibility settings page."
+    },
+    "accessibilitySaturationDescription": "Ajuste a intensidade das cores do tema em todo o aplicativo.",
+    "@accessibilitySaturationDescription": {
+        "description": "Section description for the theme saturation slider on the accessibility settings page."
+    },
+    "dmDebugCategory": "Categoria de Depuração",
+    "@dmDebugCategory": {
+        "description": "Category context menu action to debug category data."
+    },
+    "invalidDeepLinkDescription": "Esse link pode estar quebrado, disponível apenas no navegador, ou você pode não ter acesso. Verifique o link e tente novamente.",
+    "@invalidDeepLinkDescription": {
+        "description": "Explanation shown when a deep link or route cannot be opened in the app."
+    },
+    "dmUnnamedGroup": "Grupo sem nome",
+    "@dmUnnamedGroup": {
+        "description": "Fallback title for a group DM without a custom name."
+    },
+    "dmOwnersGroup": "Grupo de {resolvedName}",
+    "@dmOwnersGroup": {
+        "description": "Fallback title when the current user is the only participant in a group DM.",
+        "placeholders": {
+            "resolvedName": {
+                "type": "String",
+                "example": "Alice"
+            }
+        }
+    },
+    "channelDetailsEditChannel": "Editar canal",
+    "@channelDetailsEditChannel": {
+        "description": "Channel details menu action to edit a guild channel."
+    },
+    "channelMenuOpenChat": "Abrir chat",
+    "@channelMenuOpenChat": {
+        "description": "Guild channel menu action that opens a voice channel chat without joining voice."
+    },
+    "channelMenuDuplicateChannel": "Duplicar canal",
+    "@channelMenuDuplicateChannel": {
+        "description": "Guild channel menu action to duplicate the selected channel."
+    },
+    "mediaViewerCopyLink": "Copiar link",
+    "@mediaViewerCopyLink": {
+        "description": "Media viewer action that copies the media URL to the clipboard."
+    },
+    "channelDetailsCopyLink": "Copiar link",
+    "@channelDetailsCopyLink": {
+        "description": "Channel details menu action to copy a channel link."
+    },
+    "channelDetailsCopyMessageLink": "Copiar link da mensagem",
+    "@channelDetailsCopyMessageLink": {
+        "description": "Action to copy a message link from channel details."
+    },
+    "groupDmCopyInviteFailed": "Falha ao copiar link de convite",
+    "@groupDmCopyInviteFailed": {
+        "description": "Error when copying a group DM invite link fails."
+    },
+    "guildSettingsInvitesCopyLink": "Copiar link de convite",
+    "@guildSettingsInvitesCopyLink": {
+        "description": "Action to copy an invite link."
     }
 }

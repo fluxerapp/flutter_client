@@ -147,10 +147,25 @@ List<Message> reconcileStaleDeletionsInLoadedWindow({
         .map((Message message) => message.id),
     networkPage: networkPage,
   ).toSet();
-  final List<Message> retained = current
-      .where((Message message) => !staleIds.contains(message.id))
-      .toList();
-  return mergeMessagesSorted(retained, networkPage);
+  final Map<String, Message> networkById = <String, Message>{
+    for (final Message message in networkPage) message.id: message,
+  };
+  var changed = false;
+  final List<Message> updated = <Message>[];
+  for (final Message message in current) {
+    if (staleIds.contains(message.id)) {
+      changed = true;
+      continue;
+    }
+    final Message? networkMessage = networkById[message.id];
+    if (networkMessage != null && !message.isRenderEquivalent(networkMessage)) {
+      updated.add(networkMessage);
+      changed = true;
+    } else {
+      updated.add(message);
+    }
+  }
+  return changed ? updated : current;
 }
 
 /// True when the window's oldest message is strictly newer than the oldest
@@ -178,4 +193,73 @@ bool canServeNewerFromCache({
     return false;
   }
   return compareSnowflakeIds(contigNewestId, windowNewestId) > 0;
+}
+
+class VisibleWindowReconcileParams {
+  const VisibleWindowReconcileParams({
+    required this.aroundId,
+    required this.limit,
+  });
+
+  final String aroundId;
+  final int limit;
+}
+
+/// Network fetch anchors that cover a scrolled-up in-memory window.
+List<VisibleWindowReconcileParams> reconcileParamsListForVisibleWindow({
+  required List<Message> window,
+  int minLimit = 30,
+  int maxLimit = 100,
+  int padding = 20,
+}) {
+  final List<Message> serverBacked = window
+      .where((Message message) => !isLocalOnlyMessage(message))
+      .toList();
+  if (serverBacked.isEmpty) {
+    return const <VisibleWindowReconcileParams>[];
+  }
+  if (serverBacked.length <= maxLimit) {
+    return <VisibleWindowReconcileParams>[
+      VisibleWindowReconcileParams(
+        aroundId: serverBacked[serverBacked.length ~/ 2].id,
+        limit: (serverBacked.length + padding).clamp(minLimit, maxLimit),
+      ),
+    ];
+  }
+  final int segmentCount = (serverBacked.length / maxLimit).ceil();
+  final int step = serverBacked.length ~/ segmentCount;
+  final List<VisibleWindowReconcileParams> params =
+      <VisibleWindowReconcileParams>[];
+  for (int i = 0; i < segmentCount; i++) {
+    final int index = i == segmentCount - 1
+        ? serverBacked.length - 1
+        : (i * step).clamp(0, serverBacked.length - 1);
+    params.add(
+      VisibleWindowReconcileParams(
+        aroundId: serverBacked[index].id,
+        limit: maxLimit,
+      ),
+    );
+  }
+  return params;
+}
+
+/// Network fetch anchor and page size that cover a scrolled-up in-memory window.
+VisibleWindowReconcileParams? reconcileParamsForVisibleWindow({
+  required List<Message> window,
+  int minLimit = 30,
+  int maxLimit = 100,
+  int padding = 20,
+}) {
+  final List<VisibleWindowReconcileParams> params =
+      reconcileParamsListForVisibleWindow(
+        window: window,
+        minLimit: minLimit,
+        maxLimit: maxLimit,
+        padding: padding,
+      );
+  if (params.isEmpty) {
+    return null;
+  }
+  return params.first;
 }

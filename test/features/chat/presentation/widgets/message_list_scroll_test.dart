@@ -267,6 +267,38 @@ void main() {
       );
       expect(find.byKey(const ValueKey<int>(49)), findsOneWidget);
     });
+
+    testWidgets('append while scrolled up keeps position with 500 items', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: ReverseChatHarness(initialCount: 500)),
+      );
+      await tester.pumpAndSettle();
+      final ReverseChatHarnessState state = _stateOf(tester);
+
+      state.scrollController.jumpTo(10000);
+      await tester.pumpAndSettle();
+      final double pixelsBefore = state.scrollController.position.pixels;
+      final Finder anchor = find.byKey(const ValueKey<int>(328));
+      expect(anchor, findsOneWidget);
+      final double yBefore = tester.getTopLeft(anchor).dy;
+
+      state.appendNewest(3);
+      await tester.pumpAndSettle();
+
+      expect(
+        tester.getTopLeft(anchor).dy,
+        moreOrLessEquals(yBefore, epsilon: 1),
+      );
+      expect(
+        state.scrollController.position.pixels,
+        moreOrLessEquals(
+          pixelsBefore + 3 * ReverseChatHarnessState.itemHeight,
+          epsilon: 1,
+        ),
+      );
+    });
   });
 
   group('unread center open path', () {
