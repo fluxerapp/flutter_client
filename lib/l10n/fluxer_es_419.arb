@@ -8756,11 +8756,11 @@
     "@guildSettingsBannedBy": {
         "description": "Label for who issued the ban."
     },
-    "guildSettingsRevokeBanTitle": "Revocar baneo",
+    "guildSettingsRevokeBanTitle": "Revocar ban",
     "@guildSettingsRevokeBanTitle": {
         "description": "Title for the revoke ban confirmation."
     },
-    "guildSettingsRevokeBanDescription": "¿Estás seguro de que quieres revocar el baneo de {displayName}? Podrá volver a unirse a la comunidad.",
+    "guildSettingsRevokeBanDescription": "¿Estás seguro de que quieres revocar el ban de {displayName}? Podrá volver a unirse a la comunidad.",
     "@guildSettingsRevokeBanDescription": {
         "description": "Confirmation message when revoking a ban.",
         "placeholders": {
