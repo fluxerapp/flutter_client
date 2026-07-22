@@ -215,6 +215,25 @@ void main() {
   );
 
   test(
+    'resolveLatestMessageIdForUnread uses channel pointer when ack caught cache but pointer is ahead',
+    () {
+      final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 1));
+      final channelId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12, 2));
+
+      expect(
+        resolveLatestMessageIdForUnread(
+          strictLatestMessageId: cachedId,
+          channelLastMessageId: channelId,
+          ackLastMessageId: cachedId,
+          mentionCount: 0,
+          channelLastMessageExistsInCache: false,
+        ),
+        channelId,
+      );
+    },
+  );
+
+  test(
     'resolveLatestMessageIdForUnread keeps strict resolver when ack already caught up',
     () {
       final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));

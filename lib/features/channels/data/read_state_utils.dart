@@ -97,12 +97,19 @@ String? resolveLatestMessageIdForUnread({
   if (strictLatestMessageId != null && strictLatestMessageId.isNotEmpty) {
     if (channelLastMessageId != null &&
         channelLastMessageId.isNotEmpty &&
-        channelLastMessageExistsInCache &&
-        compareSnowflakeIds(strictLatestMessageId, channelLastMessageId) < 0 &&
-        (ackLastMessageId == null ||
-            ackLastMessageId.isEmpty ||
-            compareSnowflakeIds(ackLastMessageId, channelLastMessageId) < 0)) {
-      return channelLastMessageId;
+        compareSnowflakeIds(strictLatestMessageId, channelLastMessageId) < 0) {
+      final ackCaughtUpWithCache =
+          ackLastMessageId == null ||
+          ackLastMessageId.isEmpty ||
+          compareSnowflakeIds(ackLastMessageId, strictLatestMessageId) >= 0;
+      final ackBehindPointer =
+          ackLastMessageId == null ||
+          ackLastMessageId.isEmpty ||
+          compareSnowflakeIds(ackLastMessageId, channelLastMessageId) < 0;
+      if ((channelLastMessageExistsInCache || ackCaughtUpWithCache) &&
+          ackBehindPointer) {
+        return channelLastMessageId;
+      }
     }
     return strictLatestMessageId;
   }

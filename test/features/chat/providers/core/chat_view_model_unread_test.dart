@@ -438,14 +438,24 @@ void main() {
 
     final notifier = container.read(chatViewModelProvider.notifier);
     final load = notifier.switchChannel('channel-1');
-    await _flushAsync();
-
-    final state = container.read(chatViewModelProvider);
-    expect(state.isLoading, isTrue);
-    expect(state.isSyncingMessages, isFalse);
-    expect(state.messages, isEmpty);
-    adapter.releaseMessageFetch();
-    await load;
+    for (var i = 0; i < 20; i++) {
+      await _flushAsync();
+      final state = container.read(chatViewModelProvider);
+      if (state.channelId == 'channel-1' && state.isLoading) {
+        expect(state.isSyncingMessages, isFalse);
+        expect(state.messages, isEmpty);
+        adapter.releaseMessageFetch();
+        await load;
+        for (var j = 0; j < 20; j++) {
+          await _flushAsync();
+          if (!container.read(chatViewModelProvider).isLoading) {
+            return;
+          }
+        }
+        fail('expected channel load to finish');
+      }
+    }
+    fail('expected loading state for unread channel');
   });
 
   test(
