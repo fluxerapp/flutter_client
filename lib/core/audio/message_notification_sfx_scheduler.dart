@@ -9,11 +9,13 @@ class MessageNotificationSfxScheduler {
     this.debounceMs = 120,
     this.cooldownMs = 900,
     this.maxWaitMs = 1000,
+    this.cooldownMsForClip,
   });
 
   final int debounceMs;
   final int cooldownMs;
   final int maxWaitMs;
+  final int? Function(FluxerSfxClip clip)? cooldownMsForClip;
 
   Timer? _debounceTimer;
   FluxerSfxClip? _pendingClip;
@@ -29,7 +31,9 @@ class MessageNotificationSfxScheduler {
     _queuedAt ??= now;
     _debounceTimer?.cancel();
     final int elapsedMs = now.difference(_queuedAt!).inMilliseconds;
-    final int delayMs = elapsedMs >= maxWaitMs ? 0 : _resolveDelayMs(now: now);
+    final int delayMs = elapsedMs >= maxWaitMs
+        ? 0
+        : _resolveDelayMs(now: now, clip: clip);
     if (delayMs <= 0) {
       _flush(play);
       return;
@@ -39,16 +43,17 @@ class MessageNotificationSfxScheduler {
     });
   }
 
-  int _resolveDelayMs({required DateTime now}) {
+  int _resolveDelayMs({required DateTime now, required FluxerSfxClip clip}) {
     final DateTime? lastPlayed = _lastPlayedAt;
     if (lastPlayed == null) {
       return debounceMs;
     }
+    final int effectiveCooldown = cooldownMsForClip?.call(clip) ?? cooldownMs;
     final int sinceLastMs = now.difference(lastPlayed).inMilliseconds;
-    if (sinceLastMs >= cooldownMs) {
+    if (sinceLastMs >= effectiveCooldown) {
       return debounceMs;
     }
-    return cooldownMs - sinceLastMs;
+    return effectiveCooldown - sinceLastMs;
   }
 
   void _flush(MessageNotificationSfxPlayCallback play) {

@@ -1,9 +1,5 @@
-import 'dart:async';
-
-import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
-import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
@@ -11,52 +7,9 @@ import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
+import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
-import 'package:fluxer_app/shared/utils/sdk_converters.dart';
-import 'package:fluxer_app/shared/utils/snowflake_time.dart';
-
-final Provider<Set<String>> _pendingGuildMemberFetchesProvider =
-    Provider<Set<String>>((_) => <String>{});
-
-Future<void> _fetchAndCacheGuildMember({
-  required Ref ref,
-  required db.FluxerDatabase database,
-  required String userId,
-  required String guildId,
-}) async {
-  if (!ref.mounted) {
-    return;
-  }
-  try {
-    final sdk = await ref
-        .read(fluxerClientProvider)
-        .guilds
-        .getGuildMember(guildId: guildId, userId: userId);
-    await database.userDao.upsertUser(
-      db.UsersCompanion.insert(
-        id: sdk.user.id,
-        username: sdk.user.username,
-        discriminator: Value(sdk.user.discriminator),
-        globalName: Value(sdk.user.globalName),
-        avatar: Value(sdk.user.avatar),
-        avatarColor: Value(sdk.user.avatarColor),
-        bot: Value(sdk.user.bot ?? false),
-        system: Value(sdk.user.system ?? false),
-        memberSince: Value(dateTimeFromUserSnowflakeOrNull(sdk.user.id)),
-      ),
-    );
-    await database.memberDao.upsertMember(
-      memberCompanionFromSdk(sdk, guildId: guildId),
-    );
-    if (!ref.mounted) {
-      return;
-    }
-    ref.invalidate(memberRoleColorProvider((userId, guildId)));
-  } on Object {
-    // Keep the cached row when the member fetch fails.
-  }
-}
 
 String? resolveGuildIdForChannel(WidgetRef ref, String? channelId) {
   if (channelId != null && channelId.isNotEmpty) {
@@ -143,29 +96,30 @@ AsyncValue<GuildUserDisplay?> _combine(
   final String? friendNickname = ref
       .watch(friendNicknameProvider(userId))
       .value;
+  final db.User? user = userAsync.value;
   if (fetchOnMiss &&
       guildId != null &&
       guildId.isNotEmpty &&
-      (userAsync.value == null || memberAsync.value == null)) {
-    final String key = '$guildId:$userId';
-    final Set<String> pendingGuildMemberFetches = ref.read(
-      _pendingGuildMemberFetchesProvider,
+      user != null &&
+      memberAsync.value == null) {
+    final GuildMemberHydrationService hydrationService = ref.read(
+      guildMemberHydrationServiceProvider,
     );
-    if (pendingGuildMemberFetches.add(key)) {
-      unawaited(
-        _fetchAndCacheGuildMember(
-          ref: ref,
-          database: ref.watch(fluxerDatabaseProvider),
-          userId: userId,
-          guildId: guildId,
-        ).whenComplete(() => pendingGuildMemberFetches.remove(key)),
+    if (!hydrationService.isNonMember(guildId, userId)) {
+      hydrationService.requestHydration(
+        guildId: guildId,
+        userIds: <String>[userId],
+        onMemberFetched: (String fetchedUserId) {
+          if (ref.mounted) {
+            ref.invalidate(memberRoleColorProvider((fetchedUserId, guildId)));
+          }
+        },
       );
     }
   }
   if (userAsync.isLoading && !userAsync.hasValue) {
     return const AsyncValue<GuildUserDisplay?>.loading();
   }
-  final db.User? user = userAsync.value;
   return AsyncValue<GuildUserDisplay?>.data(
     user == null
         ? null

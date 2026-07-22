@@ -4,15 +4,36 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_permission_cache_provider.g.dart';
 
-/// Precomputed effective permission bitfields per guild channel, refreshed
-/// from gateway events.
+class ChannelPermissionCaches {
+  const ChannelPermissionCaches({
+    this.effective = const <String, int>{},
+    this.local = const <String, int>{},
+  });
+
+  final Map<String, int> effective;
+  final Map<String, int> local;
+
+  int? operator [](String channelId) => effective[channelId];
+
+  bool get isEmpty => effective.isEmpty && local.isEmpty;
+
+  int get length => effective.length;
+
+  bool hasEffectiveBits(String channelId) => effective.containsKey(channelId);
+}
+
+/// Precomputed effective and local permission bitfields per guild channel,
+/// refreshed from gateway events.
 @Riverpod(keepAlive: true)
 class ChannelPermissionCache extends _$ChannelPermissionCache {
   @override
-  Map<String, int> build() => {};
+  ChannelPermissionCaches build() => const ChannelPermissionCaches();
 
-  /// Cached bits for [channelId], or `null` when not resolved yet.
-  int? getChannelBits(String channelId) => state[channelId];
+  /// Cached effective bits for [channelId], or `null` when not resolved yet.
+  int? getChannelBits(String channelId) => state.effective[channelId];
+
+  /// Cached channel-local bits for [channelId], or `null` when not resolved yet.
+  int? getLocalChannelBits(String channelId) => state.local[channelId];
 
   Future<void> rebuildChannel(
     String channelId, {
@@ -30,21 +51,19 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
             ref: ref,
             channelId: channelId,
           );
-    if (!outcome.shouldCache) {
-      evictChannel(channelId);
+    if (!ref.mounted) {
       return;
     }
-    final Map<String, int> next = Map<String, int>.from(state);
-    next[channelId] = outcome.value;
-    state = next;
+    if (localOnly) {
+      _setLocalBits(channelId: channelId, outcome: outcome);
+      return;
+    }
+    _setEffectiveBits(channelId: channelId, outcome: outcome);
   }
 
   /// Rebuild cached bits using channel-local computation (ignores category
   /// overwrites).
   Future<void> rebuildChannelLocal(String channelId) async {
-    if (channelId.isEmpty) {
-      return;
-    }
     await rebuildChannel(channelId, localOnly: true);
   }
 
@@ -54,6 +73,9 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     }
     final db = ref.read(fluxerDatabaseProvider);
     final channels = await db.channelDao.getChannels(guildId);
+    if (!ref.mounted) {
+      return;
+    }
     for (final channel in channels) {
       await rebuildChannel(channel.id);
     }
@@ -62,6 +84,9 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
   Future<void> rebuildAll() async {
     final db = ref.read(fluxerDatabaseProvider);
     final channels = await db.channelDao.getAllChannels();
+    if (!ref.mounted) {
+      return;
+    }
     for (final channel in channels) {
       if (channel.guildId.isNotEmpty) {
         await rebuildChannel(channel.id);
@@ -70,12 +95,17 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
   }
 
   void evictChannel(String channelId) {
-    if (!state.containsKey(channelId)) {
+    final bool hadEffective = state.effective.containsKey(channelId);
+    final bool hadLocal = state.local.containsKey(channelId);
+    if (!hadEffective && !hadLocal) {
       return;
     }
-    final Map<String, int> next = Map<String, int>.from(state)
+    final Map<String, int> nextEffective = Map<String, int>.from(
+      state.effective,
+    )..remove(channelId);
+    final Map<String, int> nextLocal = Map<String, int>.from(state.local)
       ..remove(channelId);
-    state = next;
+    state = ChannelPermissionCaches(effective: nextEffective, local: nextLocal);
   }
 
   Future<void> evictGuild(String guildId) async {
@@ -84,17 +114,75 @@ class ChannelPermissionCache extends _$ChannelPermissionCache {
     }
     final db = ref.read(fluxerDatabaseProvider);
     final channels = await db.channelDao.getChannels(guildId);
-    final Map<String, int> next = Map<String, int>.from(state);
-    for (final channel in channels) {
-      next.remove(channel.id);
+    if (!ref.mounted) {
+      return;
     }
-    state = next;
+    final Map<String, int> nextEffective = Map<String, int>.from(
+      state.effective,
+    );
+    final Map<String, int> nextLocal = Map<String, int>.from(state.local);
+    for (final channel in channels) {
+      nextEffective.remove(channel.id);
+      nextLocal.remove(channel.id);
+    }
+    state = ChannelPermissionCaches(effective: nextEffective, local: nextLocal);
   }
 
   void clearAll() {
     if (state.isEmpty) {
       return;
     }
-    state = {};
+    state = const ChannelPermissionCaches();
+  }
+
+  void _setEffectiveBits({
+    required String channelId,
+    required ChannelPermissionBitsOutcome outcome,
+  }) {
+    if (!outcome.shouldCache) {
+      if (!state.effective.containsKey(channelId)) {
+        return;
+      }
+      final Map<String, int> nextEffective = Map<String, int>.from(
+        state.effective,
+      )..remove(channelId);
+      state = ChannelPermissionCaches(
+        effective: nextEffective,
+        local: state.local,
+      );
+      return;
+    }
+    final Map<String, int> nextEffective = Map<String, int>.from(
+      state.effective,
+    );
+    nextEffective[channelId] = outcome.value;
+    state = ChannelPermissionCaches(
+      effective: nextEffective,
+      local: state.local,
+    );
+  }
+
+  void _setLocalBits({
+    required String channelId,
+    required ChannelPermissionBitsOutcome outcome,
+  }) {
+    if (!outcome.shouldCache) {
+      if (!state.local.containsKey(channelId)) {
+        return;
+      }
+      final Map<String, int> nextLocal = Map<String, int>.from(state.local)
+        ..remove(channelId);
+      state = ChannelPermissionCaches(
+        effective: state.effective,
+        local: nextLocal,
+      );
+      return;
+    }
+    final Map<String, int> nextLocal = Map<String, int>.from(state.local);
+    nextLocal[channelId] = outcome.value;
+    state = ChannelPermissionCaches(
+      effective: state.effective,
+      local: nextLocal,
+    );
   }
 }

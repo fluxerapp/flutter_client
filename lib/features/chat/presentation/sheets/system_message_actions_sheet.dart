@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/delete_message_confirm_sheet.dart';
@@ -18,10 +17,9 @@ import 'package:fluxer_app/features/chat/utils/system_message_text.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_emoji_picker_sheet.dart';
 import 'package:fluxer_app/features/ui/emoji_picker/fluxer_selected_emoji.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
 Future<void> showSystemMessageActionsSheet(
   BuildContext context,
@@ -88,24 +86,15 @@ Future<void> showSystemMessageActionsSheet(
       );
     case MessageAction.copyMessageLink:
       unawaited(
-        Clipboard.setData(
-          ClipboardData(
-            text: messageLink(
-              channelId: message.channelId,
-              messageId: message.id,
-              guildId: guildId,
-            ),
+        copyToClipboard(
+          context: context,
+          value: messageLink(
+            channelId: message.channelId,
+            messageId: message.id,
+            guildId: guildId,
           ),
         ),
       );
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: FluxerLocalizations.of(context).copiedToClipboard,
-              variant: FluxerToastVariant.success,
-            ),
-          );
     case MessageAction.copyText:
       final String? mentionedUserName = message.mentionedUserIds.isEmpty
           ? null
@@ -128,10 +117,10 @@ Future<void> showSystemMessageActionsSheet(
         currentUserId: currentUserId,
       );
       unawaited(
-        Clipboard.setData(ClipboardData(text: systemText ?? message.content)),
+        copyToClipboard(context: context, value: systemText ?? message.content),
       );
     case MessageAction.copyMessageId:
-      unawaited(Clipboard.setData(ClipboardData(text: message.id)));
+      unawaited(copyToClipboard(context: context, value: message.id));
     case MessageAction.debugMessage:
       unawaited(showMessageDebugSheet(context, message: message));
     case MessageAction.delete:

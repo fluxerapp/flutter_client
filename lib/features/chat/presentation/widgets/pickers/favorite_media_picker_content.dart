@@ -45,6 +45,7 @@ class FavoriteMediaPickerContent extends ConsumerStatefulWidget {
     this.searchTopPadding,
     this.searchBottomPadding,
     this.onSearchActivated,
+    this.searchFocusNode,
     this.sheetDragHandlers,
     this.scrollController,
     super.key,
@@ -55,6 +56,7 @@ class FavoriteMediaPickerContent extends ConsumerStatefulWidget {
   final double? searchTopPadding;
   final double? searchBottomPadding;
   final VoidCallback? onSearchActivated;
+  final FocusNode? searchFocusNode;
   final ExpandableSheetDragHandlers? sheetDragHandlers;
   final ScrollController? scrollController;
 
@@ -162,6 +164,7 @@ class _FavoriteMediaPickerContentState
             horizontalPadding: widget.searchHorizontalPadding ?? 12,
             topPadding: widget.searchTopPadding ?? 12,
             bottomPadding: widget.searchBottomPadding ?? 8,
+            focusNode: widget.searchFocusNode,
             onActivated: widget.onSearchActivated,
           ),
         ),

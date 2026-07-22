@@ -100,6 +100,7 @@ class GuildReadState extends _$GuildReadState {
       <String, _Contribution>{};
   final Map<String, String> _contributionGuild = <String, String>{};
   final Map<String, String?> _latestMessageIdByChannel = <String, String?>{};
+  final Map<String, bool> _channelLastExistsInCacheByChannel = <String, bool>{};
   final Map<String, int?> _guildJoinedAtMs = <String, int?>{};
   final Set<String> _guildJoinedAtFetched = <String>{};
   final Map<String, UserGuildSettingsResponse?> _guildSettings =
@@ -233,12 +234,13 @@ class GuildReadState extends _$GuildReadState {
       if (!isGuildTextBasedChannel(channel.type)) {
         continue;
       }
-      final strictLatestMessageId = await resolveLatestMessageIdForChannel(
+      final resolved = await resolveLatestMessageIdForChannel(
         db,
         channel.id,
         channelLastMessageId: channel.lastMessageId,
       );
-      _latestMessageIdByChannel[channel.id] = strictLatestMessageId;
+      _latestMessageIdByChannel[channel.id] = resolved.id;
+      _channelLastExistsInCacheByChannel[channel.id] = resolved.existsInCache;
       final fallbackAckMs = await _resolveFallbackAckMs(
         channel,
         db,
@@ -250,7 +252,8 @@ class GuildReadState extends _$GuildReadState {
         guildSettings: _guildSettings[channel.guildId],
         now: now,
         fallbackAckMs: fallbackAckMs,
-        strictLatestMessageId: strictLatestMessageId,
+        strictLatestMessageId: resolved.id,
+        channelLastMessageExistsInCache: resolved.existsInCache,
       );
       _contributionGuild[channel.id] = channel.guildId;
     }
@@ -311,16 +314,19 @@ class GuildReadState extends _$GuildReadState {
           if (_pendingTrustIndex.remove(id)) {
             _latestMessageIdByChannel[id] =
                 lastMessageIndex.lastMessageIdFor(id) ?? channel.lastMessageId;
+            _channelLastExistsInCacheByChannel[id] = true;
           } else {
-            _latestMessageIdByChannel[id] =
-                await resolveLatestMessageIdForChannel(
-                  db,
-                  id,
-                  channelLastMessageId: channel.lastMessageId,
-                );
+            final resolved = await resolveLatestMessageIdForChannel(
+              db,
+              id,
+              channelLastMessageId: channel.lastMessageId,
+            );
+            _latestMessageIdByChannel[id] = resolved.id;
+            _channelLastExistsInCacheByChannel[id] = resolved.existsInCache;
           }
         } else {
           _latestMessageIdByChannel.remove(id);
+          _channelLastExistsInCacheByChannel.remove(id);
         }
       }
     }
@@ -337,6 +343,7 @@ class GuildReadState extends _$GuildReadState {
         );
         _latestMessageIdByChannel[id] =
             lastMessageIndex.lastMessageIdFor(id) ?? channel.lastMessageId;
+        _channelLastExistsInCacheByChannel[id] = true;
       }
     }
     final pending = _pendingChannelIds.toList();
@@ -369,6 +376,8 @@ class GuildReadState extends _$GuildReadState {
         now: now,
         fallbackAckMs: fallbackAckMs,
         strictLatestMessageId: _latestMessageIdByChannel[id],
+        channelLastMessageExistsInCache:
+            _channelLastExistsInCacheByChannel[id] ?? false,
       );
       _contributionGuild[id] = channel.guildId;
     }
@@ -507,6 +516,9 @@ class GuildReadState extends _$GuildReadState {
     _latestMessageIdByChannel.removeWhere(
       (channelId, _) => !_channelSnapshot.containsKey(channelId),
     );
+    _channelLastExistsInCacheByChannel.removeWhere(
+      (channelId, _) => !_channelSnapshot.containsKey(channelId),
+    );
     state = Map<String, GuildReadStateEntry>.from(state)
       ..removeWhere((id, _) => removed.contains(id));
   }
@@ -515,6 +527,7 @@ class GuildReadState extends _$GuildReadState {
     _channelContributions.clear();
     _contributionGuild.clear();
     _latestMessageIdByChannel.clear();
+    _channelLastExistsInCacheByChannel.clear();
     _guildJoinedAtMs.clear();
     _guildJoinedAtFetched.clear();
     _guildSettings.clear();
@@ -531,13 +544,16 @@ class GuildReadState extends _$GuildReadState {
     required DateTime now,
     required int fallbackAckMs,
     required String? strictLatestMessageId,
+    required bool channelLastMessageExistsInCache,
   }) {
     final rawMentions = readState?.mentionCount ?? 0;
+    final channelLastMessageId = channel.lastMessageId;
     final latestMessageId = resolveLatestMessageIdForUnread(
       strictLatestMessageId: strictLatestMessageId,
-      channelLastMessageId: channel.lastMessageId,
+      channelLastMessageId: channelLastMessageId,
       ackLastMessageId: readState?.lastMessageId,
       mentionCount: rawMentions,
+      channelLastMessageExistsInCache: channelLastMessageExistsInCache,
     );
     final hasUnreadMessage = hasUnreadByReadState(
       channelLastMessageId: latestMessageId,

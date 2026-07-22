@@ -92,18 +92,21 @@ void main() {
             builder: (BuildContext context) {
               return TextButton(
                 onPressed: () {
-                  Navigator.of(context).push<void>(
-                    MaterialPageRoute<void>(
-                      fullscreenDialog: true,
-                      builder: (BuildContext routeContext) {
-                        return Scaffold(
-                          body: ChatVideoPlaybackFailureOverlay(
-                            fallbackUrl: 'https://www.youtube.com/watch?v=abc',
-                            useRootNavigator: true,
-                            onClose: () => Navigator.of(routeContext).pop(),
-                          ),
-                        );
-                      },
+                  unawaited(
+                    Navigator.of(context).push<void>(
+                      MaterialPageRoute<void>(
+                        fullscreenDialog: true,
+                        builder: (BuildContext routeContext) {
+                          return Scaffold(
+                            body: ChatVideoPlaybackFailureOverlay(
+                              fallbackUrl:
+                                  'https://www.youtube.com/watch?v=abc',
+                              useRootNavigator: true,
+                              onClose: () => Navigator.of(routeContext).pop(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   );
                 },
@@ -132,7 +135,7 @@ void main() {
       }
 
       var resolveAttempts = 0;
-      debugYouTubeStreamResolver = (String pageUrl) async {
+      debugYouTubeStreamResolver = (String pageUrl) {
         resolveAttempts++;
         throw StateError('stream unavailable');
       };

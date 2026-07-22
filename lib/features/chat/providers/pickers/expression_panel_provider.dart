@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/favorite_meme.dart';
 import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,8 +13,36 @@ class ExpressionPanel extends _$ExpressionPanel {
   bool build() => false;
 
   void open() => state = true;
-  void close() => state = false;
+
+  void close() {
+    state = false;
+    ref.read(expressionPanelTabProvider.notifier).reset();
+    ref.read(expressionPanelContentFadeProvider.notifier).reset();
+  }
+
   void toggle() => state = !state;
+}
+
+@Riverpod(keepAlive: true)
+class ExpressionPanelTab extends _$ExpressionPanelTab {
+  @override
+  ExpressionPickerTab build() => ExpressionPickerTab.emojis;
+
+  ExpressionPickerTab get tab => state;
+
+  set tab(ExpressionPickerTab tab) => state = tab;
+
+  void reset() => state = ExpressionPickerTab.emojis;
+}
+
+@Riverpod(keepAlive: true)
+class ExpressionPanelContentFade extends _$ExpressionPanelContentFade {
+  @override
+  bool build() => false;
+
+  void markPlayed() => state = true;
+
+  void reset() => state = false;
 }
 
 @Riverpod()
@@ -21,7 +50,9 @@ class ExpressionPanelHeight extends _$ExpressionPanelHeight {
   @override
   double? build() => null;
 
-  void set(double height) => state = height;
+  double? get height => state;
+
+  set height(double height) => state = height;
 
   void clear() => state = null;
 }
@@ -47,7 +78,9 @@ class PendingGifSelection extends Notifier<FluxerSelectedGif?> {
   @override
   FluxerSelectedGif? build() => null;
 
-  void emit(FluxerSelectedGif selection) => state = selection;
+  FluxerSelectedGif? get selection => state;
+
+  set selection(FluxerSelectedGif selection) => state = selection;
 
   void consume() => state = null;
 }
@@ -62,7 +95,9 @@ class PendingStickerSelection extends Notifier<StickerEntry?> {
   @override
   StickerEntry? build() => null;
 
-  void emit(StickerEntry selection) => state = selection;
+  StickerEntry? get selection => state;
+
+  set selection(StickerEntry selection) => state = selection;
 
   void consume() => state = null;
 }
@@ -77,7 +112,9 @@ class PendingFavoriteMemeSelection extends Notifier<FavoriteMemeSelection?> {
   @override
   FavoriteMemeSelection? build() => null;
 
-  void emit(FavoriteMemeSelection selection) => state = selection;
+  FavoriteMemeSelection? get selection => state;
+
+  set selection(FavoriteMemeSelection selection) => state = selection;
 
   void consume() => state = null;
 }

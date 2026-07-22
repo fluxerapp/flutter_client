@@ -1,21 +1,37 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_kind.dart';
 import 'package:fluxer_app/core/system_permissions/system_permission_service.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
+import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_connection_confirm_modal.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
+import 'package:fluxer_app/features/voice/voice_session_errors.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
 
+const Duration _kOtherDeviceDisconnectTimeout = Duration(seconds: 3);
+const Duration _kOtherDeviceDisconnectPollInterval = Duration(
+  milliseconds: 100,
+);
+const Duration _kPostDeviceSwitchSettleDelay = Duration(milliseconds: 250);
+
+enum VoiceJoinResult { cancelled, succeeded, failed }
+
 void sendVoiceStateDisconnect(
-  WidgetRef ref, {
+  ProviderContainer container, {
   required String? guildId,
   required String connectionId,
 }) {
-  ref
+  container
       .read(gatewayConnectionProvider)
       .updateVoiceState(
         GatewayVoiceStateUpdate(
@@ -25,12 +41,13 @@ void sendVoiceStateDisconnect(
           selfVideo: false,
           selfStream: false,
           connectionId: connectionId,
+          isMobile: isFluxerMobileOs,
         ),
       );
 }
 
-Future<void> _connectToVoiceChannel({
-  required WidgetRef ref,
+Future<bool> _connectToVoiceChannel({
+  required ProviderContainer container,
   required String? guildId,
   required String channelId,
   bool startOutgoingCall = false,
@@ -39,6 +56,7 @@ Future<void> _connectToVoiceChannel({
   bool initialSelfMute = false,
   bool initialSelfDeaf = false,
   bool initialSelfVideo = false,
+  bool forceJoin = false,
 }) async {
   final BuildContext? permissionContext = _modalContext(null);
   final bool micOk = await ensureSystemPermission(
@@ -50,9 +68,15 @@ Future<void> _connectToVoiceChannel({
       '[Voice] Join aborted: microphone permission denied '
       '(channelId=$channelId).',
     );
-    return;
+    container
+        .read(voiceSessionProvider.notifier)
+        .reportJoinError(kVoiceSessionErrorMicPermission);
+    return false;
   }
   if (initialSelfVideo) {
+    if (permissionContext != null && !permissionContext.mounted) {
+      return false;
+    }
     final bool camOk = await ensureSystemPermission(
       permissionContext,
       SystemPermissionKind.camera,
@@ -62,10 +86,13 @@ Future<void> _connectToVoiceChannel({
         '[Voice] Join aborted: camera permission denied '
         '(channelId=$channelId).',
       );
-      return;
+      container
+          .read(voiceSessionProvider.notifier)
+          .reportJoinError(kVoiceSessionErrorCameraPermission);
+      return false;
     }
   }
-  return ref
+  return container
       .read(voiceSessionProvider.notifier)
       .connectToVoiceChannel(
         guildId: guildId,
@@ -76,6 +103,7 @@ Future<void> _connectToVoiceChannel({
         initialSelfMute: initialSelfMute,
         initialSelfDeaf: initialSelfDeaf,
         initialSelfVideo: initialSelfVideo,
+        forceJoin: forceJoin,
       );
 }
 
@@ -86,7 +114,84 @@ BuildContext? _modalContext(BuildContext? context) {
   return rootNavigatorKey.currentContext;
 }
 
-Future<void> joinVoiceChannelWithConfirmation({
+ProviderContainer? _providerContainer(BuildContext? context) {
+  final BuildContext? scopeContext = _modalContext(context);
+  if (scopeContext == null) {
+    return null;
+  }
+  return ProviderScope.containerOf(scopeContext, listen: false);
+}
+
+Future<void> _showVoiceJoinFailedModal(
+  BuildContext? context, {
+  required String message,
+}) async {
+  final BuildContext? modalContext = _modalContext(context);
+  if (modalContext == null) {
+    return;
+  }
+  final FluxerLocalizations l10n = FluxerLocalizations.of(modalContext);
+  await FluxerModal.show<void>(
+    modalContext,
+    title: l10n.voiceJoinFailedTitle,
+    description: message,
+    builder: (BuildContext dialogContext, VoidCallback close) {
+      return const SizedBox.shrink();
+    },
+    actionsBuilder: (void Function([void result]) pop) => <Widget>[
+      FluxerButton.primary(onPressed: pop, label: l10n.uiClose),
+    ],
+  );
+}
+
+Future<bool> _waitForOtherConnectionsCleared({
+  required ProviderContainer container,
+  required String? guildId,
+  required String channelId,
+  required String currentUserId,
+  required Set<String> connectionIdsToClear,
+}) async {
+  final DateTime deadline = DateTime.now().add(_kOtherDeviceDisconnectTimeout);
+  while (DateTime.now().isBefore(deadline)) {
+    final Map<String, VoiceState> voiceStates = container.read(
+      voiceStatesMapProvider,
+    );
+    final String? localConnectionId = container
+        .read(voiceSessionProvider)
+        .activeConnectionId;
+    final List<VoiceState> others = otherUserConnectionsInChannel(
+      voiceStates: voiceStates,
+      guildId: guildId,
+      channelId: channelId,
+      currentUserId: currentUserId,
+      localConnectionId: localConnectionId,
+    );
+    final bool stillPresent = others.any(
+      (VoiceState vs) =>
+          vs.connectionId != null &&
+          connectionIdsToClear.contains(vs.connectionId),
+    );
+    if (!stillPresent) {
+      return true;
+    }
+    await Future<void>.delayed(_kOtherDeviceDisconnectPollInterval);
+  }
+  return false;
+}
+
+Future<void> _prepareForVoiceJoinAfterDeviceSwitch({
+  required ProviderContainer container,
+  required String? guildId,
+}) async {
+  final VoiceSession notifier = container.read(voiceSessionProvider.notifier);
+  final VoiceSessionState session = container.read(voiceSessionProvider);
+  if (session.isInVoice || session.isConnecting) {
+    await notifier.leaveVoice(endCall: false);
+  }
+  await Future<void>.delayed(_kPostDeviceSwitchSettleDelay);
+}
+
+Future<VoiceJoinResult> joinVoiceChannelWithConfirmation({
   required WidgetRef ref,
   required String? guildId,
   required String channelId,
@@ -98,10 +203,18 @@ Future<void> joinVoiceChannelWithConfirmation({
   bool initialSelfDeaf = false,
   bool initialSelfVideo = false,
 }) async {
-  final String? currentUserId = ref.read(currentUserIdProvider);
+  final ProviderContainer? container = _providerContainer(context);
+  if (container == null) {
+    talker.warning(
+      '[Voice] Join aborted: no provider scope '
+      '(channelId=$channelId).',
+    );
+    return VoiceJoinResult.failed;
+  }
+  final String? currentUserId = container.read(currentUserIdProvider);
   if (currentUserId == null) {
-    await _connectToVoiceChannel(
-      ref: ref,
+    final bool joined = await _connectToVoiceChannel(
+      container: container,
       guildId: guildId,
       channelId: channelId,
       startOutgoingCall: startOutgoingCall,
@@ -111,12 +224,18 @@ Future<void> joinVoiceChannelWithConfirmation({
       initialSelfDeaf: initialSelfDeaf,
       initialSelfVideo: initialSelfVideo,
     );
-    return;
+    if (!joined) {
+      await _showJoinFailureIfNeeded(container, null);
+      return VoiceJoinResult.failed;
+    }
+    return VoiceJoinResult.succeeded;
   }
-  final String? localConnectionId = ref
+  final String? localConnectionId = container
       .read(voiceSessionProvider)
       .activeConnectionId;
-  final Map<String, VoiceState> voiceStates = ref.read(voiceStatesMapProvider);
+  final Map<String, VoiceState> voiceStates = container.read(
+    voiceStatesMapProvider,
+  );
   final List<VoiceState> others = otherUserConnectionsInChannel(
     voiceStates: voiceStates,
     guildId: guildId,
@@ -125,8 +244,8 @@ Future<void> joinVoiceChannelWithConfirmation({
     localConnectionId: localConnectionId,
   );
   if (others.isEmpty) {
-    await _connectToVoiceChannel(
-      ref: ref,
+    final bool joined = await _connectToVoiceChannel(
+      container: container,
       guildId: guildId,
       channelId: channelId,
       startOutgoingCall: startOutgoingCall,
@@ -136,7 +255,11 @@ Future<void> joinVoiceChannelWithConfirmation({
       initialSelfDeaf: initialSelfDeaf,
       initialSelfVideo: initialSelfVideo,
     );
-    return;
+    if (!joined) {
+      await _showJoinFailureIfNeeded(container, null);
+      return VoiceJoinResult.failed;
+    }
+    return VoiceJoinResult.succeeded;
   }
   final BuildContext? modalContext = _modalContext(context);
   if (modalContext == null) {
@@ -144,7 +267,7 @@ Future<void> joinVoiceChannelWithConfirmation({
       '[Voice] Multi-device join modal skipped: no mounted context '
       '(channelId=$channelId, otherDevices=${others.length}).',
     );
-    return;
+    return VoiceJoinResult.failed;
   }
   final VoiceConnectionConfirmResult? choice =
       await showVoiceConnectionConfirmModal(
@@ -156,18 +279,49 @@ Future<void> joinVoiceChannelWithConfirmation({
       '[Voice] Join cancelled from multi-device modal '
       '(channelId=$channelId).',
     );
-    return;
+    return VoiceJoinResult.cancelled;
   }
+  const bool forceJoin = true;
   if (choice == VoiceConnectionConfirmResult.switchToThisDevice) {
+    final Set<String> connectionIdsToClear = <String>{};
     for (final VoiceState vs in others) {
       final String? cid = vs.connectionId;
       if (cid != null) {
-        sendVoiceStateDisconnect(ref, guildId: guildId, connectionId: cid);
+        connectionIdsToClear.add(cid);
+        sendVoiceStateDisconnect(
+          container,
+          guildId: guildId,
+          connectionId: cid,
+        );
       }
     }
+    if (connectionIdsToClear.isNotEmpty) {
+      final bool cleared = await _waitForOtherConnectionsCleared(
+        container: container,
+        guildId: guildId,
+        channelId: channelId,
+        currentUserId: currentUserId,
+        connectionIdsToClear: connectionIdsToClear,
+      );
+      if (!cleared) {
+        talker.warning(
+          '[Voice] Timed out waiting for other devices to disconnect '
+          '(channelId=$channelId, devices=${connectionIdsToClear.length}).',
+        );
+        container
+            .read(voiceSessionProvider.notifier)
+            .reportJoinError(kVoiceSessionErrorMultiDeviceDisconnectFailed);
+        await _showJoinFailureIfNeeded(container, null);
+        return VoiceJoinResult.failed;
+      }
+    }
+    await _prepareForVoiceJoinAfterDeviceSwitch(
+      container: container,
+      guildId: guildId,
+    );
   }
-  await _connectToVoiceChannel(
-    ref: ref,
+  final bool joined = await _connectToVoiceChannel(
+    container: container,
     guildId: guildId,
     channelId: channelId,
     startOutgoingCall: startOutgoingCall,
@@ -176,5 +330,29 @@ Future<void> joinVoiceChannelWithConfirmation({
     initialSelfMute: initialSelfMute,
     initialSelfDeaf: initialSelfDeaf,
     initialSelfVideo: initialSelfVideo,
+    forceJoin: forceJoin,
   );
+  if (!joined) {
+    await _showJoinFailureIfNeeded(container, null);
+    return VoiceJoinResult.failed;
+  }
+  return VoiceJoinResult.succeeded;
+}
+
+Future<void> _showJoinFailureIfNeeded(
+  ProviderContainer container,
+  BuildContext? context,
+) async {
+  final String? errorMessage = container
+      .read(voiceSessionProvider)
+      .errorMessage;
+  final BuildContext? modalContext = _modalContext(context);
+  if (modalContext == null) {
+    return;
+  }
+  final FluxerLocalizations l10n = FluxerLocalizations.of(modalContext);
+  final String message = errorMessage == null
+      ? l10n.voiceJoinCallFailed
+      : resolveVoiceSessionErrorMessage(errorMessage, l10n);
+  await _showVoiceJoinFailedModal(modalContext, message: message);
 }

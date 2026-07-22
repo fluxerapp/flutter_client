@@ -2,7 +2,8 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_invite_entry.dar
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 
-abstract final class GuildInvitesUtils {
+class GuildInvitesUtils {
+  GuildInvitesUtils._();
   static String buildInviteUrl({
     required String inviteBaseUrl,
     required String code,

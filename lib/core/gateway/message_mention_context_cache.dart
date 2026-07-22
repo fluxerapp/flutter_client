@@ -9,19 +9,15 @@ class MessageMentionContextCache {
     required FluxerDatabase database,
     Set<String>? blockedUserIds,
   }) : _database = database,
-       _blockedUserIds = blockedUserIds ?? <String>{};
+       blockedUserIds = blockedUserIds ?? <String>{};
 
   final FluxerDatabase _database;
-  Set<String> _blockedUserIds;
+  Set<String> blockedUserIds;
   final Map<String, _GuildMentionCacheEntry> _guildEntries =
       <String, _GuildMentionCacheEntry>{};
   final Map<String, String?> _channelGuildIds = <String, String?>{};
   final Map<String, Channel?> _guildChannels = <String, Channel?>{};
   final Map<String, DmChannel?> _dmChannels = <String, DmChannel?>{};
-
-  void updateBlockedUserIds(Set<String> blockedUserIds) {
-    _blockedUserIds = blockedUserIds;
-  }
 
   void invalidateGuild(String guildId) {
     _guildEntries.remove(guildId);
@@ -55,7 +51,7 @@ class MessageMentionContextCache {
     if (currentUserId == null || !channelExists) {
       return MessageMentionContext(
         currentUserId: currentUserId,
-        blockedUserIds: _blockedUserIds,
+        blockedUserIds: blockedUserIds,
         channelExists: channelExists,
         suppressEveryone: false,
         suppressRoles: false,
@@ -70,7 +66,7 @@ class MessageMentionContextCache {
       );
       return MessageMentionContext(
         currentUserId: currentUserId,
-        blockedUserIds: _blockedUserIds,
+        blockedUserIds: blockedUserIds,
         channelExists: true,
         suppressEveryone: entry.suppressEveryone,
         suppressRoles: entry.suppressRoles,
@@ -79,7 +75,7 @@ class MessageMentionContextCache {
     }
     return MessageMentionContext(
       currentUserId: currentUserId,
-      blockedUserIds: _blockedUserIds,
+      blockedUserIds: blockedUserIds,
       channelExists: true,
       suppressEveryone: false,
       suppressRoles: false,

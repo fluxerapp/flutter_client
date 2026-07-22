@@ -7,7 +7,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 class CreateCategorySheet {
   CreateCategorySheet._();
 
-  static Future<String?> show(BuildContext context) async {
+  static Future<String?> show(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     var currentName = '';
     final ValueNotifier<bool> nameValid = ValueNotifier<bool>(false);

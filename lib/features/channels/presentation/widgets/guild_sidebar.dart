@@ -4,11 +4,11 @@ import 'dart:convert';
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
@@ -17,8 +17,10 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_unread_state.dart';
+import 'package:fluxer_app/features/channels/presentation/category_menu_data.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_menu_data.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_flow.dart';
+import 'package:fluxer_app/features/channels/presentation/delete_channel_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/modals/show_channel_invite_modal.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/channel_notification_settings_sheet.dart';
 import 'package:fluxer_app/features/channels/presentation/sheets/mute_duration_sheet.dart';
@@ -30,6 +32,7 @@ import 'package:fluxer_app/features/channels/presentation/widgets/voice_channel_
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
 import 'package:fluxer_app/features/channels/providers/channel_sidebar_icon_connect_bits_provider.dart';
+import 'package:fluxer_app/features/channels/providers/guild_collapsed_categories_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_sidebar_entries_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_sidebar_scroll_store_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
@@ -59,6 +62,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:go_router/go_router.dart';
@@ -461,7 +465,7 @@ class _ChannelTile extends ConsumerWidget {
         .value;
     final int? effectivePermissionBits = ref.watch(
       channelPermissionCacheProvider.select(
-        (Map<String, int> map) => map[channel.id],
+        (ChannelPermissionCaches caches) => caches[channel.id],
       ),
     );
 
@@ -656,6 +660,30 @@ class _ChannelTile extends ConsumerWidget {
       l10n: l10n,
       state: menuState,
     );
+    if (isMobileLayout(context)) {
+      return FluxerBottomSheet.showScrollable<void>(
+        context,
+        title: channel.name,
+        initialChildSize: 0.5,
+        minChildSize: 0.25,
+        maxChildSize: 0.85,
+        builder: (sheetContext, scrollController, close) {
+          return channelMenuGroupsToBottomSheetContent(
+            context: sheetContext,
+            scrollController: scrollController,
+            groups: groups,
+            menuState: menuState,
+            onAction: (ChannelMenuAction action) => _handleChannelMenuAction(
+              action,
+              menuContext: sheetContext,
+              ref: ref,
+              close: close,
+              menuState: menuState,
+            ),
+          );
+        },
+      );
+    }
     return FluxerActionMenu.show(
       context,
       position: position,
@@ -734,8 +762,14 @@ class _ChannelTile extends ConsumerWidget {
       case ChannelMenuAction.copyLink:
         close();
         unawaited(
-          _copyToClipboard(ref, channelLink(channel.id, channel.guildId)),
+          copyToClipboard(
+            context: menuContext,
+            value: channelLink(channel.id, channel.guildId),
+          ),
         );
+      case ChannelMenuAction.copyRedirectLink:
+        close();
+        unawaited(copyToClipboard(context: menuContext, value: channel.url!));
       case ChannelMenuAction.mute:
         unawaited(
           _openChannelMuteSheet(
@@ -788,7 +822,7 @@ class _ChannelTile extends ConsumerWidget {
         );
       case ChannelMenuAction.copyChannelId:
         close();
-        unawaited(_copyToClipboard(ref, channel.id));
+        unawaited(copyToClipboard(context: menuContext, value: channel.id));
       case ChannelMenuAction.deleteChannel:
         close();
         unawaited(_confirmDeleteChannel(menuContext, ref));
@@ -1029,70 +1063,205 @@ class _CategoryHeader extends ConsumerWidget {
     WidgetRef ref,
     Offset position,
   ) async {
+    final l10n = FluxerLocalizations.of(context);
+    final List<ChannelCategory> allCategories = ref
+        .read(channelListViewModelProvider)
+        .categories;
+    final List<String> allCategoryIds = allCategories
+        .where((ChannelCategory category) => !category.isUncategorized)
+        .map((ChannelCategory category) => category.id)
+        .toList();
     final List<String> channelIds = category.channels
         .where(_canMarkChannelRead)
-        .map((channel) => channel.id)
+        .map((Channel channel) => channel.id)
         .toList();
+    final bool hasUnread = channelIds.any((String channelId) {
+      return ref.read(channelUnreadProvider(channelId)).value?.hasUnread ??
+          false;
+    });
     final Set<String> mutedIds =
         ref.read(mutedChannelIdsProvider(guildId)).value ?? const <String>{};
     final bool isMuted = mutedIds.contains(category.id);
-    final muteConfig = await _loadChannelMuteConfig(ref, guildId, category.id);
+    final ChannelOverridesMuteConfig? muteConfig = await _loadChannelMuteConfig(
+      ref,
+      guildId,
+      category.id,
+    );
     final String? mutedHint = isMuted ? formatMutedHintText(muteConfig) : null;
     final bool developerMode = ref
         .read(userSettingsViewModelProvider)
         .developerMode;
+    final bool hasAgreedToMatureContent = ref
+        .read(matureContentAgreementsProvider.notifier)
+        .hasAgreedToCategory(category.id);
+    final int? cachedPermissionBits = ref.read(
+      channelPermissionCacheProvider,
+    )[category.id];
+    final int? permissionBits =
+        cachedPermissionBits ??
+        await ref.read(
+          effectiveGuildChannelPermissionBitsProvider(category.id).future,
+        );
+    final Set<String> collapsedCategoryIds = await ref.read(
+      guildCollapsedCategoriesProvider(guildId).future,
+    );
+    final bool allCategoriesCollapsed =
+        allCategoryIds.isNotEmpty &&
+        allCategoryIds.every(collapsedCategoryIds.contains);
     if (!context.mounted) {
       return;
+    }
+    final CategoryMenuState menuState = resolveCategoryMenuState(
+      hasUnread: hasUnread,
+      isCollapsed: isCollapsed,
+      allCategoriesCollapsed: allCategoriesCollapsed,
+      isMuted: isMuted,
+      canManageChannels:
+          permissionBits != null &&
+          hasPermission(permissionBits, Permission.manageChannels),
+      developerMode: developerMode,
+      hasAgreedToMatureContent: hasAgreedToMatureContent,
+      mutedHint: mutedHint,
+    );
+    final List<CategoryMenuGroup> groups = buildCategoryMenuGroups(
+      l10n: l10n,
+      state: menuState,
+    );
+    if (isMobileLayout(context)) {
+      return FluxerBottomSheet.showScrollable<void>(
+        context,
+        title: category.name,
+        initialChildSize: 0.5,
+        minChildSize: 0.25,
+        maxChildSize: 0.85,
+        builder: (sheetContext, scrollController, close) {
+          return categoryMenuGroupsToBottomSheetContent(
+            context: sheetContext,
+            scrollController: scrollController,
+            groups: groups,
+            menuState: menuState,
+            onAction: (CategoryMenuAction action) => _handleCategoryMenuAction(
+              action,
+              menuContext: sheetContext,
+              ref: ref,
+              close: close,
+              menuState: menuState,
+              channelIds: channelIds,
+              allCategoryIds: allCategoryIds,
+            ),
+          );
+        },
+      );
     }
     return FluxerActionMenu.show(
       context,
       position: position,
-      builder: (menuContext, close) => [
-        FluxerMenuItem(
-          label: 'Mark Category as Read',
-          icon: PhosphorIconsRegular.envelopeOpen,
-          enabled: channelIds.isNotEmpty,
-          onPressed: () {
-            close();
-            unawaited(_readStateRepository(ref).ackLatestBulk(channelIds));
-          },
+      builder: (menuContext, close) => categoryMenuGroupsToWidgets(
+        context: menuContext,
+        groups: groups,
+        menuState: menuState,
+        onAction: (CategoryMenuAction action) => _handleCategoryMenuAction(
+          action,
+          menuContext: menuContext,
+          ref: ref,
+          close: close,
+          menuState: menuState,
+          channelIds: channelIds,
+          allCategoryIds: allCategoryIds,
         ),
-        FluxerMenuItem(
-          label: isMuted ? 'Unmute Category' : 'Mute Category',
-          icon: isMuted
-              ? PhosphorIconsRegular.bell
-              : PhosphorIconsRegular.bellSlash,
-          hint: mutedHint,
-          onPressed: () {
-            unawaited(
-              _openCategoryMuteSheet(
-                menuContext,
-                ref,
-                close: close,
-                isMuted: isMuted,
-              ),
-            );
-          },
-        ),
-        if (developerMode)
-          FluxerMenuItem(
-            label: FluxerLocalizations.of(menuContext).dmDebugCategory,
-            icon: PhosphorIconsFill.bugBeetle,
-            onPressed: () {
-              close();
-              unawaited(_showDebugCategorySheet(menuContext, ref));
-            },
-          ),
-        FluxerMenuItem(
-          label: 'Copy Category ID',
-          icon: PhosphorIconsRegular.copy,
-          onPressed: () {
-            close();
-            unawaited(_copyToClipboard(ref, category.id));
-          },
-        ),
-      ],
+      ),
     );
+  }
+
+  void _handleCategoryMenuAction(
+    CategoryMenuAction action, {
+    required BuildContext menuContext,
+    required WidgetRef ref,
+    required VoidCallback close,
+    required CategoryMenuState menuState,
+    required List<String> channelIds,
+    required List<String> allCategoryIds,
+  }) {
+    switch (action) {
+      case CategoryMenuAction.markAsRead:
+        close();
+        unawaited(_readStateRepository(ref).ackLatestBulk(channelIds));
+      case CategoryMenuAction.toggleCollapse:
+        close();
+        unawaited(
+          ref
+              .read(guildUserSettingsRepositoryProvider)
+              .toggleCategoryCollapsed(
+                guildId: guildId,
+                categoryId: category.id,
+              ),
+        );
+      case CategoryMenuAction.toggleCollapseAll:
+        close();
+        unawaited(
+          ref
+              .read(guildUserSettingsRepositoryProvider)
+              .toggleAllCategoriesCollapsed(
+                guildId: guildId,
+                categoryIds: allCategoryIds,
+              ),
+        );
+      case CategoryMenuAction.mute:
+        unawaited(
+          _openCategoryMuteSheet(
+            menuContext,
+            ref,
+            close: close,
+            isMuted: menuState.isMuted,
+          ),
+        );
+      case CategoryMenuAction.editCategory:
+        close();
+        unawaited(
+          ChannelSettingsFlow.show(menuContext, channelId: category.id),
+        );
+      case CategoryMenuAction.deleteCategory:
+        close();
+        unawaited(_deleteCategory(menuContext, ref));
+      case CategoryMenuAction.copyCategoryId:
+        close();
+        unawaited(
+          copyToClipboard(
+            context: menuContext,
+            value: category.id,
+            message: FluxerLocalizations.of(menuContext).categoryIdCopied,
+          ),
+        );
+      case CategoryMenuAction.debugCategory:
+        close();
+        unawaited(_showDebugCategorySheet(menuContext, ref));
+      case CategoryMenuAction.resetMatureContentAgree:
+        close();
+        unawaited(
+          ref
+              .read(matureContentAgreementsProvider.notifier)
+              .revokeCategoryAgreement(category.id),
+        );
+    }
+  }
+
+  Future<void> _deleteCategory(BuildContext context, WidgetRef ref) async {
+    final Channel? channel = await _loadCategoryChannel(ref);
+    if (channel == null || !context.mounted) {
+      return;
+    }
+    await DeleteChannelFlow.confirmAndDelete(context, ref, channel: channel);
+  }
+
+  Future<Channel?> _loadCategoryChannel(WidgetRef ref) async {
+    final row = await ref
+        .read(fluxerDatabaseProvider)
+        .channelDao
+        .getChannelById(category.id);
+    if (row == null) {
+      return null;
+    }
+    return Channel.fromRow(row);
   }
 
   Future<void> _showDebugCategorySheet(BuildContext context, WidgetRef ref) =>
@@ -1133,6 +1302,7 @@ class _CategoryHeader extends ConsumerWidget {
       channelId: category.id,
       muted: true,
       durationSeconds: selection.durationSeconds,
+      collapsed: true,
     );
   }
 }
@@ -1141,18 +1311,6 @@ ReadStateRepository _readStateRepository(WidgetRef ref) => ReadStateRepository(
   ref.read(fluxerClientProvider),
   ref.read(fluxerDatabaseProvider),
 );
-
-Future<void> _copyToClipboard(WidgetRef ref, String value) async {
-  await Clipboard.setData(ClipboardData(text: value));
-  ref
-      .read(toastProvider.notifier)
-      .show(
-        const FluxerToast(
-          message: 'Copied to clipboard',
-          variant: FluxerToastVariant.success,
-        ),
-      );
-}
 
 Future<ChannelOverridesMuteConfig?> _loadChannelMuteConfig(
   WidgetRef ref,

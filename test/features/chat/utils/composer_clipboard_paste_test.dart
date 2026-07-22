@@ -180,17 +180,18 @@ void main() {
         tester,
       );
 
-      controller.value = const TextEditingValue(
-        text: 'hello worl',
-        selection: TextSelection.collapsed(offset: 10),
-      );
-      controller.value = const TextEditingValue(
-        selection: TextSelection.collapsed(offset: 0),
-      );
-      controller.value = const TextEditingValue(
-        text: 'hello world',
-        selection: TextSelection.collapsed(offset: 11),
-      );
+      controller
+        ..value = const TextEditingValue(
+          text: 'hello worl',
+          selection: TextSelection.collapsed(offset: 10),
+        )
+        ..value = const TextEditingValue(
+          selection: TextSelection.collapsed(offset: 0),
+        )
+        ..value = const TextEditingValue(
+          text: 'hello world',
+          selection: TextSelection.collapsed(offset: 11),
+        );
       await tester.pump();
 
       expect(controller.toWireText(), 'hello world');
@@ -203,14 +204,15 @@ void main() {
         tester,
       );
 
-      controller.value = const TextEditingValue(
-        text: 'This on is',
-        selection: TextSelection.collapsed(offset: 10),
-      );
-      controller.value = const TextEditingValue(
-        text: 'This one is difficult',
-        selection: TextSelection.collapsed(offset: 22),
-      );
+      controller
+        ..value = const TextEditingValue(
+          text: 'This on is',
+          selection: TextSelection.collapsed(offset: 10),
+        )
+        ..value = const TextEditingValue(
+          text: 'This one is difficult',
+          selection: TextSelection.collapsed(offset: 22),
+        );
       await tester.pump();
 
       expect(controller.toWireText(), 'This one is difficult');

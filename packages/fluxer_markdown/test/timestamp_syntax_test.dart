@@ -5,6 +5,7 @@ import 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/renderers/fluxer_markdown_renderers.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
+import 'package:intl/intl.dart';
 import 'package:markdown/markdown.dart' as md;
 
 const FluxerMarkdownConfig _testMarkdownConfig = FluxerMarkdownConfig(
@@ -112,7 +113,11 @@ void main() {
     );
     const baseStyle = TextStyle(fontSize: 16, height: 1.375);
 
-    Future<void> pumpMarkdown(WidgetTester tester, String text) async {
+    Future<void> pumpMarkdown(
+      WidgetTester tester,
+      String text, {
+      FluxerMarkdownConfig config = _testMarkdownConfig,
+    }) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -121,7 +126,7 @@ void main() {
                 context: context,
                 text: text,
                 baseStyle: baseStyle,
-                config: _testMarkdownConfig,
+                config: config,
                 features: features,
                 inlineDocument: _inlineDocument(),
                 selectable: false,
@@ -143,14 +148,43 @@ void main() {
     testWidgets('renders a valid timestamp as inline formatted text', (
       tester,
     ) async {
-      await pumpMarkdown(tester, '<t:1618936830:f>');
+      const int unix = 1618936830;
+      await pumpMarkdown(tester, '<t:$unix:f>');
       expect(tester.takeException(), isNull);
       final List<String> renderedTexts = tester
           .widgetList<RichText>(find.byType(RichText))
           .map((RichText richText) => richText.text.toPlainText())
           .toList();
-      expect(renderedTexts.any((String t) => t.contains('2021')), isTrue);
+      final String expected = DateFormat.yMMMMd(
+        'en-US',
+      ).add_Hm().format(DateTime.fromMillisecondsSinceEpoch(unix * 1000));
+      expect(renderedTexts, contains(expected));
       expect(renderedTexts.any((String t) => t.contains('<t:')), isFalse);
+    });
+
+    testWidgets('uses the configured timestamp formatter', (tester) async {
+      DateTime? seenDateTime;
+      String? seenStyle;
+      final FluxerMarkdownConfig config = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        timestampFormatter: (DateTime localDateTime, String style) {
+          seenDateTime = localDateTime;
+          seenStyle = style;
+          return 'localised timestamp';
+        },
+      );
+
+      await pumpMarkdown(tester, '<t:1618936830:D>', config: config);
+
+      expect(seenDateTime?.millisecondsSinceEpoch, 1618936830 * 1000);
+      expect(seenStyle, 'D');
+      final List<String> renderedTexts = tester
+          .widgetList<RichText>(find.byType(RichText))
+          .map((RichText richText) => richText.text.toPlainText())
+          .toList();
+      expect(renderedTexts, contains('localised timestamp'));
     });
   });
 }

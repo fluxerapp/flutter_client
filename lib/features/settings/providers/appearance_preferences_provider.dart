@@ -44,6 +44,10 @@ class AppearancePreferencesState {
     this.useSystemLocaleForTimeFormat = false,
     this.messageGroupSpacing = 16,
     this.compactMessageGroupSpacing = 0,
+    this.showMediaDeleteButton = true,
+    this.showMediaDownloadButton = true,
+    this.showMediaFavoriteButton = true,
+    this.showSuppressEmbedsButton = true,
   });
 
   final ChannelTypingIndicatorMode channelTypingIndicatorMode;
@@ -58,6 +62,10 @@ class AppearancePreferencesState {
   final bool useSystemLocaleForTimeFormat;
   final double messageGroupSpacing;
   final double compactMessageGroupSpacing;
+  final bool showMediaDeleteButton;
+  final bool showMediaDownloadButton;
+  final bool showMediaFavoriteButton;
+  final bool showSuppressEmbedsButton;
 
   AppearancePreferencesState copyWith({
     ChannelTypingIndicatorMode? channelTypingIndicatorMode,
@@ -72,6 +80,10 @@ class AppearancePreferencesState {
     bool? useSystemLocaleForTimeFormat,
     double? messageGroupSpacing,
     double? compactMessageGroupSpacing,
+    bool? showMediaDeleteButton,
+    bool? showMediaDownloadButton,
+    bool? showMediaFavoriteButton,
+    bool? showSuppressEmbedsButton,
   }) {
     return AppearancePreferencesState(
       channelTypingIndicatorMode:
@@ -92,6 +104,14 @@ class AppearancePreferencesState {
       messageGroupSpacing: messageGroupSpacing ?? this.messageGroupSpacing,
       compactMessageGroupSpacing:
           compactMessageGroupSpacing ?? this.compactMessageGroupSpacing,
+      showMediaDeleteButton:
+          showMediaDeleteButton ?? this.showMediaDeleteButton,
+      showMediaDownloadButton:
+          showMediaDownloadButton ?? this.showMediaDownloadButton,
+      showMediaFavoriteButton:
+          showMediaFavoriteButton ?? this.showMediaFavoriteButton,
+      showSuppressEmbedsButton:
+          showSuppressEmbedsButton ?? this.showSuppressEmbedsButton,
     );
   }
 }
@@ -127,6 +147,10 @@ class AppearancePreferences extends _$AppearancePreferences {
         hideKeyboardHints: prefs.hideKeyboardHints,
         messageGroupSpacing: prefs.messageGroupSpacing,
         compactMessageGroupSpacing: prefs.compactMessageGroupSpacing,
+        showMediaDeleteButton: prefs.showMediaDeleteButton,
+        showMediaDownloadButton: prefs.showMediaDownloadButton,
+        showMediaFavoriteButton: prefs.showMediaFavoriteButton,
+        showSuppressEmbedsButton: prefs.showSuppressEmbedsButton,
       );
     }
   }
@@ -145,6 +169,10 @@ class AppearancePreferences extends _$AppearancePreferences {
         useSystemLocaleForTimeFormat: value.useSystemLocaleForTimeFormat,
         messageGroupSpacing: value.messageGroupSpacing,
         compactMessageGroupSpacing: value.compactMessageGroupSpacing,
+        showMediaDeleteButton: value.showMediaDeleteButton,
+        showMediaDownloadButton: value.showMediaDownloadButton,
+        showMediaFavoriteButton: value.showMediaFavoriteButton,
+        showSuppressEmbedsButton: value.showSuppressEmbedsButton,
       );
       await _persist();
     } finally {
@@ -235,6 +263,30 @@ class AppearancePreferences extends _$AppearancePreferences {
     _markAccessibilityDirty();
   }
 
+  Future<void> setShowMediaDeleteButton({required bool value}) async {
+    state = state.copyWith(showMediaDeleteButton: value);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
+  Future<void> setShowMediaDownloadButton({required bool value}) async {
+    state = state.copyWith(showMediaDownloadButton: value);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
+  Future<void> setShowMediaFavoriteButton({required bool value}) async {
+    state = state.copyWith(showMediaFavoriteButton: value);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
+  Future<void> setShowSuppressEmbedsButton({required bool value}) async {
+    state = state.copyWith(showSuppressEmbedsButton: value);
+    await _persist();
+    _markAccessibilityDirty();
+  }
+
   void _markAccessibilityDirty() {
     if (_isApplyingRemote) {
       return;
@@ -287,6 +339,10 @@ class AppearancePreferences extends _$AppearancePreferences {
         hideKeyboardHints: Value(state.hideKeyboardHints),
         messageGroupSpacing: Value(state.messageGroupSpacing),
         compactMessageGroupSpacing: Value(state.compactMessageGroupSpacing),
+        showMediaDeleteButton: Value(state.showMediaDeleteButton),
+        showMediaDownloadButton: Value(state.showMediaDownloadButton),
+        showMediaFavoriteButton: Value(state.showMediaFavoriteButton),
+        showSuppressEmbedsButton: Value(state.showSuppressEmbedsButton),
       ),
     );
   }

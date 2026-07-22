@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
@@ -47,6 +46,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/utils/call_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/sheets/add_friend_sheet.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -69,6 +69,9 @@ class _DMListState extends ConsumerState<DMList> {
     final String? userId = ref.read(currentUserIdProvider);
     if (userId != null && channelId == userId) {
       await ref.read(dmRepositoryProvider).ensurePersonalNotesChannel(userId);
+    }
+    if (!mounted) {
+      return;
     }
     await navigateToDmChannelContent(
       context: context,
@@ -196,7 +199,7 @@ class _DMListState extends ConsumerState<DMList> {
                 _buildMobileHeader(context),
                 Divider(color: context.colors.borderColor, height: 1),
               ] else ...[
-                // TODO: fully setup
+                // TODO(deuss): fully setup quick switcher
                 // _buildQuickSwitcher(context),
                 // Divider(color: context.colors.borderColor, height: 1),
                 Builder(
@@ -294,6 +297,8 @@ class _DMListState extends ConsumerState<DMList> {
     );
   }
 
+  // Reserved for planned quick-switcher UI.
+  // ignore: unused_element
   Widget _buildQuickSwitcher(BuildContext context) => Material(
     color: Colors.transparent,
     child: InkWell(
@@ -1231,31 +1236,17 @@ class _DMListState extends ConsumerState<DMList> {
           title: FluxerLocalizations.of(context).dmDebugChannel,
         );
       case _DmAction.copyUserId:
-        await Clipboard.setData(ClipboardData(text: convo.recipientId));
-        if (!mounted || !context.mounted) {
-          break;
-        }
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: FluxerLocalizations.of(context).dmUserIdCopied,
-                variant: FluxerToastVariant.success,
-              ),
-            );
+        await copyToClipboard(
+          context: context,
+          value: convo.recipientId,
+          message: FluxerLocalizations.of(context).dmUserIdCopied,
+        );
       case _DmAction.copyChannelId:
-        await Clipboard.setData(ClipboardData(text: convo.id));
-        if (!mounted || !context.mounted) {
-          break;
-        }
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: FluxerLocalizations.of(context).dmChannelIdCopied,
-                variant: FluxerToastVariant.success,
-              ),
-            );
+        await copyToClipboard(
+          context: context,
+          value: convo.id,
+          message: FluxerLocalizations.of(context).dmChannelIdCopied,
+        );
     }
   }
 
@@ -1677,9 +1668,7 @@ class _DmBottomSheet extends ConsumerWidget {
       initialChildSize: convo.isGroup ? 0.45 : 0.7,
       maxChildSize: 0.85,
       builder: (context, scrollController) {
-        final Map<String, DmListRecipientRowData> recipientRows =
-            ref.watch(dmListRecipientRowDataProvider).value ??
-            const <String, DmListRecipientRowData>{};
+        ref.watch(dmListRecipientRowDataProvider);
         final bool isTyping = ref.watch(dmAvatarIsTypingProvider(convo));
         return SafeArea(
           bottom: Platform.isAndroid,

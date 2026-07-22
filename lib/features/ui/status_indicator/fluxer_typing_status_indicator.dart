@@ -1,8 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 const double _kDotSizeRatio = 0.25;
 const double _kDotGapRatio = 0.12;
@@ -40,6 +40,7 @@ class _FluxerTypingStatusIndicatorState
     extends State<FluxerTypingStatusIndicator>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController _controller;
+  bool _isVisible = true;
 
   @override
   void initState() {
@@ -49,7 +50,7 @@ class _FluxerTypingStatusIndicatorState
       vsync: this,
       duration: const Duration(seconds: 1),
     );
-    unawaited(_controller.repeat());
+    _controller.syncWithVisibility(isVisible: _isVisible);
   }
 
   @override
@@ -61,13 +62,16 @@ class _FluxerTypingStatusIndicatorState
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      if (!_controller.isAnimating) {
-        unawaited(_controller.repeat());
-      }
+    _controller.syncWithVisibility(isVisible: _isVisible);
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    final bool visible = info.visibleFraction > 0;
+    if (_isVisible == visible) {
       return;
     }
-    _controller.stop();
+    _isVisible = visible;
+    _controller.syncWithVisibility(isVisible: _isVisible);
   }
 
   @override
@@ -79,39 +83,47 @@ class _FluxerTypingStatusIndicatorState
     final double dotSize = widget.height * _kDotSizeRatio;
     final double dotGap = widget.height * _kDotGapRatio;
 
-    return ExcludeSemantics(
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(widget.height / 2),
-            border: Border.all(color: border, width: borderWidth),
-          ),
-          child: Center(
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (BuildContext context, Widget? child) {
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    _TypingDot(animation: _controller, delay: 0, size: dotSize),
-                    SizedBox(width: dotGap),
-                    _TypingDot(
-                      animation: _controller,
-                      delay: 0.25,
-                      size: dotSize,
-                    ),
-                    SizedBox(width: dotGap),
-                    _TypingDot(
-                      animation: _controller,
-                      delay: 0.5,
-                      size: dotSize,
-                    ),
-                  ],
-                );
-              },
+    return VisibilityDetector(
+      key: ObjectKey(this),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: ExcludeSemantics(
+        child: SizedBox(
+          width: widget.width,
+          height: widget.height,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(widget.height / 2),
+              border: Border.all(color: border, width: borderWidth),
+            ),
+            child: Center(
+              child: AnimatedBuilder(
+                animation: _controller,
+                builder: (BuildContext context, Widget? child) {
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      _TypingDot(
+                        animation: _controller,
+                        delay: 0,
+                        size: dotSize,
+                      ),
+                      SizedBox(width: dotGap),
+                      _TypingDot(
+                        animation: _controller,
+                        delay: 0.25,
+                        size: dotSize,
+                      ),
+                      SizedBox(width: dotGap),
+                      _TypingDot(
+                        animation: _controller,
+                        delay: 0.5,
+                        size: dotSize,
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),

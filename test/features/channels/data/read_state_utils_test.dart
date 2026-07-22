@@ -159,6 +159,26 @@ void main() {
   );
 
   test(
+    'resolveLatestMessageIdForUnread ignores orphaned channel pointer when cache has a tail',
+    () {
+      final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final channelId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 13));
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+
+      expect(
+        resolveLatestMessageIdForUnread(
+          strictLatestMessageId: cachedId,
+          channelLastMessageId: channelId,
+          ackLastMessageId: ackId,
+          mentionCount: 0,
+          channelLastMessageExistsInCache: false,
+        ),
+        cachedId,
+      );
+    },
+  );
+
+  test(
     'resolveLatestMessageIdForUnread prefers channel pointer when cache is stale',
     () {
       final cachedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));

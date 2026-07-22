@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -7,6 +6,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_ban_entry.dart';
 import 'package:fluxer_app/features/settings/utils/guild_bans_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -54,18 +54,12 @@ class GuildBanActionsSheet {
                         label: l10n.userProfileCopyUserId,
                         icon: PhosphorIconsBold.identificationCard,
                         onTap: () async {
-                          await Clipboard.setData(
-                            ClipboardData(text: entry.userId),
+                          await copyToClipboard(
+                            context: sheetContext,
+                            value: entry.userId,
+                            message: l10n.dmUserIdCopied,
                           );
                           close();
-                          ref
-                              .read(toastProvider.notifier)
-                              .show(
-                                FluxerToast(
-                                  message: l10n.dmUserIdCopied,
-                                  variant: FluxerToastVariant.success,
-                                ),
-                              );
                         },
                       ),
                     ],

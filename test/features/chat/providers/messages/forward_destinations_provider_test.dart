@@ -209,8 +209,65 @@ void main() {
     expect(byId['c_text']!.kind, ForwardDestinationKind.guildText);
     expect(byId['c_text']!.disable, ForwardDestinationDisable.none);
     expect(byId['c_text']!.guildName, 'Owned');
+    expect(byId['c_text']!.guildAvatarImageUrl, isNull);
     expect(byId['c_voice']!.kind, ForwardDestinationKind.guildVoice);
     expect(byId['c_voice']!.disable, ForwardDestinationDisable.none);
+  });
+
+  test('resolves guild and group avatar metadata for destinations', () async {
+    final FluxerDatabase db = await _seedDb();
+    final ProviderContainer container = ProviderContainer(
+      overrides: [
+        fluxerDatabaseProvider.overrideWithValue(db),
+        guildListViewModelProvider.overrideWith(
+          () => _FakeGuilds(<Guild>[
+            const Guild(
+              id: _ownedGuild,
+              name: 'Owned',
+              ownerId: _userId,
+              icon: 'owned_icon',
+            ),
+          ]),
+        ),
+        userSettingsViewModelProvider.overrideWith(_FakeUser.new),
+        dmViewModelProvider.overrideWith(
+          () => _FakeDms(<DmConversation>[
+            DmConversation(
+              id: 'dm_1',
+              type: 1,
+              recipientId: '42',
+              recipientName: 'Alice',
+              recipientAvatar: 'alice_avatar',
+              lastMessage: '',
+              lastMessageTime: DateTime(2020),
+            ),
+            DmConversation(
+              id: 'group_1',
+              type: 3,
+              recipientId: 'group_recip',
+              recipientName: 'Group',
+              icon: 'group_icon',
+              groupMembers: const <GroupMemberInfo>[
+                GroupMemberInfo(id: 'member_1', name: 'Bob', avatar: 'bob'),
+              ],
+              lastMessage: '',
+              lastMessageTime: DateTime(2020),
+            ),
+          ]),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final Map<String, ForwardDestination> byId = await _resolve(container);
+
+    expect(
+      byId['c_text']!.guildAvatarImageUrl,
+      contains('guild_owned/owned_icon'),
+    );
+    expect(byId['dm_1']!.avatarImageUrl, contains('42/alice_avatar'));
+    expect(byId['group_1']!.groupIconUrl, contains('group_1/group_icon'));
+    expect(byId['group_1']!.groupMembers, hasLength(1));
   });
 
   test('disables channels without send permission', () async {

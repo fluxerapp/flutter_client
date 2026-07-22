@@ -6,10 +6,11 @@ void main() {
   test('OSS stub tap host ignores callback registration', () {
     const FcmTapBindingHost host = FirebaseMessagingPushService.tapHost;
     var callbackCount = 0;
-    host.setNotificationTapCallback((Map<String, String> payload) {
-      callbackCount++;
-    });
-    host.setNotificationTapCallback(null);
+    host
+      ..setNotificationTapCallback((Map<String, String> payload) {
+        callbackCount++;
+      })
+      ..setNotificationTapCallback(null);
     expect(callbackCount, 0);
   });
 }

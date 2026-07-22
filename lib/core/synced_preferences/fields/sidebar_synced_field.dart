@@ -91,10 +91,9 @@ class SidebarSyncedField extends SyncedFieldAdapter<SidebarLocalState> {
     required SidebarLocalState local,
     pb.SidebarPreferences? wireBase,
   }) {
-    final pb.SidebarPreferences settings = wireBase != null
-        ? (pb.SidebarPreferences()..mergeFromMessage(wireBase))
-        : pb.SidebarPreferences();
-    settings.inlineDmsCollapsed = local.inlineDmsCollapsed;
-    return settings;
+    return (wireBase != null
+          ? (pb.SidebarPreferences()..mergeFromMessage(wireBase))
+          : pb.SidebarPreferences())
+      ..inlineDmsCollapsed = local.inlineDmsCollapsed;
   }
 }

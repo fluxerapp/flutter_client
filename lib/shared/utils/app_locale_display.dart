@@ -1,5 +1,6 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
 import 'package:fluxer_dart/models/locale.dart' as sdk;
 
 class AppLocaleDisplayInfo {
@@ -257,11 +258,17 @@ AppLocaleDisplayInfo appLocaleDisplayInfo(sdk.Locale locale) {
 
 List<sdk.Locale> sortedAppSdkLocales() {
   final List<sdk.Locale> locales =
-      List<sdk.Locale>.from(sdk.Locale.$valuesDefined)..sort(
-        (sdk.Locale a, sdk.Locale b) => appLocaleDisplayInfo(a).name
-            .toLowerCase()
-            .compareTo(appLocaleDisplayInfo(b).name.toLowerCase()),
-      );
+      sdk.Locale.$valuesDefined
+          .where(
+            (sdk.Locale locale) =>
+                tryFlutterLocaleFromSdkLocale(locale) != null,
+          )
+          .toList()
+        ..sort(
+          (sdk.Locale a, sdk.Locale b) => appLocaleDisplayInfo(a).name
+              .toLowerCase()
+              .compareTo(appLocaleDisplayInfo(b).name.toLowerCase()),
+        );
   return locales;
 }
 

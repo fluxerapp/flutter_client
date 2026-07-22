@@ -354,14 +354,15 @@ List<InlineSpan> _callMessageTextSpans({
       usernameStyle: usernameStyle,
     );
     if (onJoinCallTap != null) {
-      spans.add(const TextSpan(text: ' '));
-      spans.add(
-        _systemMessageActionSpan(
-          label: l10n.systemCallJoinTheCall,
-          style: linkStyle,
-          onTap: onJoinCallTap,
-        ),
-      );
+      spans
+        ..add(const TextSpan(text: ' '))
+        ..add(
+          _systemMessageActionSpan(
+            label: l10n.systemCallJoinTheCall,
+            style: linkStyle,
+            onTap: onJoinCallTap,
+          ),
+        );
     }
     return spans;
   }

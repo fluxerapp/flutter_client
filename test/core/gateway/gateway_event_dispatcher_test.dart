@@ -37,49 +37,50 @@ void main() {
   test('processes events serially in dispatch order', () async {
     final List<String> handled = <String>[];
     final Completer<void> block = Completer<void>();
-    final GatewayEventDispatcher dispatcher = GatewayEventDispatcher(
-      onEvent: (GatewayEvent event) async {
-        if (event is MessageCreateEvent) {
-          if (event.message.id == '900000000000000002') {
-            await block.future;
-          }
-          handled.add(event.message.id);
-        }
-      },
-    );
-    dispatcher.dispatch(
-      MessageCreateEvent(
-        message: MessageResponseSchema.fromJson(
-          _messageJson(
-            id: '900000000000000001',
-            channelId: 'c1',
-            authorId: 'u1',
-          ),
-        ),
-      ),
-    );
-    dispatcher.dispatch(
-      MessageCreateEvent(
-        message: MessageResponseSchema.fromJson(
-          _messageJson(
-            id: '900000000000000002',
-            channelId: 'c1',
-            authorId: 'u1',
-          ),
-        ),
-      ),
-    );
-    dispatcher.dispatch(
-      MessageCreateEvent(
-        message: MessageResponseSchema.fromJson(
-          _messageJson(
-            id: '900000000000000003',
-            channelId: 'c1',
-            authorId: 'u1',
-          ),
-        ),
-      ),
-    );
+    final GatewayEventDispatcher dispatcher =
+        GatewayEventDispatcher(
+            onEvent: (GatewayEvent event) async {
+              if (event is MessageCreateEvent) {
+                if (event.message.id == '900000000000000002') {
+                  await block.future;
+                }
+                handled.add(event.message.id);
+              }
+            },
+          )
+          ..dispatch(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(
+                  id: '900000000000000001',
+                  channelId: 'c1',
+                  authorId: 'u1',
+                ),
+              ),
+            ),
+          )
+          ..dispatch(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(
+                  id: '900000000000000002',
+                  channelId: 'c1',
+                  authorId: 'u1',
+                ),
+              ),
+            ),
+          )
+          ..dispatch(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(
+                  id: '900000000000000003',
+                  channelId: 'c1',
+                  authorId: 'u1',
+                ),
+              ),
+            ),
+          );
     await Future<void>.delayed(Duration.zero);
     expect(handled, <String>['900000000000000001']);
     block.complete();
@@ -91,34 +92,35 @@ void main() {
   test('typing start bypasses the serial queue', () async {
     final List<String> typingHandled = <String>[];
     final Completer<void> block = Completer<void>();
-    final GatewayEventDispatcher dispatcher = GatewayEventDispatcher(
-      onEvent: (GatewayEvent event) async {
-        if (event is MessageCreateEvent) {
-          await block.future;
-        }
-        if (event is TypingStartEvent) {
-          typingHandled.add(event.userId);
-        }
-      },
-    );
-    dispatcher.dispatch(
-      MessageCreateEvent(
-        message: MessageResponseSchema.fromJson(
-          _messageJson(
-            id: '900000000000000001',
-            channelId: 'c1',
-            authorId: 'u1',
-          ),
-        ),
-      ),
-    );
-    dispatcher.dispatch(
-      TypingStartEvent(
-        channelId: 'c1',
-        userId: 'u1',
-        timestamp: DateTime.now(),
-      ),
-    );
+    final GatewayEventDispatcher dispatcher =
+        GatewayEventDispatcher(
+            onEvent: (GatewayEvent event) async {
+              if (event is MessageCreateEvent) {
+                await block.future;
+              }
+              if (event is TypingStartEvent) {
+                typingHandled.add(event.userId);
+              }
+            },
+          )
+          ..dispatch(
+            MessageCreateEvent(
+              message: MessageResponseSchema.fromJson(
+                _messageJson(
+                  id: '900000000000000001',
+                  channelId: 'c1',
+                  authorId: 'u1',
+                ),
+              ),
+            ),
+          )
+          ..dispatch(
+            TypingStartEvent(
+              channelId: 'c1',
+              userId: 'u1',
+              timestamp: DateTime.now(),
+            ),
+          );
     await Future<void>.delayed(Duration.zero);
     expect(typingHandled, <String>['u1']);
     block.complete();

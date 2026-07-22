@@ -15,8 +15,6 @@ List<NagbarState> selectVisibleNagbars(List<NagbarState> nagbars) {
     if (nonDismissible.isNotEmpty) nonDismissible.first,
     if (dismissible.isNotEmpty) dismissible.first,
   ];
-  selected.sort(
-    (NagbarState a, NagbarState b) => a.priority.compareTo(b.priority),
-  );
-  return selected;
+  return selected
+    ..sort((NagbarState a, NagbarState b) => a.priority.compareTo(b.priority));
 }

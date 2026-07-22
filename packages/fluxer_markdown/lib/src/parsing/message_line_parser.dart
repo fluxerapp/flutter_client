@@ -44,6 +44,16 @@ String normalizeBlockquoteBarMarkdown(String text) {
   }
   final content = trimmed.substring(contentStart);
   lines[0] = '${' ' * leadingSpaces}> $content';
+  for (var i = 1; i < lines.length; i++) {
+    final line = lines[i];
+    final lineLeadingSpaces = line.length - line.trimLeft().length;
+    final lineTrimmed = line.trimLeft();
+    if (lineTrimmed.isEmpty) {
+      lines[i] = '${' ' * lineLeadingSpaces}>';
+    } else {
+      lines[i] = '${' ' * lineLeadingSpaces}> $lineTrimmed';
+    }
+  }
   return lines.join('\n');
 }
 

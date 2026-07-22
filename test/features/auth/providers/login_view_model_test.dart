@@ -55,7 +55,7 @@ class _FakeAuthRepository implements AuthRepository {
 
 class _CancellingSsoAuthService extends SsoAuthService {
   @override
-  Future<Uri> authenticate({required String authorizationUrl}) async {
+  Future<Uri> authenticate({required String authorizationUrl}) {
     throw const SsoAuthCancelledException();
   }
 }

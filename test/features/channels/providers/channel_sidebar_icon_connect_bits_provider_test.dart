@@ -156,7 +156,7 @@ class _FixedChannelPermissionCache extends ChannelPermissionCache {
   final Map<String, int> _bits;
 
   @override
-  Map<String, int> build() => _bits;
+  ChannelPermissionCaches build() => ChannelPermissionCaches(effective: _bits);
 }
 
 class _EmptyGuildListViewModel extends GuildListViewModel {

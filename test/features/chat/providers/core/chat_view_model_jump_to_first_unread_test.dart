@@ -13,9 +13,11 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/channels/data/ack_batcher.dart';
 import 'package:fluxer_app/features/channels/providers/ack_batcher_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 
+import '../../../../helpers/noop_guild_member_hydration_service.dart';
 import '../../../../helpers/open_test_database.dart';
 
 String _snowflakeForUtc(DateTime utc) {
@@ -226,6 +228,9 @@ ProviderContainer _container(FluxerDatabase db, _JumpAdapter adapter) {
         });
         return batcher;
       }),
+      guildMemberHydrationServiceProvider.overrideWithValue(
+        NoopGuildMemberHydrationService(database: db),
+      ),
     ],
   );
 }

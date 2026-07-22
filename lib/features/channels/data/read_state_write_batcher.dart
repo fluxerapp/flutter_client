@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
 const int kReadStateWriteBatchMs = 1000;
 
 const int kReadStateAckBatchMs = 50;
+const int kReadStateUnreadMinIntervalMs = 2000;
 
 /// Batches per-channel unread read-state writes during gateway bursts.
 class ReadStateWriteBatcher {
@@ -15,16 +16,22 @@ class ReadStateWriteBatcher {
     required FluxerDatabase database,
     Duration window = const Duration(milliseconds: kReadStateWriteBatchMs),
     Duration ackWindow = const Duration(milliseconds: kReadStateAckBatchMs),
+    Duration minIntervalBetweenUnreadFlushes = const Duration(
+      milliseconds: kReadStateUnreadMinIntervalMs,
+    ),
   }) : _database = database,
        _window = window,
-       _ackWindow = ackWindow;
+       _ackWindow = ackWindow,
+       _minIntervalBetweenUnreadFlushes = minIntervalBetweenUnreadFlushes;
 
   final FluxerDatabase _database;
   final Duration _window;
   final Duration _ackWindow;
+  final Duration _minIntervalBetweenUnreadFlushes;
   final Map<String, _PendingUnread> _pending = <String, _PendingUnread>{};
   final Map<String, _PendingAck> _pendingAcks = <String, _PendingAck>{};
   final Map<String, Future<void>> _flushing = <String, Future<void>>{};
+  final Map<String, DateTime> _lastUnreadFlushAt = <String, DateTime>{};
 
   void enqueueUnread({
     required String channelId,
@@ -37,7 +44,10 @@ class ReadStateWriteBatcher {
       channelId,
       () => _PendingUnread(
         isDm: isDm,
-        timer: Timer(_window, () => unawaited(flush(channelId))),
+        timer: Timer(
+          _resolveUnreadDelay(channelId),
+          () => unawaited(flush(channelId)),
+        ),
       ),
     );
     pending.intents.add(
@@ -47,6 +57,19 @@ class ReadStateWriteBatcher {
         seedAckCandidate: seedAckCandidate,
       ),
     );
+  }
+
+  Duration _resolveUnreadDelay(String channelId) {
+    final DateTime? lastFlush = _lastUnreadFlushAt[channelId];
+    if (lastFlush == null) {
+      return _window;
+    }
+    final DateTime now = DateTime.now();
+    final Duration sinceLastFlush = now.difference(lastFlush);
+    if (sinceLastFlush >= _minIntervalBetweenUnreadFlushes) {
+      return _window;
+    }
+    return _minIntervalBetweenUnreadFlushes - sinceLastFlush;
   }
 
   bool hasPending(String channelId) =>
@@ -70,8 +93,9 @@ class ReadStateWriteBatcher {
         compareSnowflakeIds(messageId, pending.messageId) > 0) {
       pending.messageId = messageId;
     }
-    pending.clearSticky = pending.clearSticky || clearSticky;
-    pending.markDmRead = pending.markDmRead || markDmRead;
+    pending
+      ..clearSticky = pending.clearSticky || clearSticky
+      ..markDmRead = pending.markDmRead || markDmRead;
   }
 
   Future<void> flushAck(String channelId) {
@@ -147,6 +171,7 @@ class ReadStateWriteBatcher {
   }
 
   Future<void> _applyFlush(String channelId, _PendingUnread pending) async {
+    _lastUnreadFlushAt[channelId] = DateTime.now();
     try {
       await _database.transaction(() async {
         final ReadState? working = await _database.readStateDao.getReadState(

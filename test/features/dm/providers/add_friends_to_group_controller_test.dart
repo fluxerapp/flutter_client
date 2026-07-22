@@ -41,14 +41,15 @@ void main() {
     });
 
     test('limits selection count to remaining slots', () {
-      controller.toggleUser('friend-1');
-      controller.toggleUser('friend-2');
-      controller.toggleUser('friend-3');
-      controller.toggleUser('friend-4');
-      controller.toggleUser('friend-5');
-      controller.toggleUser('friend-6');
-      controller.toggleUser('friend-7');
-      controller.toggleUser('friend-8');
+      controller
+        ..toggleUser('friend-1')
+        ..toggleUser('friend-2')
+        ..toggleUser('friend-3')
+        ..toggleUser('friend-4')
+        ..toggleUser('friend-5')
+        ..toggleUser('friend-6')
+        ..toggleUser('friend-7')
+        ..toggleUser('friend-8');
 
       expect(controller.selectedUserIds.length, 7);
       expect(controller.remainingSlotsCount, 7);

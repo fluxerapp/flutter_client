@@ -88,13 +88,13 @@ Future<bool> ensureSystemPermission(
   BuildContext? context,
   SystemPermissionKind kind,
 ) async {
+  final BuildContext? modalContext = resolveSystemPermissionContext(context);
   final SystemPermissionOutcome outcome = await requestSystemPermission(kind);
   switch (outcome) {
     case SystemPermissionOutcome.granted:
       return true;
     case SystemPermissionOutcome.requiresSettings:
-      final BuildContext? modalContext = resolveSystemPermissionContext(null);
-      if (modalContext != null) {
+      if (modalContext != null && modalContext.mounted) {
         await SystemPermissionSettingsPrompt.show(modalContext, kind: kind);
       }
       return false;

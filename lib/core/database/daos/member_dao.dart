@@ -69,7 +69,13 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
         : null;
     final String? userId = member.userId.present ? member.userId.value : null;
     if (guildId != null && userId != null) {
-      await touchMemberAccess(guildId, <String>[userId]);
+      await into(memberCacheAccess).insertOnConflictUpdate(
+        MemberCacheAccessCompanion.insert(
+          userId: userId,
+          guildId: guildId,
+          lastAccessedAt: DateTime.now().toUtc(),
+        ),
+      );
     }
   }
 
@@ -82,27 +88,54 @@ class MemberDao extends DatabaseAccessor<FluxerDatabase> with _$MemberDaoMixin {
         b.insert(members, member, onConflict: DoUpdate((_) => member));
       }
     });
-    final String guildId = memberList.first.guildId.value;
-    final List<String> userIds = memberList
-        .map((MembersCompanion member) => member.userId.value)
-        .toList();
-    await touchMemberAccess(guildId, userIds);
+    final List<({String guildId, String userId})> accessPairs =
+        <({String guildId, String userId})>[
+          for (final MembersCompanion member in memberList)
+            if (member.guildId.present && member.userId.present)
+              (guildId: member.guildId.value, userId: member.userId.value),
+        ];
+    await touchMemberAccessPairs(accessPairs);
   }
 
-  Future<void> touchMemberAccess(String guildId, List<String> userIds) async {
-    if (userIds.isEmpty) {
+  Future<void> touchMemberAccess(String guildId, List<String> userIds) =>
+      touchMemberAccessPairs(<({String guildId, String userId})>[
+        for (final String userId in userIds) (guildId: guildId, userId: userId),
+      ]);
+
+  /// Touches cache-access rows for each `(guildId, userId)` pair in one batch.
+  Future<void> touchMemberAccessPairs(
+    List<({String guildId, String userId})> pairs,
+  ) async {
+    if (pairs.isEmpty) {
+      return;
+    }
+    if (pairs.length == 1) {
+      final ({String guildId, String userId}) pair = pairs.first;
+      await into(memberCacheAccess).insertOnConflictUpdate(
+        MemberCacheAccessCompanion.insert(
+          userId: pair.userId,
+          guildId: pair.guildId,
+          lastAccessedAt: DateTime.now().toUtc(),
+        ),
+      );
       return;
     }
     final DateTime now = DateTime.now().toUtc();
-    for (final String userId in userIds) {
-      await into(memberCacheAccess).insertOnConflictUpdate(
-        MemberCacheAccessCompanion.insert(
-          userId: userId,
-          guildId: guildId,
-          lastAccessedAt: now,
-        ),
-      );
-    }
+    await batch((Batch b) {
+      for (final ({String guildId, String userId}) pair in pairs) {
+        final MemberCacheAccessCompanion companion =
+            MemberCacheAccessCompanion.insert(
+              userId: pair.userId,
+              guildId: pair.guildId,
+              lastAccessedAt: now,
+            );
+        b.insert(
+          memberCacheAccess,
+          companion,
+          onConflict: DoUpdate((_) => companion),
+        );
+      }
+    });
   }
 
   Future<void> evictStaleMembers({

@@ -1,69 +1,72 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
+import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
+import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
 
-const String _guildMemberResponseJson = '''
-{
-  "user": {
-    "id": "user-1",
-    "username": "alice",
-    "discriminator": "0000",
-    "global_name": null,
-    "avatar": null,
-    "avatar_color": null,
-    "flags": 0
-  },
-  "roles": [],
-  "joined_at": "2026-01-01T00:00:00.000Z",
-  "mute": false,
-  "deaf": false
+class _NoopHydrationService extends GuildMemberHydrationService {
+  _NoopHydrationService({required super.database})
+    : super(
+        client: FluxerClient(
+          Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid/v1')),
+        ),
+        chunkWaiter: GuildMemberChunkWaiter(),
+        readGateway: () => null,
+      );
+
+  @override
+  void requestHydration({
+    required String guildId,
+    required Iterable<String> userIds,
+    void Function(String userId)? onMemberFetched,
+  }) {}
 }
-''';
 
-class _ControlledGuildMemberAdapter implements HttpClientAdapter {
-  final Completer<void> requestStarted = Completer<void>();
-  final Completer<ResponseBody> _response = Completer<ResponseBody>();
-
+class _RecordingAdapter implements HttpClientAdapter {
   int requestCount = 0;
-  RequestOptions? lastRequest;
 
   @override
   Future<ResponseBody> fetch(
     RequestOptions options,
     Stream<Uint8List>? requestStream,
     Future<void>? cancelFuture,
-  ) {
+  ) async {
     requestCount++;
-    lastRequest = options;
-    if (!requestStarted.isCompleted) {
-      requestStarted.complete();
-    }
-    return _response.future;
-  }
-
-  void completeRequest() {
-    if (_response.isCompleted) {
-      return;
-    }
-    _response.complete(
-      ResponseBody.fromString(
-        _guildMemberResponseJson,
-        200,
-        statusMessage: 'OK',
-        headers: <String, List<String>>{
-          Headers.contentTypeHeader: <String>[Headers.jsonContentType],
-        },
-      ),
+    return ResponseBody.fromString(
+      '''
+{
+  "user": {
+    "id": "user-1",
+    "username": "alice",
+    "discriminator": "0000",
+    "global_name": "Global Alice",
+    "avatar": null,
+    "avatar_color": null,
+    "flags": 0
+  },
+  "nick": "Guild Alice",
+  "roles": [],
+  "joined_at": "2026-01-01T00:00:00.000Z",
+  "mute": false,
+  "deaf": false
+}
+''',
+      200,
+      statusMessage: 'OK',
+      headers: <String, List<String>>{
+        Headers.contentTypeHeader: <String>[Headers.jsonContentType],
+      },
     );
   }
 
@@ -71,7 +74,7 @@ class _ControlledGuildMemberAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-FluxerClient _clientWithAdapter(_ControlledGuildMemberAdapter adapter) {
+FluxerClient _clientWithAdapter(HttpClientAdapter adapter) {
   final Dio dio = Dio(BaseOptions(baseUrl: 'https://test.fluxer.invalid/v1'))
     ..httpClientAdapter = adapter;
   addTearDown(dio.close);
@@ -80,122 +83,118 @@ FluxerClient _clientWithAdapter(_ControlledGuildMemberAdapter adapter) {
 
 void main() {
   test(
-    'guildUserDisplayProvider does not touch ref after dispose mid-fetch',
+    'guildUserDisplayProvider prefers guild nick over global name',
     () async {
-      final db = openTestDatabase();
-      final adapter = _ControlledGuildMemberAdapter();
-      final errors = <Object>[];
+      final FluxerDatabase db = openTestDatabase();
+      await db.userDao.upsertUser(
+        UsersCompanion.insert(
+          id: 'user-1',
+          username: 'alice',
+          globalName: const Value('Global Alice'),
+        ),
+      );
+      await db.memberDao.upsertMember(
+        MembersCompanion.insert(
+          userId: 'user-1',
+          guildId: 'guild-1',
+          nick: const Value('Guild Alice'),
+          roleIdsJson: const Value('[]'),
+        ),
+      );
 
-      final zoneCompleted = Completer<void>();
-      final Future<void> zoneFuture = runZonedGuarded<Future<void>>(() async {
-        final container = ProviderContainer(
-          overrides: [
-            fluxerDatabaseProvider.overrideWithValue(db),
-            fluxerClientProvider.overrideWithValue(_clientWithAdapter(adapter)),
-          ],
-        );
-        try {
-          final initial = container.read(
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          guildMemberHydrationServiceProvider.overrideWithValue(
+            _NoopHydrationService(database: db),
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final List<String?> names = <String?>[];
+      final ProviderSubscription<AsyncValue<GuildUserDisplay?>> sub = container
+          .listen(
             guildUserDisplayProvider(('user-1', 'guild-1')),
+            (
+              AsyncValue<GuildUserDisplay?>? previous,
+              AsyncValue<GuildUserDisplay?> next,
+            ) => names.add(next.value?.displayName),
+            fireImmediately: true,
           );
-          expect(initial.isLoading, isTrue);
-          await adapter.requestStarted.future;
-          expect(
-            adapter.lastRequest?.uri.path,
-            '/v1/guilds/guild-1/members/user-1',
-          );
+      addTearDown(sub.close);
+      await pumpEventQueue();
 
-          final memberCached = db.memberDao
-              .watchMemberByUserId('user-1', 'guild-1')
-              .firstWhere((member) => member != null)
-              .timeout(const Duration(seconds: 5));
-          container.dispose();
-          adapter.completeRequest();
-          await memberCached;
-          await pumpEventQueue();
-        } finally {
-          adapter.completeRequest();
-          container.dispose();
-          zoneCompleted.complete();
-        }
-      }, (error, _) => errors.add(error))!;
-      unawaited(zoneFuture);
-      await zoneCompleted.future;
-
-      expect(adapter.requestCount, 1);
-      expect(errors, isEmpty);
+      expect(names.last, 'Guild Alice');
     },
   );
 
   test(
-    'guildUserDisplayProvider scopes in-flight fetches to each container',
+    'guildUserDisplayProvider does not call REST directly when member is missing',
     () async {
-      final db = openTestDatabase();
-      final firstAdapter = _ControlledGuildMemberAdapter();
-      final secondAdapter = _ControlledGuildMemberAdapter();
-      final firstContainer = ProviderContainer(
+      final FluxerDatabase db = openTestDatabase();
+      final _RecordingAdapter adapter = _RecordingAdapter();
+      await db.userDao.upsertUser(
+        UsersCompanion.insert(
+          id: 'user-1',
+          username: 'alice',
+          globalName: const Value('Global Alice'),
+        ),
+      );
+
+      await db.userDao.watchUserById('user-1').first;
+
+      final ProviderContainer container = ProviderContainer(
         overrides: [
           fluxerDatabaseProvider.overrideWithValue(db),
-          fluxerClientProvider.overrideWithValue(
-            _clientWithAdapter(firstAdapter),
+          fluxerClientProvider.overrideWithValue(_clientWithAdapter(adapter)),
+          guildMemberHydrationServiceProvider.overrideWithValue(
+            _NoopHydrationService(database: db),
           ),
         ],
       );
-      final secondContainer = ProviderContainer(
-        overrides: [
-          fluxerDatabaseProvider.overrideWithValue(db),
-          fluxerClientProvider.overrideWithValue(
-            _clientWithAdapter(secondAdapter),
-          ),
-        ],
-      );
+      addTearDown(container.dispose);
 
-      try {
-        firstContainer.read(guildUserDisplayProvider(('user-1', 'guild-1')));
-        await firstAdapter.requestStarted.future;
+      final List<String?> names = <String?>[];
+      final ProviderSubscription<AsyncValue<GuildUserDisplay?>> sub = container
+          .listen(
+            guildUserDisplayProvider(('user-1', 'guild-1')),
+            (
+              AsyncValue<GuildUserDisplay?>? previous,
+              AsyncValue<GuildUserDisplay?> next,
+            ) => names.add(next.value?.displayName),
+            fireImmediately: true,
+          );
+      addTearDown(sub.close);
+      await pumpEventQueue();
 
-        secondContainer.read(guildUserDisplayProvider(('user-1', 'guild-1')));
-        await pumpEventQueue();
-        expect(secondAdapter.requestCount, 1);
-
-        firstContainer.read(guildUserDisplayProvider(('user-1', 'guild-1')));
-        expect(firstAdapter.requestCount, 1);
-
-        final memberCached = db.memberDao
-            .watchMemberByUserId('user-1', 'guild-1')
-            .firstWhere((member) => member != null)
-            .timeout(const Duration(seconds: 5));
-        firstAdapter.completeRequest();
-        secondAdapter.completeRequest();
-        await memberCached;
-      } finally {
-        firstAdapter.completeRequest();
-        secondAdapter.completeRequest();
-        firstContainer.dispose();
-        secondContainer.dispose();
-        await pumpEventQueue();
-      }
+      expect(adapter.requestCount, 0);
+      expect(names.last, 'Global Alice');
     },
   );
 
   test('guildUserDisplayProvider re-emits when the watched user row '
       'changes', () async {
-    final db = openTestDatabase();
+    final FluxerDatabase db = openTestDatabase();
     await db.userDao.upsertUser(
       UsersCompanion.insert(id: 'user-1', username: 'alice'),
     );
 
-    final container = ProviderContainer(
+    final ProviderContainer container = ProviderContainer(
       overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
     );
     addTearDown(container.dispose);
 
-    final names = <String?>[];
-    final sub = container.listen(
-      guildUserDisplayProvider(('user-1', null)),
-      (previous, next) => names.add(next.value?.displayName),
-      fireImmediately: true,
-    );
+    final List<String?> names = <String?>[];
+    final ProviderSubscription<AsyncValue<GuildUserDisplay?>> sub = container
+        .listen(
+          guildUserDisplayProvider(('user-1', null)),
+          (
+            AsyncValue<GuildUserDisplay?>? previous,
+            AsyncValue<GuildUserDisplay?> next,
+          ) => names.add(next.value?.displayName),
+          fireImmediately: true,
+        );
     addTearDown(sub.close);
 
     await pumpEventQueue();
@@ -210,31 +209,34 @@ void main() {
 
   test('guildUserDisplayProvider dedupes presence-only changes but '
       'notifies on display changes', () async {
-    final db = openTestDatabase();
+    final FluxerDatabase db = openTestDatabase();
     await db.userDao.upsertUser(
       UsersCompanion.insert(id: 'user-1', username: 'alice'),
     );
 
-    final container = ProviderContainer(
+    final ProviderContainer container = ProviderContainer(
       overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
     );
     addTearDown(container.dispose);
 
     var notifyCount = 0;
-    final sub = container.listen(
-      guildUserDisplayProvider(('user-1', null)),
-      (previous, next) => notifyCount++,
-    );
+    final ProviderSubscription<AsyncValue<GuildUserDisplay?>> sub = container
+        .listen(
+          guildUserDisplayProvider(('user-1', null)),
+          (
+            AsyncValue<GuildUserDisplay?>? previous,
+            AsyncValue<GuildUserDisplay?> next,
+          ) => notifyCount++,
+        );
     addTearDown(sub.close);
 
-    // Let the watched stream settle to its first data emission.
     await pumpEventQueue();
-    final initial = container.read(guildUserDisplayProvider(('user-1', null)));
+    final AsyncValue<GuildUserDisplay?> initial = container.read(
+      guildUserDisplayProvider(('user-1', null)),
+    );
     expect(initial.value?.displayName, 'alice');
-    final baseline = notifyCount;
+    final int baseline = notifyCount;
 
-    // A presence-only write changes the user row but no display field, so the
-    // recomputed GuildUserDisplay is value-equal and must not notify.
     await db.userDao.updateUserPresence('user-1', status: 'idle');
     await pumpEventQueue();
     expect(
@@ -243,7 +245,6 @@ void main() {
       reason: 'presence-only change should be deduped by value equality',
     );
 
-    // A real display-field change (username -> displayName) must propagate.
     await db.userDao.upsertUser(
       UsersCompanion.insert(id: 'user-1', username: 'alice2'),
     );
@@ -254,4 +255,56 @@ void main() {
       reason: 'display-field change must still notify',
     );
   });
+
+  test(
+    'hydration service updates provider when member row is written',
+    () async {
+      final FluxerDatabase db = openTestDatabase();
+      final _RecordingAdapter adapter = _RecordingAdapter();
+      await db.userDao.upsertUser(
+        UsersCompanion.insert(
+          id: 'user-1',
+          username: 'alice',
+          globalName: const Value('Global Alice'),
+        ),
+      );
+
+      await db.userDao.watchUserById('user-1').first;
+
+      final GuildMemberHydrationService service = GuildMemberHydrationService(
+        database: db,
+        client: _clientWithAdapter(adapter),
+        chunkWaiter: GuildMemberChunkWaiter(),
+        readGateway: () => null,
+      );
+
+      final ProviderContainer container = ProviderContainer(
+        overrides: [
+          fluxerDatabaseProvider.overrideWithValue(db),
+          guildMemberHydrationServiceProvider.overrideWithValue(service),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      final List<String?> names = <String?>[];
+      final ProviderSubscription<AsyncValue<GuildUserDisplay?>> sub = container
+          .listen(
+            guildUserDisplayProvider(('user-1', 'guild-1')),
+            (
+              AsyncValue<GuildUserDisplay?>? previous,
+              AsyncValue<GuildUserDisplay?> next,
+            ) => names.add(next.value?.displayName),
+            fireImmediately: true,
+          );
+      addTearDown(sub.close);
+
+      await service.hydrateMembers(
+        guildId: 'guild-1',
+        userIds: <String>['user-1'],
+      );
+      await pumpEventQueue();
+
+      expect(names.last, 'Guild Alice');
+    },
+  );
 }

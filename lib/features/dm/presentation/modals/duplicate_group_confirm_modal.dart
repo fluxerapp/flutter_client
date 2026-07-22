@@ -116,5 +116,5 @@ String _activityLabel(DmConversation channel, FluxerLocalizations l10n) {
     return l10n.createDmNoActivityYet;
   }
   final DateTime time = dateTimeFromSnowflakeAsLocalOrNow(lastMessageId);
-  return DateFormat.yMMMd().add_jm().format(time);
+  return DateFormat.yMMMd(l10n.localeName).add_jm().format(time);
 }

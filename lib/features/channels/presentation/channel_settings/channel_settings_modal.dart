@@ -255,14 +255,15 @@ List<SettingsSidebarItem> _buildSidebarItems({
     );
   }
   if (canDelete) {
-    items.add(const SettingsSidebarItem.separator());
-    items.add(
-      SettingsSidebarItem(
-        channelSettingsDeleteLabel(l10n, channel: channel),
-        icon: PhosphorIconsFill.trash,
-        isDestructive: true,
-      ),
-    );
+    items
+      ..add(const SettingsSidebarItem.separator())
+      ..add(
+        SettingsSidebarItem(
+          channelSettingsDeleteLabel(l10n, channel: channel),
+          icon: PhosphorIconsFill.trash,
+          isDestructive: true,
+        ),
+      );
   }
   return items;
 }

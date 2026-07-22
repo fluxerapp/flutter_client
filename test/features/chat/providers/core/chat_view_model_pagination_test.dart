@@ -18,11 +18,13 @@ import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 import '../../../../helpers/message_realtime_test_helpers.dart';
+import '../../../../helpers/noop_guild_member_hydration_service.dart';
 import '../../../../helpers/open_test_database.dart';
 
 const int _kMinuteMs = 60 * 1000;
@@ -75,6 +77,17 @@ List<Map<String, Object?>> _channelMessages(
       authorId: 'other',
     ),
 ];
+
+MessagesCompanion _cachedMessage({
+  required String id,
+  required String channelId,
+}) => MessagesCompanion.insert(
+  id: id,
+  channelId: channelId,
+  authorId: 'other',
+  content: 'message $id',
+  timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
+);
 
 void _emitCreatedMessage(ProviderContainer container, {required String id}) {
   container
@@ -577,6 +590,65 @@ void main() {
     expect(after.isSyncingMessages, isFalse);
   });
 
+  test(
+    'loadNewer keeps paging after a contiguity-truncated cache page',
+    () async {
+      final db = openTestDatabase();
+      final List<Map<String, Object?>> all = _channelMessages('channel-1', 500);
+      final String targetId = all[100]['id']! as String;
+      final String latestId = all.last['id']! as String;
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(latestId),
+        ),
+      );
+      for (final Map<String, Object?> message in all) {
+        await db.messageDao.upsertMessage(
+          _cachedMessage(id: message['id']! as String, channelId: 'channel-1'),
+        );
+      }
+      final adapter = _PaginatingAdapter(
+        messagesByChannel: {'channel-1': all},
+        pageLimit: 30,
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1', targetMessageId: targetId);
+      await _flushAsync();
+
+      var state = container.read(chatViewModelProvider);
+      expect(state.hasMoreNewerMessages, isTrue);
+
+      for (var i = 0; i < 8; i++) {
+        if (!state.hasMoreMessages) {
+          break;
+        }
+        await notifier.loadMore();
+        await _flushAsync();
+        state = container.read(chatViewModelProvider);
+      }
+      expect(state.hasMoreNewerMessages, isTrue);
+      expect(state.messages.length, lessThanOrEqualTo(kMaxLoadedMessages));
+
+      final String tailBefore = state.messages.last.id;
+      await notifier.loadNewer();
+      await _flushAsync();
+
+      final ChatViewState after = container.read(chatViewModelProvider);
+      expect(after.hasMoreNewerMessages, isTrue);
+      expect(
+        int.parse(after.messages.last.id),
+        greaterThan(int.parse(tailBefore)),
+      );
+      expect(adapter.afterFetchCount, greaterThan(0));
+    },
+  );
+
   test('refreshAfterSessionRecovery preserves a scrolled-up window', () async {
     final db = openTestDatabase();
     // Newest message far ahead so the loaded window stays in history.
@@ -626,6 +698,132 @@ void main() {
     expect(after.hasMoreNewerMessages, isTrue);
     expect(after.isSyncingMessages, isFalse);
   });
+
+  test(
+    'jumpToLatestMessages returns false while an older page is loading',
+    () async {
+      final db = openTestDatabase();
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(_snowflakeForIndex(999)),
+        ),
+      );
+      final List<Map<String, Object?>> all = _channelMessages('channel-1', 350);
+      final adapter = _PaginatingAdapter(
+        messagesByChannel: {'channel-1': all},
+        pageLimit: 150,
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+      addTearDown(adapter.releaseBeforeFetch);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+      await notifier.loadMore();
+      await _flushAsync();
+
+      expect(
+        container.read(chatViewModelProvider).hasMoreNewerMessages,
+        isTrue,
+      );
+
+      adapter.holdBeforeFetch = true;
+      final Future<void> olderLoad = notifier.loadMore();
+      await _flushAsync();
+
+      expect(container.read(chatViewModelProvider).isLoadingMore, isTrue);
+      expect(await notifier.jumpToLatestMessages(), isFalse);
+
+      adapter.releaseBeforeFetch();
+      await olderLoad;
+      await _flushAsync();
+    },
+  );
+
+  test(
+    'jumpToLatestMessages returns false while a newer page is loading',
+    () async {
+      final db = openTestDatabase();
+      final List<Map<String, Object?>> all = _channelMessages('channel-1', 500);
+      final String targetId = all[100]['id']! as String;
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(all.last['id']! as String),
+        ),
+      );
+      for (final Map<String, Object?> message in all) {
+        await db.messageDao.upsertMessage(
+          _cachedMessage(id: message['id']! as String, channelId: 'channel-1'),
+        );
+      }
+      final adapter = _PaginatingAdapter(
+        messagesByChannel: {'channel-1': all},
+        pageLimit: 30,
+      );
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+      addTearDown(adapter.releaseAfterFetch);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1', targetMessageId: targetId);
+      await _flushAsync();
+
+      expect(
+        container.read(chatViewModelProvider).hasMoreNewerMessages,
+        isTrue,
+      );
+
+      adapter.holdAfterFetch = true;
+      final Future<void> newerLoad = notifier.loadNewer();
+      await _flushAsync();
+
+      expect(container.read(chatViewModelProvider).isLoadingNewer, isTrue);
+      expect(await notifier.jumpToLatestMessages(), isFalse);
+
+      adapter.releaseAfterFetch();
+      await newerLoad;
+      await _flushAsync();
+    },
+  );
+
+  test('jumpToLatestMessages requests the jump-to-present page size', () async {
+    final db = openTestDatabase();
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+        lastMessageId: Value(_snowflakeForIndex(999)),
+      ),
+    );
+    final List<Map<String, Object?>> all = _channelMessages('channel-1', 250);
+    final adapter = _PaginatingAdapter(
+      messagesByChannel: {'channel-1': all},
+      pageLimit: 250,
+    );
+    final container = _container(db, adapter);
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    await notifier.switchChannel('channel-1');
+    await _flushAsync();
+    await notifier.loadMore();
+    await _flushAsync();
+
+    expect(container.read(chatViewModelProvider).hasMoreNewerMessages, isTrue);
+
+    await notifier.jumpToLatestMessages();
+    await _flushAsync();
+
+    expect(adapter.lastLimit, '50');
+  });
 }
 
 ProviderContainer _container(FluxerDatabase db, _PaginatingAdapter adapter) {
@@ -646,6 +844,9 @@ ProviderContainer _container(FluxerDatabase db, _PaginatingAdapter adapter) {
         });
         return batcher;
       }),
+      guildMemberHydrationServiceProvider.overrideWithValue(
+        NoopGuildMemberHydrationService(database: db),
+      ),
     ],
   );
 }
@@ -667,15 +868,28 @@ class _PaginatingAdapter implements HttpClientAdapter {
   final Map<String, List<Map<String, Object?>>> messagesByChannel;
   final int pageLimit;
   bool holdBeforeFetch = false;
+  bool holdAfterFetch = false;
   bool holdAroundFetch = false;
   int aroundFetchCount = 0;
+  int afterFetchCount = 0;
+  String? lastLimit;
   Completer<void>? _beforeCompleter;
+  Completer<void>? _afterCompleter;
   Completer<void>? _aroundCompleter;
 
   void releaseBeforeFetch() {
     holdBeforeFetch = false;
     final completer = _beforeCompleter;
     _beforeCompleter = null;
+    if (completer != null && !completer.isCompleted) {
+      completer.complete();
+    }
+  }
+
+  void releaseAfterFetch() {
+    holdAfterFetch = false;
+    final completer = _afterCompleter;
+    _afterCompleter = null;
     if (completer != null && !completer.isCompleted) {
       completer.complete();
     }
@@ -703,7 +917,9 @@ class _PaginatingAdapter implements HttpClientAdapter {
       final channelId = match.group(1)!;
       final all = messagesByChannel[channelId] ?? const [];
       final before = options.uri.queryParameters['before'];
+      final after = options.uri.queryParameters['after'];
       final around = options.uri.queryParameters['around'];
+      lastLimit = options.uri.queryParameters['limit'];
       if (around != null) {
         aroundFetchCount++;
         if (holdAroundFetch) {
@@ -715,6 +931,10 @@ class _PaginatingAdapter implements HttpClientAdapter {
         _beforeCompleter ??= Completer<void>();
         await _beforeCompleter!.future;
       }
+      if (after != null && holdAfterFetch) {
+        _afterCompleter ??= Completer<void>();
+        await _afterCompleter!.future;
+      }
       final List<Map<String, Object?>> page;
       if (before != null) {
         final older = all
@@ -723,6 +943,12 @@ class _PaginatingAdapter implements HttpClientAdapter {
         page = older.length <= pageLimit
             ? older
             : older.sublist(older.length - pageLimit);
+      } else if (after != null) {
+        afterFetchCount++;
+        final newer = all
+            .where((m) => _compare(m['id']! as String, after) > 0)
+            .toList();
+        page = newer.length <= pageLimit ? newer : newer.sublist(0, pageLimit);
       } else if (around != null) {
         final aroundIndex = all.indexWhere((m) => m['id'] == around);
         if (aroundIndex == -1) {

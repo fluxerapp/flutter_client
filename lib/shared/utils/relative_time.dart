@@ -4,8 +4,8 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 ///
 /// Mirrors the long-form used in Security & Login. Uses the existing
 /// `relativeTime*` ARB keys.
-String relativeTime(DateTime date, FluxerLocalizations l10n) {
-  final diff = DateTime.now().difference(date);
+String relativeTime(DateTime date, FluxerLocalizations l10n, {DateTime? now}) {
+  final diff = (now ?? DateTime.now()).difference(date);
   if (diff.inDays > 365) {
     return l10n.relativeTimeYears((diff.inDays / 365).floor());
   }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -12,6 +11,7 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:go_router/go_router.dart';
 
 Future<GuildAction?> showGuildBottomSheet(
@@ -73,8 +73,8 @@ Future<GuildAction?> showGuildBottomSheet(
     },
   );
 
-  if (result == GuildAction.copyGuildId) {
-    await Clipboard.setData(ClipboardData(text: guild.id));
+  if (result == GuildAction.copyGuildId && context.mounted) {
+    await copyToClipboard(context: context, value: guild.id);
   }
 
   return result;
@@ -116,7 +116,7 @@ void _handleSubmenuTap(
   switch (submenu.key) {
     case 'communitySettings':
       Navigator.of(context).pop();
-      context.push(RoutePaths.guildSettingsPath(guildId));
+      unawaited(context.push(RoutePaths.guildSettingsPath(guildId)));
     case 'mute':
       _openMuteSubmenu(context, submenu);
     default:

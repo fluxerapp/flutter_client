@@ -54,11 +54,26 @@ void main() {
     );
     await tester.pump();
 
-    // The chip uses the stored label; no active-channel roster is available,
-    // so reaching the live resolver would instead show a truncated id.
     expect(find.text('@Alice'), findsOneWidget);
-    // The wire form always carries the canonical id, label or not.
     expect(controller.toWireText().trim(), '<@123>');
+  });
+
+  testWidgets('stores the role mention display label and renders wire text', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await _pumpController(tester);
+
+    controller.insertRoleMentionPlaceholder(
+      matchStart: 0,
+      matchEnd: 0,
+      roleId: '789',
+      displayName: 'Moderators',
+      colorArgb: 0xFFFF0000,
+    );
+    await tester.pump();
+
+    expect(find.text('@Moderators'), findsOneWidget);
+    expect(controller.toWireText().trim(), '<@&789>');
   });
 
   testWidgets('stores the channel mention display label and renders it', (

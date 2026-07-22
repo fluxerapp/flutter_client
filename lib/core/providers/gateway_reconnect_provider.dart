@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui' show PlatformDispatcher;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
@@ -12,7 +11,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
-import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -140,6 +139,7 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
     }
     sessionExpiryProbeInFlight = true;
     try {
+      final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
       final bool expired = await ref
           .read(accountManagerProvider.notifier)
           .expireSessionIfInvalid();
@@ -150,9 +150,6 @@ Raw<StreamSubscription<GatewayState>?> gatewayStateListener(Ref ref) {
       // The probe got an HTTP verdict, so the server is reachable. Clearing
       // the failure state keeps the next login from bouncing to /reconnecting.
       markOnline();
-      final FluxerLocalizations l10n = lookupFluxerLocalizationsWithFallback(
-        PlatformDispatcher.instance.locale,
-      );
       ref
           .read(toastProvider.notifier)
           .show(FluxerToast(message: l10n.sessionExpiredToast));
@@ -323,11 +320,9 @@ void gatewayReconnectToastListener(Ref ref) {
     final bool isReconnecting =
         state == GatewayState.connecting || state == GatewayState.reconnecting;
     final bool isConnected = state == GatewayState.connected;
-    final FluxerLocalizations l10n = lookupFluxerLocalizationsWithFallback(
-      PlatformDispatcher.instance.locale,
-    );
     if (wasConnected && isReconnecting && !reconnectToastShown) {
       reconnectToastShown = true;
+      final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
       ref
           .read(toastProvider.notifier)
           .show(
@@ -342,6 +337,7 @@ void gatewayReconnectToastListener(Ref ref) {
         (prior == GatewayState.connecting ||
             prior == GatewayState.reconnecting)) {
       reconnectToastShown = false;
+      final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
       ref
           .read(toastProvider.notifier)
           .show(

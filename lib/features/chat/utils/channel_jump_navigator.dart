@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/navigate_to_content.dart';
 import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/utils/link_channel_navigator.dart';
@@ -105,6 +106,9 @@ Future<ChannelJumpResolution> resolveChannelJumpLink({
   required ChannelJumpLink link,
 }) async {
   final String? messageId = link is MessageJumpLink ? link.messageId : null;
+  talker.debug(
+    '[ChannelJump] resolve scope=${link.scope} channel=${link.channelId} message=$messageId',
+  );
   if (!link.isDm) {
     final db.FluxerDatabase database = container.read(fluxerDatabaseProvider);
     final db.Channel? channel = await database.channelDao.getChannelById(
@@ -112,12 +116,16 @@ Future<ChannelJumpResolution> resolveChannelJumpLink({
     );
     if (channel == null) {
       final bool isGatewayReady = container.read(gatewayReadyProvider);
+      talker.debug(
+        '[ChannelJump] channel not found; gatewayReady=$isGatewayReady',
+      );
       if (!isGatewayReady) {
         final String path = buildChannelJumpRoutePath(
           channelId: link.channelId,
           guildId: link.scope,
           messageId: messageId,
         );
+        talker.debug('[ChannelJump] pending path=$path');
         return ChannelJumpPending(path: path);
       }
       return const ChannelJumpAccessDenied();
@@ -162,11 +170,15 @@ ChannelJumpResolution _resolveNavigation({
   required String path,
 }) {
   final String? activeChannelId = container.read(activeChannelIdProvider);
-  if (messageId != null &&
-      messageId.isNotEmpty &&
-      activeChannelId == channelId) {
+  final bool isInPlace =
+      messageId != null && messageId.isNotEmpty && activeChannelId == channelId;
+  talker.debug(
+    '[ChannelJump] activeChannel=$activeChannelId channel=$channelId inPlace=$isInPlace',
+  );
+  if (isInPlace) {
     return ChannelJumpInPlace(channelId: channelId, messageId: messageId);
   }
+  talker.debug('[ChannelJump] navigate path=$path');
   return ChannelJumpNavigate(
     path: path,
     channelId: channelId,
@@ -270,6 +282,7 @@ Future<void> navigateToChannelJumpLinkFromContext({
   if (!context.mounted) {
     return;
   }
+  talker.debug('[ChannelJump] fromContext link=$link');
   final ProviderContainer container = ProviderScope.containerOf(context);
   final ChannelJumpResolution resolution = await resolveChannelJumpLink(
     container: container,
@@ -299,8 +312,15 @@ Future<void> navigateToChannelMessage({
   if (context != null && !context.mounted) {
     return;
   }
+  if (guildChannel == null) {
+    talker.warning(
+      '[ChannelJump] navigateToChannelMessage channel=$channelId not found; '
+      'aborting jump',
+    );
+    return;
+  }
   final ChannelJumpLink link = MessageJumpLink(
-    scope: guildChannel?.guildId ?? '@me',
+    scope: guildChannel.guildId,
     channelId: channelId,
     messageId: messageId,
   );
@@ -312,6 +332,7 @@ Future<void> navigateToChannelJumpLinkVia({
   required ChannelJumpLink link,
   BuildContext? context,
 }) async {
+  talker.debug('[ChannelJump] via link=$link');
   final ProviderContainer container = ref.container;
   final ChannelJumpResolution resolution = await resolveChannelJumpLink(
     container: container,

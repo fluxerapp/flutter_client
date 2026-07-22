@@ -95,6 +95,20 @@ class MatureContentAgreements extends _$MatureContentAgreements {
     await _persist();
   }
 
+  Future<void> revokeCategoryAgreement(String categoryId) async {
+    if (!state.agreedCategoryIds.contains(categoryId)) {
+      return;
+    }
+    final Set<String> updated = Set<String>.from(state.agreedCategoryIds)
+      ..remove(categoryId);
+    state = state.copyWith(agreedCategoryIds: updated);
+    await _persist();
+  }
+
+  bool hasAgreedToCategory(String categoryId) {
+    return state.agreedCategoryIds.contains(categoryId);
+  }
+
   Future<void> agreeToGuild(String guildId) async {
     if (state.agreedGuildIds.contains(guildId)) {
       return;

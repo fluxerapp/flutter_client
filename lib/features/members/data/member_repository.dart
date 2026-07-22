@@ -104,17 +104,7 @@ class MemberRepository {
     String guildId,
     List<GuildMemberResponse> members,
   ) async {
-    if (members.isEmpty) {
-      return;
-    }
-    final List<db.UsersCompanion> userCompanions = <db.UsersCompanion>[];
-    final List<db.MembersCompanion> memberCompanions = <db.MembersCompanion>[];
-    for (final GuildMemberResponse sdk in members) {
-      userCompanions.add(userFromPartialSdk(sdk.user));
-      memberCompanions.add(memberCompanionFromSdk(sdk, guildId: guildId));
-    }
-    await _db.userDao.upsertUsers(userCompanions);
-    await _db.memberDao.upsertMembers(memberCompanions);
+    await upsertGuildMembersFromSdk(_db, guildId, members);
   }
 
   Future<List<MemberRole>> getRoles(String guildId) async {

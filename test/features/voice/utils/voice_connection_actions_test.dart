@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
@@ -47,7 +48,7 @@ void main() {
         });
   });
 
-  tearDown(() async {
+  tearDown(() {
     const MethodChannel permissionChannel = MethodChannel(
       'flutter.baseflow.com/permissions/methods',
     );
@@ -74,7 +75,7 @@ void main() {
                   return ElevatedButton(
                     onPressed: () {
                       sendVoiceStateDisconnect(
-                        ref,
+                        ProviderScope.containerOf(context, listen: false),
                         guildId: _guildId,
                         connectionId: _otherConnectionId,
                       );
@@ -99,6 +100,7 @@ void main() {
       expect(update.selfDeaf, isTrue);
       expect(update.selfVideo, isFalse);
       expect(update.selfStream, isFalse);
+      expect(update.isMobile, isFluxerMobileOs);
     });
   });
 
@@ -114,7 +116,6 @@ void main() {
         tester,
         gateway: gateway,
         voiceSession: voiceSession,
-        voiceStates: const <String, VoiceState>{},
       );
 
       await tester.tap(find.text('Join'));
@@ -122,6 +123,7 @@ void main() {
 
       expect(find.text('Voice Connection Confirmation'), findsNothing);
       expect(voiceSession.connectCallCount, 1);
+      expect(voiceSession.lastForceJoin, isFalse);
       expect(gateway.voiceStateUpdates, isEmpty);
     });
 
@@ -132,46 +134,60 @@ void main() {
       final _RecordingVoiceSession voiceSession = _RecordingVoiceSession();
       addTearDown(gateway.dispose);
 
-      await _pumpJoinHarness(
+      final VoiceJoinResult? result = await _runJoinFromHarness(
         tester,
         gateway: gateway,
         voiceSession: voiceSession,
-        voiceStates: _otherDeviceVoiceStates(),
+        initialVoiceStates: _otherDeviceVoiceStates(),
+        afterModalOpens: (WidgetTester tester) async {
+          await tester.tap(find.text("Do nothing, I don't want to join").last);
+          await tester.pumpAndSettle();
+        },
       );
 
-      await tester.tap(find.text('Join'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text("Do nothing, I don't want to join").last);
-      await tester.pumpAndSettle();
-
+      expect(result, VoiceJoinResult.cancelled);
       expect(voiceSession.connectCallCount, 0);
       expect(gateway.voiceStateUpdates, isEmpty);
     });
 
-    testWidgets('switch disconnects other devices then joins', (
+    testWidgets('switch disconnects other devices then joins with forceJoin', (
       WidgetTester tester,
     ) async {
       final _RecordingGateway gateway = _RecordingGateway();
       final _RecordingVoiceSession voiceSession = _RecordingVoiceSession();
       addTearDown(gateway.dispose);
 
-      await _pumpJoinHarness(
+      final VoiceJoinResult? result = await _runJoinFromHarness(
         tester,
         gateway: gateway,
         voiceSession: voiceSession,
-        voiceStates: _otherDeviceVoiceStates(),
+        initialVoiceStates: _otherDeviceVoiceStates(),
+        onVoiceStateUpdate: (WidgetRef ref, GatewayVoiceStateUpdate update) {
+          final String? connectionId = update.connectionId;
+          if (connectionId == null) {
+            return;
+          }
+          ref
+              .read(voiceStatesMapProvider.notifier)
+              .update(
+                VoiceState(
+                  userId: _userId,
+                  guildId: _guildId,
+                  connectionId: connectionId,
+                ),
+              );
+        },
+        afterModalOpens: (WidgetTester tester) async {
+          await tester.tap(find.text('Switch to This Device').last);
+          await tester.pumpAndSettle();
+        },
       );
 
-      await tester.tap(find.text('Join'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Switch to This Device').last);
-      await tester.pumpAndSettle();
-
+      expect(result, VoiceJoinResult.succeeded);
       expect(gateway.voiceStateUpdates, hasLength(1));
       expect(gateway.voiceStateUpdates.single.connectionId, _otherConnectionId);
       expect(voiceSession.connectCallCount, 1);
+      expect(voiceSession.lastForceJoin, isTrue);
     });
 
     testWidgets('just join connects without disconnecting other devices', (
@@ -181,20 +197,47 @@ void main() {
       final _RecordingVoiceSession voiceSession = _RecordingVoiceSession();
       addTearDown(gateway.dispose);
 
-      await _pumpJoinHarness(
+      final VoiceJoinResult? result = await _runJoinFromHarness(
         tester,
         gateway: gateway,
         voiceSession: voiceSession,
-        voiceStates: _otherDeviceVoiceStates(),
+        initialVoiceStates: _otherDeviceVoiceStates(),
+        afterModalOpens: (WidgetTester tester) async {
+          await tester.tap(
+            find.text('Just Join (Keep Other Connections)').last,
+          );
+          await tester.pumpAndSettle();
+        },
       );
 
-      await tester.tap(find.text('Join'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Just Join (Keep Other Connections)').last);
-      await tester.pumpAndSettle();
-
+      expect(result, VoiceJoinResult.succeeded);
       expect(gateway.voiceStateUpdates, isEmpty);
+      expect(voiceSession.connectCallCount, 1);
+      expect(voiceSession.lastForceJoin, isTrue);
+    });
+
+    testWidgets('still joins after caller context unmounts post modal', (
+      WidgetTester tester,
+    ) async {
+      final _RecordingGateway gateway = _RecordingGateway();
+      final _RecordingVoiceSession voiceSession = _RecordingVoiceSession();
+      addTearDown(gateway.dispose);
+
+      final VoiceJoinResult? result = await _runJoinFromHarness(
+        tester,
+        gateway: gateway,
+        voiceSession: voiceSession,
+        initialVoiceStates: _otherDeviceVoiceStates(),
+        popBranchAfterModalOpens: true,
+        afterModalOpens: (WidgetTester tester) async {
+          await tester.tap(
+            find.text('Just Join (Keep Other Connections)').last,
+          );
+          await tester.pumpAndSettle();
+        },
+      );
+
+      expect(result, VoiceJoinResult.succeeded);
       expect(voiceSession.connectCallCount, 1);
     });
   });
@@ -211,16 +254,74 @@ Map<String, VoiceState> _otherDeviceVoiceStates() {
   };
 }
 
+Future<VoiceJoinResult?> _runJoinFromHarness(
+  WidgetTester tester, {
+  required _RecordingGateway gateway,
+  required _RecordingVoiceSession voiceSession,
+  required Future<void> Function(WidgetTester tester) afterModalOpens,
+  Map<String, VoiceState>? initialVoiceStates,
+  void Function(WidgetRef ref, GatewayVoiceStateUpdate update)?
+  onVoiceStateUpdate,
+  bool popBranchAfterModalOpens = false,
+}) async {
+  final GlobalKey<NavigatorState> branchNavigatorKey =
+      GlobalKey<NavigatorState>();
+  final Completer<VoiceJoinResult?> resultCompleter =
+      Completer<VoiceJoinResult?>();
+  WidgetRef? capturedRef;
+
+  gateway.onVoiceStateUpdate = (GatewayVoiceStateUpdate update) {
+    if (onVoiceStateUpdate != null && capturedRef != null) {
+      onVoiceStateUpdate(capturedRef!, update);
+    }
+  };
+
+  await _pumpJoinHarness(
+    tester,
+    gateway: gateway,
+    voiceSession: voiceSession,
+    branchNavigatorKey: branchNavigatorKey,
+    onRefCaptured: (WidgetRef ref) => capturedRef = ref,
+    onJoinPressed: (WidgetRef ref, BuildContext branchContext) {
+      unawaited(
+        joinVoiceChannelWithConfirmation(
+          ref: ref,
+          guildId: _guildId,
+          channelId: _channelId,
+          context: branchContext,
+        ).then(resultCompleter.complete),
+      );
+    },
+  );
+
+  if (initialVoiceStates != null && capturedRef != null) {
+    for (final VoiceState vs in initialVoiceStates.values) {
+      capturedRef!.read(voiceStatesMapProvider.notifier).update(vs);
+    }
+  }
+
+  await tester.tap(find.text('Join'));
+  await tester.pumpAndSettle();
+
+  if (popBranchAfterModalOpens) {
+    branchNavigatorKey.currentState?.pop();
+    await tester.pumpAndSettle();
+  }
+
+  await afterModalOpens(tester);
+  return resultCompleter.future;
+}
+
 Future<void> _pumpJoinHarness(
   WidgetTester tester, {
   required _RecordingGateway gateway,
   required _RecordingVoiceSession voiceSession,
-  required Map<String, VoiceState> voiceStates,
+  GlobalKey<NavigatorState>? branchNavigatorKey,
+  void Function(WidgetRef ref)? onRefCaptured,
+  void Function(WidgetRef ref, BuildContext branchContext)? onJoinPressed,
 }) async {
-  final GlobalKey<NavigatorState> rootNavigatorKey =
-      GlobalKey<NavigatorState>();
-  final GlobalKey<NavigatorState> branchNavigatorKey =
-      GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> branchKey =
+      branchNavigatorKey ?? GlobalKey<NavigatorState>();
   final colorTheme = buildDarkColorTheme();
 
   await tester.pumpWidget(
@@ -228,7 +329,6 @@ Future<void> _pumpJoinHarness(
       overrides: <Override>[
         gatewayConnectionProvider.overrideWithValue(gateway),
         currentUserIdProvider.overrideWithValue(_userId),
-        voiceStatesMapProvider.overrideWithValue(voiceStates),
         voiceSessionProvider.overrideWith(() => voiceSession),
       ],
       child: MaterialApp(
@@ -241,7 +341,7 @@ Future<void> _pumpJoinHarness(
           layoutTheme: FluxerLayoutTheme.scaled(),
         ),
         home: Navigator(
-          key: branchNavigatorKey,
+          key: branchKey,
           onGenerateRoute: (RouteSettings settings) {
             return MaterialPageRoute<void>(
               builder: (BuildContext branchContext) {
@@ -249,16 +349,20 @@ Future<void> _pumpJoinHarness(
                   body: Consumer(
                     builder:
                         (BuildContext context, WidgetRef ref, Widget? child) {
+                          onRefCaptured?.call(ref);
                           return ElevatedButton(
                             onPressed: () {
-                              unawaited(
-                                joinVoiceChannelWithConfirmation(
-                                  ref: ref,
-                                  guildId: _guildId,
-                                  channelId: _channelId,
-                                  context: branchContext,
-                                ),
-                              );
+                              (onJoinPressed ??
+                                  (WidgetRef ref, BuildContext ctx) {
+                                    unawaited(
+                                      joinVoiceChannelWithConfirmation(
+                                        ref: ref,
+                                        guildId: _guildId,
+                                        channelId: _channelId,
+                                        context: ctx,
+                                      ),
+                                    );
+                                  })(ref, branchContext);
                             },
                             child: const Text('Join'),
                           );
@@ -284,21 +388,30 @@ class _RecordingGateway extends GatewayConnection {
   final List<GatewayVoiceStateUpdate> voiceStateUpdates =
       <GatewayVoiceStateUpdate>[];
 
+  void Function(GatewayVoiceStateUpdate update)? onVoiceStateUpdate;
+
   @override
   bool updateVoiceState(GatewayVoiceStateUpdate update) {
     voiceStateUpdates.add(update);
+    onVoiceStateUpdate?.call(update);
     return true;
   }
 }
 
 class _RecordingVoiceSession extends VoiceSession {
+  _RecordingVoiceSession({
+    VoiceSessionState initialState = const VoiceSessionState(),
+  }) : _initialState = initialState;
+
+  final VoiceSessionState _initialState;
   int connectCallCount = 0;
+  bool? lastForceJoin;
 
   @override
-  VoiceSessionState build() => const VoiceSessionState();
+  VoiceSessionState build() => _initialState;
 
   @override
-  Future<void> connectToVoiceChannel({
+  Future<bool> connectToVoiceChannel({
     required String? guildId,
     required String channelId,
     bool startOutgoingCall = false,
@@ -307,7 +420,10 @@ class _RecordingVoiceSession extends VoiceSession {
     bool initialSelfMute = false,
     bool initialSelfDeaf = false,
     bool initialSelfVideo = false,
+    bool forceJoin = false,
   }) async {
     connectCallCount++;
+    lastForceJoin = forceJoin;
+    return true;
   }
 }

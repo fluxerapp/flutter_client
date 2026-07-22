@@ -119,6 +119,53 @@ class GuildUserSettingsRepository {
     }
   }
 
+  Future<void> toggleAllCategoriesCollapsed({
+    required String guildId,
+    required List<String> categoryIds,
+    GuildUserSettingsPersistenceOptions options =
+        const GuildUserSettingsPersistenceOptions(),
+  }) async {
+    try {
+      final Map<String, ChannelOverrides> overrides =
+          await _loadChannelOverridesFromCache(guildId);
+      final List<String> uniqueCategoryIds = categoryIds.toSet().toList();
+      if (uniqueCategoryIds.isEmpty) {
+        return;
+      }
+      final bool allCollapsed = uniqueCategoryIds.every(
+        (String categoryId) => overrides[categoryId]?.collapsed ?? false,
+      );
+      final bool newCollapsed = !allCollapsed;
+      for (final String categoryId in uniqueCategoryIds) {
+        final ChannelOverrides? previous = overrides[categoryId];
+        overrides[categoryId] = _mergeChannelOverride(
+          previous: previous,
+          collapsed: newCollapsed,
+        );
+      }
+      await _persistChannelOverridesLocally(
+        guildId: guildId,
+        channelOverrides: overrides,
+      );
+      if (options.persistImmediately) {
+        _cancelPatchTimer(guildId);
+        await _syncChannelOverridesToServer(
+          guildId: guildId,
+          channelOverrides: overrides,
+          rethrowOnFailure: true,
+        );
+        return;
+      }
+      _scheduleChannelOverridesPatch(guildId);
+    } on Object catch (error, stackTrace) {
+      talker.error(
+        '[GuildUserSettingsRepository] Failed to toggle all categories collapsed',
+        error,
+        stackTrace,
+      );
+    }
+  }
+
   Future<void> updateChannelOverride({
     required String guildId,
     required String channelId,

@@ -19,6 +19,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   passkeys_windows
   permission_handler_windows
   record_windows
+  refresh_rate
   screen_retriever_windows
   share_plus
   super_native_extensions

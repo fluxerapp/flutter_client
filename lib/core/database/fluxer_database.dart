@@ -141,7 +141,7 @@ class FluxerDatabase extends _$FluxerDatabase {
   FluxerDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 76;
+  int get schemaVersion => 77;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -723,7 +723,7 @@ class FluxerDatabase extends _$FluxerDatabase {
         )) {
           await m.addColumn(messages, messages.authorPublicFlags);
         }
-        await m.createTable(localSpamOverrides);
+        await _createTableIfNotExists(m, localSpamOverrides);
       }
       if (from < 75) {
         if (!await _tableHasColumn(
@@ -755,6 +755,48 @@ class FluxerDatabase extends _$FluxerDatabase {
           columnName: 'mobile',
         )) {
           await m.addColumn(users, users.mobile);
+        }
+      }
+      if (from < 77) {
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_media_delete_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMediaDeleteButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_media_download_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMediaDownloadButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_media_favorite_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showMediaFavoriteButton,
+          );
+        }
+        if (!await _tableHasColumn(
+          m.database,
+          tableName: 'user_preferences',
+          columnName: 'show_suppress_embeds_button',
+        )) {
+          await m.addColumn(
+            userPreferencesTable,
+            userPreferencesTable.showSuppressEmbedsButton,
+          );
         }
       }
     },
@@ -809,6 +851,28 @@ Future<bool> _tableHasColumn(
       .customSelect('PRAGMA table_info($tableName)')
       .get();
   return rows.any((QueryRow row) => row.read<String>('name') == columnName);
+}
+
+Future<bool> _tableExists(
+  GeneratedDatabase database, {
+  required String tableName,
+}) async {
+  final List<QueryRow> rows = await database
+      .customSelect(
+        "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?",
+        variables: <Variable<String>>[Variable<String>(tableName)],
+      )
+      .get();
+  return rows.isNotEmpty;
+}
+
+Future<void> _createTableIfNotExists(
+  Migrator m,
+  TableInfo<Table, dynamic> table,
+) async {
+  if (!await _tableExists(m.database, tableName: table.actualTableName)) {
+    await m.createTable(table);
+  }
 }
 
 QueryExecutor _openConnection() => openFluxerSqliteConnection();

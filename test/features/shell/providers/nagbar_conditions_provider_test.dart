@@ -114,7 +114,7 @@ void main() {
       final ProviderContainer container = ProviderContainer(
         overrides: <Override>[
           nagbarConditionsProvider.overrideWith(
-            (Ref ref) async => _emptyConditions(userIsUnclaimed: true),
+            (Ref ref) => _emptyConditions(userIsUnclaimed: true),
           ),
         ],
       );
@@ -187,10 +187,8 @@ ProviderContainer _container({
       scheduledMaintenanceDismissalStorageProvider.overrideWithValue(
         dismissalStorage,
       ),
-      guildMembershipCtaVisibleProvider.overrideWith((Ref ref) async => false),
-      pushNotificationPermissionGrantedProvider.overrideWith(
-        (Ref ref) async => true,
-      ),
+      guildMembershipCtaVisibleProvider.overrideWith((Ref ref) => false),
+      pushNotificationPermissionGrantedProvider.overrideWith((Ref ref) => true),
     ],
   );
 }

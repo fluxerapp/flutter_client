@@ -74,4 +74,52 @@ void main() {
       expect(notifier.hasAgreedToChannel('missing-channel'), isFalse);
     },
   );
+
+  test('revokeCategoryAgreement removes category and persists', () async {
+    final db = openTestDatabase();
+    await db.userPreferencesDao.setMatureContentAgreements(
+      'user-1',
+      const preferences_dao.MatureContentAgreements(
+        agreedCategoryIds: <String>['category-1'],
+      ),
+    );
+    final ProviderContainer container = ProviderContainer(
+      overrides: <Override>[
+        fluxerDatabaseProvider.overrideWithValue(db),
+        userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
+      ],
+    );
+    addTearDown(container.dispose);
+    final MatureContentAgreements notifier = container.read(
+      matureContentAgreementsProvider.notifier,
+    );
+    await Future<void>.delayed(Duration.zero);
+    expect(notifier.hasAgreedToCategory('category-1'), isTrue);
+    await notifier.revokeCategoryAgreement('category-1');
+    expect(notifier.hasAgreedToCategory('category-1'), isFalse);
+    final preferences_dao.MatureContentAgreements persisted = await db
+        .userPreferencesDao
+        .getMatureContentAgreements('user-1');
+    expect(persisted.agreedCategoryIds, isEmpty);
+  });
+
+  test(
+    'revokeCategoryAgreement is a no-op when category was not agreed',
+    () async {
+      final db = openTestDatabase();
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          fluxerDatabaseProvider.overrideWithValue(db),
+          userSettingsViewModelProvider.overrideWith(_FakeUserSettings.new),
+        ],
+      );
+      addTearDown(container.dispose);
+      final MatureContentAgreements notifier = container.read(
+        matureContentAgreementsProvider.notifier,
+      );
+      await Future<void>.delayed(Duration.zero);
+      await notifier.revokeCategoryAgreement('missing-category');
+      expect(notifier.hasAgreedToCategory('missing-category'), isFalse);
+    },
+  );
 }

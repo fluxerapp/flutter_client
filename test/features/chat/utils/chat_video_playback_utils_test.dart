@@ -167,10 +167,10 @@ void main() {
     });
 
     test('throws after retry exhaustion', () async {
-      debugYouTubeStreamResolver = (String pageUrl) async {
+      debugYouTubeStreamResolver = (String pageUrl) {
         throw StateError('permanent failure');
       };
-      expect(
+      await expectLater(
         resolveYouTubeStreamUrl('https://www.youtube.com/watch?v=abc'),
         throwsA(isA<StateError>()),
       );
@@ -182,7 +182,7 @@ void main() {
         await Future<void>.delayed(const Duration(seconds: 1));
         return 'https://cdn.example.com/stream.mp4';
       };
-      expect(
+      await expectLater(
         resolveYouTubeStreamUrl('https://www.youtube.com/watch?v=abc'),
         throwsA(isA<TimeoutException>()),
       );

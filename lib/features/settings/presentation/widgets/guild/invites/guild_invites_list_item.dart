@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
@@ -364,17 +361,4 @@ class GuildInvitesListItem extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<void> copyInviteLink({
-  required BuildContext context,
-  required String inviteUrl,
-  required FluxerLocalizations l10n,
-  required void Function(String message) showToast,
-}) async {
-  await Clipboard.setData(ClipboardData(text: inviteUrl));
-  if (!context.mounted) {
-    return;
-  }
-  showToast(l10n.copiedToClipboard);
 }

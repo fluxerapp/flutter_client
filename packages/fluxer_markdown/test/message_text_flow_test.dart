@@ -574,6 +574,55 @@ void main() {
       expect(divider, findsOneWidget);
     });
 
+    testWidgets('renders multiline >>> blockquote across blank lines', (
+      tester,
+    ) async {
+      const Color blockquoteBorderColor = Color(0xFF123456);
+      const Color blockquoteTextColor = Color(0xFFABCDEF);
+      const FluxerMarkdownConfig blockquoteConfig = FluxerMarkdownConfig(
+        resolveEmojiShortcode: _noopEmojiShortcode,
+        unicodeEmojiUrlBuilder: _noopUnicodeEmojiUrl,
+        customEmojiUrlBuilder: _noopCustomEmojiUrl,
+        blockquoteBorderColor: blockquoteBorderColor,
+        blockquoteTextColor: blockquoteTextColor,
+      );
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 320,
+              child: FluxerMarkdown(
+                data: '>>> line one\n\nline two',
+                config: blockquoteConfig,
+                baseStyle: baseStyle,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      final RichText lineOneText = tester.widget<RichText>(
+        find.text('line one', findRichText: true),
+      );
+      expect(lineOneText.text.style?.color, blockquoteTextColor);
+
+      final RichText lineTwoText = tester.widget<RichText>(
+        find.text('line two', findRichText: true),
+      );
+      expect(lineTwoText.text.style?.color, blockquoteTextColor);
+
+      final divider = find.byWidgetPredicate((widget) {
+        if (widget is! Container) {
+          return false;
+        }
+        final decoration = widget.decoration;
+        return decoration is BoxDecoration &&
+            decoration.color == blockquoteBorderColor;
+      });
+      expect(divider, findsOneWidget);
+    });
+
     testWidgets('standard context renders blank lines in message text', (
       tester,
     ) async {

@@ -328,6 +328,7 @@ class InlineTokenTextEditingController extends TextEditingController {
   }) {
     assert(
       !value.composing.isValid || !withComposing || value.isComposingRangeValid,
+      'composing range must be valid when withComposing is true',
     );
     final String t = text;
     if (t.isEmpty) {

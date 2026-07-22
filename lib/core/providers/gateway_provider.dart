@@ -79,7 +79,7 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
   final messageBus = ref.watch(messageRealtimeBusProvider);
   final mentionCache = ref.watch(messageMentionContextCacheProvider);
   ref.listen<Set<String>>(blockedUserIdsProvider, (_, Set<String> next) {
-    mentionCache.updateBlockedUserIds(next);
+    mentionCache.blockedUserIds = next;
   }, fireImmediately: true);
   final handler = GatewayEventHandler(
     database: db,

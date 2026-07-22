@@ -244,8 +244,7 @@ void main() {
       TestWidgetsFlutterBinding.ensureInitialized();
       final TextEditingController controller = TextEditingController(
         text: 'hello world',
-      );
-      controller.selection = const TextSelection.collapsed(offset: 5);
+      )..selection = const TextSelection.collapsed(offset: 5);
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
           .setMockMethodCallHandler(SystemChannels.platform, (
             MethodCall methodCall,

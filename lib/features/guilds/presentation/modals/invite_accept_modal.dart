@@ -129,7 +129,7 @@ class _InviteAcceptModalBodyState extends ConsumerState<InviteAcceptModalBody> {
       widget.onClose!();
       return;
     }
-    Navigator.of(context).maybePop();
+    unawaited(Navigator.of(context).maybePop());
   }
 
   Future<void> _acceptInvite() async {

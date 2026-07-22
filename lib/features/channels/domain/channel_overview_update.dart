@@ -270,7 +270,7 @@ ChannelUpdateRequest buildChannelOverviewUpdate({
 Map<String, dynamic> channelUpdateRequestToPatchBody(
   ChannelUpdateRequest request,
 ) {
-  final Map<String, dynamic> body = request.toJson();
-  body.removeWhere((String key, dynamic value) => value == null);
+  final Map<String, dynamic> body = request.toJson()
+    ..removeWhere((String key, dynamic value) => value == null);
   return body;
 }

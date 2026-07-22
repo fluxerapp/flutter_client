@@ -29,6 +29,20 @@ Message _domainMessage({
 
 Embed _imageEmbed() => const Embed(type: EmbedType.image, url: 'https://x/y');
 
+Attachment _domainAttachment({
+  String id = 'att-1',
+  String filename = 'image.png',
+  String url = 'https://x/y',
+  String? contentType,
+}) {
+  return Attachment(
+    id: id,
+    filename: filename,
+    url: url,
+    contentType: contentType,
+  );
+}
+
 void main() {
   group('canManageMessagesInChannel', () {
     test('returns false in DMs even with bits', () {
@@ -283,6 +297,142 @@ void main() {
         isFalse,
       );
       expect(_domainMessage(type: messageTypeUserJoin).isUserMessage, isFalse);
+    });
+  });
+
+  group('canDeleteAttachmentOnMessage', () {
+    test('returns true for own deletable message when send is enabled', () {
+      final Message message = _domainMessage();
+      expect(
+        canDeleteAttachmentOnMessage(message: message, isOwnMessage: true),
+        isTrue,
+      );
+    });
+
+    test('returns false when not own message', () {
+      final Message message = _domainMessage(authorId: 'someone-else');
+      expect(
+        canDeleteAttachmentOnMessage(message: message, isOwnMessage: false),
+        isFalse,
+      );
+    });
+
+    test('returns false for non-deletable message type', () {
+      final Message message = _domainMessage(type: messageTypeRecipientAdd);
+      expect(
+        canDeleteAttachmentOnMessage(message: message, isOwnMessage: true),
+        isFalse,
+      );
+    });
+
+    test('returns false when guild send is disabled', () {
+      final Message message = _domainMessage();
+      expect(
+        canDeleteAttachmentOnMessage(
+          message: message,
+          isOwnMessage: true,
+          isSendDisabled: true,
+        ),
+        isFalse,
+      );
+    });
+  });
+
+  group('canEditAttachmentAltText', () {
+    test('returns true for own image attachment', () {
+      final Message message = _domainMessage();
+      final Attachment attachment = _domainAttachment(contentType: 'image/png');
+      expect(
+        canEditAttachmentAltText(
+          message: message,
+          isOwnMessage: true,
+          attachment: attachment,
+          canManageMessages: false,
+          isDmChannel: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('returns true for own video attachment', () {
+      final Message message = _domainMessage();
+      final Attachment attachment = _domainAttachment(
+        filename: 'video.mp4',
+        contentType: 'video/mp4',
+      );
+      expect(
+        canEditAttachmentAltText(
+          message: message,
+          isOwnMessage: true,
+          attachment: attachment,
+          canManageMessages: false,
+          isDmChannel: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('returns false for non-media attachment', () {
+      final Message message = _domainMessage();
+      final Attachment attachment = _domainAttachment(
+        filename: 'document.pdf',
+        contentType: 'application/pdf',
+      );
+      expect(
+        canEditAttachmentAltText(
+          message: message,
+          isOwnMessage: true,
+          attachment: attachment,
+          canManageMessages: false,
+          isDmChannel: false,
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns true for moderator image attachment in guild', () {
+      final Message message = _domainMessage(authorId: 'someone-else');
+      final Attachment attachment = _domainAttachment(contentType: 'image/png');
+      expect(
+        canEditAttachmentAltText(
+          message: message,
+          isOwnMessage: false,
+          attachment: attachment,
+          canManageMessages: true,
+          isDmChannel: false,
+        ),
+        isTrue,
+      );
+    });
+
+    test('returns false for moderator image attachment in DM', () {
+      final Message message = _domainMessage(authorId: 'someone-else');
+      final Attachment attachment = _domainAttachment(contentType: 'image/png');
+      expect(
+        canEditAttachmentAltText(
+          message: message,
+          isOwnMessage: false,
+          attachment: attachment,
+          canManageMessages: true,
+          isDmChannel: true,
+        ),
+        isFalse,
+      );
+    });
+
+    test('returns false for non-author without manage permission', () {
+      final Message message = _domainMessage(authorId: 'someone-else');
+      final Attachment attachment = _domainAttachment(contentType: 'image/png');
+      expect(
+        canEditAttachmentAltText(
+          message: message,
+          isOwnMessage: false,
+          attachment: attachment,
+          canManageMessages: false,
+          isDmChannel: false,
+        ),
+        isFalse,
+      );
     });
   });
 }

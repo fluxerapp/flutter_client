@@ -73,8 +73,7 @@ class _CreateDmBottomSheetBodyState
       container: ref.container,
       options: widget.options,
       onCreated: _handleCreated,
-    );
-    controller.addListener(_handleControllerChanged);
+    )..addListener(_handleControllerChanged);
     _controller = controller;
   }
 

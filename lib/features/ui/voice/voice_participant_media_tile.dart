@@ -135,7 +135,7 @@ class VoiceParticipantMediaTile extends StatelessWidget {
           if (mirrorCamera && isOwnCameraTile) {
             videoChild = Transform(
               alignment: Alignment.center,
-              transform: Matrix4.identity()..scale(-1.0, 1, 1),
+              transform: Matrix4.diagonal3Values(-1, 1, 1),
               child: videoChild,
             );
           }
@@ -490,14 +490,15 @@ class _ScreenShareAudioPlaybackState
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<VoiceStreamAudioPrefsState>(
-      voiceStreamAudioProvider,
-      (_, _) => _onStreamPrefsChanged(),
-    );
-    ref.listen<VoiceSettingsState>(
-      voiceSettingsProvider,
-      (_, _) => unawaited(_applyVolume()),
-    );
+    ref
+      ..listen<VoiceStreamAudioPrefsState>(
+        voiceStreamAudioProvider,
+        (_, _) => _onStreamPrefsChanged(),
+      )
+      ..listen<VoiceSettingsState>(
+        voiceSettingsProvider,
+        (_, _) => unawaited(_applyVolume()),
+      );
     return const SizedBox.shrink();
   }
 }

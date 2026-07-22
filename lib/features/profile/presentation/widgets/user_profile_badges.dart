@@ -7,7 +7,7 @@ import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
-import 'package:intl/intl.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 
 const int _kFlagStaff = 1 << 0;
 const int _kFlagCtp = 1 << 1;
@@ -142,7 +142,7 @@ class UserProfileBadges extends StatelessWidget {
   }
 
   String _premiumTooltip(FluxerLocalizations l10n) {
-    final String? since = _formatPremiumSince(premiumSince);
+    final String? since = _formatPremiumSince(premiumSince, l10n.localeName);
     if (isLifetimePlutonium) {
       return since == null
           ? l10n.userProfileVisionaryBadgeTooltip
@@ -153,7 +153,7 @@ class UserProfileBadges extends StatelessWidget {
         : l10n.userProfilePlutoniumSubscriberSinceTooltip(since);
   }
 
-  static String? _formatPremiumSince(String? premiumSince) {
+  static String? _formatPremiumSince(String? premiumSince, String localeName) {
     if (premiumSince == null) {
       return null;
     }
@@ -161,7 +161,7 @@ class UserProfileBadges extends StatelessWidget {
     if (date == null) {
       return null;
     }
-    return DateFormat.yMMMd().format(date.toLocal());
+    return formatUserMediumDate(date.toLocal(), localeName);
   }
 
   @override

@@ -88,6 +88,7 @@ jobs:
           PROVISIONING_PROFILE_BASE64: ${{ secrets.CANARY_PROVISIONING_PROFILE_BASE64 }}
           CANARY_BROADCAST_EXTENSION_PROVISIONING_PROFILE_BASE64: ${{ secrets.CANARY_BROADCAST_EXTENSION_PROVISIONING_PROFILE_BASE64 }}
           CANARY_NOTIFICATION_SERVICE_PROVISIONING_PROFILE_BASE64: ${{ secrets.CANARY_NOTIFICATION_SERVICE_PROVISIONING_PROFILE_BASE64 }}
+          CANARY_SHARE_EXTENSION_PROVISIONING_PROFILE_BASE64: ${{ secrets.CANARY_SHARE_EXTENSION_PROVISIONING_PROFILE_BASE64 }}
         run: |
           PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
           mkdir -p "$PROFILES_DIR"
@@ -95,7 +96,7 @@ jobs:
             [ -e "$existing_profile" ] || continue
             PROFILE_APP_ID=$(security cms -D -i "$existing_profile" | plutil -extract Entitlements.application-identifier raw - 2>/dev/null || true)
             case "$PROFILE_APP_ID" in
-              *.com.fluxer|*.com.fluxer.canary|*.com.fluxer.BroadcastExtension|*.com.fluxer.canary.BroadcastExtension|*.com.fluxer.NotificationService|*.com.fluxer.canary.NotificationService)
+              *.com.fluxer|*.com.fluxer.canary|*.com.fluxer.BroadcastExtension|*.com.fluxer.canary.BroadcastExtension|*.com.fluxer.NotificationService|*.com.fluxer.canary.NotificationService|*.com.fluxer.ShareExtension|*.com.fluxer.canary.ShareExtension)
                 rm -f "$existing_profile"
                 ;;
             esac
@@ -115,6 +116,11 @@ jobs:
           else
             cp "$PROFILES_DIR/broadcast_extension.mobileprovision" "$PROFILES_DIR/notification_service.mobileprovision"
           fi
+          if [ -n "$CANARY_SHARE_EXTENSION_PROVISIONING_PROFILE_BASE64" ]; then
+            echo "$CANARY_SHARE_EXTENSION_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILES_DIR/share_extension.mobileprovision"
+          else
+            cp "$PROFILES_DIR/notification_service.mobileprovision" "$PROFILES_DIR/share_extension.mobileprovision"
+          fi
           PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract UUID raw -)
           PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract Name raw -)
           PROFILE_TEAM_ID=$(security cms -D -i "$PROFILES_DIR/profile.mobileprovision" | plutil -extract TeamIdentifier.0 raw -)
@@ -125,16 +131,21 @@ jobs:
           NOTIFICATION_SERVICE_PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract UUID raw -)
           NOTIFICATION_SERVICE_PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract Name raw -)
           IS_NOTIFICATION_SERVICE_DEVELOPMENT_PROFILE=$(security cms -D -i "$PROFILES_DIR/notification_service.mobileprovision" | plutil -extract Entitlements.get-task-allow raw - 2>/dev/null || echo "false")
+          SHARE_EXTENSION_PROFILE_UUID=$(security cms -D -i "$PROFILES_DIR/share_extension.mobileprovision" | plutil -extract UUID raw -)
+          SHARE_EXTENSION_PROFILE_NAME=$(security cms -D -i "$PROFILES_DIR/share_extension.mobileprovision" | plutil -extract Name raw -)
+          IS_SHARE_EXTENSION_DEVELOPMENT_PROFILE=$(security cms -D -i "$PROFILES_DIR/share_extension.mobileprovision" | plutil -extract Entitlements.get-task-allow raw - 2>/dev/null || echo "false")
           {
             echo "PROFILE_UUID=$PROFILE_UUID"
             echo "PROFILE_NAME=$PROFILE_NAME"
             echo "PROFILE_TEAM_ID=$PROFILE_TEAM_ID"
             echo "BROADCAST_EXTENSION_PROFILE_UUID=$BROADCAST_EXTENSION_PROFILE_UUID"
             echo "NOTIFICATION_SERVICE_PROFILE_UUID=$NOTIFICATION_SERVICE_PROFILE_UUID"
+            echo "SHARE_EXTENSION_PROFILE_UUID=$SHARE_EXTENSION_PROFILE_UUID"
           } >> "$GITHUB_ENV"
           echo "::notice::Provisioning profile metadata - name: $PROFILE_NAME, uuid: $PROFILE_UUID, team: $PROFILE_TEAM_ID, development: $IS_DEVELOPMENT_PROFILE"
           echo "::notice::Broadcast extension profile metadata - name: $BROADCAST_EXTENSION_PROFILE_NAME, uuid: $BROADCAST_EXTENSION_PROFILE_UUID, development: $IS_BROADCAST_EXTENSION_DEVELOPMENT_PROFILE"
           echo "::notice::Notification Service extension profile metadata - name: $NOTIFICATION_SERVICE_PROFILE_NAME, uuid: $NOTIFICATION_SERVICE_PROFILE_UUID, development: $IS_NOTIFICATION_SERVICE_DEVELOPMENT_PROFILE"
+          echo "::notice::Share extension profile metadata - name: $SHARE_EXTENSION_PROFILE_NAME, uuid: $SHARE_EXTENSION_PROFILE_UUID, development: $IS_SHARE_EXTENSION_DEVELOPMENT_PROFILE"
           if [ "$IS_DEVELOPMENT_PROFILE" = "true" ]; then
             echo "::error::Provisioning profile is Development type. Use an App Store distribution profile for TestFlight."
             exit 1
@@ -145,6 +156,10 @@ jobs:
           fi
           if [ "$IS_NOTIFICATION_SERVICE_DEVELOPMENT_PROFILE" = "true" ]; then
             echo "::error::Notification Service extension provisioning profile is Development type. Use an App Store distribution profile for TestFlight."
+            exit 1
+          fi
+          if [ "$IS_SHARE_EXTENSION_DEVELOPMENT_PROFILE" = "true" ]; then
+            echo "::error::Share extension provisioning profile is Development type. Use an App Store distribution profile for TestFlight."
             exit 1
           fi
 

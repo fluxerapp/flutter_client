@@ -16,13 +16,14 @@ class ServiceStatusMaintenanceRead extends _$ServiceStatusMaintenanceRead {
 
   @override
   ServiceStatusMaintenance? build() {
-    ref.onDispose(_cancelPoll);
-    ref.listen<AsyncValue<WellKnownFluxerResponse>>(wellKnownProvider, (
-      _,
-      AsyncValue<WellKnownFluxerResponse> next,
-    ) {
-      next.whenData((_) => unawaited(refresh()));
-    }, fireImmediately: true);
+    ref
+      ..onDispose(_cancelPoll)
+      ..listen<AsyncValue<WellKnownFluxerResponse>>(wellKnownProvider, (
+        _,
+        AsyncValue<WellKnownFluxerResponse> next,
+      ) {
+        next.whenData((_) => unawaited(refresh()));
+      }, fireImmediately: true);
     return null;
   }
 

@@ -29,7 +29,7 @@ class AttachmentRenderer extends StatelessWidget {
     this.messageNonce,
     this.channelId,
     this.messageFlags = 0,
-    this.videoActionScope,
+    this.mediaActionScope,
     super.key,
   });
 
@@ -43,7 +43,7 @@ class AttachmentRenderer extends StatelessWidget {
   final String? messageNonce;
   final String? channelId;
   final int messageFlags;
-  final MessageMediaActionScope? videoActionScope;
+  final MessageMediaActionScope? mediaActionScope;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +53,11 @@ class AttachmentRenderer extends StatelessWidget {
     );
     final Widget content = _buildContent(renderState);
     final DateTime? expiresAt = attachment.expiresAt;
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String? expiryFootnoteText = expiresAt == null
         ? null
-        : FluxerLocalizations.of(context).chatAttachmentExpiresOn(
-            DateFormat('dd MMM, yyyy').format(expiresAt),
+        : l10n.chatAttachmentExpiresOn(
+            DateFormat('dd MMM, yyyy', l10n.localeName).format(expiresAt),
           );
     return Padding(
       padding: const EdgeInsets.only(top: 2),
@@ -112,11 +113,12 @@ class AttachmentRenderer extends StatelessWidget {
         imageGalleryIndex: imageGalleryIndex,
         channelId: channelId,
         messageId: messageId,
+        mediaActionScope: mediaActionScope,
       ),
       AttachmentRenderType.video => AttachmentVideo(
         attachment: attachment,
         dimensionSize: dimensionSize,
-        videoActionScope: videoActionScope,
+        videoActionScope: mediaActionScope,
       ),
       AttachmentRenderType.audio =>
         isVoiceMessageAttachment(

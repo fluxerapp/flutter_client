@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_prov
 import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
 
 class BottomInputSpacer extends ConsumerWidget {
   const BottomInputSpacer({super.key});
@@ -40,8 +41,20 @@ class BottomInputSpacer extends ConsumerWidget {
       if (reservedHeight <= 0) {
         return const SizedBox.shrink();
       }
-      return SizedBox(height: reservedHeight);
+      return _animatedSpacer(context, reservedHeight);
     }
-    return SizedBox(height: slotHeight);
+    if (slotHeight <= 0) {
+      return const SizedBox.shrink();
+    }
+    return _animatedSpacer(context, slotHeight);
+  }
+
+  Widget _animatedSpacer(BuildContext context, double height) {
+    return expandableSheetAnimatedSize(
+      context: context,
+      isDragging: false,
+      height: height,
+      child: const SizedBox.shrink(),
+    );
   }
 }

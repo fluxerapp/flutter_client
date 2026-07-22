@@ -9,7 +9,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
@@ -35,6 +34,7 @@ import 'package:fluxer_app/features/ui/radio_group/fluxer_radio_group.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:go_router/go_router.dart';
 
@@ -243,7 +243,6 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
   }
 
   Future<void> _handleCopyMessageLink(
-    FluxerLocalizations l10n,
     String channelId,
     String messageId,
     String? guildId,
@@ -254,8 +253,7 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
       guildId: guildId,
       webAppBase: InstanceEndpoints.webApp,
     );
-    await Clipboard.setData(ClipboardData(text: link));
-    _showToast(l10n.copiedToClipboard, variant: FluxerToastVariant.success);
+    await copyToClipboard(context: context, value: link);
   }
 
   Future<void> _handleCloseDm(
@@ -402,7 +400,6 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
           label: l10n.iarActionCopyMessageLinkButton,
           onPressed: () => unawaited(
             _handleCopyMessageLink(
-              l10n,
               ctx.message.channelId,
               ctx.message.id,
               ctx.guildId,

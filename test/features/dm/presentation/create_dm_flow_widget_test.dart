@@ -298,9 +298,9 @@ class _CreateDmLauncher extends StatelessWidget {
 
 class _RecordingDmRepository extends DmRepository {
   _RecordingDmRepository(
-    super.client,
-    super.db,
-    super.guildUserSettingsRepository, {
+    super._client,
+    super._db,
+    super._guildUserSettingsRepository, {
     required this.createResult,
     this.duplicates = const <DmConversation>[],
   });

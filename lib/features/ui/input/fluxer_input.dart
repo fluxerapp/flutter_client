@@ -33,7 +33,7 @@ class FluxerInput extends StatelessWidget {
     this.textInputAction,
     this.autofillHints,
     this.inputFormatters,
-    this.contextMenuBuilder,
+    this.contextMenuBuilder = _defaultContextMenuBuilder,
     this.style,
     this.maxLines = 1,
     this.minLines,
@@ -70,7 +70,7 @@ class FluxerInput extends StatelessWidget {
     this.textInputAction,
     this.autofillHints,
     this.inputFormatters,
-    this.contextMenuBuilder,
+    this.contextMenuBuilder = _defaultContextMenuBuilder,
     this.style,
     this.maxLines,
     this.minLines = 3,
@@ -117,7 +117,7 @@ class FluxerInput extends StatelessWidget {
   final TextInputAction? textInputAction;
   final Iterable<String>? autofillHints;
   final List<TextInputFormatter>? inputFormatters;
-  final EditableTextContextMenuBuilder? contextMenuBuilder;
+  final EditableTextContextMenuBuilder contextMenuBuilder;
   final TextStyle? style;
   final int? maxLines;
   final int? minLines;
@@ -126,6 +126,20 @@ class FluxerInput extends StatelessWidget {
   final bool enableSuggestions;
 
   bool get _isMultiline => minLines != null && minLines! > 1;
+
+  static Widget _defaultContextMenuBuilder(
+    BuildContext context,
+    EditableTextState editableTextState,
+  ) {
+    if (SystemContextMenu.isSupportedByField(editableTextState)) {
+      return SystemContextMenu.editableText(
+        editableTextState: editableTextState,
+      );
+    }
+    return AdaptiveTextSelectionToolbar.editableText(
+      editableTextState: editableTextState,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

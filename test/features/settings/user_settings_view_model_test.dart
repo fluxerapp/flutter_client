@@ -4,10 +4,58 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/settings/domain/guild_asset_mode.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
+
+UserSettingsViewState _baseSettings({
+  String userId = '1',
+  String? avatar,
+  String? banner,
+  String? selectedGuildId,
+  String? guildAvatar,
+  String? guildBanner,
+  GuildAssetMode guildAvatarMode = GuildAssetMode.inherit,
+  GuildAssetMode guildBannerMode = GuildAssetMode.inherit,
+  String? editedAvatarBase64,
+  String? editedBannerBase64,
+  String? editedGuildAvatarBase64,
+  String? editedGuildBannerBase64,
+  bool avatarCleared = false,
+  bool bannerCleared = false,
+  bool guildAvatarCleared = false,
+  bool guildBannerCleared = false,
+}) {
+  return UserSettingsViewState(
+    userId: userId,
+    username: 'user',
+    displayName: 'user',
+    discriminator: '0001',
+    avatar: avatar,
+    avatarColor: null,
+    memberSince: null,
+    status: 'online',
+    messageDisplayCompact: false,
+    developerMode: false,
+    trustedDomains: const <String>[],
+    banner: banner,
+    editedAvatarBase64: editedAvatarBase64,
+    editedBannerBase64: editedBannerBase64,
+    avatarCleared: avatarCleared,
+    bannerCleared: bannerCleared,
+    selectedGuildId: selectedGuildId,
+    guildAvatar: guildAvatar,
+    guildBanner: guildBanner,
+    guildAvatarMode: guildAvatarMode,
+    guildBannerMode: guildBannerMode,
+    editedGuildAvatarBase64: editedGuildAvatarBase64,
+    editedGuildBannerBase64: editedGuildBannerBase64,
+    guildAvatarCleared: guildAvatarCleared,
+    guildBannerCleared: guildBannerCleared,
+  );
+}
 
 /// Offline stub for `loadProfile()`'s `client.users.getCurrentUser()`. The API
 /// call returns a `Future<Never>.error` (bottom type, assignable to any
@@ -29,6 +77,127 @@ class _OfflineUsersApi implements UsersApi {
 }
 
 void main() {
+  group('UserSettingsViewState preview asset getters', () {
+    test('global profile uses global avatar and banner fields', () {
+      const state = UserSettingsViewState(
+        userId: '1',
+        username: 'user',
+        displayName: 'user',
+        discriminator: '0001',
+        avatar: 'global_avatar',
+        avatarColor: null,
+        memberSince: null,
+        status: 'online',
+        messageDisplayCompact: false,
+        developerMode: false,
+        trustedDomains: <String>[],
+        banner: 'global_banner',
+        editedAvatarBase64: 'data:image/png;base64,abc',
+        editedBannerBase64: 'data:image/png;base64,def',
+      );
+
+      expect(state.previewAvatarBase64, 'data:image/png;base64,abc');
+      expect(state.previewBannerBase64, 'data:image/png;base64,def');
+      expect(state.previewAvatarCleared, isFalse);
+      expect(state.previewBannerCleared, isFalse);
+      expect(state.previewAvatarUrl, contains('/avatars/1/global_avatar.webp'));
+      expect(state.previewBannerUrl, contains('/banners/1/global_banner.webp'));
+    });
+
+    test('guild custom mode resolves guild avatar and banner URLs', () {
+      final state = _baseSettings(
+        avatar: 'global_avatar',
+        banner: 'global_banner',
+        selectedGuildId: '10',
+        guildAvatar: 'guild_avatar',
+        guildBanner: 'guild_banner',
+        guildAvatarMode: GuildAssetMode.custom,
+        guildBannerMode: GuildAssetMode.custom,
+      );
+
+      expect(state.previewAvatarBase64, isNull);
+      expect(state.previewBannerBase64, isNull);
+      expect(state.previewAvatarCleared, isFalse);
+      expect(state.previewBannerCleared, isFalse);
+      expect(
+        state.previewAvatarUrl,
+        contains('/guilds/10/users/1/avatars/guild_avatar.webp'),
+      );
+      expect(
+        state.previewBannerUrl,
+        contains('/guilds/10/users/1/banners/guild_banner.webp'),
+      );
+    });
+
+    test('guild inherit mode falls back to global assets', () {
+      final state = _baseSettings(
+        avatar: 'global_avatar',
+        banner: 'global_banner',
+        selectedGuildId: '10',
+        guildAvatar: 'guild_avatar',
+        guildBanner: 'guild_banner',
+      );
+
+      expect(state.previewAvatarUrl, contains('/avatars/1/global_avatar.webp'));
+      expect(state.previewBannerUrl, contains('/banners/1/global_banner.webp'));
+    });
+
+    test('guild unset mode clears avatar and banner preview', () {
+      final state = _baseSettings(
+        avatar: 'global_avatar',
+        banner: 'global_banner',
+        selectedGuildId: '10',
+        guildAvatar: 'guild_avatar',
+        guildBanner: 'guild_banner',
+        guildAvatarMode: GuildAssetMode.unset,
+        guildBannerMode: GuildAssetMode.unset,
+      );
+
+      expect(state.previewAvatarBase64, isNull);
+      expect(state.previewBannerBase64, isNull);
+      expect(state.previewAvatarUrl, isNull);
+      expect(state.previewBannerUrl, isNull);
+      expect(state.previewAvatarCleared, isTrue);
+      expect(state.previewBannerCleared, isTrue);
+    });
+
+    test('guild custom mode prefers pending base64 uploads', () {
+      final state = _baseSettings(
+        selectedGuildId: '10',
+        guildAvatar: 'guild_avatar',
+        guildBanner: 'guild_banner',
+        guildAvatarMode: GuildAssetMode.custom,
+        guildBannerMode: GuildAssetMode.custom,
+        editedGuildAvatarBase64: 'data:image/png;base64,guild-avatar',
+        editedGuildBannerBase64: 'data:image/png;base64,guild-banner',
+      );
+
+      expect(state.previewAvatarBase64, 'data:image/png;base64,guild-avatar');
+      expect(state.previewBannerBase64, 'data:image/png;base64,guild-banner');
+      expect(state.previewAvatarUrl, isNull);
+      expect(state.previewBannerUrl, isNull);
+      expect(state.previewAvatarCleared, isFalse);
+      expect(state.previewBannerCleared, isFalse);
+    });
+
+    test('guild custom mode cleared assets hide preview media', () {
+      final state = _baseSettings(
+        selectedGuildId: '10',
+        guildAvatar: 'guild_avatar',
+        guildBanner: 'guild_banner',
+        guildAvatarMode: GuildAssetMode.custom,
+        guildBannerMode: GuildAssetMode.custom,
+        guildAvatarCleared: true,
+        guildBannerCleared: true,
+      );
+
+      expect(state.previewAvatarUrl, isNull);
+      expect(state.previewBannerUrl, isNull);
+      expect(state.previewAvatarCleared, isTrue);
+      expect(state.previewBannerCleared, isTrue);
+    });
+  });
+
   test('userSettingsViewModel does not rebuild on presence-only writes but '
       'does on display changes', () async {
     final db = openTestDatabase();

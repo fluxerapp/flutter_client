@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/build/app_diagnostic_clipboard_text.dart';
@@ -43,6 +42,7 @@ import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_util
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/relative_time.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -639,7 +639,7 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
               button: true,
               label: 'Copy app info',
               child: GestureDetector(
-                onTap: () => _copyBuildInfoToClipboard(context, ref, info),
+                onTap: () => _copyBuildInfoToClipboard(context, info),
                 child: Text(
                   text,
                   textAlign: TextAlign.center,
@@ -658,20 +658,8 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
     );
   }
 
-  void _copyBuildInfoToClipboard(
-    BuildContext context,
-    WidgetRef ref,
-    AppRuntimeInfo info,
-  ) {
+  void _copyBuildInfoToClipboard(BuildContext context, AppRuntimeInfo info) {
     final clipboardText = formatAppDiagnosticClipboardText(info);
-    unawaited(Clipboard.setData(ClipboardData(text: clipboardText)));
-    ref
-        .read(toastProvider.notifier)
-        .show(
-          FluxerToast(
-            message: FluxerLocalizations.of(context).copiedToClipboard,
-            variant: FluxerToastVariant.success,
-          ),
-        );
+    unawaited(copyToClipboard(context: context, value: clipboardText));
   }
 }

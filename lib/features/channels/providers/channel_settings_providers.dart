@@ -6,7 +6,7 @@ import 'package:fluxer_app/features/channels/domain/channel_permission_overwrite
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
-import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/export.dart' hide Error;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_settings_providers.g.dart';
@@ -14,6 +14,8 @@ part 'channel_settings_providers.g.dart';
 @riverpod
 class ChannelSettingsActions extends _$ChannelSettingsActions {
   @override
+  // Action notifier base type for Riverpod mutations.
+  // ignore: avoid_futureor_void
   FutureOr<void> build(String channelId) {}
 
   Future<Channel> updateOverview({
@@ -26,29 +28,32 @@ class ChannelSettingsActions extends _$ChannelSettingsActions {
     if (!ref.mounted) {
       throw StateError('Provider disposed');
     }
+    // Async notifier loading state for void action providers.
+    // ignore: void_checks
     state = const AsyncLoading<void>();
-    final AsyncValue<Channel> result = await AsyncValue.guard(() {
-      return ref
-          .read(channelRepositoryProvider)
-          .updateChannelOverview(
-            channel: channel,
-            current: current,
-            original: original,
-            canManageChannel: canManageChannel,
-            canUpdateRtcRegion: canUpdateRtcRegion,
-          );
-    });
-    if (!ref.mounted) {
-      throw StateError('Provider disposed');
-    }
-    state = result.when(
-      data: (_) => const AsyncData<void>(null),
-      error: AsyncError.new,
-      loading: () => const AsyncLoading<void>(),
+    final AsyncValue<Channel> result = await _runWithKeepAlive(
+      () => AsyncValue.guard(() {
+        return ref
+            .read(channelRepositoryProvider)
+            .updateChannelOverview(
+              channel: channel,
+              current: current,
+              original: original,
+              canManageChannel: canManageChannel,
+              canUpdateRtcRegion: canUpdateRtcRegion,
+            );
+      }),
     );
+    if (ref.mounted) {
+      state = result.when(
+        data: (_) => const AsyncData<void>(null),
+        error: AsyncError.new,
+        loading: () => const AsyncLoading<void>(),
+      );
+    }
     return result.when(
       data: (Channel updated) => updated,
-      error: (Object error, StackTrace stackTrace) => throw error,
+      error: Error.throwWithStackTrace,
       loading: () => throw StateError('Unexpected loading state'),
     );
   }
@@ -60,28 +65,40 @@ class ChannelSettingsActions extends _$ChannelSettingsActions {
     if (!ref.mounted) {
       throw StateError('Provider disposed');
     }
+    // Async notifier loading state for void action providers.
+    // ignore: void_checks
     state = const AsyncLoading<void>();
-    final AsyncValue<Channel> result = await AsyncValue.guard(() {
-      return ref
-          .read(channelRepositoryProvider)
-          .updateChannelPermissionOverwrites(
-            channel: channel,
-            overwrites: overwrites,
-          );
-    });
-    if (!ref.mounted) {
-      throw StateError('Provider disposed');
-    }
-    state = result.when(
-      data: (_) => const AsyncData<void>(null),
-      error: AsyncError.new,
-      loading: () => const AsyncLoading<void>(),
+    final AsyncValue<Channel> result = await _runWithKeepAlive(
+      () => AsyncValue.guard(() {
+        return ref
+            .read(channelRepositoryProvider)
+            .updateChannelPermissionOverwrites(
+              channel: channel,
+              overwrites: overwrites,
+            );
+      }),
     );
+    if (ref.mounted) {
+      state = result.when(
+        data: (_) => const AsyncData<void>(null),
+        error: AsyncError.new,
+        loading: () => const AsyncLoading<void>(),
+      );
+    }
     return result.when(
       data: (Channel updated) => updated,
-      error: (Object error, StackTrace stackTrace) => throw error,
+      error: Error.throwWithStackTrace,
       loading: () => throw StateError('Unexpected loading state'),
     );
+  }
+
+  Future<T> _runWithKeepAlive<T>(Future<T> Function() operation) async {
+    final keepAlive = ref.keepAlive();
+    try {
+      return await operation();
+    } finally {
+      keepAlive.close();
+    }
   }
 }
 

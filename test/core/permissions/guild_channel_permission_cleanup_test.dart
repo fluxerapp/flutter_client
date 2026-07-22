@@ -156,9 +156,9 @@ void main() {
       await evictInactiveGuildPermissionState(container, guildA);
       await cache.rebuildGuild(guildB);
 
-      final Map<String, int> cached = container.read(
-        channelPermissionCacheProvider,
-      );
+      final Map<String, int> cached = container
+          .read(channelPermissionCacheProvider)
+          .effective;
       expect(cached.length, 1);
       expect(cached.containsKey(channelB1), isTrue);
       expect(cached.containsKey(channelA1), isFalse);

@@ -96,7 +96,7 @@ List<VoiceState> otherUserConnectionsInChannel({
       .toList();
 }
 
-const Duration _kTypingExpiry = Duration(seconds: 10);
+const Duration kTypingExpiry = Duration(seconds: 10);
 
 @Riverpod(keepAlive: true)
 class TypingIndicators extends _$TypingIndicators {
@@ -109,7 +109,7 @@ class TypingIndicators extends _$TypingIndicators {
   }
 
   void addTyping(String channelId, String userId) {
-    final DateTime expiresAt = clock.now().add(_kTypingExpiry);
+    final DateTime expiresAt = clock.now().add(kTypingExpiry);
     final Map<String, Map<String, DateTime>> next =
         Map<String, Map<String, DateTime>>.from(state);
     final Map<String, DateTime> channelEntries = Map<String, DateTime>.from(

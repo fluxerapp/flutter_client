@@ -55,14 +55,17 @@ void main() {
       ),
     );
     await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);
     expect(find.byType(BottomInputSpacer), findsOneWidget);
-    final Finder spacerFinder = find.byWidgetPredicate(
-      (Widget widget) =>
-          widget is SizedBox && widget.height != null && widget.height! > 200,
+    final Size spacerSize = tester.getSize(
+      find.descendant(
+        of: find.byType(BottomInputSpacer),
+        matching: find.byType(AnimatedContainer),
+      ),
     );
-    expect(spacerFinder, findsOneWidget);
+    expect(spacerSize.height, greaterThan(200));
 
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 500));
@@ -103,18 +106,19 @@ void main() {
         ),
       );
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 50));
+      await tester.pumpAndSettle();
 
       final BottomInputSlotState slotState = container.read(
         bottomInputSlotProvider,
       );
       expect(slotState.slotHeight, 336);
-      final SizedBox spacer = tester.widget<SizedBox>(
-        find.byWidgetPredicate(
-          (Widget widget) => widget is SizedBox && widget.height == 336,
+      final Size spacerSize = tester.getSize(
+        find.descendant(
+          of: find.byType(BottomInputSpacer),
+          matching: find.byType(AnimatedContainer),
         ),
       );
-      expect(spacer.height, 336);
+      expect(spacerSize.height, 336);
 
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump(const Duration(milliseconds: 500));

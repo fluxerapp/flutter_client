@@ -64,6 +64,25 @@ void main() {
         layout.phoneHeight + borderWidth * 2,
       );
     });
+
+    test('round status dot is centered on web cutout anchor', () {
+      for (final double avatarSize in <double>[36, 80, 120]) {
+        final AvatarStatusLayout layout = AvatarStatusLayout.forAvatarSize(
+          avatarSize,
+        );
+        final double cutoutCenter = avatarStatusCutoutCenter(avatarSize);
+        expect(
+          layout.statusRight,
+          avatarSize - cutoutCenter - layout.statusDotSize / 2,
+          reason: 'statusRight should center dot for size $avatarSize',
+        );
+        expect(
+          layout.statusBottom,
+          avatarSize - cutoutCenter - layout.statusDotSize / 2,
+          reason: 'statusBottom should center dot for size $avatarSize',
+        );
+      }
+    });
   });
 
   group('isMobileOnlineStatus', () {

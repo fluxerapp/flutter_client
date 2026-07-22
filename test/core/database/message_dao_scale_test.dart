@@ -54,6 +54,7 @@ void main() {
       for (int i = 0; i < channelCount; i++) {
         expect(lastMessages['channel-$i']?.content, 'newer');
       }
+      // Scale test timing output.
       // ignore: avoid_print
       print(
         'getLastMessageForChannels($channelCount channels): '
@@ -91,6 +92,7 @@ void main() {
       stopwatch.stop();
       expect(page.length, 50);
       expect(page.last.content, 'message-${messageCount - 1}');
+      // Scale test timing output.
       // ignore: avoid_print
       print(
         'getMessages(limit: 50) over $messageCount rows: '

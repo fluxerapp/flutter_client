@@ -15,8 +15,8 @@ import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const double _kBannerHeight = 100;
@@ -59,7 +59,7 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
   }
 
   Uint8List? _avatarBytes() {
-    final uri = widget.state.editedAvatarBase64;
+    final uri = widget.state.previewAvatarBase64;
     if (!identical(uri, _lastAvatarUri)) {
       _lastAvatarUri = uri;
       _cachedAvatarBytes = _decodeDataUri(uri);
@@ -68,7 +68,7 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
   }
 
   Uint8List? _bannerBytes() {
-    final uri = widget.state.editedBannerBase64;
+    final uri = widget.state.previewBannerBase64;
     if (!identical(uri, _lastBannerUri)) {
       _lastBannerUri = uri;
       _cachedBannerBytes = _decodeDataUri(uri);
@@ -287,7 +287,8 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
   double _bannerHeight(UserSettingsViewState s, double width) {
     final bannerBytes = _bannerBytes();
     final showBanner =
-        !s.bannerCleared && (bannerBytes != null || s.bannerUrl != null);
+        !s.previewBannerCleared &&
+        (bannerBytes != null || s.previewBannerUrl != null);
     return showBanner ? width / _kBannerAspectRatio : _kBannerHeight;
   }
 
@@ -300,9 +301,9 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
     double headerH,
   ) {
     final bannerBytes = _bannerBytes();
-    final bannerUrl = s.bannerUrl;
+    final bannerUrl = s.previewBannerUrl;
     final showBanner =
-        !s.bannerCleared && (bannerBytes != null || bannerUrl != null);
+        !s.previewBannerCleared && (bannerBytes != null || bannerUrl != null);
 
     Widget bannerContent;
     if (showBanner && bannerBytes != null) {
@@ -323,7 +324,8 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
 
     final avatarBytes = _avatarBytes();
     final hasAvatar =
-        !s.avatarCleared && (avatarBytes != null || s.avatarUrl != null);
+        !s.previewAvatarCleared &&
+        (avatarBytes != null || s.previewAvatarUrl != null);
 
     return SizedBox(
       height: headerH,
@@ -356,7 +358,9 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
                       ),
                     )
                   : FluxerAvatar.user(
-                      imageUrl: s.avatarCleared ? null : s.avatarUrl,
+                      imageUrl: s.previewAvatarCleared
+                          ? null
+                          : s.previewAvatarUrl,
                       fallbackText: _effectiveDisplayName(),
                       avatarColor: s.avatarColor,
                       userId: s.userId,
@@ -445,7 +449,7 @@ class _ProfilePreviewCardState extends State<ProfilePreviewCard> {
         ),
         const SizedBox(height: 4),
         Text(
-          DateFormat.yMMMd().format(date.toLocal()),
+          formatUserMediumDate(date.toLocal(), l10n.localeName),
           style: textStyles.bodySmall.copyWith(color: colors.textChat),
         ),
       ],

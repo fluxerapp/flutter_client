@@ -1,5 +1,7 @@
 part of 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 
+// Kept for planned quick-switcher UI wiring.
+// ignore: unused_element
 const int _kRoleMentionLimit = 10;
 const int _kChannelLimit = 10;
 const int _kEmojiLimit = 10;
@@ -29,6 +31,7 @@ class _ComposerRow {
     this.emojiSurrogates,
     this.emojiImageUrl,
     this.emojiCacheKey,
+    this.isDivider = false,
   });
 
   final String title;
@@ -40,6 +43,7 @@ class _ComposerRow {
   final String? emojiSurrogates;
   final String? emojiImageUrl;
   final String? emojiCacheKey;
+  final bool isDivider;
 }
 
 class ComposerAutocompleteFieldState
@@ -57,6 +61,11 @@ class ComposerAutocompleteFieldState
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
   MentionAutocompleteSession? _mentionSession;
+  ProviderSubscription<AsyncValue<Map<String, db.Role>>>?
+  _guildRolesSubscription;
+  String? _guildRolesWatchGuildId;
+  ProviderSubscription<ChannelPermissionCaches>? _channelPermissionSubscription;
+  String? _channelPermissionWatchChannelId;
 
   String get _channelId => widget.channelId ?? '';
 
@@ -93,6 +102,7 @@ class ComposerAutocompleteFieldState
       widget.focusNode.addListener(_onFocusChanged);
     }
     if (oldWidget.channelId != widget.channelId) {
+      _stopMentionAutocompleteWatches();
       _setRows(const <_ComposerRow>[]);
     }
   }
@@ -100,6 +110,7 @@ class ComposerAutocompleteFieldState
   @override
   void dispose() {
     _debounce?.cancel();
+    _stopMentionAutocompleteWatches();
     widget.controller.removeListener(_onTextChanged);
     widget.focusNode.removeListener(_onFocusChanged);
     _animationController.dispose();
@@ -110,12 +121,25 @@ class ComposerAutocompleteFieldState
 
   void _onFocusChanged() {
     if (!widget.focusNode.hasFocus) {
+      _stopMentionAutocompleteWatches();
       _setRows(const <_ComposerRow>[]);
     }
   }
 
   void _onTextChanged() {
     _debounce?.cancel();
+    final TextSelection selection = widget.controller.selection;
+    if (selection.isValid && selection.isCollapsed) {
+      final ComposerAutocompleteTrigger? trigger =
+          ComposerAutocompleteTrigger.detectIfAllowed(
+            fullText: widget.controller.text,
+            caretIndex: selection.baseOffset,
+          );
+      if (trigger?.kind == ComposerAutocompleteTriggerKind.mention) {
+        _scheduleSync();
+        return;
+      }
+    }
     _debounce = Timer(
       const Duration(milliseconds: _kAutocompleteTypingDebounceMs),
       _scheduleSync,
@@ -149,6 +173,7 @@ class ComposerAutocompleteFieldState
       return;
     }
     if (trigger == null || !widget.allowedTriggers.contains(trigger.kind)) {
+      _stopMentionAutocompleteWatches();
       _setRows(const <_ComposerRow>[]);
       return;
     }
@@ -168,7 +193,7 @@ class ComposerAutocompleteFieldState
     }
   }
 
-  Future<int> _effectiveChannelBits() async {
+  Future<int> _channelPermissionBits() async {
     if (_channelId.isEmpty) {
       return 0;
     }
@@ -180,8 +205,13 @@ class ComposerAutocompleteFieldState
     if (isDirectChat) {
       return allPermissions;
     }
-    return ref.read(
-      effectiveGuildChannelPermissionBitsProvider(_channelId).future,
+    final int? cached = ref.read(channelPermissionCacheProvider)[_channelId];
+    if (cached != null) {
+      return cached;
+    }
+    return readEffectiveGuildChannelPermissionBits(
+      container: ref.container,
+      channelId: _channelId,
     );
   }
 
@@ -201,6 +231,116 @@ class ComposerAutocompleteFieldState
         }
       },
     );
+  }
+
+  void _stopMentionAutocompleteWatches() {
+    _stopGuildRolesWatch();
+    _stopChannelPermissionWatch();
+  }
+
+  void _startMentionAutocompleteWatches({
+    required String guildId,
+    required String channelId,
+  }) {
+    _startGuildRolesWatch(guildId);
+    _startChannelPermissionWatch(channelId);
+  }
+
+  void _startChannelPermissionWatch(String channelId) {
+    if (channelId.isEmpty) {
+      _stopChannelPermissionWatch();
+      return;
+    }
+    if (_channelPermissionWatchChannelId == channelId &&
+        _channelPermissionSubscription != null) {
+      return;
+    }
+    _stopChannelPermissionWatch();
+    _channelPermissionWatchChannelId = channelId;
+    _channelPermissionSubscription = ref.listenManual(
+      channelPermissionCacheProvider,
+      (ChannelPermissionCaches? previous, ChannelPermissionCaches next) {
+        if (!mounted) {
+          return;
+        }
+        final int? previousBits = previous?[channelId];
+        final int? nextBits = next[channelId];
+        if (nextBits != null && nextBits != previousBits) {
+          _scheduleSync();
+        }
+      },
+    );
+    unawaited(
+      ref
+          .read(channelPermissionCacheProvider.notifier)
+          .rebuildChannel(channelId),
+    );
+  }
+
+  void _stopChannelPermissionWatch() {
+    _channelPermissionSubscription?.close();
+    _channelPermissionSubscription = null;
+    _channelPermissionWatchChannelId = null;
+  }
+
+  void _startGuildRolesWatch(String guildId) {
+    if (_guildRolesWatchGuildId == guildId && _guildRolesSubscription != null) {
+      return;
+    }
+    _stopGuildRolesWatch();
+    _guildRolesWatchGuildId = guildId;
+    _guildRolesSubscription = ref.listenManual(
+      guildRolesByIdProvider(guildId),
+      (
+        AsyncValue<Map<String, db.Role>>? previous,
+        AsyncValue<Map<String, db.Role>> next,
+      ) {
+        if (!mounted || !next.hasValue) {
+          return;
+        }
+        _scheduleSync();
+      },
+    );
+  }
+
+  void _stopGuildRolesWatch() {
+    _guildRolesSubscription?.close();
+    _guildRolesSubscription = null;
+    _guildRolesWatchGuildId = null;
+  }
+
+  int _firstSelectableRowIndex() {
+    for (int i = 0; i < _rows.length; i++) {
+      if (!_rows[i].isDivider) {
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  int _normalizeSelectableIndex(int index) {
+    if (_rows.isEmpty) {
+      return 0;
+    }
+    var normalized = index.clamp(0, _rows.length - 1);
+    if (_rows[normalized].isDivider) {
+      normalized = _nextSelectableIndex(normalized, 1);
+    }
+    return normalized;
+  }
+
+  int _nextSelectableIndex(int from, int delta) {
+    if (_rows.isEmpty) {
+      return 0;
+    }
+    var index = from;
+    for (int step = 0; step < _rows.length; step++) {
+      index = (index + delta + _rows.length) % _rows.length;
+      if (!_rows[index].isDivider) {
+        return index;
+      }
+    }
+    return from.clamp(0, _rows.length - 1);
   }
 
   Future<void> _syncChannels(
@@ -262,6 +402,7 @@ class ComposerAutocompleteFieldState
     Set<String> remoteSearchMemberIds = <String>{};
     Set<String> localMemberIds = <String>{};
     if (guildId != null && guildId.isNotEmpty) {
+      _startMentionAutocompleteWatches(guildId: guildId, channelId: _channelId);
       ref.read(guildSyncProvider.notifier).syncIfNeeded(guildId);
       final GuildMentionMemberSearch search = ref.read(
         guildMentionMemberSearchProvider,
@@ -323,6 +464,7 @@ class ComposerAutocompleteFieldState
       }
       return;
     }
+    _stopMentionAutocompleteWatches();
     members = await _dmMentionMembers();
     if (generation != _syncGeneration) {
       return;
@@ -410,7 +552,7 @@ class ComposerAutocompleteFieldState
     if (generation != _syncGeneration) {
       return;
     }
-    final List<_ComposerRow> rows = ranked
+    final List<_ComposerRow> memberRows = ranked
         .map(
           (Member m) => _ComposerRow(
             title: memberDisplayLabel(
@@ -423,7 +565,7 @@ class ComposerAutocompleteFieldState
           ),
         )
         .toList();
-    final int bits = await _effectiveChannelBits();
+    final int bits = await _channelPermissionBits();
     if (generation != _syncGeneration) {
       return;
     }
@@ -432,9 +574,10 @@ class ComposerAutocompleteFieldState
         guildId.isNotEmpty &&
         hasPermission(bits, Permission.mentionEveryone);
     final String q = parsed.usernameQuery.trim().toLowerCase();
+    final List<_ComposerRow> specialRows = <_ComposerRow>[];
     if (canMentionEveryone) {
       if (q.isEmpty || 'everyone'.startsWith(q)) {
-        rows.add(
+        specialRows.add(
           _ComposerRow(
             title: '@everyone',
             onApply: () => _applyLiteralMention(trigger, '@everyone'),
@@ -442,7 +585,7 @@ class ComposerAutocompleteFieldState
         );
       }
       if (q.isEmpty || 'here'.startsWith(q)) {
-        rows.add(
+        specialRows.add(
           _ComposerRow(
             title: '@here',
             onApply: () => _applyLiteralMention(trigger, '@here'),
@@ -450,42 +593,93 @@ class ComposerAutocompleteFieldState
         );
       }
     }
+    final List<_ComposerRow> roleRows = <_ComposerRow>[];
     if (guildId != null && guildId.isNotEmpty) {
       final String roleSubtitle =
           l10n.composerAutocompleteRoleMentionDescription;
-      final List<db.Role> dbRoles = await ref
-          .read(fluxerDatabaseProvider)
-          .roleDao
-          .getRoles(guildId);
+      final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+      final MemberRepository memberRepository = ref.read(
+        memberRepositoryProvider,
+      );
+      final Map<String, db.Role>? cachedRolesById = ref
+          .read(guildRolesByIdProvider(guildId))
+          .value;
+      final List<db.Role> dbRoles =
+          await resolveGuildRolesForMentionAutocomplete(
+            database: database,
+            repository: memberRepository,
+            guildId: guildId,
+            query: q,
+            rolesById: cachedRolesById,
+          );
       if (generation != _syncGeneration) {
         return;
       }
-      int roleCount = 0;
-      for (final db.Role r in dbRoles) {
-        if (roleCount >= _kRoleMentionLimit) {
-          break;
-        }
-        if (r.id == guildId) {
-          continue;
-        }
-        if (!(canMentionEveryone || r.mentionable)) {
-          continue;
-        }
-        if (q.isNotEmpty && !r.name.toLowerCase().contains(q)) {
-          continue;
-        }
-        roleCount++;
-        final Color? titleColor = (r.color & 0xffffff) == 0
+      final Map<String, db.Role> roleById = <String, db.Role>{
+        for (final db.Role role in dbRoles) role.id: role,
+      };
+      final List<RoleMentionSearchTarget> rankedRoles =
+          rankRolesForMentionQuery(
+            dbRoles
+                .map(
+                  (db.Role role) => RoleMentionSearchTarget(
+                    id: role.id,
+                    name: role.name,
+                    position: role.position,
+                    mentionable: role.mentionable,
+                  ),
+                )
+                .toList(),
+            guildId: guildId,
+            query: q,
+            canMentionEveryone: canMentionEveryone,
+          );
+      for (final RoleMentionSearchTarget role in rankedRoles) {
+        final int color = roleById[role.id]?.color ?? 0;
+        final Color? titleColor = (color & 0xffffff) == 0
             ? null
-            : Color(0xff000000 | (r.color & 0xffffff));
-        rows.add(
+            : Color(0xff000000 | (color & 0xffffff));
+        roleRows.add(
           _ComposerRow(
-            title: '@${r.name}',
+            title: '@${role.name}',
             subtitle: roleSubtitle,
             titleColor: titleColor,
-            onApply: () => _applyRoleMention(trigger, r.id, r.name, r.color),
+            onApply: () =>
+                _applyRoleMention(trigger, role.id, role.name, color),
           ),
         );
+      }
+    }
+    final MentionMatchRank bestMemberRank = ranked.isEmpty || q.isEmpty
+        ? MentionMatchRank.noMatch
+        : mentionMatchRankForMember(
+            ranked.first,
+            q,
+            friendNickname: friendNicknameById[ranked.first.id],
+            discriminator: discs[ranked.first.id],
+          );
+    final MentionMatchRank bestRoleRank = roleRows.isEmpty || q.isEmpty
+        ? MentionMatchRank.noMatch
+        : mentionMatchRankForRoleName(roleRows.first.title.substring(1), q);
+    final bool promoteRoles = shouldPromoteRoleMentionMatches(
+      query: q,
+      bestRoleRank: bestRoleRank,
+      bestMemberRank: bestMemberRank,
+    );
+    final List<_ComposerRow> rows = <_ComposerRow>[];
+    if (promoteRoles) {
+      rows
+        ..addAll(roleRows)
+        ..addAll(memberRows)
+        ..addAll(specialRows);
+    } else {
+      rows
+        ..addAll(memberRows)
+        ..addAll(specialRows);
+      if (roleRows.isNotEmpty) {
+        rows
+          ..add(_ComposerRow(title: '', onApply: () {}, isDivider: true))
+          ..addAll(roleRows);
       }
     }
     if (generation != _syncGeneration) {
@@ -643,7 +837,7 @@ class ComposerAutocompleteFieldState
       _rows
         ..clear()
         ..addAll(next);
-      _selectedIndex = 0;
+      _selectedIndex = next.isEmpty ? 0 : _firstSelectableRowIndex();
     });
     if (_usesInStackPanel) {
       _publishPanel();
@@ -653,11 +847,12 @@ class ComposerAutocompleteFieldState
       return;
     }
     if (next.isEmpty) {
+      _stopGuildRolesWatch();
       _hideOverlay();
-    } else {
-      _showOverlay();
-      _scheduleScrollSelectionIntoView();
+      return;
     }
+    _showOverlay();
+    _scheduleScrollSelectionIntoView();
   }
 
   void _publishPanel() {
@@ -669,7 +864,7 @@ class ComposerAutocompleteFieldState
       host.value = null;
       return;
     }
-    final int safeIndex = _selectedIndex.clamp(0, _rows.length - 1);
+    final int safeIndex = _normalizeSelectableIndex(_selectedIndex);
     host.value = ComposerAutocompletePanelSnapshot(
       rows: _rows.map((_ComposerRow r) {
         final Member? m = r.mentionMember;
@@ -692,6 +887,7 @@ class ComposerAutocompleteFieldState
           emojiSurrogates: r.emojiSurrogates,
           emojiImageUrl: r.emojiImageUrl,
           emojiCacheKey: r.emojiCacheKey,
+          isDivider: r.isDivider,
         );
       }).toList(),
       selectedIndex: safeIndex,
@@ -847,6 +1043,7 @@ class ComposerAutocompleteFieldState
   }
 
   void _closeMenu() {
+    _stopGuildRolesWatch();
     _setRows(const <_ComposerRow>[]);
   }
 
@@ -859,7 +1056,7 @@ class ComposerAutocompleteFieldState
       return;
     }
     setState(() {
-      _selectedIndex = (_selectedIndex + delta + _rows.length) % _rows.length;
+      _selectedIndex = _nextSelectableIndex(_selectedIndex, delta);
     });
     if (_usesInStackPanel) {
       _publishPanel();
@@ -871,7 +1068,11 @@ class ComposerAutocompleteFieldState
     if (_rows.isEmpty) {
       return;
     }
-    _rows[_selectedIndex].onApply();
+    final int index = _normalizeSelectableIndex(_selectedIndex);
+    if (_rows[index].isDivider) {
+      return;
+    }
+    _rows[index].onApply();
   }
 
   bool get hasOpenMenu => _rows.isNotEmpty;
@@ -885,7 +1086,7 @@ class ComposerAutocompleteFieldState
     final double targetWidth = (renderBox?.hasSize ?? false)
         ? renderBox!.size.width
         : double.infinity;
-    final int safeIndex = _selectedIndex.clamp(0, _rows.length - 1);
+    final int safeIndex = _normalizeSelectableIndex(_selectedIndex);
     return Stack(
       children: <Widget>[
         Positioned.fill(
@@ -938,6 +1139,9 @@ class ComposerAutocompleteFieldState
               },
               itemBuilder: (BuildContext _, int i) {
                 final _ComposerRow row = _rows[i];
+                if (row.isDivider) {
+                  return const Divider(height: 1);
+                }
                 final Member? m = row.mentionMember;
                 return ComposerAutocompletePanelListTile(
                   title: row.title,

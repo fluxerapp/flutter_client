@@ -64,6 +64,10 @@ String formatUserDateTime(
   return formatter.format(localDateTime);
 }
 
+String formatUserMediumDate(DateTime localDateTime, String locale) {
+  return DateFormat.yMMMd(locale).format(localDateTime);
+}
+
 String formatUserMediumDateTime(
   DateTime localDateTime,
   String locale, {

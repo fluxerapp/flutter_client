@@ -66,6 +66,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
   List<MessageChannelMention> mentionChannels = const [],
   bool revealSpoilers = false,
   FluxerSpoilerSyncController? spoilerSyncController,
+  FluxerTimestampFormatter? timestampFormatter,
 }) {
   return FluxerMarkdownConfig(
     resolveEmojiShortcode: EmojiRegistry.resolveSync,
@@ -166,6 +167,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     spoilersInitiallyRevealed: revealSpoilers,
     spoilerSyncController: spoilerSyncController,
     spoilerSyncKeyNormalizer: _normalizeSpoilerSyncUrl,
+    timestampFormatter: timestampFormatter,
     alertBuilder: (context, type, body, baseStyle) {
       return MessageAlert(
         type: switch (type) {

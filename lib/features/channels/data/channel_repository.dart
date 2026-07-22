@@ -53,7 +53,7 @@ class ChannelRepository {
     required ChannelOverviewFormState original,
     required bool canManageChannel,
     required bool canUpdateRtcRegion,
-  }) async {
+  }) {
     final ChannelUpdateRequest body = buildChannelOverviewUpdate(
       channel: channel,
       current: current,
@@ -67,7 +67,7 @@ class ChannelRepository {
   Future<Channel> updateChannelPermissionOverwrites({
     required Channel channel,
     required List<ChannelPermissionOverwriteEntry> overwrites,
-  }) async {
+  }) {
     final ChannelUpdateRequest body = buildChannelPermissionOverwritesUpdate(
       channel: channel,
       overwrites: overwrites,

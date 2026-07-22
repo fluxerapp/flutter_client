@@ -208,10 +208,9 @@ class AccountManager extends _$AccountManager {
       } on Object catch (e) {
         talker.warning('[AccountManager] Failed to logout stored account: $e');
       }
-
-      await authRepository.removeStoredAccount(userId);
     }
 
+    await authRepository.removeStoredAccount(userId);
     await loadAccounts();
   }
 }

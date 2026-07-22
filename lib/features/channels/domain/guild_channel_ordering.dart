@@ -1,6 +1,8 @@
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 
 abstract final class GuildChannelOrdering {
+  const GuildChannelOrdering._();
+
   static int compareChannelOrdering(Channel a, Channel b) {
     final int positionComparison = a.position.compareTo(b.position);
     if (positionComparison != 0) {

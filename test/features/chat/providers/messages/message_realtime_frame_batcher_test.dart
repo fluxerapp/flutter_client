@@ -46,8 +46,9 @@ void main() {
       guildStorageId: null,
       acknowledgedByGateway: false,
     );
-    batcher.onEvent(testMessageCreated(_createEvent('1'), snapshot: snapshot));
-    batcher.onEvent(testMessageCreated(_createEvent('2'), snapshot: snapshot));
+    batcher
+      ..onEvent(testMessageCreated(_createEvent('1'), snapshot: snapshot))
+      ..onEvent(testMessageCreated(_createEvent('2'), snapshot: snapshot));
     expect(flushes, isEmpty);
     SchedulerBinding.instance.handleBeginFrame(Duration.zero);
     SchedulerBinding.instance.handleDrawFrame();
@@ -68,10 +69,13 @@ void main() {
       guildStorageId: null,
       acknowledgedByGateway: false,
     );
-    batcher.onEvent(testMessageCreated(_createEvent('1'), snapshot: snapshot));
-    batcher.onEvent(
-      const MessageDeleted(MessageDeleteEvent(channelId: 'c1', messageId: '1')),
-    );
+    batcher
+      ..onEvent(testMessageCreated(_createEvent('1'), snapshot: snapshot))
+      ..onEvent(
+        const MessageDeleted(
+          MessageDeleteEvent(channelId: 'c1', messageId: '1'),
+        ),
+      );
     expect(flushes.length, 2);
     expect(flushes.first.length, 1);
     expect(flushes.last.single, isA<MessageDeleted>());

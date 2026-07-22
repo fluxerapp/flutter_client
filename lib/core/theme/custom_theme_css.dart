@@ -67,10 +67,10 @@ Map<String, String> resolveScopedOverridesForMode(
     FluxerThemeMode.coal => 'coal',
     FluxerThemeMode.dark || FluxerThemeMode.system => 'dark',
   };
-  final Map<String, String> merged = <String, String>{};
-  merged.addAll(scopedOverrides['dark'] ?? const <String, String>{});
-  merged.addAll(scopedOverrides[modeScope] ?? const <String, String>{});
-  merged.addAll(scopedOverrides['root'] ?? const <String, String>{});
+  final Map<String, String> merged = <String, String>{}
+    ..addAll(scopedOverrides['dark'] ?? const <String, String>{})
+    ..addAll(scopedOverrides[modeScope] ?? const <String, String>{})
+    ..addAll(scopedOverrides['root'] ?? const <String, String>{});
   return merged;
 }
 

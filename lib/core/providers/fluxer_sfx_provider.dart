@@ -48,7 +48,14 @@ void fluxerMessageSfxBinding(Ref ref) {
     capacity: 500,
   );
   final MessageNotificationSfxScheduler scheduler =
-      MessageNotificationSfxScheduler();
+      MessageNotificationSfxScheduler(
+        cooldownMsForClip: (FluxerSfxClip clip) {
+          if (clip == FluxerSfxClip.sameChannelMessage) {
+            return 2000;
+          }
+          return null;
+        },
+      );
   ref.onDispose(scheduler.dispose);
   final StreamSubscription<MessageRealtimeEvent> sub = ref
       .read(messageRealtimeBusProvider)

@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/pickers/forward_destination_avatar.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_search_input.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_providers.dart';
 import 'package:fluxer_app/features/chat/providers/messages/forward_destinations_provider.dart';
@@ -683,23 +684,7 @@ class _DestinationTile extends StatelessWidget {
   }
 
   Widget _leading(BuildContext context) {
-    switch (destination.kind) {
-      case ForwardDestinationKind.dm:
-        return FluxerAvatar.user(
-          imageUrl: destination.avatarImageUrl,
-          userId: destination.avatarUserId,
-          fallbackText: destination.displayName,
-          showStatus: false,
-        );
-      case ForwardDestinationKind.group:
-        return const FluxerAvatar.icon(icon: PhosphorIconsFill.usersThree);
-      case ForwardDestinationKind.personalNotes:
-        return const FluxerAvatar.icon(icon: PhosphorIconsFill.note);
-      case ForwardDestinationKind.guildVoice:
-        return const FluxerAvatar.icon(icon: PhosphorIconsFill.speakerHigh);
-      case ForwardDestinationKind.guildText:
-        return const FluxerAvatar.icon(icon: PhosphorIconsRegular.hash);
-    }
+    return ForwardDestinationAvatar(destination: destination);
   }
 
   Widget _checkbox(FluxerColorTheme colors) {

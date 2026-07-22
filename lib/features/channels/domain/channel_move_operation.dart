@@ -162,19 +162,24 @@ ChannelMoveComputation? computeChannelMove({
     return null;
   }
   final String targetId = dropResult.targetId;
-  final String? requestedParentId = targetId == kNullSpaceTargetId
+  final bool isTrailingTarget = targetId == kTrailingSpaceTargetId;
+  final String? requestedParentId =
+      targetId == kNullSpaceTargetId || isTrailingTarget
       ? null
       : dropResult.targetParentId ??
             (isCategory ? null : draggedChannel.parentId);
   String? newParentId = isCategory ? null : requestedParentId;
-  if (!isCategory && newParentId == null && dropResult.targetParentId == null) {
+  if (!isCategory &&
+      !isTrailingTarget &&
+      newParentId == null &&
+      dropResult.targetParentId == null) {
     newParentId = draggedChannel.parentId;
   }
   int insertIndex = 0;
   if (targetId == kNullSpaceTargetId) {
     insertIndex = 0;
     newParentId = null;
-  } else if (targetId == kTrailingSpaceTargetId) {
+  } else if (isTrailingTarget) {
     insertIndex = baseList.length;
     newParentId = null;
   } else {
@@ -255,8 +260,8 @@ ChannelMoveComputation? computeChannelMove({
       }
     }
   }
-  final List<Channel> finalList = List<Channel>.from(baseList);
-  finalList.insertAll(insertIndex, block);
+  final List<Channel> finalList = List<Channel>.from(baseList)
+    ..insertAll(insertIndex, block);
   final int insertedIndex = finalList.indexWhere(
     (Channel channel) => channel.id == draggedChannel.id,
   );

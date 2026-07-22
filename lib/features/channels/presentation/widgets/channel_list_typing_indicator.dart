@@ -47,6 +47,12 @@ class ChannelListTypingIndicator extends ConsumerWidget {
     if (isSelected && !showSelectedChannelTypingIndicator) {
       return const SizedBox.shrink();
     }
+    final bool hasRecentTyping = ref.watch(
+      channelHasRecentTypingProvider(channelId),
+    );
+    if (!hasRecentTyping) {
+      return const SizedBox.shrink();
+    }
     final List<String> userIds = ref.watch(
       presentableTypingUsersInChannelProvider(channelId),
     );

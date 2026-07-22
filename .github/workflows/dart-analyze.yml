@@ -59,3 +59,11 @@ jobs:
 
       - name: Run tests
         run: flutter test
+
+      - name: Run package tests
+        run: |
+          for package in packages/*; do
+            if [ -d "$package/test" ]; then
+              (cd "$package" && flutter pub get && flutter test)
+            fi
+          done

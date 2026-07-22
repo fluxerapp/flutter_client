@@ -89,7 +89,10 @@ class NotificationDao extends DatabaseAccessor<FluxerDatabase>
     if (messageIds.isEmpty) {
       return;
     }
-    assert(messageIds.length == channelIds.length);
+    assert(
+      messageIds.length == channelIds.length,
+      'messageIds and channelIds must have the same length',
+    );
     final int shiftBy = messageIds.length;
     final rows = await getMentionFeedOrdered();
     for (final row in rows.reversed) {

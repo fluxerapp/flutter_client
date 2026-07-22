@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_resolver.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -23,6 +24,9 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
   final db = ref.read(fluxerDatabaseProvider);
   final String currentUserId = ref.read(userSettingsViewModelProvider).userId;
   final channelRow = await db.channelDao.getChannelById(channelId);
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
+  }
   if (channelRow == null || channelRow.guildId.isEmpty) {
     return (value: 0, shouldCache: true);
   }
@@ -42,10 +46,16 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
     return (value: allPermissions, shouldCache: true);
   }
   final allRoles = await db.roleDao.getRoles(guildId);
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
+  }
   final memberRow = await db.memberDao.getMemberByUserId(
     currentUserId,
     guildId,
   );
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
+  }
   if (memberRow == null) {
     return (value: 0, shouldCache: false);
   }
@@ -67,6 +77,9 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
       .toList();
   final List<String?> layers = await db.channelDao
       .getPermissionOverwriteLayersRootToLeaf(channelId);
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
+  }
   final int value = evaluateChannelEffectivePermissionBits(
     guildOwnerId: guild.ownerId ?? '',
     guildId: guildId,
@@ -92,9 +105,9 @@ Future<int> computeEffectiveGuildChannelPermissionBits({
 }
 
 final FutureProviderFamily<int, String>
-effectiveGuildChannelPermissionBitsProvider = FutureProvider.autoDispose
-    .family<int, String>((Ref ref, String channelId) {
-      return computeEffectiveGuildChannelPermissionBits(
+effectiveGuildChannelPermissionBitsProvider =
+    FutureProvider.family<int, String>((Ref ref, String channelId) {
+      return readEffectiveGuildChannelPermissionBitsRef(
         ref: ref,
         channelId: channelId,
       );
@@ -108,6 +121,9 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
   final db = ref.read(fluxerDatabaseProvider);
   final String currentUserId = ref.read(userSettingsViewModelProvider).userId;
   final channelRow = await db.channelDao.getChannelById(channelId);
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
+  }
   if (channelRow == null) {
     return (value: 0, shouldCache: false);
   }
@@ -130,10 +146,16 @@ computeChannelLocalGuildChannelPermissionBitsOutcome({
     return (value: allPermissions, shouldCache: true);
   }
   final allRoles = await db.roleDao.getRoles(guildId);
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
+  }
   final memberRow = await db.memberDao.getMemberByUserId(
     currentUserId,
     guildId,
   );
+  if (!ref.mounted) {
+    return (value: 0, shouldCache: false);
+  }
   if (memberRow == null) {
     return (value: 0, shouldCache: false);
   }
@@ -179,9 +201,9 @@ Future<int> computeChannelLocalGuildChannelPermissionBits({
 }
 
 final FutureProviderFamily<int, String>
-channelLocalGuildChannelPermissionBitsProvider = FutureProvider.autoDispose
-    .family<int, String>((Ref ref, String channelId) {
-      return computeChannelLocalGuildChannelPermissionBits(
+channelLocalGuildChannelPermissionBitsProvider =
+    FutureProvider.family<int, String>((Ref ref, String channelId) {
+      return readLocalGuildChannelPermissionBitsRef(
         ref: ref,
         channelId: channelId,
       );

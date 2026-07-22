@@ -15,12 +15,22 @@ import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 const String _kTyperUserId = '123456789012345678';
 const String _kBlockedUserId = '123456789012345679';
 
 void main() {
   group('ChannelListTypingIndicator', () {
+    setUp(() {
+      VisibilityDetectorController.instance.updateInterval = Duration.zero;
+    });
+
+    tearDown(() {
+      VisibilityDetectorController.instance.updateInterval = const Duration(
+        milliseconds: 500,
+      );
+    });
     testWidgets('shows dots only in indicatorOnly mode', (tester) async {
       await _runTypingIndicatorTest(tester, () async {
         await _pumpIndicator(

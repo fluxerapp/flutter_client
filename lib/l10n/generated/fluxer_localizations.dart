@@ -7396,6 +7396,42 @@ abstract class FluxerLocalizations {
   /// **'Don\'t show message previews in the DM list'**
   String get accessibilityDmMessagePreviewNoneDescription;
 
+  /// Section title for media button visibility settings on the accessibility settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Media Buttons'**
+  String get accessibilityMediaButtonsGroupTitle;
+
+  /// Section description for media button visibility settings on the accessibility settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize which buttons appear on media attachments and embeds.'**
+  String get accessibilityMediaButtonsGroupDescription;
+
+  /// Toggle label for showing the delete button on media.
+  ///
+  /// In en, this message translates to:
+  /// **'Show delete button'**
+  String get accessibilityShowMediaDeleteButtonLabel;
+
+  /// Toggle label for showing the download button on media.
+  ///
+  /// In en, this message translates to:
+  /// **'Show download button'**
+  String get accessibilityShowMediaDownloadButtonLabel;
+
+  /// Toggle label for showing the favorite button on media.
+  ///
+  /// In en, this message translates to:
+  /// **'Show favorite button'**
+  String get accessibilityShowMediaFavoriteButtonLabel;
+
+  /// Toggle label for showing the suppress embeds button on media.
+  ///
+  /// In en, this message translates to:
+  /// **'Show suppress embeds button'**
+  String get accessibilityShowSuppressEmbedsButtonLabel;
+
   /// DM list row preview text when the most recent message has only attachments.
   ///
   /// In en, this message translates to:
@@ -7599,6 +7635,18 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Do nothing, I don\'t want to join'**
   String get voiceConnectionConfirmDoNothing;
+
+  /// Title for the modal shown when a voice join attempt fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t Join Voice'**
+  String get voiceJoinFailedTitle;
+
+  /// Shown when switch-to-this-device times out waiting for other sessions to leave.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t disconnect your other devices. Try again in a moment.'**
+  String get voiceMultiDeviceDisconnectFailed;
 
   /// Empty state body when viewing a guild voice channel while not in the call.
   ///
@@ -8311,6 +8359,42 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'Comments are unavailable because a selected channel has slowmode enabled.'**
   String get forwardCommentSlowmodeDisabled;
+
+  /// Title of the share-media bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Share to'**
+  String get shareMediaTitle;
+
+  /// Placeholder for the optional message field in the share-media sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an optional message…'**
+  String get shareMediaMessageHint;
+
+  /// Share-media sheet send button label.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get shareMediaSendButton;
+
+  /// Toast shown after shared media is sent to all selected destinations.
+  ///
+  /// In en, this message translates to:
+  /// **'Media shared'**
+  String get shareMediaSuccessToast;
+
+  /// Toast shown when shared media is sent to some but not all selected destinations.
+  ///
+  /// In en, this message translates to:
+  /// **'Shared to {count} destinations'**
+  String shareMediaPartialSuccessToast(int count);
+
+  /// Toast shown when sharing media to all destinations fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to share media'**
+  String get shareMediaFailedToast;
 
   /// Reason shown on a disabled forward destination when the user lacks the send-messages permission.
   ///
@@ -9074,6 +9158,18 @@ abstract class FluxerLocalizations {
   /// **'Are you sure you want to delete this message?'**
   String get chatMessageDeleteConfirmDescription;
 
+  /// Action label for deleting an attachment from a sent message.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Attachment'**
+  String get chatMessageDeleteAttachment;
+
+  /// Action label for editing the alt text of a message attachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Alt Text'**
+  String get chatMessageEditAttachmentAltText;
+
   /// Tooltip label for additional message actions.
   ///
   /// In en, this message translates to:
@@ -9642,6 +9738,18 @@ abstract class FluxerLocalizations {
   /// **'Copy Link'**
   String get channelDetailsCopyLink;
 
+  /// Channel menu action to copy a link channel's channel link.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy channel link'**
+  String get channelMenuCopyChannelLink;
+
+  /// Channel menu action to copy a link channel's redirect URL.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy redirect link'**
+  String get channelMenuCopyRedirectLink;
+
   /// Group DM menu action to add friends to the group.
   ///
   /// In en, this message translates to:
@@ -9749,6 +9857,54 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'My category'**
   String get channelSettingsMyCategory;
+
+  /// Context menu action to expand a collapsed channel category.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand category'**
+  String get categoryExpandCategory;
+
+  /// Context menu action to collapse an expanded channel category.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse category'**
+  String get categoryCollapseCategory;
+
+  /// Context menu action to expand every collapsed channel category.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand all categories'**
+  String get categoryExpandAllCategories;
+
+  /// Context menu action to collapse every channel category.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse all categories'**
+  String get categoryCollapseAllCategories;
+
+  /// Context menu action to mute a channel category.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute category'**
+  String get categoryMuteCategory;
+
+  /// Context menu action to unmute a channel category.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute category'**
+  String get categoryUnmuteCategory;
+
+  /// Context menu action to copy a category ID to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy category ID'**
+  String get categoryCopyCategoryId;
+
+  /// Toast confirming the category ID was copied to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Category ID copied'**
+  String get categoryIdCopied;
 
   /// Placeholder for channel name field in channel settings.
   ///
@@ -12581,6 +12737,12 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'This will notify {count} online members. Continue?'**
   String mentionConfirmHereBody(int count);
+
+  /// Body of the large role mention confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'This will notify {count} members with the {roleName} role. Continue?'**
+  String mentionConfirmRoleBody(int count, String roleName);
 
   /// Confirm button label on the mention confirmation dialog.
   ///

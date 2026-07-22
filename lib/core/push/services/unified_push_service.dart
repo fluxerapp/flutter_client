@@ -42,7 +42,7 @@ class UnifiedPushService implements PushService {
   bool _registrationRetryScheduled = false;
   FluxerDatabase? _database;
   static bool _backgroundMode = false;
-  bool _appForeground = true;
+  bool isAppForeground = true;
 
   Stream<up.PushEndpoint> get endpointStream => _endpoints.stream;
 
@@ -61,13 +61,6 @@ class UnifiedPushService implements PushService {
     }
     _database = database;
   }
-
-  set appForeground(bool isAppForeground) {
-    _appForeground = isAppForeground;
-  }
-
-  @visibleForTesting
-  bool get appForegroundForTesting => _appForeground;
 
   @visibleForTesting
   static bool get backgroundModeForTesting => _backgroundMode;
@@ -370,7 +363,7 @@ class UnifiedPushService implements PushService {
       return;
     }
     if (!ForegroundPushNotificationPolicy.shouldProcessPush(
-      isAppForeground: _appForeground,
+      isAppForeground: isAppForeground,
       payload: mapped.payload,
     )) {
       return;

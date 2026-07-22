@@ -285,4 +285,46 @@ void main() {
       expect(unread?.hasUnreadMessages, isTrue);
     },
   );
+
+  test(
+    'channelUnreadProvider clears unread after orphaned tail is walked back',
+    () async {
+      final db = openTestDatabase();
+      const guildId = 'guild-1';
+      const channelId = 'channel-1';
+      const userId = 'me';
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final deletedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+
+      await _seedUnreadChannel(
+        db: db,
+        guildId: guildId,
+        channelId: channelId,
+        userId: userId,
+        lastMessageId: deletedId,
+        ackId: ackId,
+      );
+      await db.channelDao.setLastMessageId(channelId, ackId);
+
+      final container = _container(db: db, userId: userId, guildId: guildId);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+
+      final sub = container.listen(
+        channelUnreadProvider(channelId),
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+
+      await _waitFor(() {
+        final unread = container.read(channelUnreadProvider(channelId)).value;
+        return unread != null && !unread.hasUnread;
+      });
+
+      final unread = container.read(channelUnreadProvider(channelId)).value;
+      expect(unread?.hasUnread, isFalse);
+      expect(unread?.hasUnreadMessages, isFalse);
+    },
+  );
 }

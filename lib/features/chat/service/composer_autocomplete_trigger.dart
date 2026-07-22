@@ -21,7 +21,8 @@ class ComposerAutocompleteTrigger {
     r'^\s*\+:([a-z0-9_+-]*):?$',
     caseSensitive: false,
   );
-  static final RegExp _mention = RegExp(r'(^|\s)@(\S*)$');
+  // Role and display names may contain spaces (e.g. "@Android Alpha").
+  static final RegExp _mention = RegExp(r'(^|\s)@([^@\n]*)$');
   static final RegExp _channel = RegExp(r'(^|\s)#(\S*)$');
   static final RegExp _emoji = RegExp(
     r'(^|\s):([a-z0-9_+-]{2,})$',

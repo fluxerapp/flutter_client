@@ -10,7 +10,7 @@ part 'channel_sidebar_icon_connect_bits_provider.g.dart';
 Future<int?> channelSidebarIconConnectBits(Ref ref, String channelId) async {
   final int? cachedBits = ref.watch(
     channelPermissionCacheProvider.select(
-      (Map<String, int> map) => map[channelId],
+      (ChannelPermissionCaches caches) => caches[channelId],
     ),
   );
   if (cachedBits != null) {

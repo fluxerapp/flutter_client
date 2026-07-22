@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart' hide isNull;
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/features/channels/data/read_state_write_batcher.dart';
@@ -19,7 +20,7 @@ void main() {
     );
   });
 
-  tearDown(() async {
+  tearDown(() {
     batcher.clearAll();
   });
 
@@ -139,5 +140,40 @@ void main() {
 
     final readState = await db.readStateDao.getReadState(channelId);
     expect(readState, isNull);
+  });
+
+  test('unread timer respects minimum interval between flushes', () {
+    fakeAsync((FakeAsync async) {
+      const String channelId = 'guild-channel-interval';
+      final ReadStateWriteBatcher fastBatcher = ReadStateWriteBatcher(
+        database: db,
+        window: const Duration(milliseconds: 10),
+        minIntervalBetweenUnreadFlushes: const Duration(milliseconds: 50),
+      );
+      addTearDown(fastBatcher.clearAll);
+
+      fastBatcher.enqueueUnread(
+        channelId: channelId,
+        messageId: '100',
+        shouldMention: true,
+        isDm: false,
+        seedAckCandidate: null,
+      );
+      async.elapse(const Duration(milliseconds: 10));
+      expect(fastBatcher.hasPending(channelId), isFalse);
+
+      fastBatcher.enqueueUnread(
+        channelId: channelId,
+        messageId: '200',
+        shouldMention: true,
+        isDm: false,
+        seedAckCandidate: null,
+      );
+      async.elapse(const Duration(milliseconds: 10));
+      expect(fastBatcher.hasPending(channelId), isTrue);
+
+      async.elapse(const Duration(milliseconds: 40));
+      expect(fastBatcher.hasPending(channelId), isFalse);
+    });
   });
 }

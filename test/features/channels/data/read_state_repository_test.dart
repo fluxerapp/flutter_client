@@ -584,6 +584,55 @@ void main() {
   });
 
   test(
+    'reconcileAfterMessageDelete walks tail back and drops mentions',
+    () async {
+      final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final mentionId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'));
+      final db = openTestDatabase();
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+          lastMessageId: Value(mentionId),
+        ),
+      );
+      await db.messageDao.upsertMessages([
+        _message(id: ackId, channelId: 'channel-1', authorId: 'other'),
+        _message(
+          id: mentionId,
+          channelId: 'channel-1',
+          authorId: 'other',
+          isMentioned: true,
+        ),
+      ]);
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value('channel-1'),
+          lastMessageId: Value(ackId),
+          mentionCount: const Value(1),
+        ),
+      );
+      await db.messageDao.deleteMessages([mentionId]);
+
+      await ReadStateRepository(
+        FluxerClient(dio),
+        db,
+      ).reconcileAfterMessageDelete(
+        channelId: 'channel-1',
+        deletedMessageIds: [mentionId],
+        currentUserId: 'me',
+      );
+
+      final channel = await db.channelDao.getChannelById('channel-1');
+      final readState = await db.readStateDao.getReadState('channel-1');
+      expect(channel?.lastMessageId, ackId);
+      expect(readState?.mentionCount, 0);
+    },
+  );
+
+  test(
     'unblock restores mentions in an unread channel with no current count',
     () async {
       final ackId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));

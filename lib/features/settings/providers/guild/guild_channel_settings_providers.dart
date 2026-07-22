@@ -33,6 +33,8 @@ Stream<List<ChannelCategory>> guildChannelSettingsCategories(
 @riverpod
 class GuildChannelSettingsActions extends _$GuildChannelSettingsActions {
   @override
+  // Action notifier base type for Riverpod mutations.
+  // ignore: avoid_futureor_void
   FutureOr<void> build(String guildId) {}
 
   Future<void> moveChannel({
@@ -63,6 +65,8 @@ class GuildChannelSettingsActions extends _$GuildChannelSettingsActions {
     if (!ref.mounted) {
       return;
     }
+    // Async notifier loading state for void action providers.
+    // ignore: void_checks
     state = const AsyncLoading<void>();
     final AsyncValue<void> result = await AsyncValue.guard(() async {
       await ref
@@ -74,6 +78,8 @@ class GuildChannelSettingsActions extends _$GuildChannelSettingsActions {
     if (!ref.mounted) {
       return;
     }
+    // Async notifier result state for void action providers.
+    // ignore: void_checks
     state = result;
   }
 

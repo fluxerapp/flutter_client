@@ -117,11 +117,9 @@ List<Guild> pinActiveGuildToFront(List<Guild> guilds, String? activeGuildId) {
   if (index <= 0) {
     return guilds;
   }
-  final next = List<Guild>.from(guilds);
-  next
+  return List<Guild>.from(guilds)
     ..removeAt(index)
     ..insert(0, guilds[index]);
-  return next;
 }
 
 List<Guild> guildsForExpressionPicker({

@@ -1,9 +1,10 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
+import 'package:fluxer_app/features/ui/animation/animation_controller_visibility_extension.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class FluxerLoadingSpinner extends StatefulWidget {
   const FluxerLoadingSpinner({super.key, this.color, this.inverted = false});
@@ -16,8 +17,9 @@ class FluxerLoadingSpinner extends StatefulWidget {
 }
 
 class _FluxerLoadingSpinnerState extends State<FluxerLoadingSpinner>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController _controller;
+  bool _isVisible = true;
 
   static const _kDotCount = 3;
   static const _kDotSize = 6.0;
@@ -28,14 +30,30 @@ class _FluxerLoadingSpinnerState extends State<FluxerLoadingSpinner>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _controller = AnimationController(vsync: this, duration: _kDuration);
-    unawaited(_controller.repeat());
+    _controller.syncWithVisibility(isVisible: _isVisible);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _controller.syncWithVisibility(isVisible: _isVisible);
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    final bool visible = info.visibleFraction > 0;
+    if (_isVisible == visible) {
+      return;
+    }
+    _isVisible = visible;
+    _controller.syncWithVisibility(isVisible: _isVisible);
   }
 
   @override
@@ -44,26 +62,30 @@ class _FluxerLoadingSpinnerState extends State<FluxerLoadingSpinner>
         widget.color ?? (widget.inverted ? Colors.black : Colors.white);
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
-    return Semantics(
-      label: l10n.uiLoading,
-      child: ExcludeSemantics(
-        child: SizedBox(
-          width: 28,
-          height: _kDotSize,
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (BuildContext context, Widget? child) {
-              return CustomPaint(
-                painter: _FluxerLoadingDotsPainter(
-                  progress: _controller.value,
-                  color: dotColor,
-                  dotCount: _kDotCount,
-                  dotSize: _kDotSize,
-                  dotSpacing: _kDotSpacing,
-                  delays: _kDelays,
-                ),
-              );
-            },
+    return VisibilityDetector(
+      key: ObjectKey(this),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: Semantics(
+        label: l10n.uiLoading,
+        child: ExcludeSemantics(
+          child: SizedBox(
+            width: 28,
+            height: _kDotSize,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (BuildContext context, Widget? child) {
+                return CustomPaint(
+                  painter: _FluxerLoadingDotsPainter(
+                    progress: _controller.value,
+                    color: dotColor,
+                    dotCount: _kDotCount,
+                    dotSize: _kDotSize,
+                    dotSpacing: _kDotSpacing,
+                    delays: _kDelays,
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

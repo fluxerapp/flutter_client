@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_dart/export.dart';
 
 Future<void> showChannelInviteModal(
@@ -85,7 +85,13 @@ Future<void> showChannelInviteModal(
             builder: (BuildContext context, bool isCopied, Widget? child) {
               return FluxerButton.primary(
                 onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: inviteUrl));
+                  await copyToClipboard(
+                    context: actionContext,
+                    value: inviteUrl,
+                    message: FluxerLocalizations.of(
+                      actionContext,
+                    ).guildSettingsCopiedUrl,
+                  );
                   copied.value = true;
                   unawaited(
                     Future<void>.delayed(const Duration(seconds: 3), () {

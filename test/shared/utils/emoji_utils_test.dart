@@ -39,7 +39,7 @@ void main() {
     test('builds CDN URL from unicode emoji', () {
       expect(
         getTwemojiUrl('\u{1F600}'),
-        'https://fluxerstatic.com/emoji/1f600.svg',
+        'https://fluxerstatic.com/emoji/1f600.svg?v=2',
       );
     });
 

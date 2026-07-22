@@ -12,8 +12,10 @@ import 'package:fluxer_app/features/profile/providers/user_settings_status_provi
 import 'package:fluxer_app/features/settings/presentation/widgets/user_language_and_time.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
+import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
+import 'package:fluxer_dart/models/locale.dart' as sdk;
 
 class _NoopUserSettingsSyncService extends UserSettingsSyncService {
   _NoopUserSettingsSyncService(super.ref);
@@ -22,11 +24,11 @@ class _NoopUserSettingsSyncService extends UserSettingsSyncService {
   Future<void> pushTimeFormat(TimeFormatTypes timeFormat) async {}
 }
 
-UserSettingsResponse _settingsResponse() {
+UserSettingsResponse _settingsResponse({String locale = 'en-US'}) {
   return UserSettingsResponse.fromJson(<String, Object?>{
     'status': 'online',
     'theme': 'dark',
-    'locale': 'en-US',
+    'locale': locale,
     'time_format': 0,
     'render_embeds': true,
     'render_reactions': true,
@@ -62,12 +64,14 @@ UserSettingsResponse _settingsResponse() {
   });
 }
 
-Widget _wrap(Widget child) {
+Widget _wrap(Widget child, {String locale = 'en-US'}) {
   final FluxerColorTheme colorTheme = buildDarkColorTheme();
   final ProviderContainer container = ProviderContainer(
     overrides: [
       userSettingsSyncProvider.overrideWith(_NoopUserSettingsSyncService.new),
-      userSettingsStatusProvider.overrideWithValue(_settingsResponse()),
+      userSettingsStatusProvider.overrideWithValue(
+        _settingsResponse(locale: locale),
+      ),
       appearancePreferencesProvider.overrideWith(
         _TestAppearancePreferences.new,
       ),
@@ -112,6 +116,28 @@ void main() {
     expect(find.text('12-hour'), findsOneWidget);
     expect(find.text('24-hour'), findsOneWidget);
     expect(find.text('Use system locale for time format'), findsOneWidget);
+  });
+
+  testWidgets('unsupported saved locale is not exposed as a selection', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_wrap(const UserLanguageAndTime(), locale: 'bg'));
+    await tester.pumpAndSettle();
+
+    final FluxerSelect<sdk.Locale> select = tester.widget(
+      find.byWidgetPredicate(
+        (Widget widget) => widget is FluxerSelect<sdk.Locale>,
+      ),
+    );
+    expect(select.value, isNull);
+    expect(
+      select.items.map((FluxerSelectItem<sdk.Locale> item) => item.value),
+      isNot(contains(sdk.Locale.bg)),
+    );
+    expect(
+      select.items.map((FluxerSelectItem<sdk.Locale> item) => item.value),
+      contains(sdk.Locale.fr),
+    );
   });
 
   testWidgets(

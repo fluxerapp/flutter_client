@@ -60,8 +60,7 @@ class _AddFriendsToGroupModalContentState
       container: ref.container,
       channelId: widget.dm.id,
       dm: widget.dm,
-    );
-    controller.addListener(_handleControllerChanged);
+    )..addListener(_handleControllerChanged);
     _controller = controller;
   }
 

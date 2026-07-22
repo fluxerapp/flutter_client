@@ -166,9 +166,9 @@ class AvatarStatusLayout {
     final double typingExtension = typingWidth - statusDotSize;
     final double bridgeShift = typingExtension * kTypingBridgeRightShiftRatio;
     final double typingRight = -bridgeShift;
-    const double statusRight = 0;
-    const double statusBottom = 0;
     const double typingBottom = 0;
+    final double statusRight = avatarSize - cutoutCenter - statusDotSize / 2;
+    final double statusBottom = avatarSize - cutoutCenter - statusDotSize / 2;
     final Offset statusCutoutCenter = Offset(cutoutCenter, cutoutCenter);
     final double typingLeft = avatarSize - typingWidth - typingRight;
     final double typingTop = avatarSize - typingHeight;

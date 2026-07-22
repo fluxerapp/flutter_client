@@ -19,7 +19,11 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 enum InboxTab { unreads, bookmarks, mentions }
 
 typedef InboxPopoutAnchorBuilder =
-    Widget Function(BuildContext context, bool isOpen, VoidCallback toggle);
+    Widget Function(
+      BuildContext context, {
+      required bool isOpen,
+      required VoidCallback toggle,
+    });
 
 class InboxPopoutButton extends StatefulWidget {
   const InboxPopoutButton({required this.anchorBuilder, super.key});
@@ -179,7 +183,7 @@ class _InboxPopoutButtonState extends State<InboxPopoutButton>
       overlayChildBuilder: _buildOverlay,
       child: CompositedTransformTarget(
         link: _layerLink,
-        child: widget.anchorBuilder(context, isOpen, _toggle),
+        child: widget.anchorBuilder(context, isOpen: isOpen, toggle: _toggle),
       ),
     );
   }

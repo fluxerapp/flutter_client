@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
@@ -10,6 +9,7 @@ import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -66,6 +66,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
 import 'package:fluxer_dart/export.dart';
@@ -271,6 +272,9 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
         nickname: channel?.name ?? dm?.displayName,
       );
     }
+    if (!mounted) {
+      return;
+    }
     _toast(
       isFavorite
           ? FluxerLocalizations.of(context).favoritesRemovedToast
@@ -286,16 +290,21 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
     final repository = ref.read(dmRepositoryProvider);
     if (isPinned) {
       await repository.unpinDm(dm.id);
+      if (!mounted) {
+        return;
+      }
       _toast(FluxerLocalizations.of(context).dmUnpinned);
     } else {
       await repository.pinDm(dm.id);
+      if (!mounted) {
+        return;
+      }
       _toast(FluxerLocalizations.of(context).dmPinned);
     }
   }
 
   Future<void> _copy(String value) async {
-    await Clipboard.setData(ClipboardData(text: value));
-    _toast(FluxerLocalizations.of(context).copiedToClipboard);
+    await copyToClipboard(context: context, value: value);
   }
 
   Future<void> _confirmCloseDm() async {
@@ -391,6 +400,9 @@ class _ChannelDetailsSheetState extends ConsumerState<ChannelDetailsSheet> {
           channelId: channel.id,
           messageNotifications: setting,
         );
+    if (!mounted) {
+      return;
+    }
     _toast(
       FluxerLocalizations.of(context).channelDetailsNotificationSettingsUpdated,
     );
@@ -3216,33 +3228,16 @@ Future<void> _showPinnedMessageActions(
             ),
           );
     case _PinnedMessageAction.copyMessageId:
-      await Clipboard.setData(ClipboardData(text: entry.message.id));
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.copiedToClipboard,
-              variant: FluxerToastVariant.success,
-            ),
-          );
+      await copyToClipboard(context: context, value: entry.message.id);
     case _PinnedMessageAction.copyMessageLink:
-      await Clipboard.setData(
-        ClipboardData(
-          text: messageLink(
-            channelId: entry.message.channelId,
-            messageId: entry.message.id,
-            guildId: guildId,
-          ),
+      await copyToClipboard(
+        context: context,
+        value: messageLink(
+          channelId: entry.message.channelId,
+          messageId: entry.message.id,
+          guildId: guildId,
         ),
       );
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.copiedToClipboard,
-              variant: FluxerToastVariant.success,
-            ),
-          );
   }
 }
 
@@ -3299,33 +3294,16 @@ Future<void> _showSearchMessageActions(
         close: close,
       );
     case _PinnedMessageAction.copyMessageId:
-      await Clipboard.setData(ClipboardData(text: entry.message.id));
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.copiedToClipboard,
-              variant: FluxerToastVariant.success,
-            ),
-          );
+      await copyToClipboard(context: context, value: entry.message.id);
     case _PinnedMessageAction.copyMessageLink:
-      await Clipboard.setData(
-        ClipboardData(
-          text: messageLink(
-            channelId: entry.message.channelId,
-            messageId: entry.message.id,
-            guildId: entry.guildId,
-          ),
+      await copyToClipboard(
+        context: context,
+        value: messageLink(
+          channelId: entry.message.channelId,
+          messageId: entry.message.id,
+          guildId: entry.guildId,
         ),
       );
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.copiedToClipboard,
-              variant: FluxerToastVariant.success,
-            ),
-          );
     case _PinnedMessageAction.unpin:
       break;
   }
@@ -3340,8 +3318,9 @@ Future<bool> _canUnpinMessage(
     return true;
   }
   try {
-    final bits = await ref.read(
-      effectiveGuildChannelPermissionBitsProvider(channelId).future,
+    final int bits = await readEffectiveGuildChannelPermissionBits(
+      container: ref.container,
+      channelId: channelId,
     );
     return hasPermission(bits, Permission.pinMessages) ||
         hasPermission(bits, Permission.manageMessages);

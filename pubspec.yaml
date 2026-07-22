@@ -9,8 +9,8 @@ environment:
 
 dependencies:
   app_badge_plus: ^1.3.0
-  app_settings: ^8.0.0
   app_links: ^7.2.0
+  app_settings: ^8.0.0
   audioplayers: ^6.8.1
   cached_network_image_ce: ^4.6.4
   clock: ^1.1.2
@@ -37,6 +37,7 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^3.2.1
   flutter_secure_storage: ^10.3.1
+  flutter_staggered_grid_view: ^0.7.0 # Would like to replace this package at some point (only used on Desktop)
   flutter_svg: ^2.2.4
   flutter_thumbhash: ^0.1.0+1
   flutter_web_auth_2: ^5.0.3
@@ -47,6 +48,7 @@ dependencies:
     path: dart_sdk
   fluxer_markdown:
     path: packages/fluxer_markdown
+  gaimon: ^1.4.3
   go_router: ^17.2.1
   google_fonts: ^8.0.1
   highlight: ^0.7.0
@@ -65,20 +67,23 @@ dependencies:
   package_info_plus: ^9.0.0
   passkeys: ^2.21.1
   path: ^1.9.1
-  phone_numbers_parser: ^9.0.3
   path_provider: ^2.1.5
   permission_handler: ^12.0.1
+  phone_numbers_parser: ^9.0.3
   phosphor_flutter:
     git:
       url: https://github.com/Niural/phosphor_flutter
   protobuf: ^6.0.0
+  receive_sharing_intent: ^1.9.0
   record: ^7.1.1
+  refresh_rate: ^1.0.2
   riverpod: ^3.2.1
   riverpod_annotation: ^4.0.2
   scrollview_observer: ^1.27.0
   shared_preferences: ^2.5.3
   skeletonizer: ^2.1.3
   smart_keyboard_insets: ^0.0.1
+  sqlite3: ^3.3.3
   super_clipboard: ^0.9.1
   talker: ^5.1.17
   talker_dio_logger: ^5.1.17
@@ -91,8 +96,6 @@ dependencies:
   web_socket_channel: ^3.0.2
   window_manager: ^0.5.1
   youtube_explode_dart: ^3.1.0
-  gaimon: ^1.4.3
-  flutter_staggered_grid_view: ^0.7.0 # Would like to replace this package at some point (only used on Desktop)
 
 dependency_overrides:
   analyzer: ^10.0.0
@@ -112,9 +115,11 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   lint_hard: ^7.1.2
+  mockito: ^5.6.4
+  path_provider_platform_interface: ^2.1.2
+  plugin_platform_interface: ^2.1.8
   riverpod_generator: ^4.0.3
   riverpod_lint: ^3.1.3
-  sqlite3: ^3.3.3
   test: ^1.31.0
 
 flutter:

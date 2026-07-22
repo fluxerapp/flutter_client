@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
@@ -14,6 +13,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_invites_state.da
 import 'package:fluxer_app/features/settings/utils/guild_invites_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -162,13 +162,11 @@ class _GroupDmInvitesContentState extends ConsumerState<GroupDmInvitesContent> {
   }
 
   Future<void> _copyLink(String inviteUrl, FluxerLocalizations l10n) async {
-    await Clipboard.setData(ClipboardData(text: inviteUrl));
-    if (!mounted) {
-      return;
-    }
-    ref
-        .read(toastProvider.notifier)
-        .show(FluxerToast(message: l10n.guildNavbarCopied));
+    await copyToClipboard(
+      context: context,
+      value: inviteUrl,
+      message: l10n.guildNavbarCopied,
+    );
   }
 
   Future<void> _confirmRevoke(String code, FluxerLocalizations l10n) async {

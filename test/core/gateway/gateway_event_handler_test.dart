@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart' as domain;
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
+import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
 
@@ -129,6 +131,67 @@ void main() {
     expect(stickers.single.tagsJson, '["wave","hello"]');
     expect(stickers.single.animated, isFalse);
   });
+
+  test(
+    'READY bulk fanout persists channels and members across guilds',
+    () async {
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(database: database);
+
+      await handler.handle(
+        ReadyEvent(
+          sessionId: 'session-id',
+          user: _user(),
+          guilds: const [],
+          rawGuilds: [
+            _guildWithChannelAndMember(
+              guildId: 'g-a',
+              channelId: 'c-a',
+              memberUserId: 'u-a',
+            ),
+            _guildWithChannelAndMember(
+              guildId: 'g-b',
+              channelId: 'c-b',
+              memberUserId: 'u-b',
+            ),
+          ],
+          privateChannels: const [],
+          relationships: const [],
+          readStates: const [],
+          presences: const [],
+        ),
+      );
+
+      expect(await database.channelDao.getChannelById('c-a'), isNotNull);
+      expect(await database.channelDao.getChannelById('c-b'), isNotNull);
+      expect(
+        await database.memberDao.getMemberByUserId('u-a', 'g-a'),
+        isNotNull,
+      );
+      expect(
+        await database.memberDao.getMemberByUserId('u-b', 'g-b'),
+        isNotNull,
+      );
+      expect(await database.userDao.getUserById('u-a'), isNotNull);
+      expect(await database.userDao.getUserById('u-b'), isNotNull);
+
+      // Multi-guild bulk must attribute cache access under the correct guild.
+      final accessA = await database
+          .customSelect(
+            'SELECT guild_id, user_id FROM member_cache_access '
+            "WHERE user_id = 'u-a'",
+          )
+          .getSingle();
+      final accessB = await database
+          .customSelect(
+            'SELECT guild_id, user_id FROM member_cache_access '
+            "WHERE user_id = 'u-b'",
+          )
+          .getSingle();
+      expect(accessA.read<String>('guild_id'), 'g-a');
+      expect(accessB.read<String>('guild_id'), 'g-b');
+    },
+  );
 
   group('member-load permission refresh', () {
     const memberGuildId = 'g1';
@@ -418,6 +481,305 @@ void main() {
       expect(pinnedDms, isEmpty);
     });
   });
+
+  group('READY channel lastMessageId merge', () {
+    String snowflakeForUtc(DateTime utc) {
+      final int internal =
+          (utc.millisecondsSinceEpoch - kSnowflakeEpochMs) << 22;
+      return internal.toString();
+    }
+
+    Map<String, dynamic> guildWithLastMessage({
+      required String guildId,
+      required String channelId,
+      required String lastMessageId,
+    }) {
+      final Map<String, dynamic> guild = _guildWithChannelAndMember(
+        guildId: guildId,
+        channelId: channelId,
+        memberUserId: 'u-$channelId',
+      );
+      final List<dynamic> channels = guild['channels'] as List<dynamic>;
+      final Map<String, Object?> first = Map<String, Object?>.from(
+        channels[0] as Map,
+      );
+      channels[0] = <String, Object?>{
+        ...first,
+        'last_message_id': lastMessageId,
+      };
+      return guild;
+    }
+
+    MessageResponseSchema messageSchema({
+      required String id,
+      required String channelId,
+    }) => MessageResponseSchema(
+      id: id,
+      channelId: channelId,
+      author: const UserPartialResponse(
+        id: '300',
+        username: 'author',
+        discriminator: '0001',
+        globalName: null,
+        avatar: null,
+        avatarColor: null,
+        flags: 0,
+      ),
+      type: MessageResponseSchemaTypeType.valueDefault,
+      flags: 0,
+      content: 'hello $id',
+      timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
+      pinned: false,
+      mentionEveryone: false,
+      tts: false,
+      mentions: const [],
+      mentionRoles: const [],
+    );
+
+    Future<void> seedReadyChannel(
+      GatewayEventHandler handler, {
+      required String lastMessageId,
+    }) async {
+      await handler.handle(
+        ReadyEvent(
+          sessionId: 'session-seed',
+          user: _user(),
+          guilds: const [],
+          rawGuilds: [
+            guildWithLastMessage(
+              guildId: 'g1',
+              channelId: 'c1',
+              lastMessageId: lastMessageId,
+            ),
+          ],
+          privateChannels: const [],
+          relationships: const [],
+          readStates: const [],
+          presences: const [],
+        ),
+      );
+    }
+
+    test(
+      'incremental READY accepts lower snapshot lastMessageId (authoritative)',
+      () async {
+        final String olderId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 10));
+        final String newerId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 12));
+        final database = openTestDatabase();
+        final handler = GatewayEventHandler(database: database);
+
+        await seedReadyChannel(handler, lastMessageId: newerId);
+        await database.messageDao.upsertMessage(
+          MessagesCompanion.insert(
+            id: newerId,
+            channelId: 'c1',
+            authorId: '300',
+            content: 'local',
+            timestamp: dateTimeFromUserSnowflakeOrNull(newerId)!,
+          ),
+        );
+
+        await handler.handle(
+          ReadyEvent(
+            sessionId: 'session-2',
+            user: _user(),
+            guilds: const [],
+            rawGuilds: [
+              guildWithLastMessage(
+                guildId: 'g1',
+                channelId: 'c1',
+                lastMessageId: olderId,
+              ),
+            ],
+            privateChannels: const [],
+            relationships: const [],
+            readStates: const [],
+            presences: const [],
+          ),
+        );
+
+        final Channel? row = await database.channelDao.getChannelById('c1');
+        expect(row?.lastMessageId, olderId);
+      },
+    );
+
+    test(
+      'post-READY MESSAGE_CREATE re-advances lastMessageId past snapshot',
+      () async {
+        final String snapshotId = snowflakeForUtc(
+          DateTime.utc(2026, 5, 10, 10),
+        );
+        final String createId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 14));
+        final database = openTestDatabase();
+        final handler = GatewayEventHandler(database: database);
+
+        await seedReadyChannel(handler, lastMessageId: snapshotId);
+
+        await handler.handle(
+          MessageCreateEvent(
+            message: messageSchema(id: createId, channelId: 'c1'),
+          ),
+        );
+
+        final Channel? row = await database.channelDao.getChannelById('c1');
+        expect(row?.lastMessageId, createId);
+      },
+    );
+
+    test('full-wipe READY lands snapshot lastMessageId', () async {
+      final String snapshotId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 11));
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(database: database);
+
+      await seedReadyChannel(handler, lastMessageId: snapshotId);
+
+      final Channel? row = await database.channelDao.getChannelById('c1');
+      expect(row?.lastMessageId, snapshotId);
+    });
+
+    test(
+      'incremental READY advances lastMessageId when snapshot is newer',
+      () async {
+        final String olderId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 10));
+        final String newerId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 13));
+        final database = openTestDatabase();
+        final handler = GatewayEventHandler(database: database);
+
+        await seedReadyChannel(handler, lastMessageId: olderId);
+
+        await handler.handle(
+          ReadyEvent(
+            sessionId: 'session-2',
+            user: _user(),
+            guilds: const [],
+            rawGuilds: [
+              guildWithLastMessage(
+                guildId: 'g1',
+                channelId: 'c1',
+                lastMessageId: newerId,
+              ),
+            ],
+            privateChannels: const [],
+            relationships: const [],
+            readStates: const [],
+            presences: const [],
+          ),
+        );
+
+        final Channel? row = await database.channelDao.getChannelById('c1');
+        expect(row?.lastMessageId, newerId);
+      },
+    );
+  });
+
+  group('MESSAGE_DELETE lastMessageId', () {
+    String snowflakeForUtc(DateTime utc) {
+      final int internal =
+          (utc.millisecondsSinceEpoch - kSnowflakeEpochMs) << 22;
+      return internal.toString();
+    }
+
+    Future<void> seedChannel(
+      FluxerDatabase database, {
+      required String lastMessageId,
+    }) async {
+      await database.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'c1',
+          guildId: 'g1',
+          name: 'general',
+          lastMessageId: Value(lastMessageId),
+        ),
+      );
+    }
+
+    test('tail delete with cached previous leaves pointer unchanged', () async {
+      final String olderId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 10));
+      final String tailId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 12));
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(database: database);
+
+      await seedChannel(database, lastMessageId: tailId);
+      await database.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: olderId,
+          channelId: 'c1',
+          authorId: '300',
+          content: 'older',
+          timestamp: dateTimeFromUserSnowflakeOrNull(olderId)!,
+        ),
+      );
+      await database.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: tailId,
+          channelId: 'c1',
+          authorId: '300',
+          content: 'tail',
+          timestamp: dateTimeFromUserSnowflakeOrNull(tailId)!,
+        ),
+      );
+
+      await handler.handle(
+        MessageDeleteEvent(channelId: 'c1', messageId: tailId),
+      );
+
+      final Channel? row = await database.channelDao.getChannelById('c1');
+      expect(row?.lastMessageId, tailId);
+      expect(await database.messageDao.getMessage(tailId), isNull);
+      expect(await database.messageDao.getMessage(olderId), isNotNull);
+    });
+
+    test('tail delete with empty cache leaves pointer untouched', () async {
+      final String tailId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 12));
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(database: database);
+
+      await seedChannel(database, lastMessageId: tailId);
+
+      await handler.handle(
+        MessageDeleteEvent(channelId: 'c1', messageId: tailId),
+      );
+
+      final Channel? row = await database.channelDao.getChannelById('c1');
+      expect(row?.lastMessageId, tailId);
+    });
+
+    test('non-tail delete leaves lastMessageId untouched', () async {
+      final String olderId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 10));
+      final String tailId = snowflakeForUtc(DateTime.utc(2026, 5, 10, 12));
+      final database = openTestDatabase();
+      final handler = GatewayEventHandler(database: database);
+
+      await seedChannel(database, lastMessageId: tailId);
+      await database.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: olderId,
+          channelId: 'c1',
+          authorId: '300',
+          content: 'older',
+          timestamp: dateTimeFromUserSnowflakeOrNull(olderId)!,
+        ),
+      );
+      await database.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: tailId,
+          channelId: 'c1',
+          authorId: '300',
+          content: 'tail',
+          timestamp: dateTimeFromUserSnowflakeOrNull(tailId)!,
+        ),
+      );
+
+      await handler.handle(
+        MessageDeleteEvent(channelId: 'c1', messageId: olderId),
+      );
+
+      final Channel? row = await database.channelDao.getChannelById('c1');
+      expect(row?.lastMessageId, tailId);
+      expect(await database.messageDao.getMessage(olderId), isNull);
+      expect(await database.messageDao.getMessage(tailId), isNotNull);
+    });
+  });
 }
 
 UserPrivateResponse _user() => UserPrivateResponse.fromJson({
@@ -503,6 +865,62 @@ Map<String, dynamic> _guildWithSticker() => {
       'nsfw': false,
     },
   ],
+};
+
+Map<String, dynamic> _guildWithChannelAndMember({
+  required String guildId,
+  required String channelId,
+  required String memberUserId,
+}) => {
+  'id': guildId,
+  'properties': {
+    'id': guildId,
+    'name': 'Guild $guildId',
+    'splash_card_alignment': 0,
+    'owner_id': '100',
+    'system_channel_flags': 0,
+    'afk_timeout': 300,
+    'features': <String>[],
+    'verification_level': 0,
+    'mfa_level': 0,
+    'nsfw_level': 0,
+    'nsfw': false,
+    'content_warning_level': 0,
+    'explicit_content_filter': 0,
+    'default_message_notifications': 0,
+    'disabled_operations': 0,
+  },
+  'channels': <Map<String, Object?>>[
+    {
+      'id': channelId,
+      'type': 0,
+      'guild_id': guildId,
+      'name': 'general',
+      'position': 0,
+    },
+  ],
+  'members': <Map<String, Object?>>[
+    {
+      'user': {
+        'id': memberUserId,
+        'username': 'user-$memberUserId',
+        'discriminator': '0001',
+        'global_name': null,
+        'avatar': null,
+        'avatar_color': null,
+        'flags': 0,
+      },
+      'roles': <String>[],
+      'joined_at': '2024-01-01T00:00:00.000Z',
+      'mute': false,
+      'deaf': false,
+    },
+  ],
+  'roles': <Map<String, Object?>>[],
+  'presences': <Map<String, Object?>>[],
+  'voice_states': <Map<String, Object?>>[],
+  'emojis': <Map<String, Object?>>[],
+  'stickers': <Map<String, Object?>>[],
 };
 
 GuildMemberResponse _member(String userId, {String? nick}) =>

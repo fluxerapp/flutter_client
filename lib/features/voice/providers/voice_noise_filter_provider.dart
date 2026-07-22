@@ -26,7 +26,7 @@ class VoiceNoiseFilter extends _$VoiceNoiseFilter {
 
   LiveKitNoiseFilter? get filterOrNull => _filter;
 
-  Future<void> setBypass(bool bypass) async {
+  Future<void> setBypass({required bool bypass}) async {
     final LiveKitNoiseFilter? filter = _filter;
     if (filter == null) {
       return;

@@ -17,6 +17,6 @@ Future<bool> requestMicrophonePermissionForVoice() async {
   return outcome == SystemPermissionOutcome.granted;
 }
 
-Future<SystemPermissionOutcome> requestMicrophonePermissionOutcome() async {
+Future<SystemPermissionOutcome> requestMicrophonePermissionOutcome() {
   return requestSystemPermission(SystemPermissionKind.microphone);
 }

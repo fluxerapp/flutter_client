@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/database/drift_stream_utils.dart';
 void main() {
   test('suppressDriftCancellation swallows CancellationException', () async {
     final StreamController<int> controller = StreamController<int>();
+    addTearDown(controller.close);
     final List<Object?> errors = <Object?>[];
     final StreamSubscription<int> sub = controller
         .stream
@@ -20,6 +21,7 @@ void main() {
 
   test('suppressDriftCancellation rethrows other errors', () async {
     final StreamController<int> controller = StreamController<int>();
+    addTearDown(controller.close);
     final List<Object?> errors = <Object?>[];
     final StreamSubscription<int> sub = controller
         .stream

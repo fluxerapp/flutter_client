@@ -26,6 +26,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:riverpod/src/framework.dart' show Override;
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../helpers/open_test_database.dart';
 
@@ -33,6 +34,16 @@ const String _guildId = 'g1';
 const String _channelId = 'voice-1';
 
 void main() {
+  setUp(() {
+    VisibilityDetectorController.instance.updateInterval = Duration.zero;
+  });
+
+  tearDown(() {
+    VisibilityDetectorController.instance.updateInterval = const Duration(
+      milliseconds: 500,
+    );
+  });
+
   group('VoiceChannelPageView layout gates', () {
     testWidgets('shows join UI when not in this voice channel', (
       WidgetTester tester,

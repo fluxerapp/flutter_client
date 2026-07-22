@@ -203,12 +203,12 @@ void main() {
       await tester.pumpAndSettle();
       final double expandedHeight = tester.getSize(sheet).height;
       expect(expandedHeight, greaterThan(dockedHeight + 40));
-      final ChatExpressionExpandableSheetState sheetState = tester.state(
-        find.byType(ChatExpressionExpandableSheet),
-      );
-      sheetState.onEmojiSelectForTest('thumbsup', '\uD83D\uDC4D');
+      (tester.state(find.byType(ChatExpressionExpandableSheet))
+              as ChatExpressionExpandableSheetState)
+          .onEmojiSelectForTest('thumbsup', '\uD83D\uDC4D');
       await tester.pumpAndSettle();
-      expect(tester.getSize(sheet).height, closeTo(dockedHeight, 4));
+      final double heightAfterSelect = tester.getSize(sheet).height;
+      expect(heightAfterSelect, closeTo(dockedHeight, 4));
     });
 
     testWidgets('close animates height before provider teardown', (
@@ -216,12 +216,15 @@ void main() {
     ) async {
       await _pumpSheet(tester, colorTheme: colorTheme);
       final Finder sheet = find.byKey(kChatExpressionSheetKey);
-      final ChatExpressionExpandableSheetState sheetState = tester.state(
-        find.byType(ChatExpressionExpandableSheet),
-      );
-      sheetState.closeForTest();
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 50));
+      (tester.state(find.byType(ChatExpressionExpandableSheet))
+              as ChatExpressionExpandableSheetState)
+          .closeForTest();
+      for (final Duration? delay in <Duration?>[
+        null,
+        const Duration(milliseconds: 50),
+      ]) {
+        await tester.pump(delay);
+      }
       final double midCloseHeight = tester.getSize(sheet).height;
       expect(midCloseHeight, lessThan(_kAnchorHeight));
       expect(midCloseHeight, greaterThan(0));
@@ -230,12 +233,34 @@ void main() {
       expect(find.byKey(kChatExpressionSheetKey), findsOneWidget);
       await tester.pumpAndSettle();
     });
+
+    testWidgets('keeps sheet mounted when collapsedHeight is zero', (
+      tester,
+    ) async {
+      await _pumpSheet(tester, colorTheme: colorTheme, collapsedHeight: 0);
+      expect(find.byKey(kChatExpressionSheetKey), findsOneWidget);
+      expect(find.byType(Scrollable), findsWidgets);
+    });
+
+    testWidgets('search expand increases content height', (tester) async {
+      await _pumpSheet(tester, colorTheme: colorTheme);
+      final ChatExpressionExpandableSheetState sheetState = tester.state(
+        find.byType(ChatExpressionExpandableSheet),
+      );
+      final double dockedContentHeight = sheetState.sheetContentHeightForTest;
+      sheetState.onSearchActivatedForTest();
+      expect(
+        sheetState.sheetContentHeightForTest,
+        greaterThan(dockedContentHeight + 20),
+      );
+    });
   });
 }
 
 Future<void> _pumpSheet(
   WidgetTester tester, {
   required FluxerColorTheme colorTheme,
+  double collapsedHeight = _kDockedContentHeight,
 }) async {
   await tester.binding.setSurfaceSize(_kMobileViewport);
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -270,7 +295,7 @@ Future<void> _pumpSheet(
                   right: 0,
                   bottom: 0,
                   child: ChatExpressionExpandableSheet(
-                    collapsedHeight: _kDockedContentHeight,
+                    collapsedHeight: collapsedHeight,
                     dragHandleHeight: _kDragHandleHeight,
                     parentHeight: _kMobileViewport.height,
                     contentBuilder:

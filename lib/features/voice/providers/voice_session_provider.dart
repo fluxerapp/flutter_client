@@ -5,8 +5,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/audio/enums/fluxer_sfx_clip.dart';
-import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
 import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/providers/fluxer_sfx_provider.dart';
@@ -110,9 +110,9 @@ class VoiceSession extends _$VoiceSession {
   VoiceSessionState build() {
     ref
       ..onDispose(_teardownOnDispose)
-      ..listen<Map<String, int>>(channelPermissionCacheProvider, (
-        Map<String, int>? _,
-        Map<String, int> _,
+      ..listen<ChannelPermissionCaches>(channelPermissionCacheProvider, (
+        ChannelPermissionCaches? _,
+        ChannelPermissionCaches _,
       ) {
         unawaited(_onChannelPermissionsChanged());
       })
@@ -330,12 +330,16 @@ class VoiceSession extends _$VoiceSession {
 
   Room? get _room => state.liveKitRoom;
 
+  void reportJoinError(String errorMessage) {
+    state = state.copyWith(errorMessage: errorMessage);
+  }
+
   /// Joins a voice channel; the gateway responds with [VoiceServerUpdateEvent],
   /// which is forwarded to [handleVoiceServerUpdate].
   ///
   /// [ringSilently] (with [startOutgoingCall]): POST
   /// ring with an empty recipient list.
-  Future<void> connectToVoiceChannel({
+  Future<bool> connectToVoiceChannel({
     required String? guildId,
     required String channelId,
     bool startOutgoingCall = false,
@@ -344,13 +348,34 @@ class VoiceSession extends _$VoiceSession {
     bool initialSelfMute = false,
     bool initialSelfDeaf = false,
     bool initialSelfVideo = false,
+    bool forceJoin = false,
   }) async {
     _startWithVideoAfterConnect = false;
     talker.info(
       '[Voice] Join requested (guildId=$guildId, channelId=$channelId, '
-      'startOutgoingCall=$startOutgoingCall).',
+      'startOutgoingCall=$startOutgoingCall, forceJoin=$forceJoin).',
     );
-    if (_shouldSkipDuplicateJoin(channelId)) {
+    if (forceJoin) {
+      await _clearStaleVoiceSessionIfNeeded(channelId);
+      if (_hasLiveConnectionToChannel(channelId)) {
+        talker.info(
+          '[Voice] Force join skipped: already live on channelId=$channelId.',
+        );
+        return true;
+      }
+      if (voiceSessionIsJoinInFlight(
+        state: state,
+        channelId: channelId,
+        expectedChannelId: _expectedChannelId,
+        liveKitConnectInFlight: _connectLiveKitInFlight != null,
+      )) {
+        talker.warning(
+          '[Voice] Force join: clearing in-flight session for '
+          'channelId=$channelId.',
+        );
+        await leaveVoice(endCall: false);
+      }
+    } else if (_shouldSkipDuplicateJoin(channelId)) {
       if (_hasLiveConnectionToChannel(channelId)) {
         talker.info(
           '[Voice] Join skipped: already connected to channelId=$channelId.',
@@ -361,9 +386,11 @@ class VoiceSession extends _$VoiceSession {
           'channelId=$channelId.',
         );
       }
-      return;
+      return false;
     }
-    await _clearStaleVoiceSessionIfNeeded(channelId);
+    if (!forceJoin) {
+      await _clearStaleVoiceSessionIfNeeded(channelId);
+    }
     final bool micOk = await _ensureSystemPermissionForVoice(
       SystemPermissionKind.microphone,
       deniedErrorCode: kVoiceSessionErrorMicPermission,
@@ -373,7 +400,7 @@ class VoiceSession extends _$VoiceSession {
         '[Voice] Join aborted: microphone permission denied '
         '(channelId=$channelId).',
       );
-      return;
+      return false;
     }
     if (guildId != null) {
       int? permissionBits = ref
@@ -383,18 +410,21 @@ class VoiceSession extends _$VoiceSession {
         await ref
             .read(channelPermissionCacheProvider.notifier)
             .rebuildChannel(channelId);
+        if (!ref.mounted) {
+          return false;
+        }
         permissionBits = ref
             .read(channelPermissionCacheProvider.notifier)
             .getChannelBits(channelId);
       }
-      final int? localConnectBits = await ref.read(
-        channelLocalGuildChannelPermissionBitsProvider(channelId).future,
+      final int localConnectBits = await readLocalGuildChannelPermissionBitsRef(
+        ref: ref,
+        channelId: channelId,
       );
-      if ((localConnectBits ?? permissionBits) != null &&
-          !hasPermission(
-            localConnectBits ?? permissionBits!,
-            Permission.connect,
-          )) {
+      if (!ref.mounted) {
+        return false;
+      }
+      if (!hasPermission(localConnectBits, Permission.connect)) {
         talker.warning(
           '[Voice] Join aborted: missing Connect permission '
           '(channelId=$channelId, guildId=$guildId).',
@@ -402,16 +432,17 @@ class VoiceSession extends _$VoiceSession {
         state = state.copyWith(
           errorMessage: kVoiceSessionErrorNoConnectPermission,
         );
-        return;
+        return false;
       }
     }
     final DateTime now = DateTime.now();
-    if (_lastConnectRequestAt != null &&
+    if (!forceJoin &&
+        _lastConnectRequestAt != null &&
         now.difference(_lastConnectRequestAt!) < const Duration(seconds: 1)) {
       talker.warning(
         '[Voice] Connect request throttled (< 1s since last attempt).',
       );
-      return;
+      return false;
     }
     final GatewayConnection gateway = ref.read(gatewayConnectionProvider);
     if (gateway.state != GatewayState.connected) {
@@ -426,7 +457,7 @@ class VoiceSession extends _$VoiceSession {
             'Chat is reconnecting. Please wait until you are online, then try '
             'again.',
       );
-      return;
+      return false;
     }
     _lastConnectRequestAt = now;
     _startWithVideoAfterConnect = initialSelfVideo;
@@ -518,9 +549,10 @@ class VoiceSession extends _$VoiceSession {
         clearActiveConnectionId: true,
         clearRoom: true,
       );
-      return;
+      return false;
     }
     _armConnectWatchdog(_connectGeneration);
+    return true;
   }
 
   void handleVoiceServerUpdate(VoiceServerUpdateEvent event) {
@@ -904,6 +936,18 @@ class VoiceSession extends _$VoiceSession {
     );
     final Room room = Room(roomOptions: roomOptions);
     _managedLiveKitRoom = room;
+    if (attempt != _connectGeneration) {
+      talker.warning(
+        '[Voice] LiveKit connect superseded after room creation '
+        '(attempt=$attempt, generation=$_connectGeneration).',
+      );
+      _managedLiveKitRoom = null;
+      await _disconnectAndDisposeRoom(room, reason: 'superseded_after_create');
+      if (identical(state.liveKitRoom, room)) {
+        state = state.copyWith(clearRoom: true);
+      }
+      return;
+    }
     final String? resolvedGuildId =
         _normalizeVoiceGuildId(event.guildId) ?? _expectedGuildId;
     state = state.copyWith(
@@ -1130,7 +1174,16 @@ class VoiceSession extends _$VoiceSession {
     if (channelId != null) {
       _clearOutgoingCallInitiator(channelId);
     }
-    await _disconnectRoomOnly(guildId: guildId, connectionId: connectionId);
+    if (connectionId != null && guildId != null) {
+      _sendVoiceDisconnectState(guildId: guildId, connectionId: connectionId);
+    } else if (channelId != null) {
+      _sendVoiceLeaveChannelState(guildId: guildId);
+    }
+    await _disconnectRoomOnly(
+      guildId: guildId,
+      connectionId: connectionId,
+      skipGatewayDisconnect: true,
+    );
     state = const VoiceSessionState();
     if (endCall && channelId != null) {
       try {
@@ -1143,6 +1196,8 @@ class VoiceSession extends _$VoiceSession {
   }
 
   void _teardownOnDispose() {
+    // Prevent stale in-flight connects from creating a room after disposal.
+    _connectGeneration++;
     _cancelConnectWatchdog();
     _cancelLiveKitConnectWatchdog();
     _cancelDeferredServerDisconnect();
@@ -1176,6 +1231,7 @@ class VoiceSession extends _$VoiceSession {
   Future<void> _disconnectRoomOnly({
     String? guildId,
     String? connectionId,
+    bool skipGatewayDisconnect = false,
   }) async {
     _detachRoomEventsListener();
     _detachLocalParticipantListener();
@@ -1186,10 +1242,12 @@ class VoiceSession extends _$VoiceSession {
     if (roomToDisconnect == null) {
       return;
     }
-    _sendVoiceDisconnectState(
-      guildId: guildId ?? sessionState.guildId,
-      connectionId: connectionId ?? sessionState.activeConnectionId,
-    );
+    if (!skipGatewayDisconnect) {
+      _sendVoiceDisconnectState(
+        guildId: guildId ?? sessionState.guildId,
+        connectionId: connectionId ?? sessionState.activeConnectionId,
+      );
+    }
     state = state.copyWith(clearRoom: true, clearE2eeKey: true);
     await _disconnectAndDisposeRoom(roomToDisconnect);
   }
@@ -1211,6 +1269,21 @@ class VoiceSession extends _$VoiceSession {
             selfVideo: false,
             selfStream: false,
             connectionId: connectionId,
+            isMobile: isFluxerMobileOs,
+          ),
+        );
+  }
+
+  void _sendVoiceLeaveChannelState({required String? guildId}) {
+    ref
+        .read(gatewayConnectionProvider)
+        .updateVoiceState(
+          GatewayVoiceStateUpdate(
+            guildId: guildId,
+            selfMute: false,
+            selfDeaf: false,
+            selfVideo: false,
+            selfStream: false,
             isMobile: isFluxerMobileOs,
           ),
         );

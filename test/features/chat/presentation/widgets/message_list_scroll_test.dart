@@ -2348,6 +2348,82 @@ void main() {
       },
     );
 
+    testWidgets('loads newer pages after a search-style jump settles', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final DateTime base = DateTime.utc(2026, 7, 4, 12);
+      final List<Message> allMessages = <Message>[
+        for (int index = 0; index < 80; index += 1)
+          _message(
+            id: _snowflakeForUtc(base.add(Duration(minutes: index))),
+            content: 'message $index',
+            timestamp: base.add(Duration(minutes: index)),
+          ),
+      ];
+      final List<Message> initialWindow = allMessages.sublist(0, 30);
+      final String targetId = initialWindow[10].id;
+      final _PagingInstrumentedChatViewModel chatViewModel =
+          _PagingInstrumentedChatViewModel(
+            ChatViewState(
+              channelId: _messageListChannelId,
+              messages: initialWindow,
+              replyingTo: null,
+              replyMentioning: false,
+              editingMessage: null,
+              messageText: '',
+              scrollToBottomSignal: 0,
+              isLoading: false,
+              isSyncingMessages: false,
+              isLoadingMore: false,
+              isLoadingNewer: false,
+              hasMoreMessages: true,
+              hasMoreNewerMessages: true,
+              errorMessage: null,
+            ),
+            newerPages: <List<Message>>[
+              allMessages.sublist(30, 60),
+              allMessages.sublist(60, 80),
+            ],
+          );
+      final db.FluxerDatabase database = openTestDatabase();
+
+      await tester.pumpWidget(
+        _messageListApp(database: database, chatViewModel: chatViewModel),
+      );
+      await tester.pumpAndSettle();
+
+      chatViewModel.scrollToMessage(targetId);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+      for (int i = 0; i < 8; i++) {
+        await tester.pump(const Duration(milliseconds: 48));
+      }
+      for (int i = 0; i < 6; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      for (int i = 0; i < 6; i++) {
+        await tester.pump(const Duration(milliseconds: 160));
+      }
+      await tester.pumpAndSettle();
+
+      final int loadNewerBefore = chatViewModel._loadNewerCallCount;
+      await tester.drag(_messageListScrollable(), const Offset(0, -900));
+      await tester.pump();
+      expect(chatViewModel._loadNewerCallCount, greaterThan(loadNewerBefore));
+      expect(chatViewModel.state.hasMoreNewerMessages, isTrue);
+      expect(
+        int.parse(chatViewModel.state.messages.last.id),
+        greaterThan(int.parse(initialWindow.last.id)),
+      );
+
+      await _disposeMessageList(tester);
+    });
+
     testWidgets(
       'centers a fresh targetMessageId after its around-window loads',
       (WidgetTester tester) async {
@@ -4229,4 +4305,27 @@ class _InstrumentedChatViewModel extends ChatViewModel {
 
   @override
   void clearStickyUnreadAfterBuildForCurrentChannel() {}
+}
+
+class _PagingInstrumentedChatViewModel extends _InstrumentedChatViewModel {
+  _PagingInstrumentedChatViewModel(
+    super._initialState, {
+    required List<List<Message>> newerPages,
+  }) : _newerPages = newerPages.map(List<Message>.from).toList();
+
+  final List<List<Message>> _newerPages;
+
+  @override
+  Future<void> loadNewer() async {
+    await super.loadNewer();
+    if (_newerPages.isEmpty) {
+      return;
+    }
+    final List<Message> page = _newerPages.removeAt(0);
+    state = state.copyWith(
+      messages: <Message>[...state.messages, ...page],
+      hasMoreNewerMessages: _newerPages.isNotEmpty,
+      isLoadingNewer: false,
+    );
+  }
 }

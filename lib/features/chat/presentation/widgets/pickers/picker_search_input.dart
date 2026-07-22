@@ -76,7 +76,7 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
       return;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_focusNode.hasFocus) {
+      if (!mounted) {
         return;
       }
       widget.onActivated?.call();

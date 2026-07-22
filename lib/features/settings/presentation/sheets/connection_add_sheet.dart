@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/build/app_build_config.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -20,6 +19,7 @@ import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
 import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -488,7 +488,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     if (_hostCtrl == null) {
       return;
     }
-    await Clipboard.setData(ClipboardData(text: _hostCtrl!.text));
+    await copyToClipboard(context: context, value: _hostCtrl!.text);
     setState(() => _hostCopied = true);
     await Future<void>.delayed(const Duration(milliseconds: 1500));
     if (mounted) {
@@ -500,7 +500,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     if (_valueCtrl == null) {
       return;
     }
-    await Clipboard.setData(ClipboardData(text: _valueCtrl!.text));
+    await copyToClipboard(context: context, value: _valueCtrl!.text);
     setState(() => _valueCopied = true);
     await Future<void>.delayed(const Duration(milliseconds: 1500));
     if (mounted) {

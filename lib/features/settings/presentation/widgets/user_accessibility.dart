@@ -128,6 +128,50 @@ class UserAccessibility extends ConsumerWidget {
               ),
             ],
           ),
+          FluxerSettingsSection(
+            title: l10n.accessibilityMediaButtonsGroupTitle,
+            description: l10n.accessibilityMediaButtonsGroupDescription,
+            children: [
+              FluxerSettingsSwitchGroup(
+                children: [
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.accessibilityShowMediaDeleteButtonLabel,
+                    value: appearance.showMediaDeleteButton,
+                    onChanged: (value) => unawaited(
+                      appearanceNotifier.setShowMediaDeleteButton(value: value),
+                    ),
+                  ),
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.accessibilityShowMediaDownloadButtonLabel,
+                    value: appearance.showMediaDownloadButton,
+                    onChanged: (value) => unawaited(
+                      appearanceNotifier.setShowMediaDownloadButton(
+                        value: value,
+                      ),
+                    ),
+                  ),
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.accessibilityShowMediaFavoriteButtonLabel,
+                    value: appearance.showMediaFavoriteButton,
+                    onChanged: (value) => unawaited(
+                      appearanceNotifier.setShowMediaFavoriteButton(
+                        value: value,
+                      ),
+                    ),
+                  ),
+                  FluxerSettingsSwitchItem.grouped(
+                    label: l10n.accessibilityShowSuppressEmbedsButtonLabel,
+                    value: appearance.showSuppressEmbedsButton,
+                    onChanged: (value) => unawaited(
+                      appearanceNotifier.setShowSuppressEmbedsButton(
+                        value: value,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );

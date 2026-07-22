@@ -215,8 +215,6 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
     final String displayName = _memberDisplayName(ref, member, userId);
     final String? avatar = member.avatar ?? member.user.avatar;
     final db.User? presenceUser = ref.watch(userPresenceProvider(userId)).value;
-    final String status =
-        presenceUser?.status ?? listMember.status ?? 'offline';
     final String? customStatus =
         presenceUser?.customStatus ?? listMember.customStatus;
     final int? roleColor = resolveMemberHighestRoleColor(

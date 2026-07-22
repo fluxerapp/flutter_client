@@ -9,9 +9,9 @@ import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_ti
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_markdown/fluxer_markdown.dart';
-import 'package:intl/intl.dart';
 
 class UserProfileBioCard extends StatelessWidget {
   const UserProfileBioCard({
@@ -123,7 +123,10 @@ class UserProfileBioCard extends StatelessWidget {
                           ),
                         ),
                       Text(
-                        DateFormat.yMMMd().format(memberSince.toLocal()),
+                        formatUserMediumDate(
+                          memberSince.toLocal(),
+                          l10n.localeName,
+                        ),
                         style: textStyles.bodySmall.copyWith(
                           color: colors.textChat,
                           fontSize: 14,
@@ -143,8 +146,9 @@ class UserProfileBioCard extends StatelessWidget {
                           size: 16,
                         ),
                         Text(
-                          DateFormat.yMMMd().format(
+                          formatUserMediumDate(
                             guildMemberSince!.toLocal(),
+                            l10n.localeName,
                           ),
                           style: textStyles.bodySmall.copyWith(
                             color: colors.textChat,

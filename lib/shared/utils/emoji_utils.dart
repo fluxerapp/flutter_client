@@ -1,8 +1,25 @@
+import 'package:fluxer_app/core/media/fluxer_media_cdn.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 
-const _kTwemojiCdn = 'https://fluxerstatic.com/emoji';
+const _kTwemojiVersion = '2';
 
 const int kCustomEmojiFetchSize = 96;
+
+const List<String> kSkinToneSurrogates = [
+  '\u{1F3FB}',
+  '\u{1F3FC}',
+  '\u{1F3FD}',
+  '\u{1F3FE}',
+  '\u{1F3FF}',
+];
+
+String? skinToneToName(String surrogate) {
+  final idx = kSkinToneSurrogates.indexOf(surrogate);
+  if (idx == -1) {
+    return null;
+  }
+  return 'skin-tone-${idx + 1}';
+}
 
 /// Resolves a reaction or shortcode [emoji] value to Unicode surrogates.
 String resolveUnicodeEmoji(String emoji) {
@@ -31,7 +48,7 @@ String? getTwemojiUrl(String unicode) {
   if (codePoints.isEmpty) {
     return null;
   }
-  return '$_kTwemojiCdn/$codePoints.svg';
+  return '$fluxerStaticCdn/emoji/$codePoints.svg?v=$_kTwemojiVersion';
 }
 
 String getCustomEmojiMarkdown({

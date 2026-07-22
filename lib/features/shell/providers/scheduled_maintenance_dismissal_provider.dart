@@ -21,7 +21,7 @@ class ScheduledMaintenanceDismissalRead
   @override
   int build() => 0;
 
-  Future<bool> isDismissed(ServiceStatusMaintenance maintenance) async {
+  Future<bool> isDismissed(ServiceStatusMaintenance maintenance) {
     final ScheduledMaintenanceDismissalStorage storage = ref.read(
       scheduledMaintenanceDismissalStorageProvider,
     );

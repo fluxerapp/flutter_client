@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
@@ -11,6 +10,7 @@ import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart
 import 'package:fluxer_app/features/settings/providers/blocked_users_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserBlockedUsers extends ConsumerWidget {
@@ -182,7 +182,7 @@ class UserBlockedUsers extends ConsumerWidget {
           icon: PhosphorIconsBold.copy,
           onPressed: () async {
             close();
-            await Clipboard.setData(ClipboardData(text: friend.tag));
+            await copyToClipboard(context: menuContext, value: friend.tag);
           },
         ),
         FluxerMenuItem(
@@ -190,7 +190,7 @@ class UserBlockedUsers extends ConsumerWidget {
           icon: PhosphorIconsBold.identificationCard,
           onPressed: () async {
             close();
-            await Clipboard.setData(ClipboardData(text: friend.id));
+            await copyToClipboard(context: menuContext, value: friend.id);
           },
         ),
       ],

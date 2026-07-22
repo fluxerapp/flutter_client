@@ -103,6 +103,31 @@ void main() {
     },
   );
 
+  test('channelHasRecentTyping is true only for recent typing events', () {
+    fakeAsync((FakeAsync async) {
+      final container = ProviderContainer(
+        overrides: [currentUserIdProvider.overrideWithValue('me')],
+      );
+      container.read(typingIndicatorsProvider.notifier).addTyping('A', 'u1');
+
+      expect(container.read(channelHasRecentTypingProvider('A')), isTrue);
+
+      async.elapse(const Duration(seconds: 5, milliseconds: 1));
+
+      expect(
+        container.read(channelHasRecentTypingProvider('A')),
+        isFalse,
+        reason: 'sidebar typing should fade after 5 seconds',
+      );
+      expect(
+        container.read(channelHasTypingProvider('A')),
+        isTrue,
+        reason: 'typing state should still be active for 10 seconds',
+      );
+      container.dispose();
+    });
+  });
+
   test('presentableTypingUsersInChannel excludes blocked users', () {
     final container = ProviderContainer(
       overrides: [

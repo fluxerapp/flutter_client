@@ -177,7 +177,11 @@ Future<void> openGuildChannelContent({
     ref
         .read(recentChannelVisitsProvider.notifier)
         .recordVisit(channelId: channel.id, guildId: guildId);
-    navigateToContent(context, chatPath);
+    if (context.mounted) {
+      navigateToContent(context, chatPath);
+      return;
+    }
+    navigateToContentViaContainer(ref.container, chatPath);
   }
 
   if (channel.type == ChannelType.guildVoice && isMobileLayout(context)) {
@@ -215,15 +219,16 @@ Future<void> openGuildChannelContent({
         :final initialSelfMute,
         :final initialSelfDeaf,
       ):
-        await joinVoiceChannelWithConfirmation(
-          ref: ref,
-          context: context,
-          guildId: guildId,
-          channelId: channel.id,
-          initialSelfMute: initialSelfMute,
-          initialSelfDeaf: initialSelfDeaf,
-        );
-        if (context.mounted) {
+        final VoiceJoinResult joinResult =
+            await joinVoiceChannelWithConfirmation(
+              ref: ref,
+              context: context,
+              guildId: guildId,
+              channelId: channel.id,
+              initialSelfMute: initialSelfMute,
+              initialSelfDeaf: initialSelfDeaf,
+            );
+        if (joinResult == VoiceJoinResult.succeeded) {
           recordAndNavigate();
         }
     }
@@ -237,13 +242,13 @@ Future<void> openGuildChannelContent({
       permissionBits: localConnectBits ?? permissionBits,
     );
     if (canJoinVoice) {
-      await joinVoiceChannelWithConfirmation(
+      final VoiceJoinResult joinResult = await joinVoiceChannelWithConfirmation(
         ref: ref,
         context: context,
         guildId: guildId,
         channelId: channel.id,
       );
-      if (context.mounted) {
+      if (joinResult == VoiceJoinResult.succeeded) {
         recordAndNavigate();
       }
       return;

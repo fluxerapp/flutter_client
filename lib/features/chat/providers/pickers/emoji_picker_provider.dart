@@ -60,26 +60,81 @@ String unicodeEmojiFavoriteKey(EmojiEntry emoji) =>
 String customEmojiFavoriteKey(GuildEmojiEntry emoji) =>
     'custom:${emoji.guildId}:${emoji.id}';
 
-@riverpod
-Future<List<EmojiEntry>> frecentEmojis(Ref ref) async {
-  final db = ref.watch(fluxerDatabaseProvider);
-  final keys = await db.emojiUsageDao.getTopByFrecencyForPrefix(
-    'unicode:',
-    kMaxFrecentEmojis,
-  );
+sealed class FrecentEmojiItem {
+  const FrecentEmojiItem();
+}
 
-  final result = <EmojiEntry>[];
-  for (final usage in keys) {
-    if (!usage.key.startsWith('unicode:')) {
-      continue;
+class FrecentUnicodeEmoji extends FrecentEmojiItem {
+  const FrecentUnicodeEmoji(this.emoji);
+
+  final EmojiEntry emoji;
+}
+
+class FrecentCustomEmoji extends FrecentEmojiItem {
+  const FrecentCustomEmoji(this.emoji);
+
+  final GuildEmojiEntry emoji;
+}
+
+List<FrecentEmojiItem> resolveFrecentEmojis({
+  required List<String> usageKeys,
+  required Map<String, GuildEmojiEntry> availableCustomEmojisById,
+}) {
+  final result = <FrecentEmojiItem>[];
+  for (final key in usageKeys) {
+    if (key.startsWith('unicode:')) {
+      final name = key.substring('unicode:'.length);
+      final entry = EmojiRegistry.entryByName(name);
+      if (entry != null) {
+        result.add(FrecentUnicodeEmoji(entry));
+      }
+    } else if (key.startsWith('custom:')) {
+      final lastColon = key.lastIndexOf(':');
+      if (lastColon < 'custom:'.length) {
+        continue;
+      }
+      final emojiId = key.substring(lastColon + 1);
+      final emoji = availableCustomEmojisById[emojiId];
+      if (emoji != null) {
+        result.add(FrecentCustomEmoji(emoji));
+      }
     }
-    final name = usage.key.substring('unicode:'.length);
-    final entry = EmojiRegistry.entryByName(name);
-    if (entry != null) {
-      result.add(entry);
+    if (result.length >= kMaxFrecentEmojis) {
+      break;
     }
   }
   return result;
+}
+
+@riverpod
+Future<List<FrecentEmojiItem>> frecentEmojis(Ref ref) async {
+  final db = ref.watch(fluxerDatabaseProvider);
+  final usage = await db.emojiUsageDao.getTopByFrecency(kMaxFrecentEmojis * 2);
+  final usageKeys = usage.map((entry) => entry.key).toList();
+
+  final customEmojisById = <String, GuildEmojiEntry>{};
+  for (final key in usageKeys) {
+    if (!key.startsWith('custom:')) {
+      continue;
+    }
+    final lastColon = key.lastIndexOf(':');
+    if (lastColon < 'custom:'.length) {
+      continue;
+    }
+    final emojiId = key.substring(lastColon + 1);
+    if (customEmojisById.containsKey(emojiId)) {
+      continue;
+    }
+    final row = await db.guildEmojiDao.getById(emojiId);
+    if (row != null) {
+      customEmojisById[emojiId] = GuildEmojiEntry.fromRow(row);
+    }
+  }
+
+  return resolveFrecentEmojis(
+    usageKeys: usageKeys,
+    availableCustomEmojisById: customEmojisById,
+  );
 }
 
 final allGuildEmojisForPickerProvider =
@@ -151,7 +206,7 @@ Map<Guild, List<GuildEmojiEntry>> _groupEmojiEntriesByGuild({
   return result;
 }
 
-/// Whether a guild emoji can be inserted or sent in the composer for [channelId].
+/// Whether a guild emoji can be inserted or sent in the current composer context.
 bool composerCanUseGuildEmoji({
   required GuildEmojiEntry emoji,
   required bool hasGlobalEmojiAccess,

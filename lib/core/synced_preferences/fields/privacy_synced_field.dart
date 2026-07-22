@@ -89,10 +89,9 @@ class PrivacySyncedField extends SyncedFieldAdapter<PrivacyLocalState> {
     required PrivacyLocalState local,
     pb.PrivacyPreferences? wireBase,
   }) {
-    final pb.PrivacyPreferences settings = wireBase != null
-        ? (pb.PrivacyPreferences()..mergeFromMessage(wireBase))
-        : pb.PrivacyPreferences();
-    settings.showActiveNow = local.showActiveNow;
-    return settings;
+    return (wireBase != null
+          ? (pb.PrivacyPreferences()..mergeFromMessage(wireBase))
+          : pb.PrivacyPreferences())
+      ..showActiveNow = local.showActiveNow;
   }
 }

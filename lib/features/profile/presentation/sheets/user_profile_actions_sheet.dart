@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/constants/user_flags.dart';
@@ -22,6 +21,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/user_profile.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -86,7 +86,7 @@ class UserProfileActionsSheet {
             icon: PhosphorIconsFill.copy,
             onPressed: () async {
               close();
-              await Clipboard.setData(ClipboardData(text: tag));
+              await copyToClipboard(context: menuContext, value: tag);
             },
           ),
           FluxerMenuItem(
@@ -94,7 +94,7 @@ class UserProfileActionsSheet {
             icon: PhosphorIconsFill.identificationCard,
             onPressed: () async {
               close();
-              await Clipboard.setData(ClipboardData(text: user.id));
+              await copyToClipboard(context: menuContext, value: user.id);
             },
           ),
         ]);

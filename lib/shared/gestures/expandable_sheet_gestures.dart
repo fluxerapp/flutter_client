@@ -84,10 +84,10 @@ class ExpandableSheetHeightBuilder extends StatelessWidget {
   final ValueNotifier<bool> isDraggingNotifier;
   final Widget Function(
     BuildContext context,
-    double height,
-    bool isDragging,
-    Widget child,
-  )
+    double height, {
+    required bool isDragging,
+    required Widget child,
+  })
   sizeBuilder;
   final Widget child;
 
@@ -102,8 +102,8 @@ class ExpandableSheetHeightBuilder extends StatelessWidget {
         return sizeBuilder(
           context,
           heightNotifier.value,
-          isDraggingNotifier.value,
-          stableChild!,
+          isDragging: isDraggingNotifier.value,
+          child: stableChild!,
         );
       },
       child: child,

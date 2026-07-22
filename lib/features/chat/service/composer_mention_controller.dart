@@ -8,6 +8,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
+import 'package:fluxer_app/features/guilds/providers/role_providers.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
@@ -44,6 +45,15 @@ String _composerMentionChannelLabel(WidgetRef ref, String targetChannelId) {
   final ChannelListState listState = ref.read(channelListViewModelProvider);
   final Channel? ch = findChannelById(listState, targetChannelId);
   return ch?.name ?? shortMentionWireIdFallback(targetChannelId);
+}
+
+String _composerMentionRoleLabel(
+  WidgetRef ref,
+  String roleId, {
+  required String fallback,
+}) {
+  final String? name = ref.read(roleByIdProvider(roleId)).value?.name;
+  return name ?? fallback;
 }
 
 /// A user, role, or channel mention rendered inline as a chip while [wireText]
@@ -197,7 +207,8 @@ class ComposerMentionController extends InlineTokenTextEditingController {
           allocate(
             MentionInlineToken(
               wireText: '<@&$roleId>',
-              resolveVisibleText: () => '@$label',
+              resolveVisibleText: () =>
+                  '@${_composerMentionRoleLabel(_ref, roleId, fallback: label)}',
               colorArgb: colorArgb,
             ),
           ),
@@ -281,7 +292,8 @@ class ComposerMentionController extends InlineTokenTextEditingController {
       matchEnd,
       MentionInlineToken(
         wireText: '<@&$roleId>',
-        resolveVisibleText: () => '@$displayName',
+        resolveVisibleText: () =>
+            '@${_composerMentionRoleLabel(_ref, roleId, fallback: displayName)}',
         colorArgb: colorArgb,
       ),
       ensureTrailingSpace: true,

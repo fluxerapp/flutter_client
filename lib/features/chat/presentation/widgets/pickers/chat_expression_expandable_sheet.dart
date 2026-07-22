@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:fluxer_app/features/chat/domain/gif_selection.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/inline_expression_panel.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/bottom_input_slot_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/mobile_keyboard_metrics_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_layout.dart';
@@ -23,6 +25,7 @@ const Key kChatExpressionSheetDragHandleKey = Key(
   'chat-expression-sheet-drag-handle',
 );
 const double kExpressionSheetContentDragSlop = 8;
+const double kExpressionPanelMinContentHeight = 1;
 final GlobalKey kChatExpressionSheetDragHeaderKey = GlobalKey(
   debugLabel: 'chat-expression-sheet-drag-header',
 );
@@ -61,10 +64,13 @@ class ChatExpressionExpandableSheetState
   );
   late final ValueNotifier<double> _heightNotifier;
   late final ValueNotifier<bool> _isDraggingNotifier;
+  late final FocusNode _searchFocusNode;
   double _expandedHeightCache = 0;
+  double? _lockedCollapsedHeight;
   bool? _dragWasPastCollapsed;
   bool _initialized = false;
   bool _isClosing = false;
+  bool _isSearchFocused = false;
   bool _searchExpandScheduled = false;
   bool _ignoreContentDrag = false;
   double _contentDragSlopAccumulated = 0;
@@ -73,8 +79,14 @@ class ChatExpressionExpandableSheetState
   @override
   void initState() {
     super.initState();
-    _heightNotifier = ValueNotifier<double>(widget.collapsedHeight);
+    _heightNotifier = ValueNotifier<double>(0);
     _isDraggingNotifier = ValueNotifier<bool>(false);
+    _searchFocusNode = FocusNode();
+    _searchFocusNode.addListener(_onSearchFocusChanged);
+  }
+
+  double _effectiveCollapsedHeight(double collapsedHeight) {
+    return math.max(collapsedHeight, kExpressionPanelMinContentHeight);
   }
 
   @override
@@ -82,10 +94,32 @@ class ChatExpressionExpandableSheetState
     super.didChangeDependencies();
     if (!_initialized) {
       _refreshExpandedHeight();
-      updateExpandableSheetHeight(
-        heightNotifier: _heightNotifier,
-        nextHeight: widget.collapsedHeight,
+      final double target = _effectiveCollapsedHeight(widget.collapsedHeight);
+      final MobileKeyboardMetricsState metrics = ref.read(
+        mobileKeyboardMetricsProvider,
       );
+      final BottomInputTransition transition = ref.read(
+        bottomInputSlotProvider.select(
+          (BottomInputSlotState state) => state.transition,
+        ),
+      );
+      final bool shouldAnimateOpen =
+          !metrics.isKeyboardVisible &&
+          transition == BottomInputTransition.idle &&
+          target > widget.dragHandleHeight;
+      if (shouldAnimateOpen) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) {
+            return;
+          }
+          _snapToHeight(target);
+        });
+      } else {
+        updateExpandableSheetHeight(
+          heightNotifier: _heightNotifier,
+          nextHeight: target,
+        );
+      }
       _initialized = true;
     }
   }
@@ -94,12 +128,18 @@ class ChatExpressionExpandableSheetState
   void didUpdateWidget(ChatExpressionExpandableSheet oldWidget) {
     super.didUpdateWidget(oldWidget);
     _refreshExpandedHeight();
+    if (_isSearchFocused || _isExpanded) {
+      return;
+    }
+    final double nextCollapsed = _effectiveCollapsedHeight(
+      widget.collapsedHeight,
+    );
     if (oldWidget.collapsedHeight != widget.collapsedHeight &&
-        !_isExpanded &&
-        (_height - oldWidget.collapsedHeight).abs() < 1) {
+        (_height - _effectiveCollapsedHeight(oldWidget.collapsedHeight)).abs() <
+            1) {
       updateExpandableSheetHeight(
         heightNotifier: _heightNotifier,
-        nextHeight: widget.collapsedHeight,
+        nextHeight: nextCollapsed,
       );
     }
   }
@@ -107,15 +147,33 @@ class ChatExpressionExpandableSheetState
   @override
   void dispose() {
     _closeTimer?.cancel();
+    _searchFocusNode
+      ..removeListener(_onSearchFocusChanged)
+      ..dispose();
     _isDraggingNotifier.dispose();
     _heightNotifier.dispose();
     _scrollController.dispose();
     super.dispose();
   }
 
+  void _onSearchFocusChanged() {
+    final bool hasFocus = _searchFocusNode.hasFocus;
+    if (hasFocus == _isSearchFocused) {
+      return;
+    }
+    if (hasFocus) {
+      _lockedCollapsedHeight ??= _height;
+    } else {
+      _lockedCollapsedHeight = null;
+    }
+    setState(() => _isSearchFocused = hasFocus);
+  }
+
   double get _height => _heightNotifier.value;
 
-  double get _minHeight => widget.collapsedHeight;
+  double get _minHeight =>
+      _lockedCollapsedHeight ??
+      _effectiveCollapsedHeight(widget.collapsedHeight);
 
   double get _maxHeight => _expandedHeightCache;
 
@@ -129,9 +187,14 @@ class ChatExpressionExpandableSheetState
     );
   }
 
-  bool get _isExpanded => _height >= _expandedHeightCache - 1;
+  bool get _isExpanded {
+    if (_expandedHeightCache <= _minHeight + 1) {
+      return false;
+    }
+    return _height >= _expandedHeightCache - 1;
+  }
 
-  bool get _isDocked => (_height - widget.collapsedHeight).abs() < 1;
+  bool get _isDocked => (_height - _minHeight).abs() < 1;
 
   ExpandableSheetDragHandlers get _sheetDragHandlers {
     return ExpandableSheetDragHandlers(
@@ -163,14 +226,33 @@ class ChatExpressionExpandableSheetState
       return;
     }
     _searchExpandScheduled = true;
+    _lockedCollapsedHeight ??= _height;
+    _refreshExpandedHeight();
+    final bool keyboardVisible = ref.read(
+      mobileKeyboardMetricsProvider.select(
+        (MobileKeyboardMetricsState metrics) => metrics.isKeyboardVisible,
+      ),
+    );
+    if (keyboardVisible) {
+      _snapToHeightInstant(_expandedHeightCache);
+    } else {
+      _snapToHeight(_expandedHeightCache);
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _searchExpandScheduled = false;
-      if (!mounted || _isExpanded) {
+      if (!mounted || !ref.read(expressionPanelProvider)) {
         return;
       }
-      _refreshExpandedHeight();
-      _snapToHeight(_expandedHeightCache);
+      if (!_searchFocusNode.hasFocus) {
+        _searchFocusNode.requestFocus();
+      }
     });
+  }
+
+  void _snapToHeightInstant(double target) {
+    _isDraggingNotifier.value = true;
+    _snapToHeight(target);
+    _isDraggingNotifier.value = false;
   }
 
   void _adjustSheetHeight(double deltaDy) {
@@ -290,14 +372,14 @@ class ChatExpressionExpandableSheetState
         inlineExpressionPanelSnapTarget(
           currentHeight: _height,
           velocity: velocity,
-          anchorHeight: widget.collapsedHeight,
+          anchorHeight: _minHeight,
           expandedHeight: _expandedHeightCache,
         );
     switch (target) {
       case InlineExpressionPanelSnapTarget.close:
         _beginCloseAnimation();
       case InlineExpressionPanelSnapTarget.anchor:
-        _snapToHeight(widget.collapsedHeight);
+        _snapToHeight(_minHeight);
       case InlineExpressionPanelSnapTarget.expanded:
         _snapToHeight(_expandedHeightCache);
     }
@@ -311,7 +393,7 @@ class ChatExpressionExpandableSheetState
     );
     _isDraggingNotifier.value = false;
     _resetDragHaptics();
-    if (clampedTarget <= widget.collapsedHeight + 1) {
+    if (clampedTarget <= _minHeight + 1) {
       ref
           .read(bottomInputSlotProvider.notifier)
           .settlePanelHeight(
@@ -350,7 +432,7 @@ class ChatExpressionExpandableSheetState
 
   void _snapToDockedIfNeeded() {
     if (!_isDocked) {
-      _snapToHeight(widget.collapsedHeight);
+      _snapToHeight(_minHeight);
     }
   }
 
@@ -360,17 +442,18 @@ class ChatExpressionExpandableSheetState
   }
 
   void _onGifSelect(FluxerSelectedGif selection) {
-    ref.read(pendingGifSelectionProvider.notifier).emit(selection);
+    ref.read(pendingGifSelectionProvider.notifier).selection = selection;
     _snapToDockedIfNeeded();
   }
 
   void _onStickerSelect(StickerEntry selection) {
-    ref.read(pendingStickerSelectionProvider.notifier).emit(selection);
+    ref.read(pendingStickerSelectionProvider.notifier).selection = selection;
     _snapToDockedIfNeeded();
   }
 
   void _onFavoriteMemeSelect(FavoriteMemeSelection selection) {
-    ref.read(pendingFavoriteMemeSelectionProvider.notifier).emit(selection);
+    ref.read(pendingFavoriteMemeSelectionProvider.notifier).selection =
+        selection;
     _snapToDockedIfNeeded();
   }
 
@@ -384,11 +467,19 @@ class ChatExpressionExpandableSheetState
     _onEmojiSelect(name, surrogates);
   }
 
+  @visibleForTesting
+  void onSearchActivatedForTest() {
+    _onSearchActivated();
+  }
+
+  @visibleForTesting
+  FocusNode get searchFocusNodeForTest => _searchFocusNode;
+
+  @visibleForTesting
+  double get sheetContentHeightForTest => _heightNotifier.value;
+
   @override
   Widget build(BuildContext context) {
-    if (widget.parentHeight <= 0 || widget.collapsedHeight <= 0) {
-      return const SizedBox.shrink();
-    }
     final colors = context.colors;
     final double homeIndicatorInset = inlineExpressionPanelHomeIndicatorInset(
       MediaQuery.of(context),
@@ -399,10 +490,10 @@ class ChatExpressionExpandableSheetState
       sizeBuilder:
           (
             BuildContext context,
-            double height,
-            bool isDragging,
-            Widget shellChild,
-          ) {
+            double height, {
+            required bool isDragging,
+            required Widget child,
+          }) {
             return expandableSheetAnimatedSize(
               context: context,
               isDragging: isDragging,
@@ -426,30 +517,46 @@ class ChatExpressionExpandableSheetState
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(16),
                     ),
-                    child: height <= 0 || _isClosing
-                        ? const SizedBox.shrink()
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              ExpandableSheetDragTarget(
-                                key: kChatExpressionSheetDragHeaderKey,
-                                onVerticalDragStart: _onHeaderDragStart,
-                                onVerticalDragUpdate: _onHeaderDragUpdate,
-                                onVerticalDragEnd: _onHeaderDragEnd,
-                                child: SizedBox(
-                                  key: kChatExpressionSheetDragHandleKey,
-                                  height: widget.dragHandleHeight,
-                                  width: double.infinity,
-                                  child: const IgnorePointer(
-                                    child: FluxerBottomSheetDragHandle(
-                                      includeTopPadding: false,
-                                    ),
+                    child: Opacity(
+                      opacity: _isClosing ? 0 : 1,
+                      child: IgnorePointer(
+                        ignoring: _isClosing,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            ExpandableSheetDragTarget(
+                              key: kChatExpressionSheetDragHeaderKey,
+                              onVerticalDragStart: _onHeaderDragStart,
+                              onVerticalDragUpdate: _onHeaderDragUpdate,
+                              onVerticalDragEnd: _onHeaderDragEnd,
+                              child: SizedBox(
+                                key: kChatExpressionSheetDragHandleKey,
+                                height: widget.dragHandleHeight,
+                                width: double.infinity,
+                                child: const IgnorePointer(
+                                  child: FluxerBottomSheetDragHandle(
+                                    includeTopPadding: false,
                                   ),
                                 ),
                               ),
-                              Expanded(child: shellChild),
-                            ],
-                          ),
+                            ),
+                            Expanded(
+                              child: ClipRect(
+                                child: OverflowBox(
+                                  alignment: Alignment.topCenter,
+                                  maxHeight: double.infinity,
+                                  child: SizedBox(
+                                    height: math.max(height, _minHeight),
+                                    width: double.infinity,
+                                    child: child,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -465,6 +572,7 @@ class ChatExpressionExpandableSheetState
           onContentPointerEnd: _onContentPointerEnd,
           onClose: _closePanel,
           onSearchActivated: _onSearchActivated,
+          searchFocusNode: _searchFocusNode,
           sheetDragHandlers: _sheetDragHandlers,
           onEmojiSelect: _onEmojiSelect,
           onGifSelect: _onGifSelect,
@@ -474,13 +582,6 @@ class ChatExpressionExpandableSheetState
         ),
       ),
     );
-    if (homeIndicatorInset <= 0) {
-      return ColoredBox(
-        key: kChatExpressionSheetKey,
-        color: colors.backgroundSecondary,
-        child: sheetBody,
-      );
-    }
     return Column(
       key: kChatExpressionSheetKey,
       mainAxisSize: MainAxisSize.min,
@@ -506,6 +607,7 @@ class _ExpressionSheetBody extends StatefulWidget {
     required this.onContentPointerEnd,
     required this.onClose,
     required this.onSearchActivated,
+    required this.searchFocusNode,
     required this.sheetDragHandlers,
     required this.onEmojiSelect,
     required this.onGifSelect,
@@ -522,6 +624,7 @@ class _ExpressionSheetBody extends StatefulWidget {
   final void Function(PointerEvent event) onContentPointerEnd;
   final VoidCallback onClose;
   final VoidCallback onSearchActivated;
+  final FocusNode searchFocusNode;
   final ExpandableSheetDragHandlers sheetDragHandlers;
   final void Function(String name, String surrogates) onEmojiSelect;
   final ValueChanged<FluxerSelectedGif> onGifSelect;
@@ -618,6 +721,7 @@ class _ExpressionSheetBodyState extends State<_ExpressionSheetBody> {
                 scrollController: widget.scrollController,
                 onClose: widget.onClose,
                 onSearchActivated: widget.onSearchActivated,
+                searchFocusNode: widget.searchFocusNode,
                 sheetDragHandlers: widget.sheetDragHandlers,
                 onEmojiSelect: widget.onEmojiSelect,
                 onGifSelect: widget.onGifSelect,

@@ -43,6 +43,14 @@ class UserPreferencesTable extends Table {
   BoolColumn get preserveEditDraft =>
       boolean().withDefault(const Constant(false))();
   BoolColumn get sanitizeUrls => boolean().withDefault(const Constant(true))();
+  BoolColumn get showMediaDeleteButton =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showMediaDownloadButton =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showMediaFavoriteButton =>
+      boolean().withDefault(const Constant(true))();
+  BoolColumn get showSuppressEmbedsButton =>
+      boolean().withDefault(const Constant(true))();
   TextColumn get favoriteEmojiKeysJson =>
       text().withDefault(const Constant('[]'))();
   TextColumn get favoriteStickerKeysJson =>

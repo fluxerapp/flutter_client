@@ -58,10 +58,9 @@ GuildRoleMovePreview? createGuildRoleMovePreview({
         return null;
       }
     }
-    final List<MemberRole> remaining = roles
-        .where((MemberRole role) => role.id != draggedRoleId)
-        .toList();
-    remaining.insert(0, draggedRole);
+    final List<MemberRole> remaining =
+        roles.where((MemberRole role) => role.id != draggedRoleId).toList()
+          ..insert(0, draggedRole);
     return GuildRoleMovePreview(
       order: remaining,
       operation: GuildRoleMoveOperation(

@@ -144,6 +144,7 @@ final currentUserProfileConnectionsProvider =
       }
     });
 
+// Timezone offset is nullable and inferred from async profile fetch.
 // ignore: specify_nonobvious_property_types
 final currentUserProfileTimezoneOffsetProvider =
     FutureProvider.autoDispose<int?>((ref) async {

@@ -284,9 +284,22 @@ before
       expect(normalizeBlockquoteBarMarkdown('>>> a'), '> a');
     });
 
-    test('normalizes only the first line of a multi-line bar', () {
+    test('normalizes all lines of a multi-line bar', () {
       const String input = '>>> line one\nline two';
-      expect(normalizeBlockquoteBarMarkdown(input), '> line one\nline two');
+      expect(normalizeBlockquoteBarMarkdown(input), '> line one\n> line two');
+    });
+
+    test('normalizes blank lines in a multi-line bar', () {
+      const String input = '>>> line one\n\nline two';
+      expect(
+        normalizeBlockquoteBarMarkdown(input),
+        '> line one\n>\n> line two',
+      );
+    });
+
+    test('preserves leading indentation on continuation lines', () {
+      const String input = '  >>> indented\n  nested';
+      expect(normalizeBlockquoteBarMarkdown(input), '  > indented\n  > nested');
     });
 
     test('preserves leading indentation on the opener line', () {
@@ -300,6 +313,14 @@ before
 
     test('parsed bar blockquote has depth one not three', () {
       const String input = '>>> quoted text';
+      final String normalized = normalizeBlockquoteBarMarkdown(input);
+      final md.Document document = md.Document(encodeHtml: false);
+      final List<md.Node> nodes = document.parse(normalized);
+      expect(blockquoteNestingDepth(nodes), 1);
+    });
+
+    test('parsed multi-line bar blockquote has depth one', () {
+      const String input = '>>> line one\n\nline two';
       final String normalized = normalizeBlockquoteBarMarkdown(input);
       final md.Document document = md.Document(encodeHtml: false);
       final List<md.Node> nodes = document.parse(normalized);

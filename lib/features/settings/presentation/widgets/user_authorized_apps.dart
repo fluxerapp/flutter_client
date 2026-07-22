@@ -8,8 +8,8 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/providers/authorized_apps_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class UserAuthorizedApps extends ConsumerStatefulWidget {
@@ -236,12 +236,12 @@ class _AuthorizedAppCard extends StatelessWidget {
     );
   }
 
-  String _formatDate() {
+  String _formatDate(String localeName) {
     final dt = DateTime.tryParse(authorization.authorizedAt);
     if (dt == null) {
       return authorization.authorizedAt;
     }
-    return DateFormat.yMMMd().format(dt.toLocal());
+    return formatUserMediumDate(dt.toLocal(), localeName);
   }
 
   @override
@@ -303,7 +303,9 @@ class _AuthorizedAppCard extends StatelessWidget {
                   ),
                   SizedBox(height: layout.s1 / 2),
                   Text(
-                    l10n.authorizedAppsAuthorizedOn(_formatDate()),
+                    l10n.authorizedAppsAuthorizedOn(
+                      _formatDate(l10n.localeName),
+                    ),
                     style: context.textStyles.bodySmall.copyWith(
                       color: colors.textPrimaryMuted,
                       fontSize: 12,

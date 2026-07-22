@@ -65,6 +65,8 @@ typedef FluxerAlertBuilder =
 typedef FluxerSpoilerSyncKeyNormalizer = String? Function(String raw);
 typedef FluxerCodeCopyHandler =
     void Function(BuildContext context, String code);
+typedef FluxerTimestampFormatter =
+    String Function(DateTime localDateTime, String style);
 
 class FluxerSpoilerSyncController extends ChangeNotifier {
   final Set<String> _revealedKeys = <String>{};
@@ -124,6 +126,7 @@ class FluxerMarkdownConfig {
     this.spoilerSyncController,
     this.spoilerSyncKeyNormalizer,
     this.onCopyCode,
+    this.timestampFormatter,
   });
 
   final FluxerShortcodeResolver resolveEmojiShortcode;
@@ -156,4 +159,5 @@ class FluxerMarkdownConfig {
   final FluxerSpoilerSyncController? spoilerSyncController;
   final FluxerSpoilerSyncKeyNormalizer? spoilerSyncKeyNormalizer;
   final FluxerCodeCopyHandler? onCopyCode;
+  final FluxerTimestampFormatter? timestampFormatter;
 }

@@ -82,7 +82,7 @@ class CreateChannelSheet {
   static Future<ChannelCreateRequest?> show(
     BuildContext context, {
     String? parentId,
-  }) async {
+  }) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     var currentName = '';
     var currentUrl = '';

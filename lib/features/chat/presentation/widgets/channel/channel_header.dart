@@ -512,14 +512,17 @@ class ChannelHeader extends ConsumerWidget {
             if (isWideLayout(context))
               InboxPopoutButton(
                 anchorBuilder:
-                    (BuildContext context, bool isOpen, VoidCallback toggle) =>
-                        _topBarIcon(
-                          context,
-                          PhosphorIconsFill.tray,
-                          'Inbox',
-                          isActive: isOpen,
-                          onTap: toggle,
-                        ),
+                    (
+                      BuildContext context, {
+                      required bool isOpen,
+                      required VoidCallback toggle,
+                    }) => _topBarIcon(
+                      context,
+                      PhosphorIconsFill.tray,
+                      'Inbox',
+                      isActive: isOpen,
+                      onTap: toggle,
+                    ),
               )
             else
               _topBarIcon(

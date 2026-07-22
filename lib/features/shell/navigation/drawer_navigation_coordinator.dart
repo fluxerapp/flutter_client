@@ -1,13 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/favorites/utils/favorites_shell_navigation.dart';
 import 'package:fluxer_app/features/shell/providers/drawer_reveal_sync_trigger_provider.dart';
 import 'package:fluxer_app/features/shell/providers/reveal_side_provider.dart';
 
-abstract final class DrawerNavigationCoordinator {
+class DrawerNavigationCoordinator {
+  const DrawerNavigationCoordinator._();
   static void prepareForNavigation(ProviderContainer container, String path) {
     final RevealSide? eager = eagerRevealSideFor(path);
     if (eager != null) {
+      talker.debug(
+        '[DrawerNavigation] prepareForNavigation path=$path eager=$eager',
+      );
       container.read(currentRevealSideProvider.notifier).set(eager);
       container.read(drawerRevealSyncTriggerProvider.notifier).nudge();
     }
@@ -35,6 +40,7 @@ abstract final class DrawerNavigationCoordinator {
   }
 
   static void navigateToContent(ProviderContainer container, String path) {
+    talker.debug('[DrawerNavigation] navigateToContent path=$path');
     prepareForNavigation(container, path);
     container.read(fluxerRouterProvider).go(path);
   }

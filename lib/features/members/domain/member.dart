@@ -49,14 +49,12 @@ class MemberRole {
 }
 
 List<MemberRole> sortRolesByPosition(List<MemberRole> roles) {
-  final List<MemberRole> sorted = List<MemberRole>.from(roles);
-  sorted.sort((MemberRole a, MemberRole b) {
+  return List<MemberRole>.from(roles)..sort((MemberRole a, MemberRole b) {
     if (b.position != a.position) {
       return b.position - a.position;
     }
     return BigInt.parse(a.id) < BigInt.parse(b.id) ? -1 : 1;
   });
-  return sorted;
 }
 
 class RoleGroup {

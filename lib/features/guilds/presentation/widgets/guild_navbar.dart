@@ -6,7 +6,6 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -77,6 +76,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:fluxer_app/shared/widgets/debug_bottom_sheet.dart';
@@ -158,7 +158,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       return;
     }
     if (_scrollStore != null && _scrollController.hasClients) {
-      _scrollStore!.setOffset(_scrollController.offset);
+      _scrollStore!.offset = _scrollController.offset;
     }
   }
 
@@ -586,25 +586,9 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       case DmNavbarAction.closeDm:
         await _confirmCloseDm(context, dm: dm);
       case DmNavbarAction.copyChannelId:
-        unawaited(Clipboard.setData(ClipboardData(text: dm.id)));
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: l10n.copiedToClipboard,
-                variant: FluxerToastVariant.success,
-              ),
-            );
+        unawaited(copyToClipboard(context: context, value: dm.id));
       case DmNavbarAction.copyUserId:
-        unawaited(Clipboard.setData(ClipboardData(text: dm.recipientId)));
-        ref
-            .read(toastProvider.notifier)
-            .show(
-              FluxerToast(
-                message: l10n.copiedToClipboard,
-                variant: FluxerToastVariant.success,
-              ),
-            );
+        unawaited(copyToClipboard(context: context, value: dm.recipientId));
       case DmNavbarAction.pinDm:
         unawaited(ref.read(dmRepositoryProvider).pinDm(dm.id));
         ref
@@ -1686,6 +1670,9 @@ Future<void> presentGuildMenuSheet(
   final unread = ref.read(guildReadStateProvider)[guild.id];
   final muteState = ref.read(guildMuteProvider(guild.id)).value;
   final int permissions = await _resolveGuildMenuPermissions(ref, guild.id);
+  if (!context.mounted) {
+    return;
+  }
   final String? currentUserId = ref.read(currentUserIdProvider);
   final bool developerMode = ref.read(
     userSettingsViewModelProvider.select((s) => s.developerMode),
@@ -2996,8 +2983,10 @@ class _GuildListItemState extends State<_GuildListItem>
                             size: FluxerButtonSize.compact,
                             onPressed: state != null
                                 ? () async {
-                                    await Clipboard.setData(
-                                      ClipboardData(text: state.url),
+                                    await copyToClipboard(
+                                      context: actionContext,
+                                      value: state.url,
+                                      message: l10n.guildSettingsCopiedUrl,
                                     );
                                     copied.value = true;
                                     unawaited(
@@ -3976,13 +3965,7 @@ class _GuildListItemState extends State<_GuildListItem>
           context.push(RoutePaths.guildSettingsPath(guildId, tab: 'channels')),
         );
       case GuildAction.copyGuildId:
-        unawaited(Clipboard.setData(ClipboardData(text: guildId)));
-        widget.onShowToast?.call(
-          FluxerToast(
-            message: FluxerLocalizations.of(context).copiedToClipboard,
-            variant: FluxerToastVariant.success,
-          ),
-        );
+        unawaited(copyToClipboard(context: context, value: guildId));
       case GuildAction.markAsRead:
         widget.onMarkAsRead?.call();
       case GuildAction.hideMutedChannels:
@@ -4485,6 +4468,7 @@ class _GuildTooltipContent extends StatelessWidget {
     }
     final String formattedDate = DateFormat(
       'MMM d, y h:mm a',
+      l10n.localeName,
     ).format(muteEndTime!);
     return l10n.guildNavbarMutedUntil(formattedDate);
   }

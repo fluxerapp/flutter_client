@@ -29,13 +29,14 @@ class BottomInputSlot extends _$BottomInputSlot {
 
   @override
   BottomInputSlotState build() {
-    ref.listen<bool>(expressionPanelProvider, _onExpressionPanelChanged);
-    ref.listen<MobileKeyboardMetricsState>(
-      mobileKeyboardMetricsProvider,
-      _onKeyboardMetricsChanged,
-    );
-    ref.listen<double?>(expressionPanelHeightProvider, _onPanelHeightChanged);
-    ref.onDispose(() => _transitionTimeout?.cancel());
+    ref
+      ..listen<bool>(expressionPanelProvider, _onExpressionPanelChanged)
+      ..listen<MobileKeyboardMetricsState>(
+        mobileKeyboardMetricsProvider,
+        _onKeyboardMetricsChanged,
+      )
+      ..listen<double?>(expressionPanelHeightProvider, _onPanelHeightChanged)
+      ..onDispose(() => _transitionTimeout?.cancel());
     return _resolveState();
   }
 
@@ -52,7 +53,7 @@ class BottomInputSlot extends _$BottomInputSlot {
         fallbackHeight: metrics.fallbackKeyboardHeight,
         safeAreaBottom: metrics.safeAreaBottom,
       );
-      ref.read(expressionPanelHeightProvider.notifier).set(netAnchor);
+      ref.read(expressionPanelHeightProvider.notifier).height = netAnchor;
       state = _resolveState(
         mode: BottomInputMode.panelAnchored,
         panelHeight: netAnchor,
@@ -144,7 +145,7 @@ class BottomInputSlot extends _$BottomInputSlot {
       rawHeight: grossLock,
       safeAreaBottom: metrics.safeAreaBottom,
     );
-    ref.read(expressionPanelHeightProvider.notifier).set(netLock);
+    ref.read(expressionPanelHeightProvider.notifier).height = netLock;
     state = _resolveState(
       transition: BottomInputTransition.lockingToPanel,
       lockedHeight: netLock,
@@ -181,7 +182,7 @@ class BottomInputSlot extends _$BottomInputSlot {
     );
     final bool isExpanded = height > netAnchor + 1;
     if (!isExpanded) {
-      ref.read(expressionPanelHeightProvider.notifier).set(height);
+      ref.read(expressionPanelHeightProvider.notifier).height = height;
     }
     final BottomInputMode mode = isExpanded
         ? BottomInputMode.panelExpanded

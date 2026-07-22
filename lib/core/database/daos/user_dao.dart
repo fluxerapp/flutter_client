@@ -68,7 +68,7 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
     if (updates.isEmpty) {
       return;
     }
-    await transaction(() async {
+    await batch((Batch b) {
       for (final ({
             String userId,
             String status,
@@ -77,12 +77,14 @@ class UserDao extends DatabaseAccessor<FluxerDatabase> with _$UserDaoMixin {
           })
           entry
           in updates) {
-        await (update(users)..where((u) => u.id.equals(entry.userId))).write(
+        b.update(
+          users,
           UsersCompanion(
             status: Value(entry.status),
             customStatus: Value(entry.customStatus),
             mobile: Value(entry.mobile),
           ),
+          where: (u) => u.id.equals(entry.userId),
         );
       }
     });

@@ -43,11 +43,11 @@ String _preprocessFluxerMarkdownUncached(
   String text,
   FluxerMarkdownFeatures features,
 ) {
-  text = normalizeFencedCodeBlockInlineClosers(
+  final normalizedText = normalizeFencedCodeBlockInlineClosers(
     text,
     allowCodeBlocks: features.allowCodeBlocks,
   );
-  final lines = text.split('\n');
+  final lines = normalizedText.split('\n');
   final output = <String>[];
 
   for (final line in lines) {

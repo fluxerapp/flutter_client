@@ -1,6 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/channels/domain/channel.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/slowmode_indicator.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/typing_indicator_bar.dart';
@@ -96,9 +100,16 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     final bool isSyncingMessages = ref.watch(
       chatViewModelProvider.select((ChatViewState s) => s.isSyncingMessages),
     );
+    final bool isLoadingMore = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.isLoadingMore),
+    );
+    final bool isLoadingNewer = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.isLoadingNewer),
+    );
     final bool isActiveReadChannel =
         effectiveChannelId.isNotEmpty &&
         readViewport.channelId == effectiveChannelId;
+    final bool isBusy = isLoadingMore || isLoadingNewer || isSyncingMessages;
     final bool showJumpToBottom =
         widget.loadMessages &&
         shouldShowJumpToBottomButton(
@@ -108,6 +119,14 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
           distanceFromBottom: readViewport.distanceFromBottom,
           viewportHeight: readViewport.viewportHeight,
           hasMoreNewerMessages: hasMoreNewerMessages,
+        );
+    final bool showSlowmodeIndicator =
+        effectiveChannelId.isNotEmpty &&
+        ref.watch(
+          channelByIdProvider(effectiveChannelId).select(
+            (AsyncValue<Channel?> channel) =>
+                (channel.value?.rateLimitPerUser ?? 0) > 0,
+          ),
         );
     final VoidCallback? onClose = widget.onClose;
     final bool stripKeyboardInsets =
@@ -207,7 +226,9 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                         if (onClose != null || showJumpToBottom)
                           Positioned(
                             right: 8,
-                            bottom: 0,
+                            bottom: showSlowmodeIndicator
+                                ? _kChannelChatStatusMessageInset
+                                : 0,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
@@ -226,7 +247,8 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: FluxerJumpToBottomButton(
-                                      enabled: !isSyncingMessages,
+                                      enabled: !isBusy,
+                                      isLoading: isSyncingMessages,
                                       onTap: () => ref
                                           .read(chatViewModelProvider.notifier)
                                           .scrollToBottom(),
@@ -262,7 +284,7 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                   ),
                 ],
               ),
-              if (isPanelOpen && sheetContentHeight > 0)
+              if (isPanelOpen)
                 Positioned(
                   left: 0,
                   right: 0,
@@ -270,7 +292,10 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                     MediaQuery.of(context),
                   ),
                   child: ChatExpressionExpandableSheet(
-                    collapsedHeight: sheetContentHeight,
+                    collapsedHeight: math.max(
+                      sheetContentHeight,
+                      kExpressionPanelMinContentHeight,
+                    ),
                     dragHandleHeight: dragHandleHeight,
                     parentHeight: constraints.maxHeight,
                   ),
@@ -300,12 +325,9 @@ class ChannelChatComposerBoundary extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: _kChannelChatStatusMessageInset),
-          child: composer,
-        ),
+        composer,
         Positioned(
-          top: 0,
+          top: -_kChannelChatStatusMessageInset,
           left: 0,
           right: 0,
           child: ConstrainedBox(

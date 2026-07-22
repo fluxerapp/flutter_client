@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/auth/domain/phone_verification.dart';
@@ -8,6 +7,7 @@ import 'package:fluxer_app/features/auth/utils/phone_verification_error_l10n.dar
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
 class PhoneInboundWaitingStep extends ConsumerStatefulWidget {
   const PhoneInboundWaitingStep({
@@ -82,11 +82,17 @@ class _PhoneInboundWaitingStepState
           _SelectableValue(
             label: l10n.phoneInboundChallengeCodeLabel,
             value: challenge.challengeCode,
+            onCopy: () => copyToClipboard(
+              context: context,
+              value: challenge.challengeCode,
+            ),
           ),
           SizedBox(height: context.layout.s3),
           _SelectableValue(
             label: l10n.phoneInboundOurNumberLabel,
             value: challenge.ourNumber,
+            onCopy: () =>
+                copyToClipboard(context: context, value: challenge.ourNumber),
           ),
           SizedBox(height: context.layout.s3),
           _StepRow(index: 3, text: l10n.phoneInboundStepWait),
@@ -138,10 +144,15 @@ class _StepRow extends StatelessWidget {
 }
 
 class _SelectableValue extends StatelessWidget {
-  const _SelectableValue({required this.label, required this.value});
+  const _SelectableValue({
+    required this.label,
+    required this.value,
+    required this.onCopy,
+  });
 
   final String label;
   final String value;
+  final VoidCallback onCopy;
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +171,7 @@ class _SelectableValue extends StatelessWidget {
           style: context.textStyles.bodyMedium.copyWith(
             fontWeight: FontWeight.w600,
           ),
-          onTap: () => Clipboard.setData(ClipboardData(text: value)),
+          onTap: onCopy,
         ),
       ],
     );

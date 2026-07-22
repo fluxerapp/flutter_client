@@ -119,11 +119,12 @@ class SoundSyncedField extends SyncedFieldAdapter<SoundLocalState> {
     required SoundLocalState local,
     pickers.SoundSettings? wireBase,
   }) {
-    final pickers.SoundSettings settings = wireBase != null
-        ? (pickers.SoundSettings()..mergeFromMessage(wireBase))
-        : pickers.SoundSettings();
-    settings.allSoundsDisabled = local.allSoundsDisabled;
-    settings.masterVolume = local.masterVolume;
+    final pickers.SoundSettings settings =
+        (wireBase != null
+              ? (pickers.SoundSettings()..mergeFromMessage(wireBase))
+              : pickers.SoundSettings())
+          ..allSoundsDisabled = local.allSoundsDisabled
+          ..masterVolume = local.masterVolume;
     settings.disabledSounds
       ..clear()
       ..addEntries(local.disabledSounds.entries);

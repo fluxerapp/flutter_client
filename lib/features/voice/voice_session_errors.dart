@@ -32,6 +32,10 @@ const String kVoiceSessionErrorMicPermission = 'VOICE_ERR_MIC_PERM';
 /// LiveKit/WebRTC transport failed (ICE, network, or media connect timeout).
 const String kVoiceSessionErrorTransportFailed = 'VOICE_ERR_TRANSPORT';
 
+/// Other devices did not disconnect before a switch-to-this-device join.
+const String kVoiceSessionErrorMultiDeviceDisconnectFailed =
+    'VOICE_ERR_MULTI_DEVICE_DISCONNECT';
+
 /// Maps a stored `VoiceSessionState.errorMessage` to a localized
 /// human-readable string.
 String resolveVoiceSessionErrorMessage(
@@ -57,6 +61,8 @@ String resolveVoiceSessionErrorMessage(
       return l10n.voiceMessageMicPermissionDenied;
     case kVoiceSessionErrorTransportFailed:
       return l10n.voiceJoinCallFailed;
+    case kVoiceSessionErrorMultiDeviceDisconnectFailed:
+      return l10n.voiceMultiDeviceDisconnectFailed;
     default:
       return message;
   }

@@ -10,6 +10,6 @@ Future<bool> requestCameraPermissionForVoice() async {
   return outcome == SystemPermissionOutcome.granted;
 }
 
-Future<SystemPermissionOutcome> requestCameraPermissionOutcome() async {
+Future<SystemPermissionOutcome> requestCameraPermissionOutcome() {
   return requestSystemPermission(SystemPermissionKind.camera);
 }

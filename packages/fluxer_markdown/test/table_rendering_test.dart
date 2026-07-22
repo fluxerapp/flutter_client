@@ -32,12 +32,15 @@ String _noopCustomEmojiUrl({
   required int size,
 }) => '';
 
+const TextStyle _baseStyle = TextStyle(fontSize: 16, height: 1.375);
+const double _testMinCellWidth = 80;
+
 Finder _tableCellWithColor(Color color) {
   return find.byWidgetPredicate(
     (Widget widget) =>
         widget is Container &&
         widget.color == color &&
-        widget.constraints?.minWidth == 80,
+        widget.constraints?.minWidth == _testMinCellWidth,
   );
 }
 
@@ -52,7 +55,11 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: FluxerMarkdown(data: input, config: _testMarkdownConfig),
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
           ),
         ),
       );
@@ -76,7 +83,11 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: FluxerMarkdown(data: input, config: _testMarkdownConfig),
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
           ),
         ),
       );
@@ -97,7 +108,11 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: FluxerMarkdown(data: input, config: _testMarkdownConfig),
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
           ),
         ),
       );
@@ -129,7 +144,11 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: FluxerMarkdown(data: input, config: _testMarkdownConfig),
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
           ),
         ),
       );
@@ -178,6 +197,203 @@ void main() {
         findsOneWidget,
       );
       expect(find.byType(Table), findsNothing);
+    });
+
+    testWidgets('emoji row cells share the same background height', (
+      tester,
+    ) async {
+      const String input = '''
+| Header | Value | Other |
+| --- | --- | --- |
+| text only | <:pingumusic:123> <:pinguvibe:123> cool beans | more text |''';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Finder rowCellFinder = _tableCellWithColor(_rowOddBackgroundColor);
+
+      expect(rowCellFinder, findsNWidgets(3));
+      final double firstHeight = tester.getSize(rowCellFinder.first).height;
+      for (var i = 1; i < 3; i++) {
+        expect(
+          tester.getSize(rowCellFinder.at(i)).height,
+          closeTo(firstHeight, 1),
+          reason: 'all cells in an emoji row should fill the same row height',
+        );
+      }
+    });
+
+    testWidgets('header row cells share the same background height', (
+      tester,
+    ) async {
+      const String input = '''
+| hello | this is quite a nice table | yeah | :pinched_fingers: |
+| ---- | ------- | ------ | ------- |
+| a | b | c | d |''';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 350,
+              child: FluxerMarkdown(
+                data: input,
+                config: _testMarkdownConfig,
+                baseStyle: _baseStyle,
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Finder headerCellFinder = _tableCellWithColor(
+        _headerBackgroundColor,
+      );
+
+      expect(headerCellFinder, findsNWidgets(4));
+      final double firstHeight = tester.getSize(headerCellFinder.first).height;
+      for (var i = 1; i < 4; i++) {
+        expect(
+          tester.getSize(headerCellFinder.at(i)).height,
+          closeTo(firstHeight, 1),
+          reason: 'all header cells should fill the same row height',
+        );
+      }
+    });
+
+    testWidgets('header cells use top alignment like web baseline', (
+      tester,
+    ) async {
+      const String input = '''
+| hello | this is quite a nice table | yeah |
+| ---- | ------- | ------ |
+| a | b | c |''';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 280,
+              child: FluxerMarkdown(
+                data: input,
+                config: _testMarkdownConfig,
+                baseStyle: _baseStyle,
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Container headerCell = tester.widget<Container>(
+        _tableCellWithColor(_headerBackgroundColor).first,
+      );
+      expect(headerCell.alignment, Alignment.topLeft);
+      expect(
+        headerCell.padding,
+        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      );
+    });
+
+    testWidgets('body cells use vertical center alignment like web', (
+      tester,
+    ) async {
+      const String input = '''
+| Header |
+| --- |
+| Value |''';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
+          ),
+        ),
+      );
+
+      final Container bodyCell = tester.widget<Container>(
+        _tableCellWithColor(_rowOddBackgroundColor).first,
+      );
+      expect(bodyCell.alignment, Alignment.centerLeft);
+    });
+
+    testWidgets('table cell content respects padding inset', (tester) async {
+      const String input = '''
+| hello | value |
+| --- | --- |
+| a | b |''';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              data: input,
+              config: _testMarkdownConfig,
+              baseStyle: _baseStyle,
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final Finder helloText = find.descendant(
+        of: _tableCellWithColor(_headerBackgroundColor).first,
+        matching: find.textContaining('hello', findRichText: true),
+      );
+      final Finder helloCell = _tableCellWithColor(
+        _headerBackgroundColor,
+      ).first;
+      expect(
+        tester.getTopLeft(helloText).dx - tester.getTopLeft(helloCell).dx,
+        closeTo(12, 1),
+      );
+      expect(
+        tester.getTopLeft(helloText).dy - tester.getTopLeft(helloCell).dy,
+        closeTo(8, 1),
+      );
+    });
+
+    testWidgets('wide emoji table renders with visible height', (tester) async {
+      const String input = '''
+| hello | this is quite a nice table | yeah | :pinched_fingers:  |
+| ---- | ------- | ------ | ------- |
+| pingu pingu | <:pingumusic:1> | <:pingumusic:1><:pinguvibe:1> cool beans |
+| hmm | strange formatting | when emotes are involved | <:HURRR:1> |
+| quite silly | <:alien:1><:alien:1><:alien:1> | Bogos binted | huh? |''';
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 350,
+              child: FluxerMarkdown(
+                data: input,
+                config: _testMarkdownConfig,
+                baseStyle: _baseStyle,
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.getSize(find.byType(Table)).height, greaterThan(50));
+      expect(find.textContaining('hello', findRichText: true), findsOneWidget);
     });
   });
 }

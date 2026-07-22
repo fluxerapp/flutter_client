@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/shell/domain/service_status_maintenance.dart';
@@ -32,9 +34,11 @@ class ScheduledMaintenanceNagbar extends ConsumerWidget
       textColor: Colors.white,
       dismissible: true,
       onDismiss: () {
-        ref
-            .read(scheduledMaintenanceDismissalReadProvider.notifier)
-            .dismiss(maintenance);
+        unawaited(
+          ref
+              .read(scheduledMaintenanceDismissalReadProvider.notifier)
+              .dismiss(maintenance),
+        );
       },
       child: FluxerNagbarContent(
         isMobile: isMobile,
@@ -43,9 +47,11 @@ class ScheduledMaintenanceNagbar extends ConsumerWidget
           maintenance: maintenance,
         ),
         onDismiss: () {
-          ref
-              .read(scheduledMaintenanceDismissalReadProvider.notifier)
-              .dismiss(maintenance);
+          unawaited(
+            ref
+                .read(scheduledMaintenanceDismissalReadProvider.notifier)
+                .dismiss(maintenance),
+          );
         },
         actions: FluxerNagbarButton(
           isMobile: isMobile,

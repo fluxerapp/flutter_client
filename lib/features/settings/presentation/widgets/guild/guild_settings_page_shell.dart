@@ -71,6 +71,8 @@ class GuildSettingsAsyncBody<T> extends StatelessWidget {
   });
 
   final AsyncValue<T> value;
+  // Generic callback is safe here; T is only used in covariant positions.
+  // ignore: unsafe_variance
   final Widget Function(T data) data;
   final ScrollController? scrollController;
 
@@ -93,18 +95,21 @@ class GuildSettingsAsyncBody<T> extends StatelessWidget {
           ),
         ),
       ),
-      data: (T item) {
-        final Widget content = data(item);
-        if (usesSettingsSheet) {
-          return content;
-        }
-        return SingleChildScrollView(
-          controller: scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.all(layout.s4),
-          child: content,
-        );
-      },
+      data: (T item) => _buildChild(context, item),
+    );
+  }
+
+  Widget _buildChild(BuildContext context, T item) {
+    final layout = context.layout;
+    final Widget content = data(item);
+    if (usesSettingsSheet) {
+      return content;
+    }
+    return SingleChildScrollView(
+      controller: scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.all(layout.s4),
+      child: content,
     );
   }
 }

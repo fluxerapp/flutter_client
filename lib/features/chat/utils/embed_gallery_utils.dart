@@ -16,7 +16,7 @@ String? normalizeEmbedUrl(String? url) {
       normalized = normalized.substring(0, normalized.length - 1);
     }
     return normalized;
-  } catch (_) {
+  } on Object catch (_) {
     return null;
   }
 }
@@ -184,7 +184,7 @@ String deriveFilenameFromUrl(String url) {
     if (filename.isNotEmpty) {
       return filename;
     }
-  } catch (_) {}
+  } on Object catch (_) {}
   return 'embed-media';
 }
 

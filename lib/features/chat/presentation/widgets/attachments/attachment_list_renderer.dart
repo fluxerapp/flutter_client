@@ -16,7 +16,7 @@ class AttachmentListRenderer extends StatelessWidget {
     this.messageNonce,
     this.channelId,
     this.messageFlags = 0,
-    this.videoActionScope,
+    this.mediaActionScope,
     super.key,
   });
 
@@ -29,7 +29,7 @@ class AttachmentListRenderer extends StatelessWidget {
   final String? messageNonce;
   final String? channelId;
   final int messageFlags;
-  final MessageMediaActionScope? videoActionScope;
+  final MessageMediaActionScope? mediaActionScope;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class AttachmentListRenderer extends StatelessWidget {
                 dimensionSize: dimensionSize,
                 channelId: channelId,
                 messageId: messageId,
-                videoActionScope: videoActionScope,
+                mediaActionScope: mediaActionScope,
               ),
             ),
           );
@@ -85,7 +85,7 @@ class AttachmentListRenderer extends StatelessWidget {
           messageNonce: messageNonce,
           channelId: channelId,
           messageFlags: messageFlags,
-          videoActionScope: videoActionScope,
+          mediaActionScope: mediaActionScope,
         ),
       );
     }

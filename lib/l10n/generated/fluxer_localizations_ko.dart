@@ -4202,6 +4202,28 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
       'DM 목록에서 메시지 미리보기 표시 안 함';
 
   @override
+  String get accessibilityMediaButtonsGroupTitle => 'Media Buttons';
+
+  @override
+  String get accessibilityMediaButtonsGroupDescription =>
+      'Customize which buttons appear on media attachments and embeds.';
+
+  @override
+  String get accessibilityShowMediaDeleteButtonLabel => 'Show delete button';
+
+  @override
+  String get accessibilityShowMediaDownloadButtonLabel =>
+      'Show download button';
+
+  @override
+  String get accessibilityShowMediaFavoriteButtonLabel =>
+      'Show favorite button';
+
+  @override
+  String get accessibilityShowSuppressEmbedsButtonLabel =>
+      'Show suppress embeds button';
+
+  @override
   String get dmListSentAnAttachment => '첨부 파일을 보냈습니다.';
 
   @override
@@ -4350,6 +4372,13 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get voiceConnectionConfirmDoNothing => '아무것도 안 함, 참여하고 싶지 않음';
+
+  @override
+  String get voiceJoinFailedTitle => 'Couldn\'t Join Voice';
+
+  @override
+  String get voiceMultiDeviceDisconnectFailed =>
+      'Couldn\'t disconnect your other devices. Try again in a moment.';
 
   @override
   String get voiceChannelEmptyDescription => '음성 채널입니다. 대화를 시작하려면 연결하세요!';
@@ -4745,6 +4774,26 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String get forwardCommentSlowmodeDisabled =>
       '선택한 채널에 슬로우 모드가 활성화되어 댓글을 사용할 수 없습니다.';
+
+  @override
+  String get shareMediaTitle => 'Share to';
+
+  @override
+  String get shareMediaMessageHint => 'Add an optional message…';
+
+  @override
+  String get shareMediaSendButton => 'Send';
+
+  @override
+  String get shareMediaSuccessToast => 'Media shared';
+
+  @override
+  String shareMediaPartialSuccessToast(int count) {
+    return 'Shared to $count destinations';
+  }
+
+  @override
+  String get shareMediaFailedToast => 'Failed to share media';
 
   @override
   String get forwardDestinationNoSendPermission => '여기에 메시지를 보낼 수 없습니다';
@@ -5151,6 +5200,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get chatMessageDeleteConfirmDescription => '이 메시지를 삭제하시겠어요?';
 
   @override
+  String get chatMessageDeleteAttachment => 'Delete Attachment';
+
+  @override
+  String get chatMessageEditAttachmentAltText => 'Edit Alt Text';
+
+  @override
   String get chatMessageMore => '더보기';
 
   @override
@@ -5486,6 +5541,12 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   String get channelDetailsCopyLink => 'Copy Link';
 
   @override
+  String get channelMenuCopyChannelLink => 'Copy channel link';
+
+  @override
+  String get channelMenuCopyRedirectLink => 'Copy redirect link';
+
+  @override
   String get channelDetailsAddFriendsToGroup => 'Add friends to group';
 
   @override
@@ -5542,6 +5603,30 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
 
   @override
   String get channelSettingsMyCategory => 'My category';
+
+  @override
+  String get categoryExpandCategory => 'Expand category';
+
+  @override
+  String get categoryCollapseCategory => 'Collapse category';
+
+  @override
+  String get categoryExpandAllCategories => 'Expand all categories';
+
+  @override
+  String get categoryCollapseAllCategories => 'Collapse all categories';
+
+  @override
+  String get categoryMuteCategory => 'Mute category';
+
+  @override
+  String get categoryUnmuteCategory => 'Unmute category';
+
+  @override
+  String get categoryCopyCategoryId => 'Copy category ID';
+
+  @override
+  String get categoryIdCopied => 'Category ID copied';
 
   @override
   String get channelSettingsChannelNamePlaceholder => 'general';
@@ -7180,6 +7265,11 @@ class FluxerLocalizationsKo extends FluxerLocalizations {
   @override
   String mentionConfirmHereBody(int count) {
     return '$count명의 온라인 멤버에게 알림이 전송됩니다. 계속하시겠어요?';
+  }
+
+  @override
+  String mentionConfirmRoleBody(int count, String roleName) {
+    return 'This will notify $count members with the $roleName role. Continue?';
   }
 
   @override

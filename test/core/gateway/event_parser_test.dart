@@ -19,8 +19,8 @@ void main() {
 
     test('coerces numeric snowflakes to strings', () {
       final event = parser.parseList('USER_PINNED_DMS_UPDATE', <dynamic>[
-        123456789012345678,
-        987654321098765432,
+        BigInt.parse('123456789012345678'),
+        BigInt.parse('987654321098765432'),
       ]);
 
       expect(event, isA<UserPinnedDmsUpdateEvent>());

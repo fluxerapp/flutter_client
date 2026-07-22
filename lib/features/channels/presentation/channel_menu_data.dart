@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/channels/utils/channel_invite_capability.dar
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/mature_content/utils/content_warning_utils.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -16,6 +17,7 @@ enum ChannelMenuAction {
   invitePeople,
   openLink,
   copyLink,
+  copyRedirectLink,
   mute,
   notificationSettings,
   editChannel,
@@ -59,6 +61,7 @@ class ChannelMenuState {
     required this.canInvite,
     required this.useVanityInvite,
     required this.canOpenLink,
+    required this.canCopyRedirectLink,
     required this.showMute,
     required this.isMuted,
     required this.showNotificationSettings,
@@ -82,6 +85,7 @@ class ChannelMenuState {
   final bool canInvite;
   final bool useVanityInvite;
   final bool canOpenLink;
+  final bool canCopyRedirectLink;
   final bool showMute;
   final bool isMuted;
   final bool showNotificationSettings;
@@ -151,6 +155,7 @@ ChannelMenuState resolveChannelMenuState({
     useVanityInvite: inviteCapability.useVanityUrl,
     vanityUrlCode: inviteCapability.vanityUrlCode,
     canOpenLink: canOpenLink,
+    canCopyRedirectLink: canOpenLink,
     showMute: showMute,
     isMuted: isMuted,
     mutedHint: mutedHint,
@@ -226,9 +231,20 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
       ),
     );
   }
+  if (state.canCopyRedirectLink) {
+    inviteItems.add(
+      ChannelMenuEntry(
+        label: l10n.channelMenuCopyRedirectLink,
+        icon: PhosphorIconsFill.copy,
+        action: ChannelMenuAction.copyRedirectLink,
+      ),
+    );
+  }
   inviteItems.add(
     ChannelMenuEntry(
-      label: l10n.channelDetailsCopyLink,
+      label: state.isLinkChannel
+          ? l10n.channelMenuCopyChannelLink
+          : l10n.channelDetailsCopyLink,
       icon: PhosphorIconsFill.link,
       action: ChannelMenuAction.copyLink,
     ),
@@ -335,6 +351,56 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
     groups.add(destructiveItems);
   }
   return groups;
+}
+
+Widget channelMenuGroupsToBottomSheetContent({
+  required BuildContext context,
+  required ScrollController scrollController,
+  required List<ChannelMenuGroup> groups,
+  required ChannelMenuState menuState,
+  required void Function(ChannelMenuAction action) onAction,
+}) {
+  final layout = context.layout;
+  final List<Widget> menuGroups = <Widget>[
+    for (final ChannelMenuGroup group in groups)
+      FluxerMenuGroup(
+        children: [
+          for (final ChannelMenuEntry entry in group)
+            _channelMenuBottomSheetItem(
+              context: context,
+              entry: entry,
+              menuState: menuState,
+              onAction: onAction,
+            ),
+        ],
+      ),
+  ];
+  return ListView(
+    controller: scrollController,
+    padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+    children: [FluxerBottomSheetGroupColumn(children: menuGroups)],
+  );
+}
+
+FluxerBottomSheetMenuItem _channelMenuBottomSheetItem({
+  required BuildContext context,
+  required ChannelMenuEntry entry,
+  required ChannelMenuState menuState,
+  required void Function(ChannelMenuAction action) onAction,
+}) {
+  final Color? iconColor =
+      entry.action == ChannelMenuAction.toggleFavorite && menuState.isFavorite
+      ? context.colors.statusIdle
+      : null;
+  return FluxerBottomSheetMenuItem(
+    label: entry.label,
+    hint: entry.hint,
+    icon: entry.icon,
+    iconColor: iconColor,
+    enabled: entry.enabled,
+    isDanger: entry.isDanger,
+    onTap: () => onAction(entry.action),
+  );
 }
 
 List<Widget> channelMenuGroupsToWidgets({

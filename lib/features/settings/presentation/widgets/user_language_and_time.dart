@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui' show PlatformDispatcher;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +8,8 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/settings/providers/time_format_preference_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_sync_service.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n/fluxer_localizations_utils.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/app_locale_display.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
@@ -33,13 +34,20 @@ class UserLanguageAndTime extends ConsumerWidget {
     final UserSettingsResponse? settings = ref.watch(
       userSettingsStatusProvider,
     );
-    final String appLocale = settings?.locale.json ?? 'en-US';
-    final String systemLocale = PlatformDispatcher.instance.locale
+    final String appLocale = ref
+        .watch(effectiveAppLocaleProvider)
+        .toLanguageTag();
+    final String systemLocale = ref
+        .watch(systemLocalesProvider)
+        .first
         .toLanguageTag();
     final String displayLocale = Localizations.localeOf(context).toString();
-    final sdk.Locale? selectedLocale = settings?.locale == sdk.Locale.$unknown
-        ? null
-        : settings?.locale;
+    final sdk.Locale? storedLocale = settings?.locale;
+    final sdk.Locale? selectedLocale =
+        storedLocale != null &&
+            tryFlutterLocaleFromSdkLocale(storedLocale) != null
+        ? storedLocale
+        : null;
 
     void showSyncFailedToast() {
       ref

@@ -206,13 +206,68 @@ Future<void> upsertMentionUsersFromSdk(
   if (mentions == null) {
     return;
   }
-  final List<db.UsersCompanion> users = mentions
-      .map(userFromPartialSdk)
-      .toList(growable: false);
-  if (users.isEmpty) {
+  await upsertUsersCompanions(database, mentions.map(userFromPartialSdk));
+}
+
+List<db.UsersCompanion> dedupeUsersCompanionsById(
+  Iterable<db.UsersCompanion> users,
+) {
+  final Map<String, db.UsersCompanion> byId = <String, db.UsersCompanion>{};
+  for (final db.UsersCompanion user in users) {
+    if (!user.id.present) {
+      continue;
+    }
+    byId[user.id.value] = user;
+  }
+  return byId.values.toList(growable: false);
+}
+
+Future<void> upsertUsersCompanions(
+  db.FluxerDatabase database,
+  Iterable<db.UsersCompanion> users,
+) async {
+  final List<db.UsersCompanion> deduped = dedupeUsersCompanionsById(users);
+  if (deduped.isEmpty) {
     return;
   }
-  await database.userDao.upsertUsers(users);
+  await database.userDao.upsertUsers(deduped);
+}
+
+Future<void> upsertGuildMembersFromSdk(
+  db.FluxerDatabase database,
+  String guildId,
+  Iterable<GuildMemberResponse> members,
+) async {
+  final List<GuildMemberResponse> memberList = members.toList(growable: false);
+  if (guildId.isEmpty || memberList.isEmpty) {
+    return;
+  }
+  final List<db.UsersCompanion> userCompanions = <db.UsersCompanion>[
+    for (final GuildMemberResponse sdk in memberList)
+      userFromPartialSdk(sdk.user),
+  ];
+  final List<db.MembersCompanion> memberCompanions = <db.MembersCompanion>[
+    for (final GuildMemberResponse sdk in memberList)
+      memberCompanionFromSdk(sdk, guildId: guildId),
+  ];
+  await upsertUsersCompanions(database, userCompanions);
+  await database.memberDao.upsertMembers(memberCompanions);
+}
+
+Future<void> upsertSupplementalUsersFromSdk(
+  db.FluxerDatabase database,
+  Iterable<UserPartialResponse>? users,
+) async {
+  await upsertMentionUsersFromSdk(database, users);
+}
+
+List<String> supplementalUserIdsFromSdk(Iterable<UserPartialResponse>? users) {
+  if (users == null) {
+    return const <String>[];
+  }
+  return users
+      .map((UserPartialResponse user) => user.id)
+      .toList(growable: false);
 }
 
 Future<void> upsertMentionUsersFromJson(
@@ -236,5 +291,5 @@ Future<void> upsertMentionUsersFromJson(
   if (users.isEmpty) {
     return;
   }
-  await database.userDao.upsertUsers(users);
+  await upsertUsersCompanions(database, users);
 }

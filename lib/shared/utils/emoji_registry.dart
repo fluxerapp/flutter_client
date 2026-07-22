@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:fluxer_app/shared/utils/emoji_search.dart';
+import 'package:fluxer_app/shared/utils/emoji_utils.dart'
+    show kSkinToneSurrogates;
 
 class EmojiEntry {
   EmojiEntry({
@@ -12,6 +14,7 @@ class EmojiEntry {
     this.keywords = const <String>[],
     this.diversityIndex,
     this.hasDiversity = false,
+    this.skinSurrogates = const <String>[],
   }) : namesLower = names.map((n) => n.toLowerCase()).toList(growable: false),
        keywordsLower = keywords
            .map((k) => k.toLowerCase())
@@ -25,9 +28,8 @@ class EmojiEntry {
   final String category;
   final int spriteIndex;
   final int? diversityIndex;
-
-  /// True if this emoji supports skin tone modifiers.
   final bool hasDiversity;
+  final List<String> skinSurrogates;
 
   String get primaryName => names.first;
 }
@@ -72,6 +74,19 @@ class EmojiRegistry {
   static EmojiEntry? entryBySurrogates(String surrogates) =>
       _surrogateToEntry?[surrogates];
 
+  static String resolveSkinToneSurrogates(EmojiEntry emoji, String skinTone) {
+    if (skinTone.isEmpty || !emoji.hasDiversity) {
+      return emoji.surrogates;
+    }
+    final toneIndex = kSkinToneSurrogates.indexOf(skinTone);
+    if (toneIndex >= 0 &&
+        toneIndex < emoji.skinSurrogates.length &&
+        emoji.skinSurrogates[toneIndex].isNotEmpty) {
+      return emoji.skinSurrogates[toneIndex];
+    }
+    return emoji.surrogates;
+  }
+
   static Future<void> ensureLoaded() => preload();
 
   static Future<void> preload() async {
@@ -112,7 +127,18 @@ class EmojiRegistry {
         final keywords =
             (obj['keywords'] as List<dynamic>?)?.cast<String>() ??
             const <String>[];
-        final hasDiversity = obj.containsKey('skins');
+        final skins = obj['skins'] as List<dynamic>?;
+        final skinSurrogates = skins == null
+            ? const <String>[]
+            : skins
+                  .map(
+                    (skin) =>
+                        (skin as Map<String, dynamic>)['surrogates']
+                            as String? ??
+                        '',
+                  )
+                  .toList(growable: false);
+        final hasDiversity = skinSurrogates.isNotEmpty;
         final emoji = EmojiEntry(
           names: names,
           surrogates: surrogates,
@@ -121,6 +147,7 @@ class EmojiRegistry {
           spriteIndex: spriteIndex,
           diversityIndex: hasDiversity ? diversityIndex : null,
           hasDiversity: hasDiversity,
+          skinSurrogates: skinSurrogates,
         );
         if (hasDiversity) {
           diversityIndex++;
@@ -134,19 +161,35 @@ class EmojiRegistry {
           entryMap[name] = emoji;
         }
 
-        final skins = obj['skins'] as List<dynamic>?;
-        if (skins != null) {
-          for (final skin in skins) {
-            final skinObj = skin as Map<String, dynamic>;
-            final skinSurrogates = skinObj['surrogates'] as String? ?? '';
-            if (skinSurrogates.isEmpty) {
-              continue;
-            }
-            unicodeSurrogates.add(skinSurrogates);
+        for (var i = 0; i < skinSurrogates.length; i++) {
+          final skinSurrogatesValue = skinSurrogates[i];
+          if (skinSurrogatesValue.isEmpty) {
+            continue;
+          }
+          unicodeSurrogates.add(skinSurrogatesValue);
+          final skinToneName = 'skin-tone-${i + 1}';
+          for (final name in names) {
+            final skinName = '$name::$skinToneName';
+            nameMap[skinName] = skinSurrogatesValue;
           }
         }
       }
       cats[category] = list;
+    }
+
+    final shortcuts = json['shortcuts'] as Map<String, dynamic>?;
+    if (shortcuts != null) {
+      for (final entry in shortcuts.entries) {
+        final targetName = entry.value as String;
+        final targetSurrogate = nameMap[targetName];
+        if (targetSurrogate != null) {
+          nameMap[entry.key] = targetSurrogate;
+        }
+      }
+    }
+
+    for (var i = 0; i < kSkinToneSurrogates.length; i++) {
+      nameMap['skin-tone-${i + 1}'] = kSkinToneSurrogates[i];
     }
 
     _nameToSurrogate = nameMap;
@@ -167,9 +210,19 @@ class EmojiRegistry {
       return null;
     }
 
+    final patterns = <String, String>{};
+    for (final surrogate in surrogates) {
+      if (surrogate.endsWith('\uFE0F')) {
+        final base = surrogate.substring(0, surrogate.length - 1);
+        patterns[surrogate] = '${RegExp.escape(base)}(?:\\uFE0F)?';
+      } else {
+        patterns[surrogate] = RegExp.escape(surrogate);
+      }
+    }
+
     final ordered = surrogates.toList()
       ..sort((a, b) => b.length.compareTo(a.length));
-    final pattern = ordered.map(RegExp.escape).join('|');
+    final pattern = ordered.map((s) => patterns[s]!).join('|');
     if (pattern.isEmpty) {
       return null;
     }

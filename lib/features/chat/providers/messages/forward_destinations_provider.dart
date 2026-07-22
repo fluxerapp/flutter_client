@@ -42,6 +42,9 @@ class ForwardDestination {
     this.slowmodeEnabled = false,
     this.avatarUserId,
     this.avatarImageUrl,
+    this.guildAvatarImageUrl,
+    this.groupIconUrl,
+    this.groupMembers = const <GroupMemberInfo>[],
   });
 
   final String channelId;
@@ -70,6 +73,15 @@ class ForwardDestination {
 
   /// Resolved avatar image url for 1:1 DMs, when the recipient has one.
   final String? avatarImageUrl;
+
+  /// Resolved guild icon url for guild channel destinations.
+  final String? guildAvatarImageUrl;
+
+  /// Custom group DM icon url, when the group has one.
+  final String? groupIconUrl;
+
+  /// Members shown in the group DM avatar cluster.
+  final List<GroupMemberInfo> groupMembers;
 
   bool get isGuildChannel =>
       kind == ForwardDestinationKind.guildText ||
@@ -131,6 +143,12 @@ Future<List<ForwardDestination>> forwardDestinations(
                 hash: dm.recipientAvatar,
               )
             : null,
+        groupIconUrl: kind == ForwardDestinationKind.group
+            ? FluxerMediaUrl.guildIcon(guildId: dm.id, hash: dm.icon)
+            : null,
+        groupMembers: kind == ForwardDestinationKind.group
+            ? dm.groupMembers
+            : const <GroupMemberInfo>[],
       ),
     );
   }
@@ -217,6 +235,7 @@ Future<List<ForwardDestination>> forwardDestinations(
     final bool slowmodeEnabled =
         channel.rateLimitPerUser > 0 &&
         !hasPermission(bits, Permission.bypassSlowmode);
+    final Guild? guild = guildsById[channel.guildId];
     destinations.add(
       ForwardDestination(
         channelId: channel.id,
@@ -225,7 +244,8 @@ Future<List<ForwardDestination>> forwardDestinations(
             ? ForwardDestinationKind.guildVoice
             : ForwardDestinationKind.guildText,
         guildId: channel.guildId,
-        guildName: guildsById[channel.guildId]?.name,
+        guildName: guild?.name,
+        guildAvatarImageUrl: guild?.iconUrl,
         rateLimitPerUser: channel.rateLimitPerUser,
         disable: disable,
         slowmodeEnabled: slowmodeEnabled,

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/well_known_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -23,9 +22,8 @@ import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ChannelInvitesWidget extends ConsumerStatefulWidget {
@@ -73,26 +71,11 @@ class _ChannelInvitesWidgetState extends ConsumerState<ChannelInvitesWidget> {
   }
 
   Future<void> _copyInviteUrl(String inviteUrl) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    await copyInviteLink(
-      context: context,
-      inviteUrl: inviteUrl,
-      l10n: l10n,
-      showToast: (String message) {
-        ref.read(toastProvider.notifier).show(FluxerToast(message: message));
-      },
-    );
+    await copyToClipboard(context: context, value: inviteUrl);
   }
 
   Future<void> _copyInviteCode(String code) async {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    await Clipboard.setData(ClipboardData(text: code));
-    if (!mounted) {
-      return;
-    }
-    ref
-        .read(toastProvider.notifier)
-        .show(FluxerToast(message: l10n.copiedToClipboard));
+    await copyToClipboard(context: context, value: code);
   }
 
   Future<void> _revokeInvite(GuildInviteEntry invite) async {

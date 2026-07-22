@@ -18,9 +18,8 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/fluxer_action_menu.dart';
 import 'package:fluxer_app/features/ui/checkbox/fluxer_checkbox.dart';
 import 'package:fluxer_app/features/ui/modal/fluxer_modal.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildInvitesWidget extends ConsumerStatefulWidget {
@@ -262,11 +261,9 @@ class _GuildInvitesWidgetState extends ConsumerState<GuildInvitesWidget> {
       showCreatedDate: _showCreatedDate,
       isMobile: isMobile,
       categoryName: _resolveCategoryName(entry, channelsById),
-      onCopy: () => unawaited(_copyInvite(context, inviteUrl, l10n)),
+      onCopy: () => unawaited(_copyInvite(context, inviteUrl)),
       onRevoke: () => unawaited(_confirmRevoke(context, l10n, entry)),
-      onTap: isMobile
-          ? () => unawaited(_copyInvite(context, inviteUrl, l10n))
-          : null,
+      onTap: isMobile ? () => unawaited(_copyInvite(context, inviteUrl)) : null,
       onMenuPressed: isMobile
           ? (Offset position) =>
                 unawaited(_showMobileMenu(context, l10n, entry, position))
@@ -299,19 +296,8 @@ class _GuildInvitesWidgetState extends ConsumerState<GuildInvitesWidget> {
     return channelsById[parentId]?.name;
   }
 
-  Future<void> _copyInvite(
-    BuildContext context,
-    String inviteUrl,
-    FluxerLocalizations l10n,
-  ) async {
-    await copyInviteLink(
-      context: context,
-      inviteUrl: inviteUrl,
-      l10n: l10n,
-      showToast: (String message) {
-        ref.read(toastProvider.notifier).show(FluxerToast(message: message));
-      },
-    );
+  Future<void> _copyInvite(BuildContext context, String inviteUrl) async {
+    await copyToClipboard(context: context, value: inviteUrl);
   }
 
   Future<void> _showMobileMenu(
@@ -334,7 +320,7 @@ class _GuildInvitesWidgetState extends ConsumerState<GuildInvitesWidget> {
           icon: PhosphorIconsBold.clipboard,
           onPressed: () {
             close();
-            unawaited(_copyInvite(context, inviteUrl, l10n));
+            unawaited(_copyInvite(context, inviteUrl));
           },
         ),
         FluxerMenuItem(

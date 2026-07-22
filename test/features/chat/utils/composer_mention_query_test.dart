@@ -112,4 +112,120 @@ void main() {
       expect(merged.map((Member m) => m.id).toList(), <String>['1', '3', '2']);
     });
   });
+
+  group('rankRolesForMentionQuery', () {
+    const List<RoleMentionSearchTarget> roles = <RoleMentionSearchTarget>[
+      RoleMentionSearchTarget(
+        id: 'guild-1',
+        name: 'everyone',
+        position: 0,
+        mentionable: false,
+      ),
+      RoleMentionSearchTarget(
+        id: 'role-mod',
+        name: 'Moderators',
+        position: 5,
+        mentionable: true,
+      ),
+      RoleMentionSearchTarget(
+        id: 'role-dev',
+        name: 'Developers',
+        position: 10,
+        mentionable: true,
+      ),
+    ];
+
+    test('filters out the everyone role and non-mentionable roles', () {
+      final List<RoleMentionSearchTarget> ranked = rankRolesForMentionQuery(
+        roles,
+        guildId: 'guild-1',
+        query: '',
+        canMentionEveryone: false,
+      );
+      expect(ranked.map((RoleMentionSearchTarget r) => r.id).toList(), <String>[
+        'role-dev',
+        'role-mod',
+      ]);
+    });
+
+    test('ranks prefix matches above contains matches', () {
+      final List<RoleMentionSearchTarget> ranked = rankRolesForMentionQuery(
+        roles,
+        guildId: 'guild-1',
+        query: 'mod',
+        canMentionEveryone: false,
+      );
+      expect(ranked.single.id, 'role-mod');
+    });
+
+    test('matches multi-word role names while typing spaces', () {
+      final List<RoleMentionSearchTarget> ranked = rankRolesForMentionQuery(
+        const <RoleMentionSearchTarget>[
+          RoleMentionSearchTarget(
+            id: 'role-android',
+            name: 'Android Alpha',
+            position: 5,
+            mentionable: true,
+          ),
+        ],
+        guildId: 'guild-1',
+        query: 'android alpha',
+        canMentionEveryone: false,
+      );
+      expect(ranked.single.name, 'Android Alpha');
+    });
+
+    test('matches role names with contains semantics', () {
+      expect(roleNameMatchesMentionQuery('Android Alpha', 'android'), isTrue);
+      expect(roleNameMatchesMentionQuery('Android Alpha', 'alpha'), isTrue);
+      expect(roleNameMatchesMentionQuery('Moderator', 'mod'), isTrue);
+      expect(roleNameMatchesMentionQuery('Moderator', 'android'), isFalse);
+    });
+  });
+
+  group('shouldPromoteRoleMentionMatches', () {
+    test('promotes when role prefix beats weak member match', () {
+      expect(
+        shouldPromoteRoleMentionMatches(
+          query: 'mod',
+          bestRoleRank: MentionMatchRank.startsWith,
+          bestMemberRank: MentionMatchRank.fuzzy,
+        ),
+        isTrue,
+      );
+    });
+
+    test('promotes when member has a stronger exact match', () {
+      expect(
+        shouldPromoteRoleMentionMatches(
+          query: 'android',
+          bestRoleRank: MentionMatchRank.startsWith,
+          bestMemberRank: MentionMatchRank.equal,
+        ),
+        isTrue,
+      );
+    });
+
+    test('does not promote when role does not match query', () {
+      expect(
+        shouldPromoteRoleMentionMatches(
+          query: 'android',
+          bestRoleRank: MentionMatchRank.noMatch,
+          bestMemberRank: MentionMatchRank.equal,
+        ),
+        isFalse,
+      );
+    });
+
+    test('does not promote when query is empty', () {
+      expect(
+        shouldPromoteRoleMentionMatches(
+          query: '',
+          bestRoleRank: MentionMatchRank.startsWith,
+          bestMemberRank: MentionMatchRank.fuzzy,
+        ),
+        isFalse,
+      );
+    });
+  });
 }

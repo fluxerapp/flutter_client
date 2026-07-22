@@ -16,6 +16,8 @@ class MessageActionCallbacks {
     this.onRemoveAllReactions,
     this.onReport,
     this.onAddReaction,
+    this.onDeleteAttachment,
+    this.onEditAttachmentAltText,
   });
 
   final VoidCallback? onReply;
@@ -29,6 +31,8 @@ class MessageActionCallbacks {
   final VoidCallback? onRemoveAllReactions;
   final VoidCallback? onReport;
   final VoidCallback? onAddReaction;
+  final ValueChanged<Attachment>? onDeleteAttachment;
+  final ValueChanged<Attachment>? onEditAttachmentAltText;
 }
 
 class MessageActionPermissions {
@@ -42,6 +46,7 @@ class MessageActionPermissions {
     required this.canManageMessages,
     required this.canSendMessages,
     required this.developerMode,
+    this.isSendDisabled = false,
   });
 
   final bool isOwnMessage;
@@ -53,6 +58,7 @@ class MessageActionPermissions {
   final bool canManageMessages;
   final bool canSendMessages;
   final bool developerMode;
+  final bool isSendDisabled;
 }
 
 class MessageMediaActionScope {

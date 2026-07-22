@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:ui' as ui show Locale;
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' show Value;
@@ -21,11 +22,17 @@ import 'package:fluxer_app/features/chat/providers/messages/message_realtime_pro
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/chat/utils/message_send_failure_messages.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:riverpod/src/framework.dart' show Override;
 
 import '../../../../helpers/message_realtime_test_helpers.dart';
+import '../../../../helpers/noop_guild_member_hydration_service.dart';
 import '../../../../helpers/open_test_database.dart';
 
 String _snowflakeForUtc(DateTime utc) {
@@ -80,6 +87,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   Future<(ProviderContainer, _SendAdapter, String)> setUpChannel({
     _SendAdapter? adapter,
+    List<Override> overrides = const <Override>[],
   }) async {
     final db = openTestDatabase();
     await db.channelDao.upsertChannel(
@@ -88,7 +96,7 @@ void main() {
     final serverMessageId = _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12));
     final _SendAdapter sendAdapter =
         adapter ?? _SendAdapter(serverMessageId: serverMessageId);
-    final container = _container(db, sendAdapter);
+    final container = _container(db, sendAdapter, overrides: overrides);
     addTearDown(container.dispose);
 
     final notifier = container.read(chatViewModelProvider.notifier);
@@ -313,11 +321,15 @@ void main() {
   test(
     'send failure with DM restriction adds Fluxerbot system message',
     () async {
+      final FluxerLocalizations l10n = lookupFluxerLocalizations(
+        const ui.Locale('fr'),
+      );
       final (container, _, _) = await setUpChannel(
         adapter: _SendAdapter(
           serverMessageId: _snowflakeForUtc(DateTime.utc(2026, 6, 16, 12)),
           failureCode: apiErrorCodeCannotSendMessagesToUser,
         ),
+        overrides: <Override>[appLocalizationsProvider.overrideWithValue(l10n)],
       );
       final notifier = container.read(chatViewModelProvider.notifier);
 
@@ -329,11 +341,38 @@ void main() {
       expect(state.messages, hasLength(2));
       expect(state.messages.first.hasFailed, isTrue);
       expect(state.messages.first.content, 'test');
+      expect(state.messages.first.sendError, l10n.chatMessageFailedToSend);
       expect(state.messages.last.isClientSystemMessage, isTrue);
       expect(state.messages.last.authorId, fluxerBotUserId);
-      expect(state.messages.last.content, contains('could not be delivered'));
+      expect(
+        state.messages.last.content,
+        clientSystemMessageForSendError(
+          apiErrorCode: apiErrorCodeCannotSendMessagesToUser,
+          l10n: l10n,
+        ),
+      );
     },
   );
+
+  test('no-op edit warning uses app locale', () async {
+    final FluxerLocalizations l10n = lookupFluxerLocalizations(
+      const ui.Locale('fr'),
+    );
+    final (container, _, _) = await setUpChannel(
+      overrides: <Override>[appLocalizationsProvider.overrideWithValue(l10n)],
+    );
+    final ChatViewModel notifier = container.read(
+      chatViewModelProvider.notifier,
+    );
+    await (notifier
+          ..startEdit(_msg(id: 'message-1', authorId: 'me', content: 'same')))
+        .saveEditedMessage(text: 'same');
+
+    expect(
+      container.read(toastProvider).single.toast.message,
+      l10n.chatEditNoChanges,
+    );
+  });
 
   test('jump to latest preserves an optimistic sending message', () async {
     final (container, adapter, notifier) = await setUpDetachedChannel(
@@ -434,7 +473,11 @@ void main() {
   });
 }
 
-ProviderContainer _container(FluxerDatabase db, _SendAdapter adapter) {
+ProviderContainer _container(
+  FluxerDatabase db,
+  _SendAdapter adapter, {
+  List<Override> overrides = const <Override>[],
+}) {
   final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
     ..httpClientAdapter = adapter;
   final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
@@ -452,6 +495,10 @@ ProviderContainer _container(FluxerDatabase db, _SendAdapter adapter) {
         });
         return batcher;
       }),
+      guildMemberHydrationServiceProvider.overrideWithValue(
+        NoopGuildMemberHydrationService(database: db),
+      ),
+      ...overrides,
     ],
   );
 }

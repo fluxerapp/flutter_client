@@ -2,12 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart' show WidgetsBinding;
 import 'package:flutter_callkit_incoming/entities/call_event.dart';
 import 'package:flutter_callkit_incoming/entities/call_kit_params.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
-import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
@@ -17,6 +16,7 @@ import 'package:fluxer_app/features/voice/utils/incoming_voice_call_actions.dart
 import 'package:fluxer_app/features/voice/utils/voice_callkit_params.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_policy.dart';
 import 'package:fluxer_app/features/voice/utils/voice_callkit_session_store.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -58,8 +58,6 @@ class VoiceCallKitCoordinatorLogic {
   bool _isApplyingCallKitMuteToVoice = false;
   bool _isSyncingMuteToCallKit = false;
   DateTime? _suppressUserEndHandlingUntil;
-  FluxerLocalizations? _cachedLocalizations;
-  Locale? _cachedLocale;
 
   void init() {
     _eventSubscription = FlutterCallkitIncoming.onEvent.listen(
@@ -481,17 +479,7 @@ class VoiceCallKitCoordinatorLogic {
   }
 
   FluxerLocalizations _resolveLocalizations() {
-    final BuildContext? ctx = rootNavigatorKey.currentContext;
-    if (ctx != null && ctx.mounted) {
-      final Locale locale = Localizations.localeOf(ctx);
-      if (_cachedLocalizations != null && _cachedLocale == locale) {
-        return _cachedLocalizations!;
-      }
-      _cachedLocale = locale;
-      _cachedLocalizations = FluxerLocalizations.of(ctx);
-      return _cachedLocalizations!;
-    }
-    return lookupFluxerLocalizations(const Locale('en'));
+    return _ref.read(appLocalizationsProvider);
   }
 
   String? _resolveChannelId({

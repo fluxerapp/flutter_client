@@ -234,15 +234,13 @@ void main() {
     test('moves guild out of folder before target guild', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        GuildNavbarGuild(guild: _guild('top')),
-        _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
-      ];
-
-      notifier.reorder(sourceId: 'a', targetId: 'top', insertAfter: false);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('top')),
+              _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
+            ]
+            ..reorder(sourceId: 'a', targetId: 'top', insertAfter: false);
 
       final List<GuildNavbarItem> items = notifier.state;
       expect(items.length, 3);
@@ -256,15 +254,13 @@ void main() {
     test('moves guild out of folder after target folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
-        GuildNavbarGuild(guild: _guild('bottom')),
-      ];
-
-      notifier.reorder(sourceId: 'a', targetId: '1', insertAfter: true);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
+              GuildNavbarGuild(guild: _guild('bottom')),
+            ]
+            ..reorder(sourceId: 'a', targetId: '1', insertAfter: true);
 
       final List<GuildNavbarItem> items = notifier.state;
       expect(items.length, 3);
@@ -276,15 +272,13 @@ void main() {
     test('dissolves folder when last guild is moved out', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        _navbarFolder(id: 1, guildIds: ['a']),
-        GuildNavbarGuild(guild: _guild('bottom')),
-      ];
-
-      notifier.reorder(sourceId: 'a', targetId: 'bottom', insertAfter: false);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              _navbarFolder(id: 1, guildIds: ['a']),
+              GuildNavbarGuild(guild: _guild('bottom')),
+            ]
+            ..reorder(sourceId: 'a', targetId: 'bottom', insertAfter: false);
 
       final List<GuildNavbarItem> items = notifier.state;
       expect(items.length, 2);
@@ -297,14 +291,12 @@ void main() {
     test('ignores dropping guild onto its own folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        _navbarFolder(id: 1, guildIds: ['a', 'b']),
-      ];
-
-      notifier.moveIntoFolder(guildId: 'a', folderId: 1);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              _navbarFolder(id: 1, guildIds: ['a', 'b']),
+            ]
+            ..moveIntoFolder(guildId: 'a', folderId: 1);
 
       final List<GuildNavbarItem> items = notifier.state;
       expect(items.length, 1);
@@ -315,15 +307,13 @@ void main() {
     test('moves top-level guild into folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        GuildNavbarGuild(guild: _guild('solo')),
-        _navbarFolder(id: 1, guildIds: ['a', 'b']),
-      ];
-
-      notifier.moveIntoFolder(guildId: 'solo', folderId: 1);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('solo')),
+              _navbarFolder(id: 1, guildIds: ['a', 'b']),
+            ]
+            ..moveIntoFolder(guildId: 'solo', folderId: 1);
 
       final List<GuildNavbarItem> items = notifier.state;
       expect(items.length, 1);
@@ -334,15 +324,13 @@ void main() {
     test('moves guild back into folder after it was dragged out', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        GuildNavbarGuild(guild: _guild('a')),
-        _navbarFolder(id: 1, guildIds: ['b', 'c']),
-      ];
-
-      notifier.moveIntoFolder(guildId: 'a', folderId: 1);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('a')),
+              _navbarFolder(id: 1, guildIds: ['b', 'c']),
+            ]
+            ..moveIntoFolder(guildId: 'a', folderId: 1);
 
       final List<GuildNavbarItem> items = notifier.state;
       expect(items.length, 1);
@@ -353,20 +341,18 @@ void main() {
     test('inserts guild at hovered position inside folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        GuildNavbarGuild(guild: _guild('solo')),
-        _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
-      ];
-
-      notifier.moveIntoFolderAtPosition(
-        guildId: 'solo',
-        folderId: 1,
-        referenceGuildId: 'b',
-        insertAfter: false,
-      );
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('solo')),
+              _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
+            ]
+            ..moveIntoFolderAtPosition(
+              guildId: 'solo',
+              folderId: 1,
+              referenceGuildId: 'b',
+              insertAfter: false,
+            );
 
       final GuildNavbarFolder folder = notifier.state[0] as GuildNavbarFolder;
       expect(folder.guilds.map((Guild g) => g.id).toList(), [
@@ -380,19 +366,17 @@ void main() {
     test('reorders guild within the same folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
-      ];
-
-      notifier.moveIntoFolderAtPosition(
-        guildId: 'c',
-        folderId: 1,
-        referenceGuildId: 'a',
-        insertAfter: true,
-      );
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
+            ]
+            ..moveIntoFolderAtPosition(
+              guildId: 'c',
+              folderId: 1,
+              referenceGuildId: 'a',
+              insertAfter: true,
+            );
 
       final GuildNavbarFolder folder = notifier.state[0] as GuildNavbarFolder;
       expect(folder.guilds.map((Guild g) => g.id).toList(), ['a', 'c', 'b']);
@@ -403,20 +387,18 @@ void main() {
     test('reorder path moves guild out of folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        GuildNavbarGuild(guild: _guild('top')),
-        _navbarFolder(id: 1, guildIds: ['a', 'b']),
-      ];
-
-      notifier.applyDragDrop(
-        sourceId: 'a',
-        targetId: 'top',
-        targetIsFolder: false,
-        position: DropPosition.before,
-      );
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('top')),
+              _navbarFolder(id: 1, guildIds: ['a', 'b']),
+            ]
+            ..applyDragDrop(
+              sourceId: 'a',
+              targetId: 'top',
+              targetIsFolder: false,
+              position: DropPosition.before,
+            );
 
       final List<GuildNavbarItem> items = notifier.state;
       expect((items[0] as GuildNavbarGuild).guild.id, 'a');
@@ -425,20 +407,18 @@ void main() {
     test('combine path moves top-level guild into folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        GuildNavbarGuild(guild: _guild('solo')),
-        _navbarFolder(id: 1, guildIds: ['a', 'b']),
-      ];
-
-      notifier.applyDragDrop(
-        sourceId: 'solo',
-        targetId: '1',
-        targetIsFolder: true,
-        position: DropPosition.combine,
-      );
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('solo')),
+              _navbarFolder(id: 1, guildIds: ['a', 'b']),
+            ]
+            ..applyDragDrop(
+              sourceId: 'solo',
+              targetId: '1',
+              targetIsFolder: true,
+              position: DropPosition.combine,
+            );
 
       final List<GuildNavbarItem> items = notifier.state;
       expect(items.length, 1);
@@ -449,20 +429,18 @@ void main() {
     test('before path inserts guild at hovered folder position', () {
       final ProviderContainer container = _organizedGuildListTestContainer();
       addTearDown(container.dispose);
-      final OrganizedGuildList notifier = container.read(
-        organizedGuildListProvider.notifier,
-      );
-      notifier.state = [
-        GuildNavbarGuild(guild: _guild('solo')),
-        _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
-      ];
-
-      notifier.applyDragDrop(
-        sourceId: 'solo',
-        targetId: 'b',
-        targetIsFolder: false,
-        position: DropPosition.before,
-      );
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('solo')),
+              _navbarFolder(id: 1, guildIds: ['a', 'b', 'c']),
+            ]
+            ..applyDragDrop(
+              sourceId: 'solo',
+              targetId: 'b',
+              targetIsFolder: false,
+              position: DropPosition.before,
+            );
 
       final GuildNavbarFolder folder = notifier.state[0] as GuildNavbarFolder;
       expect(folder.guilds.map((Guild g) => g.id).toList(), [

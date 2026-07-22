@@ -149,7 +149,11 @@ class _DefaultAppearancePreferences extends AppearancePreferences {
 }
 
 class _SpyDmRepository extends DmRepository {
-  _SpyDmRepository(super.client, super.db, super.guildUserSettingsRepository);
+  _SpyDmRepository(
+    super._client,
+    super._db,
+    super._guildUserSettingsRepository,
+  );
 
   String? lastEnsureUserId;
 

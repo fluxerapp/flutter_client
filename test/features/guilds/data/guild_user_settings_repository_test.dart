@@ -245,6 +245,92 @@ void main() {
     );
 
     test(
+      'toggleAllCategoriesCollapsed collapses all when some are expanded',
+      () async {
+        const guildId = 'guild-1';
+        const categoryA = 'category-a';
+        const categoryB = 'category-b';
+        const categoryC = 'category-c';
+        await _seedGuildSettings(
+          database: database,
+          guildId: guildId,
+          channelOverrides: {
+            categoryA: const ChannelOverrides(
+              collapsed: false,
+              messageNotifications: UserNotificationSettings.inherit,
+              muted: false,
+              muteConfig: null,
+            ),
+            categoryB: const ChannelOverrides(
+              collapsed: true,
+              messageNotifications: UserNotificationSettings.inherit,
+              muted: false,
+              muteConfig: null,
+            ),
+          },
+        );
+        final GuildUserSettingsRepository repo = container.read(
+          guildUserSettingsRepositoryProvider,
+        );
+
+        await repo.toggleAllCategoriesCollapsed(
+          guildId: guildId,
+          categoryIds: const [categoryA, categoryB, categoryC],
+          options: _immediateSync,
+        );
+
+        expect(usersApi.patchCount, 1);
+        final overrides = usersApi.lastRequest?.channelOverrides;
+        expect(overrides, isNotNull);
+        expect(overrides!.keys, containsAll([categoryA, categoryB, categoryC]));
+        expect(overrides[categoryA]?.collapsed, isTrue);
+        expect(overrides[categoryB]?.collapsed, isTrue);
+        expect(overrides[categoryC]?.collapsed, isTrue);
+      },
+    );
+
+    test(
+      'toggleAllCategoriesCollapsed expands all when all are collapsed',
+      () async {
+        const guildId = 'guild-1';
+        const categoryA = 'category-a';
+        const categoryB = 'category-b';
+        await _seedGuildSettings(
+          database: database,
+          guildId: guildId,
+          channelOverrides: {
+            categoryA: const ChannelOverrides(
+              collapsed: true,
+              messageNotifications: UserNotificationSettings.inherit,
+              muted: false,
+              muteConfig: null,
+            ),
+            categoryB: const ChannelOverrides(
+              collapsed: true,
+              messageNotifications: UserNotificationSettings.inherit,
+              muted: false,
+              muteConfig: null,
+            ),
+          },
+        );
+        final GuildUserSettingsRepository repo = container.read(
+          guildUserSettingsRepositoryProvider,
+        );
+
+        await repo.toggleAllCategoriesCollapsed(
+          guildId: guildId,
+          categoryIds: const [categoryA, categoryB],
+          options: _immediateSync,
+        );
+
+        final overrides = usersApi.lastRequest?.channelOverrides;
+        expect(overrides, isNotNull);
+        expect(overrides![categoryA]?.collapsed, isFalse);
+        expect(overrides[categoryB]?.collapsed, isFalse);
+      },
+    );
+
+    test(
       'updateChannelOverride mute preserves unrelated overrides in PATCH',
       () async {
         const guildId = 'guild-1';

@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/permissions/channel_permission_cache_provider.da
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/features/channels/data/read_state_utils.dart';
@@ -16,6 +17,8 @@ import 'package:fluxer_app/features/channels/providers/channel_list_view_model.d
 import 'package:fluxer_app/features/chat/data/chat_unread_summary.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/domain/message_list_anchor.dart';
+import 'package:fluxer_app/features/chat/presentation/'
+    'sheets/attachment_alt_text_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/channel_pins_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -29,6 +32,7 @@ import 'package:fluxer_app/features/chat/presentation/'
 import 'package:fluxer_app/features/chat/presentation/'
     'sheets/system_message_actions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/chat_loading_spinner.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/media/animated_image_playback_controller.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/blocked_message_groups.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -41,6 +45,7 @@ import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_overlay.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_pagination.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_skeleton.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/messages/message_list_unread_review.dart';
 import 'package:fluxer_app/features/chat/presentation/'
@@ -63,6 +68,7 @@ import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_welcome_sec
 import 'package:fluxer_app/features/dm/presentation/widgets/personal_notes_welcome_section.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
@@ -80,6 +86,8 @@ const _kUnreadDividerHeight = 16.0;
 const _kUnreadDateDividerHeight = 20.0;
 const _kMessageListScrollCacheExtent = 1200.0;
 const _kMessageListCompactScrollCacheExtent = 400.0;
+
+const _kMessageListStatusOverlayInset = 16.0;
 
 // Riverpod does not export the concrete auto-dispose family type.
 // Exposed for widget tests that hold read state in AsyncLoading.
@@ -154,6 +162,8 @@ class _MessageListState extends ConsumerState<MessageList> {
   late final ListObserverController _observerController;
   late final SliverObserverController _sliverObserverController;
   late final ChatScrollObserver _chatObserver;
+  final AnimatedImagePlaybackController _animatedImagePlaybackController =
+      AnimatedImagePlaybackController();
   final Map<String, GlobalKey> _itemKeys = <String, GlobalKey>{};
   final MessageTileCache _tileCache = MessageTileCache();
   late final ChatViewModel _chatViewModel;
@@ -263,10 +273,12 @@ class _MessageListState extends ConsumerState<MessageList> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    _animatedImagePlaybackController.dispose();
     super.dispose();
   }
 
   void _onScroll() {
+    _animatedImagePlaybackController.setScrolling(value: _isUserDrivenScroll);
     switch (_openMode) {
       case _MessageListOpenMode.unresolved:
         return;
@@ -336,7 +348,10 @@ class _MessageListState extends ConsumerState<MessageList> {
       position.pixels - position.minScrollExtent;
 
   double _centerTrailingDistance(ScrollPosition position) =>
-      (position.maxScrollExtent - position.pixels).clamp(0, double.infinity);
+      (position.maxScrollExtent -
+              position.pixels -
+              _kMessageListStatusOverlayInset)
+          .clamp(0, double.infinity);
 
   void _maybeLoadOlderCenter() {
     if (!_scrollController.hasClients ||
@@ -435,6 +450,9 @@ class _MessageListState extends ConsumerState<MessageList> {
         prev.isNotEmpty &&
         next.isNotEmpty) {
       final LeadingEdgeDelta delta = computeLeadingEdgeKeyDelta(prev, next);
+      if (delta.isUnchanged && !listEquals(prev, next)) {
+        _edgeLoadTrigger.reset();
+      }
       if (delta.addedNewest > 0) {
         final bool nearTail = _isLiveNearBottom();
         // Near-tail appends must reveal newest even when no viewport shrink
@@ -1118,6 +1136,10 @@ class _MessageListState extends ConsumerState<MessageList> {
     final String? highlightedMessageId = ref
         .read(chatViewModelProvider)
         .highlightedMessageId;
+    talker.debug(
+      '[MessageList] confirm highlight target=$messageId '
+      'highlighted=$highlightedMessageId',
+    );
     if (highlightedMessageId == messageId) {
       _chatViewModel.extendJumpHighlight(messageId);
     }
@@ -1342,6 +1364,7 @@ class _MessageListState extends ConsumerState<MessageList> {
       }
       // Cancellation defers the publish to ScrollEnd or the replacement jump.
       if (naturalCompletion) {
+        _edgeLoadTrigger.reset();
         _publishReadViewportAfterJumpSettle();
       }
     }
@@ -1441,6 +1464,7 @@ class _MessageListState extends ConsumerState<MessageList> {
 
   Future<void> _jumpToMessage(String messageId) {
     _messageJumpInFlight++;
+    talker.debug('[MessageList] _jumpToMessage $messageId openMode=$_openMode');
     final Future<void> done = switch (_openMode) {
       _MessageListOpenMode.unread => _jumpToMessageCenter(messageId),
       _ => _jumpToMessageBottom(messageId),
@@ -1453,11 +1477,16 @@ class _MessageListState extends ConsumerState<MessageList> {
   }
 
   void _onScrollToMessage(String messageId) {
+    talker.debug(
+      '[MessageList] _onScrollToMessage $messageId openMode=$_openMode '
+      'hasClients=${_scrollController.hasClients}',
+    );
     // Jumping while unresolved (or without clients) loses the post-frame
     // scroll because the real list is not mounted yet.
     if (_openMode == _MessageListOpenMode.unresolved ||
         !_scrollController.hasClients) {
       _pendingScrollTarget = messageId;
+      talker.debug('[MessageList] pending target parked $messageId');
       return;
     }
     // Orphaned unread anchor: demote first so the jump uses the bottom path.
@@ -1510,6 +1539,9 @@ class _MessageListState extends ConsumerState<MessageList> {
     final bool isAuthorBlocked = blockedUserIds.contains(message.authorId);
     final bool canAddReactionsForMessage =
         channelCanAddReactions && !isAuthorBlocked;
+    final bool isSendDisabled =
+        ref.watch(guildByIdProvider(guildId ?? '')).value?.isSendDisabled ??
+        false;
     final double leading = leadingGroupSpacing(
       isGroupStart: !isGrouped,
       isNewDay: isNewDay,
@@ -1645,6 +1677,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             canManageMessages: channelCanManageMessages,
             canSendMessages: channelCanSendMessages,
             isDmChannel: isDmChannel,
+            isSendDisabled: isSendDisabled,
             onReply: () =>
                 ref.read(chatViewModelProvider.notifier).startReply(message),
             onForward: () =>
@@ -1689,6 +1722,28 @@ class _MessageListState extends ConsumerState<MessageList> {
                 ),
               ),
             ),
+            onDeleteAttachment: (Attachment attachment) => ref
+                .read(chatViewModelProvider.notifier)
+                .deleteMessageAttachment(
+                  messageId: message.id,
+                  attachmentId: attachment.id,
+                ),
+            onEditAttachmentAltText: (Attachment attachment) async {
+              final String? description = await showAttachmentAltTextSheet(
+                context,
+                attachment: attachment,
+              );
+              if (description == null || !context.mounted) {
+                return;
+              }
+              await ref
+                  .read(chatViewModelProvider.notifier)
+                  .editAttachmentAltText(
+                    messageId: message.id,
+                    attachmentId: attachment.id,
+                    description: description.isEmpty ? null : description,
+                  );
+            },
             onReaction:
                 (String emoji, {String? emojiId, bool animated = false}) => ref
                     .read(chatViewModelProvider.notifier)
@@ -1871,84 +1926,90 @@ class _MessageListState extends ConsumerState<MessageList> {
     final ScrollPhysics chatPhysics = ScrollConfiguration.of(context)
         .getScrollPhysics(context)
         .applyTo(ChatObserverClampingScrollPhysics(observer: _chatObserver));
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        NotificationListener<ScrollNotification>(
-          onNotification: _onScrollNotification,
-          child: ListViewObserver(
-            controller: _observerController,
-            child: NotificationListener<ScrollMetricsNotification>(
-              onNotification: _onScrollMetricsNotification,
-              child: ListView.builder(
-                controller: _scrollController,
-                reverse: true,
-                scrollCacheExtent: ScrollCacheExtent.pixels(
-                  _useCompactScrollCache
-                      ? _kMessageListCompactScrollCacheExtent
-                      : _kMessageListScrollCacheExtent,
+    return AnimatedImagePlaybackScope(
+      controller: _animatedImagePlaybackController,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          NotificationListener<ScrollNotification>(
+            onNotification: _onScrollNotification,
+            child: ListViewObserver(
+              controller: _observerController,
+              child: NotificationListener<ScrollMetricsNotification>(
+                onNotification: _onScrollMetricsNotification,
+                child: ListView.builder(
+                  controller: _scrollController,
+                  reverse: true,
+                  scrollCacheExtent: ScrollCacheExtent.pixels(
+                    _useCompactScrollCache
+                        ? _kMessageListCompactScrollCacheExtent
+                        : _kMessageListScrollCacheExtent,
+                  ),
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    bottom: _kMessageListStatusOverlayInset,
+                  ),
+                  physics: chatPhysics,
+                  itemCount:
+                      stream.length + (startOfChannelHeader != null ? 1 : 0),
+                  addAutomaticKeepAlives: false,
+                  findChildIndexCallback: (Key key) =>
+                      _findMessageListChildIndex(key, stream),
+                  itemBuilder: (BuildContext context, int renderIndex) {
+                    if (startOfChannelHeader != null &&
+                        renderIndex == stream.length) {
+                      return startOfChannelHeader;
+                    }
+                    final int dataIndex = stream.length - 1 - renderIndex;
+                    return _buildStreamItem(
+                      context: context,
+                      stream: stream,
+                      dataIndex: dataIndex,
+                      visualUnreadId: visualUnreadId,
+                      highlightedMessageId: highlightedMessageId,
+                      currentUserId: currentUserId,
+                      isDmChannel: isDmChannel,
+                      guildId: guildId,
+                      channelPermissionBits: channelPermissionBits,
+                      channelCanSendMessages: channelCanSendMessages,
+                      channelCanAddReactions: channelCanAddReactions,
+                      channelCanPinMessage: channelCanPinMessage,
+                      channelCanManageMessages: channelCanManageMessages,
+                      renderSettings: renderSettings,
+                      blockedUserIds: blockedUserIds,
+                      revealedCollapsedGroupKey: revealedCollapsedGroupKey,
+                    );
+                  },
                 ),
-                padding: const EdgeInsets.only(top: 8),
-                physics: chatPhysics,
-                itemCount:
-                    stream.length + (startOfChannelHeader != null ? 1 : 0),
-                addAutomaticKeepAlives: false,
-                findChildIndexCallback: (Key key) =>
-                    _findMessageListChildIndex(key, stream),
-                itemBuilder: (BuildContext context, int renderIndex) {
-                  if (startOfChannelHeader != null &&
-                      renderIndex == stream.length) {
-                    return startOfChannelHeader;
-                  }
-                  final int dataIndex = stream.length - 1 - renderIndex;
-                  return _buildStreamItem(
-                    context: context,
-                    stream: stream,
-                    dataIndex: dataIndex,
-                    visualUnreadId: visualUnreadId,
-                    highlightedMessageId: highlightedMessageId,
-                    currentUserId: currentUserId,
-                    isDmChannel: isDmChannel,
-                    guildId: guildId,
-                    channelPermissionBits: channelPermissionBits,
-                    channelCanSendMessages: channelCanSendMessages,
-                    channelCanAddReactions: channelCanAddReactions,
-                    channelCanPinMessage: channelCanPinMessage,
-                    channelCanManageMessages: channelCanManageMessages,
-                    renderSettings: renderSettings,
-                    blockedUserIds: blockedUserIds,
-                    revealedCollapsedGroupKey: revealedCollapsedGroupKey,
-                  );
-                },
               ),
             ),
           ),
-        ),
-        if (isLoadingMore)
-          Positioned(
-            top: 8,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: ChatLoadingSpinner(
-                reason: ChatSpinnerReason.loadingMore,
-                color: context.colors.brandPrimary,
+          if (isLoadingMore)
+            Positioned(
+              top: 8,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: ChatLoadingSpinner(
+                  reason: ChatSpinnerReason.loadingMore,
+                  color: context.colors.brandPrimary,
+                ),
               ),
             ),
-          ),
-        if (isLoadingNewer)
-          Positioned(
-            bottom: 8,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: ChatLoadingSpinner(
-                reason: ChatSpinnerReason.loadingNewer,
-                color: context.colors.brandPrimary,
+          if (isLoadingNewer)
+            Positioned(
+              bottom: _kMessageListStatusOverlayInset,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: ChatLoadingSpinner(
+                  reason: ChatSpinnerReason.loadingNewer,
+                  color: context.colors.brandPrimary,
+                ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -2175,6 +2236,9 @@ class _MessageListState extends ConsumerState<MessageList> {
                           ),
                     ),
                   ),
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: _kMessageListStatusOverlayInset),
+                  ),
                 ],
               ),
             ),
@@ -2194,7 +2258,7 @@ class _MessageListState extends ConsumerState<MessageList> {
           ),
         if (isLoadingNewer)
           Positioned(
-            bottom: 8,
+            bottom: _kMessageListStatusOverlayInset,
             left: 0,
             right: 0,
             child: Center(
@@ -2259,12 +2323,7 @@ class _MessageListState extends ConsumerState<MessageList> {
     if (expectedChannelId != null &&
         expectedChannelId.isNotEmpty &&
         channelId != expectedChannelId) {
-      return Center(
-        child: ChatLoadingSpinner(
-          reason: ChatSpinnerReason.panelNotReady,
-          color: context.colors.brandPrimary,
-        ),
-      );
+      return MessageListSkeleton(channelId: expectedChannelId);
     }
     final String? stickyUnreadId = ref.watch(
       chatViewModelProvider.select(
@@ -2440,7 +2499,12 @@ class _MessageListState extends ConsumerState<MessageList> {
       final String target = _pendingScrollTarget!;
       if (messages.any((Message m) => m.id == target)) {
         _pendingScrollTarget = null;
+        talker.debug('[MessageList] consume pending target $target');
         unawaited(_jumpToMessage(target));
+      } else {
+        talker.debug(
+          '[MessageList] pending target $target not in ${messages.length} messages',
+        );
       }
     }
 
@@ -2478,12 +2542,7 @@ class _MessageListState extends ConsumerState<MessageList> {
             final Widget body;
             if (_openMode == _MessageListOpenMode.unresolved ||
                 (isLoading && messages.isEmpty)) {
-              body = Center(
-                child: ChatLoadingSpinner(
-                  reason: ChatSpinnerReason.listLoading,
-                  color: context.colors.brandPrimary,
-                ),
-              );
+              body = MessageListSkeleton(channelId: channelId);
             } else if (messageLoadFailed && messages.isEmpty) {
               final FluxerLocalizations l10n = FluxerLocalizations.of(context);
               body = Center(

@@ -92,6 +92,16 @@ void main() {
       );
     });
 
+    test('maps multi-device disconnect failure code', () {
+      expect(
+        resolveVoiceSessionErrorMessage(
+          kVoiceSessionErrorMultiDeviceDisconnectFailed,
+          l10n,
+        ),
+        l10n.voiceMultiDeviceDisconnectFailed,
+      );
+    });
+
     test('returns unknown messages unchanged', () {
       const String raw = 'Voice server did not return connection details.';
       expect(resolveVoiceSessionErrorMessage(raw, l10n), raw);

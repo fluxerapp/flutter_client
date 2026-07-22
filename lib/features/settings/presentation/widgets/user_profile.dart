@@ -24,7 +24,7 @@ import 'package:fluxer_app/features/ui/input/fluxer_input_clipboard_scope.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
-import 'package:intl/intl.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _kMaxDisplayNameLength = 32;
@@ -839,6 +839,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                   );
                   return FluxerInput.multiline(
                     controller: controller,
+                    contextMenuBuilder: clipboardScope.buildContextMenu,
                     textCapitalization: TextCapitalization.sentences,
                     focusNode: _bioFocusNode,
                     label: l10n.aboutMeLabel,
@@ -1105,7 +1106,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     if (state.premiumSince != null) {
       final date = DateTime.tryParse(state.premiumSince!);
       if (date != null) {
-        final formatted = DateFormat.yMMMd().format(date.toLocal());
+        final formatted = formatUserMediumDate(date.toLocal(), l10n.localeName);
         timestampLabel = l10n.hidePlutoniumPurchaseDateWithDate(formatted);
       }
     }

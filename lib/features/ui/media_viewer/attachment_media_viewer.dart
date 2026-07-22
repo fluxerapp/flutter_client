@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
+import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/mobile_media_options_sheet.dart';
 import 'package:fluxer_app/features/mature_content/presentation/widgets/mature_media_overlay.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
@@ -21,6 +24,10 @@ class AttachmentMediaViewerItem {
     this.width,
     this.height,
     this.isMatureMedia = false,
+    this.attachmentId,
+    this.embedIndex,
+    this.proxyUrl,
+    this.isExpired = false,
   });
 
   final String url;
@@ -28,6 +35,10 @@ class AttachmentMediaViewerItem {
   final int? width;
   final int? height;
   final bool isMatureMedia;
+  final String? attachmentId;
+  final int? embedIndex;
+  final String? proxyUrl;
+  final bool isExpired;
 }
 
 Future<void> showAttachmentMediaViewer(
@@ -36,6 +47,7 @@ Future<void> showAttachmentMediaViewer(
   int initialIndex = 0,
   String? channelId,
   void Function(int index)? onForward,
+  MessageMediaActionScope? actionScope,
 }) async {
   if (items.isEmpty) {
     return;
@@ -51,6 +63,7 @@ Future<void> showAttachmentMediaViewer(
         initialIndex: clampedInitialIndex,
         channelId: channelId,
         onForward: onForward,
+        actionScope: actionScope,
       );
     },
     transitionBuilder: (_, animation, _, child) {
@@ -65,6 +78,7 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
     required this.initialIndex,
     this.channelId,
     this.onForward,
+    this.actionScope,
     super.key,
   });
 
@@ -75,6 +89,10 @@ class AttachmentMediaViewerShell extends ConsumerStatefulWidget {
   /// When non-null, the action bar shows a Forward button; invoked with the
   /// index of the item on screen when tapped (after the viewer closes).
   final void Function(int index)? onForward;
+
+  /// When non-null, the mobile overflow menu can show message-level actions
+  /// (reply, delete, etc.) in addition to media actions.
+  final MessageMediaActionScope? actionScope;
 
   @override
   ConsumerState<AttachmentMediaViewerShell> createState() =>
@@ -205,6 +223,19 @@ class _AttachmentMediaViewerShellState
     });
   }
 
+  Future<void> _openOptions() async {
+    final AttachmentMediaViewerItem currentItem = widget.items[_currentIndex];
+    await showMobileMediaOptionsSheet(
+      context: context,
+      ref: ref,
+      launchContext: MediaOptionsLaunchContext.fromImageViewerItem(
+        currentItem,
+        actionScope: widget.actionScope,
+      ),
+      onCloseViewer: _executeClose,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
@@ -216,6 +247,12 @@ class _AttachmentMediaViewerShellState
     );
     final bool canGoPrevious = _currentIndex > 0;
     final bool canGoNext = _currentIndex < widget.items.length - 1;
+    final MediaOptionsLaunchContext optionsContext =
+        MediaOptionsLaunchContext.fromImageViewerItem(
+          currentItem,
+          actionScope: widget.actionScope,
+        );
+    final bool showOptionsButton = isMobile && optionsContext.hasOptionsMenu;
     return Focus(
       autofocus: true,
       onKeyEvent: (_, KeyEvent event) {
@@ -281,8 +318,17 @@ class _AttachmentMediaViewerShellState
                           ),
                           const SizedBox(width: 8),
                         ],
+                        if (isMobile)
+                          Tooltip(
+                            message: l10n.mediaViewerClose,
+                            child: FluxerButton.mediaOverlay(
+                              onPressed: _executeClose,
+                              icon: PhosphorIconsBold.x,
+                              isSquare: true,
+                            ),
+                          ),
                         const Spacer(),
-                        if (widget.onForward != null) ...[
+                        if (!isMobile && widget.onForward != null) ...[
                           Tooltip(
                             message: l10n.mediaViewerForward,
                             child: FluxerButton.mediaOverlay(
@@ -293,15 +339,15 @@ class _AttachmentMediaViewerShellState
                           ),
                           const SizedBox(width: 8),
                         ],
-                        Tooltip(
-                          message: l10n.mediaViewerOpenInBrowser,
-                          child: FluxerButton.mediaOverlay(
-                            onPressed: _executeOpenInBrowser,
-                            icon: PhosphorIconsBold.arrowSquareOut,
-                            isSquare: true,
-                          ),
-                        ),
                         if (!isMobile) ...[
+                          Tooltip(
+                            message: l10n.mediaViewerOpenInBrowser,
+                            child: FluxerButton.mediaOverlay(
+                              onPressed: _executeOpenInBrowser,
+                              icon: PhosphorIconsBold.arrowSquareOut,
+                              isSquare: true,
+                            ),
+                          ),
                           const SizedBox(width: 8),
                           Tooltip(
                             message: _isDesktopZoomed
@@ -315,16 +361,25 @@ class _AttachmentMediaViewerShellState
                               isSquare: true,
                             ),
                           ),
-                        ],
-                        const SizedBox(width: 8),
-                        Tooltip(
-                          message: l10n.mediaViewerClose,
-                          child: FluxerButton.mediaOverlay(
-                            onPressed: _executeClose,
-                            icon: PhosphorIconsBold.x,
-                            isSquare: true,
+                          const SizedBox(width: 8),
+                          Tooltip(
+                            message: l10n.mediaViewerClose,
+                            child: FluxerButton.mediaOverlay(
+                              onPressed: _executeClose,
+                              icon: PhosphorIconsBold.x,
+                              isSquare: true,
+                            ),
                           ),
-                        ),
+                        ],
+                        if (showOptionsButton)
+                          Tooltip(
+                            message: l10n.mediaViewerOptions,
+                            child: FluxerButton.mediaOverlay(
+                              onPressed: _openOptions,
+                              icon: PhosphorIconsBold.dotsThree,
+                              isSquare: true,
+                            ),
+                          ),
                       ],
                     ),
                   ),

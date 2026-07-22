@@ -172,6 +172,50 @@ void main() {
       expect(await tokenStorage.readToken('user-1'), isNull);
     });
 
+    test('pruneTokenlessSessions removes metadata without a token', () async {
+      await repository.migrateLegacyTokens();
+      await db.authSessionDao.saveSessionMetadata(userId: 'orphan-user');
+      await db.authSessionDao.saveSessionMetadata(userId: 'valid-user');
+      await tokenStorage.saveToken(userId: 'valid-user', token: 'token-1');
+
+      await repository.pruneTokenlessSessions();
+
+      expect(await db.authSessionDao.getSession('orphan-user'), isNull);
+      expect(await db.authSessionDao.getSession('valid-user'), isNotNull);
+    });
+
+    test('getStoredAccounts excludes sessions without a token', () async {
+      await repository.migrateLegacyTokens();
+      await db.authSessionDao.saveSessionMetadata(
+        userId: 'orphan-user',
+        username: 'orphan',
+      );
+      await db.authSessionDao.saveSessionMetadata(
+        userId: 'valid-user',
+        username: 'valid',
+      );
+      await tokenStorage.saveToken(userId: 'valid-user', token: 'token-1');
+
+      final accounts = await repository.getStoredAccounts();
+
+      expect(accounts, hasLength(1));
+      expect(accounts.single.userId, 'valid-user');
+    });
+
+    test('getActiveSession skips and removes tokenless sessions', () async {
+      await repository.migrateLegacyTokens();
+      await db.authSessionDao.saveSessionMetadata(userId: 'orphan-user');
+      await db.authSessionDao.saveSessionMetadata(userId: 'valid-user');
+      await tokenStorage.saveToken(userId: 'valid-user', token: 'token-1');
+      await db.authSessionDao.touchSession('orphan-user');
+
+      final session = await repository.getActiveSession();
+
+      expect(session, isNotNull);
+      expect(session!.userId, 'valid-user');
+      expect(await db.authSessionDao.getSession('orphan-user'), isNull);
+    });
+
     test('supports independent tokens for multiple accounts', () async {
       await repository.migrateLegacyTokens();
       await db.authSessionDao.saveSessionMetadata(userId: 'user-1');

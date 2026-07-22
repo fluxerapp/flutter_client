@@ -42,12 +42,16 @@ AudioContext _audioContextForClip(
 }
 
 class FluxerSFX {
-  FluxerSFX() : _loopPlayer = AudioPlayer(), _oneShotPlayer = AudioPlayer();
+  FluxerSFX({AudioPlayer? loopPlayer, AudioPlayer? oneShotPlayer})
+    : _loopPlayer = loopPlayer ?? AudioPlayer(),
+      _oneShotPlayer = oneShotPlayer ?? AudioPlayer();
 
   final AudioPlayer _loopPlayer;
   final AudioPlayer _oneShotPlayer;
   FluxerSfxClip? _activeLoopClip;
   bool _loopPlaybackActive = false;
+  AudioContext? _lastOneShotContext;
+  AudioContext? _lastLoopContext;
 
   Future<void> playOneShot(
     FluxerSfxClip clip, {
@@ -55,13 +59,15 @@ class FluxerSFX {
     bool ignoreRingerPolicy = false,
   }) async {
     try {
-      await _oneShotPlayer.setAudioContext(
-        _audioContextForClip(
-          clip,
-          ignoreRingerPolicy: ignoreRingerPolicy,
-          isIncomingRingLoop: false,
-        ),
+      final AudioContext context = _audioContextForClip(
+        clip,
+        ignoreRingerPolicy: ignoreRingerPolicy,
+        isIncomingRingLoop: false,
       );
+      if (_lastOneShotContext != context) {
+        await _oneShotPlayer.setAudioContext(context);
+        _lastOneShotContext = context;
+      }
       await _oneShotPlayer.setReleaseMode(ReleaseMode.release);
       await _oneShotPlayer.stop();
       await _oneShotPlayer.setVolume(_clampVolume(volume));
@@ -80,13 +86,15 @@ class FluxerSFX {
     }
     _activeLoopClip = clip;
     try {
-      await _loopPlayer.setAudioContext(
-        _audioContextForClip(
-          clip,
-          ignoreRingerPolicy: false,
-          isIncomingRingLoop: clip == FluxerSfxClip.incomingRing,
-        ),
+      final AudioContext context = _audioContextForClip(
+        clip,
+        ignoreRingerPolicy: false,
+        isIncomingRingLoop: clip == FluxerSfxClip.incomingRing,
       );
+      if (_lastLoopContext != context) {
+        await _loopPlayer.setAudioContext(context);
+        _lastLoopContext = context;
+      }
       await _loopPlayer.setReleaseMode(ReleaseMode.loop);
       await _loopPlayer.stop();
       await _loopPlayer.setVolume(_clampVolume(volume));
@@ -109,6 +117,8 @@ class FluxerSFX {
   }
 
   Future<void> dispose() async {
+    _lastOneShotContext = null;
+    _lastLoopContext = null;
     await _loopPlayer.dispose();
     await _oneShotPlayer.dispose();
   }

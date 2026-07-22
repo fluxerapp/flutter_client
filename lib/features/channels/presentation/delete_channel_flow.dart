@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
@@ -60,7 +62,7 @@ class DeleteChannelFlow {
       }
       onDeleted?.call();
       if (context.mounted) {
-        Navigator.of(context).maybePop();
+        unawaited(Navigator.of(context).maybePop());
       }
       toast.show(
         FluxerToast(message: title, variant: FluxerToastVariant.success),

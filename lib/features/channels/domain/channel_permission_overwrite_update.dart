@@ -228,10 +228,11 @@ List<ChannelPermissionOverwriteEntry> insertChannelPermissionOverwriteEntry({
   final ChannelPermissionOverwriteEntry everyone = entries.lastWhere(
     (ChannelPermissionOverwriteEntry entry) => entry.isEveryone,
   );
-  final List<ChannelPermissionOverwriteEntry> rest = entries
-      .where((ChannelPermissionOverwriteEntry entry) => !entry.isEveryone)
-      .toList();
-  rest.add(newEntry);
+  final List<ChannelPermissionOverwriteEntry> rest =
+      entries
+          .where((ChannelPermissionOverwriteEntry entry) => !entry.isEveryone)
+          .toList()
+        ..add(newEntry);
   final List<ChannelPermissionOverwriteEntry> roles = rest
       .where((ChannelPermissionOverwriteEntry entry) => entry.type == 0)
       .toList();

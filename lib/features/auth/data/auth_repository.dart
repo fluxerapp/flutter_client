@@ -199,11 +199,17 @@ class AuthRepository {
   }
 
   Future<AuthSession?> getActiveSession() async {
-    final row = await _db.authSessionDao.getActiveSession();
-    if (row == null) {
-      return null;
+    while (true) {
+      final row = await _db.authSessionDao.getActiveSession();
+      if (row == null) {
+        return null;
+      }
+      final AuthSession? session = await _resolveSessionForUserId(row.userId);
+      if (session != null) {
+        return session;
+      }
+      await _db.authSessionDao.removeSession(row.userId);
     }
-    return _resolveSessionForUserId(row.userId);
   }
 
   Future<AuthSession?> getSession(String userId) async {
@@ -227,6 +233,17 @@ class AuthRepository {
     }
     await _db.authSessionDao.clearLegacyTokens();
     await _db.authSessionDao.dropLegacyTokenColumnIfPresent();
+  }
+
+  /// Removes session metadata that has no matching token in secure storage.
+  Future<void> pruneTokenlessSessions() async {
+    final sessions = await _db.authSessionDao.getAllSessions();
+    for (final session in sessions) {
+      final String? token = await _tokenStorage.readToken(session.userId);
+      if (token == null || token.isEmpty) {
+        await _db.authSessionDao.removeSession(session.userId);
+      }
+    }
   }
 
   Future<void> logout(String userId) async {
@@ -465,19 +482,25 @@ class AuthRepository {
 
   Future<List<StoredAccount>> getStoredAccounts() async {
     final sessions = await _db.authSessionDao.getAllSessions();
-    return sessions
-        .map(
-          (s) => StoredAccount(
-            userId: s.userId,
-            isValid: s.isValid,
-            lastActive: s.lastActive,
-            username: s.username,
-            discriminator: s.discriminator,
-            avatar: s.avatar,
-            displayDomain: _resolveDisplayDomain(s.instanceSnapshotJson),
-          ),
-        )
-        .toList();
+    final List<StoredAccount> accounts = <StoredAccount>[];
+    for (final s in sessions) {
+      final String? token = await _tokenStorage.readToken(s.userId);
+      if (token == null || token.isEmpty) {
+        continue;
+      }
+      accounts.add(
+        StoredAccount(
+          userId: s.userId,
+          isValid: s.isValid,
+          lastActive: s.lastActive,
+          username: s.username,
+          discriminator: s.discriminator,
+          avatar: s.avatar,
+          displayDomain: _resolveDisplayDomain(s.instanceSnapshotJson),
+        ),
+      );
+    }
+    return accounts;
   }
 
   Future<void> removeStoredAccount(String userId) async {

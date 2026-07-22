@@ -1,11 +1,221 @@
+import 'dart:async';
+import 'dart:ui' show Locale;
+
+import 'package:dio/dio.dart';
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/providers/gateway_connection_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_reconnect_provider.dart';
 import 'package:fluxer_app/core/providers/gateway_session_recovery_provider.dart';
 import 'package:fluxer_app/core/push/pending_push_notification_path_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/auth/providers/account_manager_provider.dart';
+import 'package:fluxer_app/features/profile/providers/user_settings_status_provider.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
+import 'package:fluxer_app/l10n/app_locale_provider.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_dart/export.dart' show UserSettingsResponse;
+import 'package:fluxer_dart/gateway.dart';
+import 'package:fluxer_dart/models/locale.dart' as sdk;
+import 'package:riverpod/src/framework.dart' show Override;
+
+final NotifierProvider<_TestLocale, Locale> _testLocaleProvider =
+    NotifierProvider<_TestLocale, Locale>(_TestLocale.new);
+
+class _TestLocale extends Notifier<Locale> {
+  @override
+  Locale build() => const Locale('fr');
+
+  void updateLocale(Locale value) {
+    if (state != value) {
+      state = value;
+    }
+  }
+}
+
+class _TestGatewayConnection extends GatewayConnection {
+  _TestGatewayConnection() : super(token: 'test', dio: Dio());
+
+  final StreamController<GatewayState> _states =
+      StreamController<GatewayState>.broadcast(sync: true);
+  GatewayState _current = GatewayState.disconnected;
+
+  @override
+  GatewayState get state => _current;
+
+  @override
+  Stream<GatewayState> get stateChanges => _states.stream;
+
+  void emit(GatewayState value) {
+    _current = value;
+    _states.add(value);
+  }
+
+  @override
+  Future<void> dispose() async {
+    await _states.close();
+    await super.dispose();
+  }
+}
+
+class _ExpiringAccountManager extends AccountManager {
+  @override
+  Future<bool> expireSessionIfInvalid() async {
+    ref.read(_testLocaleProvider.notifier).updateLocale(const Locale('de'));
+    return true;
+  }
+}
+
+UserSettingsResponse _settingsWithLocale(sdk.Locale locale) {
+  return UserSettingsResponse.fromJson(<String, Object?>{
+    'status': 'online',
+    'theme': 'dark',
+    'locale': locale.json,
+    'time_format': 0,
+    'render_embeds': true,
+    'render_reactions': true,
+    'inline_attachment_media': true,
+    'inline_embed_media': true,
+    'gif_auto_play': true,
+    'animate_emoji': true,
+    'animate_stickers': 0,
+    'render_spoilers': 0,
+    'message_display_compact': false,
+    'friend_source_flags': 0,
+    'incoming_call_flags': 0,
+    'group_dm_add_permission_flags': 0,
+    'guild_folders': <Map<String, Object?>>[],
+    'custom_status': null,
+    'afk_timeout': 300,
+    'default_share_voice_activity': false,
+    'developer_mode': false,
+    'trusted_domains': <String>[],
+    'default_hide_muted_channels': false,
+    'sensitive_content_friend_dm_filter': 0,
+    'sensitive_content_non_friend_dm_filter': 0,
+    'sensitive_content_guild_filter': 0,
+    'suppress_unprivileged_self_mentions': false,
+    'suppress_unprivileged_self_mentions_bypass_user_ids': <String>[],
+    'staff_dm_access_user_ids': <String>[],
+    'profile_privacy': 0,
+    'synced_preferences': '',
+    'restricted_guilds': <String>[],
+    'bot_restricted_guilds': <String>[],
+    'default_guilds_restricted': false,
+    'bot_default_guilds_restricted': false,
+  });
+}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  test('reconnect toasts use app locale instead of system locale', () {
+    fakeAsync((FakeAsync async) {
+      final _TestGatewayConnection connection = _TestGatewayConnection();
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          gatewayConnectionProvider.overrideWithValue(connection),
+          userSettingsStatusProvider.overrideWithValue(
+            _settingsWithLocale(sdk.Locale.fr),
+          ),
+        ],
+      );
+      container.read(systemLocalesProvider.notifier).updateFromPlatform(
+        const <Locale>[Locale('de', 'DE')],
+      );
+      container.read(gatewayReconnectToastListenerProvider);
+
+      connection
+        ..emit(GatewayState.connected)
+        ..emit(GatewayState.reconnecting);
+
+      ToastEntry entry = container.read(toastProvider).single;
+      expect(entry.toast.message, 'Reconnexion…');
+      expect(entry.toast.variant, FluxerToastVariant.info);
+      expect(entry.toast.duration, const Duration(seconds: 5));
+
+      connection.emit(GatewayState.connected);
+      async.elapse(fluxerToastAnimationDuration);
+
+      entry = container.read(toastProvider).single;
+      expect(entry.isVisible, isTrue);
+      expect(entry.toast.message, 'Connecté');
+      expect(entry.toast.variant, FluxerToastVariant.success);
+
+      container.dispose();
+      unawaited(connection.dispose());
+    });
+  });
+
+  test(
+    'connected toast reads the latest locale without resetting listener',
+    () {
+      fakeAsync((FakeAsync async) {
+        final _TestGatewayConnection connection = _TestGatewayConnection();
+        final ProviderContainer container = ProviderContainer(
+          overrides: <Override>[
+            gatewayConnectionProvider.overrideWithValue(connection),
+            appLocalizationsProvider.overrideWith(
+              (Ref ref) =>
+                  lookupFluxerLocalizations(ref.watch(_testLocaleProvider)),
+            ),
+          ],
+        )..read(gatewayReconnectToastListenerProvider);
+
+        connection
+          ..emit(GatewayState.connected)
+          ..emit(GatewayState.reconnecting);
+        expect(
+          container.read(toastProvider).single.toast.message,
+          'Reconnexion…',
+        );
+
+        container
+            .read(_testLocaleProvider.notifier)
+            .updateLocale(const Locale('de'));
+        connection.emit(GatewayState.connected);
+        async.elapse(fluxerToastAnimationDuration);
+
+        expect(container.read(toastProvider).single.toast.message, 'Verbunden');
+
+        container.dispose();
+        unawaited(connection.dispose());
+      });
+    },
+  );
+
+  test('session-expired toast retains the locale active before sign-out', () {
+    fakeAsync((FakeAsync async) {
+      final _TestGatewayConnection connection = _TestGatewayConnection();
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          gatewayConnectionProvider.overrideWithValue(connection),
+          accountManagerProvider.overrideWith(_ExpiringAccountManager.new),
+          appLocalizationsProvider.overrideWith(
+            (Ref ref) =>
+                lookupFluxerLocalizations(ref.watch(_testLocaleProvider)),
+          ),
+        ],
+      );
+      container.read(authStateProvider.notifier).setAuthenticated(value: true);
+      container.read(gatewayStateListenerProvider);
+
+      connection.emit(GatewayState.failed);
+      async.flushMicrotasks();
+
+      expect(container.read(_testLocaleProvider), const Locale('de'));
+      expect(
+        container.read(toastProvider).single.toast.message,
+        lookupFluxerLocalizations(const Locale('fr')).sessionExpiredToast,
+      );
+
+      container.dispose();
+      unawaited(connection.dispose());
+    });
+  });
+
   test('gatewayConnectionFailed tracks failure and reset', () {
     final ProviderContainer container = ProviderContainer();
     addTearDown(container.dispose);

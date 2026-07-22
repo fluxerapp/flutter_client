@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/badge/app_icon_badge_coordinator.dart';
@@ -10,7 +11,10 @@ import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_ui.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/share/pending_share_provider.dart';
+import 'package:fluxer_app/core/share/shared_media_payload.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/share_media_sheet.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/providers/member_list_desired_ranges_provider.dart';
@@ -89,6 +93,37 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
         });
       });
     }
+
+    ref.listenManual<SharedMediaPayload?>(pendingShareProvider, (
+      SharedMediaPayload? previous,
+      SharedMediaPayload? next,
+    ) {
+      if (next == null) {
+        return;
+      }
+      final List<XFile> files = next.toXFiles();
+      final String? initialMessage = next.initialMessage;
+      if (files.isEmpty && (initialMessage == null || initialMessage.isEmpty)) {
+        return;
+      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        final BuildContext? rootContext = rootNavigatorKey.currentContext;
+        if (rootContext == null || !rootContext.mounted) {
+          return;
+        }
+        ref.read(pendingShareProvider.notifier).clear();
+        unawaited(
+          showShareMediaSheet(
+            rootContext,
+            files: files,
+            initialMessage: initialMessage,
+          ),
+        );
+      });
+    });
   }
 
   void _scheduleActiveGuildEffects({

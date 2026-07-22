@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart' show WidgetsFlutterBinding;
 const double kFluxerMobileFormFactorMaxShortestSide = 600;
 
 const bool kFluxerMobileFormFactorBuild =
+    // Compile-time flag for Linux mobile form factor testing.
     // ignore: do_not_use_environment
     bool.fromEnvironment('LINUX_MOBILE');
 

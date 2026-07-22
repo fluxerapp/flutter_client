@@ -7,7 +7,6 @@ import 'package:fluxer_app/features/members/data/guild_mention_member_search.dar
 import 'package:fluxer_app/features/members/data/member_repository.dart';
 import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
-import 'package:riverpod/src/providers/stream_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'member_providers.g.dart';
@@ -89,7 +88,11 @@ Stream<String> guildRolePermissionsIdentity(Ref ref, String guildId) {
   }).distinct();
 }
 
-final StreamProviderFamily<List<db.Member>, String> guildMemberRowsProvider =
-    StreamProvider.family<List<db.Member>, String>((Ref ref, String guildId) {
-      return ref.watch(fluxerDatabaseProvider).memberDao.watchMembers(guildId);
-    });
+// Member rows stream keyed by guild id.
+// ignore: specify_nonobvious_property_types
+final guildMemberRowsProvider = StreamProvider.family<List<db.Member>, String>((
+  Ref ref,
+  String guildId,
+) {
+  return ref.watch(fluxerDatabaseProvider).memberDao.watchMembers(guildId);
+});

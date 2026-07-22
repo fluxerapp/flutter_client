@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// When [source] is overridden, dependents
+/// When source is overridden, dependents
 /// receive the same color unless they were explicitly overridden in CSS.
 const Map<String, List<String>> kThemePropertyAliases = <String, List<String>>{
   'brandPrimary': <String>[

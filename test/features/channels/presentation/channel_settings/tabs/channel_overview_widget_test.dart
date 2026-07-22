@@ -57,7 +57,7 @@ void main() {
       _buildTestApp(
         overrides: <Override>[
           channelRtcRegionsProvider(voiceChannel.id).overrideWith(
-            (Ref ref) async => <RtcRegionResponse>[
+            (Ref ref) => <RtcRegionResponse>[
               const RtcRegionResponse(
                 id: 'us-east',
                 name: 'US East',

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
+import 'package:fluxer_app/core/talker.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_chat_panel.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/channel/channel_header.dart';
@@ -79,8 +80,22 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
   }
 
   void _syncChannelIfNeeded({required bool loadMessages}) {
-    if (widget.channelId != ref.read(activeChannelIdProvider) ||
-        ref.read(shellHasPopupOverlayProvider)) {
+    final String? activeChannelId = ref.read(activeChannelIdProvider);
+    final bool hasPopup = ref.read(shellHasPopupOverlayProvider);
+    if (widget.channelId != activeChannelId || hasPopup) {
+      talker.debug(
+        '[ChannelChatContent] skip sync channel=${widget.channelId} '
+        'active=$activeChannelId popup=$hasPopup',
+      );
+      return;
+    }
+    if (widget.targetMessageId != null &&
+        widget.targetMessageId!.isNotEmpty &&
+        !loadMessages) {
+      talker.debug(
+        '[ChannelChatContent] defer target sync until visible '
+        'channel=${widget.channelId} target=${widget.targetMessageId}',
+      );
       return;
     }
     final request = (
@@ -90,9 +105,17 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     );
     if (_lastSwitchRequest == request &&
         ref.read(chatViewModelProvider).channelId == request.channelId) {
+      talker.debug(
+        '[ChannelChatContent] dedup sync channel=${widget.channelId} '
+        'target=${widget.targetMessageId} load=$loadMessages',
+      );
       return;
     }
     _lastSwitchRequest = request;
+    talker.debug(
+      '[ChannelChatContent] run sync channel=${widget.channelId} '
+      'target=${widget.targetMessageId} load=$loadMessages',
+    );
     unawaited(_runChannelSync(request));
   }
 
@@ -100,8 +123,13 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     ({String channelId, String? targetMessageId, bool loadMessages}) request,
   ) async {
     if (!mounted) {
+      talker.debug('[ChannelChatContent] sync aborted: not mounted');
       return;
     }
+    talker.debug(
+      '[ChannelChatContent] _runChannelSync channel=${request.channelId} '
+      'target=${request.targetMessageId} load=${request.loadMessages}',
+    );
     final closeRequest = (
       channelId: request.channelId,
       targetMessageId: request.targetMessageId,

@@ -10,6 +10,7 @@ import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
 import 'package:fluxer_app/features/channels/data/read_state_repository.dart';
 import 'package:fluxer_app/features/chat/domain/api_attachment_metadata.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
 import 'package:fluxer_app/features/chat/utils/client_nonce.dart';
 import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
@@ -211,15 +212,16 @@ class MessageRepository {
     String? around,
   }) async {
     try {
-      final data = await _client.channels.listMessages(
-        channelId: channelId,
-        limit: limit.toString(),
-        before: before,
-        after: after,
-        around: around,
-      );
+      final List<MessageResponseSchema> data = await _client.channels
+          .listMessages(
+            channelId: channelId,
+            limit: limit.toString(),
+            before: before,
+            after: after,
+            around: around,
+          );
 
-      final embeddedReplyParents = <Message>[];
+      final List<Message> embeddedReplyParents = <Message>[];
       for (final sdk in data) {
         final referenced = sdk.referencedMessage;
         if (referenced != null) {
@@ -237,7 +239,7 @@ class MessageRepository {
         currentUserId: _currentUserId,
         channelId: channelId,
       );
-      final messages = data
+      final List<Message> messages = data
           .map(
             (sdk) =>
                 Message.fromSdk(sdk, currentUserId: _currentUserId).copyWith(
@@ -254,11 +256,22 @@ class MessageRepository {
           .reversed
           .toList();
 
+      final Map<String, db.UsersCompanion> pageUsersById =
+          <String, db.UsersCompanion>{};
       for (final sdk in data) {
         if (sdk.webhookId == null) {
-          await _db.userDao.upsertUser(userFromPartialSdk(sdk.author));
+          pageUsersById[sdk.author.id] = userFromPartialSdk(sdk.author);
         }
-        await upsertMentionUsersFromSdk(_db, sdk.mentions);
+        for (final mention in sdk.mentions) {
+          pageUsersById[mention.id] = userFromPartialSdk(mention);
+        }
+        for (final UserPartialResponse user
+            in sdk.users ?? const <UserPartialResponse>[]) {
+          pageUsersById[user.id] = userFromPartialSdk(user);
+        }
+      }
+      if (pageUsersById.isNotEmpty) {
+        await upsertUsersCompanions(_db, pageUsersById.values);
       }
       await _db.messageDao.upsertMessages(
         messages.map((m) => m.toCompanion()).toList(),
@@ -280,6 +293,7 @@ class MessageRepository {
         await ReadStateRepository(_client, _db).recomputeMentionsAfterBackfill(
           channelId: channelId,
           currentUserId: _currentUserId,
+          allowDecrease: true,
         );
       }
 
@@ -323,6 +337,7 @@ class MessageRepository {
         await _db.userDao.upsertUser(userFromPartialSdk(sdk.author));
       }
       await upsertMentionUsersFromSdk(_db, sdk.mentions);
+      await upsertSupplementalUsersFromSdk(_db, sdk.users);
       final message = Message.fromSdk(sdk, currentUserId: _currentUserId)
           .copyWith(
             isMentioned: await resolveMessageMentionsUser(
@@ -444,6 +459,7 @@ class MessageRepository {
                   const [],
             ),
             mentionedUserIds: _mentionedUserIdsFromJson(map),
+            supplementalUserIds: _supplementalUserIdsFromJson(map),
             type: (map['type'] as int?) ?? 0,
             flags: (map['flags'] as int?) ?? 0,
           ),
@@ -463,6 +479,7 @@ class MessageRepository {
             _db,
             map['mentions'] as List<dynamic>?,
           );
+          await upsertMentionUsersFromJson(_db, map['users'] as List<dynamic>?);
         }
       } on Object catch (e) {
         talker.warning('[MessageRepo] Skipping message: $e');
@@ -489,6 +506,7 @@ class MessageRepository {
       await ReadStateRepository(_client, _db).recomputeMentionsAfterBackfill(
         channelId: channelId,
         currentUserId: _currentUserId,
+        allowDecrease: true,
       );
     }
 
@@ -522,6 +540,18 @@ class MessageRepository {
       for (final mention in mentions)
         if (mention is Map<String, dynamic> && mention['id'] != null)
           mention['id'].toString(),
+    ];
+  }
+
+  List<String> _supplementalUserIdsFromJson(Map<String, dynamic> map) {
+    final users = map['users'] as List<dynamic>?;
+    if (users == null) {
+      return const [];
+    }
+    return [
+      for (final user in users)
+        if (user is Map<String, dynamic> && user['id'] != null)
+          user['id'].toString(),
     ];
   }
 
@@ -718,6 +748,49 @@ class MessageRepository {
       return message;
     } on DioException catch (e) {
       throw Exception(dioExceptionMessage(e, 'Failed to edit message'));
+    }
+  }
+
+  Future<void> deleteAttachment({
+    required String channelId,
+    required String messageId,
+    required String attachmentId,
+  }) async {
+    try {
+      await _client.channels.deleteMessageAttachment(
+        channelId: channelId,
+        messageId: messageId,
+        attachmentId: attachmentId,
+      );
+    } on DioException catch (e) {
+      throw Exception(dioExceptionMessage(e, 'Failed to delete attachment'));
+    }
+  }
+
+  Future<Message> editMessageAttachments({
+    required String channelId,
+    required String messageId,
+    required String content,
+    required List<MessageAttachmentUpdate> attachmentUpdates,
+  }) async {
+    try {
+      final List<Object2> attachments = attachmentUpdates
+          .map((MessageAttachmentUpdate update) => Object2(update.toJson()))
+          .toList();
+      final MessageResponseSchema schema = await _client.channels.editMessage(
+        channelId: channelId,
+        messageId: messageId,
+        content: content,
+        attachments: attachments,
+      );
+      final Message message = Message.fromSdk(
+        schema,
+        currentUserId: _currentUserId,
+      ).copyWith(isMentioned: false);
+      await _db.messageDao.upsertMessage(message.toCompanion());
+      return message;
+    } on DioException catch (e) {
+      throw Exception(dioExceptionMessage(e, 'Failed to edit attachments'));
     }
   }
 

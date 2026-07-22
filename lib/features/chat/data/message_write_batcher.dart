@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/talker.dart';
 
 const int kMessageWriteBatchMs = 50;
 const int kMessageWriteBatchMaxSize = 50;
+const int kMessageWriteMinIntervalMs = 150;
 
 typedef MessageWriteBatcherFlushCallback =
     void Function(Map<String, String> channelLastMessageIds);
@@ -16,17 +17,22 @@ class MessageWriteBatcher {
     ChannelLastMessageIndex? channelLastMessageIndex,
     Duration window = const Duration(milliseconds: kMessageWriteBatchMs),
     int maxBatchSize = kMessageWriteBatchMaxSize,
+    Duration minIntervalBetweenFlushes = const Duration(
+      milliseconds: kMessageWriteMinIntervalMs,
+    ),
     MessageWriteBatcherFlushCallback? onFlush,
   }) : _database = database,
        _channelLastMessageIndex = channelLastMessageIndex,
        _window = window,
        _maxBatchSize = maxBatchSize,
+       _minIntervalBetweenFlushes = minIntervalBetweenFlushes,
        _onFlush = onFlush;
 
   final FluxerDatabase _database;
   final ChannelLastMessageIndex? _channelLastMessageIndex;
   final Duration _window;
   final int _maxBatchSize;
+  final Duration _minIntervalBetweenFlushes;
   final MessageWriteBatcherFlushCallback? _onFlush;
 
   final List<MessagesCompanion> _pendingMessages = <MessagesCompanion>[];
@@ -36,6 +42,7 @@ class MessageWriteBatcher {
   Timer? _timer;
   Future<void>? _flushing;
   int _totalPending = 0;
+  DateTime? _lastFlushAt;
 
   void enqueueMessage({
     required MessagesCompanion companion,
@@ -50,9 +57,17 @@ class MessageWriteBatcher {
     }
     _totalPending += 1;
     _scheduleFlush();
-    if (_totalPending >= _maxBatchSize) {
+    if (_totalPending >= _maxBatchSize && _canFlushImmediately()) {
       unawaited(flush());
     }
+  }
+
+  bool _canFlushImmediately() {
+    final DateTime? lastFlush = _lastFlushAt;
+    if (lastFlush == null) {
+      return true;
+    }
+    return DateTime.now().difference(lastFlush) >= _minIntervalBetweenFlushes;
   }
 
   Future<void> flushChannel(String channelId) async {
@@ -80,12 +95,25 @@ class MessageWriteBatcher {
   Future<void> dispose() => flush();
 
   void _scheduleFlush() {
-    _timer ??= Timer(_window, () {
+    if (_timer != null) {
+      return;
+    }
+    final DateTime now = DateTime.now();
+    final DateTime? lastFlush = _lastFlushAt;
+    Duration delay = _window;
+    if (lastFlush != null) {
+      final Duration sinceLastFlush = now.difference(lastFlush);
+      if (sinceLastFlush < _minIntervalBetweenFlushes) {
+        delay = _minIntervalBetweenFlushes - sinceLastFlush;
+      }
+    }
+    _timer = Timer(delay, () {
       unawaited(flush());
     });
   }
 
   Future<void> _applyFlush() async {
+    _lastFlushAt = DateTime.now();
     final List<MessagesCompanion> messages = List<MessagesCompanion>.from(
       _pendingMessages,
     );

@@ -21,7 +21,7 @@ class GuildAuditLog extends _$GuildAuditLog {
   AuditLogActionType? _selectedActionType;
 
   @override
-  Future<GuildAuditLogState> build(String guildId) async {
+  Future<GuildAuditLogState> build(String guildId) {
     return _loadState();
   }
 
@@ -105,7 +105,7 @@ class GuildAuditLog extends _$GuildAuditLog {
     );
   }
 
-  Future<GuildAuditLogPage> _fetchPage({String? before}) async {
+  Future<GuildAuditLogPage> _fetchPage({String? before}) {
     return ref
         .read(guildSettingsRepositoryProvider)
         .listAuditLogs(

@@ -85,11 +85,11 @@ class ChannelListViewModel extends _$ChannelListViewModel {
             final categories = groupChannelsIntoCategories(channels);
             _categoryCache[guildId] = categories;
             state = state.copyWith(categories: categories);
-            final Map<String, int> cachedBits = ref.read(
+            final ChannelPermissionCaches cachedBits = ref.read(
               channelPermissionCacheProvider,
             );
             final bool allChannelsCached = channels.every(
-              (Channel channel) => cachedBits.containsKey(channel.id),
+              (Channel channel) => cachedBits.hasEffectiveBits(channel.id),
             );
             if (!allChannelsCached) {
               unawaited(

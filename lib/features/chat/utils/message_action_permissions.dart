@@ -45,12 +45,7 @@ bool canDeleteMessage({
   return hasPermission(channelPermissionBits, Permission.manageMessages);
 }
 
-/// Whether the current user can manage other users' messages in this
-/// channel (delete-all-reactions, force-suppress, etc.).
-///
-/// DMs never grant moderator powers. Guild channels gate on
-/// `MANAGE_MESSAGES`. Mirrors the web app's
-/// `Permission.can(MANAGE_MESSAGES, {channelId})` check.
+/// Whether the current user can manage messages in this channel.
 bool canManageMessagesInChannel({
   required bool isDmChannel,
   int? channelPermissionBits,
@@ -64,10 +59,7 @@ bool canManageMessagesInChannel({
   return hasPermission(channelPermissionBits, Permission.manageMessages);
 }
 
-/// Whether the current user can pin or unpin a message in this channel.
-///
-/// DMs allow either participant to pin (web parity). Guild channels gate
-/// on `PIN_MESSAGES` or `MANAGE_MESSAGES`.
+/// Whether the current user can pin messages in this channel.
 bool canPinMessageInChannel({
   required bool isDmChannel,
   int? channelPermissionBits,
@@ -86,9 +78,7 @@ bool canPinMessageInChannel({
       hasPermission(channelPermissionBits, Permission.manageMessages);
 }
 
-/// Whether the current user can add a new reaction in this channel.
-///
-/// DMs always allow reactions. Guild channels gate on `ADD_REACTIONS`.
+/// Whether the current user can add reactions in this channel.
 bool canAddReactionsInChannel({
   required bool isDmChannel,
   int? channelPermissionBits,
@@ -107,14 +97,7 @@ bool canAddReactionsInChannel({
   return hasPermission(channelPermissionBits, Permission.addReactions);
 }
 
-/// Whether the suppress/unsuppress-embeds action should be offered on
-/// [message].
-///
-/// Mirrors the web app's gate: author can always toggle their own
-/// message; moderators with `MANAGE_MESSAGES` (channels only, never
-/// DMs) can toggle on others' messages. Hidden entirely when the
-/// message has no embeds and they aren't currently suppressed — there
-/// is nothing to toggle.
+/// Whether the current user can toggle embed suppression on [message].
 bool canSuppressEmbedsOnMessage({
   required Message message,
   required bool isOwnMessage,
@@ -131,4 +114,39 @@ bool canSuppressEmbedsOnMessage({
     return true;
   }
   return !isDmChannel && canDelete;
+}
+
+/// Whether the current user can delete an attachment from [message].
+bool canDeleteAttachmentOnMessage({
+  required Message message,
+  required bool isOwnMessage,
+  bool isSendDisabled = false,
+}) {
+  if (!isOwnMessage) {
+    return false;
+  }
+  if (!isMessageTypeDeletable(message.type)) {
+    return false;
+  }
+  return !isSendDisabled;
+}
+
+/// Whether the current user can edit the alt text of [attachment].
+bool canEditAttachmentAltText({
+  required Message message,
+  required bool isOwnMessage,
+  required Attachment attachment,
+  required bool canManageMessages,
+  required bool isDmChannel,
+}) {
+  if (!attachment.isPreviewMedia) {
+    return false;
+  }
+  if (isOwnMessage) {
+    return true;
+  }
+  if (isDmChannel) {
+    return false;
+  }
+  return canManageMessages;
 }

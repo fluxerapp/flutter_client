@@ -110,3 +110,31 @@ List<String> presentableTypingUsersInChannel(Ref ref, String channelId) {
       if (!blockedIds.contains(id)) id,
   ];
 }
+
+const Duration _kSidebarTypingRecentWindow = Duration(seconds: 5);
+
+/// Whether a remote user is typing in [channelId] within the last 5 seconds.
+@riverpod
+bool channelHasRecentTyping(Ref ref, String channelId) {
+  final String? currentUserId = ref.watch(currentUserIdProvider);
+  final Map<String, DateTime>? entries = ref.watch(
+    typingIndicatorsProvider.select((m) => m[channelId]),
+  );
+  if (entries == null || entries.isEmpty) {
+    return false;
+  }
+  final DateTime now = clock.now();
+  for (final MapEntry<String, DateTime> e in entries.entries) {
+    if (e.key == currentUserId) {
+      continue;
+    }
+    if (!e.value.isAfter(now)) {
+      continue;
+    }
+    final DateTime startedAt = e.value.subtract(kTypingExpiry);
+    if (now.difference(startedAt) < _kSidebarTypingRecentWindow) {
+      return true;
+    }
+  }
+  return false;
+}

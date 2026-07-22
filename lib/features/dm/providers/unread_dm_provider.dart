@@ -149,6 +149,8 @@ class UnreadDmChannels extends _$UnreadDmChannels {
         channelLastMessageId: channel.lastMessageId,
         ackLastMessageId: readState?.lastMessageId,
         mentionCount: readState?.mentionCount ?? 0,
+        channelLastMessageExistsInCache:
+            lastMessages[channel.id]?.id == channel.lastMessageId,
       );
       final hasUnreadMessages =
           (latestMessageId == null && channel.unreadCount > 0) ||

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
@@ -18,8 +16,10 @@ import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
+import 'package:fluxer_markdown/src/utils/emoji_asset_cache.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
+import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
 import 'package:intl/intl.dart';
 import 'package:latext/latext.dart';
 import 'package:markdown/markdown.dart' as md;
@@ -523,10 +523,11 @@ class _MarkdownBlockRenderer {
   }
 
   Widget _buildTable(md.Element table) {
-    const double minCellWidth = 80;
-    const EdgeInsets cellPadding = EdgeInsets.symmetric(
-      horizontal: 12,
-      vertical: 8,
+    final double baseFontSize = baseStyle.fontSize ?? 16;
+    final double minCellWidth = baseFontSize * 5;
+    final EdgeInsets cellPadding = EdgeInsets.symmetric(
+      horizontal: baseFontSize * 0.75,
+      vertical: baseFontSize * 0.5,
     );
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final Color borderColor =
@@ -542,7 +543,6 @@ class _MarkdownBlockRenderer {
         config.tableRowEvenBackgroundColor ?? Colors.transparent;
     final BorderRadius borderRadius =
         config.tableBorderRadius ?? const BorderRadius.all(Radius.circular(6));
-    final double baseFontSize = baseStyle.fontSize ?? 16;
     final TextStyle tableStyle = baseStyle.copyWith(
       fontSize: baseFontSize * 0.875,
       height: 1.4,
@@ -550,6 +550,7 @@ class _MarkdownBlockRenderer {
     final TextStyle headerStyle = tableStyle.copyWith(
       color: headerTextColor,
       fontWeight: FontWeight.w600,
+      height: baseStyle.height,
     );
     final BorderSide borderSide = BorderSide(color: borderColor);
     final List<TableRow> tableRows = <TableRow>[];
@@ -603,7 +604,7 @@ class _MarkdownBlockRenderer {
       for (int i = 0; i < columnCount; i++) i: const IntrinsicColumnWidth(),
     };
     final Widget tableWidget = Table(
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+      defaultVerticalAlignment: TableCellVerticalAlignment.intrinsicHeight,
       columnWidths: columnWidths,
       border: TableBorder(horizontalInside: borderSide),
       children: tableRows,
@@ -646,6 +647,7 @@ class _MarkdownBlockRenderer {
     return Container(
       constraints: BoxConstraints(minWidth: minCellWidth),
       padding: cellPadding,
+      alignment: _tableCellAlignment(textAlign, isHeader: isHeader),
       color: backgroundColor,
       child: _buildParagraph(
         cell.children ?? const [],
@@ -660,6 +662,15 @@ class _MarkdownBlockRenderer {
       'center' => TextAlign.center,
       'right' => TextAlign.right,
       _ => TextAlign.left,
+    };
+  }
+
+  Alignment _tableCellAlignment(TextAlign textAlign, {required bool isHeader}) {
+    final double vertical = isHeader ? -1 : 0;
+    return switch (textAlign) {
+      TextAlign.center => Alignment(0, vertical),
+      TextAlign.right => Alignment(1, vertical),
+      _ => Alignment(-1, vertical),
     };
   }
 }
@@ -800,7 +811,11 @@ class _MarkdownInlineRenderer {
       case FluxerGuildNavigationSyntax.tag:
         return _buildGuildNavigationMention(node, effectiveStyle);
       case FluxerTimestampSyntax.tag:
-        final timestampText = _formatTimestampText(node);
+        final timestampText = _formatTimestampText(
+          node,
+          localeName: Localizations.localeOf(context).toLanguageTag(),
+          formatter: config.timestampFormatter,
+        );
         if (timestampText == null) {
           return const TextSpan(text: '');
         }
@@ -1517,33 +1532,6 @@ class FluxerInlineCodeWidget extends StatelessWidget {
   }
 }
 
-class FluxerSvgCache {
-  FluxerSvgCache._();
-
-  static final _cache = <String, Future<Uint8List>>{};
-
-  static Future<Uint8List> load(String url) {
-    return _cache.putIfAbsent(url, () async {
-      final uri = Uri.parse(url);
-      final response = await HttpClient().getUrl(uri).then((r) => r.close());
-      if (response.statusCode != HttpStatus.ok) {
-        throw HttpException(
-          'Twemoji load failed: ${response.statusCode}',
-          uri: uri,
-        );
-      }
-      final builder = BytesBuilder();
-      await response.forEach(builder.add);
-      return builder.toBytes();
-    });
-  }
-
-  @visibleForTesting
-  static void clearCacheForTesting() {
-    _cache.clear();
-  }
-}
-
 class FluxerEmojiWidget extends StatelessWidget {
   const FluxerEmojiWidget({
     required this.element,
@@ -1572,7 +1560,7 @@ class FluxerEmojiWidget extends StatelessWidget {
   }
 
   Widget _buildSystemUnicodeEmoji(String surrogate, double size) {
-    return Text(surrogate, style: TextStyle(fontSize: size));
+    return SystemEmojiFallback(emoji: surrogate, size: size);
   }
 
   Widget _buildUnicode(double size) {
@@ -1582,7 +1570,7 @@ class FluxerEmojiWidget extends StatelessWidget {
       return _buildSystemUnicodeEmoji(surrogate, size);
     }
     return FutureBuilder<Uint8List>(
-      future: FluxerSvgCache.load(url),
+      future: EmojiAssetCache.loadBytes(url),
       builder: (context, snap) {
         if (snap.hasError) {
           return _buildSystemUnicodeEmoji(surrogate, size);
@@ -1630,7 +1618,11 @@ class FluxerEmojiWidget extends StatelessWidget {
   }
 }
 
-String? _formatTimestampText(md.Element element) {
+String? _formatTimestampText(
+  md.Element element, {
+  required String localeName,
+  FluxerTimestampFormatter? formatter,
+}) {
   final unix = int.tryParse(element.textContent);
   if (unix == null) {
     return null;
@@ -1638,36 +1630,18 @@ String? _formatTimestampText(md.Element element) {
 
   final dt = DateTime.fromMillisecondsSinceEpoch(unix * 1000);
   final flag = element.attributes['flag'] ?? 'f';
-  return switch (flag) {
-    's' => DateFormat.yMd().add_Hm().format(dt),
-    'S' => DateFormat.yMd().add_Hms().format(dt),
-    't' => DateFormat.Hm().format(dt),
-    'T' => DateFormat.Hms().format(dt),
-    'd' => DateFormat.yMd().format(dt),
-    'D' => DateFormat.yMMMMd().format(dt),
-    'F' => DateFormat.yMMMMEEEEd().add_Hm().format(dt),
-    'R' => _relative(dt),
-    _ => DateFormat.yMMMMd().add_Hm().format(dt),
-  };
-}
-
-String _relative(DateTime dt) {
-  final diff = dt.difference(DateTime.now());
-  final abs = diff.abs();
-  final future = !diff.isNegative;
-  final String label;
-  if (abs.inSeconds < 60) {
-    label = '${abs.inSeconds} seconds';
-  } else if (abs.inMinutes < 60) {
-    label = '${abs.inMinutes} minutes';
-  } else if (abs.inHours < 24) {
-    label = '${abs.inHours} hours';
-  } else if (abs.inDays < 30) {
-    label = '${abs.inDays} days';
-  } else if (abs.inDays < 365) {
-    label = '${abs.inDays ~/ 30} months';
-  } else {
-    label = '${abs.inDays ~/ 365} years';
+  if (formatter != null) {
+    return formatter(dt, flag);
   }
-  return future ? 'in $label' : '$label ago';
+  return switch (flag) {
+    's' => DateFormat.yMd(localeName).add_Hm().format(dt),
+    'S' => DateFormat.yMd(localeName).add_Hms().format(dt),
+    't' => DateFormat.Hm(localeName).format(dt),
+    'T' => DateFormat.Hms(localeName).format(dt),
+    'd' => DateFormat.yMd(localeName).format(dt),
+    'D' => DateFormat.yMMMMd(localeName).format(dt),
+    'F' => DateFormat.yMMMMEEEEd(localeName).add_Hm().format(dt),
+    'R' => DateFormat.yMMMd(localeName).add_Hm().format(dt),
+    _ => DateFormat.yMMMMd(localeName).add_Hm().format(dt),
+  };
 }

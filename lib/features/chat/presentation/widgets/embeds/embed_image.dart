@@ -2,6 +2,7 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
@@ -25,6 +26,7 @@ class EmbedImage extends StatelessWidget {
   final String? channelId;
   final String? messageId;
   final int? embedIndex;
+  final MessageMediaActionScope? mediaActionScope;
 
   const EmbedImage({
     required this.embed,
@@ -36,6 +38,7 @@ class EmbedImage extends StatelessWidget {
     this.channelId,
     this.messageId,
     this.embedIndex,
+    this.mediaActionScope,
     super.key,
   });
 
@@ -86,6 +89,7 @@ class EmbedImage extends StatelessWidget {
                           media: media,
                           title: embed.title,
                           animated: animate,
+                          embedIndex: embedIndex,
                         ),
                       ],
                       onForward:
@@ -99,6 +103,7 @@ class EmbedImage extends StatelessWidget {
                               embedIndices: <int>[embedIndex!],
                             )
                           : null,
+                      actionScope: mediaActionScope,
                     )
                   : null,
               child: animate

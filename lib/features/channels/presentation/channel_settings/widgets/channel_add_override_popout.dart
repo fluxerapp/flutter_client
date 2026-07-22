@@ -97,20 +97,19 @@ class _ChannelAddOverridePopoutState
   }
 
   List<db.Role> get _availableRoles {
-    final List<db.Role> roles = widget.rolesById.values
+    return widget.rolesById.values
         .where(
           (db.Role role) =>
               role.id != widget.guildId &&
               !widget.existingOverwriteIds.contains(role.id),
         )
-        .toList();
-    roles.sort((db.Role a, db.Role b) {
-      if (a.position != b.position) {
-        return b.position.compareTo(a.position);
-      }
-      return BigInt.parse(a.id).compareTo(BigInt.parse(b.id));
-    });
-    return roles;
+        .toList()
+      ..sort((db.Role a, db.Role b) {
+        if (a.position != b.position) {
+          return b.position.compareTo(a.position);
+        }
+        return BigInt.parse(a.id).compareTo(BigInt.parse(b.id));
+      });
   }
 
   List<Member> get _availableMembers {

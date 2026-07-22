@@ -2,6 +2,7 @@ import 'package:cached_network_image_ce/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_thumbhash/flutter_thumbhash.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/media/embed_animated_image.dart';
@@ -23,6 +24,7 @@ class AttachmentImage extends StatelessWidget {
   final int imageGalleryIndex;
   final String? channelId;
   final String? messageId;
+  final MessageMediaActionScope? mediaActionScope;
 
   const AttachmentImage({
     required this.attachment,
@@ -33,6 +35,7 @@ class AttachmentImage extends StatelessWidget {
     this.imageGalleryIndex = 0,
     this.channelId,
     this.messageId,
+    this.mediaActionScope,
     super.key,
   });
 
@@ -83,6 +86,7 @@ class AttachmentImage extends StatelessWidget {
                           attachmentIds: <String>[gallery[index].id],
                         )
                       : null,
+                  actionScope: mediaActionScope,
                 ),
           child: AspectRatio(
             aspectRatio: _resolveAspectRatio(),
@@ -151,6 +155,9 @@ class AttachmentImage extends StatelessWidget {
       width: value.width,
       height: value.height,
       isMatureMedia: value.isMatureMedia,
+      attachmentId: value.id,
+      proxyUrl: value.proxyUrl,
+      isExpired: value.expired ?? false,
     );
   }
 }

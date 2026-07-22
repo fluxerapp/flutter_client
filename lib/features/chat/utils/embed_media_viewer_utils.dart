@@ -14,6 +14,7 @@ AttachmentMediaViewerItem buildEmbedMediaViewerItem({
   required EmbedMedia media,
   String? title,
   bool animated = false,
+  int? embedIndex,
 }) {
   final String url = animated
       ? animatedEmbedImageUrl(embedMediaEffectiveUrl(media))
@@ -23,6 +24,7 @@ AttachmentMediaViewerItem buildEmbedMediaViewerItem({
     filename: resolveEmbedMediaViewerFilename(url: url, title: title),
     width: media.width,
     height: media.height,
+    embedIndex: embedIndex,
   );
 }
 

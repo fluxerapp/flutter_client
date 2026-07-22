@@ -95,7 +95,7 @@ Dio _buildFluxerDio({required Ref ref, required String baseUrl}) {
       TalkerDioLogger(
         settings: const TalkerDioLoggerSettings(
           printResponseTime: true,
-          printRequestHeaders: true,
+          printResponseData: false,
         ),
       ),
     );

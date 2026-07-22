@@ -5,8 +5,8 @@ import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/snowflake_time.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:intl/intl.dart';
 
 Future<void> showGuildMessageHistoryThresholdSheet({
   required BuildContext context,
@@ -104,7 +104,7 @@ class _GuildMessageHistoryThresholdSheetState
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final String dateLabel = _thresholdDate == null
         ? l10n.guildSettingsMessageHistoryThresholdDate
-        : DateFormat.yMMMd().format(_thresholdDate!);
+        : formatUserMediumDate(_thresholdDate!, l10n.localeName);
     return Padding(
       padding: EdgeInsets.all(context.layout.s4),
       child: Column(

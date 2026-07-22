@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/emoji_sear
 import 'package:fluxer_app/features/chat/presentation/widgets/pickers/expression_picker.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
+import 'package:fluxer_app/features/chat/providers/pickers/expression_panel_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/sticker_picker_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/gestures/expandable_sheet_gestures.dart';
@@ -22,6 +23,7 @@ class ExpressionPanelContent extends ConsumerStatefulWidget {
   const ExpressionPanelContent({
     required this.onClose,
     required this.scrollController,
+    required this.searchFocusNode,
     this.onEmojiSelect,
     this.onGifSelect,
     this.onStickerSelect,
@@ -38,6 +40,7 @@ class ExpressionPanelContent extends ConsumerStatefulWidget {
   final ValueChanged<StickerEntry>? onStickerSelect;
   final ValueChanged<FavoriteMemeSelection>? onFavoriteMemeSelect;
   final VoidCallback? onSearchActivated;
+  final FocusNode searchFocusNode;
   final ExpandableSheetDragHandlers? sheetDragHandlers;
 
   @override
@@ -49,7 +52,6 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     with SingleTickerProviderStateMixin {
   static const Duration _kSearchDebounce = Duration(milliseconds: 120);
 
-  ExpressionPickerTab _selectedTab = ExpressionPickerTab.emojis;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   Timer? _searchDebounce;
@@ -75,7 +77,18 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
       parent: _fadeController,
       curve: Curves.easeOut,
     );
-    unawaited(_fadeController.forward());
+    final bool shouldFade = !ref.read(expressionPanelContentFadeProvider);
+    if (shouldFade) {
+      unawaited(_fadeController.forward());
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          return;
+        }
+        ref.read(expressionPanelContentFadeProvider.notifier).markPlayed();
+      });
+    } else {
+      _fadeController.value = 1;
+    }
   }
 
   @override
@@ -113,11 +126,14 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     final String? channelId = ref.watch(
       chatViewModelProvider.select((state) => state.channelId),
     );
+    final ExpressionPickerTab selectedTab = ref.watch(
+      expressionPanelTabProvider,
+    );
     return FadeTransition(
       opacity: _contentFade,
       child: Column(
         children: <Widget>[
-          _buildDraggableChrome(context, skinTone),
+          _buildDraggableChrome(context, skinTone, selectedTab),
           Expanded(
             child: ExpressionPicker(
               onClose: widget.onClose,
@@ -126,14 +142,14 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
               onStickerSelect: widget.onStickerSelect,
               onFavoriteMemeSelect: widget.onFavoriteMemeSelect,
               onTabChanged: (ExpressionPickerTab tab) {
-                if (tab != _selectedTab) {
+                if (tab != selectedTab) {
                   if (widget.scrollController.hasClients) {
                     widget.scrollController.jumpTo(0);
                   }
-                  setState(() => _selectedTab = tab);
+                  ref.read(expressionPanelTabProvider.notifier).tab = tab;
                 }
               },
-              initialTab: _selectedTab,
+              initialTab: selectedTab,
               showTabs: false,
               searchController: _searchController,
               searchQuery: _searchQuery,
@@ -145,6 +161,7 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
               contentSearchTopPadding: kExpressionPanelSearchTopPadding,
               contentSearchBottomPadding: kExpressionPanelSearchBottomPadding,
               onSearchActivated: widget.onSearchActivated,
+              searchFocusNode: widget.searchFocusNode,
               sheetDragHandlers: widget.sheetDragHandlers,
             ),
           ),
@@ -153,19 +170,24 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     );
   }
 
-  Widget _buildDraggableChrome(BuildContext context, String skinTone) {
+  Widget _buildDraggableChrome(
+    BuildContext context,
+    String skinTone,
+    ExpressionPickerTab selectedTab,
+  ) {
     final Widget chrome = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        _buildSegmentedTabs(context),
-        if (_selectedTab == ExpressionPickerTab.emojis)
+        _buildSegmentedTabs(context, selectedTab),
+        if (selectedTab == ExpressionPickerTab.emojis)
           EmojiSearchBar(
             controller: _searchController,
             skinTone: skinTone,
             onSkinToneChanged: (String tone) =>
                 unawaited(ref.read(emojiSkinToneProvider.notifier).set(tone)),
             horizontalPadding: kExpressionPanelSearchHorizontalPadding,
+            focusNode: widget.searchFocusNode,
             onActivated: widget.onSearchActivated,
           ),
       ],
@@ -177,7 +199,10 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
     return handlers.wrapChrome(chrome);
   }
 
-  Widget _buildSegmentedTabs(BuildContext context) {
+  Widget _buildSegmentedTabs(
+    BuildContext context,
+    ExpressionPickerTab selectedTab,
+  ) {
     final colors = context.colors;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -190,15 +215,15 @@ class _ExpressionPanelContentState extends ConsumerState<ExpressionPanelContent>
           padding: const EdgeInsets.all(3),
           child: Row(
             children: _kVisibleTabs.map((ExpressionPickerTab tab) {
-              final bool isActive = tab == _selectedTab;
+              final bool isActive = tab == selectedTab;
               return Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    if (tab != _selectedTab) {
+                    if (tab != selectedTab) {
                       if (widget.scrollController.hasClients) {
                         widget.scrollController.jumpTo(0);
                       }
-                      setState(() => _selectedTab = tab);
+                      ref.read(expressionPanelTabProvider.notifier).tab = tab;
                     }
                   },
                   child: AnimatedContainer(

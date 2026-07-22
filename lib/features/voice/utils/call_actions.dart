@@ -52,6 +52,15 @@ Future<StartDirectVoiceCallResult> startDirectVoiceCall(
       joinAttemptFailed: false,
     );
   }
+  if (!context.mounted) {
+    return (
+      ok: false,
+      microphoneDenied: true,
+      cameraDenied: false,
+      notEligible: false,
+      joinAttemptFailed: false,
+    );
+  }
   if (startWithVideo) {
     final bool camOk = await ensureSystemPermission(
       context,

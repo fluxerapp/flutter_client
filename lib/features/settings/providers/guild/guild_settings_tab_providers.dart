@@ -54,10 +54,16 @@ Future<GuildSettingsDetails> guildSettingsOverview(
 @riverpod
 class GuildSettingsOverviewActions extends _$GuildSettingsOverviewActions {
   @override
+  // Action notifier base type for Riverpod mutations.
+  // ignore: avoid_futureor_void
   FutureOr<void> build(String guildId) {}
 
   Future<void> updateGuild(GuildUpdateRequest body) async {
+    // Async notifier loading state for void action providers.
+    // ignore: void_checks
     state = const AsyncLoading<void>();
+    // Async notifier result state for void action providers.
+    // ignore: void_checks
     state = await AsyncValue.guard(() async {
       await ref
           .read(guildSettingsRepositoryProvider)
@@ -78,16 +84,23 @@ Future<GuildSettingsDetails> guildSettingsModeration(
 @riverpod
 class GuildSettingsModerationActions extends _$GuildSettingsModerationActions {
   @override
+  // Action notifier base type for Riverpod mutations.
+  // ignore: avoid_futureor_void
   FutureOr<void> build(String guildId) {}
 
   Future<void> updateModeration(GuildUpdateRequest body) async {
+    // Async notifier loading state for void action providers.
+    // ignore: void_checks
     state = const AsyncLoading<void>();
+    // Async notifier result state for void action providers.
+    // ignore: void_checks
     state = await AsyncValue.guard(() async {
       await ref
           .read(guildSettingsRepositoryProvider)
           .updateGuild(guildId: guildId, body: body);
-      ref.invalidate(guildSettingsModerationProvider(guildId));
-      ref.invalidate(guildSettingsOverviewProvider(guildId));
+      ref
+        ..invalidate(guildSettingsModerationProvider(guildId))
+        ..invalidate(guildSettingsOverviewProvider(guildId));
     });
   }
 }

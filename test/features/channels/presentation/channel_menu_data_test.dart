@@ -206,9 +206,41 @@ void main() {
         state: state,
       );
       final List<ChannelMenuAction> actions = flattenChannelMenuActions(groups);
+      final List<String> labels = flattenChannelMenuLabels(groups);
       expect(actions, contains(ChannelMenuAction.notificationSettings));
       expect(actions, isNot(contains(ChannelMenuAction.mute)));
       expect(actions, contains(ChannelMenuAction.openLink));
+      expect(actions, contains(ChannelMenuAction.copyRedirectLink));
+      expect(actions, contains(ChannelMenuAction.copyLink));
+      expect(labels, contains('Copy channel link'));
+      expect(labels, contains('Copy redirect link'));
+    });
+
+    test('hides redirect link action on non-link channels', () {
+      final ChannelMenuState state = resolveChannelMenuState(
+        channel: textChannel,
+        guild: guild,
+        parentCategory: null,
+        permissionBits: Permission.viewChannel.value,
+        hasUnread: false,
+        showFavorites: false,
+        isFavorite: false,
+        isMuted: false,
+        developerMode: false,
+        nsfwAllowed: true,
+        hasAgreedToMatureContent: false,
+        voiceChannelJoinRequiresDoubleClick: false,
+      );
+      final List<ChannelMenuGroup> groups = buildChannelMenuGroups(
+        l10n: l10n,
+        state: state,
+      );
+      final List<ChannelMenuAction> actions = flattenChannelMenuActions(groups);
+      final List<String> labels = flattenChannelMenuLabels(groups);
+      expect(actions, contains(ChannelMenuAction.copyLink));
+      expect(actions, isNot(contains(ChannelMenuAction.copyRedirectLink)));
+      expect(labels, contains('Copy Link'));
+      expect(labels, isNot(contains('Copy redirect link')));
     });
 
     test('orders destructive actions last and marks them danger', () {

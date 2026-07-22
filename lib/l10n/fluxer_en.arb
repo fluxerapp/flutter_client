@@ -5500,6 +5500,30 @@
   "@accessibilityDmMessagePreviewNoneDescription": {
     "description": "Radio option description for hiding DM message previews."
   },
+  "accessibilityMediaButtonsGroupTitle": "Media Buttons",
+  "@accessibilityMediaButtonsGroupTitle": {
+    "description": "Section title for media button visibility settings on the accessibility settings page."
+  },
+  "accessibilityMediaButtonsGroupDescription": "Customize which buttons appear on media attachments and embeds.",
+  "@accessibilityMediaButtonsGroupDescription": {
+    "description": "Section description for media button visibility settings on the accessibility settings page."
+  },
+  "accessibilityShowMediaDeleteButtonLabel": "Show delete button",
+  "@accessibilityShowMediaDeleteButtonLabel": {
+    "description": "Toggle label for showing the delete button on media."
+  },
+  "accessibilityShowMediaDownloadButtonLabel": "Show download button",
+  "@accessibilityShowMediaDownloadButtonLabel": {
+    "description": "Toggle label for showing the download button on media."
+  },
+  "accessibilityShowMediaFavoriteButtonLabel": "Show favorite button",
+  "@accessibilityShowMediaFavoriteButtonLabel": {
+    "description": "Toggle label for showing the favorite button on media."
+  },
+  "accessibilityShowSuppressEmbedsButtonLabel": "Show suppress embeds button",
+  "@accessibilityShowSuppressEmbedsButtonLabel": {
+    "description": "Toggle label for showing the suppress embeds button on media."
+  },
   "dmListSentAnAttachment": "Sent an attachment",
   "@dmListSentAnAttachment": {
     "description": "DM list row preview text when the most recent message has only attachments."
@@ -5755,6 +5779,14 @@
   "voiceConnectionConfirmDoNothing": "Do nothing, I don't want to join",
   "@voiceConnectionConfirmDoNothing": {
     "description": "Dismiss the dialog without joining voice."
+  },
+  "voiceJoinFailedTitle": "Couldn't Join Voice",
+  "@voiceJoinFailedTitle": {
+    "description": "Title for the modal shown when a voice join attempt fails."
+  },
+  "voiceMultiDeviceDisconnectFailed": "Couldn't disconnect your other devices. Try again in a moment.",
+  "@voiceMultiDeviceDisconnectFailed": {
+    "description": "Shown when switch-to-this-device times out waiting for other sessions to leave."
   },
   "voiceChannelEmptyDescription": "This is a voice channel. Connect to start talking!",
   "@voiceChannelEmptyDescription": {
@@ -6271,6 +6303,35 @@
   "forwardCommentSlowmodeDisabled": "Comments are unavailable because a selected channel has slowmode enabled.",
   "@forwardCommentSlowmodeDisabled": {
     "description": "Notice shown in the forward sheet when the optional comment is disabled due to slowmode on a selected destination."
+  },
+  "shareMediaTitle": "Share to",
+  "@shareMediaTitle": {
+    "description": "Title of the share-media bottom sheet."
+  },
+  "shareMediaMessageHint": "Add an optional message…",
+  "@shareMediaMessageHint": {
+    "description": "Placeholder for the optional message field in the share-media sheet."
+  },
+  "shareMediaSendButton": "Send",
+  "@shareMediaSendButton": {
+    "description": "Share-media sheet send button label."
+  },
+  "shareMediaSuccessToast": "Media shared",
+  "@shareMediaSuccessToast": {
+    "description": "Toast shown after shared media is sent to all selected destinations."
+  },
+  "shareMediaPartialSuccessToast": "Shared to {count} destinations",
+  "@shareMediaPartialSuccessToast": {
+    "description": "Toast shown when shared media is sent to some but not all selected destinations.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shareMediaFailedToast": "Failed to share media",
+  "@shareMediaFailedToast": {
+    "description": "Toast shown when sharing media to all destinations fails."
   },
   "forwardDestinationNoSendPermission": "You can't send messages here",
   "@forwardDestinationNoSendPermission": {
@@ -6803,6 +6864,14 @@
   "@chatMessageDeleteConfirmDescription": {
     "description": "Body text for the delete message confirmation dialog."
   },
+  "chatMessageDeleteAttachment": "Delete Attachment",
+  "@chatMessageDeleteAttachment": {
+    "description": "Action label for deleting an attachment from a sent message."
+  },
+  "chatMessageEditAttachmentAltText": "Edit Alt Text",
+  "@chatMessageEditAttachmentAltText": {
+    "description": "Action label for editing the alt text of a message attachment."
+  },
   "chatMessageMore": "More",
   "@chatMessageMore": {
     "description": "Tooltip label for additional message actions."
@@ -7250,6 +7319,14 @@
   "@channelDetailsCopyLink": {
     "description": "Channel details menu action to copy a channel link."
   },
+  "channelMenuCopyChannelLink": "Copy channel link",
+  "@channelMenuCopyChannelLink": {
+    "description": "Channel menu action to copy a link channel's channel link."
+  },
+  "channelMenuCopyRedirectLink": "Copy redirect link",
+  "@channelMenuCopyRedirectLink": {
+    "description": "Channel menu action to copy a link channel's redirect URL."
+  },
   "channelDetailsAddFriendsToGroup": "Add friends to group",
   "@channelDetailsAddFriendsToGroup": {
     "description": "Group DM menu action to add friends to the group."
@@ -7331,6 +7408,38 @@
   "channelSettingsMyCategory": "My category",
   "@channelSettingsMyCategory": {
     "description": "Placeholder for category name field."
+  },
+  "categoryExpandCategory": "Expand category",
+  "@categoryExpandCategory": {
+    "description": "Context menu action to expand a collapsed channel category."
+  },
+  "categoryCollapseCategory": "Collapse category",
+  "@categoryCollapseCategory": {
+    "description": "Context menu action to collapse an expanded channel category."
+  },
+  "categoryExpandAllCategories": "Expand all categories",
+  "@categoryExpandAllCategories": {
+    "description": "Context menu action to expand every collapsed channel category."
+  },
+  "categoryCollapseAllCategories": "Collapse all categories",
+  "@categoryCollapseAllCategories": {
+    "description": "Context menu action to collapse every channel category."
+  },
+  "categoryMuteCategory": "Mute category",
+  "@categoryMuteCategory": {
+    "description": "Context menu action to mute a channel category."
+  },
+  "categoryUnmuteCategory": "Unmute category",
+  "@categoryUnmuteCategory": {
+    "description": "Context menu action to unmute a channel category."
+  },
+  "categoryCopyCategoryId": "Copy category ID",
+  "@categoryCopyCategoryId": {
+    "description": "Context menu action to copy a category ID to the clipboard."
+  },
+  "categoryIdCopied": "Category ID copied",
+  "@categoryIdCopied": {
+    "description": "Toast confirming the category ID was copied to the clipboard."
   },
   "channelSettingsChannelNamePlaceholder": "general",
   "@channelSettingsChannelNamePlaceholder": {
@@ -9440,6 +9549,18 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "mentionConfirmRoleBody": "This will notify {count} members with the {roleName} role. Continue?",
+  "@mentionConfirmRoleBody": {
+    "description": "Body of the large role mention confirmation dialog.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "roleName": {
+        "type": "String"
       }
     }
   },

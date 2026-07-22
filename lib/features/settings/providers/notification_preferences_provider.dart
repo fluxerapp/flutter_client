@@ -58,6 +58,9 @@ class NotificationPreferences extends _$NotificationPreferences {
     required bool value,
   }) async {
     if (value) {
+      final BuildContext? modalContext = resolveSystemPermissionContext(
+        context,
+      );
       final SystemPermissionOutcome outcome = await requestSystemPermission(
         SystemPermissionKind.notifications,
       );
@@ -66,10 +69,7 @@ class NotificationPreferences extends _$NotificationPreferences {
         ..invalidate(pushNotificationRequiresSystemSettingsProvider);
       if (outcome != SystemPermissionOutcome.granted) {
         if (outcome == SystemPermissionOutcome.requiresSettings) {
-          final BuildContext? modalContext = resolveSystemPermissionContext(
-            context,
-          );
-          if (modalContext != null) {
+          if (modalContext != null && modalContext.mounted) {
             await SystemPermissionSettingsPrompt.show(
               modalContext,
               kind: SystemPermissionKind.notifications,

@@ -296,10 +296,11 @@ class ReadStateRepository {
       channelLastMessageId: channelLastMessageId,
     );
     final latestForUnread = resolveLatestMessageIdForUnread(
-      strictLatestMessageId: resolved,
+      strictLatestMessageId: resolved.id,
       channelLastMessageId: channelLastMessageId,
       ackLastMessageId: readState?.lastMessageId,
       mentionCount: readState?.mentionCount ?? 0,
+      channelLastMessageExistsInCache: resolved.existsInCache,
     );
     if (latestForUnread != null && latestForUnread.isNotEmpty) {
       return latestForUnread;
@@ -402,6 +403,129 @@ class ReadStateRepository {
         allowDecrease: true,
       );
     }
+  }
+
+  /// Reconciles read state after messages are deleted from a channel.
+  /// Walks the channel/DM tail back when the deleted message was the tail,
+  /// recomputes mention counts from remaining cached messages, and refreshes
+  /// the DM unread counter.
+  Future<void> reconcileAfterMessageDelete({
+    required String channelId,
+    required List<String> deletedMessageIds,
+    required String? currentUserId,
+  }) async {
+    final channel = await _db.channelDao.getChannelById(channelId);
+    final dm = channel == null
+        ? await _db.dmChannelDao.getDmChannelById(channelId)
+        : null;
+    final deletedSet = deletedMessageIds.toSet();
+
+    final bool wasChannelTail =
+        channel?.lastMessageId != null &&
+        deletedSet.contains(channel!.lastMessageId);
+    final bool wasDmTail =
+        dm?.lastMessageId != null && deletedSet.contains(dm!.lastMessageId);
+
+    Message? lastCachedAfterTailWalk;
+    if (wasChannelTail || wasDmTail) {
+      lastCachedAfterTailWalk = await _db.messageDao.getLastMessage(channelId);
+      if (wasChannelTail) {
+        await _db.channelDao.setLastMessageId(
+          channelId,
+          lastCachedAfterTailWalk?.id,
+        );
+      }
+      if (wasDmTail) {
+        await _db.dmChannelDao.setLastMessage(
+          channelId: channelId,
+          messageId: lastCachedAfterTailWalk?.id,
+          message: lastCachedAfterTailWalk?.content,
+          authorId: lastCachedAfterTailWalk?.authorId,
+          timestamp: lastCachedAfterTailWalk?.timestamp,
+        );
+      }
+    }
+
+    var readState = await _db.readStateDao.getReadState(channelId);
+    if (readState != null &&
+        !readState.manual &&
+        (wasChannelTail || wasDmTail)) {
+      final String? ackMessageId = readState.lastMessageId;
+      final bool hasRemainingUnreadAfterAck = await _hasRemainingUnreadAfterAck(
+        channelId: channelId,
+        ackMessageId: ackMessageId,
+        deletedSet: deletedSet,
+      );
+      if (!hasRemainingUnreadAfterAck) {
+        final String? effectiveTail = lastCachedAfterTailWalk?.id;
+        String? ackTarget;
+        if (effectiveTail != null && effectiveTail.isNotEmpty) {
+          if (ackMessageId == null ||
+              ackMessageId.isEmpty ||
+              compareSnowflakeIds(ackMessageId, effectiveTail) < 0) {
+            ackTarget = effectiveTail;
+          }
+        } else {
+          for (final deletedId in deletedMessageIds) {
+            if (ackMessageId == null ||
+                ackMessageId.isEmpty ||
+                compareSnowflakeIds(ackMessageId, deletedId) < 0) {
+              if (ackTarget == null ||
+                  compareSnowflakeIds(deletedId, ackTarget) > 0) {
+                ackTarget = deletedId;
+              }
+            }
+          }
+        }
+        if (ackTarget != null) {
+          await applyLocalAck(
+            channelId: channelId,
+            messageId: ackTarget,
+            mentionCount: 0,
+          );
+          readState = await _db.readStateDao.getReadState(channelId);
+        }
+      }
+    }
+
+    await recomputeMentionsAfterBackfill(
+      channelId: channelId,
+      currentUserId: currentUserId,
+      allowDecrease: true,
+    );
+
+    if (dm != null) {
+      readState = await _db.readStateDao.getReadState(channelId);
+      final updatedDm = await _db.dmChannelDao.getDmChannelById(channelId);
+      final unreadCount = dmUnreadCountFromReadState(
+        latestMessageId: updatedDm?.lastMessageId,
+        ackLastMessageId: readState?.lastMessageId,
+        fallbackAckMs: snowflakeTimestampMs(channelId),
+        mentionCount: readState?.mentionCount ?? 0,
+        cachedUnreadCount: updatedDm?.unreadCount ?? 0,
+      );
+      await _db.dmChannelDao.updateUnreadCount(channelId, unreadCount);
+    }
+  }
+
+  Future<bool> _hasRemainingUnreadAfterAck({
+    required String channelId,
+    required String? ackMessageId,
+    required Set<String> deletedSet,
+  }) async {
+    final List<Message> candidates;
+    if (ackMessageId == null || ackMessageId.isEmpty) {
+      candidates = await _db.messageDao.getMessages(channelId, limit: 1);
+    } else {
+      candidates = await _db.messageDao.getMessagesAfter(
+        channelId,
+        ackMessageId,
+        limit: 1,
+      );
+    }
+    return candidates.any(
+      (Message message) => !deletedSet.contains(message.id),
+    );
   }
 
   Future<int> _computeMentionCountAfterAck({

@@ -566,12 +566,13 @@ void main() {
       testWidgets(
         'keeps emoji chip when composing covers adjacent typed text',
         (tester) async {
-          controller.loadWithTokens('hello :wave:');
-          controller.value = TextEditingValue(
-            text: controller.text,
-            composing: const TextRange(start: 0, end: 5),
-            selection: const TextSelection.collapsed(offset: 5),
-          );
+          controller
+            ..loadWithTokens('hello :wave:')
+            ..value = TextEditingValue(
+              text: controller.text,
+              composing: const TextRange(start: 0, end: 5),
+              selection: const TextSelection.collapsed(offset: 5),
+            );
           TextSpan? result;
 
           await tester.pumpWidget(
@@ -602,12 +603,13 @@ void main() {
       testWidgets('underlines plain text in the composing range', (
         tester,
       ) async {
-        controller.text = 'hello world';
-        controller.value = TextEditingValue(
-          text: controller.text,
-          composing: const TextRange(start: 0, end: 5),
-          selection: const TextSelection.collapsed(offset: 5),
-        );
+        controller
+          ..text = 'hello world'
+          ..value = TextEditingValue(
+            text: controller.text,
+            composing: const TextRange(start: 0, end: 5),
+            selection: const TextSelection.collapsed(offset: 5),
+          );
         TextSpan? result;
 
         await tester.pumpWidget(

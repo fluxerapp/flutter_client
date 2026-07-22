@@ -3,10 +3,10 @@ import 'package:fluxer_app/features/members/providers/guild_member_chunk_waiter.
 
 void main() {
   group('GuildMemberChunkWaiter', () {
-    test('beginRequest ignores stale chunk notifications', () async {
-      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter();
-      waiter.beginRequest('g1');
-      waiter.notifyChunk('g1', userIds: <String>['stale']);
+    test('beginRequest ignores stale chunk notifications', () {
+      final GuildMemberChunkWaiter waiter = GuildMemberChunkWaiter()
+        ..beginRequest('g1')
+        ..notifyChunk('g1', userIds: <String>['stale']);
       final int secondRequest = waiter.beginRequest('g1');
       expect(waiter.lastChunkUserIds('g1'), isEmpty);
       waiter.notifyChunk(

@@ -366,10 +366,10 @@ class _VoiceChannelControlExpandableSheetState
                 sizeBuilder:
                     (
                       BuildContext context,
-                      double height,
-                      bool isDragging,
-                      Widget stableSettings,
-                    ) {
+                      double height, {
+                      required bool isDragging,
+                      required Widget child,
+                    }) {
                       final double expansion = _expansionFor(height);
                       final double barWidth =
                           lerpDouble(collapsedWidth, maxBarWidth, expansion) ??
@@ -448,7 +448,7 @@ class _VoiceChannelControlExpandableSheetState
                                         ),
                                       ),
                                       if (_panelBodyVisible)
-                                        Expanded(child: stableSettings),
+                                        Expanded(child: child),
                                     ],
                                   );
                                 },

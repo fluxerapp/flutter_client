@@ -126,6 +126,9 @@ class _VoiceMessageComposerSheetBodyState
       return;
     } on VoiceMessageRecordingPermissionException catch (error) {
       if (error.requiresSettings) {
+        if (!mounted) {
+          return;
+        }
         await ensureSystemPermission(context, SystemPermissionKind.microphone);
         if (!mounted) {
           return;

@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/features/chat/data/message_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_attachment_update.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../../helpers/open_test_database.dart';
@@ -301,6 +302,93 @@ void main() {
 
     expect(await db.messageDao.getMessage(messageId), isNull);
   });
+
+  test('deleteAttachment sends DELETE to attachment endpoint', () async {
+    final db = openTestDatabase();
+    const messageId = '1501554121113600000';
+    const attachmentId = '1501554121113600001';
+    await db.messageDao.upsertMessage(
+      MessagesCompanion.insert(
+        id: messageId,
+        channelId: 'channel-1',
+        authorId: 'other',
+        content: 'hello',
+        timestamp: DateTime.utc(2026, 5, 6, 12),
+      ),
+    );
+    final adapter = _DeleteAttachmentAdapter();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final repo = MessageRepository(client, dio, db, 'me');
+
+    await repo.deleteAttachment(
+      channelId: 'channel-1',
+      messageId: messageId,
+      attachmentId: attachmentId,
+    );
+
+    expect(
+      adapter.requestedPath,
+      '/v1/channels/channel-1/messages/$messageId/attachments/$attachmentId',
+    );
+    expect(adapter.requestedMethod, 'DELETE');
+  });
+
+  test(
+    'editMessageAttachments sends PATCH with attachment references',
+    () async {
+      final db = openTestDatabase();
+      const messageId = '1501554121113600000';
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      );
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: messageId,
+          channelId: 'channel-1',
+          authorId: 'other',
+          content: 'hello',
+          timestamp: DateTime.utc(2026, 5, 6, 12),
+        ),
+      );
+      final adapter = _EditMessageAttachmentsAdapter(
+        messageId: messageId,
+        channelId: 'channel-1',
+      );
+      final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+        ..httpClientAdapter = adapter;
+      final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+      final repo = MessageRepository(client, dio, db, 'me');
+
+      final updatedMessage = await repo.editMessageAttachments(
+        channelId: 'channel-1',
+        messageId: messageId,
+        content: 'hello',
+        attachmentUpdates: const [
+          MessageAttachmentUpdate(id: 'att-1'),
+          MessageAttachmentUpdate.withDescription(
+            id: 'att-2',
+            description: 'alt text',
+          ),
+        ],
+      );
+
+      expect(adapter.requestedMethod, 'PATCH');
+      expect(
+        adapter.requestedPath,
+        '/v1/channels/channel-1/messages/$messageId',
+      );
+      expect(updatedMessage.id, messageId);
+      expect(updatedMessage.content, 'hello');
+      expect(updatedMessage.attachments.length, 2);
+      expect(updatedMessage.attachments[1].description, 'alt text');
+    },
+  );
 }
 
 class _CountingAdapter implements HttpClientAdapter {
@@ -368,6 +456,103 @@ class _StubMessagesAdapter implements HttpClientAdapter {
     if (options.method == 'GET' && path.endsWith('/messages')) {
       return ResponseBody.fromString(
         body,
+        200,
+        headers: {
+          Headers.contentTypeHeader: ['application/json'],
+        },
+      );
+    }
+    return ResponseBody.fromString('nf', 404);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+class _DeleteAttachmentAdapter implements HttpClientAdapter {
+  String? requestedPath;
+  String? requestedMethod;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    requestedPath = options.uri.path;
+    requestedMethod = options.method;
+    if (options.method == 'DELETE' &&
+        options.uri.path.contains('/attachments/')) {
+      return ResponseBody.fromString('', 204);
+    }
+    return ResponseBody.fromString('nf', 404);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+class _EditMessageAttachmentsAdapter implements HttpClientAdapter {
+  _EditMessageAttachmentsAdapter({
+    required this.messageId,
+    required this.channelId,
+  });
+
+  final String messageId;
+  final String channelId;
+  String? requestedPath;
+  String? requestedMethod;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    requestedPath = options.uri.path;
+    requestedMethod = options.method;
+    if (options.method == 'PATCH' && options.uri.path.contains('/messages/')) {
+      final response = MessageResponseSchema(
+        id: messageId,
+        channelId: channelId,
+        author: const UserPartialResponse(
+          id: 'other',
+          username: 'other',
+          discriminator: '0001',
+          globalName: null,
+          avatar: null,
+          avatarColor: null,
+          flags: 0,
+        ),
+        type: MessageResponseSchemaTypeType.valueDefault,
+        flags: 0,
+        content: 'hello',
+        timestamp: DateTime.utc(2026, 5, 6, 12),
+        pinned: false,
+        mentionEveryone: false,
+        tts: false,
+        mentions: const [],
+        mentionRoles: const [],
+        attachments: const [
+          MessageAttachmentResponse(
+            id: 'att-1',
+            filename: 'a.png',
+            size: 100,
+            flags: 0,
+            url: 'https://x/a',
+          ),
+          MessageAttachmentResponse(
+            id: 'att-2',
+            filename: 'b.png',
+            size: 100,
+            flags: 0,
+            url: 'https://x/b',
+            description: 'alt text',
+          ),
+        ],
+      );
+      return ResponseBody.fromString(
+        jsonEncode(response.toJson()),
         200,
         headers: {
           Headers.contentTypeHeader: ['application/json'],

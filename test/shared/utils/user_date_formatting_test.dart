@@ -86,4 +86,11 @@ void main() {
       expect(formatted, '14:30');
     });
   });
+
+  test('formatUserMediumDate uses the requested locale', () {
+    final DateTime sample = DateTime(2025);
+
+    expect(formatUserMediumDate(sample, 'en_US'), 'Jan 1, 2025');
+    expect(formatUserMediumDate(sample, 'de_DE'), '1. Jan. 2025');
+  });
 }

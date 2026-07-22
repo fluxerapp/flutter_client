@@ -73,12 +73,8 @@ const List<DiscoveryLanguage> discoverySupportedLanguages = <DiscoveryLanguage>[
 ];
 
 List<DiscoveryLanguage> sortedDiscoveryLanguages() {
-  final List<DiscoveryLanguage> languages = List<DiscoveryLanguage>.from(
-    discoverySupportedLanguages,
-  );
-  languages.sort(
+  return List<DiscoveryLanguage>.from(discoverySupportedLanguages)..sort(
     (DiscoveryLanguage a, DiscoveryLanguage b) =>
         a.name.toLowerCase().compareTo(b.name.toLowerCase()),
   );
-  return languages;
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/'
     'widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
+import 'package:fluxer_app/features/chat/utils/message_action_permissions.dart';
+import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -13,8 +18,8 @@ Future<MessageAction?> showMessageContextMenu(
   BuildContext context, {
   required Offset position,
   required Message message,
-  required bool isOwnMessage,
-  required bool canDelete,
+  required MessageActionPermissions permissions,
+  required MessageActionCallbacks callbacks,
   ValueChanged<QuickReactionItem>? onQuickReaction,
   List<QuickReactionItem>? quickItems,
 }) async {
@@ -30,8 +35,8 @@ Future<MessageAction?> showMessageContextMenu(
       position: local,
       overlaySize: overlay.size,
       message: message,
-      isOwnMessage: isOwnMessage,
-      canDelete: canDelete,
+      permissions: permissions,
+      callbacks: callbacks,
       onQuickReaction: onQuickReaction,
       quickItems: quickItems,
     ),
@@ -42,8 +47,8 @@ class _ContextMenuRoute extends PopupRoute<MessageAction> {
   final Offset position;
   final Size overlaySize;
   final Message message;
-  final bool isOwnMessage;
-  final bool canDelete;
+  final MessageActionPermissions permissions;
+  final MessageActionCallbacks callbacks;
   final ValueChanged<QuickReactionItem>? onQuickReaction;
   final List<QuickReactionItem>? quickItems;
 
@@ -51,8 +56,8 @@ class _ContextMenuRoute extends PopupRoute<MessageAction> {
     required this.position,
     required this.overlaySize,
     required this.message,
-    required this.isOwnMessage,
-    required this.canDelete,
+    required this.permissions,
+    required this.callbacks,
     this.onQuickReaction,
     this.quickItems,
   });
@@ -79,20 +84,20 @@ class _ContextMenuRoute extends PopupRoute<MessageAction> {
     overlaySize: overlaySize,
     animation: animation,
     message: message,
-    isOwnMessage: isOwnMessage,
-    canDelete: canDelete,
+    permissions: permissions,
+    callbacks: callbacks,
     onQuickReaction: onQuickReaction,
     quickItems: quickItems,
   );
 }
 
-class _ContextMenuPage extends StatelessWidget {
+class _ContextMenuPage extends ConsumerWidget {
   final Offset position;
   final Size overlaySize;
   final Animation<double> animation;
   final Message message;
-  final bool isOwnMessage;
-  final bool canDelete;
+  final MessageActionPermissions permissions;
+  final MessageActionCallbacks callbacks;
   final ValueChanged<QuickReactionItem>? onQuickReaction;
   final List<QuickReactionItem>? quickItems;
 
@@ -101,15 +106,15 @@ class _ContextMenuPage extends StatelessWidget {
     required this.overlaySize,
     required this.animation,
     required this.message,
-    required this.isOwnMessage,
-    required this.canDelete,
+    required this.permissions,
+    required this.callbacks,
     this.onQuickReaction,
     this.quickItems,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final items = _buildItems(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = _buildItems(context, ref);
     final estimatedHeight = _estimateHeight(items);
 
     final opensLeft = position.dx + _kMenuWidth > overlaySize.width - 8;
@@ -160,9 +165,22 @@ class _ContextMenuPage extends StatelessWidget {
     return height;
   }
 
-  List<Widget> _buildItems(BuildContext context) {
+  List<Widget> _buildItems(BuildContext context, WidgetRef ref) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     void pop(MessageAction action) => Navigator.of(context).pop(action);
+    final bool isEmbedsSuppressed = message.suppressEmbeds;
+    final bool canShowSuppressEmbeds = canSuppressEmbedsOnMessage(
+      message: message,
+      isOwnMessage: permissions.isOwnMessage,
+      isDmChannel: permissions.isDmChannel,
+      canDelete: permissions.canDelete,
+    );
+    final bool showMediaDeleteButton = ref.watch(
+      appearancePreferencesProvider.select((s) => s.showMediaDeleteButton),
+    );
+    final bool showSuppressEmbedsButton = ref.watch(
+      appearancePreferencesProvider.select((s) => s.showSuppressEmbedsButton),
+    );
 
     return [
       QuickReactionRow(
@@ -185,7 +203,7 @@ class _ContextMenuPage extends StatelessWidget {
           onTap: () => pop(MessageAction.retry),
         ),
       const _MenuDivider(),
-      if (isOwnMessage)
+      if (permissions.isOwnMessage)
         _MenuItem(
           label: l10n.chatMessageEdit,
           icon: PhosphorIconsRegular.pencilSimple,
@@ -228,7 +246,16 @@ class _ContextMenuPage extends StatelessWidget {
         icon: PhosphorIconsRegular.link,
         onTap: () => pop(MessageAction.copyMessageLink),
       ),
-      if (canDelete) ...[
+      if (canShowSuppressEmbeds && showSuppressEmbedsButton)
+        _MenuItem(
+          label: isEmbedsSuppressed
+              ? l10n.chatMessageUnsuppressEmbeds
+              : l10n.chatMessageSuppressEmbeds,
+          icon: PhosphorIconsRegular.eyeSlash,
+          onTap: () => pop(MessageAction.suppressEmbeds),
+        ),
+      ..._buildAttachmentItems(context, showMediaDeleteButton),
+      if (permissions.canDelete) ...[
         const _MenuDivider(),
         _MenuItem(
           label: l10n.chatMessageDelete,
@@ -258,6 +285,53 @@ class _ContextMenuPage extends StatelessWidget {
         onTap: () => pop(MessageAction.copyMessageId),
       ),
     ];
+  }
+
+  List<Widget> _buildAttachmentItems(
+    BuildContext context,
+    bool showMediaDeleteButton,
+  ) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+    final List<Widget> items = <Widget>[];
+    for (final Attachment attachment in message.attachments) {
+      if (showMediaDeleteButton &&
+          canDeleteAttachmentOnMessage(
+            message: message,
+            isOwnMessage: permissions.isOwnMessage,
+            isSendDisabled: permissions.isSendDisabled,
+          )) {
+        items.add(
+          _MenuItem(
+            label: l10n.chatMessageDeleteAttachment,
+            icon: PhosphorIconsRegular.trash,
+            isDanger: true,
+            onTap: () {
+              callbacks.onDeleteAttachment?.call(attachment);
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      }
+      if (canEditAttachmentAltText(
+        message: message,
+        isOwnMessage: permissions.isOwnMessage,
+        attachment: attachment,
+        canManageMessages: permissions.canManageMessages,
+        isDmChannel: permissions.isDmChannel,
+      )) {
+        items.add(
+          _MenuItem(
+            label: l10n.chatMessageEditAttachmentAltText,
+            icon: PhosphorIconsRegular.pencilSimple,
+            onTap: () {
+              callbacks.onEditAttachmentAltText?.call(attachment);
+              Navigator.of(context).pop();
+            },
+          ),
+        );
+      }
+    }
+    return items;
   }
 }
 
@@ -299,8 +373,8 @@ class _MenuItem extends StatefulWidget {
   final String label;
   final IconData icon;
   final IconData? trailing;
-  final bool isDanger;
   final VoidCallback onTap;
+  final bool isDanger;
 
   const _MenuItem({
     required this.label,
@@ -315,59 +389,80 @@ class _MenuItem extends StatefulWidget {
 }
 
 class _MenuItemState extends State<_MenuItem> {
-  var _isHovered = false;
+  bool _isHovered = false;
+  bool _isPressed = false;
+
+  Color _iconColor(FluxerColorTheme colors) {
+    if (widget.isDanger) {
+      return colors.menuDangerText;
+    }
+    if (_isHovered || _isPressed) {
+      return colors.textPrimary;
+    }
+    return colors.textSecondary;
+  }
+
+  Color _textColor(FluxerColorTheme colors) {
+    if (widget.isDanger) {
+      return colors.menuDangerText;
+    }
+    return colors.textPrimary;
+  }
+
+  Color _backgroundColor(FluxerColorTheme colors) {
+    if (_isPressed) {
+      return colors.backgroundModifierHover;
+    }
+    if (_isHovered) {
+      return colors.backgroundModifierAccent;
+    }
+    return Colors.transparent;
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     final layout = context.layout;
-    final Color textColor;
-    final Color hoverBg;
-    final Color hoverText;
-
-    if (widget.isDanger) {
-      textColor = colors.textDanger;
-      hoverBg = colors.buttonDangerFill;
-      hoverText = colors.buttonDangerText;
-    } else {
-      textColor = colors.textPrimary;
-      hoverBg = colors.backgroundModifierHover;
-      hoverText = colors.textPrimary;
-    }
-
-    final activeColor = _isHovered ? hoverText : textColor;
-
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapCancel: () => setState(() => _isPressed = false),
         onTap: widget.onTap,
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 36),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s2),
-          margin: const EdgeInsets.symmetric(vertical: 1),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 80),
+          curve: Curves.easeOut,
           decoration: BoxDecoration(
-            color: _isHovered ? hoverBg : Colors.transparent,
+            color: _backgroundColor(colors),
             borderRadius: layout.radiusSm,
           ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.label,
-                  style: context.textStyles.label.copyWith(color: activeColor),
-                  overflow: TextOverflow.ellipsis,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: layout.s2,
+              vertical: layout.s2 - 1,
+            ),
+            child: Row(
+              children: [
+                PhosphorIcon(widget.icon, size: 20, color: _iconColor(colors)),
+                SizedBox(width: layout.s2),
+                Expanded(
+                  child: Text(
+                    widget.label,
+                    style: context.textStyles.bodySmall.copyWith(
+                      color: _textColor(colors),
+                    ),
+                  ),
                 ),
-              ),
-              SizedBox(width: layout.s3),
-              PhosphorIcon(
-                widget.trailing ?? widget.icon,
-                size: layout.s5,
-                color: activeColor,
-              ),
-            ],
+                if (widget.trailing != null)
+                  PhosphorIcon(
+                    widget.trailing!,
+                    size: 16,
+                    color: colors.textPrimaryMuted,
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -380,10 +475,9 @@ class _MenuDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 1,
-      margin: EdgeInsets.symmetric(vertical: context.layout.s1_5),
-      color: context.colors.backgroundModifierAccent.withValues(alpha: 0.3),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: context.layout.s2 - 1),
+      child: Divider(height: 1, color: context.colors.backgroundModifierAccent),
     );
   }
 }

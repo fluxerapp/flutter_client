@@ -28,6 +28,17 @@ class ReadStateDao extends DatabaseAccessor<FluxerDatabase>
   Future<void> upsertReadState(ReadStatesCompanion state) =>
       into(readStates).insertOnConflictUpdate(state);
 
+  Future<void> upsertReadStates(List<ReadStatesCompanion> states) async {
+    if (states.isEmpty) {
+      return;
+    }
+    await batch((Batch b) {
+      for (final ReadStatesCompanion state in states) {
+        b.insert(readStates, state, onConflict: DoUpdate((_) => state));
+      }
+    });
+  }
+
   Future<void> incrementMentionCount(String channelId) => transaction(() async {
     final existing = await getReadState(channelId);
     await upsertReadState(

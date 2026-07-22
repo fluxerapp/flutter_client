@@ -37,8 +37,9 @@ class FluxerFencedCodeBlockSyntax extends md.BlockSyntax {
     final String? language = parseCodeFenceLanguage(info);
     final StringBuffer content = StringBuffer();
     if (language == null && info.isNotEmpty) {
-      content.write(info);
-      content.write('\n');
+      content
+        ..write(info)
+        ..write('\n');
     }
     parser.advance();
     while (!parser.isDone) {
@@ -49,14 +50,16 @@ class FluxerFencedCodeBlockSyntax extends md.BlockSyntax {
         final int leadingSpaces = line.length - trimmed.length;
         final String prefix = line.substring(0, leadingSpaces + closeIndex);
         if (prefix.trim().isNotEmpty) {
-          content.write(prefix.substring(leadingSpaces));
-          content.write('\n');
+          content
+            ..write(prefix.substring(leadingSpaces))
+            ..write('\n');
         }
         parser.advance();
         break;
       }
-      content.write(line);
-      content.write('\n');
+      content
+        ..write(line)
+        ..write('\n');
       parser.advance();
     }
 

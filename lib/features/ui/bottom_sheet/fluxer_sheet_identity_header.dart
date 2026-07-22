@@ -133,11 +133,13 @@ class FluxerJumpToBottomButton extends StatelessWidget {
   const FluxerJumpToBottomButton({
     required this.onTap,
     this.enabled = true,
+    this.isLoading = false,
     super.key,
   });
 
   final VoidCallback onTap;
   final bool enabled;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +149,7 @@ class FluxerJumpToBottomButton extends StatelessWidget {
       variant: FluxerButtonVariant.inverted,
       size: FluxerButtonSize.small,
       iconSize: 18,
+      isLoading: isLoading,
       onPressed: enabled ? onTap : null,
       semanticLabel: l10n.chatJumpToBottom,
     );

@@ -18,6 +18,7 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
 
 class _InertSyncedPreferencesStore extends SyncedPreferencesStore {
+  // Test stub does not use super parameters.
   // ignore: use_super_parameters
   _InertSyncedPreferencesStore(Ref ref) : super(ref);
 
@@ -91,11 +92,9 @@ Widget _wrap(Widget child) {
       mentionReplyPreferenceProvider.overrideWith(
         _TestMentionReplyPreference.new,
       ),
-      pushNotificationPermissionGrantedProvider.overrideWith(
-        (Ref ref) async => true,
-      ),
+      pushNotificationPermissionGrantedProvider.overrideWith((Ref ref) => true),
       pushNotificationRequiresSystemSettingsProvider.overrideWith(
-        (Ref ref) async => false,
+        (Ref ref) => false,
       ),
     ],
   );

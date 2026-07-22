@@ -33,6 +33,7 @@ class ComposerAutocompletePanelRow {
     this.emojiSurrogates,
     this.emojiImageUrl,
     this.emojiCacheKey,
+    this.isDivider = false,
   });
 
   final String title;
@@ -48,6 +49,7 @@ class ComposerAutocompletePanelRow {
   final String? emojiSurrogates;
   final String? emojiImageUrl;
   final String? emojiCacheKey;
+  final bool isDivider;
 }
 
 class ComposerAutocompletePanelSnapshot {
@@ -149,6 +151,9 @@ class _ComposerAutocompletePanelOpenBody extends StatelessWidget {
               },
               itemBuilder: (BuildContext _, int i) {
                 final ComposerAutocompletePanelRow row = snap.rows[i];
+                if (row.isDivider) {
+                  return const Divider(height: 1);
+                }
                 final bool selected = i == snap.selectedIndex;
                 return ComposerAutocompletePanelListTile(
                   title: row.title,

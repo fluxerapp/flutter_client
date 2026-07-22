@@ -22,7 +22,7 @@ void main() {
       ProviderScope(
         overrides: <Override>[
           visibleNagbarsProvider.overrideWith(
-            (Ref ref) async => <NagbarState>[
+            (Ref ref) => <NagbarState>[
               const NagbarState(
                 type: NagbarType.unclaimedAccount,
                 priority: -4,

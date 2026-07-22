@@ -57,7 +57,7 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
 
   void _syncForegroundState({required bool isAppForeground}) {
     if (PushProviderGuard.isUnifiedPush) {
-      UnifiedPushService.instance.appForeground = isAppForeground;
+      UnifiedPushService.instance.isAppForeground = isAppForeground;
     }
     FirebaseMessagingPushService.configureForegroundMessageFilter((
       Map<String, String> payload,

@@ -23,7 +23,7 @@ class NagbarDismissalsSyncedField
 
   @override
   Future<void> applyRemote(NagbarDismissalsState value) async {
-    _ref.read(nagbarDismissalsProvider.notifier).applySynced(value);
+    _ref.read(nagbarDismissalsProvider.notifier).syncedState = value;
   }
 
   @override
@@ -85,16 +85,17 @@ class NagbarDismissalsSyncedField
     required NagbarDismissalsState local,
     pb.NagbarDismissals? wireBase,
   }) {
-    final pb.NagbarDismissals settings = wireBase != null
-        ? (pb.NagbarDismissals()..mergeFromMessage(wireBase))
-        : pb.NagbarDismissals();
-    settings.pushNotification = local.pushNotificationDismissed;
-    settings.premiumGracePeriod = local.premiumGracePeriodDismissed;
-    settings.premiumExpired = local.premiumExpiredDismissed;
-    settings.premiumOnboarding = local.premiumOnboardingDismissed;
-    settings.giftInventory = local.giftInventoryDismissed;
-    settings.guildMembershipCta = local.guildMembershipCtaDismissed;
-    settings.visionaryMfa = local.visionaryMfaDismissed;
+    final pb.NagbarDismissals settings =
+        (wireBase != null
+              ? (pb.NagbarDismissals()..mergeFromMessage(wireBase))
+              : pb.NagbarDismissals())
+          ..pushNotification = local.pushNotificationDismissed
+          ..premiumGracePeriod = local.premiumGracePeriodDismissed
+          ..premiumExpired = local.premiumExpiredDismissed
+          ..premiumOnboarding = local.premiumOnboardingDismissed
+          ..giftInventory = local.giftInventoryDismissed
+          ..guildMembershipCta = local.guildMembershipCtaDismissed
+          ..visionaryMfa = local.visionaryMfaDismissed;
     return settings;
   }
 

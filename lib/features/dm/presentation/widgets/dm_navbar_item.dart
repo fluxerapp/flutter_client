@@ -16,7 +16,6 @@ import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/dm/providers/unread_dm_provider.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
-import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -92,18 +91,13 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
     );
 
     final isGroup = isDmGroupType(widget.type);
-    final DmConversation? groupDm = isGroup
-        ? ref.watch(
-            dmViewModelProvider.select(
-              (state) => _findConversation(state.conversations),
-            ),
-          )
-        : null;
-    final recipient = isGroup
-        ? null
-        : ref.watch(userPresenceProvider(widget.recipientId)).value;
+    final DmConversation? conversation = ref.watch(
+      dmViewModelProvider.select(
+        (state) => _findConversation(state.conversations),
+      ),
+    );
     final String displayName = isGroup
-        ? groupDm?.displayNameWith(
+        ? conversation?.displayNameWith(
                 null,
                 l10n: FluxerLocalizations.of(context),
                 currentUserId: ref.watch(currentUserIdProvider),
@@ -115,15 +109,14 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
         ? null
         : FluxerMediaUrl.userAvatar(
             userId: widget.recipientId,
-            hash: recipient?.avatar,
+            hash: conversation?.recipientAvatar,
           );
-    final avatarColor = recipient?.avatarColor;
     final bool isTyping = !isGroup
         ? ref.watch(
             isUserTypingInChannelProvider(widget.channelId, widget.recipientId),
           )
-        : groupDm != null && ref.watch(dmAvatarIsTypingProvider(groupDm));
-    final bool showPresence = !isGroup && widget.recipientId != fluxerBotUserId;
+        : conversation != null &&
+              ref.watch(dmAvatarIsTypingProvider(conversation));
 
     final indicatorHeight = isSelected
         ? 40.0
@@ -194,23 +187,22 @@ class _DmNavbarItemState extends ConsumerState<DmNavbarItem>
                                 ),
                               ),
                               child: isGroup
-                                  ? groupDm != null
+                                  ? conversation != null
                                         ? groupDmAvatarCluster(
-                                            dm: groupDm,
+                                            dm: conversation,
                                             size: 44,
-                                            status: groupDm.groupStatus,
+                                            status: conversation.groupStatus,
                                             isTyping: isTyping,
                                           )
                                         : FluxerAvatarCluster(
                                             channelId: widget.channelId,
                                             size: 44,
                                           )
-                                  : FluxerAvatar.userPresence(
+                                  : FluxerAvatar.user(
                                       fallbackText: displayName,
                                       userId: widget.recipientId,
                                       imageUrl: avatarImageUrl,
-                                      avatarColor: avatarColor,
-                                      showStatus: showPresence || isTyping,
+                                      showStatus: false,
                                       isTyping: isTyping,
                                       size: 44,
                                     ),

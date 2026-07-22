@@ -1,17 +1,15 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:cached_network_image_ce/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluxer_app/core/media/fluxer_media_cdn.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
+import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 const _kSpriteSize = 32;
 const _kNonDiversitySpritesPerRow = 42;
 const _kDiversitySpritesPerRow = 10;
-const _kSpriteBase = 'https://fluxerstatic.com/emoji';
-const _kSpriteVersion = '2';
+const _kSpriteVersion = '3';
 
 const Map<String, String> _kSpriteSheetNames = {
   'default': 'spritesheet-emoji',
@@ -23,7 +21,7 @@ const Map<String, String> _kSpriteSheetNames = {
 };
 
 String _buildSpriteSheetUrl(String name) =>
-    '$_kSpriteBase/$name@2x.png?v=$_kSpriteVersion';
+    '$fluxerStaticCdn/emoji/$name@2x.png?v=$_kSpriteVersion';
 
 String _spriteSheetKeyForSkinTone(String? skinTone) {
   if (skinTone == null || skinTone.isEmpty) {
@@ -39,8 +37,6 @@ class EmojiSpriteSheet {
   static final Map<String, ui.Image> _images = <String, ui.Image>{};
   static final Map<String, Future<ui.Image>> _loading =
       <String, Future<ui.Image>>{};
-  static BaseCacheManager get _cacheManager =>
-      CachedNetworkImageProvider.defaultCacheManager;
 
   static bool isLoaded({String? skinTone}) =>
       _images.containsKey(_spriteSheetKeyForSkinTone(skinTone));
@@ -72,41 +68,10 @@ class EmojiSpriteSheet {
   static Future<ui.Image> _load(String key) async {
     final name = _kSpriteSheetNames[key] ?? _kSpriteSheetNames['default']!;
     final url = _buildSpriteSheetUrl(name);
-    final cacheKey = 'emoji-sprite-$name-v$_kSpriteVersion';
-
-    final bytes = await _fetchBytes(url, cacheKey);
+    final bytes = await EmojiAssetCache.loadBytes(url);
     final codec = await ui.instantiateImageCodec(bytes);
     final frame = await codec.getNextFrame();
     return frame.image;
-  }
-
-  static Future<Uint8List> _fetchBytes(String url, String cacheKey) async {
-    final cached = await _cacheManager.getFileFromCache(cacheKey);
-    if (cached != null) {
-      return cached.file.readAsBytes();
-    }
-
-    final client = HttpClient();
-    Uint8List bytes;
-    try {
-      final request = await client.getUrl(Uri.parse(url));
-      final response = await request.close();
-      bytes = await consolidateHttpClientResponseBytes(response);
-    } finally {
-      client.close();
-    }
-
-    unawaited(
-      _cacheManager.putFile(
-        url,
-        bytes,
-        key: cacheKey,
-        fileExtension: 'png',
-        maxAge: const Duration(days: 365),
-      ),
-    );
-
-    return bytes;
   }
 
   /// Source rect for [index] in the @2x sheet (64px per sprite).

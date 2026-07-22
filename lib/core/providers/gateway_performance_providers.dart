@@ -16,10 +16,9 @@ part 'gateway_performance_providers.g.dart';
 @Riverpod(keepAlive: true)
 ChannelLastMessageIndex channelLastMessageIndex(Ref ref) {
   final ChannelLastMessageIndex index = ChannelLastMessageIndex();
-  ref.onDispose(index.clear);
-  ref.onDispose(() {
-    unawaited(index.dispose());
-  });
+  ref
+    ..onDispose(index.clear)
+    ..onDispose(() => unawaited(index.dispose()));
   return index;
 }
 

@@ -34,11 +34,9 @@ class GuildBansUtils {
   }
 
   static List<GuildBanEntry> sortBanEntries(List<GuildBanEntry> entries) {
-    final List<GuildBanEntry> sorted = List<GuildBanEntry>.from(entries);
-    sorted.sort(
+    return List<GuildBanEntry>.from(entries)..sort(
       (GuildBanEntry a, GuildBanEntry b) =>
           b.ban.bannedAt.compareTo(a.ban.bannedAt),
     );
-    return sorted;
   }
 }

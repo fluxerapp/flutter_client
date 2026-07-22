@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
-import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
-import 'package:fluxer_app/shared/utils/sdk_converters.dart';
+import 'package:fluxer_app/shared/services/guild_member_hydration_service.dart'
+    show GuildMemberHydrationService;
 
 int? _opaqueRoleColorValue(int? color) {
   if (color == null || color == 0) {
@@ -33,8 +33,8 @@ Color? _resolveMemberRoleColor(
 /// Returns the [Color] of a guild member's highest-positioned
 /// role, or `null` when the member has no colored role.
 ///
-/// Checks the local DB first; if the member is missing,
-/// fetches from the REST API and caches the result.
+/// Reads the local member row only. Member hydration is handled by
+/// [GuildMemberHydrationService].
 final FutureProviderFamily<Color?, (String, String)> memberRoleColorProvider =
     FutureProvider.autoDispose.family<Color?, (String, String)>((
       ref,
@@ -43,24 +43,10 @@ final FutureProviderFamily<Color?, (String, String)> memberRoleColorProvider =
       final (userId, guildId) = args;
       final database = ref.watch(fluxerDatabaseProvider);
 
-      var member = await database.memberDao.getMemberByUserId(userId, guildId);
-
-      if (member == null) {
-        try {
-          final client = ref.read(fluxerClientProvider);
-          final sdk = await client.guilds.getGuildMember(
-            guildId: guildId,
-            userId: userId,
-          );
-          await database.memberDao.upsertMember(
-            memberCompanionFromSdk(sdk, guildId: guildId),
-          );
-          member = await database.memberDao.getMemberByUserId(userId, guildId);
-        } on Object {
-          return null;
-        }
-      }
-
+      final member = await database.memberDao.getMemberByUserId(
+        userId,
+        guildId,
+      );
       if (member == null) {
         return null;
       }

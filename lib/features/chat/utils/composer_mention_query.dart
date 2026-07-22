@@ -369,3 +369,84 @@ List<Member> filterGuildMembersForAutocomplete({
     stableSession: stableSession,
   );
 }
+
+class RoleMentionSearchTarget {
+  const RoleMentionSearchTarget({
+    required this.id,
+    required this.name,
+    required this.position,
+    required this.mentionable,
+  });
+
+  final String id;
+  final String name;
+  final int position;
+  final bool mentionable;
+}
+
+bool roleNameMatchesMentionQuery(String roleName, String query) {
+  final String trimmed = query.trim().toLowerCase();
+  if (trimmed.isEmpty) {
+    return true;
+  }
+  return roleName.toLowerCase().contains(trimmed);
+}
+
+MentionMatchRank mentionMatchRankForRoleName(String roleName, String query) {
+  final String trimmed = query.trim();
+  if (trimmed.isEmpty) {
+    return MentionMatchRank.equal;
+  }
+  return _matchRankForValue(trimmed.toLowerCase(), roleName);
+}
+
+List<RoleMentionSearchTarget> rankRolesForMentionQuery(
+  List<RoleMentionSearchTarget> roles, {
+  required String guildId,
+  required String query,
+  required bool canMentionEveryone,
+  int limit = kMentionResultLimit,
+}) {
+  final String trimmed = query.trim();
+  final String q = trimmed.toLowerCase();
+  final List<({RoleMentionSearchTarget role, MentionMatchRank rank})>
+  candidates = <({RoleMentionSearchTarget role, MentionMatchRank rank})>[];
+  for (final RoleMentionSearchTarget role in roles) {
+    if (role.id == guildId) {
+      continue;
+    }
+    if (!(canMentionEveryone || role.mentionable)) {
+      continue;
+    }
+    if (q.isNotEmpty && !roleNameMatchesMentionQuery(role.name, q)) {
+      continue;
+    }
+    final MentionMatchRank rank = mentionMatchRankForRoleName(role.name, q);
+    candidates.add((role: role, rank: rank));
+  }
+  candidates.sort((
+    ({RoleMentionSearchTarget role, MentionMatchRank rank}) a,
+    ({RoleMentionSearchTarget role, MentionMatchRank rank}) b,
+  ) {
+    if (q.isNotEmpty && a.rank.score != b.rank.score) {
+      return b.rank.score.compareTo(a.rank.score);
+    }
+    return b.role.position.compareTo(a.role.position);
+  });
+  if (candidates.length <= limit) {
+    return candidates.map((e) => e.role).toList();
+  }
+  return candidates.take(limit).map((e) => e.role).toList();
+}
+
+bool shouldPromoteRoleMentionMatches({
+  required String query,
+  required MentionMatchRank bestRoleRank,
+  required MentionMatchRank bestMemberRank,
+}) {
+  final String trimmed = query.trim();
+  if (trimmed.isEmpty || bestRoleRank == MentionMatchRank.noMatch) {
+    return false;
+  }
+  return bestRoleRank.score >= MentionMatchRank.startsWith.score;
+}

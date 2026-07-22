@@ -5,12 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/limits/instance_limit_provider.dart';
 import 'package:fluxer_app/core/limits/limit_key.dart';
-import 'package:fluxer_app/core/permissions/channel_effective_permissions.dart';
+import 'package:fluxer_app/core/permissions/channel_permission_reads.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/platform/fluxer_platform.dart';
 import 'package:fluxer_app/core/premium/should_show_premium_commerce_provider.dart';
+import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -46,6 +48,7 @@ import 'package:fluxer_app/features/chat/service/composer_mention_controller.dar
 import 'package:fluxer_app/features/chat/utils/bottom_input_slot_layout.dart';
 import 'package:fluxer_app/features/chat/utils/composer_command.dart';
 import 'package:fluxer_app/features/chat/utils/composer_emoji_resolution.dart';
+import 'package:fluxer_app/features/chat/utils/composer_scroll.dart';
 import 'package:fluxer_app/features/chat/utils/composer_sendable_content.dart';
 import 'package:fluxer_app/features/chat/utils/composer_upload_file.dart';
 import 'package:fluxer_app/features/chat/utils/composer_voice_button_visibility.dart';
@@ -134,7 +137,8 @@ class ChannelTextarea extends ConsumerStatefulWidget {
 
 class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
   late final ComposerMentionController _controller;
-  final _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _composerScrollController = ScrollController();
   final GlobalKey<ComposerAutocompleteFieldState> _composerFieldKey =
       GlobalKey<ComposerAutocompleteFieldState>();
   final GlobalKey<ComposerPasteScopeState> _pasteScopeKey =
@@ -273,6 +277,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     _focusNode
       ..unfocus()
       ..dispose();
+    _composerScrollController.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -418,6 +423,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             TextField(
               controller: _controller,
               focusNode: _focusNode,
+              scrollController: _composerScrollController,
               enabled: perms.isComposerEnabled,
               style: context.textStyles.inputText,
               minLines: minLines,
@@ -428,7 +434,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
               contextMenuBuilder: pasteScope.buildContextMenu,
               onTap: () {
                 if (ref.read(expressionPanelProvider)) {
-                  ref.read(expressionPanelProvider.notifier).close();
+                  _closeExpressionPanelAndFocusComposer();
                 }
               },
             ),
@@ -637,29 +643,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
             ),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: ComposerAutocompleteField(
-            key: _composerFieldKey,
-            controller: _controller,
-            focusNode: _focusNode,
+          child: _buildComposerInput(
+            context: context,
+            chatNotifier: chatNotifier,
+            perms: perms,
             channelId: channelId,
-            enabled: perms.isComposerEnabled,
-            renderMode: widget.autocompletePanelHost != null
-                ? AutocompleteRenderMode.inStack
-                : AutocompleteRenderMode.overlay,
-            panelHost: widget.autocompletePanelHost,
-            panelScrollController: widget.autocompletePanelScrollController,
-            child: ResponsiveLayout(
-              builder: (context, mode) {
-                switch (mode) {
-                  case LayoutMode.desktop:
-                    return _buildLargeLayout(context, chatNotifier, perms);
-                  case LayoutMode.tablet:
-                    return _buildLargeLayout(context, chatNotifier, perms);
-                  case LayoutMode.mobile:
-                    return _buildMobileLayout(context, chatNotifier, perms);
-                }
-              },
-            ),
+            isPanelOpen: isPanelOpen,
           ),
         ),
         Container(
@@ -963,6 +952,43 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     );
   }
 
+  Widget _buildComposerInput({
+    required BuildContext context,
+    required ChatViewModel chatNotifier,
+    required ChannelMessagePermissions perms,
+    required String channelId,
+    required bool isPanelOpen,
+  }) {
+    final Widget composerField = ComposerAutocompleteField(
+      key: _composerFieldKey,
+      controller: _controller,
+      focusNode: _focusNode,
+      channelId: channelId,
+      enabled: perms.isComposerEnabled,
+      renderMode: widget.autocompletePanelHost != null
+          ? AutocompleteRenderMode.inStack
+          : AutocompleteRenderMode.overlay,
+      panelHost: widget.autocompletePanelHost,
+      panelScrollController: widget.autocompletePanelScrollController,
+      child: ResponsiveLayout(
+        builder: (BuildContext context, LayoutMode mode) {
+          switch (mode) {
+            case LayoutMode.desktop:
+              return _buildLargeLayout(context, chatNotifier, perms);
+            case LayoutMode.tablet:
+              return _buildLargeLayout(context, chatNotifier, perms);
+            case LayoutMode.mobile:
+              return _buildMobileLayout(context, chatNotifier, perms);
+          }
+        },
+      ),
+    );
+    if (!isMobileLayout(context) || !isPanelOpen) {
+      return composerField;
+    }
+    return ExcludeFocus(child: composerField);
+  }
+
   Widget _buildMobileLayout(
     BuildContext context,
     ChatViewModel chatNotifier,
@@ -1194,6 +1220,10 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
 
   void _insertEmoji(String name, String surrogates) {
     _controller.insertEmoji(name, surrogates);
+    scheduleComposerScrollToEnd(
+      _composerScrollController,
+      isMounted: () => mounted,
+    );
   }
 
   void _showNoSendPermissionToast() {
@@ -1351,11 +1381,6 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     String channelId,
     String content,
   ) async {
-    final bool mentionsEveryone = content.contains('@everyone');
-    final bool mentionsHere = content.contains('@here');
-    if (!mentionsEveryone && !mentionsHere) {
-      return true;
-    }
     final String? guildId = ref.read(activeGuildIdProvider);
     if (guildId == null || guildId.isEmpty) {
       return true;
@@ -1370,10 +1395,32 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     if (guild == null) {
       return true;
     }
-    final int bits = await ref.read(
-      effectiveGuildChannelPermissionBitsProvider(channelId).future,
+    final int bits = await readEffectiveGuildChannelPermissionBits(
+      container: ref.container,
+      channelId: channelId,
     );
-    if (!hasPermission(bits, Permission.mentionEveryone)) {
+    final bool canMentionEveryone = hasPermission(
+      bits,
+      Permission.mentionEveryone,
+    );
+    final bool mentionsEveryone = content.contains('@everyone');
+    final bool mentionsHere = content.contains('@here');
+    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+    final List<db.Member> members = await database.memberDao.getMembers(
+      guildId,
+    );
+    final List<db.Role> roles = await database.roleDao.getRoles(guildId);
+    final Map<String, db.Role> roleById = <String, db.Role>{
+      for (final db.Role role in roles) role.id: role,
+    };
+    final LargeRoleMentionImpact? roleImpact = largestLargeRoleMentionImpact(
+      members: members,
+      roleById: roleById,
+      guildId: guildId,
+      content: content,
+      canMentionEveryone: canMentionEveryone,
+    );
+    if (!mentionsEveryone && !mentionsHere && roleImpact == null) {
       return true;
     }
     if (!mounted) {
@@ -1381,10 +1428,19 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     String? description;
-    if (mentionsEveryone && guild.memberCount > kMentionConfirmThreshold) {
+    if (canMentionEveryone &&
+        mentionsEveryone &&
+        guild.memberCount > kMentionConfirmThreshold) {
       description = l10n.mentionConfirmEveryoneBody(guild.memberCount);
-    } else if (mentionsHere && guild.onlineCount > kMentionConfirmThreshold) {
+    } else if (canMentionEveryone &&
+        mentionsHere &&
+        guild.onlineCount > kMentionConfirmThreshold) {
       description = l10n.mentionConfirmHereBody(guild.onlineCount);
+    } else if (roleImpact != null) {
+      description = l10n.mentionConfirmRoleBody(
+        roleImpact.memberCount,
+        roleImpact.roleName,
+      );
     }
     if (description == null) {
       return true;
@@ -1409,6 +1465,34 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     return confirmed ?? false;
   }
 
+  void _closeExpressionPanelAndFocusComposer() {
+    if (!ref.read(expressionPanelProvider)) {
+      return;
+    }
+    if (isMobileLayout(context)) {
+      final MobileKeyboardMetricsState metrics = ref.read(
+        mobileKeyboardMetricsProvider,
+      );
+      final double netPanel =
+          ref.read(expressionPanelHeightProvider) ??
+          bottomInputSlotAnchorHeight(
+            anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
+            fallbackHeight: metrics.fallbackKeyboardHeight,
+            safeAreaBottom: metrics.safeAreaBottom,
+          );
+      ref
+          .read(bottomInputSlotProvider.notifier)
+          .beginKeyboardTransition(netPanel);
+    }
+    ref.read(expressionPanelProvider.notifier).close();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      _focusNode.requestFocus();
+    });
+  }
+
   Widget _buildMobilePickerButton(
     BuildContext context,
     ChannelMessagePermissions perms,
@@ -1423,22 +1507,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
           ? null
           : () {
               if (isPanelOpen) {
-                final MobileKeyboardMetricsState metrics = ref.read(
-                  mobileKeyboardMetricsProvider,
-                );
-                final double netPanel =
-                    ref.read(expressionPanelHeightProvider) ??
-                    bottomInputSlotAnchorHeight(
-                      anchoredKeyboardHeight: metrics.anchoredKeyboardHeight,
-                      fallbackHeight: metrics.fallbackKeyboardHeight,
-                      safeAreaBottom: metrics.safeAreaBottom,
-                    );
-                final double lockedHeight = netPanel;
-                ref
-                    .read(bottomInputSlotProvider.notifier)
-                    .beginKeyboardTransition(lockedHeight);
-                ref.read(expressionPanelProvider.notifier).close();
-                _focusNode.requestFocus();
+                _closeExpressionPanelAndFocusComposer();
               } else {
                 final MobileKeyboardMetricsState metrics = ref.read(
                   mobileKeyboardMetricsProvider,

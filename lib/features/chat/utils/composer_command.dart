@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/chat/domain/message.dart';
 
 /// Threshold above which mentioning `@everyone`/`@here` asks for confirmation.
@@ -129,4 +132,75 @@ String executeReplace(String text, ComposerReplaceCommand cmd) {
     );
   }
   return (content: content, flags: 0);
+}
+
+final RegExp kRoleMentionWirePattern = RegExp(r'<@&(\d+)>');
+
+class LargeRoleMentionImpact {
+  const LargeRoleMentionImpact({
+    required this.roleName,
+    required this.memberCount,
+  });
+
+  final String roleName;
+  final int memberCount;
+}
+
+List<String> _roleIdsFromMemberJson(String json) {
+  try {
+    final Object? decoded = jsonDecode(json);
+    if (decoded is List<dynamic>) {
+      return decoded.cast<String>();
+    }
+  } on Object {
+    // Fall through to empty list.
+  }
+  return const <String>[];
+}
+
+LargeRoleMentionImpact? largestLargeRoleMentionImpact({
+  required List<db.Member> members,
+  required Map<String, db.Role> roleById,
+  required String guildId,
+  required String content,
+  required bool canMentionEveryone,
+  int threshold = kMentionConfirmThreshold,
+}) {
+  final Set<String> mentionedRoleIds = <String>{};
+  for (final RegExpMatch match in kRoleMentionWirePattern.allMatches(content)) {
+    final String? roleId = match.group(1);
+    if (roleId != null && roleId != guildId) {
+      mentionedRoleIds.add(roleId);
+    }
+  }
+  if (mentionedRoleIds.isEmpty) {
+    return null;
+  }
+  final Map<String, int> countsByRoleId = <String, int>{};
+  for (final db.Member member in members) {
+    for (final String roleId in _roleIdsFromMemberJson(member.roleIdsJson)) {
+      countsByRoleId[roleId] = (countsByRoleId[roleId] ?? 0) + 1;
+    }
+  }
+  LargeRoleMentionImpact? highest;
+  for (final String roleId in mentionedRoleIds) {
+    final db.Role? role = roleById[roleId];
+    if (role == null) {
+      continue;
+    }
+    if (!(canMentionEveryone || role.mentionable)) {
+      continue;
+    }
+    final int memberCount = countsByRoleId[roleId] ?? 0;
+    if (memberCount <= threshold) {
+      continue;
+    }
+    if (highest == null || memberCount > highest.memberCount) {
+      highest = LargeRoleMentionImpact(
+        roleName: role.name,
+        memberCount: memberCount,
+      );
+    }
+  }
+  return highest;
 }

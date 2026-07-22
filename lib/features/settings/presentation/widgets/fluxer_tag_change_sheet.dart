@@ -14,8 +14,8 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
-import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const int _kMinUsernameLength = 1;
@@ -287,7 +287,7 @@ class _FluxerTagChangeContentState
 
     final String message;
     if (expiryDate != null) {
-      final formatted = DateFormat.yMMMd().format(expiryDate);
+      final formatted = formatUserMediumDate(expiryDate, l10n.localeName);
       message = l10n.customTagTemporaryBodyWithDate(formatted);
     } else {
       message = l10n.customTagTemporaryBody;

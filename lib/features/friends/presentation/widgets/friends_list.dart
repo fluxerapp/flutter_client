@@ -145,7 +145,11 @@ class FriendsList extends ConsumerWidget {
         if (isWideLayout(context))
           InboxPopoutButton(
             anchorBuilder:
-                (BuildContext context, bool isOpen, VoidCallback toggle) {
+                (
+                  BuildContext context, {
+                  required bool isOpen,
+                  required VoidCallback toggle,
+                }) {
                   return Material(
                     color: Colors.transparent,
                     child: InkWell(

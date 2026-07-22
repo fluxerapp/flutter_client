@@ -281,15 +281,15 @@ void main() {
       await tester.longPress(find.text('My Category'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Mute Category'), findsOneWidget);
-      expect(find.text('Copy Category ID'), findsOneWidget);
-      expect(find.text('Mark Category as Read'), findsOneWidget);
+      expect(find.text('Mute category'), findsOneWidget);
+      expect(find.text('Copy category ID'), findsOneWidget);
+      expect(find.text('Mark as Read'), findsOneWidget);
       expect(find.text('Debug Category'), findsNothing);
 
       // Order must mirror the web category menu: Mark as Read -> Mute -> Copy ID.
       double dy(String label) => tester.getTopLeft(find.text(label)).dy;
-      expect(dy('Mark Category as Read'), lessThan(dy('Mute Category')));
-      expect(dy('Mute Category'), lessThan(dy('Copy Category ID')));
+      expect(dy('Mark as Read'), lessThan(dy('Mute category')));
+      expect(dy('Mute category'), lessThan(dy('Copy category ID')));
     });
 
     testWidgets('channel menu shows "Delete channel" for managers', (
@@ -420,9 +420,15 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Open link'), findsOneWidget);
-      expect(find.text('Copy Link'), findsOneWidget);
+      expect(find.text('Copy channel link'), findsOneWidget);
+      expect(find.text('Copy redirect link'), findsOneWidget);
       expect(find.text('Notification Settings'), findsOneWidget);
       expect(find.text('Mute Channel'), findsNothing);
+      expect(find.text('Copy Link'), findsNothing);
+
+      double dy(String label) => tester.getTopLeft(find.text(label)).dy;
+      expect(dy('Open link'), lessThan(dy('Copy redirect link')));
+      expect(dy('Copy redirect link'), lessThan(dy('Copy channel link')));
     });
   });
 
@@ -815,16 +821,18 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('channel-20'), findsOneWidget);
 
-      harness.activeGuildId = _otherGuildId;
-      harness.channelListState = guildBState;
+      harness
+        ..activeGuildId = _otherGuildId
+        ..channelListState = guildBState;
       container
         ..invalidate(activeGuildIdProvider)
         ..invalidate(channelListViewModelProvider);
       await pumpSidebar();
       expect(find.text('guild-b-1'), findsOneWidget);
 
-      harness.activeGuildId = _guildId;
-      harness.channelListState = guildAState;
+      harness
+        ..activeGuildId = _guildId
+        ..channelListState = guildAState;
       container
         ..invalidate(activeGuildIdProvider)
         ..invalidate(channelListViewModelProvider);
@@ -993,7 +1001,7 @@ List<Override> _buildOverrides({
       ).overrideWith((ref) => permissionBits[channel.id] ?? 0),
       channelSettingsPermissionBitsProvider(
         channel.id,
-      ).overrideWith((ref) async => permissionBits[channel.id] ?? 0),
+      ).overrideWith((ref) => permissionBits[channel.id] ?? 0),
       if (sidebarConnectBits.containsKey(channel.id))
         channelSidebarIconConnectBitsProvider(
           channel.id,

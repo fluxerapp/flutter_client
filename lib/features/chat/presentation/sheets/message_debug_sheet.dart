@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
-import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
-import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 /// Developer-mode message JSON inspector.
@@ -64,15 +62,13 @@ class _MessageDebugSheetBody extends ConsumerWidget {
                 icon: PhosphorIconsFill.copy,
                 label: l10n.chatMessageDebugCopyJson,
                 onTap: () {
-                  unawaited(Clipboard.setData(ClipboardData(text: encoded)));
-                  ref
-                      .read(toastProvider.notifier)
-                      .show(
-                        FluxerToast(
-                          message: l10n.chatMessageDebugJsonCopiedToast,
-                          variant: FluxerToastVariant.success,
-                        ),
-                      );
+                  unawaited(
+                    copyToClipboard(
+                      context: context,
+                      value: encoded,
+                      message: l10n.chatMessageDebugJsonCopiedToast,
+                    ),
+                  );
                 },
               ),
             ],
