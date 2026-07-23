@@ -17,7 +17,10 @@ import 'package:fluxer_app/features/chat/presentation/widgets/plutonium_upsell_b
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
+import 'package:fluxer_app/features/chat/utils/emoji_picker_layout_index.dart';
+import 'package:fluxer_app/features/chat/utils/emoji_picker_precache.dart';
 import 'package:fluxer_app/features/chat/utils/emoji_picker_rendering_policy.dart';
+import 'package:fluxer_app/features/chat/utils/emoji_picker_visibility.dart';
 import 'package:fluxer_app/features/chat/utils/inline_expression_panel_scroll_physics.dart';
 import 'package:fluxer_app/features/dm/domain/dm_channel_types.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
@@ -29,7 +32,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_image_cache.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
-import 'package:fluxer_app/shared/utils/emoji_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _kGridColumns = 9;
@@ -37,7 +39,7 @@ const _kMobileGridColumns = 8;
 const _kEmojiSize = 40.0;
 const _kCellSize = 48.0;
 const double _kMobileCategoryBarHeight = 44;
-const int _kCustomEmojiRequestSize = kCustomEmojiFetchSize;
+const int _kCustomEmojiRequestSize = kCustomEmojiPickerFetchSize;
 
 const Map<String, IconData> _kCategoryIcons = {
   'people': PhosphorIconsFill.smiley,
@@ -163,13 +165,26 @@ class _HoverState {
 class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   ScrollController? _ownedScrollController;
   final _hoverState = ValueNotifier<_HoverState>(const _HoverState());
+  final _visibilityNotifier = ValueNotifier<EmojiPickerVisibilityState>(
+    const EmojiPickerVisibilityState(),
+  );
   final _categoryKeys = <String, GlobalKey>{};
+  final _categoryButtonKeys = <String, GlobalKey>{};
 
   ScrollController get _scrollController =>
       widget.scrollController ??
       (_ownedScrollController ??= ScrollController());
 
   var _isFirstFrameSettled = false;
+  var _didSchedulePrefetch = false;
+  var _cancelPrefetch = false;
+  var _scrollSettled = true;
+  Timer? _scrollSettleTimer;
+  double _viewportHeight = 0;
+  EmojiPickerLayoutIndex? _layoutIndex;
+  List<GuildEmojiEntry>? _searchCustomResults;
+  final Set<String> _prefetchedAheadIds = <String>{};
+  String? _lastEnsuredCategoryKey;
 
   List<Guild>? _cachedGuilds;
   String? _cachedActiveGuildId;
@@ -194,6 +209,21 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         setState(() => _isFirstFrameSettled = true);
       }
     });
+    _scrollController.addListener(_handleEmojiPickerScroll);
+  }
+
+  void _handleEmojiPickerScroll() {
+    _scrollSettled = false;
+    _scrollSettleTimer?.cancel();
+    _scrollSettleTimer = Timer(kEmojiPickerScrollSettleDelay, () {
+      if (!mounted) {
+        return;
+      }
+      _scrollSettled = true;
+      _syncPickerVisibility();
+      _prefetchAhead();
+    });
+    _syncPickerVisibility();
   }
 
   @override
@@ -213,6 +243,10 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
 
   @override
   void dispose() {
+    _scrollController.removeListener(_handleEmojiPickerScroll);
+    _scrollSettleTimer?.cancel();
+    _cancelPrefetch = true;
+    _visibilityNotifier.dispose();
     _ownedScrollController?.dispose();
     _hoverState.dispose();
     super.dispose();
@@ -224,6 +258,12 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     _hoverState.value = _HoverState(name: name, customEmoji: customEmoji);
     widget.onHoveredEmojiChanged?.call(name);
   }
+
+  GlobalKey _keyForCategoryButton(String category) =>
+      _categoryButtonKeys.putIfAbsent(
+        category,
+        () => GlobalKey(debugLabel: 'emoji-cat-btn-$category'),
+      );
 
   GlobalKey _keyForCategory(String category) => _categoryKeys.putIfAbsent(
     category,
@@ -537,7 +577,188 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     return items;
   }
 
+  List<EmojiPickerFavoriteRowItem> _favoriteRowItems(
+    List<_FavoriteEmojiItem> items,
+  ) {
+    return items
+        .map(
+          (item) => switch (item) {
+            _FavoriteUnicodeEmojiItem(:final emoji) =>
+              EmojiPickerFavoriteUnicodeRowItem(emoji),
+            _FavoriteCustomEmojiItem(:final emoji) =>
+              EmojiPickerFavoriteCustomRowItem(emoji),
+          },
+        )
+        .toList(growable: false);
+  }
+
+  List<MapEntry<String, List<GuildEmojiEntry>>> _guildSections(
+    _EmojiPickerData data,
+  ) {
+    return data.guildEmojisByGuild.entries
+        .map((entry) => MapEntry('guild-${entry.key.id}', entry.value))
+        .toList(growable: false);
+  }
+
+  List<GuildEmojiEntry> _customEmojisFromFavorites(
+    List<_FavoriteEmojiItem> items,
+  ) {
+    return items
+        .whereType<_FavoriteCustomEmojiItem>()
+        .map((item) => item.emoji)
+        .toList(growable: false);
+  }
+
+  List<GuildEmojiEntry> _customEmojisFromFrecent(List<FrecentEmojiItem> items) {
+    return items
+        .whereType<FrecentCustomEmoji>()
+        .map((item) => item.emoji)
+        .toList(growable: false);
+  }
+
+  EmojiPickerLayoutIndex _buildLayoutIndex({
+    required _EmojiPickerData data,
+    required bool includeUpsell,
+  }) {
+    return buildEmojiPickerLayoutIndex(
+      unicodeCategories: EmojiRegistry.categories,
+      favoriteItems: _favoriteRowItems(data.favoriteItems),
+      frecentItems: data.frecent,
+      guildSections: _guildSections(data),
+      collapsedCategories: data.collapsedCategories,
+      columns: _columns,
+      includeUpsell: includeUpsell,
+    );
+  }
+
+  void _schedulePrefetch(_EmojiPickerData data) {
+    if (_didSchedulePrefetch) {
+      return;
+    }
+    _didSchedulePrefetch = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) {
+        return;
+      }
+      await prefetchEmojiPickerForGuildContext(
+        context: context,
+        allGuildEmojis: data.allGuildEmojis,
+        activeGuildId: data.activeGuildId,
+        favoriteCustomEmojis: _customEmojisFromFavorites(data.favoriteItems),
+        frecentCustomEmojis: _customEmojisFromFrecent(data.frecent),
+        isMobile: widget.isMobile,
+        isCancelled: () => _cancelPrefetch,
+      );
+    });
+  }
+
+  void _trackEmojiGrid({
+    required double viewportHeight,
+    EmojiPickerLayoutIndex? layoutIndex,
+    List<GuildEmojiEntry>? searchCustomResults,
+  }) {
+    _viewportHeight = viewportHeight;
+    _layoutIndex = layoutIndex;
+    _searchCustomResults = searchCustomResults;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _syncPickerVisibility();
+      }
+    });
+  }
+
+  bool get _isScrollSettled => _scrollSettled;
+
+  void _syncPickerVisibility() {
+    if (!_scrollController.hasClients || _viewportHeight <= 0) {
+      return;
+    }
+    final double scrollOffset = _scrollController.offset;
+    final bool scrollSettled = _isScrollSettled;
+    final Set<String> animatedIds = _searchCustomResults != null
+        ? animatedCustomEmojiIdsForSearchGrid(
+            customResults: _searchCustomResults!,
+            columns: _columns,
+            scrollOffset: scrollOffset,
+            viewportHeight: _viewportHeight,
+            maxAnimated: kEmojiPickerMaxAnimatedEmojis,
+            scrollSettled: scrollSettled,
+          )
+        : _layoutIndex?.animatedCustomEmojiIds(
+                scrollOffset: scrollOffset,
+                viewportHeight: _viewportHeight,
+                maxAnimated: kEmojiPickerMaxAnimatedEmojis,
+                scrollSettled: scrollSettled,
+              ) ??
+              const <String>{};
+    final String? activeCategoryKey = _searchCustomResults == null
+        ? _layoutIndex?.activeCategoryKey(scrollOffset)
+        : null;
+    final EmojiPickerVisibilityState next = EmojiPickerVisibilityState(
+      animatedCustomEmojiIds: animatedIds,
+      activeCategoryKey: activeCategoryKey,
+    );
+    if (next == _visibilityNotifier.value) {
+      return;
+    }
+    _visibilityNotifier.value = next;
+    _ensureActiveCategoryVisible(activeCategoryKey);
+  }
+
+  void _ensureActiveCategoryVisible(String? categoryKey) {
+    if (!widget.isMobile || categoryKey == null) {
+      return;
+    }
+    if (_lastEnsuredCategoryKey == categoryKey) {
+      return;
+    }
+    _lastEnsuredCategoryKey = categoryKey;
+    final BuildContext? buttonContext =
+        _categoryButtonKeys[categoryKey]?.currentContext;
+    if (buttonContext == null) {
+      _lastEnsuredCategoryKey = null;
+      return;
+    }
+    unawaited(
+      Scrollable.ensureVisible(
+        buttonContext,
+        duration: const Duration(milliseconds: 150),
+        alignment: 0.5,
+        curve: Curves.easeOut,
+      ),
+    );
+  }
+
+  void _prefetchAhead() {
+    if (!mounted || _layoutIndex == null || _searchCustomResults != null) {
+      return;
+    }
+    final List<GuildEmojiEntry> ahead = _layoutIndex!
+        .customEmojisAhead(
+          scrollOffset: _scrollController.offset,
+          viewportHeight: _viewportHeight,
+          count: kEmojiPickerScrollAheadCount,
+        )
+        .where((GuildEmojiEntry emoji) => _prefetchedAheadIds.add(emoji.id))
+        .toList(growable: false);
+    if (ahead.isEmpty) {
+      return;
+    }
+    unawaited(
+      prefetchEmojiPickerCustomEmojis(
+        context: context,
+        emojis: ahead,
+        prefetchAnimated: emojiPickerPrefetchAnimatedUrls(
+          isMobile: widget.isMobile,
+        ),
+        isCancelled: () => _cancelPrefetch,
+        limit: ahead.length,
+      ),
+    );
+  }
+
   void _scrollToCategory(String category) {
+    _lastEnsuredCategoryKey = category;
     if (!_scrollController.hasClients) {
       return;
     }
@@ -666,6 +887,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final data = _watchPickerData();
+    _schedulePrefetch(data);
 
     if (widget.isMobile) {
       return Column(
@@ -733,10 +955,13 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     FluxerColorTheme colors,
     _EmojiPickerData data,
   ) {
-    if (widget.searchQuery.isNotEmpty) {
-      return _buildSearchResults(context, colors, data);
-    }
-    return _buildCategoryGrid(context, colors, data);
+    final Widget grid = widget.searchQuery.isNotEmpty
+        ? _buildSearchResults(context, colors, data)
+        : _buildCategoryGrid(context, colors, data);
+    return EmojiPickerVisibilityScope(
+      notifier: _visibilityNotifier,
+      child: grid,
+    );
   }
 
   Widget _buildSearchResults(
@@ -775,27 +1000,35 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     }
 
     final totalCount = customResults.length + unicodeResults.length;
-    return GridView.builder(
-      scrollCacheExtent: ScrollCacheExtent.pixels(
-        _isFirstFrameSettled
-            ? emojiPickerCacheExtent(rowHeight: _kCellSize)
-            : 0,
-      ),
-      controller: _scrollController,
-      addAutomaticKeepAlives: false,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _columns,
-        mainAxisExtent: _kCellSize,
-      ),
-      itemCount: totalCount,
-      itemBuilder: (context, i) {
-        if (i < customResults.length) {
-          return _buildCustomEmojiCell(customResults[i], colors);
-        }
-        return _buildEmojiCell(
-          unicodeResults[i - customResults.length],
-          colors,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        _trackEmojiGrid(
+          viewportHeight: constraints.maxHeight,
+          searchCustomResults: customResults,
+        );
+        return GridView.builder(
+          scrollCacheExtent: ScrollCacheExtent.pixels(
+            _isFirstFrameSettled
+                ? emojiPickerCacheExtent(rowHeight: _kCellSize)
+                : 0,
+          ),
+          controller: _scrollController,
+          addAutomaticKeepAlives: false,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: _columns,
+            mainAxisExtent: _kCellSize,
+          ),
+          itemCount: totalCount,
+          itemBuilder: (context, i) {
+            if (i < customResults.length) {
+              return _buildCustomEmojiCell(customResults[i], colors);
+            }
+            return _buildEmojiCell(
+              unicodeResults[i - customResults.length],
+              colors,
+            );
+          },
         );
       },
     );
@@ -806,213 +1039,188 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     FluxerColorTheme colors,
     _EmojiPickerData data,
   ) {
-    final categories = EmojiRegistry.categories;
-    final favoriteItems = data.favoriteItems;
-    final hasFrecent = data.frecent.isNotEmpty;
-    final guildEntries = data.guildEmojisByGuild.entries.toList();
     final shouldBuildUpsell = emojiPickerShouldBuildUpsell(
       isPremium: data.isPremium,
       hasSearchQuery: widget.searchQuery.isNotEmpty,
       isFirstFrameSettled: _isFirstFrameSettled,
     );
+    final EmojiPickerLayoutIndex layoutIndex = _buildLayoutIndex(
+      data: data,
+      includeUpsell: shouldBuildUpsell,
+    );
 
-    return CustomScrollView(
-      scrollCacheExtent: ScrollCacheExtent.pixels(
-        _isFirstFrameSettled
-            ? emojiPickerCacheExtent(rowHeight: _kCellSize)
-            : 0,
-      ),
-      controller: _scrollController,
-      slivers: [
-        const SliverToBoxAdapter(child: SizedBox(height: 4)),
-        if (shouldBuildUpsell)
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            sliver: SliverToBoxAdapter(
-              child: _buildUpsellBanner(context, data),
-            ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        _trackEmojiGrid(
+          viewportHeight: constraints.maxHeight,
+          layoutIndex: layoutIndex,
+        );
+        return CustomScrollView(
+          scrollCacheExtent: ScrollCacheExtent.pixels(
+            _isFirstFrameSettled
+                ? emojiPickerCacheExtent(rowHeight: _kCellSize)
+                : 0,
           ),
-        if (favoriteItems.isNotEmpty) ...[
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            sliver: SliverToBoxAdapter(
-              child: KeyedSubtree(
-                key: _keyForCategory('favorites'),
-                child: _buildCategoryHeader('favorites', colors),
-              ),
-            ),
-          ),
-          if (!data.collapsedCategories.contains('favorites'))
+          controller: _scrollController,
+          slivers: [
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              sliver: _buildFavoriteEmojiGridSliver(favoriteItems, colors),
-            ),
-        ],
-        if (hasFrecent) ...[
-          if (favoriteItems.isNotEmpty)
-            const SliverToBoxAdapter(child: SizedBox(height: 12)),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            sliver: SliverToBoxAdapter(
-              child: KeyedSubtree(
-                key: _keyForCategory('frequently-used'),
-                child: _buildCategoryHeader('frequently-used', colors),
-              ),
-            ),
-          ),
-          if (!data.collapsedCategories.contains('frequently-used'))
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              sliver: _buildFrecentEmojiGridSliver(data.frecent, colors),
-            ),
-        ],
-        for (final entry in guildEntries) ...[
-          const SliverToBoxAdapter(child: SizedBox(height: 12)),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            sliver: SliverToBoxAdapter(
-              child: KeyedSubtree(
-                key: _keyForCategory('guild-${entry.key.id}'),
-                child: _buildCategoryHeader(
-                  'guild-${entry.key.id}',
-                  colors,
-                  labelOverride: entry.key.name,
-                  guild: entry.key,
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) => _buildLayoutEntry(
+                    context,
+                    layoutIndex.entries[index],
+                    colors,
+                    data,
+                    shouldBuildUpsell: shouldBuildUpsell,
+                  ),
+                  childCount: layoutIndex.entries.length,
+                  addAutomaticKeepAlives: false,
                 ),
               ),
             ),
-          ),
-          if (!data.collapsedCategories.contains('guild-${entry.key.id}'))
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              sliver: _buildCustomEmojiGridSliver(entry.value, colors),
-            ),
-        ],
-        for (final category in kEmojiCategoryOrder)
-          if (categories[category]?.isNotEmpty ?? false) ...[
-            const SliverToBoxAdapter(child: SizedBox(height: 12)),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              sliver: SliverToBoxAdapter(
-                child: KeyedSubtree(
-                  key: _keyForCategory(category),
-                  child: _buildCategoryHeader(category, colors),
-                ),
-              ),
-            ),
-            if (!data.collapsedCategories.contains(category))
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                sliver: _buildUnicodeEmojiGridSliver(
-                  categories[category]!,
-                  colors,
-                ),
-              ),
           ],
-        const SliverToBoxAdapter(child: SizedBox(height: 4)),
-      ],
+        );
+      },
     );
   }
 
-  SliverGrid _buildUnicodeEmojiGridSliver(
-    List<EmojiEntry> emojis,
+  Widget _buildLayoutEntry(
+    BuildContext context,
+    EmojiPickerLayoutEntry entry,
     FluxerColorTheme colors,
-  ) {
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _columns,
-        mainAxisExtent: _kCellSize,
+    _EmojiPickerData data, {
+    required bool shouldBuildUpsell,
+  }) {
+    return switch (entry) {
+      EmojiPickerTopPaddingEntry() => const SizedBox(
+        height: kEmojiPickerTopPadding,
       ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => _buildEmojiCell(emojis[index], colors),
-        childCount: emojis.length,
-        addAutomaticKeepAlives: false,
+      EmojiPickerUpsellEntry() =>
+        shouldBuildUpsell
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: _buildUpsellBanner(context, data),
+              )
+            : const SizedBox.shrink(),
+      EmojiPickerSectionGapEntry() => const SizedBox(
+        height: kEmojiPickerSectionGap,
       ),
-    );
+      EmojiPickerSectionHeaderEntry(:final categoryKey) => KeyedSubtree(
+        key: _keyForCategory(categoryKey),
+        child: _buildCategoryHeader(
+          categoryKey,
+          colors,
+          data.collapsedCategories,
+          labelOverride: _headerLabelOverride(categoryKey, data),
+          guild: _headerGuild(categoryKey, data),
+        ),
+      ),
+      EmojiPickerCustomEmojiRowEntry(:final emojis) => SizedBox(
+        height: kEmojiPickerCellSize,
+        child: Row(
+          children: [
+            for (final GuildEmojiEntry emoji in emojis)
+              Expanded(child: _buildCustomEmojiCell(emoji, colors)),
+            for (var index = emojis.length; index < _columns; index++)
+              const Expanded(child: SizedBox.shrink()),
+          ],
+        ),
+      ),
+      EmojiPickerUnicodeEmojiRowEntry(:final emojis) => SizedBox(
+        height: kEmojiPickerCellSize,
+        child: Row(
+          children: [
+            for (final EmojiEntry emoji in emojis)
+              Expanded(child: _buildEmojiCell(emoji, colors)),
+            for (var index = emojis.length; index < _columns; index++)
+              const Expanded(child: SizedBox.shrink()),
+          ],
+        ),
+      ),
+      EmojiPickerFavoriteEmojiRowEntry(:final items) => SizedBox(
+        height: kEmojiPickerCellSize,
+        child: Row(
+          children: [
+            for (final EmojiPickerFavoriteRowItem item in items)
+              Expanded(child: _buildFavoriteRowCell(item, colors)),
+            for (var index = items.length; index < _columns; index++)
+              const Expanded(child: SizedBox.shrink()),
+          ],
+        ),
+      ),
+      EmojiPickerFrecentEmojiRowEntry(:final items) => SizedBox(
+        height: kEmojiPickerCellSize,
+        child: Row(
+          children: [
+            for (final FrecentEmojiItem item in items)
+              Expanded(child: _buildFrecentRowCell(item, colors)),
+            for (var index = items.length; index < _columns; index++)
+              const Expanded(child: SizedBox.shrink()),
+          ],
+        ),
+      ),
+    };
   }
 
-  SliverGrid _buildFavoriteEmojiGridSliver(
-    List<_FavoriteEmojiItem> emojis,
-    FluxerColorTheme colors,
-  ) {
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _columns,
-        mainAxisExtent: _kCellSize,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final item = emojis[index];
-          return switch (item) {
-            _FavoriteUnicodeEmojiItem(:final emoji) => _buildEmojiCell(
-              emoji,
-              colors,
-            ),
-            _FavoriteCustomEmojiItem(:final emoji) => _buildCustomEmojiCell(
-              emoji,
-              colors,
-            ),
-          };
-        },
-        childCount: emojis.length,
-        addAutomaticKeepAlives: false,
-      ),
-    );
+  String? _headerLabelOverride(String categoryKey, _EmojiPickerData data) {
+    if (!categoryKey.startsWith('guild-')) {
+      return null;
+    }
+    final String guildId = categoryKey.substring('guild-'.length);
+    for (final MapEntry<Guild, List<GuildEmojiEntry>> entry
+        in data.guildEmojisByGuild.entries) {
+      if (entry.key.id == guildId) {
+        return entry.key.name;
+      }
+    }
+    return null;
   }
 
-  SliverGrid _buildFrecentEmojiGridSliver(
-    List<FrecentEmojiItem> emojis,
-    FluxerColorTheme colors,
-  ) {
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _columns,
-        mainAxisExtent: _kCellSize,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final item = emojis[index];
-          return switch (item) {
-            FrecentUnicodeEmoji(:final emoji) => _buildEmojiCell(emoji, colors),
-            FrecentCustomEmoji(:final emoji) => _buildCustomEmojiCell(
-              emoji,
-              colors,
-            ),
-          };
-        },
-        childCount: emojis.length,
-        addAutomaticKeepAlives: false,
-      ),
-    );
+  Guild? _headerGuild(String categoryKey, _EmojiPickerData data) {
+    if (!categoryKey.startsWith('guild-')) {
+      return null;
+    }
+    final String guildId = categoryKey.substring('guild-'.length);
+    for (final Guild guild in data.guildEmojisByGuild.keys) {
+      if (guild.id == guildId) {
+        return guild;
+      }
+    }
+    return null;
   }
 
-  SliverGrid _buildCustomEmojiGridSliver(
-    List<GuildEmojiEntry> emojis,
+  Widget _buildFavoriteRowCell(
+    EmojiPickerFavoriteRowItem item,
     FluxerColorTheme colors,
   ) {
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _columns,
-        mainAxisExtent: _kCellSize,
+    return switch (item) {
+      EmojiPickerFavoriteUnicodeRowItem(:final emoji) => _buildEmojiCell(
+        emoji,
+        colors,
       ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => _buildCustomEmojiCell(emojis[index], colors),
-        childCount: emojis.length,
-        addAutomaticKeepAlives: false,
+      EmojiPickerFavoriteCustomRowItem(:final emoji) => _buildCustomEmojiCell(
+        emoji,
+        colors,
       ),
-    );
+    };
+  }
+
+  Widget _buildFrecentRowCell(FrecentEmojiItem item, FluxerColorTheme colors) {
+    return switch (item) {
+      FrecentUnicodeEmoji(:final emoji) => _buildEmojiCell(emoji, colors),
+      FrecentCustomEmoji(:final emoji) => _buildCustomEmojiCell(emoji, colors),
+    };
   }
 
   Widget _buildCategoryHeader(
     String category,
-    FluxerColorTheme colors, {
+    FluxerColorTheme colors,
+    List<String> collapsedCategories, {
     String? labelOverride,
     Guild? guild,
   }) {
     final l10n = FluxerLocalizations.of(context);
-    final collapsedCategories =
-        ref.watch(collapsedEmojiPickerCategoriesProvider).value ??
-        const <String>[];
     final isCollapsed = collapsedCategories.contains(category);
     final label =
         labelOverride ??
@@ -1089,6 +1297,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       return _PressableEmojiCell(
         onTap: () => _onEmojiSelected(emoji),
         onLongPress: () => _showUnicodeEmojiActions(emoji),
+        usePressFeedback: !widget.isMobile,
         child: Center(child: sprite),
       );
     }
@@ -1120,12 +1329,16 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     );
   }
 
-  Widget _buildCustomEmojiCell(GuildEmojiEntry emoji, FluxerColorTheme colors) {
-    final usesHover = emojiPickerUsesHoverTracking(isMobile: widget.isMobile);
-    final image = CachedEmojiImage(
+  Widget _buildCustomEmojiImage(
+    GuildEmojiEntry emoji,
+    FluxerColorTheme colors, {
+    required bool animate,
+  }) {
+    return CachedEmojiImage(
       key: ValueKey(emoji.id),
       emojiId: emoji.id,
-      animated: emoji.animated,
+      animated: widget.isMobile && emoji.animated,
+      isInView: widget.isMobile && emoji.animated ? animate : null,
       requestSize: _kCustomEmojiRequestSize,
       size: _kEmojiSize,
       errorBuilder: (ctx) => SizedBox(
@@ -1140,11 +1353,29 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         ),
       ),
     );
+  }
+
+  Widget _buildCustomEmojiCell(GuildEmojiEntry emoji, FluxerColorTheme colors) {
+    final usesHover = emojiPickerUsesHoverTracking(isMobile: widget.isMobile);
+    final bool trackAnimation = widget.isMobile && emoji.animated;
+    final Widget image = trackAnimation
+        ? ListenableBuilder(
+            listenable: _visibilityNotifier,
+            builder: (BuildContext context, Widget? _) {
+              final bool animate = EmojiPickerVisibilityScope.shouldAnimate(
+                context,
+                emoji.id,
+              );
+              return _buildCustomEmojiImage(emoji, colors, animate: animate);
+            },
+          )
+        : _buildCustomEmojiImage(emoji, colors, animate: false);
 
     if (!usesHover) {
       return _PressableEmojiCell(
         onTap: () => _onCustomEmojiSelected(emoji),
         onLongPress: () => _showCustomEmojiActions(emoji),
+        usePressFeedback: !widget.isMobile,
         child: Center(child: image),
       );
     }
@@ -1190,39 +1421,54 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
           right: BorderSide(color: colors.backgroundModifierAccent),
         ),
       ),
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        children: [
-          if (data.favoriteItems.isNotEmpty)
-            _CategoryButton(
-              icon: PhosphorIconsFill.star,
-              tooltip: 'Favorites',
-              onTap: () => _scrollToCategory('favorites'),
-            ),
-          if (data.frecent.isNotEmpty)
-            _CategoryButton(
-              icon: PhosphorIconsFill.clock,
-              tooltip: l10n.emojiFrequentlyUsed,
-              onTap: () => _scrollToCategory('frequently-used'),
-            ),
-          ...data.guildEmojisByGuild.keys.map(
-            (guild) => _GuildCategoryButton(
-              guild: guild,
-              onTap: () => _scrollToCategory('guild-${guild.id}'),
-            ),
-          ),
-          ...kEmojiCategoryOrder.map((cat) {
-            final icon = _kCategoryIcons[cat];
-            if (icon == null) {
-              return const SizedBox.shrink();
-            }
-            return _CategoryButton(
-              icon: icon,
-              tooltip: _categoryLabel(cat, l10n),
-              onTap: () => _scrollToCategory(cat),
-            );
-          }),
-        ],
+      child: ListenableBuilder(
+        listenable: _visibilityNotifier,
+        builder: (BuildContext context, Widget? _) {
+          final String? activeCategory =
+              EmojiPickerVisibilityScope.activeCategory(context);
+          return ListView(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            children: [
+              if (data.favoriteItems.isNotEmpty)
+                _CategoryButton(
+                  key: _keyForCategoryButton('favorites'),
+                  icon: PhosphorIconsFill.star,
+                  tooltip: 'Favorites',
+                  isActive: activeCategory == 'favorites',
+                  onTap: () => _scrollToCategory('favorites'),
+                ),
+              if (data.frecent.isNotEmpty)
+                _CategoryButton(
+                  key: _keyForCategoryButton('frequently-used'),
+                  icon: PhosphorIconsFill.clock,
+                  tooltip: l10n.emojiFrequentlyUsed,
+                  isActive: activeCategory == 'frequently-used',
+                  onTap: () => _scrollToCategory('frequently-used'),
+                ),
+              ...data.guildEmojisByGuild.keys.map(
+                (Guild guild) => _GuildCategoryButton(
+                  key: _keyForCategoryButton('guild-${guild.id}'),
+                  guild: guild,
+                  isActive: activeCategory == 'guild-${guild.id}',
+                  onTap: () => _scrollToCategory('guild-${guild.id}'),
+                ),
+              ),
+              ...kEmojiCategoryOrder.map((String cat) {
+                final IconData? icon = _kCategoryIcons[cat];
+                if (icon == null) {
+                  return const SizedBox.shrink();
+                }
+                return _CategoryButton(
+                  key: _keyForCategoryButton(cat),
+                  icon: icon,
+                  tooltip: _categoryLabel(cat, l10n),
+                  isActive: activeCategory == cat,
+                  onTap: () => _scrollToCategory(cat),
+                );
+              }),
+            ],
+          );
+        },
       ),
     );
   }
@@ -1249,40 +1495,55 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       ),
       child: SizedBox(
         height: _kMobileCategoryBarHeight,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          children: [
-            if (data.favoriteItems.isNotEmpty)
-              _CategoryButton(
-                icon: PhosphorIconsFill.star,
-                tooltip: 'Favorites',
-                onTap: () => _scrollToCategory('favorites'),
-              ),
-            if (data.frecent.isNotEmpty)
-              _CategoryButton(
-                icon: PhosphorIconsFill.clock,
-                tooltip: l10n.emojiFrequentlyUsed,
-                onTap: () => _scrollToCategory('frequently-used'),
-              ),
-            ...data.guildEmojisByGuild.keys.map(
-              (guild) => _GuildCategoryButton(
-                guild: guild,
-                onTap: () => _scrollToCategory('guild-${guild.id}'),
-              ),
-            ),
-            ...kEmojiCategoryOrder.map((cat) {
-              final icon = _kCategoryIcons[cat];
-              if (icon == null) {
-                return const SizedBox.shrink();
-              }
-              return _CategoryButton(
-                icon: icon,
-                tooltip: _categoryLabel(cat, l10n),
-                onTap: () => _scrollToCategory(cat),
-              );
-            }),
-          ],
+        child: ListenableBuilder(
+          listenable: _visibilityNotifier,
+          builder: (BuildContext context, Widget? _) {
+            final String? activeCategory =
+                EmojiPickerVisibilityScope.activeCategory(context);
+            return ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              children: [
+                if (data.favoriteItems.isNotEmpty)
+                  _CategoryButton(
+                    key: _keyForCategoryButton('favorites'),
+                    icon: PhosphorIconsFill.star,
+                    tooltip: 'Favorites',
+                    isActive: activeCategory == 'favorites',
+                    onTap: () => _scrollToCategory('favorites'),
+                  ),
+                if (data.frecent.isNotEmpty)
+                  _CategoryButton(
+                    key: _keyForCategoryButton('frequently-used'),
+                    icon: PhosphorIconsFill.clock,
+                    tooltip: l10n.emojiFrequentlyUsed,
+                    isActive: activeCategory == 'frequently-used',
+                    onTap: () => _scrollToCategory('frequently-used'),
+                  ),
+                ...data.guildEmojisByGuild.keys.map(
+                  (Guild guild) => _GuildCategoryButton(
+                    key: _keyForCategoryButton('guild-${guild.id}'),
+                    guild: guild,
+                    isActive: activeCategory == 'guild-${guild.id}',
+                    onTap: () => _scrollToCategory('guild-${guild.id}'),
+                  ),
+                ),
+                ...kEmojiCategoryOrder.map((String cat) {
+                  final IconData? icon = _kCategoryIcons[cat];
+                  if (icon == null) {
+                    return const SizedBox.shrink();
+                  }
+                  return _CategoryButton(
+                    key: _keyForCategoryButton(cat),
+                    icon: icon,
+                    tooltip: _categoryLabel(cat, l10n),
+                    isActive: activeCategory == cat,
+                    onTap: () => _scrollToCategory(cat),
+                  );
+                }),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -1361,11 +1622,13 @@ class _PressableEmojiCell extends StatefulWidget {
     required this.child,
     this.onTap,
     this.onLongPress,
+    this.usePressFeedback = true,
   });
 
   final Widget child;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
+  final bool usePressFeedback;
 
   @override
   State<_PressableEmojiCell> createState() => _PressableEmojiCellState();
@@ -1389,6 +1652,14 @@ class _PressableEmojiCellState extends State<_PressableEmojiCell> {
 
   @override
   Widget build(BuildContext context) {
+    if (!widget.usePressFeedback) {
+      return GestureDetector(
+        key: widget.key,
+        onTap: widget.onTap,
+        onLongPress: widget.onLongPress,
+        child: widget.child,
+      );
+    }
     return GestureDetector(
       key: widget.key,
       onTap: widget.onTap,
@@ -1410,46 +1681,74 @@ class _CategoryButton extends StatelessWidget {
     required this.icon,
     required this.tooltip,
     required this.onTap,
+    this.isActive = false,
+    super.key,
   });
 
   final IconData icon;
   final String tooltip;
   final VoidCallback onTap;
+  final bool isActive;
 
   @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: onTap,
-    borderRadius: BorderRadius.circular(6),
-    child: SizedBox(
-      width: 36,
-      height: 36,
-      child: Center(
-        child: PhosphorIcon(
-          icon,
-          size: 24,
-          color: context.colors.textPrimaryMuted,
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(6),
+      child: SizedBox(
+        width: 36,
+        height: 36,
+        child: Center(
+          child: PhosphorIcon(
+            icon,
+            size: 24,
+            color: isActive ? colors.textPrimary : colors.textPrimaryMuted,
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _GuildCategoryButton extends StatelessWidget {
-  const _GuildCategoryButton({required this.guild, required this.onTap});
+  const _GuildCategoryButton({
+    required this.guild,
+    required this.onTap,
+    this.isActive = false,
+    super.key,
+  });
 
   final Guild guild;
   final VoidCallback onTap;
+  final bool isActive;
 
   @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: onTap,
-    borderRadius: BorderRadius.circular(6),
-    child: SizedBox(
-      width: 36,
-      height: 36,
-      child: Center(child: _GuildIcon(guild: guild, size: 24)),
-    ),
-  );
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(6),
+      child: SizedBox(
+        width: 36,
+        height: 36,
+        child: Center(
+          child: DecoratedBox(
+            decoration: isActive
+                ? BoxDecoration(
+                    border: Border.all(color: colors.textPrimary, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  )
+                : const BoxDecoration(),
+            child: Padding(
+              padding: const EdgeInsets.all(2),
+              child: _GuildIcon(guild: guild, size: isActive ? 20 : 24),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _GuildIcon extends StatelessWidget {

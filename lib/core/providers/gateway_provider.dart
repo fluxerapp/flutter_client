@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_dispatcher.dart';
 import 'package:fluxer_app/core/gateway/gateway_event_handler.dart';
@@ -104,6 +105,12 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     },
     onReady: () {
       talker.info('[Gateway] Setting gatewayReady = true');
+      if (!kReleaseMode) {
+        final stats = connection.compressionStats;
+        talker.info(
+          '[Gateway] compression: negotiated=${stats.compressionNegotiated} frames=${stats.frames} wire=${stats.wireBytes} decompressed=${stats.decompressedBytes}',
+        );
+      }
       unawaited(ref.read(channelPermissionCacheProvider.notifier).rebuildAll());
       ref
         ..invalidate(effectiveGuildChannelPermissionBitsProvider)

@@ -659,22 +659,30 @@ class _IarReportBodyState extends ConsumerState<_IarReportBody> {
     };
 
     final layout = context.layout;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Flexible(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s2),
-            child: body,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, _) {
+        if (!didPop) {
+          _goBack();
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s2),
+              child: body,
+            ),
           ),
-        ),
-        _IarFooter(
-          step: _step,
-          submitting: _submitting,
-          onBack: _goBack,
-          onPrimary: () => _onPrimary(l10n),
-        ),
-      ],
+          _IarFooter(
+            step: _step,
+            submitting: _submitting,
+            onBack: _goBack,
+            onPrimary: () => _onPrimary(l10n),
+          ),
+        ],
+      ),
     );
   }
 }

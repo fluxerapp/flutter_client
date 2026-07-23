@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/emoji_pick
 import 'package:fluxer_app/features/chat/providers/channel/channel_message_permissions_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/emoji_picker_provider.dart';
 import 'package:fluxer_app/features/chat/providers/pickers/expression_picker_preferences_provider.dart';
+import 'package:fluxer_app/features/chat/utils/emoji_picker_rendering_policy.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
@@ -101,6 +102,13 @@ final _customEmoji = GuildEmojiEntry(
   guildId: 'g1',
 );
 
+final _animatedCustomEmoji = GuildEmojiEntry(
+  id: 'custom-animated',
+  name: 'dance',
+  animated: true,
+  guildId: 'g1',
+);
+
 void main() {
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -160,6 +168,34 @@ void main() {
         ),
         findsNothing,
       );
+    },
+  );
+
+  testWidgets(
+    'mobile picker requests animated custom emoji assets in the grid',
+    (tester) async {
+      await tester.pumpWidget(
+        _buildTestApp(
+          allGuildEmojis: [_animatedCustomEmoji],
+          frecent: const <FrecentEmojiItem>[],
+          child: const SizedBox(
+            width: 400,
+            height: 400,
+            child: EmojiPickerContent(channelId: 'channel-1', isMobile: true),
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      final CachedEmojiImage image = tester.widget(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is CachedEmojiImage && widget.emojiId == 'custom-animated',
+        ),
+      );
+      expect(image.animated, isTrue);
+      expect(image.requestSize, kCustomEmojiPickerFetchSize);
     },
   );
 }

@@ -248,12 +248,12 @@ void main() {
     expect(find.byType(SvgPicture), findsOneWidget);
   });
 
-  testWidgets('falls back to system emoji when Twemoji SVG is invalid', (
+  testWidgets('falls back to system emoji when asset format is unknown', (
     tester,
   ) async {
     HttpOverrides.global = _StatusCodeHttpOverrides(
       statusCode: 200,
-      body: Uint8List.fromList('not an svg'.codeUnits),
+      body: Uint8List.fromList('not an image'.codeUnits),
     );
 
     await tester.runAsync(() async {
@@ -268,5 +268,73 @@ void main() {
     });
 
     expect(find.byType(SystemEmojiFallback), findsOneWidget);
+  });
+
+  testWidgets('renders WebP emoji asset when network returns WebP', (
+    tester,
+  ) async {
+    final webp = Uint8List.fromList([
+      0x52,
+      0x49,
+      0x46,
+      0x46,
+      0x24,
+      0x00,
+      0x00,
+      0x00,
+      0x57,
+      0x45,
+      0x42,
+      0x50,
+      0x56,
+      0x50,
+      0x38,
+      0x20,
+      0x18,
+      0x00,
+      0x00,
+      0x00,
+      0x30,
+      0x01,
+      0x00,
+      0x9D,
+      0x01,
+      0x2A,
+      0x01,
+      0x00,
+      0x01,
+      0x00,
+      0x02,
+      0x00,
+      0x34,
+      0x25,
+      0xA4,
+      0x00,
+      0x03,
+      0x70,
+      0x00,
+      0xFE,
+      0x07,
+      0x00,
+      0x00,
+    ]);
+    HttpOverrides.global = _StatusCodeHttpOverrides(
+      statusCode: 200,
+      body: webp,
+    );
+
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: UnicodeEmojiWidget(emoji: '🐊', size: size),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+    });
+
+    expect(find.byType(Image), findsOneWidget);
+    expect(find.byType(SystemEmojiFallback), findsNothing);
   });
 }

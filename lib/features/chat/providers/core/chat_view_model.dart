@@ -1346,9 +1346,9 @@ class ChatViewModel extends _$ChatViewModel {
           await _hasNewerMessagesThanChannel(
             mergedServerTailId,
             sealedTail: isSealedLatestTail,
-            knownLoadedMessageIds: isSealedLatestTail
-                ? merged.map((Message message) => message.id).toSet()
-                : null,
+            knownLoadedMessageIds: merged
+                .map((Message message) => message.id)
+                .toSet(),
           );
       if (state.channelId != channelId || !shouldApply()) {
         return;
@@ -1899,19 +1899,24 @@ class ChatViewModel extends _$ChatViewModel {
     if (compareSnowflakeIds(lastMessageId, messageId) <= 0) {
       return false;
     }
+    if (knownLoadedMessageIds?.contains(lastMessageId) ?? false) {
+      return true;
+    }
+    final database = ref.read(fluxerDatabaseProvider);
+    final pointerExists =
+        await database.messageDao.getMessage(lastMessageId) != null;
+    if (pointerExists) {
+      return true;
+    }
     if (sealedTail) {
-      if (knownLoadedMessageIds != null) {
-        return knownLoadedMessageIds.contains(lastMessageId);
-      }
-      final pointerExists =
-          await ref
-              .read(fluxerDatabaseProvider)
-              .messageDao
-              .getMessage(lastMessageId) !=
-          null;
-      if (!pointerExists) {
-        return false;
-      }
+      return false;
+    }
+    final readState = await database.readStateDao.getReadState(state.channelId);
+    final String? ackMessageId = readState?.lastMessageId;
+    if (ackMessageId != null &&
+        ackMessageId.isNotEmpty &&
+        compareSnowflakeIds(ackMessageId, messageId) >= 0) {
+      return false;
     }
     return true;
   }

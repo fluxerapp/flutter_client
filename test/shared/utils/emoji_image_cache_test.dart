@@ -92,6 +92,48 @@ void main() {
     expect(imageUrl(tester), isNot(contains('animated=true')));
   });
 
+  testWidgets('picker visibility keeps static base image visible', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrapEmoji(
+        onScreen: true,
+        emoji: const CachedEmojiImage(
+          emojiId: 'picker-1',
+          animated: true,
+          isInView: false,
+          requestSize: 48,
+          size: 32,
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(VisibilityDetector), findsNothing);
+    expect(find.byType(CachedNetworkImage), findsOneWidget);
+    expect(imageUrl(tester), isNot(contains('animated=true')));
+  });
+
+  testWidgets('picker visibility overlays animated image when in view', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      wrapEmoji(
+        onScreen: true,
+        emoji: const CachedEmojiImage(
+          emojiId: 'picker-2',
+          animated: true,
+          isInView: true,
+          requestSize: 48,
+          size: 32,
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(CachedNetworkImage), findsNWidgets(2));
+  });
+
   testWidgets('animated emoji plays when scrolled on-screen', (tester) async {
     await tester.pumpWidget(
       wrapEmoji(

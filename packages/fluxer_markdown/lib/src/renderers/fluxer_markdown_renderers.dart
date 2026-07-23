@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/github.dart';
 import 'package:flutter_highlight/themes/vs2015.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 import 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 import 'package:fluxer_markdown/src/parsing/inline_parse_chunks.dart';
@@ -16,9 +15,9 @@ import 'package:fluxer_markdown/src/parsing/markdown_parse_cache.dart';
 import 'package:fluxer_markdown/src/syntaxes/fluxer_markdown_syntaxes.dart';
 import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
-import 'package:fluxer_markdown/src/utils/emoji_asset_cache.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
+import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
 import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
 import 'package:intl/intl.dart';
 import 'package:latext/latext.dart';
@@ -1566,26 +1565,11 @@ class FluxerEmojiWidget extends StatelessWidget {
   Widget _buildUnicode(double size) {
     final surrogate = element.attributes['surrogate'] ?? element.textContent;
     final url = unicodeEmojiUrlBuilder(surrogate);
+    final fallback = _buildSystemUnicodeEmoji(surrogate, size);
     if (url == null) {
-      return _buildSystemUnicodeEmoji(surrogate, size);
+      return fallback;
     }
-    return FutureBuilder<Uint8List>(
-      future: EmojiAssetCache.loadBytes(url),
-      builder: (context, snap) {
-        if (snap.hasError) {
-          return _buildSystemUnicodeEmoji(surrogate, size);
-        }
-        if (!snap.hasData) {
-          return SizedBox(width: size, height: size);
-        }
-        return SvgPicture.memory(
-          snap.data!,
-          width: size,
-          height: size,
-          errorBuilder: (_, _, _) => _buildSystemUnicodeEmoji(surrogate, size),
-        );
-      },
-    );
+    return CachedEmojiAssetImage(url: url, size: size, fallback: fallback);
   }
 
   Widget _buildCustom(BuildContext context, double size) {

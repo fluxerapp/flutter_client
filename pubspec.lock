@@ -975,7 +975,7 @@ packages:
       path: dart_sdk
       relative: true
     source: path
-    version: "2.0.0"
+    version: "2.1.0"
   fluxer_markdown:
     dependency: "direct main"
     description:
@@ -2851,10 +2851,10 @@ packages:
     dependency: transitive
     description:
       name: zstd_dart
-      sha256: f819f6a7dcfed47f3eac07f830a7cf58c2dbb9fd4863c96db334f90e4261bfd4
+      sha256: a5077def043de6fb80cd5777f8452099b283df52940f5849004359b177031a5e
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
 sdks:
   dart: ">=3.12.0 <4.0.0"
   flutter: ">=3.44.0"

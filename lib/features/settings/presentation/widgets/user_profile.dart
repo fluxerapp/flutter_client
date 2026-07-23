@@ -441,153 +441,160 @@ class _UserProfileState extends ConsumerState<UserProfile> {
     return Column(
       children: [
         Expanded(
-          child: SingleChildScrollView(
-            controller: widget.scrollController,
-            padding: EdgeInsets.all(layout.s4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FluxerSettingsSection(
-                  title: l10n.profileCustomizationTitle,
-                  description: l10n.profileCustomizationDescription,
-                  isFirst: true,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildProfileTypeSelector(state, vm, layout, l10n),
-                        if (state.isLoadingGuildProfile) ...[
-                          SizedBox(height: layout.s6),
-                          const Center(child: FluxerLoadingSpinner()),
-                        ],
-                        if (!state.isPerGuildProfile) ...[
-                          SizedBox(height: layout.s6),
-                          _buildUsernameSection(state, layout, l10n),
-                        ],
-                        if (!state.isPerGuildProfile) ...[
+          child: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            behavior: HitTestBehavior.translucent,
+            child: SingleChildScrollView(
+              controller: widget.scrollController,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              padding: EdgeInsets.all(layout.s4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FluxerSettingsSection(
+                    title: l10n.profileCustomizationTitle,
+                    description: l10n.profileCustomizationDescription,
+                    isFirst: true,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildProfileTypeSelector(state, vm, layout, l10n),
+                          if (state.isLoadingGuildProfile) ...[
+                            SizedBox(height: layout.s6),
+                            const Center(child: FluxerLoadingSpinner()),
+                          ],
+                          if (!state.isPerGuildProfile) ...[
+                            SizedBox(height: layout.s6),
+                            _buildUsernameSection(state, layout, l10n),
+                          ],
+                          if (!state.isPerGuildProfile) ...[
+                            SizedBox(height: layout.s6),
+                            FluxerInput(
+                              controller: _displayNameController,
+                              label: l10n.displayNameLabel,
+                              hint: state.username,
+                              maxLength: _kMaxDisplayNameLength,
+                              onChanged: vm.updateDisplayName,
+                            ),
+                          ],
+                          if (state.isPerGuildProfile &&
+                              !state.isLoadingGuildProfile) ...[
+                            SizedBox(height: layout.s6),
+                            FluxerInput(
+                              controller: _nickController,
+                              label: l10n.communityNicknameLabel,
+                              hint: state.username,
+                              maxLength: _kMaxDisplayNameLength,
+                              enabled: state.canChangeNickname,
+                              onChanged: vm.updateNick,
+                            ),
+                          ],
                           SizedBox(height: layout.s6),
                           FluxerInput(
-                            controller: _displayNameController,
-                            label: l10n.displayNameLabel,
-                            hint: state.username,
-                            maxLength: _kMaxDisplayNameLength,
-                            onChanged: vm.updateDisplayName,
+                            controller: state.isPerGuildProfile
+                                ? _guildPronounsController
+                                : _pronounsController,
+                            label: l10n.pronounsLabel,
+                            maxLength: _kMaxPronounsLength,
+                            onChanged: state.isPerGuildProfile
+                                ? vm.updateGuildPronouns
+                                : vm.updatePronouns,
                           ),
-                        ],
-                        if (state.isPerGuildProfile &&
-                            !state.isLoadingGuildProfile) ...[
-                          SizedBox(height: layout.s6),
-                          FluxerInput(
-                            controller: _nickController,
-                            label: l10n.communityNicknameLabel,
-                            hint: state.username,
-                            maxLength: _kMaxDisplayNameLength,
-                            enabled: state.canChangeNickname,
-                            onChanged: vm.updateNick,
-                          ),
-                        ],
-                        SizedBox(height: layout.s6),
-                        FluxerInput(
-                          controller: state.isPerGuildProfile
-                              ? _guildPronounsController
-                              : _pronounsController,
-                          label: l10n.pronounsLabel,
-                          maxLength: _kMaxPronounsLength,
-                          onChanged: state.isPerGuildProfile
-                              ? vm.updateGuildPronouns
-                              : vm.updatePronouns,
-                        ),
-                        if (state.isPerGuildProfile &&
-                            !hasPerGuildProfiles &&
-                            shouldShowPremiumCommerce &&
-                            !state.isLoadingGuildProfile) ...[
-                          SizedBox(height: layout.s6),
-                          _buildPerGuildPremiumUpsell(layout, l10n),
-                        ],
-                        if (!state.isPerGuildProfile) ...[
-                          SizedBox(height: layout.s6),
-                          _buildAvatarSection(state, vm, layout, l10n),
-                          SizedBox(height: layout.s6),
-                          _buildBannerSection(state, vm, layout, l10n),
-                        ] else if (!state.isLoadingGuildProfile) ...[
+                          if (state.isPerGuildProfile &&
+                              !hasPerGuildProfiles &&
+                              shouldShowPremiumCommerce &&
+                              !state.isLoadingGuildProfile) ...[
+                            SizedBox(height: layout.s6),
+                            _buildPerGuildPremiumUpsell(layout, l10n),
+                          ],
+                          if (!state.isPerGuildProfile) ...[
+                            SizedBox(height: layout.s6),
+                            _buildAvatarSection(state, vm, layout, l10n),
+                            SizedBox(height: layout.s6),
+                            _buildBannerSection(state, vm, layout, l10n),
+                          ] else if (!state.isLoadingGuildProfile) ...[
+                            SizedBox(height: layout.s6),
+                            Opacity(
+                              opacity: hasPerGuildProfiles ? 1.0 : 0.5,
+                              child: IgnorePointer(
+                                ignoring: !hasPerGuildProfiles,
+                                child: _buildGuildAvatarSection(
+                                  state,
+                                  vm,
+                                  layout,
+                                  l10n,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: layout.s6),
+                            Opacity(
+                              opacity: hasPerGuildProfiles ? 1.0 : 0.5,
+                              child: IgnorePointer(
+                                ignoring: !hasPerGuildProfiles,
+                                child: _buildGuildBannerSection(
+                                  state,
+                                  vm,
+                                  layout,
+                                  l10n,
+                                ),
+                              ),
+                            ),
+                          ],
                           SizedBox(height: layout.s6),
                           Opacity(
-                            opacity: hasPerGuildProfiles ? 1.0 : 0.5,
+                            opacity:
+                                state.isPerGuildProfile && !hasPerGuildProfiles
+                                ? 0.5
+                                : 1.0,
                             child: IgnorePointer(
-                              ignoring: !hasPerGuildProfiles,
-                              child: _buildGuildAvatarSection(
-                                state,
-                                vm,
-                                layout,
-                                l10n,
+                              ignoring:
+                                  state.isPerGuildProfile &&
+                                  !hasPerGuildProfiles,
+                              child: FluxerColorPickerField(
+                                label: l10n.accentColorLabel,
+                                description: l10n.accentColorDescription,
+                                value: state.isPerGuildProfile
+                                    ? (state.isEditedGuildAccentColorSet
+                                          ? (state.editedGuildAccentColor ?? 0)
+                                          : (state.guildAccentColor ??
+                                                state.accentColor ??
+                                                0))
+                                    : (state.isEditedAccentColorSet
+                                          ? (state.editedAccentColor ?? 0)
+                                          : (state.accentColor ?? 0)),
+                                onChanged: state.isPerGuildProfile
+                                    ? vm.updateGuildAccentColor
+                                    : vm.updateAccentColor,
+                                defaultValue: 0x4641D9,
                               ),
                             ),
                           ),
                           SizedBox(height: layout.s6),
                           Opacity(
-                            opacity: hasPerGuildProfiles ? 1.0 : 0.5,
+                            opacity:
+                                state.isPerGuildProfile && !hasPerGuildProfiles
+                                ? 0.5
+                                : 1.0,
                             child: IgnorePointer(
-                              ignoring: !hasPerGuildProfiles,
-                              child: _buildGuildBannerSection(
-                                state,
-                                vm,
-                                layout,
-                                l10n,
-                              ),
+                              ignoring:
+                                  state.isPerGuildProfile &&
+                                  !hasPerGuildProfiles,
+                              child: _buildBioSection(state, vm, layout, l10n),
                             ),
                           ),
-                        ],
-                        SizedBox(height: layout.s6),
-                        Opacity(
-                          opacity:
-                              state.isPerGuildProfile && !hasPerGuildProfiles
-                              ? 0.5
-                              : 1.0,
-                          child: IgnorePointer(
-                            ignoring:
-                                state.isPerGuildProfile && !hasPerGuildProfiles,
-                            child: FluxerColorPickerField(
-                              label: l10n.accentColorLabel,
-                              description: l10n.accentColorDescription,
-                              value: state.isPerGuildProfile
-                                  ? (state.isEditedGuildAccentColorSet
-                                        ? (state.editedGuildAccentColor ?? 0)
-                                        : (state.guildAccentColor ??
-                                              state.accentColor ??
-                                              0))
-                                  : (state.isEditedAccentColorSet
-                                        ? (state.editedAccentColor ?? 0)
-                                        : (state.accentColor ?? 0)),
-                              onChanged: state.isPerGuildProfile
-                                  ? vm.updateGuildAccentColor
-                                  : vm.updateAccentColor,
-                              defaultValue: 0x4641D9,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: layout.s6),
-                        Opacity(
-                          opacity:
-                              state.isPerGuildProfile && !hasPerGuildProfiles
-                              ? 0.5
-                              : 1.0,
-                          child: IgnorePointer(
-                            ignoring:
-                                state.isPerGuildProfile && !hasPerGuildProfiles,
-                            child: _buildBioSection(state, vm, layout, l10n),
-                          ),
-                        ),
-                        SizedBox(height: layout.s8),
-                        ProfilePreviewCard(state: state),
-                        if (state.isPremium && !state.isPerGuildProfile) ...[
                           SizedBox(height: layout.s8),
-                          _buildPremiumBadgeSection(state, vm, layout, l10n),
+                          ProfilePreviewCard(state: state),
+                          if (state.isPremium && !state.isPerGuildProfile) ...[
+                            SizedBox(height: layout.s8),
+                            _buildPremiumBadgeSection(state, vm, layout, l10n),
+                          ],
                         ],
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

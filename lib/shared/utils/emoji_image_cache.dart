@@ -12,6 +12,7 @@ class CachedEmojiImage extends StatefulWidget {
     required this.size,
     this.errorBuilder,
     this.pauseWhenOffscreen = true,
+    this.isInView,
     super.key,
   });
 
@@ -21,6 +22,7 @@ class CachedEmojiImage extends StatefulWidget {
   final double size;
   final WidgetBuilder? errorBuilder;
   final bool pauseWhenOffscreen;
+  final bool? isInView;
 
   @override
   State<CachedEmojiImage> createState() => _CachedEmojiImageState();
@@ -70,9 +72,15 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
     });
   }
 
+  bool get _usesPickerVisibility => widget.animated && widget.isInView != null;
+
   bool get _shouldAnimate {
     if (!widget.animated) {
       return false;
+    }
+    final bool? isInView = widget.isInView;
+    if (isInView != null) {
+      return isInView;
     }
     if (!widget.pauseWhenOffscreen) {
       return true;
@@ -80,10 +88,10 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
     return _visibleNotifier.value;
   }
 
-  Widget _buildImage(BuildContext context, bool shouldAnimate) {
+  Widget _buildImage(BuildContext context, {required bool animated}) {
     final String url = FluxerMediaUrl.customEmoji(
       id: widget.emojiId,
-      animated: shouldAnimate,
+      animated: animated,
       size: widget.requestSize,
     );
     final cache = containDecodeCacheSize(
@@ -94,7 +102,7 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
     return CachedNetworkImage(
       imageUrl: url,
       cacheKey:
-          'emoji_${widget.emojiId}_${shouldAnimate ? 'a' : 's'}_${widget.requestSize}',
+          'emoji_${widget.emojiId}_${animated ? 'a' : 's'}_${widget.requestSize}',
       width: widget.size,
       height: widget.size,
       memCacheWidth: cache.width,
@@ -111,8 +119,17 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_usesPickerVisibility) {
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          _buildImage(context, animated: false),
+          if (widget.isInView!) _buildImage(context, animated: true),
+        ],
+      );
+    }
     if (!widget.animated || !widget.pauseWhenOffscreen) {
-      return _buildImage(context, _shouldAnimate);
+      return _buildImage(context, animated: _shouldAnimate);
     }
     return VisibilityDetector(
       key: ValueKey<String>('emoji-${widget.emojiId}-${widget.requestSize}'),
@@ -120,7 +137,7 @@ class _CachedEmojiImageState extends State<CachedEmojiImage> {
       child: ListenableBuilder(
         listenable: _visibleNotifier,
         builder: (BuildContext context, Widget? _) {
-          return _buildImage(context, _shouldAnimate);
+          return _buildImage(context, animated: _shouldAnimate);
         },
       ),
     );

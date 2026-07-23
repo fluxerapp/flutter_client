@@ -115,12 +115,36 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
     });
   }
 
+  void _returnToInitiateStep() {
+    setState(() {
+      _step = _AddStep.initiate;
+      _error = null;
+    });
+  }
+
+  void _handleSystemBack() {
+    switch (_step) {
+      case _AddStep.verify:
+        _returnToInitiateStep();
+      case _AddStep.initiate:
+        widget.close();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final layout = context.layout;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
-      child: _step == _AddStep.initiate ? _buildInitiate() : _buildVerify(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, _) {
+        if (!didPop) {
+          _handleSystemBack();
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
+        child: _step == _AddStep.initiate ? _buildInitiate() : _buildVerify(),
+      ),
     );
   }
 
@@ -266,10 +290,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
         Row(
           children: [
             FluxerTappable(
-              onTap: () => setState(() {
-                _step = _AddStep.initiate;
-                _error = null;
-              }),
+              onTap: _returnToInitiateStep,
               builder: (context, _) => Container(
                 padding: EdgeInsets.all(layout.s2),
                 child: PhosphorIcon(
@@ -308,10 +329,7 @@ class _ConnectionAddBodyState extends ConsumerState<_ConnectionAddBody> {
             Expanded(
               child: FluxerButton.secondary(
                 label: l10n.connectionBack,
-                onPressed: () => setState(() {
-                  _step = _AddStep.initiate;
-                  _error = null;
-                }),
+                onPressed: _returnToInitiateStep,
                 fitContent: true,
               ),
             ),

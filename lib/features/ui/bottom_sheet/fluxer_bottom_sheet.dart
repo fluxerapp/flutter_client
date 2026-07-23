@@ -101,6 +101,7 @@ class FluxerBottomSheet {
     double? maxHeight,
     bool isDismissible = true,
     bool reserveBottomInset = true,
+    bool manageKeyboardInset = true,
   }) {
     final layout = context.layout;
 
@@ -121,11 +122,13 @@ class FluxerBottomSheet {
 
           final mediaQuery = MediaQuery.of(sheetContext);
           final topPadding = mediaQuery.viewPadding.top;
-          final bottomInset = mediaQuery.viewInsets.bottom;
+          final double keyboardInset = manageKeyboardInset
+              ? mediaQuery.viewInsets.bottom
+              : 0;
           final bottomPadding = _effectiveBottomSheetBottomPadding(
             sheetContext,
             reserveBottomInset,
-            keyboardBottomInset: bottomInset,
+            keyboardBottomInset: keyboardInset,
           );
           final bool useExternalBottomInset =
               variant == FluxerBottomSheetVariant.menu && bottomPadding > 0;
@@ -142,7 +145,7 @@ class FluxerBottomSheet {
           final content = AnimatedPadding(
             duration: sheetContext.motion.normal,
             curve: sheetContext.motion.curve,
-            padding: EdgeInsets.only(bottom: bottomInset),
+            padding: EdgeInsets.only(bottom: keyboardInset),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxHeight: maxHeight != null
@@ -194,15 +197,10 @@ class FluxerBottomSheet {
             child: content,
           );
 
-          if (canDismissNotifier == null) {
-            return sheetContent;
-          }
-
-          return ValueListenableBuilder<bool>(
-            valueListenable: canDismissNotifier,
-            builder: (context, canDismiss, child) =>
-                PopScope(canPop: canDismiss, child: child!),
+          return _buildSheetWithBackHandler(
             child: sheetContent,
+            onBack: onBack,
+            canDismissNotifier: canDismissNotifier,
           );
         },
       ),
@@ -232,6 +230,7 @@ class FluxerBottomSheet {
     bool disableTopPadding = false,
     bool isDismissible = true,
     bool reserveBottomInset = true,
+    bool manageKeyboardInset = true,
   }) {
     final layout = context.layout;
 
@@ -251,11 +250,13 @@ class FluxerBottomSheet {
               Navigator.of(sheetContext, rootNavigator: useRootNavigator).pop();
 
           final mediaQuery = MediaQuery.of(sheetContext);
-          final bottomInset = mediaQuery.viewInsets.bottom;
+          final double keyboardInset = manageKeyboardInset
+              ? mediaQuery.viewInsets.bottom
+              : 0;
           final bottomPadding = _effectiveBottomSheetBottomPadding(
             sheetContext,
             reserveBottomInset,
-            keyboardBottomInset: bottomInset,
+            keyboardBottomInset: keyboardInset,
           );
           final double bottomScrollPadding = bottomPadding;
           final hasHeader =
@@ -286,26 +287,65 @@ class FluxerBottomSheet {
             leading: leading,
             trailing: trailing,
             onBack: onBack,
-            bottomInset: bottomInset,
+            bottomInset: keyboardInset,
             bottomScrollPadding: bottomScrollPadding,
             sheetContext: sheetContext,
             builder: builder,
           );
 
-          if (canDismissNotifier == null) {
-            return sheet;
-          }
-
-          return ValueListenableBuilder<bool>(
-            valueListenable: canDismissNotifier,
-            builder: (context, canDismiss, child) =>
-                PopScope(canPop: canDismiss, child: child!),
+          return _buildSheetWithBackHandler(
             child: sheet,
+            onBack: onBack,
+            canDismissNotifier: canDismissNotifier,
           );
         },
       ),
     );
   }
+}
+
+Widget _buildSheetWithBackHandler({
+  required Widget child,
+  required VoidCallback? onBack,
+  required ValueNotifier<bool>? canDismissNotifier,
+}) {
+  if (canDismissNotifier == null) {
+    return _wrapSheetBackHandler(
+      canDismiss: true,
+      onBack: onBack,
+      child: child,
+    );
+  }
+  return ValueListenableBuilder<bool>(
+    valueListenable: canDismissNotifier,
+    builder: (BuildContext context, bool canDismiss, Widget? sheetChild) =>
+        _wrapSheetBackHandler(
+          canDismiss: canDismiss,
+          onBack: onBack,
+          child: sheetChild!,
+        ),
+    child: child,
+  );
+}
+
+Widget _wrapSheetBackHandler({
+  required bool canDismiss,
+  required VoidCallback? onBack,
+  required Widget child,
+}) {
+  if (canDismiss && onBack == null) {
+    return child;
+  }
+  return PopScope(
+    canPop: false,
+    onPopInvokedWithResult: (bool didPop, _) {
+      if (didPop || !canDismiss) {
+        return;
+      }
+      onBack?.call();
+    },
+    child: child,
+  );
 }
 
 // ---------------------------------------------------------------------------

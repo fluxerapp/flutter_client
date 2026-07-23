@@ -5,5 +5,6 @@ export 'package:fluxer_markdown/src/config/fluxer_markdown_config.dart';
 export 'package:fluxer_markdown/src/contexts/fluxer_markdown_context.dart';
 export 'package:fluxer_markdown/src/contexts/fluxer_markdown_features.dart';
 export 'package:fluxer_markdown/src/utils/emoji_asset_cache.dart';
+export 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
 export 'package:fluxer_markdown/src/widgets/fluxer_markdown.dart';
 export 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
