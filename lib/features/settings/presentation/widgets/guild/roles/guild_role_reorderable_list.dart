@@ -69,7 +69,7 @@ class GuildRoleReorderableList extends ConsumerWidget {
         index: index,
         child: Center(
           child: PhosphorIcon(
-            PhosphorIconsRegular.dotsSixVertical,
+            PhosphorIconsBold.dotsSixVertical,
             size: 18,
             color: enabled
                 ? context.colors.textPrimaryMuted

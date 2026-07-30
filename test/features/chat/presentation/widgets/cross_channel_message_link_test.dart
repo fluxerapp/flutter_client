@@ -22,7 +22,7 @@ import '../../../../helpers/open_test_database.dart';
 void main() {
   group('ChannelChatContent mobile target sync', () {
     testWidgets(
-      'defers switchChannel when targetMessageId is set but chat is not visible',
+      'runs switchChannel with target when drawer reveal side is left',
       (WidgetTester tester) async {
         final recorder = _RecordingChatViewModel();
         final container = ProviderContainer(
@@ -45,10 +45,15 @@ void main() {
         await tester.pump();
         await tester.pump();
 
-        final badCalls = recorder.switchChannelCalls
-            .where((call) => !call.loadMessages)
+        final goodCalls = recorder.switchChannelCalls
+            .where(
+              (call) =>
+                  call.channelId == 'target-channel' &&
+                  call.targetMessageId == 'target-message' &&
+                  call.loadMessages,
+            )
             .toList();
-        expect(badCalls, isEmpty);
+        expect(goodCalls, isNotEmpty);
 
         await tester.pumpAndSettle();
       },

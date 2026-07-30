@@ -6431,6 +6431,41 @@
     "@personalNotesComposerHint": {
         "description": "Placeholder in the message composer when viewing personal notes."
     },
+    "channelComposerHint": "Message #{channelName}",
+    "@channelComposerHint": {
+        "description": "Placeholder in the message composer for a text channel.",
+        "placeholders": {
+            "channelName": {
+                "type": "String"
+            }
+        }
+    },
+    "dmComposerHint": "Message @{recipientName}",
+    "@dmComposerHint": {
+        "description": "Placeholder in the message composer for a one-to-one DM.",
+        "placeholders": {
+            "recipientName": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmNamedComposerHint": "Message {groupName}",
+    "@groupDmNamedComposerHint": {
+        "description": "Placeholder in the message composer for a named group DM.",
+        "placeholders": {
+            "groupName": {
+                "type": "String"
+            }
+        }
+    },
+    "groupDmComposerHint": "Message group",
+    "@groupDmComposerHint": {
+        "description": "Placeholder in the message composer for a group DM without a custom name."
+    },
+    "composerHint": "Message",
+    "@composerHint": {
+        "description": "Generic fallback placeholder in the message composer."
+    },
     "personalNotesPrivateSpace": "Teie privaatne ruum",
     "@personalNotesPrivateSpace": {
         "description": "Short subtitle in channel details for personal notes."

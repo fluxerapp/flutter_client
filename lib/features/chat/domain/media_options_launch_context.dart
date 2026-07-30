@@ -8,6 +8,7 @@ class MediaOptionsLaunchContext {
     this.actionScope,
     this.attachmentId,
     this.embedIndex,
+    this.filename,
     this.proxyUrl,
     this.isExpired = false,
   });
@@ -21,6 +22,7 @@ class MediaOptionsLaunchContext {
       actionScope: context.actionScope,
       attachmentId: attachment?.id,
       embedIndex: context.embedIndex,
+      filename: attachment?.filename,
       proxyUrl: attachment?.proxyUrl,
       isExpired: attachment?.expired ?? false,
     );
@@ -35,6 +37,7 @@ class MediaOptionsLaunchContext {
       actionScope: actionScope,
       attachmentId: item.attachmentId,
       embedIndex: item.embedIndex,
+      filename: item.filename,
       proxyUrl: item.proxyUrl,
       isExpired: item.isExpired,
     );
@@ -44,6 +47,7 @@ class MediaOptionsLaunchContext {
   final MessageMediaActionScope? actionScope;
   final String? attachmentId;
   final int? embedIndex;
+  final String? filename;
   final String? proxyUrl;
   final bool isExpired;
 

@@ -12,7 +12,6 @@ class MessageActionCallbacks {
     this.onRetry,
     this.onDeleteFailed,
     this.onMarkAsUnread,
-    this.onViewReactions,
     this.onRemoveAllReactions,
     this.onReport,
     this.onAddReaction,
@@ -27,7 +26,6 @@ class MessageActionCallbacks {
   final VoidCallback? onRetry;
   final VoidCallback? onDeleteFailed;
   final VoidCallback? onMarkAsUnread;
-  final VoidCallback? onViewReactions;
   final VoidCallback? onRemoveAllReactions;
   final VoidCallback? onReport;
   final VoidCallback? onAddReaction;

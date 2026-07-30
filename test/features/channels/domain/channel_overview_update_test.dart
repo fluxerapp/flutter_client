@@ -22,6 +22,30 @@ void main() {
     rtcRegion: 'us-east',
   );
 
+  group('ChannelOverviewFormState.copyWith', () {
+    test('can clear nsfwOverride to inherit', () {
+      const ChannelOverviewFormState original = ChannelOverviewFormState(
+        name: 'category',
+        topic: '',
+        url: '',
+        slowmode: 0,
+        nsfwOverride: true,
+        contentWarningLevel: 0,
+        contentWarningText: '',
+        bitrateKbps: 64,
+        userLimit: 0,
+        voiceConnectionLimit: 5,
+        rtcRegion: null,
+      );
+
+      final ChannelOverviewFormState updated = original.copyWith(
+        nsfwOverride: null,
+      );
+
+      expect(updated.nsfwOverride, isNull);
+    });
+  });
+
   group('buildChannelOverviewUpdate', () {
     test('includes only dirty text fields when user can manage channel', () {
       final ChannelOverviewFormState original =

@@ -53,10 +53,21 @@ bool _shouldOpenInChromeSafariBrowser(Uri uri) {
   return uri.scheme == 'http' || uri.scheme == 'https';
 }
 
+Future<bool> _tryLaunchInNativeApp(Uri uri) async {
+  try {
+    return await launchUrl(uri, mode: LaunchMode.externalNonBrowserApplication);
+  } on Object {
+    return false;
+  }
+}
+
 Future<bool> openExternalUrl(Uri uri, {ExternalUrlBrowserStyle? style}) async {
   if (!kIsWeb &&
       (Platform.isIOS || Platform.isAndroid) &&
       _shouldOpenInChromeSafariBrowser(uri)) {
+    if (await _tryLaunchInNativeApp(uri)) {
+      return true;
+    }
     try {
       await _chromeSafariBrowser.open(
         url: WebUri(uri.toString()),

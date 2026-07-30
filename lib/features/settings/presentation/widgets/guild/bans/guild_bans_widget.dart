@@ -171,7 +171,7 @@ class _GuildBansWidgetState extends ConsumerState<GuildBansWidget> {
             controller: _searchController,
             hint: l10n.guildSettingsBansSearchHint,
             prefixIcon: PhosphorIcon(
-              PhosphorIconsRegular.magnifyingGlass,
+              PhosphorIconsBold.magnifyingGlass,
               size: 18,
               color: context.colors.textPrimaryMuted,
             ),

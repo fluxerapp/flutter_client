@@ -71,7 +71,8 @@ class InlineReplyPreview extends ConsumerWidget {
           channelMessages: channelMessages,
         );
     final replyMsg = resolution.message;
-    final String? resolvedGuildId = guildId ?? ref.watch(activeGuildIdProvider);
+    final String? resolvedGuildId =
+        guildId ?? ref.watch(contextualGuildIdProvider);
     final String? resolvedCurrentUserId =
         currentUserId ?? ref.watch(currentUserIdProvider);
     final String? revealedCollapsedGroupKey = ref.watch(
@@ -424,7 +425,7 @@ class ReplyInputBar extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         PhosphorIcon(
-                          PhosphorIconsRegular.at,
+                          PhosphorIconsBold.at,
                           size: 20,
                           color: shouldMention
                               ? activeMentionColor

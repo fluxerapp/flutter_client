@@ -2,6 +2,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 const Key kExpressionPanelShellGestureBlockKey = Key('chat-expression-sheet');
+const Key kPlaybackSeekShellGestureBlockKey = Key('playback-seek');
 
 bool isPointerOverOverflowingHorizontalScrollable(
   BuildContext searchRoot,

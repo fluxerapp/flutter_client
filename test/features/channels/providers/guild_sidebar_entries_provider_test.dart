@@ -57,20 +57,147 @@ void main() {
       },
     );
 
-    test('clears entries when categories are empty', () {
+    test(
+      'hides muted channel when hideMuted is enabled without visible unread',
+      () {
+        final List<GuildSidebarEntry> entries = flattenGuildSidebarEntries(
+          categories: <ChannelCategory>[
+            const ChannelCategory(
+              id: 'cat1',
+              name: 'My Category',
+              channels: <Channel>[
+                Channel(
+                  id: 'c1',
+                  guildId: 'g1',
+                  name: 'muted',
+                  parentId: 'cat1',
+                ),
+                Channel(
+                  id: 'c2',
+                  guildId: 'g1',
+                  name: 'visible',
+                  parentId: 'cat1',
+                ),
+              ],
+            ),
+          ],
+          collapsed: const <String>{},
+          mutedSet: const <String>{'c1'},
+          hideMuted: true,
+          selectedId: null,
+          connectedChannelId: null,
+          showFadedUnread: false,
+          guildId: 'g1',
+          unreadForChannel: (String channelId) => const UnreadState(),
+        );
+
+        expect(
+          entries
+              .where(
+                (GuildSidebarEntry e) =>
+                    e.kind == GuildSidebarEntryKind.channel,
+              )
+              .map((GuildSidebarEntry e) => e.channel?.id)
+              .toList(),
+          <String?>['c2'],
+        );
+      },
+    );
+
+    test('hides muted channel with plain unread when hideMuted is enabled', () {
       final List<GuildSidebarEntry> entries = flattenGuildSidebarEntries(
-        categories: const <ChannelCategory>[],
+        categories: <ChannelCategory>[
+          const ChannelCategory(
+            id: 'cat1',
+            name: 'My Category',
+            channels: <Channel>[
+              Channel(
+                id: 'c1',
+                guildId: 'g1',
+                name: 'muted-unread',
+                parentId: 'cat1',
+              ),
+              Channel(
+                id: 'c2',
+                guildId: 'g1',
+                name: 'visible',
+                parentId: 'cat1',
+              ),
+            ],
+          ),
+        ],
         collapsed: const <String>{},
-        mutedSet: const <String>{},
-        hideMuted: false,
+        mutedSet: const <String>{'c1'},
+        hideMuted: true,
+        selectedId: null,
+        connectedChannelId: null,
+        showFadedUnread: true,
+        guildId: 'g1',
+        unreadForChannel: (String channelId) => switch (channelId) {
+          'c1' => const UnreadState(hasUnread: true, hasUnreadMessages: true),
+          _ => const UnreadState(),
+        },
+      );
+
+      expect(
+        entries
+            .where(
+              (GuildSidebarEntry e) => e.kind == GuildSidebarEntryKind.channel,
+            )
+            .map((GuildSidebarEntry e) => e.channel?.id)
+            .toList(),
+        <String?>['c2'],
+      );
+    });
+
+    test('keeps muted channel with mentions when hideMuted is enabled', () {
+      final List<GuildSidebarEntry> entries = flattenGuildSidebarEntries(
+        categories: <ChannelCategory>[
+          const ChannelCategory(
+            id: 'cat1',
+            name: 'My Category',
+            channels: <Channel>[
+              Channel(
+                id: 'c1',
+                guildId: 'g1',
+                name: 'muted-mentioned',
+                parentId: 'cat1',
+              ),
+              Channel(
+                id: 'c2',
+                guildId: 'g1',
+                name: 'visible',
+                parentId: 'cat1',
+              ),
+            ],
+          ),
+        ],
+        collapsed: const <String>{},
+        mutedSet: const <String>{'c1'},
+        hideMuted: true,
         selectedId: null,
         connectedChannelId: null,
         showFadedUnread: false,
         guildId: 'g1',
-        unreadForChannel: (_) => const UnreadState(),
+        unreadForChannel: (String channelId) => switch (channelId) {
+          'c1' => const UnreadState(
+            hasUnread: true,
+            hasUnreadMessages: true,
+            mentionCount: 1,
+          ),
+          _ => const UnreadState(),
+        },
       );
 
-      expect(entries, isEmpty);
+      expect(
+        entries
+            .where(
+              (GuildSidebarEntry e) => e.kind == GuildSidebarEntryKind.channel,
+            )
+            .map((GuildSidebarEntry e) => e.channel?.id)
+            .toList(),
+        <String?>['c1', 'c2'],
+      );
     });
   });
 }

@@ -78,7 +78,7 @@ class _UserNotificationsSoundSettingsSectionState
       onPressed: canReset ? onReset : null,
       tooltip: semanticLabel,
       icon: PhosphorIcon(
-        PhosphorIconsRegular.arrowsCounterClockwise,
+        PhosphorIconsBold.arrowsCounterClockwise,
         size: 16,
         color: canReset ? colors.textSecondary : colors.textTertiary,
       ),

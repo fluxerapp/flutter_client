@@ -261,7 +261,7 @@ class _UserLinkedDevicesState extends ConsumerState<UserLinkedDevices> {
                 : l10n.linkedDevicesSelectAll,
             child: _iconButton(
               icon: _selected.length == others.length
-                  ? PhosphorIconsRegular.square
+                  ? PhosphorIconsBold.square
                   : PhosphorIconsFill.checkSquare,
               onTap: () => setState(() {
                 if (_selected.length == others.length) {
@@ -539,9 +539,7 @@ class _AuthSessionCard extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: PhosphorIcon(
-        isMobile
-            ? PhosphorIconsRegular.deviceMobile
-            : PhosphorIconsRegular.monitor,
+        isMobile ? PhosphorIconsBold.deviceMobile : PhosphorIconsBold.monitor,
         size: 22,
         color: colors.textTertiary,
       ),
@@ -697,7 +695,7 @@ class _SelectionCheckbox extends StatelessWidget {
       alignment: Alignment.center,
       child: checked
           ? PhosphorIcon(
-              PhosphorIconsRegular.check,
+              PhosphorIconsBold.check,
               size: 14,
               color: colors.backgroundPrimary,
             )

@@ -2,13 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/route_names.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_context_menu_item.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
+import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
+import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,6 +42,9 @@ Future<GuildAction?> showGuildContextMenu(
   final bool use12Hour = ProviderScope.containerOf(
     context,
   ).read(use12HourTimeFormatProvider);
+  final bool isTouchPrimary = ProviderScope.containerOf(
+    context,
+  ).read(inputModalityProvider);
   final groups = buildGuildMenuGroups(
     l10n: l10n,
     hasUnread: hasUnread,
@@ -48,6 +56,8 @@ Future<GuildAction?> showGuildContextMenu(
     muteEndTime: muteEndTime,
     hideMutedChannels: hideMutedChannels,
     developerMode: developerMode,
+    isTouchPrimary: isTouchPrimary,
+    guild: guild,
   );
 
   final result = await Navigator.of(context).push<GuildAction>(
@@ -289,11 +299,19 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
     String guildId,
     BuildContext context,
   ) {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     return [
       for (final entry in entries)
         if (entry is GuildMenuAction)
           GuildContextMenuItem(
             entry: entry,
+            isDisabled: isGuildSettingsActionComingSoon(entry.action),
+            onDisabledTap: () {
+              Navigator.of(context).pop();
+              ProviderScope.containerOf(context)
+                  .read(toastProvider.notifier)
+                  .show(FluxerToast(message: l10n.comingSoon));
+            },
             onTap: () {
               Navigator.of(context).pop();
               _navigateToSettingsPage(context, entry.action, guildId);
@@ -307,6 +325,25 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
     GuildAction action,
     String guildId,
   ) {
+    if (isWideLayout(context)) {
+      final GuildSettingsTab? tab = guildSettingsTabForAction(action);
+      if (tab == null) {
+        return;
+      }
+      if (isGuildSettingsTabComingSoon(tab)) {
+        return;
+      }
+      unawaited(
+        context.push(
+          RoutePaths.guildSettingsPath(
+            guildId,
+            tab: guildSettingsTabQuery(tab),
+          ),
+        ),
+      );
+      return;
+    }
+
     final String? path = switch (action) {
       GuildAction.settingsOverview => guildSettingsTabPath(
         guildId,

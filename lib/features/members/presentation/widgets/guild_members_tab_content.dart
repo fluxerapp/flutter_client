@@ -14,6 +14,7 @@ import 'package:fluxer_app/features/members/providers/member_list_desired_ranges
 import 'package:fluxer_app/features/members/providers/member_list_subscription_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_list_viewport_provider.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_dart/gateway.dart';
 
 class GuildMembersTabContent extends ConsumerStatefulWidget {
@@ -122,7 +123,10 @@ class _GuildMembersTabContentState
     if (listState == null || !listState.hasReceivedInitialPayload) {
       return ListView.builder(
         controller: widget.scrollController,
-        padding: EdgeInsets.zero,
+        padding: FluxerBottomSheet.scrollViewPadding(
+          context,
+          padding: EdgeInsets.zero,
+        ),
         itemCount: 12,
         itemBuilder: (BuildContext context, int index) {
           return MemberListSkeletonItem(
@@ -141,7 +145,10 @@ class _GuildMembersTabContentState
     WidgetsBinding.instance.addPostFrameCallback((_) => _updateDesiredRanges());
     return ListView.builder(
       controller: widget.scrollController,
-      padding: EdgeInsets.zero,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.zero,
+      ),
       itemCount: totalRows,
       itemBuilder: (BuildContext context, int rowIndex) {
         final MemberListGroupHeaderData? header = resolveMemberListGroupHeader(

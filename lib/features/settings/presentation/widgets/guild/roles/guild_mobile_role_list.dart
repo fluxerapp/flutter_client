@@ -80,15 +80,6 @@ class GuildMobileRoleList extends StatelessWidget {
               ),
             ],
           ),
-          if (canManageRoles && hoistedRoles.isNotEmpty) ...<Widget>[
-            SizedBox(height: context.layout.s3),
-            FluxerButton.secondary(
-              onPressed: onEnterHoistOrderMode,
-              label: l10n.guildSettingsRolesCustomHoistOrder,
-              size: FluxerButtonSize.small,
-              icon: PhosphorIconsBold.arrowsDownUp,
-            ),
-          ],
           SizedBox(height: context.layout.s3),
           Expanded(
             child: GuildRoleReorderableList(

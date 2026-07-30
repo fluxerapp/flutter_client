@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_audit_log_state.
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_empty_state.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_entry_card.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/audit_log/guild_audit_log_filter_row.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_audit_log_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
@@ -33,7 +34,7 @@ class GuildAuditLogWidget extends ConsumerStatefulWidget {
 }
 
 class _GuildAuditLogWidgetState extends ConsumerState<GuildAuditLogWidget> {
-  static const int _headerItemCount = 5;
+  static const int _headerItemCount = 4;
 
   final ScrollController _scrollController = ScrollController();
   final Set<String> _expandedIds = <String>{};
@@ -88,7 +89,7 @@ class _GuildAuditLogWidgetState extends ConsumerState<GuildAuditLogWidget> {
     final Map<String, String> userNames = widget.state.userNames;
     return ListView.builder(
       controller: _scrollController,
-      padding: EdgeInsets.all(context.layout.s4),
+      padding: guildSettingsScrollPadding(context),
       itemCount: _itemCount(),
       itemBuilder: (BuildContext context, int index) {
         if (index == 0) {
@@ -133,6 +134,9 @@ class _GuildAuditLogWidgetState extends ConsumerState<GuildAuditLogWidget> {
           return const Center(child: FluxerLoadingSpinner());
         }
         final int entryIndex = index - _headerItemCount;
+        if (entryIndex < 0) {
+          return const SizedBox.shrink();
+        }
         if (entryIndex >= widget.state.entries.length) {
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 16),

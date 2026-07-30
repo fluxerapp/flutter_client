@@ -88,16 +88,42 @@ void main() {
       currentUserRoleIds: {'role-1'},
     );
 
-    test('own author never mentions, even with @everyone and a role', () {
+    test('own author direct mention highlights', () {
       expect(
         messageMentionsUser(
           ctx,
           authorId: 'me',
           mentionedUserIds: const ['me'],
-          mentionEveryone: true,
+          mentionEveryone: false,
+          mentionRoleIds: const [],
+        ),
+        isTrue,
+      );
+    });
+
+    test('own author role mention highlights', () {
+      expect(
+        messageMentionsUser(
+          ctx,
+          authorId: 'me',
+          mentionedUserIds: const [],
+          mentionEveryone: false,
           mentionRoleIds: const ['role-1'],
         ),
-        isFalse,
+        isTrue,
+      );
+    });
+
+    test('own author @everyone highlights when not suppressed', () {
+      expect(
+        messageMentionsUser(
+          ctx,
+          authorId: 'me',
+          mentionedUserIds: const [],
+          mentionEveryone: true,
+          mentionRoleIds: const [],
+        ),
+        isTrue,
       );
     });
 
@@ -162,6 +188,22 @@ void main() {
     test('direct mention is a mention even without a role match', () async {
       final db = await seededGuildDb(memberRoles: const ['role-2']);
       expect(await resolve(db, mentionedUserIds: const ['me']), isTrue);
+    });
+
+    test('own author direct mention highlights', () async {
+      final db = await seededGuildDb();
+      expect(
+        await resolve(db, authorId: 'me', mentionedUserIds: const ['me']),
+        isTrue,
+      );
+    });
+
+    test('own author role mention highlights', () async {
+      final db = await seededGuildDb();
+      expect(
+        await resolve(db, authorId: 'me', mentionRoleIds: const ['role-1']),
+        isTrue,
+      );
     });
 
     test('missing channel (DM) falls back to @everyone passthrough', () async {

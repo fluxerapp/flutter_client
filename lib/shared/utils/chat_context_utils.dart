@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 
@@ -13,6 +14,12 @@ Channel? findChannelById(ChannelListState state, String id) {
     }
   }
   return null;
+}
+
+/// In-memory guild channel list first, then the local DB row.
+Channel? resolveGuildChannel(WidgetRef ref, String channelId) {
+  return findChannelById(ref.read(channelListViewModelProvider), channelId) ??
+      ref.read(channelByIdProvider(channelId)).value;
 }
 
 DmConversation? findDmById(List<DmConversation> conversations, String id) {

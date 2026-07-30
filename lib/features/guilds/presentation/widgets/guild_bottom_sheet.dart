@@ -11,6 +11,7 @@ import 'package:fluxer_app/features/guilds/presentation/widgets/guild_menu_data.
 import 'package:fluxer_app/features/settings/providers/use_12_hour_time_format_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,6 +31,9 @@ Future<GuildAction?> showGuildBottomSheet(
   final bool use12Hour = ProviderScope.containerOf(
     context,
   ).read(use12HourTimeFormatProvider);
+  final bool isTouchPrimary = ProviderScope.containerOf(
+    context,
+  ).read(inputModalityProvider);
   final groups = buildGuildMenuGroups(
     l10n: l10n,
     hasUnread: hasUnread,
@@ -41,6 +45,8 @@ Future<GuildAction?> showGuildBottomSheet(
     muteEndTime: muteEndTime,
     hideMutedChannels: hideMutedChannels,
     developerMode: developerMode,
+    isTouchPrimary: isTouchPrimary,
+    guild: guild,
   );
 
   final result = await FluxerBottomSheet.showScrollable<GuildAction>(
@@ -67,7 +73,10 @@ Future<GuildAction?> showGuildBottomSheet(
 
       return ListView(
         controller: scrollController,
-        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+        padding: FluxerBottomSheet.scrollViewPadding(
+          sheetContext,
+          padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+        ),
         children: [FluxerBottomSheetGroupColumn(children: menuGroups)],
       );
     },
@@ -139,7 +148,10 @@ void _openMuteSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
 
         return ListView(
           controller: scrollController,
-          padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+          padding: FluxerBottomSheet.scrollViewPadding(
+            sheetContext,
+            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+          ),
           children: [
             FluxerBottomSheetGroupColumn(
               children: [
@@ -181,7 +193,10 @@ void _openGenericSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
 
         return ListView(
           controller: scrollController,
-          padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+          padding: FluxerBottomSheet.scrollViewPadding(
+            sheetContext,
+            padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+          ),
           children: [
             FluxerBottomSheetGroupColumn(
               children: [

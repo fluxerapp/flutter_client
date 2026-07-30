@@ -1,3 +1,4 @@
+import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 class VoiceSessionState {
@@ -12,6 +13,8 @@ class VoiceSessionState {
     this.activeConnectionId,
     this.liveKitRoom,
     this.e2eeKey,
+    this.connectFailed = false,
+    this.connectFailedTarget,
   });
 
   final bool isConnecting;
@@ -24,11 +27,15 @@ class VoiceSessionState {
   final String? activeConnectionId;
   final Room? liveKitRoom;
   final String? e2eeKey;
+  final bool connectFailed;
+  final VoiceConnectFailedTarget? connectFailedTarget;
 
   bool get isInVoice =>
       (isConnecting || isConnected) &&
       channelId != null &&
       channelId!.isNotEmpty;
+
+  bool get showDesktopVoiceConnectionSection => isInVoice || connectFailed;
 
   VoiceSessionState copyWith({
     bool? isConnecting,
@@ -41,11 +48,15 @@ class VoiceSessionState {
     String? activeConnectionId,
     Room? liveKitRoom,
     String? e2eeKey,
+    bool? connectFailed,
+    VoiceConnectFailedTarget? connectFailedTarget,
     bool clearError = false,
     bool clearRoom = false,
     bool clearE2eeKey = false,
     bool clearChannel = false,
     bool clearActiveConnectionId = false,
+    bool clearConnectFailed = false,
+    bool clearConnectFailedTarget = false,
   }) {
     return VoiceSessionState(
       isConnecting: isConnecting ?? this.isConnecting,
@@ -62,6 +73,11 @@ class VoiceSessionState {
           : (activeConnectionId ?? this.activeConnectionId),
       liveKitRoom: clearRoom ? null : (liveKitRoom ?? this.liveKitRoom),
       e2eeKey: (clearRoom || clearE2eeKey) ? null : (e2eeKey ?? this.e2eeKey),
+      connectFailed:
+          !clearConnectFailed && (connectFailed ?? this.connectFailed),
+      connectFailedTarget: clearConnectFailedTarget
+          ? null
+          : (connectFailedTarget ?? this.connectFailedTarget),
     );
   }
 }

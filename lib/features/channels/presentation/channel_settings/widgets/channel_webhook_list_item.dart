@@ -26,12 +26,28 @@ import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+typedef WebhookListItemUpdateCallback =
+    void Function(
+      String webhookId, {
+      String? name,
+      String? avatar,
+      String? channelId,
+      bool clearAvatar,
+    });
+
+typedef WebhookListItemDeleteCallback =
+    Future<void> Function(WebhookResponse webhook);
+
 class ChannelWebhookListItem extends ConsumerStatefulWidget {
   const ChannelWebhookListItem({
     required this.channelId,
     required this.webhook,
     required this.channelName,
     required this.availableChannels,
+    this.onUpdate,
+    this.onDelete,
+    this.formVersion = 0,
+    this.defaultExpanded = false,
     super.key,
   });
 
@@ -39,6 +55,10 @@ class ChannelWebhookListItem extends ConsumerStatefulWidget {
   final WebhookResponse webhook;
   final String channelName;
   final List<Channel> availableChannels;
+  final WebhookListItemUpdateCallback? onUpdate;
+  final WebhookListItemDeleteCallback? onDelete;
+  final int formVersion;
+  final bool defaultExpanded;
 
   @override
   ConsumerState<ChannelWebhookListItem> createState() =>
@@ -55,9 +75,12 @@ class _ChannelWebhookListItemState
   String? _localAvatarOverride;
   String _selectedChannelId = '';
 
+  bool get _usesDeferredUpdates => widget.onUpdate != null;
+
   @override
   void initState() {
     super.initState();
+    _isExpanded = widget.defaultExpanded;
     _nameController = TextEditingController(text: widget.webhook.name);
     _urlController = TextEditingController();
     _selectedChannelId = widget.webhook.channelId;
@@ -67,9 +90,17 @@ class _ChannelWebhookListItemState
   @override
   void didUpdateWidget(covariant ChannelWebhookListItem oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.formVersion != widget.formVersion) {
+      _nameController.text = widget.webhook.name;
+      _selectedChannelId = widget.webhook.channelId;
+      _localAvatarOverride = null;
+      _syncUrlController();
+      return;
+    }
     if (oldWidget.webhook.id != widget.webhook.id ||
         oldWidget.webhook.name != widget.webhook.name ||
-        oldWidget.webhook.token != widget.webhook.token) {
+        oldWidget.webhook.token != widget.webhook.token ||
+        oldWidget.webhook.channelId != widget.webhook.channelId) {
       _nameController.text = widget.webhook.name;
       _selectedChannelId = widget.webhook.channelId;
       _localAvatarOverride = null;
@@ -112,6 +143,16 @@ class _ChannelWebhookListItemState
     String? channelId,
     bool clearAvatar = false,
   }) async {
+    if (_usesDeferredUpdates) {
+      widget.onUpdate!(
+        widget.webhook.id,
+        name: name,
+        avatar: avatar,
+        channelId: channelId,
+        clearAvatar: clearAvatar,
+      );
+      return;
+    }
     await ref
         .read(channelWebhooksProvider(widget.channelId).notifier)
         .updateWebhook(
@@ -186,9 +227,13 @@ class _ChannelWebhookListItemState
     }
     setState(() => _isDeleting = true);
     try {
-      await ref
-          .read(channelWebhooksProvider(widget.channelId).notifier)
-          .deleteWebhook(widget.webhook.id);
+      if (widget.onDelete != null) {
+        await widget.onDelete!(widget.webhook);
+      } else {
+        await ref
+            .read(channelWebhooksProvider(widget.channelId).notifier)
+            .deleteWebhook(widget.webhook.id);
+      }
     } on Object {
       if (!mounted) {
         return;
@@ -379,9 +424,19 @@ class _ChannelWebhookListItemState
     );
   }
 
+  String _resolveDisplayChannelName() {
+    for (final Channel channel in widget.availableChannels) {
+      if (channel.id == _selectedChannelId) {
+        return channel.name;
+      }
+    }
+    return widget.channelName;
+  }
+
   Widget _buildChannelTag(BuildContext context) {
+    final String displayName = _resolveDisplayChannelName();
     return Text(
-      '#${widget.channelName}',
+      '#$displayName',
       style: context.textStyles.smallText.copyWith(
         color: context.colors.textPrimaryMuted,
       ),
@@ -511,10 +566,13 @@ class _ChannelWebhookListItemState
             value: _selectedChannelId,
             items: channelItems,
             onChanged: (String? value) {
-              if (value == null || value == widget.webhook.channelId) {
+              if (value == null) {
                 return;
               }
               setState(() => _selectedChannelId = value);
+              if (value == widget.webhook.channelId && !_usesDeferredUpdates) {
+                return;
+              }
               unawaited(_updateWebhook(channelId: value));
             },
           );

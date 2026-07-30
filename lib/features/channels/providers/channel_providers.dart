@@ -16,8 +16,9 @@ typedef ChannelPermissionIdentity = ({
 @Riverpod(keepAlive: true)
 ChannelRepository channelRepository(Ref ref) {
   final client = ref.watch(fluxerClientProvider);
+  final dio = ref.watch(fluxerDioProvider);
   final db = ref.watch(fluxerDatabaseProvider);
-  return ChannelRepository(client, db);
+  return ChannelRepository(client, dio, db);
 }
 
 @riverpod
@@ -26,6 +27,18 @@ Stream<Channel?> channelById(Ref ref, String id) {
   return db.channelDao
       .watchChannelById(id)
       .map((row) => row == null ? null : Channel.fromRow(row));
+}
+
+@riverpod
+Stream<String?> channelGuildId(Ref ref, String id) {
+  if (id.isEmpty) {
+    return Stream<String?>.value(null);
+  }
+  final db = ref.watch(fluxerDatabaseProvider);
+  return db.channelDao
+      .watchChannelById(id)
+      .map((row) => row?.guildId)
+      .distinct();
 }
 
 @riverpod

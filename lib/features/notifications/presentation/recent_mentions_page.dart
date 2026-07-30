@@ -48,7 +48,7 @@ class _RecentMentionsPageState extends ConsumerState<RecentMentionsPage> {
               ? null
               : () => unawaited(_filterInvoker!()),
           icon: Icon(
-            PhosphorIconsRegular.funnel,
+            PhosphorIconsBold.funnel,
             color: context.colors.textSecondary,
             size: 22,
           ),

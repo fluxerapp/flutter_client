@@ -8,12 +8,11 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/messaging/presentation/widgets/bookmarks_sheet.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_mentions_body.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/notifications_unreads_body.dart';
+import 'package:fluxer_app/features/notifications/providers/notifications_providers.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/select/fluxer_select.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-enum _NotificationTabSegment { unreads, mentions }
 
 class NotificationsPage extends ConsumerStatefulWidget {
   const NotificationsPage({super.key});
@@ -23,8 +22,6 @@ class NotificationsPage extends ConsumerStatefulWidget {
 }
 
 class _NotificationsPageState extends ConsumerState<NotificationsPage> {
-  _NotificationTabSegment _segment = _NotificationTabSegment.mentions;
-
   NotificationsMentionsOpenFilterInvoker? _mentionsFilterInvoker;
 
   void _onMentionsOpenFilterInvokerChanged(
@@ -40,6 +37,9 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final NotificationsInboxTab segment = ref.watch(
+      notificationsInboxSegmentProvider,
+    );
     final colors = context.colors;
     final layout = context.layout;
     final l10n = FluxerLocalizations.of(context);
@@ -76,7 +76,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  if (_segment == _NotificationTabSegment.mentions) ...[
+                  if (segment == NotificationsInboxTab.mentions) ...[
                     Tooltip(
                       message: l10n.notificationsMentionFilterTooltip,
                       child: IconButton(
@@ -89,7 +89,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                             ? null
                             : () => unawaited(_mentionsFilterInvoker!()),
                         icon: Icon(
-                          PhosphorIconsRegular.funnel,
+                          PhosphorIconsBold.funnel,
                           color: colors.textSecondary,
                           size: 22,
                         ),
@@ -118,22 +118,24 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
                       ),
                     ),
                   ),
-                  FluxerSelect<_NotificationTabSegment>(
+                  FluxerSelect<NotificationsInboxTab>(
                     hint: '',
                     enableSearch: false,
-                    value: _segment,
-                    items: <FluxerSelectItem<_NotificationTabSegment>>[
-                      FluxerSelectItem<_NotificationTabSegment>(
-                        value: _NotificationTabSegment.unreads,
+                    value: segment,
+                    items: <FluxerSelectItem<NotificationsInboxTab>>[
+                      FluxerSelectItem<NotificationsInboxTab>(
+                        value: NotificationsInboxTab.unreads,
                         label: l10n.notificationsFilterUnreads,
                       ),
-                      FluxerSelectItem<_NotificationTabSegment>(
-                        value: _NotificationTabSegment.mentions,
+                      FluxerSelectItem<NotificationsInboxTab>(
+                        value: NotificationsInboxTab.mentions,
                         label: l10n.notificationsFilterMentions,
                       ),
                     ],
-                    onChanged: (_NotificationTabSegment next) {
-                      setState(() => _segment = next);
+                    onChanged: (NotificationsInboxTab next) {
+                      ref
+                          .read(notificationsInboxSegmentProvider.notifier)
+                          .set(next);
                     },
                   ),
                 ],
@@ -141,7 +143,7 @@ class _NotificationsPageState extends ConsumerState<NotificationsPage> {
             ),
 
             Expanded(
-              child: _segment == _NotificationTabSegment.unreads
+              child: segment == NotificationsInboxTab.unreads
                   ? const NotificationsUnreadsBody()
                   : NotificationsMentionsBody(
                       onOpenFilterInvokerChanged:

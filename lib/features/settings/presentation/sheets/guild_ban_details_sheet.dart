@@ -252,6 +252,9 @@ class _GuildBanDetailsBodyState extends ConsumerState<_GuildBanDetailsBody> {
     if (scrollController != null) {
       return SingleChildScrollView(
         controller: scrollController,
+        padding: EdgeInsets.only(
+          bottom: FluxerBottomSheet.scrollBottomPaddingOf(context),
+        ),
         child: content,
       );
     }

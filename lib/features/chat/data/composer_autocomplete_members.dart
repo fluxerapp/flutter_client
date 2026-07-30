@@ -1,7 +1,40 @@
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/permissions/channel_permission_resolver.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+
+Member dmRecipientMentionMember({
+  required DmConversation dm,
+  db.User? recipientUser,
+}) {
+  return Member(
+    id: dm.recipientId,
+    username:
+        recipientUser?.username ?? dm.recipientUsername ?? dm.recipientName,
+    globalName: recipientUser?.globalName ?? dm.recipientName,
+    avatar: dm.recipientAvatar ?? recipientUser?.avatar,
+    avatarColor: recipientUser?.avatarColor,
+    status: recipientUser?.status ?? dm.recipientStatus,
+    isBot: recipientUser?.bot ?? dm.isBot,
+  );
+}
+
+Member dmGroupParticipantMentionMember({
+  required String participantId,
+  db.User? user,
+  GroupMemberInfo? cached,
+}) {
+  return Member(
+    id: participantId,
+    username: user?.username ?? cached?.name ?? '',
+    globalName: user?.globalName ?? cached?.name,
+    avatar: user?.avatar ?? cached?.avatar,
+    avatarColor: user?.avatarColor,
+    status: user?.status ?? 'offline',
+    isBot: user?.bot ?? false,
+  );
+}
 
 Future<List<Member>> filterMembersByViewChannel({
   required db.FluxerDatabase database,

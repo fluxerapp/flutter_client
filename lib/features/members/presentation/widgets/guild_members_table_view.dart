@@ -95,7 +95,7 @@ class _GuildMembersTableViewState extends ConsumerState<GuildMembersTableView> {
                 fontSize: 14,
               ),
               prefixIcon: PhosphorIcon(
-                PhosphorIconsRegular.magnifyingGlass,
+                PhosphorIconsBold.magnifyingGlass,
                 size: 20,
                 color: context.colors.textSecondary,
               ),

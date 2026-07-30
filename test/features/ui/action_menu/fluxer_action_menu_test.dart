@@ -55,7 +55,7 @@ void main() {
                       FluxerMenuItem(
                         label: 'Delete',
                         onPressed: () {},
-                        icon: PhosphorIconsRegular.trash,
+                        icon: PhosphorIconsBold.trash,
                         isDanger: true,
                       ),
                     ],

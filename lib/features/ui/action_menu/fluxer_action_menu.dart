@@ -15,7 +15,8 @@ import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart'
         FluxerBottomSheetMenuItem,
         FluxerBottomSheetSection,
         FluxerBottomSheetVariant,
-        FluxerMenuGroup;
+        FluxerMenuGroup,
+        FluxerMenuRadioIndicator;
 import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -63,7 +64,10 @@ class FluxerActionMenu {
             // Clamping physics lets the list scroll when needed; at the top,
             // downward drags are handled by [FluxerBottomSheetDismissDragTarget].
             physics: const ClampingScrollPhysics(),
-            padding: EdgeInsets.only(bottom: sheetContext.layout.s2),
+            padding: FluxerBottomSheet.scrollViewPadding(
+              sheetContext,
+              padding: EdgeInsets.only(bottom: sheetContext.layout.s2),
+            ),
             children: [
               FluxerBottomSheetGroupColumn(
                 children: [
@@ -326,6 +330,7 @@ class FluxerMenuItem extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.iconColor,
+    this.trailingIcon,
     this.hint,
     this.enabled = true,
     this.isDanger = false,
@@ -335,6 +340,7 @@ class FluxerMenuItem extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
   final PhosphorIconData? icon;
+  final PhosphorIconData? trailingIcon;
   final Color? iconColor;
   final String? hint;
   final bool enabled;
@@ -399,6 +405,173 @@ class FluxerMenuItem extends StatelessWidget {
                         ),
                     ],
                   ),
+                ),
+                if (trailingIcon != null) ...[
+                  SizedBox(width: layout.s3),
+                  PhosphorIcon(
+                    trailingIcon!,
+                    size: 20,
+                    color: iconColor ?? foreground,
+                  ),
+                ],
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class FluxerMenuRadioItem extends StatelessWidget {
+  const FluxerMenuRadioItem({
+    required this.label,
+    required this.onPressed,
+    required this.isSelected,
+    this.hint,
+    this.enabled = true,
+    super.key,
+  });
+
+  final String label;
+  final VoidCallback onPressed;
+  final bool isSelected;
+  final String? hint;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final layout = context.layout;
+    final String semanticsLabel = hint != null ? '$label. $hint' : label;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: layout.s1),
+      child: FluxerTappable(
+        enabled: enabled,
+        onTap: onPressed,
+        semanticLabel: semanticsLabel,
+        excludeChildSemantics: true,
+        builder: (BuildContext context, Set<WidgetState> states) {
+          final bool isHovered = states.contains(WidgetState.hovered);
+
+          return AnimatedContainer(
+            duration: context.motion.fast,
+            curve: context.motion.curve,
+            decoration: BoxDecoration(
+              color: isHovered
+                  ? colors.backgroundModifierHover
+                  : Colors.transparent,
+              borderRadius: layout.radiusSm,
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: layout.s3,
+              vertical: layout.s2,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        label,
+                        style: context.textStyles.bodyMedium.copyWith(
+                          color: enabled
+                              ? colors.textSecondary
+                              : colors.textTertiary,
+                        ),
+                      ),
+                      if (hint != null)
+                        Text(
+                          hint!,
+                          style: context.textStyles.timestamp.copyWith(
+                            color: colors.textTertiary,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: layout.s3),
+                FluxerMenuRadioIndicator(selected: isSelected),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class FluxerMenuSubmenuItem extends StatelessWidget {
+  const FluxerMenuSubmenuItem({
+    required this.label,
+    required this.onPressed,
+    this.hint,
+    super.key,
+  });
+
+  final String label;
+  final VoidCallback onPressed;
+  final String? hint;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final layout = context.layout;
+    final String semanticsLabel = hint != null ? '$label. $hint' : label;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: layout.s1),
+      child: FluxerTappable(
+        onTap: onPressed,
+        semanticLabel: semanticsLabel,
+        excludeChildSemantics: true,
+        builder: (BuildContext context, Set<WidgetState> states) {
+          final bool isHovered = states.contains(WidgetState.hovered);
+
+          return AnimatedContainer(
+            duration: context.motion.fast,
+            curve: context.motion.curve,
+            decoration: BoxDecoration(
+              color: isHovered
+                  ? colors.backgroundModifierHover
+                  : Colors.transparent,
+              borderRadius: layout.radiusSm,
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: layout.s3,
+              vertical: layout.s2,
+            ),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        label,
+                        style: context.textStyles.bodyMedium.copyWith(
+                          color: colors.textSecondary,
+                        ),
+                      ),
+                      if (hint != null)
+                        Text(
+                          hint!,
+                          style: context.textStyles.timestamp.copyWith(
+                            color: colors.textTertiary,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                PhosphorIcon(
+                  PhosphorIconsFill.caretRight,
+                  size: 16,
+                  color: colors.textSecondary,
                 ),
               ],
             ),

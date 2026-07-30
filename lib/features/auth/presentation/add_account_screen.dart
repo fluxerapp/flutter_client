@@ -91,7 +91,7 @@ class _AddAccountScreenState extends ConsumerState<AddAccountScreen> {
           elevation: 0,
           leading: IconButton(
             icon: PhosphorIcon(
-              PhosphorIconsRegular.x,
+              PhosphorIconsBold.x,
               color: context.colors.textPrimary,
             ),
             onPressed: _close,

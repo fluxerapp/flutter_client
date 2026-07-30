@@ -18,7 +18,7 @@ class MentionsEmptyState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Icon(
-              PhosphorIconsRegular.at,
+              PhosphorIconsBold.at,
               size: 80,
               color: colors.textPrimaryMuted,
             ),

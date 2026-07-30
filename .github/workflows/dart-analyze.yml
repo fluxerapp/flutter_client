@@ -37,7 +37,7 @@ jobs:
             ${{ runner.os }}-pub-
 
       - name: Strip Firebase dependencies if present
-        run: dart run tool/strip_firebase_deps.dart
+        run: dart tool/strip_firebase_deps.dart
 
       - name: Install dependencies
         run: flutter pub get

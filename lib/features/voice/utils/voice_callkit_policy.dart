@@ -114,6 +114,16 @@ bool didJoinVoiceCall({
   return previous.channelId != next.channelId;
 }
 
+bool shouldEndIncomingRingCallKitSession({
+  required VoiceCallKitSession session,
+  required Set<String> pendingIncomingChannelIds,
+}) {
+  if (session.kind != VoiceCallKitSessionKind.incomingRing) {
+    return false;
+  }
+  return !pendingIncomingChannelIds.contains(session.channelId);
+}
+
 bool shouldEndCallKitSessionForActiveCallsChange({
   required VoiceCallKitSession session,
   required Set<String> activeCallChannelIds,

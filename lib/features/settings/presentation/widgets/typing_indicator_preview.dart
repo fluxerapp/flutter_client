@@ -38,7 +38,7 @@ class TypingIndicatorPreview extends StatelessWidget {
       child: Row(
         children: [
           PhosphorIcon(
-            PhosphorIconsRegular.hash,
+            PhosphorIconsBold.hash,
             size: 18,
             color: colors.interactiveActive,
           ),

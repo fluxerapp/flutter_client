@@ -1,18 +1,17 @@
 /// Whether a channel should remain visible when "Hide Muted Channels" is on.
 ///
 /// A channel is kept when it is selected, when the user is connected to it
-/// (voice), when it is not directly muted, or when it has visible unread
-/// activity. Category and guild mutes do not affect sidebar visibility.
+/// (voice), when it is not directly muted, or when it has mentions.
+/// Category and guild mutes do not affect sidebar visibility.
 ///
-/// [connectedChannelId] and [hasVisibleUnread] default to values that preserve
-/// the original `isSelected || !isMuted` behavior for callers that do not pass
-/// them.
+/// [connectedChannelId] and [hasMentions] default to values that preserve the
+/// original `isSelected || !isMuted` behavior for callers that do not pass them.
 bool shouldShowChannelWhenHidingMuted({
   required String channelId,
   required Set<String> mutedChannelIds,
   String? selectedChannelId,
   String? connectedChannelId,
-  bool hasVisibleUnread = false,
+  bool hasMentions = false,
 }) {
   if (selectedChannelId != null && channelId == selectedChannelId) {
     return true;
@@ -23,7 +22,7 @@ bool shouldShowChannelWhenHidingMuted({
   if (!mutedChannelIds.contains(channelId)) {
     return true;
   }
-  return hasVisibleUnread;
+  return hasMentions;
 }
 
 /// Whether a channel inside a collapsed category should still be rendered.

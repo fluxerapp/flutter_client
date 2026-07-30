@@ -56,11 +56,12 @@ void main() {
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: ShellRouteListeners(
-            child: _InvalidateRouteStateDuringBuild(routeStateSource),
+            child: _InvalidateRouteStateAfterBuild(routeStateSource),
           ),
         ),
       ),
     );
+    await tester.pump();
     await tester.pump();
 
     expect(tester.takeException(), isNull);
@@ -69,8 +70,8 @@ void main() {
   });
 }
 
-class _InvalidateRouteStateDuringBuild extends ConsumerWidget {
-  const _InvalidateRouteStateDuringBuild(this.source);
+class _InvalidateRouteStateAfterBuild extends ConsumerWidget {
+  const _InvalidateRouteStateAfterBuild(this.source);
 
   final _RouteStateSource source;
 
@@ -80,7 +81,9 @@ class _InvalidateRouteStateDuringBuild extends ConsumerWidget {
       source
         ..didInvalidateDuringBuild = true
         ..location = '/channels/guild-1/channel-1';
-      ref.invalidate(routeStateProvider);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.invalidate(routeStateProvider);
+      });
     }
     ref.watch(activeGuildIdProvider);
     return const SizedBox.shrink();

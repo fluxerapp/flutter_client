@@ -258,7 +258,7 @@ class FriendsList extends ConsumerWidget {
           fontSize: 14,
         ),
         prefixIcon: PhosphorIcon(
-          PhosphorIconsRegular.magnifyingGlass,
+          PhosphorIconsBold.magnifyingGlass,
           size: 20,
           color: context.colors.textSecondary,
         ),
@@ -528,7 +528,7 @@ class FriendsList extends ConsumerWidget {
                     SizedBox(width: context.layout.s2),
                     _actionButton(
                       context,
-                      icon: PhosphorIconsRegular.dotsThreeVertical,
+                      icon: PhosphorIconsBold.dotsThreeVertical,
                       color: context.colors.textPrimaryMuted,
                       backgroundColor: context.colors.backgroundModifierHover,
                       onPressed: () =>
@@ -538,7 +538,7 @@ class FriendsList extends ConsumerWidget {
                   if (friend.friendStatus == FriendStatus.pendingIncoming) ...[
                     _actionButton(
                       context,
-                      icon: PhosphorIconsRegular.check,
+                      icon: PhosphorIconsBold.check,
                       color: context.colors.brandPrimaryFill,
                       backgroundColor: context.colors.brandPrimary,
                       onPressed: () => unawaited(
@@ -550,7 +550,7 @@ class FriendsList extends ConsumerWidget {
                     SizedBox(width: context.layout.s2),
                     _actionButton(
                       context,
-                      icon: PhosphorIconsRegular.x,
+                      icon: PhosphorIconsBold.x,
                       color: context.colors.textPrimary,
                       backgroundColor: context.colors.statusDanger,
                       onPressed: () => unawaited(
@@ -561,7 +561,7 @@ class FriendsList extends ConsumerWidget {
                   if (friend.friendStatus == FriendStatus.pendingOutgoing) ...[
                     _actionButton(
                       context,
-                      icon: PhosphorIconsRegular.x,
+                      icon: PhosphorIconsBold.x,
                       color: context.colors.textPrimary,
                       backgroundColor: context.colors.backgroundTertiary,
                       onPressed: () => unawaited(

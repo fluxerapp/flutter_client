@@ -96,10 +96,7 @@ class DiscoveryLanguageAppBarAction extends ConsumerWidget {
       return IconButton(
         onPressed: openPicker,
         tooltip: l10n.discoveryFilterByLanguage,
-        icon: const PhosphorIcon(
-          PhosphorIconsRegular.globe,
-          color: Colors.white,
-        ),
+        icon: const PhosphorIcon(PhosphorIconsBold.globe, color: Colors.white),
       );
     }
     return TextButton(
@@ -200,7 +197,10 @@ class _DiscoveryLanguageSelectSheetState
                 )
               : ListView(
                   controller: widget.scrollController,
-                  padding: EdgeInsets.only(bottom: layout.s4),
+                  padding: FluxerBottomSheet.scrollViewPadding(
+                    context,
+                    padding: EdgeInsets.only(bottom: layout.s4),
+                  ),
                   children: <Widget>[
                     FluxerBottomSheetSection(
                       child: FluxerMenuGroup(

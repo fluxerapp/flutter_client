@@ -140,7 +140,7 @@ void scheduleEmojiPickerWarmup({
         context: context,
         emojis: emojiPickerPrefetchTargets(
           allGuildEmojis: allGuildEmojis,
-          activeGuildId: ref.read(activeGuildIdProvider),
+          activeGuildId: ref.read(contextualGuildIdProvider),
           favoriteCustomEmojis: const <GuildEmojiEntry>[],
           frecentCustomEmojis: const <GuildEmojiEntry>[],
         ),

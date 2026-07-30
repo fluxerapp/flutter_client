@@ -80,7 +80,7 @@ void main() {
     expect(find.text('Create role'), findsOneWidget);
     expect(find.text('Moderator'), findsOneWidget);
     expect(find.text('Roles'), findsOneWidget);
-    expect(find.text('Custom hoist order'), findsOneWidget);
+    expect(find.text('Custom hoist order'), findsNothing);
     expect(find.text('Search permissions'), findsNothing);
   });
 

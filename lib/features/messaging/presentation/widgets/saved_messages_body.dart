@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/messaging/providers/saved_messages_sync_prov
 import 'package:fluxer_app/features/notifications/data/mention_header_loader.dart';
 import 'package:fluxer_app/features/notifications/domain/mention_header.dart';
 import 'package:fluxer_app/features/notifications/presentation/widgets/mention_inbox_card.dart';
+import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/refresh/fluxer_refresh_scroll_view.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -174,6 +175,17 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
     );
   }
 
+  Widget _bottomInsetSliver(BuildContext context) {
+    final double bottom = FluxerBottomSheet.scrollBottomPaddingOf(context);
+    if (bottom <= 0) {
+      return const SliverToBoxAdapter(child: SizedBox.shrink());
+    }
+    return SliverPadding(
+      padding: EdgeInsets.only(bottom: bottom),
+      sliver: const SliverToBoxAdapter(child: SizedBox.shrink()),
+    );
+  }
+
   Widget _buildLoading(FluxerColorTheme colors) {
     return FluxerRefreshScrollView(
       controller: widget.scrollController,
@@ -185,6 +197,7 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
             child: FluxerLoadingSpinner(color: colors.brandPrimary),
           ),
         ),
+        _bottomInsetSliver(context),
       ],
     );
   }
@@ -219,6 +232,7 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
             ),
           ),
         ),
+        _bottomInsetSliver(context),
       ],
     );
   }
@@ -228,11 +242,12 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
       return FluxerRefreshScrollView(
         controller: widget.scrollController,
         onRefresh: _refresh,
-        slivers: const <Widget>[
-          SliverFillRemaining(
+        slivers: <Widget>[
+          const SliverFillRemaining(
             hasScrollBody: false,
             child: SavedMessagesEmptyState(),
           ),
+          _bottomInsetSliver(context),
         ],
       );
     }
@@ -263,6 +278,7 @@ class _SavedMessagesBodyState extends ConsumerState<SavedMessagesBody> {
           }, childCount: messageIds.length),
         ),
         const SliverToBoxAdapter(child: SavedMessagesEndFooter()),
+        _bottomInsetSliver(context),
       ],
     );
   }

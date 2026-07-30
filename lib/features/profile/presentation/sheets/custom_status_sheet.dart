@@ -259,7 +259,7 @@ class _CustomStatusSheetBodyState extends ConsumerState<CustomStatusSheetBody> {
     return FluxerButton.secondary(
       onPressed: _pickEmoji,
       label: l10n.customStatusChooseEmoji,
-      icon: PhosphorIconsRegular.smiley,
+      icon: PhosphorIconsBold.smiley,
       fitContent: true,
     );
   }

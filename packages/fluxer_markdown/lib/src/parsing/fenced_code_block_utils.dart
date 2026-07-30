@@ -4,10 +4,12 @@ class InlineClosingFenceSplit {
   const InlineClosingFenceSplit({
     required this.content,
     required this.fenceLine,
+    this.trailingText,
   });
 
   final String content;
   final String fenceLine;
+  final String? trailingText;
 }
 
 int _leadingBacktickCount(String text) {
@@ -39,14 +41,23 @@ bool isLineStartClosingBacktickFence(
 }
 
 int? findInlineClosingBacktickFenceStart(String line, int openingFenceLength) {
-  if (isLineStartClosingBacktickFence(line.trimLeft(), openingFenceLength)) {
+  final String trimmedLeft = line.trimLeft();
+  if (isLineStartClosingBacktickFence(trimmedLeft, openingFenceLength)) {
     return null;
   }
-  final _InlineFenceBounds? bounds = _findInlineFenceBounds(line);
-  if (bounds == null || bounds.fenceLength < openingFenceLength) {
-    return null;
+  final _InlineFenceBounds? endBounds = _findEndInlineFenceBounds(line);
+  if (endBounds != null && endBounds.fenceLength >= openingFenceLength) {
+    return endBounds.fenceStart;
   }
-  return bounds.fenceStart;
+  final int leadingSpaces = line.length - trimmedLeft.length;
+  final int startFenceLength = _leadingBacktickCount(trimmedLeft);
+  if (startFenceLength >= openingFenceLength) {
+    final String afterFence = trimmedLeft.substring(startFenceLength);
+    if (afterFence.trim().isNotEmpty) {
+      return leadingSpaces;
+    }
+  }
+  return _findMidlineClosingBacktickFenceStart(line, openingFenceLength);
 }
 
 class _InlineFenceBounds {
@@ -61,7 +72,7 @@ class _InlineFenceBounds {
   final int fenceLength;
 }
 
-_InlineFenceBounds? _findInlineFenceBounds(String line) {
+_InlineFenceBounds? _findEndInlineFenceBounds(String line) {
   var end = line.length;
   while (end > 0) {
     final int codeUnit = line.codeUnitAt(end - 1);
@@ -69,6 +80,9 @@ _InlineFenceBounds? _findInlineFenceBounds(String line) {
       break;
     }
     end--;
+  }
+  if (end == 0 || line[end - 1] != '`') {
+    return null;
   }
   var fenceStart = end;
   while (fenceStart > 0 && line[fenceStart - 1] == '`') {
@@ -85,23 +99,81 @@ _InlineFenceBounds? _findInlineFenceBounds(String line) {
   );
 }
 
+int _backtickRunStart(String text, int index) {
+  var start = index;
+  while (start > 0 && text[start - 1] == '`') {
+    start--;
+  }
+  return start;
+}
+
+int _backtickRunEnd(String text, int index) {
+  var end = index;
+  while (end < text.length && text[end] == '`') {
+    end++;
+  }
+  return end;
+}
+
+int? _findMidlineClosingBacktickFenceStart(
+  String line,
+  int openingFenceLength,
+) {
+  final String trimmedLeft = line.trimLeft();
+  final int leadingSpaces = line.length - trimmedLeft.length;
+  for (
+    var index = trimmedLeft.length - openingFenceLength;
+    index >= 0;
+    index--
+  ) {
+    if (trimmedLeft[index] != '`') {
+      continue;
+    }
+    final int runStart = _backtickRunStart(trimmedLeft, index);
+    final int runEnd = _backtickRunEnd(trimmedLeft, index);
+    if (runEnd - runStart < openingFenceLength) {
+      index = runStart;
+      continue;
+    }
+    final String afterFence = trimmedLeft.substring(runEnd);
+    if (afterFence.trim().isEmpty) {
+      continue;
+    }
+    if (runStart == 0) {
+      continue;
+    }
+    return leadingSpaces + runStart;
+  }
+  return null;
+}
+
 InlineClosingFenceSplit? splitInlineClosingBacktickFence(
   String line,
   int openingFenceLength,
 ) {
-  if (isLineStartClosingBacktickFence(line.trimLeft(), openingFenceLength)) {
+  final int? fenceStart = findInlineClosingBacktickFenceStart(
+    line,
+    openingFenceLength,
+  );
+  if (fenceStart == null) {
     return null;
   }
-  final _InlineFenceBounds? bounds = _findInlineFenceBounds(line);
-  if (bounds == null || bounds.fenceLength < openingFenceLength) {
+  var fenceEnd = fenceStart;
+  while (fenceEnd < line.length && line[fenceEnd] == '`') {
+    fenceEnd++;
+  }
+  if (fenceEnd - fenceStart < openingFenceLength) {
     return null;
   }
-  final String trailing = line.substring(bounds.fenceEnd);
-  final String fence = line.substring(bounds.fenceStart, bounds.fenceEnd);
+  final String trailing = line.substring(fenceEnd);
+  final String fence = line.substring(fenceStart, fenceEnd);
   final int leadingSpaces = line.length - line.trimLeft().length;
   return InlineClosingFenceSplit(
-    content: line.substring(0, bounds.fenceStart),
-    fenceLine: '${' ' * leadingSpaces}$fence$trailing',
+    content: line.substring(0, fenceStart),
+    fenceLine: fenceStart == leadingSpaces
+        ? '${' ' * leadingSpaces}$fence'
+        : fence,
+    trailingText: trailing.trim().isEmpty ? null : trailing,
   );
 }
 
@@ -148,6 +220,9 @@ String normalizeFencedCodeBlockInlineClosers(
         output.add(split.content);
       }
       output.add(split.fenceLine);
+      if (split.trailingText != null) {
+        output.add(split.trailingText!);
+      }
       inside = false;
       openingFenceLength = 0;
       continue;

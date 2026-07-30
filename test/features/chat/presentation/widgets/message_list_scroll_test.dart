@@ -16,6 +16,7 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/domain/message_window.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_item.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_overlay.dart';
@@ -2425,6 +2426,160 @@ void main() {
     });
 
     testWidgets(
+      'loadMore at the older edge does not chain without further scroll progress',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final DateTime base = DateTime.utc(2026, 7, 4, 12);
+        final List<Message> initialWindow = <Message>[
+          for (int index = 0; index < 60; index += 1)
+            _message(
+              id: _snowflakeForUtc(base.add(Duration(minutes: index))),
+              content: 'message $index',
+              timestamp: base.add(Duration(minutes: index)),
+            ),
+        ];
+        final _OlderPagingChatViewModel chatViewModel =
+            _OlderPagingChatViewModel(
+              ChatViewState(
+                channelId: _messageListChannelId,
+                messages: initialWindow,
+                replyingTo: null,
+                replyMentioning: false,
+                editingMessage: null,
+                messageText: '',
+                scrollToBottomSignal: 0,
+                isLoading: false,
+                isSyncingMessages: false,
+                isLoadingMore: false,
+                isLoadingNewer: false,
+                hasMoreMessages: true,
+                hasMoreNewerMessages: false,
+                errorMessage: null,
+              ),
+              olderPageSize: 30,
+            );
+        final db.FluxerDatabase database = openTestDatabase();
+
+        await tester.pumpWidget(
+          _messageListApp(database: database, chatViewModel: chatViewModel),
+        );
+        await tester.pumpAndSettle();
+
+        final ScrollableState scrollable = tester.state<ScrollableState>(
+          _messageListScrollable(),
+        );
+        scrollable.position.jumpTo(
+          scrollable.position.maxScrollExtent -
+              messageListLoadProgressDelta(
+                scrollable.position.viewportDimension,
+              ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.drag(_messageListScrollable(), const Offset(0, -400));
+        await tester.pump();
+        await tester.pump();
+        await tester.pump();
+
+        expect(chatViewModel._loadMoreCallCount, 1);
+        expect(chatViewModel._loadNewerCallCount, 0);
+        expect(
+          scrollable.position.pixels - scrollable.position.minScrollExtent,
+          greaterThan(1),
+          reason: 'viewport must not yank to the live tail after loadMore',
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
+      'trim after loadMore does not auto-fire loadNewer or jump to the tail',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(420, 640);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+
+        final DateTime base = DateTime.utc(2026, 7, 4, 12);
+        final List<Message> initialWindow = <Message>[
+          for (int index = 0; index < kMaxLoadedMessages - 10; index += 1)
+            _message(
+              id: _snowflakeForUtc(base.add(Duration(minutes: index))),
+              content: 'message $index',
+              timestamp: base.add(Duration(minutes: index)),
+            ),
+        ];
+        final String anchorId = initialWindow[20].id;
+        final _OlderPagingChatViewModel chatViewModel =
+            _OlderPagingChatViewModel(
+              ChatViewState(
+                channelId: _messageListChannelId,
+                messages: initialWindow,
+                replyingTo: null,
+                replyMentioning: false,
+                editingMessage: null,
+                messageText: '',
+                scrollToBottomSignal: 0,
+                isLoading: false,
+                isSyncingMessages: false,
+                isLoadingMore: false,
+                isLoadingNewer: false,
+                hasMoreMessages: true,
+                hasMoreNewerMessages: false,
+                errorMessage: null,
+              ),
+              olderPageSize: 50,
+              trimAfterLoad: true,
+            );
+        final db.FluxerDatabase database = openTestDatabase();
+
+        await tester.pumpWidget(
+          _messageListApp(database: database, chatViewModel: chatViewModel),
+        );
+        await tester.pumpAndSettle();
+
+        final ScrollableState scrollable = tester.state<ScrollableState>(
+          _messageListScrollable(),
+        );
+        scrollable.position.jumpTo(
+          scrollable.position.maxScrollExtent -
+              messageListLoadProgressDelta(
+                scrollable.position.viewportDimension,
+              ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.drag(_messageListScrollable(), const Offset(0, -400));
+        await tester.pump();
+        await tester.pump();
+        await tester.pump();
+
+        expect(chatViewModel._loadMoreCallCount, 1);
+        expect(chatViewModel._loadNewerCallCount, 0);
+        expect(chatViewModel.state.hasMoreNewerMessages, isTrue);
+        expect(
+          chatViewModel.state.messages,
+          hasLength(kTrimmedMessageWindowSize),
+        );
+        expect(
+          scrollable.position.pixels - scrollable.position.minScrollExtent,
+          greaterThan(48),
+        );
+        expect(
+          chatViewModel.state.messages.any((Message m) => m.id == anchorId),
+          isTrue,
+        );
+
+        await _disposeMessageList(tester);
+      },
+    );
+
+    testWidgets(
       'centers a fresh targetMessageId after its around-window loads',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(420, 640);
@@ -2487,8 +2642,8 @@ void main() {
         await tester.pump();
         expect(
           find.byType(Scrollable),
-          findsNothing,
-          reason: 'list must stay unresolved until read state arrives',
+          findsWidgets,
+          reason: 'messages should render before read state arrives',
         );
 
         readStateController.add(null);
@@ -2570,8 +2725,8 @@ void main() {
         await tester.pump();
         expect(
           find.byType(Scrollable),
-          findsNothing,
-          reason: 'list must stay unresolved until read state arrives',
+          findsWidgets,
+          reason: 'messages should render before read state arrives',
         );
 
         loadingChatViewModel.scrollToMessage(targetId);
@@ -2579,8 +2734,8 @@ void main() {
         await tester.pump();
         expect(
           find.byType(Scrollable),
-          findsNothing,
-          reason: 'signal must park while open mode is unresolved',
+          findsWidgets,
+          reason: 'scroll signal should run once messages are mounted',
         );
 
         readStateController.add(null);
@@ -4227,6 +4382,7 @@ class _InstrumentedChatViewModel extends ChatViewModel {
 
   final ChatViewState _initialState;
   int _loadNewerCallCount = 0;
+  int _loadMoreCallCount = 0;
   String? _latestReplacementNewestId;
 
   @override
@@ -4274,7 +4430,9 @@ class _InstrumentedChatViewModel extends ChatViewModel {
   }
 
   @override
-  Future<void> loadMore() async {}
+  Future<void> loadMore() async {
+    _loadMoreCallCount += 1;
+  }
 
   @override
   Future<void> ackCurrentChannel({bool force = false}) async {}
@@ -4326,6 +4484,47 @@ class _PagingInstrumentedChatViewModel extends _InstrumentedChatViewModel {
       messages: <Message>[...state.messages, ...page],
       hasMoreNewerMessages: _newerPages.isNotEmpty,
       isLoadingNewer: false,
+    );
+  }
+}
+
+class _OlderPagingChatViewModel extends _InstrumentedChatViewModel {
+  _OlderPagingChatViewModel(
+    super._initialState, {
+    required this.olderPageSize,
+    this.trimAfterLoad = false,
+  });
+
+  final int olderPageSize;
+  final bool trimAfterLoad;
+
+  @override
+  Future<void> loadMore() async {
+    _loadMoreCallCount += 1;
+    final List<Message> current = state.messages;
+    final DateTime firstTimestamp = current.first.timestamp;
+    final List<Message> older = List<Message>.generate(olderPageSize, (
+      int index,
+    ) {
+      final DateTime timestamp = firstTimestamp.subtract(
+        Duration(minutes: olderPageSize - index),
+      );
+      return _message(
+        id: _snowflakeForUtc(timestamp),
+        content: 'older page message $index',
+        timestamp: timestamp,
+      );
+    });
+    List<Message> merged = <Message>[...older, ...current];
+    bool hasMoreNewer = state.hasMoreNewerMessages;
+    if (trimAfterLoad && merged.length > kMaxLoadedMessages) {
+      merged = merged.sublist(0, kTrimmedMessageWindowSize);
+      hasMoreNewer = true;
+    }
+    state = state.copyWith(
+      messages: merged,
+      isLoadingMore: false,
+      hasMoreNewerMessages: hasMoreNewer,
     );
   }
 }

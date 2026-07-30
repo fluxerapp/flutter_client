@@ -29,7 +29,6 @@ class ChannelSettingsActions extends _$ChannelSettingsActions {
       throw StateError('Provider disposed');
     }
     // Async notifier loading state for void action providers.
-    // ignore: void_checks
     state = const AsyncLoading<void>();
     final AsyncValue<Channel> result = await _runWithKeepAlive(
       () => AsyncValue.guard(() {
@@ -66,7 +65,6 @@ class ChannelSettingsActions extends _$ChannelSettingsActions {
       throw StateError('Provider disposed');
     }
     // Async notifier loading state for void action providers.
-    // ignore: void_checks
     state = const AsyncLoading<void>();
     final AsyncValue<Channel> result = await _runWithKeepAlive(
       () => AsyncValue.guard(() {

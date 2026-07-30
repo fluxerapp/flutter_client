@@ -22,6 +22,8 @@ class MobileChatBackScope extends ConsumerWidget {
       return child;
     }
 
+    ref.watch(expressionPanelProvider);
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, _) {

@@ -51,7 +51,10 @@ class _MessageDebugSheetBody extends ConsumerWidget {
 
     return SingleChildScrollView(
       controller: scrollController,
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,

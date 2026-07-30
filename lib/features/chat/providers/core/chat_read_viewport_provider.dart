@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:fluxer_app/core/providers/app_ui_lifecycle_provider.dart';
+import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'chat_read_viewport_provider.g.dart';
@@ -103,13 +104,16 @@ class ChatReadViewport extends _$ChatReadViewport {
     if (_channelId != channelId) {
       return;
     }
+    final double quantizedDistance = quantizeReadViewportDistance(
+      distanceFromBottom,
+    );
     if (_nearLoadedTail == nearLoadedTail &&
-        _distanceFromBottom == distanceFromBottom &&
+        _distanceFromBottom == quantizedDistance &&
         _viewportHeight == viewportHeight) {
       return;
     }
     _nearLoadedTail = nearLoadedTail;
-    _distanceFromBottom = distanceFromBottom;
+    _distanceFromBottom = quantizedDistance;
     _viewportHeight = viewportHeight;
     _emit();
   }

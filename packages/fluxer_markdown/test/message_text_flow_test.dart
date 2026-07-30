@@ -285,6 +285,32 @@ void main() {
       );
     });
 
+    testWidgets('renders bold and underline for nested formatting', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: FluxerMarkdown(
+              data: '__**text**__',
+              config: _testMarkdownConfig,
+            ),
+          ),
+        ),
+      );
+      final RichText richText = tester.widget<RichText>(find.byType(RichText));
+      expect(richText.text.toPlainText(), 'text');
+      expect(
+        _leafTextHasStyle(
+          richText.text,
+          'text',
+          fontWeight: FontWeight.w700,
+          decoration: TextDecoration.underline,
+        ),
+        isTrue,
+      );
+    });
+
     testWidgets('renders underline inside masked link labels', (tester) async {
       const String url = 'https://fluxer.app';
       await tester.pumpWidget(
@@ -657,6 +683,46 @@ void main() {
       final RichText richText = tester.widget<RichText>(find.byType(RichText));
       final String renderedText = richText.text.toPlainText();
       expect(renderedText, 'test line one\n\n\ntest line two');
+    });
+
+    testWidgets('standard context preserves blank lines around a list', (
+      tester,
+    ) async {
+      const String input = 'intro\n\n- item\n\ncloser';
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(textScaler: TextScaler.noScaling),
+            child: Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: 320,
+                  child: FluxerMarkdown(
+                    data: input,
+                    config: _testMarkdownConfig,
+                    baseStyle: baseStyle,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      expect(find.textContaining('intro', findRichText: true), findsOneWidget);
+      expect(find.textContaining('item', findRichText: true), findsOneWidget);
+      expect(find.textContaining('closer', findRichText: true), findsOneWidget);
+      final List<String> richTexts = tester
+          .widgetList<RichText>(find.byType(RichText))
+          .map((RichText richText) => richText.text.toPlainText())
+          .toList();
+      expect(
+        richTexts.any((String text) => text.contains('intro\n\n')),
+        isTrue,
+      );
+      expect(
+        richTexts.any((String text) => text.startsWith('\n\ncloser')),
+        isTrue,
+      );
     });
 
     testWidgets('renders multi-line strikethrough across soft line breaks', (

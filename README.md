@@ -34,18 +34,18 @@ For updates, support, and discussion, [join the Fluxer Mobile community on Fluxe
 
 ## Download
 
-> [!NOTE]
-> Unless you are using a degoogled operating system, you should use the FCM client. If you don't know if your OS is degoogled, it likely is not.
-
 **Apple App Store**: Coming when V1 is finished.
 
 **Google Play Store**: Coming when V1 is finished.
 
-**Fdroid**: Coming when V1 is finished.
+**F-Droid**: Coming when V1 is finished.
 
 **iOS Testflight**: Currently only available to Plutonium users.
 
 ### Android (APK)
+
+> [!NOTE]
+> Unless you are using a degoogled operating system, you should use the FCM client. If you don't know if your OS is degoogled, it likely is not.
 
 **Quick pick (most users):** download the **beta FCM** APK from [GitHub releases](https://github.com/fluxerapp/flutter_client/releases) — e.g. `app-arm64-v8a-betafcm-release.apk` on a phone from the last few years.
 
@@ -64,6 +64,14 @@ You cannot switch push variants in-app: FCM and OSS are separate APKs for the sa
 
 - **Beta** — recommended during the beta period; pre-release builds for testing.
 - **Stable** — production builds; will appear on GitHub releases when V1 launches (same timing as Play Store / F-Droid entries above).
+
+#### Version numbers
+
+Releases use `{year}.{month}.{public release number}`, for example `2026.07.100`.
+
+- **Year** and **month** are when the release was published.
+- **Public release number** is the release counter for that month. It resets at the start of each month.
+- Counters start at **100**, then **200**, **300**, and so on (not 1, 2, 3) so they are not mistaken for a day of the month.
 
 #### 3. Pick the APK file on GitHub
 

@@ -836,6 +836,12 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get notificationUnmuteChannel => 'Ieslēgt kanālu';
 
   @override
+  String get notificationUseCategoryDefault => 'Use Category Default';
+
+  @override
+  String get notificationUseCommunityDefault => 'Use Community Default';
+
+  @override
   String get notificationNoCategory => 'Nav kategorijas';
 
   @override
@@ -3451,6 +3457,13 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get chatAttachmentDownload => 'Lejupielādēt';
 
   @override
+  String get chatAttachmentDownloadedToast => 'Saved to photos';
+
+  @override
+  String get chatAttachmentDownloadFailedToast =>
+      'Couldn\'t download attachment';
+
+  @override
   String get chatAttachmentExpiredTooltip => 'Pielikums ir zaudējis derīgumu';
 
   @override
@@ -4556,6 +4569,9 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get voiceChannelJoin => 'Pievienoties balss kanālam';
 
   @override
+  String get voiceCallJoin => 'Join call';
+
+  @override
   String get voiceChannelJoinConnect => 'Savienoties ar balsi';
 
   @override
@@ -4661,6 +4677,105 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
 
   @override
   String get voiceControlDisconnect => 'Atvienoties';
+
+  @override
+  String get voiceInChat => 'In voice chat';
+
+  @override
+  String get voiceConnectionFailed => 'Connection failed';
+
+  @override
+  String get voiceConnectionRetry => 'Try again';
+
+  @override
+  String get voiceConnectionDismiss => 'Dismiss';
+
+  @override
+  String get voiceConnectionDisconnected => 'Disconnected';
+
+  @override
+  String voicePingMs(int currentLatency) {
+    return 'Ping: ${currentLatency}ms';
+  }
+
+  @override
+  String get voiceMeasuringLatency => 'Measuring latency...';
+
+  @override
+  String voiceJumpToChannel(String channelSourceLabel) {
+    return 'Jump to $channelSourceLabel';
+  }
+
+  @override
+  String get voiceConnectionTitle => 'Voice connection';
+
+  @override
+  String get voiceConnectionAdvancedStats => 'Advanced';
+
+  @override
+  String get voiceShowCallAvatars => 'Show call avatars';
+
+  @override
+  String get voiceShowConnectionId => 'Show connection ID';
+
+  @override
+  String get voiceAudioProcessing => 'Audio processing';
+
+  @override
+  String get voiceConnectionSessionSection => 'Session';
+
+  @override
+  String get voiceConnectionDurationLabel => 'Duration';
+
+  @override
+  String get voiceConnectionParticipantsLabel => 'Participants';
+
+  @override
+  String get voiceConnectionNetworkSection => 'Network';
+
+  @override
+  String get voiceConnectionPingLabel => 'Ping';
+
+  @override
+  String get voiceConnectionJitterLabel => 'Jitter';
+
+  @override
+  String get voiceConnectionSendLabel => 'Send';
+
+  @override
+  String get voiceConnectionReceiveLabel => 'Receive';
+
+  @override
+  String get voiceConnectionUnavailable => '—';
+
+  @override
+  String voiceConnectionDuration(int minutes, int seconds) {
+    return '${minutes}m ${seconds}s';
+  }
+
+  @override
+  String voiceConnectionLatencyMs(int latency) {
+    return '$latency ms';
+  }
+
+  @override
+  String voiceConnectionJitterMs(String jitter) {
+    return '$jitter ms';
+  }
+
+  @override
+  String voiceConnectionBandwidthKbps(String bandwidth) {
+    return '$bandwidth kbps';
+  }
+
+  @override
+  String get userAreaMuteMicrophone => 'Mute microphone';
+
+  @override
+  String get userAreaUnmuteMicrophone => 'Unmute microphone';
+
+  @override
+  String get userAreaUserSettings => 'User settings';
 
   @override
   String get voiceParticipantMenuViewProfile => 'View profile';
@@ -5054,6 +5169,12 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
 
   @override
   String get chatReactionsSheetEmpty => 'Neviens vēl nav reaģējis.';
+
+  @override
+  String get chatReactionAddFailed => 'Failed to add reaction';
+
+  @override
+  String get chatReactionRemoveFailed => 'Failed to remove reaction';
 
   @override
   String get chatMessageReport => 'Ziņot par ziņojumu';
@@ -6368,6 +6489,25 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get channelDetailsPinsEndReached => 'You\'ve reached the end';
 
   @override
+  String get channelHeaderOpenDetails => 'Open channel details';
+
+  @override
+  String get channelHeaderPinnedMessages => 'Pinned messages';
+
+  @override
+  String get channelHeaderPinnedMessagesUnread => 'Pinned messages, unread';
+
+  @override
+  String get channelHeaderMemberList => 'Member list';
+
+  @override
+  String get channelHeaderInbox => 'Inbox';
+
+  @override
+  String get channelHeaderNotificationSettingsMuted =>
+      'Notification settings, muted';
+
+  @override
   String get channelDetailsSearchTitle => 'Search';
 
   @override
@@ -6383,11 +6523,88 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get channelDetailsSearchFilterSort => 'Sort';
 
   @override
+  String get channelHeaderSearchFiltersTitle => 'Search Filters';
+
+  @override
+  String get channelHeaderSearchRecentTitle => 'Recent Searches';
+
+  @override
+  String get channelHeaderSearchUsersTitle => 'Users';
+
+  @override
+  String get channelHeaderSearchChannelsTitle => 'Channels';
+
+  @override
+  String get channelHeaderSearchValuesTitle => 'Values';
+
+  @override
+  String get channelHeaderSearchDatesTitle => 'Dates';
+
+  @override
+  String get channelHeaderSearchDefaultBadge => 'Default';
+
+  @override
+  String get channelHeaderSearchClearHistory => 'Clear';
+
+  @override
+  String get channelHeaderSearchFilterDescFrom => 'a user';
+
+  @override
+  String get channelHeaderSearchFilterDescMentions => 'a user';
+
+  @override
+  String get channelHeaderSearchFilterDescHas =>
+      'link, embed, image, video, sound, file, sticker, …';
+
+  @override
+  String get channelHeaderSearchFilterDescBefore => 'a date or date range';
+
+  @override
+  String get channelHeaderSearchFilterDescOn => 'a date or date range';
+
+  @override
+  String get channelHeaderSearchFilterDescDuring => 'a date or date range';
+
+  @override
+  String get channelHeaderSearchFilterDescAfter => 'a date or date range';
+
+  @override
+  String get channelHeaderSearchFilterDescIn => 'a channel';
+
+  @override
+  String get channelHeaderSearchFilterDescPinned => 'true or false';
+
+  @override
+  String get channelHeaderSearchFilterDescAuthorType => 'user, bot, or webhook';
+
+  @override
+  String get channelHeaderSearchFilterDescLinkFrom =>
+      'a hostname, e.g. example.com';
+
+  @override
+  String get channelHeaderSearchFilterDescFileName =>
+      'part of an attachment filename';
+
+  @override
+  String get channelHeaderSearchFilterDescFileType =>
+      'a file extension, e.g. png';
+
+  @override
+  String get channelHeaderSearchFilterDescSort => 'timestamp or relevance';
+
+  @override
+  String get channelHeaderSearchFilterDescOrder => 'asc or desc';
+
+  @override
   String channelDetailsSearchResultCount(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count Results',
+      other: '$countString Results',
       one: '1 Result',
     );
     return '$_temp0';
@@ -6785,6 +7002,27 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
 
   @override
   String get personalNotesComposerHint => 'Sūtiet ziņojumu sev';
+
+  @override
+  String channelComposerHint(String channelName) {
+    return 'Message #$channelName';
+  }
+
+  @override
+  String dmComposerHint(String recipientName) {
+    return 'Message @$recipientName';
+  }
+
+  @override
+  String groupDmNamedComposerHint(String groupName) {
+    return 'Message $groupName';
+  }
+
+  @override
+  String get groupDmComposerHint => 'Message group';
+
+  @override
+  String get composerHint => 'Message';
 
   @override
   String get personalNotesPrivateSpace => 'Jūsu privātā telpa';
@@ -8059,6 +8297,9 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get guildSettingsRolesBackToRoles => 'Back to roles';
 
   @override
+  String get guildSettingsBackToSettings => 'Back to settings';
+
+  @override
   String guildSettingsRolesEditTitle(String name) {
     return 'Edit \"$name\"';
   }
@@ -9139,6 +9380,32 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
       'Nav konfigurēti tīmekļa pārsteigumi.';
 
   @override
+  String guildSettingsWebhooksEmptyDescription(String channelSettingsPath) {
+    return 'This community doesn\'t have any webhooks yet. Go to $channelSettingsPath to create one.';
+  }
+
+  @override
+  String guildSettingsWebhooksPermissionRequired(String permission) {
+    return 'You need the \"$permission\" permission to view and edit webhooks for this community.';
+  }
+
+  @override
+  String get guildSettingsWebhooksLoadFailedTitle => 'Failed to load webhooks';
+
+  @override
+  String get guildSettingsWebhooksLoadFailedDescription =>
+      'There was an error loading the webhooks. Try again.';
+
+  @override
+  String get guildSettingsWebhooksUpdated => 'Webhooks updated';
+
+  @override
+  String get guildSettingsWebhooksUpdateFailed => 'Failed to update webhooks';
+
+  @override
+  String get guildSettingsUnknownChannel => 'Unknown channel';
+
+  @override
   String get guildSettingsCopyUrl => 'Kopēt URL';
 
   @override
@@ -9170,33 +9437,137 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
       'Piesakieties, lai tiktu iekļauts servera atklāšanā.';
 
   @override
+  String get guildSettingsDiscoveryNotEnoughMembersTitle =>
+      'Not enough members';
+
+  @override
   String guildSettingsDiscoveryNotEligible(int count) {
     return 'Nepieciešami vismaz $count dalībnieki, lai pieteiktos.';
   }
 
   @override
-  String get guildSettingsDiscoveryFormTitle => 'Pieteikums';
+  String get guildSettingsDiscoveryStatusLabel => 'Status:';
 
   @override
-  String get guildSettingsDiscoveryStatusTitle => 'Statuss';
+  String get guildSettingsDiscoveryStatusPending => 'Pending';
+
+  @override
+  String get guildSettingsDiscoveryStatusApproved => 'Approved';
+
+  @override
+  String get guildSettingsDiscoveryStatusRejected => 'Rejected';
+
+  @override
+  String get guildSettingsDiscoveryStatusRemoved => 'Removed';
+
+  @override
+  String guildSettingsDiscoveryReason(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String get guildSettingsDiscoveryApprovedInfo =>
+      'Your community is listed in Discovery. You can update your listing details below or withdraw to remove it.';
+
+  @override
+  String get guildSettingsDiscoveryPendingInfo =>
+      'Your application is pending review. You can still update your listing details or withdraw the application.';
 
   @override
   String get guildSettingsDiscoveryCategory => 'Kategorija';
 
   @override
+  String get guildSettingsDiscoveryCategoryHelp =>
+      'Choose the category that best describes your community. You can change this any time.';
+
+  @override
+  String get guildSettingsDiscoveryPrimaryLanguage => 'Primary language';
+
+  @override
+  String get guildSettingsDiscoveryPrimaryLanguageHelp =>
+      'The language most of your community speaks. Used to filter Discovery results.';
+
+  @override
   String get guildSettingsDiscoveryDescriptionField => 'Apraksts';
+
+  @override
+  String get guildSettingsDiscoveryDescriptionPlaceholder =>
+      'Describe what your community is about';
+
+  @override
+  String get guildSettingsDiscoveryDescriptionRequired =>
+      'A description is required.';
+
+  @override
+  String guildSettingsDiscoveryDescriptionMinLength(int minLength) {
+    return 'Description must be at least $minLength characters.';
+  }
+
+  @override
+  String guildSettingsDiscoveryDescriptionMaxLength(int maxLength) {
+    return 'Description must be no more than $maxLength characters.';
+  }
 
   @override
   String get guildSettingsDiscoveryTags => 'Tagi';
 
   @override
+  String guildSettingsDiscoveryTagsHelp(int maxTags) {
+    return 'Up to $maxTags tags help people find your community. They show up in Discovery search.';
+  }
+
+  @override
   String get guildSettingsDiscoveryTagsHint => 'spēles, māksla, mūzika';
+
+  @override
+  String get guildSettingsDiscoveryAddTag => 'Add';
+
+  @override
+  String guildSettingsDiscoveryRemoveTag(String tag) {
+    return 'Remove tag $tag';
+  }
+
+  @override
+  String get guildSettingsDiscoveryTagErrorTitle => 'Couldn\'t add tag';
+
+  @override
+  String guildSettingsDiscoveryTagRequirements(int maxLength) {
+    return 'Tags must be 2 to $maxLength characters and alphanumeric.';
+  }
+
+  @override
+  String guildSettingsDiscoveryTagLimit(int maxTags) {
+    return 'You can only add up to $maxTags tags.';
+  }
 
   @override
   String get guildSettingsDiscoveryApply => 'Iesniegt pieteikumu';
 
   @override
+  String get guildSettingsDiscoverySave => 'Save';
+
+  @override
   String get guildSettingsDiscoveryWithdraw => 'Atcelt';
+
+  @override
+  String get guildSettingsDiscoveryApplicationSent =>
+      'Discovery application sent';
+
+  @override
+  String get guildSettingsDiscoveryListingUpdated =>
+      'Discovery listing updated';
+
+  @override
+  String get guildSettingsDiscoveryApplicationWithdrawn =>
+      'Discovery application withdrawn';
+
+  @override
+  String get guildSettingsDiscoveryWithdrawErrorTitle =>
+      'Couldn\'t withdraw application';
+
+  @override
+  String get guildSettingsDiscoveryWithdrawErrorDescription =>
+      'Try again in a moment.';
 
   @override
   String get guildSettingsMembersDescription =>
@@ -9735,6 +10106,167 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get guildSettingsEmojiUploadTitle => 'Augšupielādēt emocijikonu';
 
   @override
+  String get guildSettingsEmojiSlotsTitle => 'Emoji slots';
+
+  @override
+  String get guildSettingsEmojiDropZone => 'Drag and drop emoji files here';
+
+  @override
+  String get guildSettingsEmojiLoadFailed =>
+      'Failed to load emojis. Try again later.';
+
+  @override
+  String get guildSettingsEmojiSearchEmpty =>
+      'No emojis found matching your search.';
+
+  @override
+  String get guildSettingsEmojiNoSlots => 'No emoji slots available';
+
+  @override
+  String get guildSettingsEmojiSlotsFull =>
+      'You\'ve reached the maximum number of emojis. Delete some existing emojis to make room.';
+
+  @override
+  String guildSettingsEmojiUploadRequirements(String maxSize) {
+    return 'Emoji names need at least 2 characters and can use letters, numbers, and underscores. Emojis must be under $maxSize. Static images are resized to 128x128 pixels and compressed automatically. Animated emojis and SVGs must already fit the limit.';
+  }
+
+  @override
+  String get guildSettingsEmojiUploadingTitle => 'Uploading emojis';
+
+  @override
+  String guildSettingsEmojiUploadingBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# emojis',
+      one: '# emoji',
+    );
+    return 'Uploading $_temp0. This may take a little while.';
+  }
+
+  @override
+  String get guildSettingsEmojiUploadFailed =>
+      'Failed to upload emojis. Try again.';
+
+  @override
+  String get guildSettingsEmojiSomeFailedTitle =>
+      'Some emojis couldn\'t be added';
+
+  @override
+  String get guildSettingsEmojiSomeFailedBody =>
+      'Review these files and try again with smaller or simpler images.';
+
+  @override
+  String get guildSettingsEmojiRenameTitle => 'Rename emoji';
+
+  @override
+  String get guildSettingsEmojiRenameHint =>
+      '2-32 characters, letters, numbers, underscores.';
+
+  @override
+  String get guildSettingsEmojiColumnEmoji => 'Emoji';
+
+  @override
+  String get guildSettingsEmojiColumnName => 'Name';
+
+  @override
+  String get guildSettingsEmojiColumnUploader => 'Uploaded by';
+
+  @override
+  String get guildSettingsEmojiUnknownUploader => 'Unknown';
+
+  @override
+  String get guildSettingsEmojiDeleteTitle => 'Delete emoji';
+
+  @override
+  String guildSettingsEmojiDeleteBody(String name) {
+    return 'Delete :$name:? Can\'t be undone.';
+  }
+
+  @override
+  String get guildSettingsEmojiPurgeLabel =>
+      'Purge this emoji from storage and CDN';
+
+  @override
+  String get guildSettingsEmojiNameTooShort =>
+      'Emoji name must be at least 2 characters long';
+
+  @override
+  String get guildSettingsEmojiNameTooLong =>
+      'Emoji name must be at most 32 characters long';
+
+  @override
+  String get guildSettingsEmojiInvalidNameTitle => 'Invalid emoji name';
+
+  @override
+  String get guildSettingsEmojiRenameFailedTitle =>
+      'Couldn\'t rename this emoji';
+
+  @override
+  String get guildSettingsEmojiRenameFailedBody =>
+      'The name was reverted to what it was before. Please try again in a moment.';
+
+  @override
+  String get guildSettingsEmojiGoneTitle => 'This emoji no longer exists';
+
+  @override
+  String get guildSettingsEmojiGoneBody =>
+      'It may have been deleted. The name was reverted to what it was before.';
+
+  @override
+  String get guildSettingsEmojiNoPermissionRenameTitle =>
+      'You can\'t rename this emoji';
+
+  @override
+  String get guildSettingsEmojiNoPermissionRenameBody =>
+      'You don\'t have permission to rename this emoji. The name was reverted to what it was before.';
+
+  @override
+  String get guildSettingsEmojiRateLimitedTitle => 'You\'re going too fast';
+
+  @override
+  String get guildSettingsEmojiRateLimitedBody =>
+      'Please wait a moment and try renaming again.';
+
+  @override
+  String get guildSettingsEmojiDeleteFailedTitle =>
+      'Couldn\'t delete this emoji';
+
+  @override
+  String get guildSettingsEmojiDeleteNoPermissionTitle =>
+      'You can\'t delete this emoji';
+
+  @override
+  String get guildSettingsCloneEmojiTitle =>
+      'Allow others to clone your emojis';
+
+  @override
+  String get guildSettingsCloneEmojiDescription =>
+      'When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom emojis. This does not prevent them from saving the image and uploading it themselves.';
+
+  @override
+  String get guildSettingsCloneStickerTitle =>
+      'Allow others to clone your stickers';
+
+  @override
+  String get guildSettingsCloneStickerDescription =>
+      'When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom stickers. This does not prevent them from saving the image and uploading it themselves.';
+
+  @override
+  String guildSettingsClonePermissionHint(String permission) {
+    return 'Only members with the \"$permission\" permission can change this.';
+  }
+
+  @override
+  String get guildSettingsCloneEmojiUpdateFailed =>
+      'Couldn\'t update emoji cloning';
+
+  @override
+  String get guildSettingsCloneStickerUpdateFailed =>
+      'Couldn\'t update sticker cloning';
+
+  @override
   String guildSettingsNonAnimatedEmoji(int count) {
     return 'Neanimētas emocijikonas ($count)';
   }
@@ -9748,8 +10280,132 @@ class FluxerLocalizationsLv extends FluxerLocalizations {
   String get guildSettingsStickersSearchHint => 'Meklēt uzlīmes';
 
   @override
-  String get guildSettingsWebhooksInfo =>
-      'Izveidojiet tīmekļa pārsteigumus no kanāla iestatījumiem. Rediģējiet tos šeit.';
+  String get guildSettingsStickerSlotsTitle => 'Sticker slots';
+
+  @override
+  String get guildSettingsStickerUploadTitle => 'Upload sticker';
+
+  @override
+  String get guildSettingsStickerDropZone =>
+      'Drag and drop a sticker file here (one at a time)';
+
+  @override
+  String get guildSettingsStickerDensity => 'Sticker density';
+
+  @override
+  String get guildSettingsStickerDensityCozy => 'Cozy';
+
+  @override
+  String get guildSettingsStickerDensityCompact => 'Compact';
+
+  @override
+  String get guildSettingsStickersLoadFailedTitle => 'Failed to load stickers';
+
+  @override
+  String get guildSettingsStickersLoadFailedBody =>
+      'There was an error loading the stickers. Try again.';
+
+  @override
+  String get guildSettingsStickersSearchEmpty =>
+      'No stickers found matching your search.';
+
+  @override
+  String get guildSettingsStickersEmptySearch => 'No stickers found';
+
+  @override
+  String get guildSettingsStickerNoSlots => 'No sticker slots available';
+
+  @override
+  String get guildSettingsStickerSlotsFull =>
+      'You\'ve reached the maximum number of stickers. Delete some existing stickers to make room.';
+
+  @override
+  String guildSettingsStickerUploadRequirements(String maxSize) {
+    return 'Stickers are saved at 320x320 pixels and must be under $maxSize. Static images are resized and compressed automatically. Animated stickers and SVGs must already fit the limit.';
+  }
+
+  @override
+  String get guildSettingsStickerUnsupportedTitle => 'Unsupported sticker file';
+
+  @override
+  String get guildSettingsStickerAddTitle => 'Add sticker';
+
+  @override
+  String get guildSettingsStickerEditTitle => 'Edit sticker';
+
+  @override
+  String get guildSettingsStickerNameLabel => 'Name';
+
+  @override
+  String get guildSettingsStickerNameHint => 'My awesome sticker';
+
+  @override
+  String get guildSettingsStickerDescriptionLabel => 'Description';
+
+  @override
+  String get guildSettingsStickerDescriptionHint => 'Describe the sticker';
+
+  @override
+  String guildSettingsStickerTagsLabel(int count, int limit) {
+    return 'Tags ($count/$limit)';
+  }
+
+  @override
+  String get guildSettingsStickerTagHint => 'Add a tag';
+
+  @override
+  String get guildSettingsStickerTagAdd => 'Add';
+
+  @override
+  String get guildSettingsStickerNameRequired => 'Name is required';
+
+  @override
+  String get guildSettingsStickerNameTooShort =>
+      'Name must be at least 2 characters';
+
+  @override
+  String get guildSettingsStickerNameTooLong =>
+      'Name must be 30 characters or less';
+
+  @override
+  String get guildSettingsStickerDescriptionTooLong =>
+      'Description must be 500 characters or less';
+
+  @override
+  String get guildSettingsStickerCreateFailedTitle =>
+      'Couldn\'t create this sticker';
+
+  @override
+  String get guildSettingsStickerTooLargeTitle => 'Sticker is too large';
+
+  @override
+  String get guildSettingsStickerCompressFailedTitle =>
+      'Sticker couldn\'t be compressed enough';
+
+  @override
+  String get guildSettingsStickerDeleteTitle => 'Delete sticker';
+
+  @override
+  String guildSettingsStickerDeleteBody(String name) {
+    return 'Delete \"$name\"? Can\'t be undone.';
+  }
+
+  @override
+  String get guildSettingsStickerPurgeLabel =>
+      'Purge this sticker from storage and CDN';
+
+  @override
+  String get guildSettingsStickerDeleteFailedTitle =>
+      'Couldn\'t delete this sticker';
+
+  @override
+  String get guildSettingsStickerDeleteNoPermissionTitle =>
+      'You can\'t delete this sticker';
+
+  @override
+  String guildSettingsWebhooksInfo(String channelSettingsPath) {
+    return 'Izveidojiet tīmekļa pārsteigumus no kanāla iestatījumiem. Rediģējiet tos šeit.';
+  }
 
   @override
   String get guildSettingsVanityUrlWarning =>

@@ -192,58 +192,58 @@ class _ContextMenuPage extends ConsumerWidget {
       ),
       _MenuItem(
         label: l10n.chatMessageAddReaction,
-        icon: PhosphorIconsRegular.smiley,
-        trailing: PhosphorIconsRegular.caretRight,
+        icon: PhosphorIconsBold.smiley,
+        trailing: PhosphorIconsBold.caretRight,
         onTap: () => pop(MessageAction.addReaction),
       ),
       if (message.hasFailed)
         _MenuItem(
           label: l10n.retry,
-          icon: PhosphorIconsRegular.arrowClockwise,
+          icon: PhosphorIconsBold.arrowClockwise,
           onTap: () => pop(MessageAction.retry),
         ),
       const _MenuDivider(),
       if (permissions.isOwnMessage)
         _MenuItem(
           label: l10n.chatMessageEdit,
-          icon: PhosphorIconsRegular.pencilSimple,
+          icon: PhosphorIconsBold.pencilSimple,
           onTap: () => pop(MessageAction.edit),
         ),
       _MenuItem(
         label: l10n.chatMessageReply,
-        icon: PhosphorIconsRegular.arrowBendUpLeft,
+        icon: PhosphorIconsBold.arrowBendUpLeft,
         onTap: () => pop(MessageAction.reply),
       ),
       _MenuItem(
         label: l10n.chatMessageForward,
-        icon: PhosphorIconsRegular.shareFat,
+        icon: PhosphorIconsBold.shareFat,
         onTap: () => pop(MessageAction.forward),
       ),
       const _MenuDivider(),
       if (message.content.isNotEmpty)
         _MenuItem(
           label: l10n.chatMessageCopyText,
-          icon: PhosphorIconsRegular.copy,
+          icon: PhosphorIconsBold.copy,
           onTap: () => pop(MessageAction.copyText),
         ),
       _MenuItem(
         label: message.isPinned ? l10n.chatMessageUnpin : l10n.chatMessagePin,
-        icon: PhosphorIconsRegular.pushPin,
+        icon: PhosphorIconsBold.pushPin,
         onTap: () => pop(MessageAction.pin),
       ),
       _MenuItem(
         label: 'Bookmark Message',
-        icon: PhosphorIconsRegular.bookmarkSimple,
+        icon: PhosphorIconsBold.bookmarkSimple,
         onTap: () => pop(MessageAction.bookmark),
       ),
       _MenuItem(
         label: 'Mark as Unread',
-        icon: PhosphorIconsRegular.envelopeSimple,
+        icon: PhosphorIconsBold.envelopeSimple,
         onTap: () => pop(MessageAction.markAsUnread),
       ),
       _MenuItem(
         label: 'Copy Message Link',
-        icon: PhosphorIconsRegular.link,
+        icon: PhosphorIconsBold.link,
         onTap: () => pop(MessageAction.copyMessageLink),
       ),
       if (canShowSuppressEmbeds && showSuppressEmbedsButton)
@@ -251,7 +251,7 @@ class _ContextMenuPage extends ConsumerWidget {
           label: isEmbedsSuppressed
               ? l10n.chatMessageUnsuppressEmbeds
               : l10n.chatMessageSuppressEmbeds,
-          icon: PhosphorIconsRegular.eyeSlash,
+          icon: PhosphorIconsBold.eyeSlash,
           onTap: () => pop(MessageAction.suppressEmbeds),
         ),
       ..._buildAttachmentItems(context, showMediaDeleteButton),
@@ -259,7 +259,7 @@ class _ContextMenuPage extends ConsumerWidget {
         const _MenuDivider(),
         _MenuItem(
           label: l10n.chatMessageDelete,
-          icon: PhosphorIconsRegular.trash,
+          icon: PhosphorIconsBold.trash,
           isDanger: true,
           onTap: () => pop(MessageAction.delete),
         ),
@@ -268,7 +268,7 @@ class _ContextMenuPage extends ConsumerWidget {
         const _MenuDivider(),
         _MenuItem(
           label: l10n.chatMessageDeleteFailed,
-          icon: PhosphorIconsRegular.trash,
+          icon: PhosphorIconsBold.trash,
           isDanger: true,
           onTap: () => pop(MessageAction.deleteFailed),
         ),
@@ -281,7 +281,7 @@ class _ContextMenuPage extends ConsumerWidget {
       ),
       _MenuItem(
         label: 'Copy Message ID',
-        icon: PhosphorIconsRegular.hash,
+        icon: PhosphorIconsBold.hash,
         onTap: () => pop(MessageAction.copyMessageId),
       ),
     ];
@@ -303,7 +303,7 @@ class _ContextMenuPage extends ConsumerWidget {
         items.add(
           _MenuItem(
             label: l10n.chatMessageDeleteAttachment,
-            icon: PhosphorIconsRegular.trash,
+            icon: PhosphorIconsBold.trash,
             isDanger: true,
             onTap: () {
               callbacks.onDeleteAttachment?.call(attachment);
@@ -322,7 +322,7 @@ class _ContextMenuPage extends ConsumerWidget {
         items.add(
           _MenuItem(
             label: l10n.chatMessageEditAttachmentAltText,
-            icon: PhosphorIconsRegular.pencilSimple,
+            icon: PhosphorIconsBold.pencilSimple,
             onTap: () {
               callbacks.onEditAttachmentAltText?.call(attachment);
               Navigator.of(context).pop();

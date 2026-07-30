@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
@@ -149,12 +148,12 @@ Widget fluxerSettingsNavListPreview() {
           items: [
             FluxerSettingsNavItem(
               label: 'My account',
-              icon: PhosphorIconsRegular.user,
+              icon: PhosphorIconsBold.user,
               onTap: () {},
             ),
             FluxerSettingsNavItem(
               label: 'Log out',
-              icon: PhosphorIconsRegular.signOut,
+              icon: PhosphorIconsBold.signOut,
               onTap: () {},
               isDanger: true,
             ),

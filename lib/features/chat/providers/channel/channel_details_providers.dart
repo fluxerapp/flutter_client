@@ -4,6 +4,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/features/chat/data/channel_pins_repository.dart';
+import 'package:fluxer_app/features/chat/data/channel_search_query_parser.dart';
 import 'package:fluxer_app/features/chat/data/message_search_repository.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
@@ -247,20 +248,29 @@ class ChannelSearch extends _$ChannelSearch {
   }
 
   Future<void> search({
+    MessageSearchQuery? query,
+    String? rawQuery,
     String? text,
-    String? authorId,
+    ChannelSearchParseHints? hints,
+    ChannelSearchParseContext? context,
     MessageSearchScopeFilter? scope,
     MessageSearchSortFilter? sort,
+    String? authorId,
     Set<MessageSearchContentFilter>? contentTypes,
   }) async {
-    final nextQuery = state.query.copyWith(
-      text: text,
-      authorId: authorId,
-      scope: scope,
-      sort: sort,
-      contentTypes: contentTypes,
-      page: 1,
-    );
+    final MessageSearchQuery nextQuery =
+        query ??
+        MessageSearchQuery.build(
+          channelId: channelId,
+          guildId: guildId,
+          rawQuery: rawQuery ?? text ?? state.query.rawQuery,
+          uiScope: scope ?? state.query.uiScope,
+          uiSort: sort ?? state.query.uiSort,
+          hints: hints ?? const ChannelSearchParseHints(),
+          context: context ?? ChannelSearchParseContext(guildId: guildId),
+          chipAuthorId: authorId,
+          chipContentTypes: contentTypes,
+        );
     if (!nextQuery.hasSearchTerms) {
       state = ChannelSearchState(query: nextQuery);
       return;
@@ -292,6 +302,36 @@ class ChannelSearch extends _$ChannelSearch {
     }
   }
 
+  Future<void> goToPage(int page) async {
+    final MessageSearchQuery currentQuery = state.query;
+    if (!currentQuery.hasSearchTerms || page < 1 || page == currentQuery.page) {
+      return;
+    }
+    final MessageSearchQuery nextQuery = currentQuery.copyWith(page: page);
+    state = state.copyWith(
+      query: nextQuery,
+      isSearching: true,
+      isLoadingMore: false,
+      errorMessage: null,
+    );
+    try {
+      final MessageSearchPage resultPage = await ref
+          .read(messageSearchRepositoryProvider)
+          .searchMessages(nextQuery);
+      state = state.copyWith(
+        query: nextQuery,
+        results: resultPage.results,
+        total: resultPage.total,
+        hasMore: resultPage.hasMore,
+        isSearching: false,
+        indexing: resultPage.indexing,
+        errorMessage: null,
+      );
+    } on Exception {
+      state = state.copyWith(isSearching: false, errorMessage: 'Search failed');
+    }
+  }
+
   Future<void> loadMore() async {
     if (state.isSearching ||
         state.isLoadingMore ||
@@ -299,11 +339,13 @@ class ChannelSearch extends _$ChannelSearch {
         state.results.isEmpty) {
       return;
     }
-    final currentQuery = state.query;
-    final nextQuery = currentQuery.copyWith(page: currentQuery.page + 1);
+    final MessageSearchQuery currentQuery = state.query;
+    final MessageSearchQuery nextQuery = currentQuery.copyWith(
+      page: currentQuery.page + 1,
+    );
     state = state.copyWith(isLoadingMore: true);
     try {
-      final page = await ref
+      final MessageSearchPage page = await ref
           .read(messageSearchRepositoryProvider)
           .searchMessages(nextQuery);
       state = state.copyWith(

@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/theme/fluxer_color_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
+import 'package:fluxer_app/features/channels/utils/navigate_to_channel_content.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/composer_autocomplete_field.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/composer/message_character_counter.dart';
@@ -243,6 +244,20 @@ class _ForwardMessageSheetBodyState
     return channel.guildId;
   }
 
+  Future<void> _navigateToDestination(String channelId) async {
+    final Channel? channel = ref.read(channelByIdProvider(channelId)).value;
+    final String? guildId = channel != null && channel.guildId.isNotEmpty
+        ? channel.guildId
+        : null;
+    await navigateToChannelContent(
+      context: context,
+      ref: ref,
+      channelId: channelId,
+      guildId: guildId,
+      channel: channel,
+    );
+  }
+
   Future<void> _forward(bool commentDisabled) async {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<String> destinations = _selected.toList();
@@ -272,6 +287,10 @@ class _ForwardMessageSheetBodyState
       for (final String id in destinations) {
         tracker.recordSend(id);
       }
+      if (!mounted) {
+        return;
+      }
+      await _navigateToDestination(destinations.first);
       if (!mounted) {
         return;
       }
@@ -362,7 +381,10 @@ class _ForwardMessageSheetBodyState
 
     return ListView.builder(
       controller: widget.scrollController,
-      padding: EdgeInsets.zero,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.zero,
+      ),
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) {
         final Object item = items[index];

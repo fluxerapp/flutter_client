@@ -6,18 +6,23 @@ class VoiceChannelJoinButton extends StatelessWidget {
   const VoiceChannelJoinButton({
     required this.onPressed,
     this.disabledTooltip,
+    this.isLoading = false,
+    this.label,
     super.key,
   });
 
   final VoidCallback? onPressed;
   final String? disabledTooltip;
+  final bool isLoading;
+  final String? label;
 
   @override
   Widget build(BuildContext context) {
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final Widget button = FluxerButton.primary(
       onPressed: onPressed,
-      label: l10n.voiceChannelJoin,
+      isLoading: isLoading,
+      label: label ?? l10n.voiceChannelJoin,
     );
     if (onPressed != null || disabledTooltip == null) {
       return button;

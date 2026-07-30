@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/api/fluxer_client_provider.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as database;
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
@@ -340,85 +341,65 @@ class _VoiceChannelParticipantGridState
     final VoiceCallDisplayPreferencesState displayPreferences = ref.watch(
       voiceCallDisplayPreferencesProvider,
     );
-    final AsyncValue<List<VoiceChannelParticipantData>> async = ref.watch(
+    ref.watch(voiceChannelGridStructureProvider(participantKey));
+    final List<VoiceChannelParticipantData> list = ref.read(
       voiceChannelParticipantsProvider(participantKey),
     );
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    return async.when(
-      data: (List<VoiceChannelParticipantData> list) {
-        if (list.isEmpty) {
-          final bool isConnecting = ref.read(
-            voiceSessionProvider.select(
-              (VoiceSessionState s) => s.isConnecting,
-            ),
-          );
-          if (onThisChannel && isConnecting) {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const FluxerLoadingSpinner(),
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.voiceChannelStatusConnecting,
-                    textAlign: TextAlign.center,
-                    style: context.textStyles.bodyMedium.copyWith(
-                      color: context.colors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-          return const Center(child: FluxerLoadingSpinner());
-        }
-        final List<_VoiceGridTileItem> tileItems = _orderTiles(
-          _buildTileItems(
-            participants: list,
-            room: liveKit,
-            currentUserId: me,
-            localConnectionId: localConnectionId,
-            onlyShowVideos: displayPreferences.onlyShowVideos,
-            showOwnCamera: displayPreferences.showOwnCamera,
-          ),
-          liveKit,
-          me,
-          localConnectionId,
-          speakers,
-        );
-        final String? authToken = ref.watch(fluxerAuthTokenProvider);
-        final String? baseUrl = ref.watch(fluxerBaseUrlProvider);
-        return LayoutBuilder(
-          builder: (BuildContext c, BoxConstraints cons) {
-            return _buildLayout(
-              context: context,
-              constraints: cons,
-              tiles: tileItems,
-              layout: layout,
-              speakers: speakers,
-              room: liveKit,
-              me: me,
-              localConnectionId: localConnectionId,
-              authToken: authToken,
-              baseUrl: baseUrl,
-              l10n: l10n,
-            );
-          },
-        );
-      },
-      loading: () => const Center(
-        child: Padding(
-          padding: EdgeInsets.all(24),
-          child: FluxerLoadingSpinner(),
-        ),
-      ),
-      error: (Object err, StackTrace s) {
+    if (list.isEmpty) {
+      final bool isConnecting = ref.read(
+        voiceSessionProvider.select((VoiceSessionState s) => s.isConnecting),
+      );
+      if (onThisChannel && isConnecting) {
         return Center(
-          child: PhosphorIcon(
-            PhosphorIconsFill.prohibit,
-            size: 32,
-            color: context.colors.textTertiary,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const FluxerLoadingSpinner(),
+              const SizedBox(height: 12),
+              Text(
+                l10n.voiceChannelStatusConnecting,
+                textAlign: TextAlign.center,
+                style: context.textStyles.bodyMedium.copyWith(
+                  color: context.colors.textSecondary,
+                ),
+              ),
+            ],
           ),
+        );
+      }
+      return const Center(child: FluxerLoadingSpinner());
+    }
+    final List<_VoiceGridTileItem> tileItems = _orderTiles(
+      _buildTileItems(
+        participants: list,
+        room: liveKit,
+        currentUserId: me,
+        localConnectionId: localConnectionId,
+        onlyShowVideos: displayPreferences.onlyShowVideos,
+        showOwnCamera: displayPreferences.showOwnCamera,
+      ),
+      liveKit,
+      me,
+      localConnectionId,
+      speakers,
+    );
+    final String? authToken = ref.watch(fluxerAuthTokenProvider);
+    final String? baseUrl = ref.watch(fluxerBaseUrlProvider);
+    return LayoutBuilder(
+      builder: (BuildContext c, BoxConstraints cons) {
+        return _buildLayout(
+          context: context,
+          constraints: cons,
+          tiles: tileItems,
+          layout: layout,
+          speakers: speakers,
+          room: liveKit,
+          me: me,
+          localConnectionId: localConnectionId,
+          authToken: authToken,
+          baseUrl: baseUrl,
+          l10n: l10n,
         );
       },
     );
@@ -724,12 +705,6 @@ class _VoiceChannelParticipantGridState
     required bool isActiveScreenShare,
     bool isFilmstrip = false,
   }) {
-    final bool isSpeaking =
-        tile.source == VoiceParticipantTileSource.camera &&
-        !_isVoiceMuted(tile.data.voice) &&
-        speakers.isParticipantSpeaking(
-          _resolveParticipant(tile, room, me, localConnectionId),
-        );
     return _VoiceParticipantCard(
       data: tile.data,
       guildId: widget.guildId,
@@ -740,7 +715,6 @@ class _VoiceChannelParticipantGridState
       currentUserId: me,
       localConnectionId: localConnectionId,
       isActiveScreenShare: isActiveScreenShare,
-      isSpeaking: isSpeaking,
       isFocusMain: isFocusMain,
       isFilmstrip: isFilmstrip,
       streamPreviewUrl: buildViewerStreamPreviewUrl(
@@ -803,7 +777,6 @@ class _VoiceParticipantCard extends ConsumerWidget {
     required this.localConnectionId,
     required this.tileSource,
     required this.isActiveScreenShare,
-    required this.isSpeaking,
     required this.isFocusMain,
     required this.isFilmstrip,
     required this.streamPreviewUrl,
@@ -823,7 +796,6 @@ class _VoiceParticipantCard extends ConsumerWidget {
   final String? localConnectionId;
   final VoiceParticipantTileSource tileSource;
   final bool isActiveScreenShare;
-  final bool isSpeaking;
   final bool isFocusMain;
   final bool isFilmstrip;
   final String? streamPreviewUrl;
@@ -842,22 +814,33 @@ class _VoiceParticipantCard extends ConsumerWidget {
     final String display =
         resolvedDisplay?.displayName ??
         (user != null ? (user.globalName ?? user.username) : data.userId);
-    final VoiceState v = data.voice;
+    final String? connectionId = data.voice.connectionId;
+    final VoiceState voice = connectionId == null
+        ? data.voice
+        : ref.watch(voiceStateForConnectionProvider(connectionId)) ??
+              data.voice;
+    final VoiceActiveSpeakersState speakers = ref.watch(
+      voiceActiveSpeakersProvider,
+    );
     final int? avatarArgb = user?.avatarColor;
     final Color cardColor = avatarArgb == null
         ? context.colors.brandPrimary
         : Color(0xFF000000 | avatarArgb);
     final Participant? participant = resolveVoiceParticipant(
       room: room,
-      voice: v,
+      voice: voice,
       userId: data.userId,
       currentUserId: currentUserId,
       localConnectionId: localConnectionId,
     );
+    final bool isSpeaking =
+        tileSource == VoiceParticipantTileSource.camera &&
+        !_isVoiceMuted(voice) &&
+        speakers.isParticipantSpeaking(participant);
     final bool isOwnScreenShareTile =
         tileSource == VoiceParticipantTileSource.screenShare &&
         localConnectionId != null &&
-        v.connectionId == localConnectionId;
+        voice.connectionId == localConnectionId;
     final Color ringColor = context.colors.statusOnline;
     final Widget card = Material(
       color: cardColor,
@@ -880,7 +863,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
                 userId: data.userId,
                 currentUserId: currentUserId,
                 localConnectionId: localConnectionId,
-                voice: v,
+                voice: voice,
                 display: display,
                 backgroundColor: cardColor,
                 user: user,
@@ -923,7 +906,7 @@ class _VoiceParticipantCard extends ConsumerWidget {
                   bottom: 8,
                   child: _VoiceParticipantNameplate(
                     l10n: l10n,
-                    voice: v,
+                    voice: voice,
                     display: display,
                   ),
                 ),

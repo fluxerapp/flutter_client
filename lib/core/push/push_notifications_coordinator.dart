@@ -23,6 +23,7 @@ import 'package:fluxer_app/core/push/services/firebase_messaging_push_service.da
 import 'package:fluxer_app/core/push/services/unified_push_service.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_mobile_device_registration.dart';
+import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_dismissal_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -175,7 +176,12 @@ class PushNotificationsCoordinator extends _$PushNotificationsCoordinator {
     await pushService.initializeWithOptions(vapid: vapid);
     await pushService.applyVapidAndReregisterIfNeeded(vapid);
     if (pushService.needsDistributorPicker) {
-      ref.read(unifiedPushDistributorSetupProvider.notifier).requestPicker();
+      final bool dismissed = await ref
+          .read(unifiedPushNoDistributorDismissalStorageProvider)
+          .isDismissed();
+      if (!dismissed) {
+        ref.read(unifiedPushDistributorSetupProvider.notifier).requestPicker();
+      }
     } else {
       final bool hasPersisted = await ref
           .read(unifiedPushMobileDeviceRegistrationProvider.notifier)

@@ -81,7 +81,7 @@ class _DmEmbeddedVoiceCallPanelState
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Icon(
-                          PhosphorIconsRegular.dotsNine,
+                          PhosphorIconsBold.dotsNine,
                           size: 20,
                           color: context.colors.textSecondary,
                         ),
@@ -103,7 +103,7 @@ class _DmEmbeddedVoiceCallPanelState
                           );
                         },
                         icon: PhosphorIcon(
-                          PhosphorIconsRegular.arrowsOut,
+                          PhosphorIconsBold.arrowsOut,
                           color: context.colors.textPrimary,
                         ),
                       ),

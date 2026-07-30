@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/pickers/picker_sea
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates;
+import 'package:fluxer_app/shared/widgets/unicode_emoji_widget.dart';
 
 export 'package:fluxer_app/shared/utils/emoji_utils.dart'
     show kSkinToneSurrogates, skinToneToName;
@@ -132,7 +133,7 @@ class _SkinToneButtonState extends State<_SkinToneButton> {
                     onTap: () => _select(tone),
                     child: Padding(
                       padding: const EdgeInsets.all(4),
-                      child: Text(emoji, style: const TextStyle(fontSize: 24)),
+                      child: UnicodeEmojiWidget(emoji: emoji, size: 24),
                     ),
                   );
                 }).toList(),
@@ -156,10 +157,7 @@ class _SkinToneButtonState extends State<_SkinToneButton> {
           width: 28,
           height: 28,
           child: Center(
-            child: Text(
-              _previewEmoji,
-              style: const TextStyle(fontSize: 26, height: 1),
-            ),
+            child: UnicodeEmojiWidget(emoji: _previewEmoji, size: 26),
           ),
         ),
       ),

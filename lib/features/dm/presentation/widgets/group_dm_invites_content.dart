@@ -88,7 +88,10 @@ class _GroupDmInvitesContentState extends ConsumerState<GroupDmInvitesContent> {
         return ListView.separated(
           controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.all(context.layout.s4),
+          padding: FluxerBottomSheet.scrollViewPadding(
+            context,
+            padding: EdgeInsets.all(context.layout.s4),
+          ),
           itemCount: state.invites.length,
           separatorBuilder: (BuildContext context, int index) =>
               SizedBox(height: context.layout.s2),
@@ -124,7 +127,10 @@ class _GroupDmInvitesContentState extends ConsumerState<GroupDmInvitesContent> {
         return ListView(
           controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.all(context.layout.s4),
+          padding: FluxerBottomSheet.scrollViewPadding(
+            context,
+            padding: EdgeInsets.all(context.layout.s4),
+          ),
           children: <Widget>[
             ConstrainedBox(
               constraints: BoxConstraints(

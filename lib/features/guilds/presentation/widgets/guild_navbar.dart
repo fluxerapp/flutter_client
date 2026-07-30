@@ -67,6 +67,7 @@ import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provid
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/guilds/utils/leave_guild_action.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_report_guild.dart';
+import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/user_settings_modal.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -76,6 +77,7 @@ import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
@@ -522,7 +524,7 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
         );
         return _DashedGuildIcon(
           label: l10n.guildNavbarExploreDiscoverableCommunities,
-          icon: PhosphorIconsRegular.compass,
+          icon: PhosphorIconsBold.compass,
           isSelected: isDiscover,
           onTap: () {
             if (ref.read(currentLocationProvider) == RoutePaths.discover) {
@@ -534,13 +536,13 @@ class _GuildNavbarState extends ConsumerState<GuildNavbar> {
       case _NavbarListEntryKind.addCommunity:
         return _DashedGuildIcon(
           label: l10n.guildNavbarAddCommunity,
-          icon: PhosphorIconsRegular.plus,
+          icon: PhosphorIconsBold.plus,
           onTap: () => unawaited(showAddGuildModal(context, ref)),
         );
       case _NavbarListEntryKind.help:
         return _DashedGuildIcon(
           label: l10n.guildNavbarHelp,
-          icon: PhosphorIconsRegular.question,
+          icon: PhosphorIconsBold.question,
           onTap: () =>
               handleExternalLinkTap(context, 'https://help.fluxer.app'),
         );
@@ -2662,7 +2664,7 @@ class _GuildListItemState extends State<_GuildListItem>
                             child: widget.isUnavailable
                                 ? Center(
                                     child: PhosphorIcon(
-                                      PhosphorIconsRegular.exclamationMark,
+                                      PhosphorIconsBold.exclamationMark,
                                       color: context.colors.textOnBrandPrimary,
                                       size: 32,
                                     ),
@@ -3403,203 +3405,201 @@ class _GuildListItemState extends State<_GuildListItem>
 
         return SingleChildScrollView(
           controller: scrollController,
-          child: Padding(
+          padding: FluxerBottomSheet.scrollViewPadding(
+            sheetContext,
             padding: EdgeInsets.symmetric(horizontal: layout.s4),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: muted,
-                  builder: (_, isMuted, _) => _PrivacySwitchRow(
-                    label: l10n.notificationMuteGuild(widget.guild!.name),
-                    description: l10n.notificationMuteDescription,
-                    value: isMuted,
-                    onChanged: (value) {
-                      muted.value = value;
-                      widget.onUpdateNotificationSetting?.call(muted: value);
-                    },
-                  ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ValueListenableBuilder<bool>(
+                valueListenable: muted,
+                builder: (_, isMuted, _) => _PrivacySwitchRow(
+                  label: l10n.notificationMuteGuild(widget.guild!.name),
+                  description: l10n.notificationMuteDescription,
+                  value: isMuted,
+                  onChanged: (value) {
+                    muted.value = value;
+                    widget.onUpdateNotificationSetting?.call(muted: value);
+                  },
                 ),
+              ),
 
-                SizedBox(height: layout.s6),
-                Text(
-                  l10n.notificationCommunitySettings,
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
+              SizedBox(height: layout.s6),
+              Text(
+                l10n.notificationCommunitySettings,
+                style: textStyles.bodySmall.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w600,
                 ),
-                SizedBox(height: layout.s3),
-                ValueListenableBuilder<int>(
-                  valueListenable: notifLevel,
-                  builder: (_, level, _) => FluxerRadioGroup<int>(
-                    value: level,
-                    items: [
-                      FluxerRadioItem(
-                        value: 0,
-                        label: l10n.notificationAllMessages,
-                      ),
-                      FluxerRadioItem(
-                        value: 1,
-                        label: l10n.notificationOnlyMentions,
-                      ),
-                      FluxerRadioItem(
-                        value: 2,
-                        label: l10n.notificationNothing,
-                      ),
-                    ],
-                    onChanged: (value) {
-                      notifLevel.value = value;
-                      widget.onUpdateNotificationSetting?.call(
-                        messageNotifications: UserNotificationSettings.fromJson(
-                          value,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-                SizedBox(height: layout.s6),
-                FluxerSwitchGroup(
-                  children: [
-                    ValueListenableBuilder<bool>(
-                      valueListenable: suppressEveryone,
-                      builder: (_, suppress, _) => FluxerSwitchGroupItem(
-                        label: l10n.notificationSuppressEveryone,
-                        value: suppress,
-                        onChanged: (value) {
-                          suppressEveryone.value = value;
-                          widget.onUpdateNotificationSetting?.call(
-                            suppressEveryone: value,
-                          );
-                        },
-                      ),
+              ),
+              SizedBox(height: layout.s3),
+              ValueListenableBuilder<int>(
+                valueListenable: notifLevel,
+                builder: (_, level, _) => FluxerRadioGroup<int>(
+                  value: level,
+                  items: [
+                    FluxerRadioItem(
+                      value: 0,
+                      label: l10n.notificationAllMessages,
                     ),
-                    ValueListenableBuilder<bool>(
-                      valueListenable: suppressRoles,
-                      builder: (_, suppress, _) => FluxerSwitchGroupItem(
-                        label: l10n.notificationSuppressRoles,
-                        value: suppress,
-                        onChanged: (value) {
-                          suppressRoles.value = value;
-                          widget.onUpdateNotificationSetting?.call(
-                            suppressRoles: value,
-                          );
-                        },
-                      ),
+                    FluxerRadioItem(
+                      value: 1,
+                      label: l10n.notificationOnlyMentions,
                     ),
+                    FluxerRadioItem(value: 2, label: l10n.notificationNothing),
                   ],
-                ),
-
-                SizedBox(height: layout.s6),
-                FluxerSwitchGroup(
-                  children: [
-                    ValueListenableBuilder<bool>(
-                      valueListenable: mobilePush,
-                      builder: (_, push, _) => FluxerSwitchGroupItem(
-                        label: l10n.notificationMobilePush,
-                        value: push,
-                        onChanged: (value) {
-                          mobilePush.value = value;
-                          widget.onUpdateNotificationSetting?.call(
-                            mobilePush: value,
-                          );
-                        },
+                  onChanged: (value) {
+                    notifLevel.value = value;
+                    widget.onUpdateNotificationSetting?.call(
+                      messageNotifications: UserNotificationSettings.fromJson(
+                        value,
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
+              ),
 
-                SizedBox(height: layout.s6),
-                Text(
-                  l10n.notificationOverrides,
-                  style: textStyles.bodySmall.copyWith(
-                    color: colors.textPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: layout.s3),
-                ValueListenableBuilder<
-                  Map<String, ({int messageNotifications, bool muted})>
-                >(
-                  valueListenable: overrides,
-                  builder: (_, currentOverrides, _) {
-                    final available = channels
-                        .where((c) => !currentOverrides.containsKey(c.id))
-                        .toList();
-                    return FluxerSelect<String>(
-                      hint: l10n.notificationSelectChannel,
-                      items: [
-                        for (final ch in available)
-                          FluxerSelectItem(
-                            value: ch.id,
-                            label: ch.name,
-                            icon: ChannelIcon.iconDataFor(
-                              ChannelType.fromWire(ch.type),
-                            ),
-                          ),
-                      ],
-                      onChanged: (channelId) {
-                        overrides.value = {
-                          ...overrides.value,
-                          channelId: (messageNotifications: 3, muted: false),
-                        };
-                        widget.onUpdateChannelOverride?.call(
-                          channelId,
-                          3,
-                          muted: false,
+              SizedBox(height: layout.s6),
+              FluxerSwitchGroup(
+                children: [
+                  ValueListenableBuilder<bool>(
+                    valueListenable: suppressEveryone,
+                    builder: (_, suppress, _) => FluxerSwitchGroupItem(
+                      label: l10n.notificationSuppressEveryone,
+                      value: suppress,
+                      onChanged: (value) {
+                        suppressEveryone.value = value;
+                        widget.onUpdateNotificationSetting?.call(
+                          suppressEveryone: value,
                         );
                       },
-                    );
-                  },
+                    ),
+                  ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: suppressRoles,
+                    builder: (_, suppress, _) => FluxerSwitchGroupItem(
+                      label: l10n.notificationSuppressRoles,
+                      value: suppress,
+                      onChanged: (value) {
+                        suppressRoles.value = value;
+                        widget.onUpdateNotificationSetting?.call(
+                          suppressRoles: value,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: layout.s6),
+              FluxerSwitchGroup(
+                children: [
+                  ValueListenableBuilder<bool>(
+                    valueListenable: mobilePush,
+                    builder: (_, push, _) => FluxerSwitchGroupItem(
+                      label: l10n.notificationMobilePush,
+                      value: push,
+                      onChanged: (value) {
+                        mobilePush.value = value;
+                        widget.onUpdateNotificationSetting?.call(
+                          mobilePush: value,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: layout.s6),
+              Text(
+                l10n.notificationOverrides,
+                style: textStyles.bodySmall.copyWith(
+                  color: colors.textPrimary,
+                  fontWeight: FontWeight.w600,
                 ),
-                ValueListenableBuilder<
-                  Map<String, ({int messageNotifications, bool muted})>
-                >(
-                  valueListenable: overrides,
-                  builder: (_, currentOverrides, _) {
-                    if (currentOverrides.isEmpty) {
-                      return const SizedBox.shrink();
-                    }
-
-                    final sorted = currentOverrides.entries.toList()
-                      ..sort((a, b) {
-                        final ca = channelMap[a.key];
-                        final cb = channelMap[b.key];
-                        if (ca == null && cb == null) {
-                          return 0;
-                        }
-                        if (ca == null) {
-                          return 1;
-                        }
-                        if (cb == null) {
-                          return -1;
-                        }
-                        final cmp = ca.position.compareTo(cb.position);
-                        return cmp != 0 ? cmp : a.key.compareTo(b.key);
-                      });
-
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(height: layout.s3),
-                        for (final entry in sorted)
-                          _buildOverrideCard(
-                            sheetContext,
-                            channelId: entry.key,
-                            channelOverride: entry.value,
-                            channel: channelMap[entry.key],
-                            channelMap: channelMap,
-                            overrides: overrides,
-                            guildNotifLevel: notifLevel.value,
+              ),
+              SizedBox(height: layout.s3),
+              ValueListenableBuilder<
+                Map<String, ({int messageNotifications, bool muted})>
+              >(
+                valueListenable: overrides,
+                builder: (_, currentOverrides, _) {
+                  final available = channels
+                      .where((c) => !currentOverrides.containsKey(c.id))
+                      .toList();
+                  return FluxerSelect<String>(
+                    hint: l10n.notificationSelectChannel,
+                    items: [
+                      for (final ch in available)
+                        FluxerSelectItem(
+                          value: ch.id,
+                          label: ch.name,
+                          icon: ChannelIcon.iconDataFor(
+                            ChannelType.fromWire(ch.type),
                           ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
+                        ),
+                    ],
+                    onChanged: (channelId) {
+                      overrides.value = {
+                        ...overrides.value,
+                        channelId: (messageNotifications: 3, muted: false),
+                      };
+                      widget.onUpdateChannelOverride?.call(
+                        channelId,
+                        3,
+                        muted: false,
+                      );
+                    },
+                  );
+                },
+              ),
+              ValueListenableBuilder<
+                Map<String, ({int messageNotifications, bool muted})>
+              >(
+                valueListenable: overrides,
+                builder: (_, currentOverrides, _) {
+                  if (currentOverrides.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+
+                  final sorted = currentOverrides.entries.toList()
+                    ..sort((a, b) {
+                      final ca = channelMap[a.key];
+                      final cb = channelMap[b.key];
+                      if (ca == null && cb == null) {
+                        return 0;
+                      }
+                      if (ca == null) {
+                        return 1;
+                      }
+                      if (cb == null) {
+                        return -1;
+                      }
+                      final cmp = ca.position.compareTo(cb.position);
+                      return cmp != 0 ? cmp : a.key.compareTo(b.key);
+                    });
+
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: layout.s3),
+                      for (final entry in sorted)
+                        _buildOverrideCard(
+                          sheetContext,
+                          channelId: entry.key,
+                          channelOverride: entry.value,
+                          channel: channelMap[entry.key],
+                          channelMap: channelMap,
+                          overrides: overrides,
+                          guildNotifLevel: notifLevel.value,
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ],
           ),
         );
       },
@@ -3927,43 +3927,47 @@ class _GuildListItemState extends State<_GuildListItem>
 
   void _handleAction(BuildContext context, GuildAction action) {
     final guildId = widget.guild!.id;
+    final GuildSettingsTab? settingsTab = guildSettingsTabForAction(action);
+    if (settingsTab != null) {
+      if (isGuildSettingsTabComingSoon(settingsTab)) {
+        final FluxerLocalizations l10n = FluxerLocalizations.of(context);
+        widget.onShowToast?.call(FluxerToast(message: l10n.comingSoon));
+        return;
+      }
+      final bool isTouchPrimary = ProviderScope.containerOf(
+        context,
+      ).read(inputModalityProvider);
+      if (!canOpenGuildSettings(
+        permissions: widget.permissions,
+        guild: widget.guild,
+        isTouchPrimary: isTouchPrimary,
+      )) {
+        return;
+      }
+      unawaited(
+        context.push(
+          RoutePaths.guildSettingsPath(
+            guildId,
+            tab: guildSettingsTabQuery(settingsTab),
+          ),
+        ),
+      );
+      return;
+    }
     switch (action) {
       case GuildAction.settingsOverview:
-        unawaited(
-          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'overview')),
-        );
       case GuildAction.settingsRoles:
-        unawaited(
-          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'roles')),
-        );
       case GuildAction.settingsEmoji:
-        unawaited(
-          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'emoji')),
-        );
       case GuildAction.settingsStickers:
-        unawaited(
-          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'stickers')),
-        );
       case GuildAction.settingsSafetyModeration:
       case GuildAction.settingsActivityLog:
       case GuildAction.settingsWebhooks:
       case GuildAction.settingsDiscovery:
-      case GuildAction.settingsInviteLinks:
-        unawaited(
-          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'invites')),
-        );
       case GuildAction.settingsMembers:
-        unawaited(
-          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'members')),
-        );
+      case GuildAction.settingsInviteLinks:
       case GuildAction.settingsBans:
-        unawaited(
-          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'bans')),
-        );
       case GuildAction.settingsChannels:
-        unawaited(
-          context.push(RoutePaths.guildSettingsPath(guildId, tab: 'channels')),
-        );
+        return;
       case GuildAction.copyGuildId:
         unawaited(copyToClipboard(context: context, value: guildId));
       case GuildAction.markAsRead:
@@ -4389,7 +4393,7 @@ class _UnavailableGuildsIndicator extends StatelessWidget {
                   ),
                   child: Center(
                     child: PhosphorIcon(
-                      PhosphorIconsRegular.exclamationMark,
+                      PhosphorIconsBold.exclamationMark,
                       color: context.colors.textOnBrandPrimary,
                       size: 32,
                     ),

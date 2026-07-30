@@ -169,7 +169,7 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
         children: [
           FluxerBottomSheetMenuItem(
             label: l10n.customStatusSetTitle,
-            icon: PhosphorIconsRegular.smiley,
+            icon: PhosphorIconsBold.smiley,
             onTap: () => unawaited(_openCustomStatusEditor(null)),
           ),
         ],
@@ -184,12 +184,12 @@ class _StatusChangeSheetBodyState extends ConsumerState<StatusChangeSheetBody> {
           label: displayText.isEmpty ? l10n.customStatusSetTitle : displayText,
           hint: l10n.customStatusCurrentHint,
           leading: emojiLeading,
-          icon: emojiLeading == null ? PhosphorIconsRegular.smiley : null,
+          icon: emojiLeading == null ? PhosphorIconsBold.smiley : null,
           onTap: () => unawaited(_openCustomStatusEditor(customStatus)),
         ),
         FluxerBottomSheetMenuItem(
           label: l10n.customStatusClear,
-          icon: PhosphorIconsRegular.x,
+          icon: PhosphorIconsBold.x,
           onTap: () => unawaited(_clearCustomStatus()),
         ),
       ],

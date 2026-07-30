@@ -12,6 +12,7 @@ import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/guilds/providers/organized_guild_list_provider.dart';
 import 'package:fluxer_app/features/guilds/utils/guild_folder_icon.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
 import 'package:gaimon/gaimon.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -66,7 +67,7 @@ class GuildDragFeedback extends StatelessWidget {
             child: isUnavailable
                 ? Center(
                     child: PhosphorIcon(
-                      PhosphorIconsRegular.exclamationMark,
+                      PhosphorIconsBold.exclamationMark,
                       color: colors.textOnBrandPrimary,
                       size: 28,
                     ),
@@ -196,10 +197,11 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
   @override
   Widget build(BuildContext context) {
     final DragState dragState = ref.watch(guildDragProvider);
-    final bool isMobile = isMobileLayout(context);
+    final bool isMobileUi = isMobileLayout(context);
+    final bool useLongPressDrag = isTouchPrimaryInput(ref);
     final Color brandPrimary = context.colors.brandPrimary;
     final bool showDropIndicators =
-        !isMobile || dragState.hasMovedFromHoldPoint;
+        !useLongPressDrag || dragState.hasMovedFromHoldPoint;
     final DropPosition? dropPosition =
         showDropIndicators && dragState.hoverTargetId == widget.itemId
         ? dragState.dropPosition
@@ -213,16 +215,16 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
         onMove: (details) => _handleDragMove(
           context: context,
           details: details,
-          isMobile: isMobile,
+          useLongPressDrag: useLongPressDrag,
         ),
         onLeave: (_) {
-          if (isMobile && ref.read(guildDragProvider).isDragging) {
+          if (useLongPressDrag && ref.read(guildDragProvider).isDragging) {
             return;
           }
           ref.read(guildDragProvider.notifier).clearHover();
         },
         onAcceptWithDetails: (details) {
-          if (isMobile) {
+          if (useLongPressDrag) {
             return;
           }
           _handleDrop(sourceId: details.data.itemId);
@@ -231,7 +233,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
           return _DragTargetContent(
             dropPosition: dropPosition,
             color: brandPrimary,
-            useOutlineIndicators: isMobile,
+            useOutlineIndicators: isMobileUi,
             child: widget.child,
           );
         },
@@ -239,20 +241,20 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
     );
 
     final bool collapseSource =
-        isMobile &&
+        useLongPressDrag &&
         dragState.dragItemId == widget.itemId &&
         dragState.hasMovedFromHoldPoint;
 
     final Widget peekHostChild = !widget.enabled
         ? dragTarget
         : _GuildDraggable(
-            isMobile: isMobile,
+            useLongPressDrag: useLongPressDrag,
             data: GuildDragData(
               itemId: widget.itemId,
               isFolder: widget.isFolder,
             ),
             dragFeedback: widget.dragFeedback,
-            childWhenDragging: isMobile
+            childWhenDragging: useLongPressDrag
                 ? collapseSource
                       ? const SizedBox.shrink()
                       : IgnorePointer(child: dragTarget)
@@ -266,7 +268,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
                     ),
                   ),
             onDragStarted: (double? anchorGlobalCenterX) {
-              if (isMobile) {
+              if (useLongPressDrag) {
                 unawaited(HapticFeedback.mediumImpact());
               }
               ref
@@ -277,7 +279,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
                     anchorGlobalCenterX: anchorGlobalCenterX,
                   );
             },
-            onDragUpdate: isMobile
+            onDragUpdate: useLongPressDrag
                 ? (Offset globalPosition) {
                     final bool didChangeDropPreview = ref
                         .read(guildDragProvider.notifier)
@@ -288,7 +290,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
                   }
                 : null,
             onDragEnded: () {
-              if (isMobile) {
+              if (useLongPressDrag) {
                 _commitPendingDropIfNeeded();
               }
               ref.read(guildDragProvider.notifier).endDrag();
@@ -296,7 +298,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
             child: dragTarget,
           );
 
-    if (widget.peekMenu != null && isMobile) {
+    if (widget.peekMenu != null && isMobileUi) {
       return GuildIconPeekGestureHost(
         itemId: widget.itemId,
         peekMenu: widget.peekMenu!,
@@ -309,9 +311,9 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
   void _handleDragMove({
     required BuildContext context,
     required DragTargetDetails<GuildDragData> details,
-    required bool isMobile,
+    required bool useLongPressDrag,
   }) {
-    if (isMobile) {
+    if (useLongPressDrag) {
       return;
     }
     final RenderBox renderBox = context.findRenderObject()! as RenderBox;
@@ -385,7 +387,7 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
 
 class _GuildDraggable extends ConsumerStatefulWidget {
   const _GuildDraggable({
-    required this.isMobile,
+    required this.useLongPressDrag,
     required this.data,
     required this.dragFeedback,
     required this.childWhenDragging,
@@ -395,7 +397,7 @@ class _GuildDraggable extends ConsumerStatefulWidget {
     this.onDragUpdate,
   });
 
-  final bool isMobile;
+  final bool useLongPressDrag;
   final GuildDragData data;
   final Widget dragFeedback;
   final Widget childWhenDragging;
@@ -425,7 +427,7 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable> {
   }
 
   void _syncFeedbackOverlay() {
-    if (!widget.isMobile) {
+    if (!widget.useLongPressDrag) {
       return;
     }
     final DragState dragState = ref.read(guildDragProvider);
@@ -502,7 +504,7 @@ class _GuildDraggableState extends ConsumerState<_GuildDraggable> {
   Widget build(BuildContext context) {
     ref.listen<DragState>(guildDragProvider, (_, _) => _syncFeedbackOverlay());
 
-    if (widget.isMobile) {
+    if (widget.useLongPressDrag) {
       return LongPressDraggable<GuildDragData>(
         data: widget.data,
         onDragStarted: () =>

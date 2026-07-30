@@ -234,6 +234,41 @@ void main() {
     expect(_sliderDx(tester), 0);
   });
 
+  testWidgets('ignores horizontal drag on playback seek surface', (
+    tester,
+  ) async {
+    final router = GoRouter(
+      initialLocation: '/channels/guild/channel',
+      routes: [
+        GoRoute(
+          path: '/channels/:guildId',
+          builder: (context, state) => _drawerHarnessWithPlaybackSeek(),
+          routes: [
+            GoRoute(
+              path: ':channelId',
+              builder: (context, state) => _drawerHarnessWithPlaybackSeek(),
+            ),
+          ],
+        ),
+      ],
+    );
+    addTearDown(router.dispose);
+    final container = _containerFor(router);
+
+    await tester.pumpWidget(
+      _buildDrawerApp(container: container, router: router),
+    );
+    await tester.pumpAndSettle();
+
+    final Offset seekCenter = tester.getCenter(
+      find.byKey(kPlaybackSeekShellGestureBlockKey),
+    );
+    await tester.dragFrom(seekCenter, const Offset(200, 0));
+    await tester.pumpAndSettle();
+
+    expect(_sliderDx(tester), 0);
+  });
+
   testWidgets('ignores horizontal drag on the expression panel surface', (
     tester,
   ) async {
@@ -311,6 +346,34 @@ Widget _drawerHarnessWithWideTable() {
       child: FluxerMarkdown(
         data: kWideMarkdownTable,
         config: kWideTableMarkdownConfig,
+      ),
+    ),
+  );
+}
+
+Widget _drawerHarnessWithPlaybackSeek() {
+  return const SidebarDrawer(
+    revealDuration: Duration.zero,
+    snapBackDuration: Duration.zero,
+    base: ColoredBox(color: Colors.blue),
+    slider: SizedBox(
+      key: _sliderKey,
+      width: 400,
+      height: 600,
+      child: Stack(
+        children: <Widget>[
+          ColoredBox(color: Colors.red),
+          Positioned(
+            left: 16,
+            right: 16,
+            top: 200,
+            child: SizedBox(
+              key: kPlaybackSeekShellGestureBlockKey,
+              height: 44,
+              child: ColoredBox(color: Colors.orange),
+            ),
+          ),
+        ],
       ),
     ),
   );

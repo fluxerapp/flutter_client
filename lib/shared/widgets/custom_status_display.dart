@@ -12,12 +12,14 @@ class CustomStatusDisplay extends StatelessWidget {
     required this.stored,
     this.maxLines = 2,
     this.emojiSize = 16,
+    this.textStyle,
     super.key,
   });
 
   final String? stored;
   final int maxLines;
   final double emojiSize;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +43,11 @@ class CustomStatusDisplay extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: context.textStyles.bodySmall.copyWith(
-                color: context.colors.textSecondary,
-              ),
+              style:
+                  textStyle ??
+                  context.textStyles.bodySmall.copyWith(
+                    color: context.colors.textSecondary,
+                  ),
               maxLines: maxLines,
               overflow: TextOverflow.ellipsis,
             ),

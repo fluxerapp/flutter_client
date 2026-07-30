@@ -442,7 +442,7 @@ class _AttachmentMediaViewerShellState
                           IconButton(
                             onPressed: canGoPrevious ? _executePrevious : null,
                             tooltip: l10n.mediaViewerPreviousAttachment,
-                            icon: const Icon(PhosphorIconsRegular.caretLeft),
+                            icon: const Icon(PhosphorIconsBold.caretLeft),
                           ),
                           Text(
                             indexLabel,
@@ -453,7 +453,7 @@ class _AttachmentMediaViewerShellState
                           IconButton(
                             onPressed: canGoNext ? _executeNext : null,
                             tooltip: l10n.mediaViewerNextAttachment,
-                            icon: const Icon(PhosphorIconsRegular.caretRight),
+                            icon: const Icon(PhosphorIconsBold.caretRight),
                           ),
                         ],
                       ),
@@ -487,7 +487,7 @@ class _AttachmentMediaViewerShellState
       fit: BoxFit.contain,
       errorBuilder: (_, _, _) => ColoredBox(
         color: context.colors.backgroundSecondaryAlt,
-        child: const Center(child: Icon(PhosphorIconsRegular.image)),
+        child: const Center(child: Icon(PhosphorIconsBold.image)),
       ),
     );
     final Widget media = MatureMediaOverlay(

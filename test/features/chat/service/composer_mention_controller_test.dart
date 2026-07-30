@@ -41,6 +41,50 @@ Future<ComposerMentionController> _pumpController(WidgetTester tester) async {
 }
 
 void main() {
+  testWidgets('insertUserMentionPlaceholder replaces the full @query range', (
+    WidgetTester tester,
+  ) async {
+    final ComposerMentionController controller = await _pumpController(tester);
+
+    controller
+      ..text = '@msu'
+      ..selection = const TextSelection.collapsed(offset: 4);
+    controller.insertUserMentionPlaceholder(
+      matchStart: 0,
+      matchEnd: 4,
+      userId: '1481621807877361924',
+      displayName: 'msubizo',
+    );
+    await tester.pump();
+
+    expect(find.text('@msubizo'), findsOneWidget);
+    expect(controller.toWireText().trim(), '<@1481621807877361924>');
+    expect(controller.text, isNot(contains('u')));
+  });
+
+  testWidgets(
+    'insertUserMentionPlaceholder leaves suffix when range is stale',
+    (WidgetTester tester) async {
+      final ComposerMentionController controller = await _pumpController(
+        tester,
+      );
+
+      controller
+        ..text = '@msu'
+        ..selection = const TextSelection.collapsed(offset: 4);
+      controller.insertUserMentionPlaceholder(
+        matchStart: 0,
+        matchEnd: 3,
+        userId: '1481621807877361924',
+        displayName: 'msubizo',
+      );
+      await tester.pump();
+
+      expect(find.text('@msubizo'), findsOneWidget);
+      expect(controller.toWireText().trim(), '<@1481621807877361924> u');
+    },
+  );
+
   testWidgets('stores the user mention display label and renders it', (
     WidgetTester tester,
   ) async {

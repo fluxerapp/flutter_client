@@ -163,18 +163,17 @@ ChannelMoveComputation? computeChannelMove({
   }
   final String targetId = dropResult.targetId;
   final bool isTrailingTarget = targetId == kTrailingSpaceTargetId;
-  final String? requestedParentId =
-      targetId == kNullSpaceTargetId || isTrailingTarget
-      ? null
-      : dropResult.targetParentId ??
-            (isCategory ? null : draggedChannel.parentId);
-  String? newParentId = isCategory ? null : requestedParentId;
-  if (!isCategory &&
-      !isTrailingTarget &&
-      newParentId == null &&
-      dropResult.targetParentId == null) {
-    newParentId = draggedChannel.parentId;
+  final String? requestedParentId;
+  if (targetId == kNullSpaceTargetId || isTrailingTarget) {
+    requestedParentId = null;
+  } else if (dropResult.targetParentIdSpecified) {
+    requestedParentId = dropResult.targetParentId;
+  } else if (isCategory) {
+    requestedParentId = null;
+  } else {
+    requestedParentId = draggedChannel.parentId;
   }
+  String? newParentId = isCategory ? null : requestedParentId;
   int insertIndex = 0;
   if (targetId == kNullSpaceTargetId) {
     insertIndex = 0;

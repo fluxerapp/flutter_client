@@ -44,6 +44,38 @@ bool isDesktopLayout(BuildContext context) =>
 /// Non-mobile layout (tablet + desktop). Matches web `!MobileLayout.enabled`.
 bool isWideLayout(BuildContext context) => !isMobileLayout(context);
 
+/// Horizontal inset for wide settings modals when the viewport is narrower than
+/// [maxModalWidth], so the sheet does not span edge to edge on iPad.
+double wideSettingsModalHorizontalInset(
+  BuildContext context, {
+  double maxModalWidth = 1400,
+}) {
+  if (isMobileLayout(context)) {
+    return 0;
+  }
+  final double width = MediaQuery.sizeOf(context).width;
+  if (width >= maxModalWidth) {
+    return 0;
+  }
+  return isTabletLayout(context) ? 60 : 44;
+}
+
+/// Insets for wide settings modals that float above the shell.
+EdgeInsets wideSettingsModalInsets(
+  BuildContext context, {
+  double maxModalWidth = 1400,
+}) {
+  final double horizontal = wideSettingsModalHorizontalInset(
+    context,
+    maxModalWidth: maxModalWidth,
+  );
+  if (horizontal <= 0) {
+    return EdgeInsets.zero;
+  }
+  const double vertical = 36;
+  return EdgeInsets.fromLTRB(horizontal, vertical, horizontal, vertical);
+}
+
 class ResponsiveLayout extends StatelessWidget {
   final Widget Function(BuildContext context, LayoutMode mode) builder;
 

@@ -60,10 +60,8 @@ class GuildSettingsOverviewActions extends _$GuildSettingsOverviewActions {
 
   Future<void> updateGuild(GuildUpdateRequest body) async {
     // Async notifier loading state for void action providers.
-    // ignore: void_checks
     state = const AsyncLoading<void>();
     // Async notifier result state for void action providers.
-    // ignore: void_checks
     state = await AsyncValue.guard(() async {
       await ref
           .read(guildSettingsRepositoryProvider)
@@ -90,10 +88,8 @@ class GuildSettingsModerationActions extends _$GuildSettingsModerationActions {
 
   Future<void> updateModeration(GuildUpdateRequest body) async {
     // Async notifier loading state for void action providers.
-    // ignore: void_checks
     state = const AsyncLoading<void>();
     // Async notifier result state for void action providers.
-    // ignore: void_checks
     state = await AsyncValue.guard(() async {
       await ref
           .read(guildSettingsRepositoryProvider)

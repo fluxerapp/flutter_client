@@ -113,6 +113,25 @@ void main() {
         isTrue,
       );
     });
+
+    test('clearEdge allows retry without leaving the enter margin', () {
+      final MessageEdgeLoadTrigger trigger = MessageEdgeLoadTrigger();
+      final double enterMargin = messageListLoadEnterMargin(viewportHeight);
+      final double progressDelta = messageListLoadProgressDelta(viewportHeight);
+      final double notEnoughProgress = enterMargin - progressDelta + 1;
+
+      expect(shouldRequest(trigger, distanceFromEdge: enterMargin), isTrue);
+      expect(
+        shouldRequest(trigger, distanceFromEdge: notEnoughProgress),
+        isFalse,
+      );
+
+      trigger.clearEdge(MessageLoadEdge.older);
+      expect(
+        shouldRequest(trigger, distanceFromEdge: notEnoughProgress),
+        isTrue,
+      );
+    });
   });
 
   group('message list load thresholds', () {

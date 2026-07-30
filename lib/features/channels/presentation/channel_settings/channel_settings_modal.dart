@@ -127,9 +127,10 @@ class _ChannelSettingsDesktopLayout extends StatelessWidget {
       visibleTabs: visibleTabs,
       canDelete: canDelete,
     );
-    final int selectedIndex = visibleTabs.isEmpty
-        ? -1
-        : visibleTabs.indexOf(activeTab);
+    final int sidebarSelectedIndex = settingsSidebarIndexForLabel(
+      sidebarItems,
+      channelSettingsTabTitle(l10n, activeTab),
+    );
     final int deleteIndex = sidebarItems.length - 1;
     return Scaffold(
       backgroundColor: context.colors.backgroundPrimary,
@@ -164,14 +165,24 @@ class _ChannelSettingsDesktopLayout extends StatelessWidget {
                   Expanded(
                     child: SettingsSidebar(
                       items: sidebarItems,
-                      selectedIndex: selectedIndex < 0 ? 0 : selectedIndex,
+                      selectedIndex: sidebarSelectedIndex,
                       onSelected: (int index) {
                         if (canDelete && index == deleteIndex) {
                           onDelete();
                           return;
                         }
-                        if (index >= 0 && index < visibleTabs.length) {
-                          onTabSelected(visibleTabs[index]);
+                        final String? label = settingsSidebarLabelAtIndex(
+                          sidebarItems,
+                          index,
+                        );
+                        if (label == null) {
+                          return;
+                        }
+                        for (final ChannelSettingsTab tab in visibleTabs) {
+                          if (channelSettingsTabTitle(l10n, tab) == label) {
+                            onTabSelected(tab);
+                            return;
+                          }
                         }
                       },
                     ),
@@ -206,7 +217,7 @@ class _ChannelSettingsDesktopLayout extends StatelessWidget {
                           width: 36,
                           height: 36,
                           child: PhosphorIcon(
-                            PhosphorIconsRegular.x,
+                            PhosphorIconsBold.x,
                             size: 18,
                             color: context.colors.interactiveNormal,
                           ),

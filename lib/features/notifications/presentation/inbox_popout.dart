@@ -265,7 +265,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
                 const SizedBox(height: 8),
                 _InboxSidebarTab(
                   tooltip: l10n.notificationsBookmarksTooltip,
-                  icon: PhosphorIconsRegular.bookmarkSimple,
+                  icon: PhosphorIconsBold.bookmarkSimple,
                   isActive: _activeTab == InboxTab.bookmarks,
                   onTap: () => setState(() => _activeTab = InboxTab.bookmarks),
                 ),
@@ -285,7 +285,7 @@ class _InboxPopoutState extends ConsumerState<InboxPopout> {
                       message: l10n.notificationsMentionFilterTooltip,
                       position: FluxerTooltipPosition.right,
                       child: _InboxSidebarActionButton(
-                        icon: PhosphorIconsRegular.funnel,
+                        icon: PhosphorIconsBold.funnel,
                         tooltip: l10n.notificationsMentionFilterTooltip,
                         onPressed: () => unawaited(_mentionsFilterInvoker!()),
                       ),

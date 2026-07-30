@@ -350,14 +350,26 @@ platform :ios do
     update_build_changelog(build: build, changelog: changelog)
     reject_build_waiting_for_beta_review(build: build)
 
-    if build.ready_for_beta_submission?
-      build.post_beta_app_review_submission
-    else
-      external_state = build.build_beta_detail&.external_build_state || "unknown"
-      UI.message("Build #{build.app_version} (#{build.version}) is not ready for beta submission (external state: #{external_state})")
+    external_groups = beta_groups.reject(&:is_internal_group)
+    internal_group_names = beta_groups.select(&:is_internal_group).map(&:name)
+
+    if internal_group_names.any?
+      UI.message("Skipping internal groups (not assignable via API): #{internal_group_names.join(', ')}")
     end
 
-    build.add_beta_groups(beta_groups: beta_groups)
+    if external_groups.any?
+      if build.ready_for_beta_submission?
+        build.post_beta_app_review_submission
+      else
+        external_state = build.build_beta_detail&.external_build_state || "unknown"
+        UI.message("Build #{build.app_version} (#{build.version}) is not ready for beta submission (external state: #{external_state})")
+      end
+
+      build.add_beta_groups(beta_groups: external_groups)
+    else
+      UI.message("No external groups to assign; internal testers rely on automatic distribution or manual assignment in App Store Connect")
+    end
+
     if build.build_beta_detail
       Spaceship::ConnectAPI.patch_build_beta_details(
         build_beta_details_id: build.build_beta_detail.id,
@@ -366,7 +378,12 @@ platform :ios do
     else
       UI.user_error!("Unable to enable tester notifications because build beta details were not returned")
     end
-    UI.success("Distributed to groups: #{beta_groups.map(&:name).join(', ')}")
+
+    distributed_names = external_groups.map(&:name)
+    if internal_group_names.any?
+      distributed_names += internal_group_names.map { |name| "#{name} (internal)" }
+    end
+    UI.success("Distributed to groups: #{distributed_names.join(', ')}")
   end
 
   def ensure_export_compliance(build:)

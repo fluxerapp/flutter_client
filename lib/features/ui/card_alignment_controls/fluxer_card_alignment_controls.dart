@@ -86,9 +86,9 @@ class _AlignmentButton extends StatelessWidget {
     final colors = context.colors;
     final layout = context.layout;
     final IconData icon = switch (alignment) {
-      1 => PhosphorIconsRegular.textAlignLeft,
-      2 => PhosphorIconsRegular.textAlignRight,
-      _ => PhosphorIconsRegular.textAlignCenter,
+      1 => PhosphorIconsBold.textAlignLeft,
+      2 => PhosphorIconsBold.textAlignRight,
+      _ => PhosphorIconsBold.textAlignCenter,
     };
     return FluxerTappable(
       onTap: disabled ? null : onPressed,

@@ -80,7 +80,7 @@ class ProfileTabMenuSheetBody extends ConsumerWidget {
             ),
             FluxerBottomSheetSubmenuItem(
               label: l10n.profileTabMenuSwitchAccounts,
-              icon: PhosphorIconsRegular.users,
+              icon: PhosphorIconsBold.users,
               onTap: onOpenAccounts,
             ),
           ],

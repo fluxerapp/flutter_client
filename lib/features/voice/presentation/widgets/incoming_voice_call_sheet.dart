@@ -9,6 +9,7 @@ import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
+import 'package:fluxer_app/features/voice/providers/pending_incoming_voice_calls_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -16,6 +17,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 const String kIncomingVoiceResultAccept = 'accept';
 const String kIncomingVoiceResultReject = 'reject';
 const String kIncomingVoiceResultIgnore = 'ignore';
+const String kIncomingVoiceResultRemoteDismiss = 'remote_dismiss';
 
 String _resolveSheetHeaderTitle({
   required DmConversation? dm,
@@ -92,6 +94,14 @@ class _IncomingVoiceCallSheetBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef bodyRef) {
+    bodyRef.listen<List<String>>(pendingIncomingVoiceChannelIdsProvider, (
+      List<String>? _,
+      List<String> next,
+    ) {
+      if (!next.contains(channelId)) {
+        _pop(kIncomingVoiceResultRemoteDismiss);
+      }
+    });
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final List<DmConversation> conversations = bodyRef.watch(
       dmViewModelProvider.select((DmViewState s) => s.conversations),
@@ -113,7 +123,10 @@ class _IncomingVoiceCallSheetBody extends ConsumerWidget {
     final layout = context.layout;
     return SingleChildScrollView(
       controller: scrollController,
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

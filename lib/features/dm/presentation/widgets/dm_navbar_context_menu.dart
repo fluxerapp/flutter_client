@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart'
     show isMobileLayout;
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
@@ -107,19 +106,17 @@ List<FluxerBottomSheetMenuItem> _buildBottomSheetItems({
   return [
     if (hasUnread)
       FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsRegular.checkCircle,
+        icon: PhosphorIconsBold.checkCircle,
         label: l10n.dmMarkAsRead,
         onTap: () => pop(DmNavbarAction.markAsRead),
       ),
     FluxerBottomSheetMenuItem(
-      icon: isMuted
-          ? PhosphorIconsRegular.bell
-          : PhosphorIconsRegular.bellSlash,
+      icon: isMuted ? PhosphorIconsBold.bell : PhosphorIconsBold.bellSlash,
       label: isMuted ? l10n.dmUnmuteConversation : l10n.dmMuteConversation,
       onTap: () => pop(isMuted ? DmNavbarAction.unmute : DmNavbarAction.mute),
     ),
     FluxerBottomSheetMenuItem(
-      icon: PhosphorIconsRegular.pushPin,
+      icon: PhosphorIconsBold.pushPin,
       label: isPinned ? l10n.dmUnpinDm : l10n.dmPinDm,
       onTap: () =>
           pop(isPinned ? DmNavbarAction.unpinDm : DmNavbarAction.pinDm),
@@ -127,8 +124,8 @@ List<FluxerBottomSheetMenuItem> _buildBottomSheetItems({
     if (isCollapsed)
       FluxerBottomSheetMenuItem(
         icon: isAllowlisted
-            ? PhosphorIconsRegular.eyeSlash
-            : PhosphorIconsRegular.eye,
+            ? PhosphorIconsBold.eyeSlash
+            : PhosphorIconsBold.eye,
         label: isAllowlisted
             ? l10n.dmRemoveFromAlwaysShown
             : l10n.dmAlwaysShowInSidebar,
@@ -140,17 +137,17 @@ List<FluxerBottomSheetMenuItem> _buildBottomSheetItems({
       ),
     if (!isGroupDm)
       FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsRegular.userCircle,
+        icon: PhosphorIconsBold.userCircle,
         label: l10n.dmCopyUserId,
         onTap: () => pop(DmNavbarAction.copyUserId),
       ),
     FluxerBottomSheetMenuItem(
-      icon: PhosphorIconsRegular.hash,
+      icon: PhosphorIconsBold.hash,
       label: l10n.dmCopyChannelId,
       onTap: () => pop(DmNavbarAction.copyChannelId),
     ),
     FluxerBottomSheetMenuItem(
-      icon: PhosphorIconsRegular.x,
+      icon: PhosphorIconsBold.x,
       label: l10n.dmCloseDm,
       isDanger: true,
       onTap: () => pop(DmNavbarAction.closeDm),
@@ -294,19 +291,17 @@ List<Widget> _buildMenuItems({
   return [
     if (hasUnread)
       ContextMenuItem(
-        icon: PhosphorIconsRegular.checkCircle,
+        icon: PhosphorIconsBold.checkCircle,
         label: l10n.dmMarkAsRead,
         onTap: () => pop(DmNavbarAction.markAsRead),
       ),
     ContextMenuItem(
-      icon: isMuted
-          ? PhosphorIconsRegular.bell
-          : PhosphorIconsRegular.bellSlash,
+      icon: isMuted ? PhosphorIconsBold.bell : PhosphorIconsBold.bellSlash,
       label: isMuted ? l10n.dmUnmuteConversation : l10n.dmMuteConversation,
       onTap: () => pop(isMuted ? DmNavbarAction.unmute : DmNavbarAction.mute),
     ),
     ContextMenuItem(
-      icon: PhosphorIconsRegular.pushPin,
+      icon: PhosphorIconsBold.pushPin,
       label: isPinned ? l10n.dmUnpinDm : l10n.dmPinDm,
       onTap: () =>
           pop(isPinned ? DmNavbarAction.unpinDm : DmNavbarAction.pinDm),
@@ -314,8 +309,8 @@ List<Widget> _buildMenuItems({
     if (isCollapsed)
       ContextMenuItem(
         icon: isAllowlisted
-            ? PhosphorIconsRegular.eyeSlash
-            : PhosphorIconsRegular.eye,
+            ? PhosphorIconsBold.eyeSlash
+            : PhosphorIconsBold.eye,
         label: isAllowlisted
             ? l10n.dmRemoveFromAlwaysShown
             : l10n.dmAlwaysShowInSidebar,
@@ -328,18 +323,18 @@ List<Widget> _buildMenuItems({
     const ContextMenuDivider(),
     if (!isGroupDm)
       ContextMenuItem(
-        icon: PhosphorIconsRegular.userCircle,
+        icon: PhosphorIconsBold.userCircle,
         label: l10n.dmCopyUserId,
         onTap: () => pop(DmNavbarAction.copyUserId),
       ),
     ContextMenuItem(
-      icon: PhosphorIconsRegular.hash,
+      icon: PhosphorIconsBold.hash,
       label: l10n.dmCopyChannelId,
       onTap: () => pop(DmNavbarAction.copyChannelId),
     ),
     const ContextMenuDivider(),
     ContextMenuItem(
-      icon: PhosphorIconsRegular.x,
+      icon: PhosphorIconsBold.x,
       label: l10n.dmCloseDm,
       isDanger: true,
       onTap: () => pop(DmNavbarAction.closeDm),

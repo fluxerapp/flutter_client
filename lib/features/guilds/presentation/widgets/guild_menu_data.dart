@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:fluxer_app/core/permissions/permission.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/user_date_formatting.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -121,11 +123,17 @@ List<GuildMenuGroup> buildGuildMenuGroups({
   DateTime? muteEndTime,
   bool hideMutedChannels = false,
   bool developerMode = false,
+  bool isTouchPrimary = false,
+  Guild? guild,
 }) {
   final p = permissions;
   final canInvite = hasPermission(p, Permission.createInstantInvite);
   final canManageChannels = hasPermission(p, Permission.manageChannels);
-  final canAccessSettings = canAccessAnyGuildSettings(p);
+  final canAccessSettings = canOpenGuildSettings(
+    permissions: p,
+    guild: guild,
+    isTouchPrimary: isTouchPrimary,
+  );
 
   return <GuildMenuGroup>[
     [
@@ -235,7 +243,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
     [
       GuildMenuAction(
         label: l10n.guildMenuCopyCommunityId,
-        icon: PhosphorIconsRegular.snowflake,
+        icon: PhosphorIconsBold.snowflake,
         action: GuildAction.copyGuildId,
       ),
     ],
@@ -265,16 +273,6 @@ const List<_SettingsTabDef> _settingsTabDefs = <_SettingsTabDef>[
     icon: PhosphorIconsFill.hash,
   ),
   (
-    action: GuildAction.settingsEmoji,
-    perms: [Permission.createExpressions, Permission.manageExpressions],
-    icon: PhosphorIconsFill.smiley,
-  ),
-  (
-    action: GuildAction.settingsStickers,
-    perms: [Permission.createExpressions, Permission.manageExpressions],
-    icon: PhosphorIconsFill.sticker,
-  ),
-  (
     action: GuildAction.settingsSafetyModeration,
     perms: [Permission.manageGuild],
     icon: PhosphorIconsFill.hammer,
@@ -283,6 +281,16 @@ const List<_SettingsTabDef> _settingsTabDefs = <_SettingsTabDef>[
     action: GuildAction.settingsActivityLog,
     perms: [Permission.viewAuditLog],
     icon: PhosphorIconsFill.bookOpen,
+  ),
+  (
+    action: GuildAction.settingsEmoji,
+    perms: [Permission.createExpressions, Permission.manageExpressions],
+    icon: PhosphorIconsFill.smiley,
+  ),
+  (
+    action: GuildAction.settingsStickers,
+    perms: [Permission.createExpressions, Permission.manageExpressions],
+    icon: PhosphorIconsFill.sticker,
   ),
   (
     action: GuildAction.settingsWebhooks,

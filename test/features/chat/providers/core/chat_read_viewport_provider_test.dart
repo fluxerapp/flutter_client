@@ -111,6 +111,40 @@ void main() {
     expect(state.viewportHeight, 0);
   });
 
+  test('updateViewport quantizes distance before emitting', () async {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+
+    container.read(chatReadViewportProvider.notifier)
+      ..setActiveChannel('channel-1')
+      ..setViewportActive(channelId: 'channel-1', isActive: true);
+    await _flushMicrotasks();
+    container
+        .read(chatReadViewportProvider.notifier)
+        .updateViewport(
+          channelId: 'channel-1',
+          nearLoadedTail: false,
+          distanceFromBottom: 50,
+          viewportHeight: 720,
+        );
+
+    expect(container.read(chatReadViewportProvider).distanceFromBottom, 48);
+
+    container
+        .read(chatReadViewportProvider.notifier)
+        .updateViewport(
+          channelId: 'channel-1',
+          nearLoadedTail: false,
+          distanceFromBottom: 70,
+          viewportHeight: 720,
+        );
+    expect(
+      container.read(chatReadViewportProvider).distanceFromBottom,
+      48,
+      reason: 'small distance changes within a step must not emit',
+    );
+  });
+
   test('foreground rebuild preserves channel and geometry', () async {
     final container = ProviderContainer();
     addTearDown(container.dispose);
@@ -136,7 +170,7 @@ void main() {
     expect(state.channelId, 'channel-1');
     expect(state.viewportActive, isTrue);
     expect(state.nearLoadedTail, isTrue);
-    expect(state.distanceFromBottom, 64);
+    expect(state.distanceFromBottom, 48);
     expect(state.viewportHeight, 640);
     expect(state.foreground, isFalse);
     expect(state.canAutoAck, isFalse);

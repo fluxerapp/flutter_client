@@ -96,12 +96,26 @@ class _UserProfileState extends ConsumerState<UserProfile> {
   }
 
   void _resetControllers(UserSettingsViewState state) {
-    _displayNameController.text = state.displayName;
-    _pronounsController.text = state.pronouns ?? '';
-    _bioController.loadWithTokens(state.bio ?? '');
-    _nickController.text = state.guildNick ?? '';
-    _guildPronounsController.text = state.guildPronouns ?? '';
-    _guildBioController.loadWithTokens(state.guildBio ?? '');
+    _displayNameController.text = state.isEditedDisplayNameSet
+        ? (state.editedDisplayName ?? '')
+        : state.displayName;
+    _pronounsController.text = state.isEditedPronounsSet
+        ? (state.editedPronouns ?? '')
+        : (state.pronouns ?? '');
+    _bioController.loadWithTokens(
+      state.isEditedBioSet ? (state.editedBio ?? '') : (state.bio ?? ''),
+    );
+    _nickController.text = state.isEditedNickSet
+        ? (state.editedNick ?? '')
+        : (state.guildNick ?? '');
+    _guildPronounsController.text = state.isEditedGuildPronounsSet
+        ? (state.editedGuildPronouns ?? '')
+        : (state.guildPronouns ?? '');
+    _guildBioController.loadWithTokens(
+      state.isEditedGuildBioSet
+          ? (state.editedGuildBio ?? '')
+          : (state.guildBio ?? ''),
+    );
   }
 
   void _notifyBioChanged() {
@@ -856,6 +870,7 @@ class _UserProfileState extends ConsumerState<UserProfile> {
                     counterLength: () => controller.actualTextLength,
                     counterMax: _kMaxBioLength,
                     helperText: l10n.aboutMeHelperText,
+                    onChanged: (_) => onChanged(),
                     suffixIcon: FluxerEmojiPickerPopout(
                       key: _expressionPickerKey,
                       visibleTabs: const [ExpressionPickerTab.emojis],

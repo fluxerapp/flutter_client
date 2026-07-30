@@ -68,78 +68,26 @@ List<GuildChannelSettingsEntry> flattenGuildChannelSettingsEntries({
 
 class GuildChannelSettingsDropHover {
   const GuildChannelSettingsDropHover({
+    required this.sourceEntryId,
     required this.displayEntryId,
     required this.displayIntent,
     required this.dropResult,
   });
 
+  final String sourceEntryId;
   final String displayEntryId;
   final ChannelReorderIntent displayIntent;
   final ChannelReorderDropResult dropResult;
 }
 
-GuildChannelSettingsDropHover? resolveGuildChannelSettingsDropHover({
-  required List<GuildChannelSettingsEntry> entries,
+GuildChannelSettingsDropHover resolveGuildChannelSettingsDropHover({
   required GuildChannelSettingsEntry hovered,
   required ChannelReorderIntent intent,
-  required ChannelReorderDragItem activeDragItem,
 }) {
-  if (activeDragItem.kind != ChannelReorderDragKind.category ||
-      hovered.kind != GuildChannelSettingsEntryKind.category) {
-    return GuildChannelSettingsDropHover(
-      displayEntryId: hovered.id,
-      displayIntent: intent,
-      dropResult: intent.result,
-    );
-  }
-  final int categoryIndex = entries.indexWhere(
-    (GuildChannelSettingsEntry entry) => entry.id == hovered.id,
-  );
-  if (categoryIndex == -1) {
-    return null;
-  }
-  if (intent.indicator.position == ChannelReorderIndicatorPosition.top) {
-    return GuildChannelSettingsDropHover(
-      displayEntryId: hovered.id,
-      displayIntent: intent,
-      dropResult: intent.result,
-    );
-  }
-  final ChannelReorderDropResult dropResult = ChannelReorderDropResult(
-    targetId: hovered.id,
-    position: ChannelReorderDropPosition.after,
-  );
-  int blockEndIndex = categoryIndex;
-  for (int index = categoryIndex + 1; index < entries.length; index++) {
-    final GuildChannelSettingsEntry entry = entries[index];
-    if (entry.kind == GuildChannelSettingsEntryKind.category) {
-      return GuildChannelSettingsDropHover(
-        displayEntryId: entry.id,
-        displayIntent: ChannelReorderIntent(
-          indicator: const ChannelReorderIndicator(
-            position: ChannelReorderIndicatorPosition.top,
-            isValid: true,
-          ),
-          result: ChannelReorderDropResult(
-            targetId: entry.id,
-            position: ChannelReorderDropPosition.before,
-          ),
-        ),
-        dropResult: dropResult,
-      );
-    }
-    blockEndIndex = index;
-  }
-  final GuildChannelSettingsEntry displayEntry = entries[blockEndIndex];
   return GuildChannelSettingsDropHover(
-    displayEntryId: displayEntry.id,
-    displayIntent: ChannelReorderIntent(
-      indicator: const ChannelReorderIndicator(
-        position: ChannelReorderIndicatorPosition.bottom,
-        isValid: true,
-      ),
-      result: dropResult,
-    ),
-    dropResult: dropResult,
+    sourceEntryId: hovered.id,
+    displayEntryId: hovered.id,
+    displayIntent: intent,
+    dropResult: intent.result,
   );
 }

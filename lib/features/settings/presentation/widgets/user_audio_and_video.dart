@@ -10,8 +10,8 @@ import 'package:fluxer_app/features/settings/providers/voice_prompts_preferences
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_audio_processing_options.dart';
 import 'package:fluxer_app/features/voice/providers/voice_media_devices_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_noise_filter_provider.dart';
 import 'package:fluxer_app/features/voice/utils/screen_share_presets.dart';
 import 'package:fluxer_app/features/voice/utils/voice_camera_platform.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
@@ -116,13 +116,6 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
     final bool higherQualityEnabled = ref.watch(
       instanceFeatureEnabledProvider(LimitKeys.featureHigherVideoQuality),
     );
-    final AsyncValue<VoiceNoiseFilterState> noiseFilterState = ref.watch(
-      voiceNoiseFilterProvider,
-    );
-    final bool noiseFilterSupported = noiseFilterState.maybeWhen(
-      data: (VoiceNoiseFilterState value) => value.isSupported,
-      orElse: () => false,
-    );
     final bool canSwitchSpeaker = AudioManager.instance.canSwitchSpeakerphone;
     final bool showCameraDevicePicker = !isMobileVoiceCameraPlatform();
 
@@ -185,83 +178,8 @@ class _UserAudioAndVideoState extends ConsumerState<UserAudioAndVideo> {
               ),
               FluxerSettingsSubsection(
                 title: l10n.audioAndVideoVoiceProcessingSectionTitle,
-                children: [
-                  FluxerRadioGroup<VoiceProcessingMode>(
-                    value: settings.voiceProcessingMode,
-                    onChanged: (VoiceProcessingMode value) => unawaited(
-                      settingsNotifier.setVoiceProcessingMode(value),
-                    ),
-                    items: [
-                      FluxerRadioItem(
-                        value: VoiceProcessingMode.voice,
-                        label: l10n.audioAndVideoFocusedVoiceLabel,
-                        description: l10n.audioAndVideoFocusedVoiceDescription,
-                      ),
-                      FluxerRadioItem(
-                        value: VoiceProcessingMode.studio,
-                        label: l10n.audioAndVideoDirectInputLabel,
-                        description: l10n.audioAndVideoDirectInputDescription,
-                      ),
-                      FluxerRadioItem(
-                        value: VoiceProcessingMode.custom,
-                        label: l10n.audioAndVideoCustomProfileLabel,
-                        description: l10n.audioAndVideoCustomProfileDescription,
-                      ),
-                    ],
-                  ),
-                ],
+                children: const <Widget>[VoiceAudioProcessingOptions()],
               ),
-              if (settings.voiceProcessingMode ==
-                  VoiceProcessingMode.custom) ...[
-                FluxerSettingsSubsection(
-                  title: l10n.audioAndVideoNoiseSuppressionSectionTitle,
-                  children: [
-                    FluxerRadioGroup<NoiseSuppressionTier>(
-                      value: settings.noiseSuppressionTier,
-                      onChanged: (NoiseSuppressionTier value) => unawaited(
-                        settingsNotifier.setNoiseSuppressionTier(value),
-                      ),
-                      items: [
-                        if (noiseFilterSupported)
-                          FluxerRadioItem(
-                            value: NoiseSuppressionTier.enhanced,
-                            label:
-                                l10n.audioAndVideoNoiseSuppressionEnhancedLabel,
-                          ),
-                        FluxerRadioItem(
-                          value: NoiseSuppressionTier.standard,
-                          label:
-                              l10n.audioAndVideoNoiseSuppressionStandardLabel,
-                        ),
-                        FluxerRadioItem(
-                          value: NoiseSuppressionTier.none,
-                          label: l10n.audioAndVideoNoiseSuppressionNoneLabel,
-                        ),
-                      ],
-                    ),
-                    FluxerSettingsSwitchItem(
-                      label: l10n.audioAndVideoEchoCancellationLabel,
-                      value: settings.echoCancellation,
-                      onChanged: (bool value) => unawaited(
-                        settingsNotifier.setEchoCancellation(value: value),
-                      ),
-                    ),
-                    FluxerSettingsSwitchItem(
-                      label: l10n.audioAndVideoAutomaticGainControlLabel,
-                      description:
-                          l10n.audioAndVideoAutomaticGainControlDescription,
-                      value: settings.autoGainControl,
-                      enabled:
-                          !(settings.noiseSuppressionTier ==
-                                  NoiseSuppressionTier.enhanced &&
-                              noiseFilterSupported),
-                      onChanged: (bool value) => unawaited(
-                        settingsNotifier.setAutoGainControl(value: value),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
               FluxerSettingsSubsection(
                 title: l10n.audioAndVideoMicTestSectionTitle,
                 description: l10n.audioAndVideoMicTestSectionDescription,

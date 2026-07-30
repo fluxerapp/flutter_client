@@ -18,6 +18,10 @@ class MessageEdgeLoadTrigger {
     _newerBaseline = null;
   }
 
+  void clearEdge(MessageLoadEdge edge) {
+    _setBaseline(edge, null);
+  }
+
   bool shouldRequest({
     required MessageLoadEdge edge,
     required double distanceFromEdge,

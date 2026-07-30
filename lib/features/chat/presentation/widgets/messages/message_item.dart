@@ -46,6 +46,7 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/providers/guild_user_display_provider.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/providers/member_role_color.dart';
 import 'package:fluxer_app/shared/utils/guild_user_display.dart';
 import 'package:fluxer_dart/export.dart';
@@ -165,7 +166,6 @@ class MessageItem extends ConsumerStatefulWidget {
   final VoidCallback? onDeleteFailed;
   final VoidCallback? onDismissClientSystem;
   final VoidCallback? onMarkAsUnread;
-  final VoidCallback? onViewReactions;
   final VoidCallback? onReport;
   final ReactionToggleCallback? onReaction;
   final ValueChanged<Attachment>? onDeleteAttachment;
@@ -204,7 +204,6 @@ class MessageItem extends ConsumerStatefulWidget {
     this.onDeleteFailed,
     this.onDismissClientSystem,
     this.onMarkAsUnread,
-    this.onViewReactions,
     this.onReport,
     this.onReaction,
     this.onDeleteAttachment,
@@ -269,7 +268,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
       return;
     }
     final String? guildId =
-        widget.previewRoleGuildId ?? ref.read(activeGuildIdProvider);
+        widget.previewRoleGuildId ?? ref.read(contextualGuildIdProvider);
     unawaited(
       FluxerUserProfileSheet.show(
         context,
@@ -322,7 +321,6 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         onRetry: widget.onRetry,
         onDeleteFailed: widget.onDeleteFailed,
         onMarkAsUnread: widget.onMarkAsUnread,
-        onViewReactions: widget.onViewReactions,
         onRemoveAllReactions: widget.onRemoveAllReactions,
         onReport: widget.onReport,
         onAddReaction: () => _openReactionPickerSheet(
@@ -364,7 +362,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
 
   Future<List<QuickReactionItem>?> _loadQuickReactionItems() {
     final guildId =
-        widget.previewRoleGuildId ?? ref.read(activeGuildIdProvider);
+        widget.previewRoleGuildId ?? ref.read(contextualGuildIdProvider);
     return loadQuickReactionItems(
       ref,
       channelId: widget.message.channelId,
@@ -450,6 +448,8 @@ class _MessageItemState extends ConsumerState<MessageItem> {
     }
     final isGrouped = widget.isGrouped;
     final isMobile = isMobileLayout(context);
+    final bool touchPrimary = isTouchPrimaryInput(ref);
+    final bool useTouchMessageActions = isMobile || touchPrimary;
     final isTouch =
         layoutModeOf(layoutReferenceExtentOf(MediaQuery.sizeOf(context))) !=
         LayoutMode.desktop;
@@ -458,7 +458,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         widget.previewRoleGuildId ??
         (settings != null
             ? settings.activeGuildId
-            : ref.watch(activeGuildIdProvider));
+            : ref.watch(contextualGuildIdProvider));
     final bool renderEmbeds =
         settings?.renderEmbeds ??
         ref.watch(userSettingsViewModelProvider.select((s) => s.renderEmbeds));
@@ -531,10 +531,10 @@ class _MessageItemState extends ConsumerState<MessageItem> {
         isSending && hasUploadingPlaceholderAttachments;
 
     final body = GestureDetector(
-      onLongPress: isMobile && !widget.inboxPreviewMode
+      onLongPress: useTouchMessageActions && !widget.inboxPreviewMode
           ? () => _showActions(context)
           : null,
-      onSecondaryTapUp: !isMobile && !widget.inboxPreviewMode
+      onSecondaryTapUp: !useTouchMessageActions && !widget.inboxPreviewMode
           ? (details) => _showContextMenu(context, details.globalPosition)
           : null,
       child: MouseRegion(
@@ -1270,7 +1270,7 @@ class _MessageItemState extends ConsumerState<MessageItem> {
                           child: Padding(
                             padding: const EdgeInsets.only(right: 6),
                             child: PhosphorIcon(
-                              PhosphorIconsRegular.eye,
+                              PhosphorIconsBold.eye,
                               size: 14,
                               color: footerTextStyle.color,
                             ),

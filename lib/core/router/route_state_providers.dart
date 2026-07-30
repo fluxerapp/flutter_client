@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_kind.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
+import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -133,4 +134,19 @@ String? activeGuildId(Ref ref) {
 String? activeChannelId(Ref ref) {
   final RouteState state = ref.watch(routeStateProvider);
   return extractChannelId(state.effectiveShellLocation);
+}
+
+/// Guild context for the active chat view. Uses the route guild ID when
+/// present; otherwise resolves from the active channel row in the DB.
+@riverpod
+String? contextualGuildId(Ref ref) {
+  final String? routeGuildId = ref.watch(activeGuildIdProvider);
+  if (routeGuildId != null) {
+    return routeGuildId;
+  }
+  final String? channelId = ref.watch(activeChannelIdProvider);
+  if (channelId == null || channelId.isEmpty) {
+    return null;
+  }
+  return ref.watch(channelGuildIdProvider(channelId)).value;
 }

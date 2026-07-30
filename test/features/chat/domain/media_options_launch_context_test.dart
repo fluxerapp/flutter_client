@@ -5,6 +5,13 @@ import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dar
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 
+const String _testAttachmentImageUrl =
+    'https://fluxerusercontent.com/attachments/1427764813854588943/1531388054034460672/CleanShot_2026-07-27_at_19.49.162x.png';
+const String _testAttachmentImageFilename =
+    'CleanShot_2026-07-27_at_19.49.162x.png';
+const String _testAttachmentImageProxyUrl =
+    'https://fluxerusercontent.com/attachments/1427764813854588943/1531388054034460672/CleanShot_2026-07-27_at_19.49.162x.webp?width=1200';
+
 void main() {
   group('MediaOptionsLaunchContext', () {
     final DateTime timestamp = DateTime.fromMillisecondsSinceEpoch(0);
@@ -35,15 +42,15 @@ void main() {
       test('copies attachment metadata and action scope', () {
         const Attachment attachment = Attachment(
           id: 'attachment-id',
-          filename: 'image.png',
-          url: 'https://example.com/image.png',
-          proxyUrl: 'https://proxy.example.com/image.png',
+          filename: _testAttachmentImageFilename,
+          url: _testAttachmentImageUrl,
+          proxyUrl: _testAttachmentImageProxyUrl,
           expired: true,
         );
         final ChatFullscreenVideoLaunchContext videoContext =
             ChatFullscreenVideoLaunchContext(
               source: const ChatVideoSource(
-                fallbackUrl: 'https://example.com/image.png',
+                fallbackUrl: _testAttachmentImageUrl,
               ),
               attachment: attachment,
               actionScope: actionScope,
@@ -52,10 +59,11 @@ void main() {
         final MediaOptionsLaunchContext context =
             MediaOptionsLaunchContext.fromVideoLaunchContext(videoContext);
 
-        expect(context.fallbackUrl, 'https://example.com/image.png');
+        expect(context.fallbackUrl, _testAttachmentImageUrl);
         expect(context.attachmentId, 'attachment-id');
         expect(context.embedIndex, isNull);
-        expect(context.proxyUrl, 'https://proxy.example.com/image.png');
+        expect(context.filename, _testAttachmentImageFilename);
+        expect(context.proxyUrl, _testAttachmentImageProxyUrl);
         expect(context.isExpired, isTrue);
         expect(context.actionScope, actionScope);
         expect(context.hasOptionsMenu, isTrue);
@@ -87,11 +95,11 @@ void main() {
     group('fromImageViewerItem', () {
       test('copies item metadata and action scope', () {
         const AttachmentMediaViewerItem item = AttachmentMediaViewerItem(
-          url: 'https://example.com/image.png',
-          filename: 'image.png',
+          url: _testAttachmentImageUrl,
+          filename: _testAttachmentImageFilename,
           attachmentId: 'attachment-id',
           embedIndex: 3,
-          proxyUrl: 'https://proxy.example.com/image.png',
+          proxyUrl: _testAttachmentImageProxyUrl,
           isExpired: true,
         );
 
@@ -101,10 +109,11 @@ void main() {
               actionScope: actionScope,
             );
 
-        expect(context.fallbackUrl, 'https://example.com/image.png');
+        expect(context.fallbackUrl, _testAttachmentImageUrl);
         expect(context.attachmentId, 'attachment-id');
         expect(context.embedIndex, 3);
-        expect(context.proxyUrl, 'https://proxy.example.com/image.png');
+        expect(context.filename, _testAttachmentImageFilename);
+        expect(context.proxyUrl, _testAttachmentImageProxyUrl);
         expect(context.isExpired, isTrue);
         expect(context.actionScope, actionScope);
         expect(context.hasOptionsMenu, isTrue);
@@ -114,7 +123,7 @@ void main() {
     group('hasOptionsMenu', () {
       test('returns true when fallbackUrl is non-empty', () {
         const MediaOptionsLaunchContext context = MediaOptionsLaunchContext(
-          fallbackUrl: 'https://example.com/image.png',
+          fallbackUrl: _testAttachmentImageUrl,
         );
 
         expect(context.hasOptionsMenu, isTrue);

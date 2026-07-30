@@ -245,7 +245,7 @@ List<ChannelMenuGroup> buildChannelMenuGroups({
       label: state.isLinkChannel
           ? l10n.channelMenuCopyChannelLink
           : l10n.channelDetailsCopyLink,
-      icon: PhosphorIconsFill.link,
+      icon: PhosphorIconsBold.link,
       action: ChannelMenuAction.copyLink,
     ),
   );
@@ -377,7 +377,10 @@ Widget channelMenuGroupsToBottomSheetContent({
   ];
   return ListView(
     controller: scrollController,
-    padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+    padding: FluxerBottomSheet.scrollViewPadding(
+      context,
+      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+    ),
     children: [FluxerBottomSheetGroupColumn(children: menuGroups)],
   );
 }

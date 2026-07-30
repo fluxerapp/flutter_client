@@ -45,7 +45,9 @@ class ContextMenuItem extends StatefulWidget {
   final String? hint;
   final IconData? icon;
   final bool isDanger;
+  final bool isDisabled;
   final VoidCallback onTap;
+  final VoidCallback? onDisabledTap;
 
   const ContextMenuItem({
     required this.label,
@@ -53,6 +55,8 @@ class ContextMenuItem extends StatefulWidget {
     this.hint,
     this.icon,
     this.isDanger = false,
+    this.isDisabled = false,
+    this.onDisabledTap,
     super.key,
   });
 
@@ -75,27 +79,39 @@ class _ContextMenuItemState extends State<ContextMenuItem> {
       textColor = colors.textDanger;
       hoverBg = colors.buttonDangerFill;
       hoverText = colors.buttonDangerText;
+    } else if (widget.isDisabled) {
+      textColor = colors.textPrimaryMuted;
+      hoverBg = colors.backgroundModifierHover;
+      hoverText = colors.textPrimaryMuted;
     } else {
       textColor = colors.textSecondary;
       hoverBg = colors.backgroundModifierHover;
       hoverText = colors.textPrimary;
     }
 
-    final activeColor = _isHovered ? hoverText : textColor;
+    final activeColor = _isHovered && !widget.isDisabled
+        ? hoverText
+        : textColor;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      cursor: SystemMouseCursors.click,
+      cursor: widget.isDisabled
+          ? SystemMouseCursors.basic
+          : SystemMouseCursors.click,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: widget.onTap,
+        onTap: widget.isDisabled
+            ? (widget.onDisabledTap ?? widget.onTap)
+            : widget.onTap,
         child: Container(
           constraints: const BoxConstraints(minHeight: 36),
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s2),
           margin: const EdgeInsets.symmetric(vertical: 1),
           decoration: BoxDecoration(
-            color: _isHovered ? hoverBg : Colors.transparent,
+            color: _isHovered && !widget.isDisabled
+                ? hoverBg
+                : Colors.transparent,
             borderRadius: layout.radiusSm,
           ),
           child: Row(

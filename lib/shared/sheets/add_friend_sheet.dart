@@ -42,11 +42,14 @@ class _AddFriendSheetBody extends ConsumerWidget {
     final hasPendingRequests = incoming.isNotEmpty || outgoing.isNotEmpty;
     return ListView(
       controller: scrollController,
-      padding: EdgeInsets.fromLTRB(
-        context.layout.s4,
-        0,
-        context.layout.s4,
-        context.layout.s4,
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.fromLTRB(
+          context.layout.s4,
+          0,
+          context.layout.s4,
+          context.layout.s4,
+        ),
       ),
       children: [
         const AddFriendForm(),

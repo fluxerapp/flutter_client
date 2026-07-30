@@ -87,6 +87,40 @@ class ChannelOverviewFormState {
         voiceConnectionLimit != original.voiceConnectionLimit ||
         rtcRegion != original.rtcRegion;
   }
+
+  static const Object _unset = Object();
+
+  ChannelOverviewFormState copyWith({
+    String? name,
+    String? topic,
+    String? url,
+    int? slowmode,
+    Object? nsfwOverride = _unset,
+    int? contentWarningLevel,
+    String? contentWarningText,
+    int? bitrateKbps,
+    int? userLimit,
+    int? voiceConnectionLimit,
+    Object? rtcRegion = _unset,
+  }) {
+    return ChannelOverviewFormState(
+      name: name ?? this.name,
+      topic: topic ?? this.topic,
+      url: url ?? this.url,
+      slowmode: slowmode ?? this.slowmode,
+      nsfwOverride: identical(nsfwOverride, _unset)
+          ? this.nsfwOverride
+          : nsfwOverride as bool?,
+      contentWarningLevel: contentWarningLevel ?? this.contentWarningLevel,
+      contentWarningText: contentWarningText ?? this.contentWarningText,
+      bitrateKbps: bitrateKbps ?? this.bitrateKbps,
+      userLimit: userLimit ?? this.userLimit,
+      voiceConnectionLimit: voiceConnectionLimit ?? this.voiceConnectionLimit,
+      rtcRegion: identical(rtcRegion, _unset)
+          ? this.rtcRegion
+          : rtcRegion as String?,
+    );
+  }
 }
 
 int getNearestBitrateKbps(int value) {

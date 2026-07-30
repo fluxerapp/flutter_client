@@ -73,102 +73,110 @@ class _AddFriendsToGroupBodyState extends ConsumerState<AddFriendsToGroupBody> {
     final friends = ref.watch(friendsListProvider).value ?? const [];
     final bool canAdd =
         controller.selectedUserIds.isNotEmpty && !controller.isAdding;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        PickerSearchInput(
-          controller: _searchController,
-          hintText: l10n.createDmSearchFriends,
-          topPadding: 0,
-          bottomPadding: context.layout.s3,
-          rightCustomElement: FluxerButton.primary(
-            label: l10n.groupDmAddFriends,
-            size: FluxerButtonSize.small,
-            fitContent: true,
-            isLoading: controller.isAdding,
-            onPressed: canAdd
-                ? () => controller.handleAddFriends(context)
-                : null,
-          ),
-        ),
-        Expanded(
-          child: FriendSelector(
-            friends: friends,
-            selectedUserIds: controller.selectedUserIds,
-            onToggle: controller.toggleUser,
-            searchQuery: controller.searchQuery,
-            l10n: l10n,
-            scrollController: widget.scrollController,
-            maxSelections: controller.remainingSlotsCount,
-            excludeUserIds: controller.currentMemberIds,
-          ),
-        ),
-        if (widget.showInviteFooter) ...<Widget>[
-          SizedBox(height: context.layout.s3),
-          Text(
-            l10n.groupDmOrSendInvite,
-            style: context.textStyles.bodySmall.copyWith(
-              color: context.colors.textSecondary,
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: FluxerBottomSheet.scrollBottomPaddingOf(context),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          PickerSearchInput(
+            controller: _searchController,
+            hintText: l10n.createDmSearchFriends,
+            topPadding: 0,
+            bottomPadding: context.layout.s3,
+            rightCustomElement: FluxerButton.primary(
+              label: l10n.groupDmAddFriends,
+              size: FluxerButtonSize.small,
+              fitContent: true,
+              isLoading: controller.isAdding,
+              onPressed: canAdd
+                  ? () => controller.handleAddFriends(context)
+                  : null,
             ),
           ),
-          SizedBox(height: context.layout.s2),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: FluxerInput(
-                  readOnly: true,
-                  hint: l10n.groupDmGenerateInviteLink,
-                  controller: TextEditingController(
-                    text: controller.inviteLink ?? '',
+          Expanded(
+            child: FriendSelector(
+              friends: friends,
+              selectedUserIds: controller.selectedUserIds,
+              onToggle: controller.toggleUser,
+              searchQuery: controller.searchQuery,
+              l10n: l10n,
+              scrollController: widget.scrollController,
+              maxSelections: controller.remainingSlotsCount,
+              excludeUserIds: controller.currentMemberIds,
+            ),
+          ),
+          if (widget.showInviteFooter) ...<Widget>[
+            SizedBox(height: context.layout.s3),
+            Text(
+              l10n.groupDmOrSendInvite,
+              style: context.textStyles.bodySmall.copyWith(
+                color: context.colors.textSecondary,
+              ),
+            ),
+            SizedBox(height: context.layout.s2),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: FluxerInput(
+                    readOnly: true,
+                    hint: l10n.groupDmGenerateInviteLink,
+                    controller: TextEditingController(
+                      text: controller.inviteLink ?? '',
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(width: context.layout.s2),
-              FluxerButton.primary(
-                label: controller.inviteLink == null
-                    ? l10n.groupDmCreateInvite
-                    : l10n.channelDetailsCopyLink,
-                size: FluxerButtonSize.small,
-                fitContent: true,
-                isLoading: controller.isGeneratingInvite,
-                onPressed: controller.isGeneratingInvite
-                    ? null
-                    : () async {
-                        final bool copied = await controller
-                            .handleGenerateOrCopyInvite(context);
-                        if (!context.mounted) {
-                          return;
-                        }
-                        if (!copied) {
-                          if (controller.inviteLink == null &&
-                              !controller.isGeneratingInvite) {
-                            ref
-                                .read(toastProvider.notifier)
-                                .show(
-                                  FluxerToast(
-                                    message: l10n.groupDmCreateInviteFailedBody,
-                                    variant: FluxerToastVariant.danger,
-                                  ),
-                                );
+                SizedBox(width: context.layout.s2),
+                FluxerButton.primary(
+                  label: controller.inviteLink == null
+                      ? l10n.groupDmCreateInvite
+                      : l10n.channelDetailsCopyLink,
+                  size: FluxerButtonSize.small,
+                  fitContent: true,
+                  isLoading: controller.isGeneratingInvite,
+                  onPressed: controller.isGeneratingInvite
+                      ? null
+                      : () async {
+                          final bool copied = await controller
+                              .handleGenerateOrCopyInvite(context);
+                          if (!context.mounted) {
+                            return;
                           }
-                          return;
-                        }
-                        ref
-                            .read(toastProvider.notifier)
-                            .show(FluxerToast(message: l10n.guildNavbarCopied));
-                      },
-              ),
-            ],
-          ),
-          SizedBox(height: context.layout.s2),
-          Text(
-            l10n.groupDmInviteExpires24Hours,
-            style: context.textStyles.timestamp.copyWith(
-              color: context.colors.textSecondary,
+                          if (!copied) {
+                            if (controller.inviteLink == null &&
+                                !controller.isGeneratingInvite) {
+                              ref
+                                  .read(toastProvider.notifier)
+                                  .show(
+                                    FluxerToast(
+                                      message:
+                                          l10n.groupDmCreateInviteFailedBody,
+                                      variant: FluxerToastVariant.danger,
+                                    ),
+                                  );
+                            }
+                            return;
+                          }
+                          ref
+                              .read(toastProvider.notifier)
+                              .show(
+                                FluxerToast(message: l10n.guildNavbarCopied),
+                              );
+                        },
+                ),
+              ],
             ),
-          ),
+            SizedBox(height: context.layout.s2),
+            Text(
+              l10n.groupDmInviteExpires24Hours,
+              style: context.textStyles.timestamp.copyWith(
+                color: context.colors.textSecondary,
+              ),
+            ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

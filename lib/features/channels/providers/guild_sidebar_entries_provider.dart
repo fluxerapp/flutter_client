@@ -5,6 +5,7 @@ import 'package:fluxer_app/features/channels/domain/channel_unread_state.dart';
 import 'package:fluxer_app/features/channels/domain/hide_muted_channels_filter.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/channels/providers/channel_mute_provider.dart';
+import 'package:fluxer_app/features/channels/providers/guild_channel_unread_snapshot_provider.dart';
 import 'package:fluxer_app/features/channels/providers/guild_collapsed_categories_provider.dart';
 import 'package:fluxer_app/features/channels/providers/unread_provider.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
@@ -52,6 +53,24 @@ bool _hasVisibleUnreadForChannel({
   ).hasVisibleUnread;
 }
 
+bool _hasMentionsForChannel({
+  required UnreadState? unread,
+  required Set<String> mutedSet,
+  required String channelId,
+  required bool showFadedUnread,
+}) {
+  if (unread == null) {
+    return false;
+  }
+  return getChannelUnreadState(
+    unreadCount: unread.hasUnreadMessages ? 1 : 0,
+    mentionCount: unread.mentionCount,
+    isMuted: mutedSet.contains(channelId),
+    showFadedUnreadOnMutedChannels: showFadedUnread,
+    unreadBadgesLevel: unread.unreadBadgesLevel,
+  ).hasMentions;
+}
+
 List<GuildSidebarEntry> flattenGuildSidebarEntries({
   required List<ChannelCategory> categories,
   required Set<String> collapsed,
@@ -71,9 +90,9 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
     final List<Channel> base = <Channel>[];
     for (final Channel channel in category.channels) {
       if (hideMuted) {
-        final bool hasVisibleUnread =
+        final bool hasMentions =
             mutedSet.contains(channel.id) &&
-            _hasVisibleUnreadForChannel(
+            _hasMentionsForChannel(
               unread: unreadForChannel(channel.id),
               mutedSet: mutedSet,
               channelId: channel.id,
@@ -84,7 +103,7 @@ List<GuildSidebarEntry> flattenGuildSidebarEntries({
           mutedChannelIds: mutedSet,
           selectedChannelId: selectedId,
           connectedChannelId: connectedChannelId,
-          hasVisibleUnread: hasVisibleUnread,
+          hasMentions: hasMentions,
         )) {
           continue;
         }
@@ -162,11 +181,6 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
   if (guild == null || guildId == null || guild.id != guildId) {
     return const <GuildSidebarEntry>[];
   }
-  for (final ChannelCategory category in categories) {
-    for (final Channel channel in category.channels) {
-      ref.watch(channelUnreadProvider(channel.id));
-    }
-  }
   final bool hideMutedChannels =
       ref.watch(guildMuteProvider(guildId)).value?.hideMutedChannels ?? false;
   final Set<String> mutedSet =
@@ -174,6 +188,11 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
   final Set<String> collapsed =
       ref.watch(guildCollapsedCategoriesProvider(guild.id)).value ??
       const <String>{};
+  final bool shouldWatchUnreadSnapshot =
+      hideMutedChannels || collapsed.isNotEmpty;
+  final Map<String, UnreadState> unreadSnapshot = shouldWatchUnreadSnapshot
+      ? ref.watch(guildChannelUnreadSnapshotProvider(guildId))
+      : const <String, UnreadState>{};
   final String? selectedId = ref.watch(activeChannelIdProvider);
   final String? connectedChannelId = ref.watch(
     voiceSessionProvider.select((VoiceSessionState s) => s.channelId),
@@ -192,7 +211,6 @@ List<GuildSidebarEntry> guildSidebarEntries(Ref ref) {
     connectedChannelId: connectedChannelId,
     showFadedUnread: showFadedUnread,
     guildId: guildId,
-    unreadForChannel: (String channelId) =>
-        ref.read(channelUnreadProvider(channelId)).value,
+    unreadForChannel: (String channelId) => unreadSnapshot[channelId],
   );
 }

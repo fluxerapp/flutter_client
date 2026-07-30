@@ -259,6 +259,54 @@ void main() {
       expect(find.text('Open'), findsOneWidget);
     });
 
+    testWidgets(
+      'scrollable sheet dismisses from handle when scroll controller is unattached',
+      (tester) async {
+        await tester.pumpWidget(
+          buildTestApp(
+            Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    unawaited(
+                      FluxerBottomSheet.showScrollable(
+                        context,
+                        title: 'Search',
+                        builder: (context, scrollController, close) {
+                          return const Column(
+                            children: [
+                              SizedBox(height: 100, child: Text('Header')),
+                              Expanded(
+                                child: Center(child: Text('Empty state')),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text('Open'),
+                );
+              },
+            ),
+          ),
+        );
+
+        await tester.tap(find.text('Open'));
+        await tester.pumpAndSettle();
+        expect(find.text('Search'), findsOneWidget);
+
+        await tester.drag(
+          find.byType(FluxerBottomSheetDragHandle),
+          const Offset(0, 300),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('Search'), findsNothing);
+        expect(find.text('Open'), findsOneWidget);
+      },
+    );
+
     testWidgets('non-scrollable sheet closes when dragging handle down', (
       tester,
     ) async {
@@ -358,7 +406,6 @@ void main() {
                     unawaited(
                       FluxerBottomSheet.show(
                         context,
-                        manageKeyboardInset: true,
                         builder: (context, close) {
                           return const SizedBox(height: 100);
                         },
@@ -591,6 +638,163 @@ void main() {
       expect(find.text('Blocked Back'), findsOneWidget);
 
       canDismissNotifier.dispose();
+    });
+
+    testWidgets('scrollViewPadding merges scope bottom inset', (tester) async {
+      double? mergedBottom;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: FluxerBottomSheetScope(
+            bottomScrollPadding: 34,
+            child: Builder(
+              builder: (context) {
+                mergedBottom = FluxerBottomSheet.scrollViewPadding(
+                  context,
+                  padding: const EdgeInsets.only(bottom: 8),
+                ).bottom;
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        ),
+      );
+
+      expect(mergedBottom, 42);
+    });
+
+    testWidgets('menu sheet exposes system inset via scope', (tester) async {
+      const double systemInset = 34;
+      double? capturedInset;
+
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(
+            size: Size(400, 800),
+            viewPadding: EdgeInsets.only(bottom: systemInset),
+          ),
+          child: buildTestApp(
+            Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    unawaited(
+                      FluxerBottomSheet.show(
+                        context,
+                        variant: FluxerBottomSheetVariant.menu,
+                        builder: (sheetContext, close) {
+                          capturedInset =
+                              FluxerBottomSheet.scrollBottomPaddingOf(
+                                sheetContext,
+                              );
+                          return const SizedBox(height: 100);
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text('Open Menu'),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open Menu'));
+      await tester.pumpAndSettle();
+
+      expect(capturedInset, systemInset);
+    });
+
+    testWidgets('showScrollable uses max of system bottom inset sources', (
+      tester,
+    ) async {
+      const double expectedInset = 48;
+      double? capturedInset;
+
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(
+            size: Size(400, 800),
+            viewPadding: EdgeInsets.only(bottom: 20),
+            padding: EdgeInsets.only(bottom: expectedInset),
+            systemGestureInsets: EdgeInsets.only(bottom: 10),
+          ),
+          child: buildTestApp(
+            Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    unawaited(
+                      FluxerBottomSheet.showScrollable(
+                        context,
+                        builder: (sheetContext, scrollController, close) {
+                          capturedInset =
+                              FluxerBottomSheet.scrollBottomPaddingOf(
+                                sheetContext,
+                              );
+                          return const SizedBox(height: 100);
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text('Open Scrollable'),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open Scrollable'));
+      await tester.pumpAndSettle();
+
+      expect(capturedInset, expectedInset);
+    });
+
+    testWidgets('system bottom inset is zero while keyboard is open', (
+      tester,
+    ) async {
+      double? capturedInset;
+
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(
+            size: Size(400, 800),
+            viewInsets: EdgeInsets.only(bottom: 300),
+            viewPadding: EdgeInsets.only(bottom: 34),
+          ),
+          child: buildTestApp(
+            Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    unawaited(
+                      FluxerBottomSheet.show(
+                        context,
+                        variant: FluxerBottomSheetVariant.menu,
+                        builder: (sheetContext, close) {
+                          capturedInset =
+                              FluxerBottomSheet.scrollBottomPaddingOf(
+                                sheetContext,
+                              );
+                          return const SizedBox(height: 100);
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text('Open Keyboard'),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open Keyboard'));
+      await tester.pumpAndSettle();
+
+      expect(capturedInset, 0);
     });
   });
 }

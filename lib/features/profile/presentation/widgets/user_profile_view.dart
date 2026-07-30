@@ -511,7 +511,7 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               layout.s4,
               layout.s2,
               layout.s4,
-              layout.s4,
+              layout.s4 + FluxerBottomSheet.scrollBottomPaddingOf(context),
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate.fixed(<Widget>[
@@ -1026,7 +1026,7 @@ class _ErrorState extends StatelessWidget {
             right: layout.s2,
             child: FluxerButton.circleAlt(
               onPressed: onClose,
-              icon: PhosphorIconsRegular.x,
+              icon: PhosphorIconsBold.x,
             ),
           ),
       ],

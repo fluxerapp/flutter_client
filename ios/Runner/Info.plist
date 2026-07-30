@@ -63,6 +63,8 @@
 	<string>Leave voice messages, audio, and video calls.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Share photos from your library in a chat.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Save images and videos to your photo library.</string>
 	<key>RTCAppGroupIdentifier</key>
 	<string>group.com.fluxer</string>
 	<key>RTCScreenSharingExtension</key>

@@ -6,6 +6,7 @@ import 'package:fluxer_app/features/chat/presentation/channel_layout.dart';
 import 'package:fluxer_app/features/dm/presentation/dm_layout.dart';
 import 'package:fluxer_app/features/favorites/presentation/widgets/favorites_welcome.dart';
 import 'package:fluxer_app/features/favorites/providers/favorite_channels_provider.dart';
+import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:go_router/go_router.dart';
 
@@ -54,7 +55,7 @@ class FavoritesLayout extends ConsumerWidget {
 
         final guildId = favorite.guildId;
         if (guildId != null && guildId.isNotEmpty) {
-          return ChannelLayout(
+          return _FavoritesGuildChannel(
             guildId: guildId,
             channelId: channelId,
             messageId: messageId,
@@ -63,6 +64,68 @@ class FavoritesLayout extends ConsumerWidget {
 
         return DMLayout(channelId: channelId, targetMessageId: messageId);
       },
+    );
+  }
+}
+
+class _FavoritesGuildChannel extends ConsumerStatefulWidget {
+  const _FavoritesGuildChannel({
+    required this.guildId,
+    required this.channelId,
+    this.messageId,
+  });
+
+  final String guildId;
+  final String channelId;
+  final String? messageId;
+
+  @override
+  ConsumerState<_FavoritesGuildChannel> createState() =>
+      _FavoritesGuildChannelState();
+}
+
+class _FavoritesGuildChannelState
+    extends ConsumerState<_FavoritesGuildChannel> {
+  ({String channelId, String guildId})? _syncedTarget;
+
+  @override
+  void initState() {
+    super.initState();
+    _scheduleGuildSyncIfNeeded();
+  }
+
+  @override
+  void didUpdateWidget(covariant _FavoritesGuildChannel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.channelId != widget.channelId ||
+        oldWidget.guildId != widget.guildId) {
+      _scheduleGuildSyncIfNeeded();
+    }
+  }
+
+  void _scheduleGuildSyncIfNeeded() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      final ({String channelId, String guildId}) target = (
+        channelId: widget.channelId,
+        guildId: widget.guildId,
+      );
+      if (_syncedTarget == target) {
+        return;
+      }
+      _syncedTarget = target;
+      ref.read(guildSyncProvider.notifier).syncIfNeeded(widget.guildId);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChannelLayout(
+      guildId: widget.guildId,
+      channelId: widget.channelId,
+      messageId: widget.messageId,
     );
   }
 }

@@ -31,68 +31,61 @@ Future<void> showDebugBottomSheet(
       final layout = sheetContext.layout;
       final l10n = FluxerLocalizations.of(sheetContext);
 
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: layout.s4),
-        child: SingleChildScrollView(
-          controller: scrollController,
-          child: Stack(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  child: HighlightView(
-                    json,
-                    language: 'json',
-                    theme: isDark ? vs2015Theme : githubTheme,
-                    padding: const EdgeInsets.all(12),
-                    textStyle: const TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 13,
-                    ),
+      return SingleChildScrollView(
+        controller: scrollController,
+        padding: FluxerBottomSheet.scrollViewPadding(
+          sheetContext,
+          padding: EdgeInsets.symmetric(horizontal: layout.s4),
+        ),
+        child: Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                child: HighlightView(
+                  json,
+                  language: 'json',
+                  theme: isDark ? vs2015Theme : githubTheme,
+                  padding: const EdgeInsets.all(12),
+                  textStyle: const TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 13,
                   ),
                 ),
               ),
-              Positioned(
-                top: 4,
-                right: 4,
-                child: ValueListenableBuilder<bool>(
-                  valueListenable: copied,
-                  builder: (_, isCopied, _) => IconButton(
-                    icon: PhosphorIcon(
-                      isCopied
-                          ? PhosphorIconsBold.check
-                          : PhosphorIconsBold.copy,
-                      color: isCopied
-                          ? Colors.green
-                          : isDark
-                          ? Colors.white70
-                          : Colors.black54,
-                      size: 18,
-                    ),
-                    onPressed: isCopied
-                        ? null
-                        : () {
-                            unawaited(
-                              copyToClipboard(
-                                context: sheetContext,
-                                value: json,
-                              ),
-                            );
-                            copied.value = true;
-                            Future<void>.delayed(
-                              const Duration(seconds: 2),
-                              () {
-                                copied.value = false;
-                              },
-                            );
-                            onCopied?.call(l10n.copiedToClipboard);
-                          },
+            ),
+            Positioned(
+              top: 4,
+              right: 4,
+              child: ValueListenableBuilder<bool>(
+                valueListenable: copied,
+                builder: (_, isCopied, _) => IconButton(
+                  icon: PhosphorIcon(
+                    isCopied ? PhosphorIconsBold.check : PhosphorIconsBold.copy,
+                    color: isCopied
+                        ? Colors.green
+                        : isDark
+                        ? Colors.white70
+                        : Colors.black54,
+                    size: 18,
                   ),
+                  onPressed: isCopied
+                      ? null
+                      : () {
+                          unawaited(
+                            copyToClipboard(context: sheetContext, value: json),
+                          );
+                          copied.value = true;
+                          Future<void>.delayed(const Duration(seconds: 2), () {
+                            copied.value = false;
+                          });
+                          onCopied?.call(l10n.copiedToClipboard);
+                        },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     },

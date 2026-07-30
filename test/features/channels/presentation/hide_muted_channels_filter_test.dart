@@ -65,14 +65,24 @@ void main() {
       );
     });
 
-    test('shows muted channel that has visible unread', () {
+    test('shows muted channel that has mentions', () {
       expect(
         shouldShowChannelWhenHidingMuted(
           channelId: 'channel-1',
           mutedChannelIds: const {'channel-1'},
-          hasVisibleUnread: true,
+          hasMentions: true,
         ),
         isTrue,
+      );
+    });
+
+    test('hides muted channel with plain unread but no mentions', () {
+      expect(
+        shouldShowChannelWhenHidingMuted(
+          channelId: 'channel-1',
+          mutedChannelIds: const {'channel-1'},
+        ),
+        isFalse,
       );
     });
 

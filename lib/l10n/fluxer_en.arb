@@ -1101,6 +1101,14 @@
   "@notificationUnmuteChannel": {
     "description": "Action label for unmuting a channel from the context menu."
   },
+  "notificationUseCategoryDefault": "Use Category Default",
+  "@notificationUseCategoryDefault": {
+    "description": "Radio option to inherit notification settings from the channel category."
+  },
+  "notificationUseCommunityDefault": "Use Community Default",
+  "@notificationUseCommunityDefault": {
+    "description": "Radio option to inherit notification settings from the community."
+  },
   "notificationNoCategory": "No Category",
   "@notificationNoCategory": {
     "description": "Fallback category name for channels without a parent category."
@@ -4431,6 +4439,14 @@
   "@chatAttachmentDownload": {
     "description": "Tooltip and accessibility label for downloading a non-media file attachment."
   },
+  "chatAttachmentDownloadedToast": "Saved to photos",
+  "@chatAttachmentDownloadedToast": {
+    "description": "Toast shown after an attachment is saved to the device."
+  },
+  "chatAttachmentDownloadFailedToast": "Couldn't download attachment",
+  "@chatAttachmentDownloadFailedToast": {
+    "description": "Toast shown when an attachment download fails."
+  },
   "chatAttachmentExpiredTooltip": "Attachment expired",
   "@chatAttachmentExpiredTooltip": {
     "description": "Tooltip when a file attachment link is no longer available."
@@ -5792,9 +5808,13 @@
   "@voiceChannelEmptyDescription": {
     "description": "Empty state body when viewing a guild voice channel while not in the call."
   },
-  "voiceChannelJoin": "Join Voice Channel",
+  "voiceChannelJoin": "Join voice channel",
   "@voiceChannelJoin": {
     "description": "Primary action to connect to a voice channel from the empty state."
+  },
+  "voiceCallJoin": "Join call",
+  "@voiceCallJoin": {
+    "description": "Primary CTA in the DM or group DM pre-join call empty state."
   },
   "voiceChannelJoinConnect": "Connect to Voice",
   "@voiceChannelJoinConnect": {
@@ -5925,6 +5945,155 @@
   "voiceControlDisconnect": "Disconnect",
   "@voiceControlDisconnect": {
     "description": "Tooltip: leave the voice call in the voice call control bar."
+  },
+  "voiceInChat": "In voice chat",
+  "@voiceInChat": {
+    "description": "Short status label shown when the user is currently connected to voice chat."
+  },
+  "voiceConnectionFailed": "Connection failed",
+  "@voiceConnectionFailed": {
+    "description": "Voice connection status when the most recent attempt to join the channel failed."
+  },
+  "voiceConnectionRetry": "Try again",
+  "@voiceConnectionRetry": {
+    "description": "Button that retries connecting to the voice channel after a failed attempt."
+  },
+  "voiceConnectionDismiss": "Dismiss",
+  "@voiceConnectionDismiss": {
+    "description": "Button that dismisses the failed voice connection status banner."
+  },
+  "voiceConnectionDisconnected": "Disconnected",
+  "@voiceConnectionDisconnected": {
+    "description": "Voice connection status when not connected."
+  },
+  "voicePingMs": "Ping: {currentLatency}ms",
+  "@voicePingMs": {
+    "description": "Compact latency badge on the voice control bar.",
+    "placeholders": {
+      "currentLatency": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceMeasuringLatency": "Measuring latency...",
+  "@voiceMeasuringLatency": {
+    "description": "Tooltip on the latency badge while voice latency is still being sampled."
+  },
+  "voiceJumpToChannel": "Jump to {channelSourceLabel}",
+  "@voiceJumpToChannel": {
+    "description": "Tooltip on a button that jumps to the channel.",
+    "placeholders": {
+      "channelSourceLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceConnectionTitle": "Voice connection",
+  "@voiceConnectionTitle": {
+    "description": "Voice status popout title."
+  },
+  "voiceConnectionAdvancedStats": "Advanced",
+  "@voiceConnectionAdvancedStats": {
+    "description": "Disclosure button label in the voice connection status popout."
+  },
+  "voiceShowCallAvatars": "Show call avatars",
+  "@voiceShowCallAvatars": {
+    "description": "Developer voice status menu option for displaying participant avatars."
+  },
+  "voiceShowConnectionId": "Show connection ID",
+  "@voiceShowConnectionId": {
+    "description": "Developer voice status menu option for displaying the voice connection identifier."
+  },
+  "voiceAudioProcessing": "Audio processing",
+  "@voiceAudioProcessing": {
+    "description": "Tooltip for the audio processing button in the voice connection status."
+  },
+  "voiceConnectionSessionSection": "Session",
+  "@voiceConnectionSessionSection": {
+    "description": "Section title for session stats in the voice connection details popout."
+  },
+  "voiceConnectionDurationLabel": "Duration",
+  "@voiceConnectionDurationLabel": {
+    "description": "Row label for voice session duration in the connection details popout."
+  },
+  "voiceConnectionParticipantsLabel": "Participants",
+  "@voiceConnectionParticipantsLabel": {
+    "description": "Row label for participant count in the voice connection details popout."
+  },
+  "voiceConnectionNetworkSection": "Network",
+  "@voiceConnectionNetworkSection": {
+    "description": "Section title for network stats in the voice connection details popout."
+  },
+  "voiceConnectionPingLabel": "Ping",
+  "@voiceConnectionPingLabel": {
+    "description": "Row label for ping latency in the voice connection details popout."
+  },
+  "voiceConnectionJitterLabel": "Jitter",
+  "@voiceConnectionJitterLabel": {
+    "description": "Row label for jitter in the voice connection details popout."
+  },
+  "voiceConnectionSendLabel": "Send",
+  "@voiceConnectionSendLabel": {
+    "description": "Row label for outbound bandwidth in the voice connection details popout."
+  },
+  "voiceConnectionReceiveLabel": "Receive",
+  "@voiceConnectionReceiveLabel": {
+    "description": "Row label for inbound bandwidth in the voice connection details popout."
+  },
+  "voiceConnectionUnavailable": "—",
+  "@voiceConnectionUnavailable": {
+    "description": "Placeholder when a voice connection stat is not available."
+  },
+  "voiceConnectionDuration": "{minutes}m {seconds}s",
+  "@voiceConnectionDuration": {
+    "description": "Formatted voice session duration in the connection details popout.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceConnectionLatencyMs": "{latency} ms",
+  "@voiceConnectionLatencyMs": {
+    "description": "Formatted ping latency value in the voice connection details popout.",
+    "placeholders": {
+      "latency": {
+        "type": "int"
+      }
+    }
+  },
+  "voiceConnectionJitterMs": "{jitter} ms",
+  "@voiceConnectionJitterMs": {
+    "description": "Formatted jitter value in the voice connection details popout.",
+    "placeholders": {
+      "jitter": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceConnectionBandwidthKbps": "{bandwidth} kbps",
+  "@voiceConnectionBandwidthKbps": {
+    "description": "Formatted bandwidth value in the voice connection details popout.",
+    "placeholders": {
+      "bandwidth": {
+        "type": "String"
+      }
+    }
+  },
+  "userAreaMuteMicrophone": "Mute microphone",
+  "@userAreaMuteMicrophone": {
+    "description": "Tooltip for the mute button in the desktop user area."
+  },
+  "userAreaUnmuteMicrophone": "Unmute microphone",
+  "@userAreaUnmuteMicrophone": {
+    "description": "Tooltip for the unmute button in the desktop user area."
+  },
+  "userAreaUserSettings": "User settings",
+  "@userAreaUserSettings": {
+    "description": "Tooltip for the settings button in the desktop user area."
   },
   "voiceParticipantMenuViewProfile": "View profile",
   "@voiceParticipantMenuViewProfile": {
@@ -6429,6 +6598,14 @@
   "chatReactionsSheetEmpty": "Nobody has reacted with this yet.",
   "@chatReactionsSheetEmpty": {
     "description": "Empty state shown in the message reactions sheet when no users have reacted with the currently selected emoji."
+  },
+  "chatReactionAddFailed": "Failed to add reaction",
+  "@chatReactionAddFailed": {
+    "description": "Toast shown when the server rejects adding a reaction after an optimistic update."
+  },
+  "chatReactionRemoveFailed": "Failed to remove reaction",
+  "@chatReactionRemoveFailed": {
+    "description": "Toast shown when the server rejects removing a reaction after an optimistic update."
   },
   "chatMessageReport": "Report Message",
   "@chatMessageReport": {
@@ -8073,6 +8250,30 @@
   "@channelDetailsPinsEndReached": {
     "description": "Footer label when the user has scrolled through all pinned messages."
   },
+  "channelHeaderOpenDetails": "Open channel details",
+  "@channelHeaderOpenDetails": {
+    "description": "Accessibility label for the channel header title area."
+  },
+  "channelHeaderPinnedMessages": "Pinned messages",
+  "@channelHeaderPinnedMessages": {
+    "description": "Toolbar button label for pinned messages."
+  },
+  "channelHeaderPinnedMessagesUnread": "Pinned messages, unread",
+  "@channelHeaderPinnedMessagesUnread": {
+    "description": "Toolbar button label when pinned messages have unread items."
+  },
+  "channelHeaderMemberList": "Member list",
+  "@channelHeaderMemberList": {
+    "description": "Toolbar button label for toggling the member list panel."
+  },
+  "channelHeaderInbox": "Inbox",
+  "@channelHeaderInbox": {
+    "description": "Toolbar button label for the inbox popout."
+  },
+  "channelHeaderNotificationSettingsMuted": "Notification settings, muted",
+  "@channelHeaderNotificationSettingsMuted": {
+    "description": "Toolbar button label for notification settings when the channel is muted."
+  },
   "channelDetailsSearchTitle": "Search",
   "@channelDetailsSearchTitle": {
     "description": "Title for the channel search bottom sheet."
@@ -8093,12 +8294,105 @@
   "@channelDetailsSearchFilterSort": {
     "description": "Sort filter chip label in channel message search."
   },
+  "channelHeaderSearchFiltersTitle": "Search Filters",
+  "@channelHeaderSearchFiltersTitle": {
+    "description": "Section header for inline channel search filter shortcuts."
+  },
+  "channelHeaderSearchRecentTitle": "Recent Searches",
+  "@channelHeaderSearchRecentTitle": {
+    "description": "Section header for inline channel search history."
+  },
+  "channelHeaderSearchUsersTitle": "Users",
+  "@channelHeaderSearchUsersTitle": {
+    "description": "Section title for user filter autocomplete"
+  },
+  "channelHeaderSearchChannelsTitle": "Channels",
+  "@channelHeaderSearchChannelsTitle": {
+    "description": "Section title for channel filter autocomplete"
+  },
+  "channelHeaderSearchValuesTitle": "Values",
+  "@channelHeaderSearchValuesTitle": {
+    "description": "Section title for filter value autocomplete"
+  },
+  "channelHeaderSearchDatesTitle": "Dates",
+  "@channelHeaderSearchDatesTitle": {
+    "description": "Section title for date filter autocomplete"
+  },
+  "channelHeaderSearchDefaultBadge": "Default",
+  "@channelHeaderSearchDefaultBadge": {
+    "description": "Badge shown on default filter value options"
+  },
+  "channelHeaderSearchClearHistory": "Clear",
+  "@channelHeaderSearchClearHistory": {
+    "description": "Button to clear recent channel search history."
+  },
+  "channelHeaderSearchFilterDescFrom": "a user",
+  "@channelHeaderSearchFilterDescFrom": {
+    "description": "Description for the from: search filter."
+  },
+  "channelHeaderSearchFilterDescMentions": "a user",
+  "@channelHeaderSearchFilterDescMentions": {
+    "description": "Description for the mentions: search filter."
+  },
+  "channelHeaderSearchFilterDescHas": "link, embed, image, video, sound, file, sticker, …",
+  "@channelHeaderSearchFilterDescHas": {
+    "description": "Description for the has: search filter."
+  },
+  "channelHeaderSearchFilterDescBefore": "a date or date range",
+  "@channelHeaderSearchFilterDescBefore": {
+    "description": "Description for the before: search filter."
+  },
+  "channelHeaderSearchFilterDescOn": "a date or date range",
+  "@channelHeaderSearchFilterDescOn": {
+    "description": "Description for the on: search filter."
+  },
+  "channelHeaderSearchFilterDescDuring": "a date or date range",
+  "@channelHeaderSearchFilterDescDuring": {
+    "description": "Description for the during: search filter."
+  },
+  "channelHeaderSearchFilterDescAfter": "a date or date range",
+  "@channelHeaderSearchFilterDescAfter": {
+    "description": "Description for the after: search filter."
+  },
+  "channelHeaderSearchFilterDescIn": "a channel",
+  "@channelHeaderSearchFilterDescIn": {
+    "description": "Description for the in: search filter."
+  },
+  "channelHeaderSearchFilterDescPinned": "true or false",
+  "@channelHeaderSearchFilterDescPinned": {
+    "description": "Description for the pinned: search filter."
+  },
+  "channelHeaderSearchFilterDescAuthorType": "user, bot, or webhook",
+  "@channelHeaderSearchFilterDescAuthorType": {
+    "description": "Description for the author-type: search filter."
+  },
+  "channelHeaderSearchFilterDescLinkFrom": "a hostname, e.g. example.com",
+  "@channelHeaderSearchFilterDescLinkFrom": {
+    "description": "Description for the link-from: search filter."
+  },
+  "channelHeaderSearchFilterDescFileName": "part of an attachment filename",
+  "@channelHeaderSearchFilterDescFileName": {
+    "description": "Description for the file-name: search filter."
+  },
+  "channelHeaderSearchFilterDescFileType": "a file extension, e.g. png",
+  "@channelHeaderSearchFilterDescFileType": {
+    "description": "Description for the file-type: search filter."
+  },
+  "channelHeaderSearchFilterDescSort": "timestamp or relevance",
+  "@channelHeaderSearchFilterDescSort": {
+    "description": "Description for the sort: search filter."
+  },
+  "channelHeaderSearchFilterDescOrder": "asc or desc",
+  "@channelHeaderSearchFilterDescOrder": {
+    "description": "Description for the order: search filter."
+  },
   "channelDetailsSearchResultCount": "{count, plural, =1{1 Result} other{{count} Results}}",
   "@channelDetailsSearchResultCount": {
     "description": "Result count label in channel message search.",
     "placeholders": {
       "count": {
-        "type": "int"
+        "type": "int",
+        "format": "decimalPattern"
       }
     }
   },
@@ -8592,6 +8886,41 @@
   "personalNotesComposerHint": "Message yourself",
   "@personalNotesComposerHint": {
     "description": "Placeholder in the message composer when viewing personal notes."
+  },
+  "channelComposerHint": "Message #{channelName}",
+  "@channelComposerHint": {
+    "description": "Placeholder in the message composer for a text channel.",
+    "placeholders": {
+      "channelName": {
+        "type": "String"
+      }
+    }
+  },
+  "dmComposerHint": "Message @{recipientName}",
+  "@dmComposerHint": {
+    "description": "Placeholder in the message composer for a one-to-one DM.",
+    "placeholders": {
+      "recipientName": {
+        "type": "String"
+      }
+    }
+  },
+  "groupDmNamedComposerHint": "Message {groupName}",
+  "@groupDmNamedComposerHint": {
+    "description": "Placeholder in the message composer for a named group DM.",
+    "placeholders": {
+      "groupName": {
+        "type": "String"
+      }
+    }
+  },
+  "groupDmComposerHint": "Message group",
+  "@groupDmComposerHint": {
+    "description": "Placeholder in the message composer for a group DM without a custom name."
+  },
+  "composerHint": "Message",
+  "@composerHint": {
+    "description": "Generic fallback placeholder in the message composer."
   },
   "personalNotesPrivateSpace": "Your private space",
   "@personalNotesPrivateSpace": {
@@ -10152,11 +10481,11 @@
   "@guildMenuSettingsRoles": {
     "description": "Community settings tab for roles and permissions."
   },
-  "guildMenuSettingsEmoji": "Custom Emoji",
+  "guildMenuSettingsEmoji": "Emoji",
   "@guildMenuSettingsEmoji": {
     "description": "Community settings tab for custom emoji."
   },
-  "guildMenuSettingsStickers": "Custom Stickers",
+  "guildMenuSettingsStickers": "Stickers",
   "@guildMenuSettingsStickers": {
     "description": "Community settings tab for custom stickers."
   },
@@ -10259,6 +10588,10 @@
   "guildSettingsRolesBackToRoles": "Back to roles",
   "@guildSettingsRolesBackToRoles": {
     "description": "Button to return to the role list from the editor."
+  },
+  "guildSettingsBackToSettings": "Back to settings",
+  "@guildSettingsBackToSettings": {
+    "description": "Button in community settings that returns from a nested sidebar to the main settings tab list."
   },
   "guildSettingsRolesEditTitle": "Edit \"{name}\"",
   "@guildSettingsRolesEditTitle": {
@@ -11834,13 +12167,51 @@
   "@guildSettingsLoadingMore": {
     "description": "Loading state for pagination."
   },
-  "guildSettingsWebhooksDescription": "Manage webhooks that post messages to channels.",
+  "guildSettingsWebhooksDescription": "View and manage every webhook configured across your community.",
   "@guildSettingsWebhooksDescription": {
     "description": "Description for webhooks tab."
   },
-  "guildSettingsWebhooksEmpty": "No webhooks configured.",
+  "guildSettingsWebhooksEmpty": "No webhooks",
   "@guildSettingsWebhooksEmpty": {
-    "description": "Empty state for webhooks."
+    "description": "Empty state title for webhooks."
+  },
+  "guildSettingsWebhooksEmptyDescription": "This community doesn't have any webhooks yet. Go to {channelSettingsPath} to create one.",
+  "@guildSettingsWebhooksEmptyDescription": {
+    "description": "Empty state description for guild webhooks.",
+    "placeholders": {
+      "channelSettingsPath": {
+        "type": "String"
+      }
+    }
+  },
+  "guildSettingsWebhooksPermissionRequired": "You need the \"{permission}\" permission to view and edit webhooks for this community.",
+  "@guildSettingsWebhooksPermissionRequired": {
+    "description": "Permission notice on guild webhooks tab.",
+    "placeholders": {
+      "permission": {
+        "type": "String"
+      }
+    }
+  },
+  "guildSettingsWebhooksLoadFailedTitle": "Failed to load webhooks",
+  "@guildSettingsWebhooksLoadFailedTitle": {
+    "description": "Error title when guild webhooks fail to load."
+  },
+  "guildSettingsWebhooksLoadFailedDescription": "There was an error loading the webhooks. Try again.",
+  "@guildSettingsWebhooksLoadFailedDescription": {
+    "description": "Error description when guild webhooks fail to load."
+  },
+  "guildSettingsWebhooksUpdated": "Webhooks updated",
+  "@guildSettingsWebhooksUpdated": {
+    "description": "Success toast after saving guild webhook changes."
+  },
+  "guildSettingsWebhooksUpdateFailed": "Failed to update webhooks",
+  "@guildSettingsWebhooksUpdateFailed": {
+    "description": "Error message when saving guild webhook changes fails."
+  },
+  "guildSettingsUnknownChannel": "Unknown channel",
+  "@guildSettingsUnknownChannel": {
+    "description": "Fallback label when a webhook channel name is unavailable."
   },
   "guildSettingsCopyUrl": "Copy URL",
   "@guildSettingsCopyUrl": {
@@ -11877,48 +12248,173 @@
       "count": {"type": "int"}
     }
   },
-  "guildSettingsDiscoveryDescription": "Apply to be listed in server discovery.",
+  "guildSettingsDiscoveryDescription": "List your community in Discovery so others can find and join it.",
   "@guildSettingsDiscoveryDescription": {
-    "description": "Description for discovery tab."
+    "description": "Subtitle for the community Discovery settings tab."
   },
-  "guildSettingsDiscoveryNotEligible": "Requires at least {count} members to apply.",
+  "guildSettingsDiscoveryNotEnoughMembersTitle": "Not enough members",
+  "@guildSettingsDiscoveryNotEnoughMembersTitle": {
+    "description": "Title for the eligibility warning when a community cannot apply for Discovery yet."
+  },
+  "guildSettingsDiscoveryNotEligible": "Your community needs at least {count} members before it can be listed in Discovery.",
   "@guildSettingsDiscoveryNotEligible": {
     "description": "Discovery eligibility message.",
     "placeholders": {
       "count": {"type": "int"}
     }
   },
-  "guildSettingsDiscoveryFormTitle": "Application",
-  "@guildSettingsDiscoveryFormTitle": {
-    "description": "Title for discovery application form."
+  "guildSettingsDiscoveryStatusLabel": "Status:",
+  "@guildSettingsDiscoveryStatusLabel": {
+    "description": "Label before the discovery application status badge."
   },
-  "guildSettingsDiscoveryStatusTitle": "Status",
-  "@guildSettingsDiscoveryStatusTitle": {
-    "description": "Title for discovery application status section."
+  "guildSettingsDiscoveryStatusPending": "Pending",
+  "@guildSettingsDiscoveryStatusPending": {
+    "description": "Discovery application status badge when awaiting staff review."
+  },
+  "guildSettingsDiscoveryStatusApproved": "Approved",
+  "@guildSettingsDiscoveryStatusApproved": {
+    "description": "Discovery application status badge when approved and listed."
+  },
+  "guildSettingsDiscoveryStatusRejected": "Rejected",
+  "@guildSettingsDiscoveryStatusRejected": {
+    "description": "Discovery application status badge when declined by staff."
+  },
+  "guildSettingsDiscoveryStatusRemoved": "Removed",
+  "@guildSettingsDiscoveryStatusRemoved": {
+    "description": "Discovery application status badge when delisted from Discovery."
+  },
+  "guildSettingsDiscoveryReason": "Reason: {reason}",
+  "@guildSettingsDiscoveryReason": {
+    "description": "Review or removal reason shown on the discovery application status card.",
+    "placeholders": {
+      "reason": {"type": "String"}
+    }
+  },
+  "guildSettingsDiscoveryApprovedInfo": "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it.",
+  "@guildSettingsDiscoveryApprovedInfo": {
+    "description": "Info banner when the community is approved and listed in Discovery."
+  },
+  "guildSettingsDiscoveryPendingInfo": "Your application is pending review. You can still update your listing details or withdraw the application.",
+  "@guildSettingsDiscoveryPendingInfo": {
+    "description": "Info banner when the discovery application is pending review."
   },
   "guildSettingsDiscoveryCategory": "Category",
   "@guildSettingsDiscoveryCategory": {
     "description": "Label for discovery category dropdown."
   },
+  "guildSettingsDiscoveryCategoryHelp": "Choose the category that best describes your community. You can change this any time.",
+  "@guildSettingsDiscoveryCategoryHelp": {
+    "description": "Help text below the discovery category field."
+  },
+  "guildSettingsDiscoveryPrimaryLanguage": "Primary language",
+  "@guildSettingsDiscoveryPrimaryLanguage": {
+    "description": "Label for the primary language field on the discovery application form."
+  },
+  "guildSettingsDiscoveryPrimaryLanguageHelp": "The language most of your community speaks. Used to filter Discovery results.",
+  "@guildSettingsDiscoveryPrimaryLanguageHelp": {
+    "description": "Help text below the primary language field."
+  },
   "guildSettingsDiscoveryDescriptionField": "Description",
   "@guildSettingsDiscoveryDescriptionField": {
     "description": "Label for discovery description field."
   },
-  "guildSettingsDiscoveryTags": "Tags",
+  "guildSettingsDiscoveryDescriptionPlaceholder": "Describe what your community is about",
+  "@guildSettingsDiscoveryDescriptionPlaceholder": {
+    "description": "Placeholder in the discovery description field."
+  },
+  "guildSettingsDiscoveryDescriptionRequired": "A description is required.",
+  "@guildSettingsDiscoveryDescriptionRequired": {
+    "description": "Validation error when the discovery description is empty."
+  },
+  "guildSettingsDiscoveryDescriptionMinLength": "Description must be at least {minLength} characters.",
+  "@guildSettingsDiscoveryDescriptionMinLength": {
+    "description": "Validation error when the discovery description is too short.",
+    "placeholders": {
+      "minLength": {"type": "int"}
+    }
+  },
+  "guildSettingsDiscoveryDescriptionMaxLength": "Description must be no more than {maxLength} characters.",
+  "@guildSettingsDiscoveryDescriptionMaxLength": {
+    "description": "Validation error when the discovery description is too long.",
+    "placeholders": {
+      "maxLength": {"type": "int"}
+    }
+  },
+  "guildSettingsDiscoveryTags": "Custom tags",
   "@guildSettingsDiscoveryTags": {
-    "description": "Label for discovery tags field."
+    "description": "Label for discovery custom tags field."
   },
-  "guildSettingsDiscoveryTagsHint": "gaming, art, music",
+  "guildSettingsDiscoveryTagsHelp": "Up to {maxTags} tags help people find your community. They show up in Discovery search.",
+  "@guildSettingsDiscoveryTagsHelp": {
+    "description": "Help text below the custom tags field.",
+    "placeholders": {
+      "maxTags": {"type": "int"}
+    }
+  },
+  "guildSettingsDiscoveryTagsHint": "Add a tag and press Enter",
   "@guildSettingsDiscoveryTagsHint": {
-    "description": "Hint for discovery tags field."
+    "description": "Placeholder in the custom tags input field."
   },
-  "guildSettingsDiscoveryApply": "Submit Application",
+  "guildSettingsDiscoveryAddTag": "Add",
+  "@guildSettingsDiscoveryAddTag": {
+    "description": "Button to add a custom discovery tag."
+  },
+  "guildSettingsDiscoveryRemoveTag": "Remove tag {tag}",
+  "@guildSettingsDiscoveryRemoveTag": {
+    "description": "Accessibility label for removing a custom discovery tag.",
+    "placeholders": {
+      "tag": {"type": "String"}
+    }
+  },
+  "guildSettingsDiscoveryTagErrorTitle": "Couldn't add tag",
+  "@guildSettingsDiscoveryTagErrorTitle": {
+    "description": "Error modal title when a custom discovery tag cannot be added."
+  },
+  "guildSettingsDiscoveryTagRequirements": "Tags must be 2 to {maxLength} characters and alphanumeric.",
+  "@guildSettingsDiscoveryTagRequirements": {
+    "description": "Validation error for invalid custom discovery tags.",
+    "placeholders": {
+      "maxLength": {"type": "int"}
+    }
+  },
+  "guildSettingsDiscoveryTagLimit": "You can only add up to {maxTags} tags.",
+  "@guildSettingsDiscoveryTagLimit": {
+    "description": "Validation error when the custom tag limit is reached.",
+    "placeholders": {
+      "maxTags": {"type": "int"}
+    }
+  },
+  "guildSettingsDiscoveryApply": "Apply",
   "@guildSettingsDiscoveryApply": {
-    "description": "Button to submit discovery application."
+    "description": "Button to submit a new discovery application."
+  },
+  "guildSettingsDiscoverySave": "Save",
+  "@guildSettingsDiscoverySave": {
+    "description": "Button to save changes to an existing discovery listing."
   },
   "guildSettingsDiscoveryWithdraw": "Withdraw",
   "@guildSettingsDiscoveryWithdraw": {
     "description": "Button to withdraw discovery application."
+  },
+  "guildSettingsDiscoveryApplicationSent": "Discovery application sent",
+  "@guildSettingsDiscoveryApplicationSent": {
+    "description": "Success toast after submitting a discovery application."
+  },
+  "guildSettingsDiscoveryListingUpdated": "Discovery listing updated",
+  "@guildSettingsDiscoveryListingUpdated": {
+    "description": "Success toast after updating a discovery listing."
+  },
+  "guildSettingsDiscoveryApplicationWithdrawn": "Discovery application withdrawn",
+  "@guildSettingsDiscoveryApplicationWithdrawn": {
+    "description": "Success toast after withdrawing a discovery application."
+  },
+  "guildSettingsDiscoveryWithdrawErrorTitle": "Couldn't withdraw application",
+  "@guildSettingsDiscoveryWithdrawErrorTitle": {
+    "description": "Error modal title when withdrawing a discovery application fails."
+  },
+  "guildSettingsDiscoveryWithdrawErrorDescription": "Try again in a moment.",
+  "@guildSettingsDiscoveryWithdrawErrorDescription": {
+    "description": "Error modal body when withdrawing a discovery application fails."
   },
   "guildSettingsMembersDescription": "Search and manage server members.",
   "@guildSettingsMembersDescription": {
@@ -12428,7 +12924,60 @@
   "guildSettingsModeration2faOwnerOnlyTooltip": "Only the community owner can change this setting",
   "guildSettingsModeration2faEnableFirstTooltip": "Enable 2FA on your account to change this setting",
   "guildSettingsEmojiSearchHint": "Search emojis",
-  "guildSettingsEmojiUploadTitle": "Upload Emoji",
+  "guildSettingsEmojiUploadTitle": "Upload emoji",
+  "guildSettingsEmojiSlotsTitle": "Emoji slots",
+  "guildSettingsEmojiDropZone": "Drag and drop emoji files here",
+  "guildSettingsEmojiLoadFailed": "Failed to load emojis. Try again later.",
+  "guildSettingsEmojiSearchEmpty": "No emojis found matching your search.",
+  "guildSettingsEmojiNoSlots": "No emoji slots available",
+  "guildSettingsEmojiSlotsFull": "You've reached the maximum number of emojis. Delete some existing emojis to make room.",
+  "guildSettingsEmojiUploadRequirements": "Emoji names need at least 2 characters and can use letters, numbers, and underscores. Emojis must be under {maxSize}. Static images are resized to 128x128 pixels and compressed automatically. Animated emojis and SVGs must already fit the limit.",
+  "@guildSettingsEmojiUploadRequirements": {
+    "placeholders": { "maxSize": {"type": "String"} }
+  },
+  "guildSettingsEmojiUploadingTitle": "Uploading emojis",
+  "guildSettingsEmojiUploadingBody": "Uploading {count, plural, one {# emoji} other {# emojis}}. This may take a little while.",
+  "@guildSettingsEmojiUploadingBody": {
+    "placeholders": { "count": {"type": "int"} }
+  },
+  "guildSettingsEmojiUploadFailed": "Failed to upload emojis. Try again.",
+  "guildSettingsEmojiSomeFailedTitle": "Some emojis couldn't be added",
+  "guildSettingsEmojiSomeFailedBody": "Review these files and try again with smaller or simpler images.",
+  "guildSettingsEmojiRenameTitle": "Rename emoji",
+  "guildSettingsEmojiRenameHint": "2-32 characters, letters, numbers, underscores.",
+  "guildSettingsEmojiColumnEmoji": "Emoji",
+  "guildSettingsEmojiColumnName": "Name",
+  "guildSettingsEmojiColumnUploader": "Uploaded by",
+  "guildSettingsEmojiUnknownUploader": "Unknown",
+  "guildSettingsEmojiDeleteTitle": "Delete emoji",
+  "guildSettingsEmojiDeleteBody": "Delete :{name}:? Can't be undone.",
+  "@guildSettingsEmojiDeleteBody": {
+    "placeholders": { "name": {"type": "String"} }
+  },
+  "guildSettingsEmojiPurgeLabel": "Purge this emoji from storage and CDN",
+  "guildSettingsEmojiNameTooShort": "Emoji name must be at least 2 characters long",
+  "guildSettingsEmojiNameTooLong": "Emoji name must be at most 32 characters long",
+  "guildSettingsEmojiInvalidNameTitle": "Invalid emoji name",
+  "guildSettingsEmojiRenameFailedTitle": "Couldn't rename this emoji",
+  "guildSettingsEmojiRenameFailedBody": "The name was reverted to what it was before. Please try again in a moment.",
+  "guildSettingsEmojiGoneTitle": "This emoji no longer exists",
+  "guildSettingsEmojiGoneBody": "It may have been deleted. The name was reverted to what it was before.",
+  "guildSettingsEmojiNoPermissionRenameTitle": "You can't rename this emoji",
+  "guildSettingsEmojiNoPermissionRenameBody": "You don't have permission to rename this emoji. The name was reverted to what it was before.",
+  "guildSettingsEmojiRateLimitedTitle": "You're going too fast",
+  "guildSettingsEmojiRateLimitedBody": "Please wait a moment and try renaming again.",
+  "guildSettingsEmojiDeleteFailedTitle": "Couldn't delete this emoji",
+  "guildSettingsEmojiDeleteNoPermissionTitle": "You can't delete this emoji",
+  "guildSettingsCloneEmojiTitle": "Allow others to clone your emojis",
+  "guildSettingsCloneEmojiDescription": "When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom emojis. This does not prevent them from saving the image and uploading it themselves.",
+  "guildSettingsCloneStickerTitle": "Allow others to clone your stickers",
+  "guildSettingsCloneStickerDescription": "When enabled, members of other communities can use the in-app one-click \"Clone\" shortcut on your custom stickers. This does not prevent them from saving the image and uploading it themselves.",
+  "guildSettingsClonePermissionHint": "Only members with the \"{permission}\" permission can change this.",
+  "@guildSettingsClonePermissionHint": {
+    "placeholders": { "permission": {"type": "String"} }
+  },
+  "guildSettingsCloneEmojiUpdateFailed": "Couldn't update emoji cloning",
+  "guildSettingsCloneStickerUpdateFailed": "Couldn't update sticker cloning",
   "guildSettingsNonAnimatedEmoji": "Non-animated emoji ({count})",
   "@guildSettingsNonAnimatedEmoji": {
     "placeholders": { "count": {"type": "int"} }
@@ -12438,7 +12987,62 @@
     "placeholders": { "count": {"type": "int"} }
   },
   "guildSettingsStickersSearchHint": "Search stickers",
-  "guildSettingsWebhooksInfo": "Create webhooks from Channel settings. Edit them here.",
+  "guildSettingsStickerSlotsTitle": "Sticker slots",
+  "guildSettingsStickerUploadTitle": "Upload sticker",
+  "guildSettingsStickerDropZone": "Drag and drop a sticker file here (one at a time)",
+  "guildSettingsStickerDensity": "Sticker density",
+  "guildSettingsStickerDensityCozy": "Cozy",
+  "guildSettingsStickerDensityCompact": "Compact",
+  "guildSettingsStickersLoadFailedTitle": "Failed to load stickers",
+  "guildSettingsStickersLoadFailedBody": "There was an error loading the stickers. Try again.",
+  "guildSettingsStickersSearchEmpty": "No stickers found matching your search.",
+  "guildSettingsStickersEmptySearch": "No stickers found",
+  "guildSettingsStickerNoSlots": "No sticker slots available",
+  "guildSettingsStickerSlotsFull": "You've reached the maximum number of stickers. Delete some existing stickers to make room.",
+  "guildSettingsStickerUploadRequirements": "Stickers are saved at 320x320 pixels and must be under {maxSize}. Static images are resized and compressed automatically. Animated stickers and SVGs must already fit the limit.",
+  "@guildSettingsStickerUploadRequirements": {
+    "placeholders": { "maxSize": {"type": "String"} }
+  },
+  "guildSettingsStickerUnsupportedTitle": "Unsupported sticker file",
+  "guildSettingsStickerAddTitle": "Add sticker",
+  "guildSettingsStickerEditTitle": "Edit sticker",
+  "guildSettingsStickerNameLabel": "Name",
+  "guildSettingsStickerNameHint": "My awesome sticker",
+  "guildSettingsStickerDescriptionLabel": "Description",
+  "guildSettingsStickerDescriptionHint": "Describe the sticker",
+  "guildSettingsStickerTagsLabel": "Tags ({count}/{limit})",
+  "@guildSettingsStickerTagsLabel": {
+    "placeholders": {
+      "count": {"type": "int"},
+      "limit": {"type": "int"}
+    }
+  },
+  "guildSettingsStickerTagHint": "Add a tag",
+  "guildSettingsStickerTagAdd": "Add",
+  "guildSettingsStickerNameRequired": "Name is required",
+  "guildSettingsStickerNameTooShort": "Name must be at least 2 characters",
+  "guildSettingsStickerNameTooLong": "Name must be 30 characters or less",
+  "guildSettingsStickerDescriptionTooLong": "Description must be 500 characters or less",
+  "guildSettingsStickerCreateFailedTitle": "Couldn't create this sticker",
+  "guildSettingsStickerTooLargeTitle": "Sticker is too large",
+  "guildSettingsStickerCompressFailedTitle": "Sticker couldn't be compressed enough",
+  "guildSettingsStickerDeleteTitle": "Delete sticker",
+  "guildSettingsStickerDeleteBody": "Delete \"{name}\"? Can't be undone.",
+  "@guildSettingsStickerDeleteBody": {
+    "placeholders": { "name": {"type": "String"} }
+  },
+  "guildSettingsStickerPurgeLabel": "Purge this sticker from storage and CDN",
+  "guildSettingsStickerDeleteFailedTitle": "Couldn't delete this sticker",
+  "guildSettingsStickerDeleteNoPermissionTitle": "You can't delete this sticker",
+  "guildSettingsWebhooksInfo": "To create a webhook, open {channelSettingsPath}. You can still edit and organize all existing webhooks here.",
+  "@guildSettingsWebhooksInfo": {
+    "description": "Info box on the guild webhooks tab.",
+    "placeholders": {
+      "channelSettingsPath": {
+        "type": "String"
+      }
+    }
+  },
   "guildSettingsVanityUrlWarning": "Your vanity URL won't work unless at least one channel is visible to everyone.",
   "guildSettingsVanityUrlRemove": "Remove",
   "guildSettingsBannedUsersTitle": "Banned users",

@@ -106,7 +106,7 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: Icon(
-                    PhosphorIconsRegular.arrowLeft,
+                    PhosphorIconsBold.arrowLeft,
                     size: 20,
                     color: colors.textPrimary,
                   ),
@@ -140,7 +140,7 @@ class _PickerSearchInputState extends State<PickerSearchInput> {
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Icon(
-                        PhosphorIconsRegular.magnifyingGlass,
+                        PhosphorIconsBold.magnifyingGlass,
                         size: 18,
                         color: colors.textTertiary,
                       ),

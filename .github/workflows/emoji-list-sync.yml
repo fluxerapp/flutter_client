@@ -1,0 +1,96 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Emoji list sync from web
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  BASE_BRANCH: canary
+  SYNC_BRANCH: sync/emojis-json
+
+jobs:
+  sync:
+    name: Sync
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Create token
+        id: create-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1
+        with:
+          client-id: ${{ vars.FLUXER_CI_APP_ID }}
+          private-key: ${{ secrets.FLUXER_CI_APP_KEY }}
+          owner: fluxerapp
+          repositories: flutter_client
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Checkout flutter_client
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
+        with:
+          token: ${{ steps.create-token.outputs.token }}
+          ref: ${{ env.BASE_BRANCH }}
+          submodules: recursive
+
+      - name: Checkout fluxer
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
+        with:
+          repository: fluxerapp/fluxer
+          ref: main
+          path: upstream/fluxer
+          sparse-checkout: fluxer_app/src/media/data/emojis.json
+          sparse-checkout-cone-mode: true
+
+      - name: Sync emojis.json
+        run: |
+          bash .github/scripts/sync_emojis_json_from_web.sh \
+            upstream/fluxer/fluxer_app/src/media/data/emojis.json \
+            assets/emojis.json
+
+      - name: Set up Flutter
+        uses: axi92/flutter-action@72633a794ba0b23276fa4fc465a6cacb758a90c5
+        with:
+          channel: stable
+
+      - name: Verify emoji registry
+        run: flutter test test/shared/utils/emoji_registry_test.dart
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ steps.create-token.outputs.token }}
+        run: |
+          git config user.name "fluxer-ci[bot]"
+          git config user.email "${{ vars.FLUXER_CI_APP_USER_ID }}+fluxer-ci[bot]@users.noreply.github.com"
+
+          git switch -C "$SYNC_BRANCH"
+
+          if git diff --quiet -- assets/emojis.json; then
+            echo "::notice::emojis.json already matches web; nothing to do."
+            exit 0
+          fi
+
+          git add assets/emojis.json
+          git commit -m "chore(emoji): sync emojis.json from web"
+          git push --force-with-lease origin "HEAD:refs/heads/$SYNC_BRANCH"
+
+          pr="$(gh pr list --repo "$GITHUB_REPOSITORY" --base "$BASE_BRANCH" --head "$SYNC_BRANCH" --state open --json number --jq '.[0].number // empty')"
+          body=$'Syncs `assets/emojis.json` from https://github.com/fluxerapp/fluxer.\n\nSource: `fluxer_app/src/media/data/emojis.json` on `main`.'
+          if [[ -z "$pr" ]]; then
+            gh pr create --repo "$GITHUB_REPOSITORY" --base "$BASE_BRANCH" --head "$SYNC_BRANCH" \
+              --title "chore(emoji): sync emojis.json from web" \
+              --body "$body"
+          else
+            echo "::notice::#$pr already open; new commits are reflected automatically."
+          fi

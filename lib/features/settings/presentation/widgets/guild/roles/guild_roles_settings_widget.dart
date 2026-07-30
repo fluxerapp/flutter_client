@@ -16,6 +16,7 @@ import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_updat
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_mobile_role_list.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_editor.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_sidebar.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_roles_settings_bridge.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_role_settings_repository_provider.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -29,9 +30,16 @@ import 'package:fluxer_app/features/ui/toast/toast_provider.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
 class GuildRolesSettingsWidget extends ConsumerStatefulWidget {
-  const GuildRolesSettingsWidget({required this.guildId, super.key});
+  const GuildRolesSettingsWidget({
+    required this.guildId,
+    this.bridge,
+    this.embedSidebarInParent = false,
+    super.key,
+  });
 
   final String guildId;
+  final GuildRolesSettingsBridge? bridge;
+  final bool embedSidebarInParent;
 
   @override
   ConsumerState<GuildRolesSettingsWidget> createState() =>
@@ -59,6 +67,12 @@ class _GuildRolesSettingsWidgetState
   GuildRoleSettingsRepository get _repository =>
       ref.read(guildRoleSettingsRepositoryProvider);
 
+  @override
+  void dispose() {
+    widget.bridge?.clear();
+    super.dispose();
+  }
+
   void _showSuccessToast(String message) {
     ref.read(toastProvider.notifier).show(FluxerToast(message: message));
   }
@@ -81,10 +95,18 @@ class _GuildRolesSettingsWidgetState
       Permission.manageRoles,
     );
     return rolesAsync.when(
-      loading: () => const Center(child: FluxerLoadingSpinner()),
-      error: (Object error, StackTrace stackTrace) => Center(
-        child: Text(error.toString(), style: context.textStyles.bodySmall),
-      ),
+      loading: () {
+        _scheduleEmbeddedSidebarPublish(
+          () => const Center(child: FluxerLoadingSpinner()),
+        );
+        return const Center(child: FluxerLoadingSpinner());
+      },
+      error: (Object error, StackTrace stackTrace) {
+        widget.bridge?.clear();
+        return Center(
+          child: Text(error.toString(), style: context.textStyles.bodySmall),
+        );
+      },
       data: (Map<String, db.Role> roleRows) {
         final Map<String, MemberRole> rolesById = <String, MemberRole>{
           for (final db.Role row in roleRows.values)
@@ -359,6 +381,34 @@ class _GuildRolesSettingsWidgetState
     required Map<String, MemberRole> rolesById,
     required String currentUserId,
   }) {
+    if (widget.embedSidebarInParent) {
+      _publishEmbeddedSidebar(
+        l10n: l10n,
+        roles: roles,
+        hoistedRoles: hoistedRoles,
+        hasCustomHoistOrder: hasCustomHoistOrder,
+        canManageRoles: canManageRoles,
+        isRoleLocked: isRoleLocked,
+      );
+      if (selectedRoleWithUpdates == null) {
+        return const SizedBox.shrink();
+      }
+      return _buildRoleEditor(
+        l10n: l10n,
+        selectedRoleWithUpdates: selectedRoleWithUpdates,
+        canManageRoles: canManageRoles,
+        selectedRoleLocked: selectedRoleLocked,
+        mentionEveryoneLabel: mentionEveryoneLabel,
+        filteredPermissionSpecs: filteredPermissionSpecs,
+        currentUserPermissions: currentUserPermissions,
+        currentUserRoleIds: currentUserRoleIds,
+        isGuildOwner: isGuildOwner,
+        rolesById: rolesById,
+        currentUserId: currentUserId,
+        roles: roles,
+        isRoleLocked: isRoleLocked,
+      );
+    }
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -414,6 +464,57 @@ class _GuildRolesSettingsWidgetState
         ),
       ],
     );
+  }
+
+  void _publishEmbeddedSidebar({
+    required FluxerLocalizations l10n,
+    required List<MemberRole> roles,
+    required List<MemberRole> hoistedRoles,
+    required bool hasCustomHoistOrder,
+    required bool canManageRoles,
+    required bool Function(MemberRole role) isRoleLocked,
+  }) {
+    _scheduleEmbeddedSidebarPublish(
+      () => GuildRoleSidebar(
+        guildId: widget.guildId,
+        roles: roles,
+        hoistedRoles: hoistedRoles,
+        selectedRoleId: _selectedRoleId,
+        canManageRoles: canManageRoles,
+        hoistOrderMode: _hoistOrderMode,
+        hasCustomHoistOrder: hasCustomHoistOrder,
+        isRoleLocked: isRoleLocked,
+        onSelectRole: (String roleId) =>
+            setState(() => _selectedRoleId = roleId),
+        onCreateRole: () => _createRole(l10n),
+        isCreatingRole: _pendingRoleCreation,
+        onEnterHoistOrderMode: () => setState(() => _hoistOrderMode = true),
+        onExitHoistOrderMode: () => setState(() => _hoistOrderMode = false),
+        onResetHoistOrder: () => _resetHoistOrder(l10n),
+        onReorder: (int oldIndex, int newIndex) => _handleReorder(
+          items: _hoistOrderMode ? hoistedRoles : roles,
+          oldIndex: oldIndex,
+          newIndex: newIndex,
+          isHoist: _hoistOrderMode,
+        ),
+      ),
+    );
+  }
+
+  void _scheduleEmbeddedSidebarPublish(Widget Function() buildSidebar) {
+    if (!widget.embedSidebarInParent) {
+      return;
+    }
+    final GuildRolesSettingsBridge? bridge = widget.bridge;
+    if (bridge == null) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      bridge.publish(buildSidebar());
+    });
   }
 
   Widget _buildMobileBody({

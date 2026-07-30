@@ -1001,7 +1001,10 @@ class _DataExportSheetContentState extends State<_DataExportSheetContent> {
 
     return ListView(
       controller: widget.scrollController,
-      padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.symmetric(horizontal: layout.s4),
+      ),
       children: [
         Text(
           'Select which categories of data to include in your export.',

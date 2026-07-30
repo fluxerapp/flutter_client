@@ -36,6 +36,8 @@ import 'package:fluxer_app/features/settings/presentation/widgets/user_notificat
 import 'package:fluxer_app/features/settings/presentation/widgets/user_privacy_dashboard.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_profile.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/user_security_login.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_frame.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_nav_l10n.dart';
 import 'package:fluxer_app/features/settings/utils/user_settings_staff_only_utils.dart';
@@ -96,14 +98,9 @@ class UserSettingsModal extends ConsumerStatefulWidget {
       );
     }
 
-    return showModalBottomSheet<void>(
-      elevation: 7,
-      context: context,
-      useRootNavigator: true,
-      isScrollControlled: true,
-      useSafeArea: true,
-      constraints: const BoxConstraints(maxWidth: 1400),
-      builder: (_) => UserSettingsModal(
+    return showWideSettingsBottomSheet(
+      context,
+      child: UserSettingsModal(
         openProfileSection: openProfileSection,
         openSecuritySection: openSecuritySection,
         initialSection: initialSection,
@@ -172,19 +169,11 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.sizeOf(context).height * 0.92;
     final state = ref.watch(userSettingsViewModelProvider);
 
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(color: context.colors.borderColor),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        position: DecorationPosition.foreground,
-        child: SizedBox(height: height, child: _buildDesktopLayout(state)),
-      ),
+    return WideSettingsModalFrame(
+      includeOuterPadding: false,
+      child: _buildDesktopLayout(state),
     );
   }
 
@@ -197,7 +186,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
           child: Row(
             children: [
               SizedBox(
-                width: 300,
+                width: kWideSettingsSidebarWidth,
                 child: ColoredBox(
                   color: context.colors.backgroundPrimary,
                   child: SettingsSidebar(
@@ -210,6 +199,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
                     username: state.displayName,
                     avatarUrl: state.avatarUrl,
                     avatarColor: state.avatarColor,
+                    footer: const _SettingsBuildInfoFooter(inSidebar: true),
                   ),
                 ),
               ),
@@ -235,7 +225,6 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
                       ),
                     ),
                     Expanded(child: _buildContent(state)),
-                    const _SettingsBuildInfoFooter(),
                   ],
                 ),
               ),
@@ -318,7 +307,7 @@ class _UserSettingsModalState extends ConsumerState<UserSettingsModal> {
       width: 36,
       height: 36,
       child: PhosphorIcon(
-        PhosphorIconsRegular.x,
+        PhosphorIconsBold.x,
         size: 18,
         color: context.colors.interactiveNormal,
       ),
@@ -620,7 +609,9 @@ Widget _buildUserSettingsPlaceholder(
 }
 
 class _SettingsBuildInfoFooter extends ConsumerWidget {
-  const _SettingsBuildInfoFooter();
+  const _SettingsBuildInfoFooter({this.inSidebar = false});
+
+  final bool inSidebar;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -632,25 +623,29 @@ class _SettingsBuildInfoFooter extends ConsumerWidget {
         if (text.isEmpty) {
           return const SizedBox.shrink();
         }
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 4, 16, 10),
-          child: Align(
-            child: Semantics(
-              button: true,
-              label: 'Copy app info',
-              child: GestureDetector(
-                onTap: () => _copyBuildInfoToClipboard(context, info),
-                child: Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: context.colors.textPrimaryMuted,
-                  ),
-                ),
+        final Widget buildInfo = Semantics(
+          button: true,
+          label: 'Copy app info',
+          child: GestureDetector(
+            onTap: () => _copyBuildInfoToClipboard(context, info),
+            child: Text(
+              text,
+              textAlign: inSidebar ? TextAlign.start : TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                color: inSidebar
+                    ? context.colors.textTertiarySecondary
+                    : context.colors.textPrimaryMuted,
               ),
             ),
           ),
+        );
+        if (inSidebar) {
+          return buildInfo;
+        }
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 10),
+          child: Align(child: buildInfo),
         );
       },
       loading: () => const SizedBox.shrink(),

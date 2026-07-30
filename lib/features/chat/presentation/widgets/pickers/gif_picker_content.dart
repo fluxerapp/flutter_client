@@ -224,7 +224,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
               minSize: const Size(36, 36),
               builder: (context, states) => Center(
                 child: PhosphorIcon(
-                  PhosphorIconsRegular.arrowLeft,
+                  PhosphorIconsBold.arrowLeft,
                   size: 20,
                   color: colors.textPrimary,
                 ),
@@ -416,7 +416,7 @@ class _GifPickerContentState extends ConsumerState<GifPickerContent> {
                     ? 'Remove from Favorites'
                     : 'Save to Favorites',
                 icon: isFavorite
-                    ? PhosphorIconsRegular.star
+                    ? PhosphorIconsBold.star
                     : PhosphorIconsFill.star,
                 onTap: () {
                   close();
@@ -1485,7 +1485,7 @@ class _GifEmptyState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             PhosphorIcon(
-              PhosphorIconsRegular.smileySad,
+              PhosphorIconsBold.smileySad,
               size: 42,
               color: colors.textTertiary,
             ),

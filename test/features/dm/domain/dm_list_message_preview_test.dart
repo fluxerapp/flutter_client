@@ -103,6 +103,26 @@ void main() {
       );
     });
 
+    test('returns null for embed-only messages without content', () {
+      final DmListMessagePreview? preview = resolveDmListMessagePreview(
+        l10n: l10n,
+        conversation: DmConversation(
+          id: '100',
+          type: 1,
+          recipientId: '200',
+          recipientName: 'Monty',
+          lastMessage: '',
+          lastMessageAuthorId: '200',
+          lastMessageAuthorName: 'Monty',
+          lastMessageTime: DateTime(2026),
+        ),
+        currentUserId: '1',
+        authorFriendNickname: null,
+      );
+
+      expect(preview, isNull);
+    });
+
     test('returns system preview for call messages', () {
       final DmListMessagePreview? preview = resolveDmListMessagePreview(
         l10n: l10n,

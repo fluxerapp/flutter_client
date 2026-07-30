@@ -211,6 +211,26 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
             ringing: event.ringing,
             voiceStates: event.voiceStates,
           );
+      if (event.ringing == null) {
+        final String? uid = ref.read(currentUserIdProvider);
+        final bool userJoinedOnAnotherDevice =
+            uid != null &&
+            (event.voiceStates?.any((VoiceState vs) => vs.userId == uid) ??
+                false);
+        if (userJoinedOnAnotherDevice) {
+          final VoiceSessionState voice = ref.read(voiceSessionProvider);
+          final bool onThisDevice =
+              voice.isInVoice && voice.channelId == event.channelId;
+          if (!onThisDevice) {
+            ref
+                .read(activeCallsProvider.notifier)
+                .removeUserFromPendingRing(
+                  channelId: event.channelId,
+                  userId: uid,
+                );
+          }
+        }
+      }
     },
     onCallDelete: (channelId) {
       ref.read(activeCallsProvider.notifier).deleteCall(channelId);

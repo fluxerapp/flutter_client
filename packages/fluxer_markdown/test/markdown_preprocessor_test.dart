@@ -98,6 +98,15 @@ void main() {
       final String output = preprocessFluxerMarkdown(input, features);
       expect(output, input);
     });
+
+    test(
+      'moves same-line trailing text after closing fence to its own line',
+      () {
+        const String input = '```dart\ncode``` after';
+        final String output = preprocessFluxerMarkdown(input, features);
+        expect(output, '```dart\ncode\n```\n after');
+      },
+    );
   });
 
   group('parseFluxerMarkdownSegments fenced code blocks', () {

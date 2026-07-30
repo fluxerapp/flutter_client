@@ -145,7 +145,13 @@ class _NotificationsMentionsBodyState
     List<drift_db.NotificationMentionFeedData> rows,
   ) async {
     final int ticket = ++_hydrateGeneration;
-    _feedHydrationPending = rows.isNotEmpty;
+    final bool shouldHydrate = rows.isNotEmpty;
+    if (shouldHydrate != _feedHydrationPending) {
+      _feedHydrationPending = shouldHydrate;
+      if (mounted) {
+        setState(() {});
+      }
+    }
     try {
       final drift_db.FluxerDatabase db = ref.read(fluxerDatabaseProvider);
       final Set<String> wantedIds = <String>{
@@ -436,7 +442,7 @@ class _NotificationsMentionsBodyState
     final List<drift_db.NotificationMentionFeedData> visible = _visibleRows(
       rows,
     ).toList();
-    if (sync.busy && rows.isEmpty) {
+    if (sync.busy && visible.isEmpty) {
       return _buildLoading(colors);
     }
     if (_feedHydrationPending && rows.isNotEmpty) {

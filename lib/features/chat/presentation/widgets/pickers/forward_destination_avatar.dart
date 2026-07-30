@@ -63,8 +63,8 @@ class _GuildChannelAvatar extends StatelessWidget {
     final double badgeSize = size * 0.4;
     final IconData channelIcon =
         destination.kind == ForwardDestinationKind.guildVoice
-        ? PhosphorIconsRegular.speakerHigh
-        : PhosphorIconsRegular.hash;
+        ? PhosphorIconsBold.speakerHigh
+        : PhosphorIconsBold.hash;
     return SizedBox(
       width: size,
       height: size,

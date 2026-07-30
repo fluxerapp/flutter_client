@@ -180,9 +180,9 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
   _StickerPickerData _watchPickerData() {
     final guilds = guildsForExpressionPicker(
       organized: ref.watch(organizedGuildListProvider),
-      activeGuildId: ref.watch(activeGuildIdProvider),
+      activeGuildId: ref.watch(contextualGuildIdProvider),
     );
-    final activeGuildId = ref.watch(activeGuildIdProvider);
+    final activeGuildId = ref.watch(contextualGuildIdProvider);
     final hasGlobalExpressions = ref.watch(
       instanceFeatureEnabledProvider(LimitKeys.featureGlobalExpressions),
     );
@@ -237,7 +237,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
   }
 
   Map<Guild, List<StickerEntry>> _readStickersByGuild() {
-    final activeGuildId = ref.read(activeGuildIdProvider);
+    final activeGuildId = ref.read(contextualGuildIdProvider);
     final guilds = guildsForExpressionPicker(
       organized: ref.read(organizedGuildListProvider),
       activeGuildId: activeGuildId,
@@ -389,7 +389,7 @@ class _StickerPickerContentState extends ConsumerState<StickerPickerContent> {
                     ? 'Remove from Favorites'
                     : 'Add to Favorites',
                 icon: isFavorite
-                    ? PhosphorIconsRegular.star
+                    ? PhosphorIconsBold.star
                     : PhosphorIconsFill.star,
                 onTap: () {
                   close();

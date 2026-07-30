@@ -120,20 +120,3 @@ class _GuildSettingsNavPageState extends ConsumerState<GuildSettingsNavPage> {
     return groups;
   }
 }
-
-IconData guildSettingsTabIcon(GuildSettingsTab tab) {
-  return switch (tab) {
-    GuildSettingsTab.overview => PhosphorIconsFill.gear,
-    GuildSettingsTab.roles => PhosphorIconsFill.shield,
-    GuildSettingsTab.emoji => PhosphorIconsFill.smiley,
-    GuildSettingsTab.stickers => PhosphorIconsFill.sticker,
-    GuildSettingsTab.moderation => PhosphorIconsFill.hammer,
-    GuildSettingsTab.auditLog => PhosphorIconsFill.bookOpen,
-    GuildSettingsTab.webhooks => PhosphorIconsFill.webhooksLogo,
-    GuildSettingsTab.discovery => PhosphorIconsFill.compass,
-    GuildSettingsTab.members => PhosphorIconsFill.users,
-    GuildSettingsTab.invites => PhosphorIconsFill.ticket,
-    GuildSettingsTab.bans => PhosphorIconsFill.prohibit,
-    GuildSettingsTab.channels => PhosphorIconsRegular.hash,
-  };
-}

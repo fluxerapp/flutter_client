@@ -78,6 +78,7 @@ FluxerMarkdownConfig createFluxerMarkdownConfig({
     blockquoteTextColor: context?.colors.textChatMuted,
     inlineCodeBackgroundColor: context?.colors.bgCodeBlock,
     inlineCodeTextColor: context?.colors.textSecondary,
+    codeTextStyle: context?.textStyles.codeText,
     tableBorderColor: context?.colors.borderColor,
     tableHeaderBackgroundColor: context?.colors.bgTableHeader,
     tableHeaderTextColor: context?.colors.textPrimary,

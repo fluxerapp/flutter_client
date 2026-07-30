@@ -95,5 +95,14 @@ void main() {
       );
       expect(MarkdownParseTestHelper.collectText(nodes), ' hello');
     });
+
+    test('renders same-line trailing text after closing fence', () {
+      final nodes = MarkdownParseTestHelper.parseBlock(
+        '```dart\ncode``` after',
+        features,
+      );
+      expect(MarkdownParseTestHelper.containsTag(nodes, 'pre'), isTrue);
+      expect(MarkdownParseTestHelper.collectText(nodes), 'code\n after');
+    });
   });
 }

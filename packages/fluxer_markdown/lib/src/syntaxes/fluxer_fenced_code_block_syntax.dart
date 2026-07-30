@@ -54,7 +54,17 @@ class FluxerFencedCodeBlockSyntax extends md.BlockSyntax {
             ..write(prefix.substring(leadingSpaces))
             ..write('\n');
         }
+        final String afterClose = trimmed.substring(
+          closeIndex + closingFence.length,
+        );
+        final int insertIndex = parser.lines.indexOf(parser.current) + 1;
         parser.advance();
+        if (afterClose.trim().isNotEmpty) {
+          parser.lines.insert(insertIndex, md.Line(afterClose));
+          if (parser.isDone) {
+            parser.retreat();
+          }
+        }
         break;
       }
       content

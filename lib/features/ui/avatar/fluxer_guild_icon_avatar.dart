@@ -57,7 +57,7 @@ class FluxerGuildIconAvatar extends StatelessWidget {
     if (isUnavailable) {
       return Center(
         child: PhosphorIcon(
-          PhosphorIconsRegular.exclamationMark,
+          PhosphorIconsBold.exclamationMark,
           color: colors.textOnBrandPrimary,
           size: _kUnavailableIconSize,
         ),

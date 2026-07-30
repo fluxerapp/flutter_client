@@ -17,3 +17,8 @@ DateTime dateTimeFromSnowflakeAsLocalOrNow(String snowflake) {
   }
   return utc.toLocal();
 }
+
+String snowflakeFromDateTime(DateTime dateTime) {
+  final int millis = dateTime.toUtc().millisecondsSinceEpoch;
+  return (BigInt.from(millis - kSnowflakeEpochMs) << 22).toString();
+}

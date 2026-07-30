@@ -105,6 +105,8 @@ class VoiceSettingsState {
     this.participantVolumes = const <String, int>{},
     this.streamAudioVolumes = const <String, int>{},
     this.streamAudioMuted = const <String, bool>{},
+    this.showVoiceConnectionAvatarStack = true,
+    this.showVoiceConnectionId = true,
   });
 
   final String inputDeviceId;
@@ -126,6 +128,8 @@ class VoiceSettingsState {
   final Map<String, int> participantVolumes;
   final Map<String, int> streamAudioVolumes;
   final Map<String, bool> streamAudioMuted;
+  final bool showVoiceConnectionAvatarStack;
+  final bool showVoiceConnectionId;
 
   bool get shouldMirrorOwnCamera =>
       mirrorCamera && cameraFacing == VoiceCameraFacing.front;
@@ -150,6 +154,8 @@ class VoiceSettingsState {
     Map<String, int>? participantVolumes,
     Map<String, int>? streamAudioVolumes,
     Map<String, bool>? streamAudioMuted,
+    bool? showVoiceConnectionAvatarStack,
+    bool? showVoiceConnectionId,
   }) {
     return VoiceSettingsState(
       inputDeviceId: inputDeviceId ?? this.inputDeviceId,
@@ -172,6 +178,10 @@ class VoiceSettingsState {
       participantVolumes: participantVolumes ?? this.participantVolumes,
       streamAudioVolumes: streamAudioVolumes ?? this.streamAudioVolumes,
       streamAudioMuted: streamAudioMuted ?? this.streamAudioMuted,
+      showVoiceConnectionAvatarStack:
+          showVoiceConnectionAvatarStack ?? this.showVoiceConnectionAvatarStack,
+      showVoiceConnectionId:
+          showVoiceConnectionId ?? this.showVoiceConnectionId,
     );
   }
 
@@ -196,6 +206,8 @@ class VoiceSettingsState {
       'participantVolumes': participantVolumes,
       'streamAudioVolumes': streamAudioVolumes,
       'streamAudioMuted': streamAudioMuted,
+      'showVoiceConnectionAvatarStack': showVoiceConnectionAvatarStack,
+      'showVoiceConnectionId': showVoiceConnectionId,
     };
   }
 
@@ -227,6 +239,9 @@ class VoiceSettingsState {
       participantVolumes: _parseParticipantVolumes(json['participantVolumes']),
       streamAudioVolumes: _parseParticipantVolumes(json['streamAudioVolumes']),
       streamAudioMuted: _parseStreamAudioMuted(json['streamAudioMuted']),
+      showVoiceConnectionAvatarStack:
+          json['showVoiceConnectionAvatarStack'] as bool? ?? true,
+      showVoiceConnectionId: json['showVoiceConnectionId'] as bool? ?? true,
     );
   }
 }

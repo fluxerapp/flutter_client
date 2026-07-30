@@ -17,6 +17,7 @@ import 'package:fluxer_markdown/src/utils/ansi_text_parser.dart';
 import 'package:fluxer_markdown/src/utils/code_block_highlight_theme.dart';
 import 'package:fluxer_markdown/src/utils/highlight_languages.dart';
 import 'package:fluxer_markdown/src/utils/jumbo_emoji.dart';
+import 'package:fluxer_markdown/src/utils/monospace_text_style.dart';
 import 'package:fluxer_markdown/src/widgets/emoji_asset_image.dart';
 import 'package:fluxer_markdown/src/widgets/system_emoji_fallback.dart';
 import 'package:intl/intl.dart';
@@ -427,6 +428,7 @@ class _MarkdownBlockRenderer {
       element: codeElement,
       isDark: isDark,
       baseStyle: baseStyle,
+      codeTextStyle: config.codeTextStyle,
       onCopyCode: config.onCopyCode,
     );
   }
@@ -756,14 +758,13 @@ class _MarkdownInlineRenderer {
         );
       case 'code':
         if (features.allowPlainInlineCode) {
-          final double fontSize = effectiveStyle.fontSize ?? 16;
           return TextSpan(
             text: node.textContent,
-            style: effectiveStyle.copyWith(
+            style: codeTextStyleFrom(
+              effectiveStyle,
+              codeTextStyle: config.codeTextStyle,
               color: config.inlineCodeTextColor,
               backgroundColor: config.inlineCodeBackgroundColor,
-              fontFamily: 'monospace',
-              fontSize: fontSize * 0.85,
             ),
           );
         }
@@ -772,6 +773,7 @@ class _MarkdownInlineRenderer {
           child: FluxerInlineCodeWidget(
             text: node.textContent,
             baseStyle: effectiveStyle,
+            codeTextStyle: config.codeTextStyle,
             backgroundColor: config.inlineCodeBackgroundColor,
             textColor: config.inlineCodeTextColor,
           ),
@@ -1285,6 +1287,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
     required this.element,
     required this.isDark,
     required this.baseStyle,
+    this.codeTextStyle,
     this.onCopyCode,
     super.key,
   });
@@ -1292,6 +1295,7 @@ class FluxerCodeBlockWidget extends StatelessWidget {
   final md.Element element;
   final bool isDark;
   final TextStyle baseStyle;
+  final TextStyle? codeTextStyle;
   final FluxerCodeCopyHandler? onCopyCode;
 
   static const _kPadding = EdgeInsets.all(12);
@@ -1321,12 +1325,17 @@ class FluxerCodeBlockWidget extends StatelessWidget {
         child: _FluxerLatexCodeBlockBody(
           code: code,
           baseStyle: baseStyle,
+          codeTextStyle: codeTextStyle,
           bgColor: bgColor,
         ),
       );
     }
 
     if (rawLang == 'ansi') {
+      final TextStyle monoStyle = codeTextStyleFrom(
+        baseStyle,
+        codeTextStyle: codeTextStyle,
+      );
       return _FluxerCodeBlockWithCopy(
         code: code,
         onCopyCode: onCopyCode,
@@ -1336,17 +1345,8 @@ class FluxerCodeBlockWidget extends StatelessWidget {
           padding: _kPadding,
           child: RichText(
             text: TextSpan(
-              style: baseStyle.copyWith(
-                fontFamily: 'monospace',
-                fontSize: (baseStyle.fontSize ?? 16) * 0.85,
-              ),
-              children: parseAnsiTextSpans(
-                code,
-                baseStyle.copyWith(
-                  fontFamily: 'monospace',
-                  fontSize: (baseStyle.fontSize ?? 16) * 0.85,
-                ),
-              ),
+              style: monoStyle,
+              children: parseAnsiTextSpans(code, monoStyle),
             ),
           ),
         ),
@@ -1360,32 +1360,34 @@ class FluxerCodeBlockWidget extends StatelessWidget {
       code = '$rawLang\n$code';
     }
 
+    final TextStyle monoStyle = codeTextStyleFrom(
+      baseStyle,
+      codeTextStyle: codeTextStyle,
+    );
+
     final Widget codeBody;
     if (knownLang == null) {
       codeBody = Container(
         width: double.infinity,
         decoration: BoxDecoration(color: bgColor, borderRadius: _kRadius),
         padding: _kPadding,
-        child: Text(
-          code,
-          style: baseStyle.copyWith(
-            fontFamily: 'monospace',
-            fontSize: (baseStyle.fontSize ?? 16) * 0.85,
-          ),
-        ),
+        child: Text(code, style: monoStyle),
       );
     } else {
       codeBody = HighlightView(
         code,
         language: knownLang,
         theme: isDark
-            ? kVs2015CodeBlockHighlightTheme
-            : kGithubCodeBlockHighlightTheme,
+            ? codeBlockHighlightThemeFor(
+                vs2015Theme,
+                codeTextStyle: codeTextStyle,
+              )
+            : codeBlockHighlightThemeFor(
+                githubTheme,
+                codeTextStyle: codeTextStyle,
+              ),
         padding: _kPadding,
-        textStyle: baseStyle.copyWith(
-          fontFamily: 'monospace',
-          fontSize: (baseStyle.fontSize ?? 16) * 0.85,
-        ),
+        textStyle: monoStyle,
       );
     }
 
@@ -1402,11 +1404,13 @@ class _FluxerLatexCodeBlockBody extends StatelessWidget {
     required this.code,
     required this.baseStyle,
     required this.bgColor,
+    this.codeTextStyle,
   });
 
   final String code;
   final TextStyle baseStyle;
   final Color bgColor;
+  final TextStyle? codeTextStyle;
 
   static const _kPadding = EdgeInsets.all(12);
   static const _kRadius = BorderRadius.all(Radius.circular(4));
@@ -1415,9 +1419,9 @@ class _FluxerLatexCodeBlockBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color textColor =
         baseStyle.color ?? Theme.of(context).colorScheme.onSurface;
-    final TextStyle monoStyle = baseStyle.copyWith(
-      fontFamily: 'monospace',
-      fontSize: (baseStyle.fontSize ?? 16) * 0.85,
+    final TextStyle monoStyle = codeTextStyleFrom(
+      baseStyle,
+      codeTextStyle: codeTextStyle,
       color: textColor,
     );
     return Container(
@@ -1495,6 +1499,7 @@ class FluxerInlineCodeWidget extends StatelessWidget {
   const FluxerInlineCodeWidget({
     required this.text,
     required this.baseStyle,
+    this.codeTextStyle,
     this.backgroundColor,
     this.textColor,
     super.key,
@@ -1502,6 +1507,7 @@ class FluxerInlineCodeWidget extends StatelessWidget {
 
   final String text;
   final TextStyle baseStyle;
+  final TextStyle? codeTextStyle;
   final Color? backgroundColor;
   final Color? textColor;
 
@@ -1521,10 +1527,10 @@ class FluxerInlineCodeWidget extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: baseStyle.copyWith(
+        style: codeTextStyleFrom(
+          baseStyle,
+          codeTextStyle: codeTextStyle,
           color: textColor,
-          fontSize: fontSize * 0.85,
-          fontFamily: 'monospace',
         ),
       ),
     );

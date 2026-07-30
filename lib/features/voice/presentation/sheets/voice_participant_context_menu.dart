@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -16,6 +17,7 @@ import 'package:fluxer_app/features/voice/providers/voice_stream_audio_provider.
 import 'package:fluxer_app/features/voice/utils/voice_participant_menu_capabilities.dart';
 import 'package:fluxer_app/features/voice/utils/voice_participant_moderation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_dart/gateway.dart';
 
 class VoiceParticipantContextMenu {
   VoiceParticipantContextMenu._();
@@ -26,37 +28,25 @@ class VoiceParticipantContextMenu {
     required VoiceParticipantMenuTarget target,
     required Offset position,
   }) async {
-    final VoiceParticipantMenuCapabilities capabilities =
-        await resolveVoiceParticipantMenuCapabilities(ref: ref, target: target);
     if (!context.mounted) {
       return;
     }
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     if (isMobileLayout(context)) {
-      await _showBottomSheet(
-        context,
-        ref,
-        target: target,
-        capabilities: capabilities,
-        l10n: l10n,
-      );
+      await _showBottomSheet(context, target: target, l10n: l10n);
       return;
     }
     await _showDesktopOverlay(
       context,
-      ref,
       target: target,
-      capabilities: capabilities,
       position: position,
       l10n: l10n,
     );
   }
 
   static Future<void> _showBottomSheet(
-    BuildContext context,
-    WidgetRef ref, {
+    BuildContext context, {
     required VoiceParticipantMenuTarget target,
-    required VoiceParticipantMenuCapabilities capabilities,
     required FluxerLocalizations l10n,
   }) {
     return FluxerBottomSheet.showScrollable<void>(
@@ -66,46 +56,28 @@ class VoiceParticipantContextMenu {
       minChildSize: 0.25,
       maxChildSize: 0.85,
       builder: (sheetContext, scrollController, close) {
-        final List<VoiceParticipantMenuGroup> groups = _buildGroups(
-          ref: ref,
-          context: context,
+        return _VoiceParticipantContextMenuPanel(
           target: target,
-          capabilities: capabilities,
           l10n: l10n,
-          close: close,
-        );
-        return ListView(
-          controller: scrollController,
-          padding: EdgeInsets.fromLTRB(
-            sheetContext.layout.s4,
-            0,
-            sheetContext.layout.s4,
-            sheetContext.layout.s4,
-          ),
-          children: [
-            FluxerBottomSheetGroupColumn(
-              children: [
-                for (final VoiceParticipantMenuGroup group in groups)
-                  FluxerMenuGroup(
-                    children: [
-                      for (final VoiceParticipantMenuEntry entry
-                          in group.entries)
-                        _buildBottomSheetEntry(entry),
-                    ],
-                  ),
-              ],
+          onClose: close,
+          scrollController: scrollController,
+          sheetPadding: FluxerBottomSheet.scrollViewPadding(
+            sheetContext,
+            padding: EdgeInsets.fromLTRB(
+              sheetContext.layout.s4,
+              0,
+              sheetContext.layout.s4,
+              sheetContext.layout.s4,
             ),
-          ],
+          ),
         );
       },
     );
   }
 
   static Future<void> _showDesktopOverlay(
-    BuildContext context,
-    WidgetRef ref, {
+    BuildContext context, {
     required VoiceParticipantMenuTarget target,
-    required VoiceParticipantMenuCapabilities capabilities,
     required Offset position,
     required FluxerLocalizations l10n,
   }) async {
@@ -115,34 +87,17 @@ class VoiceParticipantContextMenu {
       return;
     }
     final Offset local = overlay.globalToLocal(position);
-    void close() {
-      Navigator.of(context).pop();
-    }
-
-    final List<Widget> menuItems = _buildDesktopItems(
-      groups: _buildGroups(
-        ref: ref,
-        context: context,
-        target: target,
-        capabilities: capabilities,
-        l10n: l10n,
-        close: close,
-      ),
-    );
-    final double menuHeight = estimateVoiceParticipantContextMenuHeight(
-      menuItems,
-    );
     await Navigator.of(context).push<void>(
       _VoiceParticipantContextMenuRoute(
         position: local,
         overlaySize: overlay.size,
-        menuHeight: menuHeight,
-        panel: _buildDesktopPanel(menuItems),
+        target: target,
+        l10n: l10n,
       ),
     );
   }
 
-  static List<VoiceParticipantMenuGroup> _buildGroups({
+  static List<VoiceParticipantMenuGroup> buildGroups({
     required WidgetRef ref,
     required BuildContext context,
     required VoiceParticipantMenuTarget target,
@@ -190,11 +145,9 @@ class VoiceParticipantContextMenu {
       },
       onToggleSelfMute: () {
         unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfMute());
-        close();
       },
       onToggleSelfDeafen: () {
         unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfDeafen());
-        close();
       },
       onToggleCommunityMute: (bool checked) {
         if (guildId == null) {
@@ -281,7 +234,7 @@ class VoiceParticipantContextMenu {
     );
   }
 
-  static Widget _buildBottomSheetEntry(VoiceParticipantMenuEntry entry) {
+  static Widget buildBottomSheetEntry(VoiceParticipantMenuEntry entry) {
     return switch (entry) {
       VoiceParticipantMenuActionEntry() => FluxerBottomSheetMenuItem(
         label: entry.label,
@@ -304,7 +257,7 @@ class VoiceParticipantContextMenu {
     };
   }
 
-  static List<Widget> _buildDesktopItems({
+  static List<Widget> buildDesktopItems({
     required List<VoiceParticipantMenuGroup> groups,
   }) {
     final List<Widget> items = <Widget>[];
@@ -314,13 +267,13 @@ class VoiceParticipantContextMenu {
       }
       for (final VoiceParticipantMenuEntry entry
           in groups[groupIndex].entries) {
-        items.add(_buildDesktopEntry(entry));
+        items.add(buildDesktopEntry(entry));
       }
     }
     return items;
   }
 
-  static Widget _buildDesktopPanel(List<Widget> items) {
+  static Widget buildDesktopPanel(List<Widget> items) {
     return Builder(
       builder: (BuildContext context) {
         final layout = context.layout;
@@ -353,7 +306,7 @@ class VoiceParticipantContextMenu {
     );
   }
 
-  static Widget _buildDesktopEntry(VoiceParticipantMenuEntry entry) {
+  static Widget buildDesktopEntry(VoiceParticipantMenuEntry entry) {
     return switch (entry) {
       VoiceParticipantMenuActionEntry() => ContextMenuItem(
         label: entry.label,
@@ -378,18 +331,127 @@ class VoiceParticipantContextMenu {
   }
 }
 
+class _VoiceParticipantContextMenuPanel extends ConsumerStatefulWidget {
+  const _VoiceParticipantContextMenuPanel({
+    required this.target,
+    required this.l10n,
+    required this.onClose,
+    this.scrollController,
+    this.sheetPadding,
+  });
+
+  final VoiceParticipantMenuTarget target;
+  final FluxerLocalizations l10n;
+  final VoidCallback onClose;
+  final ScrollController? scrollController;
+  final EdgeInsets? sheetPadding;
+
+  @override
+  ConsumerState<_VoiceParticipantContextMenuPanel> createState() =>
+      _VoiceParticipantContextMenuPanelState();
+}
+
+class _VoiceParticipantContextMenuPanelState
+    extends ConsumerState<_VoiceParticipantContextMenuPanel> {
+  ModerationAccess? _moderation;
+  var _moderationLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_loadModeration());
+  }
+
+  Future<void> _loadModeration() async {
+    final String? currentUserId = ref.read(currentUserIdProvider);
+    final String? guildId = widget.target.guildId;
+    final String targetUserId = widget.target.participant.userId;
+    if (guildId == null ||
+        currentUserId == null ||
+        currentUserId == targetUserId) {
+      if (!mounted) {
+        return;
+      }
+      setState(() => _moderationLoaded = true);
+      return;
+    }
+    final ModerationAccess moderation = await resolveModerationAccess(
+      ref: ref,
+      guildId: guildId,
+      currentUserId: currentUserId,
+      targetUserId: targetUserId,
+    );
+    if (!mounted) {
+      return;
+    }
+    setState(() {
+      _moderation = moderation;
+      _moderationLoaded = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final VoiceState voice = watchTargetVoiceState(ref, widget.target);
+    final VoiceParticipantMenuTarget liveTarget =
+        voiceParticipantMenuTargetWithVoice(
+          target: widget.target,
+          voice: voice,
+        );
+    final VoiceParticipantMenuCapabilities capabilities =
+        buildVoiceParticipantMenuCapabilities(
+          ref: ref,
+          target: liveTarget,
+          voice: voice,
+          moderation: _moderationLoaded ? _moderation : null,
+        );
+    final List<VoiceParticipantMenuGroup> groups =
+        VoiceParticipantContextMenu.buildGroups(
+          ref: ref,
+          context: context,
+          target: liveTarget,
+          capabilities: capabilities,
+          l10n: widget.l10n,
+          close: widget.onClose,
+        );
+    if (widget.scrollController != null) {
+      return ListView(
+        controller: widget.scrollController,
+        padding: widget.sheetPadding ?? EdgeInsets.zero,
+        children: [
+          FluxerBottomSheetGroupColumn(
+            children: [
+              for (final VoiceParticipantMenuGroup group in groups)
+                FluxerMenuGroup(
+                  children: [
+                    for (final VoiceParticipantMenuEntry entry in group.entries)
+                      VoiceParticipantContextMenu.buildBottomSheetEntry(entry),
+                  ],
+                ),
+            ],
+          ),
+        ],
+      );
+    }
+    final List<Widget> items = VoiceParticipantContextMenu.buildDesktopItems(
+      groups: groups,
+    );
+    return VoiceParticipantContextMenu.buildDesktopPanel(items);
+  }
+}
+
 class _VoiceParticipantContextMenuRoute extends PopupRoute<void> {
   _VoiceParticipantContextMenuRoute({
     required this.position,
     required this.overlaySize,
-    required this.menuHeight,
-    required this.panel,
+    required this.target,
+    required this.l10n,
   });
 
   final Offset position;
   final Size overlaySize;
-  final double menuHeight;
-  final Widget panel;
+  final VoiceParticipantMenuTarget target;
+  final FluxerLocalizations l10n;
 
   @override
   Duration get transitionDuration => const Duration(milliseconds: 120);
@@ -409,6 +471,11 @@ class _VoiceParticipantContextMenuRoute extends PopupRoute<void> {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
+    void close() {
+      Navigator.of(context).pop();
+    }
+
+    final double menuHeight = _estimateContextMenuHeight(target);
     final bool opensLeft =
         position.dx + kVoiceParticipantContextMenuWidth > overlaySize.width - 8;
     final bool opensUp = position.dy + menuHeight > overlaySize.height - 8;
@@ -437,10 +504,34 @@ class _VoiceParticipantContextMenuRoute extends PopupRoute<void> {
           child: ScaleTransition(
             scale: CurvedAnimation(parent: animation, curve: Curves.easeOut),
             alignment: alignment,
-            child: FadeTransition(opacity: animation, child: panel),
+            child: FadeTransition(
+              opacity: animation,
+              child: _VoiceParticipantContextMenuPanel(
+                target: target,
+                l10n: l10n,
+                onClose: close,
+              ),
+            ),
           ),
         ),
       ],
     );
   }
+}
+
+double _estimateContextMenuHeight(VoiceParticipantMenuTarget target) {
+  const double rowHeight = 38;
+  const double volumeRowHeight = 56;
+  const double dividerHeight = 9;
+  var rows = 1;
+  var dividers = 0;
+  if (target.guildId != null) {
+    rows += 4;
+    dividers += 2;
+  } else {
+    rows += 2;
+    dividers += 1;
+  }
+  rows += 1;
+  return rows * rowHeight + dividers * dividerHeight + volumeRowHeight;
 }

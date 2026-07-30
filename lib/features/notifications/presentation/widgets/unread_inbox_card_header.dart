@@ -97,7 +97,7 @@ class UnreadInboxCardHeader extends StatelessWidget {
             const SizedBox(width: 8),
           ] else ...<Widget>[
             Icon(
-              PhosphorIconsRegular.chatCircle,
+              PhosphorIconsBold.chatCircle,
               size: 20,
               color: colors.textPrimaryMuted,
             ),

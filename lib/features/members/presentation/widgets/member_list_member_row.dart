@@ -106,10 +106,7 @@ class _MemberListSidebarMemberRowState
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 1),
             child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: layout.s2,
-                vertical: layout.s1,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: layout.s2),
               decoration: BoxDecoration(
                 color: _isHovered
                     ? context.colors.backgroundModifierHover
@@ -138,6 +135,7 @@ class _MemberListSidebarMemberRowState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Row(
                           children: <Widget>[

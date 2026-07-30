@@ -332,7 +332,10 @@ class _FluxerSelectSheetState<T> extends State<_FluxerSelectSheet<T>> {
                 )
               : ListView(
                   controller: widget.scrollController,
-                  padding: EdgeInsets.only(bottom: layout.s4),
+                  padding: FluxerBottomSheet.scrollViewPadding(
+                    context,
+                    padding: EdgeInsets.only(bottom: layout.s4),
+                  ),
                   children: [
                     FluxerBottomSheetSection(
                       child: FluxerMenuGroup(

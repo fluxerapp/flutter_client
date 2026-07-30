@@ -13,9 +13,13 @@ import 'package:fluxer_app/shared/utils/mention_display_utils.dart';
 
 String? resolveGuildIdForChannel(WidgetRef ref, String? channelId) {
   if (channelId != null && channelId.isNotEmpty) {
-    return ref.watch(channelByIdProvider(channelId)).value?.guildId;
+    final String? activeChannelId = ref.watch(activeChannelIdProvider);
+    if (channelId == activeChannelId) {
+      return ref.watch(contextualGuildIdProvider);
+    }
+    return ref.watch(channelGuildIdProvider(channelId)).value;
   }
-  return ref.watch(activeGuildIdProvider);
+  return ref.watch(contextualGuildIdProvider);
 }
 
 String watchMentionUserDisplayName({

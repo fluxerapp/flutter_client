@@ -1,5 +1,5 @@
 name: fluxer_app
-description: "A new Flutter project."
+description: "Official Fluxer Mobile client built on the Flutter framework"
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
@@ -35,7 +35,7 @@ dependencies:
   flutter_local_notifications: ^22.0.0
   flutter_localizations:
     sdk: flutter
-  flutter_riverpod: ^3.2.1
+  flutter_riverpod: ^3.3.2
   flutter_secure_storage: ^10.3.1
   flutter_staggered_grid_view: ^0.7.0 # Would like to replace this package at some point (only used on Desktop)
   flutter_svg: ^2.2.4
@@ -49,12 +49,13 @@ dependencies:
   fluxer_markdown:
     path: packages/fluxer_markdown
   gaimon: ^1.4.3
+  gal: ^2.3.3
   go_router: ^17.2.1
   google_fonts: ^8.0.1
   highlight: ^0.7.0
   image: ^4.8.0
-  image_picker: ^1.2.2
-  image_picker_android: ^0.8.13
+  image_picker: ^1.2.3
+  image_picker_android: ^0.8.13+19
   image_picker_platform_interface: ^2.11.1
   intl: ^0.20.2
   livekit_client: ^2.8.1
@@ -65,7 +66,7 @@ dependencies:
   media_kit_video: ^2.0.1
   opentelemetry: ^0.18.11
   package_info_plus: ^9.0.0
-  passkeys: ^2.21.1
+  passkeys: ^2.22.0
   path: ^1.9.1
   path_provider: ^2.1.5
   permission_handler: ^12.0.1
@@ -76,9 +77,8 @@ dependencies:
   protobuf: ^6.0.0
   receive_sharing_intent: ^1.9.0
   record: ^7.1.1
-  refresh_rate: ^1.0.2
-  riverpod: ^3.2.1
-  riverpod_annotation: ^4.0.2
+  riverpod: ^3.3.2
+  riverpod_annotation: ^4.0.3
   scrollview_observer: ^1.27.0
   shared_preferences: ^2.5.3
   skeletonizer: ^2.1.3
@@ -99,16 +99,18 @@ dependencies:
 
 dependency_overrides:
   analyzer: ^10.0.0
+  analyzer_plugin: ^0.14.0
   dart_style: 3.1.7
   device_info_plus: ^12.4.0
-  # pinned: mockito >=5.6.5 needs analyzer ^13, incompatible with the analyzer 10 override above;
-  # it is an unused transitive dep of riverpod_generator, but build_runner still compiles its builder.
+  # mockito >=5.6.5 requires analyzer ^13, incompatible with the override above.
   mockito: 5.6.4
 
 dev_dependencies:
   accessibility_radar: ^0.3.0
   build_runner: ^2.15.0
-  drift_dev: ^2.31.0
+  # drift_dev >=2.34.4 and riverpod_generator >=4.0.6 require analyzer ^13, but
+  # riverpod_analyzer_utils has not caught up yet. Pin until that chain is aligned.
+  drift_dev: 2.34.0
   fake_async: ^1.3.3
   flutter_test:
     sdk: flutter
@@ -118,8 +120,8 @@ dev_dependencies:
   mockito: ^5.6.4
   path_provider_platform_interface: ^2.1.2
   plugin_platform_interface: ^2.1.8
-  riverpod_generator: ^4.0.3
-  riverpod_lint: ^3.1.3
+  riverpod_generator: 4.0.4
+  riverpod_lint: ^3.1.4
   test: ^1.31.0
 
 flutter:

@@ -4,6 +4,18 @@ library;
 const double kMessageListReadBottomThreshold = 48;
 
 const double kJumpToBottomViewportFraction = 0.5;
+const double kChatReadViewportDistanceStep = 48;
+
+double quantizeReadViewportDistance(double distance) {
+  if (distance.isNaN || distance <= 0) {
+    return 0;
+  }
+  if (!distance.isFinite) {
+    return distance;
+  }
+  return (distance / kChatReadViewportDistanceStep).floor() *
+      kChatReadViewportDistanceStep;
+}
 
 bool isNearScrollExtentEnd({
   required double pixels,

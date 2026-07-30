@@ -38,6 +38,9 @@ class _UnreadChannelInboxCardState
   @override
   void initState() {
     super.initState();
+    if (!widget.entry.isCollapsed) {
+      _loadingPreview = true;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_loadMeta()));
   }
 
@@ -57,7 +60,7 @@ class _UnreadChannelInboxCardState
   }
 
   Future<void> _ensurePreview() async {
-    if (widget.entry.isCollapsed || _loadingPreview || _attemptedPreview) {
+    if (widget.entry.isCollapsed || _attemptedPreview) {
       return;
     }
     setState(() {
@@ -108,10 +111,9 @@ class _UnreadChannelInboxCardState
     setState(() {
       _attemptedPreview = false;
       _preview = null;
+      _loadingPreview = true;
     });
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => unawaited(_ensurePreview()),
-    );
+    await _ensurePreview();
   }
 
   Future<void> _markRead() async {
@@ -182,11 +184,6 @@ class _UnreadChannelInboxCardState
   @override
   Widget build(BuildContext context) {
     final bool collapsed = widget.entry.isCollapsed;
-    if (!collapsed && !_loadingPreview && !_attemptedPreview) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) => unawaited(_ensurePreview()),
-      );
-    }
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(

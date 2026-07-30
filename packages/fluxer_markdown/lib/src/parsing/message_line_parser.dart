@@ -95,11 +95,19 @@ List<MessageContentSegment> _parseMessageContentStructureUncached(
     final trimmed = line.trim();
     if (trimmed.isEmpty) {
       final blankCount = _countBlankLines(lines, i);
-      if (textFlowBuffer.isNotEmpty && i + blankCount < lines.length) {
+      if (i + blankCount < lines.length) {
         final nextTrimmed = lines[i + blankCount].trimLeft();
         final isNextHeading = _isHeadingStart(nextTrimmed, features);
-        if (!isNextHeading && !previousWasHeading) {
-          textFlowBuffer.write('\n' * blankCount);
+        if (_shouldPreserveBlankLines(
+          hasBufferedText: textFlowBuffer.isNotEmpty,
+          followsBlockSegment: _lastSegmentIsBlock(segments),
+          isNextHeading: isNextHeading,
+          previousWasHeading: previousWasHeading,
+        )) {
+          final bool followsBlock =
+              textFlowBuffer.isEmpty && _lastSegmentIsBlock(segments);
+          final int newlineCount = followsBlock ? blankCount + 1 : blankCount;
+          textFlowBuffer.write('\n' * newlineCount);
         }
       }
       i += blankCount;
@@ -128,9 +136,24 @@ List<MessageContentSegment> _parseMessageContentStructureUncached(
     if (_isBlockStart(trimmedLeft, features)) {
       _flushTextFlow(textFlowBuffer, segments);
       final blockEnd = _findBlockEnd(lines, i, features);
-      segments.add(
-        MessageBlockMarkdownSegment(lines.sublist(i, blockEnd).join('\n')),
-      );
+      final blockLines = lines.sublist(i, blockEnd).toList();
+      String? trailingAfterClose;
+      if (features.allowCodeBlocks && trimmedLeft.startsWith('```')) {
+        final int? openingLength = parseOpeningBacktickFenceLength(trimmedLeft);
+        if (openingLength != null && blockLines.length >= 2) {
+          final InlineClosingFenceSplit? split =
+              splitInlineClosingBacktickFence(blockLines.last, openingLength);
+          if (split != null) {
+            blockLines[blockLines.length - 1] =
+                '${split.content}${split.fenceLine.trimLeft()}';
+            trailingAfterClose = split.trailingText;
+          }
+        }
+      }
+      segments.add(MessageBlockMarkdownSegment(blockLines.join('\n')));
+      if (trailingAfterClose != null && trailingAfterClose.trim().isNotEmpty) {
+        segments.add(MessageTextFlowSegment(trailingAfterClose));
+      }
       previousWasHeading = _isHeadingStart(trimmedLeft, features);
       i = blockEnd;
       continue;
@@ -168,6 +191,27 @@ int _countBlankLines(List<String> lines, int startIndex) {
     index++;
   }
   return count;
+}
+
+bool _lastSegmentIsBlock(List<MessageContentSegment> segments) {
+  if (segments.isEmpty) {
+    return false;
+  }
+  final MessageContentSegment last = segments.last;
+  return last is MessageBlockMarkdownSegment ||
+      last is MessageBlockSpoilerSegment;
+}
+
+bool _shouldPreserveBlankLines({
+  required bool hasBufferedText,
+  required bool followsBlockSegment,
+  required bool isNextHeading,
+  required bool previousWasHeading,
+}) {
+  if (isNextHeading || previousWasHeading) {
+    return false;
+  }
+  return hasBufferedText || followsBlockSegment;
 }
 
 _InlineLineGroup _parseInlineLineGroup(

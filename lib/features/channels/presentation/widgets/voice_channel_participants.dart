@@ -1,8 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_avatar.dart';
 import 'package:fluxer_app/features/ui/voice/fluxer_live_badge.dart';
+import 'package:fluxer_app/features/ui/voice/voice_participant_media_tile.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_context_menu.dart';
+import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -19,82 +25,138 @@ class VoiceChannelParticipantsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String key = voiceChannelParticipantsFamilyKey(guildId, channelId);
-    final AsyncValue<List<VoiceSidebarParticipant>> async = ref.watch(
+    ref.watch(voiceChannelSidebarStructureProvider(key));
+    final List<VoiceSidebarParticipant> list = ref.read(
       voiceChannelSidebarParticipantsProvider(key),
     );
-    return async.when(
-      data: (List<VoiceSidebarParticipant> list) {
-        if (list.isEmpty) {
-          return const SizedBox.shrink();
-        }
-        return Padding(
-          padding: const EdgeInsets.only(left: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              for (int i = 0; i < list.length; i++) ...<Widget>[
-                if (i > 0) const SizedBox(height: 2),
-                _VoiceChannelParticipantTile(participant: list[i]),
-              ],
-            ],
-          ),
-        );
-      },
-      loading: () => const SizedBox.shrink(),
-      error: (_, _) => const SizedBox.shrink(),
+    if (list.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(left: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          for (int i = 0; i < list.length; i++) ...<Widget>[
+            if (i > 0) const SizedBox(height: 2),
+            _VoiceChannelParticipantTile(
+              guildId: guildId,
+              channelId: channelId,
+              participant: list[i],
+            ),
+          ],
+        ],
+      ),
     );
   }
 }
 
-class _VoiceChannelParticipantTile extends StatelessWidget {
-  const _VoiceChannelParticipantTile({required this.participant});
+class _VoiceChannelParticipantTile extends ConsumerWidget {
+  const _VoiceChannelParticipantTile({
+    required this.guildId,
+    required this.channelId,
+    required this.participant,
+  });
 
+  final String guildId;
+  final String channelId;
   final VoiceSidebarParticipant participant;
 
-  @override
-  Widget build(BuildContext context) {
+  void _showParticipantMenu(
+    BuildContext context,
+    WidgetRef ref,
+    Offset position,
+  ) {
     final VoiceSidebarParticipant p = participant;
-    final bool showMic = p.guildMute || p.selfMute;
-    final bool micDanger = p.guildMute;
-    final bool showDeaf = p.guildDeaf || p.selfDeaf;
-    final bool deafDanger = p.guildDeaf;
-    final bool hasIcons = p.selfVideo || showMic || showDeaf || p.selfStream;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        children: <Widget>[
-          FluxerAvatar.user(
-            imageUrl: p.avatarUrl,
-            fallbackText: p.displayName,
-            size: 20,
-            showStatus: false,
-            avatarColor: p.avatarColor,
+    final String connectionId = p.primaryVoice.connectionId ?? p.userId;
+    unawaited(
+      VoiceParticipantContextMenu.show(
+        context,
+        ref,
+        target: VoiceParticipantMenuTarget(
+          participant: VoiceChannelParticipantData(
+            userId: p.userId,
+            voice: p.primaryVoice,
           ),
-          const SizedBox(width: 6),
-          Expanded(
-            child: Text(
-              p.displayName,
-              style: context.textStyles.channelName.copyWith(
-                color: context.colors.textTertiary,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+          tileId: '$connectionId:camera',
+          guildId: guildId,
+          channelId: channelId,
+          tileSource: VoiceParticipantTileSource.camera,
+        ),
+        position: position,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final VoiceSidebarParticipant p = participant;
+    final VoiceSidebarVoiceFlags flags = ref.watch(
+      voiceSidebarVoiceFlagsProvider(
+        voiceSidebarVoiceFlagsKey(
+          guildId: guildId,
+          channelId: channelId,
+          userId: p.userId,
+        ),
+      ),
+    );
+    final bool showMic = flags.guildMute || flags.selfMute;
+    final bool micDanger = flags.guildMute;
+    final bool showDeaf = flags.guildDeaf || flags.selfDeaf;
+    final bool deafDanger = flags.guildDeaf;
+    final bool hasIcons =
+        flags.selfVideo || showMic || showDeaf || flags.selfStream;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onSecondaryTapUp: (TapUpDetails details) {
+        _showParticipantMenu(context, ref, details.globalPosition);
+      },
+      onLongPress: isMobileLayout(context)
+          ? () {
+              final RenderBox? box = context.findRenderObject() as RenderBox?;
+              final Offset position = box == null
+                  ? Offset.zero
+                  : box.localToGlobal(Offset.zero);
+              _showParticipantMenu(context, ref, position);
+            }
+          : null,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          children: <Widget>[
+            FluxerAvatar.user(
+              imageUrl: p.avatarUrl,
+              fallbackText: p.displayName,
+              size: 20,
+              showStatus: false,
+              avatarColor: p.avatarColor,
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Text(
+                p.displayName,
+                style: context.textStyles.channelName.copyWith(
+                  color: context.colors.textTertiary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
-          if (hasIcons) ...<Widget>[
-            const SizedBox(width: 4),
-            _VoiceParticipantStatusIcons(
-              selfVideo: p.selfVideo,
-              showMic: showMic,
-              micDanger: micDanger,
-              showDeaf: showDeaf,
-              deafDanger: deafDanger,
-              selfStream: p.selfStream,
-            ),
+            if (hasIcons) ...<Widget>[
+              const SizedBox(width: 4),
+              _VoiceParticipantStatusIcons(
+                selfVideo: flags.selfVideo,
+                showMic: showMic,
+                micDanger: micDanger,
+                showDeaf: showDeaf,
+                deafDanger: deafDanger,
+                selfStream: flags.selfStream,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

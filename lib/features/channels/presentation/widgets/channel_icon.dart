@@ -153,17 +153,17 @@ class ChannelIcon extends StatelessWidget {
   static PhosphorIconData iconDataFor(ChannelType type) {
     switch (type) {
       case ChannelType.guildText:
-        return PhosphorIconsRegular.hash;
+        return PhosphorIconsBold.hash;
       case ChannelType.guildVoice:
         return PhosphorIconsFill.speakerHigh;
       case ChannelType.guildCategory:
         return PhosphorIconsFill.folder;
       case ChannelType.guildLink:
-        return PhosphorIconsRegular.link;
+        return PhosphorIconsBold.link;
       case ChannelType.dm:
       case ChannelType.groupDm:
       case ChannelType.dmPersonalNotes:
-        return PhosphorIconsRegular.hash;
+        return PhosphorIconsBold.hash;
     }
   }
 }

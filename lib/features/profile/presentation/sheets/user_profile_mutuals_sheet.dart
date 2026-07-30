@@ -71,7 +71,10 @@ class _MutualsSheetBody extends StatelessWidget {
     final layout = context.layout;
     return ListView(
       controller: scrollController,
-      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+      ),
       children: <Widget>[
         UserProfileMutualList(
           type: initialType,

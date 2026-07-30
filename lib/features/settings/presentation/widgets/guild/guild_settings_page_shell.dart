@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_access_gate.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/settings/fluxer_settings_sheet.dart'
     show FluxerSettingsSheet;
@@ -103,6 +104,9 @@ class GuildSettingsAsyncBody<T> extends StatelessWidget {
     final layout = context.layout;
     final Widget content = data(item);
     if (usesSettingsSheet) {
+      if (isWideLayout(context)) {
+        return WideSettingsContentLayout(child: content);
+      }
       return content;
     }
     return SingleChildScrollView(
@@ -128,5 +132,22 @@ String guildSettingsTabTitle(FluxerLocalizations l10n, GuildSettingsTab tab) {
     GuildSettingsTab.invites => l10n.guildMenuSettingsInviteLinks,
     GuildSettingsTab.bans => l10n.guildMenuSettingsBans,
     GuildSettingsTab.channels => l10n.guildMenuSettingsChannels,
+  };
+}
+
+IconData guildSettingsTabIcon(GuildSettingsTab tab) {
+  return switch (tab) {
+    GuildSettingsTab.overview => PhosphorIconsFill.gear,
+    GuildSettingsTab.roles => PhosphorIconsFill.shield,
+    GuildSettingsTab.emoji => PhosphorIconsFill.smiley,
+    GuildSettingsTab.stickers => PhosphorIconsFill.sticker,
+    GuildSettingsTab.moderation => PhosphorIconsFill.hammer,
+    GuildSettingsTab.auditLog => PhosphorIconsFill.bookOpen,
+    GuildSettingsTab.webhooks => PhosphorIconsFill.webhooksLogo,
+    GuildSettingsTab.discovery => PhosphorIconsFill.compass,
+    GuildSettingsTab.members => PhosphorIconsFill.users,
+    GuildSettingsTab.invites => PhosphorIconsFill.ticket,
+    GuildSettingsTab.bans => PhosphorIconsFill.prohibit,
+    GuildSettingsTab.channels => PhosphorIconsBold.hash,
   };
 }

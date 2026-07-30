@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/permissions/permission.dart';
 import 'package:fluxer_app/core/permissions/permission_resolver.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
+import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
@@ -12,6 +13,7 @@ import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
 import 'package:fluxer_app/features/voice/presentation/sheets/voice_participant_menu_data.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
+import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_participant_volume_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
@@ -63,19 +65,56 @@ class VoiceParticipantMenuCapabilities {
   final String? streamKey;
 }
 
-Future<VoiceParticipantMenuCapabilities>
-resolveVoiceParticipantMenuCapabilities({
+VoiceState watchTargetVoiceState(
+  WidgetRef ref,
+  VoiceParticipantMenuTarget target,
+) {
+  final VoiceState fallback = target.participant.voice;
+  return ref.watch(
+    voiceStatesMapProvider.select((Map<String, VoiceState> map) {
+      final String? connectionId = fallback.connectionId;
+      if (connectionId != null) {
+        for (final VoiceState voiceState in map.values) {
+          if (voiceState.connectionId == connectionId) {
+            return voiceState;
+          }
+        }
+      }
+      for (final VoiceState voiceState in map.values) {
+        if (voiceState.userId != target.participant.userId) {
+          continue;
+        }
+        if (voiceState.channelId != target.channelId) {
+          continue;
+        }
+        final String? guildId = target.guildId;
+        if (guildId == null) {
+          if (voiceState.guildId != null && voiceState.guildId!.isNotEmpty) {
+            continue;
+          }
+        } else if (voiceState.guildId != guildId) {
+          continue;
+        }
+        return voiceState;
+      }
+      return fallback;
+    }),
+  );
+}
+
+VoiceParticipantMenuCapabilities buildVoiceParticipantMenuCapabilities({
   required WidgetRef ref,
   required VoiceParticipantMenuTarget target,
-}) async {
-  final String? currentUserId = ref.read(currentUserIdProvider);
-  final VoiceState voice = target.participant.voice;
+  required VoiceState voice,
+  ModerationAccess? moderation,
+}) {
+  final String? currentUserId = ref.watch(currentUserIdProvider);
   final String userId = target.participant.userId;
   final bool isCurrentUser = currentUserId != null && userId == currentUserId;
-  final VoiceSessionState session = ref.read(voiceSessionProvider);
+  final VoiceSessionState session = ref.watch(voiceSessionProvider);
   final bool isViewerInVoice =
       session.isInVoice && session.channelId == target.channelId;
-  final VoiceCallLayoutState layout = ref.read(voiceCallLayoutProvider);
+  final VoiceCallLayoutState layout = ref.watch(voiceCallLayoutProvider);
   final bool isFocused = layout.isPinned(target.tileId);
   final bool canFocus = isViewerInVoice;
   final EffectiveAudioState selfAudio = effectiveAudioStateFromVoiceState(
@@ -88,22 +127,20 @@ resolveVoiceParticipantMenuCapabilities({
   bool showCommunityMute = false;
   bool showCommunityDeafen = false;
   bool showDisconnect = false;
-  if (!isCurrentUser &&
-      target.guildId != null &&
-      currentUserId != null &&
-      isViewerInVoice) {
-    final ModerationAccess moderation = await _resolveModerationAccess(
-      ref: ref,
-      guildId: target.guildId!,
-      currentUserId: currentUserId,
-      targetUserId: target.participant.userId,
-    );
-    if (moderation.canManageTarget) {
-      if (moderation.canMuteMembers) {
+  if (!isCurrentUser && target.guildId != null && currentUserId != null) {
+    final ModerationAccess access =
+        moderation ??
+        const ModerationAccess(
+          canManageTarget: false,
+          canMuteMembers: false,
+          canMoveMembers: false,
+        );
+    if (access.canManageTarget) {
+      if (access.canMuteMembers) {
         showCommunityMute = true;
         showCommunityDeafen = true;
       }
-      if (moderation.canMoveMembers) {
+      if (access.canMoveMembers) {
         showDisconnect = true;
       }
     }
@@ -126,6 +163,7 @@ resolveVoiceParticipantMenuCapabilities({
       _hasScreenShareAudio(
         room: session.liveKitRoom,
         target: target,
+        voice: voice,
         currentUserId: currentUserId,
         localConnectionId: session.activeConnectionId,
       );
@@ -134,7 +172,7 @@ resolveVoiceParticipantMenuCapabilities({
       !isOwnScreenShare &&
       hasScreenShareAudio &&
       isViewerInVoice;
-  final VoiceStreamAudioPrefsState streamAudioPrefs = ref.read(
+  final VoiceStreamAudioPrefsState streamAudioPrefs = ref.watch(
     voiceStreamAudioProvider,
   );
   final int streamVolumePercent = streamKey == null
@@ -143,7 +181,7 @@ resolveVoiceParticipantMenuCapabilities({
   final bool isStreamMuted =
       streamKey != null && streamAudioPrefs.isMuted(streamKey);
   final int volumePercent = ref
-      .read(voiceParticipantVolumeProvider.notifier)
+      .watch(voiceParticipantVolumeProvider.notifier)
       .volumeFor(userId);
   final bool showVolume =
       !isCurrentUser &&
@@ -172,9 +210,52 @@ resolveVoiceParticipantMenuCapabilities({
   );
 }
 
+Future<VoiceParticipantMenuCapabilities>
+resolveVoiceParticipantMenuCapabilities({
+  required WidgetRef ref,
+  required VoiceParticipantMenuTarget target,
+}) async {
+  final String? currentUserId = ref.read(currentUserIdProvider);
+  ModerationAccess? moderation;
+  if (target.guildId != null &&
+      currentUserId != null &&
+      currentUserId != target.participant.userId) {
+    moderation = await resolveModerationAccess(
+      ref: ref,
+      guildId: target.guildId!,
+      currentUserId: currentUserId,
+      targetUserId: target.participant.userId,
+    );
+  }
+  return buildVoiceParticipantMenuCapabilities(
+    ref: ref,
+    target: target,
+    voice: target.participant.voice,
+    moderation: moderation,
+  );
+}
+
+VoiceParticipantMenuTarget voiceParticipantMenuTargetWithVoice({
+  required VoiceParticipantMenuTarget target,
+  required VoiceState voice,
+}) {
+  return VoiceParticipantMenuTarget(
+    participant: VoiceChannelParticipantData(
+      userId: target.participant.userId,
+      voice: voice,
+      user: target.participant.user,
+    ),
+    tileId: target.tileId,
+    channelId: target.channelId,
+    tileSource: target.tileSource,
+    guildId: target.guildId,
+  );
+}
+
 bool _hasScreenShareAudio({
   required Room? room,
   required VoiceParticipantMenuTarget target,
+  required VoiceState voice,
   required String? currentUserId,
   required String? localConnectionId,
 }) {
@@ -183,7 +264,7 @@ bool _hasScreenShareAudio({
   }
   final Participant? participant = resolveVoiceParticipant(
     room: room,
-    voice: target.participant.voice,
+    voice: voice,
     userId: target.participant.userId,
     currentUserId: currentUserId,
     localConnectionId: localConnectionId,
@@ -220,7 +301,7 @@ class ModerationAccess {
   final bool canMoveMembers;
 }
 
-Future<ModerationAccess> _resolveModerationAccess({
+Future<ModerationAccess> resolveModerationAccess({
   required WidgetRef ref,
   required String guildId,
   required String currentUserId,

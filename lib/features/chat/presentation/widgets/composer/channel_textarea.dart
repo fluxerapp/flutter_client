@@ -660,11 +660,12 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
   }
 
   String _resolveHintText() {
+    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     final bool isEditing = ref.read(
       chatViewModelProvider.select((s) => s.editingMessage != null),
     );
     if (isEditing) {
-      return FluxerLocalizations.of(context).chatEditMessageHint;
+      return l10n.chatEditMessageHint;
     }
     final channelId = ref.read(
       chatViewModelProvider.select((s) => s.channelId),
@@ -672,7 +673,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     final channelState = ref.read(channelListViewModelProvider);
     final channel = findChannelById(channelState, channelId);
     if (channel != null) {
-      return 'Message #${channel.name}';
+      return l10n.channelComposerHint(channel.name);
     }
     final conversations = ref.read(
       dmViewModelProvider.select((s) => s.conversations),
@@ -680,15 +681,22 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     final dm = findDmById(conversations, channelId);
     if (dm != null) {
       if (dm.isPersonalNotes) {
-        return FluxerLocalizations.of(context).personalNotesComposerHint;
+        return l10n.personalNotesComposerHint;
       }
-      return 'Message @${dm.recipientName}';
+      if (dm.isGroup) {
+        final String? groupName = dm.name?.trim();
+        if (groupName != null && groupName.isNotEmpty) {
+          return l10n.groupDmNamedComposerHint(groupName);
+        }
+        return l10n.groupDmComposerHint;
+      }
+      return l10n.dmComposerHint(dm.recipientName);
     }
     final String? currentUserId = ref.read(currentUserIdProvider);
     if (currentUserId != null && channelId == currentUserId) {
-      return FluxerLocalizations.of(context).personalNotesComposerHint;
+      return l10n.personalNotesComposerHint;
     }
-    return 'Message';
+    return l10n.composerHint;
   }
 
   Widget _buildLargeLayout(
@@ -1354,7 +1362,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
         channelMessagePermissionsForComposer(
           ref.read(channelMessagePermissionsProvider(channelId)),
         ).canUseExternalEmojis;
-    final String? activeGuildId = ref.read(activeGuildIdProvider);
+    final String? activeGuildId = ref.read(contextualGuildIdProvider);
     final Map<String, String> markdownByName = <String, String>{};
     final Set<String> knownIds = <String>{};
     final Set<String> usableIds = <String>{};
@@ -1381,7 +1389,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
     String channelId,
     String content,
   ) async {
-    final String? guildId = ref.read(activeGuildIdProvider);
+    final String? guildId = ref.read(contextualGuildIdProvider);
     if (guildId == null || guildId.isEmpty) {
       return true;
     }
@@ -1623,7 +1631,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                 FluxerMenuGroup(
                   children: [
                     FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsRegular.images,
+                      icon: PhosphorIconsBold.images,
                       label: l10n.chatAttachmentSourceGallery,
                       onTap: () async {
                         close();
@@ -1648,7 +1656,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       },
                     ),
                     FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsRegular.camera,
+                      icon: PhosphorIconsBold.camera,
                       label: l10n.chatAttachmentSourceCamera,
                       onTap: () async {
                         close();
@@ -1672,7 +1680,7 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       },
                     ),
                     FluxerBottomSheetMenuItem(
-                      icon: PhosphorIconsRegular.folderOpen,
+                      icon: PhosphorIconsBold.folderOpen,
                       label: l10n.chatAttachmentSourceBrowse,
                       onTap: () async {
                         close();

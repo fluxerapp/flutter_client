@@ -48,7 +48,7 @@ class MobileChannelDrawerShell extends ConsumerWidget {
             if (!hideBottomNav) bottomNav,
           ],
         ),
-        slider: RepaintBoundary(child: navigationShell),
+        slider: navigationShell,
       ),
     );
   }

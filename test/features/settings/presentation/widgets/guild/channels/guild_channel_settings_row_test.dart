@@ -53,13 +53,19 @@ void main() {
     hoverNotifier.dispose();
   });
 
-  Widget buildRow() {
+  Widget buildRow({
+    ChannelReorderDragItem? activeDragItem,
+    void Function(ChannelReorderDragItem, ChannelReorderDropResult)? onDrop,
+  }) {
     return GuildChannelSettingsRow(
       entry: entry,
       channels: channels,
       hoverNotifier: hoverNotifier,
+      activeDragItem: activeDragItem,
+      isMobile: false,
       onDropHover: (_, _) {},
       onDropLeave: (_) {},
+      onDrop: onDrop ?? (_, _) {},
       onDragStarted: (_) {},
       onDragEnded: () {},
     );
@@ -74,33 +80,23 @@ void main() {
     expect(find.text('general'), findsOneWidget);
   });
 
-  testWidgets('shows top indicator when hover notifier targets this row', (
+  testWidgets('dims row content while being dragged', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(buildTestApp(child: buildRow()));
-    await tester.pumpAndSettle();
-
-    expect(find.byType(GuildChannelDropIndicator), findsNothing);
-
-    hoverNotifier.value = const GuildChannelSettingsDropHover(
-      displayEntryId: channelId,
-      displayIntent: ChannelReorderIntent(
-        indicator: ChannelReorderIndicator(
-          position: ChannelReorderIndicatorPosition.top,
-          isValid: true,
+    await tester.pumpWidget(
+      buildTestApp(
+        child: buildRow(
+          activeDragItem: ChannelReorderDragItem.fromChannel(channel),
         ),
-        result: ChannelReorderDropResult(
-          targetId: channelId,
-          position: ChannelReorderDropPosition.before,
-        ),
-      ),
-      dropResult: ChannelReorderDropResult(
-        targetId: channelId,
-        position: ChannelReorderDropPosition.before,
       ),
     );
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.byType(GuildChannelDropIndicator), findsOneWidget);
+    expect(find.text('general'), findsOneWidget);
+    final Finder row = find.byType(GuildChannelSettingsRow);
+    final Opacity opacity = tester.widget(
+      find.descendant(of: row, matching: find.byType(Opacity)),
+    );
+    expect(opacity.opacity, kGuildChannelSettingsDraggedRowOpacity);
   });
 }

@@ -1,21 +1,13 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
-import 'package:fluxer_app/features/channels/domain/channel_move_operation.dart';
 import 'package:fluxer_app/features/channels/domain/channel_reorder_drop.dart';
 import 'package:fluxer_app/features/channels/presentation/channel_settings/channel_settings_flow.dart';
 import 'package:fluxer_app/features/channels/presentation/widgets/channel_icon.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_drop_indicator.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_draggable.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/channels/guild_channel_settings_entries.dart';
-import 'package:fluxer_app/features/settings/providers/guild/guild_channel_settings_providers.dart';
-import 'package:gaimon/gaimon.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-const double kGuildChannelSettingsDragTouchSize = 44;
-const double kGuildChannelSettingsRowHorizontalPadding = 8;
 
 typedef GuildChannelDropHoverCallback =
     void Function(
@@ -25,73 +17,25 @@ typedef GuildChannelDropHoverCallback =
 
 typedef GuildChannelDropLeaveCallback = void Function(String entryId);
 
-class _HoverNotifierListener extends StatefulWidget {
-  const _HoverNotifierListener({
-    required this.notifier,
-    required this.entryId,
-    required this.builder,
-  });
+typedef GuildChannelDropCallback =
+    void Function(
+      ChannelReorderDragItem item,
+      ChannelReorderDropResult dropResult,
+    );
 
-  final ValueNotifier<GuildChannelSettingsDropHover?> notifier;
-  final String entryId;
-  final Widget Function(BuildContext context, ChannelReorderIntent? hover)
-  builder;
-
-  @override
-  State<_HoverNotifierListener> createState() => _HoverNotifierListenerState();
-}
-
-class _HoverNotifierListenerState extends State<_HoverNotifierListener> {
-  ChannelReorderIntent? _hover;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.notifier.addListener(_onChanged);
-    _onChanged();
-  }
-
-  @override
-  void didUpdateWidget(_HoverNotifierListener oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.notifier != widget.notifier) {
-      oldWidget.notifier.removeListener(_onChanged);
-      widget.notifier.addListener(_onChanged);
-      _onChanged();
-    }
-  }
-
-  @override
-  void dispose() {
-    widget.notifier.removeListener(_onChanged);
-    super.dispose();
-  }
-
-  void _onChanged() {
-    final GuildChannelSettingsDropHover? value = widget.notifier.value;
-    final ChannelReorderIntent? nextHover =
-        value?.displayEntryId == widget.entryId ? value?.displayIntent : null;
-    if (nextHover == _hover) {
-      return;
-    }
-    setState(() => _hover = nextHover);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder(context, _hover);
-  }
-}
-
-class GuildChannelSettingsRow extends ConsumerWidget {
+class GuildChannelSettingsRow extends ConsumerStatefulWidget {
   const GuildChannelSettingsRow({
     required this.entry,
     required this.channels,
     required this.hoverNotifier,
     required this.onDropHover,
     required this.onDropLeave,
+    required this.onDrop,
     required this.onDragStarted,
     required this.onDragEnded,
+    required this.isMobile,
+    this.activeDragItem,
+    this.activeHoverEntryId,
     this.onDragMove,
     super.key,
   });
@@ -101,12 +45,34 @@ class GuildChannelSettingsRow extends ConsumerWidget {
   final ValueNotifier<GuildChannelSettingsDropHover?> hoverNotifier;
   final GuildChannelDropHoverCallback onDropHover;
   final GuildChannelDropLeaveCallback onDropLeave;
+  final GuildChannelDropCallback onDrop;
   final ValueChanged<ChannelReorderDragItem> onDragStarted;
   final VoidCallback onDragEnded;
+  final bool isMobile;
+  final ChannelReorderDragItem? activeDragItem;
+  final String? activeHoverEntryId;
   final ValueChanged<Offset>? onDragMove;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GuildChannelSettingsRow> createState() =>
+      _GuildChannelSettingsRowState();
+}
+
+class _GuildChannelSettingsRowState
+    extends ConsumerState<GuildChannelSettingsRow> {
+  final GlobalKey _dropTargetKey = GlobalKey();
+  ChannelReorderIntent? _localDropIntent;
+
+  ChannelReorderIntent? _resolveVisibleDropIntent() {
+    if (widget.activeHoverEntryId != widget.entry.id) {
+      return null;
+    }
+    return _localDropIntent;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final GuildChannelSettingsEntry entry = widget.entry;
     final ChannelReorderDragItem dragItem = switch (entry.kind) {
       GuildChannelSettingsEntryKind.category => ChannelReorderDragItem(
         id: entry.id,
@@ -118,38 +84,21 @@ class GuildChannelSettingsRow extends ConsumerWidget {
       GuildChannelSettingsEntryKind.channel =>
         ChannelReorderDragItem.fromChannel(entry.channel!),
     };
-    return _HoverNotifierListener(
-      notifier: hoverNotifier,
-      entryId: entry.id,
-      builder: (BuildContext context, ChannelReorderIntent? hover) {
-        final bool showTopIndicator =
-            hover?.indicator.position == ChannelReorderIndicatorPosition.top;
-        final bool showBottomIndicator =
-            hover?.indicator.position == ChannelReorderIndicatorPosition.bottom;
-        final bool indicatorValid = hover?.indicator.isValid ?? false;
-        return DragTarget<ChannelReorderDragItem>(
-          onWillAcceptWithDetails:
-              (DragTargetDetails<ChannelReorderDragItem> details) {
-                return canChannelDropOnTarget(
-                  item: details.data,
-                  target: ChannelReorderTarget(
-                    id: entry.id,
-                    channelType: entry.channelType,
-                    parentId: entry.parentId,
-                    guildId: entry.guildId,
-                  ),
-                );
-              },
-          onMove: (DragTargetDetails<ChannelReorderDragItem> details) {
-            onDragMove?.call(details.offset);
-            final RenderBox? box = context.findRenderObject() as RenderBox?;
-            if (box == null) {
-              return;
-            }
-            final double localY = box.globalToLocal(details.offset).dy;
-            final ChannelReorderIndicatorPosition? lastPosition =
-                hover?.indicator.position;
-            final ChannelReorderIntent? intent = resolveChannelReorderHover(
+    final ChannelReorderIntent? visibleIntent = _resolveVisibleDropIntent();
+    final bool isCategory =
+        entry.kind == GuildChannelSettingsEntryKind.category;
+    final bool showTopIndicator =
+        visibleIntent?.indicator.position ==
+        ChannelReorderIndicatorPosition.top;
+    final bool showBottomIndicator =
+        visibleIntent?.indicator.position ==
+        ChannelReorderIndicatorPosition.bottom;
+    final bool indicatorValid = visibleIntent?.indicator.isValid ?? false;
+    final bool isBeingDragged = widget.activeDragItem?.id == entry.id;
+    return DragTarget<ChannelReorderDragItem>(
+      onWillAcceptWithDetails:
+          (DragTargetDetails<ChannelReorderDragItem> details) {
+            return canChannelDropOnTarget(
               item: details.data,
               target: ChannelReorderTarget(
                 id: entry.id,
@@ -157,135 +106,149 @@ class GuildChannelSettingsRow extends ConsumerWidget {
                 parentId: entry.parentId,
                 guildId: entry.guildId,
               ),
-              localY: localY,
-              height: box.size.height,
-              lastPosition: lastPosition,
             );
-            onDropHover(entry, intent);
           },
-          onLeave: (_) => onDropLeave(entry.id),
-          onAcceptWithDetails:
-              (DragTargetDetails<ChannelReorderDragItem> details) {
-                ChannelReorderDropResult? dropResult = hover?.result;
-                if (dropResult == null) {
-                  final ChannelReorderIndicatorPosition? lastPosition =
-                      hover?.indicator.position;
-                  final ChannelReorderIntent? intent = _resolveDropIntent(
-                    context: context,
-                    entry: entry,
-                    item: details.data,
-                    globalOffset: details.offset,
-                    lastPosition: lastPosition,
-                  );
-                  dropResult = intent?.result;
-                }
-                onDropLeave(entry.id);
-                if (dropResult == null) {
-                  return;
-                }
-                final ChannelMoveComputation? computation = computeChannelMove(
-                  channels: channels,
-                  dragItem: details.data,
-                  dropResult: dropResult,
-                );
-                if (computation == null) {
-                  return;
-                }
-                unawaited(
-                  ref
-                      .read(
-                        guildChannelSettingsActionsProvider(
-                          entry.guildId,
-                        ).notifier,
-                      )
-                      .moveChannel(
-                        operation: computation.operation,
-                        currentChannels: channels,
-                        optimisticChannels: computation.updatedChannels,
-                      ),
-                );
-              },
-          builder:
-              (
-                BuildContext context,
-                List<ChannelReorderDragItem?> candidateData,
-                List<dynamic> rejectedData,
-              ) {
-                return Stack(
-                  clipBehavior: Clip.none,
-                  children: <Widget>[
-                    if (showTopIndicator)
-                      GuildChannelDropIndicator(
-                        isValid: indicatorValid,
-                        atTop: true,
-                      ),
-                    if (showBottomIndicator)
-                      GuildChannelDropIndicator(
-                        isValid: indicatorValid,
-                        atTop: false,
-                      ),
-                    _GuildChannelSettingsRowContent(
-                      entry: entry,
-                      dragItem: dragItem,
-                      onDragStarted: onDragStarted,
-                      onDragEnded: onDragEnded,
-                      onTap: () {
-                        unawaited(
-                          ChannelSettingsFlow.show(
-                            context,
-                            channelId: entry.id,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                );
-              },
+      onMove: (DragTargetDetails<ChannelReorderDragItem> details) {
+        if (details.data.id == entry.id) {
+          return;
+        }
+        widget.onDragMove?.call(details.offset);
+        final ChannelReorderIntent? intent = _resolveRowDropIntent(
+          item: details.data,
+          entry: entry,
+          globalOffset: details.offset,
         );
+        if (!_isSameDropIntent(_localDropIntent, intent)) {
+          setState(() => _localDropIntent = intent);
+        }
+        widget.onDropHover(entry, intent);
       },
+      onLeave: (_) => widget.onDropLeave(entry.id),
+      onAcceptWithDetails: (DragTargetDetails<ChannelReorderDragItem> details) {
+        ChannelReorderDropResult? dropResult =
+            widget.hoverNotifier.value?.dropResult;
+        dropResult ??= visibleIntent?.result;
+        if (dropResult == null) {
+          final ChannelReorderIntent? intent = _resolveRowDropIntent(
+            item: details.data,
+            entry: entry,
+            globalOffset: details.offset,
+          );
+          dropResult = intent?.result;
+        }
+        if (dropResult == null) {
+          return;
+        }
+        widget.onDrop(details.data, dropResult);
+      },
+      builder:
+          (
+            BuildContext context,
+            List<ChannelReorderDragItem?> candidateData,
+            List<dynamic> rejectedData,
+          ) {
+            return Opacity(
+              opacity: isBeingDragged
+                  ? kGuildChannelSettingsDraggedRowOpacity
+                  : 1,
+              child: Stack(
+                key: _dropTargetKey,
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  _GuildChannelSettingsRowContent(
+                    entry: entry,
+                    dragItem: dragItem,
+                    isMobile: widget.isMobile,
+                    onDragStarted: () => widget.onDragStarted(dragItem),
+                    onDragEnded: widget.onDragEnded,
+                    onDragMove: widget.onDragMove ?? (_) {},
+                    onTap: () {
+                      ChannelSettingsFlow.show(context, channelId: entry.id);
+                    },
+                  ),
+                  if (!isBeingDragged && showTopIndicator)
+                    GuildChannelDropIndicator(
+                      position: ChannelReorderIndicatorPosition.top,
+                      isValid: indicatorValid,
+                      isIndented: !isCategory,
+                    ),
+                  if (!isBeingDragged && showBottomIndicator)
+                    GuildChannelDropIndicator(
+                      position: ChannelReorderIndicatorPosition.bottom,
+                      isValid: indicatorValid,
+                      isIndented: !isCategory,
+                    ),
+                ],
+              ),
+            );
+          },
     );
   }
-}
 
-ChannelReorderIntent? _resolveDropIntent({
-  required BuildContext context,
-  required GuildChannelSettingsEntry entry,
-  required ChannelReorderDragItem item,
-  required Offset globalOffset,
-  ChannelReorderIndicatorPosition? lastPosition,
-}) {
-  final RenderBox? box = context.findRenderObject() as RenderBox?;
-  if (box == null) {
-    return null;
+  bool _isSameDropIntent(
+    ChannelReorderIntent? current,
+    ChannelReorderIntent? next,
+  ) {
+    if (current == null && next == null) {
+      return true;
+    }
+    if (current == null || next == null) {
+      return false;
+    }
+    return current.indicator.position == next.indicator.position &&
+        current.indicator.isValid == next.indicator.isValid &&
+        current.result.targetId == next.result.targetId &&
+        current.result.position == next.result.position;
   }
-  final double localY = box.globalToLocal(globalOffset).dy;
-  return resolveChannelReorderHover(
-    item: item,
-    target: ChannelReorderTarget(
-      id: entry.id,
-      channelType: entry.channelType,
-      parentId: entry.parentId,
-      guildId: entry.guildId,
-    ),
-    localY: localY,
-    height: box.size.height,
-    lastPosition: lastPosition,
-  );
+
+  ChannelReorderIntent? _resolveRowDropIntent({
+    required ChannelReorderDragItem item,
+    required GuildChannelSettingsEntry entry,
+    required Offset globalOffset,
+  }) {
+    final RenderBox? dropTargetBox =
+        _dropTargetKey.currentContext?.findRenderObject() as RenderBox?;
+    if (dropTargetBox == null) {
+      return null;
+    }
+    final double localY = dropTargetBox.globalToLocal(globalOffset).dy;
+    final double height = dropTargetBox.size.height;
+    final double resolvedY = localY < 0
+        ? 0
+        : localY > height
+        ? height
+        : localY;
+    return resolveChannelReorderHover(
+      item: item,
+      target: ChannelReorderTarget(
+        id: entry.id,
+        channelType: entry.channelType,
+        parentId: entry.parentId,
+        guildId: entry.guildId,
+      ),
+      localY: resolvedY,
+      height: height,
+    );
+  }
 }
 
 class _GuildChannelSettingsRowContent extends StatelessWidget {
   const _GuildChannelSettingsRowContent({
     required this.entry,
     required this.dragItem,
+    required this.isMobile,
     required this.onDragStarted,
     required this.onDragEnded,
+    required this.onDragMove,
     required this.onTap,
   });
 
   final GuildChannelSettingsEntry entry;
   final ChannelReorderDragItem dragItem;
-  final ValueChanged<ChannelReorderDragItem> onDragStarted;
+  final bool isMobile;
+  final VoidCallback onDragStarted;
   final VoidCallback onDragEnded;
+  final ValueChanged<Offset> onDragMove;
   final VoidCallback onTap;
 
   @override
@@ -294,10 +257,13 @@ class _GuildChannelSettingsRowContent extends StatelessWidget {
         entry.kind == GuildChannelSettingsEntryKind.category;
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return Padding(
+        final Widget dragHandle = buildGuildChannelSettingsDragHandle(
+          color: context.colors.textPrimaryMuted,
+        );
+        final Widget rowBody = Padding(
           padding: EdgeInsets.only(
             left: isCategory ? 0 : 8,
-            top: isCategory ? 16 : 1,
+            top: isCategory ? kGuildChannelSettingsCategoryTopPadding : 1,
             bottom: isCategory ? 4 : 1,
           ),
           child: Row(
@@ -323,74 +289,79 @@ class _GuildChannelSettingsRowContent extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                width: kGuildChannelSettingsDragTouchSize,
-                height: kGuildChannelSettingsDragTouchSize,
-                child: LongPressDraggable<ChannelReorderDragItem>(
-                  data: dragItem,
-                  dragAnchorStrategy:
-                      (
-                        Draggable<Object> draggable,
-                        BuildContext context,
-                        Offset position,
-                      ) {
-                        return _channelSettingsDragAnchor(
-                          rowWidth: constraints.maxWidth,
-                          globalPosition: position,
-                          context: context,
-                        );
-                      },
-                  onDragStarted: () {
-                    Gaimon.medium();
-                    onDragStarted(dragItem);
-                  },
-                  onDragEnd: (_) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      onDragEnded();
-                    });
-                  },
-                  onDraggableCanceled: (_, _) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      onDragEnded();
-                    });
-                  },
-                  feedback: SizedBox(
-                    width: constraints.maxWidth,
-                    child: Material(
-                      color: context.colors.backgroundPrimary,
-                      borderRadius: BorderRadius.circular(8),
-                      elevation: 4,
-                      child: _DragFeedbackRow(
-                        entry: entry,
-                        isCategory: isCategory,
-                        textStyle: context.textStyles.channelName.copyWith(
-                          color: context.colors.textPrimary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        categoryTextStyle: context.textStyles.categoryName,
-                        handleColor: context.colors.textPrimaryMuted,
-                        showCategoryCount: true,
-                      ),
+              dragHandle,
+            ],
+          ),
+        );
+        final Widget feedback = SizedBox(
+          width: constraints.maxWidth,
+          child: Material(
+            color: context.colors.backgroundPrimary,
+            borderRadius: BorderRadius.circular(8),
+            elevation: 4,
+            child: _DragFeedbackRow(
+              entry: entry,
+              isCategory: isCategory,
+              textStyle: context.textStyles.channelName.copyWith(
+                color: context.colors.textPrimary,
+                fontWeight: FontWeight.w500,
+              ),
+              categoryTextStyle: context.textStyles.categoryName,
+              handleColor: context.colors.textPrimaryMuted,
+              showCategoryCount: true,
+            ),
+          ),
+        );
+        if (isMobile) {
+          return GuildChannelSettingsDraggable(
+            dragItem: dragItem,
+            isMobile: true,
+            rowWidth: constraints.maxWidth,
+            feedback: feedback,
+            onDragStarted: onDragStarted,
+            onDragEnded: onDragEnded,
+            onDragMove: onDragMove,
+            child: rowBody,
+          );
+        }
+        return Padding(
+          padding: EdgeInsets.only(
+            left: isCategory ? 0 : 8,
+            top: isCategory ? kGuildChannelSettingsCategoryTopPadding : 1,
+            bottom: isCategory ? 4 : 1,
+          ),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: InkWell(
+                  onTap: onTap,
+                  borderRadius: BorderRadius.circular(4),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: kGuildChannelSettingsRowHorizontalPadding,
+                      vertical: 6,
                     ),
-                  ),
-                  childWhenDragging: Opacity(
-                    opacity: 0.35,
-                    child: Center(
-                      child: PhosphorIcon(
-                        PhosphorIconsRegular.dotsSixVertical,
-                        size: 18,
-                        color: context.colors.textTertiaryMuted,
+                    child: _RowBody(
+                      entry: entry,
+                      isCategory: isCategory,
+                      textStyle: context.textStyles.channelName.copyWith(
+                        color: context.colors.textSecondary,
+                        fontWeight: FontWeight.w500,
                       ),
-                    ),
-                  ),
-                  child: Center(
-                    child: PhosphorIcon(
-                      PhosphorIconsRegular.dotsSixVertical,
-                      size: 18,
-                      color: context.colors.textPrimaryMuted,
+                      categoryTextStyle: context.textStyles.categoryName,
                     ),
                   ),
                 ),
+              ),
+              GuildChannelSettingsDraggable(
+                dragItem: dragItem,
+                isMobile: false,
+                rowWidth: constraints.maxWidth,
+                feedback: feedback,
+                onDragStarted: onDragStarted,
+                onDragEnded: onDragEnded,
+                onDragMove: onDragMove,
+                child: dragHandle,
               ),
             ],
           ),
@@ -425,7 +396,7 @@ class _DragFeedbackRow extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
         left: isCategory ? 0 : 8,
-        top: isCategory ? 16 : 1,
+        top: isCategory ? kGuildChannelSettingsCategoryTopPadding : 1,
         bottom: isCategory ? 4 : 1,
       ),
       child: Row(
@@ -455,40 +426,11 @@ class _DragFeedbackRow extends StatelessWidget {
                 ),
               ),
             ),
-          SizedBox(
-            width: kGuildChannelSettingsDragTouchSize,
-            height: kGuildChannelSettingsDragTouchSize,
-            child: Center(
-              child: PhosphorIcon(
-                PhosphorIconsRegular.dotsSixVertical,
-                size: 18,
-                color: handleColor,
-              ),
-            ),
-          ),
+          buildGuildChannelSettingsDragHandle(color: handleColor),
         ],
       ),
     );
   }
-}
-
-Offset _channelSettingsDragAnchor({
-  required double rowWidth,
-  required Offset globalPosition,
-  required BuildContext context,
-}) {
-  final RenderBox? box = context.findRenderObject() as RenderBox?;
-  if (box == null) {
-    return Offset(
-      rowWidth - (kGuildChannelSettingsDragTouchSize / 2),
-      kGuildChannelSettingsDragTouchSize / 2,
-    );
-  }
-  final Offset localPress = box.globalToLocal(globalPosition);
-  return Offset(
-    rowWidth - kGuildChannelSettingsDragTouchSize + localPress.dx,
-    localPress.dy,
-  );
 }
 
 class _RowBody extends StatelessWidget {

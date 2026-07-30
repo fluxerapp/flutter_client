@@ -93,13 +93,13 @@ class _DiscoveryGuildContextMenuRoute
             items: <Widget>[
               ContextMenuItem(
                 label: l10n.guildMenuCopyCommunityId,
-                icon: PhosphorIconsRegular.copy,
+                icon: PhosphorIconsBold.copy,
                 onTap: () =>
                     Navigator.of(context).pop(DiscoveryGuildCardAction.copyId),
               ),
               ContextMenuItem(
                 label: l10n.guildMenuReportCommunity,
-                icon: PhosphorIconsRegular.flag,
+                icon: PhosphorIconsBold.flag,
                 isDanger: true,
                 onTap: () =>
                     Navigator.of(context).pop(DiscoveryGuildCardAction.report),

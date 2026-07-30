@@ -39,10 +39,16 @@ import 'package:fluxer_app/features/settings/presentation/pages/guild/guild_sett
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_audit_log_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_bans_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_channels_page.dart';
+import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_discovery_page.dart';
+import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_emoji_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_invites_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_moderation_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_overview_page.dart';
 import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_roles_page.dart';
+import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_stickers_page.dart';
+import 'package:fluxer_app/features/settings/presentation/pages/guild/settings_webhooks_page.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/guild/guild_settings_open_gate.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_modal_overlay.dart';
 import 'package:fluxer_app/features/shell/presentation/app_layout.dart';
 import 'package:fluxer_app/features/shell/presentation/invalid_deep_link_screen.dart';
 import 'package:fluxer_app/features/shell/presentation/reconnecting_screen.dart';
@@ -58,23 +64,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 export 'package:fluxer_app/core/router/shell_navigator_keys.dart';
 
 part 'fluxer_router.g.dart';
-
-int _guildSettingsTabIndex(String? tab) {
-  return switch (tab) {
-    'overview' => 0,
-    'roles' => 1,
-    'emoji' => 2,
-    'stickers' => 3,
-    'moderation' => 4,
-    'audit-log' => 5,
-    'webhooks' => 6,
-    'discovery' => 7,
-    'members' => 8,
-    'invites' => 9,
-    'bans' => 10,
-    _ => 0,
-  };
-}
 
 @Riverpod(keepAlive: true)
 class AuthState extends _$AuthState {
@@ -313,26 +302,35 @@ GoRouter fluxerRouter(Ref ref) {
             return shellMobileRootPushTransitionPage(
               context: context,
               key: state.pageKey,
-              child: GuildSettingsNavPage(guildId: guildId),
+              child: GuildSettingsOpenGate(
+                guildId: guildId,
+                builder: (BuildContext context) =>
+                    GuildSettingsNavPage(guildId: guildId),
+              ),
             );
           }
           return shellFadeTransitionPage(
             key: state.pageKey,
-            child: FutureBuilder<void>(
-              future: guild_settings.loadLibrary(),
-              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const Scaffold(
-                    body: Center(child: FluxerLoadingSpinner()),
+            opaque: false,
+            child: WideSettingsModalOverlay(
+              child: FutureBuilder<void>(
+                future: guild_settings.loadLibrary(),
+                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const Center(child: FluxerLoadingSpinner());
+                  }
+                  return GuildSettingsOpenGate(
+                    guildId: guildId,
+                    builder: (BuildContext context) =>
+                        guild_settings.GuildSettingsModal(
+                          guildId: guildId,
+                          initialTab: guildSettingsTabFromQuery(
+                            state.uri.queryParameters['tab'],
+                          ),
+                        ),
                   );
-                }
-                return guild_settings.GuildSettingsModal(
-                  guildId: guildId,
-                  initialTab: guildSettingsTabFromIndex(
-                    _guildSettingsTabIndex(state.uri.queryParameters['tab']),
-                  ),
-                );
-              },
+                },
+              ),
             ),
           );
         },
@@ -400,6 +398,30 @@ GoRouter fluxerRouter(Ref ref) {
         ),
       ),
       GoRoute(
+        path: '/settings/guild/:guildId/webhooks',
+        name: RouteNames.guildSettingsWebhooks,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => shellMobileRootPushTransitionPage(
+          context: context,
+          key: state.pageKey,
+          child: SettingsWebhooksPage(
+            guildId: state.pathParameters['guildId'] ?? '',
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/settings/guild/:guildId/discovery',
+        name: RouteNames.guildSettingsDiscovery,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => shellMobileRootPushTransitionPage(
+          context: context,
+          key: state.pageKey,
+          child: SettingsDiscoveryPage(
+            guildId: state.pathParameters['guildId'] ?? '',
+          ),
+        ),
+      ),
+      GoRoute(
         path: '/settings/guild/:guildId/channels',
         name: RouteNames.guildSettingsChannels,
         parentNavigatorKey: rootNavigatorKey,
@@ -419,6 +441,30 @@ GoRouter fluxerRouter(Ref ref) {
           context: context,
           key: state.pageKey,
           child: SettingsRolesPage(
+            guildId: state.pathParameters['guildId'] ?? '',
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/settings/guild/:guildId/emoji',
+        name: RouteNames.guildSettingsEmoji,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => shellMobileRootPushTransitionPage(
+          context: context,
+          key: state.pageKey,
+          child: SettingsEmojiPage(
+            guildId: state.pathParameters['guildId'] ?? '',
+          ),
+        ),
+      ),
+      GoRoute(
+        path: '/settings/guild/:guildId/stickers',
+        name: RouteNames.guildSettingsStickers,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => shellMobileRootPushTransitionPage(
+          context: context,
+          key: state.pageKey,
+          child: SettingsStickersPage(
             guildId: state.pathParameters['guildId'] ?? '',
           ),
         ),

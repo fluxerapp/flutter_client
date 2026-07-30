@@ -61,9 +61,7 @@ class _DiscoveryFiltersState extends ConsumerState<DiscoveryFilters> {
             controller: _searchController,
             focusNode: _searchFocusNode,
             hint: l10n.discoverySearchCommunities,
-            prefixIcon: const PhosphorIcon(
-              PhosphorIconsRegular.magnifyingGlass,
-            ),
+            prefixIcon: const PhosphorIcon(PhosphorIconsBold.magnifyingGlass),
             autofocus: widget.autofocusSearch,
             onChanged: ref.read(discoveryControllerProvider.notifier).setQuery,
           ),

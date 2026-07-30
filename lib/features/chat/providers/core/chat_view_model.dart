@@ -263,6 +263,7 @@ class ChatViewModel extends _$ChatViewModel {
   bool _autoAckEligible = false;
   int _foregroundResyncGeneration = 0;
   int _connectivityGapGeneration = 0;
+  bool _pendingSessionResync = false;
   final Map<String, int> _lastReconciledGatewayGenerationByChannel =
       <String, int>{};
   final Map<String, int> _lastReconciledForegroundGenerationByChannel =
@@ -914,7 +915,8 @@ class ChatViewModel extends _$ChatViewModel {
     if (state.channelId == channelId &&
         targetMessageId == null &&
         loadMessages &&
-        (state.isLoading || state.isSyncingMessages)) {
+        (state.isLoading || state.isSyncingMessages) &&
+        state.messages.isNotEmpty) {
       return;
     }
     final int switchGeneration = ++_channelSwitchGeneration;
@@ -1048,7 +1050,8 @@ class ChatViewModel extends _$ChatViewModel {
       }
       if (state.channelId == channelId &&
           (state.isLoading || state.isSyncingMessages) &&
-          !isChannelChange) {
+          !isChannelChange &&
+          state.messages.isNotEmpty) {
         return;
       }
       // A reveal round-trip or same-channel resync must not rebuild an
@@ -1080,7 +1083,10 @@ class ChatViewModel extends _$ChatViewModel {
         return;
       }
       final repo = ref.read(messageRepositoryProvider);
-      final cached = await repo.getCachedMessages(channelId);
+      final cached = await repo.getCachedMessages(
+        channelId,
+        limit: _kInitialPageSize,
+      );
       if (!isCurrentSwitch()) {
         return;
       }
@@ -1092,27 +1098,26 @@ class ChatViewModel extends _$ChatViewModel {
         final bool willRefresh = _shouldRefreshChannelFromNetwork(channelId);
         state = _switchedChannelState(
           channelId: channelId,
-          messages: willRefresh ? const [] : cached,
+          messages: cached,
           draft: draft,
           replyMentioning: replyMentioning,
           scrollToBottomSignal: state.scrollToBottomSignal,
-          isLoading: willRefresh,
-          isSyncingMessages: false,
+          isLoading: false,
+          isSyncingMessages: willRefresh,
           isLoadingMore: false,
           isLoadingNewer: false,
           hasMoreMessages: cached.length >= _kPageSize,
           hasMoreNewerMessages: false,
         );
         _invalidateMessageCacheTrust();
-        if (!willRefresh) {
-          _deferMessageReferencesLoaded(channelId: channelId, messages: cached);
-        }
+        _deferMessageReferencesLoaded(channelId: channelId, messages: cached);
         if (willRefresh) {
           unawaited(
             _refreshMessagesFromNetwork(
               channelId,
               limit: _kInitialPageSize,
-              isDirectLatestLoad: true,
+              isDirectLatestLoad: false,
+              preserveLoadedWindow: true,
               shouldApplyResult: isCurrentSwitch,
             ).whenComplete(() {
               if (!ref.mounted) {
@@ -1175,7 +1180,7 @@ class ChatViewModel extends _$ChatViewModel {
     List<Message>? embeddedReplyParents,
   }) {
     scheduleMicrotask(() async {
-      if (state.channelId != channelId) {
+      if (!ref.mounted || state.channelId != channelId) {
         return;
       }
       await _onMessageBatchLoaded(
@@ -1193,6 +1198,7 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     if (state.isLoading || state.isSyncingMessages) {
+      _pendingSessionResync = true;
       return;
     }
     await _reconcileCurrentChannelFromNetwork();
@@ -1204,23 +1210,42 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     if (state.isLoading || state.isSyncingMessages) {
+      _pendingSessionResync = true;
       return;
     }
     _lastNetworkRefreshByChannel.remove(channelId);
     state = state.copyWith(isSyncingMessages: true);
+    final bool loadLatestTail =
+        ref.read(chatReadViewportProvider).nearLoadedTail &&
+        !state.hasMoreNewerMessages;
     try {
-      await _refreshMessagesFromNetwork(
-        channelId,
-        limit: _kInitialPageSize,
-        isDirectLatestLoad: false,
-        preserveLoadedWindow: state.messages.isNotEmpty,
-      );
+      if (loadLatestTail) {
+        await _refreshMessagesFromNetwork(
+          channelId,
+          limit: _kJumpToPresentPageSize,
+          isDirectLatestLoad: true,
+        );
+        if (state.channelId == channelId) {
+          scrollToBottom();
+        }
+      } else {
+        await _refreshMessagesFromNetwork(
+          channelId,
+          limit: _kInitialPageSize,
+          isDirectLatestLoad: false,
+          preserveLoadedWindow: state.messages.isNotEmpty,
+        );
+      }
       if (state.channelId == channelId) {
         _markMessagesReconciled(channelId);
       }
     } finally {
       if (state.channelId == channelId && state.isSyncingMessages) {
         state = state.copyWith(isSyncingMessages: false);
+      }
+      if (_pendingSessionResync) {
+        _pendingSessionResync = false;
+        unawaited(_reconcileCurrentChannelFromNetwork());
       }
     }
   }
@@ -1231,6 +1256,10 @@ class ChatViewModel extends _$ChatViewModel {
       return;
     }
     _lastNetworkRefreshByChannel.remove(channelId);
+    if (state.isLoading || state.isSyncingMessages) {
+      _pendingSessionResync = true;
+      return;
+    }
     unawaited(_reconcileCurrentChannelFromNetwork());
   }
 
@@ -1353,14 +1382,6 @@ class ChatViewModel extends _$ChatViewModel {
       if (state.channelId != channelId || !shouldApply()) {
         return;
       }
-      await _hydrateGuildMembersForMessages(
-        channelId,
-        merged,
-        embeddedReplyParents: page.embeddedReplyParents,
-      );
-      if (state.channelId != channelId || !shouldApply()) {
-        return;
-      }
       // Around pages are split before/after the anchor; near the live tail they
       // can be shorter than [limit] while older history still exists.
       final bool hasMoreOlder = preserveLoadedWindow
@@ -1380,10 +1401,12 @@ class ChatViewModel extends _$ChatViewModel {
         _contiguity.setVerified(channelId, page.messages);
       }
       _contiguityTrusted = true;
-      _notifyMessageReferencesLoaded(
-        channelId: channelId,
-        messages: merged,
-        embeddedReplyParents: page.embeddedReplyParents,
+      unawaited(
+        _onMessageBatchLoaded(
+          channelId: channelId,
+          messages: merged,
+          embeddedReplyParents: page.embeddedReplyParents,
+        ),
       );
       if (targetMessageId == null) {
         _markChannelNetworkRefresh(channelId);
@@ -1940,12 +1963,9 @@ class ChatViewModel extends _$ChatViewModel {
     if (compareSnowflakeIds(pointer, visibleTailId) <= 0) {
       return visibleTailId;
     }
-    if (channelId == state.channelId &&
-        state.messages.any((Message message) => message.id == pointer)) {
-      return pointer;
-    }
-    final pointerExists = await database.messageDao.getMessage(pointer) != null;
-    return pointerExists ? pointer : visibleTailId;
+    // Ack to the channel pointer even when it is orphaned (deleted tail), matching
+    // web ackWithStickyUnread.
+    return pointer;
   }
 
   Future<void> ackCurrentChannel({bool force = false}) async {
@@ -3576,6 +3596,7 @@ class ChatViewModel extends _$ChatViewModel {
     }
 
     final msg = state.messages[msgIndex];
+    final previousReactions = msg.reactions;
     final existingIdx = msg.reactions.indexWhere(
       (r) => r.emoji == emoji && r.emojiId == emojiId,
     );
@@ -3656,8 +3677,46 @@ class ChatViewModel extends _$ChatViewModel {
         );
       }
     } on Exception catch (e) {
-      debugPrint('[ChatViewModel] Reaction failed: $e');
+      talker.error('[ChatViewModel] Reaction failed', e);
+      final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
+      final String fallback = hasReacted
+          ? l10n.chatReactionRemoveFailed
+          : l10n.chatReactionAddFailed;
+      _restoreMessageReactions(
+        messageId,
+        previousReactions,
+        errorMessage: e is DioException
+            ? dioExceptionMessage(e, fallback)
+            : fallback,
+      );
     }
+  }
+
+  void _restoreMessageReactions(
+    String messageId,
+    List<Reaction> reactions, {
+    String? errorMessage,
+  }) {
+    final int rollbackIndex = state.messages.indexWhere(
+      (Message m) => m.id == messageId,
+    );
+    if (rollbackIndex == -1) {
+      return;
+    }
+    final List<Message> rollback = List<Message>.from(state.messages);
+    rollback[rollbackIndex] = rollback[rollbackIndex].copyWith(
+      reactions: reactions,
+    );
+    state = state.copyWith(messages: rollback, errorMessage: errorMessage);
+    unawaited(
+      ref
+          .read(fluxerDatabaseProvider)
+          .messageDao
+          .updateReactions(
+            messageId,
+            jsonEncode(reactions.map((Reaction r) => r.toJson()).toList()),
+          ),
+    );
   }
 
   /// Moderator/author action: drop every reaction from this message.

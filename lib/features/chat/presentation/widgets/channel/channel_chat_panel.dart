@@ -84,46 +84,10 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
     final bool showNeko = ref.watch(
       appearancePreferencesProvider.select((state) => state.showNeko),
     );
-    final ChatReadViewportState readViewport = ref.watch(
-      chatReadViewportProvider,
-    );
-    final String effectiveChannelId = listChannelId;
-    final bool hasMessages = ref.watch(
-      chatViewModelProvider.select((ChatViewState s) => s.messages.isNotEmpty),
-    );
-    final bool isLoading = ref.watch(
-      chatViewModelProvider.select((ChatViewState s) => s.isLoading),
-    );
-    final bool hasMoreNewerMessages = ref.watch(
-      chatViewModelProvider.select((ChatViewState s) => s.hasMoreNewerMessages),
-    );
-    final bool isSyncingMessages = ref.watch(
-      chatViewModelProvider.select((ChatViewState s) => s.isSyncingMessages),
-    );
-    final bool isLoadingMore = ref.watch(
-      chatViewModelProvider.select((ChatViewState s) => s.isLoadingMore),
-    );
-    final bool isLoadingNewer = ref.watch(
-      chatViewModelProvider.select((ChatViewState s) => s.isLoadingNewer),
-    );
-    final bool isActiveReadChannel =
-        effectiveChannelId.isNotEmpty &&
-        readViewport.channelId == effectiveChannelId;
-    final bool isBusy = isLoadingMore || isLoadingNewer || isSyncingMessages;
-    final bool showJumpToBottom =
-        widget.loadMessages &&
-        shouldShowJumpToBottomButton(
-          hasMessages: hasMessages,
-          isLoading: isLoading,
-          isActiveReadChannel: isActiveReadChannel,
-          distanceFromBottom: readViewport.distanceFromBottom,
-          viewportHeight: readViewport.viewportHeight,
-          hasMoreNewerMessages: hasMoreNewerMessages,
-        );
     final bool showSlowmodeIndicator =
-        effectiveChannelId.isNotEmpty &&
+        listChannelId.isNotEmpty &&
         ref.watch(
-          channelByIdProvider(effectiveChannelId).select(
+          channelByIdProvider(listChannelId).select(
             (AsyncValue<Channel?> channel) =>
                 (channel.value?.rateLimitPerUser ?? 0) > 0,
           ),
@@ -139,13 +103,11 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
         isMobile &&
         widget.showInlineEmojiPicker &&
         ref.watch(expressionPanelProvider);
-    final Widget messageList = RepaintBoundary(
-      child: MessageList(
-        key: ValueKey<String>(listChannelId),
-        expectedChannelId: listChannelId,
-        targetMessageId: widget.targetMessageId,
-        visible: widget.loadMessages,
-      ),
+    final Widget messageList = MessageList(
+      key: ValueKey<String>(listChannelId),
+      expectedChannelId: listChannelId,
+      targetMessageId: widget.targetMessageId,
+      visible: widget.loadMessages,
     );
     return ColoredBox(
       color: context.colors.chatBackground,
@@ -208,55 +170,21 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
                             behavior: HitTestBehavior.translucent,
                             onPointerDown: (_) =>
                                 FocusManager.instance.primaryFocus?.unfocus(),
-                            child: Offstage(
-                              offstage: !widget.loadMessages,
-                              child: TickerMode(
-                                enabled: widget.loadMessages,
-                                child: stripKeyboardInsets
-                                    ? MediaQuery.removeViewInsets(
-                                        context: context,
-                                        removeBottom: true,
-                                        child: messageList,
-                                      )
-                                    : messageList,
-                              ),
-                            ),
+                            child: stripKeyboardInsets
+                                ? MediaQuery.removeViewInsets(
+                                    context: context,
+                                    removeBottom: true,
+                                    child: messageList,
+                                  )
+                                : messageList,
                           ),
                         ),
-                        if (onClose != null || showJumpToBottom)
-                          Positioned(
-                            right: 8,
-                            bottom: showSlowmodeIndicator
-                                ? _kChannelChatStatusMessageInset
-                                : 0,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                if (onClose != null)
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 5),
-                                    child: Material(
-                                      color: context.colors.backgroundPrimary,
-                                      shape: const CircleBorder(),
-                                      child: FluxerSheetCloseButton(
-                                        onTap: onClose,
-                                      ),
-                                    ),
-                                  ),
-                                if (showJumpToBottom)
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: FluxerJumpToBottomButton(
-                                      enabled: !isBusy,
-                                      isLoading: isSyncingMessages,
-                                      onTap: () => ref
-                                          .read(chatViewModelProvider.notifier)
-                                          .scrollToBottom(),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
+                        _ChannelChatScrollOverlay(
+                          channelId: listChannelId,
+                          loadMessages: widget.loadMessages,
+                          onClose: onClose,
+                          showSlowmodeIndicator: showSlowmodeIndicator,
+                        ),
                         Positioned(
                           left: 0,
                           right: 0,
@@ -303,6 +231,103 @@ class _ChannelChatPanelState extends ConsumerState<ChannelChatPanel> {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _ChannelChatScrollOverlay extends ConsumerWidget {
+  const _ChannelChatScrollOverlay({
+    required this.channelId,
+    required this.loadMessages,
+    required this.showSlowmodeIndicator,
+    this.onClose,
+  });
+
+  final String channelId;
+  final bool loadMessages;
+  final bool showSlowmodeIndicator;
+  final VoidCallback? onClose;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (!loadMessages && onClose == null) {
+      return const SizedBox.shrink();
+    }
+    final bool hasMessages = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.messages.isNotEmpty),
+    );
+    final bool isLoading = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.isLoading),
+    );
+    final bool hasMoreNewerMessages = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.hasMoreNewerMessages),
+    );
+    final bool isSyncingMessages = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.isSyncingMessages),
+    );
+    final bool isLoadingMore = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.isLoadingMore),
+    );
+    final bool isLoadingNewer = ref.watch(
+      chatViewModelProvider.select((ChatViewState s) => s.isLoadingNewer),
+    );
+    final ({String channelId, double distanceFromBottom, double viewportHeight})
+    viewport = ref.watch(
+      chatReadViewportProvider.select(
+        (ChatReadViewportState state) => (
+          channelId: state.channelId,
+          distanceFromBottom: state.distanceFromBottom,
+          viewportHeight: state.viewportHeight,
+        ),
+      ),
+    );
+    final bool isActiveReadChannel =
+        channelId.isNotEmpty && viewport.channelId == channelId;
+    final bool isBusy = isLoadingMore || isLoadingNewer || isSyncingMessages;
+    final bool showJumpToBottom =
+        loadMessages &&
+        shouldShowJumpToBottomButton(
+          hasMessages: hasMessages,
+          isLoading: isLoading,
+          isActiveReadChannel: isActiveReadChannel,
+          distanceFromBottom: viewport.distanceFromBottom,
+          viewportHeight: viewport.viewportHeight,
+          hasMoreNewerMessages: hasMoreNewerMessages,
+        );
+    return Positioned(
+      right: 8,
+      bottom: showSlowmodeIndicator ? _kChannelChatStatusMessageInset : 0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          if (onClose != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Material(
+                color: context.colors.backgroundPrimary,
+                shape: const CircleBorder(),
+                child: FluxerSheetCloseButton(onTap: onClose!),
+              ),
+            ),
+          if (loadMessages)
+            IgnorePointer(
+              ignoring: !showJumpToBottom,
+              child: Opacity(
+                opacity: showJumpToBottom ? 1 : 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: FluxerJumpToBottomButton(
+                    enabled: !isBusy,
+                    isLoading: isSyncingMessages,
+                    onTap: () => ref
+                        .read(chatViewModelProvider.notifier)
+                        .scrollToBottom(),
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

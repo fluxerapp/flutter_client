@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluxer_app/core/theme/fluxer_layout_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 
-const double kMemberListRowHeight = 42;
+const double kMemberListRowHeight = 50;
 const double kMemberListGroupHeaderHeight = 28;
 const double kMemberListDetailsGroupHeaderHeight = 36;
 const double kMemberListDetailsMemberRowHeight = 56;
@@ -115,10 +115,7 @@ class _MemberListSidebarMemberSkeleton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 1),
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: layout.s2,
-            vertical: layout.s1,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: layout.s2),
           child: Row(
             children: <Widget>[
               const _MemberListSkeletonCircle(size: 32),

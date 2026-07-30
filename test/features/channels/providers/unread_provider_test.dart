@@ -327,4 +327,66 @@ void main() {
       expect(unread?.hasUnreadMessages, isFalse);
     },
   );
+
+  test(
+    'channelUnreadProvider clears unread after ack to orphaned deleted tail pointer',
+    () async {
+      final db = openTestDatabase();
+      const guildId = 'guild-1';
+      const channelId = 'channel-1';
+      const userId = 'me';
+      final priorId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 11));
+      final deletedId = _snowflakeForUtc(DateTime.utc(2026, 5, 6, 12));
+
+      await _seedUnreadChannel(
+        db: db,
+        guildId: guildId,
+        channelId: channelId,
+        userId: userId,
+        lastMessageId: deletedId,
+        ackId: priorId,
+      );
+      await db.messageDao.upsertMessage(
+        MessagesCompanion.insert(
+          id: priorId,
+          channelId: channelId,
+          authorId: 'other',
+          content: 'hello',
+          timestamp: DateTime.fromMillisecondsSinceEpoch(
+            snowflakeTimestampMs(priorId),
+            isUtc: true,
+          ),
+        ),
+      );
+      await db.readStateDao.upsertReadState(
+        ReadStatesCompanion(
+          channelId: const Value(channelId),
+          lastMessageId: Value(deletedId),
+          mentionCount: const Value(0),
+        ),
+      );
+
+      final container = _container(db: db, userId: userId, guildId: guildId);
+      addTearDown(container.dispose);
+      container.read(gatewayReadyProvider.notifier).setReady();
+
+      final sub = container.listen(
+        channelUnreadProvider(channelId),
+        (_, _) {},
+        fireImmediately: true,
+      );
+      addTearDown(sub.close);
+
+      await _waitFor(() {
+        final unread = container.read(channelUnreadProvider(channelId)).value;
+        return unread != null && !unread.hasUnread;
+      });
+
+      final channel = await db.channelDao.getChannelById(channelId);
+      final unread = container.read(channelUnreadProvider(channelId)).value;
+      expect(channel?.lastMessageId, deletedId);
+      expect(unread?.hasUnread, isFalse);
+      expect(unread?.hasUnreadMessages, isFalse);
+    },
+  );
 }

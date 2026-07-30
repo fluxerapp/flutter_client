@@ -133,7 +133,10 @@ class FriendSelector extends StatelessWidget {
     }
     return ListView(
       controller: scrollController,
-      padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
+      ),
       children: children,
     );
   }

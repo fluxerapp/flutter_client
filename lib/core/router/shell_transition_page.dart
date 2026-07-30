@@ -8,9 +8,11 @@ CustomTransitionPage<void> shellFadeTransitionPage({
   required LocalKey key,
   required Widget child,
   Duration duration = ShellTransitionPolicy.rootOverlayFadeDuration,
+  bool opaque = true,
 }) {
   return CustomTransitionPage<void>(
     key: key,
+    opaque: opaque,
     child: child,
     transitionDuration: duration,
     reverseTransitionDuration: duration,

@@ -216,8 +216,7 @@ class ComposerAutocompleteFieldState
   }
 
   Channel? _guildChannel() {
-    final ChannelListState list = ref.read(channelListViewModelProvider);
-    return findChannelById(list, _channelId);
+    return resolveGuildChannel(ref, _channelId);
   }
 
   void _warmCustomEmoji() {
@@ -380,7 +379,7 @@ class ComposerAutocompleteFieldState
       filtered.map((Channel c) {
         return _ComposerRow(
           title: c.name,
-          onApply: () => _applyChannel(trigger, c),
+          onApply: () => _applyChannel(c),
           channelRowType: c.type,
         );
       }).toList(),
@@ -423,7 +422,6 @@ class ComposerAutocompleteFieldState
         return;
       }
       await _renderMentionRows(
-        trigger: trigger,
         generation: generation,
         parsed: parsed,
         guildId: guildId,
@@ -451,7 +449,6 @@ class ComposerAutocompleteFieldState
           return;
         }
         await _renderMentionRows(
-          trigger: trigger,
           generation: generation,
           parsed: parsed,
           guildId: guildId,
@@ -487,7 +484,6 @@ class ComposerAutocompleteFieldState
       stableSession: stableSession,
     );
     await _renderMentionRows(
-      trigger: trigger,
       generation: generation,
       parsed: parsed,
       guildId: null,
@@ -512,7 +508,6 @@ class ComposerAutocompleteFieldState
   }
 
   Future<void> _renderMentionRows({
-    required ComposerAutocompleteTrigger trigger,
     required int generation,
     required ParsedMentionQuery parsed,
     required String? guildId,
@@ -560,7 +555,7 @@ class ComposerAutocompleteFieldState
               friendNickname: friendNicknameById[m.id],
             ),
             subtitle: _composerMentionAutocompleteRightLabel(m, discs),
-            onApply: () => _applyUserMention(trigger, m),
+            onApply: () => _applyUserMention(m),
             mentionMember: m,
           ),
         )
@@ -580,7 +575,7 @@ class ComposerAutocompleteFieldState
         specialRows.add(
           _ComposerRow(
             title: '@everyone',
-            onApply: () => _applyLiteralMention(trigger, '@everyone'),
+            onApply: () => _applyLiteralMention('@everyone'),
           ),
         );
       }
@@ -588,7 +583,7 @@ class ComposerAutocompleteFieldState
         specialRows.add(
           _ComposerRow(
             title: '@here',
-            onApply: () => _applyLiteralMention(trigger, '@here'),
+            onApply: () => _applyLiteralMention('@here'),
           ),
         );
       }
@@ -644,8 +639,7 @@ class ComposerAutocompleteFieldState
             title: '@${role.name}',
             subtitle: roleSubtitle,
             titleColor: titleColor,
-            onApply: () =>
-                _applyRoleMention(trigger, role.id, role.name, color),
+            onApply: () => _applyRoleMention(role.id, role.name, color),
           ),
         );
       }
@@ -711,30 +705,21 @@ class ComposerAutocompleteFieldState
       final Map<String, GroupMemberInfo> cachedById = <String, GroupMemberInfo>{
         for (final GroupMemberInfo g in dm.groupMembers) g.id: g,
       };
-      final List<Member> members = <Member>[];
-      for (final String id in participantIds) {
-        final db.User? user = userById[id];
-        final GroupMemberInfo? cached = cachedById[id];
-        members.add(
-          Member(
-            id: id,
-            username: user?.username ?? cached?.name ?? '',
-            globalName: user?.globalName ?? cached?.name,
-            status: user?.status ?? 'offline',
-            isBot: user?.bot ?? false,
+      return <Member>[
+        for (final String id in participantIds)
+          dmGroupParticipantMentionMember(
+            participantId: id,
+            user: userById[id],
+            cached: cachedById[id],
           ),
-        );
-      }
-      return members;
+      ];
     }
+    final db.User? recipientUser = await ref
+        .read(fluxerDatabaseProvider)
+        .userDao
+        .getUserById(dm.recipientId);
     return <Member>[
-      Member(
-        id: dm.recipientId,
-        username: dm.recipientUsername ?? dm.recipientName,
-        globalName: dm.recipientName,
-        status: dm.recipientStatus,
-        isBot: dm.isBot,
-      ),
+      dmRecipientMentionMember(dm: dm, recipientUser: recipientUser),
     ];
   }
 
@@ -745,7 +730,7 @@ class ComposerAutocompleteFieldState
     final FluxerLocalizations l10n = FluxerLocalizations.of(context);
     await EmojiRegistry.ensureLoaded();
     final bool hasChannel = _channelId.isNotEmpty;
-    final String activeGuildId = ref.read(activeGuildIdProvider) ?? '';
+    final String activeGuildId = ref.read(contextualGuildIdProvider) ?? '';
     final bool hasPlutoniumEmojiAccess =
         !hasChannel ||
         composerHasDirectChatEmojiAccess(
@@ -809,8 +794,7 @@ class ComposerAutocompleteFieldState
           CustomEmojiResult(:final GuildEmojiEntry entry) => _ComposerRow(
             title: ':${entry.name}:',
             subtitle: guildNameById[entry.guildId],
-            onApply: () =>
-                _applyEmoji(trigger, name: entry.name, wire: entry.markdown),
+            onApply: () => _applyEmoji(name: entry.name, wire: entry.markdown),
             emojiImageUrl: entry.url,
             emojiCacheKey: entry.cacheKeyForSize(kCustomEmojiFetchSize),
           ),
@@ -818,7 +802,6 @@ class ComposerAutocompleteFieldState
             title: ':${entry.primaryName}:',
             subtitle: l10n.emojiAutocompleteDefaultLabel,
             onApply: () => _applyEmoji(
-              trigger,
               name: entry.primaryName,
               wire: ':${entry.primaryName}:',
             ),
@@ -932,6 +915,52 @@ class ComposerAutocompleteFieldState
     });
   }
 
+  ComposerAutocompleteTrigger? _autocompleteTriggerAtCaret(
+    ComposerAutocompleteTriggerKind kind,
+  ) {
+    final TextSelection sel = widget.controller.selection;
+    if (!sel.isValid || !sel.isCollapsed) {
+      return null;
+    }
+    final ComposerAutocompleteTrigger? trigger =
+        ComposerAutocompleteTrigger.detectIfAllowed(
+          fullText: widget.controller.text,
+          caretIndex: sel.baseOffset,
+        );
+    if (trigger == null ||
+        trigger.kind != kind ||
+        !widget.allowedTriggers.contains(kind)) {
+      return null;
+    }
+    return trigger;
+  }
+
+  ComposerAutocompleteTrigger? _autocompleteTriggerForApply(
+    ComposerAutocompleteTriggerKind kind,
+  ) {
+    final ComposerAutocompleteTrigger? atCaret = _autocompleteTriggerAtCaret(
+      kind,
+    );
+    if (atCaret != null) {
+      return atCaret;
+    }
+    final String text = widget.controller.text;
+    if (text.isEmpty) {
+      return null;
+    }
+    final ComposerAutocompleteTrigger? atEnd =
+        ComposerAutocompleteTrigger.detectIfAllowed(
+          fullText: text,
+          caretIndex: text.length,
+        );
+    if (atEnd == null ||
+        atEnd.kind != kind ||
+        !widget.allowedTriggers.contains(kind)) {
+      return null;
+    }
+    return atEnd;
+  }
+
   void _replaceTrigger(ComposerAutocompleteTrigger trigger, String inserted) {
     final String full = widget.controller.text;
     final String before = full.substring(0, trigger.matchStart);
@@ -945,10 +974,15 @@ class ComposerAutocompleteFieldState
     );
   }
 
-  void _applyUserMention(ComposerAutocompleteTrigger trigger, Member member) {
+  void _applyUserMention(Member member) {
+    final ComposerAutocompleteTrigger? trigger = _autocompleteTriggerForApply(
+      ComposerAutocompleteTriggerKind.mention,
+    );
+    if (trigger == null) {
+      return;
+    }
     final String userId = member.id;
-    if (widget.controller is ComposerMentionController &&
-        trigger.kind == ComposerAutocompleteTriggerKind.mention) {
+    if (widget.controller is ComposerMentionController) {
       String? friendNickname;
       for (final friend in ref.read(dmViewModelProvider).friendsList) {
         if (friend.id == userId) {
@@ -973,19 +1007,25 @@ class ComposerAutocompleteFieldState
     _afterApply();
   }
 
-  void _applyLiteralMention(ComposerAutocompleteTrigger trigger, String text) {
+  void _applyLiteralMention(String text) {
+    final ComposerAutocompleteTrigger? trigger = _autocompleteTriggerForApply(
+      ComposerAutocompleteTriggerKind.mention,
+    );
+    if (trigger == null) {
+      return;
+    }
     _replaceTrigger(trigger, text);
     _afterApply();
   }
 
-  void _applyRoleMention(
-    ComposerAutocompleteTrigger trigger,
-    String roleId,
-    String displayName,
-    int colorArgb,
-  ) {
-    if (widget.controller is ComposerMentionController &&
-        trigger.kind == ComposerAutocompleteTriggerKind.mention) {
+  void _applyRoleMention(String roleId, String displayName, int colorArgb) {
+    final ComposerAutocompleteTrigger? trigger = _autocompleteTriggerForApply(
+      ComposerAutocompleteTriggerKind.mention,
+    );
+    if (trigger == null) {
+      return;
+    }
+    if (widget.controller is ComposerMentionController) {
       (widget.controller as ComposerMentionController)
           .insertRoleMentionPlaceholder(
             matchStart: trigger.matchStart,
@@ -1001,7 +1041,13 @@ class ComposerAutocompleteFieldState
     _afterApply();
   }
 
-  void _applyChannel(ComposerAutocompleteTrigger trigger, Channel c) {
+  void _applyChannel(Channel c) {
+    final ComposerAutocompleteTrigger? trigger = _autocompleteTriggerForApply(
+      ComposerAutocompleteTriggerKind.channel,
+    );
+    if (trigger == null) {
+      return;
+    }
     if (widget.controller is ComposerMentionController) {
       (widget.controller as ComposerMentionController)
           .insertChannelMentionPlaceholder(
@@ -1017,11 +1063,13 @@ class ComposerAutocompleteFieldState
     _afterApply();
   }
 
-  void _applyEmoji(
-    ComposerAutocompleteTrigger trigger, {
-    required String name,
-    required String wire,
-  }) {
+  void _applyEmoji({required String name, required String wire}) {
+    final ComposerAutocompleteTrigger? trigger = _autocompleteTriggerForApply(
+      ComposerAutocompleteTriggerKind.emoji,
+    );
+    if (trigger == null) {
+      return;
+    }
     final TextEditingController controller = widget.controller;
     if (controller is InlineTokenTextEditingController) {
       controller.replaceRangeWithToken(

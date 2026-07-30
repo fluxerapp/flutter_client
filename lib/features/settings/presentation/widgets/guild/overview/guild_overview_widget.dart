@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/settings/domain/guild/guild_settings_tab.dar
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/overview/guild_invite_embed_preview.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/overview/guild_message_history_threshold_sheet.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/image_crop_sheet.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/guild_settings_tab_providers.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/features/ui/warning_alert/fluxer_warning_alert.dart';
@@ -167,12 +168,7 @@ class _GuildOverviewWidgetState extends ConsumerState<GuildOverviewWidget> {
       child: SingleChildScrollView(
         controller: widget.scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(
-          context.layout.s4,
-          context.layout.s4,
-          context.layout.s4,
-          80,
-        ),
+        padding: guildSettingsScrollPadding(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

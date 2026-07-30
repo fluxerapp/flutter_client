@@ -136,7 +136,8 @@ class _CreateDmBottomSheetBodyState
             context.layout.s4,
             context.layout.s3,
             context.layout.s4,
-            context.layout.s4,
+            context.layout.s4 +
+                FluxerBottomSheet.scrollBottomPaddingOf(context),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

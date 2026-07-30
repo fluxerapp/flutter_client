@@ -51,6 +51,17 @@ class ComposerAutocompleteTrigger {
     return m.start + leading.length;
   }
 
+  static bool _isMentionImmediatelyFollowedByWhitespace(
+    String textUpToCursor,
+    int atIndex,
+  ) {
+    final int afterAt = atIndex + 1;
+    if (afterAt >= textUpToCursor.length) {
+      return false;
+    }
+    return RegExp(r'\s').hasMatch(textUpToCursor[afterAt]);
+  }
+
   static ComposerAutocompleteTrigger? detect(String textUpToCursor) {
     if (textUpToCursor.isEmpty) {
       return null;
@@ -69,12 +80,15 @@ class ComposerAutocompleteTrigger {
 
     m = _mention.firstMatch(textUpToCursor);
     if (m != null) {
-      return ComposerAutocompleteTrigger(
-        kind: ComposerAutocompleteTriggerKind.mention,
-        matchStart: _triggerCharStart(m),
-        matchEnd: m.end,
-        matchedText: m.group(2) ?? '',
-      );
+      final int atIndex = _triggerCharStart(m);
+      if (!_isMentionImmediatelyFollowedByWhitespace(textUpToCursor, atIndex)) {
+        return ComposerAutocompleteTrigger(
+          kind: ComposerAutocompleteTriggerKind.mention,
+          matchStart: atIndex,
+          matchEnd: m.end,
+          matchedText: m.group(2) ?? '',
+        );
+      }
     }
 
     m = _channel.firstMatch(textUpToCursor);

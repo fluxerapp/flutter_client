@@ -75,7 +75,12 @@ class DmListTileSubtext extends ConsumerWidget {
             value.value?[conversation.recipientId]?.customStatus,
       ),
     );
-    return CustomStatusDisplay(stored: customStatus, maxLines: 1);
+    return CustomStatusDisplay(
+      stored: customStatus,
+      maxLines: 1,
+      emojiSize: 14,
+      textStyle: style,
+    );
   }
 }
 

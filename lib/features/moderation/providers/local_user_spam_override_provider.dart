@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/scheduler.dart';
 import 'package:fluxer_app/core/constants/user_flags.dart';
 import 'package:fluxer_app/core/database/daos/local_spam_overrides_dao.dart';
 import 'package:fluxer_app/core/providers/database_provider.dart';
@@ -50,7 +51,31 @@ class LocalUserSpamOverride extends _$LocalUserSpamOverride {
     if (!ref.mounted) {
       return;
     }
-    _setStateFromSets(sets);
+    _scheduleInitialStateUpdate(sets);
+  }
+
+  void _scheduleInitialStateUpdate(LocalSpamOverrideSets sets) {
+    void apply() {
+      if (!ref.mounted) {
+        return;
+      }
+      _setStateFromSets(sets);
+    }
+
+    if (_hasSchedulerBinding) {
+      SchedulerBinding.instance.addPostFrameCallback((_) => apply());
+      return;
+    }
+    scheduleMicrotask(apply);
+  }
+
+  bool get _hasSchedulerBinding {
+    try {
+      SchedulerBinding.instance;
+      return true;
+    } on Object {
+      return false;
+    }
   }
 
   bool isUserMarkedAsSpammer(String userId, int userFlags) {

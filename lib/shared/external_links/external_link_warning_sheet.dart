@@ -185,7 +185,7 @@ class _ExternalLinkWarningSheetState extends State<ExternalLinkWarningSheet> {
               onPressed: _handleContinue,
               isLoading: isSubmitting,
               label: l10n.externalLinkVisitSite,
-              trailingIcon: PhosphorIconsRegular.arrowRight,
+              trailingIcon: PhosphorIconsBold.arrowRight,
             ),
           ],
         ),

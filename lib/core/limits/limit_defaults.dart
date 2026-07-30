@@ -12,6 +12,8 @@ const int kMaxFavoriteMemesPremium = 500;
 const int kAvatarMaxSizeBytes = 10 * 1024 * 1024;
 const int kEmojiMaxSizeBytes = 512 * 1024;
 const int kStickerMaxSizeBytes = 512 * 1024;
+const int kMaxGuildEmojisDefault = 500;
+const int kMaxGuildStickersDefault = 50;
 
 const Map<String, int> kDefaultFreeLimits = <String, int>{
   LimitKeys.avatarMaxSize: kAvatarMaxSizeBytes,
@@ -38,6 +40,7 @@ const Map<String, int> kDefaultFreeLimits = <String, int>{
   LimitKeys.maxGroupDmRecipients: 49,
   LimitKeys.maxGroupDmsPerUser: 150,
   LimitKeys.maxGuildChannels: 500,
+  LimitKeys.maxGuildEmojis: kMaxGuildEmojisDefault,
   LimitKeys.maxGuildEmojisAnimatedMore: 250,
   LimitKeys.maxGuildEmojisAnimated: 50,
   LimitKeys.maxGuildEmojisStaticMore: 250,
@@ -46,7 +49,7 @@ const Map<String, int> kDefaultFreeLimits = <String, int>{
   LimitKeys.maxGuildMembers: 1000000,
   LimitKeys.maxGuildRoles: 250,
   LimitKeys.maxGuildStickersMore: 250,
-  LimitKeys.maxGuildStickers: 50,
+  LimitKeys.maxGuildStickers: kMaxGuildStickersDefault,
   LimitKeys.maxGuilds: kMaxGuildsNonPremium,
   LimitKeys.maxInstalledPacks: 0,
   LimitKeys.maxMessageLength: kMaxMessageLengthNonPremium,

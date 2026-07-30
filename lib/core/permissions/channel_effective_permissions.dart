@@ -27,7 +27,10 @@ computeEffectiveGuildChannelPermissionBitsOutcome({
   if (!ref.mounted) {
     return (value: 0, shouldCache: false);
   }
-  if (channelRow == null || channelRow.guildId.isEmpty) {
+  if (channelRow == null) {
+    return (value: 0, shouldCache: false);
+  }
+  if (channelRow.guildId.isEmpty) {
     return (value: 0, shouldCache: true);
   }
   final String guildId = channelRow.guildId;

@@ -124,10 +124,10 @@ const _userSettingsDesktopNavBeforeStaffOnly = [
     UserSettingsSection.audioAndVideo,
     icon: PhosphorIconsFill.microphone,
   ),
-  UserSettingsDesktopNavEntry.link(
-    UserSettingsSection.keybinds,
-    icon: PhosphorIconsFill.keyboard,
-  ),
+  // UserSettingsDesktopNavEntry.link(
+  //   UserSettingsSection.keybinds,
+  //   icon: PhosphorIconsFill.keyboard,
+  // ),
   UserSettingsDesktopNavEntry.link(
     UserSettingsSection.languageAndTime,
     icon: PhosphorIconsFill.translate,

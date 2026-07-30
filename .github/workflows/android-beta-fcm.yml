@@ -76,12 +76,12 @@ jobs:
             ${{ runner.os }}-pub-
 
       - name: Merge Firebase dependencies
-        run: dart run tool/merge_firebase_deps.dart
+        run: dart tool/merge_firebase_deps.dart
 
       - name: Write firebase_options.dart
         env:
           FIREBASE_OPTIONS_JSON: ${{ secrets.FIREBASE_OPTIONS_JSON }}
-        run: dart run tool/write_firebase_options.dart --environment=beta
+        run: dart tool/write_firebase_options.dart --environment=beta
 
       - name: Get dependencies
         run: flutter pub get

@@ -117,7 +117,7 @@ class _UnreadsEmptyState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Icon(
-              PhosphorIconsRegular.sparkle,
+              PhosphorIconsBold.sparkle,
               size: 80,
               color: colors.textPrimaryMuted,
             ),

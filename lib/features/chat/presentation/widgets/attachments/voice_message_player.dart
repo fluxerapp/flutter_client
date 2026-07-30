@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/chat/utils/voice_message_constants.dart';
 import 'package:fluxer_app/features/chat/utils/voice_message_waveform.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/widgets/playback_seek_gesture_target.dart';
 import 'package:fluxer_app/shared/widgets/volume_popout_control.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -336,17 +337,6 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
     }
   }
 
-  void _handleWaveformTapDown(
-    TapDownDetails details,
-    BoxConstraints constraints,
-  ) {
-    if (_isLoading) {
-      return;
-    }
-    final double fraction = details.localPosition.dx / constraints.maxWidth;
-    unawaited(_seekToFraction(fraction));
-  }
-
   KeyEventResult _handleWaveformKey(FocusNode node, KeyEvent event) {
     if (_isLoading || event is! KeyDownEvent) {
       return KeyEventResult.ignored;
@@ -411,73 +401,63 @@ class _VoiceMessagePlayerState extends State<VoiceMessagePlayer> {
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return Focus(
-                    onKeyEvent: _handleWaveformKey,
-                    child: Semantics(
-                      slider: true,
-                      value: progressPercent.round().toString(),
-                      increasedValue: 'seek forward',
-                      decreasedValue: 'seek backward',
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTapDown: (TapDownDetails details) {
-                          _handleWaveformTapDown(details, constraints);
-                        },
-                        child: SizedBox(
-                          height: kVoiceMessagePlayerWaveformHeightPx,
-                          child: Row(
-                            children: List<Widget>.generate(
-                              _waveformBars.length,
-                              (int index) {
-                                final int value = _waveformBars[index];
-                                final double heightRatio = math.max(
-                                  kVoiceMessagePlayerMinBarHeightRatio,
-                                  value / 255,
-                                );
-                                final double barProgress =
-                                    ((index + 0.5) / _waveformBars.length) *
-                                    100;
-                                final bool isPast =
-                                    barProgress <= progressPercent;
-                                final double barHeight =
-                                    kVoiceMessagePlayerWaveformHeightPx *
-                                    heightRatio;
-                                return Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: index == 0 ? 0 : 0.5,
-                                      right: index == _waveformBars.length - 1
-                                          ? 0
-                                          : 0.5,
-                                    ),
-                                    child: Align(
-                                      child: SizedBox(
-                                        height: barHeight,
-                                        width: double.infinity,
-                                        child: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            color: isPast
-                                                ? pastBarColor
-                                                : defaultBarColor,
-                                            borderRadius: BorderRadius.circular(
-                                              2,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+              child: Focus(
+                onKeyEvent: _handleWaveformKey,
+                child: Semantics(
+                  slider: true,
+                  value: progressPercent.round().toString(),
+                  increasedValue: 'seek forward',
+                  decreasedValue: 'seek backward',
+                  child: PlaybackSeekGestureTarget(
+                    enabled: !_isLoading,
+                    onSeekFraction: (double fraction) {
+                      unawaited(_seekToFraction(fraction));
+                    },
+                    child: SizedBox(
+                      height: kVoiceMessagePlayerWaveformHeightPx,
+                      child: Row(
+                        children: List<Widget>.generate(_waveformBars.length, (
+                          int index,
+                        ) {
+                          final int value = _waveformBars[index];
+                          final double heightRatio = math.max(
+                            kVoiceMessagePlayerMinBarHeightRatio,
+                            value / 255,
+                          );
+                          final double barProgress =
+                              ((index + 0.5) / _waveformBars.length) * 100;
+                          final bool isPast = barProgress <= progressPercent;
+                          final double barHeight =
+                              kVoiceMessagePlayerWaveformHeightPx * heightRatio;
+                          return Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: index == 0 ? 0 : 0.5,
+                                right: index == _waveformBars.length - 1
+                                    ? 0
+                                    : 0.5,
+                              ),
+                              child: Align(
+                                child: SizedBox(
+                                  height: barHeight,
+                                  width: double.infinity,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: isPast
+                                          ? pastBarColor
+                                          : defaultBarColor,
+                                      borderRadius: BorderRadius.circular(2),
                                     ),
                                   ),
-                                );
-                              },
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        }),
                       ),
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 8),

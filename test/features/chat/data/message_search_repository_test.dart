@@ -7,10 +7,10 @@ void main() {
   group('buildGlobalSearchMessagesRequest', () {
     test('maps default current-channel search request', () {
       final request = buildGlobalSearchMessagesRequest(
-        const MessageSearchQuery(
+        MessageSearchQuery.build(
           channelId: 'channel-1',
           guildId: 'guild-1',
-          text: '  hello  ',
+          rawQuery: '  hello  ',
         ),
       );
 
@@ -31,18 +31,18 @@ void main() {
 
     test('maps author, content types, scope, sort, and page filters', () {
       final request = buildGlobalSearchMessagesRequest(
-        const MessageSearchQuery(
+        MessageSearchQuery.build(
           channelId: 'channel-1',
           guildId: 'guild-1',
-          authorId: 'user-1, user-2',
-          scope: MessageSearchScopeFilter.allGuilds,
-          sort: MessageSearchSortFilter.oldest,
-          contentTypes: {
+          rawQuery: '',
+          uiScope: MessageSearchScopeFilter.allGuilds,
+          uiSort: MessageSearchSortFilter.oldest,
+          chipAuthorId: 'user-1, user-2',
+          chipContentTypes: const <MessageSearchContentFilter>{
             MessageSearchContentFilter.image,
             MessageSearchContentFilter.audio,
           },
-          page: 7,
-        ),
+        ).copyWith(page: 7),
       );
 
       expect(request.page, 7);

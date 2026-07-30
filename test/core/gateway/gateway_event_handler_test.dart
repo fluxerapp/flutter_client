@@ -104,6 +104,40 @@ void main() {
     });
   });
 
+  test('READY applies voice states after onReady', () async {
+    final database = openTestDatabase();
+    var readyCalled = false;
+    final bulkCalls = <List<VoiceState>>[];
+
+    final handler = GatewayEventHandler(
+      database: database,
+      onReady: () {
+        readyCalled = true;
+      },
+      onVoiceStatesBulk: bulkCalls.add,
+    );
+
+    await handler.handle(
+      ReadyEvent(
+        sessionId: 'session-id',
+        user: _user(),
+        guilds: const [],
+        rawGuilds: [_guildWithVoiceState()],
+        privateChannels: const [],
+        relationships: const [],
+        readStates: const [],
+        presences: const [],
+      ),
+    );
+
+    expect(readyCalled, isTrue);
+    expect(bulkCalls, hasLength(1));
+    expect(bulkCalls.single, hasLength(1));
+    expect(bulkCalls.single.single.userId, '400');
+    expect(bulkCalls.single.single.channelId, 'voice-1');
+    expect(bulkCalls.single.single.guildId, '200');
+  });
+
   test('READY persists guild stickers from raw guild payload', () async {
     final database = openTestDatabase();
 
@@ -829,6 +863,36 @@ UserPrivateResponse _user() => UserPrivateResponse.fromJson({
   'used_mobile_client': true,
   'pending_bulk_message_deletion': null,
 });
+
+Map<String, dynamic> _guildWithVoiceState() => {
+  'id': '200',
+  'properties': {
+    'id': '200',
+    'name': 'Voice Guild',
+    'splash_card_alignment': 0,
+    'owner_id': '100',
+    'system_channel_flags': 0,
+    'afk_timeout': 300,
+    'features': <String>[],
+    'verification_level': 0,
+    'mfa_level': 0,
+    'nsfw_level': 0,
+    'nsfw': false,
+    'content_warning_level': 0,
+    'explicit_content_filter': 0,
+    'default_message_notifications': 0,
+    'disabled_operations': 0,
+  },
+  'channels': <Map<String, Object?>>[],
+  'members': <Map<String, Object?>>[],
+  'roles': <Map<String, Object?>>[],
+  'presences': <Map<String, Object?>>[],
+  'voice_states': <Map<String, Object?>>[
+    {'user_id': '400', 'channel_id': 'voice-1', 'guild_id': '200'},
+  ],
+  'emojis': <Map<String, Object?>>[],
+  'stickers': <Map<String, Object?>>[],
+};
 
 Map<String, dynamic> _guildWithSticker() => {
   'id': '200',

@@ -21,7 +21,9 @@ import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart'
 import 'package:fluxer_app/features/settings/providers/sound_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/settings/utils/sound_sfx_playback.dart';
+import 'package:fluxer_app/features/voice/domain/voice_connect_failed_target.dart';
 import 'package:fluxer_app/features/voice/domain/voice_settings_state.dart';
+import 'package:fluxer_app/features/voice/providers/local_voice_state_provider.dart';
 import 'package:fluxer_app/features/voice/providers/screen_share_capability_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_display_preferences_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_call_layout_provider.dart';
@@ -251,9 +253,14 @@ class VoiceSession extends _$VoiceSession {
       isReconnecting: false,
       errorMessage: errorMessage,
       clearRoom: true,
-      clearChannel: true,
       clearActiveConnectionId: true,
       clearE2eeKey: true,
+      connectFailed: true,
+      connectFailedTarget: channelId == null
+          ? null
+          : VoiceConnectFailedTarget(channelId: channelId, guildId: guildId),
+      guildId: guildId,
+      channelId: channelId,
     );
   }
 
@@ -298,8 +305,9 @@ class VoiceSession extends _$VoiceSession {
   }
 
   void _resetPendingSelfAudioFlags() {
-    _pendingSelfMute = false;
-    _pendingSelfDeaf = false;
+    final local = ref.read(localVoiceStateProvider);
+    _pendingSelfMute = local.selfMute;
+    _pendingSelfDeaf = local.selfDeaf;
   }
 
   void _syncPendingSelfAudioFlags({
@@ -331,7 +339,46 @@ class VoiceSession extends _$VoiceSession {
   Room? get _room => state.liveKitRoom;
 
   void reportJoinError(String errorMessage) {
-    state = state.copyWith(errorMessage: errorMessage);
+    final String? channelId = state.channelId ?? _expectedChannelId;
+    final String? guildId = state.guildId ?? _expectedGuildId;
+    state = state.copyWith(
+      errorMessage: errorMessage,
+      isConnecting: false,
+      isConnected: false,
+      connectFailed: channelId != null,
+      connectFailedTarget: channelId == null
+          ? null
+          : VoiceConnectFailedTarget(channelId: channelId, guildId: guildId),
+    );
+  }
+
+  Future<void> retryFailedVoiceConnection() async {
+    final VoiceConnectFailedTarget? target = state.connectFailedTarget;
+    if (target == null) {
+      return;
+    }
+    state = state.copyWith(
+      clearError: true,
+      clearConnectFailed: true,
+      clearConnectFailedTarget: true,
+    );
+    await connectToVoiceChannel(
+      guildId: target.guildId,
+      channelId: target.channelId,
+      forceJoin: true,
+    );
+  }
+
+  void dismissFailedVoiceConnection() {
+    if (!state.connectFailed) {
+      return;
+    }
+    state = state.copyWith(
+      clearError: true,
+      clearChannel: true,
+      clearConnectFailed: true,
+      clearConnectFailedTarget: true,
+    );
   }
 
   /// Joins a voice channel; the gateway responds with [VoiceServerUpdateEvent],
@@ -461,8 +508,13 @@ class VoiceSession extends _$VoiceSession {
     }
     _lastConnectRequestAt = now;
     _startWithVideoAfterConnect = initialSelfVideo;
+    final local = ref.read(localVoiceStateProvider);
     bool resolvedSelfMute = initialSelfDeaf || initialSelfMute;
-    final bool resolvedSelfDeaf = initialSelfDeaf;
+    bool resolvedSelfDeaf = initialSelfDeaf;
+    if (!initialSelfMute && !initialSelfDeaf) {
+      resolvedSelfMute = local.selfDeaf || local.selfMute;
+      resolvedSelfDeaf = local.selfDeaf;
+    }
     if (guildId != null) {
       final int? permissionBits = ref
           .read(channelPermissionCacheProvider.notifier)
@@ -1306,7 +1358,7 @@ class VoiceSession extends _$VoiceSession {
   }
 
   void clearError() {
-    if (state.errorMessage == null) {
+    if (state.errorMessage == null && !state.connectFailed) {
       return;
     }
     if (!state.isConnected) {
@@ -1323,7 +1375,13 @@ class VoiceSession extends _$VoiceSession {
       }
       _cancelConnectWatchdog();
     }
-    state = state.copyWith(clearError: true, isConnecting: false);
+    state = state.copyWith(
+      clearError: true,
+      isConnecting: false,
+      clearConnectFailed: true,
+      clearConnectFailedTarget: true,
+      clearChannel: state.connectFailed,
+    );
   }
 
   VoiceState? _selfConnectionVoiceState() {
@@ -1338,11 +1396,23 @@ class VoiceSession extends _$VoiceSession {
   Future<void> toggleSelfMute() async {
     final VoiceSessionState s = state;
     if (!s.isInVoice || s.channelId == null) {
+      await ref.read(localVoiceStateProvider.notifier).toggleSelfMute();
+      final bool muted = ref.read(localVoiceStateProvider).selfMute;
+      unawaited(
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: muted ? FluxerSfxClip.mute : FluxerSfxClip.unmute,
+        ),
+      );
       return;
     }
     final VoiceState? vs = _selfConnectionVoiceState();
     final bool nextMute = !(vs?.selfMute ?? false);
     await setSelfMute(isMuted: nextMute, playSound: true);
+    await ref
+        .read(localVoiceStateProvider.notifier)
+        .setSelfMute(muted: nextMute);
   }
 
   Future<void> setSelfMute({
@@ -1377,6 +1447,15 @@ class VoiceSession extends _$VoiceSession {
   Future<void> toggleSelfDeafen() async {
     final VoiceSessionState s = state;
     if (!s.isInVoice || s.channelId == null) {
+      final bool wasDeaf = ref.read(localVoiceStateProvider).selfDeaf;
+      await ref.read(localVoiceStateProvider.notifier).toggleSelfDeaf();
+      unawaited(
+        playFluxerSoundEffect(
+          prefs: ref.read(soundPreferencesProvider),
+          sfx: ref.read(fluxerSfxProvider),
+          clip: wasDeaf ? FluxerSfxClip.undeaf : FluxerSfxClip.deaf,
+        ),
+      );
       return;
     }
     final VoiceState? vs = _selfConnectionVoiceState();
@@ -1387,6 +1466,9 @@ class VoiceSession extends _$VoiceSession {
         selfDeaf: false,
         selfVideo: vs?.selfVideo ?? false,
       );
+      await ref
+          .read(localVoiceStateProvider.notifier)
+          .setSelfDeaf(deafened: false);
       unawaited(
         playFluxerSoundEffect(
           prefs: ref.read(soundPreferencesProvider),
@@ -1400,6 +1482,9 @@ class VoiceSession extends _$VoiceSession {
         selfDeaf: true,
         selfVideo: vs?.selfVideo ?? false,
       );
+      await ref
+          .read(localVoiceStateProvider.notifier)
+          .setSelfDeaf(deafened: true);
       unawaited(
         playFluxerSoundEffect(
           prefs: ref.read(soundPreferencesProvider),

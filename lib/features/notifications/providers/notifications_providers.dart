@@ -15,6 +15,18 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'notifications_providers.g.dart';
 
+enum NotificationsInboxTab { unreads, mentions }
+
+@Riverpod(keepAlive: true)
+class NotificationsInboxSegment extends _$NotificationsInboxSegment {
+  @override
+  NotificationsInboxTab build() => NotificationsInboxTab.mentions;
+
+  void set(NotificationsInboxTab segment) {
+    state = segment;
+  }
+}
+
 @Riverpod(keepAlive: true)
 NotificationsRepository notificationsRepository(Ref ref) {
   return NotificationsRepository(

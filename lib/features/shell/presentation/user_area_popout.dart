@@ -24,10 +24,7 @@ class UserAreaPopout {
               StatusChangeSheetBody(onClose: close),
               const Divider(height: 1),
               ListTile(
-                leading: const PhosphorIcon(
-                  PhosphorIconsRegular.user,
-                  size: 20,
-                ),
+                leading: const PhosphorIcon(PhosphorIconsBold.user, size: 20),
                 title: Text(l10n.userSettingsNavProfile),
                 onTap: () {
                   close();

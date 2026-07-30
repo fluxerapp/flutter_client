@@ -215,6 +215,26 @@ void main() {
     });
   });
 
+  group('quantizeReadViewportDistance', () {
+    test('returns zero for non-positive distances', () {
+      expect(quantizeReadViewportDistance(0), 0);
+      expect(quantizeReadViewportDistance(-12), 0);
+    });
+
+    test('rounds distances to 48px steps', () {
+      expect(quantizeReadViewportDistance(1), 0);
+      expect(quantizeReadViewportDistance(47), 0);
+      expect(quantizeReadViewportDistance(48), 48);
+      expect(quantizeReadViewportDistance(95), 48);
+      expect(quantizeReadViewportDistance(240), 240);
+    });
+
+    test('preserves non-finite distances', () {
+      expect(quantizeReadViewportDistance(double.infinity), double.infinity);
+      expect(quantizeReadViewportDistance(double.nan), 0);
+    });
+  });
+
   group('isNearTrailingEdge', () {
     test('is true below the threshold', () {
       expect(isNearTrailingEdge(distanceFromTrailingEdge: 47), isTrue);

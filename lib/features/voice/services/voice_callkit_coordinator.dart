@@ -164,6 +164,26 @@ class VoiceCallKitCoordinatorLogic {
     List<String> pendingChannelIds, {
     VoiceCallKitVoiceSnapshot? activeVoice,
   }) async {
+    final Set<String> pendingSet = pendingChannelIds.toSet();
+    final List<String> staleIncomingRingChannelIds = <String>[];
+    for (final MapEntry<String, String> entry in _sessions.channelEntries) {
+      final VoiceCallKitSession? session = _sessions.sessionForCallKitId(
+        entry.value,
+      );
+      if (session == null) {
+        continue;
+      }
+      if (shouldEndIncomingRingCallKitSession(
+        session: session,
+        pendingIncomingChannelIds: pendingSet,
+      )) {
+        staleIncomingRingChannelIds.add(entry.key);
+      }
+    }
+    for (final String channelId in staleIncomingRingChannelIds) {
+      await _endCallKitForChannel(channelId);
+    }
+
     final bool isForeground = _ref.read(appUiForegroundProvider);
     if (!shouldPresentIncomingVoiceCallKit(
       isMobileCallKitPlatform: _isMobileCallKitPlatform,

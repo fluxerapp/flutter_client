@@ -120,7 +120,7 @@ class _BackupCodesSheetState extends ConsumerState<BackupCodesSheet> {
               FluxerButton.secondary(
                 onPressed: _copyToClipboard,
                 label: l10n.backupCodesCopy,
-                icon: PhosphorIconsRegular.clipboardText,
+                icon: PhosphorIconsBold.clipboardText,
                 size: FluxerButtonSize.small,
                 fitContent: true,
               ),

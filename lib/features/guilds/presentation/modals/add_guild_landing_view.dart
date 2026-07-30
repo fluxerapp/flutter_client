@@ -34,7 +34,7 @@ class AddGuildLandingView extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: AddGuildActionButton(
-                icon: PhosphorIconsRegular.house,
+                icon: PhosphorIconsBold.house,
                 label: l10n.addGuildCreateCommunity,
                 onTap: onCreateTap,
               ),
@@ -42,7 +42,7 @@ class AddGuildLandingView extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: AddGuildActionButton(
-                icon: PhosphorIconsRegular.link,
+                icon: PhosphorIconsBold.link,
                 label: l10n.addGuildJoinCommunity,
                 onTap: onJoinTap,
               ),
@@ -51,7 +51,7 @@ class AddGuildLandingView extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         AddGuildActionButton(
-          icon: PhosphorIconsRegular.downloadSimple,
+          icon: PhosphorIconsBold.downloadSimple,
           label: l10n.addGuildImportDiscordTemplate,
           layout: AddGuildActionButtonLayout.row,
           isDisabled: true,

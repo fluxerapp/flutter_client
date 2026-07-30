@@ -27,6 +27,7 @@ abstract final class LimitKeys {
   static const String maxGroupDmRecipients = 'max_group_dm_recipients';
   static const String maxGroupDmsPerUser = 'max_group_dms_per_user';
   static const String maxGuildChannels = 'max_guild_channels';
+  static const String maxGuildEmojis = 'max_guild_emojis';
   static const String maxGuildEmojisAnimatedMore =
       'max_guild_emojis_animated_more';
   static const String maxGuildEmojisAnimated = 'max_guild_emojis_animated';
@@ -79,6 +80,7 @@ const Map<String, LimitScope> kLimitKeyScopes = <String, LimitScope>{
   LimitKeys.maxGroupDmRecipients: LimitScope.user,
   LimitKeys.maxGroupDmsPerUser: LimitScope.user,
   LimitKeys.maxGuildChannels: LimitScope.guild,
+  LimitKeys.maxGuildEmojis: LimitScope.guild,
   LimitKeys.maxGuildEmojisAnimatedMore: LimitScope.guild,
   LimitKeys.maxGuildEmojisAnimated: LimitScope.guild,
   LimitKeys.maxGuildEmojisStaticMore: LimitScope.guild,
@@ -128,6 +130,7 @@ const List<String> kAllLimitKeys = <String>[
   LimitKeys.maxGroupDmRecipients,
   LimitKeys.maxGroupDmsPerUser,
   LimitKeys.maxGuildChannels,
+  LimitKeys.maxGuildEmojis,
   LimitKeys.maxGuildEmojisAnimatedMore,
   LimitKeys.maxGuildEmojisAnimated,
   LimitKeys.maxGuildEmojisStaticMore,

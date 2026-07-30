@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/providers/obscuring_overlay_tracker_provider.dart';
@@ -130,11 +132,7 @@ class FluxerBottomSheet {
             reserveBottomInset,
             keyboardBottomInset: keyboardInset,
           );
-          final bool useExternalBottomInset =
-              variant == FluxerBottomSheetVariant.menu && bottomPadding > 0;
-          final double bottomScrollPadding = useExternalBottomInset
-              ? 0
-              : bottomPadding;
+          final bool isMenuVariant = variant == FluxerBottomSheetVariant.menu;
           final hasHeader =
               title != null ||
               subtitle != null ||
@@ -149,15 +147,9 @@ class FluxerBottomSheet {
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxHeight: maxHeight != null
-                    ? (mediaQuery.size.height -
-                              topPadding -
-                              (useExternalBottomInset ? bottomPadding : 0) -
-                              layout.s4) *
+                    ? (mediaQuery.size.height - topPadding - layout.s4) *
                           maxHeight
-                    : mediaQuery.size.height -
-                          topPadding -
-                          (useExternalBottomInset ? bottomPadding : 0) -
-                          layout.s4,
+                    : mediaQuery.size.height - topPadding - layout.s4,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -166,6 +158,7 @@ class FluxerBottomSheet {
                     FluxerBottomSheetDragHandle(
                       onDismiss: enableDrag ? close : null,
                     ),
+                  if (!showDragHandle && hasHeader) SizedBox(height: layout.s4),
                   if (hasHeader) ...[
                     FluxerBottomSheetHeader(
                       title: title ?? '',
@@ -181,10 +174,21 @@ class FluxerBottomSheet {
                     ),
                   ],
                   Flexible(
-                    child: _FluxerBottomSheetInsetChild(
-                      bottomPadding: bottomScrollPadding,
-                      child: builder(sheetContext, close),
-                    ),
+                    child: isMenuVariant
+                        ? FluxerBottomSheetScope(
+                            bottomScrollPadding: bottomPadding,
+                            child: _FluxerBottomSheetInsetChild(
+                              bottomPadding: 0,
+                              child: Builder(
+                                builder: (scopedContext) =>
+                                    builder(scopedContext, close),
+                              ),
+                            ),
+                          )
+                        : _FluxerBottomSheetInsetChild(
+                            bottomPadding: bottomPadding,
+                            child: builder(sheetContext, close),
+                          ),
                   ),
                 ],
               ),
@@ -193,7 +197,6 @@ class FluxerBottomSheet {
 
           final sheetContent = _wrapBottomSheetSurface(
             context: sheetContext,
-            insetBelowSurface: useExternalBottomInset ? bottomPadding : 0,
             child: content,
           );
 
@@ -352,6 +355,13 @@ Widget _wrapSheetBackHandler({
 // Structural widgets
 // ---------------------------------------------------------------------------
 
+double _fluxerSystemBottomInset(MediaQueryData mediaQuery) {
+  return math.max(
+    mediaQuery.viewPadding.bottom,
+    math.max(mediaQuery.padding.bottom, mediaQuery.systemGestureInsets.bottom),
+  );
+}
+
 double _effectiveBottomSheetBottomPadding(
   BuildContext context,
   bool reserveBottomInset, {
@@ -360,18 +370,17 @@ double _effectiveBottomSheetBottomPadding(
   if (!reserveBottomInset || keyboardBottomInset > 0) {
     return 0;
   }
-  return MediaQuery.viewPaddingOf(context).bottom;
+  return _fluxerSystemBottomInset(MediaQuery.of(context));
 }
 
 Widget _wrapBottomSheetSurface({
   required BuildContext context,
   required Widget child,
-  double insetBelowSurface = 0,
 }) {
   final BottomSheetThemeData bottomSheetTheme = Theme.of(
     context,
   ).bottomSheetTheme;
-  final Widget sheetBody = Material(
+  return Material(
     color:
         bottomSheetTheme.modalBackgroundColor ??
         bottomSheetTheme.backgroundColor,
@@ -379,13 +388,6 @@ Widget _wrapBottomSheetSurface({
     shape: bottomSheetTheme.shape,
     clipBehavior: bottomSheetTheme.clipBehavior ?? Clip.antiAlias,
     child: child,
-  );
-  if (insetBelowSurface <= 0) {
-    return sheetBody;
-  }
-  return Padding(
-    padding: EdgeInsets.only(bottom: insetBelowSurface),
-    child: sheetBody,
   );
 }
 
@@ -540,10 +542,14 @@ class _FluxerDraggableScrollableSheetState
                   if (widget.showDragHandle)
                     FluxerBottomSheetDragHandle(
                       sheetController: _sheetController,
+                      scrollController: scrollController,
                       minChildSize: widget.minChildSize,
                       maxChildSize: widget.maxChildSize,
+                      onDismiss: widget.onDismiss,
                       includeTopPadding: !widget.disableTopPadding,
                     ),
+                  if (!widget.showDragHandle && widget.hasHeader)
+                    SizedBox(height: layout.s4),
                   if (widget.hasHeader) ...[
                     FluxerBottomSheetHeader(
                       title: widget.title ?? '',
@@ -557,10 +563,12 @@ class _FluxerDraggableScrollableSheetState
                   Expanded(
                     child: FluxerBottomSheetScope(
                       bottomScrollPadding: widget.bottomScrollPadding,
-                      child: widget.builder(
-                        widget.sheetContext,
-                        scrollController,
-                        widget.onDismiss,
+                      child: Builder(
+                        builder: (scopedContext) => widget.builder(
+                          scopedContext,
+                          scrollController,
+                          widget.onDismiss,
+                        ),
                       ),
                     ),
                   ),
@@ -578,6 +586,7 @@ class FluxerBottomSheetDragHandle extends StatefulWidget {
   const FluxerBottomSheetDragHandle({
     super.key,
     this.sheetController,
+    this.scrollController,
     this.minChildSize = 0,
     this.maxChildSize = 1,
     this.onDismiss,
@@ -587,6 +596,7 @@ class FluxerBottomSheetDragHandle extends StatefulWidget {
   });
 
   final DraggableScrollableController? sheetController;
+  final ScrollController? scrollController;
   final double minChildSize;
   final double maxChildSize;
   final VoidCallback? onDismiss;
@@ -608,6 +618,10 @@ class _FluxerBottomSheetDragHandleState
       widget.onDismiss != null ||
       widget.onVerticalDragUpdate != null ||
       widget.onVerticalDragEnd != null;
+
+  bool get _usesDismissFallback =>
+      widget.onDismiss != null &&
+      (widget.scrollController == null || !widget.scrollController!.hasClients);
 
   void _handleVerticalDragStart(DragStartDetails details) {
     _dragDistance = 0;
@@ -634,6 +648,9 @@ class _FluxerBottomSheetDragHandleState
           maxChildSize: widget.maxChildSize,
         ),
       );
+      if (_usesDismissFallback) {
+        _dragDistance += details.delta.dy;
+      }
       return;
     }
     if (widget.onDismiss != null) {
@@ -647,8 +664,13 @@ class _FluxerBottomSheetDragHandleState
       return;
     }
     if (widget.sheetController != null) {
-      // Scrollable sheets close via DraggableScrollableNotification when the
-      // sheet reaches min extent. Calling Navigator.pop here would double-pop.
+      if (_usesDismissFallback &&
+          fluxerBottomSheetShouldDismissAfterDrag(
+            dragDistance: _dragDistance,
+            velocity: details.primaryVelocity ?? 0,
+          )) {
+        widget.onDismiss!();
+      }
       _dragDistance = 0;
       return;
     }
@@ -908,7 +930,10 @@ class FluxerBottomSheetFooter extends StatelessWidget {
             : null,
       ),
       child: Padding(
-        padding: padding ?? EdgeInsets.all(layout.s4),
+        padding: FluxerBottomSheet.scrollViewPadding(
+          context,
+          padding: padding ?? EdgeInsets.all(layout.s4),
+        ),
         child: child,
       ),
     );
@@ -969,6 +994,42 @@ List<Widget> _intersperseDividers(List<Widget> items, FluxerColorTheme colors) {
 // ---------------------------------------------------------------------------
 // Menu items
 // ---------------------------------------------------------------------------
+
+class FluxerMenuRadioIndicator extends StatelessWidget {
+  const FluxerMenuRadioIndicator({required this.selected, super.key});
+
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerColorTheme colors = context.colors;
+
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: selected ? colors.brandPrimary : Colors.transparent,
+        border: Border.all(
+          color: selected ? colors.brandPrimary : colors.interactiveMuted,
+          width: 2,
+        ),
+      ),
+      child: selected
+          ? Center(
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: colors.textPrimary,
+                ),
+              ),
+            )
+          : null,
+    );
+  }
+}
 
 class FluxerBottomSheetMenuItem extends StatelessWidget {
   final String label;
@@ -1113,10 +1174,85 @@ class FluxerBottomSheetSubmenuItem extends StatelessWidget {
       icon: icon,
       onTap: onTap,
       trailing: PhosphorIcon(
-        PhosphorIconsBold.caretRight,
-        size: 20,
-        color: context.colors.textPrimaryMuted,
+        PhosphorIconsFill.caretRight,
+        size: 16,
+        color: context.colors.textSecondary,
       ),
+    );
+  }
+}
+
+class FluxerBottomSheetMenuRadioItem extends StatelessWidget {
+  const FluxerBottomSheetMenuRadioItem({
+    required this.label,
+    required this.onTap,
+    required this.isSelected,
+    super.key,
+    this.hint,
+    this.enabled = true,
+  });
+
+  final String label;
+  final String? hint;
+  final VoidCallback onTap;
+  final bool isSelected;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final FluxerColorTheme colors = context.colors;
+
+    return FluxerTappable(
+      enabled: enabled,
+      onTap: onTap,
+      semanticLabel: hint != null ? '$label. $hint' : label,
+      excludeChildSemantics: true,
+      builder: (BuildContext context, Set<WidgetState> states) {
+        final bool isPressed = states.contains(WidgetState.pressed);
+
+        return AnimatedContainer(
+          duration: context.motion.fast,
+          curve: context.motion.curve,
+          color: isPressed
+              ? colors.backgroundModifierHover.withValues(alpha: 0.6)
+              : Colors.transparent,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 56),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          label,
+                          style: context.textStyles.username.copyWith(
+                            color: enabled
+                                ? colors.textPrimary
+                                : colors.textTertiary,
+                          ),
+                        ),
+                        if (hint != null)
+                          Text(
+                            hint!,
+                            style: context.textStyles.timestamp.copyWith(
+                              color: colors.textTertiary,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  FluxerMenuRadioIndicator(selected: isSelected),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

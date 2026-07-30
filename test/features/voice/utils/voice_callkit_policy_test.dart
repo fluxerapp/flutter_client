@@ -324,6 +324,51 @@ void main() {
     });
   });
 
+  group('shouldEndIncomingRingCallKitSession', () {
+    test('ends incoming ring when channel is not pending', () {
+      expect(
+        shouldEndIncomingRingCallKitSession(
+          session: const VoiceCallKitSession(
+            callKitId: 'uuid-in',
+            channelId: 'dm-1',
+            kind: VoiceCallKitSessionKind.incomingRing,
+            messageId: 'msg-1',
+          ),
+          pendingIncomingChannelIds: const <String>{},
+        ),
+        isTrue,
+      );
+    });
+    test('keeps incoming ring while channel is still pending', () {
+      expect(
+        shouldEndIncomingRingCallKitSession(
+          session: const VoiceCallKitSession(
+            callKitId: 'uuid-in',
+            channelId: 'dm-1',
+            kind: VoiceCallKitSessionKind.incomingRing,
+            messageId: 'msg-1',
+          ),
+          pendingIncomingChannelIds: const <String>{'dm-1'},
+        ),
+        isFalse,
+      );
+    });
+    test('ignores non-incoming-ring sessions', () {
+      expect(
+        shouldEndIncomingRingCallKitSession(
+          session: const VoiceCallKitSession(
+            callKitId: 'uuid-active',
+            channelId: 'dm-1',
+            kind: VoiceCallKitSessionKind.activeVoice,
+            messageId: 'msg-1',
+          ),
+          pendingIncomingChannelIds: const <String>{},
+        ),
+        isFalse,
+      );
+    });
+  });
+
   group('shouldEndCallKitSessionForActiveCallsChange', () {
     test(
       'keeps guild voice CallKit when channel is absent from activeCalls',

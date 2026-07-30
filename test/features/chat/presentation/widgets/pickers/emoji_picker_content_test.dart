@@ -52,7 +52,7 @@ class _FakeCollapsedCategories extends CollapsedEmojiPickerCategories {
 Widget _buildTestApp({
   required Widget child,
   required List<GuildEmojiEntry> allGuildEmojis,
-  required List<FrecentEmojiItem> frecent,
+  required List<String> rankedUsageKeys,
 }) {
   final colorTheme = buildDarkColorTheme();
 
@@ -70,8 +70,8 @@ Widget _buildTestApp({
       allGuildEmojisForPickerProvider.overrideWith(
         (ref) => Stream<List<GuildEmojiEntry>>.value(allGuildEmojis),
       ),
-      frecentEmojisProvider.overrideWithValue(
-        AsyncData<List<FrecentEmojiItem>>(frecent),
+      rankedEmojiUsageKeysProvider.overrideWithValue(
+        AsyncData<List<String>>(rankedUsageKeys),
       ),
       favoriteEmojiKeysProvider.overrideWith(_FakeFavoriteEmojiKeys.new),
       collapsedEmojiPickerCategoriesProvider.overrideWith(
@@ -90,10 +90,6 @@ Widget _buildTestApp({
     ),
   );
 }
-
-final _unicodeEmoji = FrecentUnicodeEmoji(
-  EmojiRegistry.entryByName('thumbsup')!,
-);
 
 final _customEmoji = GuildEmojiEntry(
   id: 'custom-1',
@@ -121,7 +117,7 @@ void main() {
       await tester.pumpWidget(
         _buildTestApp(
           allGuildEmojis: [_customEmoji],
-          frecent: [_unicodeEmoji, FrecentCustomEmoji(_customEmoji)],
+          rankedUsageKeys: const ['unicode:thumbsup', 'custom:g1:custom-1'],
           child: const SizedBox(
             width: 400,
             height: 400,
@@ -149,7 +145,7 @@ void main() {
       await tester.pumpWidget(
         _buildTestApp(
           allGuildEmojis: const <GuildEmojiEntry>[],
-          frecent: [_unicodeEmoji, FrecentCustomEmoji(_customEmoji)],
+          rankedUsageKeys: const ['unicode:thumbsup', 'custom:g1:custom-1'],
           child: const SizedBox(
             width: 400,
             height: 400,
@@ -177,7 +173,7 @@ void main() {
       await tester.pumpWidget(
         _buildTestApp(
           allGuildEmojis: [_animatedCustomEmoji],
-          frecent: const <FrecentEmojiItem>[],
+          rankedUsageKeys: const <String>[],
           child: const SizedBox(
             width: 400,
             height: 400,

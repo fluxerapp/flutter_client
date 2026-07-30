@@ -18,13 +18,13 @@
         {
             "label": "firebase: strip deps",
             "type": "shell",
-            "command": "dart run tool/strip_firebase_deps.dart",
+            "command": "dart tool/strip_firebase_deps.dart",
             "problemMatcher": []
         },
         {
             "label": "firebase: merge deps",
             "type": "shell",
-            "command": "dart run tool/merge_firebase_deps.dart",
+            "command": "dart tool/merge_firebase_deps.dart",
             "problemMatcher": []
         },
         {

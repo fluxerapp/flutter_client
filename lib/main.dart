@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/app.dart';
-import 'package:fluxer_app/core/bootstrap/display_refresh_rate_config.dart';
 import 'package:fluxer_app/core/bootstrap/flutter_error_ui.dart';
 import 'package:fluxer_app/core/bootstrap/image_cache_config.dart';
 import 'package:fluxer_app/core/build/push_provider_assert.dart';
@@ -66,7 +65,6 @@ void _configureFluxerErrorReporting() {
 
 Future<void> _bootstrapFluxer(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureFluxerDisplayRefreshRate();
   configureFluxerMobileDetection();
   configureFluxerImageCache();
   configureFluxerErrorUi();

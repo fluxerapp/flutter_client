@@ -824,9 +824,104 @@ void main() {
 
     expect(adapter.lastLimit, '50');
   });
+
+  test(
+    'loadMore clears loading and allows retry after network failure',
+    () async {
+      final db = openTestDatabase();
+      await db.channelDao.upsertChannel(
+        ChannelsCompanion.insert(
+          id: 'channel-1',
+          guildId: 'guild-1',
+          name: 'general',
+        ),
+      );
+      final List<Map<String, Object?>> all = _channelMessages('channel-1', 120);
+      final String olderId = all[20]['id']! as String;
+      final adapter = _PaginatingAdapter(messagesByChannel: {'channel-1': all})
+        ..beforeFetchFailuresRemaining = 1;
+      final container = _container(db, adapter);
+      addTearDown(container.dispose);
+
+      final notifier = container.read(chatViewModelProvider.notifier);
+      await notifier.switchChannel('channel-1');
+      await _flushAsync();
+
+      final String oldestBeforeLoad = container
+          .read(chatViewModelProvider)
+          .messages
+          .first
+          .id;
+
+      await notifier.loadMore();
+      await _flushAsync();
+
+      final ChatViewState afterFailure = container.read(chatViewModelProvider);
+      expect(afterFailure.isLoadingMore, isFalse);
+      expect(afterFailure.messages.first.id, oldestBeforeLoad);
+
+      await notifier.loadMore();
+      await _flushAsync();
+
+      final ChatViewState afterRetry = container.read(chatViewModelProvider);
+      expect(afterRetry.isLoadingMore, isFalse);
+      expect(afterRetry.messages.first.id, olderId);
+      expect(afterRetry.messages.first.id, isNot(oldestBeforeLoad));
+    },
+  );
+
+  test('publishes network messages before guild hydrate completes', () async {
+    final db = openTestDatabase();
+    await db.channelDao.upsertChannel(
+      ChannelsCompanion.insert(
+        id: 'channel-1',
+        guildId: 'guild-1',
+        name: 'general',
+      ),
+    );
+    final String networkId = _snowflakeForIndex(5);
+    final adapter = _PaginatingAdapter(
+      messagesByChannel: {
+        'channel-1': [
+          _messageJson(
+            id: networkId,
+            channelId: 'channel-1',
+            authorId: 'other',
+          ),
+        ],
+      },
+    );
+    final Completer<void> hydrateHold = Completer<void>();
+    final container = _container(
+      db,
+      adapter,
+      hydrationService: _HoldingGuildMemberHydrationService(
+        database: db,
+        hold: hydrateHold,
+      ),
+    );
+    addTearDown(container.dispose);
+
+    final notifier = container.read(chatViewModelProvider.notifier);
+    final Future<void> load = notifier.switchChannel('channel-1');
+    await _flushAsync();
+
+    final ChatViewState state = container.read(chatViewModelProvider);
+    expect(state.messages, hasLength(1));
+    expect(state.messages.first.id, networkId);
+    expect(hydrateHold.isCompleted, isFalse);
+
+    hydrateHold.complete();
+    await load;
+    await _flushAsync();
+  });
 }
 
-ProviderContainer _container(FluxerDatabase db, _PaginatingAdapter adapter) {
+ProviderContainer _container(
+  FluxerDatabase db,
+  _PaginatingAdapter adapter, {
+  GuildMemberHydrationService? hydrationService,
+}) {
   final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
     ..httpClientAdapter = adapter;
   final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
@@ -845,7 +940,7 @@ ProviderContainer _container(FluxerDatabase db, _PaginatingAdapter adapter) {
         return batcher;
       }),
       guildMemberHydrationServiceProvider.overrideWithValue(
-        NoopGuildMemberHydrationService(database: db),
+        hydrationService ?? NoopGuildMemberHydrationService(database: db),
       ),
     ],
   );
@@ -870,6 +965,7 @@ class _PaginatingAdapter implements HttpClientAdapter {
   bool holdBeforeFetch = false;
   bool holdAfterFetch = false;
   bool holdAroundFetch = false;
+  int beforeFetchFailuresRemaining = 0;
   int aroundFetchCount = 0;
   int afterFetchCount = 0;
   String? lastLimit;
@@ -937,6 +1033,14 @@ class _PaginatingAdapter implements HttpClientAdapter {
       }
       final List<Map<String, Object?>> page;
       if (before != null) {
+        if (beforeFetchFailuresRemaining > 0) {
+          beforeFetchFailuresRemaining--;
+          throw DioException(
+            requestOptions: options,
+            type: DioExceptionType.badResponse,
+            response: Response(requestOptions: options, statusCode: 500),
+          );
+        }
         final older = all
             .where((m) => _compare(m['id']! as String, before) < 0)
             .toList();
@@ -981,4 +1085,23 @@ class _PaginatingAdapter implements HttpClientAdapter {
 
   @override
   void close({bool force = false}) {}
+}
+
+class _HoldingGuildMemberHydrationService
+    extends NoopGuildMemberHydrationService {
+  _HoldingGuildMemberHydrationService({
+    required super.database,
+    required this.hold,
+  });
+
+  final Completer<void> hold;
+
+  @override
+  Future<void> hydrateMembers({
+    required String guildId,
+    required Iterable<String> userIds,
+    void Function(String userId)? onMemberFetched,
+  }) async {
+    await hold.future;
+  }
 }

@@ -8,10 +8,14 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 class GuildContextMenuItem extends StatelessWidget {
   final GuildMenuAction entry;
   final VoidCallback onTap;
+  final bool isDisabled;
+  final VoidCallback? onDisabledTap;
 
   const GuildContextMenuItem({
     required this.entry,
     required this.onTap,
+    this.isDisabled = false,
+    this.onDisabledTap,
     super.key,
   });
 
@@ -22,6 +26,8 @@ class GuildContextMenuItem extends StatelessWidget {
       hint: entry.hint,
       icon: entry.icon,
       isDanger: entry.isDanger,
+      isDisabled: isDisabled,
+      onDisabledTap: onDisabledTap,
       onTap: onTap,
     );
   }

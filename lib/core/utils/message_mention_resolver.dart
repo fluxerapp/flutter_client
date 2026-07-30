@@ -79,10 +79,10 @@ bool messageMentionsUser(
   required bool mentionEveryone,
   required List<String> mentionRoleIds,
 }) {
-  if (ctx.currentUserId == null || authorId == ctx.currentUserId) {
+  if (ctx.currentUserId == null) {
     return false;
   }
-  if (ctx.blockedUserIds.contains(authorId)) {
+  if (authorId != ctx.currentUserId && ctx.blockedUserIds.contains(authorId)) {
     return false;
   }
   if (mentionedUserIds.contains(ctx.currentUserId)) {

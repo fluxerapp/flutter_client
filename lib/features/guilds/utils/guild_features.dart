@@ -8,6 +8,19 @@ abstract final class GuildFeatures {
   static const String hideOwnerCrown = 'HIDE_OWNER_CROWN';
   static const String invitesDisabled = 'INVITES_DISABLED';
   static const String raidDetected = 'RAID_DETECTED';
+  static const String unlimitedEmoji = 'UNLIMITED_EMOJI';
+  static const String unlimitedStickers = 'UNLIMITED_STICKERS';
+  static const String cloneEmojiDisabled = 'CLONE_EMOJI_DISABLED';
+  static const String cloneStickerDisabled = 'CLONE_STICKER_DISABLED';
+  static const String expressionPurgeAllowed = 'EXPRESSION_PURGE_ALLOWED';
+}
+
+bool isCloneEmojiAllowed(List<String> features) {
+  return !hasGuildFeature(features, GuildFeatures.cloneEmojiDisabled);
+}
+
+bool isCloneStickerAllowed(List<String> features) {
+  return !hasGuildFeature(features, GuildFeatures.cloneStickerDisabled);
 }
 
 bool hasGuildFeature(List<String> features, String feature) {

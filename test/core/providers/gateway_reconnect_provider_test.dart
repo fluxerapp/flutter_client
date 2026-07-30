@@ -131,6 +131,10 @@ void main() {
         ..emit(GatewayState.connected)
         ..emit(GatewayState.reconnecting);
 
+      expect(container.read(toastProvider), isEmpty);
+
+      async.elapse(kReconnectToastDelay);
+
       ToastEntry entry = container.read(toastProvider).single;
       expect(entry.toast.message, 'Reconnexion…');
       expect(entry.toast.variant, FluxerToastVariant.info);
@@ -167,6 +171,9 @@ void main() {
         connection
           ..emit(GatewayState.connected)
           ..emit(GatewayState.reconnecting);
+        expect(container.read(toastProvider), isEmpty);
+
+        async.elapse(kReconnectToastDelay);
         expect(
           container.read(toastProvider).single.toast.message,
           'Reconnexion…',
@@ -215,6 +222,65 @@ void main() {
       unawaited(connection.dispose());
     });
   });
+
+  test('quick reconnect does not show reconnect toast', () {
+    fakeAsync((FakeAsync async) {
+      final _TestGatewayConnection connection = _TestGatewayConnection();
+      final ProviderContainer container = ProviderContainer(
+        overrides: <Override>[
+          gatewayConnectionProvider.overrideWithValue(connection),
+        ],
+      );
+      container.read(gatewayReconnectToastListenerProvider);
+
+      connection
+        ..emit(GatewayState.connected)
+        ..emit(GatewayState.reconnecting)
+        ..emit(GatewayState.connected);
+
+      async.elapse(kReconnectToastDelay);
+      expect(container.read(toastProvider), isEmpty);
+
+      container.dispose();
+      unawaited(connection.dispose());
+    });
+  });
+
+  test(
+    'computeIsLikelyStale treats fresh connection without ack as healthy',
+    () {
+      final DateTime now = DateTime.utc(2026, 1, 1, 12);
+      const Duration interval = Duration(seconds: 30);
+
+      expect(
+        GatewayConnection.computeIsLikelyStale(
+          lastAckAt: null,
+          heartbeatInterval: interval,
+          connectedAt: now.subtract(const Duration(seconds: 10)),
+          now: now,
+        ),
+        isFalse,
+      );
+      expect(
+        GatewayConnection.computeIsLikelyStale(
+          lastAckAt: null,
+          heartbeatInterval: interval,
+          connectedAt: now.subtract(const Duration(seconds: 50)),
+          now: now,
+        ),
+        isTrue,
+      );
+      expect(
+        GatewayConnection.computeIsLikelyStale(
+          lastAckAt: null,
+          heartbeatInterval: null,
+          connectedAt: now,
+          now: now,
+        ),
+        isFalse,
+      );
+    },
+  );
 
   test('gatewayConnectionFailed tracks failure and reset', () {
     final ProviderContainer container = ProviderContainer();

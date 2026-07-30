@@ -23,6 +23,7 @@ const Duration kGatewayResumeReconnectFailureTimeout = Duration(seconds: 60);
 const Duration kBackgroundGatewayDisconnectGrace = Duration(seconds: 45);
 const Duration kResumeReconnectDelay = Duration(milliseconds: 500);
 const Duration kConnectivityReconnectDebounce = Duration(milliseconds: 500);
+const Duration kReconnectToastDelay = Duration(seconds: 2);
 
 /// True while a foreground resume reconnect nudge is in flight.
 @Riverpod(keepAlive: true)
@@ -305,9 +306,17 @@ void gatewayForegroundListener(Ref ref) {
 void gatewayReconnectToastListener(Ref ref) {
   GatewayState? previousState;
   var reconnectToastShown = false;
+  Timer? pendingReconnectToastTimer;
   final connection = ref.watch(gatewayConnectionProvider);
+
+  void clearPendingReconnectToast() {
+    pendingReconnectToastTimer?.cancel();
+    pendingReconnectToastTimer = null;
+  }
+
   final subscription = connection.stateChanges.listen((GatewayState state) {
     if (ref.read(gatewayConnectionFailedProvider)) {
+      clearPendingReconnectToast();
       previousState = state;
       return;
     }
@@ -321,38 +330,55 @@ void gatewayReconnectToastListener(Ref ref) {
         state == GatewayState.connecting || state == GatewayState.reconnecting;
     final bool isConnected = state == GatewayState.connected;
     if (wasConnected && isReconnecting && !reconnectToastShown) {
-      reconnectToastShown = true;
-      final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.gatewayReconnectingToast,
-              duration: const Duration(seconds: 5),
-            ),
-          );
+      clearPendingReconnectToast();
+      pendingReconnectToastTimer = Timer(kReconnectToastDelay, () {
+        pendingReconnectToastTimer = null;
+        if (ref.read(gatewayConnectionFailedProvider)) {
+          return;
+        }
+        final GatewayState current = connection.state;
+        if (current != GatewayState.connecting &&
+            current != GatewayState.reconnecting) {
+          return;
+        }
+        reconnectToastShown = true;
+        final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.gatewayReconnectingToast,
+                duration: const Duration(seconds: 5),
+              ),
+            );
+      });
     }
-    if (reconnectToastShown &&
-        isConnected &&
+    if (isConnected &&
         (prior == GatewayState.connecting ||
             prior == GatewayState.reconnecting)) {
-      reconnectToastShown = false;
-      final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
-      ref
-          .read(toastProvider.notifier)
-          .show(
-            FluxerToast(
-              message: l10n.gatewayConnectedToast,
-              variant: FluxerToastVariant.success,
-            ),
-          );
+      clearPendingReconnectToast();
+      if (reconnectToastShown) {
+        reconnectToastShown = false;
+        final FluxerLocalizations l10n = ref.read(appLocalizationsProvider);
+        ref
+            .read(toastProvider.notifier)
+            .show(
+              FluxerToast(
+                message: l10n.gatewayConnectedToast,
+                variant: FluxerToastVariant.success,
+              ),
+            );
+      }
     }
     if (isConnected) {
       reconnectToastShown = false;
     }
   });
 
-  ref.onDispose(subscription.cancel);
+  ref.onDispose(() {
+    clearPendingReconnectToast();
+    unawaited(subscription.cancel());
+  });
 }
 
 @Riverpod(keepAlive: true)

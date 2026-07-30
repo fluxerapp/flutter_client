@@ -105,6 +105,7 @@ class FluxerMarkdownConfig {
     this.blockquoteTextColor,
     this.inlineCodeBackgroundColor,
     this.inlineCodeTextColor,
+    this.codeTextStyle,
     this.tableBorderColor,
     this.tableHeaderBackgroundColor,
     this.tableHeaderTextColor,
@@ -138,6 +139,7 @@ class FluxerMarkdownConfig {
   final Color? blockquoteTextColor;
   final Color? inlineCodeBackgroundColor;
   final Color? inlineCodeTextColor;
+  final TextStyle? codeTextStyle;
   final Color? tableBorderColor;
   final Color? tableHeaderBackgroundColor;
   final Color? tableHeaderTextColor;

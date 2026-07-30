@@ -106,7 +106,7 @@ class _TypingPill extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.colors;
-    final guildId = ref.watch(activeGuildIdProvider);
+    final guildId = ref.watch(contextualGuildIdProvider);
     final resolvedUsers = <({String userId, GuildUserDisplay display})>[];
     for (final id in userIds) {
       resolvedUsers.add((

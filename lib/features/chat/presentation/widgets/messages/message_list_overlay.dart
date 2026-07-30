@@ -99,7 +99,7 @@ class MessageListNewMessagesBar extends ConsumerWidget {
                 child: Row(
                   children: <Widget>[
                     PhosphorIcon(
-                      PhosphorIconsRegular.envelopeOpen,
+                      PhosphorIconsBold.envelopeOpen,
                       color: context.colors.textOnBrandPrimary,
                       size: 18,
                     ),

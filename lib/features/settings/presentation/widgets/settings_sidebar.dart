@@ -12,6 +12,9 @@ class SettingsSidebar extends StatelessWidget {
   final String? username;
   final String? avatarUrl;
   final int? avatarColor;
+  final Widget? footer;
+  final bool showSearch;
+  final Color? backgroundColor;
 
   const SettingsSidebar({
     required this.items,
@@ -22,52 +25,56 @@ class SettingsSidebar extends StatelessWidget {
     this.username,
     this.avatarUrl,
     this.avatarColor,
+    this.footer,
+    this.showSearch = true,
+    this.backgroundColor,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) => Container(
-    width: 400,
-    color: context.colors.backgroundPrimary,
+    width: double.infinity,
+    color: backgroundColor ?? context.colors.backgroundPrimary,
     child: Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
-          child: TextField(
-            style: TextStyle(color: context.colors.textChat, fontSize: 14),
-            decoration: InputDecoration(
-              hintText: 'Search settings...',
-              hintStyle: TextStyle(
-                color: context.colors.textPrimaryMuted,
-                fontSize: 14,
-              ),
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 8, right: 4),
-                child: PhosphorIcon(
-                  PhosphorIconsRegular.magnifyingGlass,
-                  size: 18,
+        if (showSearch)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 20, 16, 12),
+            child: TextField(
+              style: TextStyle(color: context.colors.textChat, fontSize: 14),
+              decoration: InputDecoration(
+                hintText: 'Search settings...',
+                hintStyle: TextStyle(
                   color: context.colors.textPrimaryMuted,
+                  fontSize: 14,
                 ),
-              ),
-              prefixIconConstraints: const BoxConstraints(minWidth: 20),
-              filled: true,
-              fillColor: context.colors.backgroundTertiary,
-              contentPadding: const EdgeInsets.symmetric(vertical: 8),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.colors.borderColor),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.colors.borderColor),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: context.colors.borderColor),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 4),
+                  child: PhosphorIcon(
+                    PhosphorIconsBold.magnifyingGlass,
+                    size: 18,
+                    color: context.colors.textPrimaryMuted,
+                  ),
+                ),
+                prefixIconConstraints: const BoxConstraints(minWidth: 20),
+                filled: true,
+                fillColor: context.colors.backgroundTertiary,
+                contentPadding: const EdgeInsets.symmetric(vertical: 8),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: context.colors.borderColor),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: context.colors.borderColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: context.colors.borderColor),
+                ),
               ),
             ),
           ),
-        ),
         if (username != null)
           Padding(
             padding: const EdgeInsets.fromLTRB(18, 8, 16, 24),
@@ -118,16 +125,8 @@ class SettingsSidebar extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(12),
-          child: Text(
-            'fluxer_app',
-            style: TextStyle(
-              color: context.colors.textTertiarySecondary,
-              fontSize: 11,
-            ),
-          ),
-        ),
+        if (footer != null)
+          Padding(padding: const EdgeInsets.all(12), child: footer),
       ],
     ),
   );
@@ -155,12 +154,33 @@ class SettingsSidebar extends StatelessWidget {
     VoidCallback onTap,
   ) {
     final color = item.isDisabled
-        ? context.colors.textTertiary
+        ? context.colors.textPrimaryMuted
         : item.isDestructive
         ? context.colors.textDanger
         : isSelected
         ? context.colors.textPrimary
         : context.colors.textPrimaryMuted;
+
+    final Widget row = Row(
+      children: [
+        if (item.icon != null) ...[
+          PhosphorIcon(item.icon!, size: 20, color: color),
+          const SizedBox(width: 8),
+        ],
+        Expanded(
+          child: Text(
+            item.label,
+            style: TextStyle(
+              color: color,
+              fontSize: 16,
+              fontWeight: isSelected && !item.isDisabled
+                  ? FontWeight.w500
+                  : FontWeight.w400,
+            ),
+          ),
+        ),
+      ],
+    );
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 3),
@@ -175,26 +195,7 @@ class SettingsSidebar extends StatelessWidget {
                 : null,
             borderRadius: BorderRadius.circular(4),
           ),
-          child: Row(
-            children: [
-              if (item.icon != null) ...[
-                PhosphorIcon(item.icon!, size: 20, color: color),
-                const SizedBox(width: 8),
-              ],
-              Expanded(
-                child: Text(
-                  item.label,
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 16,
-                    fontWeight: isSelected && !item.isDisabled
-                        ? FontWeight.w500
-                        : FontWeight.w400,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: item.isDisabled ? Opacity(opacity: 0.5, child: row) : row,
         ),
       ),
     );
@@ -224,4 +225,31 @@ class SettingsSidebarItem {
       isDestructive = false,
       isDisabled = false,
       onDisabledTap = null;
+}
+
+int settingsSidebarIndexForLabel(
+  List<SettingsSidebarItem> items,
+  String label,
+) {
+  for (int i = 0; i < items.length; i++) {
+    final SettingsSidebarItem item = items[i];
+    if (!item.isSeparator && item.label == label) {
+      return i;
+    }
+  }
+  return 0;
+}
+
+String? settingsSidebarLabelAtIndex(
+  List<SettingsSidebarItem> items,
+  int index,
+) {
+  if (index < 0 || index >= items.length) {
+    return null;
+  }
+  final SettingsSidebarItem item = items[index];
+  if (item.isSeparator) {
+    return null;
+  }
+  return item.label;
 }

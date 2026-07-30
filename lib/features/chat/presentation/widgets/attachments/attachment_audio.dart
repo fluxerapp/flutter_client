@@ -7,6 +7,7 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
+import 'package:fluxer_app/shared/widgets/playback_seek_gesture_target.dart';
 import 'package:fluxer_app/shared/widgets/volume_popout_control.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -20,13 +21,17 @@ class AttachmentAudio extends StatefulWidget {
 }
 
 class _AttachmentAudioState extends State<AttachmentAudio> {
+  static const Duration _kSeekTimeout = Duration(seconds: 8);
+
   AudioPlayer? _player;
   StreamSubscription<PlayerState>? _playerStateSubscription;
+  StreamSubscription<void>? _playerCompleteSubscription;
   StreamSubscription<Duration>? _positionSubscription;
   StreamSubscription<Duration>? _durationSubscription;
   bool _isPlaying = false;
   bool _isLoading = false;
   bool _hasPreparedSource = false;
+  bool _playbackFinished = false;
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
   double _volume = 1;
@@ -41,6 +46,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
   @override
   void dispose() {
     unawaited(_playerStateSubscription?.cancel());
+    unawaited(_playerCompleteSubscription?.cancel());
     unawaited(_positionSubscription?.cancel());
     unawaited(_durationSubscription?.cancel());
     unawaited(_player?.dispose());
@@ -60,16 +66,17 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     });
     try {
       final AudioPlayer player = _ensurePlayer();
+      if (_playbackFinished || _isAtEndOfTrack) {
+        await _replayFromStart(player);
+        return;
+      }
       if (!_hasPreparedSource) {
         await player.setSourceUrl(widget.attachment.url);
         _hasPreparedSource = true;
       }
-      if (_duration > Duration.zero && _position >= _duration) {
-        await player.seek(Duration.zero);
-      }
       await player.resume();
     } on Object {
-      if (!mounted) {
+      if (!mounted || _hasPreparedSource) {
         return;
       }
       await handleExternalLinkTap(context, widget.attachment.url);
@@ -82,6 +89,42 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     }
   }
 
+  bool get _isAtEndOfTrack =>
+      _duration > Duration.zero && _position >= _duration;
+
+  Future<void> _prepareFromStart(AudioPlayer player) async {
+    _playbackFinished = false;
+    if (!_hasPreparedSource) {
+      await player.setSourceUrl(widget.attachment.url);
+      _hasPreparedSource = true;
+    } else {
+      final bool seeked = await _safeSeek(player, Duration.zero);
+      if (!seeked) {
+        await player.setSourceUrl(widget.attachment.url);
+        _hasPreparedSource = true;
+      }
+    }
+    if (mounted) {
+      setState(() {
+        _position = Duration.zero;
+      });
+    }
+  }
+
+  Future<void> _replayFromStart(AudioPlayer player) async {
+    await _prepareFromStart(player);
+    await player.resume();
+  }
+
+  Future<bool> _safeSeek(AudioPlayer player, Duration target) async {
+    try {
+      await player.seek(target).timeout(_kSeekTimeout);
+      return true;
+    } on Object {
+      return false;
+    }
+  }
+
   AudioPlayer _ensurePlayer() {
     final AudioPlayer? existingPlayer = _player;
     if (existingPlayer != null) {
@@ -89,6 +132,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
     }
     final AudioPlayer player = AudioPlayer();
     _player = player;
+    unawaited(player.setReleaseMode(ReleaseMode.stop));
     unawaited(player.setVolume(_isMuted ? 0 : _volume));
     unawaited(player.setPlaybackRate(_playbackRate));
     _playerStateSubscription = player.onPlayerStateChanged.listen((
@@ -99,8 +143,17 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
       }
       setState(() {
         _isPlaying = playerState == PlayerState.playing;
-        if (playerState == PlayerState.stopped) {
-          _position = Duration.zero;
+      });
+    });
+    _playerCompleteSubscription = player.onPlayerComplete.listen((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _isPlaying = false;
+        _playbackFinished = true;
+        if (_duration > Duration.zero) {
+          _position = _duration;
         }
       });
     });
@@ -174,16 +227,24 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
         .round();
     final Duration target = Duration(milliseconds: targetMilliseconds);
     final AudioPlayer player = _ensurePlayer();
-    await player.seek(target);
-  }
-
-  Future<void> _seekFromGlobalPosition({
-    required double globalDx,
-    required RenderBox renderBox,
-  }) async {
-    final Offset local = renderBox.globalToLocal(Offset(globalDx, 0));
-    final double relative = local.dx / renderBox.size.width;
-    await _seekToRelativePosition(relative);
+    if (_playbackFinished) {
+      await _prepareFromStart(player);
+    }
+    if (!_hasPreparedSource) {
+      return;
+    }
+    final bool seeked = await _safeSeek(player, target);
+    if (!seeked) {
+      await player.setSourceUrl(widget.attachment.url);
+      _hasPreparedSource = true;
+      await _safeSeek(player, target);
+    }
+    if (mounted) {
+      setState(() {
+        _position = target;
+        _playbackFinished = false;
+      });
+    }
   }
 
   @override
@@ -260,52 +321,27 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 6),
           Row(
             children: [
               Expanded(
-                child: Builder(
-                  builder: (BuildContext context) {
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTapDown: (TapDownDetails details) async {
-                        final RenderObject? renderObject = context
-                            .findRenderObject();
-                        if (renderObject is! RenderBox) {
-                          return;
-                        }
-                        await _seekFromGlobalPosition(
-                          globalDx: details.globalPosition.dx,
-                          renderBox: renderObject,
-                        );
-                      },
-                      onHorizontalDragUpdate:
-                          (DragUpdateDetails details) async {
-                            final RenderObject? renderObject = context
-                                .findRenderObject();
-                            if (renderObject is! RenderBox) {
-                              return;
-                            }
-                            await _seekFromGlobalPosition(
-                              globalDx: details.globalPosition.dx,
-                              renderBox: renderObject,
-                            );
-                          },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(99),
-                        child: LinearProgressIndicator(
-                          value: progress,
-                          minHeight: 4,
-                          backgroundColor: colors.textTertiary.withValues(
-                            alpha: 0.35,
-                          ),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            colors.brandPrimary,
-                          ),
-                        ),
-                      ),
-                    );
+                child: PlaybackSeekGestureTarget(
+                  onSeekFraction: (double fraction) {
+                    unawaited(_seekToRelativePosition(fraction));
                   },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(99),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 4,
+                      backgroundColor: colors.textTertiary.withValues(
+                        alpha: 0.35,
+                      ),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        colors.brandPrimary,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -318,7 +354,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
               ),
             ],
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 2),
           Row(
             children: [
               VolumePopoutControl(
@@ -349,7 +385,7 @@ class _AttachmentAudioState extends State<AttachmentAudio> {
                   onPressed: _downloadAudio,
                   variant: FluxerButtonVariant.ghost,
                   size: FluxerButtonSize.compact,
-                  icon: PhosphorIconsRegular.downloadSimple,
+                  icon: PhosphorIconsBold.downloadSimple,
                 ),
               ),
             ],

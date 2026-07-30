@@ -127,6 +127,16 @@ class VoiceSettings extends _$VoiceSettings {
     _schedulePersist();
   }
 
+  Future<void> setShowVoiceConnectionAvatarStack({required bool value}) async {
+    state = state.copyWith(showVoiceConnectionAvatarStack: value);
+    _schedulePersist();
+  }
+
+  Future<void> setShowVoiceConnectionId({required bool value}) async {
+    state = state.copyWith(showVoiceConnectionId: value);
+    _schedulePersist();
+  }
+
   int participantVolumeFor(String userId) {
     return state.participantVolumes[userId] ?? kDefaultVoiceVolumePercent;
   }

@@ -121,17 +121,13 @@ class UserProfileActionsSheet {
                     userId: user.id,
                     successMessage: l10n.userProfileNicknameSuccess,
                     failureMessage: l10n.userProfileActionFailed,
-                    action: () => ref
-                        .read(fluxerClientProvider)
-                        .guilds
-                        .updateGuildMember(
-                          guildId: guildId,
-                          userId: user.id,
-                          body: GuildMemberUpdateRequest(
-                            nick: result.nick,
-                            communicationDisabledUntil: currentTimeoutUntil,
-                          ),
-                        ),
+                    action: () => _updateGuildMemberNickname(
+                      ref: ref,
+                      guildId: guildId,
+                      userId: user.id,
+                      nick: result.nick,
+                      isCurrentUser: isCurrentUser,
+                    ),
                   );
                 },
               ),
@@ -564,6 +560,34 @@ class UserProfileActionsSheet {
         return widgets;
       },
     );
+  }
+
+  static Future<void> _updateGuildMemberNickname({
+    required WidgetRef ref,
+    required String guildId,
+    required String userId,
+    required String? nick,
+    required bool isCurrentUser,
+  }) async {
+    if (isCurrentUser) {
+      await ref
+          .read(fluxerClientProvider)
+          .guilds
+          .updateCurrentGuildMember(
+            guildId: guildId,
+            body: MyGuildMemberUpdateRequest(nick: nick),
+          );
+      return;
+    }
+    // Can't use updateGuildMember
+    // communication_disabled_until are treated as required in the OpenAPI spec but
+    // should not be included in patch for other users. The OpenAPI spec should be fixed at some point.
+    await ref
+        .read(fluxerDioProvider)
+        .patch<void>(
+          '/guilds/$guildId/members/$userId',
+          data: <String, dynamic>{'nick': nick},
+        );
   }
 
   static Future<void> _runGuildModeration(

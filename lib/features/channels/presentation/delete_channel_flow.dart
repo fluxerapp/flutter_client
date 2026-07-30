@@ -27,53 +27,52 @@ class DeleteChannelFlow {
     final String description = channel.isCategory
         ? l10n.channelSettingsDeleteCategoryConfirm(channel.name)
         : l10n.channelSettingsDeleteChannelConfirm(channel.name);
+    final toast = ref.read(toastProvider.notifier);
+    Future<void> performDelete() async {
+      try {
+        await ref
+            .read(fluxerClientProvider)
+            .channels
+            .deleteChannel(
+              channelId: channel.id,
+              body: const SudoVerificationSchema(),
+            );
+        onDeleted?.call();
+        if (context.mounted) {
+          unawaited(Navigator.of(context).maybePop());
+        }
+        toast.show(
+          FluxerToast(message: title, variant: FluxerToastVariant.success),
+        );
+      } on Object {
+        toast.show(
+          const FluxerToast(
+            message: 'Failed to delete channel',
+            variant: FluxerToastVariant.danger,
+          ),
+        );
+      }
+    }
+
     final bool isMobile = isMobileLayout(context);
-    final bool? confirmed = isMobile
-        ? await FluxerConfirmSheet.show(
-            context,
-            title: title,
-            description: description,
-            confirmLabel: title,
-            isDanger: true,
-            onConfirm: () {},
-          )
-        : await FluxerConfirmModal.show(
-            context,
-            title: title,
-            description: description,
-            confirmLabel: title,
-            isDanger: true,
-            onConfirm: () {},
-          );
-    if (confirmed != true || !context.mounted) {
+    if (isMobile) {
+      await FluxerConfirmSheet.show(
+        context,
+        title: title,
+        description: description,
+        confirmLabel: title,
+        isDanger: true,
+        onConfirm: () => unawaited(performDelete()),
+      );
       return;
     }
-    final toast = ref.read(toastProvider.notifier);
-    try {
-      await ref
-          .read(fluxerClientProvider)
-          .channels
-          .deleteChannel(
-            channelId: channel.id,
-            body: const SudoVerificationSchema(),
-          );
-      if (!context.mounted) {
-        return;
-      }
-      onDeleted?.call();
-      if (context.mounted) {
-        unawaited(Navigator.of(context).maybePop());
-      }
-      toast.show(
-        FluxerToast(message: title, variant: FluxerToastVariant.success),
-      );
-    } on Object {
-      toast.show(
-        const FluxerToast(
-          message: 'Failed to delete channel',
-          variant: FluxerToastVariant.danger,
-        ),
-      );
-    }
+    await FluxerConfirmModal.show(
+      context,
+      title: title,
+      description: description,
+      confirmLabel: title,
+      isDanger: true,
+      onConfirm: () => unawaited(performDelete()),
+    );
   }
 }

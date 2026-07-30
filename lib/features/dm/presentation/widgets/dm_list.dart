@@ -666,7 +666,7 @@ class _DMListState extends ConsumerState<DMList> {
                 child: Padding(
                   padding: const EdgeInsets.all(4),
                   child: PhosphorIcon(
-                    PhosphorIconsRegular.plus,
+                    PhosphorIconsBold.plus,
                     size: 16,
                     color: isRestricted
                         ? context.colors.textPrimaryMuted.withValues(alpha: 0.4)
@@ -732,6 +732,11 @@ class _DMListState extends ConsumerState<DMList> {
     final timestampColor = isSelected
         ? context.colors.surfaceInteractiveSelectedColor
         : context.colors.textTertiary;
+    final titleStyle = context.textStyles.username.copyWith(
+      color: titleColor,
+      fontSize: isMobile ? 16 : 13,
+      height: isMobile ? null : 16 / 13,
+    );
     final secondaryStyle = TextStyle(
       color: secondaryColor,
       fontSize: 11,
@@ -819,9 +824,8 @@ class _DMListState extends ConsumerState<DMList> {
                           Flexible(
                             child: Text(
                               displayName,
-                              style: context.textStyles.username.copyWith(
-                                color: titleColor,
-                              ),
+                              style: titleStyle,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -1650,12 +1654,12 @@ class _DmBottomSheet extends ConsumerWidget {
         children: [
           if (!convo.isGroup)
             FluxerBottomSheetMenuItem(
-              icon: PhosphorIconsRegular.snowflake,
+              icon: PhosphorIconsBold.snowflake,
               label: l10n.dmCopyUserId,
               onTap: () => pop(_DmAction.copyUserId),
             ),
           FluxerBottomSheetMenuItem(
-            icon: PhosphorIconsRegular.snowflake,
+            icon: PhosphorIconsBold.snowflake,
             label: l10n.dmCopyChannelId,
             onTap: () => pop(_DmAction.copyChannelId),
           ),

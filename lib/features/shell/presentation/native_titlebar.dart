@@ -73,7 +73,7 @@ class NativeTitlebar extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _WindowButton(
-                      icon: PhosphorIconsRegular.question,
+                      icon: PhosphorIconsBold.question,
                       onPressed: () => unawaited(
                         handleExternalLinkTap(
                           context,
@@ -89,12 +89,12 @@ class NativeTitlebar extends ConsumerWidget {
                       ),
                     ),
                     _WindowButton(
-                      icon: PhosphorIconsRegular.minus,
+                      icon: PhosphorIconsBold.minus,
                       onPressed: windowManager.minimize,
                     ),
                     const _MaximizeButton(),
                     _WindowButton(
-                      icon: PhosphorIconsRegular.x,
+                      icon: PhosphorIconsBold.x,
                       hoverColor: context.colors.textDanger,
                       hoverIconColor: context.colors.textOnBrandPrimary,
                       onPressed: windowManager.close,
@@ -175,8 +175,8 @@ class _MaximizeButtonState extends State<_MaximizeButton> with WindowListener {
   Widget build(BuildContext context) {
     return _WindowButton(
       icon: _isMaximized
-          ? PhosphorIconsRegular.cornersIn
-          : PhosphorIconsRegular.square,
+          ? PhosphorIconsBold.cornersIn
+          : PhosphorIconsBold.square,
       onPressed: () async {
         if (_isMaximized) {
           await windowManager.unmaximize();

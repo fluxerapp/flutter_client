@@ -14,16 +14,13 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/presentation/widgets/voice_chat_unread_badge.dart';
-import 'package:fluxer_app/features/voice/presentation/widgets/voice_e2ee_indicator.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
-import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
-import 'package:fluxer_app/features/voice/voice_session_errors.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -103,7 +100,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
         ? isConnected
               ? _buildConnected(context, channelName: name, isMobile: isMobile)
               : _buildConnecting(context, channelName: name, isMobile: isMobile)
-        : _buildEmpty(context, channelName: name, isMobile: isMobile);
+        : _buildEmpty(channel: channel);
     if (isMobile) {
       return content;
     }
@@ -158,90 +155,11 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
     );
   }
 
-  Widget _buildEmpty(
-    BuildContext context, {
-    required String channelName,
-    required bool isMobile,
-  }) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final AsyncValue<VoiceJoinEligibility> joinEligibilityAsync = ref.watch(
-      voiceJoinEligibilityProvider(widget.channelId),
-    );
-    final bool canJoinVoice = joinEligibilityAsync.value?.canJoin ?? true;
-    final bool joinInProgress = ref.watch(
-      voiceSessionProvider.select(
-        (VoiceSessionState s) =>
-            s.isConnecting && s.channelId == widget.channelId,
-      ),
-    );
-    final String? joinError = ref.watch(
-      voiceSessionProvider.select((VoiceSessionState s) => s.errorMessage),
-    );
-    return ColoredBox(
-      color: context.colors.backgroundSecondaryLighter,
-      child: SafeArea(
-        top: false,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                if (channelName.isNotEmpty) ...<Widget>[
-                  Text(
-                    channelName,
-                    textAlign: TextAlign.center,
-                    style: context.textStyles.channelName.copyWith(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: context.colors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-                Text(
-                  l10n.voiceChannelEmptyDescription,
-                  textAlign: TextAlign.center,
-                  style: context.textStyles.bodySmall.copyWith(
-                    color: context.colors.textTertiary,
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                if (joinError != null) ...<Widget>[
-                  _VoiceJoinErrorBanner(message: joinError),
-                  const SizedBox(height: 12),
-                ],
-                VoiceChannelJoinButton(
-                  disabledTooltip: canJoinVoice
-                      ? (joinInProgress
-                            ? l10n.voiceChannelStatusConnecting
-                            : null)
-                      : l10n.voiceChannelNoConnectPermission,
-                  onPressed: canJoinVoice && !joinInProgress
-                      ? () {
-                          unawaited(
-                            joinVoiceChannelWithConfirmation(
-                              ref: ref,
-                              context: context,
-                              guildId: widget.guildId,
-                              channelId: widget.channelId,
-                            ),
-                          );
-                        }
-                      : null,
-                ),
-                VoiceE2eeIndicator(
-                  guildId: widget.guildId,
-                  channelId: widget.channelId,
-                  variant: VoiceE2eeIndicatorVariant.voiceChannel,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+  Widget _buildEmpty({required Channel? channel}) {
+    return VoiceChannelJoinEmptyState(
+      guildId: widget.guildId,
+      channelId: widget.channelId,
+      channel: channel,
     );
   }
 
@@ -276,7 +194,7 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
             const FluxerLoadingSpinner(),
             const SizedBox(height: 12),
             if (joinError != null) ...<Widget>[
-              _VoiceJoinErrorBanner(message: joinError),
+              VoiceJoinErrorBanner(message: joinError),
               const SizedBox(height: 12),
             ],
             Text(
@@ -348,49 +266,6 @@ class _VoiceChannelPageViewState extends ConsumerState<VoiceChannelPageView> {
                   ),
                 ],
               ),
-      ),
-    );
-  }
-}
-
-class _VoiceJoinErrorBanner extends StatelessWidget {
-  const _VoiceJoinErrorBanner({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final String resolved = resolveVoiceSessionErrorMessage(message, l10n);
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: context.colors.statusDanger.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: context.colors.statusDanger.withValues(alpha: 0.35),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          PhosphorIcon(
-            PhosphorIconsFill.warningCircle,
-            size: 18,
-            color: context.colors.statusDanger,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              resolved,
-              style: context.textStyles.bodySmall.copyWith(
-                color: context.colors.textPrimary,
-                height: 1.35,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -28,17 +28,12 @@ Future<void> runVoiceParticipantModeration(
   }
 }
 
-GuildMemberUpdateRequest _memberVoiceUpdate({
-  bool? mute,
-  bool? deaf,
-  String? connectionId,
-}) {
+GuildMemberUpdateRequest _memberVoiceUpdate({bool? mute, bool? deaf}) {
   return GuildMemberUpdateRequest(
     nick: null,
     communicationDisabledUntil: null,
     mute: mute,
     deaf: deaf,
-    connectionId: connectionId,
   );
 }
 
@@ -57,6 +52,12 @@ Future<void> _updateGuildMemberVoiceState({
         .guilds
         .updateGuildMember(guildId: guildId, userId: userId, body: body),
   );
+}
+
+Map<String, dynamic> buildDisconnectVoiceParticipantBody({
+  String? connectionId,
+}) {
+  return <String, dynamic>{'channel_id': null, 'connection_id': ?connectionId};
 }
 
 Future<void> updateVoiceParticipantCommunityMute({
@@ -98,11 +99,20 @@ Future<void> disconnectVoiceParticipant({
   required String? connectionId,
   required String failureMessage,
 }) {
-  return _updateGuildMemberVoiceState(
-    ref: ref,
-    guildId: guildId,
-    userId: userId,
+  return runVoiceParticipantModeration(
+    ref,
     failureMessage: failureMessage,
-    body: _memberVoiceUpdate(connectionId: connectionId),
+    action: () {
+      // Disconnect requires channel_id: null in the JSON body.
+      // OpenAPI spec currently sets includeIfNull: false
+      return ref
+          .read(fluxerDioProvider)
+          .patch<void>(
+            '/guilds/$guildId/members/$userId',
+            data: buildDisconnectVoiceParticipantBody(
+              connectionId: connectionId,
+            ),
+          );
+    },
   );
 }

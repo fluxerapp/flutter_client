@@ -10,10 +10,10 @@ enum GuildSettingsTab {
   overview,
   roles,
   channels,
-  emoji,
-  stickers,
   moderation,
   auditLog,
+  emoji,
+  stickers,
   webhooks,
   discovery,
   members,
@@ -22,10 +22,6 @@ enum GuildSettingsTab {
 }
 
 const List<GuildSettingsTab> _comingSoonTabs = <GuildSettingsTab>[
-  GuildSettingsTab.emoji,
-  GuildSettingsTab.stickers,
-  GuildSettingsTab.webhooks,
-  GuildSettingsTab.discovery,
   GuildSettingsTab.members,
 ];
 
@@ -104,6 +100,66 @@ GuildSettingsTab guildSettingsTabFromIndex(int index) {
   return tabs[index];
 }
 
+String guildSettingsTabQuery(GuildSettingsTab tab) {
+  return switch (tab) {
+    GuildSettingsTab.overview => 'overview',
+    GuildSettingsTab.roles => 'roles',
+    GuildSettingsTab.channels => 'channels',
+    GuildSettingsTab.emoji => 'emoji',
+    GuildSettingsTab.stickers => 'stickers',
+    GuildSettingsTab.moderation => 'moderation',
+    GuildSettingsTab.auditLog => 'audit-log',
+    GuildSettingsTab.webhooks => 'webhooks',
+    GuildSettingsTab.discovery => 'discovery',
+    GuildSettingsTab.members => 'members',
+    GuildSettingsTab.invites => 'invites',
+    GuildSettingsTab.bans => 'bans',
+  };
+}
+
+GuildSettingsTab guildSettingsTabFromQuery(String? tabQuery) {
+  return switch (tabQuery) {
+    'roles' => GuildSettingsTab.roles,
+    'channels' => GuildSettingsTab.channels,
+    'emoji' => GuildSettingsTab.emoji,
+    'stickers' => GuildSettingsTab.stickers,
+    'moderation' => GuildSettingsTab.moderation,
+    'audit-log' => GuildSettingsTab.auditLog,
+    'webhooks' => GuildSettingsTab.webhooks,
+    'discovery' => GuildSettingsTab.discovery,
+    'members' => GuildSettingsTab.members,
+    'invites' => GuildSettingsTab.invites,
+    'bans' => GuildSettingsTab.bans,
+    _ => GuildSettingsTab.overview,
+  };
+}
+
+GuildSettingsTab? guildSettingsTabForAction(GuildAction action) {
+  return switch (action) {
+    GuildAction.settingsOverview => GuildSettingsTab.overview,
+    GuildAction.settingsRoles => GuildSettingsTab.roles,
+    GuildAction.settingsChannels => GuildSettingsTab.channels,
+    GuildAction.settingsEmoji => GuildSettingsTab.emoji,
+    GuildAction.settingsStickers => GuildSettingsTab.stickers,
+    GuildAction.settingsSafetyModeration => GuildSettingsTab.moderation,
+    GuildAction.settingsActivityLog => GuildSettingsTab.auditLog,
+    GuildAction.settingsWebhooks => GuildSettingsTab.webhooks,
+    GuildAction.settingsDiscovery => GuildSettingsTab.discovery,
+    GuildAction.settingsMembers => GuildSettingsTab.members,
+    GuildAction.settingsInviteLinks => GuildSettingsTab.invites,
+    GuildAction.settingsBans => GuildSettingsTab.bans,
+    _ => null,
+  };
+}
+
+bool isGuildSettingsActionComingSoon(GuildAction action) {
+  final GuildSettingsTab? tab = guildSettingsTabForAction(action);
+  if (tab == null) {
+    return false;
+  }
+  return isGuildSettingsTabComingSoon(tab);
+}
+
 String guildSettingsTabPath(String guildId, GuildSettingsTab tab) {
   return switch (tab) {
     GuildSettingsTab.overview => RoutePaths.guildSettingsOverviewPath(guildId),
@@ -166,6 +222,30 @@ List<GuildSettingsTab> visibleGuildSettingsTabsForRef({
   required Guild? guild,
 }) {
   return visibleGuildSettingsTabs(
+    permissions: permissions,
+    guild: guild,
+    isTouchPrimary: isTouchPrimaryInput(ref),
+  );
+}
+
+bool canOpenGuildSettings({
+  required int permissions,
+  required Guild? guild,
+  required bool isTouchPrimary,
+}) {
+  return visibleGuildSettingsTabs(
+    permissions: permissions,
+    guild: guild,
+    isTouchPrimary: isTouchPrimary,
+  ).isNotEmpty;
+}
+
+bool canOpenGuildSettingsForRef({
+  required WidgetRef ref,
+  required int permissions,
+  required Guild? guild,
+}) {
+  return canOpenGuildSettings(
     permissions: permissions,
     guild: guild,
     isTouchPrimary: isTouchPrimaryInput(ref),

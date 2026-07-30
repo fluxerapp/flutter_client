@@ -86,10 +86,10 @@ void main() {
     expect(result.map((emoji) => emoji.id), ['b']);
   });
 
-  group('resolveFrecentEmojis', () {
+  group('buildPickerFrecentEmojis', () {
     test('returns unicode emojis for unicode usage keys', () {
-      final result = resolveFrecentEmojis(
-        usageKeys: const ['unicode:thumbsup', 'unicode:heart'],
+      final result = buildPickerFrecentEmojis(
+        rankedUsageKeys: const ['unicode:thumbsup', 'unicode:heart'],
         availableCustomEmojisById: const {},
       );
 
@@ -110,8 +110,8 @@ void main() {
         animated: false,
         guildId: 'g1',
       );
-      final result = resolveFrecentEmojis(
-        usageKeys: const ['unicode:thumbsup', 'custom:g1:custom-1'],
+      final result = buildPickerFrecentEmojis(
+        rankedUsageKeys: const ['unicode:thumbsup', 'custom:g1:custom-1'],
         availableCustomEmojisById: {'custom-1': custom},
       );
 
@@ -128,8 +128,8 @@ void main() {
         animated: false,
         guildId: 'g1',
       );
-      final result = resolveFrecentEmojis(
-        usageKeys: const [
+      final result = buildPickerFrecentEmojis(
+        rankedUsageKeys: const [
           'unicode:thumbsup',
           'custom:g1:missing',
           'custom:g1:custom-1',
@@ -149,8 +149,8 @@ void main() {
           .take(50)
           .map((emoji) => 'unicode:${emoji.primaryName}')
           .toList();
-      final result = resolveFrecentEmojis(
-        usageKeys: usageKeys,
+      final result = buildPickerFrecentEmojis(
+        rankedUsageKeys: usageKeys,
         availableCustomEmojisById: const {},
       );
 
@@ -158,44 +158,83 @@ void main() {
     });
 
     test('skips malformed custom usage keys', () {
-      final result = resolveFrecentEmojis(
-        usageKeys: const ['custom:', 'unicode:thumbsup'],
+      final result = buildPickerFrecentEmojis(
+        rankedUsageKeys: const ['custom:', 'unicode:thumbsup'],
         availableCustomEmojisById: const {},
       );
 
       expect(result, hasLength(1));
       expect(result.first, isA<FrecentUnicodeEmoji>());
     });
+    test('resolves unicode usage keys stored as surrogates', () {
+      final thumbsup = EmojiRegistry.entryByName('thumbsup')!;
+      final result = buildPickerFrecentEmojis(
+        rankedUsageKeys: ['unicode:${thumbsup.surrogates}'],
+        availableCustomEmojisById: const {},
+      );
+
+      expect(result, hasLength(1));
+      expect(
+        (result.first as FrecentUnicodeEmoji).emoji.primaryName,
+        'thumbsup',
+      );
+    });
   });
 
-  group('frecentEmojisProvider', () {
-    test(
-      'returns mixed unicode and custom emojis from tracked usage',
-      () async {
-        final db = openTestDatabase();
-        await db.emojiUsageDao.trackUsage('unicode:thumbsup');
-        await db.emojiUsageDao.trackUsage('custom:g1:custom-1');
-        await db
-            .into(db.guildEmojis)
-            .insert(
-              GuildEmojisCompanion.insert(
-                id: 'custom-1',
-                guildId: 'g1',
-                name: 'party',
-              ),
-            );
+  group('rankedEmojiUsageKeysProvider', () {
+    test('returns tracked usage keys ordered by frecency', () async {
+      final db = openTestDatabase();
+      await db.emojiUsageDao.trackUsage('unicode:thumbsup');
+      await db.emojiUsageDao.trackUsage('custom:g1:custom-1');
 
-        final container = ProviderContainer(
-          overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
-        );
-        addTearDown(container.dispose);
+      final container = ProviderContainer(
+        overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+      );
+      addTearDown(container.dispose);
 
-        final result = await container.read(frecentEmojisProvider.future);
+      final result = await container.read(rankedEmojiUsageKeysProvider.future);
 
-        expect(result, hasLength(2));
-        expect(result.first, isA<FrecentUnicodeEmoji>());
-        expect(result.last, isA<FrecentCustomEmoji>());
-      },
-    );
+      expect(result, hasLength(2));
+      expect(result, contains('unicode:thumbsup'));
+      expect(result, contains('custom:g1:custom-1'));
+    });
+  });
+
+  group('picker frecent integration', () {
+    test('builds mixed unicode and custom emojis from ranked keys', () async {
+      final db = openTestDatabase();
+      await db.emojiUsageDao.trackUsage('unicode:thumbsup');
+      await db.emojiUsageDao.trackUsage('custom:g1:custom-1');
+      await db
+          .into(db.guildEmojis)
+          .insert(
+            GuildEmojisCompanion.insert(
+              id: 'custom-1',
+              guildId: 'g1',
+              name: 'party',
+            ),
+          );
+
+      final container = ProviderContainer(
+        overrides: [fluxerDatabaseProvider.overrideWithValue(db)],
+      );
+      addTearDown(container.dispose);
+
+      final keys = await container.read(rankedEmojiUsageKeysProvider.future);
+      final custom = GuildEmojiEntry(
+        id: 'custom-1',
+        name: 'party',
+        animated: false,
+        guildId: 'g1',
+      );
+      final result = buildPickerFrecentEmojis(
+        rankedUsageKeys: keys,
+        availableCustomEmojisById: {custom.id: custom},
+      );
+
+      expect(result, hasLength(2));
+      expect(result.first, isA<FrecentUnicodeEmoji>());
+      expect(result.last, isA<FrecentCustomEmoji>());
+    });
   });
 }

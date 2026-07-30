@@ -314,7 +314,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
             .emojiUsageDao
             .trackUsage('unicode:${emoji.primaryName}'),
       );
-      ref.invalidate(frecentEmojisProvider);
+      ref.invalidate(rankedEmojiUsageKeysProvider);
     }
     widget.onSelect?.call(emoji.primaryName, surrogates);
   }
@@ -327,7 +327,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
             .emojiUsageDao
             .trackUsage('custom:${emoji.guildId}:${emoji.id}'),
       );
-      ref.invalidate(frecentEmojisProvider);
+      ref.invalidate(rankedEmojiUsageKeysProvider);
     }
     widget.onSelect?.call(emoji.name, emoji.markdown);
   }
@@ -380,7 +380,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
                     ? 'Remove from Favorites'
                     : 'Add to Favorites',
                 icon: isFavorite
-                    ? PhosphorIconsRegular.star
+                    ? PhosphorIconsBold.star
                     : PhosphorIconsFill.star,
                 onTap: () {
                   close();
@@ -415,9 +415,9 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   _EmojiPickerData _watchPickerData() {
     final guilds = guildsForExpressionPicker(
       organized: ref.watch(organizedGuildListProvider),
-      activeGuildId: ref.watch(activeGuildIdProvider),
+      activeGuildId: ref.watch(contextualGuildIdProvider),
     );
-    final activeGuildId = ref.watch(activeGuildIdProvider);
+    final activeGuildId = ref.watch(contextualGuildIdProvider);
     final String? channelId = widget.channelId;
     final List<DmConversation> dmConversations = ref
         .watch(dmViewModelProvider)
@@ -447,14 +447,17 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
       canUseExternalEmojis: canUseExternalEmojis,
       allGuildEmojis: allGuildEmojis,
     );
-    final availableCustomEmojiIds = guildEmojisByGuild.values
-        .expand((emojis) => emojis)
-        .map((emoji) => emoji.id)
-        .toSet();
-    final allFrecent = ref.watch(frecentEmojisProvider).value ?? const [];
-    final frecent = _filterFrecentByAvailability(
-      allFrecent,
-      availableCustomEmojiIds,
+    final customEmojisById = <String, GuildEmojiEntry>{
+      for (final GuildEmojiEntry emoji in guildEmojisByGuild.values.expand(
+        (emojis) => emojis,
+      ))
+        emoji.id: emoji,
+    };
+    final rankedUsageKeys =
+        ref.watch(rankedEmojiUsageKeysProvider).value ?? const <String>[];
+    final frecent = buildPickerFrecentEmojis(
+      rankedUsageKeys: rankedUsageKeys,
+      availableCustomEmojisById: customEmojisById,
     );
     final favoriteItems = _favoriteEmojiItems(favoriteKeys, guildEmojisByGuild);
 
@@ -482,7 +485,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
   }
 
   Map<Guild, List<GuildEmojiEntry>> _readGuildEmojisByGuild() {
-    final activeGuildId = ref.read(activeGuildIdProvider);
+    final activeGuildId = ref.read(contextualGuildIdProvider);
     final guilds = guildsForExpressionPicker(
       organized: ref.read(organizedGuildListProvider),
       activeGuildId: activeGuildId,
@@ -516,21 +519,6 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     return channelMessagePermissionsForComposer(
       ref.read(channelMessagePermissionsProvider(channelId)),
     ).canUseExternalEmojis;
-  }
-
-  List<FrecentEmojiItem> _filterFrecentByAvailability(
-    List<FrecentEmojiItem> allFrecent,
-    Set<String> availableCustomEmojiIds,
-  ) {
-    return allFrecent
-        .where(
-          (item) => switch (item) {
-            FrecentUnicodeEmoji() => true,
-            FrecentCustomEmoji(:final emoji) =>
-              availableCustomEmojiIds.contains(emoji.id),
-          },
-        )
-        .toList();
   }
 
   List<_FavoriteEmojiItem> _favoriteEmojiItems(
@@ -819,14 +807,17 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         ref.read(collapsedEmojiPickerCategoriesProvider).value ??
         const <String>[];
     final guildEmojisByGuild = _readGuildEmojisByGuild();
-    final availableCustomEmojiIds = guildEmojisByGuild.values
-        .expand((emojis) => emojis)
-        .map((emoji) => emoji.id)
-        .toSet();
-    final allFrecent = ref.read(frecentEmojisProvider).value ?? const [];
-    final frecent = _filterFrecentByAvailability(
-      allFrecent,
-      availableCustomEmojiIds,
+    final customEmojisById = <String, GuildEmojiEntry>{
+      for (final GuildEmojiEntry emoji in guildEmojisByGuild.values.expand(
+        (emojis) => emojis,
+      ))
+        emoji.id: emoji,
+    };
+    final rankedUsageKeys =
+        ref.read(rankedEmojiUsageKeysProvider).value ?? const <String>[];
+    final frecent = buildPickerFrecentEmojis(
+      rankedUsageKeys: rankedUsageKeys,
+      availableCustomEmojisById: customEmojisById,
     );
     final favoriteItems = _favoriteEmojiItems(
       ref.read(favoriteEmojiKeysProvider).value ?? const <String>[],
@@ -1346,7 +1337,7 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
         height: _kEmojiSize,
         child: Center(
           child: PhosphorIcon(
-            PhosphorIconsRegular.imageBroken,
+            PhosphorIconsBold.imageBroken,
             size: _kEmojiSize * 0.55,
             color: colors.textTertiary,
           ),

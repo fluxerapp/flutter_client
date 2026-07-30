@@ -11,11 +11,10 @@ import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/voice/flip_camera_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_bar.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_control_expandable_sheet.dart';
-import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_call_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
-import 'package:fluxer_app/features/voice/utils/voice_connection_actions.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/chat_context_utils.dart';
 import 'package:go_router/go_router.dart';
@@ -123,90 +122,12 @@ class _DmVoiceCallFullscreenPageState
                       ],
                     ),
             )
-          : _DmVoiceEmptyPane(
+          : VoiceCallJoinEmptyState(
               channelId: widget.channelId,
               participantPreviewCount: ref.watch(
                 privateChannelVoiceParticipantCountProvider(widget.channelId),
               ),
             ),
-    );
-  }
-}
-
-class _DmVoiceEmptyPane extends ConsumerWidget {
-  const _DmVoiceEmptyPane({
-    required this.channelId,
-    required this.participantPreviewCount,
-  });
-
-  final String channelId;
-  final int participantPreviewCount;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final FluxerLocalizations l10n = FluxerLocalizations.of(context);
-    final conversations = ref.watch(
-      dmViewModelProvider.select((s) => s.conversations),
-    );
-    final dm = findDmById(conversations, channelId);
-    final String headline = dm?.displayName ?? l10n.dmVoiceFullscreenTitle;
-    return ColoredBox(
-      color: context.colors.backgroundSecondaryLighter,
-      child: SafeArea(
-        top: false,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  headline,
-                  textAlign: TextAlign.center,
-                  style: context.textStyles.channelName.copyWith(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: context.colors.textPrimary,
-                  ),
-                ),
-                if (participantPreviewCount > 0) ...<Widget>[
-                  const SizedBox(height: 12),
-                  Text(
-                    l10n.voiceChannelParticipantCount(participantPreviewCount),
-                    textAlign: TextAlign.center,
-                    style: context.textStyles.bodyMedium.copyWith(
-                      color: context.colors.textSecondary,
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 16),
-                Text(
-                  l10n.voiceChannelEmptyDescription,
-                  textAlign: TextAlign.center,
-                  style: context.textStyles.bodySmall.copyWith(
-                    color: context.colors.textTertiary,
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                VoiceChannelJoinButton(
-                  onPressed: () {
-                    unawaited(
-                      joinVoiceChannelWithConfirmation(
-                        ref: ref,
-                        context: context,
-                        guildId: null,
-                        channelId: channelId,
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

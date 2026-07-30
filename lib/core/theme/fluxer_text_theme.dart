@@ -8,6 +8,7 @@ class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
     required this.channelName,
     required this.username,
     required this.messageText,
+    required this.codeText,
     required this.bodyMedium,
     required this.bodySmall,
     required this.label,
@@ -44,6 +45,11 @@ class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
         fontSize: 16,
         fontWeight: FontWeight.w400,
         color: colors.textChat,
+        height: 1.375,
+      ),
+      codeText: GoogleFonts.ibmPlexMono(
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
         height: 1.375,
       ),
       bodyMedium: GoogleFonts.ibmPlexSans(
@@ -126,6 +132,7 @@ class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
   final TextStyle channelName;
   final TextStyle username;
   final TextStyle messageText;
+  final TextStyle codeText;
   final TextStyle bodyMedium;
   final TextStyle bodySmall;
   final TextStyle label;
@@ -146,6 +153,7 @@ class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
     TextStyle? channelName,
     TextStyle? username,
     TextStyle? messageText,
+    TextStyle? codeText,
     TextStyle? bodyMedium,
     TextStyle? bodySmall,
     TextStyle? label,
@@ -165,6 +173,7 @@ class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
       channelName: channelName ?? this.channelName,
       username: username ?? this.username,
       messageText: messageText ?? this.messageText,
+      codeText: codeText ?? this.codeText,
       bodyMedium: bodyMedium ?? this.bodyMedium,
       bodySmall: bodySmall ?? this.bodySmall,
       label: label ?? this.label,
@@ -191,6 +200,7 @@ class FluxerTextTheme extends ThemeExtension<FluxerTextTheme> {
       channelName: TextStyle.lerp(channelName, other.channelName, t)!,
       username: TextStyle.lerp(username, other.username, t)!,
       messageText: TextStyle.lerp(messageText, other.messageText, t)!,
+      codeText: TextStyle.lerp(codeText, other.codeText, t)!,
       bodyMedium: TextStyle.lerp(bodyMedium, other.bodyMedium, t)!,
       bodySmall: TextStyle.lerp(bodySmall, other.bodySmall, t)!,
       label: TextStyle.lerp(label, other.label, t)!,

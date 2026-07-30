@@ -4,7 +4,12 @@ import 'package:fluxer_app/core/constants/media_proxy_sizes.dart';
 import 'package:fluxer_app/core/instance/instance_endpoints.dart';
 import 'package:fluxer_app/core/media/fluxer_media_hash.dart';
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
+import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/export.dart';
+
+String formatChannelSettingsWebhooksPath(FluxerLocalizations l10n) {
+  return '${l10n.channelDetailsChannelSettingsTitle} > ${l10n.channelSettingsTabWebhooks}';
+}
 
 const List<String> _webhookNameAdjectives = <String>[
   'Swift',

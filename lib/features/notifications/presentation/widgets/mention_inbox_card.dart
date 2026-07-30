@@ -77,7 +77,7 @@ class MentionInboxCard extends ConsumerWidget {
       children: <Widget>[
         if (isDm)
           Icon(
-            PhosphorIconsRegular.chatCircle,
+            PhosphorIconsBold.chatCircle,
             size: 20,
             color: colors.textPrimaryMuted,
           )
@@ -132,7 +132,7 @@ class MentionInboxCard extends ConsumerWidget {
           onPressed: msg == null ? null : () => onJump(msg),
         ),
         _ActionIconButton(
-          icon: PhosphorIconsRegular.x,
+          icon: PhosphorIconsBold.x,
           tooltip: removeTooltip ?? l10n.notificationsRemoveMentionTooltip,
           onPressed: () => onRemove(messageId),
         ),

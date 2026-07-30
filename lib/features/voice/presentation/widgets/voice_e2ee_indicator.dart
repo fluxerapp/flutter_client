@@ -13,12 +13,14 @@ class VoiceE2eeIndicator extends ConsumerWidget {
     required this.guildId,
     required this.channelId,
     required this.variant,
+    this.includeTopPadding = true,
     super.key,
   });
 
   final String? guildId;
   final String channelId;
   final VoiceE2eeIndicatorVariant variant;
+  final bool includeTopPadding;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,7 +49,7 @@ class VoiceE2eeIndicator extends ConsumerWidget {
     return Semantics(
       label: message,
       child: Padding(
-        padding: const EdgeInsets.only(top: 12),
+        padding: EdgeInsets.only(top: includeTopPadding ? 12 : 0),
         child: Align(
           child: ConstrainedBox(
             constraints: BoxConstraints(

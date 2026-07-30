@@ -444,33 +444,3 @@ class _ChannelOverviewWidgetState extends ConsumerState<ChannelOverviewWidget> {
     );
   }
 }
-
-extension on ChannelOverviewFormState {
-  ChannelOverviewFormState copyWith({
-    String? name,
-    String? topic,
-    String? url,
-    int? slowmode,
-    bool? nsfwOverride,
-    int? contentWarningLevel,
-    String? contentWarningText,
-    int? bitrateKbps,
-    int? userLimit,
-    int? voiceConnectionLimit,
-    String? rtcRegion,
-  }) {
-    return ChannelOverviewFormState(
-      name: name ?? this.name,
-      topic: topic ?? this.topic,
-      url: url ?? this.url,
-      slowmode: slowmode ?? this.slowmode,
-      nsfwOverride: nsfwOverride ?? this.nsfwOverride,
-      contentWarningLevel: contentWarningLevel ?? this.contentWarningLevel,
-      contentWarningText: contentWarningText ?? this.contentWarningText,
-      bitrateKbps: bitrateKbps ?? this.bitrateKbps,
-      userLimit: userLimit ?? this.userLimit,
-      voiceConnectionLimit: voiceConnectionLimit ?? this.voiceConnectionLimit,
-      rtcRegion: rtcRegion ?? this.rtcRegion,
-    );
-  }
-}

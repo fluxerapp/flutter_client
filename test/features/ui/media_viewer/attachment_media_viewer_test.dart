@@ -8,6 +8,11 @@ import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/ui/media_viewer/attachment_media_viewer.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 
+const String _testAttachmentImageUrl =
+    'https://fluxerusercontent.com/attachments/1427764813854588943/1531388054034460672/CleanShot_2026-07-27_at_19.49.162x.png';
+const String _testAttachmentImageFilename =
+    'CleanShot_2026-07-27_at_19.49.162x.png';
+
 Widget _app(Widget child) {
   final colorTheme = buildDarkColorTheme();
   return ProviderScope(
@@ -38,8 +43,8 @@ void main() {
           const AttachmentMediaViewerShell(
             items: [
               AttachmentMediaViewerItem(
-                url: 'https://example.com/image.png',
-                filename: 'image.png',
+                url: _testAttachmentImageUrl,
+                filename: _testAttachmentImageFilename,
               ),
             ],
             initialIndex: 0,
@@ -81,8 +86,8 @@ void main() {
           const AttachmentMediaViewerShell(
             items: [
               AttachmentMediaViewerItem(
-                url: 'https://example.com/image.png',
-                filename: 'image.png',
+                url: _testAttachmentImageUrl,
+                filename: _testAttachmentImageFilename,
               ),
             ],
             initialIndex: 0,

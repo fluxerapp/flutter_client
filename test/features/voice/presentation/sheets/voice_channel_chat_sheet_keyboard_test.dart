@@ -68,7 +68,7 @@ Future<void> _pumpVoiceChatStyleSheet({
                         maxHeight: 0.92,
                         builder:
                             (BuildContext sheetContext, VoidCallback close) {
-                              return Column(
+                              return const Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   SizedBox(
@@ -76,7 +76,7 @@ Future<void> _pumpVoiceChatStyleSheet({
                                     height: _composerHeight,
                                     width: double.infinity,
                                   ),
-                                  const BottomInputSpacer(),
+                                  BottomInputSpacer(),
                                 ],
                               );
                             },
@@ -102,7 +102,7 @@ double _composerBottomGlobalY(WidgetTester tester) {
   final RenderBox composerBox = tester.renderObject<RenderBox>(
     find.byKey(_composerKey),
   );
-  return composerBox.localToGlobal(Offset(0, _composerHeight)).dy;
+  return composerBox.localToGlobal(const Offset(0, _composerHeight)).dy;
 }
 
 void main() {

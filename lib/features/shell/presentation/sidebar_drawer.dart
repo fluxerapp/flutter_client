@@ -227,10 +227,18 @@ class _SidebarDrawerState extends ConsumerState<SidebarDrawer>
     )) {
       return true;
     }
-    return isPointerOverDescendantWithKey(
+    if (isPointerOverDescendantWithKey(
       context,
       event.position,
       key: kExpressionPanelShellGestureBlockKey,
+      viewId: event.viewId,
+    )) {
+      return true;
+    }
+    return isPointerOverDescendantWithKey(
+      context,
+      event.position,
+      key: kPlaybackSeekShellGestureBlockKey,
       viewId: event.viewId,
     );
   }

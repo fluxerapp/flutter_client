@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/message_debug_sheet.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/message_reactions_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/sheets/unpin_message_confirm_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/quick_reaction_row.dart';
 import 'package:fluxer_app/features/chat/providers/channel/channel_details_providers.dart';
@@ -115,7 +116,7 @@ Future<void> dispatchMessageAction({
       unawaited(copyToClipboard(context: context, value: message.id));
     case MessageAction.copyMessageLink:
       final String? guildId =
-          previewRoleGuildId ?? ref.read(activeGuildIdProvider);
+          previewRoleGuildId ?? ref.read(contextualGuildIdProvider);
       unawaited(
         copyToClipboard(
           context: context,
@@ -183,7 +184,12 @@ Future<void> dispatchMessageAction({
         ),
       );
     case MessageAction.viewReactions:
-      callbacks.onViewReactions?.call();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) {
+          return;
+        }
+        unawaited(showMessageReactionsSheet(context, message: message));
+      });
     case MessageAction.removeAllReactions:
       callbacks.onRemoveAllReactions?.call();
     case MessageAction.report:
@@ -200,6 +206,7 @@ List<Widget> buildMessageActionMenuGroups({
   required MessageActionPermissions permissions,
   required ValueChanged<MessageAction> onAction,
   MessageActionCallbacks? attachmentCallbacks,
+  VoidCallback? onCloseMenu,
 }) {
   final FluxerLocalizations l10n = FluxerLocalizations.of(context);
 
@@ -208,7 +215,7 @@ List<Widget> buildMessageActionMenuGroups({
       FluxerMenuGroup(
         children: <Widget>[
           FluxerBottomSheetMenuItem(
-            icon: PhosphorIconsRegular.arrowClockwise,
+            icon: PhosphorIconsBold.arrowClockwise,
             label: l10n.retry,
             onTap: () => onAction(MessageAction.retry),
           ),
@@ -276,7 +283,7 @@ List<Widget> buildMessageActionMenuGroups({
       ),
     if (canShowRemoveAllReactions)
       FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsFill.smileyXEyes,
+        icon: PhosphorIconsBold.x,
         label: l10n.chatMessageRemoveAllReactions,
         isDanger: true,
         onTap: () => onAction(MessageAction.removeAllReactions),
@@ -326,7 +333,7 @@ List<Widget> buildMessageActionMenuGroups({
       ),
     if (canShowSuppressEmbeds && showSuppressEmbedsButton)
       FluxerBottomSheetMenuItem(
-        icon: PhosphorIconsRegular.eyeSlash,
+        icon: PhosphorIconsBold.eyeSlash,
         label: isEmbedsSuppressed
             ? l10n.chatMessageUnsuppressEmbeds
             : l10n.chatMessageSuppressEmbeds,
@@ -340,6 +347,9 @@ List<Widget> buildMessageActionMenuGroups({
         onTap: () => onAction(MessageAction.delete),
       ),
   ];
+
+  final void Function() closeMenu =
+      onCloseMenu ?? () => Navigator.of(context).pop();
 
   final List<Widget> attachmentItems = <Widget>[
     for (final Attachment attachment in message.attachments) ...<Widget>[
@@ -356,7 +366,7 @@ List<Widget> buildMessageActionMenuGroups({
           isDanger: true,
           onTap: () {
             attachmentCallbacks?.onDeleteAttachment?.call(attachment);
-            Navigator.of(context).pop();
+            closeMenu();
           },
         ),
       if (canEditAttachmentAltText(
@@ -372,7 +382,7 @@ List<Widget> buildMessageActionMenuGroups({
           hint: attachment.filename,
           onTap: () {
             attachmentCallbacks?.onEditAttachmentAltText?.call(attachment);
-            Navigator.of(context).pop();
+            closeMenu();
           },
         ),
     ],
@@ -380,7 +390,7 @@ List<Widget> buildMessageActionMenuGroups({
 
   final List<Widget> utilityItems = <Widget>[
     FluxerBottomSheetMenuItem(
-      icon: PhosphorIconsRegular.link,
+      icon: PhosphorIconsBold.link,
       label: l10n.chatMessageCopyMessageLink,
       onTap: () => onAction(MessageAction.copyMessageLink),
     ),
@@ -391,7 +401,7 @@ List<Widget> buildMessageActionMenuGroups({
         onTap: () => onAction(MessageAction.copyText),
       ),
     FluxerBottomSheetMenuItem(
-      icon: PhosphorIconsRegular.snowflake,
+      icon: PhosphorIconsBold.snowflake,
       label: l10n.chatMessageCopyMessageId,
       onTap: () => onAction(MessageAction.copyMessageId),
     ),
@@ -461,7 +471,10 @@ class _MessageBottomSheetBody extends ConsumerWidget {
 
     return SingleChildScrollView(
       controller: scrollController,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

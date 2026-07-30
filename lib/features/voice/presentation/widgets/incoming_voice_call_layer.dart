@@ -83,7 +83,7 @@ class _IncomingVoiceCallLayerState
         await executeAcceptIncomingVoiceCall(ref, actionContext, channelId);
       } else if (result == kIncomingVoiceResultReject) {
         await executeDeclineIncomingVoiceCall(ref, actionContext, channelId);
-      } else {
+      } else if (result == kIncomingVoiceResultIgnore) {
         await executeIgnoreIncomingVoiceCall(ref, actionContext, channelId);
       }
     } finally {

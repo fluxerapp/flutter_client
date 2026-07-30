@@ -11,6 +11,8 @@ part 'emoji_picker_provider.g.dart';
 
 const int kMaxFrecentEmojis = 42;
 
+const int kMaxTrackedEmojiUsageKeys = 200;
+
 const List<String> kDefaultQuickEmojis = [
   'thumbsup',
   'ok_hand',
@@ -76,65 +78,52 @@ class FrecentCustomEmoji extends FrecentEmojiItem {
   final GuildEmojiEntry emoji;
 }
 
-List<FrecentEmojiItem> resolveFrecentEmojis({
-  required List<String> usageKeys,
+List<FrecentEmojiItem> buildPickerFrecentEmojis({
+  required List<String> rankedUsageKeys,
   required Map<String, GuildEmojiEntry> availableCustomEmojisById,
+  int limit = kMaxFrecentEmojis,
 }) {
+  if (limit <= 0) {
+    return const <FrecentEmojiItem>[];
+  }
   final result = <FrecentEmojiItem>[];
-  for (final key in usageKeys) {
+  for (final String key in rankedUsageKeys) {
+    if (result.length >= limit) {
+      break;
+    }
     if (key.startsWith('unicode:')) {
-      final name = key.substring('unicode:'.length);
-      final entry = EmojiRegistry.entryByName(name);
+      final String suffix = key.substring('unicode:'.length);
+      if (suffix.isEmpty) {
+        continue;
+      }
+      final EmojiEntry? entry =
+          EmojiRegistry.entryByName(suffix) ??
+          EmojiRegistry.entryBySurrogates(suffix);
       if (entry != null) {
         result.add(FrecentUnicodeEmoji(entry));
       }
     } else if (key.startsWith('custom:')) {
-      final lastColon = key.lastIndexOf(':');
+      final int lastColon = key.lastIndexOf(':');
       if (lastColon < 'custom:'.length) {
         continue;
       }
-      final emojiId = key.substring(lastColon + 1);
-      final emoji = availableCustomEmojisById[emojiId];
+      final String emojiId = key.substring(lastColon + 1);
+      final GuildEmojiEntry? emoji = availableCustomEmojisById[emojiId];
       if (emoji != null) {
         result.add(FrecentCustomEmoji(emoji));
       }
-    }
-    if (result.length >= kMaxFrecentEmojis) {
-      break;
     }
   }
   return result;
 }
 
 @riverpod
-Future<List<FrecentEmojiItem>> frecentEmojis(Ref ref) async {
+Future<List<String>> rankedEmojiUsageKeys(Ref ref) async {
   final db = ref.watch(fluxerDatabaseProvider);
-  final usage = await db.emojiUsageDao.getTopByFrecency(kMaxFrecentEmojis * 2);
-  final usageKeys = usage.map((entry) => entry.key).toList();
-
-  final customEmojisById = <String, GuildEmojiEntry>{};
-  for (final key in usageKeys) {
-    if (!key.startsWith('custom:')) {
-      continue;
-    }
-    final lastColon = key.lastIndexOf(':');
-    if (lastColon < 'custom:'.length) {
-      continue;
-    }
-    final emojiId = key.substring(lastColon + 1);
-    if (customEmojisById.containsKey(emojiId)) {
-      continue;
-    }
-    final row = await db.guildEmojiDao.getById(emojiId);
-    if (row != null) {
-      customEmojisById[emojiId] = GuildEmojiEntry.fromRow(row);
-    }
-  }
-
-  return resolveFrecentEmojis(
-    usageKeys: usageKeys,
-    availableCustomEmojisById: customEmojisById,
+  final usage = await db.emojiUsageDao.getTopByFrecency(
+    kMaxTrackedEmojiUsageKeys,
   );
+  return usage.map((entry) => entry.key).toList(growable: false);
 }
 
 final allGuildEmojisForPickerProvider =

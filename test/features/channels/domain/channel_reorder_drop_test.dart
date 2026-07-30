@@ -48,7 +48,7 @@ void main() {
     );
   });
 
-  group('resolveChannelReorderHover dead zones', () {
+  group('resolveChannelReorderHover midpoint split', () {
     const ChannelReorderDragItem textItem = ChannelReorderDragItem(
       id: 'text-1',
       kind: ChannelReorderDragKind.channel,
@@ -63,11 +63,11 @@ void main() {
       guildId: 'guild-1',
     );
 
-    test('top zone positions before', () {
+    test('top half positions before', () {
       final ChannelReorderIntent? intent = resolveChannelReorderHover(
         item: textItem,
         target: target,
-        localY: 10,
+        localY: 40,
         height: 100,
       );
       expect(intent, isNotNull);
@@ -75,11 +75,11 @@ void main() {
       expect(intent.result.position, ChannelReorderDropPosition.before);
     });
 
-    test('bottom zone positions after', () {
+    test('bottom half positions after', () {
       final ChannelReorderIntent? intent = resolveChannelReorderHover(
         item: textItem,
         target: target,
-        localY: 90,
+        localY: 60,
         height: 100,
       );
       expect(intent, isNotNull);
@@ -90,38 +90,26 @@ void main() {
       expect(intent.result.position, ChannelReorderDropPosition.after);
     });
 
-    test('dead zone preserves last position', () {
-      const ChannelReorderIndicatorPosition lastPosition =
-          ChannelReorderIndicatorPosition.top;
+    test('category bottom half drops inside', () {
+      const ChannelReorderTarget categoryTarget = ChannelReorderTarget(
+        id: 'cat-1',
+        channelType: 4,
+        parentId: null,
+        guildId: 'guild-1',
+      );
       final ChannelReorderIntent? intent = resolveChannelReorderHover(
         item: textItem,
-        target: target,
-        localY: 50,
+        target: categoryTarget,
+        localY: 60,
         height: 100,
-        lastPosition: lastPosition,
       );
       expect(intent, isNotNull);
-      expect(intent!.indicator.position, ChannelReorderIndicatorPosition.top);
-    });
-
-    test('dead zone without last position defaults to nearest half', () {
-      final ChannelReorderIntent? topSide = resolveChannelReorderHover(
-        item: textItem,
-        target: target,
-        localY: 45,
-        height: 100,
-      );
-      expect(topSide?.indicator.position, ChannelReorderIndicatorPosition.top);
-      final ChannelReorderIntent? bottomSide = resolveChannelReorderHover(
-        item: textItem,
-        target: target,
-        localY: 55,
-        height: 100,
-      );
       expect(
-        bottomSide?.indicator.position,
+        intent!.indicator.position,
         ChannelReorderIndicatorPosition.bottom,
       );
+      expect(intent.result.position, ChannelReorderDropPosition.inside);
+      expect(intent.result.targetParentId, 'cat-1');
     });
   });
 }

@@ -9,6 +9,17 @@ const Set<String> kImageAttachmentExtensions = <String>{
   'webp',
 };
 
+const Set<String> kVideoAttachmentExtensions = <String>{
+  'mp4',
+  'webm',
+  'mov',
+  'avi',
+  'mkv',
+  'flv',
+  'wmv',
+  'm4v',
+};
+
 bool isImageAttachment({required String filename, String? contentType}) {
   final List<String> segments = filename.split('.');
   if (segments.length > 1) {
@@ -21,6 +32,21 @@ bool isImageAttachment({required String filename, String? contentType}) {
   if (normalizedType != null &&
       normalizedType.startsWith('image/') &&
       normalizedType != 'image/svg+xml') {
+    return true;
+  }
+  return false;
+}
+
+bool isVideoAttachment({required String filename, String? contentType}) {
+  final List<String> segments = filename.split('.');
+  if (segments.length > 1) {
+    final String ext = segments.last.toLowerCase();
+    if (kVideoAttachmentExtensions.contains(ext)) {
+      return true;
+    }
+  }
+  final String? normalizedType = contentType?.toLowerCase();
+  if (normalizedType != null && normalizedType.startsWith('video/')) {
     return true;
   }
   return false;
@@ -58,15 +84,7 @@ IconData phosphorFillIconForChatAttachmentFilename(String filename) {
     'aac',
     'wma',
   };
-  const Set<String> videoTypes = <String>{
-    'mp4',
-    'webm',
-    'mov',
-    'avi',
-    'mkv',
-    'flv',
-    'wmv',
-  };
+  const Set<String> videoTypes = kVideoAttachmentExtensions;
   const Set<String> codeTypes = <String>{
     'js',
     'jsx',

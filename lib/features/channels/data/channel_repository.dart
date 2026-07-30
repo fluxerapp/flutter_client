@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/domain/channel_move_operation.dart';
+import 'package:fluxer_app/features/channels/domain/channel_move_payload.dart';
 import 'package:fluxer_app/features/channels/domain/channel_overview_update.dart';
 import 'package:fluxer_app/features/channels/domain/channel_permission_overwrite_update.dart';
 import 'package:fluxer_app/shared/utils/sdk_converters.dart';
@@ -11,9 +10,10 @@ import 'package:fluxer_dart/export.dart';
 
 class ChannelRepository {
   final FluxerClient _client;
+  final Dio _dio;
   final db.FluxerDatabase _db;
 
-  const ChannelRepository(this._client, this._db);
+  const ChannelRepository(this._client, this._dio, this._db);
 
   Stream<List<Channel>> watchChannels(String guildId) {
     return _db.channelDao
@@ -113,19 +113,10 @@ class ChannelRepository {
     List<Channel>? rollbackChannels,
   }) async {
     try {
-      await _client.guilds.updateGuildChannelPositions(
-        guildId: guildId,
-        body: <ChannelPositionUpdateRequestItem>[
-          ChannelPositionUpdateRequestItem(
-            id: operation.channelId,
-            parentId: operation.newParentId,
-            precedingSiblingId: operation.precedingSiblingId,
-            position: operation.position,
-            lockPermissions: false,
-          ),
-        ],
+      await _dio.patch<void>(
+        '/guilds/$guildId/channels',
+        data: buildChannelMoveRequestBody(operation),
       );
-      unawaited(getChannels(guildId));
     } on DioException catch (e) {
       if (rollbackChannels != null) {
         await applyLocalChannels(guildId, rollbackChannels);

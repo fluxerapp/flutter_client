@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
@@ -119,6 +120,11 @@ Future<void> _pumpSystemMessage(
             const Channel(id: 'c1', guildId: 'g1', name: 'general'),
           ),
         ),
+        channelGuildIdProvider(
+          'c1',
+        ).overrideWith((ref) => Stream<String?>.value('g1')),
+        activeChannelIdProvider.overrideWithValue('c1'),
+        contextualGuildIdProvider.overrideWithValue('g1'),
         guildUserDisplayProvider(('u1', 'g1')).overrideWith(
           (ref) => const AsyncValue.data(
             GuildUserDisplay(
@@ -129,16 +135,11 @@ Future<void> _pumpSystemMessage(
             ),
           ),
         ),
-        for (final String userId in message.mentionedUserIds) ...[
+        for (final String userId in message.mentionedUserIds)
           guildUserDisplayProvider((
             userId,
             'g1',
           )).overrideWith((ref) => _mentionedUserDisplay(userId)),
-          guildUserDisplayFromDbProvider((
-            userId,
-            null,
-          )).overrideWith((ref) => _mentionedUserDisplay(userId)),
-        ],
         memberRoleColorProvider(('u1', 'g1')).overrideWith((ref) => roleColor),
         userSettingsViewModelProvider.overrideWith(
           userSettingsOverride ?? _FakeUserSettings.new,
@@ -161,6 +162,11 @@ Future<void> _pumpSystemMessage(
     ),
   );
   await tester.pumpAndSettle();
+  await tester.pump(const Duration(milliseconds: 1));
+  addTearDown(() async {
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 1));
+  });
 }
 
 void main() {

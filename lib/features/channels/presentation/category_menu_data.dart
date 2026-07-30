@@ -189,7 +189,10 @@ Widget categoryMenuGroupsToBottomSheetContent({
   ];
   return ListView(
     controller: scrollController,
-    padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+    padding: FluxerBottomSheet.scrollViewPadding(
+      context,
+      padding: EdgeInsets.fromLTRB(layout.s4, 0, layout.s4, layout.s4),
+    ),
     children: [FluxerBottomSheetGroupColumn(children: menuGroups)],
   );
 }

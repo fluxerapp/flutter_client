@@ -9,6 +9,7 @@ import 'package:fluxer_app/core/permissions/guild_channel_permission_cleanup.dar
 import 'package:fluxer_app/core/push/push_notifications_coordinator.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_setup.dart';
 import 'package:fluxer_app/core/push/unified_push/unified_push_distributor_ui.dart';
+import 'package:fluxer_app/core/push/unified_push/unified_push_no_distributor_dismissal_provider.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/share/pending_share_provider.dart';
@@ -89,7 +90,14 @@ class _ShellRouteListenersState extends ConsumerState<ShellRouteListeners> {
             return;
           }
           ref.read(unifiedPushDistributorSetupProvider.notifier).clearRequest();
-          unawaited(showUnifiedPushDistributorSetup(rootContext));
+          unawaited(
+            showUnifiedPushDistributorSetup(
+              rootContext,
+              dismissalStorage: ref.read(
+                unifiedPushNoDistributorDismissalStorageProvider,
+              ),
+            ),
+          );
         });
       });
     }

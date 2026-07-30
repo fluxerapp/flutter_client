@@ -131,7 +131,7 @@ class _BetaWarningSheetBody extends StatelessWidget {
                         ),
                       ),
                       PhosphorIcon(
-                        PhosphorIconsRegular.arrowSquareOut,
+                        PhosphorIconsBold.arrowSquareOut,
                         size: 18,
                         color: colors.textSecondary,
                       ),

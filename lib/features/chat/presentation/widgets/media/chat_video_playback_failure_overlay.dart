@@ -59,7 +59,7 @@ class ChatVideoPlaybackFailureOverlay extends StatelessWidget {
             FluxerButton.primary(
               onPressed: () => _openInBrowser(context),
               label: l10n.mediaViewerOpenInBrowser,
-              trailingIcon: PhosphorIconsRegular.arrowSquareOut,
+              trailingIcon: PhosphorIconsBold.arrowSquareOut,
             ),
           ],
         ],

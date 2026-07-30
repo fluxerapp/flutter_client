@@ -117,6 +117,10 @@ class ChannelListViewModel extends _$ChannelListViewModel {
     setMemberListVisible(isVisible: !state.isMemberListVisible);
   }
 
+  void applyAutoMemberListForChannel(ChannelType channelType) {
+    setMemberListVisible(isVisible: channelType != ChannelType.guildVoice);
+  }
+
   void setMemberListVisible({required bool isVisible}) {
     if (state.isMemberListVisible == isVisible) {
       return;

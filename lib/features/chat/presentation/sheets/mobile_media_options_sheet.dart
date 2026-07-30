@@ -6,9 +6,9 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
-import 'package:fluxer_app/features/chat/presentation/sheets/forward_message_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
+import 'package:fluxer_app/features/chat/utils/attachment_download_service.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_link_handler.dart';
@@ -38,6 +38,8 @@ Future<void> showMobileMediaOptionsSheet({
           VoidCallback close,
         ) {
           return _MobileMediaOptionsSheetBody(
+            hostContext: context,
+            hostRef: ref,
             launchContext: launchContext,
             scrollController: scrollController,
             onCloseViewer: onCloseViewer,
@@ -49,12 +51,16 @@ Future<void> showMobileMediaOptionsSheet({
 
 class _MobileMediaOptionsSheetBody extends ConsumerWidget {
   const _MobileMediaOptionsSheetBody({
+    required this.hostContext,
+    required this.hostRef,
     required this.launchContext,
     required this.scrollController,
     required this.onCloseSheet,
     this.onCloseViewer,
   });
 
+  final BuildContext hostContext;
+  final WidgetRef hostRef;
   final MediaOptionsLaunchContext launchContext;
   final ScrollController scrollController;
   final VoidCallback onCloseSheet;
@@ -69,7 +75,7 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     final List<Widget> mediaItems = <Widget>[
       if (linkUrl.isNotEmpty)
         FluxerBottomSheetMenuItem(
-          icon: PhosphorIconsRegular.link,
+          icon: PhosphorIconsBold.link,
           label: l10n.mediaViewerCopyLink,
           onTap: () => unawaited(_copyLink(context, linkUrl)),
         ),
@@ -83,13 +89,7 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
         FluxerBottomSheetMenuItem(
           icon: PhosphorIconsFill.downloadSimple,
           label: l10n.chatAttachmentDownload,
-          onTap: () => unawaited(_download(context, downloadUrl)),
-        ),
-      if (_canForwardMedia())
-        FluxerBottomSheetMenuItem(
-          icon: PhosphorIconsFill.arrowBendUpRight,
-          label: l10n.mediaViewerForward,
-          onTap: () => unawaited(_forward(context)),
+          onTap: () => unawaited(_download(context, ref, downloadUrl)),
         ),
     ];
     final List<Widget> groups = <Widget>[
@@ -102,15 +102,26 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
           ref: ref,
           message: actionScope.message,
           permissions: actionScope.permissions,
-          onAction: (MessageAction action) => unawaited(
-            _handleMessageAction(context, ref, actionScope, action),
+          onAction: (MessageAction action) =>
+              unawaited(_handleMessageAction(actionScope, action)),
+          attachmentCallbacks: MessageActionCallbacks(
+            onDeleteAttachment: (Attachment attachment) {
+              actionScope.callbacks.onDeleteAttachment?.call(attachment);
+              onCloseViewer?.call();
+            },
+            onEditAttachmentAltText:
+                actionScope.callbacks.onEditAttachmentAltText,
           ),
+          onCloseMenu: onCloseSheet,
         ),
       );
     }
     return SingleChildScrollView(
       controller: scrollController,
-      padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
+      padding: FluxerBottomSheet.scrollViewPadding(
+        context,
+        padding: EdgeInsets.symmetric(horizontal: context.layout.s4),
+      ),
       child: FluxerBottomSheetGroupColumn(children: groups),
     );
   }
@@ -128,67 +139,42 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
     await handleExternalLinkTap(context, linkUrl);
   }
 
-  Future<void> _download(BuildContext context, String downloadUrl) async {
+  Future<void> _download(
+    BuildContext context,
+    WidgetRef ref,
+    String downloadUrl,
+  ) async {
     onCloseSheet();
     if (!context.mounted) {
       return;
     }
-    await handleExternalLinkTap(context, downloadUrl);
-  }
-
-  Future<void> _forward(BuildContext context) async {
-    onCloseSheet();
-    onCloseViewer?.call();
-    if (!context.mounted) {
-      return;
-    }
-    final MessageMediaActionScope? actionScope = launchContext.actionScope;
-    if (actionScope == null) {
-      return;
-    }
-    final Message message = actionScope.message;
-    final String? attachmentId = launchContext.attachmentId;
-    final int? embedIndex = launchContext.embedIndex;
-    if (attachmentId != null && attachmentId.isNotEmpty) {
-      await showForwardMediaSheet(
-        context,
-        sourceChannelId: message.channelId,
-        sourceMessageId: message.id,
-        attachmentIds: <String>[attachmentId],
-      );
-      return;
-    }
-    if (embedIndex != null) {
-      await showForwardMediaSheet(
-        context,
-        sourceChannelId: message.channelId,
-        sourceMessageId: message.id,
-        embedIndices: <int>[embedIndex],
-      );
-    }
+    await downloadChatAttachmentMedia(
+      context: context,
+      ref: ref,
+      url: downloadUrl,
+      filename: launchContext.filename,
+    );
   }
 
   Future<void> _handleMessageAction(
-    BuildContext context,
-    WidgetRef ref,
     MessageMediaActionScope actionScope,
     MessageAction action,
   ) async {
     onCloseSheet();
-    if (shouldCloseMediaViewerForMessageAction(action)) {
-      onCloseViewer?.call();
-    }
-    if (!context.mounted) {
+    if (!hostContext.mounted) {
       return;
     }
     await dispatchMessageAction(
-      ref: ref,
-      context: context,
+      ref: hostRef,
+      context: hostContext,
       message: actionScope.message,
       action: action,
       callbacks: actionScope.callbacks,
       previewRoleGuildId: actionScope.previewRoleGuildId,
     );
+    if (shouldCloseMediaViewerForMessageAction(action)) {
+      onCloseViewer?.call();
+    }
   }
 
   String? _downloadUrl() {
@@ -205,16 +191,5 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
       return null;
     }
     return fallbackUrl;
-  }
-
-  bool _canForwardMedia() {
-    if (launchContext.actionScope == null) {
-      return false;
-    }
-    final String? attachmentId = launchContext.attachmentId;
-    if (attachmentId != null && attachmentId.isNotEmpty) {
-      return true;
-    }
-    return launchContext.embedIndex != null;
   }
 }

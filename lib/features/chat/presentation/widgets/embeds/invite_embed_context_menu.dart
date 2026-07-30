@@ -104,7 +104,7 @@ class _InviteEmbedContextMenuRoute
       items.add(
         ContextMenuItem(
           label: l10n.guildMenuCopyCommunityId,
-          icon: PhosphorIconsRegular.copy,
+          icon: PhosphorIconsBold.copy,
           onTap: () => Navigator.of(
             context,
           ).pop(InviteEmbedContextMenuAction.copyGuildId),
@@ -115,7 +115,7 @@ class _InviteEmbedContextMenuRoute
       items.add(
         ContextMenuItem(
           label: l10n.dmCopyChannelId,
-          icon: PhosphorIconsRegular.copy,
+          icon: PhosphorIconsBold.copy,
           onTap: () => Navigator.of(
             context,
           ).pop(InviteEmbedContextMenuAction.copyChannelId),
@@ -126,7 +126,7 @@ class _InviteEmbedContextMenuRoute
       items.add(
         ContextMenuItem(
           label: l10n.guildMenuReportCommunity,
-          icon: PhosphorIconsRegular.flag,
+          icon: PhosphorIconsBold.flag,
           isDanger: true,
           onTap: () =>
               Navigator.of(context).pop(InviteEmbedContextMenuAction.report),

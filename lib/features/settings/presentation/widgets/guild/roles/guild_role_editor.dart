@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/domain/guild/roles/guild_role_permission_spec.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_permission_category.dart';
+import 'package:fluxer_app/features/settings/presentation/widgets/wide_settings_content_layout.dart';
 import 'package:fluxer_app/features/settings/providers/guild/permission_layout_provider.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
@@ -91,12 +92,7 @@ class _GuildRoleEditorState extends ConsumerState<GuildRoleEditor> {
     final bool isEveryone = widget.role.isEveryoneRole(widget.guildId);
     final bool editorDisabled = widget.isLocked || !widget.canManageRoles;
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(
-        context.layout.s4,
-        context.layout.s4,
-        context.layout.s4,
-        96,
-      ),
+      padding: guildSettingsScrollPadding(context, bottom: 96),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

@@ -14,10 +14,12 @@ import 'package:fluxer_app/features/channels/providers/channel_list_view_model.d
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_list_view_model.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_join_button.dart';
 import 'package:fluxer_app/features/ui/voice/voice_channel_participant_grid.dart';
 import 'package:fluxer_app/features/voice/presentation/voice_channel_page_view.dart';
+import 'package:fluxer_app/features/voice/presentation/widgets/voice_channel_join_empty_state.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_participants_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_channel_text_chat_provider.dart';
 import 'package:fluxer_app/features/voice/providers/voice_join_eligibility_provider.dart';
@@ -49,7 +51,17 @@ void main() {
       WidgetTester tester,
     ) async {
       await _pumpPage(tester);
+      expect(find.byType(VoiceChannelJoinEmptyState), findsOneWidget);
       expect(find.byType(VoiceChannelJoinButton), findsOneWidget);
+      expect(find.text('Join voice channel'), findsOneWidget);
+      expect(
+        find.text('This is a voice channel. Connect to start talking!'),
+        findsNothing,
+      );
+      expect(
+        find.textContaining('end-to-end encrypted', findRichText: true),
+        findsOneWidget,
+      );
       expect(
         find.byKey(const ValueKey<String>('voice-participant-grid')),
         findsNothing,
@@ -195,6 +207,7 @@ Future<void> _pumpPage(
     ProviderScope(
       overrides: _voicePageOverrides(db: db, session: session),
       child: MaterialApp(
+        locale: const Locale('en'),
         localizationsDelegates: FluxerLocalizations.localizationsDelegates,
         supportedLocales: FluxerLocalizations.supportedLocales,
         theme: buildFluxerTheme(
@@ -264,7 +277,11 @@ class _FakeChannelListViewModel extends ChannelListViewModel {
 
 class _FakeGuildListViewModel extends GuildListViewModel {
   @override
-  GuildListViewState build() => const GuildListViewState(guilds: []);
+  GuildListViewState build() => const GuildListViewState(
+    guilds: <Guild>[
+      Guild(id: _guildId, name: 'Test Guild', features: <String>['VOICE_E2EE']),
+    ],
+  );
 }
 
 class _FakeChatViewModel extends ChatViewModel {

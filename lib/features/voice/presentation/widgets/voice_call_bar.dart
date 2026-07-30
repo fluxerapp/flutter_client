@@ -333,7 +333,7 @@ class VoiceCallBar extends ConsumerWidget {
 
   Widget _buildStatusIcon(BuildContext context) {
     return PhosphorIcon(
-      PhosphorIconsRegular.phone,
+      PhosphorIconsBold.phone,
       color: context.colors.textSecondary,
       size: 22,
     );

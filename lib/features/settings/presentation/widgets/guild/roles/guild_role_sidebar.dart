@@ -4,6 +4,8 @@ import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/settings/presentation/widgets/guild/roles/guild_role_reorderable_list.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
+import 'package:fluxer_app/features/ui/tappable/fluxer_tappable.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -60,29 +62,13 @@ class GuildRoleSidebar extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: FluxerButton.secondary(
-                  onPressed: canManageRoles ? onCreateRole : null,
-                  label: l10n.guildSettingsCreateRole,
-                  size: FluxerButtonSize.small,
-                  icon: PhosphorIconsBold.plus,
-                  isLoading: isCreatingRole,
-                ),
-              ),
-              const SizedBox(width: 8),
-              FluxerButton.secondary(
-                onPressed: canManageRoles && hoistedRoles.isNotEmpty
-                    ? onEnterHoistOrderMode
-                    : null,
-                label: l10n.guildSettingsRolesCustomHoistOrder,
-                size: FluxerButtonSize.small,
-                icon: PhosphorIconsBold.arrowsDownUp,
-                fitContent: true,
-              ),
-            ],
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+          child: GuildRolesSidebarActionButton(
+            label: l10n.guildSettingsCreateRole,
+            icon: PhosphorIconsBold.plus,
+            enabled: canManageRoles,
+            isLoading: isCreatingRole,
+            onPressed: onCreateRole,
           ),
         ),
         Expanded(
@@ -168,6 +154,82 @@ class GuildRoleSidebar extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+class GuildRolesSidebarActionButton extends StatelessWidget {
+  const GuildRolesSidebarActionButton({
+    required this.label,
+    required this.icon,
+    required this.onPressed,
+    this.enabled = true,
+    this.isLoading = false,
+    super.key,
+  });
+
+  final String label;
+  final IconData icon;
+  final VoidCallback onPressed;
+  final bool enabled;
+  final bool isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final motion = context.motion;
+    final bool isInteractive = enabled && !isLoading;
+
+    return FluxerTappable(
+      enabled: isInteractive,
+      onTap: onPressed,
+      semanticLabel: label,
+      excludeChildSemantics: isLoading,
+      builder: (BuildContext context, Set<WidgetState> states) {
+        final bool isHovered = states.contains(WidgetState.hovered);
+        return AnimatedContainer(
+          duration: motion.fast,
+          curve: motion.curve,
+          width: double.infinity,
+          height: 34,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: isHovered
+                ? colors.buttonSecondaryActiveFill
+                : colors.buttonSecondaryFill,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: colors.backgroundModifierAccent),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (isLoading)
+                ExcludeSemantics(
+                  child: FluxerLoadingSpinner(
+                    color: colors.buttonSecondaryText,
+                  ),
+                )
+              else
+                PhosphorIcon(icon, size: 18, color: colors.buttonSecondaryText),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: colors.buttonSecondaryText,
+                    height: 1.125,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

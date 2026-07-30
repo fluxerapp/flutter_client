@@ -98,7 +98,9 @@ class EmojiSpritePainter extends CustomPainter {
     required this.diversity,
   });
 
-  static final Paint _paint = Paint()..filterQuality = FilterQuality.medium;
+  static final Paint _paint = Paint()
+    ..filterQuality = FilterQuality.none
+    ..isAntiAlias = false;
 
   final ui.Image image;
   final int spriteIndex;
