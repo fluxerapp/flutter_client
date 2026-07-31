@@ -11,6 +11,14 @@ const int kMaxLoadedMessages = 200;
 /// leaving headroom so the next message does not immediately re-trigger a trim.
 const int kTrimmedMessageWindowSize = 120;
 
+/// In-memory cap at which loadMore/loadNewer PAUSE instead of installing:
+/// installs never trim (a directional trim landing mid-fling evicts the
+/// anchor and teleports the viewport). The scroll-end around-trim (the
+/// widget calls ChatViewModel.trimAroundVisible) shrinks the window back to
+/// [kTrimmedMessageWindowSize], and the parked edge re-arms on the next
+/// scroll gesture.
+const int kMaxLoadedMessagesHard = 400;
+
 /// Result of trimming a message window down to [kMaxLoadedMessages].
 class MessageWindowTrim {
   const MessageWindowTrim({
@@ -81,6 +89,55 @@ MessageWindowTrim trimMessageWindow(
   );
 }
 
+/// Trims to [target] rows containing [aroundId], split as evenly as the
+/// window edges allow. Local-only rows (optimistic sends, client system
+/// rows) dropped from the newest side are re-appended, mirroring
+/// [applyOlderPage]. [aroundId] not found => falls back to
+/// trimMessageWindow(keepNewest: true).
+MessageWindowTrim trimMessageWindowAround(
+  List<Message> messages, {
+  required String aroundId,
+  int max = kMaxLoadedMessages,
+  int target = kTrimmedMessageWindowSize,
+}) {
+  if (messages.length <= max) {
+    return MessageWindowTrim(
+      messages: messages,
+      droppedOlder: false,
+      droppedNewer: false,
+    );
+  }
+  final int idx = messages.indexWhere((Message m) => m.id == aroundId);
+  if (idx < 0) {
+    return trimMessageWindow(
+      messages,
+      keepNewest: true,
+      max: max,
+      target: target,
+    );
+  }
+  final int start = (idx - target ~/ 2).clamp(0, messages.length - target);
+  List<Message> kept = messages.sublist(start, start + target);
+  final bool droppedOlder = start > 0;
+  final bool droppedNewer = start + target < messages.length;
+  if (droppedNewer) {
+    // The newest side holds optimistic sends, failed retries, and client
+    // system rows that exist only in memory - keep them.
+    final List<Message> localOnly = messages
+        .sublist(start + target)
+        .where(isLocalOnlyMessage)
+        .toList();
+    if (localOnly.isNotEmpty) {
+      kept = <Message>[...kept, ...localOnly];
+    }
+  }
+  return MessageWindowTrim(
+    messages: kept,
+    droppedOlder: droppedOlder,
+    droppedNewer: droppedNewer,
+  );
+}
+
 WindowPageResult applyOlderPage({
   required MessageWindowSnapshot window,
   required List<Message> page,
@@ -101,24 +158,11 @@ WindowPageResult applyOlderPage({
     );
   }
   final List<Message> merged = <Message>[...page, ...window.messages];
-  final MessageWindowTrim trim = trimMessageWindow(merged, keepNewest: false);
-  List<Message> kept = trim.messages;
-  if (trim.droppedNewer) {
-    // The trim cuts the newest side, where optimistic sends, failed retries,
-    // and client system rows live. Those exist only in memory - keep them.
-    final List<Message> localOnly = merged
-        .sublist(kept.length)
-        .where(isLocalOnlyMessage)
-        .toList();
-    if (localOnly.isNotEmpty) {
-      kept = <Message>[...kept, ...localOnly];
-    }
-  }
   return WindowPageApplied(
     MessageWindowSnapshot(
-      messages: kept,
+      messages: merged,
       hasMoreOlder: pageIndicatesMoreOlder,
-      hasMoreNewer: window.hasMoreNewer || trim.droppedNewer,
+      hasMoreNewer: window.hasMoreNewer,
     ),
   );
 }
@@ -136,20 +180,23 @@ WindowPageResult applyNewerPage({
     return const WindowPageSuperseded();
   }
   if (page.isEmpty) {
+    // An empty newer page is NOT self-evidently the tail either: the raw scan is
+    // truncated before invisible and orphaned rows are filtered out, so "nothing
+    // came back" can mean "everything that came back was filtered". The caller's
+    // consult owns that verdict, exactly as it does for a non-empty page.
     return WindowPageApplied(
       MessageWindowSnapshot(
         messages: window.messages,
         hasMoreOlder: window.hasMoreOlder,
-        hasMoreNewer: false,
+        hasMoreNewer: pageIndicatesMoreNewer,
       ),
     );
   }
   final List<Message> merged = mergeMessagesSorted(window.messages, page);
-  final MessageWindowTrim trim = trimMessageWindow(merged, keepNewest: true);
   return WindowPageApplied(
     MessageWindowSnapshot(
-      messages: trim.messages,
-      hasMoreOlder: window.hasMoreOlder || trim.droppedOlder,
+      messages: merged,
+      hasMoreOlder: window.hasMoreOlder,
       hasMoreNewer: pageIndicatesMoreNewer,
     ),
   );

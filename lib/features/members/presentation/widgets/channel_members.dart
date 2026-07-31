@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/database/fluxer_database.dart' as db;
 import 'package:fluxer_app/core/providers/database_provider.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
+import 'package:fluxer_app/features/guilds/utils/guild_features.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
 import 'package:fluxer_app/features/members/domain/member_list_layout.dart';
 import 'package:fluxer_app/features/members/domain/member_list_range_utils.dart';
@@ -136,11 +138,8 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
         .getList(guildId: guildId, channelId: channelId);
     final Map<String, db.Role> rolesById =
         ref.watch(guildRolesByIdProvider(guildId)).value ?? <String, db.Role>{};
-    final String? guildOwnerId = ref
-        .watch(guildByIdProvider(guildId))
-        .asData
-        ?.value
-        ?.ownerId;
+    final Guild? guild = ref.watch(guildByIdProvider(guildId)).asData?.value;
+    final String? guildOwnerId = guild?.ownerId;
     if (listState == null || !listState.hasReceivedInitialPayload) {
       return _ChannelMembersPanel(
         child: ListView.builder(
@@ -210,7 +209,10 @@ class _ChannelMembersState extends ConsumerState<ChannelMembers> {
             userId: userId,
             rolesById: rolesById,
             dimmed: dimmed,
-            isOwner: guildOwnerId != null && userId == guildOwnerId,
+            isOwner: shouldShowOwnerCrown(
+              isOwner: guildOwnerId != null && userId == guildOwnerId,
+              features: guild?.features ?? const <String>[],
+            ),
           );
         },
       ),

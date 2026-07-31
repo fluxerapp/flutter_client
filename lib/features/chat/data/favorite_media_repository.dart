@@ -8,11 +8,7 @@ import 'package:fluxer_app/features/chat/utils/klipy_utils.dart';
 import 'package:fluxer_dart/export.dart' as sdk;
 
 class FavoriteMediaRepository {
-  FavoriteMediaRepository({
-    required FluxerDatabase db,
-    required sdk.FluxerClient client,
-  }) : _db = db,
-       _client = client;
+  FavoriteMediaRepository({required this._db, required this._client});
 
   final FluxerDatabase _db;
   final sdk.FluxerClient _client;

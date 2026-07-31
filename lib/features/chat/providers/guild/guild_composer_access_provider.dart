@@ -31,6 +31,9 @@ Future<GuildComposerAccess> guildComposerAccess(
     return GuildComposerAccess.allowed;
   }
   final String? currentUserId = ref.watch(currentUserIdProvider);
+  if (currentUserId == null || currentUserId.isEmpty) {
+    return GuildComposerAccess.allowed;
+  }
   if (isPersonalNotesChannelRoute(
     channelId: channelId,
     currentUserId: currentUserId,
@@ -71,12 +74,16 @@ Future<GuildComposerAccess> guildComposerAccess(
     return GuildComposerAccess.allowed;
   }
   final db = ref.read(fluxerDatabaseProvider);
-  final memberRow = currentUserId == null
-      ? null
-      : await db.memberDao.getMemberByUserId(currentUserId, guildId);
+  final memberRow = await db.memberDao.getMemberByUserId(
+    currentUserId,
+    guildId,
+  );
   final UserSettingsViewState userSettings = ref.read(
     userSettingsViewModelProvider,
   );
+  if (!userSettings.isProfileLoaded) {
+    return GuildComposerAccess.allowed;
+  }
   final CurrentUserMemberIdentity? memberIdentity = await ref.watch(
     currentUserMemberIdentityProvider(guildId).future,
   );

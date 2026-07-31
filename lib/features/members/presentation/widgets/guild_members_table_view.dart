@@ -6,10 +6,14 @@ import 'package:fluxer_app/core/database/fluxer_database.dart' as drift_db;
 import 'package:fluxer_app/core/media/fluxer_media_url.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/members/presentation/menus/guild_member_context_menu.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class GuildMembersTableView extends ConsumerStatefulWidget {
@@ -222,6 +226,7 @@ class _GuildMembersTableViewState extends ConsumerState<GuildMembersTableView> {
               ) {
                 final Member member = members[index];
                 return _MemberRow(
+                  guildId: widget.guildId,
                   member: member,
                   onTap: () => widget.onMemberTap(member),
                 );
@@ -235,10 +240,35 @@ class _GuildMembersTableViewState extends ConsumerState<GuildMembersTableView> {
 }
 
 class _MemberRow extends ConsumerWidget {
-  const _MemberRow({required this.member, required this.onTap});
+  const _MemberRow({
+    required this.guildId,
+    required this.member,
+    required this.onTap,
+  });
 
+  final String guildId;
   final Member member;
   final VoidCallback onTap;
+
+  GuildMemberResponse _toGuildMemberResponse() {
+    return GuildMemberResponse(
+      user: UserPartialResponse(
+        id: member.id,
+        username: member.username,
+        discriminator: '0000',
+        globalName: member.globalName,
+        avatar: member.avatar,
+        avatarColor: member.avatarColor,
+        flags: 0,
+      ),
+      roles: member.roles.map((MemberRole role) => role.id).toList(),
+      nick: member.nickname,
+      joinedAt: DateTime.fromMillisecondsSinceEpoch(0),
+      communicationDisabledUntil: member.communicationDisabledUntil,
+      mute: false,
+      deaf: false,
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -251,6 +281,26 @@ class _MemberRow extends ConsumerWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
+        onLongPress: isTouchPrimaryInput(ref)
+            ? () => unawaited(
+                GuildMemberContextMenu.show(
+                  context,
+                  ref,
+                  position: contextMenuPositionAtCenter(context),
+                  guildId: guildId,
+                  member: _toGuildMemberResponse(),
+                ),
+              )
+            : null,
+        onSecondaryTap: () => unawaited(
+          GuildMemberContextMenu.show(
+            context,
+            ref,
+            position: contextMenuPositionAtCenter(context),
+            guildId: guildId,
+            member: _toGuildMemberResponse(),
+          ),
+        ),
         hoverColor: context.colors.backgroundModifierHover,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: context.layout.s2),

@@ -17,6 +17,12 @@ class GuildRepository {
     );
   }
 
+  Stream<Guild?> watchServerById(String id) {
+    return _db.guildDao
+        .watchServerById(id)
+        .map((row) => row == null ? null : Guild.fromRow(row));
+  }
+
   Future<List<Guild>> getServers() async {
     await syncServers();
     final rows = await _db.guildDao.getServers();

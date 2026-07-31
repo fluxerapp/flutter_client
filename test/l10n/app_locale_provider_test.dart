@@ -160,12 +160,12 @@ void main() {
   test('system fallback considers the complete preference list', () {
     final ProviderContainer container = _container();
     container.read(systemLocalesProvider.notifier).updateFromPlatform(
-      const <Locale>[Locale('fr', 'FR'), Locale('fr', 'CA')],
+      const <Locale>[Locale('pt', 'PT'), Locale('pt', 'BR')],
     );
 
     expect(
       container.read(effectiveAppLocaleProvider),
-      const Locale('fr', 'CA'),
+      const Locale('pt', 'BR'),
     );
   });
 

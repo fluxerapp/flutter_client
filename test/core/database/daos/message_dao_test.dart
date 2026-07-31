@@ -19,6 +19,15 @@ Message _msg(String id) => Message(
   timestamp: dateTimeFromUserSnowflakeOrNull(id)!,
 );
 
+Message _msgAt(String id, DateTime timestamp) => Message(
+  id: id,
+  channelId: 'ch',
+  authorId: 'author',
+  authorName: 'Author',
+  content: 'body',
+  timestamp: timestamp,
+);
+
 void main() {
   final String idA = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 10));
   final String idB = _snowflakeForUtc(DateTime.utc(2026, 5, 10, 11));
@@ -51,6 +60,20 @@ void main() {
     final db = await seed([idA]);
     final after = await db.messageDao.getMessagesAfter('ch', idA);
     expect(after, isEmpty);
+  });
+
+  test('equal-timestamp rows tie-break by snowflake id across page '
+      'cursors', () async {
+    final db = openTestDatabase();
+    final DateTime ts = DateTime.utc(2026, 5, 10, 10);
+    await db.messageDao.upsertMessage(_msgAt('99', ts).toCompanion());
+    await db.messageDao.upsertMessage(_msgAt('100', ts).toCompanion());
+
+    final before = await db.messageDao.getMessages('ch', beforeId: '100');
+    expect(before.map((m) => m.id).toList(), ['99']);
+
+    final after = await db.messageDao.getMessagesAfter('ch', '99');
+    expect(after.map((m) => m.id).toList(), ['100']);
   });
 
   test(

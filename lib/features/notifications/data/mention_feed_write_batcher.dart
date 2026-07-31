@@ -7,10 +7,9 @@ const int kMentionFeedWriteBatchMs = 1000;
 
 class MentionFeedWriteBatcher {
   MentionFeedWriteBatcher({
-    required FluxerDatabase database,
-    Duration window = const Duration(milliseconds: kMentionFeedWriteBatchMs),
-  }) : _database = database,
-       _window = window;
+    required this._database,
+    this._window = const Duration(milliseconds: kMentionFeedWriteBatchMs),
+  });
 
   final FluxerDatabase _database;
   final Duration _window;

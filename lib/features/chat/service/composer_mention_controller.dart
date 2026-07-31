@@ -88,7 +88,7 @@ class MentionInlineToken extends InlineToken {
 /// Renders user, channel, and role mentions - and inserted emoji - as inline
 /// chips while [toWireText] preserves their wire forms for sending.
 class ComposerMentionController extends InlineTokenTextEditingController {
-  ComposerMentionController({required WidgetRef ref, super.text}) : _ref = ref;
+  ComposerMentionController({required this._ref, super.text});
 
   final WidgetRef _ref;
 

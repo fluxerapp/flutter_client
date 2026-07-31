@@ -55,7 +55,6 @@ Future<GuildAction?> showGuildBottomSheet(
     leading: GuildBottomSheetAvatar(guild: guild),
     subtitle: GuildBottomSheetStats(guildId: guild.id, fallbackGuild: guild),
     initialChildSize: 0.7,
-    maxChildSize: 0.85,
     builder: (sheetContext, scrollController, close) {
       final layout = sheetContext.layout;
       void pop(GuildAction action) => Navigator.of(sheetContext).pop(action);
@@ -141,7 +140,6 @@ void _openMuteSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
       title: submenu.label,
       onBack: () => Navigator.of(context).pop(),
       initialChildSize: 0.5,
-      maxChildSize: 0.85,
       builder: (sheetContext, scrollController, close) {
         final layout = sheetContext.layout;
         void pop(GuildAction action) => Navigator.of(sheetContext).pop(action);
@@ -186,7 +184,6 @@ void _openGenericSubmenu(BuildContext context, GuildMenuSubmenu submenu) {
       title: submenu.label,
       onBack: () => Navigator.of(context).pop(),
       initialChildSize: 0.5,
-      maxChildSize: 0.85,
       builder: (sheetContext, scrollController, close) {
         final layout = sheetContext.layout;
         void pop(GuildAction action) => Navigator.of(sheetContext).pop(action);

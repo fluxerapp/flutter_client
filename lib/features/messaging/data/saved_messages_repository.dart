@@ -6,12 +6,10 @@ const String _kSavedMessagesFetchLimit = '100';
 
 class SavedMessagesRepository {
   SavedMessagesRepository({
-    required db.FluxerDatabase database,
-    required FluxerClient client,
-    required String? currentUserId,
-  }) : _database = database,
-       _client = client,
-       _currentUserId = currentUserId;
+    required this._database,
+    required this._client,
+    required this._currentUserId,
+  });
 
   final db.FluxerDatabase _database;
   final FluxerClient _client;

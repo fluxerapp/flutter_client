@@ -10,28 +10,31 @@ void main() {
         expect(
           resolveMobileShellLayoutMode(
             navigationShellIndex: shellNotificationsBranchIndex,
-            activeBranchIndex: shellNotificationsBranchIndex,
             activeBranchLocation: '/notifications',
-            topLocation: '/notifications',
           ),
           ShellLayoutMode.mainTab,
         );
       },
     );
 
-    test(
-      'home tab during stale notifications top uses channelsRoot not channelDrawer',
-      () {
-        expect(
-          resolveMobileShellLayoutMode(
-            navigationShellIndex: shellHomeBranchIndex,
-            activeBranchIndex: shellNotificationsBranchIndex,
-            activeBranchLocation: '/channels/@me/dm',
-            topLocation: '/notifications',
-          ),
-          ShellLayoutMode.channelsRoot,
-        );
-      },
-    );
+    test('home tab during a stale notifications read keeps the shell', () {
+      expect(
+        resolveMobileShellLayoutMode(
+          navigationShellIndex: shellHomeBranchIndex,
+          activeBranchLocation: '/channels/@me/dm',
+        ),
+        ShellLayoutMode.channelDrawer,
+      );
+    });
+
+    test('community root renders the drawer layout, not a shell-less one', () {
+      expect(
+        resolveMobileShellLayoutMode(
+          navigationShellIndex: shellHomeBranchIndex,
+          activeBranchLocation: '/channels/guild',
+        ),
+        ShellLayoutMode.channelDrawer,
+      );
+    });
   });
 }

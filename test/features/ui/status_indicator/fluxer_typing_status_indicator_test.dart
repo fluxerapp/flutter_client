@@ -33,6 +33,17 @@ double _firstDotOpacity(WidgetTester tester) {
   return tester.widget<Opacity>(_firstDotFinder()).opacity;
 }
 
+List<Offset> _dotCenters(WidgetTester tester) {
+  final Finder dotFinder = find.descendant(
+    of: find.byType(FluxerTypingStatusIndicator),
+    matching: find.byType(Opacity),
+  );
+  return List<Offset>.generate(dotFinder.evaluate().length, (int index) {
+    final RenderBox box = tester.renderObject<RenderBox>(dotFinder.at(index));
+    return box.localToGlobal(box.size.center(Offset.zero));
+  });
+}
+
 Widget _wrapPositioned({required bool onScreen}) => buildTestApp(
   ClipRect(
     child: Stack(
@@ -83,6 +94,27 @@ void main() {
       await tester.pump(const Duration(milliseconds: 600));
       final double secondOpacity = _firstDotOpacity(tester);
       expect(secondOpacity, isNot(firstOpacity));
+    });
+
+    testWidgets('keeps dot order left-to-right in RTL layouts', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          const Directionality(
+            textDirection: TextDirection.rtl,
+            child: FluxerTypingStatusIndicator(
+              status: 'online',
+              width: 22,
+              height: 12,
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      final List<Offset> centers = _dotCenters(tester);
+      expect(centers.length, 3);
+      expect(centers[0].dx, lessThan(centers[1].dx));
+      expect(centers[1].dx, lessThan(centers[2].dx));
     });
 
     testWidgets('pauses animation when scrolled offscreen', (tester) async {

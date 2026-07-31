@@ -18,12 +18,10 @@ typedef PresenceUpdateRecord = ({
 /// batch write per [kPresenceUpdateBatchDelay] window.
 class PresenceUpdateBatcher {
   PresenceUpdateBatcher({
-    required db.FluxerDatabase database,
-    required String? currentUserId,
-    Duration batchDelay = kPresenceUpdateBatchDelay,
-  }) : _database = database,
-       _currentUserId = currentUserId,
-       _batchDelay = batchDelay;
+    required this._database,
+    required this._currentUserId,
+    this._batchDelay = kPresenceUpdateBatchDelay,
+  });
 
   final db.FluxerDatabase _database;
   final String? _currentUserId;

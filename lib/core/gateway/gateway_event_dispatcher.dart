@@ -7,10 +7,7 @@ typedef GatewayEventHandlerFn = Future<void> Function(GatewayEvent event);
 typedef GatewayWriteBatcherFlushFn = Future<void> Function();
 
 class GatewayEventDispatcher {
-  GatewayEventDispatcher({
-    required GatewayEventHandlerFn onEvent,
-    this.onFlushWriteBatchers,
-  }) : _onEvent = onEvent;
+  GatewayEventDispatcher({required this._onEvent, this.onFlushWriteBatchers});
 
   final GatewayEventHandlerFn _onEvent;
   final GatewayWriteBatcherFlushFn? onFlushWriteBatchers;

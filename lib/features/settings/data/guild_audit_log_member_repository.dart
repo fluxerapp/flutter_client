@@ -15,14 +15,11 @@ const Duration _kGuildMemberChunkWaitTimeout = Duration(seconds: 10);
 
 class GuildAuditLogMemberRepository {
   const GuildAuditLogMemberRepository({
-    required db.FluxerDatabase database,
-    required FluxerClient client,
-    required GuildMemberChunkWaiter chunkWaiter,
-    required GatewayConnection? Function() readGateway,
-  }) : _database = database,
-       _client = client,
-       _chunkWaiter = chunkWaiter,
-       _readGateway = readGateway;
+    required this._database,
+    required this._client,
+    required this._chunkWaiter,
+    required this._readGateway,
+  });
 
   final db.FluxerDatabase _database;
   final FluxerClient _client;

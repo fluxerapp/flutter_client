@@ -5,9 +5,7 @@ typedef MessageRealtimeFrameFlushCallback =
     void Function(List<MessageRealtimeEvent> events);
 
 class MessageRealtimeFrameBatcher {
-  MessageRealtimeFrameBatcher({
-    required MessageRealtimeFrameFlushCallback onFlush,
-  }) : _onFlush = onFlush;
+  MessageRealtimeFrameBatcher({required this._onFlush});
 
   final MessageRealtimeFrameFlushCallback _onFlush;
   final List<MessageRealtimeEvent> _buffer = <MessageRealtimeEvent>[];

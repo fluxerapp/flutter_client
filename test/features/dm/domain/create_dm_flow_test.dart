@@ -91,9 +91,13 @@ void main() {
   });
 
   group('getCreateDmRestriction', () {
+    test('returns null before profile is loaded', () {
+      expect(getCreateDmRestriction(_baseSettings), isNull);
+    });
+
     test('returns unclaimed when email is missing', () {
       expect(
-        getCreateDmRestriction(_baseSettings),
+        getCreateDmRestriction(_baseSettings.copyWith(isProfileLoaded: true)),
         CreateDmRestriction.unclaimed,
       );
     });
@@ -101,6 +105,7 @@ void main() {
     test('returns unverified when email exists but not verified', () {
       final UserSettingsViewState settings = _baseSettings.copyWith(
         email: 'user@example.com',
+        isProfileLoaded: true,
       );
       expect(getCreateDmRestriction(settings), CreateDmRestriction.unverified);
     });
@@ -109,6 +114,7 @@ void main() {
       final UserSettingsViewState settings = _baseSettings.copyWith(
         email: 'user@example.com',
         verified: true,
+        isProfileLoaded: true,
       );
       expect(getCreateDmRestriction(settings), isNull);
     });

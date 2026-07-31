@@ -6,6 +6,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/domain/chat_fullscreen_video_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/media_options_launch_context.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/presentation/sheets/attachment_alt_text_sheet.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/message_actions/message_bottom_sheet.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_display_utils.dart';
 import 'package:fluxer_app/features/chat/utils/attachment_download_service.dart';
@@ -109,9 +110,11 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
               actionScope.callbacks.onDeleteAttachment?.call(attachment);
               onCloseViewer?.call();
             },
-            onEditAttachmentAltText:
-                actionScope.callbacks.onEditAttachmentAltText,
+            onEditAttachmentAltText: (Attachment attachment) {
+              unawaited(_editAttachmentAltText(actionScope, attachment));
+            },
           ),
+          attachmentIdFilter: launchContext.attachmentId,
           onCloseMenu: onCloseSheet,
         ),
       );
@@ -154,6 +157,49 @@ class _MobileMediaOptionsSheetBody extends ConsumerWidget {
       url: downloadUrl,
       filename: launchContext.filename,
     );
+  }
+
+  Future<void> _editAttachmentAltText(
+    MessageMediaActionScope actionScope,
+    Attachment attachment,
+  ) async {
+    if (!hostContext.mounted) {
+      return;
+    }
+    final Attachment? resolved = _resolveAttachment(
+      actionScope.message,
+      attachment,
+      launchContext.attachmentId,
+    );
+    if (resolved == null) {
+      return;
+    }
+    await editMessageAttachmentAltText(
+      hostContext,
+      hostRef,
+      messageId: actionScope.message.id,
+      attachment: resolved,
+    );
+  }
+
+  Attachment? _resolveAttachment(
+    Message message,
+    Attachment attachment,
+    String? viewedAttachmentId,
+  ) {
+    if (viewedAttachmentId != null && viewedAttachmentId.isNotEmpty) {
+      for (final Attachment candidate in message.attachments) {
+        if (candidate.id == viewedAttachmentId) {
+          return candidate;
+        }
+      }
+    }
+    for (final Attachment candidate in message.attachments) {
+      if (candidate.id == attachment.id) {
+        return candidate;
+      }
+    }
+    return null;
   }
 
   Future<void> _handleMessageAction(

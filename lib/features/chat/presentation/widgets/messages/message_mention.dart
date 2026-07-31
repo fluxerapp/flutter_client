@@ -392,7 +392,11 @@ class ChannelJumpLinkMention extends ConsumerWidget {
 
     void onTap() {
       unawaited(
-        navigateToChannelJumpLink(ref: ref, context: context, link: link),
+        navigateToChannelJumpLink(
+          container: ref.container,
+          context: context,
+          link: link,
+        ),
       );
     }
 

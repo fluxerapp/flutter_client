@@ -10,6 +10,7 @@ import 'package:fluxer_app/features/settings/presentation/user_settings_modal.da
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/fluxer_tag_parser.dart';
 import 'package:fluxer_app/shared/utils/relationship_error_messages.dart';
@@ -98,6 +99,9 @@ class _AddFriendFormState extends ConsumerState<AddFriendForm> {
   Widget build(BuildContext context) {
     final l10n = FluxerLocalizations.of(context);
     final settings = ref.watch(userSettingsViewModelProvider);
+    if (!settings.isProfileLoaded) {
+      return const Center(child: FluxerLoadingSpinner());
+    }
     if (!settings.hasVerifiedEmail) {
       return _AddFriendGate(
         icon: PhosphorIconsFill.warningCircle,

@@ -153,7 +153,10 @@ class _ChannelPinsContentState extends ConsumerState<ChannelPinsContent> {
   }
 
   Future<void> _jumpToMessage(Message message) async {
-    final database = ref.read(fluxerDatabaseProvider);
+    // Captured before the awaits: the panel is dismissed mid-jump, and a ref
+    // read after onClose() would be dead.
+    final ProviderContainer container = ref.container;
+    final database = container.read(fluxerDatabaseProvider);
     await database.messageDao.upsertMessage(message.toCompanion());
     final String? resolvedGuildId =
         widget.guildId ??
@@ -167,7 +170,11 @@ class _ChannelPinsContentState extends ConsumerState<ChannelPinsContent> {
       channelId: message.channelId,
       messageId: message.id,
     );
-    await navigateToChannelJumpLink(ref: ref, context: context, link: link);
+    await navigateToChannelJumpLink(
+      container: container,
+      context: context,
+      link: link,
+    );
   }
 }
 

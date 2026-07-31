@@ -361,7 +361,11 @@ class _ForwardedSourceButtonState
       messageId: data.messageId,
     );
     unawaited(
-      navigateToChannelJumpLink(ref: ref, context: context, link: link),
+      navigateToChannelJumpLink(
+        container: ref.container,
+        context: context,
+        link: link,
+      ),
     );
   }
 

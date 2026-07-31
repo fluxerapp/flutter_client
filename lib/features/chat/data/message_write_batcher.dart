@@ -13,20 +13,15 @@ typedef MessageWriteBatcherFlushCallback =
 
 class MessageWriteBatcher {
   MessageWriteBatcher({
-    required FluxerDatabase database,
-    ChannelLastMessageIndex? channelLastMessageIndex,
-    Duration window = const Duration(milliseconds: kMessageWriteBatchMs),
-    int maxBatchSize = kMessageWriteBatchMaxSize,
-    Duration minIntervalBetweenFlushes = const Duration(
+    required this._database,
+    this._channelLastMessageIndex,
+    this._window = const Duration(milliseconds: kMessageWriteBatchMs),
+    this._maxBatchSize = kMessageWriteBatchMaxSize,
+    this._minIntervalBetweenFlushes = const Duration(
       milliseconds: kMessageWriteMinIntervalMs,
     ),
-    MessageWriteBatcherFlushCallback? onFlush,
-  }) : _database = database,
-       _channelLastMessageIndex = channelLastMessageIndex,
-       _window = window,
-       _maxBatchSize = maxBatchSize,
-       _minIntervalBetweenFlushes = minIntervalBetweenFlushes,
-       _onFlush = onFlush;
+    this._onFlush,
+  });
 
   final FluxerDatabase _database;
   final ChannelLastMessageIndex? _channelLastMessageIndex;

@@ -26,6 +26,63 @@ bool networkPageOverlapsWindow({
   return compareSnowflakeIds(networkPage.first.id, windowTailId) <= 0;
 }
 
+/// Whether an around page anchored on [anchorId] proves it holds the live tail.
+///
+/// [limit] MUST be the limit the page was fetched with: the server fills the
+/// newer side of an around window INDEPENDENTLY, up to its own quota of
+/// `limit / 2` rows (`shard_impl.rs::around_window_limits`), so the newer row
+/// count only means something measured against that quota. Fewer newer rows
+/// than the quota is the server reporting the newer side exhausted, exactly as
+/// a short latest page reports the tail. Quota reached is the page having been
+/// truncated, which proves nothing about the tail, so the window has to be
+/// treated as detached and a fetch, not a cached pointer, settles where the
+/// tail is. A tail that happens to sit exactly on the quota boundary therefore
+/// costs one extra fetch, which is the direction that is safe to be wrong in:
+/// a window wrongly believed to be live DROPS incoming messages. The web
+/// client models the same rule as `messagesNewer >= expectedNewer`
+/// (`MessagePaginationUtils.ts::calculateAroundPaginationState`).
+///
+/// The anchor itself must be PRESENT in the page. A page that never carried it
+/// was not centred where we asked, so its shape cannot be read as a quota at
+/// all and there is no tail claim to make. A limit with no newer quota to fill
+/// (`limit <= 1`) is unreadable for the same reason.
+///
+/// A tail claim from this predicate is therefore NOT final on its own: the
+/// server truncates the raw scan to the limit and only then drops invisible and
+/// orphaned rows, backfilling nothing (`shard_impl.rs:610-628`), so a newer side
+/// one row under quota can equally mean "exhausted" or "a filtered row is
+/// standing in front of messages that do exist". The caller resolves that where
+/// it can see the whole picture: ChatViewModel's pointer consult treats every
+/// state that cannot PROVE the tail as provisional - the pointer missing, the
+/// pointer behind our newest row, or the pointer ahead with its own row nowhere
+/// and the ack past us - and settles each with one latest-page confirmation
+/// (`_confirmProvisionalTail`), while the states the pointer positively confirms
+/// (equal to our tail, or its row present) need no fetch.
+///
+/// RESIDUAL: the positively-confirmed states are only as good as the pointer
+/// itself, so a filtered short read that happens to land exactly on a stale
+/// pointer still reads as the tail. The durable fix is server-side and already
+/// on the follow-ups ledger: have the messages endpoint report raw-scan
+/// exhaustion (a `has_more`-style boolean) so the client stops inferring it
+/// from row counts at all.
+bool aroundPageReachesLiveTail({
+  required String anchorId,
+  required List<Message> page,
+  required int limit,
+}) {
+  final int expectedNewer = limit <= 0 ? 0 : limit ~/ 2;
+  bool sawAnchor = false;
+  int newerCount = 0;
+  for (final Message message in page) {
+    if (message.id == anchorId) {
+      sawAnchor = true;
+    } else if (compareSnowflakeIds(message.id, anchorId) > 0) {
+      newerCount++;
+    }
+  }
+  return sawAnchor && newerCount < expectedNewer;
+}
+
 bool isLocalOnlyMessage(Message message) =>
     message.isClientSystemMessage ||
     message.deliveryState == MessageDeliveryState.sending ||

@@ -25,6 +25,7 @@ import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provi
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_events.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_realtime_provider.dart';
+import 'package:fluxer_app/features/chat/utils/message_page_sync.dart';
 import 'package:fluxer_app/features/friends/providers/blocked_user_ids_provider.dart';
 import 'package:fluxer_app/features/gateway/providers/gateway_event_providers.dart';
 import 'package:fluxer_app/features/gateway/providers/guild_sync_provider.dart';
@@ -96,11 +97,16 @@ Raw<StreamSubscription<GatewayEvent>?> gatewayEventListener(Ref ref) {
     currentUserId: currentUserId,
     isAutoAckActive: (channelId) {
       final chat = ref.read(chatViewModelProvider);
+      if (chat.channelId != channelId) {
+        // Not the channel the user is looking at: never auto-ack it on the
+        // strength of a stale viewport row mid channel-handoff.
+        return false;
+      }
       return isAutoAckEligible(
         viewport: ref.read(chatReadViewportProvider),
         channelId: channelId,
-        hasMoreNewerMessages:
-            chat.channelId == channelId && chat.hasMoreNewerMessages,
+        hasMoreNewerMessages: chat.hasMoreNewerMessages,
+        currentTailId: newestServerBackedMessageId(chat.messages),
       );
     },
     onReady: () {

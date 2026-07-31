@@ -47,11 +47,9 @@ void main() {
     'resolveSupportedFluxerLocales preserves regional and script variants',
     () {
       const List<Locale> variants = <Locale>[
-        Locale('de', 'CH'),
         Locale('en', 'GB'),
         Locale('en', 'US'),
         Locale('es', '419'),
-        Locale('fr', 'CA'),
         Locale('pt', 'BR'),
         Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
       ];
@@ -66,9 +64,9 @@ void main() {
     expect(
       resolveSupportedFluxerLocales(const <Locale>[
         Locale('xx', 'XX'),
-        Locale('fr', 'CA'),
+        Locale('en', 'GB'),
       ]),
-      const Locale('fr', 'CA'),
+      const Locale('en', 'GB'),
     );
   });
 

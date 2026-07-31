@@ -309,18 +309,32 @@ class _EmbedMediaImage extends StatelessWidget {
       height: media.height,
     );
 
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: dimensions.maxWidth,
-        maxHeight: dimensions.maxHeight,
-      ),
-      child: ClipRRect(
+    if (displaySize != null) {
+      return ClipRRect(
         borderRadius: BorderRadius.circular(4),
+        child: SizedBox(
+          width: displaySize.width,
+          height: displaySize.height,
+          child: CachedNetworkImage(
+            imageUrl: media.proxyUrl ?? media.url,
+            width: displaySize.width,
+            height: displaySize.height,
+            fit: BoxFit.cover,
+            errorBuilder: (_, e, s) => const SizedBox.shrink(),
+          ),
+        ),
+      );
+    }
+    // No intrinsic dimensions: reserve a fixed box that stays identical
+    // before and after the bytes arrive, so the load never shifts the chat.
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: SizedBox(
+        width: dimensions.maxWidth,
+        height: kEmbedMediaFallbackHeight,
         child: CachedNetworkImage(
           imageUrl: media.proxyUrl ?? media.url,
-          width: displaySize?.width,
-          height: displaySize?.height,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
           errorBuilder: (_, e, s) => const SizedBox.shrink(),
         ),
       ),

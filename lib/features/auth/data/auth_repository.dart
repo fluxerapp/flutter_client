@@ -25,8 +25,8 @@ class AuthRepository {
     this._client,
     this._db,
     this._tokenStorage, {
-    required InstanceConfigSnapshot Function() readInstanceSnapshot,
-  }) : _readInstanceSnapshot = readInstanceSnapshot;
+    required this._readInstanceSnapshot,
+  });
 
   Future<LoginResult> login({
     required String email,

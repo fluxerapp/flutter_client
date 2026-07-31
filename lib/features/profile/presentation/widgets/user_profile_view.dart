@@ -19,6 +19,8 @@ import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/members/domain/member_role_management.dart';
+import 'package:fluxer_app/features/members/presentation/widgets/user_profile_roles_section.dart';
 import 'package:fluxer_app/features/members/providers/member_providers.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_actions_sheet.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
@@ -324,6 +326,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
     ProfileMenuCapabilities menuCaps = ProfileMenuCapabilities.none,
     String? guildMemberNick,
     DateTime? guildMemberTimeoutUntil,
+    String? profileGuildId,
+    Set<String> memberRoleIds = const <String>{},
+    List<MemberRole> allGuildRoles = const <MemberRole>[],
+    bool canManageRoles = false,
+    bool isGuildOwner = false,
+    MemberRole? viewerHighestRole,
     bool isWebhook = false,
     bool isBot = false,
     bool isSystem = false,
@@ -495,6 +503,11 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                                     currentNick: guildMemberNick,
                                     currentTimeoutUntil:
                                         guildMemberTimeoutUntil,
+                                    allGuildRoles: allGuildRoles,
+                                    memberRoleIds: memberRoleIds,
+                                    canManageRoles: canManageRoles,
+                                    isGuildOwner: isGuildOwner,
+                                    viewerHighestRole: viewerHighestRole,
                                   ),
                                 );
                               },
@@ -565,10 +578,22 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                     guildMemberSince: guildMemberSince,
                     guildName: guildName,
                     guildIconUrl: guildIconUrl,
-                    memberRoles: memberRoles,
                     connections: connections,
                     timezoneOffset: timezoneOffset,
                   ),
+                  if (profileGuildId != null) ...<Widget>[
+                    SizedBox(height: layout.s4),
+                    UserProfileRolesSection(
+                      guildId: profileGuildId,
+                      userId: userId,
+                      memberRoles: memberRoles,
+                      memberRoleIds: memberRoleIds,
+                      allGuildRoles: allGuildRoles,
+                      canManageRoles: canManageRoles,
+                      isGuildOwner: isGuildOwner,
+                      viewerHighestRole: viewerHighestRole,
+                    ),
+                  ],
                   SizedBox(height: layout.s4),
                   if (!isCurrentUser) ...[
                     UserProfileMutualsSection(
@@ -793,25 +818,22 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
         final Map<String, MemberRole> roleById = <String, MemberRole>{
           for (final MemberRole role in allGuildRoles) role.id: role,
         };
-        final List<MemberRole> memberRoles =
-            guildRoleIds
-                .where(roleById.containsKey)
-                .map((String roleId) => roleById[roleId]!)
-                .toList(growable: false)
-              ..sort((MemberRole a, MemberRole b) {
-                final int byPosition = b.position.compareTo(a.position);
-                if (byPosition != 0) {
-                  return byPosition;
-                }
-                return a.id.compareTo(b.id);
-              });
+        final List<MemberRole> memberRoles = resolveMemberRolesFromIds(
+          roleIds: guildRoleIds,
+          roleById: roleById,
+        );
         final bool isCurrentProfile = ownUserId == response.user.id;
         final DateTime? guildMemberTimeoutUntil =
             response.guildMember?.communicationDisabledUntil;
         ProfileMenuCapabilities menuCaps = ProfileMenuCapabilities.none;
+        bool canManageRoles = false;
+        bool isGuildOwner = false;
+        MemberRole? viewerHighestRole;
+        final Set<String> memberRoleIdSet = guildRoleIds.toSet();
         if (guildId != null) {
           final String? ownerId = guildInfo?.ownerId;
           final int everyonePermissions = roleById[guildId]?.permissions ?? 0;
+          isGuildOwner = ownerId != null && ownerId == ownUserId;
 
           final AsyncValue<CurrentUserMemberIdentity?> viewerIdentityAsync = ref
               .watch(currentUserMemberIdentityProvider(guildId));
@@ -828,12 +850,17 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
               .map((String id) => roleById[id])
               .whereType<MemberRole>()
               .toList(growable: false);
+          viewerHighestRole = highestRole(viewerRoles);
 
           final int viewerPermissions = resolveGuildPermissions(
             guildOwnerId: ownerId ?? '',
             currentUserId: ownUserId,
             everyonePermissions: everyonePermissions,
             memberRoles: viewerRoles,
+          );
+          canManageRoles = hasPermission(
+            viewerPermissions,
+            Permission.manageRoles,
           );
 
           final List<MemberRole> targetHierarchyRoles = memberRoles
@@ -853,18 +880,22 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
                 guildMemberTimeoutUntil != null &&
                 guildMemberTimeoutUntil.isAfter(DateTime.now()),
             targetIsBot: response.user.bot ?? false,
-            viewerIsOwner: ownerId != null && ownerId == ownUserId,
+            viewerIsOwner: isGuildOwner,
             viewerPermissions: viewerPermissions,
             canManageTarget: canManageTarget(
               currentUserId: ownUserId,
               ownerId: ownerId,
-              viewerHighest: highestRole(viewerRoles),
+              viewerHighest: viewerHighestRole,
               targetHighest: highestRole(targetHierarchyRoles),
               targetIsOwner: ownerId != null && ownerId == response.user.id,
             ),
             targetHasAdministrator: hasPermission(
               targetPermissions,
               Permission.administrator,
+            ),
+            hasAssignableRoles: guildHasAssignableRoles(
+              guildId: guildId,
+              allGuildRoles: allGuildRoles,
             ),
           );
         }
@@ -935,6 +966,12 @@ class _UserProfileViewState extends ConsumerState<UserProfileView> {
           menuCaps: menuCaps,
           guildMemberNick: response.guildMember?.nick,
           guildMemberTimeoutUntil: guildMemberTimeoutUntil,
+          profileGuildId: guildId,
+          memberRoleIds: memberRoleIdSet,
+          allGuildRoles: allGuildRoles,
+          canManageRoles: canManageRoles,
+          isGuildOwner: isGuildOwner,
+          viewerHighestRole: viewerHighestRole,
           canCall: canCallUser(
             isBot: response.user.bot ?? false,
             isSystem: response.user.system ?? false,

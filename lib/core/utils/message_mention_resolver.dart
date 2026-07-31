@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
+import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_dart/export.dart';
 
 /// Resolves whether a message mentions the current user, covering direct
@@ -101,6 +102,43 @@ bool messageMentionsUser(
     return false;
   }
   return mentionRoleIds.any(ctx.currentUserRoleIds.contains);
+}
+
+/// Keeps a resolved mention highlight when [incoming] would drop it.
+Message mergeMentionHighlightFlag({
+  required Message incoming,
+  required String? currentUserId,
+  Message? previous,
+}) {
+  if (incoming.isMentioned) {
+    return incoming;
+  }
+  if (previous?.isMentioned ?? false) {
+    return incoming.copyWith(isMentioned: true);
+  }
+  if (currentUserId != null &&
+      incoming.mentionedUserIds.contains(currentUserId)) {
+    return incoming.copyWith(isMentioned: true);
+  }
+  if (currentUserId != null &&
+      (previous?.mentionedUserIds.contains(currentUserId) ?? false)) {
+    return incoming.copyWith(isMentioned: true);
+  }
+  return incoming;
+}
+
+List<Message> mergeMentionHighlightFlags(
+  Iterable<Message> messages, {
+  required String? currentUserId,
+}) {
+  return messages
+      .map(
+        (Message message) => mergeMentionHighlightFlag(
+          incoming: message,
+          currentUserId: currentUserId,
+        ),
+      )
+      .toList(growable: false);
 }
 
 /// Convenience wrapper that builds the context and resolves a single message.

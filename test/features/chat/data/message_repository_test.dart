@@ -120,6 +120,33 @@ void main() {
     expect(adapter.getMessagesCount, 4);
   });
 
+  test('a fresh load never joins an in-flight identical latest page', () async {
+    final db = openTestDatabase();
+    final adapter = _CountingAdapter();
+    final dio = Dio(BaseOptions(baseUrl: 'https://api.fluxer.app/v1'))
+      ..httpClientAdapter = adapter;
+    final client = FluxerClient(dio, baseUrl: 'https://api.fluxer.app/v1');
+    final repo = MessageRepository(client, dio, db, 'me');
+
+    // A proof request must observe the server after its caller's pointer
+    // read; an in-flight identical page may carry an older snapshot, and
+    // joining it would launder a raced pointer into an orphan verdict
+    // (see _liveTailAckTargetId).
+    await Future.wait([
+      repo.loadMessagePage(channelId: 'channel-1'),
+      repo.loadMessagePage(channelId: 'channel-1', fresh: true),
+    ]);
+    expect(adapter.getMessagesCount, 2);
+
+    // Nor may a fresh request become a join target for ordinary loads: that
+    // would silently launder its freshness the other way.
+    await Future.wait([
+      repo.loadMessagePage(channelId: 'channel-1', fresh: true),
+      repo.loadMessagePage(channelId: 'channel-1'),
+    ]);
+    expect(adapter.getMessagesCount, 4);
+  });
+
   test('backfilled role-mention message persists a rich isMentioned', () async {
     final db = openTestDatabase();
     await db.channelDao.upsertChannel(
@@ -368,7 +395,6 @@ void main() {
       final updatedMessage = await repo.editMessageAttachments(
         channelId: 'channel-1',
         messageId: messageId,
-        content: 'hello',
         attachmentUpdates: const [
           MessageAttachmentUpdate(id: 'att-1'),
           MessageAttachmentUpdate.withDescription(
@@ -387,6 +413,12 @@ void main() {
       expect(updatedMessage.content, 'hello');
       expect(updatedMessage.attachments.length, 2);
       expect(updatedMessage.attachments[1].description, 'alt text');
+      expect(adapter.requestedFieldNames, <String>['attachments']);
+      expect(adapter.requestedAttachmentsJson, isNotNull);
+      final List<dynamic> sentAttachments =
+          jsonDecode(adapter.requestedAttachmentsJson!) as List<dynamic>;
+      expect(sentAttachments, hasLength(2));
+      expect(sentAttachments[1]['description'], 'alt text');
     },
   );
 }
@@ -502,6 +534,8 @@ class _EditMessageAttachmentsAdapter implements HttpClientAdapter {
   final String channelId;
   String? requestedPath;
   String? requestedMethod;
+  List<String> requestedFieldNames = <String>[];
+  String? requestedAttachmentsJson;
 
   @override
   Future<ResponseBody> fetch(
@@ -512,6 +546,17 @@ class _EditMessageAttachmentsAdapter implements HttpClientAdapter {
     requestedPath = options.uri.path;
     requestedMethod = options.method;
     if (options.method == 'PATCH' && options.uri.path.contains('/messages/')) {
+      if (options.data is FormData) {
+        final FormData formData = options.data! as FormData;
+        requestedFieldNames = formData.fields
+            .map((MapEntry<String, String> e) => e.key)
+            .toList();
+        for (final MapEntry<String, String> field in formData.fields) {
+          if (field.key == 'attachments') {
+            requestedAttachmentsJson = field.value;
+          }
+        }
+      }
       final response = MessageResponseSchema(
         id: messageId,
         channelId: channelId,

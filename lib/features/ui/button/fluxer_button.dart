@@ -209,15 +209,14 @@ class FluxerButton extends StatefulWidget {
     required IconData this.icon,
     this.onPressed,
     this.onPressedAsync,
-    FluxerButtonVariant variant = FluxerButtonVariant.primary,
+    this._variant = FluxerButtonVariant.primary,
     this.size = FluxerButtonSize.regular,
     double? iconSize,
     this.isLoading = false,
     this.recording = false,
     this.semanticLabel,
     super.key,
-  }) : _variant = variant,
-       _isCircle = true,
+  }) : _isCircle = true,
        _isCircleAltStyle = false,
        _isMediaOverlayStyle = false,
        _iconSizeOverride = iconSize,
@@ -345,7 +344,9 @@ class _FluxerButtonState extends State<FluxerButton> {
             : isHovered
             ? _resolveActiveFill(colors)
             : _resolveFill(colors);
-        final border = widget.recording ? null : _resolveBorderColor(colors);
+        final border = widget.recording
+            ? null
+            : _resolveBorderColor(colors, hovered: isHovered);
 
         Widget container = AnimatedContainer(
           duration: motion.fast,
@@ -404,11 +405,11 @@ class _FluxerButtonState extends State<FluxerButton> {
     return widget._variant.textColor(colors);
   }
 
-  Color? _resolveBorderColor(FluxerColorTheme colors) {
+  Color? _resolveBorderColor(FluxerColorTheme colors, {required bool hovered}) {
     if (widget._isMediaOverlayStyle) {
       return colors.backgroundModifierAccent;
     }
-    return widget._variant.borderColor(colors);
+    return widget._variant.borderColor(colors, hovered: hovered);
   }
 
   Widget _buildContent(Color foreground) {

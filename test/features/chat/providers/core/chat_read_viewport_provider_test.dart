@@ -19,6 +19,7 @@ void main() {
         viewport: eligibleViewport,
         channelId: 'channel-2',
         hasMoreNewerMessages: false,
+        currentTailId: null,
       ),
       isFalse,
       reason: 'the active viewport must belong to the incoming channel',
@@ -32,6 +33,7 @@ void main() {
         ),
         channelId: 'channel-1',
         hasMoreNewerMessages: false,
+        currentTailId: null,
       ),
       isFalse,
       reason: 'geometry must be at the loaded tail',
@@ -41,6 +43,7 @@ void main() {
         viewport: eligibleViewport,
         channelId: 'channel-1',
         hasMoreNewerMessages: true,
+        currentTailId: null,
       ),
       isFalse,
       reason: 'the loaded tail must also be the live channel tail',
@@ -54,6 +57,7 @@ void main() {
         ),
         channelId: 'channel-1',
         hasMoreNewerMessages: false,
+        currentTailId: null,
       ),
       isFalse,
       reason: 'backgrounded UI cannot auto-ack',
@@ -67,17 +71,66 @@ void main() {
         ),
         channelId: 'channel-1',
         hasMoreNewerMessages: false,
+        currentTailId: null,
       ),
       isFalse,
       reason: 'a hidden or unmounted viewport cannot auto-ack',
     );
     expect(
       isAutoAckEligible(
+        viewport: const ChatReadViewportState(
+          channelId: 'channel-1',
+          viewportActive: true,
+          nearLoadedTail: true,
+          foreground: true,
+          sampledTailId: 'old-tail',
+        ),
+        channelId: 'channel-1',
+        hasMoreNewerMessages: false,
+        currentTailId: 'new-tail',
+      ),
+      isFalse,
+      reason:
+          'a near-tail claim measured against a tail that no longer exists '
+          'must not authorize an ack of unseen rows',
+    );
+    expect(
+      isAutoAckEligible(
+        viewport: const ChatReadViewportState(
+          channelId: 'channel-1',
+          viewportActive: true,
+          nearLoadedTail: true,
+          foreground: true,
+          sampledTailId: 'tail-1',
+        ),
+        channelId: 'channel-1',
+        hasMoreNewerMessages: false,
+        currentTailId: 'tail-1',
+      ),
+      isTrue,
+      reason: 'a token matching the live tail is eligible',
+    );
+    expect(
+      isAutoAckEligible(
         viewport: eligibleViewport,
         channelId: 'channel-1',
         hasMoreNewerMessages: false,
+        currentTailId: 'any-tail',
+      ),
+      isFalse,
+      reason:
+          'a token-less near-tail claim cannot authorize acking a window '
+          'that has server-backed rows',
+    );
+    expect(
+      isAutoAckEligible(
+        viewport: eligibleViewport,
+        channelId: 'channel-1',
+        hasMoreNewerMessages: false,
+        currentTailId: null,
       ),
       isTrue,
+      reason: 'a null token matches only a genuinely empty live window',
     );
   });
 
@@ -95,7 +148,8 @@ void main() {
           channelId: 'channel-1',
           nearLoadedTail: true,
           distanceFromBottom: 240,
-          viewportHeight: 720,
+          viewportHeight: 600,
+          sampledTailId: null,
         );
 
     container
@@ -126,7 +180,9 @@ void main() {
           nearLoadedTail: false,
           distanceFromBottom: 50,
           viewportHeight: 720,
+          sampledTailId: null,
         );
+    await _flushMicrotasks();
 
     expect(container.read(chatReadViewportProvider).distanceFromBottom, 48);
 
@@ -137,7 +193,9 @@ void main() {
           nearLoadedTail: false,
           distanceFromBottom: 70,
           viewportHeight: 720,
+          sampledTailId: null,
         );
+    await _flushMicrotasks();
     expect(
       container.read(chatReadViewportProvider).distanceFromBottom,
       48,
@@ -161,6 +219,7 @@ void main() {
           nearLoadedTail: true,
           distanceFromBottom: 64,
           viewportHeight: 640,
+          sampledTailId: null,
         );
 
     container.read(appUiForegroundProvider.notifier).setResumed(false);
@@ -195,7 +254,9 @@ void main() {
             nearLoadedTail: true,
             distanceFromBottom: 20,
             viewportHeight: 640,
+            sampledTailId: null,
           );
+      await _flushMicrotasks();
       expect(
         container.read(chatReadViewportProvider).nearLoadedTail,
         isFalse,

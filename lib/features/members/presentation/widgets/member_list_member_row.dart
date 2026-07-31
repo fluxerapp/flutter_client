@@ -11,11 +11,14 @@ import 'package:fluxer_app/features/channels/providers/channel_typing_provider.d
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
 import 'package:fluxer_app/features/members/domain/group_dm_member_groups.dart';
 import 'package:fluxer_app/features/members/domain/member_list_group_names.dart';
+import 'package:fluxer_app/features/members/presentation/menus/guild_member_context_menu.dart';
 import 'package:fluxer_app/features/members/presentation/widgets/member_list_shared_widgets.dart';
 import 'package:fluxer_app/features/profile/domain/custom_status_utils.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/profile/providers/user_presence_provider.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/display_name.dart';
 import 'package:fluxer_app/shared/widgets/custom_status_display.dart';
 import 'package:fluxer_dart/export.dart';
@@ -103,6 +106,26 @@ class _MemberListSidebarMemberRowState
               guildId: widget.guildId,
             ),
           ),
+          onSecondaryTapUp: (TapUpDetails details) => unawaited(
+            GuildMemberContextMenu.show(
+              context,
+              ref,
+              position: details.globalPosition,
+              guildId: widget.guildId,
+              member: member,
+            ),
+          ),
+          onLongPress: isTouchPrimaryInput(ref)
+              ? () => unawaited(
+                  GuildMemberContextMenu.show(
+                    context,
+                    ref,
+                    position: contextMenuPositionAtCenter(context),
+                    guildId: widget.guildId,
+                    member: member,
+                  ),
+                )
+              : null,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 1),
             child: Container(
@@ -229,6 +252,26 @@ class MemberListDetailsMemberRow extends ConsumerWidget {
             context,
             userId: userId,
             guildId: guildId,
+          ),
+        ),
+        onLongPress: isTouchPrimaryInput(ref)
+            ? () => unawaited(
+                GuildMemberContextMenu.show(
+                  context,
+                  ref,
+                  position: contextMenuPositionAtCenter(context),
+                  guildId: guildId,
+                  member: member,
+                ),
+              )
+            : null,
+        onSecondaryTap: () => unawaited(
+          GuildMemberContextMenu.show(
+            context,
+            ref,
+            position: contextMenuPositionAtPointer(context),
+            guildId: guildId,
+            member: member,
           ),
         ),
         child: Padding(

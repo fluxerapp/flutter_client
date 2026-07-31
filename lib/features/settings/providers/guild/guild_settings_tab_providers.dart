@@ -13,6 +13,29 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'guild_settings_tab_providers.g.dart';
 
+Future<T> _runGuildSettingsActionWithKeepAlive<T>(
+  Ref ref,
+  Future<T> Function() operation,
+) async {
+  final keepAlive = ref.keepAlive();
+  try {
+    return await operation();
+  } finally {
+    keepAlive.close();
+  }
+}
+
+Future<void> _refreshGuildCacheAfterUpdate(Ref ref, String guildId) async {
+  await ref.read(guildRepositoryProvider).getServer(guildId);
+  if (!ref.mounted) {
+    return;
+  }
+  ref
+    ..invalidate(guildByIdProvider(guildId))
+    ..invalidate(guildSettingsOverviewProvider(guildId));
+  await ref.read(guildSettingsOverviewProvider(guildId).future);
+}
+
 @riverpod
 Future<List<Channel>> guildSettingsChannels(Ref ref, String guildId) async {
   final ChannelRepository repository = ref.read(channelRepositoryProvider);
@@ -62,12 +85,15 @@ class GuildSettingsOverviewActions extends _$GuildSettingsOverviewActions {
     // Async notifier loading state for void action providers.
     state = const AsyncLoading<void>();
     // Async notifier result state for void action providers.
-    state = await AsyncValue.guard(() async {
-      await ref
-          .read(guildSettingsRepositoryProvider)
-          .updateGuild(guildId: guildId, body: body);
-      ref.invalidate(guildSettingsOverviewProvider(guildId));
-    });
+    state = await _runGuildSettingsActionWithKeepAlive(
+      ref,
+      () => AsyncValue.guard(() async {
+        await ref
+            .read(guildSettingsRepositoryProvider)
+            .updateGuild(guildId: guildId, body: body);
+        await _refreshGuildCacheAfterUpdate(ref, guildId);
+      }),
+    );
   }
 }
 
@@ -90,14 +116,18 @@ class GuildSettingsModerationActions extends _$GuildSettingsModerationActions {
     // Async notifier loading state for void action providers.
     state = const AsyncLoading<void>();
     // Async notifier result state for void action providers.
-    state = await AsyncValue.guard(() async {
-      await ref
-          .read(guildSettingsRepositoryProvider)
-          .updateGuild(guildId: guildId, body: body);
-      ref
-        ..invalidate(guildSettingsModerationProvider(guildId))
-        ..invalidate(guildSettingsOverviewProvider(guildId));
-    });
+    state = await _runGuildSettingsActionWithKeepAlive(
+      ref,
+      () => AsyncValue.guard(() async {
+        await ref
+            .read(guildSettingsRepositoryProvider)
+            .updateGuild(guildId: guildId, body: body);
+        await _refreshGuildCacheAfterUpdate(ref, guildId);
+        if (ref.mounted) {
+          ref.invalidate(guildSettingsModerationProvider(guildId));
+        }
+      }),
+    );
   }
 }
 

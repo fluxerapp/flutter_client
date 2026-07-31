@@ -37,12 +37,14 @@ import 'package:fluxer_app/features/mature_content/providers/sensitive_content_p
 import 'package:fluxer_app/features/profile/providers/status_expiry_scheduler.dart';
 import 'package:fluxer_app/features/settings/providers/appearance_preferences_provider.dart';
 import 'package:fluxer_app/features/settings/providers/chat_preferences_provider.dart';
+import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
 import 'package:fluxer_app/features/settings/providers/voice_settings_provider.dart';
 import 'package:fluxer_app/features/shell/providers/current_user_private_provider.dart';
 import 'package:fluxer_app/features/shell/providers/service_status_maintenance_provider.dart';
 import 'package:fluxer_app/features/voice/services/voice_callkit_coordinator.dart';
 import 'package:fluxer_app/shared/utils/emoji_registry.dart';
 import 'package:fluxer_app/shared/utils/emoji_sprite_sheet.dart';
+import 'package:fluxer_dart/export.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_startup_provider.g.dart';
@@ -95,12 +97,14 @@ class AppStartup extends _$AppStartup {
     }
 
     // Validate the session and try fallback sessions on 401.
+    UserPrivateResponse? validatedUser;
     while (session != null) {
       ref.read(fluxerAuthTokenProvider.notifier).setToken(session.token);
 
       try {
         final client = ref.read(fluxerClientProvider);
         final user = await client.users.getCurrentUser();
+        validatedUser = user;
 
         // Cache user data for account selector.
         await database.authSessionDao.updateUserData(
@@ -140,6 +144,11 @@ class AppStartup extends _$AppStartup {
 
     ref.read(authStateProvider.notifier).setAuthenticated(value: true);
     ref.read(currentUserIdProvider.notifier).set(session.userId);
+    if (validatedUser != null) {
+      ref
+          .read(userSettingsViewModelProvider.notifier)
+          .applyStartupProfile(validatedUser);
+    }
     unawaited(ref.read(accountManagerProvider.notifier).loadAccounts());
     await Future.wait<void>([
       ref.read(themePreferenceProvider.notifier).load(session.userId),

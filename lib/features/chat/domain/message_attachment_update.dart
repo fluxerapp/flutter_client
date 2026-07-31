@@ -4,10 +4,10 @@ class MessageAttachmentUpdate {
 
   const MessageAttachmentUpdate.withDescription({
     required this.id,
-    required String? description,
+    required String? this._description,
     this.title,
     this.flags,
-  }) : _description = description;
+  });
 
   static const Object _absent = Object();
 

@@ -7,6 +7,7 @@ import 'package:fluxer_app/core/synced_preferences/engine/synced_preferences_sto
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_providers.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/providers/guild_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'channel_list_view_model.g.dart';
@@ -43,12 +44,16 @@ class ChannelListState {
 class ChannelListViewModel extends _$ChannelListViewModel {
   String? _currentGuildId;
   StreamSubscription<List<Channel>>? _subscription;
+  StreamSubscription<Guild?>? _guildSubscription;
   final Map<String, List<ChannelCategory>> _categoryCache =
       <String, List<ChannelCategory>>{};
 
   @override
   ChannelListState build() {
-    ref.onDispose(() => unawaited(_subscription?.cancel()));
+    ref.onDispose(() {
+      unawaited(_subscription?.cancel());
+      unawaited(_guildSubscription?.cancel());
+    });
     return const ChannelListState(
       guild: null,
       categories: [],
@@ -101,6 +106,22 @@ class ChannelListViewModel extends _$ChannelListViewModel {
           },
           onError: (Object error) {
             debugPrint('[ChannelListViewModel] Watch error: $error');
+          },
+        );
+
+    unawaited(_guildSubscription?.cancel());
+    _guildSubscription = ref
+        .read(guildRepositoryProvider)
+        .watchServerById(guildId)
+        .listen(
+          (Guild? updatedGuild) {
+            if (updatedGuild == null || _currentGuildId != guildId) {
+              return;
+            }
+            state = state.copyWith(guild: updatedGuild);
+          },
+          onError: (Object error) {
+            debugPrint('[ChannelListViewModel] Guild watch error: $error');
           },
         );
   }

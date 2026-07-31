@@ -24,8 +24,8 @@ class DmRepository {
     this._client,
     this._db,
     this._guildUserSettingsRepository, {
-    ReadStateRepository? readStateRepository,
-  }) : _readStateRepository = readStateRepository;
+    this._readStateRepository,
+  });
 
   ReadStateRepository get _readStateRepo =>
       _readStateRepository ?? ReadStateRepository(_client, _db);

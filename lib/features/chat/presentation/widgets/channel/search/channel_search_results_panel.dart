@@ -138,7 +138,10 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
     required VoidCallback onClose,
     String? guildId,
   }) async {
-    final db.FluxerDatabase database = ref.read(fluxerDatabaseProvider);
+    // Captured before the awaits: the panel is dismissed mid-jump, and a ref
+    // read after that would be dead.
+    final ProviderContainer container = ref.container;
+    final db.FluxerDatabase database = container.read(fluxerDatabaseProvider);
     await database.messageDao.upsertMessage(message.toCompanion());
     final String? resolvedGuildId =
         guildId ??
@@ -153,7 +156,11 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
       channelId: message.channelId,
       messageId: message.id,
     );
-    await navigateToChannelJumpLink(ref: ref, context: context, link: link);
+    await navigateToChannelJumpLink(
+      container: container,
+      context: context,
+      link: link,
+    );
     onClose();
   }
 
@@ -167,7 +174,11 @@ class ChannelSearchResultsPanel extends ConsumerWidget {
       scope: guildId ?? '@me',
       channelId: channelId,
     );
-    await navigateToChannelJumpLink(ref: ref, context: context, link: link);
+    await navigateToChannelJumpLink(
+      container: ref.container,
+      context: context,
+      link: link,
+    );
   }
 
   Future<void> _openScopeMenu({

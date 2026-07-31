@@ -90,7 +90,7 @@ class _GuildContextMenuRoute extends PopupRoute<GuildAction> {
   });
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 120);
+  Duration get transitionDuration => kContextMenuEntranceDuration;
 
   @override
   bool get barrierDismissible => true;
@@ -241,21 +241,10 @@ class _ContextMenuPageState extends State<_ContextMenuPage> {
         Positioned(
           left: mainLeft,
           top: mainTop,
-          child: FadeTransition(
-            opacity: CurvedAnimation(
-              parent: widget.animation,
-              curve: Curves.easeOut,
-            ),
-            child: ScaleTransition(
-              scale: Tween<double>(begin: 0.92, end: 1).animate(
-                CurvedAnimation(
-                  parent: widget.animation,
-                  curve: Curves.easeOutCubic,
-                ),
-              ),
-              alignment: alignment,
-              child: ContextMenuPanel(items: items),
-            ),
+          child: ContextMenuEntranceAnimation(
+            animation: widget.animation,
+            alignment: alignment,
+            child: ContextMenuPanel(items: items),
           ),
         ),
         ?submenuPanel,

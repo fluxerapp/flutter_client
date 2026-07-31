@@ -103,12 +103,10 @@ class AttachmentUploadRemoteState {
 
 class AttachmentUploadClient {
   AttachmentUploadClient({
-    required ChannelsApi channelsApi,
-    required Dio uploadDio,
-    int multipartConcurrency = kMultipartUploadConcurrency,
-  }) : _channelsApi = channelsApi,
-       _uploadDio = uploadDio,
-       _multipartConcurrency = multipartConcurrency;
+    required this._channelsApi,
+    required this._uploadDio,
+    this._multipartConcurrency = kMultipartUploadConcurrency,
+  });
 
   final ChannelsApi _channelsApi;
   final Dio _uploadDio;

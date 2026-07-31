@@ -87,6 +87,20 @@ const double _kMobileComposerSuffixHeight =
     _kMobileComposerSuffixVerticalPadding * 2 +
     _kMobileComposerSuffixButtonExtent;
 
+OutlineInputBorder _composerInputOutlineBorder(
+  BuildContext context, {
+  required bool focused,
+}) {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(24),
+    borderSide: BorderSide(
+      color: focused
+          ? context.colors.backgroundModifierAccentFocus
+          : context.colors.backgroundModifierAccent,
+    ),
+  );
+}
+
 final RegExp _customEmojiIdPattern = RegExp(r'<a?:[^:]+:(\d+)>');
 
 final class _CustomEmojiSendContext {
@@ -791,17 +805,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       horizontal: 12,
                       vertical: 10,
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
-                      borderSide: BorderSide.none,
+                    border: _composerInputOutlineBorder(
+                      context,
+                      focused: false,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
-                      borderSide: BorderSide.none,
+                    enabledBorder: _composerInputOutlineBorder(
+                      context,
+                      focused: false,
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
-                      borderSide: BorderSide.none,
+                    focusedBorder: _composerInputOutlineBorder(
+                      context,
+                      focused: true,
                     ),
                   ),
                 ),
@@ -1070,17 +1084,17 @@ class _ChannelTextareaState extends ConsumerState<ChannelTextarea> {
                       horizontal: 12,
                       vertical: 8,
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
-                      borderSide: BorderSide.none,
+                    border: _composerInputOutlineBorder(
+                      context,
+                      focused: false,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
-                      borderSide: BorderSide.none,
+                    enabledBorder: _composerInputOutlineBorder(
+                      context,
+                      focused: false,
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24),
-                      borderSide: BorderSide.none,
+                    focusedBorder: _composerInputOutlineBorder(
+                      context,
+                      focused: true,
                     ),
                     isDense: true,
                     suffixIcon: Padding(

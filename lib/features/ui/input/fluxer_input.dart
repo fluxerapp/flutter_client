@@ -365,7 +365,7 @@ class FluxerInput extends StatelessWidget {
             ),
             if (suffix != null)
               Positioned(top: layout.s2, right: layout.s2, child: suffix),
-            if (showCounter && maxLength != null)
+            if (showCounter && (counterMax != null || maxLength != null))
               Positioned(
                 bottom: layout.s2,
                 right: layout.s2,

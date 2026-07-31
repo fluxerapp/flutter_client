@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
@@ -8,8 +7,6 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const Duration kGuildPeekHoldDelay = Duration(milliseconds: 400);
-
-const double kGuildPeekMenuTitleHeight = 40;
 
 enum GuildIconPeekAction { markAsRead, notifications, moreOptions }
 
@@ -63,6 +60,13 @@ bool shouldSuppressPeekForDrag({
     return false;
   }
   return (currentPosition.dy - pointerDownPosition.dy).abs() >= threshold;
+}
+
+/// Anchor for a sidebar peek/context menu beside a guild or folder icon.
+Offset sidebarPeekMenuAnchorPosition(RenderBox box) {
+  final Offset topLeft = box.localToGlobal(Offset.zero);
+  final Size size = box.size;
+  return Offset(topLeft.dx + size.width + 8, topLeft.dy + size.height / 2);
 }
 
 GuildIconPeekAction? hitTestPeekAction({
@@ -128,7 +132,7 @@ class GuildIconPeekMenuPanel extends StatelessWidget {
     final List<GuildIconPeekAction> visibleActions =
         visibleGuildIconPeekActions(hasUnread: hasUnread);
     final List<Widget> items = <Widget>[
-      _GuildPeekMenuTitle(title: guildName),
+      ContextMenuTitle(title: guildName),
       const ContextMenuDivider(),
       for (final GuildIconPeekAction action in visibleActions)
         KeyedSubtree(
@@ -145,35 +149,6 @@ class GuildIconPeekMenuPanel extends StatelessWidget {
       heightFactor: 1,
       alignment: Alignment.centerLeft,
       child: ContextMenuPanel(items: items),
-    );
-  }
-}
-
-class _GuildPeekMenuTitle extends StatelessWidget {
-  const _GuildPeekMenuTitle({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final layout = context.layout;
-    return SizedBox(
-      height: kGuildPeekMenuTitleHeight,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s1),
-          child: Text(
-            title,
-            style: context.textStyles.label.copyWith(
-              color: context.colors.textPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ),
     );
   }
 }

@@ -65,6 +65,7 @@ import 'package:fluxer_app/features/voice/providers/voice_session_state.dart';
 import 'package:fluxer_app/features/voice/utils/voice_e2ee_display.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/external_links/external_url_launcher.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 import 'package:fluxer_dart/export.dart';
 import 'package:fluxer_dart/gateway.dart';
@@ -662,7 +663,7 @@ class _ChannelTile extends ConsumerWidget {
                 position: details.globalPosition,
               ),
             ),
-            onLongPress: isMobileLayout(context)
+            onLongPress: isTouchPrimaryInput(ref)
                 ? () => unawaited(
                     _showChannelActions(
                       context,
@@ -793,7 +794,6 @@ class _ChannelTile extends ConsumerWidget {
         title: channel.name,
         initialChildSize: 0.5,
         minChildSize: 0.25,
-        maxChildSize: 0.85,
         builder: (sheetContext, scrollController, close) {
           return channelMenuGroupsToBottomSheetContent(
             context: sheetContext,
@@ -1157,7 +1157,7 @@ class _CategoryHeader extends ConsumerWidget {
       },
       onSecondaryTapUp: (details) =>
           unawaited(_showCategoryActions(context, ref, details.globalPosition)),
-      onLongPress: isMobileLayout(context)
+      onLongPress: isTouchPrimaryInput(ref)
           ? () => unawaited(_showCategoryActions(context, ref, Offset.zero))
           : null,
       child: Padding(
@@ -1260,7 +1260,6 @@ class _CategoryHeader extends ConsumerWidget {
         title: category.name,
         initialChildSize: 0.5,
         minChildSize: 0.25,
-        maxChildSize: 0.85,
         builder: (sheetContext, scrollController, close) {
           return categoryMenuGroupsToBottomSheetContent(
             context: sheetContext,

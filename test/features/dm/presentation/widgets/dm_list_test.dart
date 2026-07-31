@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_m
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
+import 'package:fluxer_app/features/dm/providers/dm_list_scroll_store_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
@@ -511,9 +512,118 @@ void main() {
       expect(find.textContaining('ignored raw content'), findsNothing);
     });
   });
+
+  group('DMList scroll persistence', () {
+    testWidgets('restores the list offset after the sidebar is rebuilt', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      final DmListScrollStore scrollStore = DmListScrollStore();
+      final GoRouter router = GoRouter(
+        initialLocation: '/channels/@me',
+        routes: <RouteBase>[
+          GoRoute(
+            path: '/channels/@me',
+            builder: (BuildContext context, GoRouterState state) =>
+                const Scaffold(body: DMList()),
+          ),
+          GoRoute(
+            path: '/channels/guild',
+            builder: (BuildContext context, GoRouterState state) =>
+                const Scaffold(body: Text('guild sidebar')),
+          ),
+        ],
+      );
+      addTearDown(router.dispose);
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: <Override>[
+            ..._buildOverrides(conversations: _manyConversations(40)),
+            dmListScrollStoreProvider.overrideWithValue(scrollStore),
+          ],
+          routerConfig: router,
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(_dmListScrollOffset(tester), 0);
+
+      await tester.drag(find.byType(ListView), const Offset(0, -400));
+      await tester.pumpAndSettle();
+      final double scrolledOffset = _dmListScrollOffset(tester);
+      expect(scrolledOffset, greaterThan(0));
+
+      // Leaving the DM root swaps the sidebar, disposing the list.
+      router.go('/channels/guild');
+      await tester.pumpAndSettle();
+      expect(find.byType(DMList), findsNothing);
+      expect(scrollStore.offset, scrolledOffset);
+
+      router.go('/channels/@me');
+      await tester.pumpAndSettle();
+
+      expect(_dmListScrollOffset(tester), scrolledOffset);
+    });
+
+    testWidgets('clamps a stale offset to a shorter conversation list', (
+      tester,
+    ) async {
+      _setMobileSurface(tester);
+      final DmListScrollStore scrollStore = DmListScrollStore()
+        ..offset = 100000;
+
+      await tester.pumpWidget(
+        _buildTestApp(
+          overrides: <Override>[
+            ..._buildOverrides(conversations: _manyConversations(40)),
+            dmListScrollStoreProvider.overrideWithValue(scrollStore),
+          ],
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final ScrollPosition position = tester
+          .state<ScrollableState>(
+            find.descendant(
+              of: find.byType(ListView),
+              matching: find.byType(Scrollable),
+            ),
+          )
+          .position;
+      expect(position.pixels, position.maxScrollExtent);
+    });
+  });
 }
 
 DateTime _recentTime() => DateTime(2026, 4, 2, 12);
+
+List<DmConversation> _manyConversations(int count) {
+  return <DmConversation>[
+    for (int i = 0; i < count; i++)
+      DmConversation(
+        id: '${1000 + i}',
+        type: 1,
+        recipientId: '${2000 + i}',
+        recipientName: 'Friend $i',
+        lastMessage: 'Message $i',
+        lastMessageAuthorId: '${2000 + i}',
+        lastMessageAuthorName: 'Friend $i',
+        lastMessageTime: _recentTime(),
+      ),
+  ];
+}
+
+double _dmListScrollOffset(WidgetTester tester) {
+  return tester
+      .state<ScrollableState>(
+        find.descendant(
+          of: find.byType(ListView),
+          matching: find.byType(Scrollable),
+        ),
+      )
+      .position
+      .pixels;
+}
 
 Finder _mobileSearchButton() => find.byWidgetPredicate(
   (widget) =>
@@ -649,6 +759,7 @@ class _VerifiedUserSettingsViewModel extends UserSettingsViewModel {
       trustedDomains: <String>[],
       email: 'user@example.com',
       verified: true,
+      isProfileLoaded: true,
     );
   }
 }

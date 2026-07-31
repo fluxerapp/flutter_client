@@ -3382,6 +3382,61 @@
   "@userProfileAboutMe": {
     "description": "Header of the bio section in the bio card."
   },
+  "userProfileRoles": "Roles",
+  "@userProfileRoles": {
+    "description": "Section header for a member's community roles on their profile."
+  },
+  "memberRoleAdd": "Add role",
+  "@memberRoleAdd": {
+    "description": "Button label to add a role to a member."
+  },
+  "memberRoleRemove": "Remove role {roleName}",
+  "@memberRoleRemove": {
+    "description": "Button label to remove a role from a member.",
+    "placeholders": {
+      "roleName": {
+        "type": "String"
+      }
+    }
+  },
+  "userProfileNoRolesInCommunity": "This user has no roles in this community.",
+  "@userProfileNoRolesInCommunity": {
+    "description": "Empty state when a member has no assigned roles."
+  },
+  "memberRolesNoRolesYet": "No roles yet. Add roles in {rolesSettingsPath}",
+  "@memberRolesNoRolesYet": {
+    "description": "Empty state in the role picker when the community has no roles.",
+    "placeholders": {
+      "rolesSettingsPath": {
+        "type": "String"
+      }
+    }
+  },
+  "memberRolesNoRolesAvailable": "No roles available",
+  "@memberRolesNoRolesAvailable": {
+    "description": "Title when there are no roles to assign."
+  },
+  "memberRolesNoRolesAvailableDescription": "There are no roles to assign in this community at this time, but you can create a new role in {rolesSettingsPath}.",
+  "@memberRolesNoRolesAvailableDescription": {
+    "description": "Body when there are no roles to assign.",
+    "placeholders": {
+      "rolesSettingsPath": {
+        "type": "String"
+      }
+    }
+  },
+  "guildSettingsTitle": "Community settings",
+  "@guildSettingsTitle": {
+    "description": "Root label for community settings."
+  },
+  "guildSettingsRolesTab": "Roles",
+  "@guildSettingsRolesTab": {
+    "description": "Community settings tab label for roles."
+  },
+  "memberRolesConfirmOk": "OK",
+  "@memberRolesConfirmOk": {
+    "description": "Confirm button for the no roles available dialog."
+  },
   "userProfileLocalTime": "Local time",
   "@userProfileLocalTime": {
     "description": "Profile section title for a user's local time."
@@ -10145,6 +10200,110 @@
         "type": "String"
       }
     }
+  },
+  "guildFolderSettingsTitle": "Folder settings",
+  "@guildFolderSettingsTitle": {
+    "description": "Title of the community folder settings modal."
+  },
+  "guildFolderNameLabel": "Folder name",
+  "@guildFolderNameLabel": {
+    "description": "Label for the folder name input in folder settings."
+  },
+  "guildFolderColorLabel": "Folder color",
+  "@guildFolderColorLabel": {
+    "description": "Label for the folder color picker in folder settings."
+  },
+  "guildFolderShowIconWhenCollapsed": "Show icon when collapsed",
+  "@guildFolderShowIconWhenCollapsed": {
+    "description": "Toggle label for showing the folder icon when collapsed."
+  },
+  "guildFolderIconLabel": "Folder icon",
+  "@guildFolderIconLabel": {
+    "description": "Label for the folder icon picker in folder settings."
+  },
+  "guildFolderDelete": "Delete folder",
+  "@guildFolderDelete": {
+    "description": "Destructive button that dissolves a community folder."
+  },
+  "guildFolderIconFolder": "Folder",
+  "@guildFolderIconFolder": {
+    "description": "Folder icon option label in folder settings."
+  },
+  "guildFolderIconStar": "Star",
+  "@guildFolderIconStar": {
+    "description": "Star folder icon option label in folder settings."
+  },
+  "guildFolderIconHeart": "Heart",
+  "@guildFolderIconHeart": {
+    "description": "Heart folder icon option label in folder settings."
+  },
+  "guildFolderIconBookmark": "Bookmark",
+  "@guildFolderIconBookmark": {
+    "description": "Bookmark folder icon option label in folder settings."
+  },
+  "guildFolderIconGameController": "Game controller",
+  "@guildFolderIconGameController": {
+    "description": "Game controller folder icon option label in folder settings."
+  },
+  "guildFolderIconShield": "Shield",
+  "@guildFolderIconShield": {
+    "description": "Shield folder icon option label in folder settings."
+  },
+  "guildFolderIconMusicNote": "Music note",
+  "@guildFolderIconMusicNote": {
+    "description": "Music note folder icon option label in folder settings."
+  },
+  "guildFolderMarkAsRead": "Mark folder as read",
+  "@guildFolderMarkAsRead": {
+    "description": "Context menu action that marks every channel in the folder as read."
+  },
+  "guildBulkMuteCommunities": "Mute communities",
+  "@guildBulkMuteCommunities": {
+    "description": "Submenu label for muting all communities in a folder."
+  },
+  "guildBulkUnmuteCommunities": "Unmute communities",
+  "@guildBulkUnmuteCommunities": {
+    "description": "Action that unmutes all communities in a folder."
+  },
+  "guildBulkCommunityNotificationSettings": "Community notification settings",
+  "@guildBulkCommunityNotificationSettings": {
+    "description": "Submenu label for bulk notification settings in a folder."
+  },
+  "guildBulkCommunityPrivacySettings": "Community privacy settings",
+  "@guildBulkCommunityPrivacySettings": {
+    "description": "Submenu label for bulk privacy settings in a folder."
+  },
+  "guildBulkAllowEveryoneAndHere": "Allow @everyone and @here",
+  "@guildBulkAllowEveryoneAndHere": {
+    "description": "Bulk action that allows @everyone and @here mentions."
+  },
+  "guildBulkAllowRoleMentions": "Allow role mentions",
+  "@guildBulkAllowRoleMentions": {
+    "description": "Bulk action that allows role mentions."
+  },
+  "guildBulkEnableMobilePush": "Enable mobile push notifications",
+  "@guildBulkEnableMobilePush": {
+    "description": "Bulk action that enables mobile push for folder communities."
+  },
+  "guildBulkDisableMobilePush": "Disable mobile push notifications",
+  "@guildBulkDisableMobilePush": {
+    "description": "Bulk action that disables mobile push for folder communities."
+  },
+  "guildBulkAllowDirectMessages": "Allow direct messages",
+  "@guildBulkAllowDirectMessages": {
+    "description": "Bulk action that allows DMs from folder community members."
+  },
+  "guildBulkBlockDirectMessages": "Block direct messages",
+  "@guildBulkBlockDirectMessages": {
+    "description": "Bulk action that blocks DMs from folder community members."
+  },
+  "guildBulkAllowBotDirectMessages": "Allow bot direct messages",
+  "@guildBulkAllowBotDirectMessages": {
+    "description": "Bulk action that allows bot DMs from folder communities."
+  },
+  "guildBulkBlockBotDirectMessages": "Block bot direct messages",
+  "@guildBulkBlockBotDirectMessages": {
+    "description": "Bulk action that blocks bot DMs from folder communities."
   },
   "guildNavbarGroupDm": "Group DM",
   "@guildNavbarGroupDm": {

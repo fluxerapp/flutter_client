@@ -25,7 +25,10 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   }) async {
     final query = select(messages)
       ..where((m) => m.channelId.equals(channelId))
-      ..orderBy([(m) => OrderingTerm.desc(m.timestamp)])
+      ..orderBy([
+        (m) => OrderingTerm.desc(m.timestamp),
+        (m) => OrderingTerm.desc(m.id.cast<int>()),
+      ])
       ..limit(limit);
 
     if (beforeId != null) {
@@ -33,7 +36,16 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
         messages,
       )..where((m) => m.id.equals(beforeId))).getSingleOrNull();
       if (beforeMsg != null) {
-        query.where((m) => m.timestamp.isSmallerThanValue(beforeMsg.timestamp));
+        // Composite cursor: pure-timestamp comparison drops or duplicates
+        // equal-timestamp messages at page boundaries. Snowflake ids order
+        // creation within one timestamp; they fit signed 64-bit.
+        final int beforeSnowflake = int.parse(beforeId);
+        query.where(
+          (m) =>
+              m.timestamp.isSmallerThanValue(beforeMsg.timestamp) |
+              (m.timestamp.equals(beforeMsg.timestamp) &
+                  m.id.cast<int>().isSmallerThanValue(beforeSnowflake)),
+        );
       }
     }
 
@@ -64,14 +76,20 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
   Future<Message?> getLastMessage(String channelId) =>
       (select(messages)
             ..where((m) => m.channelId.equals(channelId))
-            ..orderBy([(m) => OrderingTerm.desc(m.timestamp)])
+            ..orderBy([
+              (m) => OrderingTerm.desc(m.timestamp),
+              (m) => OrderingTerm.desc(m.id.cast<int>()),
+            ])
             ..limit(1))
           .getSingleOrNull();
 
   Stream<Message?> watchLastMessage(String channelId) =>
       (select(messages)
             ..where((m) => m.channelId.equals(channelId))
-            ..orderBy([(m) => OrderingTerm.desc(m.timestamp)])
+            ..orderBy([
+              (m) => OrderingTerm.desc(m.timestamp),
+              (m) => OrderingTerm.desc(m.id.cast<int>()),
+            ])
             ..limit(1))
           .watchSingleOrNull()
           .suppressDriftCancellation;
@@ -86,10 +104,20 @@ class MessageDao extends DatabaseAccessor<FluxerDatabase>
     )..where((m) => m.id.equals(afterId))).getSingleOrNull();
     final query = select(messages)
       ..where((m) => m.channelId.equals(channelId))
-      ..orderBy([(m) => OrderingTerm.asc(m.timestamp)])
+      ..orderBy([
+        (m) => OrderingTerm.asc(m.timestamp),
+        (m) => OrderingTerm.asc(m.id.cast<int>()),
+      ])
       ..limit(limit);
     if (afterMsg != null) {
-      query.where((m) => m.timestamp.isBiggerThanValue(afterMsg.timestamp));
+      // Composite cursor - see getMessages.
+      final int afterSnowflake = int.parse(afterId);
+      query.where(
+        (m) =>
+            m.timestamp.isBiggerThanValue(afterMsg.timestamp) |
+            (m.timestamp.equals(afterMsg.timestamp) &
+                m.id.cast<int>().isBiggerThanValue(afterSnowflake)),
+      );
     }
     return query.get();
   }

@@ -5,6 +5,7 @@ import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -121,62 +122,69 @@ class FluxerModal {
           );
         }
 
-        return Stack(
-          children: [
-            // Backdrop with blur
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: close,
-                child: ColoredBox(
-                  color: Colors.black.withValues(alpha: 0.35),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                    child: const SizedBox.expand(),
+        return wrapFluxerOverlayBackHandler(
+          canDismiss: true,
+          onBack: onBack,
+          onDismiss: close,
+          child: Stack(
+            children: [
+              // Backdrop with blur
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: close,
+                  child: ColoredBox(
+                    color: Colors.black.withValues(alpha: 0.35),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                      child: const SizedBox.expand(),
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            AnimatedPadding(
-              duration: dialogContext.motion.normal,
-              curve: dialogContext.motion.curve,
-              padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
-              child: useMobileFullscreen
-                  ? SafeArea(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: layout.s2),
-                          child: Material(
-                            color: dialogTheme.backgroundColor,
-                            surfaceTintColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: layout.radiusXxl.topLeft,
-                              ),
-                              side: themeShape?.side ?? BorderSide.none,
+              AnimatedPadding(
+                duration: dialogContext.motion.normal,
+                curve: dialogContext.motion.curve,
+                padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
+                child: useMobileFullscreen
+                    ? SafeArea(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: layout.s2,
                             ),
-                            clipBehavior: Clip.antiAlias,
-                            child: buildModalContent(mobileFullscreen: true),
+                            child: Material(
+                              color: dialogTheme.backgroundColor,
+                              surfaceTintColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: layout.radiusXxl.topLeft,
+                                ),
+                                side: themeShape?.side ?? BorderSide.none,
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              child: buildModalContent(mobileFullscreen: true),
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  : Center(
-                      child: Dialog(
-                        insetPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 24,
+                      )
+                    : Center(
+                        child: Dialog(
+                          insetPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 24,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: layout.radiusXxl,
+                            side: themeShape?.side ?? BorderSide.none,
+                          ),
+                          child: buildModalContent(mobileFullscreen: false),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: layout.radiusXxl,
-                          side: themeShape?.side ?? BorderSide.none,
-                        ),
-                        child: buildModalContent(mobileFullscreen: false),
                       ),
-                    ),
-            ),
-          ],
+              ),
+            ],
+          ),
         );
       },
     );

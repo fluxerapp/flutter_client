@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import 'package:fluxer_app/features/ui/input/emoji_inline_token.dart';
 
 /// A token rendered inline inside an [InlineTokenTextEditingController].
@@ -116,6 +116,10 @@ class InlineTokenTextEditingController extends TextEditingController {
 
   /// The length of [toWireText] without materializing the string.
   int get wireLength => _wireLengthOf(text.runes);
+
+  /// Wire length for arbitrary display text using the current token map
+  int wireLengthForDisplayText(String displayText) =>
+      _wireLengthOf(displayText.runes);
 
   @override
   set value(TextEditingValue newValue) {
@@ -380,5 +384,28 @@ class InlineTokenTextEditingController extends TextEditingController {
       composingStyle,
     );
     return TextSpan(style: style, children: children);
+  }
+}
+
+/// Rejects edits that would push an [InlineTokenTextEditingController] past a
+/// wire length limit.
+class InlineTokenWireLengthFormatter extends TextInputFormatter {
+  InlineTokenWireLengthFormatter(
+    this.controller, {
+    required this.maxWireLength,
+  });
+
+  final InlineTokenTextEditingController controller;
+  final int maxWireLength;
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (controller.wireLengthForDisplayText(newValue.text) <= maxWireLength) {
+      return newValue;
+    }
+    return oldValue;
   }
 }

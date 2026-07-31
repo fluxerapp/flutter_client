@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/router/route_state_providers.dart';
 import 'package:fluxer_app/core/router/shell_location_resolver.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/shell/navigation/shell_layout_mode.dart';
 import 'package:fluxer_app/features/shell/presentation/desktop_shell_scaffold.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_channel_drawer_shell.dart';
-import 'package:fluxer_app/features/shell/presentation/mobile_channels_root_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_home_utility_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_main_tab_shell.dart';
 import 'package:fluxer_app/features/shell/presentation/mobile_shell_back_scope.dart';
@@ -25,21 +25,22 @@ class MobileShellScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String topLocation = ref.watch(topLocationProvider);
-    final String activeBranchLocation = ref.watch(activeBranchLocationProvider);
-    final int activeBranchIndex = ref.watch(activeShellBranchIndexProvider);
+    // The route-state providers defer their update by a frame in some
+    // scheduler phases; watching one keeps this shell rebuilding, while the
+    // router's live configuration is authoritative for the current frame.
+    final String deferredBranchLocation = ref.watch(
+      activeBranchLocationProvider,
+    );
+    final GoRouter router = ref.watch(fluxerRouterProvider);
+    final String activeBranchLocation =
+        resolveActiveBranchLocation(
+          router.routerDelegate.currentConfiguration,
+        ) ??
+        deferredBranchLocation;
     final ShellLayoutMode mode = resolveMobileShellLayoutMode(
       navigationShellIndex: navigationShell.currentIndex,
-      activeBranchIndex: activeBranchIndex,
       activeBranchLocation: activeBranchLocation,
-      topLocation: topLocation,
     );
-    final String shellLocation =
-        mode == ShellLayoutMode.channelsRoot &&
-            navigationShell.currentIndex == 0 &&
-            activeBranchIndex != 0
-        ? homeBranchFallbackLocation()
-        : activeBranchLocation;
     final Widget bottomNav = mobileBottomNav(
       context: context,
       currentIndex: navigationShell.currentIndex,
@@ -56,12 +57,8 @@ class MobileShellScaffold extends ConsumerWidget {
     );
     return switch (mode) {
       ShellLayoutMode.channelDrawer => MobileChannelDrawerShell(
-        shellLocation: shellLocation,
+        shellLocation: activeBranchLocation,
         navigationShell: navigationShell,
-        bottomNav: bottomNav,
-      ),
-      ShellLayoutMode.channelsRoot => MobileChannelsRootShell(
-        shellLocation: shellLocation,
         bottomNav: bottomNav,
       ),
       ShellLayoutMode.mainTab => MobileMainTabShell(
@@ -69,7 +66,7 @@ class MobileShellScaffold extends ConsumerWidget {
         bottomNav: bottomNav,
       ),
       ShellLayoutMode.homeUtility => MobileHomeUtilityShell(
-        shellLocation: shellLocation,
+        shellLocation: activeBranchLocation,
         navigationShell: shellContent,
         bottomNav: bottomNav,
       ),

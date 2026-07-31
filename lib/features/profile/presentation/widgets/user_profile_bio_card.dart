@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluxer_app/core/constants/assets.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_markdown.dart';
-import 'package:fluxer_app/features/members/domain/member.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_connections_section.dart';
 import 'package:fluxer_app/features/profile/presentation/widgets/user_profile_timezone_section.dart';
 import 'package:fluxer_app/features/ui/avatar/fluxer_guild_icon_avatar.dart';
@@ -18,7 +17,6 @@ class UserProfileBioCard extends StatelessWidget {
     required this.bio,
     required this.userId,
     this.connections = const <ConnectionResponse>[],
-    this.memberRoles = const <MemberRole>[],
     this.accountMemberSince,
     this.guildMemberSince,
     this.guildName,
@@ -30,7 +28,6 @@ class UserProfileBioCard extends StatelessWidget {
   final String? bio;
   final String userId;
   final List<ConnectionResponse> connections;
-  final List<MemberRole> memberRoles;
   final DateTime? accountMemberSince;
   final DateTime? guildMemberSince;
   final String? guildName;
@@ -158,68 +155,6 @@ class UserProfileBioCard extends StatelessWidget {
                       ],
                     ),
                 ],
-              ),
-            ],
-            if (memberRoles.isNotEmpty) ...[
-              SizedBox(height: layout.s3),
-              Text(
-                'Roles',
-                style: textStyles.label.copyWith(
-                  color: colors.textPrimary,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Wrap(
-                spacing: 4,
-                runSpacing: 4,
-                children: memberRoles
-                    .map(
-                      (MemberRole role) => DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.backgroundPrimary,
-                          border: Border.all(
-                            color: colors.backgroundHeaderSecondary,
-                          ),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(minHeight: 24),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                const SizedBox(width: 1),
-                                Container(
-                                  width: 12,
-                                  height: 12,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: role.color == 0
-                                        ? colors.textTertiary
-                                        : Color(0xFF000000 | role.color),
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  role.name,
-                                  style: textStyles.label.copyWith(
-                                    color: colors.textPrimary,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.33,
-                                  ),
-                                ),
-                                const SizedBox(width: 1),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(growable: false),
               ),
             ],
             if (connections.isNotEmpty) ...[

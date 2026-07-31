@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
@@ -5,6 +7,111 @@ import 'package:fluxer_app/core/widgets/fluxer_widget_preview.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const kContextMenuWidth = 220.0;
+const kContextMenuTitleHeight = 40.0;
+const kContextMenuEntranceDuration = Duration(milliseconds: 120);
+
+/// Fade + scale entrance used by sidebar peek menus and context menus.
+class ContextMenuEntranceAnimation extends StatelessWidget {
+  const ContextMenuEntranceAnimation({
+    required this.animation,
+    required this.child,
+    this.alignment = Alignment.center,
+    super.key,
+  });
+
+  final Animation<double> animation;
+  final Widget child;
+  final Alignment alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
+      child: ScaleTransition(
+        scale: Tween<double>(begin: 0.92, end: 1).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+        ),
+        alignment: alignment,
+        child: child,
+      ),
+    );
+  }
+}
+
+class ContextMenuEntranceAnimationHost extends StatefulWidget {
+  const ContextMenuEntranceAnimationHost({
+    required this.child,
+    this.alignment = Alignment.center,
+    super.key,
+  });
+
+  final Widget child;
+  final Alignment alignment;
+
+  @override
+  State<ContextMenuEntranceAnimationHost> createState() =>
+      _ContextMenuEntranceAnimationHostState();
+}
+
+class _ContextMenuEntranceAnimationHostState
+    extends State<ContextMenuEntranceAnimationHost>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: kContextMenuEntranceDuration,
+    );
+    unawaited(_controller.forward());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ContextMenuEntranceAnimation(
+      animation: _controller,
+      alignment: widget.alignment,
+      child: widget.child,
+    );
+  }
+}
+
+class ContextMenuTitle extends StatelessWidget {
+  const ContextMenuTitle({required this.title, super.key});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final layout = context.layout;
+    return SizedBox(
+      height: kContextMenuTitleHeight,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: layout.s1),
+          child: Text(
+            title,
+            style: context.textStyles.label.copyWith(
+              color: context.colors.textPrimary,
+              fontWeight: FontWeight.w600,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class ContextMenuPanel extends StatelessWidget {
   final List<Widget> items;
@@ -185,11 +292,35 @@ Widget contextMenuPanelPreview() {
   );
 }
 
+Offset contextMenuPositionAtCenter(BuildContext context) {
+  final RenderBox? box = context.findRenderObject() as RenderBox?;
+  if (box == null) {
+    return Offset.zero;
+  }
+  final Offset origin = box.localToGlobal(Offset.zero);
+  return origin + Offset(box.size.width / 2, box.size.height / 2);
+}
+
+Offset contextMenuPositionAtPointer(
+  BuildContext context, {
+  double horizontalFactor = 0.75,
+}) {
+  final RenderBox? box = context.findRenderObject() as RenderBox?;
+  if (box == null) {
+    return Offset.zero;
+  }
+  final Offset origin = box.localToGlobal(Offset.zero);
+  return origin +
+      Offset(box.size.width * horizontalFactor, box.size.height / 2);
+}
+
 double estimateContextMenuHeight(List<Widget> items) {
   var height = 16.0;
   for (final item in items) {
     if (item is ContextMenuDivider) {
       height += 13;
+    } else if (item is ContextMenuTitle) {
+      height += kContextMenuTitleHeight;
     } else {
       height += 38;
     }

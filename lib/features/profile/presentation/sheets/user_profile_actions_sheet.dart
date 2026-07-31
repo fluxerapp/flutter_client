@@ -9,12 +9,12 @@ import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
 import 'package:fluxer_app/features/friends/presentation/change_friend_nickname.dart';
 import 'package:fluxer_app/features/friends/providers/friend_providers.dart';
+import 'package:fluxer_app/features/members/domain/member.dart';
+import 'package:fluxer_app/features/members/presentation/widgets/manage_member_roles_picker.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_flow.dart';
 import 'package:fluxer_app/features/moderation/iar/iar_simple_report_sheet.dart';
 import 'package:fluxer_app/features/moderation/providers/local_user_spam_override_provider.dart';
-import 'package:fluxer_app/features/profile/presentation/sheets/ban_member_sheet.dart';
-import 'package:fluxer_app/features/profile/presentation/sheets/change_nickname_sheet.dart';
-import 'package:fluxer_app/features/profile/presentation/sheets/timeout_member_sheet.dart';
+import 'package:fluxer_app/features/profile/presentation/menus/guild_member_moderation_menu_items.dart';
 import 'package:fluxer_app/features/profile/presentation/sheets/user_profile_confirmation_sheet.dart';
 import 'package:fluxer_app/features/profile/utils/profile_menu_capabilities.dart';
 import 'package:fluxer_app/features/settings/providers/user_settings_view_model.dart';
@@ -47,6 +47,11 @@ class UserProfileActionsSheet {
     ProfileMenuCapabilities capabilities = ProfileMenuCapabilities.none,
     String? currentNick,
     DateTime? currentTimeoutUntil,
+    List<MemberRole> allGuildRoles = const <MemberRole>[],
+    Set<String> memberRoleIds = const <String>{},
+    bool canManageRoles = false,
+    bool isGuildOwner = false,
+    MemberRole? viewerHighestRole,
   }) {
     return FluxerActionMenu.show(
       context,
@@ -101,37 +106,22 @@ class UserProfileActionsSheet {
 
         if (guildId != null) {
           if (capabilities.canChangeNickname) {
-            groups.add(<Widget>[
-              FluxerMenuItem(
-                label: l10n.userProfileChangeNickname,
-                icon: PhosphorIconsFill.pencilSimple,
-                onPressed: () async {
-                  close();
-                  final result = await ChangeNicknameSheet.show(
-                    context,
-                    username: user.username,
-                    currentNick: currentNick,
-                  );
-                  if (result == null) {
-                    return;
-                  }
-                  await _runGuildModeration(
-                    ref,
-                    guildId: guildId,
-                    userId: user.id,
-                    successMessage: l10n.userProfileNicknameSuccess,
-                    failureMessage: l10n.userProfileActionFailed,
-                    action: () => _updateGuildMemberNickname(
-                      ref: ref,
-                      guildId: guildId,
-                      userId: user.id,
-                      nick: result.nick,
-                      isCurrentUser: isCurrentUser,
-                    ),
-                  );
-                },
-              ),
-            ]);
+            final List<Widget> nicknameItems = <Widget>[];
+            appendGuildMemberModerationMenuItems(
+              items: nicknameItems,
+              context: context,
+              ref: ref,
+              close: close,
+              l10n: l10n,
+              guildId: guildId,
+              userId: user.id,
+              username: user.username,
+              capabilities: capabilities,
+              currentNick: currentNick,
+              isCurrentUser: isCurrentUser,
+              includeNickname: true,
+            );
+            groups.add(nicknameItems);
           }
 
           if (capabilities.canTransfer) {
@@ -175,166 +165,43 @@ class UserProfileActionsSheet {
             ]);
           }
 
-          final moderationItems = <Widget>[];
-          if (capabilities.showTimeout) {
-            moderationItems.add(
+          if (capabilities.showManageRoles) {
+            groups.add(<Widget>[
               FluxerMenuItem(
-                label: l10n.userProfileTimeout,
-                icon: PhosphorIconsFill.clock,
-                isDanger: true,
+                label: l10n.permissionManageRoles,
+                icon: PhosphorIconsFill.userGear,
                 onPressed: () async {
                   close();
-                  final seconds = await TimeoutMemberSheet.show(
+                  await ManageMemberRolesSheet.show(
                     context,
-                    username: user.username,
-                  );
-                  if (seconds == null) {
-                    return;
-                  }
-                  await _runGuildModeration(
                     ref,
                     guildId: guildId,
                     userId: user.id,
-                    successMessage: l10n.userProfileTimeoutSuccess(
-                      user.username,
-                    ),
-                    failureMessage: l10n.userProfileActionFailed,
-                    action: () => ref
-                        .read(fluxerClientProvider)
-                        .guilds
-                        .updateGuildMember(
-                          guildId: guildId,
-                          userId: user.id,
-                          body: GuildMemberUpdateRequest(
-                            nick: currentNick,
-                            communicationDisabledUntil: DateTime.now()
-                                .toUtc()
-                                .add(Duration(seconds: seconds)),
-                          ),
-                        ),
+                    allGuildRoles: allGuildRoles,
+                    memberRoleIds: memberRoleIds,
+                    canManageRoles: canManageRoles,
+                    isGuildOwner: isGuildOwner,
+                    viewerHighestRole: viewerHighestRole,
                   );
                 },
               ),
-            );
+            ]);
           }
-          if (capabilities.showRemoveTimeout) {
-            moderationItems.add(
-              FluxerMenuItem(
-                label: l10n.userProfileRemoveTimeout,
-                icon: PhosphorIconsFill.clockClockwise,
-                isDanger: true,
-                onPressed: () async {
-                  close();
-                  final ok = await UserProfileConfirmationSheet.show(
-                    context,
-                    title: l10n.userProfileRemoveTimeoutConfirmTitle,
-                    description: l10n
-                        .userProfileRemoveTimeoutConfirmDescription(
-                          user.username,
-                        ),
-                    primaryLabel: l10n.userProfileRemoveTimeout,
-                    primaryVariant: FluxerButtonVariant.dangerPrimary,
-                  );
-                  if (!ok) {
-                    return;
-                  }
-                  await _runGuildModeration(
-                    ref,
-                    guildId: guildId,
-                    userId: user.id,
-                    successMessage: l10n.userProfileRemoveTimeoutSuccess(
-                      user.username,
-                    ),
-                    failureMessage: l10n.userProfileActionFailed,
-                    action: () => ref
-                        .read(fluxerClientProvider)
-                        .guilds
-                        .updateGuildMember(
-                          guildId: guildId,
-                          userId: user.id,
-                          body: GuildMemberUpdateRequest(
-                            nick: currentNick,
-                            communicationDisabledUntil: null,
-                          ),
-                        ),
-                  );
-                },
-              ),
-            );
-          }
-          if (capabilities.canKick) {
-            moderationItems.add(
-              FluxerMenuItem(
-                label: l10n.userProfileKick,
-                icon: PhosphorIconsFill.signOut,
-                isDanger: true,
-                onPressed: () async {
-                  close();
-                  final ok = await UserProfileConfirmationSheet.show(
-                    context,
-                    title: l10n.userProfileKickConfirmTitle(user.username),
-                    description: l10n.userProfileKickConfirmDescription(
-                      user.username,
-                    ),
-                    primaryLabel: l10n.userProfileKick,
-                    primaryVariant: FluxerButtonVariant.dangerPrimary,
-                  );
-                  if (!ok) {
-                    return;
-                  }
-                  await _runGuildModeration(
-                    ref,
-                    guildId: guildId,
-                    userId: user.id,
-                    successMessage: l10n.userProfileKickSuccess(user.username),
-                    failureMessage: l10n.userProfileActionFailed,
-                    action: () => ref
-                        .read(fluxerClientProvider)
-                        .guilds
-                        .removeGuildMember(guildId: guildId, userId: user.id),
-                  );
-                },
-              ),
-            );
-          }
-          if (capabilities.canBan) {
-            moderationItems.add(
-              FluxerMenuItem(
-                label: l10n.userProfileBan,
-                icon: PhosphorIconsFill.gavel,
-                isDanger: true,
-                onPressed: () async {
-                  close();
-                  final result = await BanMemberSheet.show(
-                    context,
-                    username: user.username,
-                  );
-                  if (result == null) {
-                    return;
-                  }
-                  await _runGuildModeration(
-                    ref,
-                    guildId: guildId,
-                    userId: user.id,
-                    successMessage: l10n.userProfileBanSuccess(user.username),
-                    failureMessage: l10n.userProfileActionFailed,
-                    action: () => ref
-                        .read(fluxerClientProvider)
-                        .guilds
-                        .banGuildMember(
-                          guildId: guildId,
-                          userId: user.id,
-                          body: GuildBanCreateRequest(
-                            deleteMessageDays: result.deleteMessageDays,
-                            reason: result.reason,
-                            banDurationSeconds: result.banDurationSeconds,
-                          ),
-                        ),
-                  );
-                },
-              ),
-            );
-          }
+
+          final List<Widget> moderationItems = <Widget>[];
+          appendGuildMemberModerationMenuItems(
+            items: moderationItems,
+            context: context,
+            ref: ref,
+            close: close,
+            l10n: l10n,
+            guildId: guildId,
+            userId: user.id,
+            username: user.username,
+            capabilities: capabilities,
+            currentNick: currentNick,
+            isCurrentUser: isCurrentUser,
+          );
           if (moderationItems.isNotEmpty) {
             groups.add(moderationItems);
           }
@@ -589,6 +456,36 @@ class UserProfileActionsSheet {
           data: <String, dynamic>{'nick': nick},
         );
   }
+
+  static Future<void> runGuildModeration(
+    WidgetRef ref, {
+    required String guildId,
+    required String userId,
+    required String successMessage,
+    required String failureMessage,
+    required Future<void> Function() action,
+  }) => _runGuildModeration(
+    ref,
+    guildId: guildId,
+    userId: userId,
+    successMessage: successMessage,
+    failureMessage: failureMessage,
+    action: action,
+  );
+
+  static Future<void> updateGuildMemberNickname({
+    required WidgetRef ref,
+    required String guildId,
+    required String userId,
+    required String? nick,
+    required bool isCurrentUser,
+  }) => _updateGuildMemberNickname(
+    ref: ref,
+    guildId: guildId,
+    userId: userId,
+    nick: nick,
+    isCurrentUser: isCurrentUser,
+  );
 
   static Future<void> _runGuildModeration(
     WidgetRef ref, {

@@ -6,10 +6,9 @@ import 'package:fluxer_dart/export.dart';
 
 class MessageMentionContextCache {
   MessageMentionContextCache({
-    required FluxerDatabase database,
+    required this._database,
     Set<String>? blockedUserIds,
-  }) : _database = database,
-       blockedUserIds = blockedUserIds ?? <String>{};
+  }) : blockedUserIds = blockedUserIds ?? <String>{};
 
   final FluxerDatabase _database;
   Set<String> blockedUserIds;

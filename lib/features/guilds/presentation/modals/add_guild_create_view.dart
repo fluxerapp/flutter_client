@@ -13,6 +13,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button_size.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
+import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/features/ui/text/fluxer_hint_text.dart';
 import 'package:fluxer_app/features/ui/text_link/fluxer_text_link.dart';
 import 'package:fluxer_app/features/ui/toast/fluxer_toast.dart';
@@ -127,6 +128,9 @@ class AddGuildCreateViewState extends ConsumerState<AddGuildCreateView> {
     final UserSettingsViewState settings = ref.watch(
       userSettingsViewModelProvider,
     );
+    if (!settings.isProfileLoaded) {
+      return const Center(child: FluxerLoadingSpinner());
+    }
     if (!settings.hasVerifiedEmail) {
       return _AddGuildCreateGate(
         icon: PhosphorIconsFill.shieldWarning,

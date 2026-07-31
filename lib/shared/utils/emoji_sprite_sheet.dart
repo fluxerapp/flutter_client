@@ -2,14 +2,13 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:fluxer_app/core/media/fluxer_media_cdn.dart';
+import 'package:flutter/services.dart';
 import 'package:fluxer_app/shared/utils/emoji_utils.dart';
-import 'package:fluxer_markdown/fluxer_markdown.dart';
 
 const _kSpriteSize = 32;
 const _kNonDiversitySpritesPerRow = 42;
 const _kDiversitySpritesPerRow = 10;
-const _kSpriteVersion = '3';
+const _kSpriteAssetDir = 'assets/emoji-sprites';
 
 const Map<String, String> _kSpriteSheetNames = {
   'default': 'spritesheet-emoji',
@@ -20,8 +19,7 @@ const Map<String, String> _kSpriteSheetNames = {
   '1f3ff': 'spritesheet-1f3ff',
 };
 
-String _buildSpriteSheetUrl(String name) =>
-    '$fluxerStaticCdn/emoji/$name@2x.png?v=$_kSpriteVersion';
+String _spriteSheetAssetPath(String name) => '$_kSpriteAssetDir/$name@2x.png';
 
 String _spriteSheetKeyForSkinTone(String? skinTone) {
   if (skinTone == null || skinTone.isEmpty) {
@@ -67,9 +65,8 @@ class EmojiSpriteSheet {
 
   static Future<ui.Image> _load(String key) async {
     final name = _kSpriteSheetNames[key] ?? _kSpriteSheetNames['default']!;
-    final url = _buildSpriteSheetUrl(name);
-    final bytes = await EmojiAssetCache.loadBytes(url);
-    final codec = await ui.instantiateImageCodec(bytes);
+    final data = await rootBundle.load(_spriteSheetAssetPath(name));
+    final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
     final frame = await codec.getNextFrame();
     return frame.image;
   }

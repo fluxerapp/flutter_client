@@ -5,35 +5,24 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'fluxer_localizations_af.dart';
 import 'fluxer_localizations_ar.dart';
 import 'fluxer_localizations_cs.dart';
-import 'fluxer_localizations_cy.dart';
 import 'fluxer_localizations_da.dart';
 import 'fluxer_localizations_de.dart';
 import 'fluxer_localizations_el.dart';
 import 'fluxer_localizations_en.dart';
 import 'fluxer_localizations_es.dart';
-import 'fluxer_localizations_et.dart';
-import 'fluxer_localizations_fa.dart';
 import 'fluxer_localizations_fi.dart';
 import 'fluxer_localizations_fr.dart';
-import 'fluxer_localizations_ga.dart';
-import 'fluxer_localizations_gl.dart';
 import 'fluxer_localizations_hu.dart';
-import 'fluxer_localizations_is.dart';
 import 'fluxer_localizations_it.dart';
 import 'fluxer_localizations_ja.dart';
 import 'fluxer_localizations_ko.dart';
 import 'fluxer_localizations_lt.dart';
-import 'fluxer_localizations_lv.dart';
 import 'fluxer_localizations_nb.dart';
 import 'fluxer_localizations_pl.dart';
 import 'fluxer_localizations_pt.dart';
 import 'fluxer_localizations_ru.dart';
-import 'fluxer_localizations_sk.dart';
-import 'fluxer_localizations_sl.dart';
-import 'fluxer_localizations_sr.dart';
 import 'fluxer_localizations_sv.dart';
 import 'fluxer_localizations_th.dart';
 import 'fluxer_localizations_tr.dart';
@@ -127,40 +116,27 @@ abstract class FluxerLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('af'),
     Locale('ar'),
     Locale('cs'),
-    Locale('cy'),
     Locale('da'),
     Locale('de'),
-    Locale('de', 'CH'),
     Locale('el'),
     Locale('en', 'GB'),
     Locale('en', 'US'),
     Locale('es'),
     Locale('es', '419'),
-    Locale('et'),
-    Locale('fa'),
     Locale('fi'),
     Locale('fr'),
-    Locale('fr', 'CA'),
-    Locale('ga'),
-    Locale('gl'),
     Locale('hu'),
-    Locale('is'),
     Locale('it'),
     Locale('ja'),
     Locale('ko'),
     Locale('lt'),
-    Locale('lv'),
     Locale('nb'),
     Locale('pl'),
     Locale('pt'),
     Locale('pt', 'BR'),
     Locale('ru'),
-    Locale('sk'),
-    Locale('sl'),
-    Locale('sr'),
     Locale('sv'),
     Locale('th'),
     Locale('tr'),
@@ -4677,6 +4653,66 @@ abstract class FluxerLocalizations {
   /// In en, this message translates to:
   /// **'About Me'**
   String get userProfileAboutMe;
+
+  /// Section header for a member's community roles on their profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles'**
+  String get userProfileRoles;
+
+  /// Button label to add a role to a member.
+  ///
+  /// In en, this message translates to:
+  /// **'Add role'**
+  String get memberRoleAdd;
+
+  /// Button label to remove a role from a member.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove role {roleName}'**
+  String memberRoleRemove(String roleName);
+
+  /// Empty state when a member has no assigned roles.
+  ///
+  /// In en, this message translates to:
+  /// **'This user has no roles in this community.'**
+  String get userProfileNoRolesInCommunity;
+
+  /// Empty state in the role picker when the community has no roles.
+  ///
+  /// In en, this message translates to:
+  /// **'No roles yet. Add roles in {rolesSettingsPath}'**
+  String memberRolesNoRolesYet(String rolesSettingsPath);
+
+  /// Title when there are no roles to assign.
+  ///
+  /// In en, this message translates to:
+  /// **'No roles available'**
+  String get memberRolesNoRolesAvailable;
+
+  /// Body when there are no roles to assign.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no roles to assign in this community at this time, but you can create a new role in {rolesSettingsPath}.'**
+  String memberRolesNoRolesAvailableDescription(String rolesSettingsPath);
+
+  /// Root label for community settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Community settings'**
+  String get guildSettingsTitle;
+
+  /// Community settings tab label for roles.
+  ///
+  /// In en, this message translates to:
+  /// **'Roles'**
+  String get guildSettingsRolesTab;
+
+  /// Confirm button for the no roles available dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get memberRolesConfirmOk;
 
   /// Profile section title for a user's local time.
   ///
@@ -13512,6 +13548,162 @@ abstract class FluxerLocalizations {
   /// **'Collapse {folderName}'**
   String guildNavbarCollapseFolder(String folderName);
 
+  /// Title of the community folder settings modal.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder settings'**
+  String get guildFolderSettingsTitle;
+
+  /// Label for the folder name input in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder name'**
+  String get guildFolderNameLabel;
+
+  /// Label for the folder color picker in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder color'**
+  String get guildFolderColorLabel;
+
+  /// Toggle label for showing the folder icon when collapsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Show icon when collapsed'**
+  String get guildFolderShowIconWhenCollapsed;
+
+  /// Label for the folder icon picker in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder icon'**
+  String get guildFolderIconLabel;
+
+  /// Destructive button that dissolves a community folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete folder'**
+  String get guildFolderDelete;
+
+  /// Folder icon option label in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder'**
+  String get guildFolderIconFolder;
+
+  /// Star folder icon option label in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Star'**
+  String get guildFolderIconStar;
+
+  /// Heart folder icon option label in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart'**
+  String get guildFolderIconHeart;
+
+  /// Bookmark folder icon option label in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark'**
+  String get guildFolderIconBookmark;
+
+  /// Game controller folder icon option label in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Game controller'**
+  String get guildFolderIconGameController;
+
+  /// Shield folder icon option label in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Shield'**
+  String get guildFolderIconShield;
+
+  /// Music note folder icon option label in folder settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Music note'**
+  String get guildFolderIconMusicNote;
+
+  /// Context menu action that marks every channel in the folder as read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark folder as read'**
+  String get guildFolderMarkAsRead;
+
+  /// Submenu label for muting all communities in a folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute communities'**
+  String get guildBulkMuteCommunities;
+
+  /// Action that unmutes all communities in a folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute communities'**
+  String get guildBulkUnmuteCommunities;
+
+  /// Submenu label for bulk notification settings in a folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Community notification settings'**
+  String get guildBulkCommunityNotificationSettings;
+
+  /// Submenu label for bulk privacy settings in a folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Community privacy settings'**
+  String get guildBulkCommunityPrivacySettings;
+
+  /// Bulk action that allows @everyone and @here mentions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow @everyone and @here'**
+  String get guildBulkAllowEveryoneAndHere;
+
+  /// Bulk action that allows role mentions.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow role mentions'**
+  String get guildBulkAllowRoleMentions;
+
+  /// Bulk action that enables mobile push for folder communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable mobile push notifications'**
+  String get guildBulkEnableMobilePush;
+
+  /// Bulk action that disables mobile push for folder communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable mobile push notifications'**
+  String get guildBulkDisableMobilePush;
+
+  /// Bulk action that allows DMs from folder community members.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow direct messages'**
+  String get guildBulkAllowDirectMessages;
+
+  /// Bulk action that blocks DMs from folder community members.
+  ///
+  /// In en, this message translates to:
+  /// **'Block direct messages'**
+  String get guildBulkBlockDirectMessages;
+
+  /// Bulk action that allows bot DMs from folder communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow bot direct messages'**
+  String get guildBulkAllowBotDirectMessages;
+
+  /// Bulk action that blocks bot DMs from folder communities.
+  ///
+  /// In en, this message translates to:
+  /// **'Block bot direct messages'**
+  String get guildBulkBlockBotDirectMessages;
+
   /// Secondary label for a group DM in the invite recipients list.
   ///
   /// In en, this message translates to:
@@ -17765,35 +17957,24 @@ class _FluxerLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) => <String>[
-    'af',
     'ar',
     'cs',
-    'cy',
     'da',
     'de',
     'el',
     'en',
     'es',
-    'et',
-    'fa',
     'fi',
     'fr',
-    'ga',
-    'gl',
     'hu',
-    'is',
     'it',
     'ja',
     'ko',
     'lt',
-    'lv',
     'nb',
     'pl',
     'pt',
     'ru',
-    'sk',
-    'sl',
-    'sr',
     'sv',
     'th',
     'tr',
@@ -17820,14 +18001,6 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
 
   // Lookup logic when language+country codes are specified.
   switch (locale.languageCode) {
-    case 'de':
-      {
-        switch (locale.countryCode) {
-          case 'CH':
-            return FluxerLocalizationsDeCh();
-        }
-        break;
-      }
     case 'en':
       {
         switch (locale.countryCode) {
@@ -17846,14 +18019,6 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
         }
         break;
       }
-    case 'fr':
-      {
-        switch (locale.countryCode) {
-          case 'CA':
-            return FluxerLocalizationsFrCa();
-        }
-        break;
-      }
     case 'pt':
       {
         switch (locale.countryCode) {
@@ -17866,14 +18031,10 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'af':
-      return FluxerLocalizationsAf();
     case 'ar':
       return FluxerLocalizationsAr();
     case 'cs':
       return FluxerLocalizationsCs();
-    case 'cy':
-      return FluxerLocalizationsCy();
     case 'da':
       return FluxerLocalizationsDa();
     case 'de':
@@ -17884,22 +18045,12 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsEn();
     case 'es':
       return FluxerLocalizationsEs();
-    case 'et':
-      return FluxerLocalizationsEt();
-    case 'fa':
-      return FluxerLocalizationsFa();
     case 'fi':
       return FluxerLocalizationsFi();
     case 'fr':
       return FluxerLocalizationsFr();
-    case 'ga':
-      return FluxerLocalizationsGa();
-    case 'gl':
-      return FluxerLocalizationsGl();
     case 'hu':
       return FluxerLocalizationsHu();
-    case 'is':
-      return FluxerLocalizationsIs();
     case 'it':
       return FluxerLocalizationsIt();
     case 'ja':
@@ -17908,8 +18059,6 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsKo();
     case 'lt':
       return FluxerLocalizationsLt();
-    case 'lv':
-      return FluxerLocalizationsLv();
     case 'nb':
       return FluxerLocalizationsNb();
     case 'pl':
@@ -17918,12 +18067,6 @@ FluxerLocalizations lookupFluxerLocalizations(Locale locale) {
       return FluxerLocalizationsPt();
     case 'ru':
       return FluxerLocalizationsRu();
-    case 'sk':
-      return FluxerLocalizationsSk();
-    case 'sl':
-      return FluxerLocalizationsSl();
-    case 'sr':
-      return FluxerLocalizationsSr();
     case 'sv':
       return FluxerLocalizationsSv();
     case 'th':

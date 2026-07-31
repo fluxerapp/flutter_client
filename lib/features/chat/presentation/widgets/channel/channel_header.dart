@@ -264,9 +264,8 @@ class ChannelHeader extends ConsumerWidget {
               button: true,
               label: 'Open channel details',
               child: InkWell(
-                onTap: () => unawaited(
-                  showChannelDetailsSheet(context, channel: channel, dm: dm),
-                ),
+                onTap: () =>
+                    _openDetails(context, ref, channel: channel, dm: dm),
                 borderRadius: BorderRadius.circular(6),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -378,8 +377,9 @@ class ChannelHeader extends ConsumerWidget {
               size: FluxerButtonSize.small,
               iconSize: 20,
               onPressed: () => unawaited(
-                showChannelSearchSheet(
+                showChannelSearchSheetAndJump(
                   context,
+                  container: ref.container,
                   channelId: channel.id,
                   guildId: channel.guildId,
                   title: channel.name,
@@ -567,6 +567,25 @@ class ChannelHeader extends ConsumerWidget {
       return false;
     }
     return voice.guildId == guildId;
+  }
+
+  void _openDetails(
+    BuildContext context,
+    WidgetRef ref, {
+    required Channel? channel,
+    required DmConversation? dm,
+  }) {
+    if (channel == null && dm == null) {
+      return;
+    }
+    unawaited(
+      showChannelDetailsSheetAndJump(
+        context,
+        container: ref.container,
+        channel: channel,
+        dm: dm,
+      ),
+    );
   }
 
   Future<void> _toggleFavorite(

@@ -102,6 +102,7 @@ class _FluxerTypingStatusIndicatorState
                 builder: (BuildContext context, Widget? child) {
                   return Row(
                     mainAxisSize: MainAxisSize.min,
+                    textDirection: TextDirection.ltr,
                     children: <Widget>[
                       _TypingDot(
                         animation: _controller,

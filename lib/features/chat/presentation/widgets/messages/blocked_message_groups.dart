@@ -33,8 +33,10 @@ class BlockedMessageGroups extends StatelessWidget {
         children.add(messageBuilder(message, previousMessage));
         previousMessage = message;
       }
+      // Identity is owned by the viewport's per-tile KeyedSubtree wrapper
+      // ('group-<groupKey>'); duplicating the key here would nest two nodes
+      // with the same ValueKey and break by-key finders.
       return Column(
-        key: ValueKey<String>('group-${item.groupKey}'),
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: children,
       );
@@ -44,18 +46,15 @@ class BlockedMessageGroups extends StatelessWidget {
     final String label = item.type == ChannelStreamType.messageGroupBlocked
         ? l10n.chatBlockedMessagesCollapsed(count)
         : l10n.chatSpammerMessagesCollapsed(count);
-    return KeyedSubtree(
-      key: ValueKey<String>('group-${item.groupKey}'),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: FluxerButton.ghost(
-          onPressed: onToggle,
-          child: Text(
-            label,
-            style: context.textStyles.smallText.copyWith(
-              color: context.colors.textPrimaryMuted,
-              fontStyle: FontStyle.italic,
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: FluxerButton.ghost(
+        onPressed: onToggle,
+        child: Text(
+          label,
+          style: context.textStyles.smallText.copyWith(
+            color: context.colors.textPrimaryMuted,
+            fontStyle: FontStyle.italic,
           ),
         ),
       ),

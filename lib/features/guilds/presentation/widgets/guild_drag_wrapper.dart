@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
 import 'package:fluxer_app/features/guilds/domain/guild.dart';
+import 'package:fluxer_app/features/guilds/presentation/widgets/guild_folder_long_press_menu_host.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_gesture_host.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
@@ -133,6 +134,8 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
     this.enabled = true,
     this.allowCombine = true,
     this.peekMenu,
+    this.onFolderLongPressMenu,
+    this.folderMenuAnchorKey,
     super.key,
   });
 
@@ -143,6 +146,8 @@ class GuildDragWrapper extends ConsumerStatefulWidget {
   final Widget dragFeedback;
   final Widget child;
   final GuildIconPeekMenuConfig? peekMenu;
+  final FolderLongPressMenuCallback? onFolderLongPressMenu;
+  final GlobalKey? folderMenuAnchorKey;
 
   @override
   ConsumerState<GuildDragWrapper> createState() => _GuildDragWrapperState();
@@ -298,6 +303,16 @@ class _GuildDragWrapperState extends ConsumerState<GuildDragWrapper> {
             child: dragTarget,
           );
 
+    if (widget.onFolderLongPressMenu != null &&
+        widget.folderMenuAnchorKey != null &&
+        isMobileUi) {
+      return GuildFolderLongPressMenuHost(
+        itemId: widget.itemId,
+        menuAnchorKey: widget.folderMenuAnchorKey!,
+        onLongPressMenu: widget.onFolderLongPressMenu!,
+        child: peekHostChild,
+      );
+    }
     if (widget.peekMenu != null && isMobileUi) {
       return GuildIconPeekGestureHost(
         itemId: widget.itemId,

@@ -318,6 +318,107 @@ void main() {
         isFalse,
       );
     });
+
+    test('aroundPageReachesLiveTail when the newer side came back short of the '
+        "server's quota for the fetch limit", () {
+      // The server fills an around window's newer side independently, up to
+      // limit / 2 rows, so a newer side SHORT of that quota is the server
+      // reporting nothing newer remains. Quota reached means truncated, which
+      // proves nothing and must read as detached.
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: idC,
+          page: <Message>[_message(idA), _message(idB), _message(idC)],
+          limit: 30,
+        ),
+        isTrue,
+        reason: 'zero newer rows against a quota of 15 is the trivial subcase',
+      );
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: idB,
+          page: <Message>[_message(idA), _message(idB), _message(idC)],
+          limit: 30,
+        ),
+        isTrue,
+        reason:
+            'one newer row where the server would have sent 15 is the newer '
+            'side exhausted, not a page filled to its limit',
+      );
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: idB,
+          page: <Message>[_message(idA), _message(idB), _message(idC)],
+          limit: 2,
+        ),
+        isFalse,
+        reason: 'the same page against a quota of 1 is a filled newer side',
+      );
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: idB,
+          page: const <Message>[],
+          limit: 30,
+        ),
+        isFalse,
+        reason: 'a page that never carried the anchor makes no tail claim',
+      );
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: idD,
+          page: <Message>[_message(idA), _message(idB)],
+          limit: 30,
+        ),
+        isFalse,
+        reason:
+            'an anchor absent from the page was not the centre the server '
+            'used, so its shape cannot be read as a quota at all',
+      );
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: idB,
+          page: <Message>[_message(idA), _message(idB)],
+          limit: 1,
+        ),
+        isFalse,
+        reason: 'a limit that leaves no newer quota to fill proves nothing',
+      );
+    });
+
+    test('m16e: the quota boundary decides, and it fails toward detached', () {
+      // The one rung the integration tests cannot pin, because the pointer
+      // consult can absorb either verdict. expectedNewer - 1 newer rows is the
+      // tail; expectedNewer exactly is a filled quota, and a tail that happens
+      // to land there costs one extra fetch instead of dropping live messages.
+      const int limit = 30;
+      const int expectedNewer = limit ~/ 2;
+      final DateTime anchorTime = DateTime.utc(2026, 5, 11, 12);
+      final String anchorId = _snowflakeForUtc(anchorTime);
+      List<Message> pageWithNewer(int newerCount) => <Message>[
+        _message(anchorId),
+        for (var i = 1; i <= newerCount; i++)
+          _message(_snowflakeForUtc(anchorTime.add(Duration(minutes: i)))),
+      ];
+
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: anchorId,
+          page: pageWithNewer(expectedNewer - 1),
+          limit: limit,
+        ),
+        isTrue,
+        reason: 'one row short of the quota is the newer side exhausted',
+      );
+      expect(
+        aroundPageReachesLiveTail(
+          anchorId: anchorId,
+          page: pageWithNewer(expectedNewer),
+          limit: limit,
+        ),
+        isFalse,
+        reason: 'a filled quota is a truncated page: fail toward detached',
+      );
+    });
   });
 
   group('visible window reconcile params', () {

@@ -159,6 +159,7 @@ void main() {
         ]),
         canManageTarget: false,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(caps.canKick, isFalse);
       expect(caps.canBan, isFalse);
@@ -177,6 +178,7 @@ void main() {
         viewerPermissions: allPermissions,
         canManageTarget: true,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(caps.canKick, isTrue);
       expect(caps.canBan, isTrue);
@@ -196,6 +198,7 @@ void main() {
         viewerPermissions: allPermissions,
         canManageTarget: true,
         targetHasAdministrator: true,
+        hasAssignableRoles: false,
       );
       expect(caps.showTimeout, isFalse);
       expect(caps.showRemoveTimeout, isFalse);
@@ -214,6 +217,7 @@ void main() {
         viewerPermissions: _perms(<Permission>[Permission.moderateMembers]),
         canManageTarget: true,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       final timedOut = resolveProfileMenuCapabilities(
         isCurrentUser: false,
@@ -224,6 +228,7 @@ void main() {
         viewerPermissions: _perms(<Permission>[Permission.moderateMembers]),
         canManageTarget: true,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(active.showTimeout, isTrue);
       expect(active.showRemoveTimeout, isFalse);
@@ -245,6 +250,7 @@ void main() {
         ]),
         canManageTarget: true,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(caps.canBan, isTrue);
       expect(caps.canKick, isFalse);
@@ -261,6 +267,7 @@ void main() {
         viewerPermissions: _perms(<Permission>[Permission.changeNickname]),
         canManageTarget: false,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       final timedOut = resolveProfileMenuCapabilities(
         isCurrentUser: true,
@@ -271,6 +278,7 @@ void main() {
         viewerPermissions: _perms(<Permission>[Permission.changeNickname]),
         canManageTarget: false,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(active.canChangeNickname, isTrue);
       expect(timedOut.canChangeNickname, isFalse);
@@ -286,6 +294,7 @@ void main() {
         viewerPermissions: _perms(<Permission>[Permission.manageNicknames]),
         canManageTarget: true,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(withHierarchy.canChangeNickname, isTrue);
 
@@ -298,6 +307,7 @@ void main() {
         viewerPermissions: _perms(<Permission>[Permission.manageNicknames]),
         canManageTarget: false,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(withoutHierarchy.canChangeNickname, isFalse);
     });
@@ -312,6 +322,7 @@ void main() {
         viewerPermissions: allPermissions,
         canManageTarget: true,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(toBot.canTransfer, isFalse);
 
@@ -324,6 +335,7 @@ void main() {
         viewerPermissions: allPermissions,
         canManageTarget: true,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(toSelf.canTransfer, isFalse);
     });
@@ -338,6 +350,7 @@ void main() {
         viewerPermissions: allPermissions,
         canManageTarget: true,
         targetHasAdministrator: false,
+        hasAssignableRoles: false,
       );
       expect(caps.canTransfer, isFalse);
     });

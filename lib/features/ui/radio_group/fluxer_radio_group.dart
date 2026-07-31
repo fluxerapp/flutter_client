@@ -21,11 +21,11 @@ class FluxerRadioGroup<T> extends StatelessWidget {
   const FluxerRadioGroup({
     required this.value,
     required this.items,
-    required ValueChanged<T> onChanged,
+    required this._onChanged,
     this.label,
     this.direction = Axis.vertical,
     super.key,
-  }) : _onChanged = onChanged;
+  });
 
   // The generic callback keeps radio values strongly typed for callers.
   // ignore: unsafe_variance

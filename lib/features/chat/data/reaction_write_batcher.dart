@@ -10,10 +10,9 @@ const int kReactionWriteBatchMs = 50;
 
 class ReactionWriteBatcher {
   ReactionWriteBatcher({
-    required FluxerDatabase database,
-    Duration window = const Duration(milliseconds: kReactionWriteBatchMs),
-  }) : _database = database,
-       _window = window;
+    required this._database,
+    this._window = const Duration(milliseconds: kReactionWriteBatchMs),
+  });
 
   final FluxerDatabase _database;
   final Duration _window;

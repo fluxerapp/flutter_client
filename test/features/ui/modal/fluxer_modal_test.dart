@@ -183,6 +183,85 @@ void main() {
 
       expect(backPressed, isTrue);
     });
+
+    testWidgets('android back dismisses the modal', (tester) async {
+      useMobileSurface(tester);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerModal.show(
+                      context,
+                      title: 'Dismissible Modal',
+                      builder: (context, close) {
+                        return const Text('Body');
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Dismissible Modal'), findsOneWidget);
+
+      final bool handled = await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+
+      expect(handled, isTrue);
+      expect(find.text('Dismissible Modal'), findsNothing);
+    });
+
+    testWidgets('android back invokes onBack instead of dismissing', (
+      tester,
+    ) async {
+      useMobileSurface(tester);
+      var backPressed = false;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          Builder(
+            builder: (context) {
+              return ElevatedButton(
+                onPressed: () {
+                  unawaited(
+                    FluxerModal.show(
+                      context,
+                      title: 'Back Modal',
+                      onBack: () => backPressed = true,
+                      builder: (context, close) {
+                        return const Text('Body');
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Open'),
+              );
+            },
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Open'));
+      await tester.pumpAndSettle();
+
+      final bool handled = await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+
+      expect(handled, isTrue);
+      expect(backPressed, isTrue);
+      expect(find.text('Back Modal'), findsOneWidget);
+    });
   });
 
   group('FluxerConfirmModal', () {

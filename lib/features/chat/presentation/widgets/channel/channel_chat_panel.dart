@@ -266,12 +266,6 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
     final bool isSyncingMessages = ref.watch(
       chatViewModelProvider.select((ChatViewState s) => s.isSyncingMessages),
     );
-    final bool isLoadingMore = ref.watch(
-      chatViewModelProvider.select((ChatViewState s) => s.isLoadingMore),
-    );
-    final bool isLoadingNewer = ref.watch(
-      chatViewModelProvider.select((ChatViewState s) => s.isLoadingNewer),
-    );
     final ({String channelId, double distanceFromBottom, double viewportHeight})
     viewport = ref.watch(
       chatReadViewportProvider.select(
@@ -284,7 +278,6 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
     );
     final bool isActiveReadChannel =
         channelId.isNotEmpty && viewport.channelId == channelId;
-    final bool isBusy = isLoadingMore || isLoadingNewer || isSyncingMessages;
     final bool showJumpToBottom =
         loadMessages &&
         shouldShowJumpToBottomButton(
@@ -318,7 +311,9 @@ class _ChannelChatScrollOverlay extends ConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: FluxerJumpToBottomButton(
-                    enabled: !isBusy,
+                    // Never disabled by pagination: this is the only escape hatch
+                    // out of a detached window, and the view model preempts
+                    // in-flight pages rather than refusing the jump.
                     isLoading: isSyncingMessages,
                     onTap: () => ref
                         .read(chatViewModelProvider.notifier)

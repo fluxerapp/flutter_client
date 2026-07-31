@@ -17,38 +17,11 @@ double quantizeReadViewportDistance(double distance) {
       kChatReadViewportDistanceStep;
 }
 
-bool isNearScrollExtentEnd({
-  required double pixels,
-  required double minScrollExtent,
-  double threshold = kMessageListReadBottomThreshold,
-}) {
-  return (pixels - minScrollExtent) <= threshold;
-}
-
-bool isLiveNearBottom({
-  required double pixels,
-  required double minScrollExtent,
-  double threshold = kMessageListReadBottomThreshold,
-}) {
-  return isNearScrollExtentEnd(
-    pixels: pixels,
-    minScrollExtent: minScrollExtent,
-    threshold: threshold,
-  );
-}
-
 bool isNearTrailingEdge({
   required double distanceFromTrailingEdge,
   double threshold = kMessageListReadBottomThreshold,
 }) {
   return distanceFromTrailingEdge <= threshold;
-}
-
-double distanceFromScrollExtentEnd({
-  required double pixels,
-  required double minScrollExtent,
-}) {
-  return (pixels - minScrollExtent).clamp(0, double.infinity);
 }
 
 bool isBeyondJumpToBottomThreshold({

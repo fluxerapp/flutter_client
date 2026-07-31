@@ -13,8 +13,8 @@ class _AnimatedImageCandidate {
 /// Coordinates animated image playback in a scrollable feed.
 class AnimatedImagePlaybackController extends ChangeNotifier {
   AnimatedImagePlaybackController({
-    int maxActive = _kDefaultMaxActiveAnimatedImages,
-  }) : _maxActive = maxActive;
+    this._maxActive = _kDefaultMaxActiveAnimatedImages,
+  });
 
   final int _maxActive;
   int get maxActive => _maxActive;

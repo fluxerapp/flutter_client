@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/guilds/presentation/widgets/guild_icon_peek_menu.dart';
 import 'package:fluxer_app/features/guilds/providers/guild_drag_provider.dart';
+import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
 
 class GuildIconPeekGestureHost extends ConsumerStatefulWidget {
   const GuildIconPeekGestureHost({
@@ -67,10 +68,13 @@ class _GuildIconPeekGestureHostState
               followerAnchor: Alignment.centerLeft,
               offset: const Offset(8, 0),
               showWhenUnlinked: false,
-              child: GuildIconPeekMenuPanel(
-                guildName: widget.peekMenu.guildName,
-                hasUnread: widget.peekMenu.hasUnread,
-                itemKeys: _itemKeys,
+              child: ContextMenuEntranceAnimationHost(
+                alignment: Alignment.centerLeft,
+                child: GuildIconPeekMenuPanel(
+                  guildName: widget.peekMenu.guildName,
+                  hasUnread: widget.peekMenu.hasUnread,
+                  itemKeys: _itemKeys,
+                ),
               ),
             ),
           ),

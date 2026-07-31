@@ -25,6 +25,7 @@ import 'package:fluxer_app/features/settings/providers/appearance_preferences_pr
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
+import 'package:fluxer_app/shared/providers/input_modality_provider.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class FavoritesChannelList extends ConsumerWidget {
@@ -86,7 +87,7 @@ class FavoritesChannelList extends ConsumerWidget {
           showFavoritesListMenu(context, ref, position: details.globalPosition),
         );
       },
-      onLongPress: isMobileLayout(context)
+      onLongPress: isTouchPrimaryInput(ref)
           ? () => unawaited(
               showFavoritesListMenu(context, ref, position: Offset.zero),
             )
@@ -376,7 +377,7 @@ class _FavoriteChannelTile extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           onTap: onTap,
           onSecondaryTapUp: (details) => onContextMenu(details.globalPosition),
-          onLongPress: isMobileLayout(context)
+          onLongPress: isTouchPrimaryInput(ref)
               ? () => onContextMenu(Offset.zero)
               : null,
           child: Row(

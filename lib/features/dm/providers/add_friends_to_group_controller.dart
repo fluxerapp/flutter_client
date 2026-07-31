@@ -16,11 +16,10 @@ import 'package:fluxer_app/shared/utils/clipboard_utils.dart';
 
 class AddFriendsToGroupController extends ChangeNotifier {
   AddFriendsToGroupController({
-    required ProviderContainer container,
+    required this._container,
     required this.channelId,
     required this.dm,
-  }) : _container = container,
-       selectedUserIds = <String>[];
+  }) : selectedUserIds = <String>[];
 
   final ProviderContainer _container;
   final String channelId;

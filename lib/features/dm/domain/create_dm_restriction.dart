@@ -3,6 +3,9 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 enum CreateDmRestriction { unclaimed, unverified }
 
 CreateDmRestriction? getCreateDmRestriction(UserSettingsViewState settings) {
+  if (!settings.isProfileLoaded) {
+    return null;
+  }
   if (!settings.hasVerifiedEmail) {
     return CreateDmRestriction.unclaimed;
   }

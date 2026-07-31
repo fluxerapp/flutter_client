@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluxer_app/core/database/fluxer_database.dart';
+import 'package:fluxer_app/core/database/fluxer_database.dart' hide Message;
 import 'package:fluxer_app/core/utils/message_mention_resolver.dart';
+import 'package:fluxer_app/features/chat/domain/message.dart';
 import 'package:fluxer_dart/export.dart';
 
 import '../../helpers/open_test_database.dart';
@@ -216,6 +217,52 @@ void main() {
         await resolve(db, channelId: 'dm-1', mentionRoleIds: const ['role-1']),
         isFalse,
       );
+    });
+  });
+
+  group('mergeMentionHighlightFlag', () {
+    Message message({
+      bool isMentioned = false,
+      List<String> mentionedUserIds = const [],
+    }) {
+      return Message(
+        id: 'message-1',
+        channelId: 'channel-1',
+        authorId: 'me',
+        authorName: 'Me',
+        content: 'hello',
+        timestamp: DateTime.utc(2026, 5),
+        isMentioned: isMentioned,
+        mentionedUserIds: mentionedUserIds,
+      );
+    }
+
+    test('keeps mention highlight from the previous row', () {
+      final Message merged = mergeMentionHighlightFlag(
+        incoming: message(),
+        previous: message(isMentioned: true),
+        currentUserId: 'me',
+      );
+      expect(merged.isMentioned, isTrue);
+    });
+
+    test('promotes direct self mentions from mentionedUserIds', () {
+      final Message merged = mergeMentionHighlightFlag(
+        incoming: message(mentionedUserIds: const ['me']),
+        currentUserId: 'me',
+      );
+      expect(merged.isMentioned, isTrue);
+    });
+
+    test('batch merge leaves already-mentioned rows unchanged', () {
+      final Message original = message(
+        isMentioned: true,
+        mentionedUserIds: const ['me'],
+      );
+      final List<Message> merged = mergeMentionHighlightFlags(<Message>[
+        original,
+      ], currentUserId: 'me');
+      expect(identical(merged.single, original), isTrue);
     });
   });
 }

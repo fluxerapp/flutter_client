@@ -22,11 +22,7 @@ const _kGifsSuggestPath = '/gifs/suggest';
 const _kGifsTrendingPath = '/gifs/trending';
 
 class GifRepository {
-  GifRepository({
-    required Dio dio,
-    required GifActiveProviderLoader loadActiveProvider,
-  }) : _dio = dio,
-       _loadActiveProvider = loadActiveProvider;
+  GifRepository({required this._dio, required this._loadActiveProvider});
 
   final Dio _dio;
   final GifActiveProviderLoader _loadActiveProvider;

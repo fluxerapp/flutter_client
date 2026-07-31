@@ -107,11 +107,13 @@ class EmbedLink extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 4, bottom: 4),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: CachedNetworkImage(
-                    imageUrl: embed.thumbnail!.proxyUrl ?? embed.thumbnail!.url,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, e, s) => const SizedBox.shrink(),
+                  // Reserve the extent from metadata, capped by the layout
+                  // dimensions (fixed fallback when absent), so the load
+                  // never shifts the chat and portrait sources cannot
+                  // reserve unbounded height.
+                  child: _thumbnailBox(
+                    thumbnail: embed.thumbnail!,
+                    dimensions: dimensions,
                   ),
                 ),
               ),
@@ -126,6 +128,34 @@ class EmbedLink extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _thumbnailBox({
+    required EmbedMedia thumbnail,
+    required FluxerMediaDimensions dimensions,
+  }) {
+    final Size? displaySize = constrainMediaSize(
+      dimensions: dimensions,
+      width: thumbnail.width,
+      height: thumbnail.height,
+    );
+    final Widget image = CachedNetworkImage(
+      imageUrl: thumbnail.proxyUrl ?? thumbnail.url,
+      fit: BoxFit.cover,
+      errorBuilder: (_, e, s) => const SizedBox.shrink(),
+    );
+    if (displaySize != null) {
+      return SizedBox(
+        width: displaySize.width,
+        height: displaySize.height,
+        child: image,
+      );
+    }
+    return SizedBox(
+      width: double.infinity,
+      height: kEmbedMediaFallbackHeight,
+      child: image,
     );
   }
 }

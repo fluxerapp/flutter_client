@@ -383,6 +383,51 @@ void main() {
     });
   });
 
+  group('OrganizedGuildList folder settings', () {
+    test('updateFolder updates metadata without changing guild membership', () {
+      final ProviderContainer container = _organizedGuildListTestContainer();
+      addTearDown(container.dispose);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              _navbarFolder(id: 1, guildIds: ['a', 'b']),
+            ]
+            ..updateFolder(
+              1,
+              name: 'Gaming',
+              color: 0xFF5733,
+              flags: 1,
+              icon: 'star',
+            );
+
+      final GuildNavbarFolder folder = notifier.state[0] as GuildNavbarFolder;
+      expect(folder.name, 'Gaming');
+      expect(folder.color, 0xFF5733);
+      expect(folder.flags, 1);
+      expect(folder.icon, 'star');
+      expect(folder.showIconWhenCollapsed, isTrue);
+      expect(folder.guilds.map((Guild g) => g.id).toList(), ['a', 'b']);
+    });
+
+    test('dissolveFolder expands guilds to top-level items', () {
+      final ProviderContainer container = _organizedGuildListTestContainer();
+      addTearDown(container.dispose);
+      final OrganizedGuildList notifier =
+          container.read(organizedGuildListProvider.notifier)
+            ..state = [
+              GuildNavbarGuild(guild: _guild('top')),
+              _navbarFolder(id: 1, guildIds: ['a', 'b']),
+            ]
+            ..dissolveFolder(1);
+
+      final List<GuildNavbarItem> items = notifier.state;
+      expect(items.length, 3);
+      expect((items[0] as GuildNavbarGuild).guild.id, 'top');
+      expect((items[1] as GuildNavbarGuild).guild.id, 'a');
+      expect((items[2] as GuildNavbarGuild).guild.id, 'b');
+    });
+  });
+
   group('OrganizedGuildList applyDragDrop', () {
     test('reorder path moves guild out of folder', () {
       final ProviderContainer container = _organizedGuildListTestContainer();

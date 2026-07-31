@@ -41,8 +41,22 @@ enum FluxerButtonVariant {
     ghost => colors.buttonGhostText,
   };
 
-  Color? borderColor(FluxerColorTheme colors) => switch (this) {
-    invertedOutline => colors.buttonOutlineBorder,
-    _ => null,
-  };
+  Color? borderColor(FluxerColorTheme colors, {bool hovered = false}) =>
+      switch (this) {
+        primary => Color.lerp(
+          Colors.white,
+          hovered ? colors.brandSecondary : colors.brandPrimary,
+          hovered ? 0.84 : 0.82,
+        ),
+        secondary || dangerSecondary =>
+          hovered
+              ? Color.lerp(
+                  colors.textTertiary,
+                  colors.backgroundModifierAccent,
+                  0.88,
+                )
+              : colors.backgroundModifierAccent,
+        invertedOutline => colors.buttonOutlineBorder,
+        _ => null,
+      };
 }

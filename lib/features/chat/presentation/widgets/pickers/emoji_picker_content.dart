@@ -302,11 +302,15 @@ class _EmojiPickerContentState extends ConsumerState<EmojiPickerContent> {
     return grouped;
   }
 
+  String _displaySurrogatesFor(EmojiEntry emoji) {
+    if (widget.skinTone.isNotEmpty && emoji.hasDiversity) {
+      return EmojiRegistry.resolveSkinToneSurrogates(emoji, widget.skinTone);
+    }
+    return emoji.surrogates;
+  }
+
   void _onEmojiSelected(EmojiEntry emoji) {
-    final hasTone = widget.skinTone.isNotEmpty && emoji.hasDiversity;
-    final surrogates = hasTone
-        ? EmojiRegistry.resolveSkinToneSurrogates(emoji, widget.skinTone)
-        : emoji.surrogates;
+    final surrogates = _displaySurrogatesFor(emoji);
     if (widget.trackUsageOnSelect) {
       unawaited(
         ref

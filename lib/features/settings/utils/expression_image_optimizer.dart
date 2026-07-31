@@ -87,21 +87,24 @@ Future<String> _optimizeExpressionImage({
       maxSizeBytes: maxSizeBytes,
     );
   }
-  final double scale = targetSize / decoded.width < targetSize / decoded.height
-      ? targetSize / decoded.width
-      : targetSize / decoded.height;
-  final int scaledWidth = (decoded.width * scale).round().clamp(1, targetSize);
-  final int scaledHeight = (decoded.height * scale).round().clamp(
-    1,
-    targetSize,
-  );
+  final img.Image rgba = _ensureRgba(decoded);
+  final double scale = targetSize / rgba.width < targetSize / rgba.height
+      ? targetSize / rgba.width
+      : targetSize / rgba.height;
+  final int scaledWidth = (rgba.width * scale).round().clamp(1, targetSize);
+  final int scaledHeight = (rgba.height * scale).round().clamp(1, targetSize);
   final img.Image resized = img.copyResize(
-    decoded,
+    rgba,
     width: scaledWidth,
     height: scaledHeight,
     interpolation: img.Interpolation.cubic,
   );
-  final img.Image canvas = img.Image(width: targetSize, height: targetSize);
+  final img.Image canvas = img.Image(
+    width: targetSize,
+    height: targetSize,
+    numChannels: 4,
+  );
+  canvas.clear();
   final int offsetX = ((targetSize - resized.width) / 2).floor();
   final int offsetY = ((targetSize - resized.height) / 2).floor();
   img.compositeImage(canvas, resized, dstX: offsetX, dstY: offsetY);
@@ -122,4 +125,11 @@ Future<String> _optimizeExpressionImage({
     actualSizeBytes: smallest?.length ?? bytes.length,
     maxSizeBytes: maxSizeBytes,
   );
+}
+
+img.Image _ensureRgba(img.Image image) {
+  if (image.numChannels == 4) {
+    return image;
+  }
+  return image.convert(numChannels: 4);
 }

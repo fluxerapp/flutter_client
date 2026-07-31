@@ -21,8 +21,9 @@ Future<void> showChannelPinsSheet(
   final DmConversation? dm = isDmChannel
       ? findDmById(ref.read(dmViewModelProvider).conversations, channelId)
       : null;
-  return showChannelDetailsSheet(
+  return showChannelDetailsSheetAndJump(
     context,
+    container: ref.container,
     channel: channel,
     dm: dm,
     initialTab: ChannelDetailsInitialTab.pins,

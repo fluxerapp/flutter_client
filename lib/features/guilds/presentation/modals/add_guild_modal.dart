@@ -17,6 +17,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -397,33 +398,38 @@ class _AddGuildModalDialogState extends ConsumerState<_AddGuildModalDialog> {
       ),
       child: buildModalContent(),
     );
-    return Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: GestureDetector(
-            onTap: _close,
-            child: ColoredBox(
-              color: Colors.black.withValues(alpha: 0.35),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                child: const SizedBox.expand(),
+    return wrapFluxerOverlayBackHandler(
+      canDismiss: true,
+      onBack: _view == _AddGuildModalView.landing ? null : _goToLanding,
+      onDismiss: _close,
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _close,
+              child: ColoredBox(
+                color: Colors.black.withValues(alpha: 0.35),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: const SizedBox.expand(),
+                ),
               ),
             ),
           ),
-        ),
-        AnimatedPadding(
-          duration: context.motion.normal,
-          curve: context.motion.curve,
-          padding: EdgeInsets.only(bottom: keyboardInset),
-          child: MediaQuery.removeViewInsets(
-            context: context,
-            removeBottom: true,
-            child: keyboardInset > 0
-                ? Align(alignment: Alignment.bottomCenter, child: dialog)
-                : Center(child: dialog),
+          AnimatedPadding(
+            duration: context.motion.normal,
+            curve: context.motion.curve,
+            padding: EdgeInsets.only(bottom: keyboardInset),
+            child: MediaQuery.removeViewInsets(
+              context: context,
+              removeBottom: true,
+              child: keyboardInset > 0
+                  ? Align(alignment: Alignment.bottomCenter, child: dialog)
+                  : Center(child: dialog),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

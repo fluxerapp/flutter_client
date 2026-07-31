@@ -15,6 +15,7 @@ import 'package:fluxer_app/features/guilds/services/join_community_service.dart'
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/badge/fluxer_guild_badge.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
+import 'package:fluxer_app/features/ui/overlay/fluxer_overlay_back_handler.dart';
 import 'package:fluxer_app/features/ui/spinner/fluxer_loading_spinner.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/guild_name_abbreviation.dart';
@@ -58,26 +59,31 @@ class _InviteAcceptModalDialog extends ConsumerWidget {
                 mediaQuery.viewPadding.bottom -
                 verticalInset * 2)
             .clamp(420, maxHeight);
-    return Center(
-      child: Material(
-        color: Colors.transparent,
-        child: SizedBox(
-          width: width,
-          height: height,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                InviteAcceptModalBody(code: code),
-                Positioned(
-                  top: 12,
-                  right: 12,
-                  child: _InviteAcceptCloseButton(
-                    onPressed: () => Navigator.of(context).pop(),
+    return wrapFluxerOverlayBackHandler(
+      canDismiss: true,
+      onBack: null,
+      onDismiss: () => Navigator.of(context).pop(),
+      child: Center(
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: width,
+            height: height,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  InviteAcceptModalBody(code: code),
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: _InviteAcceptCloseButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

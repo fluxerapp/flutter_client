@@ -27,6 +27,7 @@ import 'package:fluxer_app/features/dm/presentation/group_dm_invites_flow.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/dm_list_message_preview_row.dart';
 import 'package:fluxer_app/features/dm/presentation/widgets/group_dm_avatar.dart';
 import 'package:fluxer_app/features/dm/providers/dm_list_presence_provider.dart';
+import 'package:fluxer_app/features/dm/providers/dm_list_scroll_store_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_mute_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_pinned_provider.dart';
 import 'package:fluxer_app/features/dm/providers/dm_providers.dart';
@@ -58,6 +59,66 @@ class DMList extends ConsumerStatefulWidget {
 }
 
 class _DMListState extends ConsumerState<DMList> {
+  late final DmListScrollStore _scrollStore;
+  late final ScrollController _scrollController;
+  bool _needsScrollRestore = true;
+  bool _restoringScroll = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollStore = ref.read(dmListScrollStoreProvider);
+    _needsScrollRestore = _scrollStore.offset > 0;
+    _scrollController = ScrollController()..addListener(_persistScroll);
+  }
+
+  @override
+  void deactivate() {
+    _persistScroll();
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    _persistScroll();
+    _scrollController
+      ..removeListener(_persistScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _persistScroll() {
+    // While a restore is pending the position still sits at 0; persisting it
+    // would erase the offset we are about to jump back to.
+    if (_needsScrollRestore || _restoringScroll) {
+      return;
+    }
+    if (_scrollController.hasClients) {
+      _scrollStore.offset = _scrollController.offset;
+    }
+  }
+
+  /// Conversations arrive asynchronously, so the offset can only be restored
+  /// once the list has laid out content to scroll over.
+  void _scheduleScrollRestore() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_needsScrollRestore) {
+        return;
+      }
+      _needsScrollRestore = false;
+      if (!_scrollController.hasClients) {
+        return;
+      }
+      final double maxExtent = _scrollController.position.maxScrollExtent;
+      if (maxExtent <= 0) {
+        return;
+      }
+      _restoringScroll = true;
+      _scrollController.jumpTo(_scrollStore.offset.clamp(0.0, maxExtent));
+      _restoringScroll = false;
+    });
+  }
+
   void personalNote() {
     final userId = ref.read(currentUserIdProvider);
     if (userId != null) {
@@ -548,8 +609,12 @@ class _DMListState extends ConsumerState<DMList> {
     final listPadding = isMobile
         ? EdgeInsets.only(top: context.layout.s1, bottom: 96)
         : EdgeInsets.zero;
+    if (_needsScrollRestore && convos.isNotEmpty) {
+      _scheduleScrollRestore();
+    }
 
     return ListView.builder(
+      controller: _scrollController,
       scrollCacheExtent: const ScrollCacheExtent.pixels(600),
       padding: listPadding,
       itemExtent: isMobile ? 52 : 42,

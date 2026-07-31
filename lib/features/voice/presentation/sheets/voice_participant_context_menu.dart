@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/core/router/fluxer_router.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme_extension.dart';
+import 'package:fluxer_app/features/members/presentation/widgets/manage_member_roles_picker.dart';
+import 'package:fluxer_app/features/members/utils/guild_member_menu_state.dart';
 import 'package:fluxer_app/features/profile/presentation/user_profile_sheet.dart';
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/action_menu/context_menu_widgets.dart';
@@ -18,6 +20,7 @@ import 'package:fluxer_app/features/voice/utils/voice_participant_menu_capabilit
 import 'package:fluxer_app/features/voice/utils/voice_participant_moderation.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_dart/gateway.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class VoiceParticipantContextMenu {
   VoiceParticipantContextMenu._();
@@ -54,7 +57,6 @@ class VoiceParticipantContextMenu {
       useRootNavigator: true,
       initialChildSize: 0.45,
       minChildSize: 0.25,
-      maxChildSize: 0.85,
       builder: (sheetContext, scrollController, close) {
         return _VoiceParticipantContextMenuPanel(
           target: target,
@@ -104,110 +106,147 @@ class VoiceParticipantContextMenu {
     required VoiceParticipantMenuCapabilities capabilities,
     required FluxerLocalizations l10n,
     required VoidCallback close,
+    GuildMemberMenuState? roleMenuState,
   }) {
     final String? guildId = target.guildId;
     final String userId = target.participant.userId;
     final String failureMessage = l10n.voiceParticipantModerationFailed;
-    return buildVoiceParticipantMenuGroups(
-      capabilities: capabilities,
-      labels: VoiceParticipantMenuLabels(
-        viewProfile: l10n.voiceParticipantMenuViewProfile,
-        focus: l10n.voiceParticipantMenuFocus,
-        unfocus: l10n.voiceParticipantMenuUnfocus,
-        mute: l10n.voiceControlMute,
-        deafen: l10n.voiceControlDeafen,
-        communityMute: l10n.voiceParticipantMenuCommunityMute,
-        communityDeafen: l10n.voiceParticipantMenuCommunityDeafen,
-        disconnect: l10n.voiceControlDisconnect,
-        userVolume: l10n.voiceParticipantMenuUserVolume,
-        streamVolume: l10n.voiceParticipantMenuStreamVolume,
-      ),
-      onViewProfile: () {
-        close();
-        unawaited(
-          FluxerUserProfileSheet.show(
-            context,
-            userId: userId,
-            guildId: guildId,
+    final List<VoiceParticipantMenuGroup> groups =
+        buildVoiceParticipantMenuGroups(
+          capabilities: capabilities,
+          labels: VoiceParticipantMenuLabels(
+            viewProfile: l10n.voiceParticipantMenuViewProfile,
+            focus: l10n.voiceParticipantMenuFocus,
+            unfocus: l10n.voiceParticipantMenuUnfocus,
+            mute: l10n.voiceControlMute,
+            deafen: l10n.voiceControlDeafen,
+            communityMute: l10n.voiceParticipantMenuCommunityMute,
+            communityDeafen: l10n.voiceParticipantMenuCommunityDeafen,
+            disconnect: l10n.voiceControlDisconnect,
+            userVolume: l10n.voiceParticipantMenuUserVolume,
+            streamVolume: l10n.voiceParticipantMenuStreamVolume,
           ),
+          onViewProfile: () {
+            close();
+            unawaited(
+              FluxerUserProfileSheet.show(
+                context,
+                userId: userId,
+                guildId: guildId,
+              ),
+            );
+          },
+          onToggleFocus: () {
+            final VoiceCallLayout layout = ref.read(
+              voiceCallLayoutProvider.notifier,
+            );
+            if (capabilities.isFocused) {
+              layout.unpin();
+            } else {
+              layout.pin(target.tileId);
+            }
+            close();
+          },
+          onToggleSelfMute: () {
+            unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfMute());
+          },
+          onToggleSelfDeafen: () {
+            unawaited(
+              ref.read(voiceSessionProvider.notifier).toggleSelfDeafen(),
+            );
+          },
+          onToggleCommunityMute: (bool checked) {
+            if (guildId == null) {
+              return;
+            }
+            unawaited(
+              updateVoiceParticipantCommunityMute(
+                ref: ref,
+                guildId: guildId,
+                userId: userId,
+                muted: checked,
+                failureMessage: failureMessage,
+              ),
+            );
+          },
+          onToggleCommunityDeafen: (bool checked) {
+            if (guildId == null) {
+              return;
+            }
+            unawaited(
+              updateVoiceParticipantCommunityDeafen(
+                ref: ref,
+                guildId: guildId,
+                userId: userId,
+                deafened: checked,
+                failureMessage: failureMessage,
+              ),
+            );
+          },
+          onDisconnect: () {
+            close();
+            if (capabilities.isCurrentUser) {
+              unawaited(ref.read(voiceSessionProvider.notifier).leaveVoice());
+              return;
+            }
+            if (guildId == null) {
+              return;
+            }
+            unawaited(
+              disconnectVoiceParticipant(
+                ref: ref,
+                guildId: guildId,
+                userId: userId,
+                connectionId: target.participant.voice.connectionId,
+                failureMessage: failureMessage,
+              ),
+            );
+          },
+          onVolumeChanged: (int value) {
+            unawaited(
+              ref
+                  .read(voiceParticipantVolumeProvider.notifier)
+                  .setVolume(userId, value),
+            );
+          },
+          onStreamVolumeChanged: (int value) =>
+              _setStreamVolume(ref, capabilities.streamKey, value),
+          onToggleStreamMute: (bool muted) =>
+              _setStreamMuted(ref, capabilities.streamKey, muted: muted),
         );
-      },
-      onToggleFocus: () {
-        final VoiceCallLayout layout = ref.read(
-          voiceCallLayoutProvider.notifier,
-        );
-        if (capabilities.isFocused) {
-          layout.unpin();
-        } else {
-          layout.pin(target.tileId);
-        }
-        close();
-      },
-      onToggleSelfMute: () {
-        unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfMute());
-      },
-      onToggleSelfDeafen: () {
-        unawaited(ref.read(voiceSessionProvider.notifier).toggleSelfDeafen());
-      },
-      onToggleCommunityMute: (bool checked) {
-        if (guildId == null) {
-          return;
-        }
-        unawaited(
-          updateVoiceParticipantCommunityMute(
-            ref: ref,
-            guildId: guildId,
-            userId: userId,
-            muted: checked,
-            failureMessage: failureMessage,
-          ),
-        );
-      },
-      onToggleCommunityDeafen: (bool checked) {
-        if (guildId == null) {
-          return;
-        }
-        unawaited(
-          updateVoiceParticipantCommunityDeafen(
-            ref: ref,
-            guildId: guildId,
-            userId: userId,
-            deafened: checked,
-            failureMessage: failureMessage,
-          ),
-        );
-      },
-      onDisconnect: () {
-        close();
-        if (capabilities.isCurrentUser) {
-          unawaited(ref.read(voiceSessionProvider.notifier).leaveVoice());
-          return;
-        }
-        if (guildId == null) {
-          return;
-        }
-        unawaited(
-          disconnectVoiceParticipant(
-            ref: ref,
-            guildId: guildId,
-            userId: userId,
-            connectionId: target.participant.voice.connectionId,
-            failureMessage: failureMessage,
-          ),
-        );
-      },
-      onVolumeChanged: (int value) {
-        unawaited(
-          ref
-              .read(voiceParticipantVolumeProvider.notifier)
-              .setVolume(userId, value),
-        );
-      },
-      onStreamVolumeChanged: (int value) =>
-          _setStreamVolume(ref, capabilities.streamKey, value),
-      onToggleStreamMute: (bool muted) =>
-          _setStreamMuted(ref, capabilities.streamKey, muted: muted),
-    );
+
+    if ((roleMenuState?.shouldShowRolesSubmenu ?? false) && guildId != null) {
+      final GuildMemberMenuState menuState = roleMenuState!;
+      groups.add(
+        VoiceParticipantMenuGroup(
+          entries: <VoiceParticipantMenuEntry>[
+            VoiceParticipantMenuActionEntry(
+              label: l10n.userProfileRoles,
+              icon: PhosphorIconsFill.shield,
+              onPressed: () {
+                close();
+                unawaited(
+                  ManageMemberRolesPicker.show(
+                    context,
+                    ref,
+                    position: null,
+                    guildId: guildId,
+                    userId: userId,
+                    allGuildRoles: menuState.allGuildRoles,
+                    memberRoleIds: menuState.memberRoleIds,
+                    canManageRoles: menuState.canManageRoles,
+                    isGuildOwner: menuState.isGuildOwner,
+                    viewerHighestRole: menuState.viewerHighestRole,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
+    return groups;
   }
 
   static void _setStreamVolume(WidgetRef ref, String? streamKey, int value) {
@@ -355,11 +394,31 @@ class _VoiceParticipantContextMenuPanelState
     extends ConsumerState<_VoiceParticipantContextMenuPanel> {
   ModerationAccess? _moderation;
   var _moderationLoaded = false;
+  GuildMemberMenuState? _roleMenuState;
 
   @override
   void initState() {
     super.initState();
     unawaited(_loadModeration());
+    unawaited(_loadRoleMenuState());
+  }
+
+  Future<void> _loadRoleMenuState() async {
+    final String? guildId = widget.target.guildId;
+    final String userId = widget.target.participant.userId;
+    if (guildId == null) {
+      return;
+    }
+    final GuildMemberMenuState? roleMenuState =
+        await resolveGuildMemberMenuStateForUser(
+          ref: ref,
+          guildId: guildId,
+          userId: userId,
+        );
+    if (!mounted) {
+      return;
+    }
+    setState(() => _roleMenuState = roleMenuState);
   }
 
   Future<void> _loadModeration() async {
@@ -413,6 +472,7 @@ class _VoiceParticipantContextMenuPanelState
           capabilities: capabilities,
           l10n: widget.l10n,
           close: widget.onClose,
+          roleMenuState: _roleMenuState,
         );
     if (widget.scrollController != null) {
       return ListView(

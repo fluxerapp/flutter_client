@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
+import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/ui/bottom_sheet/fluxer_bottom_sheet.dart';
 import 'package:fluxer_app/features/ui/button/fluxer_button.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input.dart';
@@ -12,27 +13,56 @@ import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 Future<String?> showAttachmentAltTextSheet(
   BuildContext context, {
   required Attachment attachment,
+  bool useRootNavigator = true,
 }) {
   return FluxerBottomSheet.show<String?>(
     context,
+    useRootNavigator: useRootNavigator,
     title: FluxerLocalizations.of(context).chatAttachmentEditTitle,
     builder: (BuildContext sheetContext, VoidCallback close) {
       return _AttachmentAltTextSheetBody(
         attachment: attachment,
         onClose: close,
+        useRootNavigator: useRootNavigator,
       );
     },
   );
+}
+
+Future<void> editMessageAttachmentAltText(
+  BuildContext context,
+  WidgetRef ref, {
+  required String messageId,
+  required Attachment attachment,
+  bool useRootNavigator = true,
+}) async {
+  final String? description = await showAttachmentAltTextSheet(
+    context,
+    attachment: attachment,
+    useRootNavigator: useRootNavigator,
+  );
+  if (description == null || !context.mounted) {
+    return;
+  }
+  await ref
+      .read(chatViewModelProvider.notifier)
+      .editAttachmentAltText(
+        messageId: messageId,
+        attachmentId: attachment.id,
+        description: description.isEmpty ? null : description,
+      );
 }
 
 class _AttachmentAltTextSheetBody extends ConsumerStatefulWidget {
   const _AttachmentAltTextSheetBody({
     required this.attachment,
     required this.onClose,
+    required this.useRootNavigator,
   });
 
   final Attachment attachment;
   final VoidCallback onClose;
+  final bool useRootNavigator;
 
   @override
   ConsumerState<_AttachmentAltTextSheetBody> createState() =>
@@ -60,7 +90,10 @@ class _AttachmentAltTextSheetBodyState
   void _executeSaveAndClose() {
     final String description = _descriptionController.text.trim();
     FocusManager.instance.primaryFocus?.unfocus();
-    Navigator.of(context).pop(description.isEmpty ? '' : description);
+    Navigator.of(
+      context,
+      rootNavigator: widget.useRootNavigator,
+    ).pop(description.isEmpty ? '' : description);
   }
 
   @override

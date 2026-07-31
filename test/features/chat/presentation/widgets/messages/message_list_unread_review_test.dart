@@ -2,27 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fluxer_app/features/chat/presentation/widgets/messages/message_list_unread_review.dart';
 
 void main() {
-  group('isNearScrollExtentEnd', () {
-    test('is true at minScrollExtent with large absolute pixels', () {
-      expect(isNearScrollExtentEnd(pixels: 80, minScrollExtent: 80), isTrue);
-      expect(80 <= 24, isFalse);
-    });
-
-    test('is false when far from minScrollExtent', () {
-      expect(isNearScrollExtentEnd(pixels: 140, minScrollExtent: 80), isFalse);
-    });
-  });
-
-  group('isLiveNearBottom', () {
-    test('is true at minScrollExtent with large absolute pixels', () {
-      expect(isLiveNearBottom(pixels: 80, minScrollExtent: 80), isTrue);
-    });
-
-    test('is false when far from minScrollExtent', () {
-      expect(isLiveNearBottom(pixels: 140, minScrollExtent: 80), isFalse);
-    });
-  });
-
   group('shouldShowUnreadBar', () {
     test('returns false when there is no unread', () {
       expect(
@@ -94,16 +73,6 @@ void main() {
         ),
         isTrue,
       );
-    });
-  });
-
-  group('distanceFromScrollExtentEnd', () {
-    test('returns zero at minScrollExtent', () {
-      expect(distanceFromScrollExtentEnd(pixels: 80, minScrollExtent: 80), 0);
-    });
-
-    test('returns offset above minScrollExtent', () {
-      expect(distanceFromScrollExtentEnd(pixels: 140, minScrollExtent: 80), 60);
     });
   });
 

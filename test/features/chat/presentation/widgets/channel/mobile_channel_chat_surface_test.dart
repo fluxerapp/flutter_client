@@ -14,6 +14,7 @@ import 'package:fluxer_app/core/theme/fluxer_text_theme.dart';
 import 'package:fluxer_app/core/theme/fluxer_theme.dart';
 import 'package:fluxer_app/core/theme/providers/theme_preference_provider.dart';
 import 'package:fluxer_app/core/theme/themes/dark.dart';
+import 'package:fluxer_app/core/utils/channel_jump_link.dart';
 import 'package:fluxer_app/features/channels/domain/channel.dart';
 import 'package:fluxer_app/features/channels/providers/channel_list_view_model.dart';
 import 'package:fluxer_app/features/chat/domain/message.dart';
@@ -25,6 +26,7 @@ import 'package:fluxer_app/features/chat/providers/channel/channel_message_permi
 import 'package:fluxer_app/features/chat/providers/core/chat_read_viewport_provider.dart';
 import 'package:fluxer_app/features/chat/providers/core/chat_view_model.dart';
 import 'package:fluxer_app/features/chat/providers/messages/message_length_limits_provider.dart';
+import 'package:fluxer_app/features/chat/utils/channel_jump_navigator.dart';
 import 'package:fluxer_app/features/dm/domain/dm_conversation.dart';
 import 'package:fluxer_app/features/dm/providers/dm_view_model.dart';
 import 'package:fluxer_app/features/friends/domain/friend.dart';
@@ -313,6 +315,445 @@ void main() {
       },
     );
 
+    // WIRING test for defect C1, observed at the switchChannel level. Bypassing
+    // the request builder previously passed the entire suite; this is the test
+    // that fails when it is bypassed. Mirrors jump-sequence.txt block 6.
+    testWidgets('a consumed route target is never synced a second time', (
+      WidgetTester tester,
+    ) async {
+      const String target = '999999999999999999';
+      final _JumpTargetRecorder recorder = _JumpTargetRecorder();
+      final ProviderContainer container = ProviderContainer(
+        overrides: _jumpContentOverrides(recorder: recorder),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const ChannelChatContent(
+            channelId: _channelId,
+            targetMessageId: target,
+            showTopBar: false,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.targetedCallCount,
+        1,
+        reason: 'the first jump must sync WITH the target',
+      );
+
+      // Step 2, the discriminating condition: jump to latest, so the target is
+      // ABSENT from the window. Without this the old predicate dedupes
+      // naturally and the test would pass against the very bug it exists for.
+      recorder.emitJumpedToLatest();
+      await tester.pump();
+      expect(
+        recorder.windowContains(target),
+        isFalse,
+        reason: 'the target must have left the window before we assert',
+      );
+
+      // Step 3: the unrelated realtime rebuild, which on device also nulls the
+      // widget's dedupe. The ledger alone must hold here.
+      recorder.emitStrandedEmptyWindow();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.targetedCallCount,
+        1,
+        reason:
+            'with the target ABSENT from the window, a second targeted sync is '
+            'exactly the stale around=<old id> refetch the user could not read '
+            'new messages through',
+      );
+      await _disposeWidgetTree(tester);
+    });
+
+    // PRODUCTION ENTRY repeat-tap: goes through navigateToChannelJumpLink, the
+    // funnel every real caller uses, rather than poking the ledger directly.
+    testWidgets('a repeat tap through the jump funnel is honoured again', (
+      WidgetTester tester,
+    ) async {
+      const String target = '999999999999999999';
+      final _JumpTargetRecorder recorder = _JumpTargetRecorder();
+      final ProviderContainer container = ProviderContainer(
+        overrides: _jumpContentOverrides(recorder: recorder),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const ChannelChatContent(
+            channelId: _channelId,
+            targetMessageId: target,
+            showTopBar: false,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+      expect(recorder.targetedCallCount, 1, reason: 'first jump consumed');
+
+      // Same absence step: the user has jumped away before re-tapping.
+      recorder.emitJumpedToLatest();
+      await tester.pump();
+
+      // The user taps the same search result again. This is the real entry
+      // point, so it must re-open the intent it just consumed.
+      await navigateToChannelJumpLink(
+        container: container,
+        link: const MessageJumpLink(
+          scope: '@me',
+          channelId: _channelId,
+          messageId: target,
+        ),
+      );
+      await tester.pump();
+
+      // Force the widget to sync again, as any rebuild would.
+      recorder.emitStrandedEmptyWindow();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      final int afterRetap = recorder.targetedCallCount;
+      expect(
+        afterRetap,
+        greaterThanOrEqualTo(2),
+        reason:
+            'a deliberate repeat tap must be honoured; suppressing it turns a '
+            'fixed bug back into a broken one',
+      );
+
+      // Discriminating half: the re-tap must also be RE-CONSUMED. A scheme that
+      // acknowledges by signal level or numeric version never closes the second
+      // intent, because the fetch resets the signal and the version restarts,
+      // so C1 would reopen for exactly this target.
+      recorder.emitJumpedToLatest();
+      await tester.pump();
+      recorder.emitStrandedEmptyWindow();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.targetedCallCount,
+        afterRetap,
+        reason:
+            'after the re-tap is acknowledged, an unrelated event must not '
+            'refetch around the target again',
+      );
+      await _disposeWidgetTree(tester);
+    });
+
+    // Mutation (g) guard. The UNSETTLED case: route target A is pending and was
+    // never acknowledged, because its fetch was superseded or is still in
+    // flight. There is no consumed record to protect it, the route still ends
+    // /A, and fail-open would honour it on the next rebuild, yanking the user
+    // off B, the jump they actually just asked for. Interruption is transient
+    // and must stay retryable; supersession is a newer command and must not.
+    testWidgets('a pending unacked target is dropped once a newer jump wins', (
+      WidgetTester tester,
+    ) async {
+      const String targetA = '999999999999999999';
+      const String targetB = '888888888888888881';
+      // commandSignalOnSync false: A's sync NEVER acknowledges.
+      final _JumpTargetRecorder recorder = _JumpTargetRecorder(
+        commandSignalOnSync: false,
+      );
+      final ProviderContainer container = ProviderContainer(
+        overrides: _jumpContentOverrides(recorder: recorder),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const ChannelChatContent(
+            channelId: _channelId,
+            targetMessageId: targetA,
+            showTopBar: false,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(recorder.targetedCallsFor(targetA), 1, reason: 'A was attempted');
+      // Anti-vacuous guard: if A had acknowledged, the consumed record alone
+      // would suppress it and this test would prove nothing about supersession.
+      expect(
+        recorder.commandedSignals,
+        isNot(contains(targetA)),
+        reason: 'A must remain UNACKNOWLEDGED for this to test supersession',
+      );
+
+      // The user taps B while A is still pending, through the real funnel.
+      await navigateToChannelJumpLink(
+        container: container,
+        link: const MessageJumpLink(
+          scope: '@me',
+          channelId: _channelId,
+          messageId: targetB,
+        ),
+      );
+      await tester.pump();
+      recorder.emitScrollCommand(targetB);
+      await tester.pump();
+
+      recorder.emitStrandedEmptyWindow();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.targetedCallsFor(targetA),
+        1,
+        reason:
+            'A was superseded by B: refetching around A drags the user off the '
+            'message they just asked for',
+      );
+      await _disposeWidgetTree(tester);
+    });
+
+    // Mutation (e) guard at WIRING level. goToRepliedMessage highlights WITHOUT
+    // the reset that switchChannel's fetch path performs, so on a same-target
+    // in-place re-tap the listener fires with previous.signal == next.signal,
+    // old and MATCHING. Level-match consumes on that highlight, before the jump
+    // is commanded; the transition guard refuses. Consuming early here recreates
+    // mutation (b)'s damage on the in-place path: superseded between highlight
+    // and scroll, the tap is swallowed and the retry destroyed.
+    testWidgets('a highlight update with a retained signal does not consume', (
+      WidgetTester tester,
+    ) async {
+      const String target = '999999999999999999';
+      final _JumpTargetRecorder recorder = _JumpTargetRecorder(
+        initialMessages: <Message>[_message(id: target, content: 'target')],
+        commandSignalOnSync: false,
+        initialSignal: (target, 1),
+      );
+      final ProviderContainer container = ProviderContainer(
+        overrides: _jumpContentOverrides(recorder: recorder),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const ChannelChatContent(
+            channelId: _channelId,
+            targetMessageId: target,
+            showTopBar: false,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+      expect(recorder.targetedCallCount, 1, reason: 'first sync is targeted');
+
+      // The in-place re-tap highlights first, retaining the stale signal.
+      recorder.emitHighlightOnly(target);
+      await tester.pump();
+      recorder.emitStrandedEmptyWindow();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.targetedCallCount,
+        2,
+        reason:
+            'the highlight is not the jump: consuming on it swallows the tap if '
+            'the jump is superseded before scrollToMessage runs',
+      );
+
+      // Now the jump is actually commanded: a real transition.
+      recorder.emitScrollCommand(target);
+      await tester.pump();
+      recorder.emitStrandedEmptyWindow();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.targetedCallCount,
+        2,
+        reason: 'once the jump is commanded the intent is consumed',
+      );
+      await _disposeWidgetTree(tester);
+    });
+
+    // Mutation (f) guard. Jumping to a SECOND message in the same channel is an
+    // ordinary follow-up search, and it resolves IN PLACE because
+    // activeChannelId == channelId, so the route still ends /A. A single-slot
+    // ledger erased A's consumption on request(B), and since B's ack names B,
+    // A could never be re-consumed: the stale refetch around A came back.
+    testWidgets('jumping to a second message keeps the first consumed', (
+      WidgetTester tester,
+    ) async {
+      const String targetA = '999999999999999999';
+      const String targetB = '888888888888888881';
+      final _JumpTargetRecorder recorder = _JumpTargetRecorder();
+      final ProviderContainer container = ProviderContainer(
+        overrides: _jumpContentOverrides(recorder: recorder),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const ChannelChatContent(
+            channelId: _channelId,
+            targetMessageId: targetA,
+            showTopBar: false,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+      expect(recorder.targetedCallsFor(targetA), 1, reason: 'A jumped once');
+
+      // Second search result, through the real funnel: resolves in place, so
+      // the route is untouched and still ends /A.
+      await navigateToChannelJumpLink(
+        container: container,
+        link: const MessageJumpLink(
+          scope: '@me',
+          channelId: _channelId,
+          messageId: targetB,
+        ),
+      );
+      await tester.pump();
+      recorder.emitScrollCommand(targetB);
+      await tester.pump();
+
+      recorder.emitStrandedEmptyWindow();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.targetedCallsFor(targetA),
+        1,
+        reason:
+            'A stays consumed: a second targeted sync around A is the stale '
+            'refetch this commit exists to stop',
+      );
+      expect(
+        recorder.targetedCallsFor(targetB),
+        0,
+        reason: 'B is not a route target, so it is never synced as one',
+      );
+      await _disposeWidgetTree(tester);
+    });
+
+    // Mutation (b) guard: the retry invariant. Consuming at ISSUE time rather
+    // than on arrival would suppress this retry, and an interrupted first jump
+    // would leave the user nowhere with no way to recover.
+    testWidgets('an interrupted targeted sync is retried, not consumed', (
+      WidgetTester tester,
+    ) async {
+      const String target = '999999999999999999';
+      final _JumpTargetRecorder recorder = _JumpTargetRecorder(
+        deliverTarget: false,
+      );
+      final ProviderContainer container = ProviderContainer(
+        overrides: _jumpContentOverrides(recorder: recorder),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const ChannelChatContent(
+            channelId: _channelId,
+            targetMessageId: target,
+            showTopBar: false,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.windowContains(target),
+        isFalse,
+        reason: 'precondition: the target never arrived',
+      );
+
+      // Any rebuild must try again, because the jump was never applied.
+      recorder.emitStrandedEmptyWindow();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.targetedCallCount,
+        greaterThanOrEqualTo(2),
+        reason:
+            'an interrupted jump must stay retryable: consuming at issue time '
+            'strands the user with no way to reach the message',
+      );
+      await _disposeWidgetTree(tester);
+    });
+
+    // Mutation (d) guard. Searching a message ALREADY in the loaded window is the
+    // most common search, and build() runs before the post-frame sync, so
+    // consuming on presence alone marked it consumed and the first sync went out
+    // TARGETLESS: no highlight, no scroll, and a re-tap could not recover it.
+    // Asserted on the switchChannel request, NOT on the parked-scroll path.
+    testWidgets('a target already in the window still syncs as targeted', (
+      WidgetTester tester,
+    ) async {
+      const String target = '999999999999999999';
+      final _JumpTargetRecorder recorder = _JumpTargetRecorder(
+        initialMessages: <Message>[
+          _message(id: target, content: 'already loaded'),
+        ],
+      );
+      final ProviderContainer container = ProviderContainer(
+        overrides: _jumpContentOverrides(recorder: recorder),
+      );
+      addTearDown(container.dispose);
+
+      await tester.pumpWidget(
+        _contentApp(
+          container: container,
+          child: const ChannelChatContent(
+            channelId: _channelId,
+            targetMessageId: target,
+            showTopBar: false,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
+
+      expect(
+        recorder.calls.where((c) => c.targetMessageId == target).length,
+        greaterThanOrEqualTo(1),
+        reason:
+            'the first sync must reach switchChannel AS TARGETED; a targetless '
+            'first request swallows the jump unrecoverably',
+      );
+      await _disposeWidgetTree(tester);
+    });
+
     testWidgets('shows messages after content sync completes', (
       WidgetTester tester,
     ) async {
@@ -470,6 +911,28 @@ Widget _surfaceApp({
       ),
     ),
   );
+}
+
+List<Override> _jumpContentOverrides({required ChatViewModel recorder}) {
+  final db.FluxerDatabase database = openTestDatabase();
+  return <Override>[
+    activeChannelIdProvider.overrideWithValue(_channelId),
+    shellHasPopupOverlayProvider.overrideWithValue(false),
+    currentRevealSideProvider.overrideWithValue(RevealSide.main),
+    chatViewModelProvider.overrideWith(() => recorder),
+    fluxerDatabaseProvider.overrideWithValue(database),
+    wellKnownProvider.overrideWith(_FakeWellKnown.new),
+    maxMessageLengthProvider.overrideWithValue(2000),
+    currentUserIdProvider.overrideWithValue(_currentUserId),
+    blockedUserIdsProvider.overrideWithValue(<String>{}),
+    channelMessagePermissionsProvider(
+      _channelId,
+    ).overrideWith((ref) => ChannelMessagePermissions.all),
+    messageListReadStateProvider(
+      _channelId,
+    ).overrideWith((ref) => Stream<db.ReadState?>.value(null)),
+    themePreferenceProvider.overrideWithValue(ThemePreferenceState()),
+  ];
 }
 
 List<Override> _contentOverrides({required _RetryingChatViewModel recorder}) {
@@ -667,6 +1130,148 @@ class _RetryingChatViewModel extends ChatViewModel {
       ],
     );
   }
+
+  @override
+  void clearStickyUnreadAfterBuildForCurrentChannel() {}
+}
+
+/// Records the full sync request, not just the channel, and simulates the
+/// target ARRIVING so consumption can happen the way production does.
+class _JumpTargetRecorder extends ChatViewModel {
+  _JumpTargetRecorder({
+    this.initialMessages = const <Message>[],
+    this.deliverTarget = true,
+    this.commandSignalOnSync = true,
+    this.initialSignal,
+  });
+
+  final List<Message> initialMessages;
+
+  /// When false the sync does not command a scroll, so the test drives the
+  /// acknowledgement signal itself.
+  final bool commandSignalOnSync;
+
+  /// A stale signal already sitting in state, as if a previous jump to the same
+  /// message had commanded one.
+  final (String, int)? initialSignal;
+
+  /// When false the targeted sync never lands its target, modelling an
+  /// interrupted first jump that must therefore stay retryable.
+  final bool deliverTarget;
+  final List<({String channelId, String? targetMessageId})> calls =
+      <({String channelId, String? targetMessageId})>[];
+  final List<String> repliedJumps = <String>[];
+
+  int get targetedCallCount =>
+      calls.where((c) => c.targetMessageId != null).length;
+
+  int targetedCallsFor(String messageId) =>
+      calls.where((c) => c.targetMessageId == messageId).length;
+
+  /// Every jump the view model has COMMANDED, so a test can prove a target was
+  /// never acknowledged instead of assuming it.
+  final List<String> commandedSignals = <String>[];
+
+  @override
+  ChatViewState build() {
+    ref.read(chatReadViewportProvider.notifier).setActiveChannel(_channelId);
+    final ChatViewState base = _loadedState(
+      channelId: _channelId,
+      messages: initialMessages,
+    );
+    return initialSignal == null
+        ? base
+        : base.copyWith(scrollToMessageSignal: initialSignal);
+  }
+
+  /// highlightJumpMessage: bumps the highlight sequence and RETAINS the scroll
+  /// signal, so the listener sees previous.signal == next.signal.
+  void emitHighlightOnly(String messageId) {
+    state = state.copyWith(
+      highlightedMessageId: messageId,
+      jumpHighlightSequence: state.jumpHighlightSequence + 1,
+    );
+  }
+
+  /// scrollToMessage: the actual jump command, a signal TRANSITION.
+  void emitScrollCommand(String messageId) {
+    commandedSignals.add(messageId);
+    state = state.copyWith(
+      scrollToMessageSignal: (
+        messageId,
+        (state.scrollToMessageSignal?.$2 ?? 0) + 1,
+      ),
+    );
+  }
+
+  @override
+  Future<void> switchChannel(
+    String channelId, {
+    String? targetMessageId,
+    bool loadMessages = true,
+  }) async {
+    calls.add((channelId: channelId, targetMessageId: targetMessageId));
+    if (targetMessageId != null && !deliverTarget) {
+      // Interrupted: the around-window never arrives.
+      state = _loadedState(channelId: channelId);
+      return;
+    }
+    if (targetMessageId != null) {
+      // Mirrors the production fetch path: _switchedChannelState resets the
+      // signal, then scrollToMessage COMMANDS the jump. That transition is the
+      // acknowledgement the ledger consumes on.
+      final (String, int)? retained = state.scrollToMessageSignal;
+      final ChatViewState loaded = _loadedState(
+        channelId: channelId,
+        messages: <Message>[_message(id: targetMessageId, content: 'target')],
+      );
+      // ONE assignment: a two-step restore would itself look like a signal
+      // transition and fabricate an acknowledgement.
+      if (commandSignalOnSync) {
+        commandedSignals.add(targetMessageId);
+      }
+      state = commandSignalOnSync
+          ? loaded.copyWith(
+              scrollToMessageSignal: (targetMessageId, (retained?.$2 ?? 0) + 1),
+            )
+          : loaded.copyWith(scrollToMessageSignal: retained);
+      return;
+    }
+    state = _loadedState(
+      channelId: channelId,
+      messages: <Message>[_message(id: '888888888888888888', content: 'newer')],
+    );
+  }
+
+  @override
+  Future<void> goToRepliedMessage({
+    required String channelId,
+    required String messageId,
+  }) async {
+    repliedJumps.add(messageId);
+  }
+
+  /// The user's jump-to-latest step: the window is replaced so the target id is
+  /// ABSENT. This is the state in which the old predicate un-satisfied and the
+  /// stale target was reissued, so the test must reach it before asserting.
+  void emitJumpedToLatest() {
+    state = _loadedState(
+      channelId: _channelId,
+      messages: <Message>[_message(id: '888888888888888888', content: 'newer')],
+    );
+  }
+
+  /// A realtime event landing while the window is empty, which is the device
+  /// trigger that nulls the widget's dedupe and reschedules a sync. The target
+  /// is still absent here.
+  void emitStrandedEmptyWindow() {
+    state = _loadedState(
+      channelId: _channelId,
+    ).copyWith(scrollToMessageSignal: state.scrollToMessageSignal);
+  }
+
+  bool windowContains(String id) =>
+      state.messages.any((Message m) => m.id == id);
 
   @override
   void clearStickyUnreadAfterBuildForCurrentChannel() {}

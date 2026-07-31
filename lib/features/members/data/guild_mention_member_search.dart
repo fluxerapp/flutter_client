@@ -9,14 +9,11 @@ const Duration kGuildMentionGatewayFetchDedup = Duration(milliseconds: 750);
 
 class GuildMentionMemberSearch {
   GuildMentionMemberSearch({
-    required MemberRepository memberRepository,
-    required GuildMemberChunkWaiter chunkWaiter,
-    required GatewayConnection gateway,
-    required db.FluxerDatabase database,
-  }) : _memberRepository = memberRepository,
-       _chunkWaiter = chunkWaiter,
-       _gateway = gateway,
-       _database = database;
+    required this._memberRepository,
+    required this._chunkWaiter,
+    required this._gateway,
+    required this._database,
+  });
 
   final MemberRepository _memberRepository;
   final GuildMemberChunkWaiter _chunkWaiter;

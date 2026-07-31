@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math' show max;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +20,7 @@ import 'package:fluxer_app/features/settings/providers/user_settings_view_model.
 import 'package:fluxer_app/features/shell/presentation/responsive_layout.dart';
 import 'package:fluxer_app/features/ui/input/emoji_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/input/fluxer_input_clipboard_scope.dart';
+import 'package:fluxer_app/features/ui/input/inline_token_text_editing_controller.dart';
 import 'package:fluxer_app/features/ui/ui.dart';
 import 'package:fluxer_app/l10n/generated/fluxer_localizations.dart';
 import 'package:fluxer_app/shared/utils/image_utils.dart';
@@ -832,68 +832,64 @@ class _UserProfileState extends ConsumerState<UserProfile> {
         ? () => vm.updateGuildBio(controller.actualText)
         : () => vm.updateBio(controller.actualText);
 
-    return FluxerInputClipboardScope(
-      key: _bioClipboardKey,
-      controller: controller,
-      builder:
-          (
-            BuildContext context,
-            FluxerInputClipboardScopeState clipboardScope,
-          ) {
-            return ComposerAutocompleteField(
-              key: _bioFieldKey,
-              controller: controller,
-              focusNode: _bioFocusNode,
-              allowedTriggers: const <ComposerAutocompleteTriggerKind>{
-                ComposerAutocompleteTriggerKind.emoji,
-              },
-              maxActualLength: _kMaxBioLength,
-              onApplied: onChanged,
-              child: ListenableBuilder(
-                listenable: controller,
-                builder: (context, _) {
-                  final bioDisplayMaxLength = max(
-                    0,
-                    controller.text.length +
-                        _kMaxBioLength -
-                        controller.actualTextLength,
-                  );
-                  return FluxerInput.multiline(
-                    controller: controller,
-                    contextMenuBuilder: clipboardScope.buildContextMenu,
-                    textCapitalization: TextCapitalization.sentences,
-                    focusNode: _bioFocusNode,
-                    label: l10n.aboutMeLabel,
-                    maxLength: bioDisplayMaxLength,
-                    maxLines: 6,
-                    showCounter: true,
-                    counterLength: () => controller.actualTextLength,
-                    counterMax: _kMaxBioLength,
-                    helperText: l10n.aboutMeHelperText,
-                    onChanged: (_) => onChanged(),
-                    suffixIcon: FluxerEmojiPickerPopout(
-                      key: _expressionPickerKey,
-                      visibleTabs: const [ExpressionPickerTab.emojis],
-                      onEmojiSelected: (emoji) {
-                        controller.insertEmoji(
-                          emoji.name,
-                          emoji.surrogates,
-                          maxActualLength: _kMaxBioLength,
-                        );
-                        onChanged();
-                      },
-                      child: PhosphorIcon(
-                        PhosphorIconsFill.smiley,
-                        size: 20,
-                        color: colors.textTertiary,
-                      ),
-                    ),
-                    onSuffixTap: _onSmileyTap,
-                  );
+    return TextFieldTapRegion(
+      child: FluxerInputClipboardScope(
+        key: _bioClipboardKey,
+        controller: controller,
+        builder:
+            (
+              BuildContext context,
+              FluxerInputClipboardScopeState clipboardScope,
+            ) {
+              return ComposerAutocompleteField(
+                key: _bioFieldKey,
+                controller: controller,
+                focusNode: _bioFocusNode,
+                allowedTriggers: const <ComposerAutocompleteTriggerKind>{
+                  ComposerAutocompleteTriggerKind.emoji,
                 },
-              ),
-            );
-          },
+                maxActualLength: _kMaxBioLength,
+                onApplied: onChanged,
+                child: FluxerInput.multiline(
+                  controller: controller,
+                  contextMenuBuilder: clipboardScope.buildContextMenu,
+                  textCapitalization: TextCapitalization.sentences,
+                  focusNode: _bioFocusNode,
+                  label: l10n.aboutMeLabel,
+                  maxLines: 3,
+                  showCounter: true,
+                  counterLength: () => controller.actualTextLength,
+                  counterMax: _kMaxBioLength,
+                  helperText: l10n.aboutMeHelperText,
+                  inputFormatters: [
+                    InlineTokenWireLengthFormatter(
+                      controller,
+                      maxWireLength: _kMaxBioLength,
+                    ),
+                  ],
+                  onChanged: (_) => onChanged(),
+                  suffixIcon: FluxerEmojiPickerPopout(
+                    key: _expressionPickerKey,
+                    visibleTabs: const [ExpressionPickerTab.emojis],
+                    onEmojiSelected: (emoji) {
+                      controller.insertEmoji(
+                        emoji.name,
+                        emoji.surrogates,
+                        maxActualLength: _kMaxBioLength,
+                      );
+                      onChanged();
+                    },
+                    child: PhosphorIcon(
+                      PhosphorIconsFill.smiley,
+                      size: 20,
+                      color: colors.textTertiary,
+                    ),
+                  ),
+                  onSuffixTap: _onSmileyTap,
+                ),
+              );
+            },
+      ),
     );
   }
 

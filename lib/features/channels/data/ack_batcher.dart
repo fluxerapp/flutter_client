@@ -18,13 +18,13 @@ class _PendingAck {
 
 class AckBatcher {
   AckBatcher({
-    required FluxerClient client,
+    required this._client,
     this.onResponse,
     this.batchDelay = kAckBatchDelay,
     this.batchSize = kAckBatchSize,
     this.retryBaseDelay = kAckRetryBaseDelay,
     this.retryMaxDelay = kAckRetryMaxDelay,
-  }) : _client = client;
+  });
 
   final FluxerClient _client;
 

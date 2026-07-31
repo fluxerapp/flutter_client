@@ -852,10 +852,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_riverpod
-      sha256: "9255e1e3ad6e38906a1b4f8287678f95f378744c5b46b1985588543f3f19046e"
+      sha256: a441fd079f11969f526ec04556ba9819fee7d981bdf50fab858066807b36cff9
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.2"
+    version: "3.4.1"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -1337,6 +1337,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.1.2"
+  listen:
+    dependency: transitive
+    description:
+      name: listen
+      sha256: cb0ad74d7453d8f83a7c1fae401828681ef5df21d41a3a26a04af590c985d085
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0-beta.4"
   livekit_client:
     dependency: "direct main"
     description:
@@ -2006,10 +2014,10 @@ packages:
     dependency: "direct main"
     description:
       name: riverpod
-      sha256: "17100416c51db7810c71a7bb2c34d1f881faa0074fd452afb0c4db6f8f126c76"
+      sha256: ccd1d45f07d20f894a975eeaa64d14a0dbbcfd0825bb59c3cd89837c2c21b436
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.2"
+    version: "3.4.1"
   riverpod_analyzer_utils:
     dependency: transitive
     description:
@@ -2090,14 +2098,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
-  scrollview_observer:
-    dependency: "direct main"
-    description:
-      name: scrollview_observer
-      sha256: "5ce907c5757d0805de974de8b17c0185f982dfe805dde22a0acb016b39182ece"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.27.0"
   sdp_transform:
     dependency: transitive
     description:

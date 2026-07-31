@@ -22,17 +22,12 @@ const GuildScrollIndicatorState _hiddenGuildScrollIndicatorState = (
 
 class GuildScrollIndicatorController {
   GuildScrollIndicatorController({
-    required ScrollController scrollController,
-    required Map<String, GlobalKey> itemKeys,
-    required GuildScrollIndicatorSeverity? Function(String itemId)
-    resolveSeverity,
-    bool Function()? isMounted,
-    bool Function(double scrollOffset)? hideTopWhen,
-  }) : _scrollController = scrollController,
-       _itemKeys = itemKeys,
-       _resolveSeverity = resolveSeverity,
-       _isMounted = isMounted,
-       _hideTopWhen = hideTopWhen;
+    required this._scrollController,
+    required this._itemKeys,
+    required this._resolveSeverity,
+    this._isMounted,
+    this._hideTopWhen,
+  });
 
   static const double _scrollDirectionEpsilon = 0.5;
 

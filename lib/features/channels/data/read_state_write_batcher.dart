@@ -13,16 +13,13 @@ const int kReadStateUnreadMinIntervalMs = 2000;
 /// Batches per-channel unread read-state writes during gateway bursts.
 class ReadStateWriteBatcher {
   ReadStateWriteBatcher({
-    required FluxerDatabase database,
-    Duration window = const Duration(milliseconds: kReadStateWriteBatchMs),
-    Duration ackWindow = const Duration(milliseconds: kReadStateAckBatchMs),
-    Duration minIntervalBetweenUnreadFlushes = const Duration(
+    required this._database,
+    this._window = const Duration(milliseconds: kReadStateWriteBatchMs),
+    this._ackWindow = const Duration(milliseconds: kReadStateAckBatchMs),
+    this._minIntervalBetweenUnreadFlushes = const Duration(
       milliseconds: kReadStateUnreadMinIntervalMs,
     ),
-  }) : _database = database,
-       _window = window,
-       _ackWindow = ackWindow,
-       _minIntervalBetweenUnreadFlushes = minIntervalBetweenUnreadFlushes;
+  });
 
   final FluxerDatabase _database;
   final Duration _window;

@@ -203,7 +203,7 @@ List<GuildMenuGroup> buildGuildMenuGroups({
         GuildMenuSubmenu(
           key: 'mute',
           label: l10n.guildMenuMuteCommunity,
-          children: _buildMuteSubmenuItems(l10n),
+          children: buildMuteSubmenuItems(l10n),
         ),
       GuildMenuCheckbox(
         label: l10n.guildMenuHideMutedChannels,
@@ -370,7 +370,7 @@ List<GuildMenuEntry> _buildSettingsSubmenu(
   ];
 }
 
-List<GuildMenuEntry> _buildMuteSubmenuItems(FluxerLocalizations l10n) {
+List<GuildMenuEntry> buildMuteSubmenuItems(FluxerLocalizations l10n) {
   return <GuildMenuEntry>[
     GuildMenuAction(label: l10n.dmMuteFor15Min, action: GuildAction.mute15Min),
     GuildMenuAction(label: l10n.dmMuteFor30Min, action: GuildAction.mute30Min),

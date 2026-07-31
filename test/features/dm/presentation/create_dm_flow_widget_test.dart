@@ -261,6 +261,7 @@ const UserSettingsViewState _unverifiedSettings = UserSettingsViewState(
   developerMode: false,
   trustedDomains: <String>[],
   email: 'user@example.com',
+  isProfileLoaded: true,
 );
 
 const List<Friend> _sampleFriends = <Friend>[

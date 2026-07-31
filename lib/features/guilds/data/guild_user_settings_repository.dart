@@ -45,8 +45,8 @@ class GuildUserSettingsPersistenceOptions {
 class GuildUserSettingsRepository {
   GuildUserSettingsRepository(
     this._ref, {
-    Duration patchDebounce = kGuildUserSettingsPatchDebounce,
-  }) : _patchDebounce = patchDebounce;
+    this._patchDebounce = kGuildUserSettingsPatchDebounce,
+  });
 
   final Ref _ref;
   final Duration _patchDebounce;

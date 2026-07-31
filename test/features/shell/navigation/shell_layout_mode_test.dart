@@ -26,24 +26,20 @@ void main() {
         expect(
           resolveMobileShellLayoutMode(
             navigationShellIndex: shellNotificationsBranchIndex,
-            activeBranchIndex: shellHomeBranchIndex,
             activeBranchLocation: '/channels/@me/dm',
-            topLocation: '/notifications',
           ),
           ShellLayoutMode.mainTab,
         );
       },
     );
 
-    test('home branch with stale top location uses channelsRoot', () {
+    test('home branch with a stale other-branch location stays mounted', () {
       expect(
         resolveMobileShellLayoutMode(
           navigationShellIndex: shellHomeBranchIndex,
-          activeBranchIndex: shellNotificationsBranchIndex,
           activeBranchLocation: '/notifications',
-          topLocation: '/notifications',
         ),
-        ShellLayoutMode.channelsRoot,
+        ShellLayoutMode.channelDrawer,
       );
     });
 
@@ -51,11 +47,19 @@ void main() {
       expect(
         resolveMobileShellLayoutMode(
           navigationShellIndex: shellHomeBranchIndex,
-          activeBranchIndex: shellHomeBranchIndex,
           activeBranchLocation: '/channels/@me/dm',
-          topLocation: '/channels/@me/dm',
         ),
         ShellLayoutMode.channelDrawer,
+      );
+    });
+
+    test('home branch utility route keeps the utility layout', () {
+      expect(
+        resolveMobileShellLayoutMode(
+          navigationShellIndex: shellHomeBranchIndex,
+          activeBranchLocation: '/bookmarks',
+        ),
+        ShellLayoutMode.homeUtility,
       );
     });
   });
@@ -72,14 +76,18 @@ void main() {
       );
     });
 
-    test('maps root channel routes to channelsRoot', () {
+    test('maps root channel routes to channelDrawer', () {
       expect(
         shellLayoutModeForLocation('/channels/@me'),
-        ShellLayoutMode.channelsRoot,
+        ShellLayoutMode.channelDrawer,
       );
       expect(
         shellLayoutModeForLocation('/channels/guild'),
-        ShellLayoutMode.channelsRoot,
+        ShellLayoutMode.channelDrawer,
+      );
+      expect(
+        shellLayoutModeForLocation('/channels/@favorites'),
+        ShellLayoutMode.channelDrawer,
       );
     });
 

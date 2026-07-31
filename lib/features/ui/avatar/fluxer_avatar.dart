@@ -33,7 +33,6 @@ class FluxerAvatar extends StatelessWidget {
     this.imageUrl,
     this.fallbackText,
     this.size = 32,
-    this.cacheKey,
     super.key,
   }) : _shape = _AvatarShape.circle,
        status = null,
@@ -55,11 +54,9 @@ class FluxerAvatar extends StatelessWidget {
     this.isTyping = false,
     this.isMobileStatus = false,
     this.avatarColor,
-    this.cacheKey,
-    String? userId,
+    this._userId,
     super.key,
   }) : _shape = _AvatarShape.circle,
-       _userId = userId,
        icon = null,
        iconColor = null,
        iconBackgroundColor = null;
@@ -68,7 +65,6 @@ class FluxerAvatar extends StatelessWidget {
     this.imageUrl,
     this.fallbackText,
     this.size = 44,
-    this.cacheKey,
     super.key,
   }) : _shape = _AvatarShape.rounded,
        status = null,
@@ -90,7 +86,6 @@ class FluxerAvatar extends StatelessWidget {
     super.key,
   }) : _shape = _AvatarShape.circle,
        imageUrl = null,
-       cacheKey = null,
        fallbackText = null,
        status = null,
        showStatus = false,
@@ -130,7 +125,6 @@ class FluxerAvatar extends StatelessWidget {
     bool showStatus = true,
     bool isTyping = false,
     int? avatarColor,
-    String? cacheKey,
     Key? key,
   }) {
     return _FluxerUserPresenceAvatar(
@@ -142,12 +136,10 @@ class FluxerAvatar extends StatelessWidget {
       showStatus: showStatus,
       isTyping: isTyping,
       avatarColor: avatarColor,
-      cacheKey: cacheKey,
     );
   }
 
   final String? imageUrl;
-  final String? cacheKey;
   final String? fallbackText;
   final double size;
   final String? status;
@@ -234,7 +226,6 @@ class FluxerAvatar extends StatelessWidget {
         borderRadius: _borderRadius,
         child: CachedNetworkImage(
           imageUrl: resolvedUrl,
-          cacheKey: cacheKey,
           width: size,
           height: size,
           memCacheWidth: (size * dpr).round(),
@@ -385,7 +376,6 @@ class _FluxerUserPresenceAvatar extends ConsumerWidget {
     this.showStatus = true,
     this.isTyping = false,
     this.avatarColor,
-    this.cacheKey,
     super.key,
   });
 
@@ -396,7 +386,6 @@ class _FluxerUserPresenceAvatar extends ConsumerWidget {
   final bool showStatus;
   final bool isTyping;
   final int? avatarColor;
-  final String? cacheKey;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -410,7 +399,6 @@ class _FluxerUserPresenceAvatar extends ConsumerWidget {
       isTyping: isTyping,
       isMobileStatus: presenceUser?.mobile ?? false,
       avatarColor: avatarColor,
-      cacheKey: cacheKey,
       userId: userId,
     );
   }

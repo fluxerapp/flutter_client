@@ -82,22 +82,26 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     if (!_canSyncForRoute()) {
       return;
     }
-    final request = (
+    final String? routeTarget = widget.targetMessageId;
+    // The whole request, including which target survives, is built by one
+    // tested function so this widget holds no target-selection logic to bypass.
+    final request = buildChannelChatSyncRequest(
       channelId: widget.channelId,
-      targetMessageId: widget.targetMessageId,
-      loadMessages: true,
+      routeTarget: routeTarget,
+      consumption: ref.read(channelJumpTargetLedgerProvider),
     );
+    final String? effectiveTarget = request.targetMessageId;
     if (_shouldDedupSwitchRequest(request)) {
       talker.debug(
         '[ChannelChatContent] dedup sync channel=${widget.channelId} '
-        'target=${widget.targetMessageId}',
+        'target=$effectiveTarget',
       );
       return;
     }
     _lastSwitchRequest = request;
     talker.debug(
       '[ChannelChatContent] run sync channel=${widget.channelId} '
-      'target=${widget.targetMessageId}',
+      'target=$effectiveTarget route=$routeTarget',
     );
     unawaited(_runChannelSync(request));
   }
@@ -159,6 +163,35 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
         );
   }
 
+  /// Consumption happens on the view model's own JUMP ACKNOWLEDGEMENT.
+  ///
+  /// Marking at issue time would destroy the retry this file depends on: a
+  /// first jump whose target is outside the loaded window needs a fetch, and if
+  /// that sync is interrupted the target must still be reapplied. Consuming
+  /// only once the target is actually present keeps the retry intact while
+  /// still closing the loop, because the stale re-fire needs the target to have
+  /// been loaded at least once.
+  void _maybeConsumeSettledJumpTarget(
+    ChatViewState? previous,
+    ChatViewState next,
+  ) {
+    if (!shouldConsumeChannelJumpTarget(
+      channelId: widget.channelId,
+      routeTarget: widget.targetMessageId,
+      consumption: ref.read(channelJumpTargetLedgerProvider),
+      previousSignal: previous?.scrollToMessageSignal,
+      nextSignal: next.scrollToMessageSignal,
+    )) {
+      return;
+    }
+    ref
+        .read(channelJumpTargetLedgerProvider.notifier)
+        .markConsumed(
+          channelId: widget.channelId,
+          messageId: widget.targetMessageId!,
+        );
+  }
+
   void _maybeResyncChannelMismatch(String viewModelChannelId) {
     if (viewModelChannelId == widget.channelId) {
       _mismatchResyncChannelId = null;
@@ -217,6 +250,7 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
     );
     ref.listen<ChatViewState>(chatViewModelProvider, (previous, next) {
       _maybeResyncStrandedEmptyChannel(next);
+      _maybeConsumeSettledJumpTarget(previous, next);
     });
     _maybeResyncStrandedEmptyChannel(ref.read(chatViewModelProvider));
 
@@ -275,6 +309,87 @@ class _ChannelChatContentState extends ConsumerState<ChannelChatContent> {
       ),
     );
   }
+}
+
+/// The jump target this sync should actually apply.
+///
+/// The route keeps `/channels/<guild>/<channel>/<messageId>` after a jump lands,
+/// so the target is a DURABLE trigger while any widget's memory of having
+/// applied it is not. Returning null once the intent is consumed is what stops
+/// an unrelated rebuild refetching the window around a stale search result.
+/// Whether the route's jump target has now actually ARRIVED, and so may be
+/// marked consumed.
+///
+/// Deliberately not "the sync was issued": an interrupted first jump must still
+/// be retried, and the C1 loop requires the target to have been loaded at least
+/// once, so arrival is both the safe and the sufficient moment.
+@visibleForTesting
+bool shouldConsumeChannelJumpTarget({
+  required String channelId,
+  required String? routeTarget,
+  required ChannelJumpTargetConsumption consumption,
+  required (String, int)? previousSignal,
+  required (String, int)? nextSignal,
+}) {
+  if (routeTarget == null || routeTarget.isEmpty) {
+    return false;
+  }
+  // Only "already consumed" blocks acknowledgement. Requiring a matching entry
+  // would leave a route target that was never registered, such as a restored
+  // location, honoured forever but never acknowledgeable: the C1 loop with no
+  // way to close it.
+  if (consumption.isConsumed(channelId: channelId, messageId: routeTarget)) {
+    return false;
+  }
+  // A TRANSITION, not a level or a version. scrollToMessageSignal is reset to
+  // null by _switchedChannelState on every targeted fetch, so versions restart
+  // at 1 and numeric ordering would never acknowledge a re-tap to the same
+  // message. Listeners only fire on change, so a stale value cannot consume.
+  if (previousSignal == nextSignal) {
+    return false;
+  }
+  return nextSignal != null && nextSignal.$1 == routeTarget;
+}
+
+/// The complete sync request, so target selection lives in exactly one tested
+/// place rather than inline in a widget where it can be silently bypassed.
+@visibleForTesting
+({String channelId, String? targetMessageId, bool loadMessages})
+buildChannelChatSyncRequest({
+  required String channelId,
+  required String? routeTarget,
+  required ChannelJumpTargetConsumption consumption,
+}) {
+  return (
+    channelId: channelId,
+    targetMessageId: resolveEffectiveChannelJumpTarget(
+      channelId: channelId,
+      routeTarget: routeTarget,
+      consumption: consumption,
+    ),
+    loadMessages: true,
+  );
+}
+
+@visibleForTesting
+String? resolveEffectiveChannelJumpTarget({
+  required String channelId,
+  required String? routeTarget,
+  required ChannelJumpTargetConsumption consumption,
+}) {
+  if (routeTarget == null || routeTarget.isEmpty) {
+    return null;
+  }
+  if (consumption.isConsumed(channelId: channelId, messageId: routeTarget)) {
+    return null;
+  }
+  // A newer jump in this channel means the user asked for something else. An
+  // unacknowledged older target would otherwise fail open and yank them back
+  // off the message they just requested.
+  if (consumption.isSuperseded(channelId: channelId, messageId: routeTarget)) {
+    return null;
+  }
+  return routeTarget;
 }
 
 @visibleForTesting

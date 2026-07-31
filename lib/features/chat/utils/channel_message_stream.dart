@@ -131,6 +131,7 @@ List<ChannelStreamItem> createChannelStream({
   required List<Message> messages,
   required String? oldestUnreadMessageId,
   required ChannelCollapseContext context,
+  String? groupSplitBoundaryId,
 }) {
   if (messages.isEmpty) {
     return const <ChannelStreamItem>[];
@@ -164,7 +165,18 @@ List<ChannelStreamItem> createChannelStream({
 
     ChannelStreamItem targetItem;
     if (collapsedType != null && groupKey != null) {
-      if (activeCollapsedItem != null && activeCollapsedGroupKey == groupKey) {
+      final bool sameGroup =
+          activeCollapsedItem != null && activeCollapsedGroupKey == groupKey;
+      // A collapsed group must never absorb content ACROSS the split
+      // boundary (the viewport anchor): the anchor's containing item sits
+      // leading-of-center, so growth inside it would shift everything above.
+      // Content newer than the boundary starts a NEW stream item, which
+      // lands trailing-of-center and is structurally scroll-stable.
+      final bool splitAtBoundary =
+          sameGroup &&
+          groupSplitBoundaryId != null &&
+          activeCollapsedItem.messages.last.id == groupSplitBoundaryId;
+      if (sameGroup && !splitAtBoundary) {
         activeCollapsedItem = ChannelStreamItem(
           type: activeCollapsedItem.type,
           messages: <Message>[...activeCollapsedItem.messages, message],
@@ -178,7 +190,9 @@ List<ChannelStreamItem> createChannelStream({
         activeCollapsedItem = ChannelStreamItem(
           type: collapsedType,
           messages: <Message>[message],
-          groupKey: groupKey,
+          // The post-boundary item needs its own identity or two stream
+          // items would collide on 'group-<key>'.
+          groupKey: splitAtBoundary ? message.id : groupKey,
         );
         stream.add(activeCollapsedItem);
         targetItem = activeCollapsedItem;

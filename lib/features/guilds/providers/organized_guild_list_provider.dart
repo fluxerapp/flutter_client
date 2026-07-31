@@ -166,14 +166,37 @@ Stream<List<UserSettingsResponseGuildFolders>> guildFolders(Ref ref) async* {
 
 @Riverpod(keepAlive: true)
 class OrganizedGuildList extends _$OrganizedGuildList {
+  var _hasPendingLocalOrder = false;
+
   @override
   List<GuildNavbarItem> build() {
     final folders = ref.watch(guildFoldersProvider).value ?? [];
     final GuildListViewState guildState = ref.watch(guildListViewModelProvider);
-    return computeOrganizedGuildList(
+    final computed = computeOrganizedGuildList(
       guilds: guildState.guilds,
       folders: folders,
     );
+
+    ref.listen(guildFoldersProvider, (previous, next) {
+      if (!_hasPendingLocalOrder) {
+        return;
+      }
+      final List<UserSettingsResponseGuildFolders>? incoming = next.value;
+      if (incoming == null) {
+        return;
+      }
+      _hasPendingLocalOrder = false;
+      state = computeOrganizedGuildList(
+        guilds: ref.read(guildListViewModelProvider).guilds,
+        folders: incoming,
+      );
+    });
+
+    if (!_hasPendingLocalOrder) {
+      return computed;
+    }
+
+    return _refreshGuildsInItems(state, guildState.guilds);
   }
 
   void reorder({
@@ -238,8 +261,7 @@ class OrganizedGuildList extends _$OrganizedGuildList {
 
     items.insert(insertIndex.clamp(0, items.length), movingItem);
 
-    state = items;
-    _persist();
+    _commitLocalMutation(items);
   }
 
   void combineIntoFolder({
@@ -260,8 +282,11 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     }
 
     // Generate a folder ID from the two guild IDs to keep it deterministic.
-    final folderId =
-        (sourceGuildId.hashCode ^ targetGuildId.hashCode).abs() % 0x7FFFFFFF;
+    final folderId = _allocateFolderId(
+      items,
+      candidateId:
+          (sourceGuildId.hashCode ^ targetGuildId.hashCode).abs() % 0x7FFFFFFF,
+    );
 
     final folder = GuildNavbarFolder(
       id: folderId,
@@ -281,8 +306,7 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     }
     items.insert(first < items.length ? first : items.length, folder);
 
-    state = items;
-    _persist();
+    _commitLocalMutation(items);
   }
 
   void moveIntoFolder({required String guildId, required int folderId}) {
@@ -338,8 +362,7 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       guilds: [...folderItem.guilds, sourceGuild],
     );
 
-    state = items;
-    _persist();
+    _commitLocalMutation(items);
   }
 
   void moveIntoFolderAtPosition({
@@ -431,8 +454,7 @@ class OrganizedGuildList extends _$OrganizedGuildList {
       guilds: guilds,
     );
 
-    state = items;
-    _persist();
+    _commitLocalMutation(items);
   }
 
   void applyDragDrop({
@@ -485,8 +507,105 @@ class OrganizedGuildList extends _$OrganizedGuildList {
     }
   }
 
+  void updateFolder(
+    int folderId, {
+    required int flags,
+    String? name,
+    int? color,
+    String? icon,
+  }) {
+    final items = [...state];
+    final int folderIndex = _findTopLevelIndex(items, folderId.toString());
+    if (folderIndex == -1) {
+      return;
+    }
+    final GuildNavbarItem item = items[folderIndex];
+    if (item is! GuildNavbarFolder) {
+      return;
+    }
+    items[folderIndex] = GuildNavbarFolder(
+      id: item.id,
+      name: name,
+      color: color,
+      flags: flags,
+      icon: icon,
+      guilds: item.guilds,
+    );
+    _commitLocalMutation(items);
+  }
+
+  void dissolveFolder(int folderId) {
+    final items = [...state];
+    final int folderIndex = _findTopLevelIndex(items, folderId.toString());
+    if (folderIndex == -1) {
+      return;
+    }
+    final GuildNavbarItem item = items[folderIndex];
+    if (item is! GuildNavbarFolder) {
+      return;
+    }
+    items.removeAt(folderIndex);
+    items.insertAll(
+      folderIndex,
+      item.guilds.map((Guild g) => GuildNavbarGuild(guild: g)),
+    );
+    _commitLocalMutation(items);
+  }
+
+  void _commitLocalMutation(List<GuildNavbarItem> items) {
+    _hasPendingLocalOrder = true;
+    state = items;
+    _persist();
+  }
+
   void _persist() {
     ref.read(guildOrderRepositoryProvider).saveGuildFolders(state);
+  }
+
+  static List<GuildNavbarItem> _refreshGuildsInItems(
+    List<GuildNavbarItem> items,
+    List<Guild> guilds,
+  ) {
+    final Map<String, Guild> guildById = {
+      for (final Guild guild in guilds) guild.id: guild,
+    };
+    return [
+      for (final GuildNavbarItem item in items)
+        switch (item) {
+          GuildNavbarGuild(:final guild) => GuildNavbarGuild(
+            guild: guildById[guild.id] ?? guild,
+          ),
+          GuildNavbarFolder() => GuildNavbarFolder(
+            id: item.id,
+            name: item.name,
+            color: item.color,
+            flags: item.flags,
+            icon: item.icon,
+            guilds: [
+              for (final Guild guild in item.guilds)
+                guildById[guild.id] ?? guild,
+            ],
+          ),
+        },
+    ];
+  }
+
+  static int _allocateFolderId(
+    List<GuildNavbarItem> items, {
+    required int candidateId,
+  }) {
+    final Set<int> existingIds = {
+      for (final GuildNavbarItem item in items)
+        if (item is GuildNavbarFolder) item.id,
+    };
+    var id = candidateId == 0 ? 1 : candidateId;
+    while (existingIds.contains(id)) {
+      id = (id + 1) % 0x7FFFFFFF;
+      if (id == 0) {
+        id = 1;
+      }
+    }
+    return id;
   }
 
   static int _insertIndexForSourceFolderTarget({

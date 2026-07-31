@@ -399,9 +399,7 @@ class _RecordingGateway extends GatewayConnection {
 }
 
 class _RecordingVoiceSession extends VoiceSession {
-  _RecordingVoiceSession({
-    VoiceSessionState initialState = const VoiceSessionState(),
-  }) : _initialState = initialState;
+  _RecordingVoiceSession() : _initialState = const VoiceSessionState();
 
   final VoiceSessionState _initialState;
   int connectCallCount = 0;

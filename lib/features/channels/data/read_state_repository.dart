@@ -9,8 +9,7 @@ import 'package:fluxer_app/features/channels/data/unread_settings_resolver.dart'
 import 'package:fluxer_dart/export.dart';
 
 class ReadStateRepository {
-  const ReadStateRepository(this._client, this._db, {AckBatcher? batcher})
-    : _batcher = batcher;
+  const ReadStateRepository(this._client, this._db, {this._batcher});
 
   final FluxerClient _client;
   final FluxerDatabase _db;

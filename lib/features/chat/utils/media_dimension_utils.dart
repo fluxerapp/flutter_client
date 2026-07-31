@@ -29,6 +29,11 @@ FluxerMediaDimensions mediaDimensionsForSize(MediaDimensionSize size) {
   };
 }
 
+/// Reserved height for embed media whose intrinsic dimensions are unknown:
+/// the box must exist before bytes arrive and must not change when they do,
+/// or late-loading images shift the chat under the reader.
+const double kEmbedMediaFallbackHeight = 200;
+
 Size? constrainMediaSize({
   required FluxerMediaDimensions dimensions,
   required int? width,

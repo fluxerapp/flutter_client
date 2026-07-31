@@ -16,6 +16,7 @@ class ProfileMenuCapabilities {
     required this.showRemoveTimeout,
     required this.canKick,
     required this.canBan,
+    required this.showManageRoles,
   });
 
   /// Whether the "Change nickname" item is shown.
@@ -38,6 +39,9 @@ class ProfileMenuCapabilities {
   /// Whether the "Ban" item is shown.
   final bool canBan;
 
+  /// Whether the "Manage roles" item is shown.
+  final bool showManageRoles;
+
   static const ProfileMenuCapabilities none = ProfileMenuCapabilities(
     canChangeNickname: false,
     canTransfer: false,
@@ -45,6 +49,7 @@ class ProfileMenuCapabilities {
     showRemoveTimeout: false,
     canKick: false,
     canBan: false,
+    showManageRoles: false,
   );
 }
 
@@ -109,6 +114,7 @@ ProfileMenuCapabilities resolveProfileMenuCapabilities({
   required int viewerPermissions,
   required bool canManageTarget,
   required bool targetHasAdministrator,
+  required bool hasAssignableRoles,
 }) {
   final bool mod = !isCurrentUser && canManageTarget;
 
@@ -144,5 +150,6 @@ ProfileMenuCapabilities resolveProfileMenuCapabilities({
     showRemoveTimeout: canTimeout && targetIsTimedOut,
     canKick: canKick,
     canBan: canBan,
+    showManageRoles: hasGuildMember && hasAssignableRoles,
   );
 }

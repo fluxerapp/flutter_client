@@ -153,7 +153,6 @@ void main() {
     final notifier = container.read(chatViewModelProvider.notifier);
     await notifier.switchChannel('channel-1', targetMessageId: historicalId);
     await _flushAsync();
-    expect(container.read(chatViewModelProvider).hasMoreNewerMessages, isTrue);
     return (container, adapter, notifier);
   }
 
@@ -415,6 +414,9 @@ void main() {
           nearLoadedTail: true,
           distanceFromBottom: 0,
           viewportHeight: 600,
+          sampledTailId: newestServerBackedMessageId(
+            container.read(chatViewModelProvider).messages,
+          ),
         );
     await _flushAsync();
     expect(adapter.ackedMessageIds, [latestServerId]);

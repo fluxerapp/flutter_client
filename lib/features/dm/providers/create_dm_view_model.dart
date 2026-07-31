@@ -40,11 +40,10 @@ class CreateDmDuplicateResult {
 
 class CreateDmController extends ChangeNotifier {
   CreateDmController({
-    required ProviderContainer container,
+    required this._container,
     required this.options,
     required this.onCreated,
-  }) : _container = container,
-       selectedUserIds = List<String>.from(options.initialSelectedUserIds);
+  }) : selectedUserIds = List<String>.from(options.initialSelectedUserIds);
 
   final ProviderContainer _container;
   final CreateDmOptions options;

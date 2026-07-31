@@ -8,7 +8,7 @@ import 'package:fluxer_dart/export.dart';
 Future<bool> executeReadSystemFocusModeEnabled() async => false;
 
 class MessageNotificationSfxDeduper {
-  MessageNotificationSfxDeduper({required int capacity}) : _capacity = capacity;
+  MessageNotificationSfxDeduper({required this._capacity});
 
   final int _capacity;
   final List<String> _order = <String>[];

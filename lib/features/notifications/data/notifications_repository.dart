@@ -10,14 +10,11 @@ const int _kNotificationMessageBufferSize = 50;
 
 class NotificationsRepository {
   NotificationsRepository({
-    required FluxerDatabase database,
+    required this._database,
     required MessageRepository messageRepository,
-    required FluxerClient client,
-    required String? currentUserId,
-  }) : _database = database,
-       _messages = messageRepository,
-       _client = client,
-       _currentUserId = currentUserId;
+    required this._client,
+    required this._currentUserId,
+  }) : _messages = messageRepository;
 
   final FluxerDatabase _database;
   final MessageRepository _messages;

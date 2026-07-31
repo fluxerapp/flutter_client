@@ -183,7 +183,20 @@ class MessageRepository {
     String? before,
     String? after,
     String? around,
+    bool fresh = false,
   }) {
+    if (fresh) {
+      // A proof request: its soundness argument is "this fetch left after I
+      // observed X", so it must neither join an in-flight response (whose
+      // snapshot may predate X) nor become a join target for ordinary loads.
+      return _fetchMessagePage(
+        channelId: channelId,
+        limit: limit,
+        before: before,
+        after: after,
+        around: around,
+      );
+    }
     final String key =
         '$channelId|${before ?? ''}|${after ?? ''}|${around ?? ''}|$limit';
     final Future<MessageListLoadResult>? existing = _inFlightPages[key];
@@ -644,12 +657,7 @@ class MessageRepository {
         final MessageResponseSchema schema = MessageResponseSchema.fromJson(
           data,
         );
-        final Message message = Message.fromSdk(
-          schema,
-          currentUserId: _currentUserId,
-        ).copyWith(isMentioned: false);
-        await _db.messageDao.upsertMessage(message.toCompanion());
-        return message;
+        return _persistSdkMessage(channelId: channelId, schema: schema);
       }
 
       final Message sent = await _postMessage(channelId, body);
@@ -677,10 +685,28 @@ class MessageRepository {
       throw Exception('Empty response from sendMessage');
     }
     final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
-    final Message message = Message.fromSdk(
-      schema,
+    return _persistSdkMessage(channelId: channelId, schema: schema);
+  }
+
+  Future<Message> _persistSdkMessage({
+    required String channelId,
+    required MessageResponseSchema schema,
+  }) async {
+    final Message base = Message.fromSdk(schema, currentUserId: _currentUserId);
+    final mentionCtx = await buildMessageMentionContext(
+      _db,
       currentUserId: _currentUserId,
-    ).copyWith(isMentioned: false);
+      channelId: channelId,
+    );
+    final Message message = base.copyWith(
+      isMentioned: messageMentionsUser(
+        mentionCtx,
+        authorId: base.authorId,
+        mentionedUserIds: base.mentionedUserIds,
+        mentionEveryone: schema.mentionEveryone,
+        mentionRoleIds: schema.mentionRoles,
+      ),
+    );
     await _db.messageDao.upsertMessage(message.toCompanion());
     return message;
   }
@@ -740,12 +766,7 @@ class MessageRepository {
         messageId: messageId,
         content: content,
       );
-      final Message message = Message.fromSdk(
-        schema,
-        currentUserId: _currentUserId,
-      ).copyWith(isMentioned: false);
-      await _db.messageDao.upsertMessage(message.toCompanion());
-      return message;
+      return _persistSdkMessage(channelId: channelId, schema: schema);
     } on DioException catch (e) {
       throw Exception(dioExceptionMessage(e, 'Failed to edit message'));
     }
@@ -767,28 +788,39 @@ class MessageRepository {
     }
   }
 
+  /// Rewrites a message's attachment array and nothing else.
+  ///
+  /// `content` is deliberately NOT sent. The endpoint accepts it, but this
+  /// operation does not own the text: another client can edit it while our
+  /// request is in flight, and transmitting a value we merely read would
+  /// overwrite that edit.
+  ///
+  /// Uses Dio directly instead of the generated SDK edit call, which always
+  /// includes `embeds` and `message_snapshots` as null and can make attachment-
+  /// only messages fail with CANNOT_SEND_EMPTY_MESSAGE.
   Future<Message> editMessageAttachments({
     required String channelId,
     required String messageId,
-    required String content,
     required List<MessageAttachmentUpdate> attachmentUpdates,
   }) async {
     try {
-      final List<Object2> attachments = attachmentUpdates
-          .map((MessageAttachmentUpdate update) => Object2(update.toJson()))
+      final List<Map<String, dynamic>> attachments = attachmentUpdates
+          .map((MessageAttachmentUpdate update) => update.toJson())
           .toList();
-      final MessageResponseSchema schema = await _client.channels.editMessage(
-        channelId: channelId,
-        messageId: messageId,
-        content: content,
-        attachments: attachments,
-      );
-      final Message message = Message.fromSdk(
-        schema,
-        currentUserId: _currentUserId,
-      ).copyWith(isMentioned: false);
-      await _db.messageDao.upsertMessage(message.toCompanion());
-      return message;
+      final FormData formData = FormData();
+      formData.fields.add(MapEntry('attachments', jsonEncode(attachments)));
+      final Response<Map<String, dynamic>> response = await _dio
+          .patch<Map<String, dynamic>>(
+            '/channels/$channelId/messages/$messageId',
+            data: formData,
+            options: Options(contentType: 'multipart/form-data'),
+          );
+      final Map<String, dynamic>? data = response.data;
+      if (data == null) {
+        throw Exception('Empty response from editMessageAttachments');
+      }
+      final MessageResponseSchema schema = MessageResponseSchema.fromJson(data);
+      return _persistSdkMessage(channelId: channelId, schema: schema);
     } on DioException catch (e) {
       throw Exception(dioExceptionMessage(e, 'Failed to edit attachments'));
     }
@@ -805,12 +837,7 @@ class MessageRepository {
         messageId: messageId,
         flags: flags,
       );
-      final Message message = Message.fromSdk(
-        schema,
-        currentUserId: _currentUserId,
-      ).copyWith(isMentioned: false);
-      await _db.messageDao.upsertMessage(message.toCompanion());
-      return message;
+      return _persistSdkMessage(channelId: channelId, schema: schema);
     } on DioException catch (e) {
       throw Exception(
         e.response?.statusMessage ?? 'Failed to update message flags',

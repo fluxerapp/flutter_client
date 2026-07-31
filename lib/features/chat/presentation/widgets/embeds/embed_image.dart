@@ -59,7 +59,7 @@ class EmbedImage extends StatelessWidget {
     final bool animate = embed.type == EmbedType.gifv || media.isAnimated;
     final Widget placeholder = Container(
       width: displaySize?.width ?? dimensions.maxWidth,
-      height: displaySize?.height ?? 200,
+      height: displaySize?.height ?? kEmbedMediaFallbackHeight,
       color: context.colors.backgroundSecondaryAlt,
     );
     return Container(
@@ -167,9 +167,11 @@ class _EmbedStaticImage extends StatelessWidget {
             (constraints.maxWidth.isFinite
                 ? constraints.maxWidth
                 : dimensions.maxWidth);
+        // The no-dims fallback is the SAME fixed height the placeholder and
+        // error states use - all three states must agree or the load shifts
+        // the chat.
         final double cellHeight =
-            displaySize?.height ??
-            (constraints.maxHeight.isFinite ? constraints.maxHeight : 200);
+            displaySize?.height ?? kEmbedMediaFallbackHeight;
         final ({int? width, int? height}) cache = containDecodeCacheSize(
           cellWidth: cellWidth,
           cellHeight: cellHeight,
@@ -177,10 +179,13 @@ class _EmbedStaticImage extends StatelessWidget {
           sourceWidth: sourceWidth,
           sourceHeight: sourceHeight,
         );
+        // The box is pinned to the cell in BOTH states (loading and loaded):
+        // without intrinsic dimensions the image must not grow when its
+        // bytes arrive, or the load shifts the chat under the reader.
         return CachedNetworkImage(
           imageUrl: imageUrl,
-          width: displaySize?.width,
-          height: displaySize?.height,
+          width: cellWidth,
+          height: cellHeight,
           memCacheWidth: cache.width,
           memCacheHeight: cache.height,
           fit: BoxFit.contain,

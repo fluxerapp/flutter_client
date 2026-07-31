@@ -190,32 +190,44 @@ Future<void> _applyChannelJumpResolution({
   required ProviderContainer container,
   required ChannelJumpResolution resolution,
   BuildContext? context,
-  void Function(String path)? navigateToPath,
 }) async {
   switch (resolution) {
     case ChannelJumpAccessDenied():
-      final BuildContext? sheetContext =
-          context ?? rootNavigatorKey.currentContext;
-      if (sheetContext != null && sheetContext.mounted) {
+      final BuildContext? sheetContext = (context != null && context.mounted)
+          ? context
+          : _rootContext();
+      if (sheetContext != null) {
         await showChannelAccessDeniedSheet(sheetContext);
+      } else {
+        talker.debug(
+          '[ChannelJump] access denied with no context to report it',
+        );
       }
     case ChannelJumpPending(:final path):
       container.read(pendingPushNotificationPathProvider.notifier).store(path);
     case ChannelJumpInPlace(:final channelId, :final messageId):
+      // A fresh jump intent: re-opens consumption so a deliberate repeat tap
+      // on the same message is honoured rather than treated as already done.
+      container
+          .read(channelJumpTargetLedgerProvider.notifier)
+          .request(channelId: channelId, messageId: messageId);
       await container
           .read(chatViewModelProvider.notifier)
           .goToRepliedMessage(channelId: channelId, messageId: messageId);
     case ChannelJumpOpenLink(:final channelId):
-      final BuildContext? linkContext =
-          context ?? rootNavigatorKey.currentContext;
-      if (linkContext == null || !linkContext.mounted) {
-        return;
-      }
       final db.Channel? channel = await container
           .read(fluxerDatabaseProvider)
           .channelDao
           .getChannelById(channelId);
-      if (channel == null || !linkContext.mounted) {
+      if (channel == null) {
+        return;
+      }
+      // Re-resolve after the await: the sheet that owned the original
+      // context is routinely dismissed by the tap that started the jump.
+      final BuildContext? linkContext = (context != null && context.mounted)
+          ? context
+          : _rootContext();
+      if (linkContext == null || !linkContext.mounted) {
         return;
       }
       await tryOpenLinkChannel(
@@ -224,78 +236,110 @@ Future<void> _applyChannelJumpResolution({
         channel: Channel.fromRow(channel),
       );
     case ChannelJumpRedirectGuild(:final guildId):
-      final BuildContext? redirectContext =
-          context ?? rootNavigatorKey.currentContext;
-      if (redirectContext == null || !redirectContext.mounted) {
-        _navigateToPathViaContainer(container, RoutePaths.guild(guildId));
+      _navigateToPathViaContainer(container, RoutePaths.guild(guildId));
+    case ChannelJumpNavigate(:final path, :final channelId, :final messageId):
+      final db.Channel? channel = await container
+          .read(fluxerDatabaseProvider)
+          .channelDao
+          .getChannelById(channelId);
+      // Always consult the gate. It answers "is a gate required" from the
+      // container alone, so an ungated channel still navigates without any
+      // context, and a gated one fails closed when there is nothing to show
+      // the prompt on. Skipping the call when the context is dead is what
+      // used to walk straight past the gate.
+      final BuildContext? gateContext = (context != null && context.mounted)
+          ? context
+          : _rootContext();
+      final bool canProceed = await promptForChannelGateIfNeeded(
+        context: (gateContext != null && gateContext.mounted)
+            ? gateContext
+            : null,
+        container: container,
+        channelId: channelId,
+        guildId: channel?.guildId,
+        channelType: channel == null
+            ? null
+            : ChannelType.fromWire(channel.type),
+      );
+      if (!canProceed) {
         return;
       }
-      navigateToContent(redirectContext, RoutePaths.guild(guildId));
-    case ChannelJumpNavigate(:final path, :final channelId):
-      final BuildContext? gateContext =
-          context ?? rootNavigatorKey.currentContext;
-      if (gateContext != null && gateContext.mounted) {
-        final db.Channel? channel = await container
-            .read(fluxerDatabaseProvider)
-            .channelDao
-            .getChannelById(channelId);
-        if (!gateContext.mounted) {
-          return;
-        }
-        final bool canProceed = await promptForChannelGateIfNeeded(
-          context: gateContext,
-          container: container,
-          channelId: channelId,
-          guildId: channel?.guildId,
-          channelType: channel == null
-              ? null
-              : ChannelType.fromWire(channel.type),
-        );
-        if (!canProceed) {
-          return;
-        }
+      if (messageId != null && messageId.isNotEmpty) {
+        // Same fresh-intent reset as the in-place branch: the route is about to
+        // carry this message id durably, so consumption must start open.
+        container
+            .read(channelJumpTargetLedgerProvider.notifier)
+            .request(channelId: channelId, messageId: messageId);
       }
-      if (navigateToPath != null) {
-        navigateToPath(path);
-      } else {
-        _navigateToPathViaContainer(container, path);
-      }
+      _navigateToPathViaContainer(container, path);
   }
+}
+
+/// The root navigator's context, or null when it is not usable.
+///
+/// Callers fall back to this so a dismissed sheet degrades to the root
+/// navigator instead of silently disabling gates and dialogs.
+BuildContext? _rootContext() {
+  final BuildContext? root = rootNavigatorKey.currentContext;
+  return (root != null && root.mounted) ? root : null;
 }
 
 void _navigateToPathViaContainer(ProviderContainer container, String path) {
   navigateToContentViaContainer(container, path);
 }
 
+/// Jumps to [link].
+///
+/// Takes a [ProviderContainer] rather than a `WidgetRef` on purpose: callers
+/// routinely dismiss the widget that started the jump, and a ref or context
+/// captured inside this call chain would be dead by the time the awaits
+/// finish. Capture the container before the first await and pass it here.
 Future<void> navigateToChannelJumpLink({
-  required WidgetRef ref,
-  required BuildContext context,
+  required ProviderContainer container,
   required ChannelJumpLink link,
+  BuildContext? context,
 }) {
-  return navigateToChannelJumpLinkFromContext(context: context, link: link);
+  return _navigateToChannelJumpLink(
+    container: container,
+    context: context,
+    link: link,
+  );
 }
 
 Future<void> navigateToChannelJumpLinkFromContext({
   required BuildContext context,
   required ChannelJumpLink link,
-}) async {
+}) {
   if (!context.mounted) {
-    return;
+    return Future<void>.value();
   }
-  talker.debug('[ChannelJump] fromContext link=$link');
-  final ProviderContainer container = ProviderScope.containerOf(context);
+  return _navigateToChannelJumpLink(
+    container: ProviderScope.containerOf(context),
+    context: context,
+    link: link,
+  );
+}
+
+/// Resolves and applies a jump.
+///
+/// The container is captured by the caller before any await, because the
+/// widget that started the jump is routinely dismissed by the same tap. The
+/// context is carried only so gates and dialogs have somewhere to appear, and
+/// is re-checked at each use rather than gating the whole operation.
+Future<void> _navigateToChannelJumpLink({
+  required ProviderContainer container,
+  required ChannelJumpLink link,
+  BuildContext? context,
+}) async {
+  talker.debug('[ChannelJump] link=$link');
   final ChannelJumpResolution resolution = await resolveChannelJumpLink(
     container: container,
     link: link,
   );
-  if (!context.mounted) {
-    return;
-  }
   await _applyChannelJumpResolution(
     container: container,
     resolution: resolution,
-    context: context,
-    navigateToPath: (String path) => navigateToContent(context, path),
+    context: (context != null && context.mounted) ? context : null,
   );
 }
 
@@ -338,12 +382,9 @@ Future<void> navigateToChannelJumpLinkVia({
     container: container,
     link: link,
   );
-  if (context != null && !context.mounted) {
-    return;
-  }
   await _applyChannelJumpResolution(
     container: container,
     resolution: resolution,
-    context: context,
+    context: (context != null && context.mounted) ? context : null,
   );
 }

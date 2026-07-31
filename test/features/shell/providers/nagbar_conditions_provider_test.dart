@@ -36,6 +36,7 @@ void main() {
           messageDisplayCompact: false,
           developerMode: false,
           trustedDomains: <String>[],
+          isProfileLoaded: true,
         ),
       );
       addTearDown(container.dispose);
@@ -47,6 +48,32 @@ void main() {
 
       expect(conditions.userIsUnclaimed, isTrue);
       expect(conditions.userNeedsVerification, isFalse);
+    });
+
+    test('does not flag unclaimed before profile is loaded', () async {
+      final ProviderContainer container = _container(
+        settings: const UserSettingsViewState(
+          userId: '1',
+          username: 'guest',
+          displayName: 'guest',
+          discriminator: '0001',
+          avatar: null,
+          avatarColor: null,
+          memberSince: null,
+          status: 'online',
+          messageDisplayCompact: false,
+          developerMode: false,
+          trustedDomains: <String>[],
+        ),
+      );
+      addTearDown(container.dispose);
+      await container.read(wellKnownProvider.future);
+
+      final NagbarConditions conditions = await container.read(
+        nagbarConditionsProvider.future,
+      );
+
+      expect(conditions.userIsUnclaimed, isFalse);
     });
 
     test(
@@ -66,6 +93,7 @@ void main() {
             developerMode: false,
             trustedDomains: <String>[],
             email: 'user@example.com',
+            isProfileLoaded: true,
           ),
         );
         addTearDown(container.dispose);

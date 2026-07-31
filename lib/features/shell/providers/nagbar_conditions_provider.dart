@@ -50,9 +50,9 @@ Future<NagbarConditions> nagbarConditions(Ref ref) async {
         .read(scheduledMaintenanceDismissalReadProvider.notifier)
         .isDismissed(maintenance);
   }
-  final bool userIsUnclaimed = !settings.hasVerifiedEmail;
+  final bool userIsUnclaimed = settings.isKnownUnclaimed;
   final bool userNeedsVerification =
-      emailsEnabled && settings.hasVerifiedEmail && !settings.verified;
+      emailsEnabled && settings.needsKnownEmailVerification;
   final bool canShowPremiumGracePeriod = _canShowPremiumGracePeriod(
     settings: settings,
     dismissals: dismissals,

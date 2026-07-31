@@ -27,6 +27,13 @@ bool hasGuildFeature(List<String> features, String feature) {
   return features.contains(feature);
 }
 
+bool shouldShowOwnerCrown({
+  required bool isOwner,
+  required List<String> features,
+}) {
+  return isOwner && !hasGuildFeature(features, GuildFeatures.hideOwnerCrown);
+}
+
 List<String> setGuildFeatureEnabled({
   required List<String> features,
   required String feature,
